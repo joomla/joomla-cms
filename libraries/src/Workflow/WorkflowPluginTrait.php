@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ trait WorkflowPluginTrait
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function enhanceWorkflowTransitionForm(Form $form, $data)
 	{
@@ -60,7 +60,7 @@ trait WorkflowPluginTrait
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getWorkflow(int $workflow_id = null)
 	{

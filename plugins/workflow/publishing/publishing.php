@@ -28,7 +28,7 @@ use Joomla\String\Inflector;
 /**
  * Workflow Publishing Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 {
@@ -38,7 +38,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -46,7 +46,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	 * Loads the CMS Application for direct access
 	 *
 	 * @var   CMSApplicationInterface
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $app;
 
@@ -54,7 +54,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	 * The name of the supported name to check against
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $supportFunctionality = 'core.state';
 
@@ -83,7 +83,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param EventInterface $event The event
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onContentPrepareForm(EventInterface $event)
 	{
@@ -113,7 +113,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function enhanceTransitionForm(Form $form, $data)
 	{
@@ -138,7 +138,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function enhanceItemForm(Form $form, $data)
 	{

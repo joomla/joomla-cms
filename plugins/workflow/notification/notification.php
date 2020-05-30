@@ -27,7 +27,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Workflow Notification Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 {
@@ -37,7 +37,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -45,7 +45,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 * Loads the CMS Application for direct access
 	 *
 	 * @var   CMSApplicationInterface
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $app;
 
@@ -80,7 +80,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onContentPrepareForm(EventInterface $event)
 	{
@@ -107,7 +107,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
 	{
@@ -230,7 +230,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return   array  $userIds  The receivers
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getUsersFromGroup($data): Array
 	{
@@ -317,7 +317,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return   array  users with active message input box
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function removeLocked(array $userIds): Array
 	{

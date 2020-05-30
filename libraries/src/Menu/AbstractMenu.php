@@ -66,7 +66,7 @@ abstract class AbstractMenu
 	 * Flag for checking if the menu items have been loaded
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $itemsLoaded = false;
 

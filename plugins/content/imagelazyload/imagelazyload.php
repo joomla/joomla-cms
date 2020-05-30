@@ -29,7 +29,7 @@ class PlgContentImageLazyload extends CMSPlugin
 	 *
 	 * @return  mixed  Always returns void or true
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{

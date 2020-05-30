@@ -85,7 +85,7 @@ class Session extends BaseSession
 	 *
 	 * @return  array  An array of available session handlers
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getHandlers(): array
 	{

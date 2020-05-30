@@ -36,7 +36,7 @@ class PlgUserContactCreator extends CMSPlugin
 	 * Application Instance
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -44,7 +44,7 @@ class PlgUserContactCreator extends CMSPlugin
 	 * Database Driver Instance
 	 *
 	 * @var    \Joomla\Database\DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 

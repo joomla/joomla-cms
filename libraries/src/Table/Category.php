@@ -284,7 +284,7 @@ class Category extends Nested implements VersionableTableInterface
 	 *
 	 * @return  string  The alias as described above
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getTypeAlias()
 	{

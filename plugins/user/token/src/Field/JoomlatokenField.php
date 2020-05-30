@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.token
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class JoomlatokenField extends TextField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'plugins.user.token.token';
 
@@ -135,7 +135,7 @@ class JoomlatokenField extends TextField
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLayoutData()
 	{
@@ -150,7 +150,7 @@ class JoomlatokenField extends TextField
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLayoutPaths()
 	{

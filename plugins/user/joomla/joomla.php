@@ -54,7 +54,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.9.2
+	 * @since   4.0.0
 	 */
 	public function onContentPrepareForm($form, $data)
 	{

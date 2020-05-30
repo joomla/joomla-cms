@@ -334,7 +334,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 *
 	 * @return  string  The name of the application.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getName()
 	{

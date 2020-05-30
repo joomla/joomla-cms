@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Defines the trait for a Versionable Model Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait VersionableModelTrait
 {
@@ -28,7 +28,7 @@ trait VersionableModelTrait
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadHistory($version_id, Table &$table)
 	{

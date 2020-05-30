@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -202,7 +202,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface
 	 *
 	 * @return  string  The alias as described above
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getTypeAlias()
 	{

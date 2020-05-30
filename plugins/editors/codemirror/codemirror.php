@@ -42,7 +42,7 @@ class PlgEditorCodemirror extends CMSPlugin
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $basePath = 'media/vendor/codemirror/';
 
@@ -51,7 +51,7 @@ class PlgEditorCodemirror extends CMSPlugin
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $modePath = 'media/vendor/codemirror/mode/%N/%N';
 
@@ -59,7 +59,7 @@ class PlgEditorCodemirror extends CMSPlugin
 	 * Application object.
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 

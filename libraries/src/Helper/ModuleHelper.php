@@ -265,7 +265,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function renderRawModule($module, Registry $params, $attribs = array())
 	{

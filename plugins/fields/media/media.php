@@ -27,7 +27,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 *
 	 * @return  DOMElement
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{

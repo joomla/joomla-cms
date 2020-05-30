@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Handle the versioning of content items
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Versioning
 {
@@ -30,7 +30,7 @@ class Versioning
 	 *
 	 * @return  object[]   A list of history items
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function get($typeAlias, $id)
 	{
@@ -56,7 +56,7 @@ class Versioning
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function delete($typeAlias, $id)
 	{
@@ -82,7 +82,7 @@ class Versioning
 	 *
 	 * @return  boolean  True on success, otherwise false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function store($typeAlias, $id, $data, $note = '')
 	{

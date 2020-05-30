@@ -50,7 +50,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The input.
 	 *
 	 * @var    \Joomla\Input\Input
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $input = null;
 
@@ -66,7 +66,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The application language object.
 	 *
 	 * @var    Language
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $language;
 
@@ -144,7 +144,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  mixed   A value if the property name is valid, null otherwise.
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.0.0
 	 * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
 	 */
 	public function __get($name)
@@ -178,7 +178,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  Input
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getInput(): Input
 	{
@@ -190,7 +190,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  Language  The language object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getLanguage()
 	{

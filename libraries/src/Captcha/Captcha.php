@@ -218,7 +218,7 @@ class Captcha implements DispatcherAwareInterface
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function update($name, &$args)
 	{
