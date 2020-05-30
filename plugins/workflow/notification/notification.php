@@ -261,8 +261,6 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 			$model->setState('list.select', 'id');
 			$model->setState('filter.groups', $groups);
 			$model->setState('filter.state', 0);
-			$model->setState('filter.active', 1);
-			$model->setState('filter.sendEmail', 1);
 
 			// Ids from usergroups
 			$groupUsers = $model->getItems();
