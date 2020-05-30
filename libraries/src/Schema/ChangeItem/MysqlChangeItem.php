@@ -154,31 +154,18 @@ class MysqlChangeItem extends ChangeItem
 
 				if (strpos($constraintType, 'FOREIGN KEY') !== false)
 				{
-					$this->db->setQuery('SHOW GRANTS FOR CURRENT_USER();');
-					$userGrantResult = $this->db->loadResult();
+					$dbName = Factory::getApplication()->get('db');
 
-					// We can only check for foreign keys IF we are a root user. So check for it
-					if (strpos($userGrantResult, 'GRANT ALL PRIVILEGES ON *.*') === false)
-					{
-						// We don't have permission to make the check. Mark it as skipped.
-						$result = false;
-					}
-					else
-					{
-						$dbName = Factory::getApplication()->get('db');
+					/**
+					 * TODO: We should improve this to check what column/tables names are in the constraint
+					 *       and which are referred to
+					 */
+					$result = 'SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE CONSTRAINT_SCHEMA = ' .
+						$this->db->quote($dbName) . ' AND CONSTRAINT_NAME =' . $constraintName;
 
-						/**
-						 * TODO: We should improve this to check what column/tables names are in the constraint
-						 *       and which are referred to
-						 */
-						$result = 'SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE CONSTRAINT_SCHEMA = ' .
-							$this->db->quote($dbName) . ' AND CONSTRAINT_NAME =' . $constraintName;
-						$this->db->setQuery($result);
-						$this->checkQueryExpected = 1;
-
-						$this->queryType = 'ADD_FOREIGN_KEY';
-						$this->msgElements = array($this->fixQuote($wordArray[2]), $constraintName);
-					}
+					$this->queryType = 'ADD_FOREIGN_KEY';
+					$this->checkQueryExpected = 1;
+					$this->msgElements = array($this->fixQuote($wordArray[2]), $constraintName);
 				}
 			}
 			elseif (strtoupper($wordArray[3]) === 'MODIFY')
