@@ -72,7 +72,8 @@ class ArticlesController extends AdminController
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
 		$view   = $this->input->get('view', '');
 
-		$redirectUrl = 'index.php?option=com_content&view=' . ($view === 'featured' ? 'featured' : 'articles');
+		$redirectUrl = 'index.php?option=com_content&view=' . ($view === 'featured' ? 'featured' : 'articles')
+			. $this->getRedirectToListAppend();
 
 		// Access checks.
 		foreach ($ids as $i => $id)
@@ -113,7 +114,6 @@ class ArticlesController extends AdminController
 			}
 		}
 		$this->setRedirect(Route::_($redirectUrl, false), $message);
-
 	}
 
 	/**
