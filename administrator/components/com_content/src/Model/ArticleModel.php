@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
@@ -34,6 +35,7 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Administrator\Event\Model\FeatureEvent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
@@ -897,11 +899,23 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$table = $this->getTable('Featured', 'Administrator');
 
 		// Trigger the before change state event.
-		$result = Factory::getApplication()->triggerEvent($this->event_before_change_featured, array($context, $pks, $value));
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch(
+			'onAfterDisplay',
+			AbstractEvent::create(
+				$this->event_before_change_featured,
+				[
+					'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+					'subject'    => $this,
+					'extension'  => $context,
+					'pks'        => $pks,
+					'value'      => $value,
+				]
+			)
+		);
 
-		if (\in_array(false, $result, true))
+		if ($eventResult->getArgument('abort', false))
 		{
-			$this->setError($table->getError());
+			$this->setError(Text::_($eventResult->getArgument('abortReason')));
 
 			return false;
 		}
@@ -1000,14 +1014,19 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$table->reorder();
 
 		// Trigger the change state event.
-		$result = Factory::getApplication()->triggerEvent($this->event_after_change_featured, array($context, $pks, $value));
-
-		if (\in_array(false, $result, true))
-		{
-			$this->setError($table->getError());
-
-			return false;
-		}
+		Factory::getApplication()->getDispatcher()->dispatch(
+			'onAfterDisplay',
+			AbstractEvent::create(
+				$this->event_after_change_featured,
+				[
+					'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+					'subject'    => $this,
+					'extension'  => $context,
+					'pks'        => $pks,
+					'value'      => $value,
+				]
+			)
+		);
 
 		$this->cleanCache();
 
