@@ -33,7 +33,7 @@
   &.custom-select-color-state {
 
     &.custom-select-success {
-      color: background-color: theme-color("success");
+      color: theme-color("success");
       background-color: theme-color("success");
 
       option {
@@ -43,7 +43,7 @@
     }
 
     &.custom-select-danger {
-      color: background-color: theme-color("danger");
+      color: theme-color("danger");
       background-color: theme-color("danger");
 
       option {
