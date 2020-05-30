@@ -22,6 +22,14 @@ use Joomla\CMS\Form\Field\TextField;
 class JoomlatokenField extends TextField
 {
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $layout = 'plugins.user.token.token';
+
+	/**
 	 * Method to attach a Form object to the field.
 	 *
 	 * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>`
@@ -59,7 +67,6 @@ class JoomlatokenField extends TextField
 		return $ret;
 	}
 
-
 	/**
 	 * Method to get the field input markup.
 	 *
@@ -74,8 +81,6 @@ class JoomlatokenField extends TextField
 		{
 			return '';
 		}
-
-		$this->value = $this->getTokenForDisplay($this->value);
 
 		return parent::getInput();
 	}
@@ -123,5 +128,37 @@ class JoomlatokenField extends TextField
 		}
 
 		return $message;
+	}
+
+	/**
+	 * Get the data for the layout
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getLayoutData()
+	{
+		$data          = parent::getLayoutData();
+		$data['value'] = $this->getTokenForDisplay($this->value);
+
+		return $data;
+	}
+
+	/**
+	 * Get the layout paths
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getLayoutPaths()
+	{
+		$template = Factory::getApplication()->getTemplate();
+
+		return [
+			JPATH_THEMES . '/' . $template . '/html/layouts',
+			JPATH_SITE . '/layouts',
+		];
 	}
 }
