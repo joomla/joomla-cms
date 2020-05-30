@@ -220,6 +220,6 @@ class UpdateController extends BaseController
 
 		$model = $this->getModel('Update');
 
-		echo new JsonResponse(count($model->getItems()));
+		echo new JsonResponse($model->getTotal());
 	}
 }

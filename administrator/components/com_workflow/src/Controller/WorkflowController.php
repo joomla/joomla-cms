@@ -33,6 +33,14 @@ class WorkflowController extends FormController
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -50,7 +58,16 @@ class WorkflowController extends FormController
 		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
+			$extension = $this->input->getCmd('extension');
+
+			$parts = explode('.', $extension);
+
+			$this->extension = array_shift($parts);
+
+			if (!empty($parts))
+			{
+				$this->section = array_shift($parts);
+			}
 
 			if (empty($this->extension))
 			{
@@ -90,11 +107,6 @@ class WorkflowController extends FormController
 
 		$record = $this->getModel()->getItem($recordId);
 
-		if (!empty($record->id) && $record->core)
-		{
-			return false;
-		}
-
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.workflow.' . $recordId))
 		{
@@ -123,7 +135,7 @@ class WorkflowController extends FormController
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
-		$append .= '&extension=' . $this->extension;
+		$append .= '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}
@@ -138,7 +150,7 @@ class WorkflowController extends FormController
 	protected function getRedirectToListAppend()
 	{
 		$append = parent::getRedirectToListAppend();
-		$append .= '&extension=' . $this->extension;
+		$append .= '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}

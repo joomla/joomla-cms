@@ -11,6 +11,7 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 
 /**
  * The Tag Controller
@@ -19,6 +20,8 @@ use Joomla\CMS\MVC\Controller\FormController;
  */
 class TagController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * Method to check if you can add a new record.
 	 *

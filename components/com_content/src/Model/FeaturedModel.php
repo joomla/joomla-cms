@@ -84,7 +84,7 @@ class FeaturedModel extends ArticlesModel
 		}
 		else
 		{
-			$this->setState('filter.condition', array(ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED));
+			$this->setState('filter.condition', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
 		}
 
 		// Process show_noauth parameter

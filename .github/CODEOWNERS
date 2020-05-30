@@ -54,3 +54,18 @@ plugins/system/webauthn/*   @nikosdion
 media/plg_system_webauthn/*   @nikosdion
 language/administrator/en-GB/en-GB.plg_system_webauthn.ini   @nikosdion
 language/administrator/en-GB/en-GB.plg_system_webauthn.sys.ini   @nikosdion
+
+# Workflow
+administrator/components/com_workflow/*	@bembelimen @hleithner
+administrator/language/en-GB/com_workflow.ini	@bembelimen @hleithner
+administrator/language/en-GB/com_workflow.sys.ini	@bembelimen @hleithner
+administrator/language/en-GB/plg_workflow_publishing.ini	@bembelimen @hleithner
+administrator/language/en-GB/plg_workflow_publishing.sys.ini	@bembelimen @hleithner
+libraries/src/Form/Field/TransitionField.php	@bembelimen @hleithner
+libraries/src/Form/Field/Workflow*	@bembelimen @hleithner
+libraries/src/HTML/Helpers/Workflow*	@bembelimen @hleithner
+libraries/src/MVC/Model/Workflow*	@bembelimen @hleithner
+libraries/src/MVC/Model/Workflow*	@bembelimen @hleithner
+libraries/src/Workflow/*	@bembelimen @hleithner
+build/media_source/com_workflow/*	@bembelimen @hleithner
+plugins/workflow/*	@bembelimen @hleithner

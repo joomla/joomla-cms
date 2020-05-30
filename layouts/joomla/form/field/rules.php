@@ -49,6 +49,8 @@ $document = Factory::getDocument();
  * @var   boolean  $newItem         The new item.
  * @var   object   $assetRules      Rules for asset.
  * @var   integer  $parentAssetId   To calculate permissions.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 // Add Javascript for permission change
@@ -95,7 +97,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</div>
 </details>
 <?php // Begin tabs ?>
-<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>">
+<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>"<?php echo $dataAttribute; ?>>
 	<joomla-tab orientation="vertical" id="permissions-sliders">
 	<?php // Initial Active Pane ?>
 		<?php foreach ($groups as $group) : ?>
