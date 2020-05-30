@@ -65,7 +65,7 @@ class ArticlesController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-    $user        = $this->app->getIdentity();
+		$user        = $this->app->getIdentity();
 		$ids         = $this->input->get('cid', array(), 'array');
 		$values      = array('featured' => 1, 'unfeatured' => 0);
 		$task        = $this->getTask();
