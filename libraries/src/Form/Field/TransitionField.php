@@ -139,15 +139,19 @@ class TransitionField extends ListField
 
 		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
+		$parts = explode('.', $extension);
+
+		$component = reset($parts);
+
 		if (\count($items))
 		{
 			$user = Factory::getUser();
 
 			$items = array_filter(
 				$items,
-				function ($item) use ($user, $extension)
+				function ($item) use ($user, $component)
 				{
-					return $user->authorise('core.execute.transition', $extension . '.transition.' . $item->value);
+					return $user->authorise('core.execute.transition', $component . '.transition.' . $item->value);
 				}
 			);
 
