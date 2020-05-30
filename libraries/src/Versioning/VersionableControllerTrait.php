@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 /**
  * Defines the trait for a Versionable Controller Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait VersionableControllerTrait
 {
@@ -25,7 +25,7 @@ trait VersionableControllerTrait
 	 *
 	 * @return  mixed  True if the record can be added, an error object if not.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadhistory()
 	{

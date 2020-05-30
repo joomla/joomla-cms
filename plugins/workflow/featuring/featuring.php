@@ -30,7 +30,7 @@ use Joomla\String\Inflector;
 /**
  * Workflow Featuring Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 {
@@ -40,7 +40,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -48,7 +48,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 * Loads the CMS Application for direct access
 	 *
 	 * @var   CMSApplicationInterface
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $app;
 
@@ -56,7 +56,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 * The name of the supported functionality to check against
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $supportFunctionality = 'core.featured';
 
@@ -85,7 +85,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param EventInterface $event The event
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onContentPrepareForm(EventInterface $event)
 	{
@@ -116,7 +116,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function enhanceItemForm(Form $form, $data)
 	{

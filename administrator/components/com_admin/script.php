@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -232,7 +232,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function uninstallRepeatableFieldsPlugin()
 	{
@@ -6495,7 +6495,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function postflight($action, $installer)
 	{
@@ -6575,7 +6575,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  array  Menu items
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function contactItems(Table $tableItem): array
 	{
@@ -6685,7 +6685,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  array  Menu items
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function finderItems(Table $tableItem): array
 	{
@@ -6845,7 +6845,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function updateContentTypes(): void
 	{

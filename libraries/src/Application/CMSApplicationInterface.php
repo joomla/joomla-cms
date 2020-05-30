@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -146,7 +146,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
 	 *
 	 * @return  Input
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getInput(): Input;
 
@@ -155,7 +155,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
 	 *
 	 * @return  Language  The language object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getLanguage();
 

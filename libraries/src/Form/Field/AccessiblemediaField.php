@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Form\Field\SubformField;
 /**
  * The Field to load the form inside current form
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class AccessiblemediaField extends SubformField
 {
@@ -24,7 +24,7 @@ class AccessiblemediaField extends SubformField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'Accessiblemedia';
 
@@ -32,7 +32,7 @@ class AccessiblemediaField extends SubformField
 	 * The preview.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $preview;
 
@@ -40,7 +40,7 @@ class AccessiblemediaField extends SubformField
 	 * The directory.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $directory;
 
@@ -48,7 +48,7 @@ class AccessiblemediaField extends SubformField
 	 * The previewWidth.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $previewWidth;
 
@@ -56,7 +56,7 @@ class AccessiblemediaField extends SubformField
 	 * The previewHeight.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $previewHeight;
 
@@ -64,7 +64,7 @@ class AccessiblemediaField extends SubformField
 	 * Layout to render
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout;
 
@@ -75,7 +75,7 @@ class AccessiblemediaField extends SubformField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __get($name)
 	{
@@ -99,7 +99,7 @@ class AccessiblemediaField extends SubformField
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __set($name, $value)
 	{
@@ -129,7 +129,7 @@ class AccessiblemediaField extends SubformField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
