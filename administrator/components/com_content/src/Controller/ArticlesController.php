@@ -113,6 +113,7 @@ class ArticlesController extends AdminController
 				$message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
 			}
 		}
+
 		$this->setRedirect(Route::_($redirectUrl, false), $message);
 	}
 

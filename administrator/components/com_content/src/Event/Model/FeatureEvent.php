@@ -60,7 +60,7 @@ class FeatureEvent extends AbstractImmutableEvent
 			throw new BadMethodCallException("Argument 'pks' of event {$this->name} is not of type 'array'");
 		}
 
-		if (!isset($arguments['value']) || !is_numeric($arguments['value']) )
+		if (!isset($arguments['value']) || !is_numeric($arguments['value']))
 		{
 			throw new BadMethodCallException("Argument 'value' of event {$this->name} is not of type 'numeric'");
 		}
