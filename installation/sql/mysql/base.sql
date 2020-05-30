@@ -75,15 +75,15 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (53, 18, 90, 91, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 54, 55, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 92, 93, 2, 'com_modules.module.87', 'Sample Data', '{}'),
-(56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_DEFAULT_WORKFLOW', '{}'),
-(57, 56, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
-(58, 56, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
-(59, 56, 25, 26, 3, 'com_content.state.3', 'Trashed', '{}'),
-(60, 56, 27, 28, 3, 'com_content.state.4', 'Archived', '{}'),
-(61, 56, 29, 30, 3, 'com_content.transition.1', 'Publish', '{}'),
-(62, 56, 31, 32, 3, 'com_content.transition.2', 'Unpublish', '{}'),
-(63, 56, 33, 34, 3, 'com_content.transition.3', 'Archive', '{}'),
-(64, 56, 35, 36, 3, 'com_content.transition.4', 'Trash', '{}'),
+(56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_BASIC_WORKFLOW', '{}'),
+(57, 56, 21, 22, 3, 'com_content.state.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
+(58, 56, 23, 24, 3, 'com_content.transition.1', 'Publish', '{}'),
+(59, 56, 25, 26, 3, 'com_content.transition.2', 'Unpublish', '{}'),
+(60, 56, 27, 28, 3, 'com_content.transition.3', 'Archive', '{}'),
+(61, 56, 29, 30, 3, 'com_content.transition.4', 'Trash', '{}'),
+(62, 56, 31, 32, 3, 'com_content.transition.5', 'Feature', '{}'),
+(63, 56, 33, 34, 3, 'com_content.transition.6', 'Unfeature', '{}'),
+(64, 56, 35, 36, 3, 'com_content.transition.7', 'Publish & Feature', '{}'),
 (65, 1, 129, 130, 1, 'com_privacy', 'com_privacy', '{}'),
 (66, 1, 131, 132, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
 (67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
@@ -357,7 +357,11 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, 1, '', '{}', 0, 0),
 (0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, 1, '', '{}', 0, 0),
 (0, 'plg_system_accessibility', 'plugin', 'accessibility', 'system', 0, 0, 1, 0, 1, '', '{}', 0, 0),
-(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', 0, 0);
+(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', 0, 0),
+(0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, 1, '', '{}', 0, 0),
+(0, 'plg_workflow_featuring', 'plugin', 'featuring', 'workflow', 0, 1, 1, 0, 1, '', '{}', 0, 0),
+(0, 'plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, 1, '', '{}', 0, 0),
+(0, 'plg_content_imagelazyload', 'plugin', 'imagelazyload', 'content', 0, 0, 1, 0, 1, '', '', 0, NULL, 0, 0);
 
 -- Templates
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `ordering`, `state`) VALUES
@@ -1045,7 +1049,6 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `description` text NOT NULL,
   `extension` varchar(50) NOT NULL,
   `default` tinyint(1) NOT NULL  DEFAULT 0,
-  `core` tinyint(1) NOT NULL  DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL,
   `created_by` int(10) NOT NULL DEFAULT 0,
@@ -1069,8 +1072,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 -- Dumping data for table `#__workflows`
 --
 
-INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42);
+INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 56, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42);
 
 -- --------------------------------------------------------
 
@@ -1103,7 +1106,6 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `condition` int(10) DEFAULT 0,
   `default` tinyint(1) NOT NULL DEFAULT 0,
   `checked_out_time` datetime,
   `checked_out` int(10) unsigned,
@@ -1119,11 +1121,8 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 -- Dumping data for table `#__workflow_stages`
 --
 
-INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1),
-(2, 58, 2, 1, 1, 'JPUBLISHED', '', 1, 0),
-(3, 59, 3, 1, 1, 'JTRASHED', '', -2, 0),
-(4, 60, 4, 1, 1, 'JARCHIVED', '', 2, 0);
+INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `default`) VALUES
+(1, 0, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1);
 
 -- --------------------------------------------------------
 
@@ -1141,6 +1140,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `description` text NOT NULL,
   `from_stage_id` int(10) NOT NULL,
   `to_stage_id` int(10) NOT NULL,
+  `options` text NOT NULL,
   `checked_out_time` datetime,
   `checked_out` int(10) unsigned,
   PRIMARY KEY (`id`),
@@ -1156,8 +1156,11 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 -- Dumping data for table `#__workflow_transitions`
 --
 
-INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`) VALUES
-(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1),
-(2, 62, 1, 2, 1, 'Publish', '', -1, 2),
-(3, 63, 1, 3, 1, 'Trash', '', -1, 3),
-(4, 64, 1, 4, 1, 'Archive', '', -1, 4);
+INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `options`) VALUES
+(1, 58, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}'),
+(2, 59, 1, 2, 1, 'Publish', '', -1, 1, '{"publishing":"1"}'),
+(3, 60, 1, 3, 1, 'Trash', '', -1, 1, '{"publishing":"-2"}'),
+(4, 61, 1, 4, 1, 'Archive', '', -1, 1, '{"publishing":"2"}'),
+(5, 62, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}'),
+(6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}'),
+(7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}');
