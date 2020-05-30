@@ -115,18 +115,8 @@ class ApiRouter extends Router
 		// Remove the base URI path.
 		$path = substr_replace($path, '', 0, \strlen($baseUri));
 
-		if (!$this->app->get('sef_rewrite'))
-		{
-			// Transform the route
-			if ($path === 'index.php')
-			{
-				$path = '';
-			}
-			else
-			{
-				$path = str_replace('index.php/', '', $path);
-			}
-		}
+		// Transform the route
+		$path = $this->removeIndexPhpFromPath($path);
 
 		$query = Uri::getInstance()->getQuery(true);
 
@@ -158,5 +148,35 @@ class ApiRouter extends Router
 		}
 
 		throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $path));
+	}
+
+	/**
+	 * Removes the index.php from the route's path.
+	 *
+	 * @param   string  $path
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	private function removeIndexPhpFromPath(string $path): string
+	{
+		// Normalize the path
+		$path = ltrim($path, '/');
+
+		// We can only remove index.php if it's present in the beginning of the route
+		if (strpos($path, 'index.php') !== 0)
+		{
+			return $path;
+		}
+
+		// Edge case: the route is index.php without a trailing slash. Bad idea but we can still map it to a null route.
+		if ($path === 'index.php')
+		{
+			return '';
+		}
+
+		// Remove the "index.php/" part of the route and return the result.
+		return substr($path, 10);
 	}
 }
