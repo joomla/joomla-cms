@@ -1,32 +1,32 @@
-((Joomla) => {
+((customElements, Joomla) => {
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
 
-  Joomla.selectedFile = {};
+  let selectedFile = {};
 
   window.document.addEventListener('onMediaFileSelected', (e) => {
-    Joomla.selectedFile = e.detail;
+    selectedFile = e.detail;
   });
 
-  Joomla.doIt = (resp, editor, fieldClass) => {
+  const execTransform = (resp, editor, fieldClass) => {
     if (resp.success === true) {
       if (resp.data[0].url) {
         if (/local-/.test(resp.data[0].adapter)) {
           const { rootFull } = Joomla.getOptions('system.paths');
 
           // eslint-disable-next-line prefer-destructuring
-          Joomla.selectedFile.url = resp.data[0].url.split(rootFull)[1];
+          selectedFile.url = resp.data[0].url.split(rootFull)[1];
           if (resp.data[0].thumb_path) {
-            Joomla.selectedFile.thumb = resp.data[0].thumb_path;
+            selectedFile.thumb = resp.data[0].thumb_path;
           } else {
-            Joomla.selectedFile.thumb = false;
+            selectedFile.thumb = false;
           }
         } else if (resp.data[0].thumb_path) {
-          Joomla.selectedFile.thumb = resp.data[0].thumb_path;
+          selectedFile.thumb = resp.data[0].thumb_path;
         }
       } else {
-        Joomla.selectedFile.url = false;
+        selectedFile.url = false;
       }
 
       const isElement = (o) => (
@@ -34,13 +34,13 @@
           : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
       );
 
-      if (Joomla.selectedFile.url) {
+      if (selectedFile.url) {
         if (!isElement(editor) && (typeof editor !== 'object')) {
-          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
+          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${selectedFile.url}" alt=""/>`);
         } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
+          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${selectedFile.url}" alt=""/>`);
         } else {
-          editor.value = Joomla.selectedFile.url;
+          editor.value = selectedFile.url;
           fieldClass.updatePreview();
         }
       }
@@ -54,7 +54,13 @@
    *
    * @returns {void}
    */
-  Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
+  const fetchImageDetails = (data, editor, fieldClass) => new Promise((resolve, reject) => {
+    if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
+      selectedFile = {};
+      reject(new Error('Nothing selected'));
+      return;
+    }
+
     const apiBaseUrl = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_media&format=json`;
 
     Joomla.request({
@@ -64,17 +70,14 @@
       headers: { 'Content-Type': 'application/json' },
       onSuccess: (response) => {
         const resp = JSON.parse(response);
-        resolve(Joomla.doIt(resp, editor, fieldClass));
+        resolve(execTransform(resp, editor, fieldClass));
       },
-      onError: () => {
-        reject();
+      onError: (err) => {
+        reject(err);
       },
     });
   });
-})(Joomla);
 
-
-((customElements, Joomla) => {
   class JoomlaFieldMedia extends HTMLElement {
     constructor() {
       super();
@@ -192,9 +195,15 @@
 
     modalClose() {
       const input = this.querySelector(this.input);
-      Joomla.getImage(Joomla.selectedFile, input, this);
 
-      Joomla.Modal.getCurrent().close();
+      fetchImageDetails(selectedFile, input, this)
+        .then(() => { Joomla.Modal.getCurrent().close(); })
+        .catch(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.renderMessages({
+            error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
+          });
+        });
     }
 
     setValue(value) {
