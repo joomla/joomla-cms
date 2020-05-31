@@ -61,14 +61,14 @@
 
 .choices__list--multiple .choices__item {
   position: relative;
-  background-color: var(--atum-bg-dark);
+  background-color: var(--atum-primary-color);
   margin: 2px;
   margin-inline-end: 2px;
   border: 0;
   border-radius: $border-radius;
 
   &.is-highlighted {
-    background-color: var(--atum-bg-dark);
+    background-color: var(--atum-primary-color);
     opacity: 0.9;
   }
 }

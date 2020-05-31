@@ -123,14 +123,14 @@ class JHtmlAtum
 			}
 		}
 
-		$specialColor = $params->get('special-color');
+		$secondaryColor = $params->get('secondary-color');
 
-		if (static::isHex($specialColor))
+		if (static::isHex($secondaryColor))
 		{
 			try
 			{
-				$specialcolor = new Hex($specialColor);
-				$root[]       = '--atum-special-color: ' . $specialcolor . ';';
+				$secondaryColor = new Hex($secondaryColor);
+				$root[]       = '--atum-secondary-color: ' . $secondaryColor . ';';
 			}
 			catch (\Exception $ex)
 			{
@@ -218,18 +218,18 @@ class JHtmlAtum
 		{
 			$bgcolor = new Hsl('hsl(' . $hue . ', ' . 63 . ', 20)');
 
-			$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', 63, 20)'))->toHex() . ';';
+			$root[] = '--atum-primary-color: ' . (new Hsl('hsl(' . $hue . ', 63, 20)'))->toHex() . ';';
 			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ', 63, 20)'))->spin(-40)->lighten(18)->toHex() . ';';
-			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86)->lighten(71.4)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(85)->lighten(65.1)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(80)->lighten(59.4)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-20: ' . (clone $bgcolor)->desaturate(75)->lighten(47.3)->spin(-6)->toHex() . ';';
-			$root[] = '--atum-bg-dark-30: ' . (clone $bgcolor)->desaturate(55)->lighten(34.3)->spin(-5)->toHex() . ';';
-			$root[] = '--atum-bg-dark-40: ' . (clone $bgcolor)->desaturate(40)->lighten(21.4)->spin(-3)->toHex() . ';';
-			$root[] = '--atum-bg-dark-50: ' . (clone $bgcolor)->desaturate(15)->lighten(10)->spin(-1)->toHex() . ';';
-			$root[] = '--atum-bg-dark-70: ' . (clone $bgcolor)->lighten(-6)->spin(4)->toHex() . ';';
-			$root[] = '--atum-bg-dark-80: ' . (clone $bgcolor)->lighten(-11.5)->spin(7)->toHex() . ';';
-			$root[] = '--atum-bg-dark-90: ' . (clone $bgcolor)->desaturate(-1)->lighten(-17)->spin(10)->toHex() . ';';
+			$root[] = '--atum-primary-color-0: ' . (clone $bgcolor)->desaturate(86)->lighten(71.4)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-primary-color-5: ' . (clone $bgcolor)->desaturate(85)->lighten(65.1)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-primary-color-10: ' . (clone $bgcolor)->desaturate(80)->lighten(59.4)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-primary-color-20: ' . (clone $bgcolor)->desaturate(75)->lighten(47.3)->spin(-6)->toHex() . ';';
+			$root[] = '--atum-primary-color-30: ' . (clone $bgcolor)->desaturate(55)->lighten(34.3)->spin(-5)->toHex() . ';';
+			$root[] = '--atum-primary-color-40: ' . (clone $bgcolor)->desaturate(40)->lighten(21.4)->spin(-3)->toHex() . ';';
+			$root[] = '--atum-primary-color-50: ' . (clone $bgcolor)->desaturate(15)->lighten(10)->spin(-1)->toHex() . ';';
+			$root[] = '--atum-primary-color-70: ' . (clone $bgcolor)->lighten(-6)->spin(4)->toHex() . ';';
+			$root[] = '--atum-primary-color-80: ' . (clone $bgcolor)->lighten(-11.5)->spin(7)->toHex() . ';';
+			$root[] = '--atum-primary-color-90: ' . (clone $bgcolor)->desaturate(-1)->lighten(-17)->spin(10)->toHex() . ';';
 		}
 		catch (\Exception $ex)
 		{

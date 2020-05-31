@@ -46,7 +46,7 @@
       width: 2.4rem;
 
       path {
-        fill: var(--atum-bg-dark);
+        fill: var(--atum-primary-color);
       }
 
     }
@@ -87,7 +87,7 @@
 
         &.text-right {
           font-size: .75rem;
-          color: var(--atum-special-color);
+          color: var(--atum-secondary-color);
         }
       }
     }
@@ -102,7 +102,7 @@
   h1 {
     padding-bottom: 1rem;
     margin: 0;
-    color: var(--atum-bg-dark);
+    color: var(--atum-primary-color);
     font-weight: $font-weight-bold;
     text-align: center;
   }
@@ -155,7 +155,7 @@
     text-align: center;
 
     .card {
-      background: var(--atum-bg-dark);
+      background: var(--atum-primary-color);
       box-shadow: none;
 
       .module-body {
