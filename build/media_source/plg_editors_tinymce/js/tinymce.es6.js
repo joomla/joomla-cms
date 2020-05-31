@@ -136,7 +136,13 @@
       }
 
       // We'll take over the onSubmit event
-      options.add_form_submit_trigger = false;
+      options.init_instance_callback = (editor) => {
+        editor.on('submit', () => {
+          if (editor.isHidden()) {
+            editor.show();
+          }
+        }, true);
+      };
 
       // Create a new instance
       // eslint-disable-next-line no-undef
@@ -155,17 +161,8 @@
         // Some extra instance dependent
         id: element.id,
         instance: ed,
-        onSave: () => {
-          if (Joomla.editors.instances[element.id].instance.isHidden()) {
-            Joomla.editors.instances[element.id].instance.show();
-          }
-        },
       };
-
-      /** On save * */
-      document.getElementById(ed.id).form.addEventListener('submit', () => Joomla.editors.instances[ed.targetElm.id].onSave());
     },
-
   };
 
   /**
