@@ -3,10 +3,10 @@
     throw new Error('Joomla API is not properly initiated');
   }
 
-  let selectedFile = {};
+  Joomla.selectedFile = {};
 
   window.document.addEventListener('onMediaFileSelected', (e) => {
-    selectedFile = e.detail;
+    Joomla.selectedFile = e.detail;
   });
 
   const execTransform = (resp, editor, fieldClass) => {
@@ -16,17 +16,17 @@
           const { rootFull } = Joomla.getOptions('system.paths');
 
           // eslint-disable-next-line prefer-destructuring
-          selectedFile.url = resp.data[0].url.split(rootFull)[1];
+          Joomla.selectedFile.url = resp.data[0].url.split(rootFull)[1];
           if (resp.data[0].thumb_path) {
-            selectedFile.thumb = resp.data[0].thumb_path;
+            Joomla.selectedFile.thumb = resp.data[0].thumb_path;
           } else {
-            selectedFile.thumb = false;
+            Joomla.selectedFile.thumb = false;
           }
         } else if (resp.data[0].thumb_path) {
-          selectedFile.thumb = resp.data[0].thumb_path;
+          Joomla.selectedFile.thumb = resp.data[0].thumb_path;
         }
       } else {
-        selectedFile.url = false;
+        Joomla.selectedFile.url = false;
       }
 
       const isElement = (o) => (
@@ -34,13 +34,13 @@
           : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
       );
 
-      if (selectedFile.url) {
+      if (Joomla.selectedFile.url) {
         if (!isElement(editor) && (typeof editor !== 'object')) {
-          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${selectedFile.url}" alt=""/>`);
+          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
         } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${selectedFile.url}" alt=""/>`);
+          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
         } else {
-          editor.value = selectedFile.url;
+          editor.value = Joomla.selectedFile.url;
           fieldClass.updatePreview();
         }
       }
@@ -54,9 +54,9 @@
    *
    * @returns {void}
    */
-  const fetchImageDetails = (data, editor, fieldClass) => new Promise((resolve, reject) => {
+  Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
     if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
-      selectedFile = {};
+      Joomla.selectedFile = {};
       reject(new Error('Nothing selected'));
       return;
     }
@@ -196,7 +196,7 @@
     modalClose() {
       const input = this.querySelector(this.input);
 
-      fetchImageDetails(selectedFile, input, this)
+      Joomla.getImage(Joomla.selectedFile, input, this)
         .then(() => { Joomla.Modal.getCurrent().close(); })
         .catch(() => {
           Joomla.Modal.getCurrent().close();
