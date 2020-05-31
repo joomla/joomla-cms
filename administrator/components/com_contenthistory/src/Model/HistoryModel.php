@@ -411,15 +411,15 @@ class HistoryModel extends ListModel
 	 */
 	protected function getSha1Hash()
 	{
-		$result = false;
-		$item_id = Factory::getApplication()->input->getCmd('item_id', '');
-		$typeAlias        = explode('.', $item_id);
+		$result    = false;
+		$item_id   = Factory::getApplication()->input->getCmd('item_id', '');
+		$typeAlias = explode('.', $item_id);
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
 		$typeTable = $this->getTable('ContentType');
-		$typeTable->load($typeAlias[0] . '.' . $typeAlias[1]);
+		$typeTable->load(['type_alias' => $typeAlias[0] . '.' . $typeAlias[1]]);
 		$contentTable = $typeTable->getContentTable();
 
-		if ($contentTable && $contentTable->load($typeAlias[3]))
+		if ($contentTable && $contentTable->load($typeAlias[2]))
 		{
 			$helper = new CMSHelper;
 
