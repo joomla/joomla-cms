@@ -233,13 +233,13 @@
           const imgPreview = new Image();
 
           switch (this.type) {
-          case 'image':
-            imgPreview.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
-            imgPreview.setAttribute('alt', '');
-            break;
-          default:
-            // imgPreview.src = dummy image path;
-            break;
+            case 'image':
+              imgPreview.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
+              imgPreview.setAttribute('alt', '');
+              break;
+            default:
+              // imgPreview.src = dummy image path;
+              break;
           }
 
           div.style.width = this.previewWidth;
