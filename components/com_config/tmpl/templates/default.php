@@ -23,20 +23,14 @@ HTMLHelper::_('script', 'com_config/templates-default.js', ['version' => 'auto',
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 
-	<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
-		<div class="btn-group">
-			<button type="button" class="btn btn-primary" data-submit-task="templates.apply">
-				<span class="fas fa-check" aria-hidden="true"></span>
-				<?php echo Text::_('JSAVE') ?>
-			</button>
-		</div>
-		<div class="btn-group">
-			<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
-				<span class="fas fa-times" aria-hidden="true"></span>
-				<?php echo Text::_('JCANCEL') ?>
-			</button>
-		</div>
-	</div>
+	<button type="button" class="btn btn-primary" data-submit-task="templates.apply">
+		<span class="fas fa-check" aria-hidden="true"></span>
+		<?php echo Text::_('JSAVE') ?>
+	</button>
+	<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
+		<span class="fas fa-times" aria-hidden="true"></span>
+		<?php echo Text::_('JCANCEL') ?>
+	</button>
 
 	<hr>
 
