@@ -186,6 +186,15 @@ class DatabaseModel extends BaseInstallationModel
 
 				$altDB = DatabaseDriver::getInstance($altDBoptions);
 
+				// Check database server parameters
+				$dbServerCheck = DatabaseHelper::checkDbServerParameters($altDB, $options);
+
+				if ($dbServerCheck)
+				{
+					// Some server parameter is not ok
+					throw new \RuntimeException($dbServerCheck, 500, $e);
+				}
+
 				// Try to create the database now using the alternate driver
 				try
 				{
@@ -206,15 +215,6 @@ class DatabaseModel extends BaseInstallationModel
 				{
 					// We did everything we could
 					throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
-				}
-
-				// Check database server parameters
-				$dbServerCheck = DatabaseHelper::checkDbServerParameters($altDB, $options);
-
-				if ($dbServerCheck)
-				{
-					// Some server parameter is not ok
-					throw new \RuntimeException($dbServerCheck, 500, $e);
 				}
 			}
 			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
