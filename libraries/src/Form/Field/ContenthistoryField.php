@@ -13,7 +13,6 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Table\Table;
 
 /**
  * Field to select Content History from a modal list.
