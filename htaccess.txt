@@ -88,7 +88,7 @@ Header always set X-Content-Type-Options "nosniff"
     RewriteCond %{REQUEST_FILENAME} !-f
     # and the requested path and file doesn't directly match a physical folder
     RewriteCond %{REQUEST_FILENAME} !-d
-    # internally rewrite the request the the /api/index.php script
+    # internally rewrite the request to the /api/index.php script
     RewriteRule .* api/index.php [L]
     # -- SEF URLs for the public frontend application
     # If the requested path and file is not /index.php and the request
