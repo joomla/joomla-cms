@@ -3,7 +3,7 @@
  * @package     Joomla.Admin
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,20 +36,12 @@ use Joomla\CMS\Uri\Uri;
  * @var  integer  $size            The size text
  * @var  string   $value           The value text
  * @var  string   $src             The path and filename of the image
+ * @var  string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 extract($displayData);
 
 $attr = '';
-$dataAttribute = '';
-
-if (!empty($dataAttributes))
-{
-	foreach ($dataAttributes as $key => $attrValue)
-	{
-		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
-	}
-}
 
 // Initialize some field attributes.
 $attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
@@ -118,6 +110,7 @@ Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.field-media')
 	->useScript('webcomponent.field-media');
 
+Text::script('JLIB_APPLICATION_ERROR_SERVER');
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>

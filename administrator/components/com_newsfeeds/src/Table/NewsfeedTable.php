@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\String\StringHelper;
 
@@ -24,7 +25,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class NewsfeedTable extends Table
+class NewsfeedTable extends Table implements VersionableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -116,6 +117,11 @@ class NewsfeedTable extends Table
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
 
+		if (is_null($this->hits))
+		{
+			$this->hits = 0;
+		}
+
 		return true;
 	}
 
@@ -189,5 +195,17 @@ class NewsfeedTable extends Table
 		$this->link = PunycodeHelper::urlToPunycode($this->link);
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_newsfeeds.newsfeed';
 	}
 }

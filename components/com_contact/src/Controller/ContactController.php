@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ class ContactController extends FormController
 	 * The URL view item variable.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $view_item = 'form';
 
@@ -45,7 +45,7 @@ class ContactController extends FormController
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $view_list = 'categories';
 
@@ -117,7 +117,7 @@ class ContactController extends FormController
 		// Check if the contact form is enabled
 		if (!$contact->params->get('show_email_form'))
 		{
-			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
 
 			return false;
 		}
@@ -133,7 +133,7 @@ class ContactController extends FormController
 				$this->app->setUserState('com_contact.contact.data', $data);
 
 				// Redirect back to the contact form.
-				$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+				$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
 
 				return false;
 			}
@@ -148,8 +148,6 @@ class ContactController extends FormController
 		if (!$form)
 		{
 			throw new \Exception($model->getError(), 500);
-
-			return false;
 		}
 
 		if (!$model->validate($form, $data))
@@ -170,7 +168,7 @@ class ContactController extends FormController
 
 			$app->setUserState('com_contact.contact.data', $data);
 
-			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
 
 			return false;
 		}
@@ -215,7 +213,7 @@ class ContactController extends FormController
 		}
 		else
 		{
-			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false), $msg);
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false), $msg);
 		}
 
 		return true;
@@ -316,7 +314,7 @@ class ContactController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -340,7 +338,7 @@ class ContactController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -385,7 +383,7 @@ class ContactController extends FormController
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function cancel($key = null)
 	{
@@ -404,7 +402,7 @@ class ContactController extends FormController
 	 *
 	 * @return  string    The arguments to append to the redirect URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getRedirectToItemAppend($recordId = 0, $urlVar = 'id')
 	{
@@ -452,7 +450,7 @@ class ContactController extends FormController
 	 *
 	 * @return  string    The return URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getReturnPage()
 	{

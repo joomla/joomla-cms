@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
 							$canCreate = $user->authorise('core.create', 'com_menus.menu.' . $item->menutype_id);
 							$canEdit = $user->authorise('core.edit', 'com_menus.menu.' . $item->menutype_id);
-							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
 							$canChange = $user->authorise('core.edit.state', 'com_menus.menu.' . $item->menutype_id) && $canCheckin;
 
 							// Get the parents of item for sorting

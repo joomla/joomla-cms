@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,6 +31,16 @@ class TransitionTable extends Table
 	protected $_supportNullValue = true;
 
 	/**
+	 * An array of key names to be json encoded in the bind function
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $_jsonEncode = [
+		'options'
+	];
+
+	/**
 	 * Constructor
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
@@ -42,21 +52,6 @@ class TransitionTable extends Table
 		parent::__construct('#__workflow_transitions', 'id', $db);
 
 		$this->access = (int) Factory::getApplication()->get('access');
-	}
-
-	/**
-	 * Overloaded store function
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  mixed  False on failure, positive integer on success.
-	 *
-	 * @see     Table::store()
-	 * @since   4.0.0
-	 */
-	public function store($updateNulls = true)
-	{
-		return parent::store($updateNulls);
 	}
 
 	/**
@@ -74,7 +69,11 @@ class TransitionTable extends Table
 		$workflow = new WorkflowTable($this->getDbo());
 		$workflow->load($this->workflow_id);
 
-		return $workflow->extension . '.transition.' . (int) $this->$k;
+		$parts = explode('.', $workflow->extension);
+
+		$extension = array_shift($parts);
+
+		return $extension . '.transition.' . (int) $this->$k;
 	}
 
 	/**
@@ -102,9 +101,16 @@ class TransitionTable extends Table
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+
 		$workflow = new WorkflowTable($this->getDbo());
 		$workflow->load($this->workflow_id);
-		$name = $workflow->extension . '.workflow.' . (int) $workflow->id;
+
+		$parts = explode('.', $workflow->extension);
+
+		$extension = array_shift($parts);
+
+		$name = $extension . '.workflow.' . (int) $workflow->id;
+
 		$asset->loadByName($name);
 		$assetId = $asset->id;
 

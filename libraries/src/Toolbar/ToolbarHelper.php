@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -635,9 +635,7 @@ abstract class ToolbarHelper
 		$options['title']     = Text::_($alt);
 		$options['height']    = $height;
 		$options['width']     = $width;
-		$options['itemId']    = $itemId;
-		$options['typeId']    = $typeId;
-		$options['typeAlias'] = $typeAlias;
+		$options['itemId']    = $typeAlias . '.' . $itemId;
 
 		$bar    = Toolbar::getInstance('toolbar');
 		$layout = new FileLayout('joomla.toolbar.versions');
