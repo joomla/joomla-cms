@@ -301,7 +301,7 @@ class FOFUtilsUpdateJoomla extends FOFUtilsUpdateExtension
 
 
 	/**
-	 * Filters a list of updates, making sure they apply to the specifed CMS
+	 * Filters a list of updates, making sure they apply to the specified CMS
 	 * release.
 	 *
 	 * @param   array  $updates  A list of update records returned by the getUpdatesFromExtension method

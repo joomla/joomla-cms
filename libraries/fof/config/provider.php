@@ -104,7 +104,7 @@ class FOFConfigProvider
 	/**
 	 * Parses the configuration options of a specific component area
 	 *
-	 * @param   string  $component  Which component's cionfiguration to parse
+	 * @param   string  $component  Which component's configuration to parse
 	 * @param   string  $area       Which area to parse (frontend, backend, cli)
 	 *
 	 * @return  array  A hash array with the configuration data

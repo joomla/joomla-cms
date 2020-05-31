@@ -43,7 +43,7 @@ class FOFTableBehaviorAssets extends FOFTableBehavior
 			}
 		}
 
-		// Create the object used for inserting/udpating data to the database
+		// Create the object used for inserting/updpating data to the database
 		$fields     = $table->getTableFields();
 
 		// Let's remove the asset_id field, since we unset the property above and we would get a PHP notice

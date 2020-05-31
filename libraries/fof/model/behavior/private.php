@@ -10,7 +10,7 @@ defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework model behavior class to filter front-end access to items
- * craeted by the currently logged in user only.
+ * created by the currently logged in user only.
  *
  * @package  FrameworkOnFramework
  * @since    2.1
@@ -61,7 +61,7 @@ class FOFModelBehaviorPrivate extends FOFModelBehavior
 	 * item from the database. It is used to apply automatic filters.
 	 *
 	 * @param   FOFModel  &$model   The model which was called
-	 * @param   FOFTable  &$record  The record loaded from the databae
+	 * @param   FOFTable  &$record  The record loaded from the database
 	 *
 	 * @return  void
 	 */

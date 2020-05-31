@@ -75,7 +75,7 @@ class FOFTableBehaviorTags extends FOFTableBehavior
 			// TODO: JHelperTags sucks in Joomla! 3.1, it requires that tags are
 			// stored in the metadata property. Not our case, therefore we need
 			// to add it in a fake object. We sent a PR to Joomla! CMS to fix
-			// that. Once it's accepted, we'll have to remove the attrocity
+			// that. Once it's accepted, we'll have to remove the atrocity
 			// here...
 			$tagsTable = clone($table);
 			$tagsHelper->preStoreProcess($tagsTable);

@@ -346,7 +346,7 @@ class FOFDatabaseDriverPostgresql extends FOFDatabaseDriver
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
-	 * This is unsuported by PostgreSQL.
+	 * This is unsupported by PostgreSQL.
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *

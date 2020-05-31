@@ -229,7 +229,7 @@ interface FOFPlatformInterface
 	/**
 	 * By default FOF will only use the Controller's onBefore* methods to
 	 * perform user authorisation. In some cases, like the Joomla! back-end,
-	 * you alos need to perform component-wide user authorisation in the
+	 * you also need to perform component-wide user authorisation in the
 	 * Dispatcher. This method MUST implement this authorisation check. If you
 	 * do not need this in your platform, please always return true.
 	 *
@@ -274,7 +274,7 @@ interface FOFPlatformInterface
 	 * @param   string  $event  The event (trigger) name, e.g. onBeforeScratchMyEar
 	 * @param   array   $data   A hash array of data sent to the plugins as part of the trigger
 	 *
-	 * @return  array  A simple array containing the resutls of the plugins triggered
+	 * @return  array  A simple array containing the results of the plugins triggered
 	 */
 	public function runPlugins($event, $data);
 
@@ -423,7 +423,7 @@ interface FOFPlatformInterface
 	/**
 	 * logs in a user
 	 *
-	 * @param   array  $authInfo  authentification information
+	 * @param   array  $authInfo  authentication information
 	 *
 	 * @return  boolean  True on success
 	 */

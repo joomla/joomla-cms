@@ -76,7 +76,7 @@ class FOFDatabaseDriverPdomysql extends FOFDatabaseDriverPdo
 	public function __construct($options)
 	{
 		/**
-		 * Pre-populate the UTF-8 Multibyte compatibility flag. Unfortuantely PDO won't report the server version
+		 * Pre-populate the UTF-8 Multibyte compatibility flag. Unfortunately PDO won't report the server version
 		 * unless we're connected to it and we cannot connect to it unless we know if it supports utf8mb4 which requires
 		 * us knowing the server version. Between this chicken and egg issue we _assume_ it's supported and we'll just
 		 * catch any problems at connection time.

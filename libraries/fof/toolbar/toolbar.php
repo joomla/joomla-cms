@@ -166,7 +166,7 @@ class FOFToolbar
 
 		$this->input->set('option', $this->component);
 
-		// Get default permissions (can be overriden by the view)
+		// Get default permissions (can be overridden by the view)
 		$platform = FOFPlatform::getInstance();
 		$perms = (object) array(
 				'manage'	 => $platform->authorise('core.manage', $this->input->getCmd('option', 'com_foobar')),
@@ -526,7 +526,7 @@ class FOFToolbar
 	 * @param   string|null  $link    The link to render; set to null to render a separator
 	 * @param   boolean      $active  True if it's an active link
 	 * @param   string|null  $icon    Icon class (used by some renderers, like the Bootstrap renderer)
-	 * @param   string|null  $parent  The parent element (referenced by name)) Thsi will create a dropdown list
+	 * @param   string|null  $parent  The parent element (referenced by name)) This will create a dropdown list
 	 *
 	 * @return  void
 	 */

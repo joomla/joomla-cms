@@ -10,7 +10,7 @@ defined('FOF_INCLUDED') or die();
 
 /**
  * The Interface of an FOFConfigDomain class. The methods are used to parse and
- * privision sensible information to consumers. FOFConfigProvider acts as an
+ * provision sensible information to consumers. FOFConfigProvider acts as an
  * adapter to the FOFConfigDomain classes.
  *
  * @package  FrameworkOnFramework

@@ -69,8 +69,8 @@ class FOFLessFormatterClassic
 	/**
 	 * Return the code for a property
 	 *
-	 * @param   string  $name   The name of the porperty
-	 * @param   string  $value  The value of the porperty
+	 * @param   string  $name   The name of the property
+	 * @param   string  $value  The value of the property
 	 *
 	 * @return  string  The CSS code
 	 */

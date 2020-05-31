@@ -59,7 +59,7 @@ class FOFModelBehaviorEnabled extends FOFModelBehavior
 	 * item from the database. It is used to apply automatic filters.
 	 *
 	 * @param   FOFModel  &$model   The model which was called
-	 * @param   FOFTable  &$record  The record loaded from the databae
+	 * @param   FOFTable  &$record  The record loaded from the database
 	 *
 	 * @return  void
 	 */

@@ -701,7 +701,7 @@ class FOFDispatcher extends FOFUtilsObject
 	/**
 	 * Main function to detect if we're running in a CLI environment and we're admin
 	 *
-	 * @return  array  isCLI and isAdmin. It's not an associtive array, so we can use list.
+	 * @return  array  isCLI and isAdmin. It's not an associative array, so we can use list.
 	 */
 	public static function isCliAdmin()
 	{

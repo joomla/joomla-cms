@@ -417,7 +417,7 @@ abstract class FOFPlatform implements FOFPlatformInterface
 	/**
 	 * Return the absolute path to the application's template overrides
 	 * directory for a specific component. We will use it to look for template
-	 * files instead of the regular component directorues. If the application
+	 * files instead of the regular component directories. If the application
 	 * does not have such a thing as template overrides return an empty string.
 	 *
 	 * @param   string   $component  The name of the component for which to fetch the overrides
@@ -668,7 +668,7 @@ abstract class FOFPlatform implements FOFPlatformInterface
 	/**
 	 * logs in a user
 	 *
-	 * @param   array  $authInfo  authentification information
+	 * @param   array  $authInfo  authentication information
 	 *
 	 * @return  boolean  True on success
 	 */
@@ -703,7 +703,7 @@ abstract class FOFPlatform implements FOFPlatformInterface
 	/**
 	 * Returns the (internal) name of the platform implementation, e.g.
 	 * "joomla", "foobar123" etc. This MUST be the last part of the platform
-	 * class name. For example, if you have a plaform implementation class
+	 * class name. For example, if you have a platform implementation class
 	 * FOFPlatformFoobar you MUST return "foobar" (all lowercase).
 	 *
 	 * @return  string

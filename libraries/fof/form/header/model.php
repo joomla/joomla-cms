@@ -45,7 +45,7 @@ class FOFFormHeaderModel extends FOFFormHeaderFieldselectable
 			$options[] = JHtml::_('select.option', null, JText::_($nonePlaceholder));
 		}
 
-		// Process field atrtibutes
+		// Process field attributes
 		$applyAccess = strtolower($applyAccess);
 		$applyAccess = in_array($applyAccess, array('yes', 'on', 'true', '1'));
 

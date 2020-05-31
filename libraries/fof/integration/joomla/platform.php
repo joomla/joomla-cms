@@ -116,7 +116,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	/**
 	 * Main function to detect if we're running in a CLI environment and we're admin
 	 *
-	 * @return  array  isCLI and isAdmin. It's not an associtive array, so we can use list.
+	 * @return  array  isCLI and isAdmin. It's not an associative array, so we can use list.
 	 */
 	protected function isCliAdmin()
 	{
@@ -278,7 +278,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	/**
 	 * Return the absolute path to the application's template overrides
 	 * directory for a specific component. We will use it to look for template
-	 * files instead of the regular component directorues. If the application
+	 * files instead of the regular component directories. If the application
 	 * does not have such a thing as template overrides return an empty string.
 	 *
 	 * @param   string   $component  The name of the component for which to fetch the overrides
@@ -781,7 +781,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	/**
 	 * logs in a user
 	 *
-	 * @param   array  $authInfo  authentification information
+	 * @param   array  $authInfo  authentication information
 	 *
 	 * @return  boolean  True on success
 	 */

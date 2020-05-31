@@ -9,7 +9,7 @@
 defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework Form class. It preferrably renders an XML view template
+ * FrameworkOnFramework Form class. It preferably renders an XML view template
  * instead of a traditional PHP-based view template.
  *
  * @package  FrameworkOnFramework

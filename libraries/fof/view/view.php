@@ -821,7 +821,7 @@ abstract class FOFView extends FOFUtilsObject
 
 	/**
 	 * Overrides the built-in loadTemplate function with an FOF-specific one.
-	 * Our overriden function uses loadAnyTemplate to provide smarter view
+	 * Our overridden function uses loadAnyTemplate to provide smarter view
 	 * template loading.
 	 *
 	 * @param   string   $tpl     The name of the template file to parse

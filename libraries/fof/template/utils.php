@@ -56,7 +56,7 @@ class FOFTemplateUtils
 	 * @param   boolean  $defer  Adds the defer attribute, meaning that your script
 	 *                           will only load after the page has finished parsing.
 	 * @param   boolean  $async  Adds the async attribute, meaning that your script
-	 *                           will be executed while the resto of the page
+	 *                           will be executed while the rest of the page
 	 *                           continues parsing.
 	 *
 	 * @see FOFTemplateUtils::parsePath

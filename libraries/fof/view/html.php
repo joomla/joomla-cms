@@ -9,7 +9,7 @@
 defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework HTML output class. Together with PHP-based view tempalates
+ * FrameworkOnFramework HTML output class. Together with PHP-based view templates
  * it will render your data into an HTML representation.
  *
  * @package  FrameworkOnFramework

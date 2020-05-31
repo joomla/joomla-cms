@@ -95,7 +95,7 @@ class FOFAutoloaderComponent
 	 * Creates class aliases. On systems where eval() is enabled it creates a
 	 * real class. On other systems it merely creates an alias. The eval()
 	 * method is preferred as class_aliases result in the name of the class
-	 * being instanciated not being available, making it impossible to create
+	 * being instantiated not being available, making it impossible to create
 	 * a class instance without passing a $config array :(
 	 *
 	 * @param   string   $original  The name of the original (existing) class
