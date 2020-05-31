@@ -22,7 +22,24 @@
 
       editors.forEach((editor) => {
         const currentEditor = editor.querySelector('textarea');
+
+        // Setup the editor
         Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
+
+        // Setup the toggle button
+        const toggleEditor = function toggleEditor() {
+          if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
+            Joomla.editors.instances[currentEditor.id].instance.show();
+          } else {
+            Joomla.editors.instances[currentEditor.id].instance.hide();
+          }
+        };
+
+        const toggleButton = editor.querySelector('.js-tiny-toggler-button');
+
+        if (toggleButton) {
+          toggleButton.addEventListener('click', toggleEditor);
+        }
       });
     },
 
@@ -118,6 +135,9 @@
         };
       }
 
+      // We'll take over the onSubmit event
+      options.add_form_submit_trigger = false;
+
       // Create a new instance
       // eslint-disable-next-line no-undef
       const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
@@ -135,7 +155,11 @@
         // Some extra instance dependent
         id: element.id,
         instance: ed,
-        onSave: () => { if (Joomla.editors.instances[element.id].instance.isHidden()) { Joomla.editors.instances[element.id].instance.show(); } return ''; },
+        onSave: () => {
+          if (Joomla.editors.instances[element.id].instance.isHidden()) {
+            Joomla.editors.instances[element.id].instance.show();
+          }
+        },
       };
 
       /** On save * */
