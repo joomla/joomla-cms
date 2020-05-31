@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -182,6 +182,7 @@ class ExtensionHelper
 		array('plugin', 'emailcloak', 'content', 0),
 		array('plugin', 'fields', 'content', 0),
 		array('plugin', 'finder', 'content', 0),
+		array('plugin', 'imagelazyload', 'content', 0),
 		array('plugin', 'joomla', 'content', 0),
 		array('plugin', 'loadmodule', 'content', 0),
 		array('plugin', 'pagebreak', 'content', 0),

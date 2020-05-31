@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1297,11 +1297,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		$nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+		$nullID   = $this->_supportNullValue ? 'NULL' : '0';
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($checkedOutField) . ' = 0')
+			->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
 			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);

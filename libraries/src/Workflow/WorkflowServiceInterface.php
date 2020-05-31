@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,36 @@ namespace Joomla\CMS\Workflow;
 interface WorkflowServiceInterface
 {
 	/**
+	 * Check if the functionality is supported by the context
+	 *
+	 * @param   string  $functionality  The functionality
+	 * @param   string  $context        The context of the functionality
+	 *
+	 * @return boolean
+	 *
+	 * @since  4.0.0
+	 */
+	public function supportFunctionality($functionality, $context): bool;
+
+	/**
+	 * Returns the model name, based on the context
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return boolean
+	 */
+	public function getModelName($context): string;
+
+	/**
+	 * Check if the workflow is active
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return boolean
+	 */
+	public function isWorkflowActive($context): bool;
+
+	/**
 	 * Method to filter transitions by given id of state.
 	 *
 	 * @param   integer[]  $transitions  Array of transitions to filter for
@@ -28,18 +58,6 @@ interface WorkflowServiceInterface
 	 * @since  4.0.0
 	 */
 	public function filterTransitions(array $transitions, int $pk): array;
-
-	/**
-	 * Method to change state of multiple ids
-	 *
-	 * @param   array    $pks        Array of IDs
-	 * @param   integer  $condition  Condition of the workflow state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public static function updateContentState(array $pks, int $condition): bool;
 
 	/**
 	 * Returns an array of possible conditions for the component.
@@ -62,4 +80,13 @@ interface WorkflowServiceInterface
 	 * @since   4.0.0
 	 */
 	public function getWorkflowTableBySection(?string $section = null): string;
+
+	/**
+	 * Returns valid contexts.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowContexts(): array;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -550,7 +550,7 @@ class StyleModel extends AdminModel
 					->set($db->quoteName('template_style_id') . ' = :newtsid')
 					->whereIn($db->quoteName('id'), $data['assigned'])
 					->where($db->quoteName('template_style_id') . ' != :tsid')
-					->whereIn($db->quoteName('checked_out'), [0, $userId])
+					->whereIn($db->quoteName('checked_out'), [null, $userId])
 					->bind(':newtsid', $tableId, ParameterType::INTEGER)
 					->bind(':tsid', $tableId, ParameterType::INTEGER);
 				$db->setQuery($query);
@@ -570,7 +570,7 @@ class StyleModel extends AdminModel
 			}
 
 			$query->where($db->quoteName('template_style_id') . ' = :templatestyleid')
-				->whereIn($db->quoteName('checked_out'), [0, $userId])
+				->whereIn($db->quoteName('checked_out'), [null, $userId])
 				->bind(':templatestyleid', $tableId, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
