@@ -77,20 +77,34 @@ Header always set X-Content-Type-Options "nosniff"
 	# RewriteBase /
 
 	## Begin - Joomla! core SEF Section.
-	#
-	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-	#
-	# If the requested path and file is not /index.php and the request
-	# has not already been internally rewritten to the index.php script
-	RewriteCond %{REQUEST_URI} !^/index\.php
-	# and the requested path and file doesn't directly match a physical file
-	RewriteCond %{REQUEST_FILENAME} !-f
-	# and the requested path and file doesn't directly match a physical folder
-	RewriteCond %{REQUEST_FILENAME} !-d
-	# internally rewrite the request to the index.php script
-	RewriteRule .* index.php [L]
-	#
-	## End - Joomla! core SEF Section.
+    #
+    # PHP FastCGI fix for HTTP Authorization, required for the API application
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # -- SEF URLs for the API application
+    # If the requested path starts with /api, the file is not /api/index.php
+    # and the request has not already been internally rewritten to the
+    # api/index.php script
+    RewriteCond %{REQUEST_URI} ^/api/
+    RewriteCond %{REQUEST_URI} !^/api/index\.php
+    # and the requested path and file doesn't directly match a physical file
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # and the requested path and file doesn't directly match a physical folder
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # internally rewrite the request to the /api/index.php script
+    RewriteRule .* api/index.php [L]
+    # -- SEF URLs for the public frontend application
+    # If the requested path and file is not /index.php and the request
+    # has not already been internally rewritten to the index.php script
+    RewriteCond %{REQUEST_URI} !^/index\.php
+    # and the requested path and file doesn't directly match a physical file
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # and the requested path and file doesn't directly match a physical folder
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # internally rewrite the request to the index.php script
+    RewriteRule .* index.php [L]
+    #
+    ## End - Joomla! core SEF Section.
+
 </IfModule>
 
 ## These directives are only enabled if the Apache mod_rewrite module is disabled
