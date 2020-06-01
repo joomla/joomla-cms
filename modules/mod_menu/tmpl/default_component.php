@@ -29,7 +29,7 @@ if ($item->anchor_rel)
 	$attributes['rel'] = $item->anchor_rel;
 }
 
-if ($item->id == $active_id)
+if ($item->current)
 {
 	$attributes['aria-current'] = 'page';
 }

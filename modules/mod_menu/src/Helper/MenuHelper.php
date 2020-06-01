@@ -35,7 +35,13 @@ class MenuHelper
 	 */
 	public static function getList(&$params)
 	{
-		$menu = Factory::getApplication()->getMenu();
+		$app   = Factory::getApplication();
+		$menu  = $app->getMenu();
+		$input = $app->getInput();
+
+		$inputOption = $input->getCmd('option', '');
+		$inputView   = $input->getCmd('view', '');
+		$inputId     = $input->getCmd('id', '');
 
 		// Get active menu item
 		$base   = self::getBase($params);
@@ -67,6 +73,16 @@ class MenuHelper
 				{
 					$item->parent = false;
 					$itemParams   = $item->getParams();
+
+					$item->current = false;
+
+					if (isset($item->component)
+						&& $item->query['option'] === $inputOption
+						&& $item->query['view'] === $inputView
+						&& (isset($item->query['id']) ? $item->query['id'] : "") === $inputId)
+					{
+						$item->current = true;
+					}
 
 					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id && $itemParams->get('menu_show', 1) == 1)
 					{
