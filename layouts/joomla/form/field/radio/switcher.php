@@ -66,10 +66,6 @@ $attr = 'id="' . $id . '"';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 $attr .= $dataAttribute;
 
-if (!empty($disabled) || !empty($readonly))
-{
-	$disabled = 'disabled="disabled"';
-}
 ?>
 <fieldset <?php echo $attr; ?>>
 	<legend class="switcher__legend sr-only">
@@ -85,12 +81,12 @@ if (!empty($disabled) || !empty($readonly))
 		}
 
 		// Initialize some option attributes.
-		$checked	= ((string) $option->value == $value) ? 'checked="checked"' : '';
-		$active		= ((string) $option->value == $value) ? 'class="active"' : '';
-		$oid		= $id . $i;
-		$ovalue		= htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes	= array_filter([$checked, $active, $disabled]);
-		$text		= $options[$i]->text;
+		$checked    = (string) $option->value == $value ? 'checked class="active"' : '';
+		$disable    = (string) $option->value != $value && $readonly || $disabled ? 'disabled' : '';
+		$oid        = $id . $i;
+		$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+		$attributes = array_filter([$checked, $disable]);
+		$text       = $options[$i]->text;
 		?>
 		<?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 		<?php echo '<label for="' . $oid . '">' . $text . '</label>'; ?>
