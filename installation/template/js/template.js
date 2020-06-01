@@ -178,6 +178,8 @@
     var task = tasks.shift();
     var data = Joomla.serialiseForm(form);
     document.body.appendChild(document.createElement('joomla-core-loader'));
+    if (document.querySelector('#progress' + task + ' i'))
+      document.querySelector('#progress' + task + ' i').classList.remove('text-white');
 
     Joomla.request({
       method: "POST",
@@ -213,6 +215,8 @@
           return false;
         }
 
+        if (document.querySelector('#progress' + task + ' i'))
+          document.querySelector('#progress' + task + ' i').classList.value = 'fa fa-check-circle text-success';
         spinnerElement.parentNode.removeChild(spinnerElement);
         Joomla.install(tasks, form);
       },

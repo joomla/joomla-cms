@@ -8,6 +8,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
@@ -28,6 +29,7 @@ $this->getWebAssetManager()
 	->useScript('webcomponent.joomla-alert')
 	->useScript('webcomponent.core-loader');
 
+HTMLHelper::_('bootstrap.framework');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
@@ -109,6 +111,55 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 						<footer class="footer text-center small w-100 p-3">
 							<?php echo Version::URL; ?>
 						</footer>
+					</div>
+				</div>
+			</div>
+			<div id="installationProgress" class="modal" tabindex="-1" role="dialog" style="z-index:10050;">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title"><?php echo Text::_('INSTL_PROGRESS_MODAL'); ?></h5>
+						</div>
+						<div class="modal-body">
+							<ul class="list-unstyled">
+								<li id="progressdbcheck">
+									<i class="fa fa-spinner fa-spin text-white"></i>
+									<?php echo Text::_('INSTL_PROGRESS_STEP_DBCHECK'); ?>
+								</li>
+								<li id="progresscreate">
+									<i class="fa fa-spinner fa-spin text-white"></i>
+									<?php echo Text::_('INSTL_PROGRESS_STEP_CREATE'); ?>
+								</li>
+								<li id="progresspopulate1">
+									<i class="fa fa-spinner fa-spin text-white"></i>
+									<?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE1'); ?>
+								</li>
+								<li id="progresspopulate2">
+									<i class="fa fa-spinner fa-spin text-white"></i>
+									<?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE2'); ?>
+								</li>
+								<li id="progresspopulate3">
+									<i class="fa fa-spinner fa-spin text-white"></i>
+									<?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE3'); ?>
+								</li>
+								<?php if (is_file('sql/mysql/localise.sql')) : ?>
+									<li id="progresscustom1">
+										<i class="fa fa-spinner fa-spin text-white"></i>
+										<?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM1'); ?>
+									</li>
+								<?php endif; ?>
+								<?php if (is_file('sql/mysql/custom.sql')) : ?>
+									<li id="progresscustom2">
+										<i class="fa fa-spinner fa-spin text-white"></i>
+										<?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM2'); ?>
+									</li>
+								<?php endif; ?>
+								<li id="progressconfig">
+									<i class="fa fa-spinner fa-spin text-white"></i>
+									<?php echo Text::_('INSTL_PROGRESS_STEP_CONFIG'); ?>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
