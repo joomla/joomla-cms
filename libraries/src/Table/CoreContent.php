@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -445,7 +445,7 @@ class CoreContent extends Table
 			$query->extendWhere(
 				'AND',
 				[
-					$this->_db->quoteName('core_checked_out_user_id') . ' = 0',
+					$this->_db->quoteName('core_checked_out_user_id') . ' IS NULL',
 					$this->_db->quoteName('core_checked_out_user_id') . ' = :userId',
 				],
 				'OR'

@@ -274,7 +274,7 @@
       justify-content: flex-end;
       width: calc(13.2rem + 2px);
       margin-top: .1rem;
-      background-color: var(--white-offset);
+      background-color: var(--atum-bg-dark-70);
       border: 1px solid $gray-500;
       border-top: 0;
       box-shadow: $atum-box-shadow;
@@ -298,7 +298,7 @@
       height: 3.7rem;
 
       .header-item-content > :first-child {
-        color: var(--atum-special-color);
+        color: var(--white);
 
         &[aria-expanded=true] {
           color: var(--atum-text-light);

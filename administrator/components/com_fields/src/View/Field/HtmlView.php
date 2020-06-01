@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView
 		$canDo     = $this->canDo;
 
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')

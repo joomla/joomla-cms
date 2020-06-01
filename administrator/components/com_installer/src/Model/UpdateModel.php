@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,7 +143,7 @@ class UpdateModel extends ListModel
 		}
 		else
 		{
-			$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+			$eid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 			$query->where($db->quoteName('u.extension_id') . ' != 0')
 				->where($db->quoteName('u.extension_id') . ' != :eid')
 				->bind(':eid', $eid, ParameterType::INTEGER);

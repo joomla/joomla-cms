@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -626,6 +626,6 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getJoomlaFilesExtensionId()
 	{
-		return ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		return ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 	}
 }

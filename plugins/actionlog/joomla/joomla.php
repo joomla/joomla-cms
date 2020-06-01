@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Flag for loggable Api.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $loggableApi = false;
 
@@ -51,7 +51,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Array of loggable verbs.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $loggableVerbs = [];
 
@@ -1074,7 +1074,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAfterDispatch()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,11 +59,6 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 							<div class="control-group">
 								<div class="control-label">
 									<?php echo $field->label; ?>
-									<?php if (!$field->required && $field->type !== 'Spacer') : ?>
-										<span class="optional">
-											<?php echo Text::_('COM_USERS_OPTIONAL'); ?>
-										</span>
-									<?php endif; ?>
 								</div>
 								<div class="controls">
 									<?php echo $field->input; ?>

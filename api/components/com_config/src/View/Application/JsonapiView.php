@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		$item->id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 
 		return $item;
 	}

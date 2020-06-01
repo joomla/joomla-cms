@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -105,64 +105,21 @@ class WorkflowModel extends AdminModel
 
 		$result = parent::save($data);
 
-		// Create default stages/transitions
+		// Create default stage for new workflow
 		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
 		{
 			$workflow_id = (int) $this->getState($this->getName() . '.id');
 
-			$stages = [
-				[
-					'title' => 'JUNPUBLISHED',
-					'condition' => Workflow::CONDITION_UNPUBLISHED,
-					'default' => 1,
-					'transition' => 'Unpublish'
-				],
-				[
-					'title' => 'JPUBLISHED',
-					'condition' => Workflow::CONDITION_PUBLISHED,
-					'transition' => 'Publish'
-				],
-				[
-					'title' => 'JTRASHED',
-					'condition' => Workflow::CONDITION_TRASHED,
-					'transition' => 'Trash'
-				],
-				[
-					'title' => 'JARCHIVED',
-					'condition' => Workflow::CONDITION_ARCHIVED,
-					'transition' => 'Archive'
-				]
-			];
-
 			$table = $this->getTable('Stage');
-			$transition = $this->getTable('Transition');
 
-			foreach ($stages as $stage)
-			{
-				$table->reset();
+			$table->id = 0;
+			$table->title = 'COM_WORKFLOW_BASIC_STAGE';
+			$table->description = '';
+			$table->workflow_id = $workflow_id;
+			$table->published = 1;
+			$table->default = 1;
 
-				$table->id = 0;
-				$table->title = $stage['title'];
-				$table->workflow_id = $workflow_id;
-				$table->condition = $stage['condition'];
-				$table->published = 1;
-				$table->default = (int) !empty($stage['default']);
-				$table->description = '';
-
-				$table->store();
-
-				$transition->reset();
-
-				$transition->id = 0;
-				$transition->title = $stage['transition'];
-				$transition->description = '';
-				$transition->workflow_id = $workflow_id;
-				$transition->published = 1;
-				$transition->from_stage_id = -1;
-				$transition->to_stage_id = (int) $table->id;
-
-				$transition->store();
-			}
+			$table->store();
 		}
 
 		return $result;
@@ -264,6 +221,10 @@ class WorkflowModel extends AdminModel
 	{
 		$extension = Factory::getApplication()->input->get('extension');
 
+		$parts = explode('.', $extension);
+
+		$extension = array_shift($parts);
+
 		// Set the access control rules field component value.
 		$form->setFieldAttribute('rules', 'component', $extension);
 		$form->setFieldAttribute('rules', 'section', 'workflow');
@@ -348,7 +309,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->published != -2 || $record->core)
+		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
 		}
@@ -368,11 +329,6 @@ class WorkflowModel extends AdminModel
 	protected function canEditState($record)
 	{
 		$user = Factory::getUser();
-
-		if (!empty($record->core))
-		{
-			return false;
-		}
 
 		// Check for existing workflow.
 		if (!empty($record->id))

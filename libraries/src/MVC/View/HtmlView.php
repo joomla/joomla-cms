@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,14 @@ namespace Joomla\CMS\MVC\View;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherAwareInterface;
 
 /**
  * Base class for a Joomla Html View
@@ -189,7 +192,47 @@ class HtmlView extends AbstractView
 	 */
 	public function display($tpl = null)
 	{
+		$app = Factory::getApplication();
+
+		if ($this->option)
+		{
+			$component = $this->option;
+		}
+		else
+		{
+			$component = ApplicationHelper::getComponentName();
+		}
+
+		$context = $component . '.' . $this->getName();
+
+		$app->getDispatcher()->dispatch(
+			'onBeforeDisplay',
+			AbstractEvent::create(
+				'onBeforeDisplay',
+				[
+					'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+					'subject'    => $this,
+					'extension'  => $context
+				]
+			)
+		);
+
 		$result = $this->loadTemplate($tpl);
+
+		$eventResult = $app->getDispatcher()->dispatch(
+			'onAfterDisplay',
+			AbstractEvent::create(
+				'onAfterDisplay',
+				[
+					'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+					'subject'    => $this,
+					'extension'  => $context,
+					'source'     => $result
+				]
+			)
+		);
+
+		$eventResult->getArgument('used', false);
 
 		echo $result;
 	}

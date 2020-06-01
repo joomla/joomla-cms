@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,7 +109,8 @@ Text::script('JHIDEPASSWORD');
 			<div class="mod-login__submit form-group">
 				<button type="button"
 				        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
-				        onclick="<?php echo $button['onclick'] ?>"
+				        data-webauthn-form="<?= $button['data-webauthn-form'] ?>"
+					data-webauthn-url="<?= $button['data-webauthn-url'] ?>"
 				        title="<?php echo Text::_($button['label']) ?>"
 				        id="<?php echo $button['id'] ?>"
 						>
