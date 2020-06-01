@@ -22,23 +22,21 @@
 
       editors.forEach((editor) => {
         const currentEditor = editor.querySelector('textarea');
+        const toggleButton = editor.querySelector('.js-tiny-toggler-button');
 
         // Setup the editor
         Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
 
         // Setup the toggle button
-        const toggleEditor = function toggleEditor() {
-          if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
-            Joomla.editors.instances[currentEditor.id].instance.show();
-          } else {
-            Joomla.editors.instances[currentEditor.id].instance.hide();
-          }
-        };
-
-        const toggleButton = editor.querySelector('.js-tiny-toggler-button');
-
         if (toggleButton) {
-          toggleButton.addEventListener('click', toggleEditor);
+          toggleButton.removeAttribute('disabled');
+          toggleButton.addEventListener('click', () => {
+            if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
+              Joomla.editors.instances[currentEditor.id].instance.show();
+            } else {
+              Joomla.editors.instances[currentEditor.id].instance.hide();
+            }
+          });
         }
       });
     },
