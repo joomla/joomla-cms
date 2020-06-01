@@ -18,7 +18,7 @@ use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_users/two-factor-switcher.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_users/two-factor-switcher.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
 $input = Factory::getApplication()->input;
 
@@ -28,7 +28,6 @@ $settings  = array();
 
 $this->useCoreUI = true;
 ?>
-
 <form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 
 	<h2><?php echo $this->form->getValue('name'); ?></h2>

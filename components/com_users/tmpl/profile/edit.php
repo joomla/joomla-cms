@@ -22,7 +22,7 @@ HTMLHelper::_('bootstrap.tooltip');
 $lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
-HTMLHelper::_('script', 'com_users/two-factor-switcher.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_users/two-factor-switcher.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 ?>
 <div class="com-users-profile__edit profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
