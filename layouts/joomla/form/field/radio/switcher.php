@@ -83,10 +83,10 @@ $attr .= $dataAttribute;
 		// Initialize some option attributes.
 		$checked    = (string) $option->value == $value ? 'checked class="active"' : '';
 		$disable    = (string) $option->value != $value && $readonly || $disabled ? 'disabled' : '';
-		$oid		= $id . $i;
-		$ovalue		= htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes	= array_filter([$checked, $disable]);
-		$text		= $options[$i]->text;
+		$oid        = $id . $i;
+		$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+		$attributes = array_filter([$checked, $disable]);
+		$text       = $options[$i]->text;
 		?>
 		<?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 		<?php echo '<label for="' . $oid . '">' . $text . '</label>'; ?>
