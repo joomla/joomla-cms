@@ -76,10 +76,10 @@ $this->useCoreUI = true;
 	</div>
 	<div id="com_users_twofactor_forms_container">
 		<?php foreach ($this->tfaform as $form) : ?>
-		<?php $class = $form['method'] == $this->otpConfig->method ? '' : 'class="hidden"'; ?>
-		<div id="com_users_twofactor_<?php echo $form['method'] ?>"<?php echo $class; ?>>
-			<?php echo $form['form'] ?>
-		</div>
+			<?php $class = $form['method'] == $this->otpConfig->method ? '' : 'class="hidden"'; ?>
+			<div id="com_users_twofactor_<?php echo $form['method'] ?>"<?php echo $class; ?>>
+				<?php echo $form['form'] ?>
+			</div>
 		<?php endforeach; ?>
 	</div>
 
