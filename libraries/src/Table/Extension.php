@@ -29,6 +29,7 @@ class Extension extends Table
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
