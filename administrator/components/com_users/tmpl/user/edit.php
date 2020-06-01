@@ -18,7 +18,7 @@ use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_users/two-factor-switcher.js', array('version' => 'auto', 'relative' => true));
 
 $input = Factory::getApplication()->input;
 
@@ -71,12 +71,13 @@ $this->useCoreUI = true;
 			</label>
 		</div>
 		<div class="controls">
-			<?php echo HTMLHelper::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+			<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 		</div>
 	</div>
 	<div id="com_users_twofactor_forms_container">
 		<?php foreach ($this->tfaform as $form) : ?>
-		<div id="com_users_twofactor_<?php echo $form['method'] ?>" class="hidden">
+		<?php $class = $form['method'] == $this->otpConfig->method ? '' : 'class="hidden"'; ?>
+		<div id="com_users_twofactor_<?php echo $form['method'] ?>"<?php echo $class; ?>>
 			<?php echo $form['form'] ?>
 		</div>
 		<?php endforeach; ?>
