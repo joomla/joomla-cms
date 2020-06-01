@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -435,6 +436,12 @@ class StyleModel extends AdminModel
 			|| (is_object($data) && isset($data->home) && $data->home == '1'))
 		{
 			$form->setFieldAttribute('home', 'readonly', 'true');
+		}
+
+		if ($client->name === 'site' && !Multilanguage::isEnabled())
+		{
+			$form->setFieldAttribute('home', 'type', 'radio');
+			$form->setFieldAttribute('home', 'layout', 'joomla.form.field.radio.switcher');
 		}
 
 		// Attempt to load the xml file.
