@@ -130,21 +130,6 @@ if ($saveOrder)
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php endif; ?>
 									</th>
-									<td class="nowrap">
-										<?php
-											if ($item->condition == 'JARCHIVED'):
-												$icon = 'icon-archive';
-											elseif ($item->condition == 'JTRASHED'):
-												$icon = 'icon-trash';
-											elseif ($item->condition == 'JPUBLISHED'):
-												$icon = 'icon-publish';
-											elseif ($item->condition == 'JUNPUBLISHED'):
-												$icon = 'icon-unpublish';
-											endif;
-										?>
-										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-										<?php echo Text::_($item->condition); ?>
-									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo (int) $item->id; ?>
 									</td>
