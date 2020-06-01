@@ -141,7 +141,12 @@ class PlgEditorTinymce extends CMSPlugin
 		// Render Editor markup
 		$editor = '<div class="js-editor-tinymce">';
 		$editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
-		$editor .= $this->_toogleButton($id);
+
+		if (!$this->app->client->mobile)
+		{
+			$editor .= LayoutHelper::render('joomla.tinymce.togglebutton');
+		}
+
 		$editor .= '</div>';
 
 		// Prepare the instance specific options, actually the ext-buttons
@@ -644,21 +649,6 @@ class PlgEditorTinymce extends CMSPlugin
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
-	}
-
-	/**
-	 * Get the toggle editor button
-	 *
-	 * @param   string  $name  Editor name
-	 *
-	 * @return  string
-	 */
-	private function _toogleButton($name)
-	{
-		if (!$this->app->client->mobile)
-		{
-			return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
-		}
 	}
 
 	/**
