@@ -23,6 +23,14 @@ use Joomla\Utilities\ArrayHelper;
 class Extension extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
