@@ -81,7 +81,7 @@ $attr .= $dataAttribute;
 		}
 
 		// Initialize some option attributes.
-		$checked	= (string) $option->value == $value ? 'checked class="active"' : '';
+		$checked    = (string) $option->value == $value ? 'checked class="active"' : '';
 		$disable    = (string) $option->value != $value && $readonly || $disabled ? 'disabled' : '';
 		$oid		= $id . $i;
 		$ovalue		= htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
