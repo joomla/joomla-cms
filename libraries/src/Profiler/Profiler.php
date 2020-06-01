@@ -123,9 +123,9 @@ class Profiler
 			'%s %.3f seconds (%.3f); %0.2f MB (%0.3f) - %s',
 			$m->prefix,
 			$m->totalTime / 1000,
-			$m->time / 1000,
+			$current - $this->previousTime,
 			$m->totalMemory,
-			$m->memory,
+			$currentMem - $this->previousMem,
 			$m->label
 		);
 		$this->buffer[] = $mark;
