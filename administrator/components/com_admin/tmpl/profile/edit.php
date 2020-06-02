@@ -43,11 +43,11 @@ $fieldsets = $this->form->getFieldsets();
 	<?php endforeach; ?>
 
 	<?php if (!empty($this->tfaform) && $this->item->id) : ?>
-	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_ADMIN_USER_TWO_FACTOR_AUTH')); ?>
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_ADMIN_PROFILE_TWO_FACTOR_AUTH')); ?>
 	<div class="control-group">
 		<div class="control-label">
 			<label id="jform_twofactor_method-lbl" for="jform_twofactor_method">
-				<?php echo Text::_('COM_ADMIN_USER_FIELD_TWOFACTOR_LABEL'); ?>
+				<?php echo Text::_('COM_ADMIN_PROFILE_FIELD_TWOFACTOR_LABEL'); ?>
 			</label>
 		</div>
 		<div class="controls">
@@ -64,16 +64,16 @@ $fieldsets = $this->form->getFieldsets();
 
 	<fieldset>
 		<legend>
-			<?php echo Text::_('COM_ADMIN_USER_OTEPS'); ?>
+			<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS'); ?>
 		</legend>
 		<div class="alert alert-info">
 			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
-			<?php echo Text::_('COM_ADMIN_USER_OTEPS_DESC'); ?>
+			<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS_DESC'); ?>
 		</div>
 		<?php if (empty($this->otpConfig->otep)) : ?>
 			<div class="alert alert-warning">
 				<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-				<?php echo Text::_('COM_ADMIN_USER_OTEPS_WAIT_DESC'); ?>
+				<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS_WAIT_DESC'); ?>
 			</div>
 		<?php else : ?>
 		<?php foreach ($this->otpConfig->otep as $otep) : ?>
