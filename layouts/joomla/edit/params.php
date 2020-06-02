@@ -118,7 +118,7 @@ foreach ($fieldSets as $name => $fieldSet)
 	{
 		echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 		echo '<legend>' . $label . '</legend>';
-		echo '<div class="column-count-md-2 column-count-lg-3">';
+		echo '<div>';
 	}
 	// Tabs
 	elseif (!$hasParent)
