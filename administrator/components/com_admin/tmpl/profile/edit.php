@@ -33,7 +33,7 @@ $fieldsets = $this->form->getFieldsets();
 	enctype="multipart/form-data"
 	class="form-validate"
 >
-	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'user_details')); ?>
+	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'user_details']); ?>
 	<?php foreach ($fieldsets as $fieldset) : ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $fieldset->name, Text::_($fieldset->label)); ?>
 		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
@@ -51,7 +51,7 @@ $fieldsets = $this->form->getFieldsets();
 			</label>
 		</div>
 		<div class="controls">
-			<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+			<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', ['onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'custom-select'], 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 		</div>
 	</div>
 	<div id="com_users_twofactor_forms_container">

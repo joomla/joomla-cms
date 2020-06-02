@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Admin\Administrator\View\Profile;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -25,9 +25,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The form object
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
 	 * @since  1.6
 	 */
 	protected $form;
@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item being viewed
 	 *
-	 * @var    object
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 * @since  1.6
 	 */
 	protected $item;
@@ -43,7 +43,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    object
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 * @since  1.6
 	 */
 	protected $state;

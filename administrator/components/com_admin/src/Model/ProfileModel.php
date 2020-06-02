@@ -9,10 +9,11 @@
 
 namespace Joomla\Component\Admin\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Users\Administrator\Model\UserModel;
@@ -30,14 +31,14 @@ class ProfileModel extends UserModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm    A \JForm object on success, false on failure
+	 * @return  Form  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_admin.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_admin.profile', 'profile', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{
@@ -89,7 +90,7 @@ class ProfileModel extends UserModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_users.edit.user.data', array());
+		$data = Factory::getApplication()->getUserState('com_users.edit.user.data', []);
 
 		if (empty($data))
 		{
@@ -131,10 +132,7 @@ class ProfileModel extends UserModel
 	{
 		$user = Factory::getUser();
 
-		unset($data['id']);
-		unset($data['groups']);
-		unset($data['sendEmail']);
-		unset($data['block']);
+		unset($data['id'], $data['groups'], $data['sendEmail'], $data['block']);
 
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 

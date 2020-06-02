@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Admin\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
@@ -34,7 +34,7 @@ class ProfileController extends FormController
 	 *
 	 * @since   1.6
 	 */
-	protected function allowEdit($data = array(), $key = 'id')
+	protected function allowEdit($data = [], $key = 'id')
 	{
 		return isset($data['id']) && $data['id'] == $this->app->getIdentity()->id;
 	}
