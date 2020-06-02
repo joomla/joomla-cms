@@ -60,7 +60,8 @@ class MenuItemByComponentField extends ListField
 
 		if ($currentMenuType)
 		{
-			$query->where($db->quoteName('menu.menutype') . ' = ' . $db->quote($currentMenuType));
+			$query->where($db->quoteName('menu.menutype') . ' = :currentMenuType')
+				->bind(':currentMenuType', $currentMenuType);
 		}
 
 		$db->setQuery($query);
