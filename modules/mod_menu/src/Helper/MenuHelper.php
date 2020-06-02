@@ -39,10 +39,6 @@ class MenuHelper
 		$menu  = $app->getMenu();
 		$input = $app->getInput();
 
-		$inputOption = $input->getCmd('option', '');
-		$inputView   = $input->getCmd('view', '');
-		$inputId     = $input->getCmd('id', '');
-
 		// Get active menu item
 		$base   = self::getBase($params);
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
@@ -74,14 +70,15 @@ class MenuHelper
 					$item->parent = false;
 					$itemParams   = $item->getParams();
 
-					$item->current = false;
+					$item->current = true;
 
-					if (isset($item->component)
-						&& $item->query['option'] === $inputOption
-						&& $item->query['view'] === $inputView
-						&& (isset($item->query['id']) ? $item->query['id'] : "") === $inputId)
+					foreach ($item->query as $key => $value)
 					{
-						$item->current = true;
+						if ($input->get($key) !== $value)
+						{
+							$item->current = false;
+							break;
+						}
 					}
 
 					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id && $itemParams->get('menu_show', 1) == 1)
