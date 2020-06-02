@@ -23,7 +23,15 @@ use Joomla\Utilities\ArrayHelper;
 class Extension extends Table
 {
 	/**
-	 * Ensure the params in json encoded in the bind method
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+  /**
+   * Ensure the params in json encoded in the bind method
 	 *
 	 * @var    array
 	 * @since  4.0.0

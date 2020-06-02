@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -53,9 +52,6 @@ $typeOfSpacer = (strpos($label, 'spacer-lbl') !== false);
 	<?php if (empty($options['hiddenLabel'])): ?>
 		<div class="control-label">
 			<?php echo $label; ?>
-			<?php if (!$required && !$typeOfSpacer) : ?>
-				<span class="optional"><?php echo Text::_('COM_USERS_OPTIONAL'); ?></span>
-			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 	<div class="controls">

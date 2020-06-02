@@ -59,11 +59,6 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 							<div class="control-group">
 								<div class="control-label">
 									<?php echo $field->label; ?>
-									<?php if (!$field->required && $field->type !== 'Spacer') : ?>
-										<span class="optional">
-											<?php echo Text::_('COM_USERS_OPTIONAL'); ?>
-										</span>
-									<?php endif; ?>
 								</div>
 								<div class="controls">
 									<?php echo $field->input; ?>
@@ -127,7 +122,7 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 		<div class="com-users-profile__edit-submit control-group">
 			<div class="controls">
 				<button type="submit" class="btn btn-primary validate" name="task" value="profile.save">
-					<?php echo Text::_('JSUBMIT'); ?>
+					<?php echo Text::_('JSAVE'); ?>
 				</button>
 				<button type="submit" class="btn btn-danger" name="task" value="profile.cancel" formnovalidate>
 					<?php echo Text::_('JCANCEL'); ?>
