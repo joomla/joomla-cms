@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -59,7 +60,8 @@ class MenuItemByComponentField extends ListField
 
 		if ($currentMenuType)
 		{
-			$query->where($db->quoteName('menu.menutype') . ' = ' . $db->quote($currentMenuType));
+			$query->where($db->quoteName('menu.menutype') . ' = :currentMenuType')
+				->bind(':currentMenuType', $currentMenuType);
 		}
 
 		$db->setQuery($query);
