@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,7 @@ abstract class FormField
 	 * If you use this flag you should ensure you display the label in your form (for a11y etc.)
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $hiddenLabel = false;
 
@@ -366,7 +366,7 @@ abstract class FormField
 	 *
 	 * @var  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $dataAttributes = array();
 
@@ -957,7 +957,7 @@ abstract class FormField
 	 *
 	 * @return  array list of data attribute(s)
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getDataAttributes()
 	{
@@ -969,7 +969,7 @@ abstract class FormField
 	 *
 	 * @return  string  A HTML Tag Attribute string of data attribute(s)
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function renderDataAttributes()
 	{

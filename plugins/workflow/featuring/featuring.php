@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
@@ -21,6 +22,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Component\Content\Administrator\Event\Model\FeatureEvent;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\Inflector;
@@ -28,7 +30,7 @@ use Joomla\String\Inflector;
 /**
  * Workflow Featuring Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 {
@@ -38,7 +40,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -46,7 +48,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 * Loads the CMS Application for direct access
 	 *
 	 * @var   CMSApplicationInterface
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $app;
 
@@ -54,7 +56,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 * The name of the supported functionality to check against
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $supportFunctionality = 'core.featured';
 
@@ -83,7 +85,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param EventInterface $event The event
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onContentPrepareForm(EventInterface $event)
 	{
@@ -114,7 +116,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function enhanceItemForm(Form $form, $data)
 	{
@@ -274,17 +276,27 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 		 */
 		$this->app->set('plgWorkflowFeaturing.' . $context, $pks);
 
-		$result = $this->app->triggerEvent('onContentBeforeChangeFeatured', [
-			$context,
-			$pks,
-			$value
-			]
+		// Trigger the change state event.
+		$eventResult = $this->app->getDispatcher()->dispatch(
+			'onAfterDisplay',
+			AbstractEvent::create(
+				'onContentBeforeChangeFeatured',
+				[
+					'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+					'subject'    => $this,
+					'extension'  => $context,
+					'pks'        => $pks,
+					'value'      => $value,
+					'abort'      => false,
+					'abortReason' => '',
+				]
+			)
 		);
 
 		// Release whitelist, the job is done
 		$this->app->set('plgWorkflowFeaturing.' . $context, []);
 
-		if (\in_array(false, $result, true))
+		if ($eventResult->getArgument('abort'))
 		{
 			return false;
 		}
@@ -338,31 +350,31 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Change Feature State of an item. Used to disable Feature state change
 	 *
-	 * @param EventInterface $event
+	 * @param FeatureEvent $event
 	 *
 	 * @return boolean
 	 *
 	 * @throws Exception
 	 * @since   4.0.0
 	 */
-	public function onContentBeforeChangeFeatured(EventInterface $event)
+	public function onContentBeforeChangeFeatured(FeatureEvent $event)
 	{
-		$context = $event->getArgument('0');
-		$pks     = $event->getArgument('1');
+		$extension = $event->getArgument('extension');
+		$pks       = $event->getArgument('pks');
 
-		if (!$this->isSupported($context))
+		if (!$this->isSupported($extension))
 		{
 			return true;
 		}
 
 		// We have whitelisted the pks, so we're the one who triggered
 		// With onWorkflowBeforeTransition => free pass
-		if ($this->app->get('plgWorkflowFeaturing.' . $context) === $pks)
+		if ($this->app->get('plgWorkflowFeaturing.' . $extension) === $pks)
 		{
 			return true;
 		}
 
-		throw new Exception(Text::_('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED'));
+		$event->setAbort('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED');
 	}
 
 	/**

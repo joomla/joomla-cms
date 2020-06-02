@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,7 @@ abstract class DatabaseHelper
 	 *
 	 * @return  array  The encryption settings
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getEncryptionSettings($options)
 	{
@@ -145,7 +145,7 @@ abstract class DatabaseHelper
 	 *
 	 * @return  string  The minimum required database server version.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getMinimumServerVersion($db, $options)
 	{

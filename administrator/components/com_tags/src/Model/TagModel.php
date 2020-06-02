@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -26,6 +27,8 @@ use Joomla\String\StringHelper;
  */
 class TagModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * @var    string  The prefix to use with controller messages.
 	 * @since  3.1
@@ -328,6 +331,21 @@ class TagModel extends AdminModel
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Prepare and sanitise the table data prior to saving.
+	 *
+	 * @param   \Joomla\CMS\Table\Table  $table  A Table object.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function prepareTable($table)
+	{
+		// Increment the content version number.
+		$table->version++;
 	}
 
 	/**
