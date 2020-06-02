@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,9 +34,7 @@ class FinderHelper
 	 */
 	public static function logSearch(Query $searchquery, $resultCount = 0)
 	{
-		$enable_log_searches = ComponentHelper::getParams('com_finder')->get('logging_enabled', 1);
-
-		if (!$enable_log_searches)
+		if (!ComponentHelper::getParams('com_finder')->get('gather_search_statistics', 0))
 		{
 			return;
 		}

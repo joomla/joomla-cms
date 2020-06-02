@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Tests\Unit\Libraries\Cms\Filter;
@@ -16,7 +16,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package  Joomla.Platform
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class OutputFilterTest extends UnitTestCase
 {
@@ -24,7 +24,7 @@ class OutputFilterTest extends UnitTestCase
 	 * Tests enforcing XHTML links.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testLinkXHTMLSafe()
 	{
@@ -39,7 +39,7 @@ class OutputFilterTest extends UnitTestCase
 	 * Tests enforcing JS safe output.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testStringJSSafe()
 	{
@@ -54,7 +54,7 @@ class OutputFilterTest extends UnitTestCase
 	 * Tests filtering strings down to ASCII-7 lowercase URL text
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testStringURLSafe()
 	{
@@ -70,7 +70,7 @@ class OutputFilterTest extends UnitTestCase
 	 * and ampsersand-octothorpe combinations intact.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testAmpReplace()
 	{

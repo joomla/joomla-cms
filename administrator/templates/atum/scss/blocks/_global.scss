@@ -125,7 +125,6 @@ body .container-main {
 
 
 .content {
-  padding: 2vw;
   border-radius: $border-radius;
 
   > .row {
@@ -169,8 +168,10 @@ body .container-main {
 
 // extern links with icons
 a[target="_blank"]::before {
-  font: normal normal normal 14px/1 'Font Awesome 5 Free';
-  content: "\f35d  ";
+  font-family: "Font Awesome 5 Free";
+  font-size: 14px;
+  font-weight: 900;
+  content: "\f35d";
 }
 
 #wrapper {
@@ -219,4 +220,9 @@ details {
 
 summary {
   color: var(--atum-link-color);
+}
+
+// meter element
+meter {
+  width: 100%;
 }

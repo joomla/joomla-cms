@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Form\Form;
 /**
  * Access to component specific tagging information.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface TagServiceInterface
 {
@@ -27,7 +27,7 @@ interface TagServiceInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function countTagItems(array $items, string $extension);

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document) => {
@@ -194,7 +194,7 @@
             this.handleResponse(false, element, 'checkbox');
             return false;
           }
-        } else if ((element.getAttribute('type') === 'checkbox' && !element.checked.length !== 0) || (tagName === 'select' && !element.value.length)) {
+        } else if ((element.getAttribute('type') === 'checkbox' && element.checked !== true) || (tagName === 'select' && !element.value.length)) {
           this.handleResponse(false, element, 'checkbox');
           return false;
         } else if (!element.value || element.classList.contains('placeholder')) {

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -41,6 +41,14 @@ class StageController extends FormController
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -69,7 +77,16 @@ class StageController extends FormController
 		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
+			$extension = $this->input->getCmd('extension');
+
+			$parts = explode('.', $extension);
+
+			$this->extension = array_shift($parts);
+
+			if (!empty($parts))
+			{
+				$this->section = array_shift($parts);
+			}
 
 			if (empty($this->extension))
 			{
@@ -89,18 +106,7 @@ class StageController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = Factory::getUser();
-
-		$model = $this->getModel('Workflow');
-
-		$workflow = $model->getItem($this->workflowId);
-
-		if ($workflow->core)
-		{
-			return false;
-		}
-
-		return $user->authorise('core.create', $this->extension);
+		return $this->app->getIdentity()->authorise('core.create', $this->extension);
 	}
 
 	/**
@@ -116,20 +122,7 @@ class StageController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
-		$user = Factory::getUser();
-
-		$model = $this->getModel();
-
-		$item = $model->getItem($recordId);
-
-		$model = $this->getModel('Workflow');
-
-		$workflow = $model->getItem($item->workflow_id);
-
-		if ($workflow->core)
-		{
-			return false;
-		}
+		$user = $this->app->getIdentity();
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.stage.' . $recordId))
@@ -163,7 +156,7 @@ class StageController extends FormController
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
 
-		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}
@@ -178,7 +171,7 @@ class StageController extends FormController
 	protected function getRedirectToListAppend()
 	{
 		$append = parent::getRedirectToListAppend();
-		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}

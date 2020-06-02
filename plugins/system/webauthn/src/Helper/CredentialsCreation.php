@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,8 +96,7 @@ abstract class CredentialsCreation
 		$userEntity = new PublicKeyCredentialUserEntity(
 			$user->username,
 			$repository->getHandleFromUserId($user->id),
-			$user->name,
-			self::getAvatar($user, 64)
+			$user->name
 		);
 
 		// Challenge
@@ -355,23 +354,5 @@ abstract class CredentialsCreation
 		}
 
 		return rtrim(Uri::base(), '/') . '/' . ltrim($relFile, '/');
-	}
-
-	/**
-	 * Get the user's avatar (through Gravatar)
-	 *
-	 * @param   User  $user  The Joomla user object
-	 * @param   int   $size  The dimensions of the image to fetch (default: 64 pixels)
-	 *
-	 * @return  string  The URL to the user's avatar
-	 *
-	 * @since   4.0.0
-	 */
-	public static function getAvatar(User $user, int $size = 64)
-	{
-		$scheme = Uri::getInstance()->getScheme();
-		$subdomain = ($scheme == 'https') ? 'secure' : 'www';
-
-		return sprintf('%s://%s.gravatar.com/avatar/%s.jpg?s=%u&d=mm', $scheme, $subdomain, md5($user->email), $size);
 	}
 }

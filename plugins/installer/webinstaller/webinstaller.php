@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.webinstaller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,6 +114,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 				'dev_level'       => base64_encode($devLevel),
 				'installfromon'   => $installfrom ? 1 : 0,
 				'language'        => base64_encode($lang->getTag()),
+				'installFrom'     => $installfrom != '' ? 4 : 5,
 			]
 		);
 

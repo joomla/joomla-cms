@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
 							$canCreate = $user->authorise('core.create', 'com_menus.menu.' . $item->menutype_id);
 							$canEdit = $user->authorise('core.edit', 'com_menus.menu.' . $item->menutype_id);
-							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
 							$canChange = $user->authorise('core.edit.state', 'com_menus.menu.' . $item->menutype_id) && $canCheckin;
 
 							// Get the parents of item for sorting
@@ -211,7 +211,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<td class="text-center d-none d-md-table-cell">
 										<?php if ($item->type == 'component') : ?>
 											<?php if ($item->language == '*' || $item->home == '0') : ?>
-												<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected); ?>
+												<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected, 'cb', null, 'home', 'circle'); ?>
 											<?php elseif ($canChange) : ?>
 												<a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
 													<?php if ($item->language_image) : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,7 +96,7 @@ class UpdateModel extends BaseDatabaseModel
 				$updateURL = 'https://update.joomla.org/core/list.xml';
 		}
 
-		$id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us') . '.*')
@@ -166,11 +166,11 @@ class UpdateModel extends BaseDatabaseModel
 		if (count($methodParameters) >= 4)
 		{
 			// Reinstall support is available in Updater
-			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, $minimumStability, true);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability, true);
 		}
 		else
 		{
-			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, $minimumStability);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability);
 		}
 	}
 
@@ -197,7 +197,7 @@ class UpdateModel extends BaseDatabaseModel
 		);
 
 		// Fetch the update information from the database.
-		$id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
@@ -731,7 +731,7 @@ ENDDATA;
 		$installer->setOverwrite(true);
 
 		$installer->extension = new \Joomla\CMS\Table\Extension(Factory::getDbo());
-		$installer->extension->load(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id);
+		$installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
 
@@ -1526,7 +1526,7 @@ ENDDATA;
 	 *
 	 * @return  array  An array of URLs.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
 	{
