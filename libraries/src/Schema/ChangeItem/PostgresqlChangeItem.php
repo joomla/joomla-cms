@@ -86,7 +86,15 @@ class PostgresqlChangeItem extends ChangeItem
 
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 
-			if ($alterCommand === 'ADD COLUMN')
+			if ($alterCommand === 'RENAME TO')
+			{
+				$table = $this->fixQuote($wordArray[5]);
+				$result = 'SELECT table_name FROM information_schema.tables WHERE table_name=' . $table;
+				$this->queryType = 'RENAME_TABLE';
+				$this->checkQueryExpected = 1;
+				$this->msgElements = array($table);
+			}
+			elseif ($alterCommand === 'ADD COLUMN')
 			{
 				$result = 'SELECT column_name'
 					. ' FROM information_schema.columns'
