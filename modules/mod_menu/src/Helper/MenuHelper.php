@@ -47,7 +47,7 @@ class MenuHelper
 		$base   = self::getBase($params);
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
 		asort($levels);
-		$key    = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
+		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 
 		/** @var OutputController $cache */
 		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
@@ -201,7 +201,7 @@ class MenuHelper
 	 *
 	 * @return  object
 	 *
-	 * @since	3.0.2
+	 * @since    3.0.2
 	 */
 	public static function getBase(&$params)
 	{
@@ -231,7 +231,7 @@ class MenuHelper
 	 *
 	 * @return  object
 	 *
-	 * @since	3.0.2
+	 * @since    3.0.2
 	 */
 	public static function getActive(&$params)
 	{
