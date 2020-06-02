@@ -53,7 +53,7 @@ echo HTMLHelper::_(
 ?>
 <joomla-toolbar-button id="toolbar-versions">
 	<button
-		class="btn btn-sm btn-primary"
+		class="btn btn-primary"
 		type="button"
 		onclick="document.getElementById('versionsModal').open()"
 		data-toggle="modal">
