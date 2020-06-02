@@ -71,13 +71,6 @@ class ContactTable extends Table implements VersionableTableInterface
 	 */
 	public function store($updateNulls = true)
 	{
-		// Transform the params field
-		if (is_array($this->params))
-		{
-			$registry = new Registry($this->params);
-			$this->params = (string) $registry;
-		}
-
 		$date   = Factory::getDate()->toSql();
 		$userId = Factory::getUser()->id;
 
