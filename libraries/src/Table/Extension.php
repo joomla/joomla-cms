@@ -30,8 +30,8 @@ class Extension extends Table
 	 */
 	protected $_supportNullValue = true;
 
-  /**
-   * Ensure the params in json encoded in the bind method
+	/**
+	 * Ensure the params in json encoded in the bind method
 	 *
 	 * @var    array
 	 * @since  4.0.0
