@@ -19,9 +19,15 @@ if ($item->anchor_title)
 	$attributes['title'] = $item->anchor_title;
 }
 
+$attributes['class'] = 'nav-link';
+
+if ($item->parent) {
+	$attributes['class'] .= ' dropdown-toggle';
+}
+
 if ($item->anchor_css)
 {
-	$attributes['class'] = $item->anchor_css;
+	$attributes['class'] .= ' ' . $item->anchor_css;
 }
 
 if ($item->anchor_rel)

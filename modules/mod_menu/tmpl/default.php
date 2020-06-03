@@ -70,7 +70,7 @@ if ($tagId = $params->get('tag_id', ''))
 
 	if ($item->parent)
 	{
-		$class .= ' parent';
+		$class .= ' parent dropdown';
 	}
 
 	echo '<li class="' . $class . '">';
@@ -91,7 +91,8 @@ if ($tagId = $params->get('tag_id', ''))
 	// The next item is deeper.
 	if ($item->deeper)
 	{
-		echo '<ul class="mod-menu__sub list-unstyled small">';
+		$class = 'dropdown-item';
+		echo '<ul class="mod-menu__sub list-unstyled small dropdown-menu">';
 	}
 	// The next item is shallower.
 	elseif ($item->shallower)

@@ -75,16 +75,72 @@
   .mod-menu li {
     position: relative;
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 1.5rem;
     text-transform: uppercase;
     letter-spacing: 1.75px;
+    cursor: pointer;
+
+
+    &.dropdown:hover > .dropdown-menu {
+        display: block;
+        opacity: 1;
+        margin-top: 0;
+        border:none;
+    }
+
+    &.dropdown > .dropdown-menu  {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      padding: 0.5rem;
+
+
+      li {
+        width: 100%;
+
+        &:hover {
+          background-color: rgba($cassiopeia-template-color, 0.2);
+        }
+
+        a {
+          color: $cassiopeia-template-color;
+          text-transform: none;
+          letter-spacing: normal;
+          padding: 0.5rem;
+
+          &.dropdown-toggle::after {
+            content: "\f0da";
+            font-family: "Font Awesome 5 Free";
+            position: absolute;
+            border: none;
+          }
+        }
+
+        > ul {
+          top: 0;
+          left: 100%;
+          margin-top: -1px;
+
+          &::after {
+            content: "\f0d9";
+            font-family: "Font Awesome 5 Free";
+            top: -0.125rem;
+            left: -0.55rem;
+          }
+
+        }
+
+      }
+
+
+
+    }
 
     &:last-child {
       margin-right: 0;
     }
 
     &::after {
-
       @include media-breakpoint-up(md) {
         position: absolute;
         right: 50%;
