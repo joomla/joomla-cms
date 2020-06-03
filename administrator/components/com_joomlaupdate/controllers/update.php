@@ -511,7 +511,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$resultGroup = -1;
 		$upgradeWarning = 0;
-		if ($upgradeCompatibilityStatus->state == 1)
+		if ($upgradeCompatibilityStatus->state == 1 && $upgradeCompatibilityStatus->compatibleVersion !== false)
 		{
 			if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $extensionVersion, 'gt'))
 			{

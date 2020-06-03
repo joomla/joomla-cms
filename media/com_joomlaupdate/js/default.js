@@ -117,7 +117,7 @@ function extractionMethodHandler(target, prefix)
 						html = '<span class="label label-warning">' + extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion + '</span>';
 					}
 					else {
-						html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
+						html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
 					}
 					break;
 				case PreUpdateChecker.STATE.INCOMPATIBLE:
@@ -146,7 +146,7 @@ function extractionMethodHandler(target, prefix)
 			// Switch the compatibility state
 			switch (extensionData.compatibilityData.currentCompatibilityStatus.state) {
 				case PreUpdateChecker.STATE.COMPATIBLE:
-					html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
+					html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.currentCompatibilityStatus.upgradeCompatibilityStatus.compatibleVersion;
 					break;
 				case PreUpdateChecker.STATE.INCOMPATIBLE:
 					// No compatible version found -> display error label

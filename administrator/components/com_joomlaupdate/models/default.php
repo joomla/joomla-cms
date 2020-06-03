@@ -1473,6 +1473,11 @@ ENDDATA;
 						// Return the compatible version
 						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
 					}
+					else
+					{
+						// Return the compatible version as false so we can say update server is supported but no compatible version found
+						return (object) array('state' => 1, 'compatibleVersion' => false);
+					}
 				}
 			}
 			else
@@ -1483,6 +1488,11 @@ ENDDATA;
 				{
 					// Return the compatible version
 					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				}
+				else
+				{
+					// Return the compatible version as false so we can say update server is supported but no compatible version found
+					return (object) array('state' => 1, 'compatibleVersion' => false);
 				}
 			}
 		}
