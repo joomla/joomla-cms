@@ -18,7 +18,6 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 /**
