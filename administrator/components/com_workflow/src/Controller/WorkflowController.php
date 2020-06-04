@@ -234,32 +234,4 @@ class WorkflowController extends FormController
 			}
 		}
 	}
-
-	/**
-	 * Method to save a workflow.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-	 *
-	 * @return  boolean  True if successful, false otherwise.
-	 *
-	 * @since  4.0.0
-	 */
-	public function save($key = null, $urlVar = null)
-	{
-		$task = $this->getTask();
-
-		// The save2copy task needs to be handled slightly differently.
-		if ($task === 'save2copy')
-		{
-			$data  = $this->input->post->get('jform', array(), 'array');
-
-			// Prevent default
-			$data['default'] = 0;
-
-			$this->input->post->set('jform', $data);
-		}
-
-		return parent::save($key, $urlVar);
-	}
 }

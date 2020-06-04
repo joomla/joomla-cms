@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
@@ -156,10 +157,14 @@ class WorkflowTable extends Table
 
 			$state = $db->setQuery($query)->loadObject();
 
-			if (empty($state) || $state->id === $this->id)
+			// We have nowhere a default workflow => set current to default to recover
+			if (empty($state))
 			{
 				$this->default = '1';
-
+			}
+			// This workflow was default, but someone try to disable it => not allowed
+			else if ($state->id === $this->id)
+			{
 				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
 				return false;
@@ -228,6 +233,31 @@ class WorkflowTable extends Table
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Method to bind an associative array or object to the Table instance.This
+	 * method only binds properties that are publicly accessible and optionally
+	 * takes an array of properties to ignore when binding.
+	 *
+	 * @param   array|object  $src     An associative array or object to bind to the Table instance.
+	 * @param   array|string  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   4.0.0
+	 * @throws  \InvalidArgumentException
+	 */
+	public function bind($src, $ignore = array())
+	{
+		// Bind the rules.
+		if (isset($src['rules']) && \is_array($src['rules']))
+		{
+			$rules = new Rules($src['rules']);
+			$this->setRules($rules);
+		}
+
+		return parent::bind($src, $ignore);
 	}
 
 	/**

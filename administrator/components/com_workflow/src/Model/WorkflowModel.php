@@ -101,6 +101,7 @@ class WorkflowModel extends AdminModel
 
 			// Unpublish new copy
 			$data['published'] = 0;
+			$data['default'] = 0;
 		}
 
 		$result = parent::save($data);
