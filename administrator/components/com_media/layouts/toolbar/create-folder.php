@@ -18,7 +18,7 @@ Factory::getDocument()->getWebAssetManager()
 $title = Text::_('COM_MEDIA_CREATE_NEW_FOLDER');
 ?>
 <joomla-toolbar-button>
-	<button class="btn btn-sm btn-info" onclick="MediaManager.Event.fire('onClickCreateFolder');">
+	<button class="btn btn-info" onclick="MediaManager.Event.fire('onClickCreateFolder');">
 		<span class="fas fa-folder" aria-hidden="true"></span>
 		<?php echo $title; ?>
 	</button>
