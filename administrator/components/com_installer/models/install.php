@@ -186,7 +186,7 @@ class InstallerModelInstall extends JModelLegacy
 				JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
-			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'), 'error');
 
 			return false;
 		}
