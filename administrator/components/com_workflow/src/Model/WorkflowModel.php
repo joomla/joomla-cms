@@ -81,12 +81,23 @@ class WorkflowModel extends AdminModel
 	 */
 	public function save($data)
 	{
+		$table             = $this->getTable();
 		$app               = Factory::getApplication();
 		$input             = $app->input;
 		$context           = $this->option . '.' . $this->name;
 		$extension         = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 		$data['extension'] = !empty($data['extension']) ? $data['extension'] : $extension;
-		$data['asset_id']  = 0;
+
+		// Make sure we use the correct extension when editing an existing workflow
+		$key = $table->getKeyName();
+		$pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+
+			$data['extension'] = $table->extension;
+		}
 
 		if ($input->get('task') == 'save2copy')
 		{
