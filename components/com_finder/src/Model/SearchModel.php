@@ -278,6 +278,7 @@ class SearchModel extends ListModel
 			// Since we need to return a query, we simplify this one.
 			$query->clear('join')
 				->clear('where')
+				->clear('bounded')
 				->clear('having')
 				->clear('group')
 				->where('false');
