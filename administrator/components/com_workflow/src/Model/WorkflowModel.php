@@ -227,7 +227,6 @@ class WorkflowModel extends AdminModel
 
 		// Set the access control rules field component value.
 		$form->setFieldAttribute('rules', 'component', $extension);
-		$form->setFieldAttribute('rules', 'section', 'workflow');
 
 		parent::preprocessForm($form, $data, $group);
 	}

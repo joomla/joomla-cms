@@ -333,4 +333,29 @@ class StageModel extends AdminModel
 
 		return parent::publish($pks, $value);
 	}
+
+	/**
+	 * Method to preprocess the form.
+	 *
+	 * @param   \JForm  $form   A \JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @since  4.0.0
+	 */
+	protected function preprocessForm(Form $form, $data, $group = 'content')
+	{
+		$extension = Factory::getApplication()->input->get('extension');
+
+		$parts = explode('.', $extension);
+
+		$extension = array_shift($parts);
+
+		// Set the access control rules field component value.
+		$form->setFieldAttribute('rules', 'component', $extension);
+
+		parent::preprocessForm($form, $data, $group);
+	}
 }

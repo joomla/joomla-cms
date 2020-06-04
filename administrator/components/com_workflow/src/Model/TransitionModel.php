@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -307,8 +308,20 @@ class TransitionModel extends AdminModel
 	 * @since   4.0.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'workflow')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
+		$extension = Factory::getApplication()->input->get('extension');
+
+		$parts = explode('.', $extension);
+
+		$extension = array_shift($parts);
+
+		// Set the access control rules field component value.
+		$form->setFieldAttribute('rules', 'component', $extension);
+
+		// Import the appropriate plugin group.
+		PluginHelper::importPlugin('workflow');
+
 		parent::preprocessForm($form, $data, $group);
 	}
 }
