@@ -133,7 +133,7 @@ class TransitionModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
+		$table      = $this->getTable();
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 		$app		= Factory::getApplication();
@@ -149,6 +149,20 @@ class TransitionModel extends AdminModel
 		if (empty($data['workflow_id']))
 		{
 			$data['workflow_id'] = $workflowID;
+		}
+
+		// Make sure we use the correct workflow_id when editing an existing transition
+		$key = $table->getKeyName();
+		$pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+
+			if ((int) $table->workflow_id)
+			{
+				$data['workflow_id'] = (int) $table->workflow_id;
+			}
 		}
 
 		if ($input->get('task') == 'save2copy')

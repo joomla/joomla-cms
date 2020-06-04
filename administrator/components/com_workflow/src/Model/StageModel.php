@@ -79,14 +79,29 @@ class StageModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$context             = $this->option . '.' . $this->name;
-		$app                 = Factory::getApplication();
-		$input               = $app->input;
-		$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+		$table      = $this->getTable();
+		$context    = $this->option . '.' . $this->name;
+		$app        = Factory::getApplication();
+		$input      = $app->input;
+		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
 		if (empty($data['workflow_id']))
 		{
 			$data['workflow_id'] = $workflowID;
+		}
+
+		// Make sure we use the correct extension when editing an existing workflow
+		$key = $table->getKeyName();
+		$pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+
+			if ((int) $table->workflow_id)
+			{
+				$data['workflow_id'] = (int) $table->workflow_id;
+			}
 		}
 
 		if ($input->get('task') == 'save2copy')
