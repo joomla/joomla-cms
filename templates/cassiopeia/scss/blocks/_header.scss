@@ -64,8 +64,8 @@
     @include media-breakpoint-up(md) {
       flex-direction: row !important;
       margin-top: 0;
-
     }
+
   }
 
   .navbar-collapse {
@@ -85,7 +85,13 @@
         display: block;
         opacity: 1;
         margin-top: 0;
-        border:none;
+        border: none;
+
+        @include media-breakpoint-up(md) {
+          -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.6);
+          -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.6);
+          box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.6);
+        }
     }
 
     &.dropdown > .dropdown-menu  {
@@ -109,31 +115,35 @@
           padding: 0.5rem;
 
           &.dropdown-toggle::after {
+
+            @include media-breakpoint-up(md) {
             content: "\f0da";
             font-family: "Font Awesome 5 Free";
             position: absolute;
             border: none;
+            }
+
           }
+
         }
 
         > ul {
-          top: 0;
-          left: 100%;
-          margin-top: -1px;
 
-          &::after {
-            content: "\f0d9";
-            font-family: "Font Awesome 5 Free";
-            top: -0.125rem;
-            left: -0.55rem;
+          @include media-breakpoint-up(md) {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+
+            &::after {
+              content: "\f0d9";
+              font-family: "Font Awesome 5 Free";
+              top: -0.125rem;
+              left: -0.55rem;
+            }
           }
 
         }
-
       }
-
-
-
     }
 
     &:last-child {
