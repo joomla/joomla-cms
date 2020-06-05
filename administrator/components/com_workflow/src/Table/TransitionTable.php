@@ -51,8 +51,6 @@ class TransitionTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_transitions', 'id', $db);
-
-		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**

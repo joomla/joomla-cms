@@ -42,8 +42,6 @@ class StageTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_stages', 'id', $db);
-
-		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -59,31 +57,23 @@ class StageTable extends Table
 	 */
 	public function delete($pk = null)
 	{
-		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
-		if (!Factory::getUser()->authorise('core.delete', 'com_workflows'))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
-		}
-
 		$db  = $this->getDbo();
 		$app = Factory::getApplication();
 
-		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'title')))
+			->select($db->quoteName('default'))
 			->from($db->quoteName('#__workflow_stages'))
 			->where($db->quoteName('id') . ' = ' . (int) $pk);
-		$db->setQuery($query);
-		$stage = $db->loadResult();
 
-		if ($stage->default)
+		$isDefault = $db->setQuery($query)->loadResult();
+
+		if ($isDefault)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $stage->title), 'error');
+			$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'), 'error');
 
 			return false;
 		}
 
-		// Delete the update site from all tables.
 		try
 		{
 			$query = $db->getQuery(true)
@@ -97,7 +87,7 @@ class StageTable extends Table
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $stage->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $e->getMessage()), 'error');
 		}
 
 		return false;
@@ -148,15 +138,19 @@ class StageTable extends Table
 			$query
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__workflow_stages'))
-				->where($db->quoteName('workflow_id') . '=' . $this->workflow_id)
-				->where($db->quoteName('default') . '= 1');
+				->where($db->quoteName('workflow_id') . '=' . (int) $this->workflow_id)
+				->where($db->quoteName('default') . ' = 1');
 
-			$stage = $db->setQuery($query)->loadObject();
+			$id = $db->setQuery($query)->loadResult();
 
-			if (empty($stage) || $stage->id === $this->id)
+			// If there is no default stage => set the current to default to recover
+			if (empty($id))
 			{
 				$this->default = '1';
-
+			}
+			// This stage is the default, but someone has tried to disable it => not allowed
+			elseif ($id === $this->id)
+			{
 				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
 				return false;

@@ -43,8 +43,6 @@ class WorkflowTable extends Table
 		$this->typeAlias = '{extension}.workflow';
 
 		parent::__construct('#__workflows', 'id', $db);
-
-		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -60,25 +58,20 @@ class WorkflowTable extends Table
 	 */
 	public function delete($pk = null)
 	{
-		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
-		}
-
 		$db  = $this->getDbo();
 		$app = Factory::getApplication();
 
 		// Gets the workflow information that is going to be deleted.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'title')))
+			->select($db->quoteName('default'))
 			->from($db->quoteName('#__workflows'))
 			->where($db->quoteName('id') . ' = ' . (int) $pk);
-		$db->setQuery($query);
-		$workflow = $db->loadResult();
 
-		if ($workflow->default)
+		$isDefault = $db->setQuery($query)->loadResult();
+
+		if ($isDefault)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
+			$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
 
 			return false;
 		}
@@ -89,20 +82,20 @@ class WorkflowTable extends Table
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_stages'))
 				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+
+			$db->setQuery($query)->execute();
 
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
 				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+
+			$db->setQuery($query)->execute();
 
 			return parent::delete($pk);
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $e->getMessage()), 'error');
 
 			return false;
 		}
@@ -155,15 +148,15 @@ class WorkflowTable extends Table
 				->from($db->quoteName('#__workflows'))
 				->where($db->quoteName('default') . '= 1');
 
-			$state = $db->setQuery($query)->loadObject();
+			$id = $db->setQuery($query)->loadResult();
 
 			// If there is no default workflow => set the current to default to recover
-			if (empty($state))
+			if (empty($id))
 			{
 				$this->default = '1';
 			}
 			// This workflow is the default, but someone has tried to disable it => not allowed
-			elseif ($state->id === $this->id)
+			elseif ($id === $this->id)
 			{
 				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
