@@ -157,12 +157,12 @@ class WorkflowTable extends Table
 
 			$state = $db->setQuery($query)->loadObject();
 
-			// We have nowhere a default workflow => set current to default to recover
+			// If there is no default workflow => set the current to default to recover
 			if (empty($state))
 			{
 				$this->default = '1';
 			}
-			// This workflow was default, but someone try to disable it => not allowed
+			// This workflow is the default, but someone has tried to disable it => not allowed
 			else if ($state->id === $this->id)
 			{
 				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
