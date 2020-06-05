@@ -14,6 +14,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 
@@ -296,14 +297,21 @@ class StageModel extends AdminModel
 	{
 		$table = $this->getTable();
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			if (!$table->published)
 			{
-				$this->setError(Text::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
+				$this->setError(Text::_('COM_WORKFLOW_ITEM_MUST_PUBLISHED'));
 
 				return false;
 			}
+		}
+
+		if (empty($table->id) || !$this->canEditState($table))
+		{
+			Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+			return false;
 		}
 
 		if ($value)
@@ -316,7 +324,7 @@ class StageModel extends AdminModel
 			}
 		}
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			$table->default = $value;
 			$table->store();

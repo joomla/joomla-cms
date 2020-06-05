@@ -279,7 +279,7 @@ class WorkflowModel extends AdminModel
 	{
 		$table = $this->getTable();
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			if ($table->published !== 1)
 			{
@@ -287,6 +287,13 @@ class WorkflowModel extends AdminModel
 
 				return false;
 			}
+		}
+
+		if (empty($table->id) || !$this->canEditState($table))
+		{
+			Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+			return false;
 		}
 
 		$date = Factory::getDate()->toSql();
@@ -302,7 +309,7 @@ class WorkflowModel extends AdminModel
 			}
 		}
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			$table->modified = $date;
 			$table->default  = $value;
