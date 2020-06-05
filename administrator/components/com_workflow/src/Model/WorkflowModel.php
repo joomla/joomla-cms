@@ -83,6 +83,7 @@ class WorkflowModel extends AdminModel
 	{
 		$table             = $this->getTable();
 		$app               = Factory::getApplication();
+		$user              = $app->getIdentity();
 		$input             = $app->input;
 		$context           = $this->option . '.' . $this->name;
 		$extension         = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
@@ -97,6 +98,11 @@ class WorkflowModel extends AdminModel
 			$table->load($pk);
 
 			$data['extension'] = $table->extension;
+		}
+
+		if (isset($data['rules']) && !$user->authorise('core.admin', $data['extension']))
+		{
+			unset($data['rules']);
 		}
 
 		if ($input->get('task') == 'save2copy')

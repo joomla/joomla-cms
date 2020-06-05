@@ -82,12 +82,24 @@ class StageModel extends AdminModel
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 		$app        = Factory::getApplication();
+		$user       = $app->getIdentity();
 		$input      = $app->input;
 		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
 		if (empty($data['workflow_id']))
 		{
 			$data['workflow_id'] = $workflowID;
+		}
+
+		$workflow = $this->getTable('Workflow');
+
+		$workflow->load($data['workflow_id']);
+
+		$parts = explode('.', $workflow->extension);
+
+		if (isset($data['rules']) && !$user->authorise('core.admin', $parts[0]))
+		{
+			unset($data['rules']);
 		}
 
 		// Make sure we use the correct extension when editing an existing workflow

@@ -137,6 +137,7 @@ class TransitionModel extends AdminModel
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 		$app		= Factory::getApplication();
+		$user       = $app->getIdentity();
 		$input		= $app->input;
 
 		if ($pk > 0)
@@ -149,6 +150,17 @@ class TransitionModel extends AdminModel
 		if (empty($data['workflow_id']))
 		{
 			$data['workflow_id'] = $workflowID;
+		}
+
+		$workflow = $this->getTable('Workflow');
+
+		$workflow->load($data['workflow_id']);
+
+		$parts = explode('.', $workflow->extension);
+
+		if (isset($data['rules']) && !$user->authorise('core.admin', $parts[0]))
+		{
+			unset($data['rules']);
 		}
 
 		// Make sure we use the correct workflow_id when editing an existing transition
