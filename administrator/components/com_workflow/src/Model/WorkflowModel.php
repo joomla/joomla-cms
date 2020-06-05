@@ -170,29 +170,25 @@ class WorkflowModel extends AdminModel
 			return false;
 		}
 
-		if ($loadData)
-		{
-			$data = $this->loadFormData();
-		}
+		$id = $data['id'] ?? $form->getValue('id');
 
-		$item = $this->getItem($form->getValue('id'));
+		$item = $this->getItem($id);
 
-		// Deactivate switcher if default
-		// Use $item, otherwise we'll be locked when we get the data from the request
-		if (!empty($item->default))
-		{
-			$form->setFieldAttribute('default', 'readonly', 'true');
-		}
+		$canEditState = $this->canEditState((object) $item);
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data))
+		if (!$canEditState || !empty($item->default))
 		{
-			// Disable fields for display.
-			$form->setFieldAttribute('published', 'disabled', 'true');
+			if (!$canEditState)
+			{
+				$form->setFieldAttribute('published', 'disabled', 'true');
+				$form->setFieldAttribute('published', 'required', 'false');
+				$form->setFieldAttribute('published', 'filter', 'unset');
+			}
 
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('published', 'filter', 'unset');
+			$form->setFieldAttribute('default', 'disabled', 'true');
+			$form->setFieldAttribute('default', 'required', 'false');
+			$form->setFieldAttribute('default', 'filter', 'unset');
 		}
 
 		$form->setFieldAttribute('created', 'default', Factory::getDate()->format('Y-m-d H:i:s'));

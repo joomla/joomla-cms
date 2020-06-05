@@ -230,10 +230,6 @@ class TransitionModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = Factory::getApplication();
-
-		$context = $this->option . '.' . $this->name;
-
 		// Get the form.
 		$form = $this->loadForm(
 			'com_workflow.transition',
@@ -249,29 +245,18 @@ class TransitionModel extends AdminModel
 			return false;
 		}
 
-		if ($loadData)
-		{
-			$data = (array) $this->loadFormData();
-		}
+		$id = $data['id'] ?? $form->getValue('id');
 
-		if (empty($data['workflow_id']))
-		{
-			$data['workflow_id'] = (int) $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
-		}
+		$item = $this->getItem($id);
 
-		// Disable state when no permission to change
-		$disableFields = [];
+		$canEditState = $this->canEditState((object) $item);
 
-		if (!$this->canEditState((object) $data))
+		// Modify the form based on access controls.
+		if (!$canEditState)
 		{
-			$disableFields[] = 'published';
-		}
-
-		foreach ($disableFields as $field)
-		{
-			$form->setFieldAttribute($field, 'disabled', 'true');
-			$form->setFieldAttribute($field, 'required', 'false');
-			$form->setFieldAttribute($field, 'filter', 'unset');
+			$form->setFieldAttribute('published', 'disabled', 'true');
+			$form->setFieldAttribute('published', 'required', 'false');
+			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
 		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $data['workflow_id'];
