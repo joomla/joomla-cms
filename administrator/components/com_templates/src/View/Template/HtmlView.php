@@ -257,11 +257,14 @@ class HtmlView extends BaseHtmlView
 			}
 
 			// Add a copy template button
-			ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+			if ($this->type == 'home')
+			{
+				ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+			}
 		}
 
 		// Add a Template preview button
-		if ($this->preview->client_id == 0)
+		if ($this->preview->client_id == 0 && $this->type == 'home')
 		{
 			$bar->linkButton('preview')
 				->icon('icon-picture')
@@ -273,11 +276,14 @@ class HtmlView extends BaseHtmlView
 		// Only show file manage buttons for global SuperUser
 		if ($isSuperUser)
 		{
-			// Add Manage folders button
-			ToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
+			if ($this->type == 'home')
+			{
+				// Add Manage folders button
+				ToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
 
-			// Add a new file button
-			ToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
+				// Add a new file button
+				ToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
+			}
 
 			// Add a Rename file Button
 			if ($this->type != 'home')
