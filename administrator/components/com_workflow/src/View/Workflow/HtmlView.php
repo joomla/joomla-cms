@@ -159,7 +159,7 @@ class HtmlView extends BaseHtmlView
 				if ($canDo->get('core.create'))
 				{
 					$toolbarButtons[] = ['save2new', 'workflow.save2new'];
-					$toolbarButtons[] = ['save2copy', 'transition.save2copy'];
+					$toolbarButtons[] = ['save2copy', 'workflow.save2copy'];
 				}
 			}
 

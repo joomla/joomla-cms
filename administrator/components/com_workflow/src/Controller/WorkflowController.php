@@ -193,7 +193,7 @@ class WorkflowController extends FormController
 
 			$statuses = $db->setQuery($query)->loadAssocList();
 
-			$smodel = $this->getModel('State');
+			$smodel = $this->getModel('Stage');
 
 			$workflowID = (int) $model->getState($model->getName() . '.id');
 
@@ -207,6 +207,7 @@ class WorkflowController extends FormController
 
 				$status['workflow_id'] = $workflowID;
 				$status['id'] = 0;
+
 				unset($status['asset_id']);
 
 				$table->save($status);
@@ -228,11 +229,12 @@ class WorkflowController extends FormController
 			{
 				$table = $tmodel->getTable();
 
-				$transition['from_stage_id'] = $mapping[$transition['from_stage_id']];
+				$transition['from_stage_id'] = $transition['from_stage_id'] != -1 ? $mapping[$transition['from_stage_id']] : -1;
 				$transition['to_stage_id'] = $mapping[$transition['to_stage_id']];
 
 				$transition['workflow_id'] = $workflowID;
 				$transition['id'] = 0;
+
 				unset($transition['asset_id']);
 
 				$table->save($transition);
