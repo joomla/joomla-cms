@@ -223,11 +223,6 @@ class BannerTable extends Table implements VersionableTableInterface
 	{
 		$db = $this->getDbo();
 
-		if (is_null($this->checked_out))
-		{
-			$this->checked_out = 0;
-		}
-
 		if (empty($this->id))
 		{
 			$purchaseType = $this->purchase_type;
