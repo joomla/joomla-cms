@@ -157,7 +157,7 @@ class WorkflowTable extends Table
 
 			$state = $db->setQuery($query)->loadObject();
 
-			// We have nowhere a default workflow => set current to default to recover
+			// If there is no default workflow => set the current to default to recover
 			if (empty($state))
 			{
 				$this->default = '1';
