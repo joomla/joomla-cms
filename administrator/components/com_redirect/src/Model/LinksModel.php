@@ -227,6 +227,7 @@ class LinksModel extends ListModel
 			'hits',
 			'published',
 			'created_date',
+			'modified_date',
 		];
 
 		foreach ($batch_urls as $i => $batch_url)
@@ -251,6 +252,7 @@ class LinksModel extends ListModel
 				0,
 				':state' . $i,
 				':created' . $i,
+				':modified' . $i,
 			];
 
 			$query->clear()
@@ -260,7 +262,8 @@ class LinksModel extends ListModel
 				->bind(':oldurl' . $i, $old_url)
 				->bind(':newurl' . $i, $new_url)
 				->bind(':state' . $i, $state, ParameterType::INTEGER)
-				->bind(':created' . $i, $created);
+				->bind(':created' . $i, $created)
+				->bind(':modified' . $i, $created);
 
 			$db->setQuery($query);
 			$db->execute();
