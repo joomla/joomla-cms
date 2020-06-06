@@ -176,7 +176,18 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Load specific css component
-		HTMLHelper::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = $this->document->getWebAssetManager();
+		$wa->getRegistry()->addExtensionRegistryFile($component);
+
+		if ($wa->assetExists('style', $component . '.admin-categories'))
+		{
+			$wa->useStyle($component . '.admin-categories');
+		}
+		else
+		{
+			$wa->registerAndUseStyle($component . '.admin-categories', $component . '/administrator/categories.css');
+		}
 
 		// Prepare the toolbar.
 		ToolbarHelper::title(
