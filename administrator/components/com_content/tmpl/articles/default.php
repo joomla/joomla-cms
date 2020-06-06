@@ -24,7 +24,9 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
@@ -62,6 +64,7 @@ $workflow_featured = false;
 
 if ($workflow_enabled) :
 
+// @todo move the script to a file
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
@@ -76,10 +79,9 @@ $js = <<<JS
 })();
 JS;
 
-// @todo move the script to a file
-$this->document->addScriptDeclaration($js);
-
-HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+$wa->getRegistry()->addExtensionRegistryFile('com_workflow');
+$wa->useScript('com_workflow.admin-items-workflow-buttons')
+	->addInlineScript($js, [], ['type' => 'module']);
 
 $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
 $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
