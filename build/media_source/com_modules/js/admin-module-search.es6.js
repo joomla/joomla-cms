@@ -66,8 +66,8 @@
         }
 
         // If the module title or description doesn't match add a class to hide it.
-        if (!title.toLowerCase().includes(partialSearch.toLowerCase()) &&
-          !description.toLowerCase().includes(partialSearch.toLowerCase())) {
+        if (!title.toLowerCase().includes(partialSearch.toLowerCase())
+          && !description.toLowerCase().includes(partialSearch.toLowerCase())) {
           card.classList.add('d-none');
         }
       });
