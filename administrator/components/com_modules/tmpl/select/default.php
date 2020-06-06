@@ -28,7 +28,7 @@ endif;
 
 <div class="container d-none" id="comModulesSelectSearchContainer">
 	<div class="row">
-		<div class="col-sm-4 offset-sm-4">
+		<div class="col-sm-6 offset-sm-2 col-md-4 offset-sm-4 offset-md-5 offset-lg-4">
 			<div class="form-inline">
 				<label class="sr-only" for="comModulesSelectSearch">
 					<?= Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
