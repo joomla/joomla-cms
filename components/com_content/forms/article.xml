@@ -60,7 +60,7 @@
 			label="JSTATUS"
 			class="custom-select-color-state"
 			size="1"
-			default="0"
+			default="1"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
