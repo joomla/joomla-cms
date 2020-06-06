@@ -255,9 +255,8 @@ class HtmlView extends BaseHtmlView
 			{
 				ToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
-
 			// Add a copy template button
-			if ($this->type === 'home')
+			elseif ($this->type === 'home')
 			{
 				ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 			}
@@ -284,16 +283,12 @@ class HtmlView extends BaseHtmlView
 				// Add a new file button
 				ToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
 			}
-
-			// Add a Rename file Button
-			if ($this->type !== 'home')
+			else
 			{
+				// Add a Rename file Button
 				ToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
-			}
 
-			// Add a Delete file Button
-			if ($this->type !== 'home')
-			{
+				// Add a Delete file Button
 				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
 			}
 		}
