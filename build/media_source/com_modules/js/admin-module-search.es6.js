@@ -42,8 +42,7 @@
     // Add the keyboard event listener which performs the live search in the cards
     elSearch.addEventListener('keyup', (event) => {
       /** @type {KeyboardEvent} event */
-      const elSearch = event.target;
-      const partialSearch = elSearch.value;
+      const partialSearch = event.target.value;
       const elCards = document.querySelectorAll('.comModulesSelectCard');
 
       // Save the search string into session storage
@@ -67,7 +66,8 @@
         }
 
         // If the module title or description doesn't match add a class to hide it.
-        if (!title.toLowerCase().includes(partialSearch.toLowerCase()) && !description.toLowerCase().includes(partialSearch.toLowerCase())) {
+        if (!title.toLowerCase().includes(partialSearch.toLowerCase()) &&
+          !description.toLowerCase().includes(partialSearch.toLowerCase())) {
           card.classList.add('d-none');
         }
       });
@@ -79,8 +79,7 @@
     // Focus the just show element
     elSearch.focus();
 
-    try
-    {
+    try {
       if (typeof (sessionStorage) !== 'undefined') {
         // Load the search string from session storage
         elSearch.value = sessionStorage.getItem('Joomla.com_modules.new.search') || '';
