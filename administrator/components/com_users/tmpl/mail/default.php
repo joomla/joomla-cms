@@ -14,13 +14,13 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-
-HTMLHelper::_('behavior.core');
 Text::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT', true);
 Text::script('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP', true);
 Text::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE', true);
 
-HTMLHelper::_('script', 'com_users/admin-users-mail.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_users.admin-users-mail');
 
 $comUserParams = ComponentHelper::getParams('com_users');
 ?>

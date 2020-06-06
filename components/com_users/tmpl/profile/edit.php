@@ -14,15 +14,18 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('bootstrap.tooltip');
 
 // Load user_profile plugin language
 $lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
-HTMLHelper::_('script', 'com_users/two-factor-switcher.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_users.two-factor-switcher');
+
 ?>
 <div class="com-users-profile__edit profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
