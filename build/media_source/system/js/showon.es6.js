@@ -98,6 +98,7 @@
               // Setup listeners
               elem.addEventListener('change', () => { self.linkedOptions(key); });
               elem.addEventListener('keyup', () => { self.linkedOptions(key); });
+              elem.addEventListener('click', () => { self.linkedOptions(key); });
             });
           }
         });
