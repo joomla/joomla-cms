@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_fields",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_fields.admin-field-changecontext",
+      "type": "script",
+      "uri": "com_fields/admin-field-changecontext.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_fields.admin-field-edit",
+      "type": "script",
+      "uri": "com_fields/admin-field-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_fields.admin-field-edit-modal",
+      "type": "script",
+      "uri": "com_fields/admin-field-edit-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_fields.admin-field-typehaschanged",
+      "type": "script",
+      "uri": "com_fields/admin-field-typehaschanged.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_fields.admin-fields-batch",
+      "type": "script",
+      "uri": "com_fields/admin-fields-default-batch.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_fields.admin-fields-modal",
+      "type": "script",
+      "uri": "com_fields/admin-fields-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    }
+  ]
+}
