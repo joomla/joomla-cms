@@ -230,7 +230,30 @@ class LinksModel extends ListModel
 			'modified_date',
 		];
 
-		foreach ($batch_urls as $i => $batch_url)
+		$values = [
+			':oldurl',
+			':newurl',
+			$db->quote(''),
+			$db->quote(''),
+			0,
+			':state',
+			':created',
+			':modified',
+		];
+
+		$query
+			->insert($db->quoteName('#__redirect_links'), false)
+			->columns($db->quoteName($columns))
+			->values(implode(', ', $values))
+			->bind(':oldurl', $old_url)
+			->bind(':newurl', $new_url)
+			->bind(':state', $state, ParameterType::INTEGER)
+			->bind(':created', $created)
+			->bind(':modified', $created);
+
+		$db->setQuery($query);
+
+		foreach ($batch_urls as $batch_url)
 		{
 			$old_url = $batch_url[0];
 
@@ -244,28 +267,6 @@ class LinksModel extends ListModel
 				$new_url = '';
 			}
 
-			$values = [
-				':oldurl' . $i,
-				':newurl' . $i,
-				$db->quote(''),
-				$db->quote(''),
-				0,
-				':state' . $i,
-				':created' . $i,
-				':modified' . $i,
-			];
-
-			$query->clear()
-				->insert($db->quoteName('#__redirect_links'), false)
-				->columns($db->quoteName($columns))
-				->values(implode(', ', $values))
-				->bind(':oldurl' . $i, $old_url)
-				->bind(':newurl' . $i, $new_url)
-				->bind(':state' . $i, $state, ParameterType::INTEGER)
-				->bind(':created' . $i, $created)
-				->bind(':modified' . $i, $created);
-
-			$db->setQuery($query);
 			$db->execute();
 		}
 
