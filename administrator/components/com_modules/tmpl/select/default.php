@@ -31,7 +31,7 @@ endif;
 		<div class="col-sm-4 offset-sm-4">
 			<div class="form-inline">
 				<label class="sr-only" for="comModulesSelectSearch">
-					<?= Text::_('JSEARCH_FILTER'); ?>
+					<?= Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
 				</label>
 				<div class="input-group mb-5 mr-sm-2">
 					<input type="text" value=""
