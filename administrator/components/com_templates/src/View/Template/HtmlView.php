@@ -239,32 +239,32 @@ class HtmlView extends BaseHtmlView
 		if ($isSuperUser)
 		{
 			// Add an Apply and save button
-			if ($this->type == 'file')
+			if ($this->type === 'file')
 			{
 				ToolbarHelper::apply('template.apply');
 				ToolbarHelper::save('template.save');
 			}
 			// Add a Crop and Resize button
-			elseif ($this->type == 'image')
+			elseif ($this->type === 'image')
 			{
 				ToolbarHelper::custom('template.cropImage', 'crop', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
 				ToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
 			}
 			// Add an extract button
-			elseif ($this->type == 'archive')
+			elseif ($this->type === 'archive')
 			{
 				ToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
 
 			// Add a copy template button
-			if ($this->type == 'home')
+			if ($this->type === 'home')
 			{
 				ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 			}
 		}
 
 		// Add a Template preview button
-		if ($this->preview->client_id == 0 && $this->type == 'home')
+		if ($this->preview->client_id === 0 && $this->type === 'home')
 		{
 			$bar->linkButton('preview')
 				->icon('icon-picture')
@@ -276,7 +276,7 @@ class HtmlView extends BaseHtmlView
 		// Only show file manage buttons for global SuperUser
 		if ($isSuperUser)
 		{
-			if ($this->type == 'home')
+			if ($this->type === 'home')
 			{
 				// Add Manage folders button
 				ToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
@@ -286,13 +286,13 @@ class HtmlView extends BaseHtmlView
 			}
 
 			// Add a Rename file Button
-			if ($this->type != 'home')
+			if ($this->type !== 'home')
 			{
 				ToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 			}
 
 			// Add a Delete file Button
-			if ($this->type != 'home')
+			if ($this->type !== 'home')
 			{
 				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
 			}
@@ -303,7 +303,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::custom('template.deleteOverrideHistory', 'delete', 'move', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
 		}
 
-		if ($this->type == 'home')
+		if ($this->type === 'home')
 		{
 			ToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
 		}
