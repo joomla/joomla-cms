@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $form     = $displayData->getForm();
@@ -18,8 +17,6 @@ $options  = array(
 	'formControl' => $form->getFormControl(),
 	'hidden'      => (int) ($form->getValue('language', null, '*') === '*'),
 );
-
-HTMLHelper::_('behavior.core');
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -29,8 +26,12 @@ Text::script('MESSAGE');
 Text::script('JGLOBAL_ASSOC_NOT_POSSIBLE');
 Text::script('JGLOBAL_ASSOCIATIONS_RESET_WARNING');
 
-Factory::getDocument()->addScriptOptions('system.associations.edit', $options);
-HTMLHelper::_('script', 'com_associations/associations-edit.min.js', array('version' => 'auto', 'relative' => true));
+/** @var \Joomla\CMS\Document\HtmlDocument $doc */
+$doc = Factory::getApplication()->getDocument();
+$wa  = $doc->getWebAssetManager();
+$wa->getRegistry()->addExtensionRegistryFile('com_associations');
+$wa->useScript('com_associations.associations-edit');
+$doc->addScriptOptions('system.associations.edit', $options);
 
 // JLayout for standard handling of associations fields in the administrator items edit screens.
 echo $form->renderFieldset('item_associations');
