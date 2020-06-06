@@ -35,7 +35,7 @@ endif;
 				</label>
 				<div class="input-group mb-5 mr-sm-2">
 					<input type="text" value=""
-						   class="form-control-lg" id="comModulesSelectSearch"
+						   class="form-control" id="comModulesSelectSearch"
 						   placeholder="<?= Text::_('JSEARCH_FILTER'); ?>"
 					>
 					<div class="input-group-append" aria-hidden="true">
