@@ -83,7 +83,7 @@
     {
       if (typeof (sessionStorage) !== 'undefined') {
         // Load the search string from session storage
-        elSearch.value = sessionStorage.getItem('Joomla.com_modules.new.search') ?? '';
+        elSearch.value = sessionStorage.getItem('Joomla.com_modules.new.search') || '';
 
         // Trigger the keyboard handler event manually to initiate the search
         elSearch.dispatchEvent(new KeyboardEvent('keyup'));
