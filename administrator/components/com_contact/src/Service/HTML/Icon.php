@@ -141,7 +141,7 @@ class Icon
 		$contactUrl = RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language);
 		$url        = $contactUrl . '&task=contact.edit&id=' . $contact->id . '&return=' . base64_encode($uri);
 
-		if ($contact->published === 0)
+		if ((int) $contact->published === 0)
 		{
 			$overlib = Text::_('JUNPUBLISHED');
 		}
