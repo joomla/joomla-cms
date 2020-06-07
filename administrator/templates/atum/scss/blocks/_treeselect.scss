@@ -57,12 +57,7 @@
     }
 
     li {
-      padding-left: $treeselect-indent;
-
-      [dir=rtl] & {
-        padding-right: $treeselect-indent;
-        padding-left: 0;
-      }
+      padding-inline-start: $treeselect-indent;
     }
   }
 
