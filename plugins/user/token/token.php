@@ -151,8 +151,8 @@ class PlgUserToken extends CMSPlugin
 
 			foreach ($results as $v)
 			{
-				$k                                   =
-					str_replace($this->profileKeyPrefix . '.', '', $v[0]);
+				$k = str_replace($this->profileKeyPrefix . '.', '', $v[0]);
+
 				$data->{$this->profileKeyPrefix}[$k] = $v[1];
 			}
 		} catch (Exception $e)
@@ -168,7 +168,7 @@ class PlgUserToken extends CMSPlugin
 		 * generic and we run the risk of creating naming clashes. Instead, we manipulate the data
 		 * directly.
 		 */
-		if ($context === 'com_users.profile')
+		if (($context === 'com_users.profile') && (Factory::getApplication()->input->get('layout') !== 'edit'))
 		{
 			$pluginData = $data->{$this->profileKeyPrefix};
 			$enabled    = $pluginData['enabled'];
