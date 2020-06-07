@@ -3,39 +3,39 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/**
+ * Add a keyboard event listener to the Select a Module Type search element.
+ *
+ * IMPORTANT! This script is meant to be loaded deferred. This means that a. it's non-blocking
+ * (the browser can load it whenever) and b. it doesn't need an on DOMContentLoaded event handler
+ * because the browser is guaranteed to execute it only after the DOM content has loaded, the
+ * whole point of it being deferred.
+ *
+ * The search box has a keybaord handler that fires every time you press a keyboard button or send
+ * a keypress with a touch / virtual keyboard. We then iterate all module type cards and check if
+ * the plain text (HTML stripped out) representation of the module title or description partially
+ * matches the text you entered in the search box. If it doesn't we add a Bootstrap class to hide
+ * the module.
+ *
+ * This way we limit the displayed modules only to those searched.
+ *
+ * This feature follows progressive enhancement. The search box is hidden by default and only
+ * displayed when this JavaScript here executes. Furthermore, session storage is only used if it
+ * is available in the browser. That's a bit of a pain but makes sure things won't break in older
+ * browsers.
+ *
+ * Furthermore and to facilitate the user experience we auto-focus the search element which has a
+ * suitable title so that non-sighted users are not startled. This way we address both UX concerns
+ * and accessibility.
+ *
+ * Finally, the search string is saved into session storage on the assumption that the user is
+ * probably going to be creating multiple instances of the same module, one after another, as is
+ * typical when building a new Joomla! site.
+ */
 ((document) => {
   'use strict';
 
-  /**
-   * Add a keyboard event listener to the Select a Module Type search element.
-   *
-   * IMPORTANT! This script is meant to be loaded deferred. This means that a. it's non-blocking
-   * (the browser can load it whenever) and b. it doesn't need an on DOMContentLoaded event handler
-   * because the browser is guaranteed to execute it only after the DOM content has loaded, the
-   * whole point of it being deferred.
-   *
-   * The search box has a keybaord handler that fires every time you press a keyboard button or send
-   * a keypress with a touch / virtual keyboard. We then iterate all module type cards and check if
-   * the plain text (HTML stripped out) representation of the module title or description partially
-   * matches the text you entered in the search box. If it doesn't we add a Bootstrap class to hide
-   * the module.
-   *
-   * This way we limit the displayed modules only to those searched.
-   *
-   * This feature follows progressive enhancement. The search box is hidden by default and only
-   * displayed when this JavaScript here executes. Furthermore, session storage is only used if it
-   * is available in the browser. That's a bit of a pain but makes sure things won't break in older
-   * browsers.
-   *
-   * Furthermore and to facilitate the user experience we auto-focus the search element which has a
-   * suitable title so that non-sighted users are not startled. This way we address both UX concerns
-   * and accessibility.
-   *
-   * Finally, the search string is saved into session storage on the assumption that the user is
-   * probably going to be creating multiple instances of the same module, one after another, as is
-   * typical when building a new Joomla! site.
-   */
-    // Make sure the element exists i.e. a template override has not removed it.
+  // Make sure the element exists i.e. a template override has not removed it.
   const elSearch = document.getElementById('comModulesSelectSearch');
   const elSearchContainer = document.getElementById('comModulesSelectSearchContainer');
 
