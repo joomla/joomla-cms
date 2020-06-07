@@ -79,8 +79,7 @@ window.Joomla = window.Joomla || {};
   const lookForField = (outerElement, fieldSelector) => {
     let elInput = null;
 
-    if (!outerElement)
-    {
+    if (!outerElement) {
       return elInput;
     }
 
