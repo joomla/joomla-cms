@@ -13,7 +13,6 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Fields Section
