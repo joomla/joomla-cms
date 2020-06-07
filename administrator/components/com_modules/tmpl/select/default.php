@@ -18,16 +18,47 @@ $app = Factory::getApplication();
 
 $function  = $app->input->getCmd('function');
 
+HTMLHelper::_('script', 'com_modules/admin-module-search.js',
+		[
+				'version' => 'auto', 'relative' => true
+		], [
+				'defer' => true
+		]);
+
 if ($function) :
 	HTMLHelper::_('script', 'com_modules/admin-select-modal.js', ['version' => 'auto', 'relative' => true]);
 endif;
 ?>
 <h2 class="mb-3"><?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?></h2>
+
+<div class="container d-none" id="comModulesSelectSearchContainer">
+	<div class="row">
+		<div class="col-sm-6 offset-sm-2 col-md-4 offset-sm-4 offset-md-5 offset-lg-4">
+			<div class="form-inline">
+				<label class="sr-only" for="comModulesSelectSearch">
+					<?= Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
+				</label>
+				<div class="input-group mb-5 mr-sm-2">
+					<input type="text" value=""
+						   class="form-control" id="comModulesSelectSearch"
+						   placeholder="<?= Text::_('JSEARCH_FILTER'); ?>"
+					>
+					<div class="input-group-append" aria-hidden="true">
+						<div class="input-group-text">
+							<span class="fa fa-search"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div id="new-modules-list">
 	<div class="new-modules">
 		<div class="card-columns">
 			<?php foreach ($this->items as &$item) : ?>
-				<div class="card mb-4">
+				<div class="card mb-4 comModulesSelectCard">
 					<?php // Prepare variables for the link. ?>
 					<?php $link = 'index.php?option=com_modules&task=module.add&client_id=' . $this->state->get('client_id', 0) . $this->modalLink . '&eid=' . $item->extension_id; ?>
 					<?php $name = $this->escape($item->name); ?>
