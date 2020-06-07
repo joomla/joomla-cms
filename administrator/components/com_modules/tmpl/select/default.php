@@ -18,7 +18,7 @@ $app = Factory::getApplication();
 
 $function  = $app->input->getCmd('function');
 
-HTMLHelper::_('script', 'com_modules/admin-module-search.js', ['version' => 'auto', 'relative' => true, 'defer' => 'async']);
+HTMLHelper::_('script', 'com_modules/admin-module-search.js', ['version' => 'auto', 'relative' => true, 'defer' => true]);
 
 if ($function) :
 	HTMLHelper::_('script', 'com_modules/admin-select-modal.js', ['version' => 'auto', 'relative' => true]);
