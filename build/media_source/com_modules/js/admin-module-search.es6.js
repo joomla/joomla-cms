@@ -11,7 +11,7 @@
  * because the browser is guaranteed to execute it only after the DOM content has loaded, the
  * whole point of it being deferred.
  *
- * The search box has a keybaord handler that fires every time you press a keyboard button or send
+ * The search box has a keyboard handler that fires every time you press a keyboard button or send
  * a keypress with a touch / virtual keyboard. We then iterate all module type cards and check if
  * the plain text (HTML stripped out) representation of the module title or description partially
  * matches the text you entered in the search box. If it doesn't we add a Bootstrap class to hide
