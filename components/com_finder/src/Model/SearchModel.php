@@ -236,7 +236,6 @@ class SearchModel extends ListModel
 		{
 			// Get the base query and add the ordering information.
 			$query->select('SUM(' . $db->escape($ordering) . ') AS ordering');
-
 		}
 		/*
 		 * If we are not ordering by relevance, we just have to add
