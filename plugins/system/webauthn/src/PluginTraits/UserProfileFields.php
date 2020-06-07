@@ -69,9 +69,12 @@ trait UserProfileFields
 
 		$credentialRepository = new CredentialRepository;
 		$credentials          = $credentialRepository->getAll(self::$userFromFormData->id);
-		$authenticators       = array_map(function (array $credential) {
-			return $credential['label'];
-		}, $credentials);
+		$authenticators       = array_map(
+			function (array $credential) {
+				return $credential['label'];
+			},
+			$credentials
+		);
 
 		return Text::plural('PLG_SYSTEM_WEBAUTHN_FIELD_N_AUTHENTICATORS_REGISTERED', count($authenticators), implode(', ', $authenticators));
 	}
@@ -129,8 +132,10 @@ trait UserProfileFields
 		}
 
 		// Add the fields to the form.
-		Joomla::log('system',
-			'Injecting WebAuthn Passwordless Login fields in user profile edit page');
+		Joomla::log(
+			'system',
+			'Injecting WebAuthn Passwordless Login fields in user profile edit page'
+		);
 		Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
 		$this->loadLanguage();
 		$form->loadFile('webauthn', false);
