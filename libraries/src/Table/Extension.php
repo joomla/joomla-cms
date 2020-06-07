@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Extension extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
@@ -173,7 +181,7 @@ class Extension extends Table
 		}
 		else
 		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
+			$checkin = ' AND (checked_out IS NULL OR checked_out = ' . (int) $userId . ')';
 		}
 
 		// Update the publishing state for rows with the given primary keys.

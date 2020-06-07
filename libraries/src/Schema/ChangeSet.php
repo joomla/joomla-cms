@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ class ChangeSet
 				$tmpSchemaChangeItem->checkQuery = 'SELECT '
 					. $this->db->quoteName('converted')
 					. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-					. ' WHERE ' . $this->db->quoteName('converted') . ' = 4';
+					. ' WHERE ' . $this->db->quoteName('converted') . ' = 5';
 
 				// Set expected records from check query
 				$tmpSchemaChangeItem->checkQueryExpected = 1;

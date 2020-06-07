@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
+ *
  * @var   boolean $autofocus      Is autofocus enabled?
  * @var   string  $class          Classes for the input.
  * @var   string  $description    Description of the field.
@@ -44,6 +45,8 @@ extract($displayData);
  * @var   array   $inputType      Options available for this field.
  * @var   array   $spellcheck     Options available for this field.
  * @var   string  $accept         File types that are accepted.
+ * @var   string  $dataAttribute  Miscellaneous data attributes preprocessed for HTML output
+ * @var   array   $dataAttributes Miscellaneous data attribute for eg, data-*.
  */
 
 $attributes = [
@@ -57,7 +60,8 @@ $attributes = [
 	isset($step) ? 'step="' . $step . '"' : '',
 	isset($min) ? 'min="' . $min . '"' : '',
 	$required ? 'required' : '',
-	$autofocus ? 'autofocus' : ''
+	$autofocus ? 'autofocus' : '',
+	$dataAttribute,
 ];
 
 ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -117,6 +117,28 @@ class WorkflowsModel extends ListModel
 	}
 
 	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  \JForm|false  the JForm object or false
+	 *
+	 * @since   4.0.0
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form = parent::getFilterForm($data, $loadData);
+
+		if ($form)
+		{
+			$form->setValue('extension', null, $this->getState('filter.extension'));
+		}
+
+		return $form;
+	}
+
+	/**
 	 * Add the number of transitions and states to all workflow items
 	 *
 	 * @param   array  $items  The workflow items
@@ -197,7 +219,6 @@ class WorkflowsModel extends ListModel
 				'w.checked_out_time',
 				'w.ordering',
 				'w.default',
-				'w.core',
 				'w.created_by',
 				'w.description',
 				'u.name'
@@ -217,7 +238,7 @@ class WorkflowsModel extends ListModel
 
 		$status = (string) $this->getState('filter.published');
 
-		// Filter by condition
+		// Filter by status
 		if (is_numeric($status))
 		{
 			$query->where($db->quoteName('w.published') . ' = ' . (int) $status);

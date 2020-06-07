@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,7 +84,7 @@ class FeaturedModel extends ArticlesModel
 		}
 		else
 		{
-			$this->setState('filter.condition', array(ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED));
+			$this->setState('filter.condition', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
 		}
 
 		// Process show_noauth parameter
