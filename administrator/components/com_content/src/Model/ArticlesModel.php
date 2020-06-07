@@ -396,7 +396,7 @@ class ArticlesModel extends ListModel
 
 		// Filter by categories and by level
 		$categoryId = $this->getState('filter.category_id', array());
-		$level = $this->getState('filter.level');
+		$level      = (int) $this->getState('filter.level');
 
 		if (!is_array($categoryId))
 		{
@@ -415,16 +415,23 @@ class ArticlesModel extends ListModel
 				$categoryTable->load($filter_catid);
 				$categoryWhere = '';
 
+				// Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
+				$valuesToBind = [$categoryTable->lft, $categoryTable->rgt];
+
 				if ($level)
 				{
-					$categoryLevel = (int) $level + (int) $categoryTable->level - 1;
-					$categoryWhere = $db->quoteName('c.level') . ' <= :level' . $key . ' AND ';
-					$query->bind(':level' . $key, $categoryLevel, ParameterType::INTEGER);
+					$valuesToBind[] = $level + $categoryTable->level - 1;
 				}
 
-				$categoryWhere .= $db->quoteName('c.lft') . ' >= :lft' . $key . ' AND ' . $db->quoteName('c.rgt') . ' <= :rgt' . $key;
-				$query->bind(':lft' . $key, $categoryTable->lft, ParameterType::INTEGER)
-					->bind(':rgt' . $key, $categoryTable->rgt, ParameterType::INTEGER);
+				// Bind values and get parameter names.
+				$bounded = $query->bindArray($valuesToBind);
+
+				$categoryWhere = $db->quoteName('c.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('c.rgt') . ' <= ' . $bounded[1];
+
+				if ($level)
+				{
+					$categoryWhere .= ' AND ' . $db->quoteName('c.level') . ' <= ' . $bounded[2];
+				}
 
 				$subCatItemsWhere[] = '(' . $categoryWhere . ')';
 			}
