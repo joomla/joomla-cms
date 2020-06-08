@@ -83,6 +83,7 @@ html[dir=rtl] .media-infobar dd {
   margin-right: 0;
   margin-left: auto;
   direction: ltr;
+  text-align: right;
 }
 html[dir=rtl] .media-infobar h2 {
   padding: 20px $gutter-width 10px 0;
