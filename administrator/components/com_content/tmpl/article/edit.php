@@ -62,7 +62,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<div class="row">
 			<div class="col-lg-9">
 				<div>
-					<div class="card-body">
+					<div class="card-body pl-0">
 						<fieldset class="adminform">
 							<?php echo $this->form->getLabel('articletext'); ?>
 							<?php echo $this->form->getInput('articletext'); ?>
@@ -71,7 +71,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 			<div class="col-lg-3">
-				<div class="bg-white px-3">
+				<div class="px-3">
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
 			</div>
