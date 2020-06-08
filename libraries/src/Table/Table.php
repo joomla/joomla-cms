@@ -1311,8 +1311,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = $nullDate === 'NULL' ? null : '';
+		$this->$checkedOutField     = $this->_supportNullValue ? null : 0;
+		$this->$checkedOutTimeField = $this->_supportNullValue ? null : '';
 
 		// Post-processing by observers
 		$event = AbstractEvent::create(

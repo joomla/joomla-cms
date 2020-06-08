@@ -18,7 +18,7 @@ use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
 
-HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
+$this->document->getWebAssetManager()->useScript('joomla.treeselectmenu');
 HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <div class="control-group">
