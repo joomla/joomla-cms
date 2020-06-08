@@ -579,7 +579,7 @@ class PlgUserToken extends CMSPlugin
 
 		try
 		{
-			$siteSecret = Factory::getApplication()->get('secret');
+			$siteSecret = $this->app->get('secret');
 		} catch (\Exception $e)
 		{
 			$siteSecret = '';
