@@ -243,7 +243,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
 				if (!dropdown)
 				{
-					reuturn;
+					return;
 				}
 
 				" . \json_encode($states) . ".forEach((action) => {
