@@ -280,7 +280,7 @@ class PlgUserToken extends CMSPlugin
 		}
 
 		// Remove the Reset field when displaying the user profile form
-		if ($form->getName() == 'com_users.profile')
+		if (($form->getName() === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit'))
 		{
 			$form->removeField('reset', 'joomlatoken');
 		}
