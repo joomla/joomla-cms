@@ -1331,7 +1331,7 @@ ENDDATA;
 
 		if (!empty($disabledFunctions))
 		{
-			// Attempt to detect them in the disable_functions blacklist.
+			// Attempt to detect them in the PHP INI disable_functions variable.
 			$disabledFunctions = explode(',', trim($disabledFunctions));
 			$numberOfDisabledFunctions = count($disabledFunctions);
 
