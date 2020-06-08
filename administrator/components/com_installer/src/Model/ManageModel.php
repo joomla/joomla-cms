@@ -373,34 +373,12 @@ class ManageModel extends InstallerModel
 				->bind(':folder', $folder);
 		}
 
+		// Filter by core extensions.
 		if ($core === '1' || $core === '0')
 		{
-			$coreExtensions = ExtensionHelper::getCoreExtensions();
-			$where          = [];
-
-			$subQuery = $db->getQuery(true)
-				->select($db->quoteName('extension_id'))
-				->from($db->quoteName('#__extensions'));
-
-			foreach ($coreExtensions as $extension)
-			{
-				// Bind values and get parameter names.
-				$bounded = $query->bindArray(
-					$extension,
-					[ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]
-				);
-
-				// Select core extension IDs.
-				$subQuery->where(
-					'(' . $db->quoteName('type') . ' = ' . $bounded[0] . ' AND ' . $db->quoteName('element') . ' = ' . $bounded[1]
-					. ' AND ' . $db->quoteName('folder') . ' = ' . $bounded[2] . ' AND ' . $db->quoteName('client_id') . ' = ' . $bounded[3] . ')',
-					'OR'
-				);
-			}
-
-			// Filter by core extension IDs.
-			$operator = $core === '1' ? ' IN ' : ' NOT IN ';
-			$query->where($db->quoteName('extension_id') . $operator . '(' . $subQuery . ')');
+			$coreExtensionIds = ExtensionHelper::getCoreExtensionIds();
+			$method = $core === '1' ? 'whereIn' : 'whereNotIn';
+			$query->$method($db->quoteName('extension_id'), $coreExtensionIds);
 		}
 
 		// Process search filter (extension id).
