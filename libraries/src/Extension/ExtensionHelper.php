@@ -388,7 +388,6 @@ class ExtensionHelper
 		self::$coreExtensionIds = $db->loadColumn();
 
 		return self::$coreExtensionIds;
-
 	}
 
 	/**
