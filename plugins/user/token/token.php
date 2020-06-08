@@ -168,7 +168,7 @@ class PlgUserToken extends CMSPlugin
 		 * generic and we run the risk of creating naming clashes. Instead, we manipulate the data
 		 * directly.
 		 */
-		if (($context === 'com_users.profile') && (Factory::getApplication()->input->get('layout') !== 'edit'))
+		if (($context === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit'))
 		{
 			$pluginData = $data->{$this->profileKeyPrefix};
 			$enabled    = $pluginData['enabled'];
