@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 $this->document->getWebAssetManager()
-	->registerAndUseStyle('com_finder', 'com_finder/finder.css')
-	->registerAndUseScript('com_finder', 'com_finder/finder.js', [], ['defer' => true], ['core']);
+	->useStyle('com_finder.finder')
+	->useScript('com_finder.finder');
 
 ?>
 <div class="com-finder finder">

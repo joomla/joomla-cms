@@ -45,7 +45,8 @@ else
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
-$wa->registerAndUseScript('com_finder', 'com_finder/finder.js', [], ['defer' => true]);
+$wa->getRegistry()->addExtensionRegistryFile('com_finder');
+$wa->useScript('com_finder.finder');
 
 Text::script('MOD_FINDER_SEARCH_VALUE', true);
 
