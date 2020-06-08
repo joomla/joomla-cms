@@ -320,6 +320,10 @@ class ExtensionHelper
 		array('plugin', 'templates', 'webservices', 0),
 		array('plugin', 'users', 'webservices', 0),
 
+		// Core plugin extensions - workflow
+		array('plugin', 'featuring', 'workflow', 0),
+		array('plugin', 'notification', 'workflow', 0),
+		array('plugin', 'publishing', 'workflow', 0),
 
 		// Core template extensions - administrator
 		array('template', 'atum', '', 1),
