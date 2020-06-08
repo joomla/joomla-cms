@@ -15,8 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Database\ParameterType;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Message Table class
