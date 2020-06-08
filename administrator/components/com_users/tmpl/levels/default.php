@@ -113,7 +113,7 @@ if ($saveOrder && !empty($this->items))
 								</td>
 								<th scope="row">
 									<?php if ($canEdit) : ?>
-									<a href="<?php echo Route::_('index.php?option=com_users&task=level.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_users&task=level.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
 										<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
