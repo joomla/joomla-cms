@@ -16,9 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Core content table
