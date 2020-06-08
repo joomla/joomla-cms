@@ -26,8 +26,8 @@ $input = Factory::getApplication()->input;
 $wa->useScript('form.validate')
 	->useScript('keepalive')
 	->useScript('diff')
-	->registerAndUseScript('templates.admin-template-compare', 'com_templates/admin-template-compare.min.js', [], ['defer' => true], ['diff', 'core'])
-	->registerAndUseScript('templates.admin-template-toggle-switch', 'com_templates/admin-template-toggle-switch.min.js', [], ['defer' => true], ['core']);
+	->useScript('com_templates.admin-template-compare')
+	->useScript('com_templates.admin-template-toggle-switch');
 
 // No access if not global SuperUser
 if (!Factory::getUser()->authorise('core.admin'))
@@ -40,8 +40,8 @@ if ($this->type == 'image')
 	$wa->usePreset('cropperjs');
 }
 
-$wa->registerAndUseStyle('templates.admin-templates-default', 'com_templates/admin-templates-default.css')
-	->registerAndUseScript('templates.admin-templates-default', 'com_templates/admin-templates-default.min.js', [], ['defer' => true], ['core']);
+$wa->useStyle('com_templates.admin-templates')
+	->useScript('com_templates.admin-templates');
 
 if ($this->type == 'font')
 {
