@@ -1375,11 +1375,11 @@ ENDDATA;
 			]
 		)
 			->from($db->quoteName('#__extensions', 'ex'))
-			->where($db->quoteName('ex.package_id') . ' = 0');
+			->where($db->quoteName('ex.package_id') . ' = 0')
+			->whereNotIn($db->quoteName('ex.extension_id'), ExtensionHelper::getCoreExtensionIds());
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		$rows = array_filter($rows, self::class . '::isNonCoreExtension');
 
 		foreach ($rows as $extension)
 		{
@@ -1391,31 +1391,6 @@ ENDDATA;
 		}
 
 		return $rows;
-	}
-
-	/**
-	 * Checks if extension is non core extension.
-	 *
-	 * @param   object  $extension  The extension to be checked
-	 *
-	 * @return  bool  true if extension is not a core extension
-	 *
-	 * @since   4.0.0
-	 */
-	private static function isNonCoreExtension($extension)
-	{
-		$coreExtensions = ExtensionHelper::getCoreExtensions();
-
-		foreach ($coreExtensions as $coreExtension)
-		{
-			if ($coreExtension[1] == $extension->element)
-			{
-				return false;
-			}
-		}
-
-		return true;
-
 	}
 
 	/**

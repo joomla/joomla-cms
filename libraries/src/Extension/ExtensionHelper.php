@@ -333,6 +333,14 @@ class ExtensionHelper
 	);
 
 	/**
+	 * Array of core extension IDs.
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected static $coreExtensionIds;
+
+	/**
 	 * Gets the core extensions.
 	 *
 	 * @return  array  Array with core extensions.
@@ -344,6 +352,42 @@ class ExtensionHelper
 	public static function getCoreExtensions()
 	{
 		return self::$coreExtensions;
+	}
+
+	/**
+	 * Returns an array of core extension IDs.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	public static function getCoreExtensionIds()
+	{
+		if (self::$coreExtensionIds !== null)
+		{
+			return self::$coreExtensionIds;
+		}
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'));
+
+		foreach (self::$coreExtensions as $extension)
+		{
+			$values = $query->bindArray($extension, [ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]);
+			$query->where(
+				'(' . $db->quoteName('type') . ' = ' . $values[0] . ' AND ' . $db->quoteName('element') . ' = ' . $values[1]
+				. ' AND ' . $db->quoteName('folder') . ' = ' . $values[2] . ' AND ' . $db->quoteName('client_id') . ' = ' . $values[3] . ')',
+				'OR'
+			);
+		}
+
+		$db->setQuery($query);
+		self::$coreExtensionIds = $db->loadColumn();
+
+		return self::$coreExtensionIds;
 	}
 
 	/**
