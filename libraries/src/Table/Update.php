@@ -12,7 +12,6 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Registry\Registry;
 
 /**
  * Update table
