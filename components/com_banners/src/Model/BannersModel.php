@@ -218,6 +218,7 @@ class BannersModel extends ListModel
 						$valuesToBind[] = $regexp;
 					}
 
+					// Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
 					$bounded = $query->bindArray($valuesToBind, ParameterType::STRING);
 
 					$condition1 = $db->quoteName('a.own_prefix') . ' = 1'
