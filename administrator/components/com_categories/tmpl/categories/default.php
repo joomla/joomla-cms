@@ -29,7 +29,6 @@ $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $parts     = explode('.', $extension, 2);
 $component = $parts[0];
 $section   = null;
-$status    = $component === 'com_content' ? 'condition' : 'published';
 
 if (count($parts) > 1)
 {
@@ -206,25 +205,25 @@ if ($saveOrder && !empty($this->items))
 									</th>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 										<td class="text-center btns d-none d-md-table-cell itemnumber">
-											<a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[' . $status . ']=1&filter[level]=1'); ?>">
+											<a class="btn <?php echo ($item->count_published > 0) ? 'btn-success' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1&filter[level]=1'); ?>">
 												<?php echo $item->count_published; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 										<td class="text-center btns d-none d-md-table-cell itemnumber">
-											<a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[' . $status . ']=0&filter[level]=1'); ?>">
+											<a class="btn <?php echo ($item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0&filter[level]=1'); ?>">
 												<?php echo $item->count_unpublished; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 										<td class="text-center btns d-none d-md-table-cell itemnumber">
-											<a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[' . $status . ']=2&filter[level]=1'); ?>">
+											<a class="btn <?php echo ($item->count_archived > 0) ? 'btn-info' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2&filter[level]=1'); ?>">
 												<?php echo $item->count_archived; ?></a>
 										</td>
 									<?php endif; ?>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 										<td class="text-center btns d-none d-md-table-cell itemnumber">
-											<a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[' . $status . ']=-2&filter[level]=1'); ?>">
+											<a class="btn <?php echo ($item->count_trashed > 0) ? 'btn-dark' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2&filter[level]=1'); ?>">
 												<?php echo $item->count_trashed; ?></a>
 										</td>
 									<?php endif; ?>
