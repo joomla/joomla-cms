@@ -360,6 +360,7 @@ class ExtensionHelper
 	 * @return  array
 	 *
 	 * @since   4.0.0
+	 * @throws  \RuntimeException
 	 */
 	public static function getCoreExtensionIds()
 	{
