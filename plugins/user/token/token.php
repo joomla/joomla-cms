@@ -595,7 +595,7 @@ class PlgUserToken extends CMSPlugin
 		$tokenHash = hash_hmac($algorithm, $rawToken, $siteSecret);
 		$message   = base64_encode("$algorithm:$userId:$tokenHash");
 
-		if ($userId !== Factory::getUser()->id)
+		if ($userId !== $this->app->getIdentity()->id)
 		{
 			$message = '';
 		}
