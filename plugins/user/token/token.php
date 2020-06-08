@@ -324,11 +324,12 @@ class PlgUserToken extends CMSPlugin
 		if (!isset($data[$this->profileKeyPrefix]))
 		{
 			/**
-			 * Is the user being saved programmatically, without passing the user profile information? In this case I
-			 * do not want to accidentally try to generate a new token!
+			 * Is the user being saved programmatically, without passing the user profile
+			 * information? In this case I do not want to accidentally try to generate a new token!
 			 *
-			 * We determine that by examining whether the FOF token field exists. If it does but it wasn't passed when
-			 * saving the user I know it's a programmatic user save and I have to ignore it.
+			 * We determine that by examining whether the Joomla token field exists. If it does but
+			 * it wasn't passed when saving the user I know it's a programmatic user save and I have
+			 * to ignore it.
 			 */
 			if ($this->hasTokenProfileFields($userId))
 			{
