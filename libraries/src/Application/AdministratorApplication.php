@@ -114,9 +114,14 @@ class AdministratorApplication extends CMSApplication
 				$this->set('themeParams', $template->params);
 
 				// Add Asset registry files
-				$document->getWebAssetManager()->getRegistry()
-					->addExtensionRegistryFile($component)
-					->addTemplateRegistryFile($template->template, $this->getClientId());
+				$wr = $document->getWebAssetManager()->getRegistry();
+
+				if ($component)
+				{
+					$wr->addExtensionRegistryFile($component);
+				}
+
+				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
 
