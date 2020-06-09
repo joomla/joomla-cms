@@ -11,6 +11,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
+// Check permissions.
+if (!$app->getIdentity()->authorise('core.admin.login') || !$app->getIdentity()->authorise('core.manage', 'com_messages'))
+{
+	return;
+}
+
 // Try to get the items from the messages model
 try
 {
