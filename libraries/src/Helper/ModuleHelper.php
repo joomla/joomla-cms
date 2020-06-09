@@ -725,7 +725,7 @@ abstract class ModuleHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function createDummyModule(string $name = ''): \StdClass
+	protected static function createDummyModule(string $name = ''): \stdClass
 	{
 		$module            = new \stdClass;
 		$module->id        = 0;
