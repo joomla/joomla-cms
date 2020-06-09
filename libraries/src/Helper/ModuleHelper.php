@@ -64,7 +64,8 @@ abstract class ModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if ($result === null && strpos($name, 'mod_') === 0)
 		{
-			$result = static::createDummyModule($name);
+			$result = static::createDummyModule();
+			$result->module = $name;
 		}
 
 		return $result;
@@ -719,18 +720,16 @@ abstract class ModuleHelper
 	/**
 	 * Method to create a dummy module.
 	 *
-	 * @param   string  $name  Optional module type with mod_ prefix
-	 *
 	 * @return  \stdClass  The Module object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function createDummyModule(string $name = ''): \stdClass
+	protected static function createDummyModule(): \stdClass
 	{
 		$module            = new \stdClass;
 		$module->id        = 0;
 		$module->title     = '';
-		$module->module    = $name;
+		$module->module    = '';
 		$module->position  = '';
 		$module->content   = '';
 		$module->showtitle = 0;
