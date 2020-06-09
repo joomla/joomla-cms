@@ -15,9 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.combobox');
-HTMLHelper::_('behavior.keepalive');
 
 $hasContent = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
@@ -38,7 +36,12 @@ Text::script('JALL');
 Text::script('JTRASHED');
 
 $this->document->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
-HTMLHelper::_('script', 'com_modules/admin-module-edit.min.js', array('version' => 'auto', 'relative' => true));
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_modules.admin-module-edit');
 
 $input = Factory::getApplication()->input;
 

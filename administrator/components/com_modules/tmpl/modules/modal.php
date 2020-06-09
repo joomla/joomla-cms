@@ -21,11 +21,9 @@ if (Factory::getApplication()->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-// Load needed scripts
-HTMLHelper::_('behavior.core');
-
-// Scripts for the modules xtd-button
-HTMLHelper::_('script', 'com_modules/admin-modules-modal.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_modules.admin-modules-modal');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
