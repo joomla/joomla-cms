@@ -97,21 +97,26 @@ defined('_JEXEC') or die;
 		</h3>
 			<?php
 			$compatibilityTypes = array(
-					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS" => "label-default",
-					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE" => "label-success",
-					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPGRADES_TO_BE_COMPATIBLE" => "label-warning",
-					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION" => "label-important",
-					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_JOOMLA_UPDATE_SYSTEM_NOT_SUPPORTED" => "label-important"
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS" => array('class' => "label-default", 'notes' => "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES"),
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE" => array('class' => "label-success", 'notes' => "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE_NOTES"),
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPGRADES_TO_BE_COMPATIBLE" =>  array('class' => "label-warning", 'notes' => "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPGRADES_TO_BE_COMPATIBLE_NOTES"),
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION" =>  array('class' => "label-important", 'notes' => "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION_NOTES"),
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_JOOMLA_UPDATE_SYSTEM_NOT_SUPPORTED" =>  array('class' => "label-important", 'notes' => "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_JOOMLA_UPDATE_SYSTEM_NOT_SUPPORTED_NOTES"),
 			);
 			$compatibilityTypeCount = 0;
-			foreach ($compatibilityTypes as $compatibilityType => $compatibilityDisplayClass)
+			foreach ($compatibilityTypes as $compatibilityType => $compatibilityData)
 			{
+				$compatibilityDisplayClass = $compatibilityData['class'];
+				$compatibilityDisplayNotes = $compatibilityData['notes'];
 				?>
 				<fieldset id="compatibilitytype<?php echo $compatibilityTypeCount;?>" class="span12 compatibilitytypes">
 					<legend class="label <?php echo $compatibilityDisplayClass;?>">
 						<h3><?php echo JText::_($compatibilityType); ?></h3>
 					</legend>
-						<table class="table">
+					<div class="compatibilityNotes">
+						<?php echo JText::_($compatibilityDisplayNotes); ?>
+					</div>
+					<table class="table">
 							<thead>
 							<tr>
 								<th>
