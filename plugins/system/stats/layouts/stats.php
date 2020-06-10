@@ -24,7 +24,7 @@ $versionFields = array('php_version', 'db_version', 'cms_version');
 <table class="table mb-1 d-none" id="js-pstats-data-details">
 	<?php foreach ($statsData as $key => $value) : ?>
 	<tr>
-		<td><strong><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></strong></td>
+		<th scope="row"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></th>
 		<td><?php echo in_array($key, $versionFields) ? (preg_match('/\d+(?:\.\d+)+/', $value, $matches) ? $matches[0] : $value) : $value; ?></td>
 	</tr>
 	<?php endforeach; ?>
