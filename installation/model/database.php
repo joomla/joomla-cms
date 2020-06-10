@@ -162,7 +162,7 @@ class InstallationModelDatabase extends JModelBase
 		$localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';
 		
 		// Check the security file if now switched off and the db_host is not one of the allowed hosts
-		if ($shouldCheckLocalhost && if (preg_match($localhost, $options->db_host) !== 1))
+		if ($shouldCheckLocalhost && preg_match($localhost, $options->db_host) !== 1)
 		{
 			$remoteDbFileTestsPassed = JFactory::getSession()->get('remoteDbFileTestsPassed', false);
 
