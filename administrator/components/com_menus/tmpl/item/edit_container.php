@@ -18,9 +18,8 @@ $menuLinks = MenusHelper::getMenuLinks('main');
 
 HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_container.css', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_menus/admin-item-edit_container.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
-HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+$this->document->getWebAssetManager()->useScript('joomla.treeselectmenu');
 ?>
-
 <div id="menuselect-group" class="control-group">
 	<div class="control-label"><?php echo $this->form->getLabel('hideitems', 'params'); ?></div>
 

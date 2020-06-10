@@ -69,7 +69,13 @@ class PlgContentContact extends CMSPlugin
 			return;
 		}
 
-		$contact        = $this->getContactData($row->created_by);
+		$contact = $this->getContactData($row->created_by);
+
+		if ($contact === null)
+		{
+			return;
+		}
+
 		$row->contactid = $contact->contactid;
 		$row->webpage   = $contact->webpage;
 		$row->email     = $contact->email_to;
@@ -98,7 +104,7 @@ class PlgContentContact extends CMSPlugin
 	 *
 	 * @param   int  $created_by  Id of the user who created the contact
 	 *
-	 * @return  mixed|null|integer
+	 * @return  stdClass|null  Object containing contact details or null if not found
 	 */
 	protected function getContactData($created_by)
 	{

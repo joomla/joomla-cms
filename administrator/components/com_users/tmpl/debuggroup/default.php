@@ -52,7 +52,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row0">
 							<td scope="row">
-								<?php echo $this->escape($item->title); ?>
+								<?php echo $this->escape(Text::_($item->title)); ?>
 							</td>
 							<td>
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>

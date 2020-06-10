@@ -247,7 +247,7 @@ class HtmlView extends AbstractView
 	 *
 	 * @return  mixed  The escaped value.
 	 *
-	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
+	 * @note the ENT_COMPAT flag was replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
 	 *
 	 * @since   3.0
 	 */

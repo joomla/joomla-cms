@@ -164,7 +164,7 @@ class DatabaseModel extends BaseInstallationModel
 						'user'     => $options->db_user,
 						'password' => $options->db_pass_plain,
 						'prefix'   => $options->db_prefix,
-						'select'   => $options->db_select,
+						'select'   => false,
 						DatabaseHelper::getEncryptionSettings($options),
 					);
 				}
@@ -178,7 +178,7 @@ class DatabaseModel extends BaseInstallationModel
 						'password' => $options->db_pass_plain,
 						'database' => 'postgres',
 						'prefix'   => $options->db_prefix,
-						'select'   => $options->db_select,
+						'select'   => false,
 						DatabaseHelper::getEncryptionSettings($options),
 					);
 				}
