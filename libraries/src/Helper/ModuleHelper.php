@@ -63,15 +63,8 @@ abstract class ModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if ($result === null && strpos($name, 'mod_') === 0)
 		{
-			$result            = new \stdClass;
-			$result->id        = 0;
-			$result->title     = '';
-			$result->module    = $name;
-			$result->position  = '';
-			$result->content   = '';
-			$result->showtitle = 0;
-			$result->control   = '';
-			$result->params    = '';
+			$result = static::createDummyModule();
+			$result->module = $name;
 		}
 
 		return $result;
@@ -108,7 +101,7 @@ abstract class ModuleHelper
 		{
 			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
-				$result[0] = static::getModule('mod_' . $position);
+				$result[0] = static::createDummyModule();
 				$result[0]->title = $position;
 				$result[0]->position = $position;
 			}
@@ -684,16 +677,30 @@ abstract class ModuleHelper
 		}
 
 		// If we didn't find it, create a dummy object
-		$result            = new \stdClass;
-		$result->id        = 0;
-		$result->title     = '';
-		$result->module    = '';
-		$result->position  = '';
-		$result->content   = '';
-		$result->showtitle = 0;
-		$result->control   = '';
-		$result->params    = '';
+		$result = static::createDummyModule();
 
 		return $result;
+	}
+
+	/**
+	 * Method to create a dummy module.
+	 *
+	 * @return  \stdClass  The Module object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function createDummyModule(): \stdClass
+	{
+		$module            = new \stdClass;
+		$module->id        = 0;
+		$module->title     = '';
+		$module->module    = '';
+		$module->position  = '';
+		$module->content   = '';
+		$module->showtitle = 0;
+		$module->control   = '';
+		$module->params    = '';
+
+		return $module;
 	}
 }
