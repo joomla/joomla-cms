@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 
 // Check permissions.
-if (!$app->getIdentity()->authorise('core.admin.login') || !$app->getIdentity()->authorise('core.manage', 'com_messages'))
+if (!$app->getIdentity()->authorise('core.login.admin') || !$app->getIdentity()->authorise('core.manage', 'com_messages'))
 {
 	return;
 }
