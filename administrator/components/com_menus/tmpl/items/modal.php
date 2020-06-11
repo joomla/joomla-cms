@@ -24,8 +24,9 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_menus.admin-items-modal');
 
 $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');

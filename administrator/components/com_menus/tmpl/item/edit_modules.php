@@ -13,16 +13,17 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-HTMLHelper::_('behavior.core');
-
 foreach ($this->levels as $key => $value)
 {
 	$allLevels[$value->id] = $value->title;
 }
 
 $this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
-HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_modules.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_menus/admin-item-edit_modules.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useStyle('com_menus.admin-item-edit-modules')
+	->useScript('com_menus.admin-item-edit-modules');
 
 // Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(
