@@ -122,7 +122,7 @@ class PlgSampledataBlog extends CMSPlugin
 		// Create workflow
 		$workflowTable = new \Joomla\Component\Workflow\Administrator\Table\WorkflowTable($this->db);
 
-		$workflowTable->default =  0;
+		$workflowTable->default = 0;
 		$workflowTable->title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TITLE');
 		$workflowTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_DESCRIPTION');
 		$workflowTable->published = 1;
@@ -160,8 +160,8 @@ class PlgSampledataBlog extends CMSPlugin
 			// Set values which are always the same.
 			$stageTable->id  = 0;
 			$stageTable->published  = 1;
-			$stageTable->ordering =  0;
-			$stageTable->default =  $i == 1 ? 1 : 0;
+			$stageTable->ordering = 0;
+			$stageTable->default = $i == 1 ? 1 : 0;
 			$stageTable->workflow_id = $workflowId;
 
 			if (!$stageTable->store())
@@ -192,11 +192,12 @@ class PlgSampledataBlog extends CMSPlugin
 				'publishing'  => 0,
 				'featuring' => 0,
 				'notification_send_mail' => false,
-			]);
+			]
+		);
 
 		$fromTo = array(
 			array(
-				// idea to copy write
+				// Idea to copy write
 				'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
 				'to_stage_id' 	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
 				'options' => $defaultOptions,
@@ -214,13 +215,13 @@ class PlgSampledataBlog extends CMSPlugin
 				'options' => $defaultOptions,
 			),
 			array(
-				//  Fact Check to revision
+				// Fact Check to revision
 				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE4_TITLE')],
 				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
 				'options' => $defaultOptions,
 			),
 			array(
-				//  Edit article - revision to copy writer
+				// Edit article - revision to copy writer
 				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
 				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
 				'options' => $defaultOptions,
@@ -275,13 +276,13 @@ class PlgSampledataBlog extends CMSPlugin
 			$trTable->options = $fromTo[$i]['options'];
 
 			// Set values from language strings.
-			$trTable->title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i+1) . '_TITLE');
-			$trTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i+1) . '_DESCRIPTION');
+			$trTable->title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_TITLE');
+			$trTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i + 1) . '_DESCRIPTION');
 
 			// Set values which are always the same.
 			$trTable->id = 0;
-			$trTable->published= 1;
-			$trTable->ordering =  0;
+			$trTable->published = 1;
+			$trTable->ordering = 0;
 			$trTable->workflow_id = $workflowId;
 
 			if (!$trTable->store())
