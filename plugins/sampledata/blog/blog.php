@@ -241,7 +241,7 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
-				// all to on Hold
+				// All to on Hold
 				'from_stage_id'	=> -1,
 				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
 				'options' => json_encode(
