@@ -221,8 +221,8 @@ $ignoredFieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associ
 		<?php endif; ?>
 		<fieldset>
 			<legend><?php echo JText::_($fieldset->label); ?></legend>
-				<?php $this->fieldset = $fieldset->name; ?>
-				<?php echo JLayoutHelper::render('joomla.edit.fieldset', $this); ?>
+			<?php $this->fieldset = $fieldset->name; ?>
+			<?php echo JLayoutHelper::render('joomla.edit.fieldset', $this); ?>
 		</fieldset>
 	<?php endforeach; ?>
 
