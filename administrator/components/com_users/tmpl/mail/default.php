@@ -33,12 +33,14 @@ $comUserParams = ComponentHelper::getParams('com_users');
 					<fieldset class="adminform">
 						<div class="form-group">
 							<?php echo $this->form->getLabel('subject'); ?>
-							<?php if (!empty($comUserParams->get('mailSubjectPrefix'))) : ?>
-								<span class="input-group-prepend">
-									<span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
-								</span>
-							<?php endif; ?>
-							<?php echo $this->form->getInput('subject'); ?>
+							<span class="input-group">
+								<?php if (!empty($comUserParams->get('mailSubjectPrefix'))) : ?>
+									<span class="input-group-prepend">
+										<span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
+									</span>
+								<?php endif; ?>
+								<?php echo $this->form->getInput('subject'); ?>
+							</span>
 						</div>
 						<div class="form-group">
 							<?php echo $this->form->getLabel('message'); ?>
