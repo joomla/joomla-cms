@@ -155,7 +155,7 @@ abstract class Adapter extends CMSPlugin
 		}
 
 		// Get the indexer object
-		$this->indexer = Indexer::getInstance();
+		$this->indexer = new Indexer;
 	}
 
 	/**

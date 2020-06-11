@@ -139,7 +139,14 @@ class SearchesModel extends ListModel
 
 		foreach ($items as $item)
 		{
-			$item->query = unserialize($item->query);
+			if (is_resource($item->query))
+			{
+				$item->query = unserialize(stream_get_contents($item->query));
+			}
+			else
+			{
+				$item->query = unserialize($item->query);
+			}
 		}
 
 		return $items;

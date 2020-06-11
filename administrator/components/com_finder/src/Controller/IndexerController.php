@@ -257,7 +257,8 @@ class IndexerController extends BaseController
 		try
 		{
 			// Optimize the index
-			Indexer::getInstance()->optimize();
+			$indexer = new Indexer;
+			$indexer->optimize();
 
 			// Get the indexer state.
 			$state = Indexer::getState();
