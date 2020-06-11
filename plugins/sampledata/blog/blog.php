@@ -253,7 +253,7 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
-				// all to trash
+				// All to trash
 				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
 				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE8_TITLE')],
 				'options' => json_encode(
