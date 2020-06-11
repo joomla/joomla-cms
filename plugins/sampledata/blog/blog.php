@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Database\ParameterType;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -100,7 +101,8 @@ class PlgSampledataBlog extends CMSPlugin
 			return;
 		};
 
-		if (!ComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content'))
+		if (!ComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content')
+			|| !ComponentHelper::isEnabled('com_workflow') || !Factory::getUser()->authorise('core.create', 'com_workflow'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -116,6 +118,182 @@ class PlgSampledataBlog extends CMSPlugin
 		// Detect language to be used.
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+
+		// Create workflow
+		$workflowTable = new \Joomla\Component\Workflow\Administrator\Table\WorkflowTable($this->db);
+
+		$workflowTable->default =  0;
+		$workflowTable->title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TITLE');
+		$workflowTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_DESCRIPTION');
+		$workflowTable->published = 1;
+		$workflowTable->access = $access;
+		$workflowTable->created_user_id = $user->id;
+		$workflowTable->extension = 'com_content.article';
+
+		if (!$workflowTable->store())
+		{
+			Factory::getLanguage()->load('com_content');
+			$response            = array();
+			$response['success'] = false;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($stageTable->getError()));
+
+			return $response;
+		}
+
+		// Get ID from workflow we just added
+		$query = $this->db->getQuery(true);
+
+		$query->select('MAX(' . $this->db->quoteName('id') . ')')
+			->from($this->db->quoteName('#__workflows'));
+
+		$workflowId = $this->db->setQuery($query)->loadResult();
+
+		// Create Stages.
+		for ($i = 1; $i <= 8; $i++)
+		{
+			$stageTable = new \Joomla\Component\Workflow\Administrator\Table\StageTable($this->db);
+
+			// Set values from language strings.
+			$stageTable->title  = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE' . $i . '_TITLE');
+			$stageTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE' . $i . '_DESCRIPTION');
+
+			// Set values which are always the same.
+			$stageTable->id  = 0;
+			$stageTable->published  = 1;
+			$stageTable->ordering =  0;
+			$stageTable->default =  $i == 1 ? 1 : 0;
+			$stageTable->workflow_id = $workflowId;
+
+			if (!$stageTable->store())
+			{
+				Factory::getLanguage()->load('com_content');
+				$response            = array();
+				$response['success'] = false;
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($stageTable->getError()));
+
+				return $response;
+			}
+		}
+
+		// Get the stage Ids of the new stages
+		$query = $this->db->getQuery(true);
+
+		$query->select([$this->db->quoteName('title'), $this->db->quoteName('id')])
+			->from($this->db->quoteName('#__workflow_stages'))
+			->where($this->db->quoteName('workflow_id') . ' = :workflow_id')
+			->bind(':workflow_id', $workflowId, ParameterType::INTEGER);
+
+		$stages = $this->db->setQuery($query)->loadAssocList('title', 'id');
+
+		// Prepare Transitions
+
+		$defaultOptions = json_encode(
+			[
+				'publishing'  => 0,
+				'featuring' => 0,
+				'notification_send_mail' => false,
+			]);
+
+		$fromTo = array(
+			array(
+				// idea to copy write
+				'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
+				'to_stage_id' 	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
+				'options' => $defaultOptions,
+			),
+			array(
+				// Copy write to graphic design
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE3_TITLE')],
+				'options' => $defaultOptions,
+			),
+			array(
+				// Graphic design to Fact Check
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE3_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE4_TITLE')],
+				'options' => $defaultOptions,
+			),
+			array(
+				//  Fact Check to revision
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE4_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
+				'options' => $defaultOptions,
+			),
+			array(
+				//  Edit article - revision to copy writer
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
+				'options' => $defaultOptions,
+			),
+			array(
+				// Revision to published and featured
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
+				'options' => json_encode(
+					array(
+						'publishing'  => 1,
+						'featuring' => 1,
+						'notification_send_mail' => true,
+						'notification_text' => 'Congratulations!',
+						'notification_groups' => ["7"]
+					)
+				),
+			),
+			array(
+				// all to on Hold
+				'from_stage_id'	=> -1,
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
+				'options' => json_encode(
+					array(
+						'publishing'  => 2,
+						'featuring' => 0,
+						'notification_send_mail' => false,
+					)
+				),
+			),
+			array(
+				// all to trash
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE8_TITLE')],
+				'options' => json_encode(
+					array(
+						'publishing'  => -2,
+						'featuring' => 0,
+						'notification_send_mail' => false,
+					)
+				),
+			),
+		);
+
+		// Create Transitions.
+		for ($i = 0; $i < count($fromTo); $i++)
+		{
+			$trTable = new \Joomla\Component\Workflow\Administrator\Table\TransitionTable($this->db);
+
+			$trTable->from_stage_id = $fromTo[$i]['from_stage_id'];
+			$trTable->to_stage_id = $fromTo[$i]['to_stage_id'];
+			$trTable->options = $fromTo[$i]['options'];
+
+			// Set values from language strings.
+			$trTable->title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i+1) . '_TITLE');
+			$trTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TRANSITION' . ($i+1) . '_DESCRIPTION');
+
+			// Set values which are always the same.
+			$trTable->id = 0;
+			$trTable->published= 1;
+			$trTable->ordering =  0;
+			$trTable->workflow_id = $workflowId;
+
+			if (!$trTable->store())
+			{
+				Factory::getLanguage()->load('com_content');
+				$response            = array();
+				$response['success'] = false;
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($trTable->getError()));
+
+				return $response;
+			}
+		}
 
 		// Create "blog" category.
 		$categoryModel = $this->app->bootComponent('com_categories')
