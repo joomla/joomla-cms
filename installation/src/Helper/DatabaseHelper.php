@@ -383,15 +383,11 @@ abstract class DatabaseHelper
 		// Security check for remote db hosts: Check env var if disabled
 		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
 
-		// Per Default allowed DB Hosts
-		$localhost = array(
-			'localhost',
-			'127.0.0.1',
-			'::1',
-		);
+		// Per default allowed DB hosts: localhost / 127.0.0.1 / ::1 (optionally with port)
+		$localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';
 
 		// Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-		if ($shouldCheckLocalhost && !in_array($options->db_host, $localhost))
+		if ($shouldCheckLocalhost && preg_match($localhost, $options->db_host) !== 1)
 		{
 			$remoteDbFileTestsPassed = Factory::getSession()->get('remoteDbFileTestsPassed', false);
 
