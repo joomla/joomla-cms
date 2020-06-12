@@ -141,15 +141,10 @@ class PlgSampledataBlog extends CMSPlugin
 		}
 
 		// Get ID from workflow we just added
-		$query = $this->db->getQuery(true);
-
-		$query->select('MAX(' . $this->db->quoteName('id') . ')')
-			->from($this->db->quoteName('#__workflows'));
-
-		$workflowId = $this->db->setQuery($query)->loadResult();
+		$workflowId = $workflowTable->id;
 
 		// Create Stages.
-		for ($i = 1; $i <= 8; $i++)
+		for ($i = 1; $i <= 9; $i++)
 		{
 			$stageTable = new \Joomla\Component\Workflow\Administrator\Table\StageTable($this->db);
 
@@ -243,7 +238,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// All to on Hold
 				'from_stage_id'	=> -1,
-				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE8_TITLE')],
 				'options' => json_encode(
 					array(
 						'publishing'  => 2,
@@ -253,9 +248,9 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
-				// All to trash
+				// Idea to trash
 				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
-				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE8_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
 				'options' => json_encode(
 					array(
 						'publishing'  => -2,
@@ -263,6 +258,12 @@ class PlgSampledataBlog extends CMSPlugin
 						'notification_send_mail' => false,
 					)
 				),
+			),
+			array(
+				// On Hold to Idea (Re-activate an idea)
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
+				'options' => $defaultOptions,
 			),
 		);
 
