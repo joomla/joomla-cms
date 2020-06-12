@@ -11,13 +11,10 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -254,7 +251,7 @@ class SetConfigurationCommand extends AbstractCommand
 			'All options you want to set'
 		);
 
-		$help = "The <info>%command.name%</info> 
+		$help = "The <info>%command.name%</info>
 				Sets a value for a configuration option
 				\nUsage: <info>php %command.full_name%</info> <option>=<value>";
 
