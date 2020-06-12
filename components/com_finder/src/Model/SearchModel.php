@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +91,15 @@ class SearchModel extends ListModel
 		foreach ($items as $rk => $row)
 		{
 			// Build the result object.
-			$result = unserialize($row->object);
+			if (is_resource($row->object))
+			{
+				$result = unserialize(stream_get_contents($row->object));
+			}
+			else
+			{
+				$result = unserialize($row->object);
+			}
+
 			$result->cleanURL = $result->route;
 
 			// Add the result back to the stack.
@@ -124,10 +132,6 @@ class SearchModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		// Get the current user for authorisation checks
-		$user = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -142,7 +146,9 @@ class SearchModel extends ListModel
 
 		$query->from('#__finder_links AS l');
 
-		$query->where('l.access IN (' . $groups . ')')
+		$user = Factory::getUser();
+		$groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
+		$query->whereIn($db->quoteName('l.access'), $groups)
 			->where('l.state = 1')
 			->where('l.published = 1');
 
@@ -174,7 +180,7 @@ class SearchModel extends ListModel
 			// Iterate through each taxonomy group.
 			for ($i = 0, $c = count($groups); $i < $c; $i++)
 			{
-				$query->having('SUM(t.node_id IN (' . implode(',', $groups[$i]) . ')) > 0');
+				$query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $groups[$i]) . ') THEN 1 ELSE 0 END) > 0');
 			}
 		}
 
@@ -280,6 +286,7 @@ class SearchModel extends ListModel
 			// Since we need to return a query, we simplify this one.
 			$query->clear('join')
 				->clear('where')
+				->clear('bounded')
 				->clear('having')
 				->clear('group')
 				->where('false');
@@ -310,7 +317,7 @@ class SearchModel extends ListModel
 			{
 				if (count($terms))
 				{
-					$query->having('SUM(m.term_id IN (' . implode(',', $terms) . ')) > 0');
+					$query->having('SUM(CASE WHEN m.term_id IN (' . implode(',', $terms) . ') THEN 1 ELSE 0 END) > 0');
 				}
 				else
 				{

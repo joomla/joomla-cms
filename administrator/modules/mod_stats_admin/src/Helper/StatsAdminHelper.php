@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,7 +119,7 @@ class StatsAdminHelper
 				$rows[$i]->title = Text::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
-				$rows[$i]->link  = Route::_('index.php?option=com_content&view=articles&filter[condition]=1');
+				$rows[$i]->link  = Route::_('index.php?option=com_content&view=articles&filter[published]=1');
 				$i++;
 			}
 		}

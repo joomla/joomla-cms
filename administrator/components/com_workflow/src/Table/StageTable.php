@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -207,7 +207,11 @@ class StageTable extends Table
 		$workflow = new WorkflowTable($this->getDbo());
 		$workflow->load($this->workflow_id);
 
-		return $workflow->extension . '.stage.' . (int) $this->$k;
+		$parts = explode('.', $workflow->extension);
+
+		$extension = array_shift($parts);
+
+		return $extension . '.stage.' . (int) $this->$k;
 	}
 
 	/**
@@ -235,9 +239,16 @@ class StageTable extends Table
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
 		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+
 		$workflow = new WorkflowTable($this->getDbo());
 		$workflow->load($this->workflow_id);
-		$name = $workflow->extension . '.workflow.' . (int) $workflow->id;
+
+		$parts = explode('.', $workflow->extension);
+
+		$extension = array_shift($parts);
+
+		$name = $extension . '.workflow.' . (int) $workflow->id;
+
 		$asset->loadByName($name);
 		$assetId = $asset->id;
 

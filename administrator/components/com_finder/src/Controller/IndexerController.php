@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -257,7 +257,8 @@ class IndexerController extends BaseController
 		try
 		{
 			// Optimize the index
-			Indexer::getInstance()->optimize();
+			$indexer = new Indexer;
+			$indexer->optimize();
 
 			// Get the indexer state.
 			$state = Indexer::getState();

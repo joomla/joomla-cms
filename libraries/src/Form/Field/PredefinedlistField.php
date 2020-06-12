@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ abstract class PredefinedlistField extends ListField
 	 * Allows to use only specific values of the predefined list
 	 *
 	 * @var  array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $optionsFilter = [];
 
@@ -71,7 +71,7 @@ abstract class PredefinedlistField extends ListField
 	 * @return  boolean  True on success.
 	 *
 	 * @see     \Joomla\CMS\Form\FormField::setup()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
