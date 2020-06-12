@@ -449,7 +449,7 @@ abstract class Bootstrap
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="card mb-2' . $class . '">'
+		$html = '<div class="card' . $class . '">'
 			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
 			. $text
 			. '</a>'

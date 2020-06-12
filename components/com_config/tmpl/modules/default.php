@@ -174,7 +174,7 @@ if (Multilanguage::isEnabled())
 					</div>
 
 					<?php if ($editorText) : ?>
-						<div class="tab-pane" id="custom">
+						<div class="mt-2" id="custom">
 							<?php echo $this->form->getInput('content'); ?>
 						</div>
 					<?php endif; ?>
