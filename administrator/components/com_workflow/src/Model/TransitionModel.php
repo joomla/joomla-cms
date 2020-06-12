@@ -259,6 +259,18 @@ class TransitionModel extends AdminModel
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
+		if (!empty($item->workflow_id))
+		{
+			$data['workflow_id'] = (int) $item->workflow_id;
+		}
+
+		if (empty($data['workflow_id']))
+		{
+			$context = $this->option . '.' . $this->name;
+
+			$data['workflow_id'] = (int) Factory::getApplication()->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+		}
+
 		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $data['workflow_id'];
 		$where .= ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
 
