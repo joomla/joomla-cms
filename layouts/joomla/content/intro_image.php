@@ -31,7 +31,7 @@ $images  = json_decode($displayData->images);
 				 itemprop="thumbnailUrl"
 			>
 		<?php endif; ?>
-		<?php if ($images->image_intro_caption !== '') : ?>
+		<?php if (isset($images->image_intro_caption) && $images->image_intro_caption !== '') : ?>
 			<figcaption class="caption"><?php echo htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
 		<?php endif; ?>
 	</figure>
