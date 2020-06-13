@@ -36,7 +36,7 @@ class PlgUserToken extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -44,7 +44,7 @@ class PlgUserToken extends CMSPlugin
 	/**
 	 * Database object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  4.0.0
 	 */
 	protected $db;
