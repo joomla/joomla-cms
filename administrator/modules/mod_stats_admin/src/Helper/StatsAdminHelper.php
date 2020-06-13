@@ -38,6 +38,8 @@ class StatsAdminHelper
 	 */
 	public static function getStats(Registry $params, CMSApplication $app, DatabaseInterface $db)
 	{
+		$user = $app->getIdentity();
+
 		$rows  = array();
 		$query = $db->getQuery(true);
 
@@ -103,7 +105,7 @@ class StatsAdminHelper
 				$items = false;
 			}
 
-			if ($users)
+			if ($users && $user->authorise('core.PR an', 'com_users'))
 			{
 				$rows[$i]        = new \stdClass;
 				$rows[$i]->title = Text::_('MOD_STATS_USERS');
