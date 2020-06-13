@@ -25,9 +25,7 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect');
+HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
