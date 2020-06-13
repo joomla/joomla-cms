@@ -153,8 +153,8 @@ class PlgSampledataBlog extends CMSPlugin
 			$stageTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE' . $i . '_DESCRIPTION');
 
 			// Set values which are always the same.
-			$stageTable->id  = 0;
-			$stageTable->published  = 1;
+			$stageTable->id = 0;
+			$stageTable->published = 1;
 			$stageTable->ordering = 0;
 			$stageTable->default = $i == 1 ? 1 : 0;
 			$stageTable->workflow_id = $workflowId;
