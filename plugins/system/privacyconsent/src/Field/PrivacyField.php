@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\PrivacyConsent\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
@@ -101,6 +102,20 @@ class PrivacyField extends RadioField
 		if ($privacyMenuItem && Factory::getApplication()->isClient('site'))
 		{
 			$link = 'index.php?Itemid=' . $privacyMenuItem;
+
+			if (Multilanguage::isEnabled())
+			{
+				$db    = Factory::getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName(['id', 'language']))
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('id') . ' = :id')
+					->bind(':id', $privacyMenuItem, ParameterType::INTEGER);
+				$db->setQuery($query);
+				$menuItem = $db->loadObject();
+
+				$link .= '&lang=' . $menuItem->language;
+			}
 		}
 
 		$extraData = [

@@ -15,9 +15,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Consentbox Field class for the Confirm Consent Plugin.
@@ -314,6 +316,7 @@ class ConsentBoxField extends CheckboxesField
 	private function getAssignedMenuItemUrl()
 	{
 		$itemId = $this->menuItemId;
+		$languageSuffix = '';
 
 		if ($itemId > 0 && Associations::isEnabled())
 		{
@@ -324,10 +327,24 @@ class ConsentBoxField extends CheckboxesField
 			{
 				$itemId = $privacyAssociated[$currentLang]->id;
 			}
+
+			if (Multilanguage::isEnabled())
+			{
+				$db    = Factory::getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName(['id', 'language']))
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('id') . ' = :id')
+					->bind(':id', $itemId, ParameterType::INTEGER);
+				$db->setQuery($query);
+				$menuItem = $db->loadObject();
+
+				$languageSuffix = '&lang=' . $menuItem->language;
+			}
 		}
 
 		return Route::_(
-			'index.php?Itemid=' . (int) $itemId . '&tmpl=component'
+			'index.php?Itemid=' . (int) $itemId . '&tmpl=component' . $languageSuffix
 		);
 	}
 }
