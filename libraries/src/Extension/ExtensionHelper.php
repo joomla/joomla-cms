@@ -297,12 +297,12 @@ class ExtensionHelper
 		array('plugin', 'yubikey', 'twofactorauth', 0),
 
 		// Core plugin extensions - user
+		array('plugin', 'atum', 'user', 0),
 		array('plugin', 'contactcreator', 'user', 0),
 		array('plugin', 'joomla', 'user', 0),
 		array('plugin', 'profile', 'user', 0),
 		array('plugin', 'terms', 'user', 0),
 		array('plugin', 'token', 'user', 0),
-		array('plugin', 'atum', 'user', 0),
 
 		// Core plugin extensions - webservices
 		array('plugin', 'banners', 'webservices', 0),
