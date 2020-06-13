@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -41,6 +40,14 @@ class PlgSystemScheduler extends JobsPlugin
 	protected $autoloadLanguage = false;
 
 	/**
+	 * Database object
+	 *
+	 * @var    \Jooomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * The scheduler is triggered after the response is sent.
 	 *
 	 * @return  void
@@ -50,19 +57,18 @@ class PlgSystemScheduler extends JobsPlugin
 	 */
 	public function onAfterRespond()
 	{
-		if (!Factory::getApplication()->isClient('site'))
+		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
 
 		$startTime = microtime(true);
 		$this->snapshot['startTime'] = microtime(true);
-		$app = Factory::getApplication();
 
 		// WebCron check
 		if ($this->params->get('webcron', 0))
 		{
-			$webcronkey = $app->input->get('webcronkey', '', 'cmd');
+			$webcronkey = $this->app->input->get('webcronkey', '', 'cmd');
 
 			if ($webcronkey !== $this->params->get('webcronkey', ''))
 			{
@@ -128,11 +134,11 @@ class PlgSystemScheduler extends JobsPlugin
 		PluginHelper::importPlugin('actionlog');
 
 		// Trigger the ExecuteTask event
-		$results = Factory::getApplication()->triggerEvent('onExecuteScheduledTask', [false]);
+		$results = $this->app->triggerEvent('onExecuteScheduledTask', [false]);
 
 		foreach ($results as $result)
 		{
-			Factory::getApplication()->triggerEvent('onAfterJob', [$result]);
+			$this->app->triggerEvent('onAfterJob', [$result]);
 		}
 
 		return $results;
