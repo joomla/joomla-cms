@@ -184,7 +184,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		$defaultOptions = json_encode(
 			[
-				'publishing'  => 0,
+				'publishing' => 0,
 				'featuring' => 0,
 				'notification_send_mail' => false,
 			]
