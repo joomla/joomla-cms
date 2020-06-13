@@ -501,7 +501,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		if (empty($stage_ids) || !$table)
 		{
-			return true;
+			return false;
 		}
 
 		$query = $db->getQuery(true);
