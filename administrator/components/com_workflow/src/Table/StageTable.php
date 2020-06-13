@@ -188,8 +188,8 @@ class StageTable extends Table
 	}
 
 	/**
-	 * Method to bind an associative array or object to the Table instance.This
-	 * method only binds properties that are publicly accessible and optionally
+	 * Method to bind an associative array or object to the Table instance.
+	 * This method only binds properties that are publicly accessible and optionally
 	 * takes an array of properties to ignore when binding.
 	 *
 	 * @param   array|object  $src     An associative array or object to bind to the Table instance.
