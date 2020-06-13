@@ -155,7 +155,8 @@ class PlgUserToken extends CMSPlugin
 
 				$data->{$this->profileKeyPrefix}[$k] = $v[1];
 			}
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			// We suppress any database error. It means we get no token saved by default.
 		}
@@ -230,7 +231,7 @@ class PlgUserToken extends CMSPlugin
 
 		if (is_array($data))
 		{
-			$data = (object)$data;
+			$data = (object) $data;
 		}
 
 		// Check if the user belongs to an allowed user group
@@ -461,7 +462,8 @@ class PlgUserToken extends CMSPlugin
 			$query->bind(':profileKey', $profileKey, ParameterType::STRING);
 
 			$db->setQuery($query)->execute();
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			// Do nothing.
 		}
@@ -509,7 +511,8 @@ class PlgUserToken extends CMSPlugin
 			$query->bind(':userId', $userId, ParameterType::INTEGER);
 
 			return $db->setQuery($query)->loadResult();
-		} catch (Exception $e)
+		}
+		catch (Exception $e)
 		{
 			return null;
 		}
@@ -583,7 +586,7 @@ class PlgUserToken extends CMSPlugin
 	 * @since   4.0.0
 	 */
 	private function getTokenForDisplay(int $userId, string $tokenSeed,
-										string $algorithm = 'sha256'): string
+		string $algorithm = 'sha256'): string
 	{
 		if (empty($tokenSeed))
 		{
@@ -593,7 +596,8 @@ class PlgUserToken extends CMSPlugin
 		try
 		{
 			$siteSecret = $this->app->get('secret');
-		} catch (\Exception $e)
+		}
+		catch (\Exception $e)
 		{
 			$siteSecret = '';
 		}
