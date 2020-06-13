@@ -86,7 +86,8 @@ if ($saveOrder)
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.stage.' . $item->id);
 								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || is_null($item->checked_out);
-								$canChange  = $user->authorise('core.edit.stage', $this->extension . '.stage.' . $item->id) && $canCheckin;
+								$canChange  = $user->authorise('core.edit.state', $this->extension . '.stage.' . $item->id) && $canCheckin;
+
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">

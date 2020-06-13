@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
@@ -42,8 +43,6 @@ class WorkflowTable extends Table
 		$this->typeAlias = '{extension}.workflow';
 
 		parent::__construct('#__workflows', 'id', $db);
-
-		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -59,25 +58,20 @@ class WorkflowTable extends Table
 	 */
 	public function delete($pk = null)
 	{
-		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
-		}
-
 		$db  = $this->getDbo();
 		$app = Factory::getApplication();
 
 		// Gets the workflow information that is going to be deleted.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'title')))
+			->select($db->quoteName('default'))
 			->from($db->quoteName('#__workflows'))
 			->where($db->quoteName('id') . ' = ' . (int) $pk);
-		$db->setQuery($query);
-		$workflow = $db->loadResult();
 
-		if ($workflow->default)
+		$isDefault = $db->setQuery($query)->loadResult();
+
+		if ($isDefault)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $workflow->title), 'error');
+			$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
 
 			return false;
 		}
@@ -88,20 +82,20 @@ class WorkflowTable extends Table
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_stages'))
 				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+
+			$db->setQuery($query)->execute();
 
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
 				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
-			$db->setQuery($query);
-			$db->execute();
+
+			$db->setQuery($query)->execute();
 
 			return parent::delete($pk);
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $workflow->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $e->getMessage()), 'error');
 
 			return false;
 		}
@@ -154,12 +148,16 @@ class WorkflowTable extends Table
 				->from($db->quoteName('#__workflows'))
 				->where($db->quoteName('default') . '= 1');
 
-			$state = $db->setQuery($query)->loadObject();
+			$id = $db->setQuery($query)->loadResult();
 
-			if (empty($state) || $state->id === $this->id)
+			// If there is no default workflow => set the current to default to recover
+			if (empty($id))
 			{
 				$this->default = '1';
-
+			}
+			// This workflow is the default, but someone has tried to disable it => not allowed
+			elseif ($id === $this->id)
+			{
 				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
 				return false;
@@ -228,6 +226,31 @@ class WorkflowTable extends Table
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Method to bind an associative array or object to the Table instance.
+	 * This method only binds properties that are publicly accessible and optionally
+	 * takes an array of properties to ignore when binding.
+	 *
+	 * @param   array|object  $src     An associative array or object to bind to the Table instance.
+	 * @param   array|string  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   4.0.0
+	 * @throws  \InvalidArgumentException
+	 */
+	public function bind($src, $ignore = array())
+	{
+		// Bind the rules.
+		if (isset($src['rules']) && \is_array($src['rules']))
+		{
+			$rules = new Rules($src['rules']);
+			$this->setRules($rules);
+		}
+
+		return parent::bind($src, $ignore);
 	}
 
 	/**

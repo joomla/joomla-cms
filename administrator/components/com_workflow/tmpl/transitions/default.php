@@ -31,11 +31,11 @@ $isCore = $this->workflow->core;
 
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
+	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension) . '&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
 ?>
-<form action="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension)); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="col-md-2">
@@ -87,7 +87,7 @@ if ($saveOrder)
 						</thead>
 						<tbody class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>">
 							<?php foreach ($this->transitions as $i => $item):
-								$edit = Route::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
+								$edit = Route::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->workflow->extension));
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.transition.' . $item->id) && !$isCore;
 								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || $item->checked_out == 0;
@@ -186,7 +186,7 @@ if ($saveOrder)
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
 				<input type="hidden" name="workflow_id" value="<?php echo (int) $this->workflowID ?>">
-				<input type="hidden" name="extension" value="<?php echo $this->extension ?>">
+				<input type="hidden" name="extension" value="<?php echo $this->escape($this->workflow->extension); ?>">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>

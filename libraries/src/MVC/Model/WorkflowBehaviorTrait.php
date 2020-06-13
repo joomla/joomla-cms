@@ -301,7 +301,9 @@ trait WorkflowBehaviorTrait
 
 		if (!$result)
 		{
-			$this->setError(Text::_('COM_CONTENT_ERROR_UPDATE_STAGE'));
+			$app = Factory::getApplication();
+
+			$app->enqueueMessage(Text::_('COM_CONTENT_ERROR_UPDATE_STAGE', $app::MSG_WARNING));
 
 			return false;
 		}
