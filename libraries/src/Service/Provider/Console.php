@@ -15,6 +15,8 @@ use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
+use Joomla\CMS\Console\JobListCommand;
+use Joomla\CMS\Console\SchedulerCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -165,6 +167,24 @@ class Console implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new UpdateCoreCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			SchedulerCommand::class,
+			function (Container $container)
+			{
+				return new SchedulerCommand;
+			},
+			true
+		);
+
+		$container->share(
+			JobListCommand::class,
+			function (Container $container)
+			{
+				return new JobListCommand($container->get('db'));
 			},
 			true
 		);
