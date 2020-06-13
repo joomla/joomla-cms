@@ -580,13 +580,16 @@ class PlgUserToken extends CMSPlugin
 	/**
 	 * Returns the token formatted suitably for the user to copy.
 	 *
-	 * @param   string  $tokenSeed  The token seed data stored in the database
+	 * @param   integer  $userId     The user id for token
+	 * @param   string   $tokenSeed  The token seed data stored in the database
+	 * @param   string   $algorithm  The hashing algorithm to use for the token (default: sha256)
 	 *
 	 * @return  string
 	 * @since   4.0.0
 	 */
 	private function getTokenForDisplay(int $userId, string $tokenSeed,
-		string $algorithm = 'sha256'): string
+		string $algorithm = 'sha256'
+	): string
 	{
 		if (empty($tokenSeed))
 		{
