@@ -21,6 +21,14 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgUserAtum extends CMSPlugin
 {
 	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * Adds additional fields to the user editing form
 	 *
 	 * @param   Form   $form  The form to be altered.
@@ -33,7 +41,13 @@ class PlgUserAtum extends CMSPlugin
 	public function onContentPrepareForm(Form $form, $data)
 	{
 		// Check we are manipulating the correct form.
-		if (!in_array($form->getName(), ['com_admin.profile', 'com_users.user'], true))
+		if (!in_array($form->getName(), ['com_admin.profile', 'com_users.user', 'com_users.profile'], true))
+		{
+			return true;
+		}
+
+		// Check if user can login to backend.
+		if (!$this->app->getIdentity()->authorise('core.login.admin'))
 		{
 			return true;
 		}
