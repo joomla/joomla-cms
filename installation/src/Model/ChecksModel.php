@@ -36,7 +36,7 @@ class ChecksModel extends BaseInstallationModel
 
 		if (!empty($disabled_functions))
 		{
-			// Attempt to detect them in the disable_functions blacklist.
+			// Attempt to detect them in the PHP INI disable_functions variable.
 			$disabled_functions = explode(',', trim($disabled_functions));
 			$number_of_disabled_functions = count($disabled_functions);
 

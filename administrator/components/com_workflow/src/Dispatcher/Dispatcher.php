@@ -33,7 +33,7 @@ class Dispatcher extends ComponentDispatcher
 		$parts = explode('.', $extension);
 
 		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage', $parts[0]))
+		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.manage.workflow', $parts[0]))
 		{
 			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}

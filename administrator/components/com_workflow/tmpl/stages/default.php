@@ -86,7 +86,8 @@ if ($saveOrder)
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.stage.' . $item->id);
 								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || is_null($item->checked_out);
-								$canChange  = $user->authorise('core.edit.stage', $this->extension . '.stage.' . $item->id) && $canCheckin;
+								$canChange  = $user->authorise('core.edit.state', $this->extension . '.stage.' . $item->id) && $canCheckin;
+
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">
@@ -121,7 +122,7 @@ if ($saveOrder)
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'stages.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
-											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
+											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(Text::_($item->title)); ?>">
 												<?php echo $this->escape(Text::_($item->title)); ?>
 											</a>
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>

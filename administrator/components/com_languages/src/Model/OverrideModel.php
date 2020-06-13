@@ -152,9 +152,9 @@ class OverrideModel extends AdminModel
 		}
 
 		// Return false if the constant is a reserved word, i.e. YES, NO, NULL, FALSE, ON, OFF, NONE, TRUE
-		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+		$reservedWords = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
 
-		if (in_array($data['key'], $blacklist))
+		if (in_array($data['key'], $reservedWords))
 		{
 			$this->setError(Text::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
 

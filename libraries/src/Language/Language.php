@@ -821,7 +821,7 @@ class Language
 		}
 
 		// Initialise variables for manually parsing the file for common errors.
-		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+		$reservedWord = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
 		$debug = $this->getDebug();
 		$this->debug = false;
 		$errors = array();
@@ -871,10 +871,10 @@ class Language
 				continue;
 			}
 
-			// Check that the key is not in the blacklist.
+			// Check that the key is not in the reserved constants list.
 			$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
 
-			if (\in_array($key, $blacklist))
+			if (\in_array($key, $reservedWord))
 			{
 				$errors[] = $realNumber;
 			}
