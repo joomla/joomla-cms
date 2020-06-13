@@ -262,7 +262,11 @@ class TransitionModel extends AdminModel
 		{
 			$context = $this->option . '.' . $this->name;
 
-			$data['workflow_id'] = (int) Factory::getApplication()->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+			$data['workflow_id'] = (int) Factory::getApplication()->getUserStateFromRequest(
+				$context . '.filter.workflow_id', 'workflow_id',
+				0,
+				'int'
+			);
 		}
 
 		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $data['workflow_id'];
