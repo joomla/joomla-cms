@@ -74,6 +74,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		$this->loggableApi        = $params->get('loggable_api', 0);
 
 		$this->loggableVerbs      = $params->get('loggable_verbs', []);
+
+		$this->loggableJob        = $params->get('loggable_job', 0);
 	}
 
 	/**
@@ -1110,6 +1112,42 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'url'         => htmlspecialchars(urldecode($this->app->get('uri.route')), ENT_QUOTES, 'UTF-8'),
 		);
-		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_API', $context, $user->id);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_API', 'webservices', $user->id);
+	}
+
+	/**
+	 * After the scheduled execution run logging method
+	 *
+	 * Method is called after job is executed.
+	 * This method logs the execution of the job.
+	 *
+	 * @param   array    $info     Holds the job data.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAfterJob($info = []) :void
+	{
+
+		if (!$this->loggableJob)
+		{
+			return;
+		}
+
+		if ($info['status'] === 1)
+		{
+			return;
+		}
+
+		$message = array(
+			'action'   => 'jobs',
+			'type'     => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'eid'      => $info['eid'],
+			'job'      => $info['job'],
+			'duration' => $info['duration'],
+			'status'   => $info['status'],
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_PLUGIN_JOB', 'job', 0);
 	}
 }
