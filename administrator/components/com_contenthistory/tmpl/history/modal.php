@@ -17,6 +17,8 @@ use Joomla\CMS\Session\Session;
 
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
+HTMLHelper::_('behavior.multiselect');
+
 $input          = Factory::getApplication()->input;
 $field          = $input->getCmd('field');
 $function       = 'jSelectContenthistory_' . $field;
@@ -38,8 +40,7 @@ Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect')
-	->useScript('com_contenthistory.admin-history-modal');
+$wa->useScript('com_contenthistory.admin-history-modal');
 
 ?>
 <div class="container-popup">
