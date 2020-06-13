@@ -81,12 +81,29 @@ class WorkflowModel extends AdminModel
 	 */
 	public function save($data)
 	{
+		$table             = $this->getTable();
 		$app               = Factory::getApplication();
+		$user              = $app->getIdentity();
 		$input             = $app->input;
 		$context           = $this->option . '.' . $this->name;
 		$extension         = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
 		$data['extension'] = !empty($data['extension']) ? $data['extension'] : $extension;
-		$data['asset_id']  = 0;
+
+		// Make sure we use the correct extension when editing an existing workflow
+		$key = $table->getKeyName();
+		$pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+
+			$data['extension'] = $table->extension;
+		}
+
+		if (isset($data['rules']) && !$user->authorise('core.admin', $data['extension']))
+		{
+			unset($data['rules']);
+		}
 
 		if ($input->get('task') == 'save2copy')
 		{
@@ -101,6 +118,7 @@ class WorkflowModel extends AdminModel
 
 			// Unpublish new copy
 			$data['published'] = 0;
+			$data['default'] = 0;
 		}
 
 		$result = parent::save($data);
@@ -152,29 +170,25 @@ class WorkflowModel extends AdminModel
 			return false;
 		}
 
-		if ($loadData)
-		{
-			$data = $this->loadFormData();
-		}
+		$id = $data['id'] ?? $form->getValue('id');
 
-		$item = $this->getItem($form->getValue('id'));
+		$item = $this->getItem($id);
 
-		// Deactivate switcher if default
-		// Use $item, otherwise we'll be locked when we get the data from the request
-		if (!empty($item->default))
-		{
-			$form->setFieldAttribute('default', 'readonly', 'true');
-		}
+		$canEditState = $this->canEditState((object) $item);
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data))
+		if (!$canEditState || !empty($item->default))
 		{
-			// Disable fields for display.
-			$form->setFieldAttribute('published', 'disabled', 'true');
+			if (!$canEditState)
+			{
+				$form->setFieldAttribute('published', 'disabled', 'true');
+				$form->setFieldAttribute('published', 'required', 'false');
+				$form->setFieldAttribute('published', 'filter', 'unset');
+			}
 
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('published', 'filter', 'unset');
+			$form->setFieldAttribute('default', 'disabled', 'true');
+			$form->setFieldAttribute('default', 'required', 'false');
+			$form->setFieldAttribute('default', 'filter', 'unset');
 		}
 
 		$form->setFieldAttribute('created', 'default', Factory::getDate()->format('Y-m-d H:i:s'));
@@ -227,7 +241,6 @@ class WorkflowModel extends AdminModel
 
 		// Set the access control rules field component value.
 		$form->setFieldAttribute('rules', 'component', $extension);
-		$form->setFieldAttribute('rules', 'section', 'workflow');
 
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -262,7 +275,7 @@ class WorkflowModel extends AdminModel
 	{
 		$table = $this->getTable();
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			if ($table->published !== 1)
 			{
@@ -270,6 +283,13 @@ class WorkflowModel extends AdminModel
 
 				return false;
 			}
+		}
+
+		if (empty($table->id) || !$this->canEditState($table))
+		{
+			Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+			return false;
 		}
 
 		$date = Factory::getDate()->toSql();
@@ -285,7 +305,7 @@ class WorkflowModel extends AdminModel
 			}
 		}
 
-		if ($table->load(array('id' => $pk)))
+		if ($table->load($pk))
 		{
 			$table->modified = $date;
 			$table->default  = $value;

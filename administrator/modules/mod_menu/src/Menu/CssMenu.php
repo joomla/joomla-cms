@@ -378,7 +378,7 @@ class CssMenu
 				{
 					$parts = explode('.', $query['extension']);
 
-					$workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled');
+					$workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled') && $user->authorise('core.manage.workflow', $parts[0]);
 				}
 
 				if (!$workflow)
