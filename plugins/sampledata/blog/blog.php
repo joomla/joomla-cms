@@ -144,7 +144,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$workflowId = $workflowTable->id;
 
 		// Create Stages.
-		for ($i = 1; $i <= 9; $i++)
+		for ($i = 1; $i <= 8; $i++)
 		{
 			$stageTable = new \Joomla\Component\Workflow\Administrator\Table\StageTable($this->db);
 
