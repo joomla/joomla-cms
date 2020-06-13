@@ -302,6 +302,7 @@ class ExtensionHelper
 		array('plugin', 'profile', 'user', 0),
 		array('plugin', 'terms', 'user', 0),
 		array('plugin', 'token', 'user', 0),
+		array('plugin', 'atum', 'user', 0),
 
 		// Core plugin extensions - webservices
 		array('plugin', 'banners', 'webservices', 0),
