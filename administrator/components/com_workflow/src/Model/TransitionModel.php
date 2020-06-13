@@ -134,16 +134,10 @@ class TransitionModel extends AdminModel
 	public function save($data)
 	{
 		$table      = $this->getTable();
-		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 		$app		= Factory::getApplication();
 		$user       = $app->getIdentity();
 		$input		= $app->input;
-
-		if ($pk > 0)
-		{
-			$isNew = false;
-		}
 
 		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
