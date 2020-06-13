@@ -22,6 +22,8 @@ use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
+use Joomla\CMS\Console\JobListCommand;
+use Joomla\CMS\Console\SchedulerCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -157,6 +159,8 @@ class Application implements ServiceProviderInterface
 						ExtensionRemoveCommand::getDefaultName()    => ExtensionRemoveCommand::class,
 						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
 						UpdateCoreCommand::getDefaultName()         => UpdateCoreCommand::class,
+						JobListCommand::getDefaultName()            => JobListCommand::class,
+						SchedulerCommand::getDefaultName()          => SchedulerCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);
