@@ -361,7 +361,8 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, 1, '', '{}', 0, 0),
 (0, 'plg_workflow_featuring', 'plugin', 'featuring', 'workflow', 0, 1, 1, 0, 1, '', '{}', 0, 0),
 (0, 'plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, 1, '', '{}', 0, 0),
-(0, 'plg_content_imagelazyload', 'plugin', 'imagelazyload', 'content', 0, 0, 1, 0, 1, '', '{}', 0, 0);
+(0, 'plg_content_imagelazyload', 'plugin', 'imagelazyload', 'content', 0, 0, 1, 0, 1, '', '{}', 0, 0),
+(0, 'plg_system_scheduler', 'plugin', 'scheduler', 'system', 0, 1, 1, 0, 1, '', '{"timeout":"3","webcron":"0","webcronkey":"mywebcronactivationkey","lastrun":"0","unit":"60","taskid":"0"}', 0, 0);
 
 -- Templates
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `ordering`, `state`) VALUES
@@ -1162,3 +1163,9 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`
 (5, 62, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}'),
 (6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}'),
 (7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}');
+
+CREATE TABLE IF NOT EXISTS `#__jobs` (
+  `element` varchar(100) NOT NULL,
+  `folder` varchar(100) NOT NULL,
+  PRIMARY KEY (`element`, `folder`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
