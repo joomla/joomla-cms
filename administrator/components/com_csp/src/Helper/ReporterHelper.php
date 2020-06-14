@@ -44,6 +44,8 @@ class ReporterHelper
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
 		return $result;
@@ -72,6 +74,8 @@ class ReporterHelper
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
 		return boolval($result);
@@ -101,6 +105,8 @@ class ReporterHelper
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
 		return boolval($result);
@@ -130,6 +136,8 @@ class ReporterHelper
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
 		return boolval($result);
