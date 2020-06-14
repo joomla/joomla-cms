@@ -119,7 +119,7 @@ class ReporterHelper
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__csp'))
-			->where($db->quoteName('blocked_uri'). ' = ' . $db->quote("'unsafe-eval'"))
+			->where($db->quoteName('blocked_uri') . ' = ' . $db->quote("'unsafe-eval'"))
 			->where($db->quoteName('published') . ' = ' . $db->quote('1'));
 		$db->setQuery($query);
 
