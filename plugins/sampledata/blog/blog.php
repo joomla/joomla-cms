@@ -325,7 +325,7 @@ class PlgSampledataBlog extends CMSPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '{}',
+			'params'          => '{"workflow_id":"' . $workflowId . '"}',
 		);
 
 		try
