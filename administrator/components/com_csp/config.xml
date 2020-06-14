@@ -13,9 +13,8 @@
 		</field>
 		<field
 			name="contentsecuritypolicy_client"
-			type="radio"
+			type="list"
 			label="COM_CSP_CONTENTSECURITYPOLICY_CLIENT"
-			class="col-md-12"
 			default="site"
 			validate="options"
 			showon="contentsecuritypolicy:1"
