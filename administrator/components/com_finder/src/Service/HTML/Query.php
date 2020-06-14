@@ -11,8 +11,8 @@ namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Finder\Administrator\Indexer\Query as IndexerQuery;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Query as IndexerQuery;
 
 \defined('_JEXEC') or die;
 

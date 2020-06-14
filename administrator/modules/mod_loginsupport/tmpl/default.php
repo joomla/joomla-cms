@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
 ?>
 <section class="loginsupport">
 	<p><?php echo Text::_('MOD_LOGINSUPPORT_HEADLINE'); ?></p>

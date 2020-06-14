@@ -13,7 +13,6 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
