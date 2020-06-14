@@ -10,9 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Form\Field\SubformField;
-
 /**
  * The Field to load the form inside current form
  *
@@ -166,7 +163,7 @@ class AccessiblemediaField extends SubformField
 		$xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset 
+	<fieldset
 		name="accessiblemedia"
 		label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL"
 	>

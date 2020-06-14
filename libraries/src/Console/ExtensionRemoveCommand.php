@@ -11,15 +11,13 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputArgument;
 
 
 /**
@@ -130,8 +128,8 @@ class ExtensionRemoveCommand extends AbstractCommand
 		$this->setDescription('Removes an extension');
 
 		$help = <<<'EOF'
-The <info>%command.name%</info> is used to uninstall extensions.  
-The command requires one argument, the ID of the extension to uninstall.  
+The <info>%command.name%</info> is used to uninstall extensions.
+The command requires one argument, the ID of the extension to uninstall.
 You may find this ID by running the <info>extension:list</info> command.
 
 <info>php %command.full_name% <extension_id></info>

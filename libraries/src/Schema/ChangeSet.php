@@ -10,10 +10,8 @@ namespace Joomla\CMS\Schema;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
