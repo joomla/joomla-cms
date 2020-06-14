@@ -116,6 +116,7 @@ class StatsAdminHelper
 				{
 					$rows[$i]->link  = Route::_('index.php?option=com_users');
 				}
+
 				$i++;
 			}
 
