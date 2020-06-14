@@ -114,7 +114,7 @@ class StatsAdminHelper
 
 				if ($user->authorise('core.manage', 'com_users'))
 				{
-					$rows[$i]->link  = Route::_('index.php?option=com_users');
+					$rows[$i]->link = Route::_('index.php?option=com_users');
 				}
 
 				$i++;
