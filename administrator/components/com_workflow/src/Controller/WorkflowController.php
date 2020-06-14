@@ -107,6 +107,11 @@ class WorkflowController extends FormController
 
 		$record = $this->getModel()->getItem($recordId);
 
+		if (empty($record->id))
+		{
+			return false;
+		}
+
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.workflow.' . $recordId))
 		{
@@ -188,7 +193,7 @@ class WorkflowController extends FormController
 
 			$statuses = $db->setQuery($query)->loadAssocList();
 
-			$smodel = $this->getModel('State');
+			$smodel = $this->getModel('Stage');
 
 			$workflowID = (int) $model->getState($model->getName() . '.id');
 
@@ -202,6 +207,7 @@ class WorkflowController extends FormController
 
 				$status['workflow_id'] = $workflowID;
 				$status['id'] = 0;
+
 				unset($status['asset_id']);
 
 				$table->save($status);
@@ -223,43 +229,16 @@ class WorkflowController extends FormController
 			{
 				$table = $tmodel->getTable();
 
-				$transition['from_stage_id'] = $mapping[$transition['from_stage_id']];
+				$transition['from_stage_id'] = $transition['from_stage_id'] != -1 ? $mapping[$transition['from_stage_id']] : -1;
 				$transition['to_stage_id'] = $mapping[$transition['to_stage_id']];
 
 				$transition['workflow_id'] = $workflowID;
 				$transition['id'] = 0;
+
 				unset($transition['asset_id']);
 
 				$table->save($transition);
 			}
 		}
-	}
-
-	/**
-	 * Method to save a workflow.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-	 *
-	 * @return  boolean  True if successful, false otherwise.
-	 *
-	 * @since  4.0.0
-	 */
-	public function save($key = null, $urlVar = null)
-	{
-		$task = $this->getTask();
-
-		// The save2copy task needs to be handled slightly differently.
-		if ($task === 'save2copy')
-		{
-			$data  = $this->input->post->get('jform', array(), 'array');
-
-			// Prevent default
-			$data['default'] = 0;
-
-			$this->input->post->set('jform', $data);
-		}
-
-		return parent::save($key, $urlVar);
 	}
 }

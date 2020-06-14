@@ -11,7 +11,6 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -106,7 +105,7 @@ class StageController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		return $this->app->getIdentity()->authorise('core.create', $this->extension);
+		return $this->app->getIdentity()->authorise('core.create', $this->extension . '.workflow.' . (int) $this->workflowId);
 	}
 
 	/**
@@ -124,6 +123,13 @@ class StageController extends FormController
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 		$user = $this->app->getIdentity();
 
+		$record = $this->getModel()->getItem($recordId);
+
+		if (empty($record->id))
+		{
+			return false;
+		}
+
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.stage.' . $recordId))
 		{
@@ -133,9 +139,6 @@ class StageController extends FormController
 		// Check "edit own" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit.own', $this->extension . '.stage.' . $recordId))
 		{
-			// Need to do a lookup from the model to get the owner
-			$record = $this->getModel()->getItem($recordId);
-
 			return !empty($record) && $record->created_by == $user->id;
 		}
 

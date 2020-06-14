@@ -10,9 +10,9 @@ namespace Joomla\CMS\Router;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 
 /**
