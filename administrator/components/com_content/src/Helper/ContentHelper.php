@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -215,23 +214,5 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOW', Text::_($defaulttitle)), ['value' => 'use_default']);
 
 		$field->addOption('- ' . Text::_('COM_CONTENT_WORKFLOWS') . ' -', ['disabled' => 'true']);
-	}
-
-	/**
-	 * Fully Qualified Domain name for the image url
-	 *
-	 * @param   string  $uri      The uri to resolve
-	 *
-	 * @return  string
-	 */
-	public static function resolve(string $uri): string
-	{
-		// Check if external URL.
-		if (stripos($uri, 'http') !== 0)
-		{
-			return Uri::root() . $uri;
-		}
-
-		return $uri;
 	}
 }
