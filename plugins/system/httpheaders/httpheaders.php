@@ -226,9 +226,10 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$this->setStaticHeaders();
 
 		// Handle CSP Header configuration
-		$cspOptions = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
+		$cspEnabled = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
+		$cspClient  = (string) $this->comCspParams->get('contentsecuritypolicy_client', 'site');
 
-		if ($cspOptions)
+		if ($cspEnabled && $this->app->isClient($cspClient))
 		{
 			$this->setCspHeader();
 		}
