@@ -32,7 +32,7 @@ class LanguagesHelper
 	 */
 	public static function filterKey($value)
 	{
-		$filter = InputFilter::getInstance([], [], InputFilter::TAGS_BLACKLIST, InputFilter::ATTR_BLACKLIST);
+		$filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
 
 		return strtoupper($filter->clean($value, 'cmd'));
 	}
@@ -49,7 +49,7 @@ class LanguagesHelper
 	 */
 	public static function filterText($value)
 	{
-		$filter = InputFilter::getInstance([], [], InputFilter::TAGS_BLACKLIST, InputFilter::ATTR_BLACKLIST);
+		$filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
 
 		return $filter->clean($value);
 	}
