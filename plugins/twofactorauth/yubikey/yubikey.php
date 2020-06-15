@@ -189,7 +189,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		// Remove the last 32 digits and store the rest in the user configuration parameters
 		$yubikey      = substr($data['securitycode'], 0, -32);
 
-		// Check succeedeed; return an OTP configuration object
+		// Check succeeded; return an OTP configuration object
 		$otpConfig    = (object) array(
 			'method'  => $this->methodName,
 			'config'  => array(

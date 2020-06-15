@@ -4,7 +4,9 @@
  * @subpackage  model
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
@@ -110,7 +112,7 @@ class FOFModelBehaviorLanguage extends FOFModelBehavior
 	 * item from the database. It is used to apply automatic filters.
 	 *
 	 * @param   FOFModel  &$model   The model which was called
-	 * @param   FOFTable  &$record  The record loaded from the databae
+	 * @param   FOFTable  &$record  The record loaded from the database
 	 *
 	 * @return  void
 	 */
