@@ -68,6 +68,12 @@ class Update extends Table
 			$this->data = '';
 		}
 
+		// While column is not nullable, make sure we have a value.
+		if ($this->description === null)
+		{
+			$this->description = '';
+		}
+
 		return true;
 	}
 
