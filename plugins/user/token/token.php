@@ -171,9 +171,9 @@ class PlgUserToken extends CMSPlugin
 		 */
 		if (($context === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit'))
 		{
-			$pluginData = $data->{$this->profileKeyPrefix};
-			$enabled    = $pluginData['enabled'];
-			$token      = $pluginData['token'];
+			$pluginData = $data->{$this->profileKeyPrefix} ?? [];
+			$enabled    = $pluginData['enabled'] ?? false;
+			$token      = $pluginData['token'] ?? '';
 
 			$pluginData['enabled'] = Text::_('JDISABLED');
 			$pluginData['token']   = '';
