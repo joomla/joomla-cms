@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 	 * Application object.
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -77,7 +77,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptcha2&render=explicit&hl='
+		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=JoomlainitReCaptcha2&render=explicit&hl='
 			. Factory::getLanguage()->getTag();
 
 		// Load assets, the callback should be first

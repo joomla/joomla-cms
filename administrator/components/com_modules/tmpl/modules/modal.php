@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,32 +46,34 @@ if (!empty($editor))
 		<?php if ($this->total > 0) : ?>
 		<table class="table" id="moduleList">
 			<caption id="captionTable" class="sr-only">
-				<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 			</caption>
 			<thead>
 				<tr>
-					<th scope="col" style="width:1%" class="text-center">
+					<th scope="col" class="w-1 text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 					</th>
 					<th scope="col" class="title">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-10 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-10 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-10 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-10 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-1 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>

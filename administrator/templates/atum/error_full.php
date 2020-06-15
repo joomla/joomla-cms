@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -128,6 +128,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<?php endif; ?>
 		<section id="content" class="content">
 			<?php // Begin Content ?>
+			<jdoc:include type="message" />
 			<jdoc:include type="modules" name="top" style="xhtml" />
 			<div class="row">
 				<div class="col-md-12">
@@ -169,10 +170,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<?php // End Content ?>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message"/>
-		</div>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />

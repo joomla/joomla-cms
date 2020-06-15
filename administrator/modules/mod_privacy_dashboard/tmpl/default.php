@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_dashboard
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,9 +22,9 @@ $activeRequests = 0;
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
-			<th scope="col" style="width:40%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></th>
-			<th scope="col" style="width:40%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></th>
-			<th scope="col" style="width:20%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_COUNT'); ?></th>
+			<th scope="col" class="w-40"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></th>
+			<th scope="col" class="w-40"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></th>
+			<th scope="col" class="w-20"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_COUNT'); ?></th>
 		</tr>
 	</thead>
 	<tbody>

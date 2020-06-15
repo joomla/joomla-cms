@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla) => {
@@ -29,6 +29,6 @@
       document.querySelector('input[name=task]').value = `${el.getAttribute('data-refresh-section')}.reload`;
     }
 
-    element.form.submit();
+    Joomla.submitform(`${el.getAttribute('data-refresh-section')}.reload`, element.form);
   };
 })(Joomla);

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document) => {
@@ -98,6 +98,7 @@
               // Setup listeners
               elem.addEventListener('change', () => { self.linkedOptions(key); });
               elem.addEventListener('keyup', () => { self.linkedOptions(key); });
+              elem.addEventListener('click', () => { self.linkedOptions(key); });
             });
           }
         });
@@ -215,10 +216,7 @@
   /**
    * Initialize 'showon' feature when part of the page was updated
    */
-  document.addEventListener('joomla:updated', (event) => {
-    // eslint-disable-next-line prefer-destructuring
-    const target = event.target;
-
+  document.addEventListener('joomla:updated', ({ target }) => {
     // Check is it subform, then wee need to fix some "showon" config
     if (target.classList.contains('subform-repeatable-group')) {
       const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
@@ -236,6 +234,6 @@
     }
 
     // eslint-disable-next-line no-new
-    new Showon(event.target);
+    new Showon(target);
   });
 })(document);

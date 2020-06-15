@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,9 @@ $saveOrder = $listOrder == 'a.id';
 				<?php else : ?>
 					<table class="table" id="articleList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_CSP_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_CSP_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>

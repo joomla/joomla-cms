@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -33,6 +33,14 @@ class WorkflowController extends FormController
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -50,7 +58,16 @@ class WorkflowController extends FormController
 		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
+			$extension = $this->input->getCmd('extension');
+
+			$parts = explode('.', $extension);
+
+			$this->extension = array_shift($parts);
+
+			if (!empty($parts))
+			{
+				$this->section = array_shift($parts);
+			}
 
 			if (empty($this->extension))
 			{
@@ -90,7 +107,7 @@ class WorkflowController extends FormController
 
 		$record = $this->getModel()->getItem($recordId);
 
-		if (!empty($record->id) && $record->core)
+		if (empty($record->id))
 		{
 			return false;
 		}
@@ -123,7 +140,7 @@ class WorkflowController extends FormController
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
-		$append .= '&extension=' . $this->extension;
+		$append .= '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}
@@ -138,7 +155,7 @@ class WorkflowController extends FormController
 	protected function getRedirectToListAppend()
 	{
 		$append = parent::getRedirectToListAppend();
-		$append .= '&extension=' . $this->extension;
+		$append .= '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}
@@ -176,7 +193,7 @@ class WorkflowController extends FormController
 
 			$statuses = $db->setQuery($query)->loadAssocList();
 
-			$smodel = $this->getModel('State');
+			$smodel = $this->getModel('Stage');
 
 			$workflowID = (int) $model->getState($model->getName() . '.id');
 
@@ -190,6 +207,7 @@ class WorkflowController extends FormController
 
 				$status['workflow_id'] = $workflowID;
 				$status['id'] = 0;
+
 				unset($status['asset_id']);
 
 				$table->save($status);
@@ -211,43 +229,16 @@ class WorkflowController extends FormController
 			{
 				$table = $tmodel->getTable();
 
-				$transition['from_stage_id'] = $mapping[$transition['from_stage_id']];
+				$transition['from_stage_id'] = $transition['from_stage_id'] != -1 ? $mapping[$transition['from_stage_id']] : -1;
 				$transition['to_stage_id'] = $mapping[$transition['to_stage_id']];
 
 				$transition['workflow_id'] = $workflowID;
 				$transition['id'] = 0;
+
 				unset($transition['asset_id']);
 
 				$table->save($transition);
 			}
 		}
-	}
-
-	/**
-	 * Method to save a workflow.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-	 *
-	 * @return  boolean  True if successful, false otherwise.
-	 *
-	 * @since  4.0.0
-	 */
-	public function save($key = null, $urlVar = null)
-	{
-		$task = $this->getTask();
-
-		// The save2copy task needs to be handled slightly differently.
-		if ($task === 'save2copy')
-		{
-			$data  = $this->input->post->get('jform', array(), 'array');
-
-			// Prevent default
-			$data['default'] = 0;
-
-			$this->input->post->set('jform', $data);
-		}
-
-		return parent::save($key, $urlVar);
 	}
 }

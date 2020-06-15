@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ Text::script('MESSAGE');
 
 					<input
 						name="secretkey"
-						autocomplete="off"
+						autocomplete="one-time-code"
 						id="mod-login-secretkey"
 						type="text"
 						class="form-control"
@@ -101,11 +101,12 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-		<?php foreach($extraButtons as $button): ?>
+		<?php foreach ($extraButtons as $button) : ?>
 		<div class="form-group">
 			<button type="button"
 			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
-			        onclick="<?= $button['onclick'] ?>"
+			        data-webauthn-form="<?= $button['data-webauthn-form'] ?>"
+			        data-webauthn-url="<?= $button['data-webauthn-url'] ?>"
 			        title="<?= Text::_($button['label']) ?>"
 			        id="<?= $button['id'] ?>"
 			>

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -108,9 +108,10 @@ Text::script('JGLOBAL_WARNCOOKIES');
 
 	<div class="container-fluid container-main order-1">
 		<section id="content" class="content h-100">
+			<jdoc:include type="message" />
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
-					<div class="main-brand text-center">
+					<div class="main-brand logo text-center">
 						<img src="<?php echo $loginLogo; ?>"
 							 alt="<?php echo htmlspecialchars($this->params->get('altLoginLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
 					</div>
@@ -118,10 +119,6 @@ Text::script('JGLOBAL_WARNCOOKIES');
 				</div>
 			</main>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message" />
-		</div>
 	</div>
 
 	<?php // Sidebar ?>

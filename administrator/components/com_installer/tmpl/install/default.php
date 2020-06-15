@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,9 @@ Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
 HTMLHelper::_('stylesheet', 'com_installer/installer.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'com_installer/installer.js', ['version' => 'auto', 'relative' => true]);
+
+$this->document->getWebAssetManager()
+	->useScript('webcomponent.core-loader');
 
 $app = Factory::getApplication();
 ?>
