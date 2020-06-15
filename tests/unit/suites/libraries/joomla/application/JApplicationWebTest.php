@@ -1045,7 +1045,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testPrependBody()
 	{
-        // Simulate a previous call to a body method.
+		// Simulate a previous call to a body method.
 		TestReflection::getValue($this->class, 'response')->body = array('foo');
 
 		$this->class->prependBody('bar');
