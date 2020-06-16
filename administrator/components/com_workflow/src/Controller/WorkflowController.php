@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Database\ParameterType;
 use Joomla\Input\Input;
 
 /**
@@ -182,14 +183,16 @@ class WorkflowController extends FormController
 
 			$key = $table->getKeyName();
 
-			$recordId = $this->input->getInt($key);
+			$recordId = (int) $this->input->getInt($key);
 
+			// @todo Moves queries out of the controller.
 			$db = $model->getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select('*')
 				->from($db->quoteName('#__workflow_stages'))
-				->where($db->quoteName('workflow_id') . ' = ' . (int) $recordId);
+				->where($db->quoteName('workflow_id') . ' = :id')
+				->bind(':id', $recordId, ParameterType::INTEGER);
 
 			$statuses = $db->setQuery($query)->loadAssocList();
 
@@ -215,11 +218,11 @@ class WorkflowController extends FormController
 				$mapping[$oldID] = (int) $table->id;
 			}
 
-			$query->clear();
-
-			$query->select('*')
+			$query = $db->getQuery(true)
+				->select('*')
 				->from($db->quoteName('#__workflow_transitions'))
-				->where($db->quoteName('workflow_id') . ' = ' . (int) $recordId);
+				->where($db->quoteName('workflow_id') . ' = :id')
+				->bind(':id', $recordId, ParameterType::INTEGER);
 
 			$transitions = $db->setQuery($query)->loadAssocList();
 
