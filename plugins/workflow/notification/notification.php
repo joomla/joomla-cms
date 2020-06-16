@@ -198,24 +198,27 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 			{
 				$receiver = $container->get(UserFactoryInterface::class)->loadUserById($user_id);
 
-				// Load language for messaging
-				$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
-				$lang->load('plg_workflow_notification');
-				$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
-
-				if (!empty($transition->options['notification_text']))
+				if ($receiver->authorise('core.manage', 'com_message'))
 				{
-					$messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
+					// Load language for messaging
+					$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
+					$lang->load('plg_workflow_notification');
+					$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
+
+					if (!empty($transition->options['notification_text']))
+					{
+						$messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
+					}
+
+					$message = [
+						'id' => 0,
+						'user_id_to' => $receiver->id,
+						'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $modelName),
+						'message' => $messageText,
+					];
+
+					$model_message->save($message);
 				}
-
-				$message = [
-					'id' => 0,
-					'user_id_to' => $receiver->id,
-					'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $modelName),
-					'message' => $messageText,
-				];
-
-				$model_message->save($message);
 			}
 		}
 
@@ -261,8 +264,6 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 			$model->setState('list.select', 'id');
 			$model->setState('filter.groups', $groups);
 			$model->setState('filter.state', 0);
-			$model->setState('filter.active', 1);
-			$model->setState('filter.sendEmail', 1);
 
 			// Ids from usergroups
 			$groupUsers = $model->getItems();
