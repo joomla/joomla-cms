@@ -196,7 +196,7 @@ class TransitionsModel extends ListModel
 		if (!empty($search))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(' . $db->quoteName('title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('description') . ' LIKE ' . $search . ')');
+			$query->where('(' . $db->quoteName('t.title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('t.description') . ' LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.
