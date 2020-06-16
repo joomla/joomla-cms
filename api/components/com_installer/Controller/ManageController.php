@@ -35,5 +35,4 @@ class ManageController extends ApiController
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'manage';
-
 }
