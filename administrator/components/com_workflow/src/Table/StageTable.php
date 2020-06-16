@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Stage table
@@ -59,11 +60,13 @@ class StageTable extends Table
 	{
 		$db  = $this->getDbo();
 		$app = Factory::getApplication();
+		$pk  = (int) $pk;
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('default'))
 			->from($db->quoteName('#__workflow_stages'))
-			->where($db->quoteName('id') . ' = ' . (int) $pk);
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $pk, ParameterType::INTEGER);
 
 		$isDefault = $db->setQuery($query)->loadResult();
 
@@ -78,8 +81,14 @@ class StageTable extends Table
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
-				->where($db->quoteName('to_stage_id') . ' = ' . (int) $pk, 'OR')
-				->where($db->quoteName('from_stage_id') . ' = ' . (int) $pk);
+				->where(
+					[
+						$db->quoteName('to_stage_id') . ' = :idTo',
+						$db->quoteName('from_stage_id') . ' = :idFrom',
+					],
+					'OR'
+				)
+				->bind([':idTo', ':idFrom'], $pk, ParameterType::INTEGER);
 
 			$db->setQuery($query)->execute();
 
@@ -138,8 +147,13 @@ class StageTable extends Table
 			$query
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__workflow_stages'))
-				->where($db->quoteName('workflow_id') . '=' . (int) $this->workflow_id)
-				->where($db->quoteName('default') . ' = 1');
+				->where(
+					[
+						$db->quoteName('workflow_id') . ' = :id',
+						$db->quoteName('default') . ' = 1',
+					]
+				)
+				->bind(':id', $this->workflow_id, ParameterType::INTEGER);
 
 			$id = $db->setQuery($query)->loadResult();
 
