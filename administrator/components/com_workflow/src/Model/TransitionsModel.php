@@ -192,7 +192,7 @@ class TransitionsModel extends ListModel
 		if (!empty($search))
 		{
 			$search = '%' . str_replace(' ', '%', trim($search)) . '%';
-			$query->where('(' . $db->quoteName('title') . ' LIKE :search1 OR ' . $db->quoteName('description') . ' LIKE :search2)')
+			$query->where('(' . $db->quoteName('t.title') . ' LIKE :search1 OR ' . $db->quoteName('t.description') . ' LIKE :search2)')
 				->bind([':search1', ':search2'], $search);
 		}
 
