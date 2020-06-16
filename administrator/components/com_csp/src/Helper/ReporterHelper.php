@@ -23,7 +23,7 @@ class ReporterHelper
 	/**
 	 * Gets the httpheaders system plugin extension id.
 	 *
-	 * @return  integer  The httpheaders system plugin extension id.
+	 * @return  mixed  The httpheaders system plugin extension id or false in case of an error.
 	 *
 	 * @since   4.0.0
 	 */
