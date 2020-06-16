@@ -1108,16 +1108,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "2dcff211d7eb554bbe17177b736e9a4da8e4a9a2"
+                "reference": "8d326ca1862c1cdb5b9b01d6719730b663e411c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/2dcff211d7eb554bbe17177b736e9a4da8e4a9a2",
-                "reference": "2dcff211d7eb554bbe17177b736e9a4da8e4a9a2",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/8d326ca1862c1cdb5b9b01d6719730b663e411c6",
+                "reference": "8d326ca1862c1cdb5b9b01d6719730b663e411c6",
                 "shasum": ""
             },
             "require": {
@@ -1157,7 +1157,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:28:45+00:00"
+            "time": "2020-06-08T23:03:46+00:00"
         },
         {
             "name": "joomla/http",

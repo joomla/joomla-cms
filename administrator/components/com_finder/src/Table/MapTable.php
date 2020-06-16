@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Map table class for the Finder package.

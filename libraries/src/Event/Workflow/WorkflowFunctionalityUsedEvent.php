@@ -11,8 +11,6 @@ namespace Joomla\CMS\Event\Workflow;
 \defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
-use Joomla\CMS\Event\AbstractImmutableEvent;
-use function explode;
 
 /**
  * Event class for Workflow Functionality Used events
