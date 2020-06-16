@@ -135,7 +135,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 						<td class="center hidden-phone">
 							<?php
 							$activated = empty( $item->activation) ? 0 : 1;
-							echo JHtml::_('jgrid.state', JHtml::_('users.activateStates', $activated, $i, 'users.', (boolean) $activated);
+							echo JHtml::_('jgrid.state', JHtml::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 							?>
 						</td>
 						<td>
