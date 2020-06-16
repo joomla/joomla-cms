@@ -215,7 +215,7 @@ class WorkflowsModel extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -232,7 +232,7 @@ class WorkflowsModel extends ListModel
 				$db->quoteName('w.created_by'),
 				$db->quoteName('w.description'),
 				$db->quoteName('u.name'),
-				$db->quoteName('uc.name', 'editor')
+				$db->quoteName('uc.name', 'editor'),
 			]
 		)
 			->from($db->quoteName('#__workflows', 'w'))
