@@ -95,7 +95,7 @@ class ReporterHelper
 			->select('COUNT(*)')
 			->from($db->quoteName('#__csp'))
 			->where($db->quoteName('blocked_uri') . ' = ' . $db->quote("'unsafe-inline'"))
-			->where($db->quoteName('published') . ' = ' . $db->quote('1'));
+			->where($db->quoteName('published') . ' = 1'));
 		$db->setQuery($query);
 
 		try
