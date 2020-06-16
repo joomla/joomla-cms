@@ -127,15 +127,15 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 							$self = $loggeduser->id == $item->id;
 
 							if ($canChange) :
-								echo JHtml::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self);
+								echo JHtml::_('jgrid.state', JHtml::_('users.blockStates', $self), $item->block, $i, 'users.', !$self);
 							else :
-								echo JHtml::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', false);
+								echo JHtml::_('jgrid.state', JHtml::_('users.blockStates', $self), $item->block, $i, 'users.', false);
 							endif; ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php
 							$activated = empty( $item->activation) ? 0 : 1;
-							echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
+							echo JHtml::_('jgrid.state', JHtml::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 							?>
 						</td>
 						<td>
