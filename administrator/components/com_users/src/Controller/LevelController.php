@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -115,7 +115,7 @@ class LevelController extends FormController
 
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 		elseif (empty($ids))
 		{
