@@ -160,7 +160,7 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a back button.
-		$bar->appendButton('Link', 'back', $alt, $href);
+		$bar->appendButton('Link', 'arrow-left', $alt, $href);
 	}
 
 	/**

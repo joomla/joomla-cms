@@ -354,30 +354,41 @@ window.Joomla = window.Joomla || {};
     return false;
   };
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const addButton = document.getElementById('plg_system_webauthn-manage-add');
-    if (addButton) {
-      addButton.addEventListener('click', ({ currentTarget }) => {
-        Joomla.plgSystemWebauthnCreateCredentials(currentTarget.getAttribute('data-random-id'), '#plg_system_webauthn-management-interface');
-      });
-    }
+  // Initialization. Runs on DOM content loaded since this script is always loaded deferred.
+  const addButton = document.getElementById('plg_system_webauthn-manage-add');
+  if (addButton) {
+    addButton.addEventListener('click', (event) => {
+      event.preventDefault();
 
-    const editLabelButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-edit'));
-    if (editLabelButtons.length) {
-      editLabelButtons.forEach((button) => {
-        button.addEventListener('click', ({ currentTarget }) => {
-          Joomla.plgSystemWebauthnEditLabel(currentTarget, currentTarget.getAttribute('data-random-id'));
-        });
-      });
-    }
+      Joomla.plgSystemWebauthnCreateCredentials(event.currentTarget.getAttribute('data-random-id'), '#plg_system_webauthn-management-interface');
 
-    const deleteButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-delete'));
-    if (deleteButtons.length) {
-      deleteButtons.forEach((button) => {
-        button.addEventListener('click', ({ currentTarget }) => {
-          Joomla.plgSystemWebauthnDelete(currentTarget, currentTarget.getAttribute('data-random-id'));
-        });
+      return false;
+    });
+  }
+
+  const editLabelButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-edit'));
+  if (editLabelButtons.length) {
+    editLabelButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        Joomla.plgSystemWebauthnEditLabel(event.currentTarget, event.currentTarget.getAttribute('data-random-id'));
+
+        return false;
       });
-    }
-  });
-})(window, Joomla);
+    });
+  }
+
+  const deleteButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-delete'));
+  if (deleteButtons.length) {
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        Joomla.plgSystemWebauthnDelete(event.currentTarget, event.currentTarget.getAttribute('data-random-id'));
+
+        return false;
+      });
+    });
+  }
+})(Joomla, document);

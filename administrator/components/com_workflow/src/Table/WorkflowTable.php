@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Workflow table
@@ -60,12 +61,14 @@ class WorkflowTable extends Table
 	{
 		$db  = $this->getDbo();
 		$app = Factory::getApplication();
+		$pk  = (int) $pk;
 
 		// Gets the workflow information that is going to be deleted.
 		$query = $db->getQuery(true)
 			->select($db->quoteName('default'))
 			->from($db->quoteName('#__workflows'))
-			->where($db->quoteName('id') . ' = ' . (int) $pk);
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $pk, ParameterType::INTEGER);
 
 		$isDefault = $db->setQuery($query)->loadResult();
 
@@ -81,13 +84,15 @@ class WorkflowTable extends Table
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_stages'))
-				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
+				->where($db->quoteName('workflow_id') . ' = :id')
+				->bind(':id', $pk, ParameterType::INTEGER);
 
 			$db->setQuery($query)->execute();
 
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
-				->where($db->quoteName('workflow_id') . ' = ' . (int) $pk);
+				->where($db->quoteName('workflow_id') . ' = :id')
+				->bind(':id', $pk, ParameterType::INTEGER);
 
 			$db->setQuery($query)->execute();
 
@@ -146,7 +151,7 @@ class WorkflowTable extends Table
 			$query
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__workflows'))
-				->where($db->quoteName('default') . '= 1');
+				->where($db->quoteName('default') . ' = 1');
 
 			$id = $db->setQuery($query)->loadResult();
 
@@ -307,7 +312,8 @@ class WorkflowTable extends Table
 		$query = $this->getDbo()->getQuery(true)
 			->select($this->getDbo()->quoteName('id'))
 			->from($this->getDbo()->quoteName('#__assets'))
-			->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($extension));
+			->where($this->getDbo()->quoteName('name') . ' = :extension')
+			->bind(':extension', $extension);
 
 		// Get the asset id from the database.
 		$this->getDbo()->setQuery($query);
