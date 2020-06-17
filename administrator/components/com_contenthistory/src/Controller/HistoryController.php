@@ -94,8 +94,6 @@ class HistoryController extends AdminController
 	 */
 	protected function getRedirectToListAppend()
 	{
-		return '&layout=modal&tmpl=component&item_id='
-			. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-			. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . Session::getFormToken() . '=1';
+		return '&layout=modal&tmpl=component&item_id=' . $this->input->get('item_id') . '&' . Session::getFormToken() . '=1';
 	}
 }
