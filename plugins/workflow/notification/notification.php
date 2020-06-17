@@ -201,7 +201,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 				if ($receiver->authorise('core.manage', 'com_message'))
 				{
 					// Load language for messaging
-					$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
+					$lang = $container->get(LanguageFactoryInterface::class)
+						->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
 					$lang->load('plg_workflow_notification');
 					$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
 
