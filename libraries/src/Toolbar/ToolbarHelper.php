@@ -159,8 +159,9 @@ abstract class ToolbarHelper
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
-		// Add a back button.
-		$bar->appendButton('Link', 'arrow-left', $alt, $href);
+		// Add a (rtl) back button.
+		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+		$bar->appendButton('Link', $arrow, $alt, $href);
 	}
 
 	/**
