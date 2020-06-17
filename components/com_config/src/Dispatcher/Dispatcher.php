@@ -28,7 +28,7 @@ class Dispatcher extends ComponentDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception|Notallowed
+	 * @throws  Exception|NotAllowed
 	 */
 	protected function checkAccess()
 	{
@@ -36,7 +36,7 @@ class Dispatcher extends ComponentDispatcher
 
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 }
