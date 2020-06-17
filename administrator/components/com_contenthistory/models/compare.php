@@ -103,6 +103,8 @@ class ContenthistoryModelCompare extends JModelItem
 			}
 		}
 
+		$this->setError(\JText::_('COM_CONTENTHISTORY_ERROR_VERSION_NOT_FOUND'));
+
 		return false;
 	}
 
