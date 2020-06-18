@@ -220,10 +220,10 @@
     // Check is it subform, then wee need to fix some "showon" config
     if (target.classList.contains('subform-repeatable-group')) {
       const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
-      const baseName = target.getAttribute('data-baseName');
+      const baseName = target.getAttribute('data-base-name');
       const group = target.getAttribute('data-group');
-      const search = new RegExp(`\\[${baseName}\\]\\[${baseName}X\\]`, 'g');
-      const replace = `[${baseName}][${group}]`;
+      const search = new RegExp(`\\[${baseName}X\\]`, 'g');
+      const replace = `[${group}]`;
 
       // Fix showon field names in a current group
       elements.forEach((element) => {
