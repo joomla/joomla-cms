@@ -51,43 +51,43 @@ class PreviewModel extends ItemModel
 		// Access check
 		if (!$user->authorise('core.edit', $table->item_id) || !$this->canEdit($table))
 		{
-            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-        $result = new \stdClass;
-        $result->version_note = $table->version_note;
-        $result->data = ContenthistoryHelper::prepareData($table);
+		$result = new \stdClass;
+		$result->version_note = $table->version_note;
+		$result->data = ContenthistoryHelper::prepareData($table);
 
-        // Let's use custom calendars when present
-        $result->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
+		// Let's use custom calendars when present
+		$result->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
-        $dateProperties = array (
-            'modified_time',
-            'created_time',
-            'modified',
-            'created',
-            'checked_out_time',
-            'publish_up',
-            'publish_down',
-        );
+		$dateProperties = array (
+			'modified_time',
+			'created_time',
+			'modified',
+			'created',
+			'checked_out_time',
+			'publish_up',
+			'publish_down',
+		);
 
-        $nullDate = $this->getDbo()->getNullDate();
+		$nullDate = $this->getDbo()->getNullDate();
 
-        foreach ($dateProperties as $dateProperty)
-        {
-            if (property_exists($result->data, $dateProperty)
-                && $result->data->$dateProperty->value !== null
-                && $result->data->$dateProperty->value !== $nullDate)
-            {
-                $result->data->$dateProperty->value = HTMLHelper::_(
-                    'date',
-                    $result->data->$dateProperty->value,
-                    Text::_('DATE_FORMAT_LC6')
-                );
-            }
-        }
+		foreach ($dateProperties as $dateProperty)
+		{
+			if (property_exists($result->data, $dateProperty)
+				&& $result->data->$dateProperty->value !== null
+				&& $result->data->$dateProperty->value !== $nullDate)
+			{
+				$result->data->$dateProperty->value = HTMLHelper::_(
+					'date',
+					$result->data->$dateProperty->value,
+					Text::_('DATE_FORMAT_LC6')
+				);
+			}
+		}
 
-        return $result;
+		return $result;
 	}
 
 	/**

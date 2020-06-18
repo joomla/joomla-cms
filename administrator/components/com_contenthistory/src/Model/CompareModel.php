@@ -69,48 +69,48 @@ class CompareModel extends ListModel
 			// Access check
 			if (!$user->authorise('core.edit', $table1->item_id) || !$this->canEdit($table1))
 			{
-                throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+				throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 			}
 
-            $nullDate = $this->getDbo()->getNullDate();
+			$nullDate = $this->getDbo()->getNullDate();
 
-            foreach (array($table1, $table2) as $table)
-            {
-                $object = new \stdClass;
-                $object->data = ContenthistoryHelper::prepareData($table);
-                $object->version_note = $table->version_note;
+			foreach (array($table1, $table2) as $table)
+			{
+				$object = new \stdClass;
+				$object->data = ContenthistoryHelper::prepareData($table);
+				$object->version_note = $table->version_note;
 
-                // Let's use custom calendars when present
-                $object->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
+				// Let's use custom calendars when present
+				$object->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
-                $dateProperties = array (
-                    'modified_time',
-                    'created_time',
-                    'modified',
-                    'created',
-                    'checked_out_time',
-                    'publish_up',
-                    'publish_down',
-                );
+				$dateProperties = array (
+					'modified_time',
+					'created_time',
+					'modified',
+					'created',
+					'checked_out_time',
+					'publish_up',
+					'publish_down',
+				);
 
-                foreach ($dateProperties as $dateProperty)
-                {
-                    if (property_exists($object->data, $dateProperty)
-                        && $object->data->$dateProperty->value !== null
-                        && $object->data->$dateProperty->value !== $nullDate)
-                    {
-                        $object->data->$dateProperty->value = HTMLHelper::_(
-                            'date',
-                            $object->data->$dateProperty->value,
-                            Text::_('DATE_FORMAT_LC6')
-                        );
-                    }
-                }
+				foreach ($dateProperties as $dateProperty)
+				{
+					if (property_exists($object->data, $dateProperty)
+						&& $object->data->$dateProperty->value !== null
+						&& $object->data->$dateProperty->value !== $nullDate)
+					{
+						$object->data->$dateProperty->value = HTMLHelper::_(
+							'date',
+							$object->data->$dateProperty->value,
+							Text::_('DATE_FORMAT_LC6')
+						);
+					}
+				}
 
-                $result[] = $object;
-            }
+				$result[] = $object;
+			}
 
-            return $result;
+			return $result;
 		}
 
 		return false;

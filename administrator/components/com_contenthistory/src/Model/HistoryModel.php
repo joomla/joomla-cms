@@ -222,10 +222,10 @@ class HistoryModel extends ListModel
 		// Access check
 		if (!$user->authorise('core.edit', $items[0]->item_id) || !$this->canEdit($items[0]))
 		{
-            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 
 		}
-        return $items;
+		return $items;
 	}
 
 	/**
