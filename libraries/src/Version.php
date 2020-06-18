@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  © 2017 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,7 +135,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = '© 2017 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>';
 
 	/**
 	 * Link text.
