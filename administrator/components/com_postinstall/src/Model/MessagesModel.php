@@ -128,7 +128,6 @@ class MessagesModel extends BaseDatabaseModel
 
 		// Add a forced extension filtering to the list
 		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
-
 		$query->where($db->quoteName('extension_id') . ' = :eid')
 			->bind(':eid', $eid, ParameterType::INTEGER);
 
@@ -166,7 +165,7 @@ class MessagesModel extends BaseDatabaseModel
 		$query->where($db->quoteName('enabled') . ' = :published')
 			->bind(':published', $published, ParameterType::INTEGER);
 
-		return $db->setQuery($query)->loadResult(); exit;
+		return $db->setQuery($query)->loadResult();
 	}
 
 	/**
