@@ -196,7 +196,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			return true;
 		}
 
-		$data->actionlogs                       = new StdClass;
+		$data->actionlogs                       = new stdClass;
 		$data->actionlogs->actionlogsNotify     = $values->notify;
 		$data->actionlogs->actionlogsExtensions = $values->extensions;
 
