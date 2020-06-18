@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Joomla.UnitTest
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+ * @copyright  © 2012 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
  * @license    GNU General Public License
  */
 

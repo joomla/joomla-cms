@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_popular
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   © 2006 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
