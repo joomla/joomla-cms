@@ -10,16 +10,19 @@ Joomla = window.Joomla || {};
 
   document.addEventListener('DOMContentLoaded', () => {
     Joomla.twoFactorMethodChange = () => {
-      const selectedPane = `com_users_twofactor_${document.getElementById('jform_twofactor_method').value}`;
-
-      [].slice.call(document.querySelectorAll('#com_users_twofactor_forms_container>div')).forEach((el) => {
-        if (el.id !== selectedPane) {
-          document.getElementById(el.id).classList.add('hidden');
-          return;
-        }
-
-        document.getElementById(el.id).classList.remove('hidden');
-      });
+      const method = document.getElementById('jform_twofactor_method');
+      if (method) {
+        const selectedPane = `com_users_twofactor_${method.value}`;
+        const twoFactorForms = [].slice.call(document.querySelectorAll('#com_users_twofactor_forms_container > div'));
+        twoFactorForms.forEach((value) => {
+          const { id } = value;
+          if (id !== selectedPane) {
+            document.getElementById(id).classList.add('hidden');
+          } else {
+            document.getElementById(id).classList.remove('hidden');
+          }
+        });
+      }
     };
   });
 })(Joomla);

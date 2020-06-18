@@ -16,7 +16,7 @@ HTMLHelper::_('behavior.core');
 $title = $displayData['title'];
 
 ?>
-<button type="button" data-toggle="modal" onclick="{document.getElementById('collapseModal').open(); return true;}" class="btn btn-sm btn-primary">
+<button type="button" data-toggle="modal" onclick="{document.getElementById('collapseModal').open(); return true;}" class="btn btn-primary">
 	<span class="fas fa-square" aria-hidden="true"></span>
 	<?php echo $title; ?>
 </button>

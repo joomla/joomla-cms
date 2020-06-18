@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\Event\DispatcherAwareInterface;
-use function str_repeat;
 
 \defined('JPATH_PLATFORM') or die;
 

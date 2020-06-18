@@ -11,7 +11,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -80,7 +80,7 @@ class DisplayController extends BaseController
 
 		if (!$this->canView($view))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check for edit form.

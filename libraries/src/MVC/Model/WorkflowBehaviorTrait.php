@@ -301,7 +301,9 @@ trait WorkflowBehaviorTrait
 
 		if (!$result)
 		{
-			$this->setError(Text::_('COM_CONTENT_ERROR_UPDATE_STAGE'));
+			$app = Factory::getApplication();
+
+			$app->enqueueMessage(Text::_('COM_CONTENT_ERROR_UPDATE_STAGE', $app::MSG_WARNING));
 
 			return false;
 		}
@@ -339,7 +341,7 @@ trait WorkflowBehaviorTrait
 
 		$field->addAttribute('name', 'transition');
 		$field->addAttribute('type', $this->workflowEnabled ? 'transition' : 'hidden');
-		$field->addAttribute('label', 'COM_CONTENT_TRANSITION');
+		$field->addAttribute('label', 'COM_CONTENT_WORKFLOW');
 		$field->addAttribute('extension', $extension);
 
 		$form->setField($field);

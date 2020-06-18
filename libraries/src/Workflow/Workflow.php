@@ -267,6 +267,70 @@ class Workflow
 	}
 
 	/**
+	 * Check if a transition can be executed
+	 *
+	 * @param   integer[]  $pks            The item IDs, which should use the transition
+	 * @param   integer    $transition_id  The transition which should be executed
+	 *
+	 * @return  object | null
+	 */
+	public function getValidTransition(array $pks, int $transition_id)
+	{
+		$pks = ArrayHelper::toInteger($pks);
+		$pks = array_filter($pks);
+
+		if (!\count($pks))
+		{
+			return null;
+		}
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$app = Factory::getApplication();
+		$user = $app->getIdentity();
+
+		$query->select(
+			[
+				$db->quoteName('t.id'),
+				$db->quoteName('t.to_stage_id'),
+				$db->quoteName('t.from_stage_id'),
+				$db->quoteName('t.options'),
+				$db->quoteName('t.workflow_id'),
+			]
+		)
+			->from(
+				[
+					$db->quoteName('#__workflow_transitions', 't'),
+				]
+			)
+			->join('INNER', $db->quoteName('#__workflows', 'w'))
+			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
+			->where(
+				[
+					$db->quoteName('t.id') . ' = :id',
+					$db->quoteName('t.workflow_id') . ' = ' . $db->quoteName('w.id'),
+					$db->quoteName('t.published') . ' = 1',
+					$db->quoteName('w.extension') . ' = :extension'
+				]
+			)
+			->bind(':id', $transition_id, ParameterType::INTEGER)
+			->bind(':extension', $this->extension);
+
+		$transition = $db->setQuery($query)->loadObject();
+
+		$parts = explode('.', $this->extension);
+		$option = reset($parts);
+
+		if (!empty($transition->id) && $user->authorise('core.execute.transition', $option . '.transition.' . (int) $transition->id))
+		{
+			return $transition;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Executes a transition to change the current state in the association table
 	 *
 	 * @param   integer[]  $pks            The item IDs, which should use the transition
@@ -284,27 +348,9 @@ class Workflow
 			return true;
 		}
 
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
+		$transition = $this->getValidTransition($pks, $transition_id);
 
-		$query->select(
-			[
-				$db->quoteName('t.id'),
-				$db->quoteName('t.to_stage_id'),
-				$db->quoteName('t.from_stage_id'),
-				$db->quoteName('t.options'),
-				$db->quoteName('t.workflow_id'),
-			]
-		)
-			->from($db->quoteName('#__workflow_transitions', 't'))
-			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
-			->where($db->quoteName('t.id') . ' = :id')
-			->where($db->quoteName('t.published') . ' = 1')
-			->bind(':id', $transition_id, ParameterType::INTEGER);
-
-		$transition = $db->setQuery($query)->loadObject();
-
-		if (empty($transition->id))
+		if (is_null($transition))
 		{
 			return false;
 		}
