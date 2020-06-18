@@ -224,7 +224,6 @@ class HistoryModel extends ListModel
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
-		
 		return $items;
 	}
 
