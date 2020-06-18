@@ -161,7 +161,7 @@ class MessagesModel extends BaseDatabaseModel
 			->from($db->quoteName('#__postinstall_messages'));
 
 		// Force filter only enabled messages
-		$published = (int) $this->getState('published', 1);
+		$published = 1;
 		$query->where($db->quoteName('enabled') . ' = :published')
 			->bind(':published', $published, ParameterType::INTEGER);
 
