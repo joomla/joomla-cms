@@ -42,7 +42,7 @@ class Dispatcher extends ComponentDispatcher
 
 		if (!$parts || !$this->app->getIdentity()->authorise('core.manage', $parts[0]))
 		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 }

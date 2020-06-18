@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
 ?>
 <div class="toggle-editor btn-toolbar float-right clearfix mt-3">
 	<div class="btn-group">
