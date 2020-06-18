@@ -161,9 +161,7 @@ class MessagesModel extends BaseDatabaseModel
 			->from($db->quoteName('#__postinstall_messages'));
 
 		// Force filter only enabled messages
-		$published = 1;
-		$query->where($db->quoteName('enabled') . ' = :published')
-			->bind(':published', $published, ParameterType::INTEGER);
+		$query->where($db->quoteName('enabled') . ' = 1');
 
 		return $db->setQuery($query)->loadResult();
 	}
