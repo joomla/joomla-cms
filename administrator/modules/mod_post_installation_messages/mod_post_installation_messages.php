@@ -16,12 +16,10 @@ use Joomla\CMS\Helper\ModuleHelper;
 try
 {
 	$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\MessagesModel(['ignore_request' => true]);
-	$messages      = $messagesModel->getItems();
+	$countUnread  = $messagesModel->getTotal();
 }
 catch (RuntimeException $e)
 {
-	$messages = [];
-
 	// Still render the error message from the Exception object
 	$app->enqueueMessage($e->getMessage(), 'error');
 }
