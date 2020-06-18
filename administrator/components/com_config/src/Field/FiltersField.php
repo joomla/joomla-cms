@@ -141,12 +141,15 @@ class FiltersField extends FormField
 				. ' data-id="' . ($group->value) . '" '
 				. ' class="novalidate custom-select"'
 				. '>';
-			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
-				. Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
-			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
-				. Text::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST') . '</option>';
-			$html[] = '					<option value="WL"' . ($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '') . '>'
-				. Text::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST') . '</option>';
+				// "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+			$html[] = '					<option value="DL"' . (in_array($group_filter['filter_type'], ['BL', 'DL']) ? ' selected="selected"' : '') . '>'
+				. Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_ALLOW_LIST') . '</option>';
+				// "CBL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+			$html[] = '					<option value="CDL"' . (in_array($group_filter['filter_type'], ['CBL', 'CDL']) ? ' selected="selected"' : '') . '>'
+				. Text::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_DISALLOW_LIST') . '</option>';
+				// "WL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+			$html[] = '					<option value="AL"' . (in_array($group_filter['filter_type'], ['WL', 'AL']) ? ' selected="selected"' : '') . '>'
+				. Text::_('COM_CONFIG_FIELD_FILTERS_ALLOW_LIST') . '</option>';
 			$html[] = '					<option value="NH"' . ($group_filter['filter_type'] == 'NH' ? ' selected="selected"' : '') . '>'
 				. Text::_('COM_CONFIG_FIELD_FILTERS_NO_HTML') . '</option>';
 			$html[] = '					<option value="NONE"' . ($group_filter['filter_type'] == 'NONE' ? ' selected="selected"' : '') . '>'

@@ -92,20 +92,20 @@ trait WorkflowPluginTrait
 	}
 
 	/**
-	 * Check if the context is listed in the whitelist or in the blacklist and return the result
+	 * Check if the context is listed in the AllowedList or in the DisallowedList and return the result
 	 *
 	 * @param   string $context Context to check
 	 *
 	 * @return boolean
 	 */
-	protected function checkWhiteAndBlacklist($context)
+	protected function checkAllowAndDisallow($context)
 	{
-		$whitelist = \array_filter((array) $this->params->get('whitelist', []));
-		$blacklist = \array_filter((array) $this->params->get('blacklist', []));
+		$allowList = \array_filter((array) $this->params->get('allowlist', []));
+		$disallowList = \array_filter((array) $this->params->get('disallowlist', []));
 
-		if (!empty($whitelist))
+		if (!empty($allowList))
 		{
-			foreach ($whitelist as $allowed)
+			foreach ($allowList as $allowed)
 			{
 				if ($context === $allowed)
 				{
@@ -116,7 +116,7 @@ trait WorkflowPluginTrait
 			return false;
 		}
 
-		foreach ($blacklist as $forbidden)
+		foreach ($disallowList as $forbidden)
 		{
 			if ($context === $forbidden)
 			{
@@ -128,7 +128,7 @@ trait WorkflowPluginTrait
 	}
 
 	/**
-	 * Check if the context is listed in the whitelist or in the blacklist and return the result
+	 * Check if the context supports a specific functionality
 	 *
 	 * @param   string  $context       Context to check
 	 * @param   string  $functionality The funcationality

@@ -358,7 +358,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 			$invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
 
-			// Valid elements are all whitelist entries in com_config, which are now missing in the filter blocked properties
+			// Valid elements are all allowed entries in com_config, which are now missing in the filter blocked properties
 			$default_filter = InputFilter::getInstance();
 			$valid_elements = implode(',', array_diff($default_filter->blockedTags, $blockedTags));
 
@@ -740,19 +740,19 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$filters = $config->get('filters');
 
-		$blackListTags        = array();
-		$blackListAttributes  = array();
+		$disallowListTags        = array();
+		$disallowListAttributes  = array();
 
 		$customListTags       = array();
 		$customListAttributes = array();
 
-		$whiteListTags        = array();
-		$whiteListAttributes  = array();
+		$allowListTags        = array();
+		$allowListAttributes  = array();
 
-		$whiteList  = false;
-		$blackList  = false;
-		$customList = false;
-		$unfiltered = false;
+		$allowList     = false;
+		$disallowList  = false;
+		$customList    = false;
+		$unfiltered    = false;
 
 		// Cycle through each of the user groups the user is in.
 		// Remember they are included in the public group as well.
@@ -779,7 +779,7 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 			else
 			{
-				// Blacklist or whitelist.
+				// DisallowList or AllowList.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -806,15 +806,17 @@ class PlgEditorTinymce extends CMSPlugin
 					}
 				}
 
-				// Collect the blacklist or whitelist tags and attributes.
+				// Collect the disallowed or allowed tags and attributes.
 				// Each list is cumulative.
-				if ($filterType === 'BL')
+				// "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				if (in_array($filterType,  ['BL', 'DL']))
 				{
-					$blackList           = true;
-					$blackListTags       = array_merge($blackListTags, $tempTags);
-					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
+					$disallowList           = true;
+					$disallowListTags       = array_merge($disallowListTags, $tempTags);
+					$disallowListAttributes = array_merge($disallowListAttributes, $tempAttributes);
 				}
-				elseif ($filterType === 'CBL')
+				// "CBL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				elseif (in_array($filterType, ['CBL', 'CDL']))
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -824,22 +826,22 @@ class PlgEditorTinymce extends CMSPlugin
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType === 'WL')
+				elseif (in_array($filterType, ['WL', 'AL']))
 				{
-					$whiteList           = true;
-					$whiteListTags       = array_merge($whiteListTags, $tempTags);
-					$whiteListAttributes = array_merge($whiteListAttributes, $tempAttributes);
+					$allowList           = true;
+					$allowListTags       = array_merge($allowListTags, $tempTags);
+					$allowListAttributes = array_merge($allowListAttributes, $tempAttributes);
 				}
 			}
 		}
 
-		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
-		$blackListTags        = array_unique($blackListTags);
-		$blackListAttributes  = array_unique($blackListAttributes);
-		$customListTags       = array_unique($customListTags);
-		$customListAttributes = array_unique($customListAttributes);
-		$whiteListTags        = array_unique($whiteListTags);
-		$whiteListAttributes  = array_unique($whiteListAttributes);
+		// Remove duplicates before processing (because the disallowList uses both sets of arrays).
+		$disallowListTags        = array_unique($disallowListTags);
+		$disallowListAttributes  = array_unique($disallowListAttributes);
+		$customListTags          = array_unique($customListTags);
+		$customListAttributes    = array_unique($customListAttributes);
+		$allowListTags           = array_unique($allowListTags);
+		$allowListAttributes     = array_unique($allowListAttributes);
 
 		// Unfiltered assumes first priority.
 		if ($unfiltered)
@@ -849,12 +851,12 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 		else
 		{
-			// Custom blacklist precedes Default blacklist
+			// Custom disallowList precedes Default disallowList
 			if ($customList)
 			{
 				$filter = InputFilter::getInstance([], [], 1, 1);
 
-				// Override filter's default blacklist tags and attributes
+				// Override filter's default disallowList tags and attributes
 				if ($customListTags)
 				{
 					$filter->blockedTags = $customListTags;
@@ -865,32 +867,32 @@ class PlgEditorTinymce extends CMSPlugin
 					$filter->blockedAttributes = $customListAttributes;
 				}
 			}
-			// Blacklists take second precedence.
-			elseif ($blackList)
+			// DisallowList take second precedence.
+			elseif ($disallowList)
 			{
-				// Remove the white-listed tags and attributes from the black-list.
-				$blackListTags       = array_diff($blackListTags, $whiteListTags);
-				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
+				// Remove the allowed tags and attributes from the disallowList.
+				$disallowListTags       = array_diff($disallowListTags, $allowListTags);
+				$disallowListAttributes = array_diff($disallowListAttributes, $allowListAttributes);
 
-				$filter = InputFilter::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = InputFilter::getInstance($disallowListTags, $disallowListAttributes, 1, 1);
 
-				// Remove whitelisted tags from filter's default blacklist
-				if ($whiteListTags)
+				// Remove allowed tags from filter's default disallowList
+				if ($allowListTags)
 				{
-					$filter->blockedTags = array_diff($filter->blockedTags, $whiteListTags);
+					$filter->blockedTags = array_diff($filter->blockedTags, $allowListTags);
 				}
 
-				// Remove whitelisted attributes from filter's default blacklist
-				if ($whiteListAttributes)
+				// Remove allowed attributes from filter's default disallowList
+				if ($allowListAttributes)
 				{
-					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $whiteListAttributes);
+					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowListAttributes);
 				}
 			}
-			// Whitelists take third precedence.
-			elseif ($whiteList)
+			// AlloedList take third precedence.
+			elseif ($allowList)
 			{
 				// Turn off XSS auto clean
-				$filter = InputFilter::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = InputFilter::getInstance($allowListTags, $allowListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else

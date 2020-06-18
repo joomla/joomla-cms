@@ -21,18 +21,18 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="whitelist"
+					name="allowlist"
 					type="WorkflowComponentSections"
-					label="JWORKFLOW_EXTENSION_WHITELIST_LABEL"
-					description="JWORKFLOW_EXTENSION_WHITELIST_DESCRIPTION"
+					label="JWORKFLOW_EXTENSION_ALLOW_LIST_LABEL"
+					description="JWORKFLOW_EXTENSION_ALLOW_LIST_DESCRIPTION"
 					multiple="multiple"
 					layout="joomla.form.field.list-fancy-select"
 				/>
 				<field
-					name="blacklist"
+					name="disallowlist"
 					type="WorkflowComponentSections"
-					label="JWORKFLOW_EXTENSION_BLACKLIST_LABEL"
-					description="JWORKFLOW_EXTENSION_BLACKLIST_DESCRIPTION"
+					label="JWORKFLOW_EXTENSION_DISALLOW_LIST_LABEL"
+					description="JWORKFLOW_EXTENSION_DISALLOW_LIST_DESCRIPTION"
 					multiple="multiple"
 					layout="joomla.form.field.list-fancy-select"
 				/>

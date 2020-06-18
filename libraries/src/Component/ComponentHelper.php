@@ -133,17 +133,17 @@ class ComponentHelper
 
 		$filters = $config->get('filters');
 
-		$blackListTags       = array();
-		$blackListAttributes = array();
+		$disallowedTags       = array();
+		$disallowedAttributes = array();
 
 		$customListTags       = array();
 		$customListAttributes = array();
 
-		$whiteListTags       = array();
-		$whiteListAttributes = array();
+		$allowedTags       = array();
+		$allowedAttributes = array();
 
-		$whiteList  = false;
-		$blackList  = false;
+		$allowList  = false;
+		$disallowList  = false;
 		$customList = false;
 		$unfiltered = false;
 
@@ -172,7 +172,7 @@ class ComponentHelper
 			}
 			else
 			{
-				// Blacklist or whitelist.
+				// DisallowList or AllowList.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -199,15 +199,17 @@ class ComponentHelper
 					}
 				}
 
-				// Collect the blacklist or whitelist tags and attributes.
+				// Collect the disallowList or allowlist tags and attributes.
 				// Each list is cumulative.
-				if ($filterType === 'BL')
+				// "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				if (in_array($filterType, ['BL', 'DL']))
 				{
-					$blackList           = true;
-					$blackListTags       = array_merge($blackListTags, $tempTags);
-					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
+					$disallowList         = true;
+					$disallowedTags       = array_merge($disallowedTags, $tempTags);
+					$disallowedAttributes = array_merge($disallowedAttributes, $tempAttributes);
 				}
-				elseif ($filterType === 'CBL')
+				// "CBL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				elseif (in_array($filterType, ['CBL', 'CAL']))
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
@@ -217,31 +219,32 @@ class ComponentHelper
 						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType === 'WL')
+				// "WL" is deprecated in Joomla! 4, will be removed in Joomla! 5
+				elseif (in_array($filterType, ['WL', 'AL']))
 				{
-					$whiteList           = true;
-					$whiteListTags       = array_merge($whiteListTags, $tempTags);
-					$whiteListAttributes = array_merge($whiteListAttributes, $tempAttributes);
+					$allowList       = true;
+					$allowedTags       = array_merge($allowedTags, $tempTags);
+					$allowedAttributes = array_merge($allowedAttributes, $tempAttributes);
 				}
 			}
 		}
 
-		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
-		$blackListTags        = array_unique($blackListTags);
-		$blackListAttributes  = array_unique($blackListAttributes);
+		// Remove duplicates before processing (because the disallowlist uses both sets of arrays).
+		$disallowedTags        = array_unique($disallowedTags);
+		$disallowedAttributes  = array_unique($disallowedAttributes);
 		$customListTags       = array_unique($customListTags);
 		$customListAttributes = array_unique($customListAttributes);
-		$whiteListTags        = array_unique($whiteListTags);
-		$whiteListAttributes  = array_unique($whiteListAttributes);
+		$allowedTags        = array_unique($allowedTags);
+		$allowedAttributes  = array_unique($allowedAttributes);
 
 		if (!$unfiltered)
 		{
-			// Custom blacklist precedes Default blacklist
+			// Custom disallowlist precedes Default disallowlist
 			if ($customList)
 			{
 				$filter = InputFilter::getInstance(array(), array(), 1, 1);
 
-				// Override filter's default blacklist tags and attributes
+				// Override filter's default disallowlist tags and attributes
 				if ($customListTags)
 				{
 					$filter->blockedTags = $customListTags;
@@ -252,37 +255,37 @@ class ComponentHelper
 					$filter->blockedAttributes = $customListAttributes;
 				}
 			}
-			// Blacklists take second precedence.
-			elseif ($blackList)
+			// DisallowList take second precedence.
+			elseif ($disallowList)
 			{
-				// Remove the whitelisted tags and attributes from the black-list.
-				$blackListTags       = array_diff($blackListTags, $whiteListTags);
-				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
+				// Remove the allowed tags and attributes from the disallowList.
+				$disallowedTags       = array_diff($disallowedTags, $allowedTags);
+				$disallowedAttributes = array_diff($disallowedAttributes, $allowedAttributes);
 
 				$filter = InputFilter::getInstance(
-					$blackListTags,
-					$blackListAttributes,
+					$disallowedTags,
+					$disallowedAttributes,
 					InputFilter::ONLY_BLOCK_DEFINED_TAGS,
 					InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
 				);
 
-				// Remove whitelisted tags from filter's default blacklist
-				if ($whiteListTags)
+				// Remove allowed tags from filter's default disallowList
+				if ($allowedTags)
 				{
-					$filter->blockedTags = array_diff($filter->blockedTags, $whiteListTags);
+					$filter->blockedTags = array_diff($filter->blockedTags, $allowedTags);
 				}
 
-				// Remove whitelisted attributes from filter's default blacklist
-				if ($whiteListAttributes)
+				// Remove allowed attributes from filter's default disallowList
+				if ($allowedAttributes)
 				{
-					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $whiteListAttributes);
+					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedAttributes);
 				}
 			}
-			// Whitelists take third precedence.
-			elseif ($whiteList)
+			// AllowLists take third precedence.
+			elseif ($allowList)
 			{
 				// Turn off XSS auto clean
-				$filter = InputFilter::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = InputFilter::getInstance($allowedTags, $allowedAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else

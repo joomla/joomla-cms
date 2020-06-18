@@ -286,7 +286,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function isSupported($context)
 	{
-		if (!$this->checkWhiteAndBlacklist($context))
+		if (!$this->checkAllowAndDisallow($context))
 		{
 			return false;
 		}

@@ -78,20 +78,38 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	protected $htmlFormName = 'adminForm';
 
 	/**
-	 * A blacklist of filter variables to not merge into the model's state
+	 * A list of filter variables to not merge into the model's state
 	 *
-	 * @var    array
-	 * @since  3.4.5
+	 * @var        array
+	 * @since      3.4.5
+	 * @deprecated 4.0.0 use $filterDisallowList instead
 	 */
 	protected $filterBlacklist = array();
 
 	/**
-	 * A blacklist of list variables to not merge into the model's state
+	 * A list of filter variables to not merge into the model's state
+	 *
+	 * @var        array
+	 * @since      3.4.5
+	 */
+	protected $filterDisallowList = array();
+
+	/**
+	 * A list of variables to not merge into the model's state
+	 *
+	 * @var    array
+	 * @since  3.4.5
+	 * @deprecated 4.0.0 use $listDisallowList instead
+	 */
+	protected $listBlacklist = array('select');
+
+	/**
+	 * A list of variables to not merge into the model's state
 	 *
 	 * @var    array
 	 * @since  3.4.5
 	 */
-	protected $listBlacklist = array('select');
+	protected $listDisallowList = array('select');
 
 	/**
 	 * Constructor
@@ -426,8 +444,8 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			{
 				foreach ($filters as $name => $value)
 				{
-					// Exclude if blacklisted
-					if (!\in_array($name, $this->filterBlacklist))
+					// Exclude if disallowed
+					if (!\in_array($name, $this->filterDisallowList))
 					{
 						$this->setState('filter.' . $name, $value);
 					}
@@ -441,8 +459,8 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			{
 				foreach ($list as $name => $value)
 				{
-					// Exclude if blacklisted
-					if (!\in_array($name, $this->listBlacklist))
+					// Exclude if disallowed
+					if (!\in_array($name, $this->listDisallowList))
 					{
 						// Extra validations
 						switch ($name)
