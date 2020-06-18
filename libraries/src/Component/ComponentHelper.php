@@ -201,6 +201,7 @@ class ComponentHelper
 
 				// Collect the disallowList or allowlist tags and attributes.
 				// Each list is cumulative.
+
 				// "BL" is deprecated in Joomla! 4, will be removed in Joomla! 5
 				if (in_array($filterType, ['BL', 'DL']))
 				{
