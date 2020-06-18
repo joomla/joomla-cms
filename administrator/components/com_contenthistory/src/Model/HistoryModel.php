@@ -11,6 +11,7 @@ namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\CMSHelper;
@@ -219,16 +220,12 @@ class HistoryModel extends ListModel
 		}
 
 		// Access check
-		if ($user->authorise('core.edit', $items[0]->item_id) || $this->canEdit($items[0]))
+		if (!$user->authorise('core.edit', $items[0]->item_id) || !$this->canEdit($items[0]))
 		{
-			return $items;
-		}
-		else
-		{
-			$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
+            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 
-			return false;
 		}
+        return $items;
 	}
 
 	/**
