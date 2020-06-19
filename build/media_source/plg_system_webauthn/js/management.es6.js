@@ -423,7 +423,7 @@ window.Joomla = window.Joomla || {};
         button.addEventListener('click', Joomla.plgSystemWebauthnDeleteOnClick);
       });
     }
-  }
+  };
 
   // Initialization. Runs on DOM content loaded since this script is always loaded deferred.
   Joomla.plgSystemWebauthnInitialize();
