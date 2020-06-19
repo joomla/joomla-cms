@@ -34,8 +34,8 @@ window.Joomla = window.Joomla || {};
         } else {
           encodedString
             += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
-            object[prop]
-          )}`;
+              object[prop]
+            )}`;
         }
 
         return;
