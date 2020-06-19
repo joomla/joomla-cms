@@ -31,6 +31,14 @@ class NoteField extends FormField
 	protected $type = 'Note';
 
 	/**
+	 * Hide the legend when rendering the form field.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $hiddenLegend = true;
+
+	/**
 	 * Method to get the field label markup.
 	 *
 	 * @return  string  The field label markup.
