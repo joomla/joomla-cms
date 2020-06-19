@@ -54,7 +54,7 @@ window.Joomla = window.Joomla || {};
    * @param   {String}  message
    */
   const handleCreationError = (message) => {
-    Joomla.renderMessages({error: [message]});
+    Joomla.renderMessages({ error: [message] });
   };
 
   /**
@@ -71,7 +71,7 @@ window.Joomla = window.Joomla || {};
   Joomla.plgSystemWebauthnCreateCredentials = (storeID, interfaceSelector) => {
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      Joomla.renderMessages({error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT')]});
+      Joomla.renderMessages({ error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT')] });
 
       return;
     }
@@ -104,7 +104,7 @@ window.Joomla = window.Joomla || {};
 
     // Convert the public key information to a format usable by the browser's credentials manager
     publicKey.challenge = Uint8Array.from(
-      window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0)
+      window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0),
     );
 
     publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), (c) => c.charCodeAt(0));
@@ -117,7 +117,7 @@ window.Joomla = window.Joomla || {};
     }
 
     // Ask the browser to prompt the user for their authenticator
-    navigator.credentials.create({publicKey})
+    navigator.credentials.create({ publicKey })
       .then((data) => {
         const publicKeyCredential = {
           id: data.id,
@@ -125,8 +125,8 @@ window.Joomla = window.Joomla || {};
           rawId: arrayToBase64String(new Uint8Array(data.rawId)),
           response: {
             clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
-            attestationObject: arrayToBase64String(new Uint8Array(data.response.attestationObject))
-          }
+            attestationObject: arrayToBase64String(new Uint8Array(data.response.attestationObject)),
+          },
         };
 
         // Send the response to your server
@@ -137,7 +137,7 @@ window.Joomla = window.Joomla || {};
           format: 'raw',
           akaction: 'create',
           encoding: 'raw',
-          data: btoa(JSON.stringify(publicKeyCredential))
+          data: btoa(JSON.stringify(publicKeyCredential)),
         };
 
         Joomla.request({
@@ -159,7 +159,7 @@ window.Joomla = window.Joomla || {};
           },
           onError: (xhr) => {
             handleCreationError(`${xhr.status} ${xhr.statusText}`);
-          }
+          },
         });
       })
       .catch((error) => {
@@ -220,7 +220,7 @@ window.Joomla = window.Joomla || {};
           encoding: 'json',
           akaction: 'savelabel',
           credential_id: credentialId,
-          new_label: elNewLabel
+          new_label: elNewLabel,
         };
 
         Joomla.request({
@@ -238,16 +238,16 @@ window.Joomla = window.Joomla || {};
 
             if (result !== true) {
               handleCreationError(
-                Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
+                Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'),
               );
             }
           },
           onError: (xhr) => {
             handleCreationError(
               `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
-              } -- ${xhr.status} ${xhr.statusText}`
+              } -- ${xhr.status} ${xhr.statusText}`,
             );
-          }
+          },
         });
       }
 
@@ -317,7 +317,7 @@ window.Joomla = window.Joomla || {};
       format: 'json',
       encoding: 'json',
       akaction: 'delete',
-      credential_id: credentialId
+      credential_id: credentialId,
     };
 
     Joomla.request({
@@ -348,9 +348,9 @@ window.Joomla = window.Joomla || {};
         elDelete.disabled = false;
         handleCreationError(
           `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
-          } -- ${xhr.status} ${xhr.statusText}`
+          } -- ${xhr.status} ${xhr.statusText}`,
         );
-      }
+      },
     });
 
     return false;
