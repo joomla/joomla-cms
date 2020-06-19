@@ -34,7 +34,7 @@ window.Joomla = window.Joomla || {};
         } else {
           encodedString
             += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
-              object[prop]
+              object[prop],
             )}`;
         }
 
@@ -335,7 +335,7 @@ window.Joomla = window.Joomla || {};
 
         if (result !== true) {
           handleCreationError(
-            Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
+            Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED'),
           );
 
           return;
