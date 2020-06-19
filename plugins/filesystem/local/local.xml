@@ -41,6 +41,7 @@
 							folderFilter=""
 							exclude=""
 							stripext=""
+							recursive="true"
 						/>
 					</form>
 				</field>
