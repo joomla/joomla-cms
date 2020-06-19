@@ -109,6 +109,6 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 	<?php echo $this->form->renderField('template_id'); ?>
 	<?php echo $this->form->renderField('language'); ?>
 	<input type="hidden" name="task" value="">
-	<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
+	<input type="hidden" name="return" value="<?php echo $input->get('return', null, 'BASE64'); ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
