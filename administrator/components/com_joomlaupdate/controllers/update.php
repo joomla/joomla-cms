@@ -545,7 +545,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			'currentCompatibilityStatus' => $currentCompatibilityStatus,
 			'resultGroup' => $resultGroup,
 			'upgradeWarning' => $upgradeWarning
-			);
+		);
 
 		$this->app = JFactory::getApplication();
 		$this->app->mimeType = 'application/json';
