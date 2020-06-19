@@ -70,31 +70,31 @@ class HistoryModel extends ListModel
 	 */
 	protected function canEdit($record)
 	{
-		$result = false;
-
-		if (!empty($record->item_id))
+		if (empty($record->item_id))
 		{
-			/**
-			 * Make sure user has edit privileges for this content item. Note that we use edit permissions
-			 * for the content item, not delete permissions for the content history row.
-			 */
-			$user   = Factory::getUser();
-			$result = $user->authorise('core.edit', $record->item_id);
-
-			// Finally try session (this catches edit.own case too)
-			if (!$result)
-			{
-				/** @var ContentType $contentTypeTable */
-				$contentTypeTable = $this->getTable('ContentType');
-
-				$typeAlias        = explode('.', $record->item_id);
-				$id = array_pop($typeAlias);
-				$typeAlias        = implode('.', $typeAlias);
-				$contentTypeTable->load(array('type_alias' => $typeAlias));
-				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-				$result = in_array((int) $id, $typeEditables);
-			}
+			return false;
 		}
+
+		/**
+		 * Make sure user has edit privileges for this content item. Note that we use edit permissions
+		 * for the content item, not delete permissions for the content history row.
+		 */
+		$user   = Factory::getUser();
+		if ($result = $user->authorise('core.edit', $record->item_id))
+		{
+			return $result;
+		}
+
+		// Finally try session (this catches edit.own case too)
+		/** @var ContentType $contentTypeTable */
+		$contentTypeTable = $this->getTable('ContentType');
+
+		$typeAlias        = explode('.', $record->item_id);
+		$id = array_pop($typeAlias);
+		$typeAlias        = implode('.', $typeAlias);
+		$contentTypeTable->load(array('type_alias' => $typeAlias));
+		$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+		$result = in_array((int) $id, $typeEditables);
 
 		return $result;
 	}
@@ -220,7 +220,7 @@ class HistoryModel extends ListModel
 		}
 
 		// Access check
-		if (!$user->authorise('core.edit', $items[0]->item_id) || !$this->canEdit($items[0]))
+		if (!$user->authorise('core.edit', $items[0]->item_id) && !$this->canEdit($items[0]))
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}

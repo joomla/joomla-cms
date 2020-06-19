@@ -49,7 +49,7 @@ class PreviewModel extends ItemModel
 		$user = Factory::getUser();
 
 		// Access check
-		if (!$user->authorise('core.edit', $table->item_id) || !$this->canEdit($table))
+		if (!$user->authorise('core.edit', $table->item_id) && !$this->canEdit($table))
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}

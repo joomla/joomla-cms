@@ -49,71 +49,72 @@ class CompareModel extends ListModel
 		$id2 = $input->getInt('id2');
 		$result = array();
 
-		if ($table1->load($id1) && $table2->load($id2))
+		if (!$table1->load($id1) || !$table2->load($id2))
 		{
-			// Get the first history record's content type record so we can check ACL
-			/** @var ContentType $contentTypeTable */
-			$contentTypeTable = $this->getTable('ContentType');
-			$typeAlias        = explode('.', $table1->item_id);
-			array_pop($typeAlias);
-			$typeAlias        = implode('.', $typeAlias);
-
-			if (!$contentTypeTable->load(array('type_alias' => $typeAlias)))
-			{
-				// Assume a failure to load the content type means broken data, abort mission
-				return false;
-			}
-
-			$user = Factory::getUser();
-
-			// Access check
-			if (!$user->authorise('core.edit', $table1->item_id) || !$this->canEdit($table1))
-			{
-				throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-			}
-
-			$nullDate = $this->getDbo()->getNullDate();
-
-			foreach (array($table1, $table2) as $table)
-			{
-				$object = new \stdClass;
-				$object->data = ContenthistoryHelper::prepareData($table);
-				$object->version_note = $table->version_note;
-
-				// Let's use custom calendars when present
-				$object->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
-
-				$dateProperties = array (
-					'modified_time',
-					'created_time',
-					'modified',
-					'created',
-					'checked_out_time',
-					'publish_up',
-					'publish_down',
-				);
-
-				foreach ($dateProperties as $dateProperty)
-				{
-					if (property_exists($object->data, $dateProperty)
-						&& $object->data->$dateProperty->value !== null
-						&& $object->data->$dateProperty->value !== $nullDate)
-					{
-						$object->data->$dateProperty->value = HTMLHelper::_(
-							'date',
-							$object->data->$dateProperty->value,
-							Text::_('DATE_FORMAT_LC6')
-						);
-					}
-				}
-
-				$result[] = $object;
-			}
-
-			return $result;
+			// Assume a failure to load the content means broken data, abort mission
+			return false;
 		}
 
-		return false;
+		// Get the first history record's content type record so we can check ACL
+		/** @var ContentType $contentTypeTable */
+		$contentTypeTable = $this->getTable('ContentType');
+		$typeAlias        = explode('.', $table1->item_id);
+		array_pop($typeAlias);
+		$typeAlias        = implode('.', $typeAlias);
+
+		if (!$contentTypeTable->load(array('type_alias' => $typeAlias)))
+		{
+			// Assume a failure to load the content type means broken data, abort mission
+			return false;
+		}
+
+		$user = Factory::getUser();
+
+		// Access check
+		if (!$user->authorise('core.edit', $table1->item_id) && !$this->canEdit($table1))
+		{
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$nullDate = $this->getDbo()->getNullDate();
+
+		foreach (array($table1, $table2) as $table)
+		{
+			$object = new \stdClass;
+			$object->data = ContenthistoryHelper::prepareData($table);
+			$object->version_note = $table->version_note;
+
+			// Let's use custom calendars when present
+			$object->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
+
+			$dateProperties = array (
+				'modified_time',
+				'created_time',
+				'modified',
+				'created',
+				'checked_out_time',
+				'publish_up',
+				'publish_down',
+			);
+
+			foreach ($dateProperties as $dateProperty)
+			{
+				if (property_exists($object->data, $dateProperty)
+					&& $object->data->$dateProperty->value !== null
+					&& $object->data->$dateProperty->value !== $nullDate)
+				{
+					$object->data->$dateProperty->value = HTMLHelper::_(
+						'date',
+						$object->data->$dateProperty->value,
+						Text::_('DATE_FORMAT_LC6')
+					);
+				}
+			}
+
+			$result[] = $object;
+		}
+
+		return $result;
 	}
 
 	/**
