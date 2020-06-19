@@ -80,6 +80,7 @@ class HistoryModel extends ListModel
 		 * for the content item, not delete permissions for the content history row.
 		 */
 		$user   = Factory::getUser();
+
 		if ($result = $user->authorise('core.edit', $record->item_id))
 		{
 			return $result;
