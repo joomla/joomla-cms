@@ -40,7 +40,7 @@ class PreviewModel extends ItemModel
 		$table = $this->getTable('ContentHistory');
 		$versionId = Factory::getApplication()->input->getInt('version_id');
 
-		if (!$table->load($versionId))
+		if (!$versionId || \is_array($versionId) || !$table->load($versionId))
 		{
 			return false;
 		}
