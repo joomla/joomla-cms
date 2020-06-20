@@ -21,7 +21,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Functions.
+/**
+ * @param   string  $command  The actual command name
+ *
+ * @return  void
+ */
 function usage($command)
 {
 	echo PHP_EOL;
@@ -206,17 +210,17 @@ if (file_exists($rootPath . $versionFile))
 	$fileContents = preg_replace("#MAJOR_VERSION\s*=\s*[^;]*#", "MAJOR_VERSION = " . $version['major'], $fileContents);
 	$fileContents = preg_replace("#MINOR_VERSION\s*=\s*[^;]*#", "MINOR_VERSION = " . $version['minor'], $fileContents);
 	$fileContents = preg_replace("#PATCH_VERSION\s*=\s*[^;]*#", "PATCH_VERSION = " . $version['patch'], $fileContents);
-	$fileContents = preg_replace("#EXTRA_VERSION\s*=\s*'[^\']*'#", "EXTRA_VERSION = '" . $version['extra'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELEASE\s*=\s*'[^\']*'#", "RELEASE = '" . $version['main'] . "'", $fileContents);
-	$fileContents = preg_replace("#DEV_LEVEL\s*=\s*'[^\']*'#", "DEV_LEVEL = '" . $version['dev_devel'] . "'", $fileContents);
-	$fileContents = preg_replace("#DEV_STATUS\s*=\s*'[^\']*'#", "DEV_STATUS = '" . $version['dev_status'] . "'", $fileContents);
-	$fileContents = preg_replace("#BUILD\s*=\s*'[^\']*'#", "BUILD = '" . $version['build'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELDATE\s*=\s*'[^\']*'#", "RELDATE = '" . $version['reldate'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELTIME\s*=\s*'[^\']*'#", "RELTIME = '" . $version['reltime'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELTZ\s*=\s*'[^\']*'#", "RELTZ = '" . $version['reltz'] . "'", $fileContents);
+	$fileContents = preg_replace("#EXTRA_VERSION\s*=\s*'[^']*'#", "EXTRA_VERSION = '" . $version['extra'] . "'", $fileContents);
+	$fileContents = preg_replace("#RELEASE\s*=\s*'[^']*'#", "RELEASE = '" . $version['main'] . "'", $fileContents);
+	$fileContents = preg_replace("#DEV_LEVEL\s*=\s*'[^']*'#", "DEV_LEVEL = '" . $version['dev_devel'] . "'", $fileContents);
+	$fileContents = preg_replace("#DEV_STATUS\s*=\s*'[^']*'#", "DEV_STATUS = '" . $version['dev_status'] . "'", $fileContents);
+	$fileContents = preg_replace("#BUILD\s*=\s*'[^']*'#", "BUILD = '" . $version['build'] . "'", $fileContents);
+	$fileContents = preg_replace("#RELDATE\s*=\s*'[^']*'#", "RELDATE = '" . $version['reldate'] . "'", $fileContents);
+	$fileContents = preg_replace("#RELTIME\s*=\s*'[^']*'#", "RELTIME = '" . $version['reltime'] . "'", $fileContents);
+	$fileContents = preg_replace("#RELTZ\s*=\s*'[^']*'#", "RELTZ = '" . $version['reltz'] . "'", $fileContents);
 	if (!empty($version['codename']))
 	{
-		$fileContents = preg_replace("#CODENAME\s*=\s*'[^\']*'#", "CODENAME = '" . $version['codename'] . "'", $fileContents);
+		$fileContents = preg_replace("#CODENAME\s*=\s*'[^']*'#", "CODENAME = '" . $version['codename'] . "'", $fileContents);
 	}
 	file_put_contents($rootPath . $versionFile, $fileContents);
 }
@@ -274,8 +278,6 @@ foreach ($readMeFiles as $readMeFile)
 	}
 }
 
-// Updates the copyright date in core files.
-$changedFilesCopyrightDate = 0;
 $changedFilesSinceVersion  = 0;
 $year                      = date('Y');
 $directory                 = new \RecursiveDirectoryIterator($rootPath);
@@ -305,7 +307,7 @@ foreach ($iterator as $file)
 
 		foreach ($directoryLoopExcludeDirectories as $excludeDirectory)
 		{
-			if (preg_match('#^' . preg_quote($excludeDirectory) . '#', $relativePath))
+			if (preg_match('#^' . preg_quote($excludeDirectory, '#') . '#', $relativePath))
 			{
 				$continue = false;
 				break;
@@ -315,29 +317,20 @@ foreach ($iterator as $file)
 		if ($continue)
 		{
 			$changeSinceVersion  = false;
-			$changeCopyrightDate = false;
 
 			// Load the file.
 			$fileContents = file_get_contents($filePath);
 
-			// Check if need to change the copyright date.
-			if (preg_match('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', $fileContents) && !preg_match('#2005\s+-\s+' . $year. '\s+Open\s+Source\s+Matters#', $fileContents))
-			{
-				$changeCopyrightDate = true;
-				$fileContents = preg_replace('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', '2005 - ' . $year. ' Open Source Matters', $fileContents);
-				$changedFilesCopyrightDate++;
-			}
-
 			// Check if need to change the since version.
-			if ($relativePath !== '/build/bump.php' && preg_match('#__DEPLOY_VERSION__#', $fileContents))
+			if ($relativePath !== '/build/bump.php' && false !== strpos($fileContents, "__DEPLOY_VERSION__"))
 			{
 				$changeSinceVersion = true;
-				$fileContents = preg_replace('#__DEPLOY_VERSION__#', $version['release'], $fileContents);
+				$fileContents = str_replace("__DEPLOY_VERSION__", $version['release'], $fileContents);
 				$changedFilesSinceVersion++;
 			}
 
 			// Save the file.
-			if ($changeCopyrightDate || $changeSinceVersion)
+			if ($changeSinceVersion)
 			{
 				file_put_contents($filePath, $fileContents);
 			}
@@ -345,16 +338,9 @@ foreach ($iterator as $file)
 	}
 }
 
-if ($changedFilesCopyrightDate > 0 || $changedFilesSinceVersion > 0)
+if ($changedFilesSinceVersion > 0)
 {
-	if ($changedFilesCopyrightDate > 0)
-	{
-		echo '- Copyright Date changed in ' . $changedFilesCopyrightDate . ' files.' . PHP_EOL;
-	}
-	if ($changedFilesSinceVersion > 0)
-	{
-		echo '- Since Version changed in ' . $changedFilesSinceVersion . ' files.' . PHP_EOL;
-	}
+	echo '- Since Version changed in ' . $changedFilesSinceVersion . ' files.' . PHP_EOL;
 	echo PHP_EOL;
 }
 
