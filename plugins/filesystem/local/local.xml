@@ -39,7 +39,7 @@
 							default="images"
 							label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_DIRECTORY_LABEL"
 							folderFilter=""
-							exclude=""
+							exclude="administrator|api|build|cache|cli|components|includes|installation|language|layouts|libraries|media|modules|node_modules|plugins|templates|tests|tmp"
 							stripext=""
 						/>
 					</form>
