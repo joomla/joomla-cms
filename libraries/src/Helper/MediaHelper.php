@@ -11,7 +11,10 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use enshrined\svgSanitize\Sanitizer;
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 use RuntimeException;
 
@@ -23,6 +26,13 @@ use RuntimeException;
 class MediaHelper
 {
 	/**
+	 * Image extensions in regular expression format, e.g. "bmp|gif|jpg|png"
+	 *
+	 * @var  string
+	 */
+	private static $imageTypes;
+
+	/**
 	 * Checks if the file is an image
 	 *
 	 * @param   string  $fileName  The filename
@@ -33,7 +43,24 @@ class MediaHelper
 	 */
 	public function isImage($fileName)
 	{
-		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+		// Retrieve the image types from the com_media configuration
+		if (empty(self::$imageTypes))
+		{
+			$params = ComponentHelper::getParams('com_media');
+
+			$params->get('image_extensions', 'bmp,gif,jpg,png');
+
+			$imageTypes       = explode(',', $params);
+			$imageTypes       = array_map('trim', $imageTypes);
+			$filterClosure    = function ($extension) {
+				return !empty($extension);
+			};
+			$imageTypes       = array_filter($imageTypes, $filterClosure);
+			$imageTypes       = array_unique($imageTypes);
+			self::$imageTypes = implode('|', $imageTypes);
+		}
+
+		$imageTypes = self::$imageTypes;
 
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
 	}
@@ -91,7 +118,7 @@ class MediaHelper
 				finfo_close($finfo);
 			}
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
 			// If we have any kind of error here => false;
 			return false;
@@ -142,11 +169,12 @@ class MediaHelper
 	 *
 	 * @return  boolean
 	 *
+	 * @throws  Exception
 	 * @since   3.2
 	 */
 	public function canUpload($file, $component = 'com_media')
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$params = ComponentHelper::getParams($component);
 
 		if (empty($file['name']))
@@ -158,7 +186,7 @@ class MediaHelper
 
 		jimport('joomla.filesystem.file');
 
-		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== \JFile::makeSafe($file['name']))
+		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== File::makeSafe($file['name']))
 		{
 			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
@@ -179,8 +207,9 @@ class MediaHelper
 
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
-			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
+			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd',
+			'com', 'cpl', 'hta', 'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
+			'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
 		);
 
 		$check = array_intersect($filetypes, $executable);
@@ -253,10 +282,8 @@ class MediaHelper
 				}
 
 				// If this is an SVG file (by name or MIME type) we need to sanitize it
-				if (
-					(strtolower(substr($file['name'], -4)) === '.svg')
-					|| in_array($mime, array('image/svg+xml', 'application/svg+xml'))
-				)
+				if ((strtolower(substr($file['name'], -4)) === '.svg')
+					|| in_array($mime, array('image/svg+xml', 'application/svg+xml')))
 				{
 					try
 					{
@@ -296,7 +323,7 @@ class MediaHelper
 					return false;
 				}
 
-				if (!\JFactory::getUser()->authorise('core.manage', $component))
+				if (!Factory::getUser()->authorise('core.manage', $component))
 				{
 					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
 
@@ -305,23 +332,25 @@ class MediaHelper
 			}
 		}
 
-		$xss_check = file_get_contents($file['tmp_name'], false, null, -1, 256);
+		$xssCheck = file_get_contents($file['tmp_name'], false, null, -1, 256);
 
-		$html_tags = array(
-			'abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink',
-			'blockquote', 'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del',
-			'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-			'head', 'hr', 'html', 'iframe', 'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext',
-			'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object',
-			'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar',
-			'small', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title',
-			'tr', 'tt', 'ul', 'var', 'wbr', 'xml', 'xmp', '!DOCTYPE', '!--',
+		$htmlTags = array(
+			'abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big',
+			'blackface', 'blink', 'blockquote', 'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col',
+			'colgroup', 'comment', 'custom', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset',
+			'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'hr', 'html', 'iframe',
+			'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext',
+			'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript',
+			'nosmartquotes', 'object', 'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp',
+			'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike', 'strong', 'style',
+			'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title',  'tr', 'tt', 'ul', 'var',
+			'wbr', 'xml', 'xmp', '!DOCTYPE', '!--',
 		);
 
-		foreach ($html_tags as $tag)
+		foreach ($htmlTags as $tag)
 		{
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (stripos($xss_check, '<' . $tag . ' ') !== false || stripos($xss_check, '<' . $tag . '>') !== false)
+			if (stripos($xssCheck, '<' . $tag . ' ') !== false || stripos($xssCheck, '<' . $tag . '>') !== false)
 			{
 				$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 
@@ -377,8 +406,8 @@ class MediaHelper
 	 */
 	public function countFiles($dir)
 	{
-		$total_file = 0;
-		$total_dir  = 0;
+		$totalFile = 0;
+		$totalDir  = 0;
 
 		if (is_dir($dir))
 		{
@@ -386,21 +415,24 @@ class MediaHelper
 
 			while (($entry = $d->read()) !== false)
 			{
-				if ($entry[0] !== '.' && strpos($entry, '.html') === false && strpos($entry, '.php') === false && is_file($dir . DIRECTORY_SEPARATOR . $entry))
+				if (($entry[0] !== '.')
+					&& (strpos($entry, '.html') === false)
+					&& (strpos($entry, '.php') === false)
+					&& is_file($dir . DIRECTORY_SEPARATOR . $entry))
 				{
-					$total_file++;
+					$totalFile++;
 				}
 
 				if ($entry[0] !== '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
 				{
-					$total_dir++;
+					$totalDir++;
 				}
 			}
 
 			$d->close();
 		}
 
-		return array($total_file, $total_dir);
+		return array($totalFile, $totalDir);
 	}
 
 	/**
@@ -434,7 +466,7 @@ class MediaHelper
 	/**
 	 * Tries to sanitize an uploaded file if it's an SVG file (by extension or MIME type)
 	 *
-	 * @param   array  $fileDefinition  The uploaded file definition to sanitize
+	 * @param   string  $tempName  The temporary uploaded file to sanitize
 	 *
 	 * @return  void
 	 *
@@ -444,7 +476,7 @@ class MediaHelper
 	 */
 	public function sanitizeSVG($tempName)
 	{
-		$sanitizer = new Sanitizer();
+		$sanitizer = new Sanitizer;
 		$sanitizer->removeRemoteReferences(true);
 		$sanitizer->minify(true);
 
@@ -470,5 +502,4 @@ class MediaHelper
 			throw new RuntimeException(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
 		}
 	}
-
 }
