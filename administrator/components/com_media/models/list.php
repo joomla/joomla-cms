@@ -139,7 +139,7 @@ class MediaModelList extends JModelLegacy
 			$folderList = Folder::folders($basePath);
 		}
 
-		$mediaHelper = new MediaHelper();
+		$mediaHelper = new MediaHelper;
 
 		// Iterate over the files if they exist
 		if ($fileList !== false)
@@ -160,9 +160,9 @@ class MediaModelList extends JModelLegacy
 					$ext = strtolower(File::getExt($file));
 
 					// TODO THe .xcf extension comes from Joomla 1.0 but it's no longer valid in modern browsers...
-					$imageExtensions = array_merge($mediaHelper->getImageExtensions(), array(
-						'jpg', 'png', 'gif', 'xcf', 'odg', 'bmp', 'jpeg', 'ico'
-					));
+					$imageExtensions = array_merge($mediaHelper->getImageExtensions(),
+						array('jpg', 'png', 'gif', 'xcf', 'odg', 'bmp', 'jpeg', 'ico')
+					);
 
 					// Image extension?
 					if (in_array($ext, $imageExtensions))
