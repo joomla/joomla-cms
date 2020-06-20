@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_fields
  *
- * @copyright   © 2016 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -64,7 +64,7 @@ foreach ($fields as $field)
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 
 	// If the content is empty do nothing
-	if (trim($content) === '') 
+	if (trim($content) === '')
 	{
 		continue;
 	}

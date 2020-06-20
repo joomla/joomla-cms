@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.urlinstaller
  *
- * @copyright   © 2016 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		var form = document.getElementById("adminForm");
 
-		// do field validation 
+		// do field validation
 		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
 			alert("' . JText::_('PLG_INSTALLER_URLINSTALLER_NO_URL', true) . '");
 		}

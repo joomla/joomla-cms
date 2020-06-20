@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   © 2013 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -264,17 +264,17 @@ abstract class ConfigModelCms extends JModelDatabase
 		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
-	/**	
-	 * Method to test whether a record can have its state changed.	
-	 *	
-	 * @param   object  $record  A record object.	
-	 *	
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.	
-	 *	
-	 * @since   3.2	
-	 */	
-	protected function canEditState($record)	
-	{	
-		return JFactory::getUser()->authorise('core.edit.state', $this->option);	
+	/**
+	 * Method to test whether a record can have its state changed.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.2
+	 */
+	protected function canEditState($record)
+	{
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   © 2007 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,7 +159,7 @@ class ModulesModelModule extends JModelAdmin
 
 				$table->position = $position;
 
-				// Copy of the Asset ID 
+				// Copy of the Asset ID
 				$oldAssetId = $table->asset_id;
 
 				// Alter the title if necessary

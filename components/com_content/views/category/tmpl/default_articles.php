@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   © 2009 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,9 +20,9 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $langFilter = false;
 
-// Tags filtering based on language filter 
+// Tags filtering based on language filter
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled()))
-{ 
+{
 	$tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
 	switch ($tagfilter)

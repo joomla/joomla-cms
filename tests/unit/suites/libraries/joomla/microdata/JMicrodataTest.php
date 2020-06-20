@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Microdata
  *
- * @copyright   © 2013 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,7 +62,7 @@ class JMicrodataTest extends \PHPUnit\Framework\TestCase
 	 * Test the default settings
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   3.2
 	 */
 	public function testDefaults()

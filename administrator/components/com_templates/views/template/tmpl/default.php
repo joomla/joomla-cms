@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   © 2008 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,12 +93,12 @@ jQuery(document).ready(function($){
 			liEls[i].querySelector('a').classList.add('active');
 			if (i === liEls.length - 1) {
 				var parentUl = liEls[i].querySelector('ul'),
-					allLi = parentUl.querySelectorAll('li'); 
-	
+					allLi = parentUl.querySelectorAll('li');
+
 				for (var i = 0, l = allLi.length; i < l; i++) {
 					aEl = allLi[i].querySelector('a'),
 					spanEl = aEl.querySelector('span');
-	
+
 					if (spanEl && filePathTmp === $.trim(spanEl.innerText)) {
 						aEl.classList.add('active');
 					}

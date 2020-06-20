@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   © 2013 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,9 +136,9 @@ class JHtmlJqueryTest extends TestCase
 	public function testToken()
 	{
 		JHtmlJquery::token();
-		
+
 		$doc = JFactory::getDocument();
-		
+
 		$script = $doc->_script['text/javascript'];
 		$expected = ";(function ($) { $.ajaxSetup({ headers: { 'X-CSRF-Token': Joomla.getOptions('csrf.token') } }); })(jQuery);";
 

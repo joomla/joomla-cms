@@ -1,5 +1,5 @@
 /**
- * @copyright	© 2007 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright	© 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,13 +39,13 @@ h4 {
 }
 
 a:link, a:visited {
-	color: #1B57B1; 
+	color: #1B57B1;
 	text-decoration: none;
 	font-weight: normal;
 }
 
 a:hover {
-	color: #00c;	
+	color: #00c;
 	text-decoration: underline;
 	font-weight: normal;
 }

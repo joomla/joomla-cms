@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   © 2010 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ JHtml::_('behavior.caption');
 </div>
 <?php endif; ?>
 <?php if ($this->params->get('page_subheading')) : ?>
-	<h2> 
+	<h2>
 		<?php echo $this->escape($this->params->get('page_subheading')); ?>
 	</h2>
 <?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   © 2012 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -407,12 +407,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$tableSub = $this->replacePrefix($table);
 		$fn = explode('.', $tableSub);
 
-		if (count($fn) === 2) 
+		if (count($fn) === 2)
 		{
 			$schema = $fn[0];
 			$tableSub = $fn[1];
-		} 
-		else 
+		}
+		else
 		{
 			$schema = 'public';
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   © 2012 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	// Add spindle-wheel for installations:
 	jQuery(document).ready(function($) {
 		var outerDiv = $(\"#installer-install\");
-		
+
 		JoomlaInstaller.getLoadingOverlay()
 			.css(\"top\", outerDiv.position().top - $(window).scrollTop())
 			.css(\"left\", \"0\")
@@ -81,7 +81,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			.css(\"display\", \"none\")
 			.css(\"margin-top\", \"-10px\");
 	});
-	
+
 	var JoomlaInstaller = {
 		getLoadingOverlay: function () {
 			return jQuery(\"#loading\");

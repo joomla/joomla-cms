@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   © 2013 Open Source Matters, Inc. <https://www.joomla.org/contribute-to-joomla.html>
+ * @copyright   © 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * @deprecated  3.2 removed without replacement in 4.0 see global.php for an alternative
@@ -49,7 +49,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 		<?php else : ?>
 			<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
 		<?php endif; ?>
-		
+
 		<?php echo $displayData->getForm()->renderField('tags'); ?>
 		<?php if ($saveHistory) : ?>
 			<?php echo $displayData->getForm()->renderField('version_note'); ?>
