@@ -10,7 +10,10 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Text;
+use RuntimeException;
 
 /**
  * Media helper class
@@ -148,7 +151,7 @@ class MediaHelper
 
 		if (empty($file['name']))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
 
 			return false;
 		}
@@ -157,7 +160,7 @@ class MediaHelper
 
 		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== \JFile::makeSafe($file['name']))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
 			return false;
 		}
@@ -167,7 +170,7 @@ class MediaHelper
 		if (count($filetypes) < 2)
 		{
 			// There seems to be no extension
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -184,7 +187,7 @@ class MediaHelper
 
 		if (!empty($check))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -195,7 +198,7 @@ class MediaHelper
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -204,7 +207,7 @@ class MediaHelper
 
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 			return false;
 		}
@@ -229,7 +232,7 @@ class MediaHelper
 						// If the mime type is not allowed we don't upload it and show the mime code error to the user
 						if ($result === false)
 						{
-							$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+							$app->enqueueMessage(Text::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 							return false;
 						}
@@ -237,16 +240,34 @@ class MediaHelper
 					// We can't detect the mime type so it looks like an invalid image
 					else
 					{
-						$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
+						$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
 
 						return false;
 					}
 				}
 				else
 				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 					return false;
+				}
+
+				// If this is an SVG file (by name or MIME type) we need to sanitize it
+				if (
+					(strtolower(substr($file['name'], -4)) === '.svg')
+					|| in_array($mime, array('image/svg+xml', 'application/svg+xml'))
+				)
+				{
+					try
+					{
+						$this->sanitizeSVG($file['tmp_name']);
+					}
+					catch (RuntimeException $e)
+					{
+						$app->enqueueMessage($e->getMessage(), 'error');
+
+						return false;
+					}
 				}
 			}
 			elseif (!in_array($filetype, $ignored))
@@ -262,7 +283,7 @@ class MediaHelper
 					// If the mime type is not allowed we don't upload it and show the mime code error to the user
 					if ($result === false)
 					{
-						$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+						$app->enqueueMessage(Text::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 						return false;
 					}
@@ -270,14 +291,14 @@ class MediaHelper
 				// We can't detect the mime type so it looks like an invalid file
 				else
 				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
 					return false;
 				}
 
 				if (!\JFactory::getUser()->authorise('core.manage', $component))
 				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
 
 					return false;
 				}
@@ -302,7 +323,7 @@ class MediaHelper
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
 			if (stripos($xss_check, '<' . $tag . ' ') !== false || stripos($xss_check, '<' . $tag . '>') !== false)
 			{
-				$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+				$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 
 				return false;
 			}
@@ -409,4 +430,45 @@ class MediaHelper
 				return $val;
 		}
 	}
+
+	/**
+	 * Tries to sanitize an uploaded file if it's an SVG file (by extension or MIME type)
+	 *
+	 * @param   array  $fileDefinition  The uploaded file definition to sanitize
+	 *
+	 * @return  void
+	 *
+	 * @throws  RuntimeException  In case of an error
+	 * @since   3.10.0
+	 *
+	 */
+	public function sanitizeSVG($tempName)
+	{
+		$sanitizer = new Sanitizer();
+		$sanitizer->removeRemoteReferences(true);
+		$sanitizer->minify(true);
+
+		// Load the dirty svg
+		$dirtySVG = @file_get_contents($tempName);
+
+		if ($dirtySVG === false)
+		{
+			throw new RuntimeException(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+		}
+
+		// Pass it to the sanitizer and get it back clean
+		$cleanSVG = $sanitizer->sanitize($dirtySVG);
+
+		if ($cleanSVG === false)
+		{
+			throw new RuntimeException(Text::_('JLIB_MEDIA_ERROR_INVALID_SVG'));
+		}
+
+		// Save the sanitized file
+		if (@file_put_contents($tempName, $cleanSVG) === false)
+		{
+			throw new RuntimeException(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+		}
+	}
+
 }
