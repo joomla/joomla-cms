@@ -39,11 +39,10 @@ class PlgWebservicesInstaller extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$defaults    = ['component' => 'com_installer'];
-		$getDefaults = array_merge(['public' => false], $defaults);
+		$defaults    = ['component' => 'com_installer', 'public' => false];
 
 		$routes = [
-			new Route(['GET'], 'v1/installer/manage', 'manage.displayList', [], $getDefaults)
+			new Route(['GET'], 'v1/installer/manage', 'manage.displayList', [], $defaults)
 		];
 
 		$router->addRoutes($routes);
