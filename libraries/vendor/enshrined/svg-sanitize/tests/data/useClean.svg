@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 68 65">
+    <use xlink:href="#a" x="28" fill="#1A374D"/>
+    <path id="a" d="M14 27v-20c0-3.7-3.3-7-7-7s-7 3.3-7 7v41c0 8.2 9.2 17 20 17s20-9.2 20-20c0-13.3-13.4-21.8-26-18zm6 25c-4 0-7-3-7-7s3-7 7-7 7 3 7 7-3 7-7 7z"/>
+    <use />
+</svg>

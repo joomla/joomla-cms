@@ -1,0 +1,69 @@
+<?xml version="1.0" standalone="no"?>
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512" height="512" version="1.1">
+ <defs>
+    <g id="a0">
+      <circle stroke="#000000" fill="#ffffff" fill-opacity="0.1" r="10"/>
+    </g>
+  </defs><defs>
+<g id="a1">
+<use x="0" y="10" xlink:href="#a0" />
+<use x="10" y="10" xlink:href="#a0" />
+<use x="20" y="10" xlink:href="#a0" />
+<use x="30" y="10" xlink:href="#a0" />
+<use x="40" y="10" xlink:href="#a0" />
+<use x="50" y="10" xlink:href="#a0" />
+<use x="60" y="10" xlink:href="#a0" />
+<use x="70" y="10" xlink:href="#a0" />
+<use x="80" y="10" xlink:href="#a0" />
+<use x="90" y="10" xlink:href="#a0" />
+</g>
+</defs>
+<defs>
+<g id="a2">
+<use x="0" y="10" xlink:href="#a1" />
+<use x="10" y="10" xlink:href="#a1" />
+<use x="20" y="10" xlink:href="#a1" />
+<use x="30" y="10" xlink:href="#a1" />
+<use x="40" y="10" xlink:href="#a1" />
+<use x="50" y="10" xlink:href="#a1" />
+<use x="60" y="10" xlink:href="#a1" />
+<use x="70" y="10" xlink:href="#a1" />
+<use x="80" y="10" xlink:href="#a1" />
+<use x="90" y="10" xlink:href="#a1" />
+</g>
+</defs>
+<defs>
+<g id="a3">
+<use x="0" y="10" xlink:href="#a2" />
+<use x="10" y="10" xlink:href="#a2" />
+<use x="20" y="10" xlink:href="#a2" />
+<use x="30" y="10" xlink:href="#a2" />
+<use x="40" y="10" xlink:href="#a2" />
+<use x="50" y="10" xlink:href="#a2" />
+<use x="60" y="10" xlink:href="#a2" />
+<use x="70" y="10" xlink:href="#a2" />
+<use x="80" y="10" xlink:href="#a2" />
+<use x="90" y="10" xlink:href="#a2" />
+</g>
+</defs>
+<defs>
+<g id="a4" />
+</defs>
+<defs>
+<g id="a5" />
+</defs>
+<defs>
+<g id="a6" />
+</defs>
+<defs>
+<g id="a7" />
+</defs>
+<defs>
+<g id="a8" />
+</defs>
+<defs>
+<g id="a9" />
+</defs>
+<defs>
+<g id="a10" />
+</defs></svg>
