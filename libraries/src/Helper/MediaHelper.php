@@ -46,23 +46,34 @@ class MediaHelper
 		// Retrieve the image types from the com_media configuration
 		if (empty(self::$imageTypes))
 		{
-			$params = ComponentHelper::getParams('com_media');
-
-			$params->get('image_extensions', 'bmp,gif,jpg,png');
-
-			$imageTypes       = explode(',', $params);
-			$imageTypes       = array_map('trim', $imageTypes);
-			$filterClosure    = function ($extension) {
-				return !empty($extension);
-			};
-			$imageTypes       = array_filter($imageTypes, $filterClosure);
-			$imageTypes       = array_unique($imageTypes);
-			self::$imageTypes = implode('|', $imageTypes);
+			self::$imageTypes = implode('|', $this->getImageExtensions());
 		}
 
 		$imageTypes = self::$imageTypes;
 
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
+	}
+
+	/**
+	 * Returns the configured image extensions in com_media Options
+	 *
+	 * @return  string[]
+	 */
+	public function getImageExtensions()
+	{
+		$params          = ComponentHelper::getParams('com_media');
+		$configuredExts  = $params->get('image_extensions', 'bmp,gif,jpg,png');
+		$configuredExts  = empty($configuredExts) ? 'bmp,gif,jpg,png' : $configuredExts;
+		$imageExtensions = explode(',', $configuredExts);
+		$imageExtensions = array_map('trim', $imageExtensions);
+		$imageExtensions = array_map('strtolower', $imageExtensions);
+		$filterClosure   = function ($extension) {
+			return !empty($extension);
+		};
+		$imageExtensions = array_filter($imageExtensions, $filterClosure);
+		$imageExtensions = array_unique($imageExtensions);
+
+		return $imageExtensions;
 	}
 
 	/**
