@@ -160,10 +160,10 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 */
 	public function getAssets(): array
 	{
-		return array(
+		return [
 			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.css',
 			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js'
-		);
+		];
 	}
 
 	/**
