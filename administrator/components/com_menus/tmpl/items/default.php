@@ -87,7 +87,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 								</th>
 							<?php endif; ?>
 							<?php if (($this->state->get('filter.client_id') == 0) && (Multilanguage::isEnabled())) : ?>
-								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
