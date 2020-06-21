@@ -57,7 +57,7 @@ $defaultDisplayData = [
 ];
 extract(array_merge($defaultDisplayData, $displayData));
 
-// Ensure GMP Extensions is loaded in PHP
+// Ensure the GMP Extension is loaded in PHP - as this is required by third party library
 if (!in_array('gmp', get_loaded_extensions()))
 {
 	$error = Text::_('PLG_SYSTEM_WEBAUTHN_REQUIRES_GMP');
