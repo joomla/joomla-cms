@@ -174,9 +174,11 @@ $cparams = JComponentHelper::getParams('com_media');
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('presentation_style') === 'sliders') :
-		echo JHtml::_('sliders.end');
-	endif; ?>
+	<?php if ($this->params->get('presentation_style') === 'sliders') : ?>
+		<?php echo JHtml::_('sliders.end'); ?>
+	<?php elseif ($this->params->get('presentation_style') === 'tabs') : ?>
+		<?php echo JHtml::_('tabs.end'); ?>
+	<?php endif; ?>
 
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>
