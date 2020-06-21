@@ -100,9 +100,6 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 */
 	public function collect(): array
 	{
-		// @todo fetch the database object in a non deprecated way..
-		$database = Factory::$database;
-
 		$statements = $this->getStatements();
 
 		return [
