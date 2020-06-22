@@ -94,6 +94,8 @@ class SchedulerCommand extends AbstractCommand
 			$results = $this->triggerJobs($force);
 		}
 
+		$text = [];
+
 		foreach ($results as $run)
 		{
 			switch ((int) $run['status'])
