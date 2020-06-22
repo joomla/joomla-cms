@@ -104,10 +104,10 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	 */
 	public function getAssets()
 	{
-		return array(
+		return [
 			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.js',
 			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.css',
-		);
+		];
 	}
 
 	/**
