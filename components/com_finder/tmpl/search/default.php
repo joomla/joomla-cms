@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
-Text::script('MOD_FINDER_SEARCH_VALUE', true);
-
 $this->document->getWebAssetManager()
 	->registerAndUseStyle('com_finder', 'com_finder/finder.css')
 	->registerAndUseScript('com_finder', 'com_finder/finder.js', [], ['defer' => true], ['core']);
