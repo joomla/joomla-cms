@@ -170,7 +170,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
-						<td class="small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>

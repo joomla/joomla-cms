@@ -245,7 +245,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									</td>
 								<?php endif; ?>
 								<?php if ($this->state->get('filter.client_id') == 0 && Multilanguage::isEnabled()) : ?>
-									<td class="small d-none d-md-table-cell text-center">
+									<td class="small d-none d-md-table-cell">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
 								<?php endif; ?>

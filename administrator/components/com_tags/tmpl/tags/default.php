@@ -235,7 +235,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo $this->escape($item->access_title); ?>
 						</td>
 						<?php if (Multilanguage::isEnabled()) : ?>
-							<td class="small d-none d-md-table-cell text-center">
+							<td class="small d-none d-md-table-cell">
 								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 						<?php endif; ?>
