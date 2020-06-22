@@ -154,6 +154,8 @@ window.Joomla = window.Joomla || {};
             const elContainer = elements[0];
 
             elContainer.outerHTML = responseHTML;
+
+            Joomla.plgSystemWebauthnInitialize();
           },
           onError: (xhr) => {
             handleCreationError(`${xhr.status} ${xhr.statusText}`);
@@ -354,41 +356,75 @@ window.Joomla = window.Joomla || {};
     return false;
   };
 
+  /**
+   * Add New Authenticator button click handler
+   *
+   * @param   {MouseEvent} event  The mouse click event
+   *
+   * @returns {boolean} Returns false to prevent the default browser button behavior
+   */
+  Joomla.plgSystemWebauthnAddOnClick = (event) => {
+    event.preventDefault();
+
+    Joomla.plgSystemWebauthnCreateCredentials(event.currentTarget.getAttribute('data-random-id'), '#plg_system_webauthn-management-interface');
+
+    return false;
+  };
+
+  /**
+   * Edit Name button click handler
+   *
+   * @param   {MouseEvent} event  The mouse click event
+   *
+   * @returns {boolean} Returns false to prevent the default browser button behavior
+   */
+  Joomla.plgSystemWebauthnEditOnClick = (event) => {
+    event.preventDefault();
+
+    Joomla.plgSystemWebauthnEditLabel(event.currentTarget, event.currentTarget.getAttribute('data-random-id'));
+
+    return false;
+  };
+
+  /**
+   * Remove button click handler
+   *
+   * @param   {MouseEvent} event  The mouse click event
+   *
+   * @returns {boolean} Returns false to prevent the default browser button behavior
+   */
+  Joomla.plgSystemWebauthnDeleteOnClick = (event) => {
+    event.preventDefault();
+
+    Joomla.plgSystemWebauthnDelete(event.currentTarget, event.currentTarget.getAttribute('data-random-id'));
+
+    return false;
+  };
+
+  /**
+   * Initialization on page load.
+   */
+  Joomla.plgSystemWebauthnInitialize = () => {
+    const addButton = document.getElementById('plg_system_webauthn-manage-add');
+    if (addButton) {
+      addButton.addEventListener('click', Joomla.plgSystemWebauthnAddOnClick);
+    }
+
+    const editLabelButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-edit'));
+    if (editLabelButtons.length) {
+      editLabelButtons.forEach((button) => {
+        button.addEventListener('click', Joomla.plgSystemWebauthnEditOnClick);
+      });
+    }
+
+    const deleteButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-delete'));
+    if (deleteButtons.length) {
+      deleteButtons.forEach((button) => {
+        button.addEventListener('click', Joomla.plgSystemWebauthnDeleteOnClick);
+      });
+    }
+  };
+
   // Initialization. Runs on DOM content loaded since this script is always loaded deferred.
-  const addButton = document.getElementById('plg_system_webauthn-manage-add');
-  if (addButton) {
-    addButton.addEventListener('click', (event) => {
-      event.preventDefault();
-
-      Joomla.plgSystemWebauthnCreateCredentials(event.currentTarget.getAttribute('data-random-id'), '#plg_system_webauthn-management-interface');
-
-      return false;
-    });
-  }
-
-  const editLabelButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-edit'));
-  if (editLabelButtons.length) {
-    editLabelButtons.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        Joomla.plgSystemWebauthnEditLabel(event.currentTarget, event.currentTarget.getAttribute('data-random-id'));
-
-        return false;
-      });
-    });
-  }
-
-  const deleteButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-delete'));
-  if (deleteButtons.length) {
-    deleteButtons.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        Joomla.plgSystemWebauthnDelete(event.currentTarget, event.currentTarget.getAttribute('data-random-id'));
-
-        return false;
-      });
-    });
-  }
+  Joomla.plgSystemWebauthnInitialize();
 })(Joomla, document);
