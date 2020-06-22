@@ -58,6 +58,7 @@ function extractionMethodHandler(target, prefix)
             // function after completing the request
             PreUpdateChecker.checkCompatibility($(this), PreUpdateChecker.setResultView);
         });
+		document.getElementById().css('display', 'none')
 		$('.compatibilitytypes').css('display', 'none').css('margin-left', 0);
 		// The currently processing line should show until its finished
 		$('#compatibilitytype0').css('display', 'block');
@@ -115,6 +116,7 @@ function extractionMethodHandler(target, prefix)
 					if (extensionData.compatibilityData.upgradeWarning)
 					{
 						html = '<span class="label label-warning">' + extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion + '</span>';
+						$("#upgradeyellowwarning").removeClass('hidden');
 					}
 					else {
 						html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
@@ -123,10 +125,12 @@ function extractionMethodHandler(target, prefix)
 				case PreUpdateChecker.STATE.INCOMPATIBLE:
 					// No compatible version found -> display error label
 					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+					$("#upgradeorangewarning").removeClass('hidden');
 					break;
 				case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
 					// Could not check compatibility state -> display warning
 					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+					$("#upgradeorangewarning").removeClass('hidden');
 					break;
 				default:
 					// An error occured -> show unknown error note

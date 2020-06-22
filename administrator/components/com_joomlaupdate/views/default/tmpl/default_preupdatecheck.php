@@ -117,44 +117,44 @@ defined('_JEXEC') or die;
 						<?php echo JText::_($compatibilityDisplayNotes); ?>
 					</div>
 					<table class="table">
-							<thead>
+							<thead class="row-fluid">
 							<tr>
-								<th>
+								<th class="span4">
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 								</th>
-								<th>
+								<th class="span2">
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
 								</th>
-								<th>
+                                <th class="span2">
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_UPGRADE_COMPATIBLE'); ?>
 								</th>
-								<th>
+                                <th class="span2">
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_CURRENTLY_COMPATIBLE'); ?>
 								</th>
-								<th>
+                                <th class="span2">
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 								</th>
 							</tr>
 							</thead>
-							<tbody>
+							<tbody  class="row-fluid">
 							<?php
 							// Only include this row once since the javascript moves the results into the right place
 							if ($compatibilityType == "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") :
 								foreach ($this->nonCoreExtensions as $extension) : ?>
 									<tr>
-										<td>
+										<td class="span4">
 											<?php echo JText::_($extension->name); ?>
 										</td>
-										<td>
+                                        <td class="span2">
 											<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 										</td>
-										<td class="extension-check"
+										<td class="extension-check span2"
 											data-extension-id="<?php echo $extension->extension_id; ?>"
 											data-extension-current-version="<?php echo $extension->version; ?>">
 											<img src="../media/system/images/mootree_loader.gif" />
 										</td>
-										<td id="available-version-<?php echo $extension->extension_id; ?>"/>
-										<td>
+										<td id="available-version-<?php echo $extension->extension_id; ?>" class="span2"/>
+                                        <td class="span2">
 											<?php echo $extension->version; ?>
 										</td>
 									</tr>
