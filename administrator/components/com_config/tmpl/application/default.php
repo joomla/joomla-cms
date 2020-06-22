@@ -3,17 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Registry\Registry;
 
 // Load tooltips behavior
 HTMLHelper::_('behavior.formvalidator');
@@ -36,16 +34,6 @@ Text::script('MESSAGE');
 			</button>
 			<div class="sidebar-nav bg-light p-2 my-2">
 				<?php echo $this->loadTemplate('navigation'); ?>
-				<?php
-				// Display the submenu position modules
-				$this->submenumodules = ModuleHelper::getModules('submenu');
-				foreach ($this->submenumodules as $submenumodule)
-				{
-					$output = ModuleHelper::renderModule($submenumodule);
-					$params = new Registry($submenumodule->params);
-					echo $output;
-				}
-				?>
 			</div>
 		</div>
 		<!-- End Sidebar -->

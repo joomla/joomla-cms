@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Testing
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,11 +13,8 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Banners\Administrator\Model\BannerModel;
-use Joomla\Component\Banners\Administrator\Model\ClientModel;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\DatabaseDriver;
 
@@ -639,6 +636,8 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
+		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
+
 		$catIdsLevel1 = $this->app->getUserState('sampledata.testing.articles.catids1');
 		$catIdsLevel2 = $this->app->getUserState('sampledata.testing.articles.catids2');
 		$catIdsLevel3 = $this->app->getUserState('sampledata.testing.articles.catids3');
@@ -979,7 +978,7 @@ class PlgSampledataTesting extends CMSPlugin
 			),
 			array(
 				'catid'      => $catIdsLevel2[0],
-				'transition' => 4,
+				'state'  => 2,
 				'ordering'   => 0,
 			),
 			array(
@@ -4648,10 +4647,10 @@ class PlgSampledataTesting extends CMSPlugin
 			$article['metadesc']        = '';
 			$article['xreference']      = '';
 
-			// Set transition to published if not set.
-			if (!isset($article['transition']))
+			// Set article to published if not set.
+			if (!isset($article['state']))
 			{
-				$article['transition'] = 2;
+				$article['state'] = 1;
 			}
 
 			// Set article to not featured if not set.

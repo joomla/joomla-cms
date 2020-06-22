@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,14 @@ class ApplicationModel extends FormModel
 		// Merge in the session data.
 		if (!empty($temp))
 		{
-			$data = array_merge($data, $temp);
+			$data = array_merge($temp, $data);
+		}
+
+		// Correct error_reporting value, since we removed "development", the "maximum" should be set instead
+		// @TODO: This can be removed in 5.0
+		if (!empty($data['error_reporting']) && $data['error_reporting'] === 'development')
+		{
+			$data['error_reporting'] = 'maximum';
 		}
 
 		return $data;

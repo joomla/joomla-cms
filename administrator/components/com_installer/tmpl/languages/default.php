@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,21 +34,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php else : ?>
 					<table class="table">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_INSTALLER_LANGUAGES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_INSTALLER_LANGUAGES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:5%"></td>
+								<td class="w-5"></td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center">
+								<th scope="col" class="w-10 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%" class="text-right d-none d-md-table-cell">
+								<th scope="col" class="w-15 text-right d-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
-								<th scope="col" style="width:35%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-35 d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 								</th>
 							</tr>

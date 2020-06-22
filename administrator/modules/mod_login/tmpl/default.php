@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ Text::script('MESSAGE');
 
 					<input
 						name="secretkey"
-						autocomplete="off"
+						autocomplete="one-time-code"
 						id="mod-login-secretkey"
 						type="text"
 						class="form-control"
@@ -101,18 +101,27 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-		<?php foreach($extraButtons as $button): ?>
+		<?php foreach($extraButtons as $button):
+			$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+				return substr($key, 0, 5) == 'data-';
+			});
+			?>
 		<div class="form-group">
 			<button type="button"
 			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
-			        onclick="<?= $button['onclick'] ?>"
+					<?php foreach ($dataAttributeKeys as $key): ?>
+					<?php echo $key ?>="<?php echo $button[$key] ?>"
+					<?php endforeach; ?>
+					<?php if ($button['onclick']): ?>
+					onclick="<?= $button['onclick'] ?>"
+					<?php endif; ?>
 			        title="<?= Text::_($button['label']) ?>"
 			        id="<?= $button['id'] ?>"
 			>
 				<?php if (!empty($button['icon'])): ?>
 					<span class="<?= $button['icon'] ?>"></span>
 				<?php elseif (!empty($button['image'])): ?>
-					<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+					<?= HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 						'class' => 'icon',
 					], true) ?>
 				<?php endif; ?>

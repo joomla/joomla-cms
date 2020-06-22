@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
 use Joomla\CMS\Updater\Updater;
@@ -331,22 +330,8 @@ class ExtensionAdapter extends UpdateAdapter
 		{
 			if (isset($this->latest->client) && \strlen($this->latest->client))
 			{
-				if (is_numeric($this->latest->client))
-				{
-					$byName = false;
+				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
 
-					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Special:MyLanguage/Design_of_JUpdate
-					Log::add(
-						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
-						Log::WARNING, 'deprecated'
-					);
-				}
-				else
-				{
-					$byName = true;
-				}
-
-				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
 

@@ -3,13 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+
+$params = ComponentHelper::getParams('com_content');
 
 $published = $this->state->get('filter.published');
 
@@ -42,7 +45,7 @@ $user = Factory::getUser();
 				<?php echo LayoutHelper::render('joomla.html.batch.tag', []); ?>
 			</div>
 		</div>
-		<?php if ($user->authorise('core.admin', 'com_content')) : ?>
+		<?php if ($user->authorise('core.admin', 'com_content') && $params->get('workflow_enabled')) : ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.workflowstage', ['extension' => 'com_content']); ?>

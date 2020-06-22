@@ -2,7 +2,7 @@
 /**
  * @package	Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Version;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 
 /** @var JDocumentHtml $this */
 

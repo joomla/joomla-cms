@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,6 +84,42 @@ class Usergroup extends Table
 			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
 
 			return false;
+		}
+
+		// We do not allow to move non public to root and public to non-root
+		if (!empty($this->id))
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+
+			$table->load($this->id);
+
+			if ((!$table->parent_id && $this->parent_id) || ($table->parent_id && !$this->parent_id))
+			{
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
+		}
+		// New entry should always be greater 0
+		elseif (!$this->parent_id)
+		{
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+			return false;
+		}
+
+		// The new parent_id has to be a valid group
+		if ($this->parent_id)
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+			$table->load($this->parent_id);
+
+			if ($table->id != $this->parent_id)
+			{
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
 		}
 
 		return true;
@@ -243,15 +279,18 @@ class Usergroup extends Table
 		$db->setQuery($query);
 		$db->execute();
 
+		// Rebuild the nested set tree.
+		$this->rebuild();
+
 		// Delete the usergroup in view levels
 		$replace = array();
 
 		foreach ($ids as $id)
 		{
-			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[') . ')';
-			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(',') . ')';
-			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote(']') . ')';
-			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote('[]') . ')';
+			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[');
+			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(',');
+			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote(']');
+			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote('[]');
 		}
 
 		$query->clear()
@@ -280,12 +319,10 @@ class Usergroup extends Table
 
 		if (!empty($matchIds))
 		{
-			$rules = str_repeat('replace(', 4 * \count($ids)) . 'rules' . implode('', $replace);
 			$query->clear()
 				->update($db->quoteName('#__viewlevels'))
-				->set($db->quoteName('rules') . ' = :rules')
-				->whereIn($db->quoteName('id'), $matchIds)
-				->bind(':rules', $rules);
+				->set($db->quoteName('rules') . ' = ' . str_repeat('REPLACE(', 4 * \count($ids)) . $db->quoteName('rules') . implode(')', $replace) . ')')
+				->whereIn($db->quoteName('id'), $matchIds);
 			$db->setQuery($query);
 			$db->execute();
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -158,9 +158,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			$query->select($db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']))
 				->select([$case_when, $case_when1])
 				->from($db->quoteName('#__content', 'a'))
-				->join('LEFT', $db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
-				->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-				->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
+				->join('LEFT', $db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'));
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
@@ -184,7 +182,6 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			$query->where(
 				[
-					'(' . $db->quoteName('ws.condition') . ' = 1 OR ' . $db->quoteName('ws.condition') . ' = -2)',
 					'(' . $db->quoteName('publish_up') . ' IS NULL OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
 					'(' . $db->quoteName('publish_down') . ' IS NULL OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)',
 				]

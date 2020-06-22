@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,6 +87,7 @@ class HtmlView extends BaseHtmlView
 		$fields = array('subject', 'body', 'htmlbody');
 		$this->templateData = array();
 		$language = Factory::getLanguage();
+		$language->load($component, JPATH_SITE, $this->item->language, true);
 		$language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
 
 		foreach ($fields as $field)

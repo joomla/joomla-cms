@@ -12,6 +12,7 @@
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
 			id="purchase_type"
 			default="1"
+			validate="options"
 			>
 			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
 			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>

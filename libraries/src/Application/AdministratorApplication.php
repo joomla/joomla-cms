@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,9 +114,14 @@ class AdministratorApplication extends CMSApplication
 				$this->set('themeParams', $template->params);
 
 				// Add Asset registry files
-				$document->getWebAssetManager()->getRegistry()
-					->addRegistryFile('media/' . $component . '/joomla.asset.json')
-					->addRegistryFile('administrator/templates/' . $template->template . '/joomla.asset.json');
+				$wr = $document->getWebAssetManager()->getRegistry();
+
+				if ($component)
+				{
+					$wr->addExtensionRegistryFile($component);
+				}
+
+				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
 

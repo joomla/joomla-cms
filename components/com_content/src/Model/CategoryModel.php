@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -173,7 +173,7 @@ class CategoryModel extends ListModel
 		}
 		else
 		{
-			$this->setState('filter.condition', array(0, 1));
+			$this->setState('filter.condition', [0, 1]);
 		}
 
 		// Process show_noauth parameter
@@ -517,7 +517,6 @@ class CategoryModel extends ListModel
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 			$table = Table::getInstance('Category', 'JTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

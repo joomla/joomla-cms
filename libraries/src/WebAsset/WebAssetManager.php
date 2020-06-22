@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -163,7 +163,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @throws  \BadMethodCallException
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __call($method, $arguments)
 	{
@@ -244,7 +244,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 * @throws  InvalidActionException When the Manager already attached to a Document
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function useAsset(string $type, string $name): WebAssetManagerInterface
 	{
@@ -298,7 +298,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 * @throws  InvalidActionException When the Manager already attached to a Document
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function disableAsset(string $type, string $name): WebAssetManagerInterface
 	{
@@ -342,7 +342,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @throws  UnsatisfiedDependencyException  When Asset dependency cannot be found
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function usePresetItems($name): WebAssetManagerInterface
 	{
@@ -388,7 +388,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @throws  UnsatisfiedDependencyException  When Asset dependency cannot be found
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function disablePresetItems($name): WebAssetManagerInterface
 	{
@@ -481,7 +481,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function assetExists(string $type, string $name): bool
 	{
@@ -502,7 +502,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function registerAsset(string $type, $asset, string $uri = '', array $options = [], array $attributes = [], array $dependencies = [])
 	{
@@ -534,7 +534,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAsset(string $type, string $name): WebAssetItemInterface
 	{
@@ -596,7 +596,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getInlineRelation(array $assets): array
 	{
@@ -636,7 +636,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @return  WebAssetItem[]  Array of inline assets
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function filterOutInlineAssets(array &$assets): array
 	{
@@ -671,7 +671,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function addInline(string $type, string $content, array $options = [], array $attributes = [], array $dependencies = []): self
 	{
@@ -711,13 +711,28 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function lock(): self
 	{
 		$this->locked = true;
 
 		return $this;
+	}
+
+	/**
+	 * Get the manager state. A collection of registry files and active asset names (per type).
+	 *
+	 * @return array
+	 *
+	 * @since  4.0.0
+	 */
+	public function getManagerState(): array
+	{
+		return [
+			'registryFiles' => $this->getRegistry()->getRegistryFiles(),
+			'activeAssets'  => $this->activeAssets,
+		];
 	}
 
 	/**

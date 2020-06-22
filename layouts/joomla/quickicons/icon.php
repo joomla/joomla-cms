@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -80,7 +80,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 			<?php endif; ?>
 			<?php // Information or action from plugins
 			if (isset($displayData['text'])): ?>
-				<div class="quickicon-text d-flex align-items-center">
+				<div class="quickicon-name d-flex align-items-center">
 					<?php echo $text; ?>
 				</div>
 			<?php endif; ?>

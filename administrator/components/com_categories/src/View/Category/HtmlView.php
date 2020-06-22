@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,7 +135,7 @@ class HtmlView extends BaseHtmlView
 		$userId = $user->id;
 
 		$isNew = ($this->item->id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
 		// Avoid nonsense situation.
 		if ($extension == 'com_categories')
@@ -251,7 +251,7 @@ class HtmlView extends BaseHtmlView
 		// Compute the ref_key
 		$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
 
-		// Check if thr computed ref_key does exist in the component
+		// Check if the computed ref_key does exist in the component
 		if (!$lang->hasKey($ref_key))
 		{
 			$ref_key = 'JHELP_COMPONENTS_'
