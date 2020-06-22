@@ -111,13 +111,13 @@ abstract class FormField
 	protected $hiddenLabel = false;
 
 	/**
-	 * Should the legend be hidden when rendering the form field? This may be useful if you have the
+	 * Should the description be hidden when rendering the form field? This may be useful if you have the
 	 * description rendering in your form field itself for e.g. note fields.
 	 *
 	 * @var    boolean
 	 * @since  4.0.0
 	 */
-	protected $hiddenLegend = false;
+	protected $hiddenDescription = false;
 
 	/**
 	 * True to translate the field label string.
@@ -1048,15 +1048,15 @@ abstract class FormField
 			}
 		}
 
-		if (empty($options['hiddenLegend']))
+		if (empty($options['hiddenDescription']))
 		{
-			if ($this->getAttribute('hiddenLegend'))
+			if ($this->getAttribute('hiddenDescription'))
 			{
-				$options['hiddenLegend'] = $this->getAttribute('hiddenLegend') == 'true' ? true : false;
+				$options['hiddenDescription'] = $this->getAttribute('hiddenDescription') == 'true' ? true : false;
 			}
 			else
 			{
-				$options['hiddenLegend'] = $this->hiddenLegend;
+				$options['hiddenDescription'] = $this->hiddenDescription;
 			}
 		}
 

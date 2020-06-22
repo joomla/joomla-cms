@@ -30,17 +30,17 @@ if (!empty($options['showonEnabled']))
 	$wa->useScript('showon');
 }
 
-$class      = empty($options['class']) ? '' : ' ' . $options['class'];
-$rel        = empty($options['rel']) ? '' : ' ' . $options['rel'];
-$id         = $name . '-desc';
-$hide       = empty($options['hiddenLabel']) ? '' : ' sr-only';
-$hideLegend = empty($options['hiddenLegend']) ? false : $options['hiddenLegend'];
+$class           = empty($options['class']) ? '' : ' ' . $options['class'];
+$rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
+$id              = $name . '-desc';
+$hide            = empty($options['hiddenLabel']) ? '' : ' sr-only';
+$hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>
 	<div class="controls">
 		<?php echo $input; ?>
-		<?php if (!$hideLegend) : ?>
+		<?php if (!$hideDescription) : ?>
 			<?php if (!empty($description)) : ?>
 				<div id="<?php echo $id; ?>">
 					<small class="form-text text-muted">
