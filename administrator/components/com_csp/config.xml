@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="csp" label="Content-Security-Policy (CSP)">
+	<fieldset name="csp" label="COM_CSP_CONTENTSECURITYPOLICY_LABEL">
 		<field
 			name="contentsecuritypolicy"
 			type="radio"
