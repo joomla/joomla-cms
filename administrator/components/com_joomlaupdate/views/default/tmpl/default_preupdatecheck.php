@@ -125,13 +125,13 @@ defined('_JEXEC') or die;
 								<th class="span2">
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
 								</th>
-                                <th class="span2">
+								<th class="span2">
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_UPGRADE_COMPATIBLE'); ?>
 								</th>
-                                <th class="span2">
+								<th class="span2">
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_CURRENTLY_COMPATIBLE'); ?>
 								</th>
-                                <th class="span2">
+								<th class="span2">
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 								</th>
 							</tr>
@@ -145,7 +145,7 @@ defined('_JEXEC') or die;
 										<td class="span4">
 											<?php echo JText::_($extension->name); ?>
 										</td>
-                                        <td class="span2">
+										<td class="span2">
 											<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 										</td>
 										<td class="extension-check span2"
@@ -154,7 +154,7 @@ defined('_JEXEC') or die;
 											<img src="../media/system/images/mootree_loader.gif" />
 										</td>
 										<td id="available-version-<?php echo $extension->extension_id; ?>" class="span2"/>
-                                        <td class="span2">
+										<td class="span2">
 											<?php echo $extension->version; ?>
 										</td>
 									</tr>
