@@ -73,9 +73,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 								</th>
-								<th scope="col" class="w-40 d-none d-md-table-cell">
-									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
-								</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -105,6 +102,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 												</span>
 										</span>
 										<?php endif; ?>
+										<div class="small break-word">
+										<?php echo $item->detailsurl; ?>
+											<?php if (!empty($item->infourl)) : ?>
+												<br>
+												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape(trim($item->infourl)); ?></a>
+											<?php endif; ?>
+										</div>
 									</th>
 									<td class="text-center d-none d-md-table-cell">
 										<?php echo $item->client_translated; ?>
@@ -145,15 +149,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->install_type; ?>
-									</td>
-									<td class="d-none d-md-table-cell">
-										<span class="break-word">
-										<?php echo $item->detailsurl; ?>
-											<?php if (!empty($item->infourl)) : ?>
-												<br>
-												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->infourl); ?></a>
-											<?php endif; ?>
-										</span>
 									</td>
 								</tr>
 							<?php endforeach; ?>
