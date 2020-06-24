@@ -102,7 +102,7 @@
 					</form>
 				</field>
 			</fieldset>
-			<fieldset name="hsts" label="Strict-Transport-Security (HSTS)">
+			<fieldset name="hsts" label="Strict Transport Security (HSTS)">
 				<field
 					name="hsts"
 					type="radio"
