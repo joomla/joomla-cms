@@ -522,7 +522,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 				$resultGroup = 1;
 			}
 
-			if ($currentCompatibilityStatus == 1)
+			if ($currentCompatibilityStatus->state == 1)
 			{
 				if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $currentCompatibilityStatus->compatibleVersion, 'lt'))
 				{
