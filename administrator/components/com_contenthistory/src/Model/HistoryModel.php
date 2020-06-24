@@ -81,9 +81,9 @@ class HistoryModel extends ListModel
 		 */
 		$user   = Factory::getUser();
 
-		if ($result = $user->authorise('core.edit', $record->item_id))
+		if ($user->authorise('core.edit', $record->item_id))
 		{
-			return $result;
+			return true;
 		}
 
 		// Finally try session (this catches edit.own case too)
