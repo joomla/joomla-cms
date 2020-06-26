@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,7 +156,7 @@ class LevelsModel extends ListModel
 		$user = Factory::getUser();
 
 		// Get an instance of the record's table.
-		$table = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
+		$table = Table::getInstance('ViewLevel', 'Joomla\\CMS\Table\\');
 
 		// Load the row.
 		if (!$table->load($pk))

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -353,8 +353,10 @@ class TagModel extends ListModel
 
 			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 			$table = $this->getTable();
-			$table->load($pk);
 			$table->hit($pk);
+
+			// Load the table data for later
+			$table->load($pk);
 
 			if (!$table->hasPrimaryKey())
 			{

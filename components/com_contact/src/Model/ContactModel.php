@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -464,7 +464,6 @@ class ContactModel extends FormModel
 			$pk = $pk ?: (int) $this->getState('contact.id');
 
 			$table = $this->getTable('Contact');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

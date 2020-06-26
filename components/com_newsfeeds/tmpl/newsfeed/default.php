@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ use Joomla\CMS\Layout\FileLayout;
 
 		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
-			<div class="com-newsfeeds-newsfeed__second-image pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
+			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 				<img
 				<?php if ($images->image_second_caption) : ?>
 					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>

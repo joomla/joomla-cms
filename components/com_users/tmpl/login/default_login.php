@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,19 +68,28 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				</div>
 			<?php endif; ?>
 
-			<?php foreach ($this->extraButtons as $button): ?>
+			<?php foreach ($this->extraButtons as $button):
+				$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+					return substr($key, 0, 5) == 'data-';
+				});
+				?>
 				<div class="com-users-login__submit control-group">
 					<div class="controls">
 						<button type="button"
 						        class="btn btn-secondary <?= $button['class'] ?? '' ?>"
+								<?php foreach ($dataAttributeKeys as $key): ?>
+								<?php echo $key ?>="<?php echo $button[$key] ?>"
+								<?php endforeach; ?>
+								<?php if ($button['onclick']): ?>
 						        onclick="<?= $button['onclick'] ?>"
+								<?php endif; ?>
 						        title="<?= Text::_($button['label']) ?>"
 						        id="<?= $button['id'] ?>"
 						>
 							<?php if (!empty($button['icon'])): ?>
 								<span class="<?= $button['icon'] ?>"></span>
 							<?php elseif (!empty($button['image'])): ?>
-								<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+								<?= HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 									'class' => 'icon',
 								], true) ?>
 							<?php endif; ?>

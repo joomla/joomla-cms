@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -205,33 +205,43 @@ class BannersModel extends ListModel
 
 				foreach ($keywords as $key => $keyword)
 				{
-					$condition1 = $db->quoteName('a.own_prefix') . ' = 1'
-						. ' AND ' . $db->quoteName('a.metakey_prefix')
-						. ' = SUBSTRING(:aprefix' . $key . ',1,LENGTH(' . $db->quoteName('a.metakey_prefix') . '))'
-						. ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
-						. ' AND ' . $db->quoteName('cl.own_prefix') . ' = 1'
-						. ' AND ' . $db->quoteName('cl.metakey_prefix')
-						. ' = SUBSTRING(:clprefix' . $key . ',1,LENGTH(' . $db->quoteName('cl.metakey_prefix') . '))'
-						. ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
-						. ' AND ' . $db->quoteName('cl.own_prefix') . ' = 0'
-						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
-
-					$query->bind([':aprefix' . $key, ':clprefix' . $key], $keyword);
-
-					$regexp     = '[[:<:]]' . $keyword . '[[:>:]]';
-					$condition2 = $db->quoteName('a.metakey') . ' ' . $query->regexp(':aregexp' . $key) . ' ';
-					$query->bind(':aregexp' . $key, $regexp);
+					$regexp       = '[[:<:]]' . $keyword . '[[:>:]]';
+					$valuesToBind = [$keyword, $keyword, $regexp];
 
 					if ($cid)
 					{
-						$condition2 .= ' OR ' . $db->quoteName('cl.metakey') . ' ' . $query->regexp(':clregexp' . $key) . ' ';
-						$query->bind(':clregexp' . $key, $regexp);
+						$valuesToBind[] = $regexp;
 					}
 
 					if ($categoryId)
 					{
-						$condition2 .= ' OR ' . $db->quoteName('cat.metakey') . ' ' . $query->regexp(':catregexp' . $key) . ' ';
-						$query->bind(':catregexp' . $key, $regexp);
+						$valuesToBind[] = $regexp;
+					}
+
+					// Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
+					$bounded = $query->bindArray($valuesToBind, ParameterType::STRING);
+
+					$condition1 = $db->quoteName('a.own_prefix') . ' = 1'
+						. ' AND ' . $db->quoteName('a.metakey_prefix')
+						. ' = SUBSTRING(' . $bounded[0] . ',1,LENGTH(' . $db->quoteName('a.metakey_prefix') . '))'
+						. ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
+						. ' AND ' . $db->quoteName('cl.own_prefix') . ' = 1'
+						. ' AND ' . $db->quoteName('cl.metakey_prefix')
+						. ' = SUBSTRING(' . $bounded[1] . ',1,LENGTH(' . $db->quoteName('cl.metakey_prefix') . '))'
+						. ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
+						. ' AND ' . $db->quoteName('cl.own_prefix') . ' = 0'
+						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
+
+					$condition2 = $db->quoteName('a.metakey') . ' ' . $query->regexp($bounded[2]);
+
+					if ($cid)
+					{
+						$condition2 .= ' OR ' . $db->quoteName('cl.metakey') . ' ' . $query->regexp($bounded[3]) . ' ';
+					}
+
+					if ($categoryId)
+					{
+						$condition2 .= ' OR ' . $db->quoteName('cat.metakey') . ' ' . $query->regexp($bounded[4]) . ' ';
 					}
 
 					$temp[] = "($condition1) AND ($condition2)";

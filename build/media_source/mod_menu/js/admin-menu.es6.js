@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla, document) => {
@@ -134,11 +134,11 @@
     });
 
     // Child open toggle
-    const openToggle = (event) => {
-      let menuItem = event.currentTarget.parentNode;
+    const openToggle = ({ currentTarget }) => {
+      let menuItem = currentTarget.parentNode;
 
       if (menuItem.tagName.toLowerCase() === 'span') {
-        menuItem = event.currentTarget.parentNode.parentNode;
+        menuItem = currentTarget.parentNode.parentNode;
       }
 
       if (menuItem.classList.contains('open')) {

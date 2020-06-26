@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -601,6 +601,9 @@ class ModuleAdapter extends InstallerAdapter
 
 			// Update namespace
 			$this->extension->namespace = (string) $this->manifest->namespace;
+
+			// Update changelogurl
+			$this->extension->changelogurl = (string) $this->manifest->changelogurl;
 
 			// Update manifest
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();

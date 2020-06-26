@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Init on dom content loaded event
@@ -29,7 +29,7 @@ if (document.getElementById('removeInstallationFolder')) {
 	document.getElementById('removeInstallationFolder')
 		.addEventListener('click', function (e) {
 			e.preventDefault();
-			let confirm = window.confirm(Joomla.Text._('INSTL_REMOVE_INST_FOLDER'));
+			let confirm = window.confirm(Joomla.Text._('INSTL_REMOVE_INST_FOLDER').replace('%s', 'installation'));
 			if (confirm) {
 				Joomla.request({
 					method: "POST",

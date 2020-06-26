@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ class ScriptsRenderer extends DocumentRenderer
 	 *
 	 * @var array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $renderedSrc = [];
 
@@ -138,7 +138,7 @@ class ScriptsRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The resulting string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function renderElement($item) : string
 	{
@@ -221,7 +221,7 @@ class ScriptsRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The resulting string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function renderInlineElement($item) : string
 	{
@@ -284,7 +284,7 @@ class ScriptsRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The attributes string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function renderAttributes(array $attributes) : string
 	{

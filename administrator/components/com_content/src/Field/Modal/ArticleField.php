@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Administrator\Field\Modal;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -55,7 +55,7 @@ class ArticleField extends FormField
 		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		// The active article id field.
-		$value = ((int) $this->value) ?: '';
+		$value = (int) $this->value ?: '';
 
 		// Create the modal id.
 		$modalId = 'Article_' . $this->id;
@@ -297,7 +297,7 @@ class ArticleField extends FormField
 		$class = $this->required ? ' class="required modal-value"' : '';
 
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
-			. '" data-text="' . htmlspecialchars(Text::_('COM_CONTENT_SELECT_AN_ARTICLE', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '">';
+			. '" data-text="' . htmlspecialchars(Text::_('COM_CONTENT_SELECT_AN_ARTICLE'), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '">';
 
 		return $html;
 	}

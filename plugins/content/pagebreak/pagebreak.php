@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class PlgContentPagebreak extends CMSPlugin
 	 * The navigation list with all page objects if parameter 'multipage_toc' is active.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $list = array();
 
@@ -249,26 +249,26 @@ class PlgContentPagebreak extends CMSPlugin
 						{
 							$title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
-					}
 
-					if ($style === 'tabs')
-					{
-						$t[] = (string) HTMLHelper::_('uitab.addTab', 'myTab', $index, $title);
-					}
-					else
-					{
-						$t[] = (string) HTMLHelper::_('bootstrap.addSlide', 'myAccordion', $title, $index);
-					}
+						if ($style === 'tabs')
+						{
+							$t[] = (string) HTMLHelper::_('uitab.addTab', 'myTab', $index, $title);
+						}
+						else
+						{
+							$t[] = (string) HTMLHelper::_('bootstrap.addSlide', 'myAccordion', $title, $index);
+						}
 
-					$t[] = (string) $subtext;
+						$t[] = (string) $subtext;
 
-					if ($style === 'tabs')
-					{
-						$t[] = (string) HTMLHelper::_('uitab.endTab');
-					}
-					else
-					{
-						$t[] = (string) HTMLHelper::_('bootstrap.endSlide');
+						if ($style === 'tabs')
+						{
+							$t[] = (string) HTMLHelper::_('uitab.endTab');
+						}
+						else
+						{
+							$t[] = (string) HTMLHelper::_('bootstrap.endSlide');
+						}
 					}
 				}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ HTMLHelper::_('behavior.keepalive');
 ?>
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="row mt-3">
-		<div class="col-12 col-md-6 mb-3">
+		<div class="col-12 col-md-4 mb-3">
 			<div class="card">
 				<h3 class="card-header"><?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_INFORMATION'); ?></h3>
 				<div class="card-body">
@@ -42,7 +42,7 @@ HTMLHelper::_('behavior.keepalive');
 				</div>
 			</div>
 		</div>
-		<div class="col-12 col-md-6 mb-3">
+		<div class="col-12 col-md-8 mb-3">
 			<div class="card">
 				<h3 class="card-header"><?php echo Text::_('COM_PRIVACY_HEADING_ACTION_LOG'); ?></h3>
 				<div class="card-body">

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -139,7 +139,14 @@ class SearchesModel extends ListModel
 
 		foreach ($items as $item)
 		{
-			$item->query = unserialize($item->query);
+			if (is_resource($item->query))
+			{
+				$item->query = unserialize(stream_get_contents($item->query));
+			}
+			else
+			{
+				$item->query = unserialize($item->query);
+			}
 		}
 
 		return $items;

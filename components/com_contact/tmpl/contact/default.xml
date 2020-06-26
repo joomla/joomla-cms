@@ -41,6 +41,7 @@
 				label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="hide">JHIDE</option>
 				<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
@@ -53,6 +54,7 @@
 				label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -64,6 +66,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -75,6 +78,7 @@
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -86,6 +90,7 @@
 				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -98,6 +103,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -110,6 +116,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -122,6 +129,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -134,6 +142,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -146,6 +155,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -158,6 +168,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -170,6 +181,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -182,6 +194,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -194,6 +207,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -206,6 +220,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -218,6 +233,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -230,6 +246,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -242,6 +259,7 @@
 				useglobal="true"
 				showon="show_info:1"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -253,6 +271,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -264,6 +283,7 @@
 				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -275,6 +295,7 @@
 				label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -286,6 +307,7 @@
 				label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="use_contact">COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS</option>
 				<option value="5">J5</option>
@@ -310,6 +332,7 @@
 				label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -322,6 +345,7 @@
 				multiple="true"
 				context="com_users.user"
 				addfieldprefix="Joomla\Component\Fields\Administrator\Field"
+				layout="joomla.form.field.list-fancy-select"
 				>
 				<option value="-1">JALL</option>
 			</field>
@@ -332,6 +356,7 @@
 				label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -389,6 +414,7 @@
 				label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -400,6 +426,7 @@
 				label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -411,6 +438,7 @@
 				label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -422,6 +450,7 @@
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>

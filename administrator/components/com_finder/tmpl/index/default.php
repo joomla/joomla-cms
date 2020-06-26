@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,34 +38,36 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 				<?php else : ?>
 					<table class="table">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_FINDER_INDEX_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_FINDER_INDEX_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%">
+								<th scope="col" class="w-1">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 								</th>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+									<th scope="col" class="w-10 nowrap d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:15%" class="text-center d-none d-md-table-cell text-center">
+								<th scope="col" class="w-15 d-none d-md-table-cell text-center">
 									<?php echo Text::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 								</th>
-								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-30 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
