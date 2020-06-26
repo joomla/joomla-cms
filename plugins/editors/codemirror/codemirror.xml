@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
-	<version>5.40.0</version>
+	<version>5.52.2</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>marijnh@gmail.com</authorEmail>
-	<authorUrl>http://codemirror.net/</authorUrl>
+	<authorUrl>https://codemirror.net/</authorUrl>
 	<copyright>Copyright (C) 2014 - 2017 by Marijn Haverbeke &lt;marijnh@gmail.com&gt; and others</copyright>
 	<license>MIT license: http://codemirror.net/LICENSE</license>
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
@@ -276,7 +276,7 @@
 					default="1.2"
 					filter="float"
 					>
-					<option value="1.0">1.0</option>
+					<option value="1">1</option>
 					<option value="1.1">1.1</option>
 					<option value="1.2">1.2</option>
 					<option value="1.3">1.3</option>
@@ -286,7 +286,7 @@
 					<option value="1.7">1.7</option>
 					<option value="1.8">1.8</option>
 					<option value="1.9">1.9</option>
-					<option value="2.0">2.0</option>
+					<option value="2">2</option>
 				</field>
 
 				<field

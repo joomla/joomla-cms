@@ -49,6 +49,20 @@ class JFormFieldFolderListTest extends TestCase
 			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 
+		$options = $field->options;
+		$this->assertThat(
+			count($options),
+			$this->greaterThan(0),
+			'Line:' . __LINE__ . ' The getOptions method should return several entries.'
+		);
+
+		$field->directory = JPATH_ROOT . '/modules';
+		$this->assertEquals(
+			$options,
+			$field->options,
+			'Line:' . __LINE__ . ' The getOptions method should return the same for relative and absolute paths.'
+		);
+
 		// TODO: Should check all the attributes have come in properly.
 	}
 }

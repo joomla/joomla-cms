@@ -281,7 +281,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		);
 
 		$this->assertEquals(
-			array('1'),
+			array('ONE', '1'),
 			$this->object->getPluralSuffixes(1),
 			'Line: ' . __LINE__
 		);

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Methods supporting a list of template extension records.
  *
@@ -98,7 +100,7 @@ class TemplatesModelTemplates extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . strtolower($search) . '%');
+				$search = $db->quote('%' . StringHelper::strtolower($search) . '%');
 				$query->where('(' . ' LOWER(a.element) LIKE ' . $search . ' OR LOWER(a.name) LIKE ' . $search . ')');
 			}
 		}

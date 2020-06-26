@@ -626,7 +626,6 @@ class ContactModelContact extends JModelForm
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
 			$table = JTable::getInstance('Contact', 'ContactTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 
