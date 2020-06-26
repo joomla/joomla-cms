@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -373,27 +373,12 @@ class ManageModel extends InstallerModel
 				->bind(':folder', $folder);
 		}
 
-		if ($core !== '')
+		// Filter by core extensions.
+		if ($core === '1' || $core === '0')
 		{
-			$coreExtensions = ExtensionHelper::getCoreExtensions();
-			$elements       = array();
-
-			foreach ($coreExtensions as $extension)
-			{
-				$elements[] = $extension[1];
-			}
-
-			if ($elements)
-			{
-				if ($core === '1')
-				{
-					$query->whereIn($db->quoteName('element'), $elements, ParameterType::STRING);
-				}
-				elseif ($core === '0')
-				{
-					$query->whereNotIn($db->quoteName('element'), $elements, ParameterType::STRING);
-				}
-			}
+			$coreExtensionIds = ExtensionHelper::getCoreExtensionIds();
+			$method = $core === '1' ? 'whereIn' : 'whereNotIn';
+			$query->$method($db->quoteName('extension_id'), $coreExtensionIds);
 		}
 
 		// Process search filter (extension id).

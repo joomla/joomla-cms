@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,6 +99,9 @@ if (!$editoroptions)
 			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
+
+				<?php echo $this->form->renderField('transition'); ?>
+				<?php echo $this->form->renderField('state'); ?>
 				<?php echo $this->form->renderField('catid'); ?>
 				<?php echo $this->form->renderField('tags'); ?>
 				<?php echo $this->form->renderField('note'); ?>
@@ -107,9 +110,6 @@ if (!$editoroptions)
 				<?php endif; ?>
 				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 					<?php echo $this->form->renderField('created_by_alias'); ?>
-				<?php endif; ?>
-				<?php if ((int) $this->item->id > 0) : ?>
-					<?php echo $this->form->renderField('transition'); ?>
 				<?php endif; ?>
 				<?php if ($this->item->params->get('access-change')) : ?>
 					<?php echo $this->form->renderField('featured'); ?>

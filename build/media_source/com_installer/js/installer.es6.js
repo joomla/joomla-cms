@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,9 @@ Joomla = window.Joomla || {};
 
       // do field validation
       if (form.install_package.value === '') {
-        alert(Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE'), true);
+        Joomla.renderMessages({ warning: [Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')] });
       } else if (form.install_package.files[0].size > form.max_upload_size.value) {
-        alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+        Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
       } else {
         Joomla.displayLoader();
 
@@ -32,7 +32,7 @@ Joomla = window.Joomla || {};
 
       // do field validation
       if (form.install_directory.value === '') {
-        alert(Joomla.JText._('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH'), true);
+        Joomla.renderMessages({ warning: [Joomla.JText._('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH')] });
       } else {
         Joomla.displayLoader();
 
@@ -46,7 +46,7 @@ Joomla = window.Joomla || {};
 
       // do field validation
       if (form.install_url.value === '' || form.install_url.value === 'http://' || form.install_url.value === 'https://') {
-        alert(Joomla.JText._('PLG_INSTALLER_URLINSTALLER_NO_URL'), true);
+        Joomla.renderMessages({ warning: [Joomla.JText._('PLG_INSTALLER_URLINSTALLER_NO_URL')] });
       } else {
         Joomla.displayLoader();
 
@@ -60,11 +60,26 @@ Joomla = window.Joomla || {};
 
       // do field validation
       if (form.install_url.value === '' || form.install_url.value === 'http://' || form.install_url.value === 'https://') {
-        alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), true);
+        Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL')] });
       } else {
         Joomla.displayLoader();
 
         form.installtype.value = 'url';
+        form.submit();
+      }
+    };
+
+    Joomla.submitbutton5 = () => {
+      const form = document.getElementById('adminForm');
+
+      // do field validation
+      if (form.install_url.value !== '' || form.install_url.value !== 'http://' || form.install_url.value !== 'https://') {
+        Joomla.submitbutton4();
+      } else if (form.install_url.value === '') {
+        Joomla.renderMessages({ warning: [Joomla.apps.options.btntxt] });
+      } else {
+        document.querySelector('#appsloading').classList.remove('hidden');
+        form.installtype.value = 'web';
         form.submit();
       }
     };
@@ -74,9 +89,9 @@ Joomla = window.Joomla || {};
 
       // do field validation
       if (form.install_package.value === '') {
-        alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
+        Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE')] });
       } else if (form.install_package.files[0].size > form.max_upload_size.value) {
-        alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+        Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
       } else {
         Joomla.displayLoader();
 
@@ -204,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = new FormData();
 
     if (file.size > fileSizeMax) {
-      alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+      Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
       return;
     }
 

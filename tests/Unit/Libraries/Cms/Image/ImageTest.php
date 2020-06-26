@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,14 +16,14 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for Image.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ImageTest extends UnitTestCase
 {
 	/**
 	 * @var    Image  The testing instance.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $instance;
 
@@ -32,7 +32,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setUp(): void
 	{
@@ -65,7 +65,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getPrepareDimensionsData()
 	{
@@ -86,7 +86,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSanitizeDimensionData()
 	{
@@ -110,7 +110,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCropData()
 	{
@@ -129,7 +129,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSanitizeOffsetData()
 	{
@@ -147,7 +147,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::__construct
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testConstructor()
 	{
@@ -179,7 +179,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::loadFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testloadFile()
 	{
@@ -206,7 +206,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::loadFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testloadFileGif()
 	{
@@ -233,7 +233,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::loadFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testloadFilePng()
 	{
@@ -256,7 +256,7 @@ class ImageTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @covers  Joomla\CMS\Image\Image::loadFile
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testloadFileBmp()
 	{
@@ -275,7 +275,7 @@ class ImageTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @covers  Joomla\CMS\Image\Image::loadFile
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testloadFileWithInvalidFile()
 	{
@@ -295,7 +295,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::resize
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testResize()
 	{
@@ -326,7 +326,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::resize
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testResizeTransparent()
 	{
@@ -356,7 +356,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::resize
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testResizeNoFile()
 	{
@@ -402,7 +402,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFileInvalid()
 	{
@@ -427,7 +427,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFileGif()
 	{
@@ -467,7 +467,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFilePng()
 	{
@@ -507,7 +507,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFileJpg()
 	{
@@ -547,7 +547,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFileDefault()
 	{
@@ -581,7 +581,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::getFilterInstance
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetFilterInstance()
 	{
@@ -603,7 +603,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::getHeight
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetHeight()
 	{
@@ -627,7 +627,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::getHeight
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetHeightWithoutLoadedImage()
 	{
@@ -648,7 +648,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::getWidth
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetWidth()
 	{
@@ -672,7 +672,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::getWidth
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetWidthWithoutLoadedImage()
 	{
@@ -691,7 +691,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::getImageFileProperties
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetImageFilePropertiesWithInvalidFile()
 	{
@@ -858,7 +858,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::isTransparent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testIsTransparentWithoutLoadedImage()
 	{
@@ -879,7 +879,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::isTransparent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testTransparentIsTransparent()
 	{
@@ -905,7 +905,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::isTransparent
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testOpaqueIsNotTransparent()
 	{
@@ -926,7 +926,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::crop
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testCropWithoutLoadedImage()
 	{
@@ -962,7 +962,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::crop
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testCrop($startHeight, $startWidth, $cropHeight, $cropWidth, $cropTop, $cropLeft, $transparent = false)
 	{
@@ -1064,7 +1064,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::rotate
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testRotateWithoutLoadedImage()
 	{
@@ -1087,7 +1087,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::rotate
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testRotate()
 	{
@@ -1139,7 +1139,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::filter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testFilter()
 	{
@@ -1167,7 +1167,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::filter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testFilterWithoutLoadedImage()
 	{
@@ -1186,7 +1186,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::filter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testFilterWithInvalidFilterType()
 	{
@@ -1215,7 +1215,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::prepareDimensions
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testPrepareDimensions($inputHeight, $inputWidth, $inputScale, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
@@ -1239,7 +1239,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::prepareDimensions
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
 	{
@@ -1270,7 +1270,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::sanitizeHeight
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSanitizeHeight($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
@@ -1303,7 +1303,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::sanitizeWidth
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSanitizeWidth($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
@@ -1332,7 +1332,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::sanitizeOffset
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSanitizeOffset($input, $expected)
 	{
@@ -1353,7 +1353,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::destroy
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testDestroy()
 	{

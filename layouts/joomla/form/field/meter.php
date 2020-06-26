@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,8 +45,9 @@ extract($displayData);
  * @var   string   $animated        Is it animated.
  * @var   string   $active          Is it active.
  * @var   string   $max             The maximum value.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
-
 
 // Initialize some field attributes.
 $class = 'progress-bar ' . $class;
@@ -66,7 +67,8 @@ $data .= ' aria-valuenow="' . $value . '"';
 $attributes = array(
 	$class,
 	!empty($width) ? ' style="width:' . $width . ';"' : '',
-	$data
+	$data,
+	$dataAttribute,
 );
 
 $value = ((float) ($value - $min) * 100) / ($max - $min);

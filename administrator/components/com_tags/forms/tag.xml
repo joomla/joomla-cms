@@ -112,6 +112,16 @@
 	/>
 
 	<field
+		name="version"
+		type="text"
+		label="COM_TAGS_FIELD_VERSION_LABEL"
+		size="6"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+	/>
+
+	<field
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,18 +105,27 @@ Text::script('JHIDEPASSWORD');
 			</div>
 		<?php endif; ?>
 
-		<?php foreach($extraButtons as $button): ?>
+		<?php foreach($extraButtons as $button):
+			$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+				return substr($key, 0, 5) == 'data-';
+			});
+			?>
 			<div class="mod-login__submit form-group">
 				<button type="button"
 				        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
-				        onclick="<?php echo $button['onclick'] ?>"
+						<?php foreach ($dataAttributeKeys as $key): ?>
+						<?php echo $key ?>="<?php echo $button[$key] ?>"
+						<?php endforeach; ?>
+						<?php if ($button['onclick']): ?>
+						onclick="<?= $button['onclick'] ?>"
+						<?php endif; ?>
 				        title="<?php echo Text::_($button['label']) ?>"
 				        id="<?php echo $button['id'] ?>"
 						>
 					<?php if (!empty($button['icon'])): ?>
 						<span class="<?php echo $button['icon'] ?>"></span>
 					<?php elseif (!empty($button['image'])): ?>
-						<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+						<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 							'class' => 'icon',
 						], true) ?>
 					<?php endif; ?>

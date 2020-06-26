@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -35,7 +35,9 @@ $tmpl = Factory::getApplication()->input->getCmd('tmpl');
 // Load the toolbar when we are in an iframe
 if ($tmpl === 'component')
 {
+	echo '<div class="subhead noshadow">';
 	echo Toolbar::getInstance('toolbar')->render();
+	echo '</div>';
 }
 
 // Populate the media config
