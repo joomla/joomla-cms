@@ -40,7 +40,6 @@ INSERT INTO `#__extensions` (`name`, `type`, `element`, `folder`, `client_id`, `
 ('plg_workflow_featuring', 'plugin', 'featuring', 'workflow', 0, 1, 1, 0, '', '{}', 0, 0),
 ('plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, '', '{}', 0, 0),
 ('com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '{}', 0, 0),
-('plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 0, 1, 0, '', '{}', 0, 0),
 ('plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 0, 1, 1, '', '{}', 0, 0),
 ('plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '{}', 4, 0),
 ('plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '{}', 0, 0),
@@ -86,7 +85,6 @@ SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, '
 INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `params`) VALUES
 ('atum', 1, (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count FROM `#__template_styles` WHERE home = '1' AND client_id = 1 AND `template` IN ('isis', 'hathor')) as c) = 0 THEN '0' ELSE '1' END), 'atum - Default', '{}'),
 ('cassiopeia', 0, (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count FROM `#__template_styles` WHERE home = '1' AND client_id = 0 AND `template` IN ('protostar', 'beez3')) as c) = 0 THEN '0' ELSE '1' END), 'cassiopeia - Default', '{}');
-
 
 UPDATE `#__extensions` SET `client_id` = 1 WHERE `name` = 'com_wrapper';
 UPDATE `#__extensions` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';

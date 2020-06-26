@@ -10,7 +10,6 @@ DELETE FROM `#__menu` WHERE `link` = 'index.php?option=com_messages' AND `menuty
 DELETE FROM `#__menu` WHERE `link` = 'index.php?option=com_messages&view=messages' AND `menutype` = 'main';
 DELETE FROM `#__menu` WHERE `link` = 'index.php?option=com_messages&task=message.add' AND `menutype` = 'main';
 
-
 UPDATE `#__menu` SET `link` = 'index.php?option=com_config&view=config' WHERE `link` = 'index.php?option=com_config&view=config&controller=config.display.config';
 UPDATE `#__menu` SET `link` = 'index.php?option=com_config&view=templates' WHERE `link` = 'index.php?option=com_config&view=templates&controller=config.display.templates';
 UPDATE `#__menu` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
