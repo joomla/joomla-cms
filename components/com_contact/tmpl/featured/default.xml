@@ -444,7 +444,7 @@
 			<field
 				name="linkb_name"
 				type="text"
-				label="COM_CONTACT_FIELD_LINKB_LABEL"
+				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
 				size="30"
 				useglobal="true"
 			/>

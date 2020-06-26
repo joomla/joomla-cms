@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,7 +90,7 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 		<?php else : ?>
 			<?php $status = 'unpublished '; ?>
 		<?php endif; ?>
-		<tr class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>">
+		<tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>">
 			<th scope="row">
 				<button type="button"
 					data-target="#moduleEditModal"
@@ -100,13 +100,13 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 					data-module-id="<?php echo $module->id; ?>">
 					<?php echo $this->escape($module->title); ?></button>
 			</th>
-			<td>
+			<td id="access-<?php echo $module->id; ?>">
 				<?php echo $this->escape($module->access_title); ?>
 			</td>
-			<td>
+			<td id="position-<?php echo $module->id; ?>">
 				<?php echo $this->escape($module->position); ?>
 			</td>
-			<td>
+			<td id="menus-<?php echo $module->id; ?>">
 				<?php if (is_null($module->menuid)) : ?>
 					<?php if ($module->except) : ?>
 						<span class="badge badge-success">
@@ -131,7 +131,7 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 					</span>
 				<?php endif; ?>
 			</td>
-			<td>
+			<td id="status-<?php echo $module->id; ?>">
 				<?php if ($module->published) : ?>
 					<span class="badge badge-success">
 						<?php echo Text::_('JYES'); ?>

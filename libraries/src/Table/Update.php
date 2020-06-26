@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,6 +66,12 @@ class Update extends Table
 		if (!$this->update_id && !$this->data)
 		{
 			$this->data = '';
+		}
+
+		// While column is not nullable, make sure we have a value.
+		if ($this->description === null)
+		{
+			$this->description = '';
 		}
 
 		return true;
