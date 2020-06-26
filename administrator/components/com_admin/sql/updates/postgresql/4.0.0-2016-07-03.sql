@@ -78,8 +78,8 @@ INSERT INTO "#__extensions" ("name", "type", "element", "folder", "client_id", "
 ('plg_user_token', 'plugin', 'token', 'user', 0, 1, 1, 0, '', '{}', 0, 0),
 ('plg_api-authentication_token', 'plugin', 'token', 'api-authentication', 0, 1, 1, 0, '', '{}', 0, 0),
 ('plg_system_accessibility', 'plugin', 'accessibility', 'system', 0, 0, 1, 0, '', '{}', 0, 0),
-('plg_quickicon_downloadkey', 'plugin', 'downloadkey', 'quickicon', 0, 1, 1, 0, 1, '', '', 0, 0),
-('plg_content_imagelazyload', 'plugin', 'imagelazyload', 'content', 0, 1, 1, 0, 1, '', '', 0, 0);
+('plg_quickicon_downloadkey', 'plugin', 'downloadkey', 'quickicon', 0, 1, 1, 0, '', '', 0, 0),
+('plg_content_imagelazyload', 'plugin', 'imagelazyload', 'content', 0, 1, 1, 0, '', '', 0, 0);
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "ordering", "state")
 SELECT "extension_id", 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, '', '', 0, 0 FROM "#__extensions" WHERE "name" = 'English (en-GB) Language Pack';
