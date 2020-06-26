@@ -461,7 +461,8 @@ class TemplateAdapter extends InstallerAdapter
 			->select('COUNT(*)')
 			->from($db->qn('#__template_styles'))
 			->where($db->qn('home') . ' = ' . $db->q('1'))
-			->where($db->qn('template') . ' = ' . $db->q($name));
+			->where($db->qn('template') . ' = ' . $db->q($name))
+			->where($db->quoteName('client_id') . ' = ' . $clientId);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)

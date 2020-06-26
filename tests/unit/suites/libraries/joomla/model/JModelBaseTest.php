@@ -36,7 +36,7 @@ class JModelBaseTest extends TestCase
 	public function test__construct()
 	{
 		// @codingStandardsIgnoreStart
-		// @todo check the instanciating new classes without brackets sniff
+		// @todo check the instantiating new classes without brackets sniff
 		$this->assertEquals(new Registry, $this->_instance->getState(), 'Checks default state.');
 		// @codingStandardsIgnoreEnd
 

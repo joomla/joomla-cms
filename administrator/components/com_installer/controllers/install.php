@@ -39,7 +39,7 @@ class InstallerControllerInstall extends JControllerLegacy
 
 		if (!$redirect_url)
 		{
-			$redirect_url = base64_decode($app->input->get('return'));
+			$redirect_url = base64_decode($app->input->get('return', null, 'BASE64'));
 		}
 
 		// Don't redirect to an external URL.

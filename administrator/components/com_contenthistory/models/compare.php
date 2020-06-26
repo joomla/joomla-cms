@@ -90,7 +90,7 @@ class ContenthistoryModelCompare extends JModelItem
 
 					foreach ($dateProperties as $dateProperty)
 					{
-						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != '0000-00-00 00:00:00')
+						if (property_exists($object->data, $dateProperty) && $object->data->$dateProperty->value != '0000-00-00 00:00:00')
 						{
 							$object->data->$dateProperty->value = JHtml::_('date', $object->data->$dateProperty->value, JText::_('DATE_FORMAT_LC6'));
 						}
