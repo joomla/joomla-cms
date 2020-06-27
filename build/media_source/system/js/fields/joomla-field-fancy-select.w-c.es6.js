@@ -146,7 +146,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       // This workaround can be removed when choices.js
       // will have an option that allow to disable it.
 
-      // eslint-disable-next-line no-underscore-dangle prefer-destructuring
+      // eslint-disable-next-line no-underscore-dangle, prefer-destructuring
       const _highlightChoice = this.choicesInstance._highlightChoice;
       // eslint-disable-next-line no-underscore-dangle
       this.choicesInstance._highlightChoice = (el) => {
