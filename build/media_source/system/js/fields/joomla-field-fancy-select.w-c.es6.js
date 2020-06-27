@@ -140,30 +140,37 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle typing of custom Term
     if (this.allowCustom) {
       // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
-      // The choices.js always auto-hightlight first element in the dropdown that not allow to add a custom Term.
+      // The choices.js always auto-hightlight first element
+      // in the dropdown that not allow to add a custom Term.
       //
-      // This workaround can be removed when choices.js will have an option that allow to disable it.
+      // This workaround can be removed when choices.js
+      // will have an option that allow to disable it.
       const _highlightChoice = this.choicesInstance._highlightChoice;
+      // eslint-disable-next-line no-underscore-dangle
       this.choicesInstance._highlightChoice = (el) => {
         // Prevent auto-highlight of first element, if nothing actually highlighted
         if (!el) return;
 
         // Call original highlighter
         _highlightChoice.call(this.choicesInstance, el);
-      }
+      };
 
       // Unhighlight any highlighted items, when mouse leave the dropdown
-      this.addEventListener('mouseleave', (event) => {
+      this.addEventListener('mouseleave', () => {
+
         if (!this.choicesInstance.dropdown.isActive){
           return;
         }
 
-        const highlighted = Array.from(this.choicesInstance.dropdown.element.querySelectorAll(`.${this.choicesInstance.config.classNames.highlightedState}`));
+        const highlighted = Array.from(this.choicesInstance.dropdown.element
+          .querySelectorAll(`.${this.choicesInstance.config.classNames.highlightedState}`));
+
         highlighted.forEach((choice) => {
           choice.classList.remove(this.choicesInstance.config.classNames.highlightedState);
           choice.setAttribute('aria-selected', 'false');
         });
 
+        // eslint-disable-next-line no-underscore-dangle
         this.choicesInstance._highlightPosition = 0;
       });
       // END workaround for issue #29459
@@ -176,12 +183,15 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         }
         event.preventDefault();
 
+        // eslint-disable-next-line no-underscore-dangle
         if (this.choicesInstance._highlightPosition || !event.target.value) {
           return;
         }
 
         // Make sure nothing is highlighted
-        const highlighted = this.choicesInstance.dropdown.element.querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
+        const highlighted = this.choicesInstance.dropdown.element
+          .querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
+
         if (highlighted) {
           return;
         }
@@ -191,25 +201,24 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         let valueInCache = false;
 
         // Check if value in existing choices
-        this.choicesInstance.config.choices.forEach((choiceItem) => {
-          if (choiceItem.value.toLowerCase() === lowerValue || choiceItem.label.toLowerCase() === lowerValue) {
+        this.choicesInstance.config.choices.some((choiceItem) => {
+          if (choiceItem.value.toLowerCase() === lowerValue
+            || choiceItem.label.toLowerCase() === lowerValue) {
             valueInCache = choiceItem.value;
-            return false;
+            return true;
           }
+          return false;
         });
 
         if (valueInCache === false) {
           // Check if value in cache
-          for (const k in this.choicesCache) {
-            if (!this.choicesCache.hasOwnProperty(k)) {
-              continue;
+          Object.keys(this.choicesCache).some((key) => {
+            if (key.toLowerCase() === lowerValue || this.choicesCache[key].toLowerCase() === lowerValue) {
+              valueInCache = key;
+              return true;
             }
-
-            if (k.toLowerCase() === lowerValue || this.choicesCache[k].toLowerCase() === lowerValue) {
-              valueInCache = k;
-              break;
-            }
-          }
+            return false;
+          });
         }
 
         // Make choice based on existing value
