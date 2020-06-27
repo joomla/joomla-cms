@@ -145,6 +145,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       //
       // This workaround can be removed when choices.js
       // will have an option that allow to disable it.
+
+      // eslint-disable-next-line no-underscore-dangle
       const _highlightChoice = this.choicesInstance._highlightChoice;
       // eslint-disable-next-line no-underscore-dangle
       this.choicesInstance._highlightChoice = (el) => {
@@ -157,8 +159,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
       // Unhighlight any highlighted items, when mouse leave the dropdown
       this.addEventListener('mouseleave', () => {
-
-        if (!this.choicesInstance.dropdown.isActive){
+        if (!this.choicesInstance.dropdown.isActive) {
           return;
         }
 
@@ -213,7 +214,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         if (valueInCache === false) {
           // Check if value in cache
           Object.keys(this.choicesCache).some((key) => {
-            if (key.toLowerCase() === lowerValue || this.choicesCache[key].toLowerCase() === lowerValue) {
+            if (key.toLowerCase() === lowerValue
+              || this.choicesCache[key].toLowerCase() === lowerValue) {
               valueInCache = key;
               return true;
             }
