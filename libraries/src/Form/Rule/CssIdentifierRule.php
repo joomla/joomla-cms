@@ -74,7 +74,7 @@ class CssIdentifierRule extends FormRule
 			}
 
 			/**
-			 * Apply this rules only to full class identiers and not to the suffix ($i === 0).
+			 * Apply this rules only to full class identifiers and not to the suffix ($i === 0).
 			 * Full identifiers cannot start with a digit, two hyphens, or a hyphen followed by a digit.
 			 */
 			if ($i !== 0 && (preg_match('/^[0-9]/', $identifier) || preg_match('/^(-[0-9])|^(--)/', $identifier)))
