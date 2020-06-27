@@ -139,6 +139,36 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     // Handle typing of custom term
     if (this.allowCustom) {
+      // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
+      // The choices.js always auto-hightlight first element in the dropdown that not allow to add a custom Term.
+      //
+      // This workaround can be removed when choices.js will have an option that allow to disable it.
+      const _highlightChoice = this.choicesInstance._highlightChoice;
+      this.choicesInstance._highlightChoice = (el) => {
+        // Prevent auto-highlight of first element, if nothing actually highlighted
+        if (!el) return;
+
+        // Call original highlighter
+        _highlightChoice.call(this.choicesInstance, el);
+      }
+
+      // Unhighlight any highlighted items, when mouse leave the dropdown
+      this.addEventListener('mouseleave', (event) => {
+        if (!this.choicesInstance.dropdown.isActive){
+          return;
+        }
+
+        const highlighted = Array.from(this.choicesInstance.dropdown.element.querySelectorAll(`.${this.choicesInstance.config.classNames.highlightedState}`));
+        highlighted.forEach((choice) => {
+          choice.classList.remove(this.choicesInstance.config.classNames.highlightedState);
+          choice.setAttribute('aria-selected', 'false');
+        });
+
+        this.choicesInstance._highlightPosition = 0;
+      });
+      // END workaround for issue #29459
+
+      // Add custom term on ENTER keydown
       this.addEventListener('keydown', (event) => {
         if (event.keyCode !== this.keyCode.ENTER
           || event.target !== this.choicesInstance.input.element) {
@@ -146,7 +176,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         }
         event.preventDefault();
 
-        if (this.choicesInstance.highlightPosition || !event.target.value || this.choicesCache[event.target.value]) {
+        if (this.choicesInstance._highlightPosition || !event.target.value || this.choicesCache[event.target.value]) {
           return;
         }
 
