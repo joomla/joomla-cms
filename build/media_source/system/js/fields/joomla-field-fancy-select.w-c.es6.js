@@ -137,7 +137,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       }
     });
 
-    // Handle typing of custom term
+    // Handle typing of custom Term
     if (this.allowCustom) {
       // START Work around for issue https://github.com/joomla/joomla-cms/issues/29459
       // The choices.js always auto-hightlight first element in the dropdown that not allow to add a custom Term.
@@ -176,7 +176,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         }
         event.preventDefault();
 
-        if (this.choicesInstance._highlightPosition || !event.target.value || this.choicesCache[event.target.value]) {
+        if (this.choicesInstance._highlightPosition || !event.target.value) {
           return;
         }
 
@@ -186,6 +186,41 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
           return;
         }
 
+        // Check if value already exist
+        const lowerValue = event.target.value.toLowerCase();
+        let valueInCache = false;
+
+        // Check if value in existing choices
+        this.choicesInstance.config.choices.forEach((choiceItem) => {
+          if (choiceItem.value.toLowerCase() === lowerValue || choiceItem.label.toLowerCase() === lowerValue) {
+            valueInCache = choiceItem.value;
+            return false;
+          }
+        });
+
+        if (valueInCache === false) {
+          // Check if value in cache
+          for (const k in this.choicesCache) {
+            if (!this.choicesCache.hasOwnProperty(k)) {
+              continue;
+            }
+
+            if (k.toLowerCase() === lowerValue || this.choicesCache[k].toLowerCase() === lowerValue) {
+              valueInCache = k;
+              break;
+            }
+          }
+        }
+
+        // Make choice based on existing value
+        if (valueInCache !== false) {
+          this.choicesInstance.setChoiceByValue(valueInCache);
+          event.target.value = null;
+          this.choicesInstance.hideDropdown();
+          return;
+        }
+
+        // Create and add new
         this.choicesInstance.setChoices([{
           value: this.newItemPrefix + event.target.value,
           label: event.target.value,
