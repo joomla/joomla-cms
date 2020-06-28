@@ -37,7 +37,7 @@ function admin_postinstall_languageaccess340_condition()
 
 	if (isset($numRows) && $numRows != 0)
 	{
-		// We have rows here so we have at minumum one row with access set to 0
+		// We have rows here so we have at minimum one row with access set to 0
 		return true;
 	}
 

@@ -382,7 +382,7 @@ class PlgUserProfile extends CMSPlugin
 
 			if (Date::getInstance('now') < $date)
 			{
-				// Throw an exception if dob is greather than now.
+				// Throw an exception if dob is greater than now.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}

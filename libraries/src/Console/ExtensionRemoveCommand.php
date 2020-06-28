@@ -48,13 +48,13 @@ class ExtensionRemoveCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * Exit Code for extenions remove abort
+	 * Exit Code for extensions remove abort
 	 * @since
 	 */
 	public const REMOVE_ABORT = 3;
 
 	/**
-	 * Exit Code for extenions remove failure
+	 * Exit Code for extensions remove failure
 	 * @since
 	 */
 	public const REMOVE_FAILED = 1;
@@ -72,19 +72,19 @@ class ExtensionRemoveCommand extends AbstractCommand
 	public const REMOVE_INVALID_TYPE = 6;
 
 	/**
-	 * Exit Code for extenions locked remove failure
+	 * Exit Code for extensions locked remove failure
 	 * @since
 	 */
 	public const REMOVE_LOCKED = 4;
 
 	/**
-	 * Exit Code for extenions not found
+	 * Exit Code for extensions not found
 	 * @since
 	 */
 	public const REMOVE_NOT_FOUND = 2;
 
 	/**
-	 * Exit Code for extenions remove success
+	 * Exit Code for extensions remove success
 	 * @since
 	 */
 	public const REMOVE_SUCCESSFUL = 0;

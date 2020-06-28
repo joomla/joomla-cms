@@ -52,7 +52,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOAY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onCustomFieldsBeforePrepareField($context, $item, $field)
 	{
@@ -73,7 +73,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 *
 	 * @return  array  The checked value
 	 *
-	 * @since   __DEPLOAY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function checkValue($value)
 	{
