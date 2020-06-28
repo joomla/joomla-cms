@@ -497,7 +497,7 @@ class ConfigModelApplication extends ConfigModelForm
 			opcache_invalidate($file);
 		}
 
-		// Attempt to make the file unwriteable if using FTP.
+		// Attempt to make the file unwriteable if NOT using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
