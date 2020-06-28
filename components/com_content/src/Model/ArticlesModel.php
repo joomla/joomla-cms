@@ -333,7 +333,7 @@ class ArticlesModel extends ListModel
 		{
 			/**
 			 * If category is archived then article has to be published or archived.
-			 * Or categogy is published then article has to be archived.
+			 * Or category is published then article has to be archived.
 			 */
 			$query->where('((' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('a.state') . ' > :conditionUnpublished)'
 				. ' OR (' . $db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('a.state') . ' = :conditionArchived))'

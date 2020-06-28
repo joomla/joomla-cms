@@ -19,7 +19,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * The HTML Menus Menu Item TYpes View.
+ * The HTML Menus Menu Item Types View.
  *
  * @since  1.6
  */

@@ -180,7 +180,7 @@ class PlgInstallerOverride extends CMSPlugin
 	/**
 	 * Last process of this plugin.
 	 *
-	 * @param   array  $result  Result aray.
+	 * @param   array  $result  Result array.
 	 *
 	 * @return  void
 	 *

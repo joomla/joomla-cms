@@ -427,7 +427,7 @@ class PlgUserToken extends CMSPlugin
 	 * This event is called after the user data is deleted from the database.
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void

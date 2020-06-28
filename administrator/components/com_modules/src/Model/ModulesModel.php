@@ -376,7 +376,7 @@ class ModulesModel extends ListModel
 			{
 				$query->having('MIN(' . $db->quoteName('mm.menuid') . ') IS NULL');
 			}
-			// If user selected the modules assigned to some particlar page (menu item).
+			// If user selected the modules assigned to some particular page (menu item).
 			else
 			{
 				// Modules in "All" pages.

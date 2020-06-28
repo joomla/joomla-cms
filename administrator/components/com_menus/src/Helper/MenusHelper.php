@@ -134,7 +134,7 @@ class MenusHelper extends ContentHelper
 	 * @param   integer  $mode       An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
 	 * @param   array    $published  An optional array of states
 	 * @param   array    $languages  Optional array of specify which languages we want to filter
-	 * @param   int      $clientId   Optional client id - viz 0 = site, 1 = administrator, can be NULL for all (used only if menutype not givein)
+	 * @param   int      $clientId   Optional client id - viz 0 = site, 1 = administrator, can be NULL for all (used only if menutype not given)
 	 *
 	 * @return  array
 	 *

@@ -142,7 +142,7 @@ final class InstallationApplication extends CMSApplication
 
 			$guesses = array();
 
-			foreach ($orphans as $key => $occurance)
+			foreach ($orphans as $key => $occurence)
 			{
 				$guess = str_replace('_', ' ', $key);
 
