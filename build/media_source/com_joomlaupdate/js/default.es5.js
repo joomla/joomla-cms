@@ -25,6 +25,9 @@ Joomla = window.Joomla || {};
 		if (form.install_package.value == '') {
 			alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
 		}
+		else if (!/\.zip$/i.test(form.install_package.value)) {
+			alert(Joomla.JText._('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADFILESUFFIX'), true);
+		}
 		else if (form.install_package.files[0].size > form.max_upload_size.value) {
 			alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
 		}
@@ -38,20 +41,30 @@ Joomla = window.Joomla || {};
 		var fileSize = form.install_package.files[0].size;
 		var fileSizeMB = fileSize * 1.0 / 1024.0 / 1024.0;
 		var fileSizeElement = document.getElementById('file_size');
-		var warningElement = document.getElementById('max_upload_size_warn');
+		var fileSizeWarning = document.getElementById('max_upload_size_warn');
+		var fileSuffixWarning = document.getElementById('wrong_file_suffix_warn');
 
 		if (form.install_package.value == '') {
 			fileSizeElement.classList.add('hidden');
-			warningElement.classList.add('hidden');
+			fileSizeWarning.classList.add('hidden');
+			fileSuffixWarning.classList.add('hidden');
 		}
-		else if (fileSize) {
-			fileSizeElement.classList.remove('hidden');
-			fileSizeElement.innerHTML = Joomla.JText._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', fileSizeMB.toFixed(2) + ' MB');
+		else {
+			if (fileSize) {
+				fileSizeElement.classList.remove('hidden');
+				fileSizeElement.innerHTML = Joomla.JText._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', fileSizeMB.toFixed(2) + ' MB');
 
-			if (fileSize > form.max_upload_size.value) {
-				warningElement.classList.remove('hidden');
+				if (fileSize > form.max_upload_size.value) {
+					fileSizeWarning.classList.remove('hidden');
+				} else {
+					fileSizeWarning.classList.add('hidden');
+				}
+			}
+
+			if (/\.zip$/i.test(form.install_package.value)) {
+				fileSuffixWarning.classList.add('hidden');
 			} else {
-				warningElement.classList.add('hidden');
+				fileSuffixWarning.classList.remove('hidden');
 			}
 		}
 	};

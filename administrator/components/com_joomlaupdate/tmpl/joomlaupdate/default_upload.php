@@ -18,6 +18,7 @@ use Joomla\CMS\Utility\Utility;
 HTMLHelper::_('behavior.core');
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG', true);
+Text::script('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADFILESUFFIX', true);
 Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 ?>
 
@@ -66,6 +67,9 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 					<small class="form-text text-muted hidden" id="file_size" name="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></small>
 					<div class="alert alert-warning hidden" id="max_upload_size_warn">
 						<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
+					</div>
+					<div class="alert alert-warning hidden" id="wrong_file_suffix_warn">
+						<?php echo Text::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADFILESUFFIX'); ?>
 					</div>
 				</td>
 			</tr>
