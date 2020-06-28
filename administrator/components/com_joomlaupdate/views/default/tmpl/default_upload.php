@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 /** @var JoomlaupdateViewDefault $this */
 
 $errSelectPackage = JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
+$errPackageSuffix = JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADFILESUFFIX', true);
+$errPackageTooBig = JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG', true);
+$txtPackageSize   = JText::_('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 $js               = <<< JS
 	Joomla.submitbuttonUpload = function() {
 		var form = document.getElementById("uploadForm");
@@ -20,11 +23,53 @@ $js               = <<< JS
 		if (form.install_package.value == "") {
 			alert("$errSelectPackage");
 		}
+		else if (!/\.zip$/i.test(form.install_package.value))
+		{
+			alert("$errPackageSuffix");
+		}
+		else if (form.install_package.files[0].size > form.max_upload_size.value)
+		{
+			alert("$errPackageTooBig");
+		}
 		else
 		{
 			jQuery("#loading").css("display", "block");
 
 			form.submit();
+		}
+	};
+
+	Joomla.installpackageChange = function() {
+		var form = document.getElementById('uploadForm');
+		var fileSize = form.install_package.files[0].size;
+		var fileSizeMB = fileSize * 1.0 / 1024.0 / 1024.0;
+		var fileSizeText = "$txtPackageSize";
+		var fileSizeElement = document.getElementById('file_size');
+		var fileSizeWarning = document.getElementById('max_upload_size_warn');
+		var fileSuffixWarning = document.getElementById('wrong_file_suffix_warn');
+
+		if (form.install_package.value == '') {
+			fileSizeElement.classList.add('hidden');
+			fileSizeWarning.classList.add('hidden');
+			fileSuffixWarning.classList.add('hidden');
+		}
+		else {
+			if (fileSize) {
+				fileSizeElement.classList.remove('hidden');
+				fileSizeElement.innerHTML = fileSizeText.replace('%s', fileSizeMB.toFixed(2) + ' MB');
+
+				if (fileSize > form.max_upload_size.value) {
+					fileSizeWarning.classList.remove('hidden');
+				} else {
+					fileSizeWarning.classList.add('hidden');
+				}
+			}
+
+			if (/\.zip$/i.test(form.install_package.value)) {
+				fileSuffixWarning.classList.add('hidden');
+			} else {
+				fileSuffixWarning.classList.remove('hidden');
+			}
 		}
 	};
 
@@ -96,9 +141,18 @@ JFactory::getDocument()->addStyleDeclaration($css);
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 				</td>
 				<td>
-					<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
-					<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
-					<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?>
+					<input class="input_box" id="install_package" name="install_package" type="file" size="57" onchange="Joomla.installpackageChange()" /><br>
+					<?php $maxSizeBytes = JUtility::getMaxUploadSize(); ?>
+					<?php $maxSize = JHtml::_('number.bytes', $maxSizeBytes); ?>
+					<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
+					<div class="small"><?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></div>
+					<div class="small hidden" id="file_size" name="file_size"><?php echo JText::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
+					<div class="alert alert-warning hidden" id="max_upload_size_warn">
+						<?php echo JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
+					</div>
+					<div class="alert alert-warning hidden" id="wrong_file_suffix_warn">
+						<?php echo JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADFILESUFFIX'); ?>
+					</div>
 				</td>
 			</tr>
 			<tr>
