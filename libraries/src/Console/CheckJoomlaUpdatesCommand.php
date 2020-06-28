@@ -52,7 +52,7 @@ The <info>%command.name%</info> Checks for Joomla updates.
 
   <info>php %command.full_name%</info>
 EOF;
-		$this->setDescription('Checks for Joomla updates');
+		$this->setDescription('Check for Joomla updates');
 		$this->setHelp($help);
 	}
 

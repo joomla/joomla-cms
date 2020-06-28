@@ -308,7 +308,7 @@ class GetConfigurationCommand extends AbstractCommand
 
 		$groupNames = implode(', ', $groupNames);
 
-		$this->setDescription('Displays the current value of a configuration option');
+		$this->setDescription('Display the current value of a configuration option');
 
 		$this->addArgument('option', null, 'Name of the option');
 		$this->addOption('group', 'g', InputOption::VALUE_REQUIRED, 'Name of the option');

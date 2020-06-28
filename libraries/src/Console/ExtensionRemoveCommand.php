@@ -125,7 +125,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 			InputArgument::REQUIRED,
 			'ID of extension to be removed (run extension:list command to check)'
 		);
-		$this->setDescription('Removes an extension');
+		$this->setDescription('Remove an extension');
 
 		$help = <<<'EOF'
 The <info>%command.name%</info> is used to uninstall extensions.
