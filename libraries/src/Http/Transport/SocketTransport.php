@@ -121,7 +121,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 			$request[] = $data;
 		}
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
 			$request[] = 'Authorization: Basic ' . base64_encode($this->getOption('userauth') . ':' . $this->getOption('passwordauth'));

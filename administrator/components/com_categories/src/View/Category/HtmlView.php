@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 	protected $canDo;
 
 	/**
-	 * Is there a content type associated with this category aias
+	 * Is there a content type associated with this category alias
 	 *
 	 * @var    boolean
 	 * @since  4.0.0
