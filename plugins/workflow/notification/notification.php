@@ -227,7 +227,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 	}
 
-	/*
+	/**
 	 * Get user_ids of receivers
 	 *
 	 * @param   object  $data    Object containing data about the transition
@@ -312,10 +312,10 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 		return true;
 	}
 
-	/*
+	/**
 	 * Remove receivers who have locked their message inputbox
 	 *
-	 * @param   array  $uerIds  The userIds which must be checked
+	 * @param   array  $userIds  The userIds which must be checked
 	 *
 	 * @return   array  users with active message input box
 	 *
