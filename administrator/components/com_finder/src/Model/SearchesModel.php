@@ -36,7 +36,7 @@ class SearchesModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'search_term', 'a.search_term',
+				'searchterm', 'a.searchterm',
 				'hits', 'a.hits',
 			);
 		}

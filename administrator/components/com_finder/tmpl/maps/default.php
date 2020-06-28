@@ -67,7 +67,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 							</th>
 							<?php if (Multilanguage::isEnabled()) : ?>
 								<th scope="col" class="w-10 nowrap d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 						</tr>
