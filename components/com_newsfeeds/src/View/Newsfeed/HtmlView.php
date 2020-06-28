@@ -104,9 +104,6 @@ class HtmlView extends BaseHtmlView
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
-
-			// @TODO: $items is not used. Remove this line?
-			$items = $categoryModel->getItems();
 		}
 
 		// Check for errors.
