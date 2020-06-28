@@ -56,16 +56,16 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   boolean  $cacheable   If true, the view output will be cached.
 	 * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  \Joomla\CMS\MVC\Controller\BaseController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cacheable = false, $urlparams = false)
 	{
-		$cachable = true;
+		$cacheable = true;
 
 		/**
 		 * Set the default view name and format from the Request.
@@ -82,7 +82,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 			|| ($this->input->getMethod() === 'POST'
 			&& (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive' )))
 		{
-			$cachable = false;
+			$cacheable = false;
 		}
 
 		$safeurlparams = array(
@@ -122,7 +122,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 			}
 		}
 
-		parent::display($cachable, $safeurlparams);
+		parent::display($cacheable, $safeurlparams);
 
 		return $this;
 	}

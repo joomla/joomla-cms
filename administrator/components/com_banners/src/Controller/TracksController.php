@@ -93,7 +93,7 @@ class TracksController extends BaseController
 	/**
 	 * Display method for the raw track data.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $cacheable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
 	 * @return  static  This object to support chaining.
@@ -101,7 +101,7 @@ class TracksController extends BaseController
 	 * @since   1.5
 	 * @todo    This should be done as a view, not here!
 	 */
-	public function display($cachable = false, $urlparams = array())
+	public function display($cacheable = false, $urlparams = array())
 	{
 		// Get the document object.
 		$vName = 'tracks';

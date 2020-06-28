@@ -26,7 +26,7 @@ class DisplayController extends BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $cacheable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
 	 * @return  static	 This object to support chaining.
@@ -34,7 +34,7 @@ class DisplayController extends BaseController
 	 * @since   1.5
 	 * @throws  \Exception
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cacheable = false, $urlparams = false)
 	{
 		/*
 		 * Special treatment is required for this component, as this view may be called

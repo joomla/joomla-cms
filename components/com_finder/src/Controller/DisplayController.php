@@ -25,7 +25,7 @@ class DisplayController extends BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached. [optional]
+	 * @param   boolean  $cacheable   If true, the view output will be cached. [optional]
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types,
 	 *                               for valid values see {@link \JFilterInput::clean()}. [optional]
 	 *
@@ -33,10 +33,10 @@ class DisplayController extends BaseController
 	 *
 	 * @since   2.5
 	 */
-	public function display($cachable = false, $urlparams = array())
+	public function display($cacheable = false, $urlparams = array())
 	{
 		$input = Factory::getApplication()->input;
-		$cachable = true;
+		$cacheable = true;
 
 		// Load plugin language files.
 		LanguageHelper::loadPluginLanguage();
@@ -48,7 +48,7 @@ class DisplayController extends BaseController
 		// Don't cache view for search queries
 		if ($input->get('q', null, 'string') || $input->get('f', null, 'int') || $input->get('t', null, 'array'))
 		{
-			$cachable = false;
+			$cacheable = false;
 		}
 
 		$safeurlparams = array(
@@ -56,6 +56,6 @@ class DisplayController extends BaseController
 			'lang' => 'CMD'
 		);
 
-		return parent::display($cachable, $safeurlparams);
+		return parent::display($cacheable, $safeurlparams);
 	}
 }

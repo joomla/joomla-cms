@@ -37,14 +37,14 @@ class DisplayController extends BaseController
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param   boolean     $cachable   If true, the view output will be cached
+	 * @param   boolean     $cacheable   If true, the view output will be cached
 	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
 	 *
 	 * @return  BaseController|boolean  A Controller object to support chaining.
 	 *
 	 * @since   3.7.0
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cacheable = false, $urlparams = false)
 	{
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'fields');
@@ -60,6 +60,6 @@ class DisplayController extends BaseController
 			return false;
 		}
 
-		return parent::display($cachable, $urlparams);
+		return parent::display($cacheable, $urlparams);
 	}
 }

@@ -50,18 +50,18 @@ class DisplayController extends BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $cacheable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
 	 * @return  static  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = array())
+	public function display($cacheable = false, $urlparams = array())
 	{
 		if (Factory::getApplication()->getUserState('com_contact.contact.data') === null)
 		{
-			$cachable = true;
+			$cacheable = true;
 		}
 
 		// Set the default view name and format from the Request.
@@ -70,7 +70,7 @@ class DisplayController extends BaseController
 
 		if (Factory::getUser()->get('id'))
 		{
-			$cachable = false;
+			$cacheable = false;
 		}
 
 		$safeurlparams = array('catid' => 'INT', 'id' => 'INT', 'cid' => 'ARRAY', 'year' => 'INT', 'month' => 'INT',
@@ -78,7 +78,7 @@ class DisplayController extends BaseController
 			'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'filter-search' => 'STRING', 'print' => 'BOOLEAN',
 			'lang' => 'CMD');
 
-		parent::display($cachable, $safeurlparams);
+		parent::display($cacheable, $safeurlparams);
 
 		return $this;
 	}

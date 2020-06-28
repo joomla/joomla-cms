@@ -622,7 +622,7 @@ class BaseController implements ControllerInterface
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $cacheable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link InputFilter::clean()}.
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
@@ -630,7 +630,7 @@ class BaseController implements ControllerInterface
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
-	public function display($cachable = false, $urlparams = array())
+	public function display($cacheable = false, $urlparams = array())
 	{
 		$document = $this->app->getDocument();
 		$viewType = $document->getType();
@@ -649,7 +649,7 @@ class BaseController implements ControllerInterface
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType !== 'feed' && Factory::getApplication()->get('caching') >= 1)
+		if ($cacheable && $viewType !== 'feed' && Factory::getApplication()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 

@@ -37,14 +37,14 @@ class DisplayController extends BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean        $cachable   If true, the view output will be cached
+	 * @param   boolean        $cacheable   If true, the view output will be cached
 	 * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
 	 *
 	 * @return  static|boolean   This object to support chaining or false on failure.
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cacheable = false, $urlparams = false)
 	{
 		$layout = $this->input->get('layout', 'edit');
 		$id     = $this->input->getInt('id');

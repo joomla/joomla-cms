@@ -26,7 +26,7 @@ class DisplayController extends BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean        $cachable   If true, the view output will be cached
+	 * @param   boolean        $cacheable   If true, the view output will be cached
 	 * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types,
 	 *                                     for valid values see {@link Joomla\CMS\Filter\InputFilter::clean()}.
 	 *
@@ -35,7 +35,7 @@ class DisplayController extends BaseController
 	 * @since   1.5
 	 * @throws  \Exception
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cacheable = false, $urlparams = false)
 	{
 		// Get the document object.
 		$document = $this->app->getDocument();

@@ -36,14 +36,14 @@ class DisplayController extends BaseController
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $cacheable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
 	 * @return  static  An instance of the current object to support chaining.
 	 *
 	 * @since   3.0
 	 */
-	public function display($cachable = false, $urlparams = array())
+	public function display($cacheable = false, $urlparams = array())
 	{
 		/*
 		 * Set the template - this will display cpanel.php
@@ -51,7 +51,7 @@ class DisplayController extends BaseController
 		 */
 		$this->input->set('tmpl', 'cpanel');
 
-		return parent::display($cachable, $urlparams);
+		return parent::display($cacheable, $urlparams);
 	}
 
 	/**

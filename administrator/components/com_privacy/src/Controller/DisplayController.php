@@ -36,14 +36,14 @@ class DisplayController extends BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $cacheable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  $this
 	 *
 	 * @since   3.9.0
 	 */
-	public function display($cachable = false, $urlparams = [])
+	public function display($cacheable = false, $urlparams = [])
 	{
 		// Get the document object.
 		$document = $this->app->getDocument();

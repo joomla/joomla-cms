@@ -28,14 +28,14 @@ class MenuController extends FormController
 	/**
 	 * Dummy method to redirect back to standard controller
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   boolean  $cacheable   If true, the view output will be cached.
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cacheable = false, $urlparams = false)
 	{
 		$this->setRedirect(Route::_('index.php?option=com_menus&view=menus', false));
 	}
