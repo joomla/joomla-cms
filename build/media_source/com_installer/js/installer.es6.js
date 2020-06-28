@@ -17,6 +17,8 @@ Joomla = window.Joomla || {};
       // do field validation
       if (form.install_package.value === '') {
         Joomla.renderMessages({ warning: [Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')] });
+      } else if (!/\.zip$/i.test(form.install_package.value)) {
+        Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILESUFFIX')] });
       } else if (form.install_package.files[0].size > form.max_upload_size.value) {
         Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
       } else {
@@ -90,6 +92,8 @@ Joomla = window.Joomla || {};
       // do field validation
       if (form.install_package.value === '') {
         Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE')] });
+      } else if (!/\.zip$/i.test(form.install_package.value)) {
+        Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILESUFFIX')] });
       } else if (form.install_package.files[0].size > form.max_upload_size.value) {
         Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
       } else {
@@ -217,6 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const file = files[0];
     const data = new FormData();
+
+    if (!/\.zip$/i.test(file.name)) {
+      Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILESUFFIX')] });
+      return;
+    }
 
     if (file.size > fileSizeMax) {
       Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });

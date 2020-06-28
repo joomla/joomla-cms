@@ -18,6 +18,7 @@ HTMLHelper::_('form.csrf');
 
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILESUFFIX');
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
 $return  = Factory::getApplication()->input->getBase64('return');
