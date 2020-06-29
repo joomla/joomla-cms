@@ -189,7 +189,7 @@ class MailTemplate
 
 		/** @var Registry $params */
 		$params = $mail->params;
-		$gconfig = Factory::getConfig();
+		$gconfig = Factory::getApplication()->getConfig();
 
 		if ($config->get('alternative_mailconfig'))
 		{

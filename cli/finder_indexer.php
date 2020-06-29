@@ -214,7 +214,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 		// Disable caching.
-		$config = Factory::getConfig();
+		$config = Factory::getApplication()->getConfig();
 		$config->set('caching', 0);
 		$config->set('cache_handler', 'file');
 

@@ -47,7 +47,7 @@ class RequestModel extends AdminModel
 	public function createRequest($data)
 	{
 		// Creating requests requires the site's email sending be enabled
-		if (!Factory::getConfig()->get('mailonline', 1))
+		if (!Factory::getApplication()->getConfig()->get('mailonline', 1))
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 

@@ -109,7 +109,7 @@ class JoomlaStorage extends NativeStorage
 		 */
 		if (isset($_COOKIE[$session_name]))
 		{
-			$config        = Factory::getConfig();
+			$config        = Factory::getApplication()->getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');
 			$cookie_path   = $config->get('cookie_path', '/');
 			$cookie = session_get_cookie_params();
@@ -242,7 +242,7 @@ class JoomlaStorage extends NativeStorage
 			$cookie['secure'] = true;
 		}
 
-		$config = Factory::getConfig();
+		$config = Factory::getApplication()->getConfig();
 
 		if ($config->get('cookie_domain', '') != '')
 		{

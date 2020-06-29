@@ -204,7 +204,7 @@ class LanguagesModel extends BaseInstallationModel
 			// Cleanup the install files in tmp folder.
 			if (!is_file($package['packagefile']))
 			{
-				$config                 = Factory::getConfig();
+				$config                 = Factory::getApplication()->getConfig();
 				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 			}
 
@@ -282,7 +282,7 @@ class LanguagesModel extends BaseInstallationModel
 			return false;
 		}
 
-		$config   = Factory::getConfig();
+		$config   = Factory::getApplication()->getConfig();
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file.

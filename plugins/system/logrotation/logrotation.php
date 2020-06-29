@@ -252,7 +252,7 @@ class PlgSystemLogrotation extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = Factory::getConfig();
+		$conf = Factory::getApplication()->getConfig();
 
 		foreach ($clearGroups as $group)
 		{

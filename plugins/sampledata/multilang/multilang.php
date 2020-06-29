@@ -1008,9 +1008,9 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = Factory::getApplication()->getConfig()->set('unicodeslugs', 1);
 			$alias   = ApplicationHelper::stringURLSafe($title);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			Factory::getApplication()->getConfig()->set('unicodeslugs', $unicode);
 		}
 
 		// Initialize a new category.
@@ -1084,9 +1084,9 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = Factory::getApplication()->getConfig()->set('unicodeslugs', 1);
 			$alias   = ApplicationHelper::stringURLSafe($title);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			Factory::getApplication()->getConfig()->set('unicodeslugs', $unicode);
 		}
 
 		// Initialize a new article.
