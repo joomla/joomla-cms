@@ -20,7 +20,16 @@ if ($class)
 	$class = ' class="' . htmlentities($class, ENT_COMPAT, 'UTF-8', true) . '"';
 }
 
-$value  = $field->apivalue;
+/*
+ * If we have a subform we can not add the property apivalue to the field
+ * in onCustomFieldsBeforePrepareField(), but the value is already
+ * fine as it is an Array.
+*/
+$value  = $field->value;
+if (isset($field->apivalue)) {
+	$value  = $field->apivalue;
+}
+
 $buffer = '';
 
 if ($value)
