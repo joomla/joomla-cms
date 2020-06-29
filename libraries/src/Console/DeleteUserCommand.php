@@ -86,6 +86,15 @@ class DeleteUserCommand extends AbstractCommand
 			return 1;
 		}
 
+		$response = $this->ioStyle->ask('Are you sure you want to delete this user?', 'yes/no');
+
+		if (strtolower($response) === 'no')
+		{
+			$this->ioStyle->note('User not deleted');
+
+			return 0;
+		}
+
 		$groups = UserHelper::getUserGroups($userId);
 		$user = User::getInstance($userId);
 
