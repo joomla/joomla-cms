@@ -585,7 +585,7 @@ abstract class ToolbarHelper
 	 * @param   integer  $height     The height of the popup. [UNUSED]
 	 * @param   integer  $width      The width of the popup. [UNUSED]
 	 * @param   string   $alt        The name of the button.
-	 * @param   string   $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string   $path       An alternative path for the configuration xml relative to JPATH_SITE.
 	 *
 	 * @return  void
 	 *

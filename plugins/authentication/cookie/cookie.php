@@ -239,7 +239,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 	}
 
 	/**
-	 * We set the authentication cookie only after login is successfullly finished.
+	 * We set the authentication cookie only after login is successfully finished.
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *

@@ -65,7 +65,7 @@ echo HTMLHelper::_(
 	</div>
 </div>
 
-<?php if ($user->authorise('core.create', 'com_modules')) : ?>
+<?php if ($user->authorise('core.manage', 'com_modules')) : ?>
 <div class="row">
 	<div class="col-md-6">
 		<button type="button" data-toggle="modal" data-target="#moduleDashboardAddModal" class="cpanel-add-module text-center py-5 w-100 d-block">
