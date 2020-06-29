@@ -343,7 +343,7 @@ abstract class ArticlesCategoryHelper
 	 * the html intact as possible with all tags properly closed.
 	 *
 	 * @param   string   $html       The content of the introtext to be truncated
-	 * @param   integer  $maxLength  The maximum number of charactes to render
+	 * @param   integer  $maxLength  The maximum number of characters to render
 	 *
 	 * @return  string  The truncated string
 	 *

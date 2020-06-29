@@ -152,7 +152,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 				return 1;
 			}
 
-			$this->ioStyle->success("Remove '" . $user->username . "' from group '" . $result . "'!");
+			$this->ioStyle->success("Removed '" . $user->username . "' from group '" . $result . "'!");
 		}
 
 		return 0;

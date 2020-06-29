@@ -420,7 +420,7 @@ class ExtensionHelper
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\StdClass
+	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\stdClass
 	{
 		if ($type === 'plugin' && $folder === null)
 		{

@@ -65,7 +65,7 @@ class HtmlView extends BaseHtmlView
 	protected $canDo;
 
 	/**
-	 * Is there a content type associated with this category aias
+	 * Is there a content type associated with this category alias
 	 *
 	 * @var    boolean
 	 * @since  4.0.0
@@ -251,7 +251,7 @@ class HtmlView extends BaseHtmlView
 		// Compute the ref_key
 		$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
 
-		// Check if thr computed ref_key does exist in the component
+		// Check if the computed ref_key does exist in the component
 		if (!$lang->hasKey($ref_key))
 		{
 			$ref_key = 'JHELP_COMPONENTS_'

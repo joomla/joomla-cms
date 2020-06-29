@@ -86,7 +86,7 @@
 .choices__button_joomla {
   opacity: 0.5;
   padding: 0 10px;
-  color: white;
+  color: inherit;
 
   position: relative;
   text-indent: -9999px;
@@ -123,6 +123,7 @@
     padding-inline-end: $custom-select-indicator-padding;
     background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
     background-color: $custom-select-bg;
+    cursor: pointer;
 
     [dir="rtl"] & {
       background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;

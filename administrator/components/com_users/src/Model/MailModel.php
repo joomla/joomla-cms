@@ -141,7 +141,12 @@ class MailModel extends AdminModel
 			// Get all users email and group except for senders
 			$uid = (int) $user->id;
 			$query = $db->getQuery(true)
-				->select($db->quoteName('email'))
+				->select(
+					[
+						$db->quoteName('email'),
+						$db->quoteName('name'),
+					]
+				)
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('id') . ' != :id')
 				->bind(':id', $uid, ParameterType::INTEGER);
@@ -157,7 +162,7 @@ class MailModel extends AdminModel
 			}
 
 			$db->setQuery($query);
-			$rows = $db->loadColumn();
+			$rows = $db->loadObjectList();
 		}
 
 		// Check to see if there are any users in this group before we continue
@@ -192,22 +197,17 @@ class MailModel extends AdminModel
 			];
 			$mailer->addTemplateData($data);
 
+			$recipientType = $bcc ? 'bcc' : 'to';
+
 			// Add recipients
+			foreach ($rows as $row)
+			{
+				$mailer->addRecipient($row->email, $row->name, $recipientType);
+			}
+
 			if ($bcc)
 			{
-				foreach ($rows as $row)
-				{
-					$mailer->addRecipient($row, null, 'bcc');
-				}
-
-				$mailer->addRecipient($app->get('mailfrom'));
-			}
-			else
-			{
-				foreach ($rows as $row)
-				{
-					$mailer->addRecipient($row);
-				}
+				$mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
 			}
 
 			// Send the Mail
