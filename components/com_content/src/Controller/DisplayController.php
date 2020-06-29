@@ -56,7 +56,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  $cacheable   If true, the view output will be cached.
+	 * @param   boolean  $cacheable  If true, the view output will be cached.
 	 * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  \Joomla\CMS\MVC\Controller\BaseController  This object to support chaining.
