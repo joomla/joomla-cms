@@ -223,7 +223,7 @@ class AddUserCommand extends AbstractCommand
 		$groupList = [];
 
 		// Group names have been supplied as input arguments
-		if ($groups[0])
+		if (!\is_null($groups) && $groups[0])
 		{
 			$groups = explode(',', $groups);
 
