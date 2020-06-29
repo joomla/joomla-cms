@@ -118,6 +118,5 @@ class ListUserCommand extends AbstractCommand
 
 		$this->setDescription('List all users');
 		$this->setHelp($help);
-
 	}
 }
