@@ -86,9 +86,7 @@ class DeleteUserCommand extends AbstractCommand
 			return 1;
 		}
 
-		$response = $this->ioStyle->ask('Are you sure you want to delete this user?', 'yes/no');
-
-		if (strtolower($response) === 'no')
+		if (!$this->ioStyle->confirm('Are you sure you want to delete this user?', false))
 		{
 			$this->ioStyle->note('User not deleted');
 
