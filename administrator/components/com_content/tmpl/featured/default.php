@@ -72,6 +72,9 @@ $js = <<<JS
 })();
 JS;
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
 $wa->useScript('com_workflow.admin-items-workflow-buttons')
 	->addInlineScript($js, [], ['type' => 'module']);
