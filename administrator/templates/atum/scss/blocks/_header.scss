@@ -180,16 +180,16 @@
 
   .badge {
     position: absolute;
-    top: .4rem;
+    top: 0;
 
     [dir=ltr] & {
       left: 50%;
-      margin-left: .8rem;
+      margin-left: .4rem;
     }
 
     [dir=rtl] & {
       right: 50%;
-      margin-right: .8rem;
+      margin-right: .4rem;
     }
   }
 
