@@ -97,7 +97,7 @@ class PasswordRule extends FormRule
 		// We set a maximum length to prevent abuse since it is unfiltered.
 		if ($valueLength > 4096)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('JFIELD_PASSWORD_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('JFIELD_PASSWORD_TOO_LONG'), 'error');
 		}
 
 		// We don't allow white space inside passwords
@@ -110,7 +110,7 @@ class PasswordRule extends FormRule
 		{
 			Factory::getApplication()->enqueueMessage(
 				Text::_('JFIELD_PASSWORD_SPACES_IN_PASSWORD'),
-				'warning'
+				'error'
 			);
 
 			$validPassword = false;
@@ -125,7 +125,7 @@ class PasswordRule extends FormRule
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
-					'warning'
+					'error'
 				);
 
 				$validPassword = false;
@@ -141,7 +141,7 @@ class PasswordRule extends FormRule
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
-					'warning'
+					'error'
 				);
 
 				$validPassword = false;
@@ -157,7 +157,7 @@ class PasswordRule extends FormRule
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
-					'warning'
+					'error'
 				);
 
 				$validPassword = false;
@@ -173,7 +173,7 @@ class PasswordRule extends FormRule
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::plural('JFIELD_PASSWORD_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase),
-					'warning'
+					'error'
 				);
 
 				$validPassword = false;
@@ -187,7 +187,7 @@ class PasswordRule extends FormRule
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::plural('JFIELD_PASSWORD_TOO_SHORT_N', $minimumLength),
-					'warning'
+					'error'
 				);
 
 				$validPassword = false;
