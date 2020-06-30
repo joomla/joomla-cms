@@ -54,6 +54,7 @@
 			class="form-control"
 			required="true"
 			autocomplete="new-password"
+			validate="password"
 		/>
 		<field
 			name="db_type"
