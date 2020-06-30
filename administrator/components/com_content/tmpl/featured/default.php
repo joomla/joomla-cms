@@ -260,7 +260,7 @@ $assoc = Associations::isEnabled();
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-										<div class="small break-word">
+										<div class="small break-word d-xl-inline">
 											<?php if (empty($item->note)) : ?>
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 											<?php else : ?>

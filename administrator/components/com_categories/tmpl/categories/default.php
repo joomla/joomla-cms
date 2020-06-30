@@ -195,7 +195,7 @@ if ($saveOrder && !empty($this->items))
 										<?php else : ?>
 											<?php echo $this->escape($item->title); ?>
 										<?php endif; ?>
-										<div class="small" title="<?php echo $this->escape($item->path); ?>">
+										<div class="small d-xl-inline" title="<?php echo $this->escape($item->path); ?>">
 											<?php if (empty($item->note)) : ?>
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 											<?php else : ?>
