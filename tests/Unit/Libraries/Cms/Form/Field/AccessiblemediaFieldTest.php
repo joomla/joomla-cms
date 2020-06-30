@@ -16,7 +16,7 @@ use Joomla\CMS\Form\Field\AccessiblemediaField;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,7 +25,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testIsConstructable()
 	{
@@ -38,7 +38,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testGetWithDefaultValues()
 	{
@@ -65,7 +65,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSetAndGetShouldBeEquals()
 	{
@@ -91,7 +91,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSetAndGetShouldNotBeEquals()
 	{
@@ -113,7 +113,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSetupWithEmptyValue()
 	{
@@ -132,7 +132,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSetupWithValueThatIsValidButNotAccessible()
 	{
@@ -155,7 +155,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSetupWithValueThatIsValid()
 	{
@@ -178,7 +178,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSetupWithValueThatIsNotValid()
 	{
@@ -196,7 +196,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testSetupWithElementIsNoField()
 	{
@@ -212,7 +212,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  AccessiblemediaField
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function createAccessiblemediaField(): AccessiblemediaField
 	{
