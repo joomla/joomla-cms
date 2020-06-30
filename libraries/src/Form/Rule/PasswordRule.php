@@ -91,9 +91,6 @@ class PasswordRule extends FormRule
 
 		$valueLength = \strlen($value);
 
-		// Load language file of com_users component
-		Factory::getLanguage()->load('com_users');
-
 		// We set a maximum length to prevent abuse since it is unfiltered.
 		if ($valueLength > 4096)
 		{
