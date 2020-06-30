@@ -1,0 +1,44 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_installer",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_installer.changelog",
+      "type": "script",
+      "uri": "com_installer/changelog.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_installer.installer",
+      "type": "style",
+      "uri": "com_installer/installer.min.css"
+    },
+    {
+      "name": "com_installer.installer",
+      "type": "script",
+      "uri": "com_installer/installer.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_installer.installer",
+      "type": "preset",
+      "dependencies": [
+        "com_installer.installer#style",
+        "com_installer.installer#script"
+      ]
+    }
+  ]
+}

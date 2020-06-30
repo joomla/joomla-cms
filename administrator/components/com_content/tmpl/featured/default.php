@@ -58,6 +58,7 @@ $workflow_featured = false;
 
 if ($workflow_enabled) :
 
+// @todo mode the script to a file
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
@@ -72,10 +73,12 @@ $js = <<<JS
 })();
 JS;
 
-// @todo mode the script to a file
-$this->document->addScriptDeclaration($js);
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
 
-HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+$wa->getRegistry()->addExtensionRegistryFile('com_workflow');
+$wa->useScript('com_workflow.admin-items-workflow-buttons')
+	->addInlineScript($js, [], ['type' => 'module']);
 
 $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
 $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');

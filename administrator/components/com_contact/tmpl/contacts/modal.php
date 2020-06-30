@@ -25,8 +25,9 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_contact/admin-contacts-modal.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_contact.admin-contacts-modal');
 
 $function  = $app->input->getCmd('function', 'jSelectContact');
 $editor    = $app->input->getCmd('editor', '');
