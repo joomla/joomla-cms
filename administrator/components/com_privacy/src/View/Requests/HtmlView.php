@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm       = $model->getFilterForm();
 		$this->activeFilters    = $model->getActiveFilters();
 		$this->urgentRequestAge = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
-		$this->sendMailEnabled  = (bool) Factory::getConfig()->get('mailonline', 1);
+		$this->sendMailEnabled  = (bool) Factory::getApplication()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
 
 		// Requests can only be created if mail sending is enabled
-		if (Factory::getConfig()->get('mailonline', 1))
+		if (Factory::getApplication()->get('mailonline', 1))
 		{
 			ToolbarHelper::addNew('request.add');
 		}
