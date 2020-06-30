@@ -3,25 +3,25 @@
  * @package     Joomla.API
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Installer\Api\View\Languages;
+namespace Joomla\Component\Installer\Api\View\Manage;
 
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The languages view
+ * The manage view
  *
  * @since  4.0.0
  */
 class JsonapiView extends BaseApiView
 {
 	/**
-	 * The fields to render items in the documents
+	 * The fields to render item in the documents
 	 *
 	 * @var  array
 	 * @since  4.0.0
@@ -31,8 +31,9 @@ class JsonapiView extends BaseApiView
 		'name',
 		'type',
 		'version',
-		'version',
-		'detailsurl',
+		'folder',
+		'status',
+		'client_id',
 	];
 
 	/**
@@ -46,9 +47,9 @@ class JsonapiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->id = $item->element;
-		unset($item->element);
+		$item->id = $item->extension_id;
+		unset($item->extension_id);
 
-		return parent::prepareItem($item);
+		return $item;
 	}
 }

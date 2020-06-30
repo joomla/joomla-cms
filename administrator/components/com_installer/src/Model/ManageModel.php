@@ -328,11 +328,11 @@ class ManageModel extends InstallerModel
 			->where('state = 0');
 
 		// Process select filters.
-		$status   = $this->getState('filter.status');
+		$status   = $this->getState('filter.status', '');
 		$type     = $this->getState('filter.type');
-		$clientId = $this->getState('filter.client_id');
+		$clientId = $this->getState('filter.client_id', '');
 		$folder   = $this->getState('filter.folder');
-		$core     = $this->getState('filter.core');
+		$core     = $this->getState('filter.core', '');
 
 		if ($status !== '')
 		{
@@ -366,7 +366,7 @@ class ManageModel extends InstallerModel
 				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
-		if ($folder !== '')
+		if ($folder)
 		{
 			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('folder') . ' = :folder')
