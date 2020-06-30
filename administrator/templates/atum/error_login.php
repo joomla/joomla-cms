@@ -21,12 +21,10 @@ $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option     = $input->get('option', '');
-$view       = $input->get('view', '');
-$layout     = $input->get('layout', 'default');
-$task       = $input->get('task', 'display');
-$cpanel     = $option === 'com_cpanel';
-$hiddenMenu = $app->input->get('hidemainmenu');
+$option = $input->get('option', '');
+$view   = $input->get('view', '');
+$layout = $input->get('layout', 'default');
+$task   = $input->get('task', 'display');
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
@@ -73,7 +71,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<jdoc:include type="styles" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($monochrome ? ' monochrome' : ''); ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
 
 <noscript>
 	<div class="alert alert-danger" role="alert">
