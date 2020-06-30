@@ -30,7 +30,7 @@ HTMLHelper::_('behavior.multiselect');
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
-	->useScript('com_content.admin-articles-batch');
+	->useScript('com_content.admin-articles-modal');
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
 $editor    = $app->input->getCmd('editor', '');
