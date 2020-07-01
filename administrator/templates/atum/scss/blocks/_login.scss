@@ -48,7 +48,6 @@
       path {
         fill: var(--atum-bg-dark);
       }
-
     }
 
     #form-login {
@@ -65,13 +64,17 @@
           text-align: right;
         }
       }
-
     }
 
     #btn-login-submit {
       color: var(--atum-text-light);
       background-color: var(--atum-link-color);
       border-color: var(--atum-link-color);
+
+      @include hover-focus-active {
+        background-color: var(--atum-bg-dark-70);
+        border-color: var(--atum-bg-dark-90);
+      }
     }
   }
 
