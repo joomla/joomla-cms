@@ -13,7 +13,7 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\Language\Text;
 
 /**
- * Field to load a list of posible item count limits
+ * Field to load a list of possible item count limits
  *
  * @since  3.2
  */

@@ -221,7 +221,7 @@ class SetConfigurationCommand extends AbstractCommand
 	{
 		$app = $this->getApplication();
 
-		// Check db connection encription properties
+		// Check db connection encryption properties
 		$model = $app->bootComponent('com_config')->getMVCFactory($app)->createModel('Application', 'Administrator');
 
 		if (!$model->save($options))
@@ -243,7 +243,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Sets a value for a configuration option');
+		$this->setDescription('Set a value for a configuration option');
 
 		$this->addArgument(
 			'options',
@@ -338,7 +338,7 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$app = $this->getApplication();
 
-		// Check db connection encription properties
+		// Check db connection encryption properties
 		$model = $app->bootComponent('com_config')->getMVCFactory($app)->createModel('Application', 'Administrator');
 
 		if (!$model->validateDbConnection($options))
