@@ -26,14 +26,16 @@ $headerClass = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'U
 if ($headerClass !== 'card-title'):
 	$headerClass .= 'card-header ' . $headerClass;
 endif;
+
+$header = '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
 ?>
 <<?php echo $moduleTag; ?> class="<?php echo $modulePos; ?> card <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8'); ?>">
 	<?php if ($module->showtitle && $headerClass !== 'card-title') : ?>
-		<<?php echo $headerTag; ?> class="<?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
+		<?php echo $header; ?>
 	<?php endif; ?>
 	<div class="card-body">
 		<?php if ($module->showtitle && $headerClass === 'card-title') : ?>
-			<<?php echo $headerTag; ?> class="<?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
+			<?php echo $header; ?>
 		<?php endif; ?>
 		<?php echo $module->content; ?>
 	</div>
