@@ -71,7 +71,7 @@ class LanguagesModel extends BaseInstallationModel
 		// Overrides application config and set the configuration.php file so tokens and database works.
 		if (file_exists(JPATH_BASE . '/configuration.php'))
 		{
-			Factory::getApplication()->setConfiguration(new Registry(new \JConfig()));
+			Factory::getApplication()->setConfiguration(new Registry(new \JConfig));
 		}
 
 		/*
