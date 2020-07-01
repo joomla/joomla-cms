@@ -150,7 +150,9 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<jdoc:include type="modules" name="main-top" style="cardGrey" />
 		<jdoc:include type="message" />
 		<jdoc:include type="modules" name="breadcrumbs" style="none" />
+		<main>
 		<jdoc:include type="component" />
+		</main>
 		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
 	</div>
 
