@@ -38,7 +38,10 @@ Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
 Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
-HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_contenthistory.admin-history-modal');
+
 ?>
 <div class="container-popup">
 	<nav aria-label="toolbar">

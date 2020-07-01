@@ -18,16 +18,14 @@ $app = Factory::getApplication();
 
 $function  = $app->input->getCmd('function');
 
-HTMLHelper::_('script', 'com_modules/admin-module-search.js',
-		[
-				'version' => 'auto', 'relative' => true
-		], [
-				'defer' => true
-		]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_modules.admin-module-search');
 
 if ($function) :
-	HTMLHelper::_('script', 'com_modules/admin-select-modal.js', ['version' => 'auto', 'relative' => true]);
+	$wa->useScript('com_modules.admin-select-modal');
 endif;
+
 ?>
 <h2 class="mb-3"><?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?></h2>
 
