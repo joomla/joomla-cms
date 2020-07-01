@@ -330,7 +330,7 @@ class ExtensionAdapter extends UpdateAdapter
 		{
 			if (isset($this->latest->client) && \strlen($this->latest->client))
 			{
-				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
+				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, strlen($this->latest->client) > 1)->id;
 
 				unset($this->latest->client);
 			}
