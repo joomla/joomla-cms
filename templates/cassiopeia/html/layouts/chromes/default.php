@@ -25,12 +25,14 @@ $moduleAttribs          = [];
 $moduleAttribs['class'] = $module->position . ' card ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8');
 $headerTag              = htmlspecialchars($params->get('header_tag', 'h4'), ENT_QUOTES, 'UTF-8');
 $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
+$headerAttribs          = [];
+$headerAttribs['class'] = $headerClass;
 
 if ($headerClass !== 'card-title'):
-	$headerClass .= 'card-header ' . $headerClass;
+	$headerAttribs['class'] .= 'card-header ' . $headerClass;
 endif;
 
-$header = '<' . $headerTag . ' class="' . $headerClass . '">' . $module->title . '</' . $headerTag . '>';
+$header = '<' . $headerTag . ' ' . ArrayHelper::toString($headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
 ?>
 <<?php echo $moduleTag; ?> <?php echo ArrayHelper::toString($moduleAttribs); ?>>
 	<?php if ($module->showtitle && $headerClass !== 'card-title') : ?>
