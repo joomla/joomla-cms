@@ -1005,7 +1005,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		$title = $newlanguage->_('JCATEGORY');
 		$alias = ApplicationHelper::stringURLSafe($title);
 
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
