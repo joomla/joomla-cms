@@ -20,7 +20,6 @@ if ($module->content === null || $module->content === '')
 	return;
 }
 
-$modulePos              = $module->position;
 $moduleTag              = $params->get('module_tag', 'div');
 $moduleAttribs          = [];
 $moduleAttribs['class'] = $module->position . ' card ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8');
