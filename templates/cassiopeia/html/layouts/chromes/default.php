@@ -28,8 +28,15 @@ $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT
 $headerAttribs          = [];
 $headerAttribs['class'] = $headerClass;
 
-if ($headerClass !== 'card-title'):
-	$headerAttribs['class'] .= 'card-header ' . $headerClass;
+if ($module->showtitle) :
+	$moduleAttribs['aria-labeledby'] = 'mod-' . $module->id;
+	$headerAttribs['id']             = 'mod-' . $module->id;
+
+	if ($headerClass !== 'card-title') :
+		$headerAttribs['class'] .= 'card-header ' . $headerClass;
+	endif;
+else:
+	$moduleAttribs['aria-label'] = $module->title;
 endif;
 
 $header = '<' . $headerTag . ' ' . ArrayHelper::toString($headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
