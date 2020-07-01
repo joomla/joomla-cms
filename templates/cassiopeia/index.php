@@ -94,7 +94,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 	<div class="grid-child container-header full-width <?php echo $stickyHeader; ?>">
-		<header class="header">
+		<header class="header" role="banner">
 			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">
 					<a href="<?php echo $this->baseurl; ?>/">
