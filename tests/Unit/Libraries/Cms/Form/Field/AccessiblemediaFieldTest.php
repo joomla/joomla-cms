@@ -192,6 +192,56 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests method to attach a Form object to the field.
+	 * If the value is a stdClass that is valid.
+	 * This does change nothing. The value should be the same than before.
+
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testSetupWithValueThatIsValidStdclass()
+	{
+		$accessiblemediafield = $this->createAccessiblemediaField();
+
+		$obj = new \stdClass;
+		$obj->imagefile = '/images/joomla_black.png';
+		$obj->alt_text = 'some alt text';
+
+		$element = new \SimpleXMLElement('<field name="testfield" />');
+
+		$this->assertTrue($accessiblemediafield->setup($element, $obj, null));
+		$this->assertEquals($obj, $accessiblemediafield->__get('value'));
+	}
+
+	/**
+	 * Tests method to attach a Form object to the field.
+	 * If the value is a stdClass that is not valid for the accessible media field.
+	 * This does change in the setup method. Result is false.
+
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testSetupWithValueThatIsNoValidStdclass()
+	{
+		$accessiblemediafield = $this->createAccessiblemediaField();
+
+		$obj1 = new \stdClass;
+		$obj2 = new \stdClass;
+		$obj3 = new \stdClass;
+
+		$obj1->imagefile = '/images/joomla_black.png';
+		$obj2->alt_text = 'some alt text';
+
+		$element = new \SimpleXMLElement('<field name="testfield" />');
+
+		$this->assertFalse($accessiblemediafield->setup($element, $obj1, null));
+		$this->assertFalse($accessiblemediafield->setup($element, $obj2, null));
+		$this->assertFalse($accessiblemediafield->setup($element, $obj3, null));
+	}
+
+	/**
+	 * Tests method to attach a Form object to the field.
 	 * If the SimpleXMLElement is not of the field type, the setup method returns false.
 	 *
 	 * @return  void

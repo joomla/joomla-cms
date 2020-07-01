@@ -63,7 +63,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		}
 
 		// Check if the field value is an old (string) value
-		$field->apivalue = $this->checkValue($field->value);
+		$field->value = $this->checkValue($field->value);
 	}
 
 	/**
