@@ -94,7 +94,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 	<div class="grid-child container-header full-width <?php echo $stickyHeader; ?>">
-		<header class="header" role="banner">
+		<header class="header">
 			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">
 					<a href="<?php echo $this->baseurl; ?>/">
@@ -175,7 +175,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<?php endif; ?>
 
 	<?php if ($this->countModules('footer')) : ?>
-	<footer class="grid-child container-footer footer" role="contentinfo">
+	<footer class="grid-child container-footer footer">
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
