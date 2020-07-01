@@ -991,13 +991,13 @@ ENDDATA;
 		// MIME type detection failed
 		if (!$mime)
 		{
-			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_NOMIMETYPE'), 500);
+			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_NOFILETYPE'), 500);
 		}
 
 		// MIME type not allowed
 		if ($mime !== 'application/zip')
 		{
-			throw new RuntimeException(JText::sprintf('COM_JOOMLAUPDATE_MSG_WARNINGS_BADMIMETYPE', $mime), 500);
+			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_BADFILETYPE'), 500);
 		}
 
 		// Build the destination path.
