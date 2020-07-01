@@ -169,7 +169,7 @@
 			name="minimum_length"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
-			first="12"
+			first="8"
 			last="99"
 			step="1"
 			default="12"
