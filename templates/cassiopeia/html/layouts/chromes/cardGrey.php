@@ -42,13 +42,13 @@ endif;
 $header = '<' . $headerTag . ' ' . ArrayHelper::toString($headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
 ?>
 <<?php echo $moduleTag; ?> <?php echo ArrayHelper::toString($moduleAttribs); ?>>
-<?php if ($module->showtitle && $headerClass !== 'card-title') : ?>
-	<?php echo $header; ?>
-<?php endif; ?>
-<div class="card-body">
-	<?php if ($module->showtitle && $headerClass === 'card-title') : ?>
+	<?php if ($module->showtitle && $headerClass !== 'card-title') : ?>
 		<?php echo $header; ?>
 	<?php endif; ?>
-	<?php echo $module->content; ?>
-</div>
+	<div class="card-body">
+		<?php if ($module->showtitle && $headerClass === 'card-title') : ?>
+			<?php echo $header; ?>
+		<?php endif; ?>
+		<?php echo $module->content; ?>
+	</div>
 </<?php echo $moduleTag; ?>>
