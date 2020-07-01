@@ -69,7 +69,10 @@ class LanguagesModel extends BaseInstallationModel
 	public function __construct()
 	{
 		// Overrides application config and set the configuration.php file so tokens and database works.
-		Factory::getApplication()->setConfiguration(new Registry(new \JConfig));
+		if (file_exists(JPATH_BASE . '/configuration.php'))
+		{
+			Factory::getApplication()->setConfiguration(new Registry(new \JConfig()));
+		}
 
 		/*
 		 * Factory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
