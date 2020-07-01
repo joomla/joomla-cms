@@ -215,7 +215,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests method to attach a Form object to the field.
-	 * If the value is a stdClass that is not valid for the accessible meia field.
+	 * If the value is a stdClass that is not valid for the accessible media field.
 	 * This does change in the setup method. Result is false.
 
 	 * @return  void
