@@ -186,7 +186,7 @@ class ApplicationHelper
 		/**
 		 * Handle if this method is incorrectly called with $id = 1/2/3/4 and $byName = true
 		 * @deprecated	Short Term Compatibility with Joomla 3 extension XML's using int's as ids - Remove in 5.0
-		 * @see 		https://github.com/joomla/joomla-cms/pull/29879
+		 * @see			https://github.com/joomla/joomla-cms/pull/29879
 		 */
 		if (strlen((int) $id) === 1 && in_array((int) $id, [1,2,3,4]))
 		{
