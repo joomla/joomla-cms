@@ -173,7 +173,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<?php endif; ?>
 
 	<?php if ($this->countModules('footer')) : ?>
-	<footer class="grid-child container-footer footer">
+	<footer class="grid-child container-footer footer" role="contentinfo">
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
