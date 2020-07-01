@@ -99,7 +99,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Send a Notification to defined users a transion is performed
+	 * Send a Notification to defined users a transition is performed
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
 	 * @param   array    $pks      A list of primary key ids of the content that has changed stage.
@@ -227,7 +227,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 	}
 
-	/*
+	/**
 	 * Get user_ids of receivers
 	 *
 	 * @param   object  $data    Object containing data about the transition
@@ -312,10 +312,10 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 		return true;
 	}
 
-	/*
+	/**
 	 * Remove receivers who have locked their message inputbox
 	 *
-	 * @param   array  $uerIds  The userIds which must be checked
+	 * @param   array  $userIds  The userIds which must be checked
 	 *
 	 * @return   array  users with active message input box
 	 *

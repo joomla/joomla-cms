@@ -16,9 +16,11 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_users/two-factor-switcher.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_users.two-factor-switcher');
 
 $input = Factory::getApplication()->input;
 

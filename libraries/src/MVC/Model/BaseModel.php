@@ -86,7 +86,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
 	 *
 	 * @since       3.0
-	 * @deprecated  5.0 See LeagcyModelLoaderTrait\getInstance
+	 * @deprecated  5.0 See LegacyModelLoaderTrait\getInstance
 	 */
 	public static function addIncludePath($path = '', $prefix = '')
 	{

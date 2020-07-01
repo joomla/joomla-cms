@@ -369,7 +369,7 @@ abstract class Bootstrap
 	}
 
 	/**
-	 * Add javascript support for Bootstrap accordians and insert the accordian
+	 * Add javascript support for Bootstrap accordions and insert the accordion
 	 *
 	 * @param   string  $selector  The ID selector for the tooltip.
 	 * @param   array   $params    An array of options for the tooltip.
@@ -420,7 +420,7 @@ abstract class Bootstrap
 	/**
 	 * Close the current accordion
 	 *
-	 * @return  string  HTML to close the accordian
+	 * @return  string  HTML to close the accordion
 	 *
 	 * @since   3.0
 	 */
