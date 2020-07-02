@@ -57,7 +57,7 @@
 				items: this.options.repeatableElement,
 				handle: this.options.btMove,
 				tolerance: 'pointer',
-				update: function (event, ui) {
+				stop: function (event, ui) {
             				var $row = ui.item[0];
             				self.$container.trigger('subform-row-sort', $row);
         			}
