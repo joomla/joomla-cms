@@ -43,7 +43,7 @@ $table_head = '';
 if (!empty($groupByFieldset))
 {
 	foreach ($tmpl->getFieldsets() as $fieldset) {
-		$table_head .= '<th scope="col" style="width:45%">' . Text::_($fieldset->label);
+		$table_head .= '<th scope="col" class="w-40">' . Text::_($fieldset->label);
 
 		if ($fieldset->description)
 		{
@@ -58,7 +58,7 @@ if (!empty($groupByFieldset))
 else
 {
 	foreach ($tmpl->getGroup('') as $field) {
-		$table_head .= '<th scope="col" style="width:45%">' . strip_tags($field->label);
+		$table_head .= '<th scope="col" class="w-40">' . strip_tags($field->label);
 
 		if ($field->description)
 		{
@@ -82,7 +82,7 @@ else
 			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 			repeatable-element=".subform-repeatable-group"
 			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
-		<table class="table table-responsive" id="subfieldList">
+		<table class="table" id="subfieldList">
 			<caption id="captionTable" class="sr-only">
 				<?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
 			</caption>
@@ -90,7 +90,7 @@ else
 				<tr>
 					<?php echo $table_head; ?>
 					<?php if (!empty($buttons)) : ?>
-						<th style="width:8%;">
+						<td class="w-10">
 							<?php if (!empty($buttons['add'])) : ?>
 								<div class="btn-group">
 									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
