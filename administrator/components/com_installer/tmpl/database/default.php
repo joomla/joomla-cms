@@ -77,12 +77,10 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 
 										<tr>
 											<td class="text-center">
-												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id); ?>
+												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id, false, 'cid', 'cb', $extension->name); ?>
 											</td>
 											<th scope="row">
-												<label for="cb<?php echo $i; ?>">
-													<?php echo $extension->name; ?>
-												</label>
+												<?php echo $extension->name; ?>
 												<div class="small">
 													<?php echo Text::_($manifest->description); ?>
 												</div>
