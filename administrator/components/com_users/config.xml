@@ -170,6 +170,7 @@
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
 			first="8"
+			last="2005"
 			step="1"
 			default="12"
 		/>
