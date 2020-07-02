@@ -133,6 +133,10 @@
               this.states.more = response.data.more;
               this.moreResults.classList.add('show');
             }
+            else
+            {
+              this.moreResults.classList.remove('show');
+            }
           }
 
           this.spinnerBtn.classList.remove('show');
