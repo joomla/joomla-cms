@@ -324,6 +324,14 @@ abstract class FormField
 	protected static $generated_fieldname = '__field';
 
 	/**
+	 * Name of the core layout being used as fallback
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $defaultLayout;
+
+	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
@@ -717,12 +725,24 @@ abstract class FormField
 	 */
 	protected function getInput()
 	{
-		if (empty($this->layout))
+		$layoutExists = false;
+
+		if (!empty($this->layout))
+		{
+			$layoutExists = $this->checkLayoutExists($this->layout);
+		}
+
+		if ($layoutExists instanceof FileLayout)
+		{
+			return $layoutExists->render($this->getLayoutData());
+		}
+
+		if (empty($this->defaultLayout))
 		{
 			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+		return $this->getRenderer($this->defaultLayout)->render($this->getLayoutData());
 	}
 
 	/**
@@ -1065,6 +1085,29 @@ abstract class FormField
 		}
 
 		return $renderer;
+	}
+
+	/**
+	 * Check if the layout exists
+	 *
+	 * @param   string  $layoutId  Id to load
+	 *
+	 * @return  mixed  FileLayout or null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function checkLayoutExists($layoutId = 'default')
+	{
+		$renderer = $this->getRenderer($layoutId);
+
+		$layoutFileExists = $renderer->checkLayoutExists();
+
+		if ($layoutFileExists)
+		{
+			return $renderer;
+		}
+
+		return;
 	}
 
 	/**

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\CMS\Layout\FileLayout;
+
 defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('list');
@@ -29,12 +31,12 @@ class JFormFieldRadio extends JFormFieldList
 	protected $type = 'Radio';
 
 	/**
-	 * Name of the layout being used to render the field
+	 * Name of the core layout being used as fallback
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $layout = 'joomla.form.field.radio';
+	protected $defaultLayout = 'joomla.form.field.radio';
 
 	/**
 	 * Method to get the radio button field input markup.
@@ -45,12 +47,19 @@ class JFormFieldRadio extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		if (empty($this->layout))
+		$layoutExists = null;
+
+		if (!empty($this->layout))
 		{
-			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+			$layoutExists = $this->checkLayoutExists($this->layout);
 		}
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+		if ($layoutExists instanceof FileLayout)
+		{
+			return $layoutExists->render($this->getLayoutData());
+		}
+
+		return $this->getRenderer($this->defaultLayout)->render($this->getLayoutData());
 	}
 
 	/**
