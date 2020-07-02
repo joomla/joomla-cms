@@ -122,7 +122,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 			</tbody>
 		</table>
 		<button id="defaultLanguagesButton" class="btn btn-block btn-primary">
-			<?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="fas" aria-hidden="true"></span>
+			<?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?>
 		</button>
 		<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
