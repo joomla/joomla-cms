@@ -125,7 +125,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<?php endif; ?>
 								<td class="small d-none d-md-table-cell">
-									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
+									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>">
 										<?php echo ucfirst($this->escape($item->template)); ?>
 									</a>
 								</td>
