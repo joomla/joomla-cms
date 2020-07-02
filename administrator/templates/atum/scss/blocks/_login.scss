@@ -13,7 +13,6 @@
     }
 
     #content {
-
       @include media-breakpoint-down(sm) {
         max-width: 98%;
         padding: 0;
@@ -51,7 +50,6 @@
     }
 
     #form-login {
-
       .form-group {
         position: relative;
         margin-bottom: 1.85rem;
@@ -65,21 +63,9 @@
         }
       }
     }
-
-    #btn-login-submit {
-      color: var(--atum-text-light);
-      background-color: var(--atum-link-color);
-      border-color: var(--atum-link-color);
-
-      @include hover-focus-active {
-        background-color: var(--atum-bg-dark-70);
-        border-color: var(--atum-bg-dark-90);
-      }
-    }
   }
 
   .form-group {
-
     label {
       span {
         font-size: .9rem;
