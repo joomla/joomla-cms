@@ -135,7 +135,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(
 			Text::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
-			'pencil-2 article-add'
+			'pencil-alt article-add'
 		);
 
 		// For new records, check the create permission.
