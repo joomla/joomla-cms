@@ -942,27 +942,27 @@ ENDDATA;
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
 		{
-			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 500);
+			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADNOTENABLED'), 500);
 		}
 
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			throw new RuntimeException('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB', 500);
+			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_ZLIBMISSING'), 500);
 		}
 
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile))
 		{
-			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 500);
+			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_NOFILESELECTED'), 500);
 		}
 
 		// Is the PHP tmp directory missing?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
 			throw new RuntimeException(
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' .
-				JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+				JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADERROR') . '<br />' .
+				JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_PHPUPLOADNOTSET'),
 				500
 			);
 		}
@@ -971,7 +971,7 @@ ENDDATA;
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
 			throw new RuntimeException(
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+				JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADERROR') . '<br />' . JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_SMALLUPLOADSIZE'),
 				500
 			);
 		}
@@ -979,7 +979,7 @@ ENDDATA;
 		// Check if there was a different problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
-			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADERROR'), 500);
 		}
 
 		// Build the appropriate paths.
@@ -1002,7 +1002,7 @@ ENDDATA;
 
 		if (!$result)
 		{
-			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADERROR'), 500);
 		}
 
 		JFactory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
