@@ -98,7 +98,7 @@ else
 									</button>
 								</div>
 							<?php endif; ?>
-						</th>
+						</td>
 					<?php endif; ?>
 				</tr>
 			</thead>
