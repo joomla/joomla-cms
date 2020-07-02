@@ -32,7 +32,7 @@ $headerAttribs          = [];
 $headerAttribs['class'] = $headerClass;
 
 if ($module->showtitle) :
-	$moduleAttribs['aria-labeledby'] = 'mod-' . $module->id;
+	$moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
 	$headerAttribs['id']             = 'mod-' . $module->id;
 else:
 	$moduleAttribs['aria-label'] = $module->title;
