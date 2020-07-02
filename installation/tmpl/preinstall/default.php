@@ -63,7 +63,7 @@ HTMLHelper::_('behavior.formvalidator');
 								<div class="col-md-8 offset-md-2">
 									<?php echo $this->form->getLabel('ftp_host'); ?>
 									<div class="input-append d-flex">
-										<?php echo $this->form->getInput('ftp_host'); ?><button id="findbutton" class="btn btn-secondary ml-2" onclick="Joomla.installation.detectFtpRoot(this);"><span class="icon-folder-open"></span> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
+										<?php echo $this->form->getInput('ftp_host'); ?><button id="findbutton" class="btn btn-secondary ml-2" onclick="Joomla.installation.detectFtpRoot(this);"><span class="fas fa-folder-open"></span> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
 									</div>
 								</div>
 							</div>
