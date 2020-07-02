@@ -14,6 +14,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+// Load JavaScript message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
+
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
 Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
