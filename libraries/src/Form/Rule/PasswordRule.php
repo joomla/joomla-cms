@@ -53,8 +53,8 @@ class PasswordRule extends FormRule
 		$minimumUppercase = isset($element['minimum_uppercase']) ? (int) $element['minimum_uppercase'] : 0;
 		$minimumLowercase = isset($element['minimum_lowercase']) ? (int) $element['minimum_lowercase'] : 0;
 
-		// Well at the installer we don't have any access to the
-		// database yet so lets us the hard coded default settings
+		// In the installer we don't have any access to the
+		// database yet so use the hard coded default settings
 		if (!Factory::getApplication()->isClient('installation'))
 		{
 			// If we have parameters from com_users, use those instead.
