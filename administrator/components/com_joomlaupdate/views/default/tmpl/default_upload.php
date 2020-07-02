@@ -125,7 +125,7 @@ JFactory::getDocument()->addStyleDeclaration($css);
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 				</td>
 				<td>
-					<input class="input_box" id="install_package" name="install_package" type="file" size="57" onchange="Joomla.installpackageChange()" /><br>
+					<input class="input_box" id="install_package" name="install_package" type="file" size="57" accept=".zip,application/zip" onchange="Joomla.installpackageChange()" /><br>
 					<?php $maxSizeBytes = JUtility::getMaxUploadSize(); ?>
 					<?php $maxSize = JHtml::_('number.bytes', $maxSizeBytes); ?>
 					<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
