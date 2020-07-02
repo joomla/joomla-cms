@@ -135,8 +135,7 @@
               this.moreResultsButton.disabled = false;
               this.moreResults.classList.add('show');
             }
-            else
-            {
+            else {
               this.moreResultsButton.disabled = true;
               this.moreResults.classList.remove('show');
             }
