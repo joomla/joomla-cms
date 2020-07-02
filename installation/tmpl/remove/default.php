@@ -8,11 +8,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.formvalidator');
+$direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 
 /** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
@@ -26,7 +28,8 @@ HTMLHelper::_('behavior.formvalidator');
 			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
 			<div class="form-group">
 				<button class="btn btn-primary btn-block" id="installAddFeatures">
-					<?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span>
+					<?php echo '<span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
+					<?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> 
 				</button>
 			</div>
 		</div>
