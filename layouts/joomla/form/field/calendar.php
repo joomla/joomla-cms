@@ -134,7 +134,9 @@ $document->getWebAssetManager()
 				<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 				<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
 				title="<?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
-			><span class="fas fa-calendar" aria-hidden="true"></span></button>
+			><span class="fas fa-calendar" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?></span>
+			</button>
 		</span>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>
