@@ -78,6 +78,7 @@
     margin-right: 20px;
     text-transform: uppercase;
     letter-spacing: 1.75px;
+	color: $gray-400;
 
     &:last-child {
       margin-right: 0;
@@ -111,7 +112,7 @@
       position: relative;
       display: block;
       padding: .25rem 0 0;
-      color: $gray-100;
+      color: $gray-200;
       text-decoration: none;
     }
   }

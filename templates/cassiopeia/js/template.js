@@ -70,11 +70,6 @@ Joomla = window.Joomla || {};
 			  controllerElement,
 			  containerElement,
 			});
-			console.log("menuElement is instanceof HTMLElement");
-			console.log(menuElement);
-		} else {
-			console.log("menuElement is not instanceof HTMLElement");
-			console.log(menuElement);
 		}
 	});
 
