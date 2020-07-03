@@ -91,7 +91,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				<fieldset id="fieldset-misc" class="options-form">
 					<legend><?php echo $this->form->getField('misc')->title; ?></legend>
 					<div>
-					<?php echo $this->form->getInput('misc'); ?>
+						<?php echo $this->form->getLabel('misc'); ?>
+						<?php echo $this->form->getInput('misc'); ?>
 					</div>
 				</fieldset>
 			</div>
