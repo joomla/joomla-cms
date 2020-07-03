@@ -33,6 +33,7 @@
     "@claviska/jquery-minicolors": "^2.3.4",
     "@webcomponents/webcomponentsjs": "^2.4.3",
     "accessibility": "^3.0.9",
+    "accessible-menu": "^2.0.0",
     "awesomplete": "1.1.5",
     "bootstrap": "^4.5.0",
     "choices.js": "^9.0.1",

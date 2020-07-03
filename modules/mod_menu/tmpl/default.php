@@ -14,6 +14,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['defer' => true]);
+ $wa->registerAndUseScript('vendor/accessible-menu', 'vendor/accessible-menu/accessibleMenu.min.js', [], ['defer' => true]);
 
 $id = '';
 

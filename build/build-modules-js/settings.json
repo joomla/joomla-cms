@@ -498,6 +498,23 @@
           }
         ]
       },
+      "accessible-menu": {
+        "name": "accessible-menu",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/accessibleMenu.min.js": "js/accessibleMenu.min.js"
+        },
+        "provideAssets": [
+          {
+            "name": "accessible-menu",
+            "type": "script",
+            "uri": "accessibleMenu.min.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
+      },
       "metismenujs": {
         "name": "metismenujs",
         "licenseFilename": "LICENSE",
