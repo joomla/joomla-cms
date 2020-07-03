@@ -581,7 +581,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTabSet()
 	{
-		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
+		$this->assertEquals("\n</div>\n", JHtmlBootstrap::endTabSet());
 	}
 
 	/**
@@ -642,7 +642,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTab()
 	{
-		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
+		$this->assertEquals("\n</div>\n", JHtmlBootstrap::endTabSet());
 	}
 
 	/**
