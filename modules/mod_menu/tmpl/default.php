@@ -14,7 +14,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['defer' => true]);
- $wa->registerAndUseScript('vendor/accessible-menu', 'vendor/accessible-menu/accessibleMenu.min.js', [], ['defer' => false]);
+$wa->registerAndUseScript('vendor/accessible-menu', 'vendor/accessible-menu/accessibleMenu.min.js', [], ['defer' => false]);
 
 $id = '';
 
@@ -25,7 +25,7 @@ if ($tagId = $params->get('tag_id', ''))
 
 // The menu class is deprecated. Use mod-menu instead
 ?>
-<ul<?php echo $id; ?> class="mod-menu nav<?php echo $class_sfx; ?> mod-list">
+<ul<?php echo $id; ?> class="navbar-nav mod-menu nav<?php echo $class_sfx; ?> mod-list">
 <?php foreach ($list as $i => &$item)
 {
 	$itemParams = $item->getParams();
@@ -71,7 +71,8 @@ if ($tagId = $params->get('tag_id', ''))
 
 	if ($item->parent)
 	{
-		$class .= ' parent';
+		$class .= ' parent dropdown';
+		$item->anchor_css .= ' nav-link dropdown-toggle';
 	}
 
 	echo '<li class="' . $class . '">';
@@ -92,7 +93,7 @@ if ($tagId = $params->get('tag_id', ''))
 	// The next item is deeper.
 	if ($item->deeper)
 	{
-		echo '<ul class="mod-menu__sub list-unstyled small">';
+		echo '<ul class="dropdown-menu mod-menu__sub list-unstyled small">';
 	}
 	// The next item is shallower.
 	elseif ($item->shallower)
