@@ -115,6 +115,7 @@ if (!Joomla) {
             });
 
             const orderingSelect = document.getElementById('com-apps-ordering');
+            // eslint-disable-next-line no-shadow
             const versionSelect = document.getElementById('com-apps-filter-joomla-version');
 
             if (orderingSelect) {
