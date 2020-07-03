@@ -50,4 +50,32 @@ Joomla = window.Joomla || {};
 	 */
 	document.addEventListener('joomla:updated', initTemplate);
 
+	/**
+	 * AccessibleMenu
+	 */
+	document.addEventListener('DOMContentLoaded', function (event) {
+		const menuElement = document.querySelector("ul.navbar-nav");
+		const submenuItemSelector = ".nav-item.dropdown";
+		const submenuToggleSelector = ".nav-link.dropdown-toggle";
+		const submenuSelector = ".dropdown-menu";
+		const controllerElement = document.querySelector("nav.navbar button.navbar-toggler");
+		const containerElement = document.querySelector("nav.navbar div.navbar-collapse");
+
+		if ((menuElement instanceof HTMLElement)) {
+			const menu = new AccessibleMenu.DisclosureMenu({
+			  menuElement,
+			  submenuItemSelector,
+			  submenuToggleSelector,
+			  submenuSelector,
+			  controllerElement,
+			  containerElement,
+			});
+			console.log("menuElement is instanceof HTMLElement");
+			console.log(menuElement);
+		} else {
+			console.log("menuElement is not instanceof HTMLElement");
+			console.log(menuElement);
+		}
+	});
+
 })(Joomla, document);

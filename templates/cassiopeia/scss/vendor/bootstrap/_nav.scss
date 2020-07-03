@@ -76,3 +76,11 @@
   border-radius: 0 0 $border-radius $border-radius;
   box-shadow: $cassiopeia-box-shadow;
 }
+
+.navbar-nav,
+.dropdown-menu {
+  
+  &.show {
+    display: block;
+  }
+}

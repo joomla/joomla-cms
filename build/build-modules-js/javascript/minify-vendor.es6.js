@@ -15,6 +15,7 @@ module.exports.compile = () => {
         Path.join(RootPath, 'media/vendor/codemirror'),
         Path.join(RootPath, 'media/vendor/punycode/js'),
         Path.join(RootPath, 'media/vendor/webcomponentsjs'),
+        Path.join(RootPath, 'templates/cassiopeia/js'),
       ];
 
       // Loop to get some text for the package.json

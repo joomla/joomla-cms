@@ -27,6 +27,7 @@
 /installation/template/css/template.min.css
 /installation/template/css/template.css
 /templates/cassiopeia/css
+/templates/cassiopeia/js/template.min.js
 
 # Test Related Files #
 /phpunit.xml
