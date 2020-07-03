@@ -30,7 +30,7 @@ module.exports.compile = () => {
         if (files.length) {
           files.forEach(
             (file) => {
-              if (file.match(/\.js/) && !file.match(/\min.js/) && !file.match(/LICENSE\.md/)) {
+              if (file.match(/\.js/) && !file.match(/min.js/) && !file.match(/LICENSE\.md/)) {
                 // eslint-disable-next-line no-console
                 console.log(`Processing ES5 file: ${file}`);
                 // Write the file
