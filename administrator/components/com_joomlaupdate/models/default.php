@@ -954,15 +954,15 @@ ENDDATA;
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile))
 		{
-			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_NOFILESELECTED'), 500);
+			throw new RuntimeException(JText::_('JGLOBAL_NO_FILE_SELECTED'), 500);
 		}
 
 		// Is the PHP tmp directory missing?
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
 		{
 			throw new RuntimeException(
-				JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADERROR') . '<br />' .
-				JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_PHPUPLOADNOTSET'),
+				JText::_('JGLOBAL_ERROR_FILE_UPLOAD_ERROR') . '<br />' .
+				JText::_('JGLOBAL_ERROR_PHP_TEMP_FOLDER_NOT_SET'),
 				500
 			);
 		}
@@ -971,7 +971,7 @@ ENDDATA;
 		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
 		{
 			throw new RuntimeException(
-				JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADERROR') . '<br />' . JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_SMALLUPLOADSIZE'),
+				JText::_('JGLOBAL_ERROR_FILE_UPLOAD_ERROR') . '<br />' . JText::_('JGLOBAL_ERROR_PHP_SMALL_UPLOAD_SIZE'),
 				500
 			);
 		}
@@ -979,7 +979,7 @@ ENDDATA;
 		// Check if there was a different problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
-			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADERROR'), 500);
+			throw new RuntimeException(JText::_('JGLOBAL_ERROR_FILE_UPLOAD_ERROR'), 500);
 		}
 
 		// Build the appropriate paths.
@@ -1002,7 +1002,7 @@ ENDDATA;
 
 		if (!$result)
 		{
-			throw new RuntimeException(JText::_('COM_JOOMLAUPDATE_MSG_WARNINGS_UPLOADERROR'), 500);
+			throw new RuntimeException(JText::_('JGLOBAL_ERROR_FILE_UPLOAD_ERROR'), 500);
 		}
 
 		JFactory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
