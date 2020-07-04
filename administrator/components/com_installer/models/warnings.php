@@ -99,8 +99,8 @@ class InstallerModelWarnings extends JModelList
 
 		if (!$upload_dir)
 		{
-			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
-					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSETDESC'));
+			$messages[] = array('message' => JText::_('JGLOBAL_ERROR_PHP_TEMP_FOLDER_NOT_SET'),
+					'description' => JText::_('JGLOBAL_ERROR_PHP_TEMP_FOLDER_NOT_SET_DESC'));
 		}
 		else
 		{
@@ -160,8 +160,8 @@ class InstallerModelWarnings extends JModelList
 
 		if ($upload_max_filesize < (8 * 1024 * 1024)) // 8MB
 		{
-			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
-					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));
+			$messages[] = array('message' => JText::_('JGLOBAL_ERROR_PHP_SMALL_UPLOAD_SIZE'),
+					'description' => JText::_('JGLOBAL_ERROR_PHP_SMALL_UPLOAD_SIZE_DESC'));
 		}
 
 		return $messages;

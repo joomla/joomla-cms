@@ -273,7 +273,7 @@ class InstallerModelInstall extends JModelLegacy
 		// If there is no uploaded file, we have a problem...
 		if (!is_array($userfile))
 		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'));
+			JError::raiseWarning('', JText::_('JGLOBAL_NO_FILE_SELECTED'));
 
 			return false;
 		}
@@ -283,7 +283,7 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			JError::raiseWarning(
 				'',
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET')
+				JText::_('JGLOBAL_ERROR_FILE_UPLOAD_ERROR') . '<br />' . JText::_('JGLOBAL_ERROR_PHP_TEMP_FOLDER_NOT_SET')
 			);
 
 			return false;
@@ -294,7 +294,7 @@ class InstallerModelInstall extends JModelLegacy
 		{
 			JError::raiseWarning(
 				'',
-				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE')
+				JText::_('JGLOBAL_ERROR_FILE_UPLOAD_ERROR') . '<br />' . JText::_('JGLOBAL_ERROR_PHP_SMALL_UPLOAD_SIZE')
 			);
 
 			return false;
@@ -303,7 +303,7 @@ class InstallerModelInstall extends JModelLegacy
 		// Check if there was a different problem uploading the file.
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'));
+			JError::raiseWarning('', JText::_('JGLOBAL_ERROR_FILE_UPLOAD_ERROR'));
 
 			return false;
 		}
