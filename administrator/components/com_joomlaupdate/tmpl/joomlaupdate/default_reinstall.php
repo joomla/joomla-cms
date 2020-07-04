@@ -38,7 +38,7 @@ use Joomla\CMS\Updater\Update;
 				</td>
 				<td>
 					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer"
-						title="<?php echo TEXT::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->downloadurl->_data); ?>">
+						title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->downloadurl->_data); ?>">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
 					</a>
 				</td>
@@ -51,7 +51,7 @@ use Joomla\CMS\Updater\Update;
 					</td>
 					<td>
 						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer"
-							title="<?php echo TEXT::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title); ?>">
+							title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title); ?>">
 							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
 						</a>
 					</td>
