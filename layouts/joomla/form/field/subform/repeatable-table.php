@@ -90,7 +90,7 @@ else
 				<tr>
 					<?php echo $table_head; ?>
 					<?php if (!empty($buttons)) : ?>
-						<th style="width:8%;">
+						<td style="width:8%;">
 							<?php if (!empty($buttons['add'])) : ?>
 								<div class="btn-group">
 									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
@@ -98,7 +98,7 @@ else
 									</button>
 								</div>
 							<?php endif; ?>
-						</th>
+						</td>
 					<?php endif; ?>
 				</tr>
 			</thead>
