@@ -114,6 +114,7 @@ if (!Joomla) {
               this.initiateSearch();
             });
 
+            // eslint-disable-next-line no-shadow
             const orderingSelect = document.getElementById('com-apps-ordering');
             // eslint-disable-next-line no-shadow
             const versionSelect = document.getElementById('com-apps-filter-joomla-version');
