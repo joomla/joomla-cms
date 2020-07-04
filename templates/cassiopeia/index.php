@@ -15,9 +15,8 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\Document\HtmlDocument $this */
 
-$app  = Factory::getApplication();
-$lang = $app->getLanguage();
-$wa   = $this->getWebAssetManager();
+$app = Factory::getApplication();
+$wa  = $this->getWebAssetManager();
 
 // Detecting Active Variables
 $option    = $app->input->getCmd('option', '');
