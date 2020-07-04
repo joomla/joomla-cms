@@ -6,7 +6,7 @@
 	<version>3.6.3</version>
 	<creationDate>Aug 2015</creationDate>
 	<author>Shohrat Permanov</author>
-	<copyright>© 2015 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2015 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>tk-TM.ini</filename>
