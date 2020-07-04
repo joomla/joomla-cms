@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ @package    joomla4
-  ~
-  ~ @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
-  ~ @license    GNU General Public License version 2 or later; see LICENSE.txt
-  -->
-
-<extension version="4.0" type="plugin" group="quickicon" method="upgrade">
+<extension type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_downloadkey</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2019</creationDate>
