@@ -170,7 +170,7 @@
       // Create some elements for each result and insert it into the container
       results.forEach((item, index) => {
         const a = document.createElement('a');
-        a.setAttribute('onclick', `Joomla.overrider.selectString(${this.states.counter + index});`);
+        a.setAttribute('onclick', `Joomla.overrider.selectString(${this.states.counter}${index});`);
         a.setAttribute('href', '#');
         a.classList.add('list-group-item');
         a.classList.add('list-group-item-action');
@@ -178,13 +178,13 @@
         a.classList.add('align-items-start');
 
         const key = document.createElement('div');
-        key.setAttribute('id', `override_key${this.states.counter + index}`);
+        key.setAttribute('id', `override_key${this.states.counter}${index}`);
         key.setAttribute('title', item.file);
         key.classList.add('result-key');
         key.innerHTML = item.constant;
 
         const string = document.createElement('div');
-        string.setAttribute('id', `override_string${this.states.counter + index}`);
+        string.setAttribute('id', `override_string${this.states.counter}${index}`);
         string.classList.add('result-string');
         string.innerHTML = item.string;
 
