@@ -386,7 +386,7 @@ abstract class Bootstrap
 	 *                             - onHidden  function  This event is fired when a collapse element has been hidden from the user
 	 *                                                   (will wait for css transitions to complete).
 	 *
-	 * @return  string  HTML for the accordian
+	 * @return  string  HTML for the accordion
 	 *
 	 * @since   3.0
 	 */
