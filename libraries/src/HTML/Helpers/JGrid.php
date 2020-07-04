@@ -92,7 +92,7 @@ abstract class JGrid
 
 			if (strpos($active_class, 'fa-') == true || strpos($active_class, 'icon-') == true)
 			{
-				$icon = $icon;
+				$active_class = $active_class;
 			}
 			elseif ($active_class === 'publish')
 			{
@@ -141,7 +141,7 @@ abstract class JGrid
 			{
 				if (strpos($inactive_class, 'fa-') == true || strpos($inactive_class, 'icon-') == true)
 				{
-					$icon = $icon;
+					$inactive_class = $inactive_class;
 				}
 				elseif ($inactive_class === 'publish')
 				{
