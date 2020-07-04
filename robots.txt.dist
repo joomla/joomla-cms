@@ -15,6 +15,7 @@
 # http://tool.motoricerca.info/robots-checker.phtml
 
 User-agent: *
+Disallow: /api/
 Disallow: /administrator/
 Disallow: /bin/
 Disallow: /cache/
