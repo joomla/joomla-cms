@@ -14,7 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.formvalidator');
-$direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 
 /** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
@@ -28,8 +27,13 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
 			<div class="form-group">
 				<button class="btn btn-primary btn-block" id="installAddFeatures">
-					<?php echo '<span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 					<?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> 
+					<?php if (Factory::getLanguage()->isRtl()) : ?>
+						<?php echo '<span class="fas fa-chevron-left" aria-hidden="true"></span>'; ?>
+					<?php endif; ?>
+					<?php if (!Factory::getLanguage()->isRtl()) : ?>
+						<?php echo '<span class="fas fa-chevron-right" aria-hidden="true"></span>'; ?>
+					<?php endif; ?>
 				</button>
 			</div>
 		</div>
@@ -191,8 +195,31 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 				<?php echo HTMLHelper::_('form.token'); ?>
 
 				<div class="form-group j-install-last-step">
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fas fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="fas fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" 
+					   href="<?php echo Uri::root(); ?>" 
+					   title="<?php echo Text::_('JSITE'); ?>"
+					>
+					<?php if (!Factory::getLanguage()->isRtl()) : ?>
+						<span class="fas fa-eye" aria-hidden="true"></span>
+					<?php endif; ?>
+					<?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?>
+					<?php if (Factory::getLanguage()->isRtl()) : ?>
+						<span class="fas fa-eye" aria-hidden="true"></span>
+					<?php endif; ?>
+					</a>
+					
+					<a class="btn btn-primary btn-block" 
+					   href="<?php echo Uri::root(); ?>administrator/" 
+					   title="<?php echo Text::_('JADMINISTRATOR'); ?>"
+					>
+					<?php if (!Factory::getLanguage()->isRtl()) : ?>
+						<span class="fas fa-lock" aria-hidden="true"></span>
+					<?php endif; ?> 
+					<?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?>
+					<?php if (Factory::getLanguage()->isRtl()) : ?>
+						<span class="fas fa-lock" aria-hidden="true"></span>
+					<?php endif; ?>
+					</a>
 				</div>
 			</div>
 		</div>
