@@ -123,7 +123,7 @@ class AdministratorService
 	 *
 	 * @since   1.6
 	 */
-	 public function featured($value, $i, $canChange = true)
+	public function featured($value, $i, $canChange = true)
 	{
 		// Array of image, task, title, action
 		$states = array(
@@ -138,7 +138,7 @@ class AdministratorService
 			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
 				. ($value == 1 ? ' active' : '') . '" aria-labelledby="cb' . $i . '-desc">'
 				. '<span class="fas fa-' . $icon . '" aria-hidden="true"></span></a>'
-				. '<div role="tooltip" id="cb' . $i .'-desc">' . Text::_($state[3]);
+				. '<div role="tooltip" id="cb' . $i . '-desc">' . Text::_($state[3]);
 		}
 		else
 		{
