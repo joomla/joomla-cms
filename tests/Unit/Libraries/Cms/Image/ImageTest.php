@@ -305,13 +305,13 @@ class ImageTest extends UnitTestCase
 
 		$image->resize(1000, 682, false);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
 
 		$image->resize(1000, 682, false, ImageInspector::SCALE_FIT);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
 	}
@@ -340,7 +340,7 @@ class ImageTest extends UnitTestCase
 
 		$image->resize(5, 5, false);
 
-		// Verify that the resizeed image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(5, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(5, imagesx($image->getClassProperty('handle')));
 
@@ -383,13 +383,13 @@ class ImageTest extends UnitTestCase
 
 		$image->cropResize(500 * 2, 341 * 2, false);
 
-		// Verify that the croped resizeded image is the correct size.
+		// Verify that the cropped resized image is the correct size.
 		$this->assertEquals(341 * 2, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(500 * 2, imagesx($image->getClassProperty('handle')));
 
 		$image->cropResize(500 * 3, 341 * 2, false);
 
-		// Verify that the croped resizeded image is the correct size.
+		// Verify that the cropped resized image is the correct size.
 		$this->assertEquals(341 * 2, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(500 * 3, imagesx($image->getClassProperty('handle')));
 	}
@@ -750,7 +750,7 @@ class ImageTest extends UnitTestCase
 
 		$thumbs = $image->generateThumbs('50x38');
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			34,
 			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
@@ -762,7 +762,7 @@ class ImageTest extends UnitTestCase
 
 		$thumbs = $image->generateThumbs('50x38', ImageInspector::CROP);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			38,
 			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
@@ -774,7 +774,7 @@ class ImageTest extends UnitTestCase
 
 		$thumbs = $image->generateThumbs('50x38', ImageInspector::CROP_RESIZE);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			38,
 			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
@@ -899,7 +899,7 @@ class ImageTest extends UnitTestCase
 	/**
 	 * Test the Joomla\CMS\Image\Image::isTransparent method
 	 *
-	 * Make sure it gives the correct result if the image does not haave an alpha channel.
+	 * Make sure it gives the correct result if the image does not have an alpha channel.
 	 *
 	 * @return  void
 	 *
@@ -1324,7 +1324,7 @@ class ImageTest extends UnitTestCase
 	 * Tests the Joomla\CMS\Image\Image::sanitizeOffset method
 	 *
 	 * @param   mixed    $input     The input offset.
-	 * @param   integer  $expected  The expected result offest.
+	 * @param   integer  $expected  The expected result offset.
 	 *
 	 * @return  void
 	 *
@@ -1347,7 +1347,7 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the Joomla\CMS\Image\Image::destory method
+	 * Tests the Joomla\CMS\Image\Image::destroy method
 	 *
 	 * @return  void
 	 *
