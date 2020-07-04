@@ -183,15 +183,15 @@ $wa->useScript('com_menus.admin-menus');
 															'width'       => '800px',
 															'bodyHeight'  => 70,
 															'modalWidth'  => 80,
-															'footer'      => '<button type="button" class="btn btn-danger" data-dismiss="modal"'
-																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-																	. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+															'footer'      => '<button type="button" class="btn btn-success"'
+																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
+																	. Text::_('JAPPLY') . '</button>'
 																	. '<button type="button" class="btn btn-success"'
 																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 																	. Text::_('JSAVE') . '</button>'
-																	. '<button type="button" class="btn btn-success"'
-																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
-																	. Text::_('JAPPLY') . '</button>',
+																	. '<button type="button" class="btn btn-danger" data-dismiss="modal"'
+																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
+																	. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 														)
 													); ?>
 											<?php endif; ?>
@@ -212,15 +212,15 @@ $wa->useScript('com_menus.admin-menus');
 													'width'       => '800px',
 													'bodyHeight'  => 70,
 													'modalWidth'  => 80,
-													'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal"'
-															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
-															. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-															. '<button type="button" class="btn btn-primary"'
+													'footer'      => '<button type="button" class="btn btn-success"'
+															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
+															. Text::_('JAPPLY') . '</button>'
+															. '<button type="button" class="btn btn-success"'
 															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#saveBtn\'})">'
 															. Text::_('JSAVE') . '</button>'
-															. '<button type="button" class="btn btn-success"'
-															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
-															. Text::_('JAPPLY') . '</button>',
+															. '<button type="button" class="btn btn-secondary" data-dismiss="modal"'
+															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
+															. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 												)
 											); ?>
 									<?php endif; ?>

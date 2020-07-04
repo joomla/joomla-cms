@@ -36,12 +36,12 @@ echo HTMLHelper::_(
 		'closeButton' => false,
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<button type="button" class="btn" data-dismiss="modal" data-target="#closeBtn">'
-				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-				. '<button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#saveBtn">'
+		'footer'      => '<button type="button" class="btn btn-success" data-target="#applyBtn">'
+				. Text::_('JAPPLY') . '</button>'
+				. '<button type="button" class="btn btn-success" data-dismiss="modal" data-target="#saveBtn">'
 				. Text::_('JSAVE') . '</button>'
-				. '<button type="button" class="btn btn-success" data-target="#applyBtn">'
-				. Text::_('JAPPLY') . '</button>',
+				. '<button type="button" class="btn" data-dismiss="modal" data-target="#closeBtn">'
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 	)
 );
 

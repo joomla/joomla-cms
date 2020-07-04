@@ -253,18 +253,18 @@ class ContactField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<button type="button" class="btn btn-secondary"'
+					'footer'      => '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \''
-							. $this->id . '\', \'add\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-							. '<button type="button" class="btn btn-primary"'
+							. $this->id . '\', \'add\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. Text::_('JAPPLY') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. Text::_('JSAVE') . '</button>'
-							. '<button type="button" class="btn btn-success"'
+							. '<button type="button" class="btn btn-secondary"'
 							. ' onclick="window.processModalEdit(this, \''
-							. $this->id . '\', \'add\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. Text::_('JAPPLY') . '</button>',
+							. $this->id . '\', \'add\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);
 		}
@@ -285,18 +285,18 @@ class ContactField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<button type="button" class="btn btn-secondary"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id
-							. '\', \'edit\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-							. '<button type="button" class="btn btn-primary"'
+					'footer'      => '<button type="button" class="btn btn-success"'
+							. ' onclick="window.processModalEdit(this, \''
+							. $this->id . '\', \'edit\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. Text::_('JAPPLY') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. Text::_('JSAVE') . '</button>'
-							. '<button type="button" class="btn btn-success"'
-							. ' onclick="window.processModalEdit(this, \''
-							. $this->id . '\', \'edit\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-							. Text::_('JAPPLY') . '</button>',
+							. '<button type="button" class="btn btn-secondary"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id
+							. '\', \'edit\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);
 		}

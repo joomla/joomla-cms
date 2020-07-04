@@ -264,15 +264,15 @@ class CategoryField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<button type="button" class="btn btn-secondary"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-							. '<button type="button" class="btn btn-primary"'
+					'footer'      => '<button type="button" class="btn btn-success"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\', \'item-form\'); return false;">'
+							. Text::_('JAPPLY') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'save\', \'item-form\'); return false;">'
 							. Text::_('JSAVE') . '</button>'
-							. '<button type="button" class="btn btn-success"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</button>',
+							. '<button type="button" class="btn btn-secondary"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'cancel\', \'item-form\'); return false;">'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);
 		}
@@ -293,16 +293,15 @@ class CategoryField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<button type="button" class="btn btn-secondary"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-							. '<button type="button" class="btn btn-primary"'
+					'footer'      => '<button type="button" class="btn btn-success"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\', \'item-form\'); return false;">'
+							. Text::_('JAPPLY') . '</button>'
+							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'save\', \'item-form\'); return false;">'
 							. Text::_('JSAVE') . '</button>'
-							. '<button type="button" class="btn btn-success"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</button>',
-				)
+							. '<button type="button" class="btn btn-secondary"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'cancel\', \'item-form\'); return false;">'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',				)
 			);
 		}
 

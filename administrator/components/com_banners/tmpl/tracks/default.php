@@ -95,12 +95,12 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 						'height'      => '370px',
 						'width'       => '300px',
 						'modalWidth'  => '40',
-						'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
-								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#closeBtn\'})">'
-								. Text::_('COM_BANNERS_CANCEL') . '</button>'
-								. '<button type="button" class="btn btn-success"'
+						'footer'      => '<button type="button" class="btn btn-success"'
 								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#exportBtn\'})">'
-								. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
+								. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>'
+								. '<button type="button" class="btn" data-dismiss="modal"'
+								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#closeBtn\'})">'
+								. Text::_('COM_BANNERS_CANCEL') . '</button>',
 					]
 				); ?>
 				<input type="hidden" name="task" value="">
