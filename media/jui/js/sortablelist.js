@@ -108,9 +108,9 @@
 				}
 			}
 		});
-
+		
 		this.hideChildrenNodes = function (itemId) {
-			root.childrenNodes = root.getChildrenNodes(itemId);
+			root.childrenNodes = root.getChildrenNodes(itemId);				
 			root.childrenNodes.hide();
 		}
 

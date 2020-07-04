@@ -1192,7 +1192,7 @@ class JApplicationWebTest extends TestCase
 	 * @since   1.7.3
 	 */
 	public function testRedirectWithExistingStatusCode2()
-	{
+	{	
 		// Case Sensitive: Status
 		$this->class->setHeader('Status', 201);
 

@@ -119,7 +119,7 @@ if (!empty($editor))
 								</a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
-							<?php endif; ?>
+							<?php endif; ?>	
 							<span class="small">
 								<?php if (empty($item->note)) : ?>
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>

@@ -39,7 +39,7 @@ class NestedTable extends JTableNested
 	{
 		self::$unlocked = true;
 	}
-
+	
 	/**
 	 * Method to reset the root_id
 	 *

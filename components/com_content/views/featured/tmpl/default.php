@@ -25,7 +25,7 @@ JHtml::_('behavior.caption');
 </div>
 <?php endif; ?>
 <?php if ($this->params->get('page_subheading')) : ?>
-	<h2>
+	<h2> 
 		<?php echo $this->escape($this->params->get('page_subheading')); ?>
 	</h2>
 <?php endif; ?>

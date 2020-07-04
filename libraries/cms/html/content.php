@@ -56,7 +56,7 @@ abstract class JHtmlContent
 	{
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
-		foreach ($state as $key => $value)
+		foreach ($state as $key => $value) 
 		{
 			$model->setState($key, $value);
 		}

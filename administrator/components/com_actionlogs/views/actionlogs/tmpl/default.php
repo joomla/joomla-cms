@@ -32,7 +32,7 @@ Factory::getDocument()->addScriptDeclaration('
 		if (task == "actionlogs.exportLogs")
 		{
 			Joomla.submitform(task, document.getElementById("exportForm"));
-
+			
 			return;
 		}
 

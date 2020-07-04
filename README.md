@@ -51,7 +51,7 @@ Is it easy to change the layout display?
 
 Ready to install Joomla?
 ---------------------
-* Check the [minimum requirements](https://downloads.joomla.org/technical-requirements).
+* Check the [minimum requirements](https://downloads.joomla.org/technical-requirements). 
 * How do you [install Joomla](https://docs.joomla.org/Special:MyLanguage/J3.x:Installing_Joomla)?
 * You could start your Joomla! experience by [building your site on a local test server](https://docs.joomla.org/Special:MyLanguage/Installing_Joomla_locally).
 When ready, it can be moved to an online hosting account of your choice.

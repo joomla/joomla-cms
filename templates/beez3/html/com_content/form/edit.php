@@ -236,16 +236,16 @@ endif;
 				<div class="controls">
 					<?php echo $this->form->getInput('note'); ?>
 				</div>
-			</div>
+			</div>			
 			<?php if ($params->get('save_history', 0)) : ?>
 				<div class="control-label">
 					<?php echo $this->form->getLabel('version_note'); ?>
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('version_note'); ?>
-				</div>
+				</div>		
 			<?php endif; ?>
-			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
+			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('created_by_alias'); ?>
@@ -272,7 +272,7 @@ endif;
 						<?php echo $this->form->getInput('featured'); ?>
 					</div>
 				</div>
-				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
+				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('publish_up'); ?>
@@ -322,7 +322,7 @@ endif;
 			</div>
 	</fieldset>
 
-	<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
+	<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
 	<fieldset>
 		<legend><?php echo JText::_('COM_CONTENT_METADATA'); ?></legend>
 			<div class="control-group">

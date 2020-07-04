@@ -72,7 +72,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	// Add spindle-wheel for installations:
 	jQuery(document).ready(function($) {
 		var outerDiv = $(\"#installer-install\");
-
+		
 		JoomlaInstaller.getLoadingOverlay()
 			.css(\"top\", outerDiv.position().top - $(window).scrollTop())
 			.css(\"left\", \"0\")
@@ -81,7 +81,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			.css(\"display\", \"none\")
 			.css(\"margin-top\", \"-10px\");
 	});
-
+	
 	var JoomlaInstaller = {
 		getLoadingOverlay: function () {
 			return jQuery(\"#loading\");

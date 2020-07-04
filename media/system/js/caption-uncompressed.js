@@ -14,7 +14,7 @@
  */
 var JCaption = function(_selector) {
     var $, selector,
-
+    
     initialize = function(_selector) {
         $ = jQuery.noConflict();
         selector = _selector;
@@ -22,9 +22,9 @@ var JCaption = function(_selector) {
             createCaption(el);
         })
     },
-
+    
     createCaption = function(element) {
-        var $el = $(element),
+        var $el = $(element), 
         caption = $el.attr('title'),
         width = $el.attr("width") || element.width,
         align = $el.attr("align") || $el.css("float") || element.style.styleFloat || "none",

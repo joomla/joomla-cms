@@ -240,7 +240,7 @@ class ContentHelperQuery
 	 * @return  array  Reordered array to achieve desired ordering down columns
 	 *
 	 * @since       1.6
-	 * @deprecated  4.0
+	 * @deprecated  4.0 
 	 */
 	public static function orderDownColumns(&$articles, $numColumns = 1)
 	{

@@ -49,7 +49,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 		<?php else : ?>
 			<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
 		<?php endif; ?>
-
+		
 		<?php echo $displayData->getForm()->renderField('tags'); ?>
 		<?php if ($saveHistory) : ?>
 			<?php echo $displayData->getForm()->renderField('version_note'); ?>

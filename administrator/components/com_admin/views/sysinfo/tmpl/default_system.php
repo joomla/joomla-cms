@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 				<td>
 					<?php echo $this->info['dbserver']; ?>
 				</td>
-			</tr>
+			</tr>			
 			<tr>
 				<td>
 					<strong><?php echo JText::_('COM_ADMIN_DATABASE_VERSION'); ?></strong>

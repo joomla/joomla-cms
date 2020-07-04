@@ -41,7 +41,7 @@ class JPlatformTest extends \PHPUnit\Framework\TestCase
 
 	protected $RELTZ = 'CDT';
 
-	protected $COPYRIGHT = '© 2011 Open Source Matters, Inc. <https://www.joomla.org>';
+	protected $COPYRIGHT = 'Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.';
 
 	protected $URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
@@ -140,7 +140,7 @@ class JPlatformTest extends \PHPUnit\Framework\TestCase
 			'RELDATE'    => '22-June-2009',
 			'RELTIME'    => '23:00',
 			'RELTZ'      => 'GMT',
-			'COPYRIGHT'  => '© 2011 Open Source Matters, Inc. <https://www.joomla.org>',
+			'COPYRIGHT'  => 'Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.',
 			'URL'        => '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
 		);
 

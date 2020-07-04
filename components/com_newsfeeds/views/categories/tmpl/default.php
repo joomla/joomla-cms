@@ -29,7 +29,7 @@ jQuery(function($) {
 				btn.attr('aria-label', Joomla.JText._('JGLOBAL_COLLAPSE_CATEGORIES'));
 			} else {
 				btn.attr('aria-label', Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'));
-			}
+			}			
 		});
 	});
 });");

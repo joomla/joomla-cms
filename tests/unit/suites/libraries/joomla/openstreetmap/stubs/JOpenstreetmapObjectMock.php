@@ -9,7 +9,7 @@
 
 /**
  * Mock JOpenstreetmapObject
- *
+ * 
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  * @since       3.2.0

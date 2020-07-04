@@ -18,7 +18,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		var form = document.getElementById("adminForm");
 
-		// do field validation
+		// do field validation 
 		if (form.install_directory.value == "")
 		{
 			alert("' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH', true) . '");

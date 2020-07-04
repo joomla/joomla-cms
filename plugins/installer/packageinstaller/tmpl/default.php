@@ -20,7 +20,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		var form = document.getElementById("adminForm");
 
-		// do field validation
+		// do field validation 
 		if (form.install_package.value == "")
 		{
 			alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE', true) . '");
@@ -166,7 +166,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					return;
 				}
 
-				// Always redirect that can show message queue from session
+				// Always redirect that can show message queue from session 
 				if (res.data.redirect) {
 					location.href = res.data.redirect;
 				} else {

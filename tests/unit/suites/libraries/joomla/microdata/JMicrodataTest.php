@@ -62,7 +62,7 @@ class JMicrodataTest extends \PHPUnit\Framework\TestCase
 	 * Test the default settings
 	 *
 	 * @return  void
-	 *
+	 * 
 	 * @since   3.2
 	 */
 	public function testDefaults()

@@ -122,7 +122,7 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		/*
-		 * But now, we need to do something
+		 * But now, we need to do something 
 		 * Delete all tokens for this user!
 		 */
 		$db = JFactory::getDbo();

@@ -141,7 +141,7 @@ abstract class ModArticlesNewsHelper
 					$item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
 					$item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
 
-					if ($images->image_intro_caption)
+					if ($images->image_intro_caption) 
 					{
 						$item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
 					}
@@ -151,7 +151,7 @@ abstract class ModArticlesNewsHelper
 					$item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
 					$item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
 
-					if ($images->image_intro_caption)
+					if ($images->image_intro_caption) 
 					{
 						$item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
 					}
