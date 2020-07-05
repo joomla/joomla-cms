@@ -1,14 +1,18 @@
 // IcoMoon Conversion
 
 [class^="icon-"]:not(.input-group-text),
-[class*=" icon-"]:not(.input-group-text) {
+[class*=" icon-"]:not(.input-group-text),
+[class^="fa-"]:not(.input-group-text),
+[class*=" fa-"]:not(.input-group-text){
   display: inline-block;
   width: 26px;
   height: 26px;
   line-height: 22px;
 }
 [class^="icon-"]::before,
-[class*=" icon-"]::before {
+[class*=" icon-"]::before,
+[class^="fa-"]::before,
+[class*=" fa-"]::before{
   font-family: "Font Awesome 5 Free";
   font-style: normal;
   speak: none;
@@ -16,8 +20,10 @@
 }
 [class^="icon-"].disabled,
 [class*=" icon-"].disabled,
-[class^="far"]::before,
-[class*=" far"]::before {
+[class^="fa-"].disabled,
+[class*=" fa-"].disabled,
+[class^="fa-"]::before,
+[class*=" fa-"]::before {
   font-weight: 400;
 }
 
