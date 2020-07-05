@@ -127,8 +127,8 @@ class AdministratorService
 	{
 		// Array of image, task, title, action
 		$states = array(
-			0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
-			1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
+			0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_ITEM_FEATURE'),
+			1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_ITEM_UNFEATURE'),
 		);
 		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon = $state[0] === 'featured' ? 'star featured' : 'star';
@@ -136,8 +136,9 @@ class AdministratorService
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
-				. ($value == 1 ? ' active' : '') . '" title="' . Text::_($state[3])
-				. '"><span class="fas fa-' . $icon . '" aria-hidden="true"></span></a>';
+				. ($value == 1 ? ' active' : '') . '" aria-labelledby="cb' . $i . '-desc">'
+				. '<span class="fas fa-' . $icon . '" aria-hidden="true"></span></a>'
+				. '<div role="tooltip" id="cb' . $i . '-desc">' . Text::_($state[3]);
 		}
 		else
 		{
