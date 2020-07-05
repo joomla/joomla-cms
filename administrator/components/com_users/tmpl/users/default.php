@@ -156,14 +156,16 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									?>
 								</td>
 								<?php if ($tfa) : ?>
-								<td class="text-center d-none d-md-table-cell tbody-icon">
+								<td class="text-center d-none d-md-table-cell">
+									<span class="tbody-icon">
 									<?php if (!empty($item->otpKey)) : ?>
 										<span class="fas fa-check" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
 									<?php else : ?>
-										<span class="fas fa-times" aria-hidden="true"></span>
+										<span class="tbody-icon fas fa-times" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
 									<?php endif; ?>
+									</span>
 								</td>
 								<?php endif; ?>
 								<td class="d-none d-md-table-cell">
