@@ -151,7 +151,9 @@ Joomla = window.Joomla || {};
 
 		// Request the server to check the compatiblity for the passed extension and joomla version
 		Joomla.request({
-			url: PreUpdateChecker.config.serverUrl + '&' + 'joomla-target-version=' + PreUpdateChecker.joomlaTargetVersion + '&' + 'extension-id=' + node.getAttribute('data-extension-id'),
+			url: PreUpdateChecker.config.serverUrl
+				+ '&joomla-target-version=' + encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
+				+ '&extension-id=' + encodeURIComponent(node.getAttribute('data-extension-id')),
 			onSuccess(data) {
 				var response = JSON.parse(data);
 				// Extract the data from the JResponseJson object
