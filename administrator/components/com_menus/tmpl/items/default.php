@@ -179,13 +179,13 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
 									<span class="small">
-									<?php if ($item->type != 'url') : ?>
+									<?php if ($item->type != 'url' && $item->client_id != 1) : ?>
 										<?php if (empty($item->note)) : ?>
 											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 										<?php else : ?>
 											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 										<?php endif; ?>
-									<?php elseif ($item->type == 'url' && $item->note) : ?>
+									<?php elseif ($item->type == 'url' || $item->client_id == 1 && $item->note) : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
 									<?php endif; ?>
 									</span>

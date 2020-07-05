@@ -47,12 +47,13 @@ if ($clientId === 1)
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
-
 	<?php // Add the translation of the menu item title when client is administrator ?>
 	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
 		<div class="row title-alias form-vertical mb-3">
-			<div class="col-12">
+			<div class="col-12 col-md-6">
+				<?php echo $this->form->renderField('title'); ?>
+			</div>
+			<div class="col-12 col-md-6">
 				<div class="control-group">
 					<div class="control-label">
 						<label for="menus_title_translation"><?php echo Text::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
@@ -63,8 +64,10 @@ if ($clientId === 1)
 				</div>
 			</div>
 		</div>
+	<?php // Add the alias of the menu item title when client is site ?>
+	<?php else : ?>
+		<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 	<?php endif; ?>
-
 	<div>
 
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
