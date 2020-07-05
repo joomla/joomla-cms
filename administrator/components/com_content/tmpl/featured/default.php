@@ -187,7 +187,7 @@ $assoc = Associations::isEnabled();
 							$transition_ids = ArrayHelper::toInteger($transition_ids);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
+							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>"
 								data-transitions="<?php echo implode(',', $transition_ids); ?>"
 							>
 								<td class="text-center">
