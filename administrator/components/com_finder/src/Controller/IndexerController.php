@@ -62,7 +62,12 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+		if (!Session::checkToken('request'))
+		{
+			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			return;
+		}
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -130,7 +135,12 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+		if (!Session::checkToken('request'))
+		{
+			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			return;
+		}
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -246,7 +256,12 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+		if (!Session::checkToken('request'))
+		{
+			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			return;
+		}
 
 		// Put in a buffer to silence noise.
 		ob_start();
