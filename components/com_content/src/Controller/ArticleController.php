@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
@@ -27,6 +28,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ArticleController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The URL view item variable.
 	 *
