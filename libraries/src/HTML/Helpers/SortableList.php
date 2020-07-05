@@ -35,6 +35,6 @@ abstract class SortableList
 	 */
 	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
 	{
-		HtmlHelper::_('dragablelist.dragable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
+		HtmlHelper::_('draggablelist.draggable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
 	}
 }
