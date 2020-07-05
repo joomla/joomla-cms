@@ -10,10 +10,11 @@
 namespace Joomla\CMS\Service\Provider;
 
 \defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
-use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
+use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;

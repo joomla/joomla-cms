@@ -209,6 +209,6 @@ class HtmlView extends BaseHtmlView
 				->listCheck(true);
 		}
 
-		$toolbar->help('JHELP_WORKFLOW_TRANSITIONS_LIST');
+		$toolbar->help('JHELP_COMPONENTS_WORKFLOW_TRANSITIONS_LIST');
 	}
 }

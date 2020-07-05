@@ -15,7 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.core');
 // Load JavaScript message titles
 Text::script('ERROR');
 Text::script('WARNING');
@@ -25,10 +24,12 @@ Text::script('MESSAGE');
 Text::script('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS');
 Text::script('COM_CPANEL_UNPUBLISH_MODULE_ERROR');
 
-HTMLHelper::_('script', 'com_cpanel/admin-cpanel-default.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_cpanel.admin-cpanel')
+	->useScript('com_cpanel.admin-addmodule');
 
 $user = Factory::getUser();
-HTMLHelper::_('script', 'com_cpanel/admin-add_module.js', ['version' => 'auto', 'relative' => true]);
 
 // Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(
@@ -65,7 +66,7 @@ echo HTMLHelper::_(
 	</div>
 </div>
 
-<?php if ($user->authorise('core.create', 'com_modules')) : ?>
+<?php if ($user->authorise('core.manage', 'com_modules')) : ?>
 <div class="row">
 	<div class="col-md-6">
 		<button type="button" data-toggle="modal" data-target="#moduleDashboardAddModal" class="cpanel-add-module text-center py-5 w-100 d-block">

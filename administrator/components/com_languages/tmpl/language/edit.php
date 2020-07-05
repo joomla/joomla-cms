@@ -13,15 +13,17 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_languages.admin-language-edit-change-flag');
 
-HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
 
-	<h2 class="my-4 text-primary"><?php echo $this->form->getValue('title'); ?></h2>
+	<h2 class="my-4 text-primary"><?php echo $this->form->getValue('title', null, Text::_('COM_LANGUAGES_LANGUAGE_NEW_LANGUAGE_TITLE')); ?></h2>
 
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 

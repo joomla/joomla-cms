@@ -10,13 +10,13 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Joomla\CMS\User\User;
 
 /**
  * Console command  to change a user's password
@@ -164,7 +164,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	{
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
-		$this->setDescription("Changes a user's password");
+		$this->setDescription("Change a user's password");
 		$this->setHelp(
 			<<<EOF
 The <info>%command.name%</info> command changes the user's password

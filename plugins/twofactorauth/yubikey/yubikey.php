@@ -186,7 +186,7 @@ class PlgTwofactorauthYubikey extends CMSPlugin
 		// Remove the last 32 digits and store the rest in the user configuration parameters
 		$yubikey      = substr($data['securitycode'], 0, -32);
 
-		// Check succeedeed; return an OTP configuration object
+		// Check succeeded; return an OTP configuration object
 		$otpConfig    = (object) array(
 			'method'  => $this->methodName,
 			'config'  => array(
@@ -292,7 +292,7 @@ class PlgTwofactorauthYubikey extends CMSPlugin
 			// servers must reply positively for the OTP to validate)
 			$uri->setVar('sl', 50);
 
-			// Timeou waiting for YubiCloud servers to reply: 5 seconds.
+			// Timeout waiting for YubiCloud servers to reply: 5 seconds.
 			$uri->setVar('timeout', 5);
 
 			try

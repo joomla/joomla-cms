@@ -48,7 +48,7 @@ use Joomla\CMS\Layout\FileLayout;
 			<?php if ($this->item->published == 0) : ?>
 				<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 			<?php endif; ?>
-			<a href="<?php echo $this->item->link; ?>" target="_blank">
+			<a href="<?php echo $this->item->link; ?>" target="_blank" rel="noopener">
 				<?php echo str_replace('&apos;', "'", $this->item->name); ?>
 			</a>
 		</h2>
@@ -110,7 +110,7 @@ use Joomla\CMS\Layout\FileLayout;
 					<li>
 						<?php if (!empty($uri)) : ?>
 							<h3 class="feed-link">
-								<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
+								<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank" rel="noopener">
 									<?php echo trim($this->rssDoc[$i]->title); ?>
 								</a>
 							</h3>

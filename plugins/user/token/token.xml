@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="plugin" group="user" method="upgrade">
+<extension type="plugin" group="user" method="upgrade">
 	<name>plg_user_token</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2019</creationDate>
@@ -27,7 +27,7 @@
 					type="UserGroupList"
 					label="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_LABEL"
 					description="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_DESC"
-					checksuperusergroup="1"
+					checksuperusergroup="0"
 					default="8"
 					multiple="true"
 				/>

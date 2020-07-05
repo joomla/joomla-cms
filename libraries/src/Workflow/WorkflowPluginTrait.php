@@ -131,7 +131,7 @@ trait WorkflowPluginTrait
 	 * Check if the context is listed in the whitelist or in the blacklist and return the result
 	 *
 	 * @param   string  $context       Context to check
-	 * @param   string  $functionality The funcationality
+	 * @param   string  $functionality The functionality
 	 *
 	 * @return boolean
 	 */
