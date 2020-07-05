@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,11 @@ $lang      = Factory::getLanguage();
 
 Text::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' => true]);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_finder.index');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -67,7 +71,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 								<th scope="col" class="w-15 d-none d-md-table-cell text-center">
 									<?php echo Text::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 								</th>
-								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-30 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

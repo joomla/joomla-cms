@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +75,7 @@ class SiteDownCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Puts the site into offline mode');
+		$this->setDescription('Put the site into offline mode');
 
 		$help = <<<'EOF'
 The <info>%command.name%</info> is used to place the site offline.
@@ -93,7 +93,7 @@ EOF;
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{

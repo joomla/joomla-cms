@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,11 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative' => true]);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_finder.filters');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=filters'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -73,7 +77,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 						$userAuthoriseCoreEditState = $user->authorise('core.edit.state', 'com_finder');
 						$userId                     = $user->id;
 						foreach ($this->items as $i => $item) :
-							$canCheckIn   = $userAuthoriseCoreManage || $item->checked_out == $userId || $item->checked_out == 0;
+							$canCheckIn   = $userAuthoriseCoreManage || $item->checked_out == $userId || is_null($item->checked_out);
 							$canChange    = $userAuthoriseCoreEditState && $canCheckIn;
 							$escapedTitle = $this->escape($item->title);
 						?>

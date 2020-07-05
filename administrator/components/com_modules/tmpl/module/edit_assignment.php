@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,8 +18,10 @@ use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
 
-HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
+$this->document->getWebAssetManager()
+	->useScript('joomla.treeselectmenu')
+	->useScript('com_modules.admin-module-edit-assignment');
+
 ?>
 <div class="control-group">
 	<label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>

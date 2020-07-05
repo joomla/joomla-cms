@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,20 +26,24 @@ if ($app->isClient('site'))
 
 HTMLHelper::_('behavior.multiselect');
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_associations.admin-associations-modal');
+
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 
 $iconStates = array(
-	-2 => 'icon-trash',
-	0  => 'icon-unpublish',
-	1  => 'icon-publish',
-	2  => 'icon-archive',
+	-2 => 'fas fa-trash',
+	0  => 'fas fa-times',
+	1  => 'fas fa-check',
+	2  => 'fas fa-folder',
 );
 
 $this->document->addScriptOptions('associations-modal', ['func' => $function]);
-HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['version' => 'auto', 'relative' => true]);
+
 ?>
 <div class="container-popup">
 	<form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
@@ -60,7 +64,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 			<thead>
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
-						<th scope="col" class="w-1 center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>

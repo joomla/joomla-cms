@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class TemplateModel extends FormModel
 	 * @param   string    $name      The file name.
 	 * @param   stdClass  $template  The std class object of template.
 	 *
-	 * @return  object  StdClass object.
+	 * @return  object  stdClass object.
 	 *
 	 * @since   4.0.0
 	 */

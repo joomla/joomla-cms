@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -467,7 +467,9 @@ class Filter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				HTMLHelper::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
+				/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+				$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+				$wa->useStyle('com_finder.dates');
 			}
 
 			// Open the widget.

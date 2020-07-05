@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -18,7 +18,6 @@ use Joomla\CMS\Uri\Uri;
 /** @var JDocumentError $this */
 
 $app   = Factory::getApplication();
-$lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
@@ -27,10 +26,8 @@ $option     = $input->get('option', '');
 $view       = $input->get('view', '');
 $layout     = $input->get('layout', 'default');
 $task       = $input->get('task', 'display');
-$itemid     = $input->get('Itemid', '');
 $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
-$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
@@ -102,10 +99,19 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-			<jdoc:include type="modules" name="menu" style="none" />
-			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
-				<img src="<?php echo $joomlaLogo; ?>" alt="">
+		<button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
+			<div id="sidebarmenu">
+				<div class="sidebar-toggle item item-level-1">
+					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+						<span id="menu-collapse-icon" class="fas fa-toggle-off fa-fw" aria-hidden="true"></span>
+						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
+					</a>
+				</div>
+				<jdoc:include type="modules" name="menu" style="none" />
 			</div>
 		</div>
 	<?php endif; ?>
@@ -116,7 +122,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<?php // Subheader ?>
 			<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse"
 			   data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
-				<span class="icon-wrench"></span></a>
+				<span class="fas fa-wrench"></span></a>
 			<div id="subhead" class="subhead mb-3">
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">

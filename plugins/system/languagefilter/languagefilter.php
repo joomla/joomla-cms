@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -478,7 +478,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			{
 				$redirectHttpCode = 301;
 
-				// We cannot cache this redirect in browser. 301 is cachable by default so we need to force to not cache it in browsers.
+				// We cannot cache this redirect in browser. 301 is cacheable by default so we need to force to not cache it in browsers.
 				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 				$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
 				$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
@@ -590,7 +590,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{

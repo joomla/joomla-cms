@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +75,7 @@ else
 		{
 			?>
 				<h2 class="<?php echo $direction; ?>">
-					<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+					<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
 					<?php echo $feed->title; ?></a>
 				</h2>
 			<?php
@@ -113,7 +113,7 @@ else
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<span class="feed-link">
-						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
 						<?php echo trim($feed[$i]->title); ?></a></span>
 					<?php else : ?>
 						<span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>

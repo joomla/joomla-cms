@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Page\Acceptance\Administrator;
@@ -183,7 +183,7 @@ class UserListPage extends AdminListPage
 	 * @var    array
 	 * @since  3.7.3
 	 */
-	public static $seeUnblocked = ['xpath' => "//table[@id='userList']//*//td[4]//span[@class='icon-publish']"];
+	public static $seeUnblocked = ['xpath' => "//table[@id='userList']//*//td[4]//span[@class='fas fa-check']"];
 
 	/**
 	 * Locator for user is deleted and not found.

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +75,7 @@ class SiteUpCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Puts the site into online mode');
+		$this->setDescription('Put the site into online mode');
 
 		$help = "The <info>%command.name%</info> Puts the site into online mode
 				\nUsage: <info>php %command.full_name%</info>";
@@ -91,7 +91,7 @@ class SiteUpCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{

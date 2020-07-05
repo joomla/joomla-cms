@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,6 +42,8 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 $attributes = array(
@@ -56,7 +58,8 @@ $attributes = array(
 	isset($min) ? 'min="' . $min . '"' : '',
 	$required ? 'required' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
-	$autofocus ? 'autofocus' : ''
+	$autofocus ? 'autofocus' : '',
+	$dataAttribute,
 );
 
 if (is_numeric($value))

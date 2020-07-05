@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,17 +49,17 @@ class LevelModel extends AdminModel
 
 		if ($groups === null)
 		{
-			throw new RuntimeException('Invalid rules schema');
+			throw new \RuntimeException('Invalid rules schema');
 		}
 
-		$isAdmin = JFactory::getUser()->authorise('core.admin');
+		$isAdmin = Factory::getUser()->authorise('core.admin');
 
 		// Check permissions
 		foreach ($groups as $group)
 		{
-			if (!$isAdmin && JAccess::checkGroup($group, 'core.admin'))
+			if (!$isAdmin && Access::checkGroup($group, 'core.admin'))
 			{
-				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+				$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 				return false;
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Flag for loggable Api.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $loggableApi = false;
 
@@ -51,7 +51,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Array of loggable verbs.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $loggableVerbs = [];
 
@@ -89,7 +89,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onContentAfterSave($context, $article, $isNew)
+	public function onContentAfterSave($context, $article, $isNew): void
 	{
 		if (isset($this->contextAliases[$context]))
 		{
@@ -155,7 +155,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onContentAfterDelete($context, $article)
+	public function onContentAfterDelete($context, $article): void
 	{
 		$option = $this->app->input->get('option');
 
@@ -305,7 +305,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onApplicationAfterSave($config)
+	public function onApplicationAfterSave($config): void
 	{
 		$option = $this->app->input->getCmd('option');
 
@@ -499,7 +499,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onExtensionAfterSave($context, $table, $isNew)
+	public function onExtensionAfterSave($context, $table, $isNew): void
 	{
 		$option = $this->app->input->getCmd('option');
 
@@ -563,7 +563,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onExtensionAfterDelete($context, $table)
+	public function onExtensionAfterDelete($context, $table): void
 	{
 		if (!$this->checkLoggable($this->app->input->get('option')))
 		{
@@ -597,14 +597,14 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		$context = $this->app->input->get('option');
 		$task    = $this->app->input->post->get('task');
@@ -669,14 +669,14 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		$context = $this->app->input->get('option');
 
@@ -710,7 +710,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterSaveGroup($context, $table, $isNew)
+	public function onUserAfterSaveGroup($context, $table, $isNew): void
 	{
 		$context = $this->app->input->get('option');
 
@@ -747,14 +747,14 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $group    Holds the group data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDeleteGroup($group, $success, $msg)
+	public function onUserAfterDeleteGroup($group, $success, $msg): void
 	{
 		$context = $this->app->input->get('option');
 
@@ -1074,7 +1074,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAfterDispatch()
 	{
