@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  © 2013 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class JPlatformTest extends \PHPUnit\Framework\TestCase
 
 	protected $RELTZ = 'CDT';
 
-	protected $COPYRIGHT = '© 2005 Open Source Matters, Inc. <https://www.joomla.org>';
+	protected $COPYRIGHT = '(C) 2005 Open Source Matters, Inc. <https://www.joomla.org>';
 
 	protected $URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
@@ -140,7 +140,7 @@ class JPlatformTest extends \PHPUnit\Framework\TestCase
 			'RELDATE'    => '22-June-2009',
 			'RELTIME'    => '23:00',
 			'RELTZ'      => 'GMT',
-			'COPYRIGHT'  => '© 2005 Open Source Matters, Inc. <https://www.joomla.org>',
+			'COPYRIGHT'  => '(C) 2005 Open Source Matters, Inc. <https://www.joomla.org>',
 			'URL'        => '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.'
 		);
 

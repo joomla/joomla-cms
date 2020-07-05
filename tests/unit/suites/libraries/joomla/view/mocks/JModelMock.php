@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Joomla.UnitTest
- * @copyright  © 2013 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License
  */
 
