@@ -394,7 +394,7 @@ class MenuField extends FormField
 							. '<button type="button" class="btn btn-success"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
 							. Text::_('JSAVE') . '</button>'
-							.'<button type="button" class="btn btn-secondary"'
+							. '<button type="button" class="btn btn-secondary"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
 							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
