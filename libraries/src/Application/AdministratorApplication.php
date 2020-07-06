@@ -492,7 +492,7 @@ class AdministratorApplication extends CMSApplication
 						$rootUser,
 						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 		}
