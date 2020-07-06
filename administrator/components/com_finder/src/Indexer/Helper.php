@@ -103,6 +103,11 @@ class Helper
 			$language = Language::getInstance($lang);
 		}
 
+		if (!isset($cache[$lang]))
+		{
+			$cache[$lang] = [];
+		}
+
 		$tokens = array();
 		$terms = $language->tokenise($input);
 
@@ -125,17 +130,15 @@ class Helper
 			// Create tokens from the terms.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
-				$key = $lang . '::' . $terms[$i];
-
-				if (isset($cache[$key]))
+				if (isset($cache[$lang][$terms[$i]]))
 				{
-					$tokens[] = $cache[$key];
+					$tokens[] = $cache[$lang][$terms[$i]];
 				}
 				else
 				{
 					$token = new Token($terms[$i], $language->language);
 					$tokens[] = $token;
-					$cache[$key] = $token;
+					$cache[$lang][$terms[$i]] = $token;
 				}
 			}
 
@@ -155,18 +158,18 @@ class Helper
 						}
 
 						$temp[] = $tokens[$i + $j]->term;
-						$key = $lang . '::' . implode('::', $temp);
+						$key = implode('::', $temp);
 
-						if (isset($cache[$key]))
+						if (isset($cache[$lang][$key]))
 						{
-							$tokens[] = $cache[$key];
+							$tokens[] = $cache[$lang][$key];
 						}
 						else
 						{
 							$token = new Token($temp, $language->language, $language->spacer);
 							$token->derived = true;
 							$tokens[] = $token;
-							$cache[$key] = $token;
+							$cache[$lang][$key] = $token;
 						}
 					}
 				}
@@ -174,7 +177,7 @@ class Helper
 		}
 
 		// Prevent the cache to fill up the memory
-		while (count($cache) > 2048)
+		while (count($cache[$lang]) > 1024)
 		{
 			/**
 			 * We want to cache the most common words/tokens. At the same time
@@ -182,7 +185,7 @@ class Helper
 			 * be early in the text, so we are dropping all terms/tokens which
 			 * have been cached later.
 			 */
-			array_pop($cache);
+			array_pop($cache[$lang]);
 		}
 
 		return $tokens;
