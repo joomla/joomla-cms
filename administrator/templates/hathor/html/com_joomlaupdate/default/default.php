@@ -22,7 +22,7 @@ JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMAT
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
 
-$latestJoomlaVersion = $this->updateInfo['latest'];
+$latestJoomlaVersion  = $this->updateInfo['latest'];
 $currentJoomlaVersion = $this->updateInfo['current'];
 
 JFactory::getDocument()->addScriptDeclaration(
@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
 	});
 });
 
-var joomlaTargetVersion = '$latestJoomlaVersion';
+var joomlaTargetVersion  = '$latestJoomlaVersion';
 var joomlaCurrentVersion = '$currentJoomlaVersion';
 JS
 );
