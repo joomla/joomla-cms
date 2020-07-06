@@ -49,6 +49,7 @@ abstract class ToolbarHelper
 		{
 			$title .= ' - ' . Text::_('JADMINISTRATION');
 		}
+
 		Factory::getDocument()->setTitle($title);
 	}
 
