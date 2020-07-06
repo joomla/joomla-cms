@@ -480,7 +480,7 @@ class AdministratorApplication extends CMSApplication
 						'JWARNING_REMOVE_ROOT_USER',
 						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 			// Show this message to superusers too
