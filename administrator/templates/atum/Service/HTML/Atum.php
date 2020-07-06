@@ -13,8 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use OzdemirBurak\Iris\Color\Hex;
 use OzdemirBurak\Iris\Color\Hsl;
-use OzdemirBurak\Iris\Color\Rgb;
 use OzdemirBurak\Iris\Color\Hsla;
+use OzdemirBurak\Iris\Color\Rgb;
 
 /**
  * Template Atum HTML Helper
@@ -240,7 +240,7 @@ class JHtmlAtum
 	}
 
 	/**
-	 * Determinates if the given string is a color hex value
+	 * Determines if the given string is a color hex value
 	 *
 	 * @param   string  $hex  The string to test
 	 *

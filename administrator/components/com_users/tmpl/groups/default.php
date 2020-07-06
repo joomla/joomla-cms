@@ -24,7 +24,10 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
 
 Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
-HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_users.admin-users-groups');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">

@@ -20,7 +20,8 @@ if ($class)
 	$class = ' class="' . htmlentities($class, ENT_COMPAT, 'UTF-8', true) . '"';
 }
 
-$value  = $field->apivalue;
+$value  = $field->value;
+
 $buffer = '';
 
 if ($value)

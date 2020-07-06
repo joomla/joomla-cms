@@ -50,8 +50,11 @@ Joomla = window.Joomla || {};
 
             const iframe = document.querySelector('#moduleDashboardAddModal iframe');
             const content = iframe.contentDocument || iframe.contentWindow.document;
+            const targetBtn = content.querySelector(clickTarget);
 
-            content.querySelector(clickTarget).click();
+            if (targetBtn) {
+              targetBtn.click();
+            }
           }
         });
       });

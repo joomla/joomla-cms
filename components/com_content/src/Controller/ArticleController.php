@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -27,6 +28,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ArticleController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The URL view item variable.
 	 *
@@ -102,7 +105,7 @@ class ArticleController extends FormController
 
 		if ($allow === null)
 		{
-			// In the absense of better information, revert to the component permissions.
+			// In the absence of better information, revert to the component permissions.
 			return parent::allowAdd();
 		}
 		else

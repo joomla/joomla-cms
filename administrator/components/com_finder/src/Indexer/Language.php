@@ -13,8 +13,8 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\String\StringHelper;
 use Wamania\Snowball\NotFoundException;
-use Wamania\Snowball\StemmerFactory;
 use Wamania\Snowball\Stemmer\Stemmer;
+use Wamania\Snowball\StemmerFactory;
 
 /**
  * Language support class for the Finder indexer package.

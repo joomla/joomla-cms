@@ -16,6 +16,10 @@
     margin-left: 0;
   }
 
+  &.noshadow {
+    box-shadow: none;
+  }
+
   joomla-toolbar-button,
   .btn-group {
     margin-inline-start: .75rem;

@@ -348,7 +348,7 @@ class ContenthistoryHelper
 	public static function prepareData(ContentHistory $table)
 	{
 		$object = static::decodeFields($table->version_data);
-		$typesTable = Table::getInstance('Contenttype', 'Joomla\\CMS\\Table\\');
+		$typesTable = Table::getInstance('ContentType', 'Joomla\\CMS\\Table\\');
 		$typeAlias = explode('.', $table->item_id);
 		array_pop($typeAlias);
 		$typesTable->load(array('type_alias' => implode('.', $typeAlias)));
