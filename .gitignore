@@ -230,19 +230,3 @@ composer.phar
 
 # Build related
 RoboFile.ini
-# JEvents
-**/com_jevents/**
-**/mod_jevents*/**
-**/googl/**
-**/jevmodal/**
-**/eventsearch/**
-**/gwejson/**
-**/jeventsinstaller/**
-**/jevents
-**/*_jevents*
-**/*_gwejson*
-**/*_eventsearch*
-**/robots.txt
-**/googl.xml
-
-.gitignore
