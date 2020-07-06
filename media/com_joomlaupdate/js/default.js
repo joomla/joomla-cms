@@ -49,7 +49,7 @@ function extractionMethodHandler(target, prefix)
     PreUpdateChecker.run = function () {
         // Get version of the available joomla update
         PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
-		PreUpdateChecker.joomlaCurrentVersion = window.joomlaCurrentVersion;
+        PreUpdateChecker.joomlaCurrentVersion = window.joomlaCurrentVersion;
 
 		// No point creating and loading a component stylesheet for 4 settings
 		$('.compatibilitytypes img').css('height', '20px');
@@ -79,19 +79,19 @@ function extractionMethodHandler(target, prefix)
         var extension = {
             $element: $extension,
             compatibleVersion: 0,
-			serverError: 1
+            serverError: 1
         };
 
         // Request the server to check the compatiblity for the passed extension and joomla version
         $.getJSON(PreUpdateChecker.config.serverUrl, {
             'joomla-target-version': PreUpdateChecker.joomlaTargetVersion,
-			'joomla-current-version': PreUpdateChecker.joomlaCurrentVersion,
-			'extension-version': $extension.data('extension-current-version'),
+            'joomla-current-version': PreUpdateChecker.joomlaCurrentVersion,
+            'extension-version': $extension.data('extension-current-version'),
             'extension-id': $extension.data('extensionId')
         }).done(function(response) {
             // Extract the data from the JResponseJson object
             extension.serverError = 0;
-			extension.compatibilityData = response.data;
+            extension.compatibilityData = response.data;
         }).always(function(e) {
             // Pass the retrieved data to the callback
             callback(extension);
