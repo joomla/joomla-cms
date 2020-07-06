@@ -501,7 +501,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	{
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
-		$joomlaCurrentVersion = $this->input->get('joomla-current-version', '', 'DEFAULT');
+		$joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
 		$extensionVersion = $this->input->get('extension-version', '', 'DEFAULT');
 
 		/** @var JoomlaupdateModelDefault $model */
@@ -544,7 +544,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			'upgradeCompatibilityStatus' => $upgradeCompatibilityStatus,
 			'currentCompatibilityStatus' => $currentCompatibilityStatus,
 			'resultGroup' => $resultGroup,
-			'upgradeWarning' => $upgradeWarning
+			'upgradeWarning' => $upgradeWarning,
 		);
 
 		$this->app = JFactory::getApplication();

@@ -115,7 +115,7 @@ $compatibilityTypes = array(
 	</fieldset>
 </div>
 <?php if (!empty($this->nonCoreExtensions)) : ?>
-	<div class="row-fluid">
+	<div>
 		<h3>
 			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 		</h3>

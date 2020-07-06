@@ -51,6 +51,12 @@ function extractionMethodHandler(target, prefix)
         PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
 		PreUpdateChecker.joomlaCurrentVersion = window.joomlaCurrentVersion;
 
+		// No point creating and loading a component stylesheet for 4 settings
+		$('.compatibilitytypes img').css('height', '20px');
+		$('.compatibilitytypes').css('display', 'none').css('margin-left', 0);
+		// The currently processing line should show until its finished
+		$('#compatibilitytype0').css('display', 'block');
+
         // Grab all extensions based on the selector set in the config object
         var $extensions = $(PreUpdateChecker.config.selector);
         $extensions.each(function () {
@@ -58,10 +64,6 @@ function extractionMethodHandler(target, prefix)
             // function after completing the request
             PreUpdateChecker.checkCompatibility($(this), PreUpdateChecker.setResultView);
         });
-		document.getElementById().css('display', 'none')
-		$('.compatibilitytypes').css('display', 'none').css('margin-left', 0);
-		// The currently processing line should show until its finished
-		$('#compatibilitytype0').css('display', 'block');
     }
 
     /**
