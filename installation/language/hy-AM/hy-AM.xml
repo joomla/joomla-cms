@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Armenian (hy-AM)</name>
 	<version>3.7.4</version>
-	<creationDate>Jun 2015</creationDate>
+	<creationDate>2007-05-19</creationDate>
 	<author>Andrey Aleksanyants</author>
-	<copyright>(C) 2015 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>hy-AM.ini</filename>

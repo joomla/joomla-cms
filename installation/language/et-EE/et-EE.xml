@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Estonian</name>
 	<version>3.6.3</version>
-	<creationDate>Jan 2011</creationDate>
+	<creationDate>2009-03-11</creationDate>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2009 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>et-EE.ini</filename>
