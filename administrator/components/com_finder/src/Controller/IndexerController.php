@@ -39,6 +39,14 @@ class IndexerController extends BaseController
 	 */
 	public function start()
 	{
+		// Check for a valid token. If invalid, send a 403 with the error message.
+		if (!Session::checkToken('request'))
+		{
+			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			return;
+		}
+
 		$params = ComponentHelper::getParams('com_finder');
 
 		if ($params->get('enable_logging', '0'))
@@ -60,14 +68,6 @@ class IndexerController extends BaseController
 
 		// We don't want this form to be cached.
 		$this->app->allowCache(false);
-
-		// Check for a valid token. If invalid, send a 403 with the error message.
-		if (!Session::checkToken('request'))
-		{
-			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
-
-			return;
-		}
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -112,6 +112,14 @@ class IndexerController extends BaseController
 	 */
 	public function batch()
 	{
+		// Check for a valid token. If invalid, send a 403 with the error message.
+		if (!Session::checkToken('request'))
+		{
+			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			return;
+		}
+
 		$params = ComponentHelper::getParams('com_finder');
 
 		if ($params->get('enable_logging', '0'))
@@ -133,14 +141,6 @@ class IndexerController extends BaseController
 
 		// We don't want this form to be cached.
 		$this->app->allowCache(false);
-
-		// Check for a valid token. If invalid, send a 403 with the error message.
-		if (!Session::checkToken('request'))
-		{
-			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
-
-			return;
-		}
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -252,9 +252,6 @@ class IndexerController extends BaseController
 	 */
 	public function optimize()
 	{
-		// We don't want this form to be cached.
-		$this->app->allowCache(false);
-
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		if (!Session::checkToken('request'))
 		{
@@ -262,6 +259,9 @@ class IndexerController extends BaseController
 
 			return;
 		}
+
+		// We don't want this form to be cached.
+		$this->app->allowCache(false);
 
 		// Put in a buffer to silence noise.
 		ob_start();
