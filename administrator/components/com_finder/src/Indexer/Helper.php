@@ -56,17 +56,9 @@ class Helper
 	 */
 	public static function tokenize($input, $lang, $phrase = false)
 	{
-		static $cache, $tuplecount;
+		static $cache = [], $tuplecount;
 		static $multilingual;
 		static $defaultLanguage;
-
-		$store = md5($input . '::' . $lang . '::' . $phrase);
-
-		// Check if the string has been tokenized already.
-		if (isset($cache[$store]))
-		{
-			return $cache[$store];
-		}
 
 		if (!$tuplecount)
 		{
@@ -133,7 +125,18 @@ class Helper
 			// Create tokens from the terms.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
-				$tokens[] = new Token($terms[$i], $language->language);
+				$key = $lang . '::' . $terms[$i];
+
+				if (isset($cache[$key]))
+				{
+					$tokens[] = $cache[$key];
+				}
+				else
+				{
+					$token = new Token($terms[$i], $language->language);
+					$tokens[] = $token;
+					$cache[$key] = $token;
+				}
 			}
 
 			// Create multi-word phrase tokens from the individual words.
@@ -152,19 +155,37 @@ class Helper
 						}
 
 						$temp[] = $tokens[$i + $j]->term;
-						$token = new Token($temp, $language->language, $language->spacer);
-						$token->derived = true;
+						$key = $lang . '::' . implode('::', $temp);
 
-						// Add the token to the stack.
-						$tokens[] = $token;
+						if (isset($cache[$key]))
+						{
+							$tokens[] = $cache[$key];
+						}
+						else
+						{
+							$token = new Token($temp, $language->language, $language->spacer);
+							$token->derived = true;
+							$tokens[] = $token;
+							$cache[$key] = $token;
+						}
 					}
 				}
 			}
 		}
 
-		$cache[$store] = $tokens;
+		// Prevent the cache to fill up the memory
+		while (count($cache) > 2048)
+		{
+			/**
+			 * We want to cache the most common words/tokens. At the same time
+			 * we don't want to cache too much. The most common words will also
+			 * be early in the text, so we are dropping all terms/tokens which
+			 * have been cached later.
+			 */
+			array_pop($cache);
+		}
 
-		return $cache[$store];
+		return $tokens;
 	}
 
 	/**
