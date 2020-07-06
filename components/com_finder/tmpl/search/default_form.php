@@ -26,13 +26,6 @@ if ($this->params->get('show_autosuggest', 1))
 
 <form action="<?php echo Route::_($this->query->toUri()); ?>" method="get" class="js-finder-searchform">
 	<?php echo $this->getFields(); ?>
-
-	<?php if ($this->state->get('list.ordering') !== 'm.weight' && $this->state->get('list.raworder')) : ?>
-		<input type="hidden" name="o" value="<?php echo $this->escape($this->state->get('list.raworder')); ?>">
-	<?php endif; ?>
-	<?php if ($this->state->get('list.direction', 'DESC') !== 'DESC') : ?>
-		<input type="hidden" name="od" value="<?php echo $this->escape($this->state->get('list.direction')); ?>">
-	<?php endif; ?>
 	<fieldset class="com-finder__search word mb-3">
 		<div class="form-inline">
 			<label for="q" class="mr-2">
