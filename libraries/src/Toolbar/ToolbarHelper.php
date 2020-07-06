@@ -48,7 +48,7 @@ abstract class ToolbarHelper
             
 		if ($app->isClient('administrator'))
 		{
-            		$title .= ' - ' . Text::_('JADMINISTRATION');
+			$title .= ' - ' . Text::_('JADMINISTRATION');
 		}
 		
 		Factory::getDocument()->setTitle($title);
