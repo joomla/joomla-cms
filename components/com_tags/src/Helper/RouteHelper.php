@@ -11,6 +11,7 @@ namespace Joomla\Component\Tags\Site\Helper;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
@@ -153,7 +154,7 @@ class RouteHelper extends CMSRouteHelper
 	 */
 	protected static function _findItem($needles = null)
 	{
-		$app      = Factory::getApplication();
+		$app      = Factory::getContainer()->get(SiteApplication::class);
 		$menus    = $app->getMenu('site');
 		$language = $needles['language'] ?? '*';
 
