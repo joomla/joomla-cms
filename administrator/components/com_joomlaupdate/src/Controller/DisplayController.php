@@ -47,7 +47,7 @@ class DisplayController extends BaseController
 		if ($view = $this->getView($vName, $vFormat))
 		{
 			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
-			$view->ftp = &$ftp;
+			$view->set('ftp',$ftp);
 
 			// Get the model for the view.
 			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
