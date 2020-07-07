@@ -73,12 +73,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
 
-// Load JavaScript message titles
-Text::script('ERROR');
-Text::script('WARNING');
-Text::script('NOTICE');
-Text::script('MESSAGE');
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
