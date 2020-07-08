@@ -62,6 +62,7 @@ $workflow_featured = false;
 
 if ($workflow_enabled) :
 
+// @todo move the script to a file
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
@@ -76,10 +77,12 @@ $js = <<<JS
 })();
 JS;
 
-// @todo move the script to a file
-$this->document->addScriptDeclaration($js);
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
 
-HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+$wa->getRegistry()->addExtensionRegistryFile('com_workflow');
+$wa->useScript('com_workflow.admin-items-workflow-buttons')
+	->addInlineScript($js, [], ['type' => 'module']);
 
 $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
 $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
@@ -115,7 +118,7 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
 								</th>
 								<?php if ($workflow_enabled) : ?>
 								<th scope="col" class="w-1 text-center">

@@ -15,8 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Api\Helper\ContentHelper;
 use Joomla\Component\Content\Api\Serializer\ContentSerializer;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Registry\Registry;
 
 /**
  * The article view
@@ -43,6 +45,7 @@ class JsonapiView extends BaseApiView
 		'category',
 		'created',
 		'author',
+		'images',
 	];
 
 	/**
@@ -63,6 +66,7 @@ class JsonapiView extends BaseApiView
 		'category',
 		'created',
 		'author',
+		'images',
 	];
 
 	/**
@@ -187,6 +191,22 @@ class JsonapiView extends BaseApiView
 		else
 		{
 			$item->tags = [];
+		}
+
+		if (isset($item->images))
+		{
+			$registry = new Registry($item->images);
+			$item->images = $registry->toArray();
+
+			if (!empty($item->images['image_intro']))
+			{
+				$item->images['image_intro'] = ContentHelper::resolve($item->images['image_intro']);
+			}
+
+			if (!empty($item->images['image_fulltext']))
+			{
+				$item->images['image_fulltext'] = ContentHelper::resolve($item->images['image_fulltext']);
+			}
 		}
 
 		return parent::prepareItem($item);

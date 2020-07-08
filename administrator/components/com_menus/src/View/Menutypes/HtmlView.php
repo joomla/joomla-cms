@@ -19,7 +19,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * The HTML Menus Menu Item TYpes View.
+ * The HTML Menus Menu Item Types View.
  *
  * @since  1.6
  */
@@ -101,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		// Cancel
 		$title = Text::_('JTOOLBAR_CANCEL');
 		$dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
-					<span class=\"icon-remove\" title=\"$title\"></span>
+					<span class=\"fas fa-times\" title=\"$title\"></span>
 					$title</button>";
 		$bar->appendButton('Custom', $dhtml, 'new');
 	}

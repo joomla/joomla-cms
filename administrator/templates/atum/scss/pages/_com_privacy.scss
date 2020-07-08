@@ -1,7 +1,8 @@
 // com-privacy
 
 .tbody-icon {
-  .icon-download {
+  .icon-download,
+  .fas fa-download {
     color: var(--success);
     border-color: var(--success);
   }
@@ -11,7 +12,8 @@
     border-color: var(--primary);
   }
 
-  .icon-delete {
+  .icon-delete,
+  .fa-times {
     color: var(--danger);
     border-color: var(--danger);
   }

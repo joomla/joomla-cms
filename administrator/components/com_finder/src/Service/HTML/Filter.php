@@ -467,7 +467,9 @@ class Filter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				HTMLHelper::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
+				/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+				$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+				$wa->useStyle('com_finder.dates');
 			}
 
 			// Open the widget.
