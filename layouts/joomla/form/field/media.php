@@ -107,7 +107,7 @@ $url    = ($readonly ? ''
 		. $asset . '&amp;author=' . $authorId)
 	. '&amp;fieldid={field-media-id}&amp;path=local-0:/' . $folder);
 
-// Correctly route the url to ensure its correctly using sef modes and subfolders
+// Correctly route the url to ensure it's correctly using sef modes and subfolders
 $url = Route::_($url);
 
 Factory::getDocument()->getWebAssetManager()
