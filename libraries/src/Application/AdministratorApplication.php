@@ -421,7 +421,7 @@ class AdministratorApplication extends CMSApplication
 		// Safety check for when configuration.php root_user is in use.
 		$rootUser = $this->get('root_user');
 
-		if (property_exists('\JConfig', 'root_user'))
+		if ($rootUser && property_exists('\JConfig', 'root_user'))
 		{
 			if (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser)
 			{
