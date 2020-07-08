@@ -34,6 +34,8 @@ class CompareModel extends ListModel
 	 * @return  array|boolean    On success, array of populated tables. False on failure.
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  NotAllowed   Thrown if not authorised to edit an item
 	 */
 	public function getItems()
 	{

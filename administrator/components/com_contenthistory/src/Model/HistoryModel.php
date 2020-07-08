@@ -203,6 +203,8 @@ class HistoryModel extends ListModel
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
 	 * @since   3.4.5
+	 *
+	 * @throws  NotAllowed   Thrown if not authorised to edit an item
 	 */
 	public function getItems()
 	{

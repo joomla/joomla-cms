@@ -16,6 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 
@@ -34,10 +36,12 @@ class PreviewModel extends ItemModel
 	 * @return  \stdClass|boolean    On success, standard object with row data. False on failure.
 	 *
 	 * @since   3.2
+	 *
+	 * @throws  NotAllowed   Thrown if not authorised to edit an item
 	 */
 	public function getItem($pk = null)
 	{
-		/** @var \Joomla\CMS\Table\ContentHistory $table */
+		/** @var ContentHistory $table */
 		$table = $this->getTable('ContentHistory');
 		$versionId = Factory::getApplication()->input->getInt('version_id');
 
@@ -109,7 +113,7 @@ class PreviewModel extends ItemModel
 	/**
 	 * Method to test whether a record is editable
 	 *
-	 * @param   \Joomla\CMS\Table\ContentHistory  $record  A Table object.
+	 * @param   ContentHistory  $record  A Table object.
 	 *
 	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *
