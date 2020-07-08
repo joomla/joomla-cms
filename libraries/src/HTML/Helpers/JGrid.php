@@ -118,6 +118,10 @@ abstract class JGrid
 			{
 				$active_class = 'fas fa-star featured';
 			}
+			elseif ($active_class === 'refresh')
+			{
+				$active_class = 'fas fa-sync';
+			}
 			else
 			{
 				$active_class = 'icon-' . $active_class;
@@ -166,6 +170,10 @@ abstract class JGrid
 				elseif ($inactive_class === 'featured')
 				{
 					$inactive_class = 'fas fa-star featured';
+				}
+				elseif ($inactive_class === 'refresh')
+				{
+					$inactive_class = 'fas fa-sync';
 				}
 				else
 				{
