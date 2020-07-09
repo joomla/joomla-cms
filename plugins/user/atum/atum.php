@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
@@ -60,5 +62,57 @@ class PlgUserAtum extends CMSPlugin
 		$form->loadFile('params');
 
 		return true;
+	}
+
+	/**
+	 * Registers methods for rendering form value.
+	 *
+	 * @param   string  $context  The context for the data
+	 * @param   object  $data     An object containing the data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onContentPrepareData($context, $data)
+	{
+		if (!in_array($context, ['com_admin.profile', 'com_users.user', 'com_users.profile'], true))
+		{
+			return true;
+		}
+
+		// Load language files.
+		$this->loadLanguage();
+
+		$fields = ['monochrome', 'contrast', 'highlight', 'fontsize'];
+
+		foreach ($fields as $field)
+		{
+			if (!HTMLHelper::isRegistered('users.jform_params_atum_' . $field))
+			{
+				HTMLHelper::register('users.jform_params_atum_' . $field, [__CLASS__, 'renderValue']);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Renders a value.
+	 *
+	 * @param   integer|string  $value  The value (0 or 1 or empty string if not set).
+	 *
+	 * @return  string  The rendered value.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function renderValue($value)
+	{
+		if ($value === '')
+		{
+			return Text::_('PLG_USER_ATUM_DEFAULT_VALUE');
+		}
+
+		return Text::_($value ? 'JYES' : 'JNO');
 	}
 }
