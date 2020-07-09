@@ -35,7 +35,7 @@ foreach ($this->items as $item)
 
 $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_menus.admin-menus');
 

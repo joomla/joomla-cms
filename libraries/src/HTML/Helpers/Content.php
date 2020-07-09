@@ -61,10 +61,10 @@ abstract class Content
 	 */
 	public static function months($state)
 	{
-		/** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
+		/* @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
 		$contentComponent = Factory::getApplication()->bootComponent('com_content');
 
-		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
+		/* @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
 		$model = $contentComponent->getMVCFactory()
 			->createModel('Articles', 'Site', ['ignore_request' => true]);
 

@@ -13,9 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-?>
-
-<?php if (!empty($displayData['item']->associations)) : ?>
+if (!empty($displayData['item']->associations)) : ?>
 <?php $associations = $displayData['item']->associations; ?>
 
 <dd class="association">

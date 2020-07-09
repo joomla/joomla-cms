@@ -77,7 +77,7 @@ class CategoriesController extends AdminController
 		$extension = $this->input->get('extension');
 		$this->setRedirect(Route::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
 
-		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
+		/* @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
 		$model = $this->getModel();
 
 		if ($model->rebuild())

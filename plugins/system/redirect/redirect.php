@@ -69,7 +69,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 	 */
 	public function handleError(ErrorEvent $event)
 	{
-		/** @var \Joomla\CMS\Application\CMSApplication $app */
+		/* @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = $event->getApplication();
 
 		if ($app->isClient('administrator') || ((int) $event->getError()->getCode() !== 404))

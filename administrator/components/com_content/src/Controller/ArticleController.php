@@ -174,7 +174,7 @@ class ArticleController extends FormController
 		$this->checkToken();
 
 		// Set the model
-		/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+		/* @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
 		$model = $this->getModel('Article', 'Administrator', array());
 
 		// Preset the redirect

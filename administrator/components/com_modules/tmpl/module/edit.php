@@ -37,7 +37,7 @@ Text::script('JTRASHED');
 
 $this->document->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('form.validate')

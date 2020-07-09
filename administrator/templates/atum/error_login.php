@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var \Joomla\CMS\Document\HtmlDocument $this */
+/* @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
 $input = $app->input;

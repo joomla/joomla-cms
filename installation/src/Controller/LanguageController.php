@@ -87,7 +87,7 @@ class LanguageController extends JSONController
 
 		$app = $this->app;
 
-		/** @var \Joomla\CMS\Installation\Model\LanguagesModel $model */
+		/* @var \Joomla\CMS\Installation\Model\LanguagesModel $model */
 		$model = $this->getModel('Languages');
 
 		// Check for request forgeries in the administrator language

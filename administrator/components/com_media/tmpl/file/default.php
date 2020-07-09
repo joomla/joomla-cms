@@ -17,7 +17,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('form.validate')
@@ -26,7 +26,7 @@ $wa->useScript('keepalive')
 
 $params = ComponentHelper::getParams('com_media');
 
-/** @var \Joomla\CMS\Form\Form $form */
+/* @var \Joomla\CMS\Form\Form $form */
 $form = $this->form;
 
 $tmpl = Factory::getApplication()->input->getCmd('tmpl');

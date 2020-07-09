@@ -119,7 +119,7 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayListTypes()
 	{
-		/** @var \Joomla\Component\Menus\Administrator\Model\MenutypesModel $model */
+		/* @var \Joomla\Component\Menus\Administrator\Model\MenutypesModel $model */
 		$model = $this->getModel();
 		$items = [];
 

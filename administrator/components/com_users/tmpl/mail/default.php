@@ -18,7 +18,7 @@ Text::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT', true);
 Text::script('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP', true);
 Text::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE', true);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_users.admin-users-mail');
 

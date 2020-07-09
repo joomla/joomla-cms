@@ -114,7 +114,7 @@ class DisplayController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		/** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+		/* @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
 		$model      = $this->getModel('cache');
 		$allCleared = true;
 

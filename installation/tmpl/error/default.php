@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var \Joomla\CMS\Installation\View\Error\HtmlView $this */
+/* @var \Joomla\CMS\Installation\View\Error\HtmlView $this */
 ?>
 
 <h3>error</h3>

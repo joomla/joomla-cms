@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var Joomla\CMS\Document\HtmlDocument $this */
+/* @var Joomla\CMS\Document\HtmlDocument $this */
 
 $app = Factory::getApplication();
 $wa  = $this->getWebAssetManager();

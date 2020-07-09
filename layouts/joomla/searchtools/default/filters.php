@@ -17,7 +17,7 @@ $data = $displayData;
 // Load the form filters
 $filters = $data['view']->filterForm->getGroup('filter');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 ?>

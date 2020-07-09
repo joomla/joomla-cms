@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
+/* @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
 ?>
 <button type="button" class="btn btn-secondary" onclick="document.getElementById('batch-category-id').value='';document.getElementById('batch-client-id').value='';document.getElementById('batch-language-id').value=''" data-dismiss="modal">

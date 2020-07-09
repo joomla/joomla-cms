@@ -62,7 +62,7 @@ class ContactsController extends AdminController
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
 		// Get the model.
-		/** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
+		/* @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
 		$model  = $this->getModel();
 
 		// Access checks.

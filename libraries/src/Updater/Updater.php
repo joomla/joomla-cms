@@ -169,7 +169,7 @@ class Updater extends \JAdapter
 			{
 				$retval = true;
 
-				/** @var \Joomla\CMS\Table\Update $update */
+				/* @var \Joomla\CMS\Table\Update $update */
 				foreach ($updateObjects as $update)
 				{
 					$update->check();
@@ -305,15 +305,15 @@ class Updater extends \JAdapter
 
 			if (\array_key_exists('updates', $update_result) && \count($update_result['updates']))
 			{
-				/** @var \Joomla\CMS\Table\Update $current_update */
+				/* @var \Joomla\CMS\Table\Update $current_update */
 				foreach ($update_result['updates'] as $current_update)
 				{
 					$current_update->extra_query = $updateSite['extra_query'];
 
-					/** @var \Joomla\CMS\Table\Update $update */
+					/* @var \Joomla\CMS\Table\Update $update */
 					$update = Table::getInstance('update');
 
-					/** @var \Joomla\CMS\Table\Extension $extension */
+					/* @var \Joomla\CMS\Table\Extension $extension */
 					$extension = Table::getInstance('extension');
 
 					$uid = $update

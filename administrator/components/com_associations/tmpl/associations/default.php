@@ -18,7 +18,7 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_associations.admin-associations-default');
 

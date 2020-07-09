@@ -24,7 +24,7 @@ $lang      = Factory::getLanguage();
 Text::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_finder.index');
 

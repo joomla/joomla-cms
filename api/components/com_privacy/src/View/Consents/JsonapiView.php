@@ -80,7 +80,7 @@ class JsonapiView extends BaseApiView
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ITEMID_MISSING'));
 		}
 
-		/** @var \Joomla\CMS\MVC\Model\ListModel $model */
+		/* @var \Joomla\CMS\MVC\Model\ListModel $model */
 		$model       = $this->getModel();
 		$displayItem = null;
 

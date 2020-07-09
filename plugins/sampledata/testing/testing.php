@@ -112,7 +112,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		/** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
+		/* @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
 		$model = $this->app->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
 		$user   = Factory::getUser();
@@ -222,10 +222,10 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$factory = $this->app->bootComponent('com_banners')->getMVCFactory();
 
-		/** @var Joomla\Component\Banners\Administrator\Model\ClientModel $clientModel */
+		/* @var Joomla\Component\Banners\Administrator\Model\ClientModel $clientModel */
 		$clientModel = $factory->createModel('Client', 'Administrator', ['ignore_request' => true]);
 
-		/** @var Joomla\Component\Banners\Administrator\Model\BannerModel $bannerModel */
+		/* @var Joomla\Component\Banners\Administrator\Model\BannerModel $bannerModel */
 		$bannerModel = $factory->createModel('Banner', 'Administrator', ['ignore_request' => true]);
 
 		$user = Factory::getUser();
@@ -1402,7 +1402,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		/** @var \Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel $model */
+		/* @var \Joomla\Component\Newsfeeds\Administrator\Model\NewsfeedModel $model */
 		$model  = $this->app->bootComponent('com_newsfeeds')->getMVCFactory()->createModel('Newsfeed', 'Administrator', ['ignore_request' => true]);
 		$access = (int) $this->app->get('access', 1);
 		$user   = Factory::getUser();
@@ -1530,7 +1530,7 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
-		/** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
+		/* @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
 		$factory = $this->app->bootComponent('com_menus')->getMVCFactory();
 		$model = $factory->createModel('Menu', 'Administrator', ['ignore_request' => true]);
 		$modelItem = $factory->createModel('Item', 'Administrator', ['ignore_request' => true]);
@@ -4628,7 +4628,7 @@ class PlgSampledataTesting extends CMSPlugin
 
 		foreach ($articles as $i => $article)
 		{
-			/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+			/* @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
 			$model = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
 
 			// Set values from language strings.

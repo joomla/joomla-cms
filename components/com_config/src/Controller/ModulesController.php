@@ -113,7 +113,7 @@ class ModulesController extends BaseController
 		$app->loadDocument($document);
 		$app->loadIdentity($user);
 
-		/** @var \Joomla\CMS\Dispatcher\ComponentDispatcher $dispatcher */
+		/* @var \Joomla\CMS\Dispatcher\ComponentDispatcher $dispatcher */
 		$dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
 
 		/** @var ModuleController $controllerClass */

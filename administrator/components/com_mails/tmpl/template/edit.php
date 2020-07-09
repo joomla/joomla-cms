@@ -19,7 +19,7 @@ use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
 $app = Factory::getApplication();
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('form.validate')

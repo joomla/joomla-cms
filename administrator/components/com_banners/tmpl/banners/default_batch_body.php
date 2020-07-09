@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
+/* @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
 $published = $this->state->get('filter.published');
 ?>

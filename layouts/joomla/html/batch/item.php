@@ -13,14 +13,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+extract($displayData);
+
 /**
  * Layout variables
- * ---------------------
- *
- * @var  string   $extension The extension name
+ * -----------------
+ * @var   string  $extension  The extension name
  */
-
-extract($displayData);
 
 // Create the copy/move options.
 $options = array(
@@ -28,7 +27,7 @@ $options = array(
 	HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 );
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('joomla.batch-language');
 

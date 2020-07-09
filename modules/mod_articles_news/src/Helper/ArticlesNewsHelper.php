@@ -41,7 +41,7 @@ abstract class ArticlesNewsHelper
 	{
 		$app = Factory::getApplication();
 
-		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
+		/* @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
 		$model = $app->bootComponent('com_content')
 			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 

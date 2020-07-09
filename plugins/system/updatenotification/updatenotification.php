@@ -77,7 +77,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		// Get the timeout for Joomla! updates, as configured in com_installer's component parameters
 		$component = ComponentHelper::getComponent('com_installer');
 
-		/** @var \Joomla\Registry\Registry $params */
+		/* @var \Joomla\Registry\Registry $params */
 		$params        = $component->getParams();
 		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;

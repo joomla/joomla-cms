@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
+/* @var \Joomla\Component\Admin\Administrator\View\Help\HtmlView $this */
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">

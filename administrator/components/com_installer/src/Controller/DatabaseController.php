@@ -56,7 +56,7 @@ class DatabaseController extends BaseController
 			$model = $this->getModel('Database');
 			$model->fix($cid);
 
-			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $updateModel */
+			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $updateModel */
 			$updateModel = $this->app->bootComponent('com_joomlaupdate')
 				->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 			$updateModel->purge();

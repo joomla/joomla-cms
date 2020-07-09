@@ -12,13 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-/**
- * Layout variables
- * ---------------------
- *
- * none
- */
-
 ?>
 <label id="batch-access-lbl" for="batch-access">
 	<?php echo Text::_('JLIB_HTML_BATCH_ACCESS_LABEL'); ?>
@@ -31,4 +24,4 @@ use Joomla\CMS\Language\Text;
 			'title' => Text::_('JLIB_HTML_BATCH_NOCHANGE'),
 			'id'    => 'batch-access'
 		)
-	); ?>
+	);

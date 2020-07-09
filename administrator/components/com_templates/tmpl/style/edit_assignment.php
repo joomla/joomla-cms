@@ -18,7 +18,7 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 $menuTypes = MenusHelper::getMenuLinks();
 $user      = Factory::getUser();
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_templates.admin-template-toggle-assignment');
 

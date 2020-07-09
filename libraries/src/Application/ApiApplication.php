@@ -247,7 +247,7 @@ final class ApiApplication extends CMSApplication
 			throw new Exception\NotAcceptable('Could not match accept header', 406);
 		}
 
-		/** @var $mediaType Accept */
+		/* @var $mediaType Accept */
 		$format = $mediaType->getValue();
 
 		if (\array_key_exists($mediaType->getValue(), $this->formatMapper))

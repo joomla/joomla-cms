@@ -14,18 +14,21 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
-Factory::getDocument()->getWebAssetManager()
-	->useScript('core')
-	->useScript('webcomponent.toolbar-button');
+extract($displayData, EXTR_OVERWRITE);
 
 /**
- * @var  string  $id
- * @var  string  $itemId
- * @var  string  $typeId
- * @var  string  $typeAlias
- * @var  string  $title
+ * Layout variables
+ * -----------------
+ * @var   string  $id
+ * @var   string  $itemId
+ * @var   string  $typeId
+ * @var   string  $typeAlias
+ * @var   string  $title
  */
-extract($displayData, EXTR_OVERWRITE);
+
+Factory::getDocument()->getWebAssetManager()
+		->useScript('core')
+		->useScript('webcomponent.toolbar-button');
 
 echo HTMLHelper::_(
 	'bootstrap.renderModal',

@@ -16,8 +16,7 @@ use Joomla\Registry\Registry;
 
 $authorised = Factory::getUser()->getAuthorisedViewLevels();
 
-?>
-<?php if (!empty($displayData)) : ?>
+if (!empty($displayData)) : ?>
 	<ul class="tags list-inline">
 		<?php foreach ($displayData as $i => $tag) : ?>
 			<?php if (in_array($tag->access, $authorised)) : ?>

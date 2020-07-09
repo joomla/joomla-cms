@@ -62,7 +62,7 @@ class DisplayController extends BaseController
 		else
 		{
 			// Get the model.
-			/** @var \Joomla\Component\Checkin\Administrator\Model\CheckinModel $model */
+			/* @var \Joomla\Component\Checkin\Administrator\Model\CheckinModel $model */
 			$model = $this->getModel('Checkin');
 
 			// Checked in the items.

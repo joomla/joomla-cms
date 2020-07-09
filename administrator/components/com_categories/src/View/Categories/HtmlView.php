@@ -174,7 +174,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Load specific css component
-		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		/* @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = $this->document->getWebAssetManager();
 		$wa->getRegistry()->addExtensionRegistryFile($component);
 

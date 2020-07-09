@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
+/* @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
 
 ?>
 <div class="sysinfo">

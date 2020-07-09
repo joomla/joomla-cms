@@ -12,22 +12,25 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
 
-Factory::getDocument()->getWebAssetManager()
-	->useScript('core')
-	->useScript('webcomponent.toolbar-button');
+extract($displayData, EXTR_OVERWRITE);
 
 /**
- * @var  int     $id
- * @var  string  $name
- * @var  string  $doTask
- * @var  string  $class
- * @var  string  $text
- * @var  string  $btnClass
- * @var  string  $tagName
- * @var  bool    $listCheck
- * @var  string  $htmlAttributes
+ * Layout variables
+ * -----------------
+ * @var   int     $id
+ * @var   string  $name
+ * @var   string  $doTask
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   bool    $listCheck
+ * @var   string  $htmlAttributes
  */
-extract($displayData, EXTR_OVERWRITE);
+
+Factory::getDocument()->getWebAssetManager()
+		->useScript('core')
+		->useScript('webcomponent.toolbar-button');
 
 $tagName = $tagName ?? 'button';
 

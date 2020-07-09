@@ -60,10 +60,10 @@ class PlgInstallerOverride extends CMSPlugin
 	 */
 	public function getModel($name = 'Template', $prefix = 'Administrator')
 	{
-		/** @var \Joomla\Component\Templates\Administrator\Extension\TemplatesComponent $templateProvider */
+		/* @var \Joomla\Component\Templates\Administrator\Extension\TemplatesComponent $templateProvider */
 		$templateProvider = $this->app->bootComponent('com_templates');
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $templateProvider->getMVCFactory()->createModel($name, $prefix);
 
 		return $model;
@@ -166,7 +166,7 @@ class PlgInstallerOverride extends CMSPlugin
 	{
 		try
 		{
-			/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $templateModel */
+			/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $templateModel */
 			$templateModel = $this->getModel();
 		}
 		catch (\Exception $e)

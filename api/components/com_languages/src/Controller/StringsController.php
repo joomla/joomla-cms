@@ -72,7 +72,7 @@ class StringsController extends ApiController
 
 		try
 		{
-			/** @var \Joomla\Component\Languages\Api\View\Strings\JsonapiView $view */
+			/* @var \Joomla\Component\Languages\Api\View\Strings\JsonapiView $view */
 			$view = $this->getView(
 				$viewName,
 				$viewType,
@@ -85,7 +85,7 @@ class StringsController extends ApiController
 			throw new \RuntimeException($e->getMessage());
 		}
 
-		/** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
+		/* @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
 		$model = $this->getModel($this->contentType, '', ['ignore_request' => true]);
 
 		if (!$model)
@@ -112,7 +112,7 @@ class StringsController extends ApiController
 	 */
 	public function refresh()
 	{
-		/** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
+		/* @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
 		$model = $this->getModel($this->contentType, '', ['ignore_request' => true]);
 
 		if (!$model)

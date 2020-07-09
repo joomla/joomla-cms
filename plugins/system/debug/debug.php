@@ -150,7 +150,7 @@ class PlgSystemDebug extends CMSPlugin
 		ob_start();
 		ob_implicit_flush(false);
 
-		/** @var \Joomla\Database\Monitor\DebugMonitor */
+		/* @var \Joomla\Database\Monitor\DebugMonitor */
 		$this->queryMonitor = $this->db->getMonitor();
 
 		if (!$this->params->get('queries', 1))

@@ -148,7 +148,7 @@ class TemplateController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+		/* @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel();
 		$data  = $this->input->post->get('jform', array(), 'array');
 		$context = "$this->option.edit.$this->context";

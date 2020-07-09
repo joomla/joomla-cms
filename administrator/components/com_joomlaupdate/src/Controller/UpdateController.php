@@ -54,7 +54,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model  = $this->getModel('Update');
 		$result = $model->download();
 		$file   = $result['basename'];
@@ -130,7 +130,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
@@ -174,7 +174,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$model->finaliseUpgrade();
@@ -218,7 +218,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		$model->cleanUp();
@@ -249,7 +249,7 @@ class UpdateController extends BaseController
 		$this->checkToken();
 
 		// Purge updates
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 		$model->purge();
 
@@ -274,7 +274,7 @@ class UpdateController extends BaseController
 
 		$this->_applyCredentials();
 
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		try
@@ -342,7 +342,7 @@ class UpdateController extends BaseController
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		// Get the captive file before the session resets
@@ -411,7 +411,7 @@ class UpdateController extends BaseController
 		if ($view = $this->getView($vName, $vFormat))
 		{
 			// Get the model for the view.
-			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
 			// Push the model into the view (as default).
@@ -472,7 +472,7 @@ class UpdateController extends BaseController
 		}
 
 		// Get the model
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 
 		// Try to log in
@@ -511,7 +511,7 @@ class UpdateController extends BaseController
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
 
-		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 		$compatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 

@@ -108,7 +108,7 @@ class JsonapiView extends BaseApiView
 	{
 		if ($item === null)
 		{
-			/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+			/* @var \Joomla\CMS\MVC\Model\AdminModel $model */
 			$model = $this->getModel();
 			$item  = $this->prepareItem($model->getItem());
 		}

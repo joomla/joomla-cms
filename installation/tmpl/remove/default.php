@@ -14,7 +14,7 @@ use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.formvalidator');
 
-/** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
+/* @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
 ?>
 <div id="installer-view" data-page-name="remove">
 

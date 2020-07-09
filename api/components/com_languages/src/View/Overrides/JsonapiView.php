@@ -47,7 +47,7 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayItem($item = null)
 	{
-		/** @var \Joomla\Component\Languages\Administrator\Model\OverrideModel $model */
+		/* @var \Joomla\Component\Languages\Administrator\Model\OverrideModel $model */
 		$model = $this->getModel();
 		$id    = $model->getState($model->getName() . '.id');
 		$item  = $this->prepareItem($model->getItem($id));
@@ -65,7 +65,7 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayList(array $items = null)
 	{
-		/** @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
+		/* @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
 		$model = $this->getModel();
 		$items = [];
 

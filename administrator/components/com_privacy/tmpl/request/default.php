@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
-/** @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
+/* @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');

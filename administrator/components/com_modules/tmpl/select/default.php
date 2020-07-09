@@ -18,7 +18,7 @@ $app = Factory::getApplication();
 
 $function  = $app->input->getCmd('function');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_modules.admin-module-search');
 

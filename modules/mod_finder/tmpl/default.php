@@ -43,7 +43,7 @@ else
 	$output .= $input;
 }
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_finder');
 $wa->useScript('com_finder.finder');

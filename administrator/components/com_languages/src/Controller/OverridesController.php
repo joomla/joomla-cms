@@ -80,7 +80,7 @@ class OverridesController extends AdminController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/** @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
+		/* @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
 		$model = $this->getModel('overrides');
 		$model->purge();
 		$this->setRedirect(Route::_('index.php?option=com_languages&view=overrides', false));

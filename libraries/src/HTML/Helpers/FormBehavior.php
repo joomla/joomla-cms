@@ -93,7 +93,7 @@ abstract class FormBehavior
 
 		// Add chosen.js assets
 
-		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		/* @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 		$wa->usePreset('chosen')
 			->registerAndUseScript('joomla-chosen', 'legacy/joomla-chosen.min.js', [], [], ['chosen'])

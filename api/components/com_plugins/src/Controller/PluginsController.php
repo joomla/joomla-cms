@@ -68,7 +68,7 @@ class PluginsController extends ApiController
 			}
 		}
 
-		/** @var \Joomla\Component\Plugins\Administrator\Model\PluginModel $model */
+		/* @var \Joomla\Component\Plugins\Administrator\Model\PluginModel $model */
 		$model = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
 
 		if (!$model)

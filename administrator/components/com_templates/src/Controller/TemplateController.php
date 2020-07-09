@@ -222,7 +222,7 @@ class TemplateController extends BaseController
 			// Call installation model
 			$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
-			/** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $installModel */
+			/* @var \Joomla\Component\Installer\Administrator\Model\InstallModel $installModel */
 			$installModel = $this->app->bootComponent('com_installer')
 				->getMVCFactory()->createModel('Install', 'Administrator');
 			$this->app->getLanguage()->load('com_installer');
@@ -286,7 +286,7 @@ class TemplateController extends BaseController
 		$data         = $this->input->post->get('jform', array(), 'array');
 		$task         = $this->getTask();
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model        = $this->getModel();
 		$fileName     = $this->input->get('file');
 		$explodeArray = explode(':', base64_decode($fileName));
@@ -580,7 +580,7 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
 		$file     = $this->input->get('file');
@@ -627,7 +627,7 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
 		$file     = $this->input->get('file');
@@ -679,7 +679,7 @@ class TemplateController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model   = $this->getModel();
 		$id      = $this->input->get('id');
 		$file    = $this->input->get('file');
@@ -738,7 +738,7 @@ class TemplateController extends BaseController
 		$w     = $this->input->get('w');
 		$h     = $this->input->get('h');
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
 
 		// Access check.
@@ -786,7 +786,7 @@ class TemplateController extends BaseController
 		$width  = $this->input->get('width');
 		$height = $this->input->get('height');
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model  = $this->getModel();
 
 		// Access check.
@@ -828,7 +828,7 @@ class TemplateController extends BaseController
 		$newName  = $this->input->get('new_name');
 		$location = base64_decode($this->input->get('address'));
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 
 		// Access check.
@@ -873,7 +873,7 @@ class TemplateController extends BaseController
 		$id    = $this->input->get('id');
 		$file  = $this->input->get('file');
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
 
 		// Access check.
@@ -927,7 +927,7 @@ class TemplateController extends BaseController
 			$app->close();
 		}
 
-		/** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
 
 		$result = $model->getUpdatedList(true, true);

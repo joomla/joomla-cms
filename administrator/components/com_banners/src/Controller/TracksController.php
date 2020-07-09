@@ -59,7 +59,7 @@ class TracksController extends BaseController
 		$this->checkToken();
 
 		// Get the model.
-		/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
+		/* @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 		$model = $this->getModel();
 
 		// Load the filter state.
@@ -110,7 +110,7 @@ class TracksController extends BaseController
 		if ($view = $this->getView($vName, 'raw'))
 		{
 			// Get the model for the view.
-			/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
+			/* @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 			$model = $this->getModel($vName);
 
 			// Load the filter state.

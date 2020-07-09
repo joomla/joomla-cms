@@ -70,7 +70,7 @@ if ($count)
 	// Load stylesheet and javascript to head:
 	HTMLHelper::_('bootstrap.popover');
 
-	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 	$wa->usePreset('joomla.frontediting');
 }

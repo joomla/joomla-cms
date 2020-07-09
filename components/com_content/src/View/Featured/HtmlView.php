@@ -122,7 +122,7 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		/** @var \Joomla\Registry\Registry $params */
+		/* @var \Joomla\Registry\Registry $params */
 		$params = &$state->params;
 
 		// PREPARE THE DATA

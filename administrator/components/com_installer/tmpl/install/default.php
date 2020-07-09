@@ -25,7 +25,7 @@ Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
 Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->usePreset('com_installer.installer')

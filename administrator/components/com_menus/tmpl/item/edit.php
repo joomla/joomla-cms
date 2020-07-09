@@ -23,7 +23,7 @@ Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
 $this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('form.validate')

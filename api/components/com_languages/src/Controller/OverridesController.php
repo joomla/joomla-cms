@@ -84,7 +84,7 @@ class OverridesController extends ApiController
 	 */
 	protected function save($recordKey = null)
 	{
-		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+		/* @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel(Inflector::singularize($this->contentType));
 
 		$model->setState('filter.language', $this->input->post->get('lang_code'));

@@ -501,7 +501,7 @@ class User extends CMSObject
 	public function setLastVisit($timestamp = null)
 	{
 		// Create the user table object
-		/** @var \Joomla\CMS\Table\User $table */
+		/* @var \Joomla\CMS\Table\User $table */
 		$table = $this->getTable();
 		$table->load($this->id);
 

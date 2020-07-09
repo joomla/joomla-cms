@@ -20,7 +20,7 @@ foreach ($this->levels as $key => $value)
 
 $this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useStyle('com_menus.admin-item-edit-modules')
 	->useScript('com_menus.admin-item-edit-modules');

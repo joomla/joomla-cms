@@ -111,7 +111,7 @@ abstract class JsonApiView extends JsonView
 	 */
 	public function displayList(array $items = null)
 	{
-		/** @var \Joomla\CMS\MVC\Model\ListModel $model */
+		/* @var \Joomla\CMS\MVC\Model\ListModel $model */
 		$model = $this->getModel();
 
 		// Get page query
@@ -217,7 +217,7 @@ abstract class JsonApiView extends JsonView
 	{
 		if ($item === null)
 		{
-			/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+			/* @var \Joomla\CMS\MVC\Model\AdminModel $model */
 			$model = $this->getModel();
 			$item  = $this->prepareItem($model->getItem());
 		}

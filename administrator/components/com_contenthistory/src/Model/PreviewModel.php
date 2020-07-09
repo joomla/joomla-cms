@@ -36,7 +36,7 @@ class PreviewModel extends ItemModel
 	 */
 	public function getItem($pk = null)
 	{
-		/** @var \Joomla\CMS\Table\ContentHistory $table */
+		/* @var \Joomla\CMS\Table\ContentHistory $table */
 		$table = $this->getTable('ContentHistory');
 		$versionId = Factory::getApplication()->input->getInt('version_id');
 

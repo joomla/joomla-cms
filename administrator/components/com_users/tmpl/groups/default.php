@@ -24,7 +24,7 @@ $listDirn    = $this->escape($this->state->get('list.direction'));
 
 Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_users.admin-users-groups');
 

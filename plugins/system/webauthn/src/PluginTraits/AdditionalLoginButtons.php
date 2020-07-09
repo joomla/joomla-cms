@@ -175,7 +175,7 @@ trait AdditionalLoginButtons
 		// Set the "don't load again" flag
 		$this->injectedCSSandJS = true;
 
-		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		/* @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 		if (!$wa->assetExists('style', 'plg_system_webauthn.button'))

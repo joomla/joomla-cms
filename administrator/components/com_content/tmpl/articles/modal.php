@@ -27,7 +27,7 @@ if ($app->isClient('site'))
 
 HTMLHelper::_('behavior.multiselect');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->useScript('com_content.admin-articles-modal');

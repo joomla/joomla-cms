@@ -16,7 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\Component\Banners\Administrator\View\Clients\HtmlView $this */
+/* @var \Joomla\Component\Banners\Administrator\View\Clients\HtmlView $this */
 
 HTMLHelper::_('behavior.multiselect');
 

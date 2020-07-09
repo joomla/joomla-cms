@@ -18,7 +18,7 @@ use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa    = $this->document->getWebAssetManager();
 $input = Factory::getApplication()->input;
 

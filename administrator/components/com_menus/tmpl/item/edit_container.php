@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('joomla.treeselectmenu')
 	->useStyle('com_menus.admin-item-edit-container')

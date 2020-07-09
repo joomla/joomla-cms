@@ -16,14 +16,14 @@ extract($displayData);
 /**
  * Layout variables
  * ---------------------
- *    $options         : (array)  Optional parameters
- *    $label           : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
- *    $input           : (string) The input field html code
+ * @var   array   $options  Optional parameters
+ * @var   string  $label    The html code for the label (not required if $options['hiddenLabel'] is true)
+ * @var   string  $input    The input field html code
  */
 
 if (!empty($options['showonEnabled']))
 {
-	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 	$wa->useScript('showon');
 }

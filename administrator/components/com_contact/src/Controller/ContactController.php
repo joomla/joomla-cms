@@ -100,7 +100,7 @@ class ContactController extends FormController
 		$this->checkToken();
 
 		// Set the model
-		/** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
+		/* @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
 		$model = $this->getModel('Contact', 'Administrator', array());
 
 		// Preset the redirect

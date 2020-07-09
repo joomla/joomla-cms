@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
+extract($displayData, EXTR_OVERWRITE);
+
 /**
+ * Layout variables
+ * -----------------
  * @var  string  $action
  * @var  array   $options
  */
-extract($displayData, EXTR_OVERWRITE);
-?>
 
-<?php echo $action; ?>
+echo $action;

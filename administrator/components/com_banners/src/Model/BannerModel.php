@@ -77,7 +77,7 @@ class BannerModel extends AdminModel
 		// Set the variables
 		$user = Factory::getUser();
 
-		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
+		/* @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -257,7 +257,7 @@ class BannerModel extends AdminModel
 	 */
 	public function stick(&$pks, $value = 1)
 	{
-		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
+		/* @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 
@@ -406,7 +406,7 @@ class BannerModel extends AdminModel
 				'published' => 1,
 			];
 
-			/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+			/* @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
 			$categoryModel = Factory::getApplication()->bootComponent('com_categories')
 				->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
@@ -425,7 +425,7 @@ class BannerModel extends AdminModel
 		// Alter the name for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
+			/* @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
 			$origTable = clone $this->getTable();
 			$origTable->load($input->getInt('id'));
 

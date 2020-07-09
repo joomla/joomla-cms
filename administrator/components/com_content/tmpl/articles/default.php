@@ -77,7 +77,7 @@ $js = <<<JS
 })();
 JS;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 
 $wa->getRegistry()->addExtensionRegistryFile('com_workflow');

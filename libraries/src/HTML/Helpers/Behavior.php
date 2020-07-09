@@ -161,7 +161,7 @@ abstract class Behavior
 			return;
 		}
 
-		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 		$wa
@@ -229,7 +229,7 @@ abstract class Behavior
 			$scriptOptions = array('version' => 'auto', 'relative' => true);
 			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+			/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 			$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 			$wa->registerAndUseScript('polyfill.' . $polyfillType, 'vendor/polyfills/polyfill-' . $polyfillType . '.js', $scriptOptions);
 

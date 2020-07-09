@@ -17,7 +17,6 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- *
  * @var   string   $autocomplete    Autocomplete attribute for the field.
  * @var   boolean  $autofocus       Is autofocus enabled?
  * @var   string   $class           Classes for the input.
@@ -55,7 +54,7 @@ extract($displayData);
 if ($charcounter)
 {
 	// Load the js file
-	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 	$wa->useScript('short-and-sweet');
 

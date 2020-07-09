@@ -16,7 +16,7 @@ $doc       = $app->getDocument();
 $direction = $doc->direction === 'rtl' ? 'float-right' : '';
 $class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $doc->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_cpanel');
 $wa->useScript('metismenujs')

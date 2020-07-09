@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var Joomla\CMS\Document\HtmlDocument $this */
+/* @var Joomla\CMS\Document\HtmlDocument $this */
 
 // Styles
 $this->getWebAssetManager()->registerAndUseStyle('template.system.general', 'templates/system/css/general.css');

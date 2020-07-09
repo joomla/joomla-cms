@@ -731,7 +731,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				'published' => 1,
 			];
 
-			/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+			/* @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
 			$categoryModel = Factory::getApplication()->bootComponent('com_categories')
 				->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 

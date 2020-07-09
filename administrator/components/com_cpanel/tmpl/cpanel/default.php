@@ -24,7 +24,7 @@ Text::script('MESSAGE');
 Text::script('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS');
 Text::script('COM_CPANEL_UNPUBLISH_MODULE_ERROR');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_cpanel.admin-cpanel')
 	->useScript('com_cpanel.admin-addmodule');

@@ -23,7 +23,7 @@ Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 
 // Load the tooltip behavior.

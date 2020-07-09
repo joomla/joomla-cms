@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
- * @var  int     $id
- * @var  string  $name
- * @var  string  $class
- * @var  string  $text
- * @var  string  $btnClass
- * @var  string  $tagName
- * @var  string  $htmlAttributes
+ * Layout variables
+ * -----------------
+ * @var   int     $id
+ * @var   string  $name
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   string  $htmlAttributes
  */
 extract($displayData, EXTR_OVERWRITE);
 

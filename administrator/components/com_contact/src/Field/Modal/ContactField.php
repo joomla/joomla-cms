@@ -60,7 +60,7 @@ class ContactField extends FormField
 		// Create the modal id.
 		$modalId = 'Contact_' . $this->id;
 
-		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		/* @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 		// Add the modal field script to the document head.

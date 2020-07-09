@@ -83,7 +83,7 @@ class ApplicationController extends BaseController
 		// Set FTP credentials, if given.
 		ClientHelper::setCredentialsFromRequest('ftp');
 
-		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+		/* @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
 
 		$data  = $this->input->post->get('jform', array(), 'array');
@@ -229,7 +229,7 @@ class ApplicationController extends BaseController
 
 		// Initialise model.
 
-		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+		/* @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
 
 		// Attempt to save the configuration and remove root.
@@ -281,7 +281,7 @@ class ApplicationController extends BaseController
 			$this->app->close();
 		}
 
-		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+		/* @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
 
 		echo new JsonResponse($model->sendTestMail());
@@ -311,7 +311,7 @@ class ApplicationController extends BaseController
 			$this->app->close();
 		}
 
-		/** @var \Joomla\Component\Config\Administrator\Model\Application $model */
+		/* @var \Joomla\Component\Config\Administrator\Model\Application $model */
 		$model = $this->getModel('Application', 'Administrator');
 		echo new JsonResponse($model->storePermissions());
 		$this->app->close();

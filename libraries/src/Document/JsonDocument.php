@@ -68,7 +68,7 @@ class JsonDocument extends Document
 	 */
 	public function render($cache = false, $params = array())
 	{
-		/** @var \Joomla\CMS\Application\CMSApplication $app */
+		/* @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = CmsFactory::getApplication();
 
 		$app->allowCache($cache);

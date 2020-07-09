@@ -25,7 +25,7 @@ use Joomla\CMS\Table\Table;
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
  */
 
-/** @var \Joomla\CMS\Application\CMSApplication $app */
+/* @var \Joomla\CMS\Application\CMSApplication $app */
 $app = Factory::getApplication();
 $app->allowCache(false);
 

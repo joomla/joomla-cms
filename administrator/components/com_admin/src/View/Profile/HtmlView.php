@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		/** @var \Joomla\Component\Admin\Administrator\Model\ProfileModel $model */
+		/* @var \Joomla\Component\Admin\Administrator\Model\ProfileModel $model */
 		$model = $this->getModel();
 
 		$this->form      = $model->getForm();

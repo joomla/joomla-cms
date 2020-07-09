@@ -44,7 +44,7 @@ class MetasRenderer extends DocumentRenderer
 			$this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
 		}
 
-		/** @var \Joomla\CMS\Application\CMSApplication $app */
+		/* @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = Factory::getApplication();
 		$wa  = $this->_doc->getWebAssetManager();
 		$wc  = $this->_doc->getScriptOptions('webcomponents');

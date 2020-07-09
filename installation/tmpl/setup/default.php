@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.formvalidator');
 
-/** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
+/* @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
 ?>
 
 <div id="installer-view" data-page-name="setup">

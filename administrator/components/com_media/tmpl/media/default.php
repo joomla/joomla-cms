@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 
 $params = ComponentHelper::getParams('com_media');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useStyle('com_media.mediamanager')

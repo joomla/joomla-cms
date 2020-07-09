@@ -300,7 +300,7 @@ class ApiController extends BaseController
 
 		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
 
-		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+		/* @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel($modelName, '', ['ignore_request' => true]);
 
 		if (!$model)
@@ -353,7 +353,7 @@ class ApiController extends BaseController
 	 */
 	public function edit()
 	{
-		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+		/* @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel(Inflector::singularize($this->contentType));
 
 		if (!$model)
@@ -409,7 +409,7 @@ class ApiController extends BaseController
 	 */
 	protected function save($recordKey = null)
 	{
-		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+		/* @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel(Inflector::singularize($this->contentType));
 
 		if (!$model)

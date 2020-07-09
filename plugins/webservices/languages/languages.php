@@ -70,7 +70,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 
 		$router->addRoutes($routes);
 
-		/** @var \Joomla\Component\Languages\Administrator\Model\LanguagesModel $model */
+		/* @var \Joomla\Component\Languages\Administrator\Model\LanguagesModel $model */
 		$model = Factory::getApplication()->bootComponent('com_languages')
 			->getMVCFactory()->createModel('Languages', 'Administrator', ['ignore_request' => true]);
 

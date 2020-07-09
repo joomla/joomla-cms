@@ -43,7 +43,7 @@ abstract class RelatedItemsHelper
 		$factory   = $app->bootComponent('com_content')->getMVCFactory();
 
 		// Get an instance of the generic articles model
-		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articles */
+		/* @var \Joomla\Component\Content\Site\Model\ArticlesModel $articles */
 		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model

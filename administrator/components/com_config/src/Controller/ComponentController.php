@@ -66,7 +66,7 @@ class ComponentController extends BaseController
 		// Set FTP credentials, if given.
 		ClientHelper::setCredentialsFromRequest('ftp');
 
-		/** @var \Joomla\Component\Config\Administrator\Model\ComponentModel $model */
+		/* @var \Joomla\Component\Config\Administrator\Model\ComponentModel $model */
 		$model = $this->getModel('Component', 'Administrator');
 		$form   = $model->getForm();
 		$data   = $this->input->get('jform', array(), 'array');

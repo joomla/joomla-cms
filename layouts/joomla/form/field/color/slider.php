@@ -66,7 +66,7 @@ $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $displayValues = explode(',', $display);
 $allSliders    = $display === 'full' || empty($display);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('field.color-slider');
 

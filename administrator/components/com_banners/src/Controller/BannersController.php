@@ -90,7 +90,7 @@ class BannersController extends AdminController
 		else
 		{
 			// Get the model.
-			/** @var \Joomla\Component\Banners\Administrator\Model\BannerModel $model */
+			/* @var \Joomla\Component\Banners\Administrator\Model\BannerModel $model */
 			$model = $this->getModel();
 
 			// Change the state of the records.

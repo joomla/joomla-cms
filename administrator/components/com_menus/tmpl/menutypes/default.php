@@ -19,7 +19,7 @@ $input = Factory::getApplication()->input;
 $tmpl = ($input->getCmd('tmpl') != '') ? '1' : '';
 $tmpl = json_encode($tmpl, JSON_NUMERIC_CHECK);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_menus.admin-item-modal');
 

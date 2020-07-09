@@ -73,7 +73,7 @@ $autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' :
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->usePreset('minicolors')
 	->useScript('field.color-adv');

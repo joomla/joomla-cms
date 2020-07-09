@@ -60,7 +60,7 @@ class PlgSystemLogrotation extends CMSPlugin
 	{
 		// Get the timeout as configured in plugin parameters
 
-		/** @var \Joomla\Registry\Registry $params */
+		/* @var \Joomla\Registry\Registry $params */
 		$cache_timeout = (int) $this->params->get('cachetimeout', 30);
 		$cache_timeout = 24 * 3600 * $cache_timeout;
 		$logsToKeep    = (int) $this->params->get('logstokeep', 1);

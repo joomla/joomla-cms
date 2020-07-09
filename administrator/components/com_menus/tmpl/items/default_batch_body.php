@@ -23,7 +23,7 @@ $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype')
 
 if ($clientId == 1)
 {
-	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	/* @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 	$wa = $this->document->getWebAssetManager();
 	$wa->useScript('com_menus.batch-body');
 }

@@ -130,7 +130,7 @@ class CategoryController extends FormController
 	{
 		$this->checkToken();
 
-		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
+		/* @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
 		$model = $this->getModel('Category');
 
 		// Preset the redirect
