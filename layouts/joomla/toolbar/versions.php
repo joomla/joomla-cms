@@ -27,8 +27,8 @@ extract($displayData, EXTR_OVERWRITE);
  */
 
 Factory::getDocument()->getWebAssetManager()
-		->useScript('core')
-		->useScript('webcomponent.toolbar-button');
+	->useScript('core')
+	->useScript('webcomponent.toolbar-button');
 
 echo HTMLHelper::_(
 	'bootstrap.renderModal',
