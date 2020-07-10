@@ -10,6 +10,8 @@
 
   .header-title {
     width: 50%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 
     .d-flex:last-child {
       max-width: calc(100% - #{$sidebar-width});
