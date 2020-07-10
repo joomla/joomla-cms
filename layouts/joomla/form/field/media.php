@@ -15,10 +15,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
+extract($displayData);
+
 /**
  * Layout variables
- * ---------------------
- *
+ * -----------------
  * @var  string   $asset           The asset text
  * @var  string   $authorField     The label text
  * @var  integer  $authorId        The author id
@@ -39,7 +40,6 @@ use Joomla\CMS\Uri\Uri;
  * @var  string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
-extract($displayData);
 
 $attr = '';
 
