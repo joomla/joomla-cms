@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+extract($displayData, EXTR_OVERWRITE);
+
 /**
  * Layout variables
  * -----------------
@@ -20,7 +22,6 @@ defined('_JEXEC') or die;
  * @var   string  $tagName
  * @var   string  $htmlAttributes
  */
-extract($displayData, EXTR_OVERWRITE);
 
 $margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ml-auto';
 $target = empty($target) ? '' : 'target="' . $target . '"';
