@@ -57,7 +57,11 @@
   Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
     if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
       Joomla.selectedFile = {};
-      reject(new Error('Nothing selected'));
+      resolve({
+        resp: {
+          success: false,
+        },
+      });
       return;
     }
 
