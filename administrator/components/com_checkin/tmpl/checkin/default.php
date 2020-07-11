@@ -49,12 +49,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php foreach ($this->items as $table => $count) : ?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
-										<?php echo HTMLHelper::_('grid.id', $i, $table); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $table, false, 'cid', 'cb', $table); ?>
 									</td>
 									<th scope="row">
-										<label for="cb<?php echo $i ?>">
-											<?php echo Text::sprintf('COM_CHECKIN_TABLE', $table); ?>
-										</label>
+										<?php echo Text::sprintf('COM_CHECKIN_TABLE', $table); ?>
 									</th>
 									<td>
 										<span class="badge badge-secondary"><?php echo $count; ?></span>
