@@ -43,7 +43,14 @@ abstract class ToolbarHelper
 
 		$app = Factory::getApplication();
 		$app->JComponentTitle = $html;
-		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
+		$title = strip_tags($title) . ' - ' . $app->get('sitename');
+
+		if ($app->isClient('administrator'))
+		{
+			$title .= ' - ' . Text::_('JADMINISTRATION');
+		}
+
+		Factory::getDocument()->setTitle($title);
 	}
 
 	/**
