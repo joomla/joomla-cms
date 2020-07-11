@@ -81,15 +81,13 @@ $wa->useScript('com_finder.index');
 							<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->link_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->link_id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>">
-										<?php echo $this->escape($item->title); ?>
-									</label>
+									<?php echo $this->escape($item->title); ?>
 								</th>
 								<td class="small d-none d-md-table-cell">
 									<?php

@@ -27,7 +27,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function=' . $function); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo Route::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function=' . $function); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 

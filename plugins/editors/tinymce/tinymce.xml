@@ -28,6 +28,7 @@
 				<field
 					name="configuration"
 					type="tinymcebuilder"
+					label="PLG_TINY_BUILDER"
 					hiddenLabel="true"
 				 />
 			</fieldset>
