@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Version;
 
 /**
  * Base class for rendering a display layout
@@ -355,16 +356,16 @@ class FileLayout extends BaseLayout
 	 */
 	public function loadVersionSuffixes()
 	{
-		$cmsVersion = new \JVersion;
+		$cmsVersion = new Version;
 
 		// Example j311
-		$fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());
+		$parts = explode('.', $cmsVersion->getShortVersion());
 
 		// Create suffixes like array('j311', 'j31', 'j3')
 		$suffixes = array(
-			$fullVersion,
-			substr($fullVersion, 0, 3),
-			substr($fullVersion, 0, 2),
+			'j' . implode('', $parts),
+			sprintf('j%s%s', $parts[0], $parts[1]),
+			sprintf('j%s', $parts[0]),
 		);
 
 		$this->setSuffixes(array_unique($suffixes));

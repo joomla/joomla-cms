@@ -1056,6 +1056,7 @@ abstract class FormField
 		$renderer = new FileLayout($layoutId);
 
 		$renderer->setDebug($this->isDebugEnabled());
+		$renderer->loadVersionSuffixes();
 
 		$layoutPaths = $this->getLayoutPaths();
 
