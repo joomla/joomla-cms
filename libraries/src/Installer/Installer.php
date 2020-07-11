@@ -512,6 +512,9 @@ class Installer extends \JAdapter
 		// Run the install
 		$result = $adapter->install();
 
+		// Make sure Joomla can figure out what has changed
+		clearstatcache();
+
 		/**
 		 * Flush the opcache regardless of result to ensure consistency
 		 *
@@ -520,7 +523,7 @@ class Installer extends \JAdapter
 		 */
 		if (function_exists('opcache_reset'))
 		{
-			opcache_reset();
+			\opcache_reset();
 		}
 
 		// Fire the onExtensionAfterInstall
