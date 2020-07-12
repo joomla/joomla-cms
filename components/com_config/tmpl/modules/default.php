@@ -16,11 +16,13 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.combobox');
 
-HTMLHelper::_('script', 'com_config/modules-default.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_config.modules');
 
 $editorText  = false;
 $moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
@@ -174,7 +176,7 @@ if (Multilanguage::isEnabled())
 					</div>
 
 					<?php if ($editorText) : ?>
-						<div class="tab-pane" id="custom">
+						<div class="mt-2" id="custom">
 							<?php echo $this->form->getInput('content'); ?>
 						</div>
 					<?php endif; ?>

@@ -38,6 +38,8 @@ class StatsAdminHelper
 	 */
 	public static function getStats(Registry $params, CMSApplication $app, DatabaseInterface $db)
 	{
+		$user = $app->getIdentity();
+
 		$rows  = array();
 		$query = $db->getQuery(true);
 
@@ -109,7 +111,12 @@ class StatsAdminHelper
 				$rows[$i]->title = Text::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
-				$rows[$i]->link  = Route::_('index.php?option=com_users');
+
+				if ($user->authorise('core.manage', 'com_users'))
+				{
+					$rows[$i]->link = Route::_('index.php?option=com_users');
+				}
+
 				$i++;
 			}
 

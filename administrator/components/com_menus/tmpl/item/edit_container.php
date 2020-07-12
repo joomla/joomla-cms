@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
@@ -16,9 +15,12 @@ use Joomla\Registry\Registry;
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
-HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_container.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_menus/admin-item-edit_container.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
-$this->document->getWebAssetManager()->useScript('joomla.treeselectmenu');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('joomla.treeselectmenu')
+	->useStyle('com_menus.admin-item-edit-container')
+	->useScript('com_menus.admin-item-edit-container');
+
 ?>
 <div id="menuselect-group" class="control-group">
 	<div class="control-label"><?php echo $this->form->getLabel('hideitems', 'params'); ?></div>

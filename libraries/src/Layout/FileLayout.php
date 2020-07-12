@@ -83,7 +83,7 @@ class FileLayout extends BaseLayout
 		$this->setLayoutId($layoutId);
 		$this->basePath = $basePath;
 
-		// Init Enviroment
+		// Init Environment
 		$this->setComponent($this->options->get('component', 'auto'));
 		$this->setClient($this->options->get('client', 'auto'));
 	}

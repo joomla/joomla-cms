@@ -31,7 +31,7 @@
       flex-direction: column;
 
       > div + div {
-        margin-top: cassiopeia-grid-gutter;
+        margin-top: $cassiopeia-grid-gutter;
       }
     }
 

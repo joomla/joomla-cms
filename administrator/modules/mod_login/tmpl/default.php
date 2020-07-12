@@ -101,19 +101,27 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-		<?php foreach ($extraButtons as $button) : ?>
+		<?php foreach($extraButtons as $button):
+			$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+				return substr($key, 0, 5) == 'data-';
+			});
+			?>
 		<div class="form-group">
 			<button type="button"
 			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
-			        data-webauthn-form="<?= $button['data-webauthn-form'] ?>"
-			        data-webauthn-url="<?= $button['data-webauthn-url'] ?>"
+					<?php foreach ($dataAttributeKeys as $key): ?>
+					<?php echo $key ?>="<?php echo $button[$key] ?>"
+					<?php endforeach; ?>
+					<?php if ($button['onclick']): ?>
+					onclick="<?= $button['onclick'] ?>"
+					<?php endif; ?>
 			        title="<?= Text::_($button['label']) ?>"
 			        id="<?= $button['id'] ?>"
 			>
 				<?php if (!empty($button['icon'])): ?>
 					<span class="<?= $button['icon'] ?>"></span>
 				<?php elseif (!empty($button['image'])): ?>
-					<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+					<?= HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 						'class' => 'icon',
 					], true) ?>
 				<?php endif; ?>
@@ -133,7 +141,7 @@ Text::script('MESSAGE');
 </form>
 <div class="text-center">
 	<div>
-		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow"
+		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="noopener nofollow"
 			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>">
 			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
 		</a>
