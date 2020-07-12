@@ -194,6 +194,8 @@
     show() {
       this.querySelector('[role="dialog"]').open();
 
+      Joomla.selectedFile = {};
+
       this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
     }
 
@@ -201,9 +203,13 @@
       const input = this.querySelector(this.input);
 
       Joomla.getImage(Joomla.selectedFile, input, this)
-        .then(() => { Joomla.Modal.getCurrent().close(); })
+        .then(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.selectedFile = {};
+        })
         .catch(() => {
           Joomla.Modal.getCurrent().close();
+          Joomla.selectedFile = {};
           Joomla.renderMessages({
             error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
           });
