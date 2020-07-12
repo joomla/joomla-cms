@@ -1310,7 +1310,8 @@ class TemplateModel extends FormModel
 		}
 
 		// Check if there is a base_html override
-		if (is_dir($templateBaseHtml)) {
+		if (is_dir($templateBaseHtml))
+		{
 			$overridePath = $templateBaseHtml;
 		}
 
