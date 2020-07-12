@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,16 @@ class OutputFilter extends BaseOutputFilter
 
 		foreach ($chars as $chr)
 		{
-			$new_str .= '\\u' . str_pad(dechex(StringHelper::ord($chr)), 4, '0', STR_PAD_LEFT);
+			$code = str_pad(dechex(StringHelper::ord($chr)), 4, '0', STR_PAD_LEFT);
+
+			if (strlen($code) < 5)
+			{
+				$new_str .= '\\u' . $code;
+			}
+			else
+			{
+				$new_str .= '\\u{' . $code . '}';
+			}
 		}
 
 		return $new_str;

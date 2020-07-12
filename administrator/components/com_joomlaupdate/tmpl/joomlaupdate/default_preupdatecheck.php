@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -146,7 +146,6 @@ use Joomla\CMS\Language\Text;
 			</table>
 		</fieldset>
 	</div>
-	<?php endif; ?>
 	<div class="col-md-6">
 		<fieldset class="options-form">
 			<legend>
@@ -159,4 +158,14 @@ use Joomla\CMS\Language\Text;
 			</ul>
 		</fieldset>
 	</div>
+    <?php else: ?>
+    <div class="col-md-6">
+        <h3>
+            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+        </h3>
+        <div class="alert alert-no-items">
+            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
+        </div>
+    </div>
+	<?php endif; ?>
 </div>

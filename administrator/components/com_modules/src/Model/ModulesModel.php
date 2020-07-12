@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Modules\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -376,7 +377,7 @@ class ModulesModel extends ListModel
 			{
 				$query->having('MIN(' . $db->quoteName('mm.menuid') . ') IS NULL');
 			}
-			// If user selected the modules assigned to some particlar page (menu item).
+			// If user selected the modules assigned to some particular page (menu item).
 			else
 			{
 				// Modules in "All" pages.
@@ -386,8 +387,9 @@ class ModulesModel extends ListModel
 					->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
 
 				// Modules in "Selected" pages that have the chosen menu item id.
-				$menuItemId = (int) $menuItemId;
-				$subQuery2 = $db->getQuery(true);
+				$menuItemId      = (int) $menuItemId;
+				$minusMenuItemId = $menuItemId * -1;
+				$subQuery2       = $db->getQuery(true);
 				$subQuery2->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
 					->where($db->quoteName('menuid') . ' = :menuitemid2');
@@ -396,7 +398,7 @@ class ModulesModel extends ListModel
 				$subQuery3 = $db->getQuery(true);
 				$subQuery3->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('menuid') . ' = - :menuitemid3');
+					->where($db->quoteName('menuid') . ' = :menuitemid3');
 
 				// Filter by modules assigned to the selected menu item.
 				$query->where('(
@@ -406,7 +408,7 @@ class ModulesModel extends ListModel
 					)'
 				);
 				$query->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
-				$query->bind(':menuitemid3', $menuItemId, ParameterType::INTEGER);
+				$query->bind(':menuitemid3', $minusMenuItemId, ParameterType::INTEGER);
 			}
 		}
 
@@ -423,7 +425,7 @@ class ModulesModel extends ListModel
 			}
 			else
 			{
-				$search = '%' . strtolower($search) . '%';
+				$search = '%' . StringHelper::strtolower($search) . '%';
 				$query->extendWhere(
 					'AND',
 					[

@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Redirect\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
@@ -128,6 +128,9 @@ class LinksController extends AdminController
 	 */
 	public function batch()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$batch_urls_request = $this->input->post->get('batch_urls', array(), 'array');
 		$batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
 
@@ -146,7 +149,7 @@ class LinksController extends AdminController
 					$this->setMessage(Text::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
 					$this->setRedirect('index.php?option=com_redirect&view=links');
 
-					return false;
+					return;
 				}
 
 				$batch_urls[] = array_map('trim', explode($separator, $batch_urls_line));
@@ -179,6 +182,9 @@ class LinksController extends AdminController
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$model = $this->getModel('Links');
 
 		if ($model->purge())

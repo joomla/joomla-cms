@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Messages\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rule;
@@ -344,7 +344,7 @@ class MessageModel extends AdminModel
 			return false;
 		}
 
-		if ($config->get('locked', false))
+		if ($config->get('lock', false))
 		{
 			$this->setError(Text::_('COM_MESSAGES_ERR_SEND_FAILED'));
 

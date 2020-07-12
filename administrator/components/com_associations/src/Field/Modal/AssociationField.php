@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Associations\Administrator\Field\Modal;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -43,10 +43,13 @@ class AssociationField extends FormField
 	{
 		// @TODO USE JLayouts here!!!
 		// The active item id field.
-		$value = (int) $this->value > 0 ? (int) $this->value : '';
+		$value = (int) $this->value ?: '';
 
-		Factory::getDocument()->addScriptOptions('admin_associations_modal', ['itemId' => $value]);
-		HTMLHelper::_('script', 'com_associations/admin_associations_modal.min.js', ['version' => 'auto', 'relative' => true]);
+		$doc = Factory::getApplication()->getDocument();
+		$wa  = $doc->getWebAssetManager();
+
+		$doc->addScriptOptions('admin_associations_modal', ['itemId' => $value]);
+		$wa->useScript('com_associations.admin-associations-modal');
 
 		// Setup variables for display.
 		$html = array();

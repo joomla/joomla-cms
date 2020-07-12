@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -36,7 +36,7 @@ class SearchesModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'search_term', 'a.search_term',
+				'searchterm', 'a.searchterm',
 				'hits', 'a.hits',
 			);
 		}
@@ -137,12 +137,16 @@ class SearchesModel extends ListModel
 	{
 		$items = parent::getItems();
 
-		\JLoader::register('FinderIndexerQuery', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/query.php');
-		\JLoader::register('FinderIndexerToken', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/token.php');
-
 		foreach ($items as $item)
 		{
-			$item->query = unserialize($item->query);
+			if (is_resource($item->query))
+			{
+				$item->query = unserialize(stream_get_contents($item->query));
+			}
+			else
+			{
+				$item->query = unserialize($item->query);
+			}
 		}
 
 		return $items;

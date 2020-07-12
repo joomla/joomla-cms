@@ -3,16 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Installer\Administrator\View\Updatesite;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\TextField;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -99,7 +98,7 @@ class HtmlView extends InstallerViewDefault
 
 		$user       = $app->getIdentity();
 		$userId     = $user->id;
-		$checkedOut = !($this->item->checked_out === 0 || $this->item->checked_out === $userId);
+		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out === $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_installer', 'updatesite');

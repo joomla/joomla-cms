@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,6 +72,11 @@
       const imgID = img.getAttribute('id');
       const imgClass = img.getAttribute('class');
       const imgURL = img.getAttribute('src');
+
+      // Check if we're manipulating a SVG file.
+      if (imgURL.substr(imgURL.length - 4).toLowerCase() !== '.svg') {
+        return;
+      }
 
       Joomla.request({
         url: imgURL,
@@ -279,8 +284,8 @@
       if (!navigator.cookieEnabled) {
         Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
       }
-      window.addEventListener('joomla:menu-toggle', (event) => {
-        changeLogo(event.detail);
+      window.addEventListener('joomla:menu-toggle', ({ detail }) => {
+        changeLogo(detail);
       });
     }
   });

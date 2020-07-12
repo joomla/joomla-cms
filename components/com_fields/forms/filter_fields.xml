@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="group"
-		addfieldpath="/administrator/components/com_fields/models/fields">
+	<fieldset
+		name="group"
+		addfieldprefix="Joomla\Component\Fields\Administrator\Field"
+		>
 		<field
 			name="context"
 			type="fieldcontexts"

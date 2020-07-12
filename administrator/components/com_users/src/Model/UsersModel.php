@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
@@ -378,13 +378,26 @@ class UsersModel extends ListModel
 			}
 		}
 
-		// Add filter for registration time ranges select list
+		// Add filter for registration time ranges select list. UI Visitors get a range of predefined
+		// values. API users can do a full range based on ISO8601
 		$range = $this->getState('filter.range');
+		$registrationStart = $this->getState('filter.registrationDateStart');
+		$registrationEnd = $this->getState('filter.registrationDateEnd');
 
 		// Apply the range filter.
-		if ($range)
+		if ($range || ($registrationStart && $registrationEnd))
 		{
-			$dates = $this->buildDateRange($range);
+			if ($range)
+			{
+				$dates = $this->buildDateRange($range);
+			}
+			else
+			{
+				$dates = [
+					'dNow'   => $registrationEnd,
+					'dStart' => $registrationStart,
+				];
+			}
 
 			if ($dates['dStart'] !== false)
 			{
@@ -406,13 +419,26 @@ class UsersModel extends ListModel
 			}
 		}
 
-		// Add filter for last visit time ranges select list
+		// Add filter for last visit time ranges select list. UI Visitors get a range of predefined
+		// values. API users can do a full range based on ISO8601
 		$lastvisitrange = $this->getState('filter.lastvisitrange');
+		$lastVisitStart = $this->getState('filter.lastVisitStart');
+		$lastVisitEnd = $this->getState('filter.lastVisitEnd');
 
 		// Apply the range filter.
-		if ($lastvisitrange)
+		if ($lastvisitrange || ($lastVisitStart && $lastVisitEnd))
 		{
-			$dates = $this->buildDateRange($lastvisitrange);
+			if ($lastvisitrange)
+			{
+				$dates = $this->buildDateRange($lastvisitrange);
+			}
+			else
+			{
+				$dates = [
+					'dNow'   => $lastVisitEnd,
+					'dStart' => $lastVisitStart,
+				];
+			}
 
 			if ($dates['dStart'] === false)
 			{

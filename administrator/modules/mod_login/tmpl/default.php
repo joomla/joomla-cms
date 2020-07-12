@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,11 +13,13 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->useScript('core')
+	->useScript('form.validate')
+	->useScript('keepalive')
+	->useScript('field.passwordview')
+	->registerAndUseScript('mod_login.admin', 'mod_login/admin-login.min.js', [], ['defer' => true], ['core', 'form.validate']);
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
@@ -83,7 +85,7 @@ Text::script('MESSAGE');
 
 					<input
 						name="secretkey"
-						autocomplete="off"
+						autocomplete="one-time-code"
 						id="mod-login-secretkey"
 						type="text"
 						class="form-control"
@@ -99,18 +101,27 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-		<?php foreach($extraButtons as $button): ?>
+		<?php foreach($extraButtons as $button):
+			$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+				return substr($key, 0, 5) == 'data-';
+			});
+			?>
 		<div class="form-group">
 			<button type="button"
 			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
-			        onclick="<?= $button['onclick'] ?>"
+					<?php foreach ($dataAttributeKeys as $key): ?>
+					<?php echo $key ?>="<?php echo $button[$key] ?>"
+					<?php endforeach; ?>
+					<?php if ($button['onclick']): ?>
+					onclick="<?= $button['onclick'] ?>"
+					<?php endif; ?>
 			        title="<?= Text::_($button['label']) ?>"
 			        id="<?= $button['id'] ?>"
 			>
 				<?php if (!empty($button['icon'])): ?>
 					<span class="<?= $button['icon'] ?>"></span>
 				<?php elseif (!empty($button['image'])): ?>
-					<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+					<?= HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 						'class' => 'icon',
 					], true) ?>
 				<?php endif; ?>
@@ -130,7 +141,7 @@ Text::script('MESSAGE');
 </form>
 <div class="text-center">
 	<div>
-		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow"
+		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="noopener nofollow"
 			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>">
 			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
 		</a>

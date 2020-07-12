@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Site
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,11 +40,12 @@ ob_end_clean();
 // System configuration.
 $config = new JConfig;
 
-// Set the error_reporting
+// Set the error_reporting, and adjust a global Error Handler
 switch ($config->error_reporting)
 {
 	case 'default':
 	case '-1':
+
 		break;
 
 	case 'none':
@@ -60,13 +61,8 @@ switch ($config->error_reporting)
 		break;
 
 	case 'maximum':
+	case 'development': // <= Stays for backward compatibility, @TODO: can be removed in 5.0
 		error_reporting(E_ALL);
-		ini_set('display_errors', 1);
-
-		break;
-
-	case 'development':
-		error_reporting(-1);
 		ini_set('display_errors', 1);
 
 		break;
@@ -81,6 +77,17 @@ switch ($config->error_reporting)
 if (!defined('JDEBUG'))
 {
 	define('JDEBUG', $config->debug);
+}
+
+if (JDEBUG || $config->error_reporting === 'maximum')
+{
+	// Set new Exception handler with debug enabled
+	$errorHandler->setExceptionHandler(
+		[
+			new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+			'renderException'
+		]
+	);
 }
 
 unset($config);

@@ -3,16 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Controller;
 
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * User groups list controller class.
@@ -48,7 +48,7 @@ class GroupsController extends AdminController
 	 *
 	 * Overrides Joomla\CMS\MVC\Controller\AdminController::delete to check the core.admin permission.
 	 *
-	 * @return  boolean  Returns true on success, false on failure.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -56,10 +56,10 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		return parent::delete();
+		parent::delete();
 	}
 
 	/**
@@ -75,10 +75,10 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		return parent::publish();
+		parent::publish();
 	}
 
 	/**
@@ -94,7 +94,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::reorder();
@@ -113,7 +113,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::saveorder();
@@ -132,7 +132,7 @@ class GroupsController extends AdminController
 	{
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		return parent::checkin();

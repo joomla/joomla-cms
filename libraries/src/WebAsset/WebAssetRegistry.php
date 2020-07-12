@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	/**
 	 * Registry constructor
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct()
 	{
@@ -271,6 +271,61 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	}
 
 	/**
+	 * Get a list of the registry files
+	 *
+	 * @return  array
+	 *
+	 * @since  4.0.0
+	 */
+	public function getRegistryFiles(): array
+	{
+		return array_values($this->dataFilesParsed + $this->dataFilesNew);
+	}
+
+	/**
+	 * Helper method to register new file with Template Asset(s) info
+	 *
+	 * @param   string   $template  The template name
+	 * @param   integer  $client    The application client id
+	 *
+	 * @return  self
+	 *
+	 * @since  4.0.0
+	 */
+	public function addTemplateRegistryFile(string $template, int $client): self
+	{
+		switch ($client)
+		{
+			case 0:
+				$this->addRegistryFile('templates/' . $template . '/joomla.asset.json');
+				break;
+			case 1:
+				$this->addRegistryFile('administrator/templates/' . $template . '/joomla.asset.json');
+				break;
+			default:
+				break;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Helper method to register new file with Extension Asset(s) info
+	 *
+	 * @param   string  $name  A full extension name, actually a name in the /media folder, eg: com_example, plg_system_example etc.
+	 *
+	 * @return  self
+	 *
+	 * @since  4.0.0
+	 */
+	public function addExtensionRegistryFile(string $name): self
+	{
+		$this->addRegistryFile('media/' . $name . '/joomla.asset.json');
+
+		return $this;
+	}
+
+	/**
 	 * Parse registered files
 	 *
 	 * @return  void
@@ -286,11 +341,17 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 
 		foreach ($this->dataFilesNew as $path)
 		{
-			$this->parseRegistryFile($path);
+			// Parse only if the file was not parsed already
+			if (empty($this->dataFilesParsed[$path]))
+			{
+				$this->parseRegistryFile($path);
 
-			// Mark as parsed (not new)
+				// Mark the file as parsed
+				$this->dataFilesParsed[$path] = $path;
+			}
+
+			// Remove the file from queue
 			unset($this->dataFilesNew[$path]);
-			$this->dataFilesParsed[$path] = $path;
 		}
 	}
 
@@ -378,7 +439,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function dispatchAssetChanged(string $type, WebAssetItemInterface $asset, string $change)
 	{

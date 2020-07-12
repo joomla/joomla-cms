@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
@@ -146,7 +146,12 @@ abstract class FieldsPlugin extends CMSPlugin
 		$fieldParams->merge($field->fieldparams);
 
 		// Get the path for the layout file
-		$path = PluginHelper::getLayoutPath('fields', $field->type, $field->type);
+		$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
+
+		if (!file_exists($path))
+		{
+			$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
+		}
 
 		// Render the layout
 		ob_start();

@@ -19,7 +19,7 @@
       margin: 0 auto;
       font-size: $quickicon-icon-size;
       color: transparent;
-      background: linear-gradient(var(--atum-link-color), #5693e1);
+      background: linear-gradient(var(--atum-link-color), var(--atum-link-hover-color));
       background-clip: text;
 
       &.big {
@@ -166,16 +166,9 @@
       }
     }
 
-    .quickicon-text {
-      min-height: 1.2rem;
-      padding: .2rem;
-      font-size: .875rem;
-      text-align: center;
-    }
-
     .j-links-link {
       display: block;
-      padding: 0 1rem;
+      padding: 0 .2rem;
       line-height: 1.1;
     }
 

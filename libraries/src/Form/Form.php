@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1198,11 +1198,11 @@ class Form
 			// Define field name for messages
 			if ($field['label'])
 			{
-				$fieldLabel = \JText::_($field['label']);
+				$fieldLabel = Text::_($field['label']);
 			}
 			else
 			{
-				$fieldLabel = \JText::_($name);
+				$fieldLabel = Text::_($name);
 			}
 
 			$disabled = ((string) $field['disabled'] === 'true' || (string) $field['disabled'] === 'disabled');

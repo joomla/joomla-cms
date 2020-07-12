@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Quickicon\Joomlaupdate\Extension;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -118,13 +117,13 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
 				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&'
-					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
+					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
 				'version' => JVERSION,
 			]
 		);
 
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.min.js', array('version' => 'auto', 'relative' => true));
+		$this->document->getWebAssetManager()
+			->registerAndUseScript('plg_quickicon_joomlaupdate', 'plg_quickicon_joomlaupdate/jupdatecheck.min.js', [], ['defer' => true], ['core']);
 
 		// Add the icon to the result array
 		$result = $event->getArgument('result', []);

@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
@@ -25,6 +26,8 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
  */
 class BannerModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *
@@ -394,23 +397,35 @@ class BannerModel extends AdminModel
 		// Save New Category
 		if ($createCategory && $this->canCreateCategory())
 		{
-			$table              = array();
+			$category = [
+				// Remove #new# prefix, if exists.
+				'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+				'parent_id' => 1,
+				'extension' => 'com_banners',
+				'language'  => $data['language'],
+				'published' => 1,
+			];
 
-			// Remove #new# prefix, if exists.
-			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
-			$table['parent_id'] = 1;
-			$table['extension'] = 'com_banners';
-			$table['language']  = $data['language'];
-			$table['published'] = 1;
+			/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+			$categoryModel = Factory::getApplication()->bootComponent('com_categories')
+				->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
-			// Create new category and get catid back
-			$data['catid'] = CategoriesHelper::createCategory($table);
+			// Create new category.
+			if (!$categoryModel->save($category))
+			{
+				$this->setError($categoryModel->getError());
+
+				return false;
+			}
+
+			// Get the new category ID.
+			$data['catid'] = $categoryModel->getState('category.id');
 		}
 
 		// Alter the name for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			/** @var \Joomla\Component\Banners\Administrator\Table\Banner $origTable */
+			/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
 			$origTable = clone $this->getTable();
 			$origTable->load($input->getInt('id'));
 

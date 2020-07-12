@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,7 +129,9 @@ abstract class Menu
 
 				if (isset($query['extension']))
 				{
-					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+					$parts = explode('.', $query['extension']);
+
+					$workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled');
 				}
 
 				if (!$workflow)
@@ -175,7 +177,7 @@ abstract class Menu
 				{
 					if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home')
 					{
-						$iconImage = '<span class="home-image fas fa-star" aria-hidden="true"></span>';
+						$iconImage = '<span class="home-image fas fa-home" aria-hidden="true"></span>';
 						$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
 					}
 					elseif (substr($iconImage, 0, 6) === 'image:')

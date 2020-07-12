@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -204,10 +204,10 @@ class RequestController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/** @var PrivacyModelRequest $model */
+		/** @var RequestModel $model */
 		$model = $this->getModel();
 
-		/** @var PrivacyTableRequest $table */
+		/** @var RequestTable $table */
 		$table = $model->getTable();
 
 		// Determine the name of the primary key for the data.

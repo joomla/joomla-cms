@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,16 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Site\Helper\RouteHelper;
 use Joomla\Module\Finder\Site\Helper\FinderHelper;
-
-JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
-
-if (!defined('FINDER_PATH_INDEXER'))
-{
-	define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
-}
-
-JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 
 $cparams = ComponentHelper::getParams('com_finder');
 
@@ -40,7 +32,7 @@ if ($params->get('opensearch', $cparams->get('opensearch', 1)))
 }
 
 // Get the route.
-$route = FinderHelperRoute::getSearchRoute($params->get('searchfilter', null));
+$route = RouteHelper::getSearchRoute($params->get('searchfilter', null));
 
 // Load component language file.
 LanguageHelper::loadComponentLanguage();

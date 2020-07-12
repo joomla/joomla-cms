@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ class JNamespacePsr4Map
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected $file = JPATH_LIBRARIES . '/autoload_psr4.php';
+	protected $file = JPATH_CACHE . '/autoload_psr4.php';
 
 	/**
 	 * Check if the file exists
@@ -68,6 +68,8 @@ class JNamespacePsr4Map
 			$this->getNamespaces('plugin'),
 			$this->getNamespaces('library')
 		);
+
+		ksort($extensions);
 
 		$this->writeNamespaceFile($extensions);
 

@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Users\Site\View\Profile;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -152,12 +152,13 @@ class HtmlView extends BaseHtmlView
 		Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
 		unset($this->data->text);
 
-		// Check for layout override
-		$active = Factory::getApplication()->getMenu()->getActive();
+		// Check for layout from menu item.
+		$query = Factory::getApplication()->getMenu()->getActive()->query;
 
-		if (isset($active->query['layout']))
+		if (isset($query['layout']) && isset($query['option']) && $query['option'] === 'com_users'
+			&& isset($query['view']) && $query['view'] === 'profile')
 		{
-			$this->setLayout($active->query['layout']);
+			$this->setLayout($query['layout']);
 		}
 
 		// Escape strings for HTML output

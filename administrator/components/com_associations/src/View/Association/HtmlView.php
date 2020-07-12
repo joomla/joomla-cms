@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Associations\Administrator\View\Association;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
@@ -369,15 +369,15 @@ class HtmlView extends BaseHtmlView
 		$bar = Toolbar::getInstance();
 
 		$bar->appendButton(
-			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-sm btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
-			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
+			'Custom', '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
+			. 'class="btn btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
+			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>', 'reference'
 		);
 
 		$bar->appendButton(
-			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-sm btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
-			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
+			'Custom', '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'target\')" '
+			. 'class="btn btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
+			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>', 'target'
 		);
 
 		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)

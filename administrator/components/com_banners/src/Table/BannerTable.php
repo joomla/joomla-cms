@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Banners\Administrator\Table;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -26,7 +27,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class BannerTable extends Table
+class BannerTable extends Table implements VersionableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -106,6 +107,14 @@ class BannerTable extends Table
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+		}
+
+		// Check for a valid category.
+		if (!$this->catid = (int) $this->catid)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+
+			return false;
 		}
 
 		// Set publish_up, publish_down to null if not set
@@ -344,11 +353,11 @@ class BannerTable extends Table
 			}
 
 			// Verify checkout
-			if ($table->checked_out == 0 || $table->checked_out == $userId)
+			if (is_null($table->checked_out) || $table->checked_out == $userId)
 			{
 				// Change the state
 				$table->sticky = $state;
-				$table->checked_out = 0;
+				$table->checked_out = null;
 				$table->checked_out_time = null;
 
 				// Check the row
@@ -363,5 +372,17 @@ class BannerTable extends Table
 		}
 
 		return count($this->getErrors()) == 0;
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_banners.banner';
 	}
 }

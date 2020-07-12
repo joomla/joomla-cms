@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Categories\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -40,9 +40,9 @@ class CategoriesController extends AdminController
 	}
 
 	/**
-	 * Method to get the number of content categories
+	 * Outputs the JSON-encoded amount of published content categories
 	 *
-	 * @return  string  The JSON-encoded amount of published content categories
+	 * @return  void
 	 *
 	 * @since   4.0
 	 */

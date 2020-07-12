@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -84,7 +84,7 @@ class ExportModel extends BaseDatabaseModel
 			$db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = :email')
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
 				->bind(':email', $table->email)
 				->setLimit(1)
 		)->loadResult();
@@ -179,7 +179,7 @@ class ExportModel extends BaseDatabaseModel
 			$db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = :email')
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
 				->bind(':email', $table->email),
 			0,
 			1
@@ -348,7 +348,7 @@ class ExportModel extends BaseDatabaseModel
 	 */
 	private function getActionlogModel(): ActionlogModel
 	{
-		return Factory::getApplication()->bootComponent('Actionlogs')
+		return Factory::getApplication()->bootComponent('com_actionlogs')
 			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }
