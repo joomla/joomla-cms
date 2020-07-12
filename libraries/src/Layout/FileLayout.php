@@ -551,6 +551,7 @@ class FileLayout extends BaseLayout
 		{
 			// (2) Component template overrides path
 			$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts/' . $component;
+			$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/base_html/layouts/' . $component;
 
 			// (3) Component path
 			if ($this->options->get('client') == 0)
@@ -565,6 +566,7 @@ class FileLayout extends BaseLayout
 
 		// (4) Standard Joomla! layouts overridden
 		$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts';
+		$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/base_html/layouts';
 
 		// (5 - lower priority) Frontend base layouts
 		$paths[] = JPATH_ROOT . '/layouts';

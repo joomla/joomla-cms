@@ -458,6 +458,12 @@ class HtmlView extends AbstractView
 				if (isset($app))
 				{
 					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+
+					// Template provided overrides
+					$fallback = JPATH_THEMES . '/' . $app->getTemplate() . '/base_html/' . $component . '/' . $this->getName();
+					$this->_addPath('template', $fallback);
+
+					// User provided overrides
 					$fallback = JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
 					$this->_addPath('template', $fallback);
 				}
