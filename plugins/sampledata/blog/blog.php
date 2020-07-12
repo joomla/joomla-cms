@@ -204,7 +204,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'options' => $defaultOptions,
 			),
 			array(
-				// Graphic design to Fact Check
+				// Graphic Design to Fact Check
 				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE3_TITLE')],
 				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE4_TITLE')],
 				'options' => $defaultOptions,
