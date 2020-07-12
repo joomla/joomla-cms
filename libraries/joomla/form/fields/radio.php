@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\CMS\Layout\FileLayout;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Layout\FileLayout;
 
 JFormHelper::loadFieldClass('list');
 
