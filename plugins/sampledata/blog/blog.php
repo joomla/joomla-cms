@@ -198,7 +198,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'options' => $defaultOptions,
 			),
 			array(
-				// Copy write to graphic design
+				// Copywriting to Graphic Design
 				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
 				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE3_TITLE')],
 				'options' => $defaultOptions,
