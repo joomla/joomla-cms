@@ -666,7 +666,7 @@ class FileLayout extends BaseLayout
 	}
 
 	/**
-	 * Check if the layout file  exists
+	 * Check if the layout file exists
 	 *
 	 * @return  boolean
 	 *
@@ -678,5 +678,4 @@ class FileLayout extends BaseLayout
 
 		return (!empty($layoutPath));
 	}
-
 }
