@@ -399,34 +399,51 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'catid'    => $catIds[1],
 				'ordering' => 2,
+				'state'    => 1,
 			),
 			array(
 				'catid'    => $catIds[1],
 				'ordering' => 1,
 				'access'   => 3,
+				'state'    => 1,
 			),
 			array(
 				'catid'    => $catIds[0],
 				'ordering' => 2,
+				'state'    => 0,
 			),
 			array(
 				'catid'    => $catIds[0],
 				'ordering' => 1,
+				'state'    => 0,
 			),
 			array(
 				'catid'    => $catIds[0],
 				'ordering' => 0,
+				'state'    => 0,
 			),
 			array(
 				'catid'    => $catIds[0],
 				'ordering' => 0,
+				'state'    => 0,
 			),
 		);
 
 		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
 
-		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
+		// Set com_workflow enabled for com_content
+		$params = ComponentHelper::getParams('com_content');
+		$params->set('workflow_enabled', '1');
 
+		$query = $this->db->getQuery(true);
+
+		$query->update($this->db->quoteName('#__extensions'))
+			->set($this->db->quoteName('params') . '=' . $this->db->quote(json_encode($params)))
+			->where($this->db->quoteName('name') . '=' . $this->db->quote('com_content'));
+
+		$this->db->setQuery($query)->execute();
+
+		// Store the articles
 		foreach ($articles as $i => $article)
 		{
 			$articleModel = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
@@ -453,7 +470,6 @@ class PlgSampledataBlog extends CMSPlugin
 
 			$article['language']        = $language;
 			$article['associations']    = array();
-			$article['state']           = 1;
 			$article['featured']        = 0;
 			$article['images']          = '';
 			$article['metakey']         = '';
