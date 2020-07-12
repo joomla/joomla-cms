@@ -192,7 +192,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		$fromTo = array(
 			array(
-				// Idea to copy write
+				// Idea to Copywriting
 				'from_stage_id' => $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
 				'to_stage_id' 	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE2_TITLE')],
 				'options' => $defaultOptions,
