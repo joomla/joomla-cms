@@ -664,4 +664,19 @@ class FileLayout extends BaseLayout
 
 		return $sublayout->render($displayData);
 	}
+
+	/**
+	 * Check if the layout file  exists
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function checkLayoutExists()
+	{
+		$layoutPath = $this->getPath();
+
+		return (!empty($layoutPath));
+	}
+
 }
