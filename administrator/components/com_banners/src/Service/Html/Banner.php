@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Banners\Administrator\Service\Html;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -35,7 +35,7 @@ class Banner
 		return implode(
 			"\n",
 			array(
-				'<label id="batch-client-lbl" for="batch-client">',
+				'<label id="batch-client-lbl" for="batch-client-id">',
 				Text::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
 				'</label>',
 				'<select class="custom-select" name="batch[client_id]" id="batch-client-id">',

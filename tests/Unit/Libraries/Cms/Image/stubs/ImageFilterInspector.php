@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@ use Joomla\CMS\Image\ImageFilter;
 /**
  * Image Filter class inspector for testing purposes.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Inspector extends ImageFilter
 {
@@ -22,7 +22,7 @@ class Inspector extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function execute(array $options = array())
 	{

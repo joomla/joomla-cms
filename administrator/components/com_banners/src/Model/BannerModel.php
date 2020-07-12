@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
@@ -25,6 +26,8 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
  */
 class BannerModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *
@@ -422,7 +425,7 @@ class BannerModel extends AdminModel
 		// Alter the name for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			/** @var \Joomla\Component\Banners\Administrator\Table\Banner $origTable */
+			/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
 			$origTable = clone $this->getTable();
 			$origTable->load($input->getInt('id'));
 

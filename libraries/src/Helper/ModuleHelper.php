@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,15 +64,8 @@ abstract class ModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if ($result === null && strpos($name, 'mod_') === 0)
 		{
-			$result            = new \stdClass;
-			$result->id        = 0;
-			$result->title     = '';
-			$result->module    = $name;
-			$result->position  = '';
-			$result->content   = '';
-			$result->showtitle = 0;
-			$result->control   = '';
-			$result->params    = '';
+			$result = static::createDummyModule();
+			$result->module = $name;
 		}
 
 		return $result;
@@ -109,7 +102,7 @@ abstract class ModuleHelper
 		{
 			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
-				$result[0] = static::getModule('mod_' . $position);
+				$result[0] = static::createDummyModule();
 				$result[0]->title = $position;
 				$result[0]->position = $position;
 			}
@@ -266,7 +259,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function renderRawModule($module, Registry $params, $attribs = array())
 	{
@@ -711,7 +704,7 @@ abstract class ModuleHelper
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the id of the module
-			if ($modules[$i]->id === $id)
+			if ((string) $modules[$i]->id === $id)
 			{
 				// Found it
 				return $modules[$i];
@@ -719,16 +712,30 @@ abstract class ModuleHelper
 		}
 
 		// If we didn't find it, create a dummy object
-		$result            = new \stdClass;
-		$result->id        = 0;
-		$result->title     = '';
-		$result->module    = '';
-		$result->position  = '';
-		$result->content   = '';
-		$result->showtitle = 0;
-		$result->control   = '';
-		$result->params    = '';
+		$result = static::createDummyModule();
 
 		return $result;
+	}
+
+	/**
+	 * Method to create a dummy module.
+	 *
+	 * @return  \stdClass  The Module object
+	 *
+	 * @since   4.0.0
+	 */
+	protected static function createDummyModule(): \stdClass
+	{
+		$module            = new \stdClass;
+		$module->id        = 0;
+		$module->title     = '';
+		$module->module    = '';
+		$module->position  = '';
+		$module->content   = '';
+		$module->showtitle = 0;
+		$module->control   = '';
+		$module->params    = '';
+
+		return $module;
 	}
 }

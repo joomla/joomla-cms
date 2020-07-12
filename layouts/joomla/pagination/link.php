@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -20,26 +20,26 @@ switch ((string) $item->text)
 {
 	// Check for "Start" item
 	case Text::_('JLIB_HTML_START') :
-		$icon = 'fas fa-angle-double-left';
+		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-double-right' : 'fas fa-angle-double-left';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Prev" item
 	case $item->text === Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
-		$icon = 'fas fa-angle-left';
+		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-right' : 'fas fa-angle-left';
 		$aria =Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Next" item
 	case Text::_('JNEXT') :
-		$icon = 'fas fa-angle-right';
+		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-left' : 'fas fa-angle-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "End" item
 	case Text::_('JLIB_HTML_END') :
-		$icon = 'fas fa-angle-double-right';
+		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-double-left' : 'fas fa-angle-double-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
@@ -83,18 +83,18 @@ else
 
 ?>
 <?php if ($displayData['active']) : ?>
-	<li class="<?php echo $class; ?> page-link">
-		<a aria-label="<?php echo $aria; ?>" <?php echo $link; ?>>
+	<li class="page-item">
+		<a aria-label="<?php echo $aria; ?>" <?php echo $link; ?> class="page-link">
 			<?php echo $display; ?>
 		</a>
 	</li>
 <?php elseif (isset($item->active) && $item->active) : ?>
 	<?php $aria = Text::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower($item->text)); ?>
-	<li class="<?php echo $class; ?> page-link current">
-		<span aria-current="true" aria-label="<?php echo $aria; ?>"><?php echo $display; ?></span>
+	<li class="<?php echo $class; ?> page-item">
+		<span aria-current="true" aria-label="<?php echo $aria; ?>" class="page-link"><?php echo $display; ?></span>
 	</li>
 <?php else : ?>
-	<li class="<?php echo $class; ?> page-link">
-		<?php echo $display; ?>
+	<li class="<?php echo $class; ?> page-item">
+		<span class="page-link" aria-hidden="true"><?php echo $display; ?></span>
 	</li>
 <?php endif; ?>

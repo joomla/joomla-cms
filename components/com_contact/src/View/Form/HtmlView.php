@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Site\View\Form;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -21,43 +21,43 @@ use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 /**
  * HTML Contact View class for the Contact component
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
 	 * @var    \Joomla\CMS\Form\Form
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $form;
 
 	/**
 	 * @var    object
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $item;
 
 	/**
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $return_page;
 
 	/**
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx;
 
 	/**
 	 * @var    \Joomla\Registry\Registry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $state;
 
 	/**
 	 * @var    \Joomla\Registry\Registry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $params;
 
@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @throws Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function display($tpl = null)
 	{
@@ -144,7 +144,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @throws Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _prepareDocument()
 	{

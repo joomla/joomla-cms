@@ -3,25 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\String\StringHelper;
-
-// Register dependent classes.
-define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
-\JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
-\JLoader::register('FinderIndexerLanguage', FINDER_PATH_INDEXER . '/language.php');
-\JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
-\JLoader::register('FinderIndexerResult', FINDER_PATH_INDEXER . '/result.php');
 
 /**
  * Search model class for the Finder package.
@@ -39,11 +33,11 @@ class SearchModel extends ListModel
 	protected $context = 'com_finder.search';
 
 	/**
-	 * The query object is an instance of FinderIndexerQuery which contains and
+	 * The query object is an instance of Query which contains and
 	 * models the entire search query including the text input; static and
 	 * dynamic taxonomy filters; date filters; etc.
 	 *
-	 * @var    \FinderIndexerQuery
+	 * @var    Query
 	 * @since  2.5
 	 */
 	protected $searchquery;
@@ -75,7 +69,7 @@ class SearchModel extends ListModel
 	/**
 	 * Method to get the results of the query.
 	 *
-	 * @return  array  An array of FinderIndexerResult objects.
+	 * @return  array  An array of Result objects.
 	 *
 	 * @since   2.5
 	 * @throws  \Exception on database error.
@@ -96,7 +90,15 @@ class SearchModel extends ListModel
 		foreach ($items as $rk => $row)
 		{
 			// Build the result object.
-			$result = unserialize($row->object);
+			if (is_resource($row->object))
+			{
+				$result = unserialize(stream_get_contents($row->object));
+			}
+			else
+			{
+				$result = unserialize($row->object);
+			}
+
 			$result->cleanURL = $result->route;
 
 			// Add the result back to the stack.
@@ -110,7 +112,7 @@ class SearchModel extends ListModel
 	/**
 	 * Method to get the query object.
 	 *
-	 * @return  \FinderIndexerQuery  A query object.
+	 * @return  Query  A query object.
 	 *
 	 * @since   2.5
 	 */
@@ -129,10 +131,6 @@ class SearchModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		// Get the current user for authorisation checks
-		$user = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -147,7 +145,9 @@ class SearchModel extends ListModel
 
 		$query->from('#__finder_links AS l');
 
-		$query->where('l.access IN (' . $groups . ')')
+		$user = Factory::getUser();
+		$groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
+		$query->whereIn($db->quoteName('l.access'), $groups)
 			->where('l.state = 1')
 			->where('l.published = 1');
 
@@ -179,7 +179,7 @@ class SearchModel extends ListModel
 			// Iterate through each taxonomy group.
 			for ($i = 0, $c = count($groups); $i < $c; $i++)
 			{
-				$query->having('SUM(t.node_id IN (' . implode(',', $groups[$i]) . ')) > 0');
+				$query->having('SUM(CASE WHEN t.node_id IN (' . implode(',', $groups[$i]) . ') THEN 1 ELSE 0 END) > 0');
 			}
 		}
 
@@ -285,6 +285,7 @@ class SearchModel extends ListModel
 			// Since we need to return a query, we simplify this one.
 			$query->clear('join')
 				->clear('where')
+				->clear('bounded')
 				->clear('having')
 				->clear('group')
 				->where('false');
@@ -315,7 +316,7 @@ class SearchModel extends ListModel
 			{
 				if (count($terms))
 				{
-					$query->having('SUM(m.term_id IN (' . implode(',', $terms) . ')) > 0');
+					$query->having('SUM(CASE WHEN m.term_id IN (' . implode(',', $terms) . ') THEN 1 ELSE 0 END) > 0');
 				}
 				else
 				{
@@ -417,7 +418,7 @@ class SearchModel extends ListModel
 		$options['when2'] = $request->getString('w2', $params->get('w2', ''));
 
 		// Load the query object.
-		$this->searchquery = new \FinderIndexerQuery($options);
+		$this->searchquery = new Query($options);
 
 		// Load the query token data.
 		$this->excludedTerms = $this->searchquery->getExcludedTermIds();

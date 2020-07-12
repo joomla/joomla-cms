@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,11 @@ if ($item->anchor_css)
 if ($item->anchor_rel)
 {
 	$attributes['rel'] = $item->anchor_rel;
+}
+
+if ($item->id == $active_id)
+{
+	$attributes['aria-current'] = 'page';
 }
 
 $linktype = $item->title;

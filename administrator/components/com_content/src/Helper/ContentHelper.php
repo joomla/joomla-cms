@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -67,47 +67,10 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$transitions,
 				function ($var) use ($pk, $workflow_id)
 				{
-					return in_array($var['from_stage_id'], [-1, $pk]) && $var['to_stage_id'] != $pk && $workflow_id == $var['workflow_id'];
+					return in_array($var['from_stage_id'], [-1, $pk]) && $workflow_id == $var['workflow_id'];
 				}
 			)
 		);
-	}
-
-	/**
-	 * Method to change state of multiple ids
-	 *
-	 * @param   array  $pks        Array of IDs
-	 * @param   int    $condition  Condition of the workflow state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public static function updateContentState(array $pks, int $condition): bool
-	{
-		if (empty($pks))
-		{
-			return false;
-		}
-
-		try
-		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->update($db->quoteName('#__content'))
-				->set($db->quoteName('state') . ' = :condition')
-				->whereIn($db->quoteName('id'), $pks)
-				->bind(':condition', $condition, ParameterType::INTEGER);
-
-			$db->setQuery($query)->execute();
-		}
-		catch (\Exception $e)
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
@@ -155,8 +118,8 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 			$categories = $category->getPath((int) $data['id']);
 
-			// Remove the current category, because we search vor inherit from parent
-			array_shift($categories);
+			// Remove the current category, because we search for inheritance from parent.
+			array_pop($categories);
 
 			$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($defaulttitle));
 

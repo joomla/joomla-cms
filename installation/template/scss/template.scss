@@ -16,6 +16,9 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../administrator/templates/atum/scss/blocks/header";
 @import "../../../administrator/templates/atum/scss/vendor/bootstrap/custom-forms";
 
+// Safari fix
+@import "../../../administrator/templates/atum/scss/vendor/bootstrap/reboot";
+
 body {
   background: var(--atum-bg-light);
 }
@@ -249,7 +252,7 @@ caption {
 
 // footer
 .footer {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   z-index: $zindex-header;

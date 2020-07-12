@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -14,22 +14,17 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
-$lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option     = $input->get('option', '');
-$view       = $input->get('view', '');
-$layout     = $input->get('layout', 'default');
-$task       = $input->get('task', 'display');
-$itemid     = $input->get('Itemid', '');
-$cpanel     = $option === 'com_cpanel';
-$hiddenMenu = $app->input->get('hidemainmenu');
-$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
+$option = $input->get('option', '');
+$view   = $input->get('view', '');
+$layout = $input->get('layout', 'default');
+$task   = $input->get('task', 'display');
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
@@ -56,12 +51,17 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->getWebAssetManager()
-	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
+$htmlHelperRegistry = HTMLHelper::getServiceRegistry();
+
+// We may have registered this trying to load the main login page - so check before registering again
+if (!$htmlHelperRegistry->hasService('atum'))
+{
+	$htmlHelperRegistry->register('atum', 'JHtmlAtum');
+}
+
 HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>
@@ -71,7 +71,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<jdoc:include type="styles" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($monochrome ? ' monochrome' : ''); ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
 
 <noscript>
 	<div class="alert alert-danger" role="alert">
@@ -102,7 +102,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper">
 		<div id="main-brand" class="main-brand">
-			<h2><?php echo $sitename; ?></h2>
+			<h2><?php echo $app->get('sitename'); ?></h2>
 			<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
 		</div>
 		<div id="sidebar">

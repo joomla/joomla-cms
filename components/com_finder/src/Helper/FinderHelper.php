@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
+use Joomla\Database\ParameterType;
 
 /**
  * Helper class for Joomla! Finder components
@@ -24,18 +26,16 @@ class FinderHelper
 	/**
 	 * Method to log searches to the database
 	 *
-	 * @param   FinderIndexerQuery  $searchquery  The search query
-	 * @param   integer             $resultCount  The number of results for this search
+	 * @param   Query    $searchquery  The search query
+	 * @param   integer  $resultCount  The number of results for this search
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public static function logSearch(\FinderIndexerQuery $searchquery, $resultCount = 0)
+	public static function logSearch(Query $searchquery, $resultCount = 0)
 	{
-		$enable_log_searches = ComponentHelper::getParams('com_finder')->get('logging_enabled', 1);
-
-		if (!$enable_log_searches)
+		if (!ComponentHelper::getParams('com_finder')->get('gather_search_statistics', 0))
 		{
 			return;
 		}
@@ -80,7 +80,24 @@ class FinderHelper
 		}
 		else
 		{
-			$db->insertObject('#__finder_logging', $entry);
+			$query->insert($db->quoteName('#__finder_logging'))
+				->columns(
+					[
+						$db->quoteName('searchterm'),
+						$db->quoteName('query'),
+						$db->quoteName('md5sum'),
+						$db->quoteName('hits'),
+						$db->quoteName('results'),
+					]
+				)
+				->values('?, ?, ?, ?, ?')
+				->bind(1, $entry->searchterm)
+				->bind(2, $entry->query, ParameterType::LARGE_OBJECT)
+				->bind(3, $entry->md5sum)
+				->bind(4, $entry->hits, ParameterType::INTEGER)
+				->bind(5, $entry->results, ParameterType::INTEGER);
+			$db->setQuery($query);
+			$db->execute();
 		}
 	}
 }

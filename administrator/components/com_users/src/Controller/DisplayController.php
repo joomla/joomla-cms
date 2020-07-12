@@ -3,15 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -66,9 +66,9 @@ class DisplayController extends BaseController
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types,
-	 *                               for valid values see {@link Joomla\CMS\Filter\InputFilter::clean()}.
+	 *                               for valid values see {@link \Joomla\CMS\Filter\InputFilter::clean()}.
 	 *
-	 * @return  BaseController	 This object to support chaining.
+	 * @return  BaseController|boolean  This object to support chaining or false on failure.
 	 *
 	 * @since   1.5
 	 */
@@ -80,7 +80,7 @@ class DisplayController extends BaseController
 
 		if (!$this->canView($view))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check for edit form.

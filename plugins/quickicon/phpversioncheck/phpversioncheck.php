@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.phpversioncheck
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -154,11 +154,11 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 					if (version_compare($version, $activePhpVersion, 'ge') && ($today < $versionEndOfSupport))
 					{
 						$supportStatus['status']  = self::PHP_UNSUPPORTED;
-						$supportStatus['message'] = JText::sprintf(
+						$supportStatus['message'] = Text::sprintf(
 							'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
 							PHP_VERSION,
 							$version,
-							$versionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+							$versionEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
 						);
 
 						return $supportStatus;

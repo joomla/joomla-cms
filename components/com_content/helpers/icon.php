@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,23 +34,6 @@ abstract class JHtmlIcon
 	public static function create($category, $params, $attribs = array(), $legacy = false)
 	{
 		return self::getIcon()->create($category, $params, $attribs, $legacy);
-	}
-
-	/**
-	 * Method to generate a link to the email item page for the given article
-	 *
-	 * @param   object    $article  The article information
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string  The HTML markup for the email item link
-	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
-	 */
-	public static function email($article, $params, $attribs = array(), $legacy = false)
-	{
-		return self::getIcon()->email($article, $params, $attribs, $legacy);
 	}
 
 	/**

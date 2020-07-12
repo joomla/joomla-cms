@@ -12,6 +12,7 @@
 			default="site"
 			label="COM_MODULES_REDIRECT_EDIT_LABEL"
 			description="COM_MODULES_REDIRECT_EDIT_DESC"
+			validate="options"
 			>
 			<option value="admin">JADMINISTRATOR</option>
 			<option value="site">JSITE</option>

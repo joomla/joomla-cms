@@ -3,7 +3,7 @@
 	<name>com_media</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -18,13 +18,9 @@
 	</languages>
 	<administration>
 		<files folder="admin">
-			<filename>.babelrc</filename>
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>media.xml</filename>
-			<filename>package-lock.json</filename>
-			<filename>package.json</filename>
-			<filename>webpack.config.js</filename>
 			<folder>forms</folder>
 			<folder>layouts</folder>
 			<folder>resources</folder>

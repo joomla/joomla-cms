@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -24,7 +24,7 @@ class RequestController extends BaseController
 	/**
 	 * Execute the controller.
 	 *
-	 * @return  mixed  A rendered view or true
+	 * @return  mixed  A rendered view or false
 	 *
 	 * @since   3.2
 	 */
@@ -62,7 +62,7 @@ class RequestController extends BaseController
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-			return;
+			return false;
 		}
 
 		try

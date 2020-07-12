@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Step\Acceptance\Administrator;
@@ -20,11 +20,17 @@ use Page\Acceptance\Administrator\ContentListPage;
  */
 class Content extends Admin
 {
+	/**
+	 * Flag if workflows are enabled by default
+	 *
+	 * @var bool
+	 */
+	private $workflowsEnabled = false;
 
 	/**
 	 * Method to create an article.
 	 *
-	 * @param  Array  articleDetails Array with Article Details like Title, Alias, Content etc
+	 * @param  array  articleDetails Array with Article Details like Title, Alias, Content etc
 	 *
 	 * @return void
 	 *
@@ -121,7 +127,16 @@ class Content extends Admin
 		$I->checkAllResults();
 		$I->clickToolbarButton('Action');
 		$I->wait(2);
-		$I->clickToolbarButton('unpublish');
+
+		if ($this->workflowsEnabled)
+		{
+			$I->clickToolbarButton('transition', '1');
+		}
+		else
+		{
+			$I->clickToolbarButton('unpublish');
+		}
+
 		$I->filterByCondition($title, "Unpublished");
 	}
 
@@ -144,7 +159,16 @@ class Content extends Admin
 		$I->checkAllResults();
 		$I->clickToolbarButton('Action');
 		$I->wait(2);
-		$I->clickToolbarButton('publish');
+
+		if ($this->workflowsEnabled)
+		{
+			$I->clickToolbarButton('transition', '2');
+		}
+		else
+		{
+			$I->clickToolbarButton('publish');
+		}
+
 		$I->filterByCondition($title, "Published");
 	}
 
@@ -168,7 +192,16 @@ class Content extends Admin
 		$I->checkAllResults();
 		$I->clickToolbarButton('Action');
 		$I->wait(2);
-		$I->clickToolbarButton('trash');
+
+		if ($this->workflowsEnabled)
+		{
+			$I->clickToolbarButton('transition', '3');
+		}
+		else
+		{
+			$I->clickToolbarButton('trash');
+		}
+
 		$I->filterByCondition($title, "Trashed");
 	}
 
@@ -210,7 +243,7 @@ class Content extends Admin
 		$I = $this;
 		$I->click("//div[@class='js-stools-container-bar']//button[contains(text(), 'Filter')]");
 		$I->wait(2);
-		$I->selectOptionInChosenByIdUsingJs('filter_condition', $condition);
+		$I->selectOptionInChosenByIdUsingJs('filter_published', $condition);
 		$I->see($title);
 	}
 }

@@ -3,13 +3,13 @@
  * @package     Joomla.API
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Api\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -17,13 +17,14 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
+use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\SendEmail;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
@@ -66,7 +67,7 @@ class ContactController extends ApiController
 	{
 		$data = (array) json_decode($this->input->json->getRaw(), true);
 
-		foreach (FieldsHelper::getFields('com_content.article') as $field)
+		foreach (FieldsHelper::getFields('com_contact.contact') as $field)
 		{
 			if (isset($data[$field->name]))
 			{
@@ -204,69 +205,60 @@ class ContactController extends ApiController
 	{
 		$app = $this->app;
 
+		Factory::getLanguage()->load('com_contact', JPATH_SITE, $app->getLanguage()->getTag(), true);
+
 		if ($contact->email_to == '' && $contact->user_id != 0)
 		{
 			$contact_user      = User::getInstance($contact->user_id);
 			$contact->email_to = $contact_user->get('email');
 		}
 
-		$mailfrom = $app->get('mailfrom');
-		$fromname = $app->get('fromname');
-		$sitename = $app->get('sitename');
-
-		$name    = $data['contact_name'];
-		$email   = PunycodeHelper::emailToPunycode($data['contact_email']);
-		$subject = $data['contact_subject'];
-		$body    = $data['contact_message'];
-
-		// Prepare email body
-		$prefix = Text::sprintf('COM_CONTACT_ENQUIRY_TEXT', Uri::base());
-		$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
+		$templateData = [
+			'sitename' => $app->get('sitename'),
+			'name'     => $data['contact_name'],
+			'contactname' => $contact->name,
+			'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
+			'subject'  => $data['contact_subject'],
+			'body'     => stripslashes($data['contact_message']),
+			'url'      => Uri::base(),
+			'customfields' => ''
+		];
 
 		// Load the custom fields
 		if (!empty($data['com_fields']) && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['com_fields']))
 		{
 			$output = FieldsHelper::render(
 				'com_contact.mail',
-				'fields.render', [
+				'fields.render',
+				array(
 					'context' => 'com_contact.mail',
 					'item'    => $contact,
 					'fields'  => $fields,
-				]
+				)
 			);
 
 			if ($output)
 			{
-				$body .= "\r\n\r\n" . $output;
+				$templateData['customfields'] = $output;
 			}
 		}
 
 		try
 		{
-			$mail = Factory::getMailer();
-			$mail->addRecipient($contact->email_to);
-			$mail->addReplyTo($email, $name);
-			$mail->setSender([$mailfrom, $fromname]);
-			$mail->setSubject($sitename . ': ' . $subject);
-			$mail->setBody($body);
-			$sent = $mail->Send();
+			$mailer = new MailTemplate('com_contact.mail', $app->getLanguage()->getTag());
+			$mailer->addRecipient($contact->email_to);
+			$mailer->setReplyTo($templateData['email'], $templateData['name']);
+			$mailer->addTemplateData($templateData);
+			$sent = $mailer->send();
 
 			// If we are supposed to copy the sender, do so.
-
-			// Check whether email copy function activated
 			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
 			{
-				$copytext = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
-				$copytext .= "\r\n\r\n" . $body;
-				$copysubject = Text::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
-
-				$mail = Factory::getMailer();
-				$mail->addRecipient($email);
-				$mail->addReplyTo($email, $name);
-				$mail->setSender([$mailfrom, $fromname]);
-				$mail->setSubject($copysubject);
-				$mail->setBody($copytext);
-				$sent = $mail->Send();
+				$mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
+				$mailer->addRecipient($templateData['email']);
+				$mailer->setReplyTo($templateData['email'], $templateData['name']);
+				$mailer->addTemplateData($templateData);
+				$sent = $mailer->send();
 			}
 		}
 		catch (MailDisabledException | phpMailerException $exception)

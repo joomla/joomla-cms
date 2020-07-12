@@ -25,6 +25,8 @@
 
     @include media-breakpoint-down(xs) {
       width: 100%;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
     }
   }
 
@@ -59,7 +61,7 @@
     img {
       max-width: calc(18rem - .8rem);
       max-height: 1.3rem;
-      margin-left: .8rem;
+      margin-inline-start: .8rem;
 
       &.logo-small {
         display: none;
@@ -84,8 +86,9 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    [class^='icon-'] {
-      margin-right: .625rem;
+    [class^='icon-'],
+    [class^='fa-'] {
+      margin-inline-end: .625rem;
       font-size: 1rem;
     }
   }
@@ -115,6 +118,11 @@
         color: $white;
       }
 
+      .text-muted {
+        color: #fff !important;
+        opacity: .6;
+      }
+
       a,
       button {
 
@@ -129,11 +137,11 @@
         &.disabled,
         &.disabled:hover,
         &.disabled[aria-expanded="true"] {
-          color: var(--atum-special-color);
+          color: #fff;
           pointer-events: none;
           background-color: transparent;
           box-shadow: none;
-          opacity: .3;
+          opacity: .6;
         }
       }
 
@@ -175,16 +183,16 @@
 
   .badge {
     position: absolute;
-    top: .4rem;
+    top: 0;
 
     [dir=ltr] & {
       left: 50%;
-      margin-left: .8rem;
+      margin-left: .4rem;
     }
 
     [dir=rtl] & {
       right: 50%;
-      margin-right: .8rem;
+      margin-right: .4rem;
     }
   }
 
@@ -268,7 +276,7 @@
       justify-content: flex-end;
       width: calc(13.2rem + 2px);
       margin-top: .1rem;
-      background-color: var(--white-offset);
+      background-color: var(--atum-bg-dark-70);
       border: 1px solid $gray-500;
       border-top: 0;
       box-shadow: $atum-box-shadow;
@@ -290,6 +298,14 @@
     .header-item {
       width: 6.6rem;
       height: 3.7rem;
+
+      .header-item-content > :first-child {
+        color: var(--white);
+
+        &[aria-expanded=true] {
+          color: var(--atum-text-light);
+        }
+      }
     }
 
     .header-item-content {
@@ -367,14 +383,6 @@
         [dir=rtl] & {
           right: 0;
           left: auto;
-        }
-      }
-
-      & .header-item .header-item-content > :first-child {
-        color: var(--atum-special-color);
-
-        &[aria-expanded=true] {
-          color: var(--atum-text-light);
         }
       }
     }

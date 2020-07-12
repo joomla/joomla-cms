@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -50,8 +50,11 @@ Joomla = window.Joomla || {};
 
             const iframe = document.querySelector('#moduleDashboardAddModal iframe');
             const content = iframe.contentDocument || iframe.contentWindow.document;
+            const targetBtn = content.querySelector(clickTarget);
 
-            content.querySelector(clickTarget).click();
+            if (targetBtn) {
+              targetBtn.click();
+            }
           }
         });
       });
