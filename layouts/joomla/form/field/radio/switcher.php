@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\FileLayout;
 
-// The layout need for transition from "btn-group" in Joomla! 3.10 to "switcher" field in Joomla! 4
+// The layout is needed for transition from "btn-group" in Joomla! 3.10 to the "switcher" field in Joomla! 4
 
 if (!$displayData['class'] || strpos($displayData['class'], 'btn-group') === false)
 {
