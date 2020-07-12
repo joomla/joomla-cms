@@ -1259,7 +1259,6 @@ class TemplateModel extends FormModel
 				$return = $this->createTemplateOverride($override, $htmlPath);
 			}
 
-
 			if (!$return)
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
