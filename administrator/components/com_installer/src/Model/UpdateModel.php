@@ -446,13 +446,20 @@ class UpdateModel extends ListModel
 		$update->set('type', $package['type']);
 
 		// Check the package
-		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
-
-		// The validation was not successful. Just a warning for now.
-		// TODO: In Joomla 4 this will abort the installation
-		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
+		switch (InstallerHelper::isChecksumValid($package['packagefile'], $update))
 		{
-			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
+			case InstallerHelper::HASH_NOT_VALIDATED:
+				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
+				return false;
+				break;
+
+			case InstallerHelper::HASH_NOT_PROVIDED:
+				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WARNING'), 'warning');
+				break;
+
+			case InstallerHelper::HASH_VALIDATED:
+				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_OK'), 'notice');
+				break;
 		}
 
 		// Install the package
