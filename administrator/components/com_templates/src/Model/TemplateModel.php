@@ -1259,18 +1259,17 @@ class TemplateModel extends FormModel
 				$return = $this->createTemplateOverride($override, $htmlPath);
 			}
 
-			if ($return)
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
 
-				return true;
-			}
-			else
+			if (!$return)
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
 
 				return false;
 			}
+
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_OVERRIDE_CREATED') . str_replace(JPATH_ROOT, '', $htmlPath));
+
+			return true;
 		}
 	}
 
@@ -1291,6 +1290,9 @@ class TemplateModel extends FormModel
 			return $return;
 		}
 
+		// The template provided overrides
+		$templateBaseHtml =  preg_replace('/' . $this->template->element . '\/html\//', $this->template->element . '/base_html/', $htmlPath);
+
 		// Get list of template folders
 		$folders = Folder::folders($overridePath, null, true, true);
 
@@ -1305,6 +1307,11 @@ class TemplateModel extends FormModel
 					Folder::create($htmlFolder);
 				}
 			}
+		}
+
+		// Check if there is a base_html override
+		if (is_dir($templateBaseHtml)) {
+			$overridePath = $templateBaseHtml;
 		}
 
 		// Get list of template files (Only get *.php file for template file)
