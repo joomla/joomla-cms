@@ -231,7 +231,7 @@ endif;
 										->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
 								?>
 								</td>
-								<td class="article-status">
+								<td class="article-status text-center">
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
