@@ -95,8 +95,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php if ($canEdit) : ?>
 										<a class="hasPopover"
 											href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
-											title="<?= Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE') ?>"
-											data-content="<?= Text::sprintf('COM_INSTALLER_UPDATESITE_EDIT_TIP', $item->update_site_name, $item->name) ?>"
+											title="<?php echo Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE') ?>"
+											data-content="<?php echo Text::sprintf('COM_INSTALLER_UPDATESITE_EDIT_TIP', $item->update_site_name, $item->name) ?>"
 										>
 											<?php echo Text::_($item->update_site_name); ?>
 										</a>
@@ -117,8 +117,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php elseif ($item->downloadKey['supported']) : ?>
 										<span class="badge badge-warning">
 											<span class="hasPopover"
-													title="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
-													data-content="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
+													title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
+													data-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
 											>
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
 											</span>
