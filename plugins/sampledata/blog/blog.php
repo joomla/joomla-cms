@@ -210,7 +210,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'options' => $defaultOptions,
 			),
 			array(
-				// Fact Check to revision
+				// Fact Check to Review
 				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE4_TITLE')],
 				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE5_TITLE')],
 				'options' => $defaultOptions,
