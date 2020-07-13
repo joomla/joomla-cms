@@ -407,8 +407,10 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 		$article->load($table->id);
 
-		// We don't allow the change of the feature state when we use the workflow
-		// As we're setting the field to disabled, no value should be there at all
+		/**
+		 * We don't allow the change of the feature state when we use the workflow
+		 * As we're setting the field to disabled, no value should be there at all
+		 */
 		if (isset($data[$keyName]))
 		{
 			$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED'), 'error');
