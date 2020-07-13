@@ -21,9 +21,9 @@ $wa->useScript('core')
 	->useScript('field.passwordview')
 	->registerAndUseScript('mod_login.admin', 'mod_login/admin-login.min.js', [], ['defer' => true], ['core', 'form.validate']);
 
+// Load JS message titles
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
-// Load JS message titles
 Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
