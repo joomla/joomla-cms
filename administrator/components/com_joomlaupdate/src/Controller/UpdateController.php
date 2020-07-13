@@ -68,6 +68,7 @@ class UpdateController extends BaseController
 			$message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
 			$messageType = 'error';
 			$url         = 'index.php?option=com_joomlaupdate';
+
 			$this->app->setUserState('com_joomlaupdate.file', null);
 			$this->setRedirect($url, $message, $messageType);
 
