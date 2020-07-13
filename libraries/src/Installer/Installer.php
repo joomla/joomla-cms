@@ -519,7 +519,7 @@ class Installer extends \JAdapter
 		 * Flush the opcache regardless of result to ensure consistency
 		 *
 		 * In some (most?) systems PHP's CLI has a separate opcode cache to the one used by the web server or FPM process,
-		 * which means running opcache_reset() in the CLI won't reset the webserver/fpm opcode cache, and vice-versa.
+		 * which means running opcache_reset() in the CLI won't reset the webserver/fpm opcode cache, and vice versa.
 		 */
 		if (function_exists('opcache_reset'))
 		{
