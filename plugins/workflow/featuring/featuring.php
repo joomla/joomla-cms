@@ -309,11 +309,11 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param WorkflowTransitionEvent $event
 	 *
-	 * @return void
+	 * @return   void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onWorkflowAfterTransition(WorkflowTransitionEvent $event): void 
+	public function onWorkflowAfterTransition(WorkflowTransitionEvent $event): void
 	{
 		$context       = $event->getArgument('extension');
 		$extensionName = $event->getArgument('extensionName');
