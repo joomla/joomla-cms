@@ -74,7 +74,7 @@ class UpdateController extends BaseController
 
 			try
 			{
-				Log::add($message, Log::INFO, 'Update');
+				Log::add($message, Log::ERROR, 'Update');
 			}
 			catch (\RuntimeException $exception)
 			{
