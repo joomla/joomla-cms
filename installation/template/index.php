@@ -32,25 +32,19 @@ $this->getWebAssetManager()
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
 
-// Load JavaScript message titles
+// Load JavaScript translations
 Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
-
-// Add strings for JavaScript error translations.
 Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
 Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
 Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 Text::script('INSTL_DATABASE_RESPONSE_ERROR');
-
-// Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');
 Text::script('INSTL_FTP_SETTINGS_CORRECT');
-
-// Load strings for translated messages (directory removal)
 Text::script('INSTL_REMOVE_INST_FOLDER');
 Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 ?>
