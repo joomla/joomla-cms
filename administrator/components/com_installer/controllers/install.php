@@ -74,6 +74,9 @@ class InstallerControllerInstall extends JControllerLegacy
 	 */
 	public function ajax_upload()
 	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app = JFactory::getApplication();
 		$message = $app->getUserState('com_installer.message');
 
