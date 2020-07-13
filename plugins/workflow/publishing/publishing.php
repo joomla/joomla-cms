@@ -401,8 +401,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getArgument('0');
 
-		// @var TableInterface
-
+		/* @var TableInterface $table */
 		$table = $event->getArgument('1');
 		$isNew = $event->getArgument('2');
 		$data  = $event->getArgument('3');
