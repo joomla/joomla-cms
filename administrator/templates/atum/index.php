@@ -29,13 +29,11 @@ $task       = $input->get('task', 'display');
 $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
 
-// Getting user accessibility settings
+// Get accessibility settings
 $user       = $app->getIdentity();
-$contrast   = (bool) $user->getParam('atum.contrast', 0);
-$highlight  = (bool) $user->getParam('atum.highlight', 0);
-$fontsize   = (bool) $user->getParam('atum.fontsize', 0);
-
-// Monochrome can also be set in the template.
+$contrast   = (bool) $user->getParam('atum.contrast', $this->params->get('contrast', 0));
+$highlight  = (bool) $user->getParam('atum.highlight', $this->params->get('highlight', 0));
+$fontsize   = (bool) $user->getParam('atum.fontsize', $this->params->get('fontsize', 0));
 $monochrome = (bool) $user->getParam('atum.monochrome', $this->params->get('monochrome', 0));
 
 require_once __DIR__ . '/Service/HTML/Atum.php';

@@ -2,11 +2,11 @@
 <form>
 	<fields name="params">
 		<fields name="atum">
-			<fieldset name="atum" label="PLG_USER_ATUM_SETTINGS_FIELDSET_LABEL">
+			<fieldset name="atum" label="PLG_USER_ATUM_ACCESSIBILITY_SETTINGS_FIELDSET_LABEL">
 				<field
 					name="monochrome"
 					type="list"
-					label="PLG_USER_ATUM_SETTINGS_FIELD_MONOCHROME"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_MONOCHROME"
 					default=""
 					filter="UINT"
 					validate="options"
@@ -17,37 +17,37 @@
 				</field>
 				<field
 					name="contrast"
-					type="radio"
-					label="PLG_USER_ATUM_SETTINGS_FIELD_CONTRAST"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
+					type="list"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_CONTRAST"
+					default=""
 					filter="UINT"
 					validate="options"
 					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 				<field
 					name="highlight"
-					type="radio"
-					label="PLG_USER_ATUM_SETTINGS_FIELD_HIGHLIGHT"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
+					type="list"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_HIGHLIGHT"
+					default=""
 					filter="UINT"
 					validate="options"
 					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 				<field
 					name="fontsize"
-					type="radio"
-					label="PLG_USER_ATUM_SETTINGS_FIELD_FONTSIZE"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
+					type="list"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_FONTSIZE"
+					default=""
 					filter="UINT"
 					validate="options"
 					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
