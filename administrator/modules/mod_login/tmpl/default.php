@@ -108,24 +108,24 @@ Text::script('MESSAGE');
 			?>
 		<div class="form-group">
 			<button type="button"
-			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
+			        class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
 					<?php foreach ($dataAttributeKeys as $key): ?>
 					<?php echo $key ?>="<?php echo $button[$key] ?>"
 					<?php endforeach; ?>
 					<?php if ($button['onclick']): ?>
-					onclick="<?= $button['onclick'] ?>"
+					onclick="<?php echo $button['onclick'] ?>"
 					<?php endif; ?>
-			        title="<?= Text::_($button['label']) ?>"
-			        id="<?= $button['id'] ?>"
+			        title="<?php echo Text::_($button['label']) ?>"
+			        id="<?php echo $button['id'] ?>"
 			>
 				<?php if (!empty($button['icon'])): ?>
-					<span class="<?= $button['icon'] ?>"></span>
+					<span class="<?php echo $button['icon'] ?>"></span>
 				<?php elseif (!empty($button['image'])): ?>
-					<?= HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
+					<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 						'class' => 'icon',
 					], true) ?>
 				<?php endif; ?>
-				<?= Text::_($button['label']) ?>
+				<?php echo Text::_($button['label']) ?>
 			</button>
 		</div>
 		<?php endforeach; ?>
