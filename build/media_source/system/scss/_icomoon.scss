@@ -3,7 +3,7 @@
 [class^="icon-"]:not(.input-group-text),
 [class*=" icon-"]:not(.input-group-text),
 [class^="fa-"]:not(.input-group-text),
-[class*=" fa-"]:not(.input-group-text){
+[class*=" fa-"]:not(.input-group-text) {
   display: inline-block;
   width: 14px;
   height: 14px;
@@ -12,7 +12,7 @@
 [class^="icon-"]::before,
 [class*=" icon-"]::before,
 [class^="fa-"]::before,
-[class*=" fa-"]::before{
+[class*=" fa-"]::before {
   font-family: "Font Awesome 5 Free";
   font-style: normal;
   speak: none;

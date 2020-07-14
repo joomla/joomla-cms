@@ -22,7 +22,7 @@
 }
 
 .icon-unpublish,
-.fa-times{
+.fa-times {
   color: theme-color("danger");
 
   .dropdown-status-group & {
@@ -62,13 +62,13 @@
   }
 
   .icon-archive,
-  .fa-folder{
+  .fa-folder {
     color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
   .icon-checkedout,
-  .fa-lock{
+  .fa-lock {
     width: auto;
     height: auto;
     font-size: 1.2rem;
