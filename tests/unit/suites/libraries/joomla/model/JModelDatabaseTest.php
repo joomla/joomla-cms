@@ -45,7 +45,7 @@ class JModelDatabaseTest extends TestCase
 	 */
 	public function testChecksInjectedDatabaseDriver()
 	{
-		// Create a new datbase mock for injection.
+		// Create a new database mock for injection.
 		$db = $this->getMockDatabase();
 		$class = new DatabaseModel(null, $db);
 		$this->assertSame($db, $class->getDb());

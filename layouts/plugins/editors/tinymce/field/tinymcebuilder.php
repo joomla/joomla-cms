@@ -42,7 +42,7 @@ extract($displayData);
  * @var   array   $menubarSource   Menu items for builder
  * @var   array   $buttons         List of the buttons
  * @var   array   $buttonsSource   Buttons by group, for the builder
- * @var   array   $toolbarPreset   Toolbar presset (default values)
+ * @var   array   $toolbarPreset   Toolbar preset (default values)
  * @var   int     $setsAmount      Amount of sets
  * @var   array   $setsNames       List of Sets names
  * @var   JForm[] $setsForms       Form with extra options for an each set
