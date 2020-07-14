@@ -104,18 +104,6 @@
 					default="#001B4C"
 					filter="color"
 				/>
-				<field
-					name="monochrome"
-					type="radio"
-					label="TPL_ATUM_COLORS_SETTINGS_MONOCHROME_LABEL"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
-					filter="integer"
-					validate="options"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
 			</fieldset>
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
@@ -155,7 +143,7 @@
 				<field
 					name="monochrome"
 					type="radio"
-					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_MONOCHROME"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_MONOCHROME_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="UINT"
@@ -167,7 +155,7 @@
 				<field
 					name="contrast"
 					type="radio"
-					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_CONTRAST"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_CONTRAST_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="UINT"
@@ -179,7 +167,7 @@
 				<field
 					name="highlight"
 					type="radio"
-					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_HIGHLIGHT"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_HIGHLIGHT_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="UINT"
@@ -191,7 +179,7 @@
 				<field
 					name="fontsize"
 					type="radio"
-					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_FONTSIZE"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_FONTSIZE_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="UINT"

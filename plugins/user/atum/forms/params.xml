@@ -6,7 +6,7 @@
 				<field
 					name="monochrome"
 					type="list"
-					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_MONOCHROME"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_MONOCHROME_LABEL"
 					default=""
 					filter="UINT"
 					validate="options"
@@ -18,7 +18,7 @@
 				<field
 					name="contrast"
 					type="list"
-					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_CONTRAST"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_CONTRAST_LABEL"
 					default=""
 					filter="UINT"
 					validate="options"
@@ -30,7 +30,7 @@
 				<field
 					name="highlight"
 					type="list"
-					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_HIGHLIGHT"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_HIGHLIGHT_LABEL"
 					default=""
 					filter="UINT"
 					validate="options"
@@ -42,7 +42,7 @@
 				<field
 					name="fontsize"
 					type="list"
-					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_FONTSIZE"
+					label="TPL_ATUM_ACCESSIBILITY_SETTINGS_FIELD_FONTSIZE_LABEL"
 					default=""
 					filter="UINT"
 					validate="options"
