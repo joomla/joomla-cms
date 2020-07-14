@@ -515,10 +515,12 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $extensionVersion, 'gt'))
 			{
+				// Extension needs upgrade before upgrading Joomla
 				$resultGroup = 2;
 			}
 			else
 			{
+				// Current version is up to date and compatible
 				$resultGroup = 1;
 			}
 
@@ -526,17 +528,20 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			{
 				if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $currentCompatibilityStatus->compatibleVersion, 'lt'))
 				{
+					// Special case warning when version compatible with target is lower than current
 					$upgradeWarning = 2;
 				}
 			}
 		}
 		elseif ($currentCompatibilityStatus->state == 1)
 		{
+			// No compatible version for target version but there is a compatible version for current version
 			$resultGroup = 3;
 		}
 		else
 		{
-			$resultGroup = 4;
+			// No update server available
+			$resultGroup = 3;
 		}
 
 		// Do we need to capture

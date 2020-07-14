@@ -20,7 +20,15 @@ function extractionMethodHandler(target, prefix)
      */
     var PreUpdateChecker = {};
 
-    /**
+	/**
+	 * Warning visibility flags
+	 *
+	 * @type {Boolean}
+	 */
+	var showorangewarning = false;
+	var showyellowwarning = false;
+
+	/**
      * Config object
      *
      * @type {{serverUrl: string, selector: string}}
@@ -56,7 +64,44 @@ function extractionMethodHandler(target, prefix)
 		$('.compatibilitytypes').css('display', 'none').css('margin-left', 0);
 		// The currently processing line should show until its finished
 		$('#compatibilitytype0').css('display', 'block');
+		$('.compatibilitytoggle').css('float', 'right').css('cursor', 'pointer');
 
+		$('.compatibilitytoggle').on('click', function(toggle, index)
+		{
+			var compatibilitytypes = $(this).closest('fieldset.compatibilitytypes');
+			if($(this).data('state') == 'closed')
+			{
+				$(this).data('state', 'open');
+				$(this).html( Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION'));
+				compatibilitytypes.find('.exname').removeClass('span8').addClass('span4');
+				compatibilitytypes.find('.extype').removeClass('span4').addClass('span2');
+				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('span2');
+				compatibilitytypes.find('.currcomp').removeClass('hidden').addClass('span2');
+				compatibilitytypes.find('.instver').removeClass('hidden').addClass('span2');
+
+				if (PreUpdateChecker.showyellowwarning)
+				{
+					compatibilitytypes.find("#updateyellowwarning").removeClass('hidden');
+				}
+				if (PreUpdateChecker.showorangewarning)
+				{
+					compatibilitytypes.find("#updateorangewarning").removeClass('hidden');
+				}
+			}
+			else
+			{
+				$(this).data('state', 'closed');
+				$(this).html( Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION'));
+				compatibilitytypes.find('.exname').addClass('span8').removeClass('span4');
+				compatibilitytypes.find('.extype').addClass('span4').removeClass('span2');
+				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('span2');
+				compatibilitytypes.find('.currcomp').addClass('hidden').removeClass('span2');
+				compatibilitytypes.find('.instver').addClass('hidden').removeClass('span2');
+
+				compatibilitytypes.find("#updateyellowwarning").addClass('hidden');
+				compatibilitytypes.find("#updateorangewarning").addClass('hidden');
+			}
+		});
         // Grab all extensions based on the selector set in the config object
         var $extensions = $(PreUpdateChecker.config.selector);
         $extensions.each(function () {
@@ -118,7 +163,7 @@ function extractionMethodHandler(target, prefix)
 					if (extensionData.compatibilityData.upgradeWarning)
 					{
 						html = '<span class="label label-warning">' + extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion + '</span>';
-						$("#upgradeyellowwarning").removeClass('hidden');
+						PreUpdateChecker.showyellowwarning = true;
 					}
 					else {
 						html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
@@ -127,12 +172,12 @@ function extractionMethodHandler(target, prefix)
 				case PreUpdateChecker.STATE.INCOMPATIBLE:
 					// No compatible version found -> display error label
 					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
-					$("#upgradeorangewarning").removeClass('hidden');
+					PreUpdateChecker.showorangewarning = true;
 					break;
 				case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
 					// Could not check compatibility state -> display warning
 					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
-					$("#upgradeorangewarning").removeClass('hidden');
+					PreUpdateChecker.showorangewarning = true;
 					break;
 				default:
 					// An error occured -> show unknown error note
