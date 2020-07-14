@@ -139,6 +139,8 @@ class MessageModel extends AdminModel
 					// Prepare data for a new record.
 					if ($replyId = (int) $this->getState('reply.id'))
 					{
+						$userId = (int) Factory::getUser()->id;
+
 						// If replying to a message, preload some data.
 						$db    = $this->getDbo();
 						$query = $db->getQuery(true)
@@ -150,7 +152,9 @@ class MessageModel extends AdminModel
 							)
 							->from($db->quoteName('#__messages'))
 							->where($db->quoteName('message_id') . ' = :messageid')
-							->bind(':messageid', $replyId, ParameterType::INTEGER);
+							->where($db->quoteName('user_id_to') . ' = :userid')
+							->bind(':messageid', $replyId, ParameterType::INTEGER)
+							->bind(':userid', $userId, ParameterType::INTEGER);
 
 						try
 						{
@@ -159,6 +163,13 @@ class MessageModel extends AdminModel
 						catch (\RuntimeException $e)
 						{
 							$this->setError($e->getMessage());
+
+							return false;
+						}
+
+						if (!$message)
+						{
+							$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 							return false;
 						}
