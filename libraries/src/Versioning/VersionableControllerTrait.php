@@ -74,14 +74,19 @@ trait VersionableControllerTrait
 			return false;
 		}
 
-		$table->check();
-		$table->store();
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_item
 				. $this->getRedirectToItemAppend($recordId, $urlVar), false
 			)
 		);
+
+		if (!$table->check() || !$table->store())
+		{
+			$this->setMessage($table->getError(), 'error');
+
+			return false;
+		}
 
 		$this->setMessage(
 			Text::sprintf(
