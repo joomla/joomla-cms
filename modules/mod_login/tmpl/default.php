@@ -117,7 +117,7 @@ Text::script('JHIDEPASSWORD');
 						<?php echo $key ?>="<?php echo $button[$key] ?>"
 						<?php endforeach; ?>
 						<?php if ($button['onclick']): ?>
-						onclick="<?= $button['onclick'] ?>"
+						onclick="<?php echo $button['onclick'] ?>"
 						<?php endif; ?>
 				        title="<?php echo Text::_($button['label']) ?>"
 				        id="<?php echo $button['id'] ?>"
@@ -129,7 +129,7 @@ Text::script('JHIDEPASSWORD');
 							'class' => 'icon',
 						], true) ?>
 					<?php endif; ?>
-					<?= Text::_($button['label']) ?>
+					<?php echo Text::_($button['label']) ?>
 				</button>
 			</div>
 		<?php endforeach; ?>
