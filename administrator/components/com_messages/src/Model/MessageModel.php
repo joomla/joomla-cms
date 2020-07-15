@@ -179,7 +179,7 @@ class MessageModel extends AdminModel
 
 						if (stripos($message->subject, $re) !== 0)
 						{
-							$this->item->set('subject', $re . $message->subject);
+							$this->item->set('subject', $re . ' ' . $message->subject);
 						}
 					}
 				}
