@@ -140,7 +140,7 @@ class MessagesModelMessage extends JModelAdmin
 						// If replying to a message, preload some data.
 						$db    = $this->getDbo();
 						$query = $db->getQuery(true)
-							->select($db->quoteName(array('subject', 'user_id_from')))
+							->select($db->quoteName(array('subject', 'user_id_from', 'user_id_to')))
 							->from($db->quoteName('#__messages'))
 							->where($db->quoteName('message_id') . ' = ' . (int) $replyId);
 
@@ -155,12 +155,19 @@ class MessagesModelMessage extends JModelAdmin
 							return false;
 						}
 
+						if (!$message || $message->user_id_to != JFactory::getUser()->id)
+						{
+							$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+
+							return false;
+						}
+
 						$this->item->set('user_id_to', $message->user_id_from);
 						$re = JText::_('COM_MESSAGES_RE');
 
 						if (stripos($message->subject, $re) !== 0)
 						{
-							$this->item->set('subject', $re . $message->subject);
+							$this->item->set('subject', $re . ' ' . $message->subject);
 						}
 					}
 				}
