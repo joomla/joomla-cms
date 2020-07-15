@@ -131,7 +131,7 @@ class MessagesModelMessage extends JModelAdmin
 		{
 			if ($this->item = parent::getItem($pk))
 			{
-				// Invalid message_id or no access to message returns 0
+				// Invalid message_id returns 0
 				if ($this->item->user_id_to === '0')
 				{
 					$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
