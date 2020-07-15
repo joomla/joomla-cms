@@ -336,7 +336,7 @@ class User extends Table
 	 *
 	 * @since   1.7.0
 	 */
-	public function store($updateNulls = true)
+	public function store($updateNulls = false)
 	{
 		// Get the table key and key value.
 		$k = $this->_tbl_key;
