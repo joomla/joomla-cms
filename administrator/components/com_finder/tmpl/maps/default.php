@@ -82,7 +82,7 @@ $wa->useScript('com_finder.maps');
 						<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
-								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 							</td>
 							<td class="text-center">
 								<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'maps.', $canChange, 'cb'); ?>
@@ -100,9 +100,7 @@ $wa->useScript('com_finder.maps');
 								}
 								?>
 								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1); ?>
-								<label for="cb<?php echo $i; ?>" style="display:inline-block;">
-									<?php echo $this->escape($title); ?>
-								</label>
+								<?php echo $this->escape($title); ?>
 								<?php if ($this->escape(trim($title, '**')) === 'Language' && Multilanguage::isEnabled()) : ?>
 								<div class="small">
 									<strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
