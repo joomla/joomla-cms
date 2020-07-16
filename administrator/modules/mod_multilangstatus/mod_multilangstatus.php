@@ -10,5 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\Component\Languages\Administrator\Helper\MultilangstatusHelper;
+
+$mutilanguageEnabled = Multilanguage::isEnabled() && MultilangstatusHelper::getLangswitchers();
 
 require ModuleHelper::getLayoutPath('mod_multilangstatus', $params->get('layout', 'default'));
