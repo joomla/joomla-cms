@@ -521,7 +521,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			else
 			{
 				// Current version is up to date and compatible
-				$resultGroup = 1;
+				$resultGroup = 3;
 			}
 
 			if ($currentCompatibilityStatus->state == 1)
@@ -536,12 +536,12 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		elseif ($currentCompatibilityStatus->state == 1)
 		{
 			// No compatible version for target version but there is a compatible version for current version
-			$resultGroup = 3;
+			$resultGroup = 1;
 		}
 		else
 		{
 			// No update server available
-			$resultGroup = 3;
+			$resultGroup = 1;
 		}
 
 		// Do we need to capture
