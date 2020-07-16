@@ -135,7 +135,7 @@
 					label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_DESC"
 					default="4"
-					filter="integer"
+					validate="options"
 					>
 					<option value="1">JH1</option>
 					<option value="2">JH2</option>

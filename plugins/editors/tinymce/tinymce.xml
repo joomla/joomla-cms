@@ -24,10 +24,10 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field 
-				       name="configuration" 
-				       type="tinymcebuilder" 
-				       hiddenLabel="true" 
+				<field
+				       name="configuration"
+				       type="tinymcebuilder"
+				       hiddenLabel="true"
 				 />
 			</fieldset>
 
@@ -45,15 +45,15 @@
 
 				<field
 					name="html_height"
-					type="number"
+					type="text"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
 					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
-					default="550"
+					default="550px"
 				/>
 
 				<field
 					name="html_width"
-					type="number"
+					type="text"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
 					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
 					default=""

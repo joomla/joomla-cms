@@ -17,7 +17,7 @@
 class JAccessRulesTest extends \PHPUnit\Framework\TestCase
 {
 	/**
-	 * This method tests both the contructor and the __toString magic method.
+	 * This method tests both the constructor and the __toString magic method.
 	 *
 	 * The input for this class could come from a posted form, or from a JSON string
 	 * stored in the database.  We need to ensure that the resulting JSON is the same

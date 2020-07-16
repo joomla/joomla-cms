@@ -27,7 +27,7 @@ interface JObserverUpdaterInterface
 
 	/**
 	 * Adds an observer to the JObservableInterface instance updated by this
-	 * This method can be called fron JObservableInterface::attachObserver
+	 * This method can be called from JObservableInterface::attachObserver
 	 *
 	 * @param   JObserverInterface  $observer  The observer object
 	 *
