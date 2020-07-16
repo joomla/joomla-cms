@@ -4,12 +4,14 @@
  * @subpackage  view
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework HTML output class. Together with PHP-based view tempalates
+ * FrameworkOnFramework HTML output class. Together with PHP-based view templates
  * it will render your data into an HTML representation.
  *
  * @package  FrameworkOnFramework

@@ -30,7 +30,7 @@ class LanguagesModelInstalled extends JModelList
 	protected $user = null;
 
 	/**
-	 * @var boolean|JExeption True, if FTP settings should be shown, or an exeption
+	 * @var boolean|JExeption True, if FTP settings should be shown, or an exception
 	 */
 	protected $ftp = null;
 

@@ -4,7 +4,9 @@
  * @subpackage  table
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
@@ -43,7 +45,7 @@ class FOFTableBehaviorAssets extends FOFTableBehavior
 			}
 		}
 
-		// Create the object used for inserting/udpating data to the database
+		// Create the object used for inserting/updpating data to the database
 		$fields     = $table->getTableFields();
 
 		// Let's remove the asset_id field, since we unset the property above and we would get a PHP notice
