@@ -786,7 +786,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	/**
 	 * @testdox Test getting the script class name for an extension
 	 *
-	 * @param   string  $element         The element name to set in the clas
+	 * @param   string  $element         The element name to set in the class
 	 * @param   string  $element         The expected script name
 	 * @param   string  $failureMessage  The failure message
 	 *

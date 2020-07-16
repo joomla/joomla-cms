@@ -191,8 +191,14 @@ class FieldsModelField extends JModelAdmin
 				}
 
 				$query = $db->getQuery(true);
-				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where('value NOT IN (' . implode(',', $names) . ')');
+				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id);
+
+				// If new values are set, delete only old values. Otherwise delete all values.
+				if ($names)
+				{
+					$query->where('value NOT IN (' . implode(',', $names) . ')');
+				}
+
 				$db->setQuery($query);
 				$db->execute();
 			}

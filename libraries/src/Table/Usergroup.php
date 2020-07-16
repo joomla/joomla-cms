@@ -46,6 +46,14 @@ class Usergroup extends Table
 			return false;
 		}
 
+		// The parent_id can not be equal to the current id
+		if ($this->id === (int) $this->parent_id)
+		{
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+			return false;
+		}
+
 		// Check for a duplicate parent_id, title.
 		// There is a unique index on the (parent_id, title) field in the table.
 		$db = $this->_db;
