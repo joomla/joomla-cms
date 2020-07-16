@@ -62,7 +62,7 @@ function extractionMethodHandler(target, prefix)
 		// No point creating and loading a component stylesheet for 4 settings
 		$('.compatibilitytypes img').css('height', '20px');
 		$('.compatibilitytypes').css('display', 'none').css('margin-left', 0);
-		// The currently processing line should show until its finished
+		// The currently processing line should show until it’s finished
 		$('#compatibilitytype0').css('display', 'block');
 		$('.compatibilitytoggle').css('float', 'right').css('cursor', 'pointer');
 
