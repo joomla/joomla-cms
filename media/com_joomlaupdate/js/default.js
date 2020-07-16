@@ -153,7 +153,7 @@ function extractionMethodHandler(target, prefix)
 
         // Process Target Version Extension Compatibility
         if (extensionData.serverError) {
-			// An error occured -> show unknown error note
+			// An error occurred -> show unknown error note
 			html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
 		}
         else {
