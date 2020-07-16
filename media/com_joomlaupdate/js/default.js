@@ -72,7 +72,7 @@ function extractionMethodHandler(target, prefix)
 			if($(this).data('state') == 'closed')
 			{
 				$(this).data('state', 'open');
-				$(this).html( Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION'));
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION);
 				compatibilitytypes.find('.exname').removeClass('span8').addClass('span4');
 				compatibilitytypes.find('.extype').removeClass('span4').addClass('span2');
 				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('span2');
@@ -91,7 +91,7 @@ function extractionMethodHandler(target, prefix)
 			else
 			{
 				$(this).data('state', 'closed');
-				$(this).html( Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION'));
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION);
 				compatibilitytypes.find('.exname').addClass('span8').removeClass('span4');
 				compatibilitytypes.find('.extype').addClass('span4').removeClass('span2');
 				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('span2');
