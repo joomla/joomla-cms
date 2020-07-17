@@ -137,6 +137,7 @@ class MetasRenderer extends DocumentRenderer
 			{
 				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
 			}
+
 			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';
 			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
