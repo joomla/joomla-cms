@@ -128,6 +128,7 @@ class MetasRenderer extends DocumentRenderer
 
 		// Generate scripts options
 		$scriptOptions = $this->_doc->getScriptOptions();
+
 		if (!empty($scriptOptions))
 		{
 			$nonce = '';
