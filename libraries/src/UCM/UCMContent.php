@@ -75,7 +75,7 @@ class UCMContent extends UCMBase
 	 */
 	public function save($original = null, UCMType $type = null)
 	{
-		$type    = $type ?: $this->type;
+		$type    = $type ?? $this->type;
 		$ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
 
 		// Store the Common fields
@@ -104,7 +104,7 @@ class UCMContent extends UCMBase
 	public function delete($pk, UCMType $type = null)
 	{
 		$db   = Factory::getDbo();
-		$type = $type ?: $this->type;
+		$type = $type ?? $this->type;
 
 		if (!\is_array($pk))
 		{
@@ -135,7 +135,7 @@ class UCMContent extends UCMBase
 	 */
 	public function mapData($original, UCMType $type = null)
 	{
-		$contentType = $type ?: $this->type;
+		$contentType = $type ?? $this->type;
 
 		$fields = json_decode($contentType->type->field_mappings);
 
@@ -190,7 +190,7 @@ class UCMContent extends UCMBase
 	 */
 	protected function store($data, TableInterface $table = null, $primaryKey = null)
 	{
-		$table = $table ?: Table::getInstance('Corecontent');
+		$table = $table ?? Table::getInstance('Corecontent');
 
 		$typeId     = $this->getType()->type->type_id;
 		$primaryKey = $primaryKey ?: $this->getPrimaryKey($typeId, $data['core_content_item_id']);

@@ -162,7 +162,7 @@ abstract class PluginHelper
 		}
 
 		// Ensure we have a dispatcher now so we can correctly track the loaded plugins
-		$dispatcher = $dispatcher ?: Factory::getApplication()->getDispatcher();
+		$dispatcher = $dispatcher ?? Factory::getApplication()->getDispatcher();
 
 		// Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
 		$dispatcherHash = spl_object_hash($dispatcher);

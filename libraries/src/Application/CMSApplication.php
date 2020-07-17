@@ -144,7 +144,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
-		$container = $container ?: new Container;
+		$container = $container ?? new Container;
 		$this->setContainer($container);
 
 		parent::__construct($input, $config, $client);

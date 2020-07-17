@@ -126,7 +126,7 @@ class Pagination
 		$this->limitstart = (int) max($limitstart, 0);
 		$this->limit = (int) max($limit, 0);
 		$this->prefix = $prefix;
-		$this->app = $app ?: Factory::getApplication();
+		$this->app = $app ?? Factory::getApplication();
 
 		if ($this->limit > $this->total)
 		{

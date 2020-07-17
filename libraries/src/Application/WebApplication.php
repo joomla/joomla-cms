@@ -79,7 +79,7 @@ abstract class WebApplication extends AbstractWebApplication
 	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, ResponseInterface $response = null)
 	{
 		// Ensure we have a CMS Input object otherwise the DI for \Joomla\CMS\Session\Storage\JoomlaStorage fails
-		$input = $input ?: new Input;
+		$input = $input ?? new Input;
 
 		parent::__construct($input, $config, $client, $response);
 

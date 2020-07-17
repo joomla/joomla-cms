@@ -90,8 +90,8 @@ class UCMType implements UCM
 	 */
 	public function __construct($alias = null, DatabaseDriver $database = null, AbstractApplication $application = null)
 	{
-		$this->db = $database ?: Factory::getDbo();
-		$app      = $application ?: Factory::getApplication();
+		$this->db = $database ?? Factory::getDbo();
+		$app      = $application ?? Factory::getApplication();
 
 		// Make the best guess we can in the absence of information.
 		$this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');

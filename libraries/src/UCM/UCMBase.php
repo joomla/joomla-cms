@@ -52,7 +52,7 @@ class UCMBase implements UCM
 		$input = Factory::getApplication()->input;
 		$this->alias = $alias ?: $input->get('option') . '.' . $input->get('view');
 
-		$this->type = $type ?: $this->getType();
+		$this->type = $type ?? $this->getType();
 	}
 
 	/**
@@ -132,7 +132,7 @@ class UCMBase implements UCM
 	 */
 	public function mapBase($original, UCMType $type = null)
 	{
-		$type = $type ?: $this->type;
+		$type = $type ?? $this->type;
 
 		$data = array(
 			'ucm_type_id' => $type->id,

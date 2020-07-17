@@ -59,7 +59,7 @@ trait IdentityAware
 	 */
 	public function loadIdentity(User $identity = null)
 	{
-		$this->identity = $identity ?: $this->userFactory->loadUserById(0);
+		$this->identity = $identity ?? $this->userFactory->loadUserById(0);
 
 		return $this;
 	}
