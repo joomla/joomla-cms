@@ -86,6 +86,18 @@ abstract class FormField
 	 * @since  1.7.0
 	 */
 	protected $formControl;
+	
+	/**
+	 * The string used for subform fields path
+	 * @var string
+	 */
+	protected $subformPrefix = '';
+
+	/**
+	 * The JForm top parent used for subform fields
+	 * @var string
+	 */
+	protected $subformParent = false;
 
 	/**
 	 * The hidden state for the form field.
@@ -357,8 +369,7 @@ abstract class FormField
 		// If there is a form passed into the constructor set the form and form control properties.
 		if ($form instanceof Form)
 		{
-			$this->form = $form;
-			$this->formControl = $form->getFormControl();
+			$this->setForm($form);
 		}
 
 		// Detect the field type if not set
@@ -393,6 +404,8 @@ abstract class FormField
 			case 'description':
 			case 'hint':
 			case 'formControl':
+			case 'subformParent':
+			case 'subformPrefix':
 			case 'hidden':
 			case 'id':
 			case 'multiple':
@@ -545,6 +558,11 @@ abstract class FormField
 	}
 
 	/**
+	 * @var array Static cache for subforms context retrive
+	 */
+	protected static $subformsCache = [];
+	
+	/**
 	 * Method to attach a JForm object to the field.
 	 *
 	 * @param   Form  $form  The JForm object to attach to the form field.
@@ -557,7 +575,40 @@ abstract class FormField
 	{
 		$this->form = $form;
 		$this->formControl = $form->getFormControl();
+		if ($parent = $form->getFormParent())
+		{
+			if (isset(self::$subformsCache[$this->formControl]))
+			{
+				list($this->subformPrefix,$this->subformParent) = self::$subformsCache[$this->formControl];
+			}
+			else
+			{
+				$this->subformParent = $parent;
+				$subformPrefix       = [];
+				while ($parent)
+				{
+					$parents = explode('.', $form->getName());
+					if ($parent = $form->getFormParent())
+					{
+						while (!empty($parents))
+						{
+							$prefix = array_pop($parents);
+							if ($prefix === 'params')
+								break;
+							$subformPrefix[] = $prefix;
+						}
+						$this->subformParent = $parent;
+						$form                = $parent;
+					}
+				}
 
+				if (!empty($subformPrefix))
+				{
+					$this->subformPrefix = implode('.', array_reverse($subformPrefix)) . '.';
+				}
+				self::$subformsCache[$this->formControl] = [$this->subformPrefix, $this->subformParent];
+			}
+		}
 		return $this;
 	}
 
