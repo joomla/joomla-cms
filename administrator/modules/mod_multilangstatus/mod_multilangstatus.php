@@ -14,6 +14,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Database\DatabaseInterface;
 
-$mutilanguageEnabled = Multilanguage::isEnabled($app, Factory::getContainer()->get(DatabaseInterface::class));
+$multilanguageEnabled = Multilanguage::isEnabled($app, Factory::getContainer()->get(DatabaseInterface::class));
 
 require ModuleHelper::getLayoutPath('mod_multilangstatus', $params->get('layout', 'default'));
