@@ -102,6 +102,7 @@ class Form
 
 		// Set the options if specified.
 		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
+		$this->options['parent'] = isset($options['parent']) ? $options['parent'] : false;
 	}
 
 	/**
@@ -487,6 +488,19 @@ class Form
 	public function getFormControl()
 	{
 		return (string) $this->options['control'];
+	}
+	
+	/**
+	 * Method to get the form parent. This form object is used by subforms for travel on form structure,
+	 * to get values and settings.
+	 *
+	 * @return  mixed false or jform object
+	 *
+	 * @since   3.9.?? - patch proposed
+	 */
+	public function getFormParent()
+	{
+		return $this->options['parent'];
 	}
 
 	/**
