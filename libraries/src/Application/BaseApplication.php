@@ -42,8 +42,8 @@ abstract class BaseApplication extends AbstractApplication implements Dispatcher
 	 */
 	public function __construct(Input $input = null, Registry $config = null)
 	{
-		$this->input = $input instanceof Input ? $input : new Input;
-		$this->config = $config instanceof Registry ? $config : new Registry;
+		$this->input  = $input ?? new Input;
+		$this->config = $config ?? new Registry;
 
 		$this->initialise();
 	}
