@@ -86,6 +86,18 @@ abstract class FormField
 	 * @since  1.7.0
 	 */
 	protected $formControl;
+	
+	/**
+	 * The string used for subform fields path
+	 * @var string
+	 */
+	protected $subformPrefix = '';
+
+	/**
+	 * The JForm top parent used for subform fields
+	 * @var string
+	 */
+	protected $subformParent = false;
 
 	/**
 	 * The hidden state for the form field.
@@ -393,6 +405,8 @@ abstract class FormField
 			case 'description':
 			case 'hint':
 			case 'formControl':
+			case 'subformParent':
+			case 'subformPrefix':
 			case 'hidden':
 			case 'id':
 			case 'multiple':
@@ -545,6 +559,11 @@ abstract class FormField
 	}
 
 	/**
+	 * @var array Static cache for subforms context retrive
+	 */
+	protected static $subformsCache = [];
+
+	/**
 	 * Method to attach a JForm object to the field.
 	 *
 	 * @param   Form  $form  The JForm object to attach to the form field.
@@ -553,14 +572,49 @@ abstract class FormField
 	 *
 	 * @since   1.7.0
 	 */
+
 	public function setForm(Form $form)
 	{
-		$this->form = $form;
+		$this->form        = $form;
 		$this->formControl = $form->getFormControl();
+		if ($parent = $form->getFormParent())
+		{
+			if (isset(self::$subformsCache[$this->formControl]))
+			{
+				list($this->subformPrefix,$this->subformParent) = self::$subformsCache[$this->formControl];
+			}
+			else
+			{
+				$this->subformParent = $parent;
+				$subformPrefix       = [];
+				while ($parent)
+				{
+					$parents = explode('.', $form->getName());
+					if ($parent = $form->getFormParent())
+					{
+						while (!empty($parents))
+						{
+							$prefix = array_pop($parents);
+							if ($prefix === 'params')
+								break;
+							$subformPrefix[] = $prefix;
+						}
+						$this->subformParent = $parent;
+						$form                = $parent;
+					}
+				}
+
+				if (!empty($subformPrefix))
+				{
+					$this->subformPrefix = implode('.', array_reverse($subformPrefix)) . '.';
+				}
+				self::$subformsCache[$this->formControl] = [$this->subformPrefix, $this->subformParent];
+			}
+		}
 
 		return $this;
 	}
-
+	
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
