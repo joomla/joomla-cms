@@ -131,6 +131,7 @@ class MetasRenderer extends DocumentRenderer
 		if (!empty($scriptOptions))
 		{
 			$nonce = '';
+
 			if ($this->_doc->cspNonce)
 			{
 				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
