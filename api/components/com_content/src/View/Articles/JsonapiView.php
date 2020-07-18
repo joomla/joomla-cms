@@ -46,6 +46,9 @@ class JsonapiView extends BaseApiView
 		'created',
 		'author',
 		'images',
+		'metakey',
+		'metadesc',
+		'metadata',
 	];
 
 	/**
@@ -67,6 +70,9 @@ class JsonapiView extends BaseApiView
 		'created',
 		'author',
 		'images',
+		'metakey',
+		'metadesc',
+		'metadata',
 	];
 
 	/**
