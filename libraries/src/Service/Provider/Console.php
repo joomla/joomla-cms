@@ -22,7 +22,6 @@ use Joomla\CMS\Console\SetConfigurationCommand;
 use Joomla\CMS\Console\SiteDownCommand;
 use Joomla\CMS\Console\SiteUpCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
-use Joomla\CMS\Console\VersionCommand;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\Command\ExportCommand;
 use Joomla\Database\Command\ImportCommand;
@@ -171,13 +170,5 @@ class Console implements ServiceProviderInterface
 			true
 		);
 
-		$container->share(
-			VersionCommand::class,
-			function (Container $container)
-			{
-				return new VersionCommand;
-			},
-			true
-		);
 	}
 }
