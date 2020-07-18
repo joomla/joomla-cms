@@ -169,6 +169,5 @@ class Console implements ServiceProviderInterface
 			},
 			true
 		);
-
 	}
 }
