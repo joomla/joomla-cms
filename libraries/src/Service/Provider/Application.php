@@ -28,7 +28,6 @@ use Joomla\CMS\Console\SetConfigurationCommand;
 use Joomla\CMS\Console\SiteDownCommand;
 use Joomla\CMS\Console\SiteUpCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
-use Joomla\CMS\Console\VersionCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -158,7 +157,6 @@ class Application implements ServiceProviderInterface
 						ExtensionRemoveCommand::getDefaultName()    => ExtensionRemoveCommand::class,
 						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
 						UpdateCoreCommand::getDefaultName()         => UpdateCoreCommand::class,
-						VersionCommand::getDefaultName()            => VersionCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);
