@@ -49,6 +49,8 @@ class JsonapiView extends BaseApiView
 		'metakey',
 		'metadesc',
 		'metadata',
+		'access',
+		'featured',
 	];
 
 	/**
@@ -73,6 +75,8 @@ class JsonapiView extends BaseApiView
 		'metakey',
 		'metadesc',
 		'metadata',
+		'access',
+		'featured',
 	];
 
 	/**
