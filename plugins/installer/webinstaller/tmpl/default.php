@@ -17,7 +17,7 @@ $dir = $this->isRTL() ? ' dir="ltr"' : '';
 
 ?>
 
-<div id="jed-container" class="tab-pane">
+<div id="jed-container" class="tab-pane jed-container">
 	<div class="card" id="web-loader">
 		<div class="card-body">
 			<h2 class="card-title"><?php echo Text::_('COM_INSTALLER_WEBINSTALLER_INSTALL_WEB_LOADING'); ?></h2>
