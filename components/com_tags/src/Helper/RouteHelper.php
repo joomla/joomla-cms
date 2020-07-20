@@ -12,8 +12,8 @@ namespace Joomla\Component\Tags\Site\Helper;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
+use Joomla\CMS\Menu\AbstractMenu;
 
 /**
  * Tags Component Route Helper.
@@ -153,8 +153,7 @@ class RouteHelper extends CMSRouteHelper
 	 */
 	protected static function _findItem($needles = null)
 	{
-		$app      = Factory::getApplication();
-		$menus    = $app->getMenu('site');
+		$menus    = AbstractMenu::getInstance('site');
 		$language = $needles['language'] ?? '*';
 
 		// Prepare the reverse lookup array.
