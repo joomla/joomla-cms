@@ -9,9 +9,9 @@
  * html5 (chosen html5 tag and font header tags)
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 $module  = $displayData['module'];
 $params  = $displayData['params'];
