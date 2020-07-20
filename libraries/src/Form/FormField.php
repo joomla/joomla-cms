@@ -584,7 +584,7 @@ abstract class FormField
 			else
 			{
 				$this->subformParent = $parent;
-				$subformPrefix       = [];
+				$subformPrefix       = array();
 				while ($parent)
 				{
 					$parents = explode('.', $form->getName());
