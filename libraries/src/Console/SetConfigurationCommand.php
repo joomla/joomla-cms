@@ -243,18 +243,16 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Set a value for a configuration option');
-
 		$this->addArgument(
 			'options',
 			InputArgument::REQUIRED | InputArgument::IS_ARRAY,
 			'All options you want to set'
 		);
 
-		$help = "The <info>%command.name%</info>
-				Sets a value for a configuration option
+		$help = "<info>%command.name%</info> sets the value for a configuration option
 				\nUsage: <info>php %command.full_name%</info> <option>=<value>";
 
+		$this->setDescription('Set a value for a configuration option');
 		$this->setHelp($help);
 	}
 
