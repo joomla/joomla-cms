@@ -46,7 +46,7 @@ class JFormFieldList extends JFormField
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1' || (string) $this->disabled == 'true')
 		{
 			$attr .= ' disabled="disabled"';
 		}
@@ -81,16 +81,16 @@ class JFormFieldList extends JFormField
 			}
 		}
 		else
-		// Create a regular list passing the arguments in an array.
+			// Create a regular list passing the arguments in an array.
 		{
-			$listoptions = array();
-			$listoptions['option.key'] = 'value';
-			$listoptions['option.text'] = 'text';
-			$listoptions['list.select'] = $this->value;
-			$listoptions['id'] = $this->id;
+			$listoptions                   = array();
+			$listoptions['option.key']     = 'value';
+			$listoptions['option.text']    = 'text';
+			$listoptions['list.select']    = $this->value;
+			$listoptions['id']             = $this->id;
 			$listoptions['list.translate'] = false;
-			$listoptions['option.attr'] = 'optionattr';
-			$listoptions['list.attr'] = trim($attr);
+			$listoptions['option.attr']    = 'optionattr';
+			$listoptions['list.attr']      = trim($attr);
 
 			$html[] = JHtml::_('select.genericlist', $options, $this->name, $listoptions);
 		}
@@ -154,12 +154,12 @@ class JFormFieldList extends JFormField
 			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
 
 			$tmp = array(
-					'value'    => $value,
-					'text'     => JText::alt($text, $fieldname),
-					'disable'  => $disabled,
-					'class'    => (string) $option['class'],
-					'selected' => ($checked || $selected),
-					'checked'  => ($checked || $selected),
+				'value'    => $value,
+				'text'     => JText::alt($text, $fieldname),
+				'disable'  => $disabled,
+				'class'    => (string) $option['class'],
+				'selected' => ($checked || $selected),
+				'checked'  => ($checked || $selected),
 			);
 
 			// Set some event handler attributes. But really, should be using unobtrusive js.
@@ -171,7 +171,7 @@ class JFormFieldList extends JFormField
 				$tmp['optionattr'] = " data-showon='" .
 					json_encode(
 						JFormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
-						)
+					)
 					. "'";
 			}
 			// Add the option object to the result set.
@@ -189,9 +189,13 @@ class JFormFieldList extends JFormField
 			if ($component == 'com_menus')
 			{
 				if ($this->subformPrefix === '')
+				{
 					$link = $this->form->getData()->get('link');
+				}
 				else
+				{
 					$link = $this->subformParent->getData()->get('link');
+				}
 				$uri       = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
