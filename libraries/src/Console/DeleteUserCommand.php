@@ -182,14 +182,11 @@ class DeleteUserCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
+		$help = "<info>%command.name%</info> deletes a user
+		\nUsage: <info>php %command.full_name%</info>";
+
 		$this->setDescription('Delete a user');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command deletes a user
-
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setHelp($help);
 	}
 }
