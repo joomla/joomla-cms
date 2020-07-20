@@ -608,7 +608,7 @@ abstract class FormField
 				{
 					$this->subformPrefix = implode('.', array_reverse($subformPrefix)) . '.';
 				}
-				self::$subformsCache[$this->formControl] = [$this->subformPrefix, $this->subformParent];
+				self::$subformsCache[$this->formControl] = array($this->subformPrefix, $this->subformParent);
 			}
 		}
 
