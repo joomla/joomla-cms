@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -23,7 +23,9 @@ $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype')
 
 if ($clientId == 1)
 {
-	HTMLHelper::_('script', 'com_menus/default-batch-body.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = $this->document->getWebAssetManager();
+	$wa->useScript('com_menus.batch-body');
 }
 ?>
 <div class="container">

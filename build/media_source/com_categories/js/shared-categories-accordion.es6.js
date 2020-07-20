@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla) => {
@@ -16,8 +16,8 @@
    * Handle the category toggle button click event
    * @param event
    */
-  const handleCategoryToggleButtonClick = (event) => {
-    const button = event.currentTarget;
+  const handleCategoryToggleButtonClick = ({ currentTarget }) => {
+    const button = currentTarget;
     const icon = button.querySelector('span');
 
     // Toggle icon class

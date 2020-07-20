@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,9 +17,8 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\ParameterType;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
-use Joomla\Database\UTF8MB4SupportInterface;
+use Joomla\Database\ParameterType;
 
 /**
  * Script file of Joomla CMS
@@ -233,7 +232,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function uninstallRepeatableFieldsPlugin()
 	{
@@ -507,6 +506,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/models/sysinfo.php',
 			'/administrator/components/com_admin/postinstall/eaccelerator.php',
 			'/administrator/components/com_admin/postinstall/joomla40checks.php',
+			'/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql',
+			'/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql',
+			'/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-06.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-16.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-19.sql',
@@ -633,6 +635,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.10-2019-07-09.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.16-2020-02-15.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.16-2020-03-04.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.9.19-2020-05-16.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.3-2019-01-12.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.3-2019-02-07.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.7-2019-04-23.sql',
@@ -1273,6 +1276,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default.xml',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_nodownload.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_noupdate.php',
+			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_preupdatecheck.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_reinstall.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_update.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_updatemefirst.php',
@@ -3071,11 +3075,41 @@ class JoomlaInstallerScript
 			'/layouts/libraries/cms/html/bootstrap/addtabscript.php',
 			'/layouts/libraries/cms/html/bootstrap/starttabsetscript.php',
 			'/libraries/cms/class/loader.php',
+			'/libraries/cms/html/access.php',
+			'/libraries/cms/html/actionsdropdown.php',
+			'/libraries/cms/html/adminlanguage.php',
 			'/libraries/cms/html/batch.php',
+			'/libraries/cms/html/behavior.php',
+			'/libraries/cms/html/bootstrap.php',
+			'/libraries/cms/html/category.php',
+			'/libraries/cms/html/content.php',
+			'/libraries/cms/html/contentlanguage.php',
+			'/libraries/cms/html/date.php',
+			'/libraries/cms/html/debug.php',
+			'/libraries/cms/html/dropdown.php',
+			'/libraries/cms/html/email.php',
+			'/libraries/cms/html/form.php',
+			'/libraries/cms/html/formbehavior.php',
+			'/libraries/cms/html/grid.php',
+			'/libraries/cms/html/icons.php',
+			'/libraries/cms/html/jgrid.php',
+			'/libraries/cms/html/jquery.php',
 			'/libraries/cms/html/language/en-GB/en-GB.jhtmldate.ini',
+			'/libraries/cms/html/links.php',
+			'/libraries/cms/html/list.php',
+			'/libraries/cms/html/menu.php',
+			'/libraries/cms/html/number.php',
 			'/libraries/cms/html/rules.php',
+			'/libraries/cms/html/searchtools.php',
+			'/libraries/cms/html/select.php',
+			'/libraries/cms/html/sidebar.php',
 			'/libraries/cms/html/sliders.php',
+			'/libraries/cms/html/sortablelist.php',
+			'/libraries/cms/html/string.php',
 			'/libraries/cms/html/tabs.php',
+			'/libraries/cms/html/tag.php',
+			'/libraries/cms/html/tel.php',
+			'/libraries/cms/html/user.php',
 			'/libraries/cms/less/formatter/joomla.php',
 			'/libraries/cms/less/less.php',
 			'/libraries/fof/LICENSE.txt',
@@ -3298,8 +3332,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/archive/tar.php',
 			'/libraries/joomla/archive/wrapper/archive.php',
 			'/libraries/joomla/archive/zip.php',
-			'/libraries/joomla/base/adapter.php',
-			'/libraries/joomla/base/adapterinstance.php',
 			'/libraries/joomla/controller/base.php',
 			'/libraries/joomla/controller/controller.php',
 			'/libraries/joomla/database/database.php',
@@ -3632,6 +3664,7 @@ class JoomlaInstallerScript
 			'/libraries/src/Filter/Wrapper/OutputFilterWrapper.php',
 			'/libraries/src/Form/Field/HelpsiteField.php',
 			'/libraries/src/Form/FormWrapper.php',
+			'/libraries/src/Helper/ContentHistoryHelper.php',
 			'/libraries/src/Helper/SearchHelper.php',
 			'/libraries/src/Http/Wrapper/FactoryWrapper.php',
 			'/libraries/src/Language/LanguageStemmer.php',
@@ -3685,6 +3718,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/image/src/Filter/Smooth.php',
 			'/libraries/vendor/joomla/image/src/Image.php',
 			'/libraries/vendor/joomla/image/src/ImageFilter.php',
+			'/libraries/vendor/joomla/input/src/Cli.php',
 			'/libraries/vendor/joomla/registry/src/AbstractRegistryFormat.php',
 			'/libraries/vendor/joomla/session/Joomla/Session/LICENSE',
 			'/libraries/vendor/joomla/session/Joomla/Session/Session.php',
@@ -5354,7 +5388,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/database/driver',
 			'/libraries/joomla/database',
 			'/libraries/joomla/controller',
-			'/libraries/joomla/base',
 			'/libraries/joomla/archive/wrapper',
 			'/libraries/joomla/archive',
 			'/libraries/joomla/application/web/router',
@@ -5423,7 +5456,9 @@ class JoomlaInstallerScript
 			'/libraries/cms/less',
 			'/libraries/cms/html/language/en-GB',
 			'/libraries/cms/html/language',
+			'/libraries/cms/html',
 			'/libraries/cms/class',
+			'/libraries/cms',
 			'/layouts/joomla/tinymce/buttons',
 			'/layouts/joomla/html/formbehavior',
 			'/components/com_wrapper/views/wrapper/tmpl',
@@ -6246,20 +6281,40 @@ class JoomlaInstallerScript
 	{
 		$db = Factory::getDbo();
 
-		if (!($db instanceof UTF8MB4SupportInterface))
+		if ($db->getServerType() !== 'mysql')
+		{
+			return;
+		}
+
+		// Check if the #__utf8_conversion table exists
+		$db->setQuery('SHOW TABLES LIKE ' . $db->quote($db->getPrefix() . 'utf8_conversion'));
+
+		try
+		{
+			$rows = $db->loadRowList(0);
+		}
+		catch (Exception $e)
+		{
+			// Render the error message from the Exception object
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			if ($doDbFixMsg)
+			{
+				// Show an error message telling to check database problems
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			}
+
+			return;
+		}
+
+		// Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
+		if (\count($rows) === 0)
 		{
 			return;
 		}
 
 		// Set required conversion status
-		if ($db->hasUTF8mb4Support())
-		{
-			$converted = 2;
-		}
-		else
-		{
-			$converted = 1;
-		}
+		$converted = 5;
 
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
@@ -6284,73 +6339,109 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB == $converted)
+		// If conversion status from DB is equal to required final status, try to drop the #__utf8_conversion table
+		if ($convertedDB === $converted)
 		{
+			$this->dropUtf8ConversionTable();
+
 			return;
 		}
 
-		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
-
-		if (is_file($fileName1))
+		// Perform the required conversions of core tables if not done already in a previous step
+		if ($convertedDB !== 99)
 		{
-			$fileContents1 = @file_get_contents($fileName1);
-			$queries1      = $db->splitSql($fileContents1);
+			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql';
 
-			if (!empty($queries1))
+			if (is_file($fileName1))
 			{
-				foreach ($queries1 as $query1)
+				$fileContents1 = @file_get_contents($fileName1);
+				$queries1      = $db->splitSql($fileContents1);
+
+				if (!empty($queries1))
 				{
-					try
+					foreach ($queries1 as $query1)
 					{
-						$db->setQuery($query1)->execute();
-					}
-					catch (Exception $e)
-					{
-						// If the query fails we will go on. It just means the index to be dropped does not exist.
+						try
+						{
+							$db->setQuery($query1)->execute();
+						}
+						catch (Exception $e)
+						{
+							$converted = $convertedDB;
+
+							// Still render the error message from the Exception object
+							Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
 					}
 				}
 			}
 		}
 
-		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
-
-		if (is_file($fileName2))
+		// If no error before, perform the optional conversions of tables which might or might not exist
+		if ($converted === 5)
 		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2      = $db->splitSql($fileContents2);
+			$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql';
 
-			if (!empty($queries2))
+			if (is_file($fileName2))
 			{
-				foreach ($queries2 as $query2)
-				{
-					try
-					{
-						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
+				$fileContents2 = @file_get_contents($fileName2);
+				$queries2      = $db->splitSql($fileContents2);
 
-						// Still render the error message from the Exception object
-						Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				if (!empty($queries2))
+				{
+					foreach ($queries2 as $query2)
+					{
+						// Get table name from query
+						if (preg_match('/^ALTER\s+TABLE\s+([^\s]+)\s+/i', $query2, $matches) === 1)
+						{
+							$tableName = str_replace('`', '', $matches[1]);
+							$tableName = str_replace('#__', $db->getPrefix(), $tableName);
+
+							// Check if the table exists and if yes, run the query
+							try
+							{
+								$db->setQuery('SHOW TABLES LIKE ' . $db->quote($tableName));
+
+								$rows = $db->loadRowList(0);
+
+								if (\count($rows) > 0)
+								{
+									$db->setQuery($query2)->execute();
+								}
+							}
+							catch (Exception $e)
+							{
+								$converted = 99;
+
+								// Still render the error message from the Exception object
+								Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+							}
+						}
 					}
 				}
 			}
 		}
 
-		if ($doDbFixMsg && $converted == 0)
+		if ($doDbFixMsg && $converted !== 5)
 		{
 			// Show an error message telling to check database problems
 			Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
-		// Set flag in database if the update is done.
-		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';'
-		)->execute();
+		// If the conversion was successful try to drop the #__utf8_conversion table
+		if ($converted === 5 && $this->dropUtf8ConversionTable())
+		{
+			// Table successfully dropped
+			return;
+		}
+
+		// Set flag in database if the conversion status has changed.
+		if ($converted !== $convertedDB)
+		{
+			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+				. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';'
+			)->execute();
+		}
 	}
 
 	/**
@@ -6373,6 +6464,30 @@ class JoomlaInstallerScript
 	}
 
 	/**
+	 * This method drops the #__utf8_conversion table
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   4.0.0
+	 */
+	private function dropUtf8ConversionTable()
+	{
+		$db = Factory::getDbo();
+
+		try
+		{
+			$db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';'
+			)->execute();
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Called after any type of action
 	 *
 	 * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
@@ -6380,7 +6495,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function postflight($action, $installer)
 	{
@@ -6460,7 +6575,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  array  Menu items
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function contactItems(Table $tableItem): array
 	{
@@ -6481,7 +6596,7 @@ class JoomlaInstallerScript
 		}
 
 		$parentId    = $tableItem->id;
-		$componentId = ExtensionHelper::getExtensionRecord('com_fields')->extension_id;
+		$componentId = ExtensionHelper::getExtensionRecord('com_fields', 'component')->extension_id;
 
 		// Add Contact Fields Menu Items.
 		$menuItems = [
@@ -6497,7 +6612,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6522,7 +6637,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6547,7 +6662,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6570,7 +6685,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  array  Menu items
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function finderItems(Table $tableItem): array
 	{
@@ -6591,7 +6706,7 @@ class JoomlaInstallerScript
 		}
 
 		$parentId    = $tableItem->id;
-		$componentId = ExtensionHelper::getExtensionRecord('com_finder')->extension_id;
+		$componentId = ExtensionHelper::getExtensionRecord('com_finder', 'component')->extension_id;
 
 		// Add Finder Fields Menu Items.
 		$menuItems = [
@@ -6607,7 +6722,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6632,7 +6747,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6657,7 +6772,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6682,7 +6797,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6707,7 +6822,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6730,7 +6845,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function updateContentTypes(): void
 	{

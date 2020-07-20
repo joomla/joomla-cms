@@ -12,7 +12,8 @@
   color: $white-offset;
 }
 
-.icon-publish {
+.icon-publish,
+.fa-check {
   color: theme-color("success");
 
   .dropdown-status-group & {
@@ -20,7 +21,8 @@
   }
 }
 
-.icon-unpublish {
+.icon-unpublish,
+.fas.fa-times {
   color: theme-color("danger");
 
   .dropdown-status-group & {

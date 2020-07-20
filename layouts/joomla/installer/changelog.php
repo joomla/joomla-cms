@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\CMS\Language\Text;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 array_walk(
 	$displayData,
@@ -37,7 +37,7 @@ array_walk(
 			case 'change':
 				$class = 'badge-warning';
 				break;
-			case 'removed':
+			case 'remove':
 				$class = 'badge-light';
 				break;
 			default:

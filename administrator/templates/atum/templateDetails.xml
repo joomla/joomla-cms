@@ -5,7 +5,7 @@
 	<creationDate>September 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.</copyright>
 	<description>TPL_ATUM_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
@@ -88,6 +88,13 @@
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
 					default="#2a69b8"
+					filter="color"
+				/>
+				<field
+					name="sidebar-link-color"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_LINK_SIDEBAR_COLOR_LABEL"
+					default="#3b4a5c"
 					filter="color"
 				/>
 				<field

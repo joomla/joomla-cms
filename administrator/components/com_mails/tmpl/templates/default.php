@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,26 +30,28 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				<?php else : ?>
 					<table class="table" id="templateList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
 								<th scope="col" style="min-width:100px">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-15 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-md-table-cell">
+								<th scope="col" class="w-10 d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-md-table-cell">
+								<th scope="col" class="w-10 d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-30 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -57,6 +59,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
 							list($component, $sub_id) = explode('.', $item->template_id, 2);
+							$sub_id = str_replace('.', '_', $sub_id);
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="break-word">
@@ -64,7 +67,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
 										</a>
-										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+										<div class="dropdown-menu" aria-labelledby="mTemplate<?php echo $i; ?>">
 											<?php foreach ($this->languages as $language) : ?>
 												<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
 													<?php if (in_array($language->lang_code, $item->languages)) : ?>
@@ -86,7 +89,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 											<?php if ($language->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
+												<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
 											<?php endif; ?>
 										<?php endif; ?>
 									<?php endforeach; ?>
@@ -97,7 +100,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 											<?php if ($language->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
+												<span class="badge badge-secondary"><?php echo $language->lang_code; ?></span>
 											<?php endif; ?>
 										<?php endif; ?>
 									<?php endforeach; ?>

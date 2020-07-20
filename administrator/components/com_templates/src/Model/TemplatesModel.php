@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
+use Joomla\String\StringHelper;
 
 /**
  * Methods supporting a list of template extension records.
@@ -154,7 +155,7 @@ class TemplatesModel extends ListModel
 			}
 			else
 			{
-				$search = '%' . strtolower($search) . '%';
+				$search = '%' . StringHelper::strtolower($search) . '%';
 				$query->extendWhere(
 					'AND',
 					[

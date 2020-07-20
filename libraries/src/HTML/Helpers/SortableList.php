@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  * HTML utility class for creating a sortable table list
  *
  * @since  3.0
+ * @deprecated  5.0  Sortable List will be deprecated in favour of a new dragula script in 4.0
  */
 abstract class SortableList
 {
@@ -32,9 +33,10 @@ abstract class SortableList
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  5.0  In Joomla 4 call JHtml::_('draggablelist.draggable') and add a class of js-draggable to the tbody element of the table
 	 */
 	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
 	{
-		HtmlHelper::_('dragablelist.dragable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
+		HtmlHelper::_('draggablelist.draggable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
 	}
 }

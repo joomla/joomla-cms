@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,7 +143,7 @@ class UpdateModel extends ListModel
 		}
 		else
 		{
-			$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+			$eid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 			$query->where($db->quoteName('u.extension_id') . ' != 0')
 				->where($db->quoteName('u.extension_id') . ' != :eid')
 				->bind(':eid', $eid, ParameterType::INTEGER);
@@ -199,10 +199,10 @@ class UpdateModel extends ListModel
 	{
 		foreach ($items as &$item)
 		{
-			$item->client_translated  = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
+			$item->client_translated  = Text::_([0 => 'JSITE', 1 => 'JADMINISTRATOR', 3 => 'JAPI'][$item->client_id] ?? 'JSITE');
 			$manifest                 = json_decode($item->manifest_cache);
 			$item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
-			$item->description        = $manifest->description ?? Text::_('COM_INSTALLER_MSG_UPDATE_NODESC');
+			$item->description        = $item->description !== '' ? $item->description : Text::_('COM_INSTALLER_MSG_UPDATE_NODESC');
 			$item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
 			$item->folder_translated  = $item->folder ?: Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 			$item->install_type       = $item->extension_id ? Text::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : Text::_('COM_INSTALLER_NEW_INSTALL');

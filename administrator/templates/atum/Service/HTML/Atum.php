@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,8 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use OzdemirBurak\Iris\Color\Hex;
 use OzdemirBurak\Iris\Color\Hsl;
-use OzdemirBurak\Iris\Color\Rgb;
 use OzdemirBurak\Iris\Color\Hsla;
+use OzdemirBurak\Iris\Color\Rgb;
 
 /**
  * Template Atum HTML Helper
@@ -99,6 +99,23 @@ class JHtmlAtum
 				$root[] = '--atum-link-color: ' . $linkColor . ';';
 
 				$root[] = '--atum-link-hover-color: ' . $linkColor->darken(20) . ';';
+			}
+			catch (\Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}
+
+		$sidebarLinkColor = $params->get('sidebar-link-color');
+
+		if (static::isHex($sidebarLinkColor))
+		{
+			try
+			{
+				$sidebarLinkColor = new Hex($sidebarLinkColor);
+
+				$root[] = '--atum-sidebar-link-color: ' . $sidebarLinkColor . ';';
+
 			}
 			catch (\Exception $ex)
 			{
@@ -223,7 +240,7 @@ class JHtmlAtum
 	}
 
 	/**
-	 * Determinates if the given string is a color hex value
+	 * Determines if the given string is a color hex value
 	 *
 	 * @param   string  $hex  The string to test
 	 *

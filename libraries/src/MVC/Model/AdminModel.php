@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,8 +117,7 @@ abstract class AdminModel extends FormModel
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag',
-		'workflowstage_id' => 'batchWorkflowStage',
+		'tag' => 'batchTag'
 	);
 
 	/**
@@ -536,7 +535,7 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
 	 * @param   \JTableInterface  $table  The table object containing the newly created item
 	 * @param   integer           $newId  The id of the new item
@@ -1270,7 +1269,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$key = $table->getKeyName();
-		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+		$pk = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
 		// Include the plugins for the save events.
@@ -1447,83 +1446,7 @@ abstract class AdminModel extends FormModel
 
 		if ($app->input->get('task') == 'editAssociations')
 		{
-			$id = $data['id'];
-
-			// Deal with categories associations
-			if ($this->text_prefix === 'COM_CATEGORIES')
-			{
-				$extension       = $app->input->get('extension', 'com_content');
-				$this->typeAlias = $extension . '.category';
-				$component       = strtolower($this->text_prefix);
-				$view            = 'category';
-			}
-			else
-			{
-				$aliasArray = explode('.', $this->typeAlias);
-				$component  = $aliasArray[0];
-				$view       = $aliasArray[1];
-				$extension  = '';
-			}
-
-			// Menu item redirect needs admin client
-			$client = $component === 'com_menus' ? '&client_id=0' : '';
-
-			if ($id == 0)
-			{
-				$app->enqueueMessage(Text::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
-				$app->redirect(
-					\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
-				);
-
-				return false;
-			}
-
-			if ($data['language'] === '*')
-			{
-				$app->enqueueMessage(Text::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
-				$app->redirect(
-					\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
-				);
-
-				return false;
-			}
-
-			$languages = LanguageHelper::getContentLanguages(array(0, 1));
-			$target    = '';
-
-			/*
-			 * If the site contains only 2 languages and an association exists for the item
-			 * load directly the associated target item in the side by side view
-			 * otherwise select already the target language
-			 */
-			if (count($languages) === 2)
-			{
-				foreach ($languages as $language)
-				{
-					$lang_code[] = $language->lang_code;
-				}
-
-				$refLang    = array($data['language']);
-				$targetLang = array_diff($lang_code, $refLang);
-				$targetLang = implode(',', $targetLang);
-				$targetId   = $data['associations'][$targetLang];
-
-				if ($targetId)
-				{
-					$target = '&target=' . $targetLang . '%3A' . $targetId . '%3Aedit';
-				}
-				else
-				{
-					$target = '&target=' . $targetLang . '%3A0%3Aadd';
-				}
-			}
-
-			$app->redirect(
-				\JRoute::_(
-					'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
-					. '&task=association.edit&id=' . $id . $target, false
-				)
-			);
+			return $this->redirectToAssociations($data);
 		}
 
 		return true;
@@ -1733,5 +1656,99 @@ abstract class AdminModel extends FormModel
 	{
 		// Save the item
 		return $this->save($data);
+	}
+
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @throws \Exception
+	 * @since   3.9.17
+	 */
+	protected function redirectToAssociations($data)
+	{
+		$app = Factory::getApplication();
+		$id  = $data['id'];
+
+		// Deal with categories associations
+		if ($this->text_prefix === 'COM_CATEGORIES')
+		{
+			$extension       = $app->input->get('extension', 'com_content');
+			$this->typeAlias = $extension . '.category';
+			$component       = strtolower($this->text_prefix);
+			$view            = 'category';
+		}
+		else
+		{
+			$aliasArray = explode('.', $this->typeAlias);
+			$component  = $aliasArray[0];
+			$view       = $aliasArray[1];
+			$extension  = '';
+		}
+
+		// Menu item redirect needs admin client
+		$client = $component === 'com_menus' ? '&client_id=0' : '';
+
+		if ($id == 0)
+		{
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
+			$app->redirect(
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		if ($data['language'] === '*')
+		{
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
+			$app->redirect(
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$target    = '';
+
+		/**
+		 * If the site contains only 2 languages and an association exists for the item
+		 * load directly the associated target item in the side by side view
+		 * otherwise select already the target language
+		 */
+		if (count($languages) === 2)
+		{
+			foreach ($languages as $language)
+			{
+				$lang_code[] = $language->lang_code;
+			}
+
+			$refLang    = array($data['language']);
+			$targetLang = array_diff($lang_code, $refLang);
+			$targetLang = implode(',', $targetLang);
+			$targetId   = $data['associations'][$targetLang];
+
+			if ($targetId)
+			{
+				$target = '&target=' . $targetLang . '%3A' . $targetId . '%3Aedit';
+			}
+			else
+			{
+				$target = '&target=' . $targetLang . '%3A0%3Aadd';
+			}
+		}
+
+		$app->redirect(
+			Route::_(
+				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
+				. '&task=association.edit&id=' . $id . $target, false
+			)
+		);
+
+		return true;
 	}
 }

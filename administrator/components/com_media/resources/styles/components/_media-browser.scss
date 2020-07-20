@@ -95,6 +95,7 @@
     height: calc(#{$grid-item-icon-size} * 1.3);
     font-family: "Font Awesome 5 Free";
     font-size: $grid-item-icon-size;
+    font-weight: 900;
     line-height: calc(#{$grid-item-icon-size} * 1.3);
     text-align: center;
     content: "\f00c";

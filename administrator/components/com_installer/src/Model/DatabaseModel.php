@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Schema\ChangeSet;
@@ -21,7 +20,6 @@ use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
-use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Registry\Registry;
 
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -231,9 +229,6 @@ class DatabaseModel extends InstallerModel
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
 
-		// Prepare the utf8mb4 conversion check table
-		$this->prepareUtf8mb4StatusTable();
-
 		parent::populateState($ordering, $direction);
 	}
 
@@ -272,7 +267,7 @@ class DatabaseModel extends InstallerModel
 
 				/*
 				 * Finally, if the schema updates succeeded, make sure the database table is
-				 * converted to utf8mb4 or, if not suported by the server, compatible to it.
+				 * converted to utf8mb4 or, if not supported by the server, compatible to it.
 				 */
 				$statusArray = $changeSet['changeset']->getStatus();
 
@@ -649,65 +644,6 @@ class DatabaseModel extends InstallerModel
 				$table->params = (string) $newParams;
 				$table->store();
 			}
-		}
-	}
-
-	/**
-	 * Prepare the table to save the status of utf8mb4 conversion
-	 * Make sure it contains 1 initialized record if there is not
-	 * already exactly 1 record.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 */
-	private function prepareUtf8mb4StatusTable()
-	{
-		$db = Factory::getDbo();
-
-		if (!$db instanceof UTF8MB4SupportInterface)
-		{
-			return;
-		}
-
-		$creaTabSql = 'CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
-			. ' (' . $db->quoteName('converted') . ' tinyint(4) NOT NULL DEFAULT 0'
-			. ') ENGINE=InnoDB';
-
-		if ($db->hasUTF8mb4Support())
-		{
-			$creaTabSql = $creaTabSql
-				. ' DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;';
-		}
-		else
-		{
-			$creaTabSql = $creaTabSql
-				. ' DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;';
-		}
-
-		$db->setQuery($creaTabSql)->execute();
-
-		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion') . ';');
-
-		$count = $db->loadResult();
-
-		if ($count > 1)
-		{
-			// Table messed up somehow, clear it
-			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion') . ';')
-				->execute();
-			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
-			)
-				->execute();
-		}
-		elseif ($count == 0)
-		{
-			// Record missing somehow, fix this
-			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
-				. ' (' . $db->quoteName('converted') . ') VALUES (0);'
-			)
-				->execute();
 		}
 	}
 }

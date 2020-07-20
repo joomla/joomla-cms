@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,7 +125,7 @@ class Icon
 		// Show checked_out icon if the article is checked out by a different user
 		if (property_exists($article, 'checked_out')
 			&& property_exists($article, 'checked_out_time')
-			&& $article->checked_out > 0
+			&& !is_null($article->checked_out)
 			&& $article->checked_out != $user->get('id'))
 		{
 			$checkoutUser = Factory::getUser($article->checked_out);

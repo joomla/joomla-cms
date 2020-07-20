@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,7 +97,7 @@ else
 
 						<?php if (count($twofactormethods) > 1) : ?>
 						<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input name="secretkey" class="form-control" id="secretkey" type="text">
+						<input name="secretkey" autocomplete="one-time-code" class="form-control" id="secretkey" type="text">
 						<?php endif; ?>
 
 						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">
