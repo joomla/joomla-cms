@@ -65,7 +65,6 @@
 					<option value="alnum">JLIB_FILTER_PARAMS_ALNUM</option>
 					<option value="integer">JLIB_FILTER_PARAMS_INTEGER</option>
 					<option value="float">JLIB_FILTER_PARAMS_FLOAT</option>
-					<option value="tel">JLIB_FILTER_PARAMS_TEL</option>
 				</field>
 			</fieldset>
 		</fields>

@@ -58,9 +58,6 @@
 								<option
 									showon="fieldtype:text,textarea"
 									value="float">JLIB_FILTER_PARAMS_FLOAT</option>
-								<option
-									showon="fieldtype:text,textarea"
-									value="tel">JLIB_FILTER_PARAMS_TEL</option>
 							</field>
 						</fieldset>
 					</fields>
