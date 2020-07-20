@@ -9,12 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-
 /** @var JDocumentHtml $this */
 
-$lang = Factory::getLanguage();
-$wa   = $this->getWebAssetManager();
+$wa = $this->getWebAssetManager();
 
 // Enable assets
 $wa->useStyle('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))

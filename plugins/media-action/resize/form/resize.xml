@@ -30,9 +30,9 @@
 		<field
 			name="resize_w"
 			type="range"
-			label=""
+			label="PLG_MEDIA-ACTION_RESIZE_PARAM_WIDTH_SLIDER"
 			value="0"
-			labelclass="d-none"
+			hiddenLabel="true"
 		/>
 
 		<field
@@ -53,9 +53,9 @@
 		<field
 			name="resize_h"
 			type="range"
-			label=""
+			label="PLG_MEDIA-ACTION_RESIZE_PARAM_HEIGHT_SLIDER"
 			value="0"
-			labelclass="d-none"
+			hiddenLabel="true"
 		/>
 	</fieldset>
 </form>

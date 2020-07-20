@@ -57,7 +57,9 @@ abstract class UiTab
 		// @TODO echo the recall attribute correctly, now it's hardcoded!!!
 		$recall = !isset($params['recall']) ? '' : 'recall';
 
-		return '<joomla-tab id="' . $selector . '" recall>';
+		$orientation = isset($params['orientation']) ? $params['orientation'] : 'horizontal';
+
+		return '<joomla-tab id="' . $selector . '" orientation="' . $orientation . '" recall>';
 	}
 
 	/**
