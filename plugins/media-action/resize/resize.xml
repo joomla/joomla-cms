@@ -19,7 +19,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset 
+			<fieldset
 				name="batch"
 				label="PLG_MEDIA-ACTION_RESIZE_BATCH_LABEL"
 				description="PLG_MEDIA-ACTION_RESIZE_BATCH_DESC"
@@ -29,7 +29,6 @@
 					name="batch_width"
 					type="text"
 					label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_WIDTH_LABEL"
-					descripton="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_WIDTH_DESC"
 					addonAfter="px"
 					filter="integer"
 				/>
@@ -37,7 +36,6 @@
 					name="batch_height"
 					type="text"
 					label="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_HEIGHT_LABEL"
-					descripton="PLG_MEDIA-ACTION_RESIZE_BATCH_MAX_HEIGHT_DESC"
 					addonAfter="px"
 					filter="integer"
 				/>

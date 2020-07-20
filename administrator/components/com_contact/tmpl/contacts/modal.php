@@ -44,7 +44,7 @@ if (!empty($editor))
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&editor=' . $editor . '&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo Route::_('index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&editor=' . $editor . '&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
@@ -85,10 +85,10 @@ if (!empty($editor))
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'icon-trash',
-					0  => 'icon-unpublish',
-					1  => 'icon-publish',
-					2  => 'icon-archive',
+					-2 => 'fas fa-trash',
+					0  => 'fas fa-times',
+					1  => 'fas fa-check',
+					2  => 'fas fa-folder',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>

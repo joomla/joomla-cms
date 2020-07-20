@@ -30,7 +30,7 @@ HTMLHelper::_('behavior.multiselect');
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
-	->useScript('com_content.admin-articles-batch');
+	->useScript('com_content.admin-articles-modal');
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
 $editor    = $app->input->getCmd('editor', '');
@@ -88,9 +88,9 @@ if (!empty($editor))
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'icon-trash',
-					0  => 'icon-unpublish',
-					1  => 'icon-publish',
+					-2 => 'fas fa-trash',
+					0  => 'fas fa-times',
+					1  => 'fas fa-check',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
