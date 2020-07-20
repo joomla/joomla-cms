@@ -636,6 +636,60 @@ class TemplateModel extends FormModel
 	 *
 	 * @since   1.6
 	 */
+	public function &getTemplateWithStyle()
+	{
+		$pk  = (int) $this->getState('extension.id');
+		$db  = $this->getDbo();
+		$app = Factory::getApplication();
+
+		// Get the template information.
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['id', 'parent', 'inherits', 'e.extension_id', 'e.client_id', 'e.element', 'e.name', 'e.manifest_cache']))
+			->from($db->quoteName('#__template_styles', 's'))
+			->where([
+				$db->quoteName('id') . ' = ' . $db->quote($this->getState('defaultStyleId'))
+			])
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.extension_id') . ' = :pk'
+				. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
+			)
+			->bind(':pk', $pk, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		try
+		{
+			$result = $db->loadObject();
+		}
+		catch (\RuntimeException $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'warning');
+			$this->template = false;
+
+			return false;
+		}
+
+		if (empty($result))
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'error');
+			$this->template = false;
+		}
+		else
+		{
+			$this->template = $result;
+		}
+
+		return $this->template;
+	}
+
+	/**
+	 * Method to get the template information.
+	 *
+	 * @return  mixed  Object if successful, false if not and internal error is set.
+	 *
+	 * @since   1.6
+	 */
 	public function &getTemplate()
 	{
 		if (empty($this->template))
@@ -710,6 +764,98 @@ class TemplateModel extends FormModel
 	public function getFromName()
 	{
 		return $this->getTemplate()->element;
+	}
+
+	/**
+	 * Method to soft fork a template
+	 *
+	 * @return  boolean   true if name is not used, false otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function inherit()
+	{
+		$app = Factory::getApplication();
+		$template = $this->getTemplateWithStyle();
+
+		if ($template->parent === 0)
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_INHERIT'), 'error');
+
+			return false;
+		}
+
+		if ($template = $this->getTemplate())
+		{
+			$client = ApplicationHelper::getClientInfo($template->client_id);
+			$fromPath = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$newName = $this->getState('new_name');
+			$defaultStyleId = $this->getState('defaultStyleId');
+			$toPath = $this->getState('to_path');
+
+			// Delete new folder if it exists
+			if (Folder::exists($toPath))
+			{
+				if (!Folder::delete($toPath))
+				{
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+
+					return false;
+				}
+			}
+			else
+			{
+				if (!Folder::create($toPath))
+				{
+					$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+
+					return false;
+				}
+			}
+
+			// If there is a valid xml file soft fork it
+			if (!is_file($fromPath . 'templateDetails.xml'))
+			{
+				return false;
+			}
+
+			// Edit XML file
+			if (File::exists($fromPath . 'templateDetails.xml'))
+			{
+				$manifest = simplexml_load_file($fromPath . 'templateDetails.xml');
+				$contents = file_get_contents($fromPath . 'templateDetails.xml');
+				$pattern[] = '#<name>\s*' . $manifest->name . '\s*</name>#i';
+				$replace[] = '<name>' . $newName . '</name>';
+				$pattern[] = '#<languages(.*)</languages>#s';
+				$replace[] = '<inherits>' . $defaultStyleId . '</inherits>';
+				$pattern[] = '#<files>(.*)<\/files>#s';
+				$replace[] = '<files><filename>templateDetails.xml</filename><filename>template_preview.png</filename><filename>template_thumbnail.png</filename></files>';
+				$contents = preg_replace($pattern, $replace, $contents);
+				File::write($toPath . '/templateDetails.xml', $contents);
+			}
+
+			// Copy over the template thumbs
+			// @todo watermark the images with a `child` string or something
+			foreach (['template_preview.png', 'template_thumbnail.png'] as $path)
+			{
+				if (is_file($fromPath . $path))
+				{
+					if (!File::copy($fromPath . $path, $toPath . '/' . $path)) {
+						$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+		else
+		{
+			$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
+
+			return false;
+		}
 	}
 
 	/**
@@ -844,7 +990,7 @@ class TemplateModel extends FormModel
 		{
 			$contents = file_get_contents($xmlFile);
 			$pattern[] = '#<name>\s*' . $manifest->name . '\s*</name>#i';
-			$replace[] = '<name>' . $newName . '</name>';
+			$replace[] = '<name>' . $newName . '</name><inherits>' . $oldName . '</inherits>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
 			$pattern[] = '#<media(.*)' . $oldName . '(.*)>#';

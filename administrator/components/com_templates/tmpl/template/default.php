@@ -94,7 +94,7 @@ if ($this->type == 'font')
 		<fieldset class="options-form">
 		<?php if ($this->type == 'home') : ?>
 			<legend><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></legend>
-			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&defaultStyle=' . (int) $item->defaultStyleId . '&defaultStyle=' . (int) $item->defaultStyleId . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
 				<p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
@@ -379,6 +379,22 @@ $copyModalData = array(
 	<?php echo LayoutHelper::render('joomla.modal.main', $copyModalData); ?>
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
+
+<form action="<?php echo Route::_('index.php?option=com_templates&task=template.inherit&id=' . $input->getInt('id') . '&defaultStyleId=' . $input->getInt('defaultStyleId') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+	<?php echo LayoutHelper::render(
+		'joomla.modal.main',
+		array(
+			'selector' => 'forkModal',
+			'params'   => array(
+				'title'  => Text::_('COM_TEMPLATES_TEMPLATE_FORK'),
+				'footer' => $this->loadTemplate('modal_copy_footer')
+			),
+			'body' => $this->loadTemplate('modal_copy_body')
+		)
+	); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
+</form>
+
 <?php if ($this->type != 'home') : ?>
 	<?php // Rename Modal
 	$renameModalData = array(

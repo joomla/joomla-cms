@@ -257,6 +257,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			// Add a copy template button
+			ToolbarHelper::modal('forkModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_SOFT_FORK_TEMPLATE');
 			ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 		}
 

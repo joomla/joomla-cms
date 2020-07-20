@@ -168,11 +168,17 @@ final class SiteApplication extends CMSApplication
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
 
-				// Add Asset registry files
-				$document->getWebAssetManager()->getRegistry()
-					->addExtensionRegistryFile($component)
-					->addTemplateRegistryFile($template->template, $this->getClientId());
+				$wa = $document->getWebAssetManager()->getRegistry();
 
+				// Add Asset registry files
+				$wa->addExtensionRegistryFile($component);
+
+				if ($template->inherits)
+				{
+					$wa->addTemplateRegistryFile($template->inherits, $this->getClientId());
+				}
+
+				$wa->addTemplateRegistryFile($template->template, $this->getClientId());
 				break;
 
 			case 'feed':
@@ -379,17 +385,27 @@ final class SiteApplication extends CMSApplication
 	 * Gets the name of the current template.
 	 *
 	 * @param   boolean  $params  True to return the template parameters
+	 * @param   string   $name    The template name
 	 *
 	 * @return  string  The name of the template.
 	 *
 	 * @since   3.2
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getTemplate($params = false)
+	public function getTemplateByName($params = false, $name = '')
 	{
 		if (\is_object($this->template))
 		{
-			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
+			if ($this->template->inherits)
+			{
+				if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
+				{
+					if (!file_exists(JPATH_THEMES . '/' . $this->template->inherits . '/index.php')) {
+						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+					}
+				}
+			}
+			elseif (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
 				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 			}
@@ -427,7 +443,9 @@ final class SiteApplication extends CMSApplication
 		}
 
 		/** @var OutputController $cache */
-		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('output', ['defaultgroup' => 'com_templates']);
+		$cache = Factory::getContainer()
+			->get(CacheControllerFactoryInterface::class)
+			->createCacheController('output', ['defaultgroup' => 'com_templates']);
 
 		if ($this->getLanguageFilter())
 		{
@@ -448,21 +466,26 @@ final class SiteApplication extends CMSApplication
 		{
 			// Load styles
 			$db = Factory::getDbo();
+
+			$conditions = [
+				$db->quoteName('s.client_id') . ' = 0',
+				$db->quoteName('e.enabled') . ' = 1',
+			];
+
+			if ("" !== $name) {
+				$conditions[] = $db->quoteName('e.element') . ' = ' . $name;
+			}
+
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['id', 'home', 'template', 's.params']))
+				->select($db->quoteName(['id', 'home', 'template', 's.params', 'parent', 'inherits']))
 				->from($db->quoteName('#__template_styles', 's'))
-				->where(
-					[
-						$db->quoteName('s.client_id') . ' = 0',
-						$db->quoteName('e.enabled') . ' = 1',
-					]
-				)
+				->where($conditions)
 				->join(
 					'LEFT',
 					$db->quoteName('#__extensions', 'e'),
 					$db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
-						. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
-						. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+					. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
+					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
 				);
 
 			$db->setQuery($query);
@@ -470,6 +493,9 @@ final class SiteApplication extends CMSApplication
 
 			foreach ($templates as &$template)
 			{
+				$template->inherits = $template->inherits > 0 ? $templates[$template->inherits]->template : false;
+				$template->parent = $template->parent === 1 ? true : false;
+
 				// Create home element
 				if ($template->home == 1 && !isset($template_home) || $this->getLanguageFilter() && $template->home == $tag)
 				{
@@ -524,7 +550,36 @@ final class SiteApplication extends CMSApplication
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 
 		// Fallback template
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		if ($template->inherits)
+		{
+			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			{
+				if (!file_exists(JPATH_THEMES . '/' . $template->inherits . '/index.php'))
+				{
+					$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+
+					// Try to find data for 'cassiopeia' template
+					$original_tmpl = $template->template;
+
+					foreach ($templates as $tmpl)
+					{
+						if ($tmpl->template === 'cassiopeia')
+						{
+							$template = $tmpl;
+							break;
+						}
+					}
+
+					// Check, the data were found and if template really exists
+					if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+					{
+						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
+					}
+				}
+
+			}
+		}
+		elseif (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
@@ -556,6 +611,21 @@ final class SiteApplication extends CMSApplication
 		}
 
 		return $template->template;
+	}
+
+	/**
+	 * Gets the name of the current template.
+	 *
+	 * @param   boolean  $params  True to return the template parameters
+	 *
+	 * @return  string  The name of the template.
+	 *
+	 * @since   3.2
+	 * @throws  \InvalidArgumentException
+	 */
+	public function getTemplate($params = false)
+	{
+		return $this->getTemplateByName($params, '');
 	}
 
 	/**

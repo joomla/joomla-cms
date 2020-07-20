@@ -437,7 +437,14 @@ abstract class HTMLHelper
 			if ($relative)
 			{
 				// Get the template
-				$template = Factory::getApplication()->getTemplate();
+				$template = Factory::getApplication()->getTemplate(true);
+				$templaPath = JPATH_THEMES;
+
+				if ($template->parent || !empty($template->inherits))
+				{
+					$client = $template->client_id === 1 ? 'admin' : 'site';
+					$templaPath = JPATH_ROOT . "/media/templates/$client";
+				}
 
 				// For each potential files
 				foreach ($potential as $strip)
@@ -452,16 +459,37 @@ abstract class HTMLHelper
 					 */
 					foreach ($files as $file)
 					{
-						$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/$file", $ext, $debugMode);
-
-						if (!empty($found))
+						if (isset($template->inherits) && false !== $template->inherits)
 						{
-							$includes[] = $found;
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
 
-							break;
+							if (!empty($found))
+							{
+								$includes[] = $found;
+
+								break;
+							}
+
+							$found = static::addFileToBuffer("$templaPath/$template->inherits/$folder/$file", $ext, $debugMode);
+
+							if (!empty($found))
+							{
+								$includes[] = $found;
+
+								break;
+							}
 						}
-						else
+						elseif (!isset($template->inherits) || false === $template->inherits)
 						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+
+							if (!empty($found))
+							{
+								$includes[] = $found;
+
+								break;
+							}
+
 							// If the file contains any /: it can be in a media extension subfolder
 							if (strpos($file, '/'))
 							{
@@ -495,23 +523,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (isset($template->inherits) && false !== $template->inherits)
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->inherits/$folder/system/$element/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
-
-									// Try to deal with system files in the media folder
-									$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									else
 									{
-										$includes[] = $found;
+										// Try to deal with system files in the media folder
+										$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 								}
 								else
@@ -527,13 +569,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (isset($template->inherits) && false !== $template->inherits)
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->templete/$folder/system/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->inherits/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+									}
+									else
+									{
+										// Try to deal with system files in the template folder
+										$found = static::addFileToBuffer("$templaPath/$template->templete/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 
 									// Try to deal with system files in the media folder

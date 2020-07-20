@@ -1,5 +1,5 @@
 // Bootstrap functions
-@import "../../../media/vendor/bootstrap/scss/functions";
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
 
 
 // Variables
@@ -9,22 +9,22 @@
 @import "mixin";
 
 // Bootstrap
-@import "../../../media/vendor/bootstrap/scss/variables";
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/bootstrap";
 
 // "Font Awesome 5 Free"
-@import "../../../media/vendor/fontawesome-free/scss/fontawesome";
-@import "../../../media/vendor/fontawesome-free/scss/solid";
-@import "../../../media/vendor/fontawesome-free/scss/brands";
+@import "../../../../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../../../../media/vendor/fontawesome-free/scss/solid";
+@import "../../../../../../media/vendor/fontawesome-free/scss/brands";
 
 // B/C for Icomoon
-@import "../../../build/media_source/system/scss/icomoon";
+@import "../../../../system/scss/icomoon";
 
 // Alert
-@import "../../../build/media_source/system/scss/jalert";
+@import "../../../../system/scss/jalert";
 
 // jQuery Minicolors
-@import "../../../build/media_source/system/scss/jquery-minicolors";
+@import "../../../../system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first

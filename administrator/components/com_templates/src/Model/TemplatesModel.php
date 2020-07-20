@@ -72,16 +72,41 @@ class TemplatesModel extends ListModel
 			$client = ApplicationHelper::getClientInfo($item->client_id);
 			$item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
 			$num = $this->updated($item->extension_id);
+			$defaultStyleId = (int) $this->getDefaultStyleId($item->element, $item->client_id);
 
 			if ($num)
 			{
 				$item->updated = $num;
+			}
+
+			if ($defaultStyleId)
+			{
+				$item->defaultStyleId = $defaultStyleId;
 			}
 		}
 
 		return $items;
 	}
 
+	public function getDefaultStyleId($element, $client)
+	{
+		$db = Factory::getDbo();
+
+		// Select the required fields from the table
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__template_styles'))
+			->where($db->quoteName('client_id') . ' = :clientid')
+			->where($db->quoteName('template') . ' = :element')
+			->bind(':clientid', $client, ParameterType::INTEGER)
+			->bind(':element', $element, ParameterType::INTEGER);
+
+		// Reset the query.
+		$db->setQuery($query);
+
+		// Load the results as a list of stdClass objects.
+		return $db->loadResult();
+	}
 	/**
 	 * Check if template extension have any updated override.
 	 *

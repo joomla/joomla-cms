@@ -49,7 +49,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = \Joomla\CMS\HTML\HTMLHelper::image('logo.svg', $sitename, ['class' => 'logo d-inline-block'], true, 0);
 }
 
 // Header bottom margin

@@ -777,6 +777,8 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
   `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `home` char(7) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
+  `parent` tinyint(1) DEFAULT '0' NOT NULL,
+  `inherits` int(10) DEFAULT '0' NOT NULL,
   `params` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_template` (`template`),
@@ -788,9 +790,9 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 -- Dumping data for table `#__template_styles`
 --
 
-INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
-(10, 'atum', 1, '1', 'atum - Default', ''),
-(11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
+INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `parent`, `inherits`, `params`) VALUES
+(10, 'atum', 1, '1', 'atum - Default', '0', '0', ''),
+(11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '1', '0', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
 
 -- --------------------------------------------------------
 

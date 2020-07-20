@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -52,7 +53,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = HTMLHelper::image('logo.svg', '', ['class' => 'logo d-inline-block'], true, 0);
 }
 
 $hasClass = '';

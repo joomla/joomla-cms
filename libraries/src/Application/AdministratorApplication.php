@@ -113,13 +113,19 @@ class AdministratorApplication extends CMSApplication
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
 
+				$wa = $document->getWebAssetManager()->getRegistry();
+
 				// Add Asset registry files
-				$document->getWebAssetManager()->getRegistry()
-					->addExtensionRegistryFile($component)
-					->addTemplateRegistryFile($template->template, $this->getClientId());
+				$wa->addExtensionRegistryFile($component);
+
+				if (isset($template->inherits) && false !== $template->inherits)
+				{
+					$wa->addTemplateRegistryFile($template->inherits, $this->getClientId());
+				}
+
+				$wa->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
-
 			default:
 				break;
 		}
@@ -196,13 +202,14 @@ class AdministratorApplication extends CMSApplication
 	 * Gets the name of the current template.
 	 *
 	 * @param   boolean  $params  True to return the template parameters
+	 * @param   string   $name    The name of the template
 	 *
 	 * @return  string  The name of the template.
 	 *
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getTemplate($params = false)
+	public function getTemplateByName($params = false, $name = '')
 	{
 		if (\is_object($this->template))
 		{
@@ -218,6 +225,18 @@ class AdministratorApplication extends CMSApplication
 
 		// Load the template name from the database
 		$db = Factory::getDbo();
+
+		$conditions = [
+			$db->quoteName('s.client_id') . ' = 1',
+			$db->quoteName('s.home') . ' = ' . $db->quote('1'),
+		];
+
+		if ("" !== $name) {
+			$conditions[] = $db->quoteName('e.element') . ' = ' . $name;
+		}
+
+
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['s.template', 's.params']))
 			->from($db->quoteName('#__template_styles', 's'))
@@ -225,15 +244,10 @@ class AdministratorApplication extends CMSApplication
 				'LEFT',
 				$db->quoteName('#__extensions', 'e'),
 				$db->quoteName('e.type') . ' = ' . $db->quote('template')
-					. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
-					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+				. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+				. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
 			)
-			->where(
-				[
-					$db->quoteName('s.client_id') . ' = 1',
-					$db->quoteName('s.home') . ' = ' . $db->quote('1'),
-				]
-			);
+			->where($conditions);
 
 		if ($admin_style)
 		{
@@ -276,6 +290,21 @@ class AdministratorApplication extends CMSApplication
 		}
 
 		return $template->template;
+	}
+
+	/**
+	 * Gets the name of the current template.
+	 *
+	 * @param   boolean  $params  True to return the template parameters
+	 *
+	 * @return  string  The name of the template.
+	 *
+	 * @since   3.2
+	 * @throws  \InvalidArgumentException
+	 */
+	public function getTemplate($params = false)
+	{
+		return $this->getTemplateByName($params, '');
 	}
 
 	/**
