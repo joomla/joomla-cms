@@ -151,17 +151,15 @@ Joomla = window.Joomla || {};
 
 		// Request the server to check the compatiblity for the passed extension and joomla version
 		Joomla.request({
-			url: PreUpdateChecker.config.serverUrl,
-			data: {
-				'joomla-target-version': PreUpdateChecker.joomlaTargetVersion,
-				'extension-id': node.getAttribute('data-extensionId')
-			},
+			url: PreUpdateChecker.config.serverUrl
+				+ '&joomla-target-version=' + encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
+				+ '&extension-id=' + encodeURIComponent(node.getAttribute('data-extension-id')),
 			onSuccess(data) {
 				var response = JSON.parse(data);
 				// Extract the data from the JResponseJson object
 				extension.state = response.data.state;
 				extension.compatibleVersion = response.data.compatibleVersion;
-				extension.currentVersion = node.getAttribute('data-extensionCurrentVersion');
+				extension.currentVersion = node.getAttribute('data-extension-current-version');
 
 				// Pass the retrieved data to the callback
 				callback(extension);
