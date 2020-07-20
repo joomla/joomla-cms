@@ -86,7 +86,7 @@ abstract class FormField
 	 * @since  1.7.0
 	 */
 	protected $formControl;
-	
+
 	/**
 	 * The string used for subform fields path
 	 * @var string
@@ -500,7 +500,7 @@ abstract class FormField
 
 			case 'name':
 				$this->fieldname = $this->getFieldName((string) $value);
-				$this->name = $this->getName($this->fieldname);
+				$this->name      = $this->getName($this->fieldname);
 				break;
 
 			case 'multiple':
@@ -513,13 +513,13 @@ abstract class FormField
 			case 'readonly':
 			case 'autofocus':
 			case 'hidden':
-				$value = (string) $value;
+				$value       = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			case 'autocomplete':
-				$value = (string) $value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
+				$value       = (string) $value;
+				$value       = ($value == 'on' || $value == '') ? 'on' : $value;
 				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
 				break;
 
@@ -527,17 +527,17 @@ abstract class FormField
 			case 'translateLabel':
 			case 'translateDescription':
 			case 'translateHint':
-				$value = (string) $value;
+				$value       = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'translate_label':
-				$value = (string) $value;
+				$value                = (string) $value;
 				$this->translateLabel = $this->translateLabel && !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'translate_description':
-				$value = (string) $value;
+				$value                      = (string) $value;
 				$this->translateDescription = $this->translateDescription && !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -561,7 +561,7 @@ abstract class FormField
 	 * @var array Static cache for subforms context retrive
 	 */
 	protected static $subformsCache = [];
-	
+
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
@@ -573,13 +573,13 @@ abstract class FormField
 	 */
 	public function setForm(Form $form)
 	{
-		$this->form = $form;
+		$this->form        = $form;
 		$this->formControl = $form->getFormControl();
 		if ($parent = $form->getFormParent())
 		{
 			if (isset(self::$subformsCache[$this->formControl]))
 			{
-				list($this->subformPrefix,$this->subformParent) = self::$subformsCache[$this->formControl];
+				list($this->subformPrefix, $this->subformParent) = self::$subformsCache[$this->formControl];
 			}
 			else
 			{
@@ -594,7 +594,9 @@ abstract class FormField
 						{
 							$prefix = array_pop($parents);
 							if ($prefix === 'params')
+							{
 								break;
+							}
 							$subformPrefix[] = $prefix;
 						}
 						$this->subformParent = $parent;
@@ -609,6 +611,7 @@ abstract class FormField
 				self::$subformsCache[$this->formControl] = [$this->subformPrefix, $this->subformParent];
 			}
 		}
+
 		return $this;
 	}
 
@@ -666,7 +669,7 @@ abstract class FormField
 		}
 
 		// Allow for repeatable elements
-		$repeat = (string) $element['repeat'];
+		$repeat       = (string) $element['repeat'];
 		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
@@ -748,7 +751,7 @@ abstract class FormField
 		if ($this->repeat)
 		{
 			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
-			$id .= '-' . $repeatCounter;
+			$id            .= '-' . $repeatCounter;
 
 			if (strtolower($this->type) == 'radio')
 			{
@@ -820,10 +823,10 @@ abstract class FormField
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
-			'text'        => $data['label'],
-			'for'         => $this->id,
-			'classes'     => explode(' ', $data['labelclass']),
-			'position'    => $position,
+			'text'     => $data['label'],
+			'for'      => $this->id,
+			'classes'  => explode(' ', $data['labelclass']),
+			'position' => $position,
 		);
 
 		return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
