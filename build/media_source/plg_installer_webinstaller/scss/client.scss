@@ -77,6 +77,13 @@ $extension-types: (
     }
   }
 
+  .item-view {
+    .card-body {
+      a[target="_blank"]::before {
+        display: none;
+    }
+  }
+
   .list-container {
     box-sizing: border-box;
 
