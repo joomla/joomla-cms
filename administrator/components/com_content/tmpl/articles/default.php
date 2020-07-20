@@ -188,7 +188,7 @@ $assoc = Associations::isEnabled();
 
 							?>
 							<tr class="row<?php echo $i % 2; ?>"
-								data-dragable-group="<?php echo $item->catid; ?>"
+								data-draggable-group="<?php echo $item->catid; ?>"
 								data-transitions="<?php echo implode(',', $transition_ids); ?>"
 							>
 								<td class="text-center">
