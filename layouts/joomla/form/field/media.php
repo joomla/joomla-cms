@@ -13,6 +13,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -105,6 +106,9 @@ $url    = ($readonly ? ''
 		: 'index.php?option=com_media&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
 	. '&amp;fieldid={field-media-id}&amp;path=local-0:/' . $folder);
+
+// Correctly route the url to ensure it's correctly using sef modes and subfolders
+$url = Route::_($url);
 
 Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.field-media')
