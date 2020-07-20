@@ -1,0 +1,2 @@
+UPDATE "#__fields" SET "fieldparams" = REPLACE("fieldparams", '"filter":"tel"', '"filter":"text"') WHERE "type" IN ('text', 'textarea');
+UPDATE "#__fields" SET "fieldparams" = REPLACE("fieldparams", '"fieldfilter":"tel"', '"fieldfilter":"text"') WHERE "type" = 'repeatable';
