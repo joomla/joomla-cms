@@ -560,7 +560,7 @@ abstract class FormField
 	/**
 	 * @var array Static cache for subforms context retrive
 	 */
-	protected static $subformsCache = [];
+	protected static $subformsCache = array();
 
 	/**
 	 * Method to attach a JForm object to the field.
