@@ -8,6 +8,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
@@ -67,7 +68,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 			<header id="header" class="header">
 				<div class="d-flex ">
 					<div class="logo d-none d-md-block">
-						<img src="<?php echo $this->baseurl; ?>/template/images/logo-joomla-blue.svg" alt="">
+						<?php echo HTMLHelper::image('logo-joomla-blue.svg', '', [], true, 0); ?>
 					</div>
 					<div class="mx-2 my-3 d-flex d-md-none">
 						<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/logo-blue.svg" alt="">
