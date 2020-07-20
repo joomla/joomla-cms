@@ -99,7 +99,7 @@ class JFormFieldText extends JFormField
 				break;
 
 			case 'dirname':
-				$value = (string) $value;
+				$value         = (string) $value;
 				$this->dirname = ($value == $name || $value == 'true' || $value == '1');
 				break;
 
@@ -133,11 +133,11 @@ class JFormFieldText extends JFormField
 		if ($result == true)
 		{
 			$inputmode = (string) $this->element['inputmode'];
-			$dirname = (string) $this->element['dirname'];
+			$dirname   = (string) $this->element['dirname'];
 
 			$this->inputmode = '';
-			$inputmode = preg_replace('/\s+/', ' ', trim($inputmode));
-			$inputmode = explode(' ', $inputmode);
+			$inputmode       = preg_replace('/\s+/', ' ', trim($inputmode));
+			$inputmode       = explode(' ', $inputmode);
 
 			if (!empty($inputmode))
 			{
@@ -152,7 +152,7 @@ class JFormFieldText extends JFormField
 			}
 
 			// Set the dirname.
-			$dirname = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
+			$dirname       = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
 			$this->maxLength = (int) $this->element['maxlength'];
@@ -178,9 +178,13 @@ class JFormFieldText extends JFormField
 			if ($component == 'com_menus')
 			{
 				if ($this->subformPrefix === '')
+				{
 					$link = $this->form->getData()->get('link');
+				}
 				else
+				{
 					$link = $this->subformParent->getData()->get('link');
+				}
 				$uri       = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
@@ -264,13 +268,13 @@ class JFormFieldText extends JFormField
 		$data = parent::getLayoutData();
 
 		// Initialize some field attributes.
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
-		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
+		$maxLength = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+		$inputmode = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
+		$dirname   = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
 
 		/* Get the field options for the datalist.
 			Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
-		$options  = (array) $this->getSuggestions();
+		$options = (array) $this->getSuggestions();
 
 		$extraData = array(
 			'maxLength' => $maxLength,
