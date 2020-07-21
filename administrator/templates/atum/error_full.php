@@ -33,11 +33,14 @@ require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
-	? Uri::root() . $this->params->get('logoBrandLarge')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-large.svg';
+$loginLogo = $this->params->get('loginLogo')
+	? Uri::root() . $this->params->get('loginLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/login.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
-	? Uri::root() . $this->params->get('logoBrandSmall')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
 $logoBrandSmallAlt = htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
