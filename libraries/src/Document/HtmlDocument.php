@@ -807,13 +807,13 @@ class HtmlDocument extends Document
 		$templateName = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
 		$activeTemplate = CmsFactory::getApplication()->getTemplateByName(true, $templateName);
-		$baseDir = $directory . '/' .  $activeTemplate->template . '/';
+		$baseDir = $directory . '/' . $activeTemplate->template . '/';
 
 		if ($activeTemplate->inherits
-			 && !file_exists($directory . '/' . $activeTemplate->template . '/' . $file)
-			 && file_exists($directory . '/' . $activeTemplate->inherits . '/' . $file))
+			&& !file_exists($directory . '/' . $activeTemplate->template . '/' . $file)
+			&& file_exists($directory . '/' . $activeTemplate->inherits . '/' . $file))
 		{
-			$baseDir = $directory . '/' .  $activeTemplate->inherits . '/';
+			$baseDir = $directory . '/' . $activeTemplate->inherits . '/';
 		}
 
 		if (!file_exists($baseDir . $file))
