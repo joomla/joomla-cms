@@ -14,7 +14,7 @@ Joomla = window.Joomla || {};
 
       // do field validation
       if (form.install_directory.value === '') {
-        Joomla.renderMessages({ warning: [Joomla.JText._('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH')] });
+        Joomla.renderMessages({ warning: [Joomla.Text._('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH')] });
       } else {
        const loading = document.getElementById('loading');
        if (loading) {
