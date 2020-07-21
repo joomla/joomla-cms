@@ -181,7 +181,7 @@ final class SiteApplication extends CMSApplication
 					$wa->addTemplateRegistryFile($template->inherits, $this->getClientId());
 				}
 
-				$was->addTemplateRegistryFile($template->template, $this->getClientId());
+				$wa->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
 
@@ -613,6 +613,21 @@ final class SiteApplication extends CMSApplication
 		}
 
 		return $template->template;
+	}
+
+	/**
+	 * Gets the name of the current template.
+	 *
+	 * @param   boolean  $params  True to return the template parameters
+	 *
+	 * @return  string  The name of the template.
+	 *
+	 * @since   3.2
+	 * @throws  \InvalidArgumentException
+	 */
+	public function getTemplate($params = false)
+	{
+		return $this->getTemplateByName($params, '');
 	}
 
 	/**
