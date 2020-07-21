@@ -405,7 +405,9 @@ final class SiteApplication extends CMSApplication
 				if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 				{
 					if (!file_exists(JPATH_THEMES . '/' . $this->template->inherits . '/index.php')) {
-						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+						throw new \InvalidArgumentException(
+							Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template)
+						);
 					}
 				}
 			}
@@ -474,7 +476,8 @@ final class SiteApplication extends CMSApplication
 				$db->quoteName('e.enabled') . ' = 1',
 			];
 
-			if ("" !== $name) {
+			if ("" !== $name)
+			{
 				$conditions[] = $db->quoteName('e.element') . ' = ' . $name;
 			}
 
@@ -578,7 +581,6 @@ final class SiteApplication extends CMSApplication
 						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 					}
 				}
-
 			}
 		}
 		elseif (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))

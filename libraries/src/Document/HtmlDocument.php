@@ -809,11 +809,9 @@ class HtmlDocument extends Document
 		$activeTemplate = CmsFactory::getApplication()->getTemplateByName(true, $templateName);
 		$baseDir = $directory . '/' .  $activeTemplate->template . '/';
 
-		if (
-			$activeTemplate->inherits &&
-			!file_exists($directory . '/' . $activeTemplate->template . '/' . $file) &&
-			file_exists($directory . '/' . $activeTemplate->inherits . '/' . $file)
-		)
+		if ($activeTemplate->inherits
+			&& !file_exists($directory . '/' . $activeTemplate->template . '/' . $file)
+			&& file_exists($directory . '/' . $activeTemplate->inherits . '/' . $file))
 		{
 			$baseDir = $directory . '/' .  $activeTemplate->inherits . '/';
 		}

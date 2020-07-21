@@ -235,10 +235,10 @@ class AdministratorApplication extends CMSApplication
 			$db->quoteName('s.home') . ' = ' . $db->quote('1'),
 		];
 
-		if ("" !== $name) {
+		if ("" !== $name)
+		{
 			$conditions[] = $db->quoteName('e.element') . ' = ' . $name;
 		}
-
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
