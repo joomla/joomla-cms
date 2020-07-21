@@ -66,21 +66,6 @@ Joomla = window.Joomla || {};
       }
     };
 
-    Joomla.submitbuttonUpload = () => {
-      const form = document.getElementById('uploadForm');
-
-      // do field validation
-      if (form.install_package.value === '') {
-        Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE')] });
-      } else if (form.install_package.files[0].size > form.max_upload_size.value) {
-        Joomla.renderMessages({ warning: [Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
-      } else {
-        Joomla.displayLoader();
-
-        form.submit();
-      }
-    };
-
     Joomla.displayLoader = () => {
       const loading = document.getElementById('loading');
       if (loading) {
