@@ -222,6 +222,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			// Informational log only
 		}
+	
+		JFactory::getApplication()->triggerEvent('onAfterUpdate', array(JVERSION));
 	}
 
 	/**
