@@ -80,14 +80,6 @@ header {
   width: calc(100% - #{$cassiopeia-grid-gutter});
   order: 1;
 
-  > div {
-    margin-bottom: $cassiopeia-grid-gutter;
-
-    &:last-of-type {
-      margin-bottom: 0;
-    }
-  }
-
   @include media-breakpoint-up(sm) {
     width: calc(25% - #{$cassiopeia-grid-gutter});
     order: 0;
