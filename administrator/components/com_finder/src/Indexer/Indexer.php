@@ -317,7 +317,9 @@ class Indexer
 		$entry->url = $item->url;
 		$entry->route = $item->route;
 		$entry->title = $item->title;
-		$entry->description = $item->description;
+
+		// We are shortening the description in order to not run into length issues with this field
+		$entry->description = StringHelper::substr($item->description, 0, 32000);
 		$entry->indexdate = Factory::getDate()->toSql();
 		$entry->state = (int) $item->state;
 		$entry->access = (int) $item->access;
@@ -880,7 +882,7 @@ class Indexer
 		$count += $this->addTokensToDb($tokens, $context);
 
 		// Check if we're approaching the memory limit of the token table.
-		if ($count > static::$state->options->get('memory_table_limit', 30000))
+		if ($count > static::$state->options->get('memory_table_limit', 10000))
 		{
 			$this->toggleTables(false);
 		}
@@ -943,6 +945,18 @@ class Indexer
 					. $db->quote($token->language)
 				);
 				$values++;
+
+				if ($values > 0 && ($values % 128) == 0)
+				{
+					$db->setQuery($query)->execute();
+					$query->clear('values');
+
+					// Check if we're approaching the memory limit of the token table.
+					if ($values > static::$state->options->get('memory_table_limit', 10000))
+					{
+						$this->toggleTables(false);
+					}
+				}
 			}
 		}
 		else

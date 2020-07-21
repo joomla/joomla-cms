@@ -13,14 +13,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+extract($displayData);
+
 /**
  * Layout variables
- * ---------------------
- *
- * @var  string   $extension The extension name
+ * -----------------
+ * @var   string  $extension  The extension name
  */
-
-extract($displayData);
 
 // Create the copy/move options.
 $options = array(

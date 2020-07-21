@@ -9,16 +9,19 @@
 
 defined('_JEXEC') or die;
 
-/**
- * @var  int     $id
- * @var  string  $name
- * @var  string  $class
- * @var  string  $text
- * @var  string  $btnClass
- * @var  string  $tagName
- * @var  string  $htmlAttributes
- */
 extract($displayData, EXTR_OVERWRITE);
+
+/**
+ * Layout variables
+ * -----------------
+ * @var   int     $id
+ * @var   string  $name
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   string  $htmlAttributes
+ */
 
 $margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ml-auto';
 $target = empty($target) ? '' : 'target="' . $target . '"';

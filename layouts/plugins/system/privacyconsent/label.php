@@ -48,7 +48,7 @@ extract($displayData);
  * @var   array    $translateDescription   Should the description be translated?
  * @var   array    $translateHint          Should the hint be translated?
  * @var   array    $privacyArticle         The Article ID holding the Privacy Article
- * $var   object   $article                The Article object
+ * @var   object   $article                The Article object
  */
 
 // Get the label text from the XML element, defaulting to the element name.
