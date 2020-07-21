@@ -82,6 +82,14 @@ $extension-types: (
       a[target="_blank"]::before {
         display: none;
       }
+
+      a[target="_blank"]::after {
+        font-family: "Font Awesome 5 Free";
+        font-size: 14px;
+        font-weight: 900;
+        content: "\f35d";
+        margin-left: 5px;
+      }
     }
   }
 
