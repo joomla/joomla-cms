@@ -206,13 +206,14 @@ class AdministratorApplication extends CMSApplication
 	 * Gets the name of the current template.
 	 *
 	 * @param   boolean  $params  True to return the template parameters
+	 * @param   string   $name    The name of the template
 	 *
 	 * @return  string  The name of the template.
 	 *
 	 * @since   3.2
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getTemplate($params = false)
+	public function getTemplateByName($params = false, $name = '')
 	{
 		if (\is_object($this->template))
 		{
