@@ -17,7 +17,6 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- *
  * @var   boolean $autofocus      Is autofocus enabled?
  * @var   string  $class          Classes for the input.
  * @var   string  $description    Description of the field.

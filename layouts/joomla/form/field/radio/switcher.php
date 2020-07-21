@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
-extract($displayData, null);
+extract($displayData);
 
 /**
  * Layout variables
