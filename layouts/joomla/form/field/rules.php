@@ -17,7 +17,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-
 extract($displayData);
 
 // Get some system objects.

@@ -15,9 +15,9 @@ extract($displayData);
 
 /**
  * Layout variables
- * ------------------
- * @param   string  $selector  Unique DOM identifier for the modal. CSS id without #
- * @param   array   $params    Modal parameters. Default supported parameters:
+ * -----------------
+ * @var   string  $selector  Unique DOM identifier for the modal. CSS id without #
+ * @var   array   $params    Modal parameters. Default supported parameters:
  *                             - title        string   The modal title
  *                             - backdrop     mixed    A boolean select if a modal-backdrop element should be included (default = true)
  *                                                     The string 'static' includes a backdrop which doesn't close the modal on click.
@@ -28,8 +28,7 @@ extract($displayData);
  *                             - url          string   URL of a resource to be inserted as an <iframe> inside the modal body
  *                             - height       string   height of the <iframe> containing the remote resource
  *                             - width        string   width of the <iframe> containing the remote resource
- * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
- *
+ * @var   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  */
 
 $iframeAttributes = array(
