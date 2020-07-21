@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.accessibility
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 /**
  * System plugin to add additional accessibility features to the administrator interface.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgSystemAccessibility extends CMSPlugin
 {
@@ -33,7 +33,7 @@ class PlgSystemAccessibility extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onBeforeCompileHead()
 	{

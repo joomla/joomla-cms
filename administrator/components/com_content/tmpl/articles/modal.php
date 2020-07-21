@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,9 +25,12 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_content/admin-articles-modal.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('behavior.multiselect');
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core')
+	->useScript('com_content.admin-articles-modal');
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
 $editor    = $app->input->getCmd('editor', '');
@@ -44,7 +47,7 @@ if (!empty($editor))
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo Route::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
@@ -85,9 +88,9 @@ if (!empty($editor))
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'icon-trash',
-					0  => 'icon-unpublish',
-					1  => 'icon-publish',
+					-2 => 'fas fa-trash',
+					0  => 'fas fa-times',
+					1  => 'fas fa-check',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function=' . $function); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo Route::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function=' . $function); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
@@ -65,10 +65,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'icon-trash',
-					0  => 'icon-unpublish',
-					1  => 'icon-publish',
-					2  => 'icon-archive',
+					-2 => 'fas fa-trash',
+					0  => 'fas fa-times',
+					1  => 'fas fa-check',
+					2  => 'fas fa-folder',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>

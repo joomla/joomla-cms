@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -246,20 +246,23 @@ class SysinfoModel extends BaseDatabaseModel
 		}
 
 		$this->php_settings = array(
-			'display_errors'     => ini_get('display_errors') == '1',
-			'short_open_tag'     => ini_get('short_open_tag') == '1',
-			'file_uploads'       => ini_get('file_uploads') == '1',
-			'output_buffering'   => (int) ini_get('output_buffering') !== 0,
-			'open_basedir'       => ini_get('open_basedir'),
-			'session.save_path'  => ini_get('session.save_path'),
-			'session.auto_start' => ini_get('session.auto_start'),
-			'disable_functions'  => ini_get('disable_functions'),
-			'xml'                => extension_loaded('xml'),
-			'zlib'               => extension_loaded('zlib'),
-			'zip'                => function_exists('zip_open') && function_exists('zip_read'),
-			'mbstring'           => extension_loaded('mbstring'),
-			'iconv'              => function_exists('iconv'),
-			'max_input_vars'     => ini_get('max_input_vars'),
+			'memory_limit'        => ini_get('memory_limit'),
+			'upload_max_filesize' => ini_get('upload_max_filesize'),
+			'post_max_size'       => ini_get('post_max_size'),
+			'display_errors'      => ini_get('display_errors') == '1',
+			'short_open_tag'      => ini_get('short_open_tag') == '1',
+			'file_uploads'        => ini_get('file_uploads') == '1',
+			'output_buffering'    => (int) ini_get('output_buffering') !== 0,
+			'open_basedir'        => ini_get('open_basedir'),
+			'session.save_path'   => ini_get('session.save_path'),
+			'session.auto_start'  => ini_get('session.auto_start'),
+			'disable_functions'   => ini_get('disable_functions'),
+			'xml'                 => extension_loaded('xml'),
+			'zlib'                => extension_loaded('zlib'),
+			'zip'                 => function_exists('zip_open') && function_exists('zip_read'),
+			'mbstring'            => extension_loaded('mbstring'),
+			'iconv'               => function_exists('iconv'),
+			'max_input_vars'      => ini_get('max_input_vars'),
 		);
 
 		return $this->php_settings;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -328,11 +328,11 @@ class ManageModel extends InstallerModel
 			->where('state = 0');
 
 		// Process select filters.
-		$status   = $this->getState('filter.status');
+		$status   = $this->getState('filter.status', '');
 		$type     = $this->getState('filter.type');
-		$clientId = $this->getState('filter.client_id');
+		$clientId = $this->getState('filter.client_id', '');
 		$folder   = $this->getState('filter.folder');
-		$core     = $this->getState('filter.core');
+		$core     = $this->getState('filter.core', '');
 
 		if ($status !== '')
 		{
@@ -366,34 +366,19 @@ class ManageModel extends InstallerModel
 				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
-		if ($folder !== '')
+		if ($folder)
 		{
 			$folder = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('folder') . ' = :folder')
 				->bind(':folder', $folder);
 		}
 
-		if ($core !== '')
+		// Filter by core extensions.
+		if ($core === '1' || $core === '0')
 		{
-			$coreExtensions = ExtensionHelper::getCoreExtensions();
-			$elements       = array();
-
-			foreach ($coreExtensions as $extension)
-			{
-				$elements[] = $extension[1];
-			}
-
-			if ($elements)
-			{
-				if ($core === '1')
-				{
-					$query->whereIn($db->quoteName('element'), $elements, ParameterType::STRING);
-				}
-				elseif ($core === '0')
-				{
-					$query->whereNotIn($db->quoteName('element'), $elements, ParameterType::STRING);
-				}
-			}
+			$coreExtensionIds = ExtensionHelper::getCoreExtensionIds();
+			$method = $core === '1' ? 'whereIn' : 'whereNotIn';
+			$query->$method($db->quoteName('extension_id'), $coreExtensionIds);
 		}
 
 		// Process search filter (extension id).

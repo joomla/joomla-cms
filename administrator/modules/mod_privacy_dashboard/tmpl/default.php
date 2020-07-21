@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_dashboard
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,6 @@ $totalRequests  = 0;
 $activeRequests = 0;
 
 ?>
-
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
 	<thead>
@@ -30,6 +29,10 @@ $activeRequests = 0;
 	<tbody>
 		<?php if (count($list)) : ?>
 			<?php foreach ($list as $i => $item) : ?>
+				<?php if (in_array($item->status, array(0, 1))) : ?>
+					<?php $activeRequests += $item->count; ?>
+				<?php endif; ?>
+				<?php $totalRequests += $item->count; ?>
 			<tr>
 				<th scope="row">
 					<a href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[request_type]=' . $item->request_type . '&filter[status]=' . $item->status); ?>">
@@ -54,10 +57,6 @@ $activeRequests = 0;
 	</tbody>
 </table>
 <?php if (count($list)) : ?>
-	<?php if (in_array($item->status, array(0, 1))) : ?>
-		<?php $activeRequests += $item->count; ?>
-	<?php endif; ?>
-	<?php $totalRequests += $item->count; ?>
 	<div class="row">
 		<div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
 		<div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>

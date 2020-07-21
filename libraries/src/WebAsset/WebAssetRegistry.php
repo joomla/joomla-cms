@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	/**
 	 * Registry constructor
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct()
 	{
@@ -275,7 +275,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getRegistryFiles(): array
 	{
@@ -439,7 +439,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function dispatchAssetChanged(string $type, WebAssetItemInterface $asset, string $change)
 	{

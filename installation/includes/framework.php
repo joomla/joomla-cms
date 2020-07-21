@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,3 +33,14 @@ if (file_exists(JPATH_CONFIGURATION . '/configuration.php')
 
 // Import the Joomla Platform.
 require_once JPATH_LIBRARIES . '/bootstrap.php';
+
+if (JDEBUG)
+{
+	// Set new Exception handler with debug enabled
+	$errorHandler->setExceptionHandler(
+		[
+			new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+			'renderException'
+		]
+	);
+}

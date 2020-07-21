@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,11 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_users.two-factor-switcher');
 
 $input = Factory::getApplication()->input;
 
@@ -28,10 +30,9 @@ $settings  = array();
 
 $this->useCoreUI = true;
 ?>
-
 <form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 
-	<h2><?php echo $this->form->getValue('name'); ?></h2>
+	<h2><?php echo $this->form->getValue('name', null, Text::_('COM_USERS_USER_NEW_USER_TITLE')); ?></h2>
 
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
@@ -71,14 +72,15 @@ $this->useCoreUI = true;
 			</label>
 		</div>
 		<div class="controls">
-			<?php echo HTMLHelper::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+			<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 		</div>
 	</div>
 	<div id="com_users_twofactor_forms_container">
 		<?php foreach ($this->tfaform as $form) : ?>
-		<div id="com_users_twofactor_<?php echo $form['method'] ?>" class="hidden">
-			<?php echo $form['form'] ?>
-		</div>
+			<?php $class = $form['method'] == $this->otpConfig->method ? '' : ' class="hidden"'; ?>
+			<div id="com_users_twofactor_<?php echo $form['method'] ?>"<?php echo $class; ?>>
+				<?php echo $form['form'] ?>
+			</div>
 		<?php endforeach; ?>
 	</div>
 

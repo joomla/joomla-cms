@@ -25,6 +25,8 @@
 
     @include media-breakpoint-down(xs) {
       width: 100%;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
     }
   }
 
@@ -84,7 +86,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    [class^='icon-'] {
+    [class^='icon-'],
+    [class^='fa-'] {
       margin-inline-end: .625rem;
       font-size: 1rem;
     }
@@ -180,16 +183,16 @@
 
   .badge {
     position: absolute;
-    top: .4rem;
+    top: 0;
 
     [dir=ltr] & {
       left: 50%;
-      margin-left: .8rem;
+      margin-left: .4rem;
     }
 
     [dir=rtl] & {
       right: 50%;
-      margin-right: .8rem;
+      margin-right: .4rem;
     }
   }
 
@@ -273,7 +276,7 @@
       justify-content: flex-end;
       width: calc(13.2rem + 2px);
       margin-top: .1rem;
-      background-color: var(--white-offset);
+      background-color: var(--atum-bg-dark-70);
       border: 1px solid $gray-500;
       border-top: 0;
       box-shadow: $atum-box-shadow;
@@ -297,7 +300,7 @@
       height: 3.7rem;
 
       .header-item-content > :first-child {
-        color: var(--atum-special-color);
+        color: var(--white);
 
         &[aria-expanded=true] {
           color: var(--atum-text-light);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,6 +45,7 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
@@ -77,12 +78,9 @@ if ($onchange)
 	$attributes['onchange'] = 'onchange="' . $onchange . '"';
 }
 
-if (!empty($dataAttributes))
+if ($dataAttribute)
 {
-	foreach ($dataAttributes as $key => $attrValue)
-	{
-		$attributes[$key] = $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
-	}
+	$attributes['dataAttribute'] = $dataAttribute;
 }
 
 Factory::getDocument()->getWebAssetManager()

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,13 +82,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id, false, 'cid', 'cb', $item->name); ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>">
-										<?php echo $item->name; ?>
-										<div class="small"><?php echo $item->description; ?></div>
-									</label>
+									<?php echo $item->name; ?>
+									<div class="small"><?php echo $item->description; ?></div>
 								</th>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->client_translated; ?>

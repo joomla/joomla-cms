@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,7 @@ abstract class FormField
 	 * If you use this flag you should ensure you display the label in your form (for a11y etc.)
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $hiddenLabel = false;
 
@@ -366,7 +366,7 @@ abstract class FormField
 	 *
 	 * @var  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $dataAttributes = array();
 
@@ -957,11 +957,34 @@ abstract class FormField
 	 *
 	 * @return  array list of data attribute(s)
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getDataAttributes()
 	{
 		return $this->dataAttributes;
+	}
+
+	/**
+	 * Method to render data attributes to html.
+	 *
+	 * @return  string  A HTML Tag Attribute string of data attribute(s)
+	 *
+	 * @since  4.0.0
+	 */
+	public function renderDataAttributes()
+	{
+		$dataAttribute  = '';
+		$dataAttributes = $this->getDataAttributes();
+
+		if (!empty($dataAttributes))
+		{
+			foreach ($dataAttributes as $key => $attrValue)
+			{
+				$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+			}
+		}
+
+		return $dataAttribute;
 	}
 
 	/**
@@ -1248,7 +1271,7 @@ abstract class FormField
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
-		return array(
+		return [
 			'autocomplete'   => $this->autocomplete,
 			'autofocus'      => $this->autofocus,
 			'class'          => $this->class,
@@ -1274,8 +1297,9 @@ abstract class FormField
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
 			'value'          => $this->value,
+			'dataAttribute'  => $this->renderDataAttributes(),
 			'dataAttributes' => $this->dataAttributes,
-		);
+		];
 	}
 
 	/**

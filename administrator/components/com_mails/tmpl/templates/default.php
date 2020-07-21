@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,7 +67,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
 										</a>
-										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+										<div class="dropdown-menu" aria-labelledby="mTemplate<?php echo $i; ?>">
 											<?php foreach ($this->languages as $language) : ?>
 												<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
 													<?php if (in_array($language->lang_code, $item->languages)) : ?>

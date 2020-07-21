@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for Image.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ImageFilterTest extends UnitTestCase
 {
@@ -28,7 +28,7 @@ class ImageFilterTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setUp(): void
 	{
@@ -48,7 +48,7 @@ class ImageFilterTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testConstructorInvalidArgument()
 	{
@@ -62,7 +62,7 @@ class ImageFilterTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testConstructor()
 	{

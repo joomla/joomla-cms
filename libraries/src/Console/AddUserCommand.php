@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -223,7 +223,7 @@ class AddUserCommand extends AbstractCommand
 		$groupList = [];
 
 		// Group names have been supplied as input arguments
-		if ($groups[0])
+		if (!\is_null($groups) && $groups[0])
 		{
 			$groups = explode(',', $groups);
 
@@ -293,18 +293,15 @@ class AddUserCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
+		$help = "<info>%command.name%</info> will add a user
+		\nUsage: <info>php %command.full_name%</info>";
+
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'full name of user');
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
 		$this->addOption('email', null, InputOption::VALUE_OPTIONAL, 'email address');
 		$this->addOption('usergroup', null, InputOption::VALUE_OPTIONAL, 'usergroup (separate multiple groups with comma ",")');
 		$this->setDescription('Add a user');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command adds a user
-
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setHelp($help);
 	}
 }

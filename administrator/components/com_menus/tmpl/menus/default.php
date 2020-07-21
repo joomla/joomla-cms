@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -34,8 +34,11 @@ foreach ($this->items as $item)
 }
 
 $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
-HTMLHelper::_('jquery.framework');
-HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_menus.admin-menus');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">

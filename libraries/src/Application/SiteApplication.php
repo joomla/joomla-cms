@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -168,17 +168,21 @@ final class SiteApplication extends CMSApplication
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
 
+				// Add Asset registry files
 				$wa = $document->getWebAssetManager()->getRegistry();
 
-				// Add Asset registry files
-				$wa->addExtensionRegistryFile($component);
+				if ($component)
+				{
+					$wa->addExtensionRegistryFile($component);
+				}
 
 				if ($template->inherits)
 				{
 					$wa->addTemplateRegistryFile($template->inherits, $this->getClientId());
 				}
 
-				$wa->addTemplateRegistryFile($template->template, $this->getClientId());
+				$was->addTemplateRegistryFile($template->template, $this->getClientId());
+
 				break;
 
 			case 'feed':
@@ -443,9 +447,7 @@ final class SiteApplication extends CMSApplication
 		}
 
 		/** @var OutputController $cache */
-		$cache = Factory::getContainer()
-			->get(CacheControllerFactoryInterface::class)
-			->createCacheController('output', ['defaultgroup' => 'com_templates']);
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('output', ['defaultgroup' => 'com_templates']);
 
 		if ($this->getLanguageFilter())
 		{
@@ -484,8 +486,8 @@ final class SiteApplication extends CMSApplication
 					'LEFT',
 					$db->quoteName('#__extensions', 'e'),
 					$db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
-					. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
-					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+						. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
+						. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
 				);
 
 			$db->setQuery($query);
@@ -611,21 +613,6 @@ final class SiteApplication extends CMSApplication
 		}
 
 		return $template->template;
-	}
-
-	/**
-	 * Gets the name of the current template.
-	 *
-	 * @param   boolean  $params  True to return the template parameters
-	 *
-	 * @return  string  The name of the template.
-	 *
-	 * @since   3.2
-	 * @throws  \InvalidArgumentException
-	 */
-	public function getTemplate($params = false)
-	{
-		return $this->getTemplateByName($params, '');
 	}
 
 	/**

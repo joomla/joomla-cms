@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ use Joomla\CMS\Language\Text;
 				</td>
 				<td>
 					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer"
-						title="<?php echo TEXT::sprintf('JBROWSERTARGET_DOWNLOAD', $this->updateInfo['object']->downloadurl->_data); ?>">
+						title="<?php echo Text::sprintf('JBROWSERTARGET_DOWNLOAD', $this->updateInfo['object']->downloadurl->_data); ?>">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
 					</a>
 				</td>
@@ -59,7 +59,7 @@ use Joomla\CMS\Language\Text;
 					</td>
 					<td>
 						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer"
-							title="<?php echo TEXT::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title); ?>">
+							title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title); ?>">
 							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
 						</a>
 					</td>

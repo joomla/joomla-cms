@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,8 +60,11 @@ class ArticleField extends FormField
 		// Create the modal id.
 		$modalId = 'Article_' . $this->id;
 
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
 		// Add the modal field script to the document head.
-		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		$wa->useScript('field.modal-fields');
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
@@ -75,10 +78,12 @@ class ArticleField extends FormField
 
 			if (!isset($scriptSelect[$this->id]))
 			{
-				Factory::getDocument()->addScriptDeclaration("
-				function jSelectArticle_" . $this->id . "(id, title, catid, object, url, language) {
+				$wa->addInlineScript("
+				window.jSelectArticle_" . $this->id . " = function (id, title, catid, object, url, language) {
 					window.processModalSelect('Article', '" . $this->id . "', id, title, catid, object, url, language);
-				}"
+				}",
+					[],
+					['type' => 'module']
 				);
 
 				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');

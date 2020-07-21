@@ -12,12 +12,12 @@
         </div>
         <a href="#" class="media-browser-select"
           @click.stop="toggleSelect()"
-          :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
+          :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')" :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
           @focus="focused(true)" @blur="focused(false)">
         </a>
         <div class="media-browser-actions" :class="{'active': showActions}">
             <button href="#" class="action-toggle" type="button" ref="actionToggle"
-              :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')" @keyup.enter="openActions()"
+              :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')" :title="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')" @keyup.enter="openActions()"
                @focus="focused(true)" @blur="focused(false)" @keyup.space="openActions()"
                @keyup.down="openActions()" @keyup.up="openLastActions()">
                 <span class="image-browser-action fas fa-ellipsis-h" aria-hidden="true"
@@ -27,7 +27,7 @@
                 <ul>
                     <li>
                         <button type="button" class="action-download" ref="actionDownload" @keyup.enter="download()"
-                           :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')" @keyup.space="download()"
+                           :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')" :title="translate('COM_MEDIA_ACTION_DOWNLOAD')" @keyup.space="download()"
                             @keyup.up="$refs.actionDelete.focus()" @keyup.down="$refs.actionRename.focus()">
                             <span class="image-browser-action fas fa-download" aria-hidden="true"
                                   @click.stop="download()"></span>
@@ -35,7 +35,7 @@
                     </li>
                     <li>
                         <button type="button" class="action-rename" ref="actionRename" @keyup.space="openRenameModal()"
-                          :aria-label="translate('COM_MEDIA_ACTION_RENAME')" @keyup.enter="openRenameModal()"
+                          :aria-label="translate('COM_MEDIA_ACTION_RENAME')" :title="translate('COM_MEDIA_ACTION_RENAME')" @keyup.enter="openRenameModal()"
                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
                           @keyup.up="$refs.actionDownload.focus()" @keyup.down="$refs.actionUrl.focus()">
                             <span class="image-browser-action fas fa-text-width" aria-hidden="true"
@@ -44,7 +44,7 @@
                     </li>
                     <li>
                         <button type="button" class="action-url" ref="actionUrl" @keyup.space="openShareUrlModal()"
-                          :aria-label="translate('COM_MEDIA_ACTION_SHARE')" @keyup.enter="openShareUrlModal()"
+                          :aria-label="translate('COM_MEDIA_ACTION_SHARE')" :title="translate('COM_MEDIA_ACTION_SHARE')" @keyup.enter="openShareUrlModal()"
                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
                           @keyup.up="$refs.actionRename.focus()" @keyup.down="$refs.actionDelete.focus()">
                             <span class="image-browser-action fas fa-link" aria-hidden="true" @click.stop="openShareUrlModal()"></span>
@@ -52,7 +52,7 @@
                     </li>
                     <li>
                         <button type="button" class="action-delete" ref="actionDelete" @keyup.space="openConfirmDeleteModal()"
-                          :aria-label="translate('COM_MEDIA_ACTION_DELETE')" @keyup.enter="openConfirmDeleteModal()"
+                          :aria-label="translate('COM_MEDIA_ACTION_DELETE')" :title="translate('COM_MEDIA_ACTION_DELETE')" @keyup.enter="openConfirmDeleteModal()"
                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
                           @keyup.up="$refs.actionUrl.focus()" @keyup.down="$refs.actionDownload.focus()">
                             <span class="image-browser-action fas fa-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>

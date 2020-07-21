@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,14 +16,11 @@ use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
 
 /** @var HtmlView $this */
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('jquery.framework');
-
-HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
-
-$this->document->getWebAssetManager()
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->usePreset('com_associations.sidebyside')
 	->useScript('webcomponent.core-loader');
 
 $options = [

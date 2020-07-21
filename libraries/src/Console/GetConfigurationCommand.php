@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -308,16 +308,15 @@ class GetConfigurationCommand extends AbstractCommand
 
 		$groupNames = implode(', ', $groupNames);
 
-		$this->setDescription('Displays the current value of a configuration option');
-
 		$this->addArgument('option', null, 'Name of the option');
 		$this->addOption('group', 'g', InputOption::VALUE_REQUIRED, 'Name of the option');
 
-		$help = "The <info>%command.name%</info> Displays the current value of a configuration option
+		$help = "<info>%command.name%</info> displays the current value of a configuration option
 				\nUsage: <info>php %command.full_name%</info> <option>
 				\nGroup usage: <info>php %command.full_name%</info> --group <groupname>
 				\nAvailable group names: $groupNames";
 
+		$this->setDescription('Display the current value of a configuration option');
 		$this->setHelp($help);
 	}
 
@@ -329,7 +328,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{

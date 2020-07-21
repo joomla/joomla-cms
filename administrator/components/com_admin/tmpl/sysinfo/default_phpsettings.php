@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,6 +31,30 @@ use Joomla\CMS\Language\Text;
 			</tr>
 		</thead>
 		<tbody>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_UPLOAD_MAX_FILESIZE'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['upload_max_filesize']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_POST_MAX_SIZE'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['post_max_size']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_MEMORY_LIMIT'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['memory_limit']); ?>
+				</td>
+			</tr>
 			<tr>
 				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_OPEN_BASEDIR'); ?>

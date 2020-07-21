@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,10 +113,13 @@ class AdministratorApplication extends CMSApplication
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
 
+				// Add Asset registry files
 				$wa = $document->getWebAssetManager()->getRegistry();
 
-				// Add Asset registry files
-				$wa->addExtensionRegistryFile($component);
+				if ($component)
+				{
+					$wa->addExtensionRegistryFile($component);
+				}
 
 				if (isset($template->inherits) && false !== $template->inherits)
 				{
@@ -126,6 +129,7 @@ class AdministratorApplication extends CMSApplication
 				$wa->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
+
 			default:
 				break;
 		}
@@ -202,14 +206,13 @@ class AdministratorApplication extends CMSApplication
 	 * Gets the name of the current template.
 	 *
 	 * @param   boolean  $params  True to return the template parameters
-	 * @param   string   $name    The name of the template
 	 *
 	 * @return  string  The name of the template.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.2
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getTemplateByName($params = false, $name = '')
+	public function getTemplate($params = false)
 	{
 		if (\is_object($this->template))
 		{
@@ -502,9 +505,9 @@ class AdministratorApplication extends CMSApplication
 				$this->enqueueMessage(
 					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER',
-						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
+						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 			// Show this message to superusers too
@@ -514,9 +517,9 @@ class AdministratorApplication extends CMSApplication
 					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER_ADMIN',
 						$rootUser,
-						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
+						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 		}

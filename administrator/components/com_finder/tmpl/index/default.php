@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,11 @@ $lang      = Factory::getLanguage();
 
 Text::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' => true]);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_finder.index');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -47,7 +51,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="w-1">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
@@ -77,15 +81,13 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 							<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->link_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->link_id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>">
-										<?php echo $this->escape($item->title); ?>
-									</label>
+									<?php echo $this->escape($item->title); ?>
 								</th>
 								<td class="small d-none d-md-table-cell">
 									<?php
