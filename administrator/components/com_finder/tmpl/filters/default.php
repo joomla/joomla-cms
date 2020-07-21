@@ -49,7 +49,7 @@ $wa->useScript('com_finder.filters');
 							<td class="w-1 text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" class="w-1">
+							<th scope="col" class="w-1 text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col">
@@ -83,7 +83,7 @@ $wa->useScript('com_finder.filters');
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
-								<?php echo HTMLHelper::_('grid.id', $i, $item->filter_id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->filter_id, false, 'cid', 'cb', $item->title); ?>
 							</td>
 							<td class="text-center">
 								<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>

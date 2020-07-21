@@ -18,7 +18,6 @@ use Joomla\CMS\Uri\Uri;
 /** @var JDocumentError $this */
 
 $app   = Factory::getApplication();
-$lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
@@ -27,10 +26,8 @@ $option     = $input->get('option', '');
 $view       = $input->get('view', '');
 $layout     = $input->get('layout', 'default');
 $task       = $input->get('task', 'display');
-$itemid     = $input->get('Itemid', '');
 $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
-$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
@@ -125,7 +122,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<?php // Subheader ?>
 			<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse"
 			   data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
-				<span class="icon-wrench"></span></a>
+				<span class="fas fa-wrench"></span></a>
 			<div id="subhead" class="subhead mb-3">
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">

@@ -11,26 +11,28 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
+extract($displayData, EXTR_OVERWRITE);
+
+/**
+ * Layout variables
+ * -----------------
+ * @var   string  $id
+ * @var   string  $onclick
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   string  $htmlAttributes
+ * @var   string  $task             The task which should be executed
+ * @var   bool    $listCheck        Boolean, whether selection from a list is needed
+ * @var   string  $form             CSS selector for a target form
+ * @var   bool    $formValidation   Whether the form need to be validated before run the task
+ * @var   string  $message          Confirmation message before run the task
+ */
+
 Factory::getDocument()->getWebAssetManager()
 	->useScript('core')
 	->useScript('webcomponent.toolbar-button');
-
-/**
- * @var  string  $id
- * @var  string  $onclick
- * @var  string  $class
- * @var  string  $text
- * @var  string  $btnClass
- * @var  string  $tagName
- * @var  string  $htmlAttributes
- * @var  string  $task             The task which should be executed
- * @var  bool    $listCheck        Boolean, whether selection from a list is needed
- * @var  string  $form             CSS selector for a target form
- * @var  bool    $formValidation   Whether the form need to be validated before run the task
- * @var  string  $message          Confirmation message before run the task
- *
- */
-extract($displayData, EXTR_OVERWRITE);
 
 $tagName  = $tagName ?? 'button';
 

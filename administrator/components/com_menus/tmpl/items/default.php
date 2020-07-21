@@ -59,7 +59,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							</td>
 							<?php if ($menuType) : ?>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
 								</th>
 							<?php endif; ?>
 							<th scope="col" class="w-1 text-center">
@@ -133,7 +133,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 								$parentsStr = '';
 							}
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>"
+							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>"
 								item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
 								level="<?php echo $item->level; ?>">
 								<td class="text-center">
