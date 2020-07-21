@@ -21,6 +21,14 @@ use Joomla\CMS\Plugin\PluginHelper;
 class PlgInstallerPackageInstaller extends CMSPlugin
 {
 	/**
+	 * Application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
