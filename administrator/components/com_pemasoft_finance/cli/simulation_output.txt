@@ -1,0 +1,38 @@
+(BLO: 0.3, SLO: 1.1, SLLO: 1.1 #trades: 244) Durchschnittliche Rendite: 5.46%
+(BLO: 0.3, SLO: 1.2, SLLO: 1.1 #trades: 232) Durchschnittliche Rendite: 6.96%
+(BLO: 0.3, SLO: 1.4, SLLO: 1.2 #trades: 204) Durchschnittliche Rendite: 8.13%
+(BLO: 0.3, SLO: 1.5, SLLO: 1.1 #trades: 202) Durchschnittliche Rendite: 8.72%
+(BLO: 0.3, SLO: 1.5, SLLO: 1.2 #trades: 194) Durchschnittliche Rendite: 10.82%
+(BLO: 0.3, SLO: 1.6, SLLO: 1.2 #trades: 186) Durchschnittliche Rendite: 12.28%
+(BLO: 0.3, SLO: 1.7, SLLO: 1.2 #trades: 180) Durchschnittliche Rendite: 12.39%
+(BLO: 0.3, SLO: 1.7, SLLO: 1.4 #trades: 176) Durchschnittliche Rendite: 12.51%
+(BLO: 0.3, SLO: 5.1, SLLO: 3.8 #trades: 46) Durchschnittliche Rendite: 12.89%
+(BLO: 0.4, SLO: 5, SLLO: 3.4 #trades: 102) Durchschnittliche Rendite: 19.18%
+(Start Datum: 2010-01-01 EndDatum: 2020-12-31 BLO: 0.4, SLO: 5, SLLO: 3.4 #trades: 102) Durchschnittliche Rendite: 19.18%
+
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 3, SLLO: 5 #trades: 100) Durchschnittliche Rendite: 8.52%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 3.2, SLLO: 5 #trades: 94) Durchschnittliche Rendite: 9.49%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4, SLLO: 5 #trades: 72) Durchschnittliche Rendite: 9.89%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.2, SLLO: 5 #trades: 68) Durchschnittliche Rendite: 9.9%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 5.1, SLLO: 5 #trades: 44) Durchschnittliche Rendite: 9.94%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 5.6, SLLO: 5.6 #trades: 40) Durchschnittliche Rendite: 10.44%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 5.7, SLLO: 5.6 #trades: 38) Durchschnittliche Rendite: 10.47%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.4, SLO: 4, SLLO: 5 #trades: 72) Durchschnittliche Rendite: 10.61%
+
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 3, SLLO: 2.5 #trades: 102) Durchschnittliche Rendite: 8.78%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 3.2, SLLO: 2.5 #trades: 96) Durchschnittliche Rendite: 9.87%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4, SLLO: 2.5 #trades: 78) Durchschnittliche Rendite: 9.93%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.5, SLLO: 2.5 #trades: 66) Durchschnittliche Rendite: 9.94%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.5, SLLO: 2.7 #trades: 64) Durchschnittliche Rendite: 10.08%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.6, SLLO: 2.5 #trades: 62) Durchschnittliche Rendite: 10.33%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.6, SLLO: 2.7 #trades: 60) Durchschnittliche Rendite: 10.55%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.7, SLLO: 2.7 #trades: 60) Durchschnittliche Rendite: 10.57%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.8, SLLO: 3.8 #trades: 56) Durchschnittliche Rendite: 10.61%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.9, SLLO: 2.5 #trades: 58) Durchschnittliche Rendite: 10.97%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.9, SLLO: 2.7 #trades: 56) Durchschnittliche Rendite: 11.14%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 4.9, SLLO: 3.8 #trades: 52) Durchschnittliche Rendite: 11.31%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 5, SLLO: 2.7 #trades: 54) Durchschnittliche Rendite: 11.49%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 5, SLLO: 3.8 #trades: 50) Durchschnittliche Rendite: 11.55%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 5.1, SLLO: 2.5 #trades: 54) Durchschnittliche Rendite: 11.96%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 5.1, SLLO: 3.1 #trades: 50) Durchschnittliche Rendite: 12.15%
+(Start Datum: 2016-01-01 EndDatum: 2020-12-31 BLO: 0.3, SLO: 5.1, SLLO: 3.8 #trades: 46) Durchschnittliche Rendite: 12.89%

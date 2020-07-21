@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+	<name>com_pemasoft_finance</name>
+	<description>COM_PMS_FINANCE_XML_DESCRIPTION</description>
+	<creationDate>July 2020</creationDate>
+	<author>Peter Mayer</author>
+	<license>GNU General Public License version 2 or later</license> 
+	<version>1.0.5</version>
+
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+
+	<update> 
+		<schemas> 
+			<schemapath type="mysql">sql/updates/mysql</schemapath> 
+		</schemas> 
+	</update>
+
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+
+	
+	<files folder="site">
+		<filename>pemasoft_finance.php</filename>
+		<filename>index.html</filename>
+		<filename>controller.php</filename>
+        <folder>model</folder>
+        <folder>view</folder>
+		<!-- <filename>controller.php</filename>
+		<folder>controllers</folder>
+		<folder>language</folder>
+		<folder>models</folder>
+		<folder>views</folder> -->
+	</files>
+
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB/en-GB.com_pemasoft_finance.ini</language>
+		<language tag="de-DE">language/de-DE/de-DE.com_pemasoft_finance.ini</language>
+	</languages>
+
+	<administration>
+		<menu>COM_PMS_FINANCE</menu>
+		<submenu>
+			<!--
+				Note that all & must be escaped to &amp; for the file to be valid
+				XML and be parsed by the installer
+			-->
+		</submenu>
+		<files folder="admin">
+			<filename>pemasoft_finance.php</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+            <folder>sql</folder>
+            <folder>cli</folder>
+            <folder>helpers</folder>
+            <folder>model</folder>
+            <folder>view</folder>
+		</files>
+
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_pemasoft_finance.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_pemasoft_finance.sys.ini</language>
+			<language tag="de-DE">language/de-DE/de-DE.com_pemasoft_finance.ini</language>
+			<language tag="de-DE">language/de-DE/de-DE.com_pemasoft_finance.sys.ini</language>
+		</languages>
+	</administration>
+</extension>
