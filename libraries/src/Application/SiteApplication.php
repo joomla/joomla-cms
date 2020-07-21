@@ -404,7 +404,8 @@ final class SiteApplication extends CMSApplication
 			{
 				if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 				{
-					if (!file_exists(JPATH_THEMES . '/' . $this->template->inherits . '/index.php')) {
+					if (!file_exists(JPATH_THEMES . '/' . $this->template->inherits . '/index.php'))
+					{
 						throw new \InvalidArgumentException(
 							Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template)
 						);

@@ -810,8 +810,8 @@ class HtmlDocument extends Document
 		$baseDir = $directory . '/' .  $activeTemplate->template . '/';
 
 		if ($activeTemplate->inherits
-			&& !file_exists($directory . '/' . $activeTemplate->template . '/' . $file)
-			&& file_exists($directory . '/' . $activeTemplate->inherits . '/' . $file))
+			 && !file_exists($directory . '/' . $activeTemplate->template . '/' . $file)
+			 && file_exists($directory . '/' . $activeTemplate->inherits . '/' . $file))
 		{
 			$baseDir = $directory . '/' .  $activeTemplate->inherits . '/';
 		}
