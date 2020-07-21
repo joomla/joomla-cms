@@ -28,7 +28,6 @@ $return  = $this->app->input->getBase64('return');
 $maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
 $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
-
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 
 <hr>

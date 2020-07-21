@@ -9,20 +9,6 @@ Joomla = window.Joomla || {};
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    Joomla.submitbuttonurl = () => {
-      const form = document.getElementById('adminForm');
-
-      // do field validation
-      if (form.install_url.value === '' || form.install_url.value === 'http://' || form.install_url.value === 'https://') {
-        Joomla.renderMessages({ warning: [Joomla.JText._('PLG_INSTALLER_URLINSTALLER_NO_URL')] });
-      } else {
-        Joomla.displayLoader();
-
-        form.installtype.value = 'url';
-        form.submit();
-      }
-    };
-
     Joomla.submitbutton4 = () => {
       const form = document.getElementById('adminForm');
 
