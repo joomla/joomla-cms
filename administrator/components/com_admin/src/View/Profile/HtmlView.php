@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
 		$this->form      = $model->getForm();
 		$this->item      = $model->getItem();
 		$this->state     = $model->getState();
-		$this->tfaform   = $model->getTwofactorform();
+		$this->tfaform   = $model->getTwofactorform($this->item->id);
 		$this->otpConfig = $model->getOtpConfig();
 
 		// Check for errors.
