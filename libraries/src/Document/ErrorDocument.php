@@ -144,9 +144,8 @@ class ErrorDocument extends Document
 
 		\JFactory::getApplication()->setHeader('status', $status);
 
-		$file = 'error.php';
-
 		// Check template
+		$file = isset($params['file']) ? $params['file'] : 'error.php';
 		$directory = isset($params['directory']) ? $params['directory'] : 'templates';
 		$template = isset($params['template']) ? \JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
 
