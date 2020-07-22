@@ -37,9 +37,9 @@ if (!Joomla) {
       const installButton = document.getElementById('uploadform-web-install');
       installButton.addEventListener('click', () => {
         if (webInstallerOptions.options.installFrom === 4) {
-          Joomla.submitbutton4();
+          this.submitButtonUrl();
         } else {
-          Joomla.submitbutton5();
+          this.submitButtonWeb();
         }
       });
 
@@ -351,6 +351,38 @@ if (!Joomla) {
 
       return true;
     }
+
+    submitButtonUrl() {
+      const form = document.getElementById('adminForm');
+
+      // do field validation
+      if (form.install_url.value === '' || form.install_url.value === 'http://' || form.install_url.value === 'https://') {
+        Joomla.renderMessages({ warning: [Joomla.Text._('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL')] });
+      } else {
+        const loading = document.getElementById('loading');
+        if (loading) {
+          loading.classList.remove('hidden');
+        }
+
+        form.installtype.value = 'url';
+        form.submit();
+      }
+    };
+
+    submitButtonWeb() {
+      const form = document.getElementById('adminForm');
+
+      // do field validation
+      if (form.install_url.value !== '' || form.install_url.value !== 'http://' || form.install_url.value !== 'https://') {
+        this.submitButtonUrl();
+      } else if (form.install_url.value === '') {
+        Joomla.renderMessages({ warning: [Joomla.apps.options.btntxt] });
+      } else {
+        document.querySelector('#appsloading').classList.remove('hidden');
+        form.installtype.value = 'web';
+        form.submit();
+      }
+    };
   }
 
   document.addEventListener('DOMContentLoaded', () => {
