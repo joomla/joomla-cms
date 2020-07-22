@@ -577,38 +577,23 @@ abstract class FormField
 		$this->formControl = $form->getFormControl();
 		if ($parent = $form->getFormParent())
 		{
-			if (isset(self::$subformsCache[$this->formControl]))
+			$this->subformPrefix = substr($this->form->getName(), 15).'.';
+			if (isset(self::$subformsCache[$this->subformPrefix]))
 			{
-				list($this->subformPrefix, $this->subformParent) = self::$subformsCache[$this->formControl];
+				$this->subformParent = self::$subformsCache[$this->subformPrefix];
 			}
 			else
 			{
 				$this->subformParent = $parent;
-				$subformPrefix       = array();
-				while ($parent)
-				{
-					$parents = explode('.', $form->getName());
-					if ($parent = $form->getFormParent())
+				while ($parent){
+					$form = $parent;
+					$parent = $form->getFormParent();
+					if ($parent)
 					{
-						while (!empty($parents))
-						{
-							$prefix = array_pop($parents);
-							if ($prefix === 'params')
-							{
-								break;
-							}
-							$subformPrefix[] = $prefix;
-						}
 						$this->subformParent = $parent;
-						$form                = $parent;
 					}
 				}
-
-				if (!empty($subformPrefix))
-				{
-					$this->subformPrefix = implode('.', array_reverse($subformPrefix)) . '.';
-				}
-				self::$subformsCache[$this->formControl] = array($this->subformPrefix, $this->subformParent);
+				self::$subformsCache[$this->subformPrefix] = $this->subformParent;
 			}
 		}
 
