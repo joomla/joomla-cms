@@ -352,6 +352,7 @@ if (!Joomla) {
       return true;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     submitButtonUrl() {
       const form = document.getElementById('adminForm');
 
