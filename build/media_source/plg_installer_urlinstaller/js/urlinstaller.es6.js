@@ -19,7 +19,7 @@ Joomla = window.Joomla || {};
         const loading = document.getElementById('loading');
         if (loading) {
           loading.classList.remove('hidden');
-       }
+        }
 
         form.installtype.value = 'url';
         form.submit();
