@@ -22,7 +22,8 @@ Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
-$this->app->getDocument()->getWebAssetManager()->registerAndUseScript('plg_installer_packageinstaller.packageinstaller', 'plg_installer_packageinstaller/packageinstaller.js');
+$this->app->getDocument()->getWebAssetManager()
+	->registerAndUseScript('plg_installer_packageinstaller.packageinstaller', 'plg_installer_packageinstaller/packageinstaller.js', [], [], ['core']);
 
 $return  = $this->app->input->getBase64('return');
 $maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
