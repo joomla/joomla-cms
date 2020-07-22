@@ -29,14 +29,6 @@ class PlgInstallerPackageInstaller extends CMSPlugin
 	protected $app;
 
 	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.6.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Textfield or Form of the Plugin.
 	 *
 	 * @return  array  Returns an array with the tab information
@@ -45,6 +37,9 @@ class PlgInstallerPackageInstaller extends CMSPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
+		// Load language files
+		$this->loadLanguage();
+
 		$tab            = array();
 		$tab['name']    = 'package';
 		$tab['label']   = Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');

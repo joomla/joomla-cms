@@ -28,14 +28,6 @@ class PlgInstallerFolderInstaller extends CMSPlugin
 	protected $app;
 
 	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.6.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Textfield or Form of the Plugin.
 	 *
 	 * @return  array  Returns an array with the tab information
@@ -44,6 +36,9 @@ class PlgInstallerFolderInstaller extends CMSPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
+		// Load language files
+		$this->loadLanguage();
+
 		$tab            = array();
 		$tab['name']    = 'folder';
 		$tab['label']   = Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
