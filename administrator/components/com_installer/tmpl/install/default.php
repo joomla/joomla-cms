@@ -44,7 +44,10 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
 					<?php endif; ?>
 
 					<?php if (!$tabs) : ?>
-						<?php $app->enqueueMessage(Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
+						<div class="alert alert-warning">
+							<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+							<?php echo Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'); ?>
+						</div>
 					<?php endif; ?>
 
 					<?php if ($tabs || $this->ftp) : ?>
