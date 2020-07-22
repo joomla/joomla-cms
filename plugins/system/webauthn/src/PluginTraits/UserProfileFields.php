@@ -99,12 +99,6 @@ trait UserProfileFields
 			return true;
 		}
 
-		// Check we are manipulating a valid form.
-		if (!($form instanceof Form))
-		{
-			return true;
-		}
-
 		$name = $form->getName();
 
 		$allowedForms = [
