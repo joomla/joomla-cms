@@ -25,6 +25,10 @@
 	display: inline-block;
 }
 
+#refresh-status.help-block {
+	flex-basis: 100%;
+}
+
 .result-key {
 	color:#666;
 }
