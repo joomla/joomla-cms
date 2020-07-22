@@ -617,7 +617,7 @@ class JModelListTest extends TestCaseDatabase
 		// This stops populate state from being called again
 		TestReflection::setValue($this->object, '__state_set', true);
 
-		// Make sure that the invalid value is overriden by the value from the constructor
+		// Make sure that the invalid value is overridden by the value from the constructor
 		$this->assertEquals('ASC', $this->object->getState('list.direction'));
 	}
 
@@ -940,7 +940,7 @@ class JModelListTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @testdox getUserState() returns data from the current request if exisiting
+	 * @testdox getUserState() returns data from the current request if existing
 	 */
 	public function testGetuserstateUsesRequestData()
 	{

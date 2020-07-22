@@ -947,7 +947,7 @@ But after they are produced,
 			}
 			else
 			{
-				// Remove all vertical characters to ensure system independed compare
+				// Remove all vertical characters to ensure system independent compare
 				$content = preg_replace('/\v/', '', $content);
 				$data = file_get_contents($path);
 				$data = preg_replace('/\v/', '', $data);

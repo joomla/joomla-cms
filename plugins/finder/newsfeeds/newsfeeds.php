@@ -132,7 +132,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	 * Smart Search after save content method.
 	 * Reindexes the link information for a newsfeed that has been saved.
 	 * It also makes adjustments if the access level of a newsfeed item or
-	 * the category to which it belongs has beend changed.
+	 * the category to which it belongs has been changed.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
 	 * @param   JTable   $row      A JTable object.

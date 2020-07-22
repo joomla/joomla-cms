@@ -47,7 +47,7 @@ class JLanguageHelperTest extends \PHPUnit\Framework\TestCase
 	{
 		$lang = JLanguageHelper::detectLanguage();
 
-		// Since we're running in a CLI context we can only check the defualt value
+		// Since we're running in a CLI context we can only check the default value
 		$this->assertNull(
 			$lang
 		);

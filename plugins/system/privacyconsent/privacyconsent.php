@@ -242,7 +242,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
@@ -425,7 +425,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 	/**
 	 * Get privacy article ID. If the site is a multilingual website and there is associated article for the
-	 * current language, ID of the associlated article will be returned
+	 * current language, ID of the associated article will be returned
 	 *
 	 * @return  integer
 	 *

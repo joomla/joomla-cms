@@ -167,7 +167,7 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::__construct method with dependancy injection.
+	 * Tests the JApplicationWeb::__construct method with dependency injection.
 	 *
 	 * @return  void
 	 *
@@ -241,7 +241,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testAppendBody()
 	{
-		// Similulate a previous call to setBody or appendBody.
+		// Simulate a previous call to setBody or appendBody.
 		TestReflection::getValue($this->class, 'response')->body = array('foo');
 
 		$this->class->appendBody('bar');
@@ -837,7 +837,7 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::initialise method with dependancy injection.
+	 * Tests the JApplicationWeb::initialise method with dependency injection.
 	 *
 	 * @return  void
 	 *
@@ -1045,7 +1045,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testPrependBody()
 	{
-		// Similulate a previous call to a body method.
+		// Simulate a previous call to a body method.
 		TestReflection::getValue($this->class, 'response')->body = array('foo');
 
 		$this->class->prependBody('bar');
@@ -1444,7 +1444,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testSendHeaders()
 	{
-		// Similulate a previous call to a setHeader method.
+		// Simulate a previous call to a setHeader method.
 		TestReflection::getValue($this->class, 'response')->headers = array(
 			array('name' => 'Status', 'value' => 200),
 			array('name' => 'X-JWeb-SendHeaders', 'value' => 'foo'),

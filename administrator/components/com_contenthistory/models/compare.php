@@ -37,6 +37,14 @@ class ContenthistoryModelCompare extends JModelItem
 
 		$id1 = $input->getInt('id1');
 		$id2 = $input->getInt('id2');
+
+		if (!$id1 || \is_array($id1) || !$id2 || \is_array($id2))
+		{
+			$this->setError(\JText::_('COM_CONTENTHISTORY_ERROR_INVALID_ID'));
+
+			return false;
+		}
+
 		$result = array();
 
 		if ($table1->load($id1) && $table2->load($id2))
@@ -48,6 +56,8 @@ class ContenthistoryModelCompare extends JModelItem
 
 			if (!$contentTypeTable->load($ucmTypeId))
 			{
+				$this->setError(\JText::_('COM_CONTENTHISTORY_ERROR_FAILED_LOADING_CONTENT_TYPE'));
+
 				// Assume a failure to load the content type means broken data, abort mission
 				return false;
 			}
@@ -90,7 +100,7 @@ class ContenthistoryModelCompare extends JModelItem
 
 					foreach ($dateProperties as $dateProperty)
 					{
-						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != '0000-00-00 00:00:00')
+						if (property_exists($object->data, $dateProperty) && $object->data->$dateProperty->value != '0000-00-00 00:00:00')
 						{
 							$object->data->$dateProperty->value = JHtml::_('date', $object->data->$dateProperty->value, JText::_('DATE_FORMAT_LC6'));
 						}
@@ -102,6 +112,8 @@ class ContenthistoryModelCompare extends JModelItem
 				return $result;
 			}
 		}
+
+		$this->setError(\JText::_('COM_CONTENTHISTORY_ERROR_VERSION_NOT_FOUND'));
 
 		return false;
 	}

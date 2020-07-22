@@ -24,7 +24,7 @@ defined('JPATH_PLATFORM') or die;
  *  	$this->observableObject = $observableObject;
  * 	}
  *
- * 3) and must implement the instanciator function createObserver() below, e.g. as follows:
+ * 3) and must implement the instantiator function createObserver() below, e.g. as follows:
  * 	public static function createObserver(JObservableInterface $observableObject, $params = array())
  * 	{
  * 	    $observer = new self($observableObject);
@@ -34,7 +34,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * 4) Then add functions corresponding to the events to be observed,
  *    E.g. to respond to event: $this->_observers->update('onBeforeLoad', array($keys, $reset));
- *    following function is needed in the obser:
+ *    following function is needed in the observer:
  *  public function onBeforeLoad($keys, $reset) { ... }
  *
  * 5) Finally, the binding is made outside the observable and observer classes, using:

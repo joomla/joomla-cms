@@ -39,7 +39,7 @@ class ConfigModelTemplates extends ConfigModelForm
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm    A JForm object on success, false on failure
@@ -99,7 +99,7 @@ class ConfigModelTemplates extends ConfigModelForm
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
-		// Look for com_config.xml, which contains fileds to display
+		// Look for com_config.xml, which contains fields to display
 		$formFile = JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
 		if (!file_exists($formFile))

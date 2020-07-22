@@ -199,10 +199,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							$this->fieldset = 'description';
 							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
 							if (!$long_description) {
-								$truncated = JHtmlString::truncate($short_description, 550, true, false);
+								$truncated = JHtml::_('string.truncate', $short_description, 550, true, false);
 								if (strlen($truncated) > 500) {
 									$long_description = $short_description;
-									$short_description = JHtmlString::truncate($truncated, 250);
+									$short_description = JHtml::_('string.truncate', $truncated, 250);
 									if ($short_description == $long_description) {
 										$long_description = '';
 									}

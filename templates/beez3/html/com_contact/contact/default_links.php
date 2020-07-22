@@ -13,7 +13,7 @@ if ($this->params->get('presentation_style') === 'sliders') : ?>
 	<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <?php endif; ?>
 <?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-	<?php echo JHtmlTabs::panel(JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
+	<?php echo JHtml::_('tabs.panel', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <?php endif; ?>
 <?php if  ($this->params->get('presentation_style') === 'plain'):?>
 	<?php echo '<h3>'. JText::_('COM_CONTACT_LINKS').'</h3>'; ?>

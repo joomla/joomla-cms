@@ -15,7 +15,7 @@
 class TestReflection
 {
 	/**
-	 * Helper method that gets a protected or private property in a class by relfection.
+	 * Helper method that gets a protected or private property in a class by reflection.
 	 *
 	 * @param   object  $object        The object from which to return the property value.
 	 * @param   string  $propertyName  The name of the property to return.
@@ -82,7 +82,7 @@ class TestReflection
 	}
 
 	/**
-	 * Helper method that sets a protected or private property in a class by relfection.
+	 * Helper method that sets a protected or private property in a class by reflection.
 	 *
 	 * @param   object  $object        The object for which to set the property.
 	 * @param   string  $propertyName  The name of the property to set.

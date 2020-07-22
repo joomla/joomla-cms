@@ -15,8 +15,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Class to manipulate an image.
  *
- * @since       1.7.3
- * @deprecated  5.0  Use Joomla\Image\ImageFilter instead.
+ * @since  1.7.3
  */
 abstract class ImageFilter extends \Joomla\Image\ImageFilter
 {
@@ -25,13 +24,10 @@ abstract class ImageFilter extends \Joomla\Image\ImageFilter
 	 *
 	 * @param   resource  $handle  The image resource on which to apply the filter.
 	 *
-	 * @since   1.7.3
-	 * @deprecated  5.0  Use Joomla\Image\ImageFilter instead.
+	 * @since  1.7.3
 	 */
 	public function __construct($handle)
 	{
-		Log::add('Joomla\CMS\Image\ImageFilter is deprecated, use Joomla\Image\ImageFilter instead.', Log::WARNING, 'deprecated');
-
 		// Inject the PSR-3 compatible logger in for forward compatibility
 		$this->setLogger(Log::createDelegatedLogger());
 

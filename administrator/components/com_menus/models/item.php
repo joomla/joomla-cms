@@ -1570,7 +1570,7 @@ class MenusModelItem extends JModelAdmin
 	 * @param   array  $idArray    Rows identifiers to be reordered
 	 * @param   array  $lft_array  lft values of rows to be reordered
 	 *
-	 * @return  boolean false on failuer or error, true otherwise.
+	 * @return  boolean false on failure or error, true otherwise.
 	 *
 	 * @since   1.6
 	 */

@@ -522,7 +522,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Tests the JLoader::registerNamespace method when reseting the paths.
+	 * Tests the JLoader::registerNamespace method when resetting the paths.
 	 *
 	 * @return  void
 	 *

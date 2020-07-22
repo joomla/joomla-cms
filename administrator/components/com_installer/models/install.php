@@ -135,6 +135,14 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
+		// Check if package was uploaded successfully.
+		if (!\is_array($package))
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+
+			return false;
+		}
+
 		// Get an installer instance.
 		$installer = JInstaller::getInstance();
 
@@ -145,7 +153,7 @@ class InstallerModelInstall extends JModelLegacy
 		 * This must be done before the unpacked check because JInstallerHelper::detectType() returns a boolean false since the manifest
 		 * can't be found in the expected location.
 		 */
-		if (is_array($package) && isset($package['dir']) && is_dir($package['dir']))
+		if (isset($package['dir']) && is_dir($package['dir']))
 		{
 			$installer->setPath('source', $package['dir']);
 
@@ -171,14 +179,14 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// Was the package unpacked?
-		if (!$package || !$package['type'])
+		if (empty($package['type']))
 		{
 			if (in_array($installType, array('upload', 'url')))
 			{
 				JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
-			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'), 'error');
 
 			return false;
 		}

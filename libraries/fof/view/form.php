@@ -4,12 +4,14 @@
  * @subpackage  view
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
 /**
- * FrameworkOnFramework Form class. It preferrably renders an XML view template
+ * FrameworkOnFramework Form class. It preferably renders an XML view template
  * instead of a traditional PHP-based view template.
  *
  * @package  FrameworkOnFramework

@@ -30,7 +30,7 @@ class CustomButton extends ToolbarButton
 	 * Fetch the HTML for the button
 	 *
 	 * @param   string  $type  Button type, unused string.
-	 * @param   string  $html  HTML strng for the button
+	 * @param   string  $html  HTML string for the button
 	 * @param   string  $id    CSS id for the button
 	 *
 	 * @return  string   HTML string for the button

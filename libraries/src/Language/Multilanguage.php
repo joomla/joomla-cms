@@ -11,7 +11,7 @@ namespace Joomla\CMS\Language;
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Utitlity class for multilang
+ * Utility class for multilang
  *
  * @since  2.5.4
  */
