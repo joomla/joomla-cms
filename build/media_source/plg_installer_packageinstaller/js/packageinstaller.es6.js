@@ -9,7 +9,7 @@ Joomla = window.Joomla || {};
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-      Joomla.submitbuttonpackage = () => {
+    Joomla.submitbuttonpackage = () => {
       const form = document.getElementById('adminForm');
 
       // do field validation

@@ -367,7 +367,7 @@ if (!Joomla) {
         form.installtype.value = 'url';
         form.submit();
       }
-    };
+    }
 
     submitButtonWeb() {
       const form = document.getElementById('adminForm');
@@ -382,7 +382,7 @@ if (!Joomla) {
         form.installtype.value = 'web';
         form.submit();
       }
-    };
+    }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
