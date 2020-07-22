@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       accepts(el, target, source, sibling) {
         if (isNested) {
           if (sibling !== null) {
-            return sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') === el.getAttribute('data-dragable-group');
+            return sibling.getAttribute('data-draggable-group') && sibling.getAttribute('data-draggable-group') === el.getAttribute('data-draggable-group');
           }
 
           return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');

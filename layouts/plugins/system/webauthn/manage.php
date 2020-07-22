@@ -57,6 +57,13 @@ $defaultDisplayData = [
 ];
 extract(array_merge($defaultDisplayData, $displayData));
 
+// Ensure the GMP Extension is loaded in PHP - as this is required by third party library
+if (false === function_exists('gmp_intval'))
+{
+	$error = Text::_('PLG_SYSTEM_WEBAUTHN_REQUIRES_GMP');
+	$allow_add = false;
+}
+
 /**
  * Why not push these configuration variables directly to JavaScript?
  *
