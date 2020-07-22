@@ -16,7 +16,13 @@ use Joomla\CMS\Language\Text;
 Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 
 $this->app->getDocument()->getWebAssetManager()
-	->registerAndUseScript('plg_installer_folderinstaller.folderinstaller', 'plg_installer_folderinstaller/folderinstaller.js', [], [], ['core']);
+	->registerAndUseScript(
+		'plg_installer_folderinstaller.folderinstaller',
+		'plg_installer_folderinstaller/folderinstaller.js',
+		[],
+		['defer' => true],
+		['core']
+	);
 
 ?>
 <legend><?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>

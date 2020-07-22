@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
 
 $this->app->getDocument()->getWebAssetManager()
-	->registerAndUseScript('plg_installer_urlinstaller.urlinstaller', 'plg_installer_urlinstaller/urlinstaller.js', [], [], ['core']);
+	->registerAndUseScript('plg_installer_urlinstaller.urlinstaller', 'plg_installer_urlinstaller/urlinstaller.js', [], ['defer' => true], ['core']);
 
 ?>
 <legend><?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
