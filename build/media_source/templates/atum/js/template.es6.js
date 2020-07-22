@@ -210,7 +210,7 @@
       wrapper.classList.add('closed');
     }
 
-    if (smallLandscape.matches) {
+    if (small.matches) {
       if (sidebarNav) sidebarNav.classList.add('collapse');
       if (subhead) subhead.classList.add('collapse');
     } else {
