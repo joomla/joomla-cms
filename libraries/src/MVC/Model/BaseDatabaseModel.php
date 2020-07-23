@@ -75,7 +75,7 @@ abstract class BaseDatabaseModel extends \JObject
 	 * The factory.
 	 *
 	 * @var    MVCFactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.10.0
 	 */
 	protected $factory;
 

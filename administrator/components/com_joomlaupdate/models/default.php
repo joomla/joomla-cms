@@ -25,7 +25,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 * @var   array  $updateInformation  null
 	 * Holds the update information evaluated in getUpdateInformation.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private $updateInformation = null;
 
@@ -1116,7 +1116,7 @@ ENDDATA;
 	 *
 	 * @return array Array of PHP config options
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getPhpOptions()
 	{
@@ -1216,7 +1216,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getPhpSettings()
 	{
@@ -1283,7 +1283,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private function getConfiguredDatabaseType()
 	{
@@ -1296,7 +1296,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function isDatabaseTypeSupported()
 	{
@@ -1317,7 +1317,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function isPhpVersionSupported()
 	{
@@ -1330,7 +1330,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
@@ -1345,7 +1345,7 @@ ENDDATA;
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getIniParserAvailability()
 	{
@@ -1378,7 +1378,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getNonCoreExtensions()
 	{
@@ -1421,7 +1421,7 @@ ENDDATA;
 	 *
 	 * @return  bool  true if extension is not a core extension
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private static function isNonCoreExtension($extension)
 	{
@@ -1447,7 +1447,7 @@ ENDDATA;
 	 *
 	 * @return object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
@@ -1508,7 +1508,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private function getUpdateSitesInfo($extensionID)
 	{
@@ -1551,7 +1551,7 @@ ENDDATA;
 	 *
 	 * @return  array  An array of URLs.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
 	{
@@ -1609,7 +1609,7 @@ ENDDATA;
 	 *
 	 * @return  mixed  An array of data items or false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
@@ -1629,7 +1629,7 @@ ENDDATA;
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	protected function translateExtensionName(&$item)
 	{
