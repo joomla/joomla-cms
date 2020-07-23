@@ -26,6 +26,21 @@ use Joomla\Component\Users\Administrator\Model\UserModel;
 class ProfileModel extends UserModel
 {
 	/**
+	 * Method to auto-populate the state.
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function populateState()
+	{
+		parent::populateState();
+
+		$this->setState('user.id', Factory::getApplication()->getIdentity()->id);
+	}
+
+	/**
 	 * Method to get the record form.
 	 *
 	 * @param   array    $data      An optional array of data for the form to interrogate.
@@ -130,9 +145,13 @@ class ProfileModel extends UserModel
 	 */
 	public function save($data)
 	{
-		$user = Factory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
-		unset($data['id'], $data['groups'], $data['sendEmail'], $data['block']);
+		// Prevent editing other users or changing own user groups.
+		$data['id']     = $user->id;
+		$data['groups'] = $user->groups;
+
+		unset($data['sendEmail'], $data['block']);
 
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
@@ -141,26 +160,6 @@ class ProfileModel extends UserModel
 			unset($data['username']);
 		}
 
-		// Bind the data.
-		if (!$user->bind($data))
-		{
-			$this->setError($user->getError());
-
-			return false;
-		}
-
-		$user->groups = null;
-
-		// Store the data.
-		if (!$user->save())
-		{
-			$this->setError($user->getError());
-
-			return false;
-		}
-
-		$this->setState('user.id', $user->id);
-
-		return true;
+		return parent::save($data);
 	}
 }
