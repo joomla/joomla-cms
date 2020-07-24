@@ -442,7 +442,7 @@ abstract class HTMLHelper
 
 				if ($template->parent || !empty($template->inherits))
 				{
-					$client = $template->client_id === 1 ? 'admin' : 'site';
+					$client = $template->client_id === 1 ? 'administrator' : 'site';
 					$templaPath = JPATH_ROOT . "/media/templates/$client";
 				}
 
@@ -1282,4 +1282,3 @@ abstract class HTMLHelper
 		return '';
 	}
 }
-
