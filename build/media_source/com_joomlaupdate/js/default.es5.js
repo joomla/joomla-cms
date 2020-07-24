@@ -9,7 +9,7 @@ Joomla = window.Joomla || {};
 	'use strict';
 
 	Joomla.extractionMethodHandler = function(element, prefix) {
-		var displayStyle = element.value === 'direct' ? 'hidden' : 'table-row';
+		var displayStyle = element.value === 'direct' ? 'hidden' : '';
 
 		document.getElementById(prefix + '_hostname').classList.add(displayStyle);
 		document.getElementById(prefix + '_port').classList.add(displayStyle);
