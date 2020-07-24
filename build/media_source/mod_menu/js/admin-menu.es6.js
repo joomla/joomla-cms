@@ -110,7 +110,7 @@
      * Sidebar Nav
      */
     const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
-    const currentUrl = window.location.href.toLowerCase();
+    const currentUrl = window.location.href;
     const mainNav = document.querySelector('ul.main-nav');
     const menuParents = [].slice.call(mainNav.querySelectorAll('li.parent > a'));
     const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close'));
