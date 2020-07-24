@@ -161,13 +161,13 @@ trait LegacyModelLoaderTrait
 		// Detect the client based on the include paths
 		foreach (self::addIncludePath() as $path)
 		{
-			if (strpos($path, JPATH_ADMINISTRATOR . '/components/' . $componentName) !== false)
+			if (strpos($path, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $componentName)) !== false)
 			{
 				$client = 'Administrator';
 				break;
 			}
 
-			if (strpos($path, JPATH_SITE . '/components/' . $componentName) !== false)
+			if (strpos($path, Path::clean(JPATH_SITE . '/components/' . $componentName))!== false)
 			{
 				$client = 'Site';
 				break;
