@@ -671,6 +671,12 @@ class User extends \JObject
 			{
 				$array['password'] = $this->password;
 			}
+
+			// Prevent updating internal fields
+			unset($array['registerDate']);
+			unset($array['lastvisitDate']);
+			unset($array['lastResetTime']);
+			unset($array['resetCount']);
 		}
 
 		if (array_key_exists('params', $array))
