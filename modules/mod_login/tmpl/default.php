@@ -56,7 +56,7 @@ Text::script('JHIDEPASSWORD');
 					<span class="input-group-append">
 						<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 						<button type="button" class="btn btn-secondary input-password-toggle">
-							<span class="fas fa-fw fa-eye" aria-hidden="true"></span>
+							<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 						</button>
 					</span>
