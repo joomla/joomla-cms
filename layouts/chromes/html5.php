@@ -11,6 +11,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 $module  = $displayData['module'];
 $params  = $displayData['params'];
 
@@ -19,19 +21,28 @@ if ((string) $module->content === '')
 	return;
 }
 
-$moduleTag     = htmlspecialchars($params->get('module_tag', 'div'), ENT_QUOTES, 'UTF-8');
-$headerTag     = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
-$bootstrapSize = (int) $params->get('bootstrap_size', 0);
-$moduleClass   = $bootstrapSize !== 0 ? ' col-md-' . $bootstrapSize : '';
+$moduleTag              = htmlspecialchars($params->get('module_tag', 'div'), ENT_QUOTES, 'UTF-8');
+$moduleAttribs          = [];
+$moduleAttribs['class'] = 'moduletable ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8');
+$bootstrapSize          = (int) $params->get('bootstrap_size', 0);
+$moduleAttribs['class'] .= $bootstrapSize !== 0 ? ' col-md-' . $bootstrapSize : '';
+$headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
+$headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
+$headerAttribs          = [];
+$headerAttribs['class'] = $headerClass;
 
-// Temporarily store header class in variable
-$headerClass = $params->get('header_class');
-$headerClass = !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
+if ($module->showtitle) :
+	$moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
+	$headerAttribs['id']             = 'mod-' . $module->id;
+else:
+	$moduleAttribs['aria-label'] = $module->title;
+endif;
 
+$header = '<' . $headerTag . ' ' . ArrayHelper::toString($headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
 ?>
-<<?php echo $moduleTag; ?> class="moduletable <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
+<<?php echo $moduleTag; ?> <?php echo ArrayHelper::toString($moduleAttribs); ?>>
 	<?php if ((bool) $module->showtitle) : ?>
-		<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
+		<?php echo $header; ?>
 	<?php endif; ?>
 	<?php echo $module->content; ?>
 </<?php echo $moduleTag; ?>>
