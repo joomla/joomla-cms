@@ -159,15 +159,17 @@ trait LegacyModelLoaderTrait
 		$client = Factory::getApplication()->getName();
 
 		// Detect the client based on the include paths
+		$adminPath = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $componentName);
+		$sitePath  = Path::clean(JPATH_SITE . '/components/' . $componentName);
 		foreach (self::addIncludePath() as $path)
 		{
-			if (strpos($path, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $componentName)) !== false)
+			if (strpos($path, $adminPath) !== false)
 			{
 				$client = 'Administrator';
 				break;
 			}
 
-			if (strpos($path, Path::clean(JPATH_SITE . '/components/' . $componentName))!== false)
+			if (strpos($path, $sitePath) !== false)
 			{
 				$client = 'Site';
 				break;
