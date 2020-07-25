@@ -161,6 +161,7 @@ trait LegacyModelLoaderTrait
 		// Detect the client based on the include paths
 		$adminPath = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $componentName);
 		$sitePath  = Path::clean(JPATH_SITE . '/components/' . $componentName);
+
 		foreach (self::addIncludePath() as $path)
 		{
 			if (strpos($path, $adminPath) !== false)
