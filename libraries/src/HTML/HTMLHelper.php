@@ -436,14 +436,13 @@ abstract class HTMLHelper
 			// If relative search in template directory or media directory
 			if ($relative)
 			{
-				$app = Factory::getApplication();
-				// Get the template
-				$template = $app->getTemplate(true);
+				$app        = Factory::getApplication();
+				$template   = $app->getTemplate(true);
 				$templaPath = JPATH_THEMES;
 
 				if ($template->parent || !empty($template->inherits))
 				{
-					$client = $app->isClient('administrator') === true ? 'administrator' : 'site';
+					$client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
 					$templaPath = JPATH_ROOT . "/media/templates/$client";
 				}
 

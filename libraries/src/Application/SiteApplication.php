@@ -580,7 +580,6 @@ final class SiteApplication extends CMSApplication
 						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 					}
 				}
-
 			}
 		}
 		elseif (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))

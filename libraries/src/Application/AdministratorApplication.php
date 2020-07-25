@@ -236,7 +236,8 @@ class AdministratorApplication extends CMSApplication
 			$db->quoteName('s.home') . ' = ' . $db->quote('1'),
 		];
 
-		if ('' !== $name) {
+		if ('' !== $name)
+		{
 			$conditions[] = $db->quoteName('e.element') . ' = ' . $name;
 		}
 
@@ -273,10 +274,8 @@ class AdministratorApplication extends CMSApplication
 		$template->params = new Registry($template->params);
 
 		// Fallback template
-		if (
-			!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')
-			&& !file_exists(JPATH_THEMES . '/' . $template->inherits . '/index.php')
-		)
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')
+			&& !file_exists(JPATH_THEMES . '/' . $template->inherits . '/index.php'))
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
