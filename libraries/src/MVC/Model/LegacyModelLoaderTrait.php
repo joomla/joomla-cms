@@ -167,7 +167,7 @@ trait LegacyModelLoaderTrait
 				break;
 			}
 
-			if (strpos($path, Path::clean(JPATH_SITE . '/components/' . $componentName))!== false)
+			if (strpos($path, Path::clean(JPATH_SITE . '/components/' . $componentName)) !== false)
 			{
 				$client = 'Site';
 				break;
