@@ -15,8 +15,8 @@ use Joomla\CMS\Language\Text;
 ?>
 <a href="<?php echo $link; ?>" class="mod-syndicate syndicate-module">
 	<?php echo HTMLHelper::_('image', 'system/livemarks.png', '', null, true); ?>
-	<?php $class = $params->get('display_text', 1) ? '' : 'sr-only'; ?>
-	<span class="<?php echo $class; ?>">
+	<?php $class = $params->get('display_text', 1) ? '' : 'class="sr-only"'; ?>
+	<span <?php echo $class; ?>>
 		<?php if (str_replace(' ', '', $text) !== '') : ?>
 			<?php echo $text; ?>
 		<?php else : ?>
