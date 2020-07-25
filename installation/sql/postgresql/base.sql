@@ -810,8 +810,7 @@ CREATE INDEX "#__template_styles_idx_client_id_home" ON "#__template_styles" ("c
 --
 -- Dumping data for table `#__template_styles`
 --
-
-INSERT INTO "#__template_styles" (`id`, `template`, `client_id`, `home`, `title`, `parent`, `inherits`, `params`) VALUES
+INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "parent", "inherits", "params") VALUES
 (10, 'atum', 1, '1', 'atum - Default', '0', '', ''),
 (11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '0', '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
 
