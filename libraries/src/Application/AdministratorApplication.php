@@ -108,6 +108,7 @@ class AdministratorApplication extends CMSApplication
 			case 'html':
 				// Get the template
 				$template = $this->getTemplate(true);
+				$clientId = $this->getClientId();
 
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
@@ -121,7 +122,12 @@ class AdministratorApplication extends CMSApplication
 					$wr->addExtensionRegistryFile($component);
 				}
 
-				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
+				if (!empty($template->inherits))
+				{
+					$wr->addTemplateRegistryFile($template->inherits, $clientId);
+				}
+
+				$wr->addTemplateRegistryFile($template->template, $clientId);
 
 				break;
 
@@ -201,13 +207,14 @@ class AdministratorApplication extends CMSApplication
 	 * Gets the name of the current template.
 	 *
 	 * @param   boolean  $params  True to return the template parameters
+	 * @param   string   $name    The name of the template
 	 *
 	 * @return  string  The name of the template.
 	 *
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getTemplate($params = false)
+	public function getTemplateByName($params = false, $name = '')
 	{
 		if (\is_object($this->template))
 		{
@@ -223,8 +230,18 @@ class AdministratorApplication extends CMSApplication
 
 		// Load the template name from the database
 		$db = Factory::getDbo();
+
+		$conditions = [
+			$db->quoteName('s.client_id') . ' = 1',
+			$db->quoteName('s.home') . ' = ' . $db->quote('1'),
+		];
+
+		if ('' !== $name) {
+			$conditions[] = $db->quoteName('e.element') . ' = ' . $name;
+		}
+
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['s.template', 's.params']))
+			->select($db->quoteName(['s.template', 's.params', 's.parent', 's.inherits']))
 			->from($db->quoteName('#__template_styles', 's'))
 			->join(
 				'LEFT',
@@ -233,12 +250,7 @@ class AdministratorApplication extends CMSApplication
 					. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
 					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
 			)
-			->where(
-				[
-					$db->quoteName('s.client_id') . ' = 1',
-					$db->quoteName('s.home') . ' = ' . $db->quote('1'),
-				]
-			);
+			->where($conditions);
 
 		if ($admin_style)
 		{
@@ -260,20 +272,25 @@ class AdministratorApplication extends CMSApplication
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 		$template->params = new Registry($template->params);
 
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		// Fallback template
+		if (
+			!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')
+			&& !file_exists(JPATH_THEMES . '/' . $template->inherits . '/index.php')
+		)
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'atum';
+
+			// Check, the data were found and if template really exists
+			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			{
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+			}
 		}
 
 		// Cache the result
 		$this->template = $template;
-
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
-		{
-			throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
-		}
 
 		if ($params)
 		{
@@ -281,6 +298,21 @@ class AdministratorApplication extends CMSApplication
 		}
 
 		return $template->template;
+	}
+
+	/**
+	 * Gets the name of the current template.
+	 *
+	 * @param   boolean  $params  True to return the template parameters
+	 *
+	 * @return  string  The name of the template.
+	 *
+	 * @since   3.2
+	 * @throws  \InvalidArgumentException
+	 */
+	public function getTemplate($params = false)
+	{
+		return $this->getTemplateByName($params, '');
 	}
 
 	/**

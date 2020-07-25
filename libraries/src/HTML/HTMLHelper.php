@@ -436,8 +436,16 @@ abstract class HTMLHelper
 			// If relative search in template directory or media directory
 			if ($relative)
 			{
+				$app = Factory::getApplication();
 				// Get the template
-				$template = Factory::getApplication()->getTemplate();
+				$template = $app->getTemplate(true);
+				$templaPath = JPATH_THEMES;
+
+				if ($template->parent || !empty($template->inherits))
+				{
+					$client = $app->isClient('administrator') === true ? 'administrator' : 'site';
+					$templaPath = JPATH_ROOT . "/media/templates/$client";
+				}
 
 				// For each potential files
 				foreach ($potential as $strip)
@@ -452,7 +460,19 @@ abstract class HTMLHelper
 					 */
 					foreach ($files as $file)
 					{
-						$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/$file", $ext, $debugMode);
+						if (!empty($template->inherits))
+						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+
+							if (empty($found))
+							{
+								$found = static::addFileToBuffer("$templaPath/$template->inherits/$folder/$file", $ext, $debugMode);
+							}
+						}
+						else
+						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+						}
 
 						if (!empty($found))
 						{
@@ -495,23 +515,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (!empty($template->inherits))
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->inherits/$folder/system/$element/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
-
-									// Try to deal with system files in the media folder
-									$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									else
 									{
-										$includes[] = $found;
+										// Try to deal with system files in the media folder
+										$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 								}
 								else
@@ -527,13 +561,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (!empty($template->inherits))
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->templete/$folder/system/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->inherits/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+									}
+									else
+									{
+										// Try to deal with system files in the template folder
+										$found = static::addFileToBuffer("$templaPath/$template->templete/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 
 									// Try to deal with system files in the media folder

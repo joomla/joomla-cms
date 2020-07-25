@@ -804,15 +804,25 @@ class HtmlDocument extends Document
 		// Check
 		$directory = $params['directory'] ?? 'templates';
 		$filter = InputFilter::getInstance();
-		$template = $filter->clean($params['template'], 'cmd');
+		$templateName = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
+		$activeTemplate = CmsFactory::getApplication()->getTemplateByName(true, $templateName);
+		$baseDir = $directory . '/' . $activeTemplate->template;
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
+		if (!empty($activeTemplate->inherits)
+			&& !file_exists($directory . '/' . $activeTemplate->template . '/' . $file)
+			&& file_exists($directory . '/' . $activeTemplate->inherits . '/' . $file)
+		)
+		{
+			$baseDir = $directory . '/' . $activeTemplate->inherits;
+		}
+
+		if (!file_exists($baseDir . '/' . $file))
 		{
 			$template = 'system';
 		}
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
+		if (!file_exists($baseDir . '/' . $file))
 		{
 			$file = 'index.php';
 		}
@@ -821,16 +831,17 @@ class HtmlDocument extends Document
 		$lang = CmsFactory::getLanguage();
 
 		// 1.5 or core then 1.6
-		$lang->load('tpl_' . $template, JPATH_BASE)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
+		$lang->load('tpl_' . $activeTemplate->template, JPATH_BASE)
+			|| $lang->load('tpl_' . $activeTemplate->inherits, $directory . '/' . $activeTemplate->inherits)
+			|| $lang->load('tpl_' . $activeTemplate->template, $directory . '/' . $activeTemplate->template);
 
 		// Assign the variables
-		$this->template = $template;
 		$this->baseurl = Uri::base(true);
 		$this->params = $params['params'] ?? new Registry;
+		$this->template = $activeTemplate->template;
 
 		// Load
-		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
+		$this->_template = $this->_loadTemplate($baseDir, $file);
 
 		return $this;
 	}

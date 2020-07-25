@@ -405,11 +405,28 @@ final class InstallationApplication extends CMSApplication
 			$template = new \stdClass;
 			$template->template = 'template';
 			$template->params = new Registry;
+			$template->parent = 0;
+			$template->inherits = null;
 
 			return $template;
 		}
 
 		return 'template';
+	}
+
+	/**
+	 * Gets the name of the current template.
+	 *
+	 * @param   boolean  $params  True to return the template parameters
+	 * @param   string   $name    The name of the template
+	 *
+	 * @return  string  The name of the template.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTemplateByName($params = false, $name = '')
+	{
+		return $this->getTemplate($params);
 	}
 
 	/**
