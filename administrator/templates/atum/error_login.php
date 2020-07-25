@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var \Joomla\CMS\Document\HtmlDocument $this */
+/** @var \Joomla\CMS\Document\ErrorDocument $this */
 
 $app   = Factory::getApplication();
 $input = $app->input;
@@ -66,6 +66,7 @@ if (!$htmlHelperRegistry->hasService('atum'))
 }
 
 HTMLHelper::_('atum.rootcolors', $this->params);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
