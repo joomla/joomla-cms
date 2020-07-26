@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
+use Joomla\CMS\Version;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ActionLogPlugin', JPATH_ADMINISTRATOR . '/components/com_actionlogs/libraries/actionlogplugin.php');
@@ -1048,13 +1049,11 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * Method is called after user update the CMS.
 	 *
-	 * @param   string  $version  Holds the new version.
-	 *
 	 * @return  void
 	 *
 	 * @since   3.9.21
 	 */
-	public function onAfterUpdate($version)
+	public function onJoomlaAfterUpdate()
 	{
 		$context = $this->app->input->get('option');
 		$user    = JFactory::getUser();
@@ -1067,7 +1066,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'version'     => $version,
+			'version'     => JVERSION,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
 	}
