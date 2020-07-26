@@ -400,6 +400,9 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function getTemplate($params = false)
 	{
+		// Pass the parent template to the state
+ 		$this->set('themeInherits', '');
+
 		if ($params)
 		{
 			$template = new \stdClass;
