@@ -37,6 +37,12 @@ steps:
     commands:
       - npm ci --unsafe-perm
 
+  - name: eslint
+    image: node:current-alpine
+    depends_on: [ npm ]
+    commands:
+      - npx eslint **/*.js
+
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     depends_on: [ npm ]
@@ -310,6 +316,6 @@ steps:
 
 ---
 kind: signature
-hmac: 8bdac051bafa54cc057ad9ef3a1901a1d25a23e5c496ea812862fd2a3cd4dfdf
+hmac: 3e1ad895fbfd48089a6411b9b93dc6957388e3bb7c1abdde1f5baa27b3f3fd21
 
 ...
