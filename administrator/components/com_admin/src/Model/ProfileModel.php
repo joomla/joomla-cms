@@ -147,87 +147,15 @@ class ProfileModel extends UserModel
 	{
 		$user = Factory::getUser();
 		$pk   = $user->id;
+		$data['id'] = $pk;
+		$data['block'] = $user->block;
+		$iAmSuperAdmin = $user->authorise('core.admin');
 
-		unset($data['id'], $data['groups'], $data['sendEmail'], $data['block']);
-
-		$isUsernameCompliant = $this->getState('user.username.compliant');
-
-		if (!ComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($iAmSuperAdmin)
 		{
-			unset($data['username']);
+			$data['groups'] = $user->groups;
 		}
 
-		// Handle the two factor authentication setup
-		if (\array_key_exists('twofactor', $data))
-		{
-			$twoFactorMethod = $data['twofactor']['method'];
-
-			// Get the current One Time Password (two factor auth) configuration
-			$otpConfig = $this->getOtpConfig($pk);
-
-			if ($twoFactorMethod !== 'none')
-			{
-				// Run the plugins
-				PluginHelper::importPlugin('twofactorauth');
-				$otpConfigReplies = Factory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', [$twoFactorMethod]);
-
-				// Look for a valid reply
-				foreach ($otpConfigReplies as $reply)
-				{
-					if (!\is_object($reply) || empty($reply->method) || ($reply->method !== $twoFactorMethod))
-					{
-						continue;
-					}
-
-					$otpConfig->method = $reply->method;
-					$otpConfig->config = $reply->config;
-
-					break;
-				}
-
-				// Save OTP configuration.
-				$this->setOtpConfig($pk, $otpConfig);
-
-				// Generate one time emergency passwords if required (depleted or not set)
-				if (empty($otpConfig->otep))
-				{
-					$oteps = $this->generateOteps($pk);
-				}
-			}
-			else
-			{
-				$otpConfig->method = 'none';
-				$otpConfig->config = [];
-				$this->setOtpConfig($pk, $otpConfig);
-			}
-
-			// Unset the raw data
-			unset($data['twofactor']);
-
-			// Reload the user record with the updated OTP configuration
-			$user->load($pk);
-		}
-
-		// Bind the data.
-		if (!$user->bind($data))
-		{
-			$this->setError($user->getError());
-
-			return false;
-		}
-
-		$user->groups = null;
-
-		// Store the data.
-		if (!$user->save())
-		{
-			$this->setError($user->getError());
-
-			return false;
-		}
-
-		$this->setState('user.id', $user->id);
-
-		return true;
+		return parent::save($data);
 	}
 }
