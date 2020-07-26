@@ -37,12 +37,6 @@ steps:
     commands:
       - npm ci --unsafe-perm
 
-  - name: eslint
-    image: node:current-alpine
-    depends_on: [ npm ]
-    commands:
-      - npx eslint "**/*.js"
-
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     depends_on: [ npm ]
@@ -144,15 +138,9 @@ steps:
 
   - name: javascript-cs
     depends_on: [ npm ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    image: node:current-alpine
     commands:
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
-      - npm run lint:js
+      - npx eslint "**/*.js"
 
   - name: javascript-tests
     depends_on: [ npm ]
@@ -316,6 +304,6 @@ steps:
 
 ---
 kind: signature
-hmac: 855414c5c46248de222ac3b1dc4e5f2f948575ad779a86258c3c18c893cd77d8
+hmac: 5af59afae9e4cc7cc0e5051bda7a3936df94321eb6d65b908aac3318877eef68
 
 ...
