@@ -207,14 +207,13 @@ class AdministratorApplication extends CMSApplication
 	 * Gets the name of the current template.
 	 *
 	 * @param   boolean  $params  True to return the template parameters
-	 * @param   string   $name    The name of the template
 	 *
 	 * @return  string  The name of the template.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.2
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getTemplateByName($params = false, $name = '')
+	public function getTemplate($params = false)
 	{
 		if (\is_object($this->template))
 		{
@@ -231,16 +230,6 @@ class AdministratorApplication extends CMSApplication
 		// Load the template name from the database
 		$db = Factory::getDbo();
 
-		$conditions = [
-			$db->quoteName('s.client_id') . ' = 1',
-			$db->quoteName('s.home') . ' = ' . $db->quote('1'),
-		];
-
-		if ('' !== $name)
-		{
-			$conditions[] = $db->quoteName('e.element') . ' = ' . $name;
-		}
-
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['s.template', 's.params', 's.parent', 's.inherits']))
 			->from($db->quoteName('#__template_styles', 's'))
@@ -251,7 +240,12 @@ class AdministratorApplication extends CMSApplication
 					. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
 					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
 			)
-			->where($conditions);
+			->where(
+				[
+					$db->quoteName('s.client_id') . ' = 1',
+					$db->quoteName('s.home') . ' = ' . $db->quote('1'),
+				]
+			);
 
 		if ($admin_style)
 		{
@@ -297,21 +291,6 @@ class AdministratorApplication extends CMSApplication
 		}
 
 		return $template->template;
-	}
-
-	/**
-	 * Gets the name of the current template.
-	 *
-	 * @param   boolean  $params  True to return the template parameters
-	 *
-	 * @return  string  The name of the template.
-	 *
-	 * @since   3.2
-	 * @throws  \InvalidArgumentException
-	 */
-	public function getTemplate($params = false)
-	{
-		return $this->getTemplateByName($params, '');
 	}
 
 	/**

@@ -389,14 +389,13 @@ final class SiteApplication extends CMSApplication
 	 * Gets the name of the current template.
 	 *
 	 * @param   boolean  $params  True to return the template parameters
-	 * @param   string   $name    The template name
 	 *
 	 * @return  string  The name of the template.
 	 *
 	 * @since   3.2
 	 * @throws  \InvalidArgumentException
 	 */
-	public function getTemplateByName($params = false, $name = '')
+	public function getTemplate($params = false)
 	{
 		if (\is_object($this->template))
 		{
@@ -470,20 +469,15 @@ final class SiteApplication extends CMSApplication
 			// Load styles
 			$db = Factory::getDbo();
 
-			$conditions = [
-				$db->quoteName('s.client_id') . ' = 0',
-				$db->quoteName('e.enabled') . ' = 1',
-			];
-
-			if ('' !== $name)
-			{
-				$conditions[] = $db->quoteName('e.element') . ' = ' . $name;
-			}
-
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['id', 'home', 'template', 's.params', 'parent', 'inherits']))
 				->from($db->quoteName('#__template_styles', 's'))
-				->where($conditions)
+				->where(
+					[
+						$db->quoteName('s.client_id') . ' = 0',
+						$db->quoteName('e.enabled') . ' = 1',
+					]
+				)
 				->join(
 					'LEFT',
 					$db->quoteName('#__extensions', 'e'),
@@ -497,9 +491,6 @@ final class SiteApplication extends CMSApplication
 
 			foreach ($templates as &$template)
 			{
-				$template->inherits = !empty($template->inherits) ? $template->inherits : false;
-				$template->parent = $template->parent === 1;
-
 				// Create home element
 				if ($template->home == 1 && !isset($template_home) || $this->getLanguageFilter() && $template->home == $tag)
 				{
@@ -614,21 +605,6 @@ final class SiteApplication extends CMSApplication
 		}
 
 		return $template->template;
-	}
-
-	/**
-	 * Gets the name of the current template.
-	 *
-	 * @param   boolean  $params  True to return the template parameters
-	 *
-	 * @return  string  The name of the template.
-	 *
-	 * @since   3.2
-	 * @throws  \InvalidArgumentException
-	 */
-	public function getTemplate($params = false)
-	{
-		return $this->getTemplateByName($params, '');
 	}
 
 	/**
@@ -818,6 +794,9 @@ final class SiteApplication extends CMSApplication
 				{
 					$this->set('themeFile', $file . '.php');
 				}
+
+				// Pass the parent template to the state
+				$this->set('themeInherit', $template->inherits);
 
 				break;
 		}

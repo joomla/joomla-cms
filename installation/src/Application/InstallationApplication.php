@@ -415,21 +415,6 @@ final class InstallationApplication extends CMSApplication
 	}
 
 	/**
-	 * Gets the name of the current template.
-	 *
-	 * @param   boolean  $params  True to return the template parameters
-	 * @param   string   $name    The name of the template
-	 *
-	 * @return  string  The name of the template.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getTemplateByName($params = false, $name = '')
-	{
-		return $this->getTemplate($params);
-	}
-
-	/**
 	 * Initialise the application.
 	 *
 	 * @param   array  $options  An optional associative array of configuration settings.
