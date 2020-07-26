@@ -58,7 +58,7 @@ abstract class PluginHelper
 
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
-		$iPath = JPATH_THEMES . '/' . $templateObj->inherits . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
+		$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
 		$bPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
 
@@ -67,7 +67,7 @@ abstract class PluginHelper
 		{
 			return $tPath;
 		}
-		elseif (file_exists($iPath))
+		elseif (!empty($templateObj->parent) && file_exists($iPath))
 		{
 			return $iPath;
 		}

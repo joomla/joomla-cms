@@ -405,8 +405,8 @@ final class InstallationApplication extends CMSApplication
 			$template = new \stdClass;
 			$template->template = 'template';
 			$template->params = new Registry;
-			$template->parent = 0;
-			$template->inherits = null;
+			$template->inheritable = 0;
+			$template->parent = null;
 
 			return $template;
 		}

@@ -176,9 +176,9 @@ final class SiteApplication extends CMSApplication
 					$wr->addExtensionRegistryFile($component);
 				}
 
-				if ($template->inherits)
+				if ($template->parent)
 				{
-					$wr->addTemplateRegistryFile($template->inherits, $this->getClientId());
+					$wr->addTemplateRegistryFile($template->parent, $this->getClientId());
 				}
 
 				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
@@ -399,11 +399,11 @@ final class SiteApplication extends CMSApplication
 	{
 		if (\is_object($this->template))
 		{
-			if ($this->template->inherits)
+			if ($this->template->parent)
 			{
 				if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 				{
-					if (!file_exists(JPATH_THEMES . '/' . $this->template->inherits . '/index.php'))
+					if (!file_exists(JPATH_THEMES . '/' . $this->template->parent . '/index.php'))
 					{
 						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 					}
@@ -470,7 +470,7 @@ final class SiteApplication extends CMSApplication
 			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['id', 'home', 'template', 's.params', 'parent', 'inherits']))
+				->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
 				->from($db->quoteName('#__template_styles', 's'))
 				->where(
 					[
@@ -545,11 +545,11 @@ final class SiteApplication extends CMSApplication
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 
 		// Fallback template
-		if (!empty($template->inherits))
+		if (!empty($template->parent))
 		{
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
-				if (!file_exists(JPATH_THEMES . '/' . $template->inherits . '/index.php'))
+				if (!file_exists(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 				{
 					$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
@@ -796,7 +796,7 @@ final class SiteApplication extends CMSApplication
 				}
 
 				// Pass the parent template to the state
-				$this->set('themeInherits', $template->inherits);
+				$this->set('themeInherits', $template->parent);
 
 				break;
 		}

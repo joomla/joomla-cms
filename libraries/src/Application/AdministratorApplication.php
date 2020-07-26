@@ -122,9 +122,9 @@ class AdministratorApplication extends CMSApplication
 					$wr->addExtensionRegistryFile($component);
 				}
 
-				if (!empty($template->inherits))
+				if (!empty($template->parent))
 				{
-					$wr->addTemplateRegistryFile($template->inherits, $clientId);
+					$wr->addTemplateRegistryFile($template->parent, $clientId);
 				}
 
 				$wr->addTemplateRegistryFile($template->template, $clientId);
@@ -231,7 +231,7 @@ class AdministratorApplication extends CMSApplication
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['s.template', 's.params', 's.parent', 's.inherits']))
+			->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
 			->from($db->quoteName('#__template_styles', 's'))
 			->join(
 				'LEFT',
@@ -269,7 +269,7 @@ class AdministratorApplication extends CMSApplication
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')
-			&& !file_exists(JPATH_THEMES . '/' . $template->inherits . '/index.php'))
+			&& !file_exists(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
@@ -284,6 +284,9 @@ class AdministratorApplication extends CMSApplication
 
 		// Cache the result
 		$this->template = $template;
+
+		// Pass the parent template to the state
+		$this->set('themeInherits', $template->parent);
 
 		if ($params)
 		{

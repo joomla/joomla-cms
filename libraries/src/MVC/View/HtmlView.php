@@ -386,7 +386,7 @@ class HtmlView extends AbstractView
 		// Load the language file for the template
 		$lang = Factory::getLanguage();
 		$lang->load('tpl_' . $template->template, JPATH_BASE)
-			|| $lang->load('tpl_' . $template->inherits, JPATH_THEMES . '/' . $template->inherits)
+			|| $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
 			|| $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
 
 		// Change the template folder if alternative layout is in different template
@@ -505,10 +505,10 @@ class HtmlView extends AbstractView
 					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
 					$name = $this->getName();
 
-					if (!empty($template->inherits))
+					if (!empty($template->parent))
 					{
 						// Parent template's overrides
-						$this->_addPath('template', JPATH_THEMES . "/$template->inherits/html/$component/$name");
+						$this->_addPath('template', JPATH_THEMES . "/$template->parent/html/$component/$name");
 
 						// Child template's overrides
 						$this->_addPath('template', JPATH_THEMES . "/$template->template/html/$component/$name");

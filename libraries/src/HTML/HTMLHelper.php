@@ -440,7 +440,7 @@ abstract class HTMLHelper
 				$template   = $app->getTemplate(true);
 				$templaPath = JPATH_THEMES;
 
-				if ($template->parent || !empty($template->inherits))
+				if ($template->inheritable || !empty($template->parent))
 				{
 					$client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
 					$templaPath = JPATH_ROOT . "/media/templates/$client";
@@ -459,13 +459,13 @@ abstract class HTMLHelper
 					 */
 					foreach ($files as $file)
 					{
-						if (!empty($template->inherits))
+						if (!empty($template->parent))
 						{
 							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
 
 							if (empty($found))
 							{
-								$found = static::addFileToBuffer("$templaPath/$template->inherits/$folder/$file", $ext, $debugMode);
+								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/$file", $ext, $debugMode);
 							}
 						}
 						else
@@ -514,7 +514,7 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									if (!empty($template->inherits))
+									if (!empty($template->parent))
 									{
 										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
 
@@ -525,7 +525,7 @@ abstract class HTMLHelper
 											break;
 										}
 
-										$found = static::addFileToBuffer("$templaPath/$template->inherits/$folder/system/$element/$file", $ext, $debugMode);
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
 
 										if (!empty($found))
 										{
@@ -560,7 +560,7 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									if (!empty($template->inherits))
+									if (!empty($template->parent))
 									{
 										$found = static::addFileToBuffer("$templaPath/$template->templete/$folder/system/$file", $ext, $debugMode);
 
@@ -571,7 +571,7 @@ abstract class HTMLHelper
 											break;
 										}
 
-										$found = static::addFileToBuffer("$templaPath/$template->inherits/$folder/system/$file", $ext, $debugMode);
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
 
 										if (!empty($found))
 										{

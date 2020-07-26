@@ -798,8 +798,8 @@ CREATE TABLE IF NOT EXISTS "#__template_styles" (
   "client_id" smallint DEFAULT 0 NOT NULL,
   "home" varchar(7) DEFAULT '0' NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
-  `parent` tinyint(1) DEFAULT '0' NOT NULL,
-  `inherits` varchar(50) DEFAULT '',
+  `inheritable` tinyint(1) DEFAULT '0' NOT NULL,
+  `parent` varchar(50) DEFAULT '',
   "params" text NOT NULL,
   PRIMARY KEY ("id")
 );
@@ -810,7 +810,7 @@ CREATE INDEX "#__template_styles_idx_client_id_home" ON "#__template_styles" ("c
 --
 -- Dumping data for table `#__template_styles`
 --
-INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "parent", "inherits", "params") VALUES
+INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "inheritable", "parent", "params") VALUES
 (10, 'atum', 1, '1', 'atum - Default', '0', '', ''),
 (11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '0', '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
 

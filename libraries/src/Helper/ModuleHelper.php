@@ -335,7 +335,7 @@ abstract class ModuleHelper
 
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-		$iPath = JPATH_THEMES . '/' . $templateObj->inherits . '/html/' . $module . '/' . $layout . '.php';
+		$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php';
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
@@ -345,7 +345,7 @@ abstract class ModuleHelper
 			return $tPath;
 		}
 
-		if (!empty($templateObj->inherits) && file_exists($iPath))
+		if (!empty($templateObj->parent) && file_exists($iPath))
 		{
 			return $iPath;
 		}

@@ -327,9 +327,6 @@ class TemplateAdapter extends InstallerAdapter
 				$db->quoteName('inherits'),
 			];
 
-			$parent = intval($this->manifest->parent);
-			$inherits = $this->manifest->inherits;
-
 			$values = $query->bindArray(
 				[
 					$this->extension->element,
@@ -337,8 +334,8 @@ class TemplateAdapter extends InstallerAdapter
 					'0',
 					Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name)),
 					$this->extension->params,
-					$parent,
-					$inherits,
+					intval($this->manifest->inheritable),
+					$this->manifest->parent ? $this->manifest->parent : '',
 				],
 				[
 					ParameterType::STRING,
