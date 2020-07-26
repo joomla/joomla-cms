@@ -796,7 +796,7 @@ final class SiteApplication extends CMSApplication
 				}
 
 				// Pass the parent template to the state
-				$this->set('themeInherit', $template->inherits);
+				$this->set('themeInherits', $template->inherits);
 
 				break;
 		}
