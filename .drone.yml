@@ -41,7 +41,7 @@ steps:
     image: node:current-alpine
     depends_on: [ npm ]
     commands:
-      - npx eslint **/*.js
+      - npx eslint "**/*.js"
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -316,6 +316,6 @@ steps:
 
 ---
 kind: signature
-hmac: 3e1ad895fbfd48089a6411b9b93dc6957388e3bb7c1abdde1f5baa27b3f3fd21
+hmac: 855414c5c46248de222ac3b1dc4e5f2f948575ad779a86258c3c18c893cd77d8
 
 ...
