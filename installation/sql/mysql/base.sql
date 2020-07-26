@@ -796,8 +796,8 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 --
 
 INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `inheritable`, `parent`, `params`) VALUES
-(10, 'atum', 1, '1', 'atum - Default', '0', '0', ''),
-(11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '0', '0', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
+(10, 'atum', 1, '1', 'atum - Default', '0', '', ''),
+(11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '0', '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
 
 -- --------------------------------------------------------
 
