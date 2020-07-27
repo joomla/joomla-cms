@@ -400,9 +400,6 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		// Pass the parent template to the state
-		$this->set('themeInherits', '');
-
 		if ($params)
 		{
 			$template = new \stdClass;
@@ -549,10 +546,11 @@ final class InstallationApplication extends CMSApplication
 			$file = $this->input->getCmd('tmpl', 'index');
 
 			$options = [
-				'template'  => 'template',
-				'file'      => $file . '.php',
-				'directory' => JPATH_THEMES,
-				'params'    => '{}',
+				'template'         => 'template',
+				'file'             => $file . '.php',
+				'directory'        => JPATH_THEMES,
+				'params'           => '{}',
+				"templateInherits" => ''
 			];
 		}
 
