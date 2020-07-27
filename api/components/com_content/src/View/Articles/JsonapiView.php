@@ -51,6 +51,20 @@ class JsonapiView extends BaseApiView
 		'metadata',
 		'access',
 		'featured',
+		'alias',
+		'note',
+		'publish_up',
+		'publish_down',
+		'urls',
+		'created',
+		'created_by',
+		'created_by_alias',
+		'modified',
+		'modified_by',
+		'hits',
+		'version',
+		'featured_up',
+		'featured_down',
 	];
 
 	/**
@@ -77,6 +91,20 @@ class JsonapiView extends BaseApiView
 		'metadata',
 		'access',
 		'featured',
+		'alias',
+		'note',
+		'publish_up',
+		'publish_down',
+		'urls',
+		'created',
+		'created_by',
+		'created_by_alias',
+		'modified',
+		'modified_by',
+		'hits',
+		'version',
+		'featured_up',
+		'featured_down',
 	];
 
 	/**
