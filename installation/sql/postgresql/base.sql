@@ -798,7 +798,7 @@ CREATE TABLE IF NOT EXISTS "#__template_styles" (
   "client_id" smallint DEFAULT 0 NOT NULL,
   "home" varchar(7) DEFAULT '0' NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
-  `inheritable` tinyint(1) DEFAULT '0' NOT NULL,
+  `inheritable` smallint DEFAULT 0 NOT NULL,
   `parent` varchar(50) DEFAULT '',
   "params" text NOT NULL,
   PRIMARY KEY ("id")
