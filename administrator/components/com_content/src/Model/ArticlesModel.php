@@ -265,6 +265,7 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.metakey'),
 					$db->quoteName('a.metadesc'),
 					$db->quoteName('a.metadata'),
+					$db->quoteName('a.version'),
 				]
 			)
 		)
@@ -697,8 +698,12 @@ class ArticlesModel extends ListModel
 		foreach ($items as $item)
 		{
 			$item->typeAlias = 'com_content.article';
-			$registry = new Registry($item->metadata);
-			$item->metadata = $registry->toArray();
+
+			if (isset($item->metadata))
+			{
+				$registry = new Registry($item->metadata);
+				$item->metadata = $registry->toArray();
+			}
 		}
 
 		return $items;
