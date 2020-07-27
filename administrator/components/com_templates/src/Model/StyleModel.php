@@ -557,7 +557,7 @@ class StyleModel extends AdminModel
 					->set($db->quoteName('template_style_id') . ' = :newtsid')
 					->whereIn($db->quoteName('id'), $data['assigned'])
 					->where($db->quoteName('template_style_id') . ' != :tsid')
-					->where('(' . $db->quoteName('checked_out') .' IS NULL OR ' . $db->quoteName('checked_out') . ' = :userid)')
+					->where('(' . $db->quoteName('checked_out') . ' IS NULL OR ' . $db->quoteName('checked_out') . ' = :userid)')
 					->bind(':userid', $userId, ParameterType::INTEGER)
 					->bind(':newtsid', $tableId, ParameterType::INTEGER)
 					->bind(':tsid', $tableId, ParameterType::INTEGER);
