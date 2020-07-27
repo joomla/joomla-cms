@@ -194,7 +194,7 @@ abstract class ToolbarButton
 		);
 
 		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
-		$options['btnClass'] = ($options['btnClass'] ?? '');
+		$options['btnClass'] = $options['btnClass'] ?? '';
 
 		// Instantiate a new LayoutFile instance and render the layout
 		$layout = new FileLayout($this->layout);
