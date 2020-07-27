@@ -12,12 +12,12 @@ Joomla = window.Joomla || {};
 		var displayStyle = element.value === 'direct' ? 'hidden' : false;
 
 		if (displayStyle !== false) {
-      document.getElementById(prefix + '_hostname').classList.add(displayStyle);
-      document.getElementById(prefix + '_port').classList.add(displayStyle);
-      document.getElementById(prefix + '_username').classList.add(displayStyle);
-      document.getElementById(prefix + '_password').classList.add(displayStyle);
-      document.getElementById(prefix + '_directory').classList.add(displayStyle);
-    }
+			document.getElementById(prefix + '_hostname').classList.add(displayStyle);
+			document.getElementById(prefix + '_port').classList.add(displayStyle);
+			document.getElementById(prefix + '_username').classList.add(displayStyle);
+			document.getElementById(prefix + '_password').classList.add(displayStyle);
+			document.getElementById(prefix + '_directory').classList.add(displayStyle);
+		}
 	}
 
 	Joomla.submitbuttonUpload = function() {
