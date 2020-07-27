@@ -578,7 +578,7 @@ class StyleModel extends AdminModel
 			}
 
 			$query->where($db->quoteName('template_style_id') . ' = :templatestyleid')
-				->where('(' . $db->quoteName('checked_out') .' IS NULL OR ' . $db->quoteName('checked_out') . ' = :userid)')
+				->where('(' . $db->quoteName('checked_out') . ' IS NULL OR ' . $db->quoteName('checked_out') . ' = :userid)')
 				->bind(':userid', $userId, ParameterType::INTEGER)
 				->bind(':templatestyleid', $tableId, ParameterType::INTEGER);
 			$db->setQuery($query);
