@@ -447,6 +447,7 @@ class UpdateModel extends ListModel
 
 		// Check the package
 		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
+
 		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
 		{
 			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
