@@ -20,6 +20,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -261,6 +262,10 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.fulltext'),
 					$db->quoteName('a.note'),
 					$db->quoteName('a.images'),
+					$db->quoteName('a.metakey'),
+					$db->quoteName('a.metadesc'),
+					$db->quoteName('a.metadata'),
+					$db->quoteName('a.version'),
 				]
 			)
 		)
@@ -693,6 +698,12 @@ class ArticlesModel extends ListModel
 		foreach ($items as $item)
 		{
 			$item->typeAlias = 'com_content.article';
+
+			if (isset($item->metadata))
+			{
+				$registry = new Registry($item->metadata);
+				$item->metadata = $registry->toArray();
+			}
 		}
 
 		return $items;

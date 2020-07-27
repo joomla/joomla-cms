@@ -143,7 +143,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$storeName = Factory::getConfig()->get('session_handler', 'none');
+		$storeName = Factory::getApplication()->get('session_handler', 'none');
 		$store     = JSessionStorage::getInstance($storeName);
 
 		// Destroy the sessions and quote the IDs to purge the session table
