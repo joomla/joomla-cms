@@ -446,21 +446,17 @@ class UpdateModel extends ListModel
 		$update->set('type', $package['type']);
 
 		// Check the package
-		switch (InstallerHelper::isChecksumValid($package['packagefile'], $update))
+		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
+		
+		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
 		{
-			case InstallerHelper::HASH_NOT_VALIDATED:
-				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
+			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
+			return false;
+		}
 
-				return false;
-				break;
-
-			case InstallerHelper::HASH_NOT_PROVIDED:
-				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WARNING'), 'warning');
-				break;
-
-			case InstallerHelper::HASH_VALIDATED:
-				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_OK'), 'notice');
-				break;
+		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
+		{
+			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WARNING'), 'warning');
 		}
 
 		// Install the package
