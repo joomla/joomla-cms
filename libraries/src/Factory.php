@@ -167,8 +167,12 @@ abstract class Factory
 			E_USER_DEPRECATED
 		);
 
-		// If there is an application object, fetch the configuration from there
-		if (self::$application)
+		/**
+		 * If there is an application object, fetch the configuration from there.
+		 * Check it's not null because LanguagesModel can make it null and if it's null
+		 * we would want to re-init it from configuration.php.
+		 */
+		if (self::$application && self::$application->getConfig() !== null)
 		{
 			return self::$application->getConfig();
 		}

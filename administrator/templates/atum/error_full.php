@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentError $this */
+/** @var \Joomla\CMS\Document\ErrorDocument $this */
 
 $app   = Factory::getApplication();
 $input = $app->input;
@@ -60,8 +60,16 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
+$htmlRegistry = HTMLHelper::getServiceRegistry();
+
+// This may already be registered in main template file.
+if (!$htmlRegistry->hasService('atum'))
+{
+	$htmlRegistry->register('atum', 'JHtmlAtum');
+}
+
 HTMLHelper::_('atum.rootcolors', $this->params);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
