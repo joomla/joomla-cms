@@ -659,8 +659,32 @@ abstract class FormField
 		// Set the visibility.
 		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
 
+		// Set layout
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
+		// Set useglobal
+		$useGlobal = (string) $this->element['useglobal'];
+		if (!empty($useGlobal))
+		{
+			$useGlobal = strtolower($useGlobal);
+			switch ($useGlobal)
+			{
+				case 'yes':
+				case 'true':
+					$this->element['useglobal'] = true;
+					break;
+				case 'no':
+				case 'false':
+					$this->element['useglobal'] = false;
+					break;
+				default:
+					$this->element['useglobal'] = $useGlobal;
+			}
+		}
+		else
+		{
+			$this->element['useglobal'] = false;
+		}
 		// Add required to class list if field is required.
 		if ($this->required)
 		{
