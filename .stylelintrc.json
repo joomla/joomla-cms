@@ -16,6 +16,7 @@
 	"indentation": 2,
 	"number-leading-zero": "never",
 	"max-nesting-depth": 4,
+	"selector-max-compound-selectors": 4,
 	"order/properties-order": [
 	  "position",
 	  "top",
@@ -195,7 +196,23 @@
 	  "animation-iteration-count",
 	  "animation-direction"
 	],
+	"block-opening-brace-space-before": "always",
+	"declaration-block-trailing-semicolon": "always",
+	"declaration-colon-space-after": "always",
+	"declaration-colon-space-before": "never",
+	"function-parentheses-space-inside": "never",
+	"function-url-no-scheme-relative": true,
+	"function-url-quotes": "always",
+	"length-zero-no-unit": true,
+	"no-eol-whitespace": true,
+	"number-no-trailing-zeros": true,
 	"property-no-unknown": true,
+	"property-no-vendor-prefix": true,
+	"scss/dollar-variable-colon-space-before": "never",
+	"scss/selector-no-redundant-nesting-selector": true,
+	"selector-pseudo-class-parentheses-space-inside": "never",
+	"shorthand-property-no-redundant-values": true,
+	"string-quotes": "double",
 	"unit-whitelist": [
 	  "ch", "em", "ex", "rem",
 	  "cm", "in", "mm", "pc", "pt", "px", "q",
@@ -207,20 +224,6 @@
 	  "dpi", "dpcm", "dppx",
 	  "%"
 	],
-	"shorthand-property-no-redundant-values": true,
-	"declaration-colon-space-after": "always",
-	"declaration-colon-space-before": "never",
-	"scss/dollar-variable-colon-space-before": "never",
-	"block-opening-brace-space-before": "always",
-	"selector-pseudo-class-parentheses-space-inside": "never",
-	"string-quotes": "double",
-	"declaration-block-trailing-semicolon": "always",
-	"no-eol-whitespace": true,
-	"number-no-trailing-zeros": true,
-	"scss/selector-no-redundant-nesting-selector": true,
-	"function-url-no-scheme-relative": true,
-	"function-url-quotes": "always",
-	"value-no-vendor-prefix": true,
-	"length-zero-no-unit": true
+	"value-no-vendor-prefix": true
   }
 }
