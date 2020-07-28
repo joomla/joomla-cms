@@ -378,24 +378,29 @@ abstract class FormField
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param Form $form The form to attach to the form field object.
+	 * @param   Form  $form  The form to attach to the form field object.
 	 *
 	 * @since   1.7.0
 	 */
 	public function __construct($form = null)
 	{
 		// If there is a form passed into the constructor set the form and form control properties.
-		if ($form instanceof Form) {
+		if ($form instanceof Form)
+		{
 			$this->setForm($form);
 		}
 
 		// Detect the field type if not set
-		if (!isset($this->type)) {
+		if (!isset($this->type))
+		{
 			$parts = Normalise::fromCamelCase(get_called_class(), true);
 
-			if ($parts[0] == 'J') {
+			if ($parts[0] == 'J')
+			{
 				$this->type = StringHelper::ucfirst($parts[count($parts) - 1], '_');
-			} else {
+			}
+			else
+			{
 				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 		}
@@ -404,7 +409,7 @@ abstract class FormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param string $name The property name for which to get the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -412,7 +417,8 @@ abstract class FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name) {
+		switch ($name)
+		{
 			case 'description':
 			case 'hint':
 			case 'formControl':
@@ -448,7 +454,8 @@ abstract class FormField
 
 			case 'input':
 				// If the input hasn't yet been generated, generate it.
-				if (empty($this->input)) {
+				if (empty($this->input))
+				{
 					$this->input = $this->getInput();
 				}
 
@@ -456,7 +463,8 @@ abstract class FormField
 
 			case 'label':
 				// If the label hasn't yet been generated, generate it.
-				if (empty($this->label)) {
+				if (empty($this->label))
+				{
 					$this->label = $this->getLabel();
 				}
 
@@ -472,8 +480,8 @@ abstract class FormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param string $name The property name for which to set the value.
-	 * @param mixed $value The value of the property.
+	 * @param   string  $name   The property name for which to set the value.
+	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
 	 *
@@ -481,10 +489,11 @@ abstract class FormField
 	 */
 	public function __set($name, $value)
 	{
-		switch ($name) {
+		switch ($name)
+		{
 			case 'class':
 				// Removes spaces from left & right and extra spaces from middle
-				$value = preg_replace('/\s+/', ' ', trim((string)$value));
+				$value = preg_replace('/\s+/', ' ', trim((string) $value));
 
 			case 'description':
 			case 'hint':
@@ -499,39 +508,39 @@ abstract class FormField
 			case 'group':
 			case 'showon':
 			case 'default':
-				$this->$name = (string)$value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'id':
-				$this->id = $this->getId((string)$value, $this->fieldname);
+				$this->id = $this->getId((string) $value, $this->fieldname);
 				break;
 
 			case 'fieldname':
-				$this->fieldname = $this->getFieldName((string)$value);
+				$this->fieldname = $this->getFieldName((string) $value);
 				break;
 
 			case 'name':
-				$this->fieldname = $this->getFieldName((string)$value);
-				$this->name = $this->getName($this->fieldname);
+				$this->fieldname = $this->getFieldName((string) $value);
+				$this->name      = $this->getName($this->fieldname);
 				break;
 
 			case 'multiple':
 				// Allow for field classes to force the multiple values option.
-				$value = (string)$value;
-				$value = $value === '' && isset($this->forceMultiple) ? (string)$this->forceMultiple : $value;
+				$value = (string) $value;
+				$value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
 
 			case 'required':
 			case 'disabled':
 			case 'readonly':
 			case 'autofocus':
 			case 'hidden':
-				$value = (string)$value;
+				$value       = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			case 'autocomplete':
-				$value = (string)$value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
+				$value       = (string) $value;
+				$value       = ($value == 'on' || $value == '') ? 'on' : $value;
 				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
 				break;
 
@@ -539,28 +548,31 @@ abstract class FormField
 			case 'translateLabel':
 			case 'translateDescription':
 			case 'translateHint':
-				$value = (string)$value;
+				$value       = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'translate_label':
-				$value = (string)$value;
+				$value                = (string) $value;
 				$this->translateLabel = $this->translateLabel && !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'translate_description':
-				$value = (string)$value;
+				$value                      = (string) $value;
 				$this->translateDescription = $this->translateDescription && !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			case 'size':
-				$this->$name = (int)$value;
+				$this->$name = (int) $value;
 				break;
 
 			default:
-				if (property_exists(__CLASS__, $name)) {
+				if (property_exists(__CLASS__, $name))
+				{
 					\JLog::add("Cannot access protected / private property $name of " . __CLASS__);
-				} else {
+				}
+				else
+				{
 					$this->$name = $value;
 				}
 		}
@@ -569,7 +581,7 @@ abstract class FormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param Form $form The JForm object to attach to the form field.
+	 * @param   Form  $form  The JForm object to attach to the form field.
 	 *
 	 * @return  FormField  The form field object so that the method can be used in a chain.
 	 *
@@ -577,12 +589,12 @@ abstract class FormField
 	 */
 	public function setForm(Form $form)
 	{
-		$this->form = $form;
-		$this->formControl = $form->getFormControl();
-		$this->subformPrefix = $form->getFormPrefix();
+		$this->form                = $form;
+		$this->formControl         = $form->getFormControl();
+		$this->subformPrefix       = $form->getFormPrefix();
 		$this->subformPrefixGlobal = $form->getFormPrefixGlobal();
-		$this->subformParent = $form->getFormParent();
-		$this->subformParentTop = $form->getFormParentTop();
+		$this->subformParent       = $form->getFormParent();
+		$this->subformParentTop    = $form->getFormParentTop();
 
 		return $this;
 	}
@@ -590,9 +602,9 @@ abstract class FormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param \SimpleXMLElement $element The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param mixed $value The form field value to validate.
-	 * @param string $group The field name group control value. This acts as as an array container for the field.
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as as an array container for the field.
 	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                       full field name would end up being "bar[foo]".
 	 *
@@ -603,7 +615,8 @@ abstract class FormField
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		// Make sure there is a valid JFormField XML element.
-		if ((string)$element->getName() != 'field') {
+		if ((string) $element->getName() != 'field')
+		{
 			return false;
 		}
 
@@ -622,34 +635,40 @@ abstract class FormField
 			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
 			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
 
-		$this->default = isset($element['value']) ? (string)$element['value'] : $this->default;
+		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		// Set the field default value.
-		if ($element['multiple'] && is_string($value) && is_array(json_decode($value, true))) {
-			$this->value = (array)json_decode($value);
-		} else {
+		if ($element['multiple'] && is_string($value) && is_array(json_decode($value, true)))
+		{
+			$this->value = (array) json_decode($value);
+		}
+		else
+		{
 			$this->value = $value;
 		}
 
-		foreach ($attributes as $attributeName) {
+		foreach ($attributes as $attributeName)
+		{
 			$this->__set($attributeName, $element[$attributeName]);
 		}
 
 		// Allow for repeatable elements
-		$repeat = (string)$element['repeat'];
+		$repeat       = (string) $element['repeat'];
 		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
-		$this->hidden = ($this->hidden || (string)$element['type'] == 'hidden');
+		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
 
 		// Set layout
-		$this->layout = !empty($this->element['layout']) ? (string)$this->element['layout'] : $this->layout;
+		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
 		// Set useglobal
-		$useGlobal = (string)$this->element['useglobal'];
-		if (!empty($useGlobal)) {
+		$useGlobal = (string) $this->element['useglobal'];
+		if (!empty($useGlobal))
+		{
 			$useGlobal = strtolower($useGlobal);
-			switch ($useGlobal) {
+			switch ($useGlobal)
+			{
 				case 'yes':
 				case 'true':
 					$this->element['useglobal'] = true;
@@ -661,26 +680,35 @@ abstract class FormField
 				default:
 					$this->element['useglobal'] = $useGlobal;
 			}
-		} else {
+		}
+		else
+		{
 			$this->element['useglobal'] = false;
 		}
 		// Add required to class list if field is required.
-		if ($this->required) {
+		if ($this->required)
+		{
 			$this->class = trim($this->class . ' required');
 		}
-		if (((string)$this->element['name']) === '') {
+		if (((string) $this->element['name']) === '')
+		{
 			$this->fieldnameGlobal = '';
-		} else {
+		}
+		else
+		{
 			$this->fieldnameGlobal = $this->fieldname;
-			$globalRemovePrefix = (string)$this->element['globalremoveprefix'];
-			if (!empty($globalRemovePrefix)) {
+			$globalRemovePrefix    = (string) $this->element['globalremoveprefix'];
+			if (!empty($globalRemovePrefix))
+			{
 				$l = strlen($globalRemovePrefix);
-				if (substr($this->fieldnameGlobal, 0, $l) === $globalRemovePrefix) {
+				if (substr($this->fieldnameGlobal, 0, $l) === $globalRemovePrefix)
+				{
 					$this->fieldnameGlobal = substr($this->fieldnameGlobal, $l);
 				}
 			}
-			$globalAddPrefix = (string)$this->element['globaladdprefix'];
-			if (!empty($globalAddPrefix)) {
+			$globalAddPrefix = (string) $this->element['globaladdprefix'];
+			if (!empty($globalAddPrefix))
+			{
 				$this->fieldnameGlobal = $globalAddPrefix . $this->fieldnameGlobal;
 			}
 
@@ -692,7 +720,7 @@ abstract class FormField
 	/**
 	 * Simple method to set the value
 	 *
-	 * @param mixed $value Value to set
+	 * @param   mixed  $value  Value to set
 	 *
 	 * @return  void
 	 *
@@ -706,8 +734,8 @@ abstract class FormField
 	/**
 	 * Method to get the id used for the field input tag.
 	 *
-	 * @param string $fieldId The field element id.
-	 * @param string $fieldname The field element name.
+	 * @param   string  $fieldId    The field element id.
+	 * @param   string  $fieldname  The field element name.
 	 *
 	 * @return  string  The id to be used for the field input tag.
 	 *
@@ -718,24 +746,32 @@ abstract class FormField
 		$id = '';
 
 		// If there is a form control set for the attached form add it first.
-		if ($this->formControl) {
+		if ($this->formControl)
+		{
 			$id .= $this->formControl;
 		}
 
 		// If the field is in a group add the group control to the field id.
-		if ($this->group) {
+		if ($this->group)
+		{
 			// If we already have an id segment add the group control as another level.
-			if ($id) {
+			if ($id)
+			{
 				$id .= '_' . str_replace('.', '_', $this->group);
-			} else {
+			}
+			else
+			{
 				$id .= str_replace('.', '_', $this->group);
 			}
 		}
 
 		// If we already have an id segment add the field id/name as another level.
-		if ($id) {
+		if ($id)
+		{
 			$id .= '_' . ($fieldId ? $fieldId : $fieldname);
-		} else {
+		}
+		else
+		{
 			$id .= ($fieldId ? $fieldId : $fieldname);
 		}
 
@@ -743,11 +779,13 @@ abstract class FormField
 		$id = preg_replace('#\W#', '_', $id);
 
 		// If this is a repeatable element, add the repeat count to the ID
-		if ($this->repeat) {
+		if ($this->repeat)
+		{
 			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
-			$id .= '-' . $repeatCounter;
+			$id            .= '-' . $repeatCounter;
 
-			if (strtolower($this->type) == 'radio') {
+			if (strtolower($this->type) == 'radio')
+			{
 				$id .= '-';
 			}
 		}
@@ -764,7 +802,8 @@ abstract class FormField
 	 */
 	protected function getInput()
 	{
-		if (empty($this->layout)) {
+		if (empty($this->layout))
+		{
 			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
@@ -782,12 +821,13 @@ abstract class FormField
 	{
 		$title = '';
 
-		if ($this->hidden) {
+		if ($this->hidden)
+		{
 			return $title;
 		}
 
 		// Get the label text from the XML element, defaulting to the element name.
-		$title = $this->element['label'] ? (string)$this->element['label'] : (string)$this->element['name'];
+		$title = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 		$title = $this->translateLabel ? \JText::_($title) : $title;
 
 		return $title;
@@ -802,7 +842,8 @@ abstract class FormField
 	 */
 	protected function getLabel()
 	{
-		if ($this->hidden) {
+		if ($this->hidden)
+		{
 			return '';
 		}
 
@@ -813,9 +854,9 @@ abstract class FormField
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
-			'text' => $data['label'],
-			'for' => $this->id,
-			'classes' => explode(' ', $data['labelclass']),
+			'text'     => $data['label'],
+			'for'      => $this->id,
+			'classes'  => explode(' ', $data['labelclass']),
 			'position' => $position,
 		);
 
@@ -825,7 +866,7 @@ abstract class FormField
 	/**
 	 * Method to get the name used for the field input tag.
 	 *
-	 * @param string $fieldname The field element name.
+	 * @param   string  $fieldname  The field element name.
 	 *
 	 * @return  string  The name to be used for the field input tag.
 	 *
@@ -838,38 +879,50 @@ abstract class FormField
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.
-		if ($this->formControl) {
+		if ($this->formControl)
+		{
 			$name .= $this->formControl;
 		}
 
 		// If the field is in a group add the group control to the field name.
-		if ($this->group) {
+		if ($this->group)
+		{
 			// If we already have a name segment add the group control as another level.
 			$groups = explode('.', $this->group);
 
-			if ($name) {
-				foreach ($groups as $group) {
+			if ($name)
+			{
+				foreach ($groups as $group)
+				{
 					$name .= '[' . $group . ']';
 				}
-			} else {
+			}
+			else
+			{
 				$name .= array_shift($groups);
 
-				foreach ($groups as $group) {
+				foreach ($groups as $group)
+				{
 					$name .= '[' . $group . ']';
 				}
 			}
 		}
 
 		// If we already have a name segment add the field name as another level.
-		if ($name) {
+		if ($name)
+		{
 			$name .= '[' . $fieldname . ']';
-		} else {
+		}
+		else
+		{
 			$name .= $fieldname;
 		}
 
 		// If the field should support multiple values add the final array segment.
-		if ($this->multiple) {
-			switch (strtolower((string)$this->element['type'])) {
+		if ($this->multiple)
+		{
+			switch (strtolower((string) $this->element['type']))
+			{
 				case 'text':
 				case 'textarea':
 				case 'email':
@@ -890,7 +943,7 @@ abstract class FormField
 	/**
 	 * Method to get the field name used.
 	 *
-	 * @param string $fieldname The field element name.
+	 * @param   string  $fieldname  The field element name.
 	 *
 	 * @return  string  The field name
 	 *
@@ -898,9 +951,12 @@ abstract class FormField
 	 */
 	protected function getFieldName($fieldname)
 	{
-		if ($fieldname) {
+		if ($fieldname)
+		{
 			return $fieldname;
-		} else {
+		}
+		else
+		{
 			self::$count = self::$count + 1;
 
 			return self::$generated_fieldname . self::$count;
@@ -910,8 +966,8 @@ abstract class FormField
 	/**
 	 * Method to get an attribute of the field
 	 *
-	 * @param string $name Name of the attribute to get
-	 * @param mixed $default Optional value to return if attribute not found
+	 * @param   string  $name     Name of the attribute to get
+	 * @param   mixed   $default  Optional value to return if attribute not found
 	 *
 	 * @return  mixed             Value of the attribute / default
 	 *
@@ -919,12 +975,14 @@ abstract class FormField
 	 */
 	public function getAttribute($name, $default = null)
 	{
-		if ($this->element instanceof \SimpleXMLElement) {
+		if ($this->element instanceof \SimpleXMLElement)
+		{
 			$attributes = $this->element->attributes();
 
 			// Ensure that the attribute exists
-			if ($attributes->$name !== null) {
-				return (string)$attributes->$name;
+			if ($attributes->$name !== null)
+			{
+				return (string) $attributes->$name;
 			}
 		}
 
@@ -949,8 +1007,8 @@ abstract class FormField
 	/**
 	 * Render a layout of this field
 	 *
-	 * @param string $layoutId Layout identifier
-	 * @param array $data Optional data for the layout
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
 	 *
 	 * @return  string
 	 *
@@ -966,7 +1024,7 @@ abstract class FormField
 	/**
 	 * Method to get a control group with label and input.
 	 *
-	 * @param array $options Options to be passed into the rendering of the field
+	 * @param   array  $options  Options to be passed into the rendering of the field
 	 *
 	 * @return  string  A string containing the html for the control group
 	 *
@@ -974,29 +1032,33 @@ abstract class FormField
 	 */
 	public function renderField($options = array())
 	{
-		if ($this->hidden) {
+		if ($this->hidden)
+		{
 			return $this->getInput();
 		}
 
-		if (!isset($options['class'])) {
+		if (!isset($options['class']))
+		{
 			$options['class'] = '';
 		}
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel')) {
+		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel'))
+		{
 			$options['hiddenLabel'] = true;
 		}
 
-		if ($this->showon) {
-			$options['rel'] = ' data-showon=\'' .
+		if ($this->showon)
+		{
+			$options['rel']           = ' data-showon=\'' .
 				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
 			$options['showonEnabled'] = true;
 		}
 
 		$data = array(
-			'input' => $this->getInput(),
-			'label' => $this->getLabel(),
+			'input'   => $this->getInput(),
+			'label'   => $this->getLabel(),
 			'options' => $options,
 		);
 
@@ -1013,7 +1075,7 @@ abstract class FormField
 	protected function getLayoutData()
 	{
 		// Label preprocess
-		$label = $this->element['label'] ? (string)$this->element['label'] : (string)$this->element['name'];
+		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 		$label = $this->translateLabel ? \JText::_($label) : $label;
 
 		// Description preprocess
@@ -1023,31 +1085,31 @@ abstract class FormField
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
 		return array(
-			'autocomplete' => $this->autocomplete,
-			'autofocus' => $this->autofocus,
-			'class' => $this->class,
-			'description' => $description,
-			'disabled' => $this->disabled,
-			'field' => $this,
-			'group' => $this->group,
-			'hidden' => $this->hidden,
-			'hint' => $this->translateHint ? \JText::alt($this->hint, $alt) : $this->hint,
-			'id' => $this->id,
-			'label' => $label,
-			'labelclass' => $this->labelclass,
-			'multiple' => $this->multiple,
-			'name' => $this->name,
-			'onchange' => $this->onchange,
-			'onclick' => $this->onclick,
-			'pattern' => $this->pattern,
+			'autocomplete'   => $this->autocomplete,
+			'autofocus'      => $this->autofocus,
+			'class'          => $this->class,
+			'description'    => $description,
+			'disabled'       => $this->disabled,
+			'field'          => $this,
+			'group'          => $this->group,
+			'hidden'         => $this->hidden,
+			'hint'           => $this->translateHint ? \JText::alt($this->hint, $alt) : $this->hint,
+			'id'             => $this->id,
+			'label'          => $label,
+			'labelclass'     => $this->labelclass,
+			'multiple'       => $this->multiple,
+			'name'           => $this->name,
+			'onchange'       => $this->onchange,
+			'onclick'        => $this->onclick,
+			'pattern'        => $this->pattern,
 			'validationtext' => $this->validationtext,
-			'readonly' => $this->readonly,
-			'repeat' => $this->repeat,
-			'required' => (bool)$this->required,
-			'size' => $this->size,
-			'spellcheck' => $this->spellcheck,
-			'validate' => $this->validate,
-			'value' => $this->value,
+			'readonly'       => $this->readonly,
+			'repeat'         => $this->repeat,
+			'required'       => (bool) $this->required,
+			'size'           => $this->size,
+			'spellcheck'     => $this->spellcheck,
+			'validate'       => $this->validate,
+			'value'          => $this->value,
 		);
 	}
 
@@ -1068,7 +1130,7 @@ abstract class FormField
 	/**
 	 * Get the renderer
 	 *
-	 * @param string $layoutId Id to load
+	 * @param   string  $layoutId  Id to load
 	 *
 	 * @return  FileLayout
 	 *
@@ -1082,7 +1144,8 @@ abstract class FormField
 
 		$layoutPaths = $this->getLayoutPaths();
 
-		if ($layoutPaths) {
+		if ($layoutPaths)
+		{
 			$renderer->setIncludePaths($layoutPaths);
 		}
 
