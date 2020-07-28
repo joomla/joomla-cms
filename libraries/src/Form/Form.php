@@ -101,10 +101,10 @@ class Form
 		$this->data = new Registry;
 
 		// Set the options if specified.
-		$this->options['control']       = isset($options['control']) ? $options['control'] : false;
-		$this->options['parent']        = isset($options['parent']) ? $options['parent'] : false;
-		$this->options['parent-top']    = isset($options['parent-top']) ? $options['parent-top'] : false;
-		$this->options['prefix']        = isset($options['prefix']) ? $options['prefix'] : '';
+		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
+		$this->options['parent'] = isset($options['parent']) ? $options['parent'] : false;
+		$this->options['parent-top'] = isset($options['parent-top']) ? $options['parent-top'] : false;
+		$this->options['prefix'] = isset($options['prefix']) ? $options['prefix'] : '';
 		$this->options['prefix-global'] = empty($options['prefix-global']) ? $this->options['prefix'] : $options['prefix-global'];
 	}
 
@@ -204,7 +204,7 @@ class Form
 			return false;
 		}
 
-		$input  = new Registry($data);
+		$input = new Registry($data);
 		$output = new Registry;
 
 		// Get the fields for which to filter the data.
@@ -222,9 +222,9 @@ class Form
 			$name = (string) $field['name'];
 
 			// Get the field groups for the element.
-			$attrs  = $field->xpath('ancestor::fields[@name]/@name');
+			$attrs = $field->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group  = implode('.', $groups);
+			$group = implode('.', $groups);
 
 			$key = $group ? $group . '.' . $name : $name;
 
@@ -310,7 +310,8 @@ class Form
 		if (($element instanceof \SimpleXMLElement) && strlen((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
-		} // Otherwise return the given default value.
+		}
+		// Otherwise return the given default value.
 		else
 		{
 			return $default;
@@ -335,7 +336,8 @@ class Form
 		if ($set)
 		{
 			$elements = $this->findFieldsByFieldset($set);
-		} // Get all fields.
+		}
+		// Get all fields.
 		else
 		{
 			$elements = $this->findFieldsByGroup();
@@ -351,9 +353,9 @@ class Form
 		foreach ($elements as $element)
 		{
 			// Get the field groups for the element.
-			$attrs  = $element->xpath('ancestor::fields[@name]/@name');
+			$attrs = $element->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group  = implode('.', $groups);
+			$group = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
@@ -377,7 +379,7 @@ class Form
 	public function getFieldsets($group = null)
 	{
 		$fieldsets = array();
-		$sets      = array();
+		$sets = array();
 
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -436,7 +438,8 @@ class Form
 					// Add the fieldset object to the list.
 					$fieldsets[$fieldset->name] = $fieldset;
 				}
-			} // Must be dealing with a fieldset attribute.
+			}
+// Must be dealing with a fieldset attribute.
 			else
 			{
 				// Only create it if it doesn't already exist.
@@ -449,7 +452,8 @@ class Form
 					if (empty($tmp))
 					{
 						$fieldset = (object) array('name' => (string) $set, 'label' => '', 'description' => '');
-					} // Build the fieldset object from the element.
+					}
+					// Build the fieldset object from the element.
 					else
 					{
 						$fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
@@ -565,9 +569,9 @@ class Form
 		foreach ($elements as $element)
 		{
 			// Get the field groups for the element.
-			$attrs  = $element->xpath('ancestor::fields[@name]/@name');
+			$attrs = $element->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group  = implode('.', $groups);
+			$group = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
@@ -733,7 +737,7 @@ class Form
 	public function renderFieldset($name, $options = array())
 	{
 		$fields = $this->getFieldset($name);
-		$html   = array();
+		$html = array();
 
 		foreach ($fields as $field)
 		{
@@ -800,7 +804,8 @@ class Form
 				$this->syncPaths();
 
 				return true;
-			} // Create a root element for the form.
+			}
+// Create a root element for the form.
 			else
 			{
 				$this->xml = new \SimpleXMLElement('<form></form>');
@@ -834,7 +839,7 @@ class Form
 			foreach ($fields as $field)
 			{
 				// Get the group names as strings for ancestor fields elements.
-				$attrs  = $field->xpath('ancestor::fields[@name]/@name');
+				$attrs = $field->xpath('ancestor::fields[@name]/@name');
 				$groups = array_map('strval', $attrs ? $attrs : array());
 
 				// Check to see if the field exists in the current form.
@@ -843,9 +848,9 @@ class Form
 					// If set to replace found fields, replace the data and remove the field so we don't add it twice.
 					if ($replace)
 					{
-						$olddom    = dom_import_simplexml($current);
+						$olddom = dom_import_simplexml($current);
 						$loadeddom = dom_import_simplexml($field);
-						$addeddom  = $olddom->ownerDocument->importNode($loadeddom, true);
+						$addeddom = $olddom->ownerDocument->importNode($loadeddom, true);
 						$olddom->parentNode->replaceChild($addeddom, $olddom);
 						$loadeddom->parentNode->removeChild($loadeddom);
 					}
@@ -1029,7 +1034,7 @@ class Form
 			$dom = dom_import_simplexml($old);
 
 			// Get the parent element, this should be the fieldset
-			$parent   = $dom->parentNode;
+			$parent = $dom->parentNode;
 			$fieldset = $parent->getAttribute('name');
 
 			$parent->removeChild($dom);
@@ -1114,7 +1119,8 @@ class Form
 		if (!($element instanceof \SimpleXMLElement))
 		{
 			return false;
-		} // Otherwise set the attribute and return true.
+		}
+		// Otherwise set the attribute and return true.
 		else
 		{
 			$element[$attribute] = $value;
@@ -1248,12 +1254,12 @@ class Form
 		foreach ($fields as $field)
 		{
 			$value = null;
-			$name  = (string) $field['name'];
+			$name = (string) $field['name'];
 
 			// Get the group names as strings for ancestor fields elements.
-			$attrs  = $field->xpath('ancestor::fields[@name]/@name');
+			$attrs = $field->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group  = implode('.', $groups);
+			$group = implode('.', $groups);
 
 			// Get the value from the input data.
 			if ($group)
@@ -1272,7 +1278,7 @@ class Form
 			if ($valid instanceof \Exception)
 			{
 				$this->errors[] = $valid;
-				$return         = false;
+				$return = false;
 			}
 		}
 
@@ -1343,7 +1349,7 @@ class Form
 
 				$value = is_array($value) ? $value : array($value);
 
-				$value  = ArrayHelper::toInteger($value);
+				$value = ArrayHelper::toInteger($value);
 				$return = $value;
 				break;
 
@@ -1363,9 +1369,9 @@ class Form
 					{
 						$showTime = (string) $element['showtime'];
 						$showTime = ($showTime && $showTime != 'false');
-						$format   = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
-						$date     = date_parse_from_format($format, $value);
-						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+						$format = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
+						$date = date_parse_from_format($format, $value);
+						$value = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
 
 						if ($showTime)
 						{
@@ -1408,9 +1414,9 @@ class Form
 					{
 						$showTime = (string) $element['showtime'];
 						$showTime = ($showTime && $showTime != 'false');
-						$format   = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
-						$date     = date_parse_from_format($format, $value);
-						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+						$format = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
+						$date = date_parse_from_format($format, $value);
+						$value = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
 
 						if ($showTime)
 						{
@@ -1475,13 +1481,15 @@ class Form
 					if (substr($value, 0, 9) == 'index.php')
 					{
 						$value = \JUri::root() . $value;
-					} // Otherwise we treat it as an external link.
+					}
+					// Otherwise we treat it as an external link.
 					else
 					{
 						// Put the url back together.
 						$value = $protocol . '://' . $value;
 					}
-				} // If relative URLS are allowed we assume that URLs without protocols are internal.
+				}
+				// If relative URLS are allowed we assume that URLs without protocols are internal.
 				elseif (!$protocol && $element['relative'])
 				{
 					$host = \JUri::getInstance('SERVER')->gethost();
@@ -1490,14 +1498,15 @@ class Form
 					if (substr($value, 0) == $host)
 					{
 						$value = 'http://' . $value;
-					} // Otherwise if it doesn't start with "/" prepend the prefix of the current site.
+					}
+					// Otherwise if it doesn't start with "/" prepend the prefix of the current site.
 					elseif (substr($value, 0, 1) != '/')
 					{
 						$value = \JUri::root(true) . '/' . $value;
 					}
 				}
 
-				$value  = \JStringPunycode::urlToPunycode($value);
+				$value = \JStringPunycode::urlToPunycode($value);
 				$return = $value;
 				break;
 
@@ -1520,29 +1529,33 @@ class Form
 					}
 
 					$result = '1.' . $number;
-				} // If not, does it match ITU-T?
+				}
+				// If not, does it match ITU-T?
 				elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1)
 				{
 					$countrycode = substr($value, 0, strpos($value, ' '));
 					$countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);
-					$number      = strstr($value, ' ');
-					$number      = (string) preg_replace('/[^\d]/', '', $number);
-					$result      = $countrycode . '.' . $number;
-				} // If not, does it match EPP?
+					$number = strstr($value, ' ');
+					$number = (string) preg_replace('/[^\d]/', '', $number);
+					$result = $countrycode . '.' . $number;
+				}
+				// If not, does it match EPP?
 				elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value) == 1)
 				{
 					if (strstr($value, 'x'))
 					{
-						$xpos  = strpos($value, 'x');
+						$xpos = strpos($value, 'x');
 						$value = substr($value, 0, $xpos);
 					}
 
 					$result = str_replace('+', '', $value);
-				} // Maybe it is already ccc.nnnnnnn?
+				}
+				// Maybe it is already ccc.nnnnnnn?
 				elseif (preg_match('/[0-9]{1,3}\.[0-9]{4,14}$/', $value) == 1)
 				{
 					$result = $value;
-				} // If not, can we make it a string of digits?
+				}
+				// If not, can we make it a string of digits?
 				else
 				{
 					$value = (string) preg_replace('/[^\d]/', '', $value);
@@ -1559,10 +1572,11 @@ class Form
 						else
 						{
 							// If it has 13 or more digits let's make a country code.
-							$cclen  = $length - 12;
+							$cclen = $length - 12;
 							$result = substr($value, 0, $cclen) . '.' . substr($value, $cclen);
 						}
-					} // If not let's not save anything.
+					}
+					// If not let's not save anything.
 					else
 					{
 						$result = '';
@@ -1578,14 +1592,15 @@ class Form
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 				{
 					$return = call_user_func(explode('::', $filter), $value);
-				} // Filter using a callback function if specified.
+				}
+				// Filter using a callback function if specified.
 				elseif (function_exists($filter))
 				{
 					$return = call_user_func($filter, $value);
 				}
 				elseif ((string) $element['type'] === 'subform')
 				{
-					$field   = $this->loadField($element);
+					$field = $this->loadField($element);
 					$subForm = $field->loadSubForm();
 
 					if ($field->multiple)
@@ -1642,7 +1657,7 @@ class Form
 	protected function findField($name, $group = null)
 	{
 		$element = false;
-		$fields  = array();
+		$fields = array();
 
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -1707,7 +1722,8 @@ class Form
 				if ($field->xpath('ancestor::fields[@name]'))
 				{
 					continue;
-				} // Found it!
+				}
+				// Found it!
 				else
 				{
 					$element = &$field;
@@ -1763,7 +1779,7 @@ class Form
 	 */
 	protected function &findFieldsByGroup($group = null, $nested = false)
 	{
-		$false  = false;
+		$false = false;
 		$fields = array();
 
 		// Make sure there is a valid JForm XML document.
@@ -1788,7 +1804,8 @@ class Form
 					if ($nested)
 					{
 						$fields = array_merge($fields, $tmp);
-					} // If we want to exclude nested groups then we need to check each field.
+					}
+					// If we want to exclude nested groups then we need to check each field.
 					else
 					{
 						$groupNames = explode('.', $group);
@@ -1834,9 +1851,9 @@ class Form
 	 */
 	protected function &findGroup($group)
 	{
-		$false  = false;
+		$false = false;
 		$groups = array();
-		$tmp    = array();
+		$tmp = array();
 
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -1866,8 +1883,8 @@ class Form
 			{
 				// Initialise some loop variables.
 				$validNames = array_slice($group, 0, $i + 1);
-				$current    = $tmp;
-				$tmp        = array();
+				$current = $tmp;
+				$tmp = array();
 
 				// Check to make sure that there are no parent groups for each element.
 				foreach ($current as $element)
@@ -1952,7 +1969,7 @@ class Form
 
 				if ($lang->hasKey($default))
 				{
-					$debug   = $lang->setDebug(false);
+					$debug = $lang->setDebug(false);
 					$default = \JText::_($default);
 					$lang->setDebug($debug);
 				}
