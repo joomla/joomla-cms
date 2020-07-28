@@ -192,9 +192,13 @@ class JFormFieldList extends JFormField
 			if ($component == 'com_menus')
 			{
 				if ($this->subformPrefix === '')
+				{
 					$link = $this->form->getData()->get('link');
+				}
 				else
+				{
 					$link = $this->subformParentTop->getData()->get('link');
+				}
 				$uri       = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
@@ -266,6 +270,7 @@ class JFormFieldList extends JFormField
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
 	 *
 	 * @param   string  $name  The property name for which to get the value.
 	 *
