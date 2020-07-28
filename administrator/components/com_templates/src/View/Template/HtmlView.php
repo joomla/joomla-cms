@@ -253,7 +253,7 @@ class HtmlView extends BaseHtmlView
 			// Add an extract button
 			elseif ($this->type === 'archive')
 			{
-				ToolbarHelper::custom('template.extractArchive', 'fas fa-chevron-down', 'fas fa-chevron-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
+				ToolbarHelper::custom('template.extractArchive', 'chevron-down', 'chevron-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
 			// Add a copy template button
 			elseif ($this->type === 'home')
@@ -295,7 +295,7 @@ class HtmlView extends BaseHtmlView
 
 		if (count($this->updatedList) !== 0 && $this->pluginState)
 		{
-			ToolbarHelper::custom('template.deleteOverrideHistory', 'fas fa-times', 'move', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
+			ToolbarHelper::custom('template.deleteOverrideHistory', 'times', 'move', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
 		}
 
 		if ($this->type === 'home')
