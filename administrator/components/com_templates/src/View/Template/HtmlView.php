@@ -253,7 +253,7 @@ class HtmlView extends BaseHtmlView
 			// Add an extract button
 			elseif ($this->type === 'archive')
 			{
-				ToolbarHelper::custom('template.extractArchive', 'fas fa-chevron-down', 'fas fa--chevron-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
+				ToolbarHelper::custom('template.extractArchive', 'fas fa-chevron-down', 'fas fa-chevron-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
 			// Add a copy template button
 			elseif ($this->type === 'home')
