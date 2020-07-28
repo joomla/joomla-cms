@@ -182,9 +182,13 @@ class JFormFieldText extends JFormField
 			if ($component == 'com_menus')
 			{
 				if ($this->subformPrefix === '')
+				{
 					$link = $this->form->getData()->get('link');
+				}
 				else
-					$link = $this->subformParent->getData()->get('link');
+				{
+					$link = $this->subformParentTop->getData()->get('link');
+				}
 				$uri       = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
