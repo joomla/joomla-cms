@@ -94,10 +94,22 @@ abstract class FormField
 	protected $subformPrefix = '';
 
 	/**
-	 * The JForm top parent used for subform fields
+	 * The string used for subform fields path
+	 * @var string
+	 */
+	protected $subformPrefixGlobal = '';
+
+	/**
+	 * The JForm form parent used for subform fields
 	 * @var string
 	 */
 	protected $subformParent = false;
+
+	/**
+	 * The JForm form top parent used for subform fields
+	 * @var string
+	 */
+	protected $subformParentTop = false;
 
 	/**
 	 * The hidden state for the form field.
@@ -203,6 +215,12 @@ abstract class FormField
 	 * @since  1.7.0
 	 */
 	protected $fieldname;
+
+	/**
+	 * The JForm top parent used for subform fields
+	 * @var string
+	 */
+	protected $fieldnameGlobal;
 
 	/**
 	 * The group of the field.
@@ -405,7 +423,9 @@ abstract class FormField
 			case 'hint':
 			case 'formControl':
 			case 'subformParent':
+			case 'subformParentTop':
 			case 'subformPrefix':
+			case 'subformPrefixGlobal':
 			case 'hidden':
 			case 'id':
 			case 'multiple':
@@ -421,6 +441,7 @@ abstract class FormField
 			case 'onchange':
 			case 'onclick':
 			case 'fieldname':
+			case 'fieldnameGlobal':
 			case 'group':
 			case 'disabled':
 			case 'readonly':
@@ -558,11 +579,6 @@ abstract class FormField
 	}
 
 	/**
-	 * @var array Static cache for subforms context retrive
-	 */
-	protected static $subformsCache = array();
-
-	/**
 	 * Method to attach a JForm object to the field.
 	 *
 	 * @param   Form  $form  The JForm object to attach to the form field.
@@ -573,29 +589,12 @@ abstract class FormField
 	 */
 	public function setForm(Form $form)
 	{
-		$this->form        = $form;
-		$this->formControl = $form->getFormControl();
-		if ($parent = $form->getFormParent())
-		{
-			$this->subformPrefix = substr($this->form->getName(), 15).'.';
-			if (isset(self::$subformsCache[$this->subformPrefix]))
-			{
-				$this->subformParent = self::$subformsCache[$this->subformPrefix];
-			}
-			else
-			{
-				$this->subformParent = $parent;
-				while ($parent){
-					$form = $parent;
-					$parent = $form->getFormParent();
-					if ($parent)
-					{
-						$this->subformParent = $parent;
-					}
-				}
-				self::$subformsCache[$this->subformPrefix] = $this->subformParent;
-			}
-		}
+		$this->form                = $form;
+		$this->formControl         = $form->getFormControl();
+		$this->subformPrefix       = $form->getFormPrefix();
+		$this->subformPrefixGlobal = $form->getFormPrefixGlobal();
+		$this->subformParent       = $form->getFormParent();
+		$this->subformParentTop   = $form->getFormParentTop();
 
 		return $this;
 	}
@@ -667,6 +666,29 @@ abstract class FormField
 		{
 			$this->class = trim($this->class . ' required');
 		}
+		if (((string) $this->element['name']) === '')
+		{
+			$this->fieldnameGlobal = '';
+		}
+		else
+		{
+			$this->fieldnameGlobal = $this->fieldname;
+			$globalRemovePrefix    = (string) $this->element['globalremoveprefix'];
+			if (!empty($globalRemovePrefix))
+			{
+				$l = strlen($globalRemovePrefix);
+				if (substr($this->fieldnameGlobal, 0, $l) === $globalRemovePrefix)
+				{
+					$this->fieldnameGlobal = substr($this->fieldnameGlobal, $l);
+				}
+			}
+			$globalAddPrefix    = (string) $this->element['globaladdprefix'];
+			if (!empty($globalAddPrefix))
+			{
+				$this->fieldnameGlobal = $globalAddPrefix.$this->fieldnameGlobal;
+			}
+
+		}
 
 		return true;
 	}
@@ -689,13 +711,13 @@ abstract class FormField
 	 * Method to get the id used for the field input tag.
 	 *
 	 * @param   string  $fieldId    The field element id.
-	 * @param   string  $fieldName  The field element name.
+	 * @param   string  $fieldname  The field element name.
 	 *
 	 * @return  string  The id to be used for the field input tag.
 	 *
 	 * @since   1.7.0
 	 */
-	protected function getId($fieldId, $fieldName)
+	protected function getId($fieldId, $fieldname)
 	{
 		$id = '';
 
@@ -722,11 +744,11 @@ abstract class FormField
 		// If we already have an id segment add the field id/name as another level.
 		if ($id)
 		{
-			$id .= '_' . ($fieldId ? $fieldId : $fieldName);
+			$id .= '_' . ($fieldId ? $fieldId : $fieldname);
 		}
 		else
 		{
-			$id .= ($fieldId ? $fieldId : $fieldName);
+			$id .= ($fieldId ? $fieldId : $fieldname);
 		}
 
 		// Clean up any invalid characters.
@@ -820,13 +842,13 @@ abstract class FormField
 	/**
 	 * Method to get the name used for the field input tag.
 	 *
-	 * @param   string  $fieldName  The field element name.
+	 * @param   string  $fieldname  The field element name.
 	 *
 	 * @return  string  The name to be used for the field input tag.
 	 *
 	 * @since   1.7.0
 	 */
-	protected function getName($fieldName)
+	protected function getName($fieldname)
 	{
 		// To support repeated element, extensions can set this in plugin->onRenderSettings
 
@@ -865,11 +887,11 @@ abstract class FormField
 		// If we already have a name segment add the field name as another level.
 		if ($name)
 		{
-			$name .= '[' . $fieldName . ']';
+			$name .= '[' . $fieldname . ']';
 		}
 		else
 		{
-			$name .= $fieldName;
+			$name .= $fieldname;
 		}
 
 		// If the field should support multiple values add the final array segment.
@@ -897,17 +919,17 @@ abstract class FormField
 	/**
 	 * Method to get the field name used.
 	 *
-	 * @param   string  $fieldName  The field element name.
+	 * @param   string  $fieldname  The field element name.
 	 *
 	 * @return  string  The field name
 	 *
 	 * @since   1.7.0
 	 */
-	protected function getFieldName($fieldName)
+	protected function getFieldName($fieldname)
 	{
-		if ($fieldName)
+		if ($fieldname)
 		{
-			return $fieldName;
+			return $fieldname;
 		}
 		else
 		{
