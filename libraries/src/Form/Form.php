@@ -101,8 +101,11 @@ class Form
 		$this->data = new Registry;
 
 		// Set the options if specified.
-		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
-		$this->options['parent'] = isset($options['parent']) ? $options['parent'] : false;
+		$this->options['control']       = isset($options['control']) ? $options['control'] : false;
+		$this->options['parent']        = isset($options['parent']) ? $options['parent'] : false;
+		$this->options['parent-top']    = isset($options['parent-top']) ? $options['parent-top'] : false;
+		$this->options['prefix']        = isset($options['prefix']) ? $options['prefix'] : '';
+		$this->options['prefix-global'] = empty($options['prefix-global']) ? $this->options['prefix'] : $options['prefix-global'];
 	}
 
 	/**
@@ -201,7 +204,7 @@ class Form
 			return false;
 		}
 
-		$input = new Registry($data);
+		$input  = new Registry($data);
 		$output = new Registry;
 
 		// Get the fields for which to filter the data.
@@ -219,9 +222,9 @@ class Form
 			$name = (string) $field['name'];
 
 			// Get the field groups for the element.
-			$attrs = $field->xpath('ancestor::fields[@name]/@name');
+			$attrs  = $field->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group = implode('.', $groups);
+			$group  = implode('.', $groups);
 
 			$key = $group ? $group . '.' . $name : $name;
 
@@ -289,8 +292,8 @@ class Form
 	 *
 	 * @return  mixed  The attribute value for the field.
 	 *
-	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
+	 * @since   1.7.0
 	 */
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
 	{
@@ -352,9 +355,9 @@ class Form
 		foreach ($elements as $element)
 		{
 			// Get the field groups for the element.
-			$attrs = $element->xpath('ancestor::fields[@name]/@name');
+			$attrs  = $element->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group = implode('.', $groups);
+			$group  = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
@@ -378,7 +381,7 @@ class Form
 	public function getFieldsets($group = null)
 	{
 		$fieldsets = array();
-		$sets = array();
+		$sets      = array();
 
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -489,7 +492,7 @@ class Form
 	{
 		return (string) $this->options['control'];
 	}
-	
+
 	/**
 	 * Method to get the form parent. This form object is used by subforms for travel on form structure,
 	 * to get values and settings.
@@ -501,6 +504,45 @@ class Form
 	public function getFormParent()
 	{
 		return $this->options['parent'];
+	}
+
+	/**
+	 * Method to get the form top parent. This form object is used by subforms for travel on form structure,
+	 * to get values and settings.
+	 *
+	 * @return  mixed false or jform object
+	 *
+	 * @since   3.9.?? - patch proposed
+	 */
+	public function getFormParentTop()
+	{
+		return $this->options['parent-top'];
+	}
+
+	/**
+	 * Method to get the form prefix. This form object is used by subforms for travel on form structure,
+	 * to get values and settings.
+	 *
+	 * @return  mixed false or string
+	 *
+	 * @since   3.9.?? - patch proposed
+	 */
+	public function getFormPrefix()
+	{
+		return $this->options['prefix'];
+	}
+
+	/**
+	 * Method to get the form prefix. This form object is used by subforms for travel on form structure,
+	 * to get values and settings.
+	 *
+	 * @return  mixed false or string
+	 *
+	 * @since   3.9.?? - patch proposed
+	 */
+	public function getFormPrefixGlobal()
+	{
+		return $this->options['prefix-global'];
 	}
 
 	/**
@@ -699,7 +741,7 @@ class Form
 	public function renderFieldset($name, $options = array())
 	{
 		$fields = $this->getFieldset($name);
-		$html = array();
+		$html   = array();
 
 		foreach ($fields as $field)
 		{
@@ -802,7 +844,7 @@ class Form
 			foreach ($fields as $field)
 			{
 				// Get the group names as strings for ancestor fields elements.
-				$attrs = $field->xpath('ancestor::fields[@name]/@name');
+				$attrs  = $field->xpath('ancestor::fields[@name]/@name');
 				$groups = array_map('strval', $attrs ? $attrs : array());
 
 				// Check to see if the field exists in the current form.
@@ -811,9 +853,9 @@ class Form
 					// If set to replace found fields, replace the data and remove the field so we don't add it twice.
 					if ($replace)
 					{
-						$olddom = dom_import_simplexml($current);
+						$olddom    = dom_import_simplexml($current);
 						$loadeddom = dom_import_simplexml($field);
-						$addeddom = $olddom->ownerDocument->importNode($loadeddom, true);
+						$addeddom  = $olddom->ownerDocument->importNode($loadeddom, true);
 						$olddom->parentNode->replaceChild($addeddom, $olddom);
 						$loadeddom->parentNode->removeChild($loadeddom);
 					}
@@ -880,8 +922,8 @@ class Form
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
+	 * @since   1.7.0
 	 */
 	public function removeField($name, $group = null)
 	{
@@ -913,8 +955,8 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
+	 * @since   1.7.0
 	 */
 	public function removeGroup($group)
 	{
@@ -971,8 +1013,8 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
+	 * @since   1.7.0
 	 */
 	public function setField(\SimpleXMLElement $element, $group = null, $replace = true, $fieldset = 'default')
 	{
@@ -1064,8 +1106,8 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
+	 * @since   1.7.0
 	 */
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
 	{
@@ -1102,14 +1144,14 @@ class Form
 	 * will not be replaced if they already exist.
 	 *
 	 * @param   array    &$elements  The array of XML element object representations of the form fields.
-	 * @param   string   $group      The optional dot-separated form group path on which to set the fields.
-	 * @param   boolean  $replace    True to replace existing fields if they already exist.
-	 * @param   string   $fieldset   The name of the fieldset we are adding the field to.
+	 * @param   string    $group     The optional dot-separated form group path on which to set the fields.
+	 * @param   boolean   $replace   True to replace existing fields if they already exist.
+	 * @param   string    $fieldset  The name of the fieldset we are adding the field to.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
+	 * @since   1.7.0
 	 */
 	public function setFields(&$elements, $group = null, $replace = true, $fieldset = 'default')
 	{
@@ -1218,12 +1260,12 @@ class Form
 		foreach ($fields as $field)
 		{
 			$value = null;
-			$name = (string) $field['name'];
+			$name  = (string) $field['name'];
 
 			// Get the group names as strings for ancestor fields elements.
-			$attrs = $field->xpath('ancestor::fields[@name]/@name');
+			$attrs  = $field->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group = implode('.', $groups);
+			$group  = implode('.', $groups);
 
 			// Get the value from the input data.
 			if ($group)
@@ -1313,7 +1355,7 @@ class Form
 
 				$value = is_array($value) ? $value : array($value);
 
-				$value = ArrayHelper::toInteger($value);
+				$value  = ArrayHelper::toInteger($value);
 				$return = $value;
 				break;
 
@@ -1436,7 +1478,7 @@ class Form
 
 				// If there is no protocol and the relative option is not specified,
 				// we assume that it is an external URL and prepend http://.
-				if (($element['type'] == 'url' && !$protocol &&  !$element['relative'])
+				if (($element['type'] == 'url' && !$protocol && !$element['relative'])
 					|| (!$element['type'] == 'url' && !$protocol))
 				{
 					$protocol = 'http';
@@ -1473,7 +1515,7 @@ class Form
 					}
 				}
 
-				$value = \JStringPunycode::urlToPunycode($value);
+				$value  = \JStringPunycode::urlToPunycode($value);
 				$return = $value;
 				break;
 
@@ -1503,9 +1545,9 @@ class Form
 				{
 					$countrycode = substr($value, 0, strpos($value, ' '));
 					$countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);
-					$number = strstr($value, ' ');
-					$number = (string) preg_replace('/[^\d]/', '', $number);
-					$result = $countrycode . '.' . $number;
+					$number      = strstr($value, ' ');
+					$number      = (string) preg_replace('/[^\d]/', '', $number);
+					$result      = $countrycode . '.' . $number;
 				}
 
 				// If not, does it match EPP?
@@ -1513,7 +1555,7 @@ class Form
 				{
 					if (strstr($value, 'x'))
 					{
-						$xpos = strpos($value, 'x');
+						$xpos  = strpos($value, 'x');
 						$value = substr($value, 0, $xpos);
 					}
 
@@ -1543,7 +1585,7 @@ class Form
 						else
 						{
 							// If it has 13 or more digits let's make a country code.
-							$cclen = $length - 12;
+							$cclen  = $length - 12;
 							$result = substr($value, 0, $cclen) . '.' . substr($value, $cclen);
 						}
 					}
@@ -1603,7 +1645,7 @@ class Form
 				{
 					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
-					if (($value === '' || $value === null) && ! $required)
+					if (($value === '' || $value === null) && !$required)
 					{
 						$return = '';
 					}
@@ -1631,7 +1673,7 @@ class Form
 	protected function findField($name, $group = null)
 	{
 		$element = false;
-		$fields = array();
+		$fields  = array();
 
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -1754,7 +1796,7 @@ class Form
 	 */
 	protected function &findFieldsByGroup($group = null, $nested = false)
 	{
-		$false = false;
+		$false  = false;
 		$fields = array();
 
 		// Make sure there is a valid JForm XML document.
@@ -1827,9 +1869,9 @@ class Form
 	 */
 	protected function &findGroup($group)
 	{
-		$false = false;
+		$false  = false;
 		$groups = array();
-		$tmp = array();
+		$tmp    = array();
 
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -1859,8 +1901,8 @@ class Form
 			{
 				// Initialise some loop variables.
 				$validNames = array_slice($group, 0, $i + 1);
-				$current = $tmp;
-				$tmp = array();
+				$current    = $tmp;
+				$tmp        = array();
 
 				// Check to make sure that there are no parent groups for each element.
 				foreach ($current as $element)
@@ -1945,7 +1987,7 @@ class Form
 
 				if ($lang->hasKey($default))
 				{
-					$debug = $lang->setDebug(false);
+					$debug   = $lang->setDebug(false);
 					$default = \JText::_($default);
 					$lang->setDebug($debug);
 				}
@@ -1979,7 +2021,7 @@ class Form
 	 *
 	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
 	 * @deprecated  4.0  Use FormHelper::loadFieldType() directly
 	 */
 	protected function loadFieldType($type, $new = true)
@@ -1995,8 +2037,8 @@ class Form
 	 *
 	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
-	 * @see     FormHelper::loadRuleType()
-	 * @since   1.7.0
+	 * @see         FormHelper::loadRuleType()
+	 * @since       1.7.0
 	 * @deprecated  4.0  Use FormHelper::loadRuleType() directly
 	 */
 	protected function loadRuleType($type, $new = true)
@@ -2093,13 +2135,13 @@ class Form
 	 * @param   string             $group    The optional dot-separated form group path on which to find the field.
 	 * @param   mixed              $value    The optional value to use as the default for the field.
 	 * @param   Registry           $input    An optional Registry object with the entire data set to validate
-	 *                                      against the entire form.
+	 *                                       against the entire form.
 	 *
 	 * @return  boolean  Boolean true if field value is valid, Exception on failure.
 	 *
-	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  \UnexpectedValueException
+	 * @since   1.7.0
 	 */
 	protected function validateField(\SimpleXMLElement $element, $group = null, $value = null, Registry $input = null)
 	{
@@ -2260,9 +2302,9 @@ class Form
 	 *
 	 * @return  Form  JForm instance.
 	 *
-	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException if no data provided.
 	 * @throws  \RuntimeException if the form could not be loaded.
+	 * @since   1.7.0
 	 */
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
