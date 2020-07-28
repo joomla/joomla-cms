@@ -83,14 +83,14 @@ class JFormFieldList extends JFormField
 		else
 			// Create a regular list passing the arguments in an array.
 		{
-			$listoptions                   = array();
-			$listoptions['option.key']     = 'value';
-			$listoptions['option.text']    = 'text';
-			$listoptions['list.select']    = $this->value;
-			$listoptions['id']             = $this->id;
+			$listoptions = array();
+			$listoptions['option.key'] = 'value';
+			$listoptions['option.text'] = 'text';
+			$listoptions['list.select'] = $this->value;
+			$listoptions['id'] = $this->id;
 			$listoptions['list.translate'] = false;
-			$listoptions['option.attr']    = 'optionattr';
-			$listoptions['list.attr']      = trim($attr);
+			$listoptions['option.attr'] = 'optionattr';
+			$listoptions['list.attr'] = trim($attr);
 
 			$html[] = JHtml::_('select.genericlist', $options, $this->name, $listoptions);
 		}
@@ -108,7 +108,7 @@ class JFormFieldList extends JFormField
 	protected function getOptions()
 	{
 		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-		$options   = array();
+		$options = array();
 
 		foreach ($this->element->xpath('option') as $option)
 		{
@@ -141,7 +141,7 @@ class JFormFieldList extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
+			$text = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
@@ -163,7 +163,7 @@ class JFormFieldList extends JFormField
 			);
 
 			// Set some event handler attributes. But really, should be using unobtrusive js.
-			$tmp['onclick']  = (string) $option['onclick'];
+			$tmp['onclick'] = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
 
 			if ((string) $option['showon'])
@@ -180,10 +180,10 @@ class JFormFieldList extends JFormField
 
 		if ($this->element['useglobal'])
 		{
-			$tmp        = new stdClass;
+			$tmp = new stdClass;
 			$tmp->value = '';
-			$tmp->text  = JText::_('JGLOBAL_USE_GLOBAL');
-			$component  = (string) $this->element['useglobal'];
+			$tmp->text = JText::_('JGLOBAL_USE_GLOBAL');
+			$component = (string) $this->element['useglobal'];
 			if (in_array(strtolower($component), array('yes', 'true')))
 			{
 				$component = JFactory::getApplication()->input->getCmd('option');
@@ -199,12 +199,12 @@ class JFormFieldList extends JFormField
 				{
 					$link = $this->subformParentTop->getData()->get('link');
 				}
-				$uri       = new JUri($link);
+				$uri = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
 
 			$params = JComponentHelper::getParams($component);
-			$value  = $params->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+			$value = $params->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
 
 			// Try with global configuration
 			if (is_null($value))
