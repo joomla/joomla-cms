@@ -455,7 +455,7 @@ class UpdateModel extends ListModel
 			return false;
 		}
 
-		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
+		if ($check === InstallerHelper::HASH_NOT_PROVIDED)
 		{
 			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WARNING'), 'warning');
 		}
