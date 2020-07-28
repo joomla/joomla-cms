@@ -31,7 +31,7 @@ elseif ($icon === 'new' || $icon === 'save-new')
 {
 	$icon = 'fas fa-plus';
 }
-elseif ($icon === 'apply')
+elseif ($icon === 'apply' || $icon === 'save')
 {
 	$icon = 'fas fa-save';
 }
