@@ -145,7 +145,12 @@ class JFormFieldNumber extends JFormField
 	{
 		if ($this->element['useglobal'])
 		{
-			$component = JFactory::getApplication()->input->getCmd('option');
+
+			$component  = (string) $this->element['useglobal'];
+			if (in_array(strtolower($component), array('yes', 'true')))
+			{
+				$component = JFactory::getApplication()->input->getCmd('option');
+			}
 
 			// Get correct component for menu items
 			if ($component == 'com_menus')
@@ -156,25 +161,25 @@ class JFormFieldNumber extends JFormField
 				}
 				else
 				{
-					$link = $this->subformParent->getData()->get('link');
+					$link = $this->subformParentTop->getData()->get('link');
 				}
 				$uri       = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
 
 			$params = JComponentHelper::getParams($component);
-			$value  = $params->get($this->subformPrefix . $this->fieldname);
+			$value  = $params->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
 
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = JFactory::getConfig()->get($this->subformPrefix . $this->fieldname);
+				$value = JFactory::getConfig()->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
 			}
 
 			// Try with menu configuration
 			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
-				$value = JComponentHelper::getParams('com_menus')->get($this->subformPrefix . $this->fieldname);
+				$value = JComponentHelper::getParams('com_menus')->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
 			}
 
 			if (!is_null($value))
