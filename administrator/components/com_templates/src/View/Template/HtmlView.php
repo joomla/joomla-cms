@@ -266,7 +266,7 @@ class HtmlView extends BaseHtmlView
 		if ($this->preview->client_id === 0 && $this->type === 'home')
 		{
 			$bar->linkButton('preview')
-				->icon('icon-picture')
+				->icon('picture')
 				->text('COM_TEMPLATES_BUTTON_PREVIEW')
 				->url(Uri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id)
 				->attributes(['target' => '_new']);
