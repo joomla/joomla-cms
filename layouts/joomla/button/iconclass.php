@@ -99,6 +99,22 @@ elseif ($icon === 'default')
 {
 	$icon = 'fas fa-home';
 }
+elseif ($icon === 'crop')
+{
+	$icon = 'fas fa-crop';
+}
+elseif ($icon === 'chevron-down')
+{
+	$icon = 'fas fa-chevron-down';
+}
+elseif ($icon === 'times')
+{
+	$icon = 'fas fa-times';
+}
+elseif ($icon === 'move')
+{
+	$icon = 'fas fa-arrows-alt';
+}
 else{
 	$icon = 'icon-' . $icon;
 }
