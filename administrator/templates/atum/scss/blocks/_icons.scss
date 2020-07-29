@@ -21,7 +21,8 @@
   }
 }
 
-.icon-unpublish {
+.icon-unpublish,
+.fa-times {
   color: theme-color("danger");
 
   .dropdown-status-group & {
@@ -60,12 +61,14 @@
     border-color: $state-warning-bg;
   }
 
-  .icon-archive {
+  .icon-archive,
+  .fa-folder {
     color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
-  .icon-checkedout {
+  .icon-checkedout,
+  .fa-lock {
     width: auto;
     height: auto;
     font-size: 1.2rem;

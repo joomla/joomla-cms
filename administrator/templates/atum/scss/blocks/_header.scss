@@ -31,22 +31,25 @@
   }
 
   .logo {
-    display: inline-block;
+    display: flex;
+    height: 100%;
     width: $sidebar-width;
-    transition: width .3s ease;
+    flex-flow: row nowrap;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
 
     &.small {
       width: $sidebar-width-closed;
-      transition: width .3s ease;
+      transition: all 0.3s ease-in-out;
 
       svg,
       img {
 
-        &:not(.logo-small) {
+        &:not(.logo-collapsed) {
           display: none;
         }
 
-        &.logo-small {
+        &.logo-collapsed {
           display: inline-block;
         }
 
@@ -59,18 +62,16 @@
 
     svg,
     img {
-      max-width: calc(18rem - .8rem);
-      max-height: 1.3rem;
-      margin-inline-start: .8rem;
+      max-width: calc(18rem - .7rem);
+      max-height: 100%;
+      margin-inline-start: .35rem;
 
-      &.logo-small {
+      &.logo-collapsed {
         display: none;
-        max-width: 1.3rem;
       }
     }
 
     svg {
-      height: 1.3rem;
       path {
         fill: $white;
       }

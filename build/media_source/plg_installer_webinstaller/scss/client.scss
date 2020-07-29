@@ -60,11 +60,18 @@ $extension-types: (
   .grid-container {
     .card {
       height: 400px;
-      margin-bottom: 10px;
+      margin-bottom: 2rem;
 
       &:hover {
         background-color: $white;
       }
+    }
+
+    .card-img, .card-img-top {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      height: 6rem;
+      overflow: hidden;
     }
 
     .card-text {
@@ -74,6 +81,7 @@ $extension-types: (
 
     .card-body {
       cursor: pointer;
+      padding: .5rem
     }
   }
 

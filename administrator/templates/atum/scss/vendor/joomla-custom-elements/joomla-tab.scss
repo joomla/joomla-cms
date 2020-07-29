@@ -196,6 +196,7 @@ joomla-tab {
 
     a[role=tab] {
       color: var(--atum-text-light);
+      background-color: var(--atum-link-color);
       border: 1px solid var(--atum-text-light);
       border-top: 0;
 
@@ -204,6 +205,10 @@ joomla-tab {
       &:focus {
         color: var(--atum-text-light);
         background-color: var(--atum-bg-dark);
+      }
+
+      .text-muted {
+        color: var(--atum-text-light) !important;
       }
     }
 
