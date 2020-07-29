@@ -45,8 +45,12 @@ class PlgContentImageLazyload extends CMSPlugin
 
 		foreach ($matches[0] as $image)
 		{
-			// Make sure we have a src but no loading attribute
-			if (strpos($image, ' src=') !== false && strpos($image, ' loading=') === false)
+			// Make sure we have a src, width and height but no loading attribute
+			if (strpos($image, ' src=') !== false
+				&& strpos($image, ' width=') !== false
+				&& strpos($image, ' height=') !== false
+				&& strpos($image, ' loading=') === false
+			)
 			{
 				$lazyloadImage = str_replace('<img ', '<img loading="lazy" ', $image);
 				$row->text = str_replace($image, $lazyloadImage, $row->text);

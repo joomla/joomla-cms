@@ -630,8 +630,8 @@ abstract class HTMLHelper
 			return $file;
 		}
 
-		// Default to lazy you can disable lazyloading by passing $attribs['loading'] = 'eager';
-		if (!isset($attribs['loading']))
+		// Default to lazy when the width and height are set you can disable lazyloading by passing $attribs['loading'] = 'eager';
+		if (!isset($attribs['loading']) && isset($attribs['width']) && isset($attribs['height']))
 		{
 			$attribs['loading'] = 'lazy';
 		}
