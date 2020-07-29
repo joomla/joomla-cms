@@ -16,7 +16,7 @@
 	"indentation": 2,
 	"number-leading-zero": "never",
 	"max-nesting-depth": 4,
-	"selector-max-compound-selectors": 4,
+	"selector-max-compound-selectors": 5,
 	"order/properties-order": [
 	  "position",
 	  "top",

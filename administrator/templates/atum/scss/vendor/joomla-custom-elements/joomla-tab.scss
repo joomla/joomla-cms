@@ -254,14 +254,12 @@ joomla-tab {
       padding: 0 !important;
 
       @include media-breakpoint-down(md) {
-        .respTable {
-          [dir=ltr] & {
-            text-align: right;
-          }
+        [dir=ltr] & .respTable {
+          text-align: right;
+        }
 
-          [dir=rtl] & {
-            text-align: left;
-          }
+        [dir=rtl] & .respTable {
+          text-align: left;
         }
 
         .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
@@ -274,6 +272,7 @@ joomla-tab {
           left: -1111px;
         }
 
+        /* stylelint-disable */
         .respTable td::before {
           font-weight: $bold-weight;
           content: attr(data-label) ":";
@@ -288,6 +287,7 @@ joomla-tab {
             padding: 0 0 0 2em;
           }
         }
+        /* stylelint-enable */
 
         .respTable td:nth-child(1) {
           font-weight: $bold-weight;
