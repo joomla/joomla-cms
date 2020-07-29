@@ -215,7 +215,6 @@ abstract class ToolbarButton
 	 */
 	protected function fetchId()
 	{
-
 		return $this->parent->getName() . '-' . str_ireplace(' ', '-', $this->getName());
 	}
 
