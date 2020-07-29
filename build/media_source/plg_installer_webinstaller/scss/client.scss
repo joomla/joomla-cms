@@ -68,10 +68,10 @@ $extension-types: (
     }
 
     .card-img, .card-img-top {
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
       height: 6rem;
       overflow: hidden;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
 
     .card-text {
@@ -80,8 +80,8 @@ $extension-types: (
     }
 
     .card-body {
+      padding: .5rem;
       cursor: pointer;
-      padding: .5rem
     }
   }
 
