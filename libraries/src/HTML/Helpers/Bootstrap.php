@@ -414,7 +414,7 @@ abstract class Bootstrap
 
 		static::$loaded[__METHOD__][$selector] = $opt;
 
-		return '<div id="' . $selector . '" class="accordion" role="tablist">';
+		return '<div id="' . $selector . '" class="accordion">';
 	}
 
 	/**
@@ -450,10 +450,10 @@ abstract class Bootstrap
 		$class     = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="card' . $class . '">'
-			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
+			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" id="link-' . $id . '">'
 			. $text
 			. '</a>'
-			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
+			. '<div class="collapse' . $in . '" id="' . $id . '" role="region" aria-labelledby="link-' . $id . '">'
 			. '<div class="card-body">';
 
 		return $html;
