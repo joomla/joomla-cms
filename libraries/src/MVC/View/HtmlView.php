@@ -508,15 +508,15 @@ class HtmlView extends AbstractView
 					if (!empty($template->parent))
 					{
 						// Parent template's overrides
-						$this->_addPath('template', JPATH_THEMES . "/$template->parent/html/$component/$name");
+						$this->_addPath('template', JPATH_THEMES . '/' . $template->parent . '/html/' . $component . '/' . $name);
 
 						// Child template's overrides
-						$this->_addPath('template', JPATH_THEMES . "/$template->template/html/$component/$name");
+						$this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
 
 						break;
 					}
 
-					$this->_addPath('template', JPATH_THEMES . "/$template->template/html/$component/$name");
+					$this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
 				}
 				break;
 		}
