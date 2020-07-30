@@ -27,6 +27,12 @@ $alert = [
 	'message'                     => 'success'
 ];
 
+// Load JavaScript message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
+
 // Alerts progressive enhancement
 Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')

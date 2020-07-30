@@ -70,7 +70,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="w-1 text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<th scope="row">
 									<?php if ($canEdit) : ?>
@@ -125,12 +125,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
-								<td class="d-none d-md-table-cell">
-									<label for="cb<?php echo $i; ?>" class="small">
-										<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
-											<?php echo ucfirst($this->escape($item->template)); ?>
-										</a>
-									</label>
+								<td class="small d-none d-md-table-cell">
+									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>">
+										<?php echo ucfirst($this->escape($item->template)); ?>
+									</a>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo (int) $item->id; ?>

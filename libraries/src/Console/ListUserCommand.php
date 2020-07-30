@@ -63,7 +63,7 @@ class ListUserCommand extends AbstractCommand
 
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName(['u.id', 'u.username', 'u.name', 'u.email', 'u.block']))
-			->select($query->groupConcat($db->quoteName('g.group_id')) . ' AS ' . $db->quoteName('groups'))
+			->select($query->groupConcat($query->castAs('CHAR', $db->quoteName('g.group_id'))) . ' AS ' . $db->quoteName('groups'))
 			->innerJoin($db->quoteName('#__user_usergroup_map', 'g'), $db->quoteName('g.user_id') . ' = ' . $db->quoteName('u.id'))
 			->from($db->quoteName('#__users', 'u'))
 			->group($db->quoteName('u.id'));
@@ -113,13 +113,10 @@ class ListUserCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('List all users');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command lists all users
+		$help = "<info>%command.name%</info> will list all users
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setDescription('List all users');
+		$this->setHelp($help);
 	}
 }
