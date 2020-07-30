@@ -42,7 +42,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   get searchPlaceholder() { return this.getAttribute('search-placeholder'); }
 
-  get value() {return this.choicesInstance.getValue(true); }
+  get value() { return this.choicesInstance.getValue(true); }
 
   set value($val) { this.choicesInstance.setChoiceByValue($val); }
 
@@ -125,7 +125,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       searchResultLimit: 10,
       shouldSort: false,
       fuseOptions: {
-        threshold: 0.3 // Strict search
+        threshold: 0.3, // Strict search
       },
       noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
       noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
@@ -133,8 +133,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
       // Redefine some classes
       classNames: {
-        button: 'choices__button_joomla' // It is need because an original styling use unavailable Icon.svg file
-      }
+        button: 'choices__button_joomla', // It is need because an original styling use unavailable Icon.svg file
+      },
     });
 
     // Handle typing of custom Term
@@ -237,8 +237,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
           label: event.target.value,
           selected: true,
           customProperties: {
-            value: event.target.value // Store real value, just in case
-          }
+            value: event.target.value, // Store real value, just in case
+          },
         }], 'value', 'label', false);
 
         this.choicesCache[event.target.value] = event.target.value;
