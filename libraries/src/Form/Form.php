@@ -1138,14 +1138,14 @@ class Form
 	 * will not be replaced if they already exist.
 	 *
 	 * @param   array    &$elements  The array of XML element object representations of the form fields.
-	 * @param   string    $group     The optional dot-separated form group path on which to set the fields.
-	 * @param   boolean   $replace   True to replace existing fields if they already exist.
-	 * @param   string    $fieldset  The name of the fieldset we are adding the field to.
+	 * @param   string   $group      The optional dot-separated form group path on which to set the fields.
+	 * @param   boolean  $replace    True to replace existing fields if they already exist.
+	 * @param   string   $fieldset   The name of the fieldset we are adding the field to.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @throws  \UnexpectedValueException
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function setFields(&$elements, $group = null, $replace = true, $fieldset = 'default')
 	{
