@@ -334,7 +334,7 @@ class TemplateAdapter extends InstallerAdapter
 					'0',
 					Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name)),
 					$this->extension->params,
-					intval($this->manifest->inheritable),
+					(int) $this->manifest->inheritable,
 					$this->manifest->parent ? $this->manifest->parent : '',
 				],
 				[
