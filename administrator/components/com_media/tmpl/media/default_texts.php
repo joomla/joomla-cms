@@ -61,6 +61,8 @@ Text::script('COM_MEDIA_TOGGLE_LIST_VIEW', true);
 Text::script('COM_MEDIA_TOGGLE_SELECT_ITEM', true);
 Text::script('COM_MEDIA_TOOLBAR_LABEL', true);
 Text::script('COM_MEDIA_UPLOAD_SUCCESS', true);
+Text::script('COM_MEDIA_FILE', true);
+Text::script('COM_MEDIA_FOLDER', true);
 Text::script('ERROR', true);
 Text::script('JACTION_CREATE', true);
 Text::script('JAPPLY', true);

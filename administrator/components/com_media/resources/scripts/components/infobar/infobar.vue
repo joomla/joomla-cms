@@ -12,7 +12,12 @@
                 <dd>{{ item.directory }}</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_TYPE') }}</dt>
-                <dd>{{ item.type || '-' }}</dd>
+                <dd v-if="item.type === 'file'">
+                  {{ translate('COM_MEDIA_FILE') }}</dd>
+                <dd v-else-if="item.type === 'dir'">
+                  {{ translate('COM_MEDIA_FOLDER') }}</dd>
+                <dd v-else>
+                  {{ '-' }}</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}</dt>
                 <dd>{{ item.create_date_formatted }}</dd>
