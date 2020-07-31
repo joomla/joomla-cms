@@ -167,11 +167,12 @@ body .container-main {
 }
 
 // extern links with icons
-a[target="_blank"]::before {
+a[target="_blank"]::after {
   font-family: "Font Awesome 5 Free";
   font-size: 14px;
   font-weight: 900;
   content: "\f35d";
+  padding-left: 5px;
 }
 
 #wrapper {
