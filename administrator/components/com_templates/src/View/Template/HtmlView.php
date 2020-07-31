@@ -263,10 +263,9 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add a Template preview button
-		$client = (int) $this->preview->client_id === 1 ? 'administrator/' : '';
-
 		if ($this->type === 'home')
 		{
+			$client = (int) $this->preview->client_id === 1 ? 'administrator/' : '';
 			$bar->linkButton('preview')
 				->icon('fas fa-image')
 				->text('COM_TEMPLATES_BUTTON_PREVIEW')
