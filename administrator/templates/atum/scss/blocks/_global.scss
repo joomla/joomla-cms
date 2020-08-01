@@ -168,11 +168,11 @@ body .container-main {
 
 // extern links with icons
 a[target="_blank"]::before {
+  padding-right: 3px;
   font-family: "Font Awesome 5 Free";
   font-size: 14px;
   font-weight: 900;
   content: "\f35d";
-  padding-right: 3px;
 }
 
 #wrapper {
