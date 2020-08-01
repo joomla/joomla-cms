@@ -141,12 +141,9 @@
       &.quickicon-icon {
         margin: .8rem auto 0;
 
-        &.big {
-
-          .fas,
-          .fab {
-            font-size: $quickicon-icon-size-big;
-          }
+        &.big .fas,
+        &.big .fab {
+          font-size: $quickicon-icon-size-big;
         }
       }
     }
@@ -188,11 +185,9 @@
         color: var(--white);
         background: var(--danger);
 
-        .fas,
-        .fab {
-          &::before {
-            color: var(--white);
-          }
+        .fas::before,
+        .fab::before {
+          color: var(--white);
         }
       }
     }
@@ -203,24 +198,20 @@
 
       .fas,
       .fab {
-        color: var(--success);
+        color: transparent;
         background: linear-gradient(var(--success), #159c1e);
         background-clip: text;
-        color: transparent;
       }
 
       @include hover-focus-active {
         color: var(--white);
         background: var(--success);
 
-        .fas,
-        .fab {
-          &::before {
-            color: var(--white);
-            background: linear-gradient($white, lighten($green, 40%));
-            background-clip: text;
-            color: transparent;
-          }
+        .fas::before,
+        .fab::before {
+          color: transparent;
+          background: linear-gradient($white, lighten($green, 40%));
+          background-clip: text;
         }
       }
     }
