@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -225,12 +225,17 @@
    * @since   4.0.0
    */
   function setDesktop() {
+    const sidebarNav = doc.querySelector('.sidebar-nav');
+    const subhead = doc.querySelector('.subhead');
     const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
     if (!sidebarWrapper) {
       changeLogo('closed');
     } else {
       changeLogo();
     }
+
+    if (sidebarNav) sidebarNav.classList.remove('collapse');
+    if (subhead) subhead.classList.remove('collapse');
 
     toggleArrowIcon('top');
   }
@@ -284,8 +289,8 @@
       if (!navigator.cookieEnabled) {
         Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
       }
-      window.addEventListener('joomla:menu-toggle', (event) => {
-        changeLogo(event.detail);
+      window.addEventListener('joomla:menu-toggle', ({ detail }) => {
+        changeLogo(detail);
       });
     }
   });

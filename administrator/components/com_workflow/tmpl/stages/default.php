@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -26,8 +26,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrderingUrl = '';
 
 $saveOrder = ($listOrder == 's.ordering');
-
-$isCore = $this->workflow->core;
 
 if ($saveOrder)
 {
@@ -56,29 +54,28 @@ if ($saveOrder)
 				<?php else: ?>
 					<table class="table">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_WORKFLOW_STAGES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_WORKFLOW_STAGES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center d-none d-md-table-cell">
+								<td class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 's.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
+								<th scope="col" class="w-1 text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-1 text-center">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_CONDITION', 's.condition', $listDirn, $listOrder); ?>
-								</th>
-								<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-1 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 's.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -88,8 +85,9 @@ if ($saveOrder)
 								$edit = Route::_('index.php?option=com_workflow&task=stage.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.stage.' . $item->id);
-								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || $item->checked_out == 0;
-								$canChange  = $user->authorise('core.edit.stage', $this->extension . '.stage.' . $item->id) && $canCheckin;
+								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || is_null($item->checked_out);
+								$canChange  = $user->authorise('core.edit.state', $this->extension . '.stage.' . $item->id) && $canCheckin;
+
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">
@@ -114,7 +112,7 @@ if ($saveOrder)
 											<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 										<?php endif; ?>									</td>
 									<td class="text-center">
-										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange && !$isCore); ?>
+										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange); ?>
 									</td>
 									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
@@ -123,8 +121,8 @@ if ($saveOrder)
 										<?php if ($item->checked_out) : ?>
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'stages.', $canCheckin); ?>
 										<?php endif; ?>
-										<?php if ($canEdit && !$isCore) : ?>
-											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
+										<?php if ($canEdit) : ?>
+											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(Text::_($item->title)); ?>">
 												<?php echo $this->escape(Text::_($item->title)); ?>
 											</a>
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
@@ -133,21 +131,6 @@ if ($saveOrder)
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php endif; ?>
 									</th>
-									<td class="nowrap">
-										<?php
-											if ($item->condition == 'JARCHIVED'):
-												$icon = 'icon-archive';
-											elseif ($item->condition == 'JTRASHED'):
-												$icon = 'icon-trash';
-											elseif ($item->condition == 'JPUBLISHED'):
-												$icon = 'icon-publish';
-											elseif ($item->condition == 'JUNPUBLISHED'):
-												$icon = 'icon-unpublish';
-											endif;
-										?>
-										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-										<?php echo Text::_($item->condition); ?>
-									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo (int) $item->id; ?>
 									</td>

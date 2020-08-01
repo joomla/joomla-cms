@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class InstalledModel extends ListModel
 	protected $user = null;
 
 	/**
-	 * @var boolean|\JExeption True, if FTP settings should be shown, or an exeption
+	 * @var boolean|\JExeption True, if FTP settings should be shown, or an exception
 	 */
 	protected $ftp = null;
 
@@ -222,7 +222,7 @@ class InstalledModel extends ListModel
 					$row->authorEmail  = $lang->manifest['authorEmail'];
 					$row->version      = $lang->manifest['version'];
 					$row->published    = $defaultLanguage === $row->language ? 1 : 0;
-					$row->checked_out  = 0;
+					$row->checked_out  = null;
 
 					// Fix wrongly set parentheses in RTL languages
 					if ($isCurrentLanguageRtl)

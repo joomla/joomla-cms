@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field 
-			name="lang_id" 
+		<field
+			name="lang_id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
@@ -75,6 +75,7 @@
 			class="custom-select-color-state"
 			default="1"
 			size="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>

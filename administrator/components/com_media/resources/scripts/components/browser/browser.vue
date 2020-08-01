@@ -107,6 +107,22 @@
                 const clickedOutside = notClickedBrowserItems && notClickedInfobar && !clickedDelete;
                 if (clickedOutside) {
                     this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+
+                    window.parent.document.dispatchEvent(
+                        new CustomEvent(
+                            'onMediaFileSelected',
+                            {
+                                "bubbles": true,
+                                "cancelable": false,
+                                "detail": {
+                                    path: '',
+                                    thumb: false,
+                                    fileType: false,
+                                    extension: false,
+                                }
+                            }
+                        )
+                    );
                 }
             },
 

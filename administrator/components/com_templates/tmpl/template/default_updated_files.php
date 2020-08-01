@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,13 +26,13 @@ $input = Factory::getApplication()->input;
 					<table class="table">
 						<thead>
 							<tr>
-								<td style="width:5%" class="text-center">
+								<td class="w-5 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:7%">
+								<th scope="col" class="w-7">
 									<?php echo Text::_('COM_TEMPLATES_OVERRIDE_CHECKED'); ?>
 								</th>
-								<th scope="col" style="width:30%">
+								<th scope="col" class="w-30">
 									<?php echo Text::_('COM_TEMPLATES_OVERRIDE_TEMPLATE_FILE'); ?>
 								</th>
 								<th scope="col">

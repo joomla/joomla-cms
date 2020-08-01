@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document, Joomla) => {
@@ -36,7 +36,7 @@
               } else if (response.data) {
                 const elem = document.createElement('span');
 
-                elem.classList.add('pull-right');
+                elem.classList.add('float-right');
                 elem.classList.add('badge');
                 elem.classList.add('badge-warning');
                 elem.innerHTML = response.data;

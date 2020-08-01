@@ -62,7 +62,6 @@
       "type": "preset",
       "dependencies": [
         "core#script",
-        "css-vars-ponyfill#script",
         "focus-visible#script",
         "template.atum#script"
       ]

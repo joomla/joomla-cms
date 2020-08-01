@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.HttpHeaders
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,6 +78,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
+		'cross-origin-opener-policy',
 	];
 
 	/**
@@ -225,9 +226,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$this->setStaticHeaders();
 
 		// Handle CSP Header configuration
-		$cspOptions = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
+		$cspEnabled = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
+		$cspClient  = (string) $this->comCspParams->get('contentsecuritypolicy_client', 'site');
 
-		if ($cspOptions)
+		// Check whether CSP is enabled and enabled by the current client
+		if ($cspEnabled && ($this->app->isClient($cspClient) || $cspClient === 'both'))
 		{
 			$this->setCspHeader();
 		}
@@ -473,6 +476,14 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		if ($referrerPolicy !== 'disabled')
 		{
 			$staticHeaderConfiguration['referrer-policy#both'] = $referrerPolicy;
+		}
+
+		// Cross-Origin-Opener-Policy
+		$coop = (string) $this->params->get('coop', 'same-origin');
+
+		if ($coop !== 'disabled')
+		{
+			$staticHeaderConfiguration['cross-origin-opener-policy#both'] = $coop;
 		}
 
 		// Generate the strict-transport-security header

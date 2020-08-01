@@ -9,11 +9,6 @@ ul {
 
 .close {
   float: left;
-
-  .notify-alerts & {
-    right: auto;
-    left: -.5rem;
-  }
 }
 
 .dropdown-menu-right {
@@ -33,18 +28,10 @@ ul {
   float: right;
 }
 
-// Alerts
-.notify-alerts {
-  margin-left: 0;
-
-  .closed & {
-    margin-right: 0;
-  }
-}
-
 // Header
 .header {
-  .page-title [class^='icon-'] {
+  .page-title [class^="icon-"],
+  .page-title [class^="fa-"] {
     margin-right: 0;
     margin-left: 15px;
   }
@@ -82,7 +69,7 @@ ul {
   }
 }
 
-.sidebar-wrapper[data-hidden='1'] ~ .status {
+.sidebar-wrapper[data-hidden="1"] ~ .status {
   margin-right: 0;
 }
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,6 +63,14 @@ abstract class AbstractMenu
 	protected $user;
 
 	/**
+	 * Flag for checking if the menu items have been loaded
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	private $itemsLoaded = false;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  An array of configuration options.
@@ -71,17 +79,6 @@ abstract class AbstractMenu
 	 */
 	public function __construct($options = array())
 	{
-		// Load the menu items
-		$this->load();
-
-		foreach ($this->getMenu() as $item)
-		{
-			if ($item->home)
-			{
-				$this->default[trim($item->language)] = $item->id;
-			}
-		}
-
 		$this->user = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : Factory::getUser();
 	}
 
@@ -166,14 +163,17 @@ abstract class AbstractMenu
 	 */
 	public function getDefault($language = '*')
 	{
+		// Get menu items first to ensure defaults have been populated
+		$items = $this->getMenu();
+
 		if (\array_key_exists($language, $this->default))
 		{
-			return $this->getMenu()[$this->default[$language]];
+			return $items[$this->default[$language]];
 		}
 
 		if (\array_key_exists('*', $this->default))
 		{
-			return $this->getMenu()[$this->default['*']];
+			return $items[$this->default['*']];
 		}
 	}
 
@@ -301,6 +301,21 @@ abstract class AbstractMenu
 	 */
 	public function getMenu()
 	{
+		if (!$this->itemsLoaded)
+		{
+			$this->load();
+
+			foreach ($this->items as $item)
+			{
+				if ($item->home)
+				{
+					$this->default[trim($item->language)] = $item->id;
+				}
+			}
+
+			$this->itemsLoaded = true;
+		}
+
 		return $this->items;
 	}
 

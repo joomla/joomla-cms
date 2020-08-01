@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 <?php echo LayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
 <div class="item-content">
-	<?php if ($this->item->stage_condition == ContentComponent::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
+	<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
 		|| (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
 		<div class="system-unpublished">
 	<?php endif; ?>
@@ -86,7 +86,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php endif; ?>
 
-	<?php if ($this->item->stage_condition == ContentComponent::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
+	<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
 		|| (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
 	</div>
 	<?php endif; ?>

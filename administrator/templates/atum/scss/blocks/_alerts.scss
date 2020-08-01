@@ -31,14 +31,10 @@
   }
 }
 
-// Contains joomla-alert webcomponent with its own css
-.notify-alerts {
-  position: fixed;
-  top: 15px;
-  left: 50%;
-  z-index: $zindex-alerts;
-  transition: all .5s ease;
-  transform: translateX(-50%);
+fieldset .alert {
+  &.alert-info {
+    margin: -1rem 0 1rem;
+  }
 }
 
 .alert-heading {
@@ -46,7 +42,6 @@
 }
 
 @keyframes fadeIn {
-
   from {
     opacity: 0;
     transform: translateY(-15px);

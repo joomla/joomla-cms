@@ -2,7 +2,6 @@
 
 .table {
 
-
   thead {
 
     th {
@@ -11,7 +10,6 @@
 
     th,
     td {
-      padding: 1rem;
       font-weight: $font-weight-normal;
       color: var(--atum-link-color);
       white-space: nowrap;
@@ -28,7 +26,7 @@
       color: var(--atum-link-color);
 
       &#sorted {
-        font-weight: 500;
+        font-weight: $medium-weight;
         color: $gray-800;
       }
     }
@@ -60,14 +58,12 @@
     }
 
     th {
-      font-weight: 500;
+      font-weight: $medium-weight;
     }
   }
 
   th,
   td {
-    padding: 1rem;
-
     label {
       margin-bottom: 0;
     }

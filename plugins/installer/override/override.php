@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.override
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -130,10 +130,15 @@ class PlgInstallerOverride extends CMSPlugin
 
 		$after  = $session->get('override.afterEventFiles');
 		$before = $session->get('override.beforeEventFiles');
+		$result = array();
+
+		if (!is_array($after) || !is_array($before))
+		{
+			return $result;
+		}
+
 		$size1  = count($after);
 		$size2  = count($before);
-
-		$result = array();
 
 		if ($size1 === $size2)
 		{
@@ -175,7 +180,7 @@ class PlgInstallerOverride extends CMSPlugin
 	/**
 	 * Last process of this plugin.
 	 *
-	 * @param   array  $result  Result aray.
+	 * @param   array  $result  Result array.
 	 *
 	 * @return  void
 	 *
@@ -187,7 +192,7 @@ class PlgInstallerOverride extends CMSPlugin
 
 		if ($num != 0)
 		{
-			$this->app->enqueueMessage(Text::plural('PLG_INSTALLER_N_OVERRIDE_FILE_UPDATED', $num), 'notice');
+			$this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num), 'notice');
 			$this->saveOverrides($result);
 		}
 

@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -43,10 +43,11 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- *
  * @var   string   $userName        The user name
  * @var   mixed    $groups          The filtering groups (null means no filtering)
  * @var   mixed    $excluded        The users to exclude from the list of users
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 if (!$readonly)
@@ -110,7 +111,7 @@ if (!$readonly)
 		input-name=".field-user-input-name"
 		button-select=".button-select">
 	<div class="input-group">
-		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
+		<input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?>	 readonly>
 		<?php if (!$readonly) : ?>
 			<span class="input-group-append">
 				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
@@ -122,7 +123,7 @@ if (!$readonly)
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
 	<?php if (!$readonly) : ?>
-		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $value; ?>"
+		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"
 			class="field-user-input <?php echo $class ? (string) $class : ''?>"
 			data-onchange="<?php echo $this->escape($onchange); ?>">
 		<?php echo HTMLHelper::_(

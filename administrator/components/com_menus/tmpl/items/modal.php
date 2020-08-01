@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,8 +24,9 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_menus.admin-items-modal');
 
 $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');
@@ -42,9 +43,8 @@ if (!empty($editor))
 }
 ?>
 <div class="container-popup">
-	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
-
-		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
@@ -54,11 +54,13 @@ if (!empty($editor))
 		<?php else : ?>
 			<table class="table table-sm">
 				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="text-center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
@@ -67,16 +69,16 @@ if (!empty($editor))
 						<th scope="col" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
+						<th scope="col" class="w-5 text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-15 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-1 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -140,12 +142,12 @@ if (!empty($editor))
 						<td class="text-center d-none d-md-table-cell">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
-									<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>
+									<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && false && !$item->protected, 'cb', null, 'home', 'circle'); ?>
 								<?php else : ?>
 									<?php if ($item->language_image) : ?>
 										<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 									<?php else : ?>
-										<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+										<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
 									<?php endif; ?>
 								<?php endif; ?>
 							<?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,14 +14,22 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.core');
+// Load JavaScript message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
+
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
 Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
 Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
-HTMLHelper::_('stylesheet', 'com_installer/installer.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'com_installer/installer.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core')
+	->usePreset('com_installer.installer')
+	->useScript('webcomponent.core-loader');
 
 $app = Factory::getApplication();
 ?>

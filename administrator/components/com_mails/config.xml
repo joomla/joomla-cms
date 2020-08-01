@@ -9,6 +9,7 @@
 			type="list"
 			label="COM_MAILS_FIELD_MAIL_STYLE_LABEL"
 			default="plaintext"
+			validate="options"
 			>
 			<option value="plaintext">COM_MAILS_FIELD_OPTION_PLAINTEXT</option>
 			<option value="html">COM_MAILS_FIELD_OPTION_HTML</option>

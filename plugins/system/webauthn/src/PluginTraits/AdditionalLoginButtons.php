@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -144,15 +144,16 @@ trait AdditionalLoginButtons
 
 		// Set up the JavaScript callback
 		$url = $uri->toString();
-		$onClick = "return plgSystemWebauthnLogin('{$form}', '{$url}')";
 
 		return [
 			[
-				'label'   => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
-				'onclick' => $onClick,
-				'id'      => $randomId,
-				'image'   => 'plg_system_webauthn/webauthn-black.png',
-				'class'   => 'plg_system_webauthn_login_button',
+				'label'              => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
+				'tooltip'            => 'PLG_SYSTEM_WEBAUTHN_LOGIN_DESC',
+				'id'                 => $randomId,
+				'data-webauthn-form' => $form,
+				'data-webauthn-url'  => $url,
+				'image'              => 'plg_system_webauthn/webauthn-black.png',
+				'class'              => 'plg_system_webauthn_login_button',
 			],
 		];
 	}

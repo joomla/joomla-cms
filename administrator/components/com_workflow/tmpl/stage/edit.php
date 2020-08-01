@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,7 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
 $app   = Factory::getApplication();
+$user  = $app->getIdentity();
 $input = $app->input;
 
 // In case of modal
@@ -39,7 +40,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<div class="col-lg-9">
 			<div class="card card-block">
 				<div class="card-body">
-				<?php echo $this->form->renderField('condition'); ?>
 				<?php echo $this->form->renderField('description'); ?>
 				</div>
 			</div>
@@ -56,6 +56,16 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		</div>
 	</div>
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+
+	<?php if ($user->authorise('core.admin', $this->extension)) : ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_WORKFLOW_RULES_TAB')); ?>
+		<fieldset id="fieldset-rules" class="options-form">
+			<legend><?php echo Text::_('COM_WORKFLOW_RULES_TAB'); ?></legend>
+			<?php echo $this->form->getInput('rules'); ?>
+		</fieldset>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+	<?php endif; ?>
 
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 

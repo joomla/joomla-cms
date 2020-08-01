@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -23,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class Category extends Nested
+class Category extends Nested implements VersionableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -276,5 +277,17 @@ class Category extends Nested
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypeAlias()
+	{
+		return $this->extension . '.category';
 	}
 }

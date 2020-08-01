@@ -16,6 +16,10 @@
     margin-left: 0;
   }
 
+  &.noshadow {
+    box-shadow: none;
+  }
+
   joomla-toolbar-button,
   .btn-group {
     margin-inline-start: .75rem;
@@ -35,7 +39,6 @@
 
   .btn {
     --subhead-btn-accent: var(--atum-text-dark);
-
     padding: 0 1rem;
     margin: 5px 0;
     font-size: 1rem;
@@ -52,12 +55,12 @@
     &:not([disabled]):hover,
     &:not([disabled]):active,
     &:not([disabled]):focus {
-      color: rgba(255, 255, 255, .90);
+      color: rgba(255, 255, 255, .9);
       background-color: var(--subhead-btn-accent);
       border-color: var(--subhead-btn-accent);
 
       > span {
-        color: rgba(255, 255, 255, .90);
+        color: rgba(255, 255, 255, .9);
       }
     }
 
@@ -70,15 +73,15 @@
     }
 
     &.btn-primary {
-      --subhead-btn-accent: var(--info);
-    }
-
-    &.btn-secondary {
       --subhead-btn-accent: var(--atum-link-color);
     }
 
+    &.btn-secondary {
+      --subhead-btn-accent: var(--atum-special-color);
+    }
+
     &.btn-info {
-      --subhead-btn-accent: var(--info);
+      --subhead-btn-accent: var(--atum-bg-dark);
     }
 
     &.btn-action {
@@ -89,8 +92,10 @@
       &::after {
         width: 2.375rem;
         font-family: "Font Awesome 5 Free";
+        font-weight: 900;
         content: "\f078";
         border: 0;
+
       }
     }
 
@@ -147,7 +152,7 @@
     }
 
     .toggler-toolbar-icon::before {
-      font: normal normal normal 30px/1 'Font Awesome 5 Free';
+      font: normal normal 900 30px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
       content: "\f00d";
     }

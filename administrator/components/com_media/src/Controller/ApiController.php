@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -275,7 +275,7 @@ class ApiController extends BaseController
 			$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
 		}
 
-		if ($newPath != null)
+		if ($newPath != null && $newPath !== $adapter . ':' . $path)
 		{
 			list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
 
