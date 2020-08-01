@@ -134,7 +134,7 @@ trait LegacyModelLoaderTrait
 	 *
 	 * @return  ModelInterface|null   A ModelInterface instance or null on failure
 	 *
-	 * @since       __DEPLOY_VERSION__
+	 * @since       4.0.0
 	 * @deprecated  5.0 See getInstance
 	 */
 	private static function createModelFromComponent($type, $prefix = '', $config = []) : ?ModelInterface

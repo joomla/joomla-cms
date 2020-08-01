@@ -8,10 +8,10 @@
     }
   }
   input:focus ~ .toggle-outside {
-      border-color: $focuscolor;
-      box-shadow: $focusshadow;
-    }
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
   }
-  .disabled {
-	  opacity: $btn-disabled-opacity;
-  }
+}
+.disabled {
+  opacity: $btn-disabled-opacity;
+}
