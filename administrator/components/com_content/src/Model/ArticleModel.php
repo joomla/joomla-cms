@@ -363,7 +363,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Reorder the articles within the category so the new article is first
 		if (empty($table->id))
 		{
-			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
+			$table->ordering = $table->getNextOrder('catid = ' . (int) $table->catid);
 		}
 	}
 
@@ -970,6 +970,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				// Featuring.
 				if ($newFeatured)
 				{
+					$ordering = $table->getNextOrder();
+	
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
 						->columns(
@@ -990,7 +992,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 					foreach ($newFeatured as $pk)
 					{
-						$query->values(implode(',', $query->bindArray([$pk, 0, $featuredUp, $featuredDown], $dataTypes)));
+						$query->values(implode(',', $query->bindArray([$pk, $ordering, $featuredUp, $featuredDown], $dataTypes)));
+						$ordering++;
 					}
 
 					$db->setQuery($query);
@@ -1004,8 +1007,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 			return false;
 		}
-
-		$table->reorder();
 
 		// Trigger the change state event.
 		Factory::getApplication()->getDispatcher()->dispatch(
