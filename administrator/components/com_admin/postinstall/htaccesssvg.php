@@ -13,7 +13,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Notifies users of a change in the default .htaccess file regarding hardeneing against XSS in SVG's
+ * Notifies users of a change in the default .htaccess file regarding hardening against XSS in SVG's
  *
  * This check returns true regardless of condition.
  *
