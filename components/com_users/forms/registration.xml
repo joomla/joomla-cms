@@ -61,7 +61,6 @@
 			name="email1"
 			type="email"
 			label="COM_USERS_REGISTER_EMAIL1_LABEL"
-			description="COM_USERS_REGISTER_EMAIL1_DESC"
 			field="id"
 			filter="string"
 			required="true"
@@ -76,7 +75,6 @@
 			name="captcha"
 			type="captcha"
 			label="COM_USERS_CAPTCHA_LABEL"
-			description="COM_USERS_CAPTCHA_DESC"
 			validate="captcha"
 		/>
 	</fieldset>
