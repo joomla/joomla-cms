@@ -99,6 +99,7 @@
 			id="db_name"
 			class="form-control"
 			required="true"
+			pattern="[\\\\\/\.]|(?!^[a-zA-Z_][0-9a-zA-Z_$]*$)"
 			default="joomla_db"
 		/>
 	</fieldset>
