@@ -188,6 +188,7 @@ CREATE INDEX "#__content_idx_createdby" ON "#__content" ("created_by");
 CREATE INDEX "#__content_idx_featured_catid" ON "#__content" ("featured", "catid");
 CREATE INDEX "#__content_idx_language" ON "#__content" ("language");
 CREATE INDEX "#__content_idx_alias" ON "#__content" ("alias");
+CREATE INDEX "#__content_idx_catid_ordering" ON "#__content" ("catid", "ordering");
 
 COMMENT ON COLUMN "#__content"."asset_id" IS 'FK to the #__assets table.';
 COMMENT ON COLUMN "#__content"."featured" IS 'Set if article is featured.';
@@ -205,6 +206,7 @@ CREATE TABLE IF NOT EXISTS "#__content_frontpage" (
   "featured_down" timestamp without time zone,
   PRIMARY KEY ("content_id")
 );
+CREATE INDEX "#__content_frontpage_idx_ordering" ON "#__content_frontpage" ("ordering");
 
 --
 -- Table structure for table `#__content_rating`
