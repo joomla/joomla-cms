@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for notifying users of a change
- * in the default .htaccess file regarding hardeneing against XSS in SVG's
+ * in the default .htaccess file regarding hardening against XSS in SVG's
  */
 
 defined('_JEXEC') or die;
