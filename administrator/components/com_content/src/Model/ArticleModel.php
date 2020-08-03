@@ -971,7 +971,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				if ($newFeatured)
 				{
 					$ordering = $table->getNextOrder();
-	
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
 						->columns(
