@@ -22,6 +22,7 @@ steps:
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
+      - apt install patch
       - patch -N -p0 < tests/patch/phpunit8_php8_match.patch
 
   - name: phpcs
@@ -311,6 +312,6 @@ steps:
 
 ---
 kind: signature
-hmac: cf728f713878187aae69144e5ae6fbd1d6c15b17e9fb566d1382bdeec7ced530
+hmac: 1b6942dd40a9ec1a3a6108434e366070271988239a4588cfc17302a6b14d7ee1
 
 ...
