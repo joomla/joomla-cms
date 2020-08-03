@@ -22,7 +22,7 @@ steps:
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
-      - apt install patch
+      - apk add patch
       - patch -N -p0 < tests/patch/phpunit8_php8_match.patch
 
   - name: phpcs
