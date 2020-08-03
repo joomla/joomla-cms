@@ -22,6 +22,7 @@ steps:
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
+      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -310,6 +311,6 @@ steps:
 
 ---
 kind: signature
-hmac: 37718821f191b74969e24a3b288dfa131d01daa57d83a10246de58269a587473
+hmac: cf728f713878187aae69144e5ae6fbd1d6c15b17e9fb566d1382bdeec7ced530
 
 ...
