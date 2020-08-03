@@ -318,9 +318,10 @@ class FieldsHelper
 
 			if (!$assignedCatids)
 			{
+				// Choose the first category available
 				$catOptions = $formField->options;
 
-				if (!empty($catOptions[0]->value))
+				if ($catOptions && !empty($catOptions[0]->value))
 				{
 					$assignedCatids = (int) $catOptions[0]->value;
 				}
