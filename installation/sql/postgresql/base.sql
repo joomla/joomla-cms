@@ -1184,4 +1184,4 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 (6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}'),
 (7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}');
 
-SELECT setval('#__workflow_transitions_id_seq', 7, false);
+SELECT setval('#__workflow_transitions_id_seq', 8, false);
