@@ -469,6 +469,7 @@ class ArticlesModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
+				// change up for ext. searches
 				$search = (int) substr($search, 3);
 				$query->where($db->quoteName('a.id') . ' = :search')
 					->bind(':search', $search, ParameterType::INTEGER);
