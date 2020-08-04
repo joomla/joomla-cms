@@ -16,6 +16,7 @@
     .menu-dashboard,
     .menu-quicktask {
       color: var(--atum-sidebar-link-color);
+      text-decoration: none;
 
       &:hover {
         color: var(--atum-text-light);
