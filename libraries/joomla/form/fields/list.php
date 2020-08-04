@@ -46,7 +46,7 @@ class JFormFieldList extends JFormField
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1' || (string) $this->disabled == 'true')
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
 		{
 			$attr .= ' disabled="disabled"';
 		}
@@ -81,7 +81,7 @@ class JFormFieldList extends JFormField
 			}
 		}
 		else
-			// Create a regular list passing the arguments in an array.
+		// Create a regular list passing the arguments in an array.
 		{
 			$listoptions = array();
 			$listoptions['option.key'] = 'value';
@@ -108,7 +108,7 @@ class JFormFieldList extends JFormField
 	protected function getOptions()
 	{
 		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-		$options = array();
+		$options   = array();
 
 		foreach ($this->element->xpath('option') as $option)
 		{
@@ -141,7 +141,7 @@ class JFormFieldList extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$text = trim((string) $option) != '' ? trim((string) $option) : $value;
+			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
@@ -154,16 +154,16 @@ class JFormFieldList extends JFormField
 			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
 
 			$tmp = array(
-				'value'    => $value,
-				'text'     => JText::alt($text, $fieldname),
-				'disable'  => $disabled,
-				'class'    => (string) $option['class'],
-				'selected' => ($checked || $selected),
-				'checked'  => ($checked || $selected),
+					'value'    => $value,
+					'text'     => JText::alt($text, $fieldname),
+					'disable'  => $disabled,
+					'class'    => (string) $option['class'],
+					'selected' => ($checked || $selected),
+					'checked'  => ($checked || $selected),
 			);
 
 			// Set some event handler attributes. But really, should be using unobtrusive js.
-			$tmp['onclick'] = (string) $option['onclick'];
+			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
 
 			if ((string) $option['showon'])
@@ -171,7 +171,7 @@ class JFormFieldList extends JFormField
 				$tmp['optionattr'] = " data-showon='" .
 					json_encode(
 						JFormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
-					)
+						)
 					. "'";
 			}
 			// Add the option object to the result set.
@@ -180,42 +180,52 @@ class JFormFieldList extends JFormField
 
 		if ($this->element['useglobal'])
 		{
-			$tmp = new stdClass;
+			$tmp        = new stdClass;
 			$tmp->value = '';
-			$tmp->text = JText::_('JGLOBAL_USE_GLOBAL');
-			$component = (string) $this->element['useglobal'];
-			if (in_array(strtolower($component), array('yes', 'true')))
+			$tmp->text  = JText::_('JGLOBAL_USE_GLOBAL');
+			$component = JFactory::getApplication()->input->getCmd('option');
+
+			$formName = $this->form->getName();
+			if (substr($formName, 0, 8) === 'subform.')
 			{
-				$component = JFactory::getApplication()->input->getCmd('option');
+				$form = $this->form->getFormParent();
+				$prefix = substr($formName, 8);
+				$formGroup = $this->form->getFormParentGroup();
+				if (!empty($formGroup)){
+					$prefix = substr($prefix, strlen($formGroup)+1);
+				}
+				if (!empty($prefix))
+				{
+					$prefix .= '.';
+				}
 			}
+			else
+			{
+				$form = $this->form;
+				$prefix = '';
+			}
+
 			// Get correct component for menu items
 			if ($component == 'com_menus')
 			{
-				if ($this->subformPrefix === '')
-				{
-					$link = $this->form->getData()->get('link');
-				}
-				else
-				{
-					$link = $this->subformParentTop->getData()->get('link');
-				}
+				$link = $form->getData()->get('link');
 				$uri = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
 
 			$params = JComponentHelper::getParams($component);
-			$value = $params->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+			$value = $params->get($prefix . $this->fieldname);
 
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = JFactory::getConfig()->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+				$value = JFactory::getConfig()->get($prefix . $this->fieldname);
 			}
 
 			// Try with menu configuration
 			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
-				$value = JComponentHelper::getParams('com_menus')->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+				$value = JComponentHelper::getParams('com_menus')->get($prefix . $this->fieldname);
 			}
 
 			if (!is_null($value))
