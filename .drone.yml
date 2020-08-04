@@ -23,7 +23,7 @@ steps:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
       - apk add patch
-      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch
+      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -312,6 +312,6 @@ steps:
 
 ---
 kind: signature
-hmac: 763286a206429d8304a8cdedd46c176f92d9307a73c1b4d3eb17321c65f2b0b0
+hmac: 413db223fcb4ced2a650d336799dcca6920a1b3b7f2a89bf4a5e0d48b0755c99
 
 ...
