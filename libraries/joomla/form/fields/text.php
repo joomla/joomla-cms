@@ -173,14 +173,15 @@ class JFormFieldText extends JFormField
 		if ($this->element['useglobal'])
 		{
 			$component = JFactory::getApplication()->input->getCmd('option');
-			$formName = $this->form->getName();
+			$formName  = $this->form->getName();
 			if (substr($formName, 0, 8) === 'subform.')
 			{
-				$form = $this->form->getFormParent();
-				$prefix = substr($formName, 8);
+				$form      = $this->form->getFormParent();
+				$prefix    = substr($formName, 8);
 				$formGroup = $this->form->getFormParentGroup();
-				if (!empty($formGroup)){
-					$prefix = substr($prefix, strlen($formGroup)+1);
+				if (!empty($formGroup))
+				{
+					$prefix = substr($prefix, strlen($formGroup) + 1);
 				}
 				if (!empty($prefix))
 				{
@@ -189,7 +190,7 @@ class JFormFieldText extends JFormField
 			}
 			else
 			{
-				$form = $this->form;
+				$form   = $this->form;
 				$prefix = '';
 			}
 			// Get correct component for menu items
