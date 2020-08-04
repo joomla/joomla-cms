@@ -145,41 +145,47 @@ class JFormFieldNumber extends JFormField
 	{
 		if ($this->element['useglobal'])
 		{
-
-			$component  = (string) $this->element['useglobal'];
-			if (in_array(strtolower($component), array('yes', 'true')))
+			$component = JFactory::getApplication()->input->getCmd('option');
+			$formName = $this->form->getName();
+			if (substr($formName, 0, 8) === 'subform.')
 			{
-				$component = JFactory::getApplication()->input->getCmd('option');
+				$form = $this->form->getFormParent();
+				$prefix = substr($formName, 8);
+				$formGroup = $this->form->getFormParentGroup();
+				if (!empty($formGroup)){
+					$prefix = substr($prefix, strlen($formGroup)+1);
+				}
+				if (!empty($prefix))
+				{
+					$prefix .= '.';
+				}
 			}
-
+			else
+			{
+				$form = $this->form;
+				$prefix = '';
+			}
 			// Get correct component for menu items
 			if ($component == 'com_menus')
 			{
-				if ($this->subformPrefix === '')
-				{
-					$link = $this->form->getData()->get('link');
-				}
-				else
-				{
-					$link = $this->subformParentTop->getData()->get('link');
-				}
+				$link      = $form->getData()->get('link');
 				$uri       = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
 
 			$params = JComponentHelper::getParams($component);
-			$value  = $params->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+			$value  = $params->get($prefix.$this->fieldname);
 
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = JFactory::getConfig()->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+				$value = JFactory::getConfig()->get($prefix.$this->fieldname);
 			}
 
 			// Try with menu configuration
 			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
-				$value = JComponentHelper::getParams('com_menus')->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+				$value = JComponentHelper::getParams('com_menus')->get($prefix.$this->fieldname);
 			}
 
 			if (!is_null($value))
