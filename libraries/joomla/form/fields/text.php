@@ -99,7 +99,7 @@ class JFormFieldText extends JFormField
 				break;
 
 			case 'dirname':
-				$value         = (string) $value;
+				$value = (string) $value;
 				$this->dirname = ($value == $name || $value == 'true' || $value == '1');
 				break;
 
@@ -133,11 +133,11 @@ class JFormFieldText extends JFormField
 		if ($result == true)
 		{
 			$inputmode = (string) $this->element['inputmode'];
-			$dirname   = (string) $this->element['dirname'];
+			$dirname = (string) $this->element['dirname'];
 
 			$this->inputmode = '';
-			$inputmode       = preg_replace('/\s+/', ' ', trim($inputmode));
-			$inputmode       = explode(' ', $inputmode);
+			$inputmode = preg_replace('/\s+/', ' ', trim($inputmode));
+			$inputmode = explode(' ', $inputmode);
 
 			if (!empty($inputmode))
 			{
@@ -152,7 +152,7 @@ class JFormFieldText extends JFormField
 			}
 
 			// Set the dirname.
-			$dirname       = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
+			$dirname = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
 			$this->maxLength = (int) $this->element['maxlength'];
@@ -172,40 +172,47 @@ class JFormFieldText extends JFormField
 	{
 		if ($this->element['useglobal'])
 		{
-			$component  = (string) $this->element['useglobal'];
-			if (in_array(strtolower($component), array('yes', 'true')))
+			$component = JFactory::getApplication()->input->getCmd('option');
+			$formName = $this->form->getName();
+			if (substr($formName, 0, 8) === 'subform.')
 			{
-				$component = JFactory::getApplication()->input->getCmd('option');
+				$form = $this->form->getFormParent();
+				$prefix = substr($formName, 8);
+				$formGroup = $this->form->getFormParentGroup();
+				if (!empty($formGroup)){
+					$prefix = substr($prefix, strlen($formGroup)+1);
+				}
+				if (!empty($prefix))
+				{
+					$prefix .= '.';
+				}
 			}
-
+			else
+			{
+				$form = $this->form;
+				$prefix = '';
+			}
 			// Get correct component for menu items
 			if ($component == 'com_menus')
 			{
-				if ($this->subformPrefix === '')
-				{
-					$link = $this->form->getData()->get('link');
-				}
-				else
-				{
-					$link = $this->subformParentTop->getData()->get('link');
-				}
+				$link      = $form->getData()->get('link');
 				$uri       = new JUri($link);
 				$component = $uri->getVar('option', 'com_menus');
 			}
 
 			$params = JComponentHelper::getParams($component);
-			$value  = $params->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+			$value  = $params->get($prefix.$this->fieldname);
 
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = JFactory::getConfig()->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+				$value = JFactory::getConfig()->get($prefix.$this->fieldname);
 			}
 
 			// Try with menu configuration
 			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
-				$value = JComponentHelper::getParams('com_menus')->get($this->subformPrefixGlobal . $this->fieldnameGlobal);
+				$value = JComponentHelper::getParams('com_menus')->get($prefix.$this->fieldname);
 			}
 
 			if (!is_null($value))
@@ -273,13 +280,13 @@ class JFormFieldText extends JFormField
 		$data = parent::getLayoutData();
 
 		// Initialize some field attributes.
-		$maxLength = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$inputmode = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
-		$dirname   = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
+		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
+		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
 
 		/* Get the field options for the datalist.
 			Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
-		$options = (array) $this->getSuggestions();
+		$options  = (array) $this->getSuggestions();
 
 		$extraData = array(
 			'maxLength' => $maxLength,
