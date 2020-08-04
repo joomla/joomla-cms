@@ -359,7 +359,17 @@ class JFormFieldSubform extends JFormField
 
 		// Prepare the form template
 		$formname = 'subform.' . str_replace(array('jform[', '[', ']'), array('', '.', ''), $this->name);
-		$tmpl     = Form::getInstance($formname, $this->formsource, array('control' => $control, 'parent' => $this->form));
+		$parent   = $this->form->getFormParent();
+		if ($parent === false)
+		{
+			$parent = $this->form;
+		}
+		$parentGroup = $this->form->getFormParentGroup();
+		if (!empty($parentGroup) && !empty($this->group))
+		{
+			$parentGroup .= '.';
+		}
+		$tmpl = Form::getInstance($formname, $this->formsource, array('control' => $control, 'parent' => $parent, 'parent-group' => $parentGroup . $this->group));
 
 		return $tmpl;
 	}
