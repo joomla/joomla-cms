@@ -369,7 +369,9 @@ class JFormFieldSubform extends JFormField
 		{
 			$parentGroup .= '.';
 		}
-		$tmpl = Form::getInstance($formname, $this->formsource, array(
+		$tmpl = Form::getInstance(
+			$formname,
+			$this->formsource, array(
 				'control'      => $control,
 				'parent'       => $parent,
 				'parent-group' => $parentGroup . $this->group
