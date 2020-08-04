@@ -202,18 +202,18 @@ class JFormFieldText extends JFormField
 			}
 
 			$params = JComponentHelper::getParams($component);
-			$value  = $params->get($prefix.$this->fieldname);
+			$value  = $params->get($prefix . $this->fieldname);
 
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = JFactory::getConfig()->get($prefix.$this->fieldname);
+				$value = JFactory::getConfig()->get($prefix . $this->fieldname);
 			}
 
 			// Try with menu configuration
 			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
-				$value = JComponentHelper::getParams('com_menus')->get($prefix.$this->fieldname);
+				$value = JComponentHelper::getParams('com_menus')->get($prefix . $this->fieldname);
 			}
 
 			if (!is_null($value))
