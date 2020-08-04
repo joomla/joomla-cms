@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.webinstaller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,14 +43,6 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	protected $app;
 
 	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * The URL to install from
 	 *
 	 * @var    string|null
@@ -75,6 +67,9 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
+		// Load language files
+		$this->loadLanguage();
+
 		$installfrom = $this->getInstallFrom();
 		$doc         = $this->app->getDocument();
 		$lang        = $this->app->getLanguage();
@@ -120,7 +115,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 
 		$tab = [
 			'name'  => 'web',
-			'label' => Text::_('COM_INSTALLER_INSTALL_FROM_WEB'),
+			'label' => Text::_('PLG_INSTALLER_WEBINSTALLER_TAB_LABEL'),
 		];
 
 		// Render the input

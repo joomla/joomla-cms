@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ namespace Joomla\Component\Categories\Administrator\View\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -175,7 +174,18 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Load specific css component
-		HTMLHelper::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = $this->document->getWebAssetManager();
+		$wa->getRegistry()->addExtensionRegistryFile($component);
+
+		if ($wa->assetExists('style', $component . '.admin-categories'))
+		{
+			$wa->useStyle($component . '.admin-categories');
+		}
+		else
+		{
+			$wa->registerAndUseStyle($component . '.admin-categories', $component . '/administrator/categories.css');
+		}
 
 		// Prepare the toolbar.
 		ToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');

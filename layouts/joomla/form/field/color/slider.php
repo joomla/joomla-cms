@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,6 +37,8 @@ extract($displayData);
  * @var   string  $saveFormat   Format to save the color
  * @var   integer $size         Size attribute of the input
  * @var   string  $validate     Validation rules to apply.
+ * @var   string  $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array   $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 if ($color === 'none' || is_null($color))
@@ -80,7 +82,8 @@ Text::script('JFIELD_COLOR_ERROR_WRONG_FORMAT');
 	$color,
 	$default,
 	$preview,
-	$size;
+	$size,
+	$dataAttribute;
 	?>
 >
 	<!-- The data to save at the end (label created in form by Joomla) -->

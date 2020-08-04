@@ -18,7 +18,7 @@ use Joomla\CMS\Extension\MVCComponent;
 /**
  * Component class for com_tags
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TagsComponent extends MVCComponent implements RouterServiceInterface
 {

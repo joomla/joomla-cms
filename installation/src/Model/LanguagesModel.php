@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Registry\Registry;
 
 /**
  * Language Installer model for the Joomla Core Installer.
@@ -68,8 +69,10 @@ class LanguagesModel extends BaseInstallationModel
 	public function __construct()
 	{
 		// Overrides application config and set the configuration.php file so tokens and database works.
-		Factory::$config = null;
-		Factory::getConfig(JPATH_SITE . '/configuration.php');
+		if (file_exists(JPATH_BASE . '/configuration.php'))
+		{
+			Factory::getApplication()->setConfiguration(new Registry(new \JConfig));
+		}
 
 		/*
 		 * Factory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
@@ -147,6 +150,7 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	public function install($lids)
 	{
+		$app = Factory::getApplication();
 		$installerBase = new Installer;
 
 		// Loop through every selected language.
@@ -167,7 +171,7 @@ class LanguagesModel extends BaseInstallationModel
 				$message = Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . Text::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				Factory::getApplication()->enqueueMessage($message, 'warning');
+				$app->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -181,7 +185,7 @@ class LanguagesModel extends BaseInstallationModel
 				$message = Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . Text::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				Factory::getApplication()->enqueueMessage($message, 'warning');
+				$app->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -196,7 +200,7 @@ class LanguagesModel extends BaseInstallationModel
 				$message = Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . Text::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				Factory::getApplication()->enqueueMessage($message, 'warning');
+				$app->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -204,8 +208,7 @@ class LanguagesModel extends BaseInstallationModel
 			// Cleanup the install files in tmp folder.
 			if (!is_file($package['packagefile']))
 			{
-				$config                 = Factory::getConfig();
-				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
+				$package['packagefile'] = $app->get('tmp_path') . '/' . $package['packagefile'];
 			}
 
 			InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -271,22 +274,21 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	protected function downloadPackage($url)
 	{
+		$app = Factory::getApplication();
+
 		// Download the package from the given URL.
 		$p_file = InstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
 
 			return false;
 		}
 
-		$config   = Factory::getConfig();
-		$tmp_dest = $config->get('tmp_path');
-
 		// Unpack the downloaded package file.
-		return InstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		return InstallerHelper::unpack($app->get('tmp_path') . '/' . $p_file);
 	}
 
 	/**
@@ -367,7 +369,7 @@ class LanguagesModel extends BaseInstallationModel
 				$row->published = 0;
 			}
 
-			$row->checked_out = 0;
+			$row->checked_out = null;
 			$data[]           = $row;
 		}
 

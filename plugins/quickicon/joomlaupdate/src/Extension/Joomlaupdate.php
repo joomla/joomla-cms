@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
 				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&'
-					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
+					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
 				'version' => JVERSION,
 			]
 		);

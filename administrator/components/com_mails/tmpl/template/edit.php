@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,11 +18,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
 $app = Factory::getApplication();
-$doc = Factory::getDocument();
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_mails/admin-email-template-edit.min.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_mails.admin-email-template-edit');
 
 $this->useCoreUI = true;
 
@@ -30,7 +31,7 @@ $input = $app->input;
 list($component, $sub_id) = explode('.', $this->master->template_id, 2);
 $sub_id = str_replace('.', '_', $sub_id);
 
-$doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
+$this->document->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 
 ?>
 
@@ -53,6 +54,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 				<?php echo $this->form->renderField('subject'); ?>
 			</div>
 			<div class="col-md-3">
+				<?php echo $this->form->getField('subject_switcher')->label; ?>
 				<?php echo $this->form->getField('subject_switcher')->input; ?>
 			</div>
 		</div>
@@ -63,6 +65,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 				<?php echo $this->form->renderField('body'); ?>
 			</div>
 			<div class="col-md-3">
+				<?php echo $this->form->getField('body_switcher')->label; ?>
 				<?php echo $this->form->getField('body_switcher')->input; ?>
 				<div class="tags-container-body <?php echo $fieldBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
@@ -78,6 +81,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 				<?php echo $this->form->renderField('htmlbody'); ?>
 			</div>
 			<div class="col-md-3">
+				<?php echo $this->form->getField('htmlbody_switcher')->label; ?>
 				<?php echo $this->form->getField('htmlbody_switcher')->input; ?>
 				<div class="tags-container-htmlbody <?php echo $fieldHtmlBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
@@ -106,6 +110,6 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 	<?php echo $this->form->renderField('template_id'); ?>
 	<?php echo $this->form->renderField('language'); ?>
 	<input type="hidden" name="task" value="">
-	<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
+	<input type="hidden" name="return" value="<?php echo $input->get('return', null, 'BASE64'); ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

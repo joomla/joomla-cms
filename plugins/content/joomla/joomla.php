@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.joomla
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\User\User;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
-use Joomla\Component\Content\Administrator\Table\ArticleTable;
 use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
@@ -501,7 +499,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		if (empty($stage_ids) || !$table)
 		{
-			return true;
+			return false;
 		}
 
 		$query = $db->getQuery(true);
@@ -611,6 +609,12 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
+		// Check if this function is enabled.
+		if ($context != 'com_content.article')
+		{
+			return true;
+		}
+
 		$db = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
@@ -623,95 +627,6 @@ class PlgContentJoomla extends CMSPlugin
 
 		$cctable = new CoreContent($db);
 		$cctable->publish($ccIds, $value);
-
-		// Check if sending email on transition execution is enabled.
-		if (!$this->params->def('email_new_stage', 0) || $context !== 'com_content.article')
-		{
-			return true;
-		}
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('sendEmail') . ' = 1')
-			->where($db->quoteName('block') . ' = 0');
-
-		$users = (array) $db->setQuery($query)->loadColumn();
-
-		if (empty($users))
-		{
-			return true;
-		}
-
-		$user = $this->app->getIdentity();
-
-		// Messaging for changed items
-		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = $this->app->get('debug_lang');
-
-		$article = new ArticleTable($db);
-
-		$workflow = new Workflow(['extension' => 'com_content']);
-
-		foreach ($pks as $pk)
-		{
-			if (!$article->load($pk))
-			{
-				continue;
-			}
-
-			$assoc   = $workflow->getAssociation($pk);
-			$stageId = (int) $assoc->stage_id;
-
-			// Load new transitions
-			$query = $db->getQuery(true)
-				->select($db->quoteName('t.id'))
-				->from($db->quoteName('#__workflow_transitions', 't'))
-				->from($db->quoteName('#__workflow_stages', 's'))
-				->where($db->quoteName('t.from_stage_id') . ' = :stageid')
-				->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
-				->where($db->quoteName('t.published') . ' = 1')
-				->where($db->quoteName('s.published') . ' = 1')
-				->order($db->quoteName('t.ordering'))
-				->bind(':stageid', $stageId, ParameterType::INTEGER);
-
-			$transitions = $db->setQuery($query)->loadObjectList();
-
-			foreach ($users as $user_id)
-			{
-				if ($user_id != $user->id)
-				{
-					// Check if the user has available transitions
-					$items = array_filter(
-						$transitions,
-						function ($item) use ($user)
-						{
-							return $user->authorise('core.execute.transition', 'com_content.transition.' . $item->id);
-						}
-					);
-
-					if (!count($items))
-					{
-						continue;
-					}
-
-					// Load language for messaging
-					$receiver = User::getInstance($user_id);
-					$lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
-					$lang->load('plg_content_joomla');
-
-					$message = array(
-						'user_id_to' => $user_id,
-						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_SUBJECT'),
-						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title),
-					);
-
-					$model_message = $this->app->bootComponent('com_messages')
-						->getMVCFactory()->createModel('Message', 'Administrator');
-					$model_message->save($message);
-				}
-			}
-		}
 
 		return true;
 	}

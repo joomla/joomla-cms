@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,12 +15,12 @@ extract($displayData);
 
 /**
  * Layout variables
- * ---------------------
- * 	$options      : (array)  Optional parameters
- * 	$name         : (string) The id of the input this label is for
- * 	$label        : (string) The html code for the label
- * 	$input        : (string) The input field html code
- * 	$description  : (string) An optional description to use in a tooltip
+ * -----------------
+ * @var   array   $options      Optional parameters
+ * @var   string  $name         The id of the input this label is for
+ * @var   string  $label        The html code for the label
+ * @var   string  $input        The input field html code
+ * @var   string  $description  An optional description to use in a tooltip
  */
 
 if (!empty($options['showonEnabled']))

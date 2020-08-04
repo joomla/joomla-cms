@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -148,9 +148,12 @@ class MenuField extends FormField
 		{
 			$this->allowSelect = ((string) $this->element['select']) !== 'false';
 			$this->allowClear = ((string) $this->element['clear']) !== 'false';
-			$this->allowNew = ((string) $this->element['new']) === 'true';
-			$this->allowEdit = ((string) $this->element['edit']) === 'true';
 			$this->allowPropagate = ((string) $this->element['propagate']) === 'true';
+
+			// Creating/editing menu items is not supported in frontend.
+			$isAdministrator = Factory::getApplication()->isClient('administrator');
+			$this->allowNew = $isAdministrator ? ((string) $this->element['new']) === 'true' : false;
+			$this->allowEdit = $isAdministrator ? ((string) $this->element['edit']) === 'true' : false;
 		}
 
 		return $return;
@@ -177,8 +180,11 @@ class MenuField extends FormField
 		// Create the modal id.
 		$modalId = 'Item_' . $this->id;
 
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
 		// Add the modal field script to the document head.
-		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		$wa->useScript('field.modal-fields');
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($this->allowSelect)
@@ -192,11 +198,12 @@ class MenuField extends FormField
 
 			if (!isset($scriptSelect[$this->id]))
 			{
-				Factory::getDocument()->addScriptDeclaration("
-				function jSelectMenu_" . $this->id . "(id, title, object) {
+				$wa->addInlineScript("
+				window.jSelectMenu_" . $this->id . " = function (id, title, object) {
 					window.processModalSelect('Item', '" . $this->id . "', id, title, '', object);
-				}
-				"
+				}",
+					[],
+					['type' => 'module']
 				);
 
 				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');

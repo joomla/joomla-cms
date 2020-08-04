@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,9 @@ extract($displayData);
 
 /**
  * Layout variables
- * ------------------
- * @param   string  $selector  Unique DOM identifier for the modal. CSS id without #
- * @param   array   $params    Modal parameters. Default supported parameters:
+ * -----------------
+ * @var   string  $selector  Unique DOM identifier for the modal. CSS id without #
+ * @var   array   $params    Modal parameters. Default supported parameters:
  *                             - title        string   The modal title
  *                             - backdrop     mixed    A boolean select if a modal-backdrop element should be included (default = true)
  *                                                     The string 'static' includes a backdrop which doesn't close the modal on click.
@@ -31,8 +31,7 @@ extract($displayData);
  *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
  *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
  *                             - footer       string   Optional markup for the modal footer
- * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
- *
+ * @var   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  */
 
 $modalClasses = array('modal');
@@ -72,7 +71,7 @@ if (isset($params['url']))
 }
 ?>
 <div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
-	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>" role="document">
+	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>">
 		<div class="modal-content">
 			<?php
 				// Header

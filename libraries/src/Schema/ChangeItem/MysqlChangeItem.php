@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,16 +53,36 @@ class MysqlChangeItem extends ChangeItem
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
 		$wordArray = preg_split("~'[^']*'(*SKIP)(*F)|\s+~u", trim($updateQuery, "; \t\n\r\0\x0B"));
 
-		// First, make sure we have an array of at least 6 elements
+		// First, make sure we have an array of at least 5 elements
 		// if not, we can't make a check query for this one
-		if (\count($wordArray) < 6)
+		if (\count($wordArray) < 5)
 		{
 			// Done with method
 			return;
 		}
 
-		// We can only make check queries for alter table and create table queries
+		// We can only make check queries for rename table, alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
+
+		if ($command === 'RENAME TABLE')
+		{
+			$table = $this->fixQuote($wordArray[4]);
+
+			$this->checkQuery  = 'SHOW TABLES LIKE ' . $table;
+			$this->queryType   = 'RENAME_TABLE';
+			$this->msgElements = array($table);
+			$this->checkStatus = 0;
+
+			// Done with method
+			return;
+		}
+
+		// For the remaining query types make sure we have an array of at least 6 elements
+		if (\count($wordArray) < 6)
+		{
+			// Done with method
+			return;
+		}
 
 		if ($command === 'ALTER TABLE')
 		{
@@ -287,7 +307,7 @@ class MysqlChangeItem extends ChangeItem
 	/**
 	 * Make check query for column changes/modifications tolerant
 	 * for automatic type changes of text columns, e.g. from TEXT
-	 * to MEDIUMTEXT, after comnversion from utf8 to utf8mb4, and
+	 * to MEDIUMTEXT, after conversion from utf8 to utf8mb4, and
 	 * fix integer (int or tinyint) columns without display length
 	 * for MySQL 8.
 	 *

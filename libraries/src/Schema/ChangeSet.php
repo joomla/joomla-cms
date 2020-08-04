@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,8 @@ namespace Joomla\CMS\Schema;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
@@ -116,7 +114,7 @@ class ChangeSet
 				$tmpSchemaChangeItem->checkQuery = 'SELECT '
 					. $this->db->quoteName('converted')
 					. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-					. ' WHERE ' . $this->db->quoteName('converted') . ' = 4';
+					. ' WHERE ' . $this->db->quoteName('converted') . ' = 5';
 
 				// Set expected records from check query
 				$tmpSchemaChangeItem->checkQueryExpected = 1;

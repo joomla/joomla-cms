@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,6 @@ class ArticlesModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
-				'stage_condition', 'ws.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -243,13 +242,10 @@ class ArticlesModel extends ListModel
 				[
 					$db->quoteName('fp.featured_up'),
 					$db->quoteName('fp.featured_down'),
-					$db->quoteName('wa.stage_id', 'stage_id'),
-					$db->quoteName('ws.title', 'state_title'),
-					$db->quoteName('ws.condition', 'stage_condition'),
 					// Published/archived article in archived category is treated as archived article. If category is not published then force 0.
-					'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN ' . $conditionArchived
+					'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('a.state') . ' > 0 THEN ' . $conditionArchived
 						. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN ' . $conditionUnpublished
-						. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state'),
+						. ' ELSE ' . $db->quoteName('a.state') . ' END AS ' . $db->quoteName('state'),
 					$db->quoteName('c.title', 'category_title'),
 					$db->quoteName('c.path', 'category_route'),
 					$db->quoteName('c.access', 'category_access'),
@@ -270,8 +266,6 @@ class ArticlesModel extends ListModel
 				]
 			)
 			->from($db->quoteName('#__content', 'a'))
-			->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-			->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
 			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
 			->join('LEFT', $db->quoteName('#__users', 'uam'), $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
@@ -327,7 +321,7 @@ class ArticlesModel extends ListModel
 		// Filter by access level.
 		if ($this->getState('filter.access', true))
 		{
-			$groups = $user->getAuthorisedViewLevels();
+			$groups = $this->getState('filter.viewlevels', $user->getAuthorisedViewLevels());
 			$query->whereIn($db->quoteName('a.access'), $groups)
 				->whereIn($db->quoteName('c.access'), $groups);
 		}
@@ -339,10 +333,10 @@ class ArticlesModel extends ListModel
 		{
 			/**
 			 * If category is archived then article has to be published or archived.
-			 * Or categogy is published then article has to be archived.
+			 * Or category is published then article has to be archived.
 			 */
-			$query->where('((' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > :conditionUnpublished)'
-				. ' OR (' . $db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' = :conditionArchived))'
+			$query->where('((' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('a.state') . ' > :conditionUnpublished)'
+				. ' OR (' . $db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('a.state') . ' = :conditionArchived))'
 			)
 				->bind(':conditionUnpublished', $conditionUnpublished, ParameterType::INTEGER)
 				->bind(':conditionArchived', $conditionArchived, ParameterType::INTEGER);
@@ -352,14 +346,14 @@ class ArticlesModel extends ListModel
 			$condition = (int) $condition;
 
 			// Category has to be published
-			$query->where($db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' = :wsCondition')
-				->bind(':wsCondition', $condition, ParameterType::INTEGER);
+			$query->where($db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('a.state') . ' = :condition')
+				->bind(':condition', $condition, ParameterType::INTEGER);
 		}
 		elseif (is_array($condition))
 		{
 			// Category has to be published
 			$query->where(
-				$db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition')
+				$db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('a.state')
 					. ' IN (' . implode(',', $query->bindArray($condition)) . ')'
 			);
 		}
@@ -660,8 +654,12 @@ class ArticlesModel extends ListModel
 				$subQuery = $db->getQuery(true)
 					->select('DISTINCT ' . $db->quoteName('content_item_id'))
 					->from($db->quoteName('#__contentitem_tag_map'))
-					->whereIn($db->quoteName('tag_id'), $tagId)
-					->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+					->where(
+						[
+							$db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tagId)) . ')',
+							$db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
+						]
+					);
 
 				$query->join(
 					'INNER',

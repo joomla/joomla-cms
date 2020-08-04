@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ $images  = json_decode($displayData->images);
 				 itemprop="thumbnailUrl"
 			>
 		<?php endif; ?>
-		<?php if ($images->image_intro_caption !== '') : ?>
+		<?php if (isset($images->image_intro_caption) && $images->image_intro_caption !== '') : ?>
 			<figcaption class="caption"><?php echo htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8'); ?></figcaption>
 		<?php endif; ?>
 	</figure>

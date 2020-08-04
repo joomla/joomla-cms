@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1059,31 +1059,33 @@ abstract class HTMLHelper
 		}
 
 		$data = array(
-			'id'           => $id,
-			'name'         => $name,
-			'class'        => $class,
-			'value'        => $inputvalue,
-			'format'       => $format,
-			'filter'       => $filter,
-			'required'     => $required,
-			'readonly'     => $readonly,
-			'disabled'     => $disabled,
-			'hint'         => $hint,
-			'autofocus'    => $autofocus,
-			'autocomplete' => $autocomplete,
-			'todaybutton'  => $todayBtn,
-			'weeknumbers'  => $weekNumbers,
-			'showtime'     => $showTime,
-			'filltable'    => $fillTable,
-			'timeformat'   => $timeFormat,
-			'singleheader' => $singleHeader,
-			'tag'          => $tag,
-			'helperPath'   => $helperPath,
-			'localesPath'  => $localesPath,
-			'direction'    => $direction,
-			'onchange'     => $onchange,
-			'minYear'      => $minYear,
-			'maxYear'      => $maxYear,
+			'id'             => $id,
+			'name'           => $name,
+			'class'          => $class,
+			'value'          => $inputvalue,
+			'format'         => $format,
+			'filter'         => $filter,
+			'required'       => $required,
+			'readonly'       => $readonly,
+			'disabled'       => $disabled,
+			'hint'           => $hint,
+			'autofocus'      => $autofocus,
+			'autocomplete'   => $autocomplete,
+			'todaybutton'    => $todayBtn,
+			'weeknumbers'    => $weekNumbers,
+			'showtime'       => $showTime,
+			'filltable'      => $fillTable,
+			'timeformat'     => $timeFormat,
+			'singleheader'   => $singleHeader,
+			'tag'            => $tag,
+			'helperPath'     => $helperPath,
+			'localesPath'    => $localesPath,
+			'direction'      => $direction,
+			'onchange'       => $onchange,
+			'minYear'        => $minYear,
+			'maxYear'        => $maxYear,
+			'dataAttribute'  => '',
+			'dataAttributes' => '',
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
