@@ -23,7 +23,7 @@ steps:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
       - apk add patch
-      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch
+      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
