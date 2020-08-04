@@ -101,11 +101,9 @@ class Form
 		$this->data = new Registry;
 
 		// Set the options if specified.
-		$this->options['control'] = isset($options['control']) ? $options['control'] : false;
-		$this->options['parent'] = isset($options['parent']) ? $options['parent'] : false;
-		$this->options['parent-top'] = isset($options['parent-top']) ? $options['parent-top'] : false;
-		$this->options['prefix'] = isset($options['prefix']) ? $options['prefix'] : '';
-		$this->options['prefix-global'] = empty($options['prefix-global']) ? $this->options['prefix'] : $options['prefix-global'];
+		$this->options['control']      = isset($options['control']) ? $options['control'] : false;
+		$this->options['parent']       = isset($options['parent']) ? $options['parent'] : false;
+		$this->options['parent-group'] = isset($options['parent-group']) ? $options['parent-group'] : false;
 	}
 
 	/**
@@ -292,8 +290,8 @@ class Form
 	 *
 	 * @return  mixed  The attribute value for the field.
 	 *
-	 * @throws  \UnexpectedValueException
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
 	{
@@ -311,6 +309,7 @@ class Form
 		{
 			return (string) $element[$attribute];
 		}
+
 		// Otherwise return the given default value.
 		else
 		{
@@ -337,6 +336,7 @@ class Form
 		{
 			$elements = $this->findFieldsByFieldset($set);
 		}
+
 		// Get all fields.
 		else
 		{
@@ -439,7 +439,8 @@ class Form
 					$fieldsets[$fieldset->name] = $fieldset;
 				}
 			}
-// Must be dealing with a fieldset attribute.
+
+			// Must be dealing with a fieldset attribute.
 			else
 			{
 				// Only create it if it doesn't already exist.
@@ -453,6 +454,7 @@ class Form
 					{
 						$fieldset = (object) array('name' => (string) $set, 'label' => '', 'description' => '');
 					}
+
 					// Build the fieldset object from the element.
 					else
 					{
@@ -490,12 +492,11 @@ class Form
 	}
 
 	/**
-	 * Method to get the form parent. This form object is used by subforms for travel on form structure,
-	 * to get values and settings.
+	 * Method to get the form parent. Used by subform nested to load settings of his top ancestor.
 	 *
-	 * @return  mixed false or jform object
+	 * @return  string  The form top ancestor form or false.
 	 *
-	 * @since   3.9.?? - patch proposed
+	 * @since   ?.?.?
 	 */
 	public function getFormParent()
 	{
@@ -503,42 +504,15 @@ class Form
 	}
 
 	/**
-	 * Method to get the form top parent. This form object is used by subforms for travel on form structure,
-	 * to get values and settings.
+	 * Method to get the form parent. Used by subform nested to load settings of his top ancestor.
 	 *
-	 * @return  mixed false or jform object
+	 * @return  string  The form top ancestor form or false.
 	 *
-	 * @since   3.9.?? - patch proposed
+	 * @since   ?.?.?
 	 */
-	public function getFormParentTop()
+	public function getFormParentGroup()
 	{
-		return $this->options['parent-top'];
-	}
-
-	/**
-	 * Method to get the form prefix. This form object is used by subforms for travel on form structure,
-	 * to get values and settings.
-	 *
-	 * @return  mixed false or string
-	 *
-	 * @since   3.9.?? - patch proposed
-	 */
-	public function getFormPrefix()
-	{
-		return $this->options['prefix'];
-	}
-
-	/**
-	 * Method to get the form prefix. This form object is used by subforms for travel on form structure,
-	 * to get values and settings.
-	 *
-	 * @return  mixed false or string
-	 *
-	 * @since   3.9.?? - patch proposed
-	 */
-	public function getFormPrefixGlobal()
-	{
-		return $this->options['prefix-global'];
+		return $this->options['parent-group'];
 	}
 
 	/**
@@ -569,9 +543,9 @@ class Form
 		foreach ($elements as $element)
 		{
 			// Get the field groups for the element.
-			$attrs = $element->xpath('ancestor::fields[@name]/@name');
+			$attrs  = $element->xpath('ancestor::fields[@name]/@name');
 			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group = implode('.', $groups);
+			$group  = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group))
@@ -805,7 +779,8 @@ class Form
 
 				return true;
 			}
-// Create a root element for the form.
+
+			// Create a root element for the form.
 			else
 			{
 				$this->xml = new \SimpleXMLElement('<form></form>');
@@ -917,8 +892,8 @@ class Form
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @throws  \UnexpectedValueException
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function removeField($name, $group = null)
 	{
@@ -950,8 +925,8 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @throws  \UnexpectedValueException
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function removeGroup($group)
 	{
@@ -1008,8 +983,8 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @throws  \UnexpectedValueException
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function setField(\SimpleXMLElement $element, $group = null, $replace = true, $fieldset = 'default')
 	{
@@ -1034,7 +1009,7 @@ class Form
 			$dom = dom_import_simplexml($old);
 
 			// Get the parent element, this should be the fieldset
-			$parent = $dom->parentNode;
+			$parent   = $dom->parentNode;
 			$fieldset = $parent->getAttribute('name');
 
 			$parent->removeChild($dom);
@@ -1101,8 +1076,8 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @throws  \UnexpectedValueException
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
 	{
@@ -1120,6 +1095,7 @@ class Form
 		{
 			return false;
 		}
+
 		// Otherwise set the attribute and return true.
 		else
 		{
@@ -1278,7 +1254,7 @@ class Form
 			if ($valid instanceof \Exception)
 			{
 				$this->errors[] = $valid;
-				$return = false;
+				$return         = false;
 			}
 		}
 
@@ -1369,9 +1345,9 @@ class Form
 					{
 						$showTime = (string) $element['showtime'];
 						$showTime = ($showTime && $showTime != 'false');
-						$format = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
-						$date = date_parse_from_format($format, $value);
-						$value = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+						$format   = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
 
 						if ($showTime)
 						{
@@ -1414,9 +1390,9 @@ class Form
 					{
 						$showTime = (string) $element['showtime'];
 						$showTime = ($showTime && $showTime != 'false');
-						$format = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
-						$date = date_parse_from_format($format, $value);
-						$value = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+						$format   = ($showTime) ? \JText::_('DATE_FORMAT_FILTER_DATETIME') : \JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
 
 						if ($showTime)
 						{
@@ -1472,7 +1448,7 @@ class Form
 
 				// If there is no protocol and the relative option is not specified,
 				// we assume that it is an external URL and prepend http://.
-				if (($element['type'] == 'url' && !$protocol && !$element['relative'])
+				if (($element['type'] == 'url' && !$protocol &&  !$element['relative'])
 					|| (!$element['type'] == 'url' && !$protocol))
 				{
 					$protocol = 'http';
@@ -1482,6 +1458,7 @@ class Form
 					{
 						$value = \JUri::root() . $value;
 					}
+
 					// Otherwise we treat it as an external link.
 					else
 					{
@@ -1489,6 +1466,7 @@ class Form
 						$value = $protocol . '://' . $value;
 					}
 				}
+
 				// If relative URLS are allowed we assume that URLs without protocols are internal.
 				elseif (!$protocol && $element['relative'])
 				{
@@ -1499,6 +1477,7 @@ class Form
 					{
 						$value = 'http://' . $value;
 					}
+
 					// Otherwise if it doesn't start with "/" prepend the prefix of the current site.
 					elseif (substr($value, 0, 1) != '/')
 					{
@@ -1530,6 +1509,7 @@ class Form
 
 					$result = '1.' . $number;
 				}
+
 				// If not, does it match ITU-T?
 				elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1)
 				{
@@ -1539,6 +1519,7 @@ class Form
 					$number = (string) preg_replace('/[^\d]/', '', $number);
 					$result = $countrycode . '.' . $number;
 				}
+
 				// If not, does it match EPP?
 				elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value) == 1)
 				{
@@ -1550,11 +1531,13 @@ class Form
 
 					$result = str_replace('+', '', $value);
 				}
+
 				// Maybe it is already ccc.nnnnnnn?
 				elseif (preg_match('/[0-9]{1,3}\.[0-9]{4,14}$/', $value) == 1)
 				{
 					$result = $value;
 				}
+
 				// If not, can we make it a string of digits?
 				else
 				{
@@ -1576,6 +1559,7 @@ class Form
 							$result = substr($value, 0, $cclen) . '.' . substr($value, $cclen);
 						}
 					}
+
 					// If not let's not save anything.
 					else
 					{
@@ -1593,14 +1577,16 @@ class Form
 				{
 					$return = call_user_func(explode('::', $filter), $value);
 				}
+
 				// Filter using a callback function if specified.
 				elseif (function_exists($filter))
 				{
 					$return = call_user_func($filter, $value);
 				}
+
 				elseif ((string) $element['type'] === 'subform')
 				{
-					$field = $this->loadField($element);
+					$field   = $this->loadField($element);
 					$subForm = $field->loadSubForm();
 
 					if ($field->multiple)
@@ -1629,7 +1615,7 @@ class Form
 				{
 					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
-					if (($value === '' || $value === null) && !$required)
+					if (($value === '' || $value === null) && ! $required)
 					{
 						$return = '';
 					}
@@ -1723,6 +1709,7 @@ class Form
 				{
 					continue;
 				}
+
 				// Found it!
 				else
 				{
@@ -1805,6 +1792,7 @@ class Form
 					{
 						$fields = array_merge($fields, $tmp);
 					}
+
 					// If we want to exclude nested groups then we need to check each field.
 					else
 					{
@@ -2003,7 +1991,7 @@ class Form
 	 *
 	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
-	 * @since       1.7.0
+	 * @since   1.7.0
 	 * @deprecated  4.0  Use FormHelper::loadFieldType() directly
 	 */
 	protected function loadFieldType($type, $new = true)
@@ -2019,8 +2007,8 @@ class Form
 	 *
 	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
-	 * @see         FormHelper::loadRuleType()
-	 * @since       1.7.0
+	 * @see     FormHelper::loadRuleType()
+	 * @since   1.7.0
 	 * @deprecated  4.0  Use FormHelper::loadRuleType() directly
 	 */
 	protected function loadRuleType($type, $new = true)
@@ -2117,13 +2105,13 @@ class Form
 	 * @param   string             $group    The optional dot-separated form group path on which to find the field.
 	 * @param   mixed              $value    The optional value to use as the default for the field.
 	 * @param   Registry           $input    An optional Registry object with the entire data set to validate
-	 *                                       against the entire form.
+	 *                                      against the entire form.
 	 *
 	 * @return  boolean  Boolean true if field value is valid, Exception on failure.
 	 *
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  \UnexpectedValueException
-	 * @since   1.7.0
 	 */
 	protected function validateField(\SimpleXMLElement $element, $group = null, $value = null, Registry $input = null)
 	{
@@ -2284,9 +2272,9 @@ class Form
 	 *
 	 * @return  Form  JForm instance.
 	 *
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException if no data provided.
 	 * @throws  \RuntimeException if the form could not be loaded.
-	 * @since   1.7.0
 	 */
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
