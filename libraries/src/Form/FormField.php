@@ -88,30 +88,6 @@ abstract class FormField
 	protected $formControl;
 
 	/**
-	 * The string used for subform fields path
-	 * @var string
-	 */
-	protected $subformPrefix = '';
-
-	/**
-	 * The string used for subform fields path
-	 * @var string
-	 */
-	protected $subformPrefixGlobal = '';
-
-	/**
-	 * The JForm form parent used for subform fields
-	 * @var string
-	 */
-	protected $subformParent = false;
-
-	/**
-	 * The JForm form top parent used for subform fields
-	 * @var string
-	 */
-	protected $subformParentTop = false;
-
-	/**
 	 * The hidden state for the form field.
 	 *
 	 * @var    boolean
@@ -215,12 +191,6 @@ abstract class FormField
 	 * @since  1.7.0
 	 */
 	protected $fieldname;
-
-	/**
-	 * The JForm top parent used for subform fields
-	 * @var string
-	 */
-	protected $fieldnameGlobal;
 
 	/**
 	 * The group of the field.
@@ -387,7 +357,8 @@ abstract class FormField
 		// If there is a form passed into the constructor set the form and form control properties.
 		if ($form instanceof Form)
 		{
-			$this->setForm($form);
+			$this->form = $form;
+			$this->formControl = $form->getFormControl();
 		}
 
 		// Detect the field type if not set
@@ -422,10 +393,6 @@ abstract class FormField
 			case 'description':
 			case 'hint':
 			case 'formControl':
-			case 'subformParent':
-			case 'subformParentTop':
-			case 'subformPrefix':
-			case 'subformPrefixGlobal':
 			case 'hidden':
 			case 'id':
 			case 'multiple':
@@ -441,7 +408,6 @@ abstract class FormField
 			case 'onchange':
 			case 'onclick':
 			case 'fieldname':
-			case 'fieldnameGlobal':
 			case 'group':
 			case 'disabled':
 			case 'readonly':
@@ -591,10 +557,6 @@ abstract class FormField
 	{
 		$this->form = $form;
 		$this->formControl = $form->getFormControl();
-		$this->subformPrefix = $form->getFormPrefix();
-		$this->subformPrefixGlobal = $form->getFormPrefixGlobal();
-		$this->subformParent = $form->getFormParent();
-		$this->subformParentTop = $form->getFormParentTop();
 
 		return $this;
 	}
@@ -659,59 +621,12 @@ abstract class FormField
 		// Set the visibility.
 		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
 
-		// Set layout
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
-		// Set useglobal
-		$useGlobal = (string) $this->element['useglobal'];
-		if (!empty($useGlobal))
-		{
-			$useGlobal = strtolower($useGlobal);
-			switch ($useGlobal)
-			{
-				case 'yes':
-				case 'true':
-					$this->element['useglobal'] = true;
-					break;
-				case 'no':
-				case 'false':
-					$this->element['useglobal'] = false;
-					break;
-				default:
-					$this->element['useglobal'] = $useGlobal;
-			}
-		}
-		else
-		{
-			$this->element['useglobal'] = false;
-		}
 		// Add required to class list if field is required.
 		if ($this->required)
 		{
 			$this->class = trim($this->class . ' required');
-		}
-		if (((string) $this->element['name']) === '')
-		{
-			$this->fieldnameGlobal = '';
-		}
-		else
-		{
-			$this->fieldnameGlobal = $this->fieldname;
-			$globalRemovePrefix = (string) $this->element['globalremoveprefix'];
-			if (!empty($globalRemovePrefix))
-			{
-				$l = strlen($globalRemovePrefix);
-				if (substr($this->fieldnameGlobal, 0, $l) === $globalRemovePrefix)
-				{
-					$this->fieldnameGlobal = substr($this->fieldnameGlobal, $l);
-				}
-			}
-			$globalAddPrefix = (string) $this->element['globaladdprefix'];
-			if (!empty($globalAddPrefix))
-			{
-				$this->fieldnameGlobal = $globalAddPrefix . $this->fieldnameGlobal;
-			}
-
 		}
 
 		return true;
@@ -735,13 +650,13 @@ abstract class FormField
 	 * Method to get the id used for the field input tag.
 	 *
 	 * @param   string  $fieldId    The field element id.
-	 * @param   string  $fieldname  The field element name.
+	 * @param   string  $fieldName  The field element name.
 	 *
 	 * @return  string  The id to be used for the field input tag.
 	 *
 	 * @since   1.7.0
 	 */
-	protected function getId($fieldId, $fieldname)
+	protected function getId($fieldId, $fieldName)
 	{
 		$id = '';
 
@@ -768,11 +683,11 @@ abstract class FormField
 		// If we already have an id segment add the field id/name as another level.
 		if ($id)
 		{
-			$id .= '_' . ($fieldId ? $fieldId : $fieldname);
+			$id .= '_' . ($fieldId ? $fieldId : $fieldName);
 		}
 		else
 		{
-			$id .= ($fieldId ? $fieldId : $fieldname);
+			$id .= ($fieldId ? $fieldId : $fieldName);
 		}
 
 		// Clean up any invalid characters.
@@ -854,10 +769,10 @@ abstract class FormField
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
-			'text'     => $data['label'],
-			'for'      => $this->id,
-			'classes'  => explode(' ', $data['labelclass']),
-			'position' => $position,
+			'text'        => $data['label'],
+			'for'         => $this->id,
+			'classes'     => explode(' ', $data['labelclass']),
+			'position'    => $position,
 		);
 
 		return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
@@ -866,13 +781,13 @@ abstract class FormField
 	/**
 	 * Method to get the name used for the field input tag.
 	 *
-	 * @param   string  $fieldname  The field element name.
+	 * @param   string  $fieldName  The field element name.
 	 *
 	 * @return  string  The name to be used for the field input tag.
 	 *
 	 * @since   1.7.0
 	 */
-	protected function getName($fieldname)
+	protected function getName($fieldName)
 	{
 		// To support repeated element, extensions can set this in plugin->onRenderSettings
 
@@ -911,11 +826,11 @@ abstract class FormField
 		// If we already have a name segment add the field name as another level.
 		if ($name)
 		{
-			$name .= '[' . $fieldname . ']';
+			$name .= '[' . $fieldName . ']';
 		}
 		else
 		{
-			$name .= $fieldname;
+			$name .= $fieldName;
 		}
 
 		// If the field should support multiple values add the final array segment.
@@ -943,17 +858,17 @@ abstract class FormField
 	/**
 	 * Method to get the field name used.
 	 *
-	 * @param   string  $fieldname  The field element name.
+	 * @param   string  $fieldName  The field element name.
 	 *
 	 * @return  string  The field name
 	 *
 	 * @since   1.7.0
 	 */
-	protected function getFieldName($fieldname)
+	protected function getFieldName($fieldName)
 	{
-		if ($fieldname)
+		if ($fieldName)
 		{
-			return $fieldname;
+			return $fieldName;
 		}
 		else
 		{
@@ -1051,7 +966,7 @@ abstract class FormField
 
 		if ($this->showon)
 		{
-			$options['rel'] = ' data-showon=\'' .
+			$options['rel']           = ' data-showon=\'' .
 				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
 			$options['showonEnabled'] = true;
 		}
