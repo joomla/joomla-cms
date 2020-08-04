@@ -51,82 +51,86 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 <form enctype="multipart/form-data" action="index.php" method="post" id="uploadForm">
 	<fieldset class="uploadform options-form">
 		<legend><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'); ?></legend>
-		<table class="table">
-			<tbody>
-			<tr>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
-				</td>
-				<td>
-					<input class="form-control-file" id="install_package" name="install_package" type="file" size="57" onchange="Joomla.installpackageChange()">
-					<?php $maxSizeBytes = Utility::getMaxUploadSize(); ?>
-					<?php $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes); ?>
-					<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
-					<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></small>
-					<small class="form-text text-muted hidden" id="file_size" name="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></small>
-					<div class="alert alert-warning hidden" id="max_upload_size_warn">
-						<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
-				</td>
-				<td>
-					<?php echo $this->methodSelectUpload; ?>
-				</td>
-			</tr>
-			<tr id="upload_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>">
-				</td>
-			</tr>
-			<tr id="upload_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>">
-				</td>
-			</tr>
-			<tr id="upload_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>">
-				</td>
-			</tr>
-			<tr id="upload_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>">
-				</td>
-			</tr>
-			<tr id="upload_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
-				<td>
-					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
-				</td>
-				<td>
-					<input class="form-control" type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>">
-				</td>
-			</tr>
-			</tbody>
-			<tfoot>
-			<tr>
-				<td>&nbsp;</td>
-				<td>
-					<button id="uploadButton" class="btn btn-primary" type="button" onclick="Joomla.submitbuttonUpload()"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
-				</td>
-			</tr>
-			</tfoot>
-		</table>
+
+		<div class="control-group">
+			<label for="install_package" class="control-label">
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
+			</label>
+			<div class="controls">
+				<input class="form-control-file" id="install_package" name="install_package" type="file" size="57" onchange="Joomla.installpackageChange()">
+				<?php $maxSizeBytes = Utility::getMaxUploadSize(); ?>
+				<?php $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes); ?>
+				<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>"/>
+				<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></small>
+				<small class="form-text text-muted hidden" id="file_size" name="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></small>
+				<div class="alert alert-warning hidden" id="max_upload_size_warn">
+					<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
+				</div>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label for="upload_method" class="control-label">
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
+			</label>
+			<div class="controls">
+				<?php echo $this->methodSelectUpload; ?>
+			</div>
+		</div>
+
+		<div class="control-group" id="upload_ftp_hostname" <?php echo $this->ftpFieldsDisplay; ?>>
+			<label for="ftp_host" class="control-label">
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
+			</label>
+			<div class="controls">
+				<input type="text" id="ftp_host" name="ftp_host" class="form-control" value="<?php echo $this->ftp['host']; ?>">
+			</div>
+		</div>
+
+		<div class="control-group" id="upload_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
+			<label for="ftp_port" class="control-label">
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
+			</label>
+			<div class="controls">
+				<input type="text" id="ftp_port" name="ftp_port" class="form-control" value="<?php echo $this->ftp['port']; ?>">
+			</div>
+		</div>
+
+		<div class="control-group" id="upload_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
+			<label for="ftp_user" class="control-label">
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
+			</label>
+			<div class="controls">
+				<input type="text" id="ftp_user" name="ftp_user" class="form-control" value="<?php echo $this->ftp['username']; ?>">
+			</div>
+		</div>
+
+		<div class="control-group" id="upload_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
+			<label for="ftp_pass" class="control-label">
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
+			</label>
+			<div class="controls">
+				<input type="password" id="ftp_pass" name="ftp_pass" class="form-control" value="<?php echo $this->ftp['password']; ?>">
+			</div>
+		</div>
+
+		<div class="control-group" id="upload_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
+			<label for="ftp_root" class="control-label">
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
+			</label>
+			<div class="controls">
+				<input type="text" id="ftp_root" name="ftp_root" class="form-control" value="<?php echo $this->ftp['directory']; ?>">
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="control-group">
+			<div class="controls">
+				<button id="uploadButton" class="btn btn-primary" type="button" onclick="Joomla.submitbuttonUpload()"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
+			</div>
+		</div>
+
 	</fieldset>
 
 	<input type="hidden" name="task" value="update.upload">
