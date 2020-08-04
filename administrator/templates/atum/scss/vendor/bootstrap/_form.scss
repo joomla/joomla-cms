@@ -73,6 +73,12 @@ select.form-control {
     background-color: darken(theme-color("danger"), 8%);
   }
 
+  .button-clear .fa-times {
+    color: white;
+    }
+
+
+
   @include media-breakpoint-down(md) {
     min-width: 100%;
   }
