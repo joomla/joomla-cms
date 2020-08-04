@@ -20,12 +20,12 @@ use Joomla\CMS\Plugin\PluginHelper;
 class PlgInstallerUrlInstaller extends CMSPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Application object.
 	 *
-	 * @var    boolean
-	 * @since  3.6.0
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $autoloadLanguage = true;
+	protected $app;
 
 	/**
 	 * Textfield or Form of the Plugin.
@@ -36,6 +36,9 @@ class PlgInstallerUrlInstaller extends CMSPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
+		// Load language files
+		$this->loadLanguage();
+
 		$tab            = array();
 		$tab['name']    = 'url';
 		$tab['label']   = Text::_('PLG_INSTALLER_URLINSTALLER_TEXT');
