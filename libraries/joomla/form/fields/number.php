@@ -149,11 +149,12 @@ class JFormFieldNumber extends JFormField
 			$formName = $this->form->getName();
 			if (substr($formName, 0, 8) === 'subform.')
 			{
-				$form = $this->form->getFormParent();
-				$prefix = substr($formName, 8);
+				$form      = $this->form->getFormParent();
+				$prefix    = substr($formName, 8);
 				$formGroup = $this->form->getFormParentGroup();
-				if (!empty($formGroup)){
-					$prefix = substr($prefix, strlen($formGroup)+1);
+				if (!empty($formGroup))
+				{
+					$prefix = substr($prefix, strlen($formGroup) + 1);
 				}
 				if (!empty($prefix))
 				{
