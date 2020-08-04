@@ -373,7 +373,8 @@ class JFormFieldSubform extends JFormField
 			'control'      => $control,
 			'parent'       => $parent,
 			'parent-group' => $parentGroup . $this->group
-		));
+			)
+		);
 
 
 		return $tmpl;
