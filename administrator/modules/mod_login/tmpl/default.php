@@ -146,7 +146,7 @@ Text::script('MESSAGE');
 			Text::_('MOD_LOGIN_CREDENTIALS'),
 			[
 				'target' => '_blank',
-				'rel'    => 'noopener noreferrer',
+				'rel'    => 'noopener nofollow',
 				'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS'))
 			]
 		); ?>
