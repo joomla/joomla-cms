@@ -169,23 +169,30 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
 
 
+
 		foreach ($pks as $pk){
 			if($value_intro_image == 0 && $value_full_article_image == 0){
 				//Do nothing
 			}
-			if($value_intro_image == 1 || $value_full_article_image == 1){
+			else {
 				if($value_intro_image == 1){
-
+					if(!isset($model->getItem($pk)->images["image_intro"]) || !file_exists($model->getItem($pk)->images["image_intro"])){
+						Factory::getApplication()->enqueueMessage("ERROR: Intro Image required");
+						return false;
+					}
 				}
 				if($value_full_article_image == 1){
-
+					if(!isset($model->getItem($pk)->images["image_fulltext"]) || !file_exists($model->getItem($pk)->images["image_fulltext"])){
+						Factory::getApplication()->enqueueMessage("ERROR: Full Article Image required");
+						return false;
+					}
 				}
 			}
+			exit();
 
-			print_r($model->getItem($pk)->images);
-			print_r(isset($model->getItem($pk)->images["image_intro"])); //+strleng oder isfile
+			//print_r($model->getItem($pk)->images);
+			//print_r(isset($model->getItem($pk)->images["image_intro"])); //+strleng oder isfile
 		}
-		exit();
 
 		if (!$this->isSupported($context) ||
 			!is_numeric($value_intro_image) ||
