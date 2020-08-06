@@ -24,6 +24,7 @@ use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\Inflector;
+use Joomla\Filesystem;
 /**
  * Workflow Publishing Plugin
  *
@@ -138,25 +139,60 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event)
 	{
 		$context    = $event->getArgument('extension');
+		$extensionName = $event->getArgument('extensionName');
 		$transition = $event->getArgument('transition');
 		$pks        = $event->getArgument('pks');
-		print_r($pks);
-		print_r($transition);
+
+		//get Values from Form
+		$value_intro_image = $transition->options->get('images_intro_image_settings');
+		$value_full_article_image = $transition->options->get('images_full_article_image_settings');
+
+		if (!$this->isSupported($context) ||
+			!is_numeric($value_intro_image) ||
+			!is_numeric($value_full_article_image))
+		{
+			return true;
+		}
+
+		$component = $this->app->bootComponent($extensionName);
+
+		$options = [
+			'ignore_request'            => true,
+			// We already have triggered onContentBeforeChangeState, so use our own
+			'event_before_change_state' => 'onWorkflowBeforeChangeState'
+		];
+
+		// Get model
+
+		$modelName = $component->getModelName($context);
+
+		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
+
+
+		foreach ($pks as $pk){
+			if($value_intro_image == 0 && $value_full_article_image == 0){
+				//Do nothing
+			}
+			if($value_intro_image == 1 || $value_full_article_image == 1){
+				if($value_intro_image == 1){
+
+				}
+				if($value_full_article_image == 1){
+
+				}
+			}
+
+			print_r($model->getItem($pk)->images);
+			print_r(isset($model->getItem($pk)->images["image_intro"])); //+strleng oder isfile
+		}
 		exit();
 
-		if (!$this->isSupported($context) || !is_numeric($transition->options->get('images_intro_image_settings')))
+		if (!$this->isSupported($context) ||
+			!is_numeric($value_intro_image) ||
+				!is_numeric($value_full_article_image))
 		{
 			return true;
 		}
-
-		$value = $transition->options->get('publishing');
-
-		if (!is_numeric($value))
-		{
-			return true;
-		}
-
-
 		return true;
 	}
 
