@@ -6,24 +6,26 @@
 		>
 			<field
 				name="intro-image-settings"
-				type="workflowcondition"
+				type="list"
 				label="Intro Image required"
-				description="PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_DESC"
+				description="Define, if Intro Image should be required, when executing this transistion"
 				default=""
 				hide_all="true"
 				>
+				<option value="">JOPTION_DO_NOT_USE</option>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 
 			<field
 				name="full-article-image-settings"
-				type="workflowcondition"
+				type="list"
 				label="Full Article Image required"
-				description="PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_DESC"
+				description="Define, if Full Article Image should be required, when executing this transistion"
 				default=""
 				hide_all="true"
 			>
+				<option value="">JOPTION_DO_NOT_USE</option>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
