@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="options">
+		<fieldset name="ieifnienfsonfiefns"
+			label="Image Settings"
+		>
+			<field
+				name="intro-image-settings"
+				type="workflowcondition"
+				label="Intro Image required"
+				description="PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_DESC"
+				default=""
+				hide_all="true"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="full-article-image-settings"
+				type="workflowcondition"
+				label="Full Article Image required"
+				description="PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_DESC"
+				default=""
+				hide_all="true"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>
