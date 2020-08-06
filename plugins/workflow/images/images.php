@@ -24,7 +24,6 @@ use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\Inflector;
-
 /**
  * Workflow Publishing Plugin
  *
@@ -69,10 +68,8 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	{
 		return [
 			'onContentPrepareForm'        => 'onContentPrepareForm',
-			'onAfterDisplay'              => 'onAfterDisplay',
 			'onWorkflowBeforeTransition'  => 'onWorkflowBeforeTransition',
 			'onWorkflowAfterTransition'   => 'onWorkflowAfterTransition',
-			'onContentBeforeChangeState'  => 'onContentBeforeChangeState',
 			'onContentBeforeSave'         => 'onContentBeforeSave',
 			'onWorkflowFunctionalityUsed' => 'onWorkflowFunctionalityUsed',
 		];
@@ -95,12 +92,10 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		// Extend the transition form
 		if ($context === 'com_workflow.transition')
 		{
-			$this->enhanceTransitionForm($form, $data);
+			$this->enhanceWorkflowTransitionForm($form, $data);
 
 			return;
 		}
-
-		$this->enhanceItemForm($form, $data);
 
 		return;
 	}
@@ -115,7 +110,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	protected function enhanceTransitionForm(Form $form, $data)
+	/*protected function enhanceTransitionForm(Form $form, $data)
 	{
 		$workflow = $this->enhanceWorkflowTransitionForm($form, $data);
 
@@ -127,141 +122,9 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$form->setFieldAttribute('publishing', 'extension', $workflow->extension, 'options');
 
 		return true;
-	}
+	}*/
 
-	/**
-	 * Disable certain fields in the item  form view, when we want to take over this function in the transition
-	 * Check also for the workflow implementation and if the field exists
-	 *
-	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	protected function enhanceItemForm(Form $form, $data)
-	{
-		$context = $form->getName();
 
-		if (!$this->isSupported($context))
-		{
-			return true;
-		}
-
-		$parts = explode('.', $context);
-
-		$component = $this->app->bootComponent($parts[0]);
-
-		$modelName = $component->getModelName($context);
-
-		$table = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true])
-			->getTable();
-
-		$fieldname = $table->getColumnAlias('published');
-
-		$options = $form->getField($fieldname)->options;
-
-		$value = isset($data->$fieldname) ? $data->$fieldname : $form->getValue($fieldname, null, 0);
-
-		$text = '-';
-
-		$textclass = 'body';
-
-		switch ($value)
-		{
-			case 1:
-				$textclass = 'success';
-				break;
-
-			case 0:
-			case -2:
-				$textclass = 'danger';
-		}
-
-		if (!empty($options))
-		{
-			foreach ($options as $option)
-			{
-				if ($option->value == $value)
-				{
-					$text = $option->text;
-
-					break;
-				}
-			}
-		}
-
-		$form->setFieldAttribute($fieldname, 'type', 'spacer');
-
-		$label = '<span class="text-' . $textclass . '">' . htmlentities($text, ENT_COMPAT, 'UTF-8') . '</span>';
-		$form->setFieldAttribute($fieldname, 'label', Text::sprintf('PLG_WORKFLOW_PUBLISHING_PUBLISHED', $label));
-
-		return true;
-	}
-
-	/**
-	 * Manipulate the generic list view
-	 *
-	 * @param   DisplayEvent    $event
-	 *
-	 * @since   4.0.0
-	 */
-	public function onAfterDisplay(DisplayEvent $event)
-	{
-		$app = Factory::getApplication();
-
-		if (!$app->isClient('administrator'))
-		{
-			return;
-		}
-
-		$component = $event->getArgument('extensionName');
-		$section   = $event->getArgument('section');
-
-		// We need the single model context for checking for workflow
-		$singularsection = Inflector::singularize($section);
-
-		if (!$this->isSupported($component . '.' . $singularsection))
-		{
-			return true;
-		}
-
-		// That's the hard coded list from the AdminController publish method => change, when it's make dynamic in the future
-		$states = [
-			'publish',
-			'unpublish',
-			'archive',
-			'trash',
-			'report'
-		];
-
-		$js = "
-			document.addEventListener('DOMContentLoaded', function()
-			{
-				var dropdown = document.getElementById('toolbar-dropdown-status-group');
-
-				if (!dropdown)
-				{
-					return;
-				}
-
-				" . \json_encode($states) . ".forEach((action) => {
-					var button = document.getElementById('status-group-children-' + action);
-
-					if (button)
-					{
-						button.classList.add('d-none');
-					}
-				});
-
-			});
-		";
-
-		$app->getDocument()->addScriptDeclaration($js);
-
-		return true;
-	}
 
 	/**
 	 * Check if we can execute the transition
@@ -277,8 +140,11 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$context    = $event->getArgument('extension');
 		$transition = $event->getArgument('transition');
 		$pks        = $event->getArgument('pks');
+		print_r($pks);
+		print_r($transition);
+		exit();
 
-		if (!$this->isSupported($context) || !is_numeric($transition->options->get('publishing')))
+		if (!$this->isSupported($context) || !is_numeric($transition->options->get('images_intro_image_settings')))
 		{
 			return true;
 		}
@@ -290,27 +156,6 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 			return true;
 		}
 
-		/**
-		 * Here it becomes tricky. We would like to use the component models publish method, so we will
-		 * Execute the normal "onContentBeforeChangeState" plugins. But they could cancel the execution,
-		 * So we have to precheck and cancel the whole transition stuff if not allowed.
-		 */
-		$this->app->set('plgWorkflowPublishing.' . $context, $pks);
-
-		$result = $this->app->triggerEvent('onContentBeforeChangeState', [
-			$context,
-			$pks,
-			$value
-			]
-		);
-
-		// Release whitelist, the job is done
-		$this->app->set('plgWorkflowPublishing.' . $context, []);
-
-		if (\in_array(false, $result, true))
-		{
-			return false;
-		}
 
 		return true;
 	}

@@ -5,7 +5,7 @@
 			label="Image Settings"
 		>
 			<field
-				name="intro-image-settings"
+				name="images_intro_image_settings"
 				type="list"
 				label="Intro Image required"
 				description="Define, if Intro Image should be required, when executing this transistion"
@@ -18,7 +18,7 @@
 			</field>
 
 			<field
-				name="full-article-image-settings"
+				name="images_full_article_image_settings"
 				type="list"
 				label="Full Article Image required"
 				description="Define, if Full Article Image should be required, when executing this transistion"
