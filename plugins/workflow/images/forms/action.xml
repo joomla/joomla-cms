@@ -31,10 +31,10 @@
 			</field>
 
 			<field
-				name="imagesWidth"
+				name="introImageHeight"
 				type="number"
-				label="Width"
-				description="Width of cropped image"
+				label="Height"
+				description="Height of cropped Intro Image"
 				default=""
 				hide_all="true"
 				step="1"
@@ -42,10 +42,32 @@
 			</field>
 
 			<field
-				name="imagesHeight"
+				name="fullArticleImageHeight"
 				type="number"
 				label="Height"
-				description="Height of cropped image"
+				description="Height of cropped Full Article Image"
+				default=""
+				hide_all="true"
+				step="1"
+			>
+			</field>
+
+			<field
+				name="introImageWidth"
+				type="number"
+				label="Width"
+				description="Width of cropped Intro Image"
+				default=""
+				hide_all="true"
+				step="1"
+			>
+			</field>
+
+			<field
+				name="fullArticleImageWidth"
+				type="number"
+				label="Height"
+				description="Width of cropped Full Article Image"
 				default=""
 				hide_all="true"
 				step="1"
