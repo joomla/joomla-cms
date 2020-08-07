@@ -17,7 +17,9 @@ use Joomla\CMS\Layout\LayoutHelper;
 <?php foreach ($items as $item) : ?>
 <li>
 	<?php if ($params->get('link_titles') == 1) : ?>
-		<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+<!-- Hier gibt es nun 2 Arten von Links. Ein mal zum bearbeiten und einmal nur zum anzeigen -->
+<!--	<a class="mod-articles-category-title --><?php //echo $item->active; ?><!--" href="--><?php //echo $item->link . '?task=article.edit&a_id=' . $item->id?><!--">-->
+	<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link?>">
 			<?php echo $item->title; ?>
 		</a>
 	<?php else : ?>
