@@ -274,7 +274,7 @@ class WorkflowsModel extends ListModel
 		$orderCol  = $this->state->get('list.ordering', 'w.ordering');
 		$orderDirn = strtoupper($this->state->get('list.direction', 'ASC'));
 
-		$query->order($db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn === 'DESC' ? 'DESC' : 'ASC'));
+		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn === 'DESC' ? 'DESC' : 'ASC'));
 
 		return $query;
 	}
