@@ -13,6 +13,8 @@ namespace Joomla\Component\Media\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -22,6 +24,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\String\StringHelper;
 
 /**
  * Api Media Controller
@@ -272,7 +275,16 @@ class ApiController extends BaseController
 		{
 			$this->checkContent();
 
-			$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+			if ($content->get('isCopy'))
+			{
+				$name = $this->generateNewName($name, $path);
+				$path = dirname($path) . $name;
+				$this->getModel()->createFile($adapter, $name, str_replace($name, '', $path), $mediaContent, false);
+			}
+			else
+			{
+				$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+			}
 		}
 
 		if ($newPath != null && $newPath !== $adapter . ':' . $path)
@@ -292,6 +304,29 @@ class ApiController extends BaseController
 		}
 
 		return $this->getModel()->getFile($adapter, $path);
+	}
+
+	/**
+	 * Method to change the name of an image
+	 *
+	 * @param   string   $name      The current name.
+	 * @param   string   $path      The path.
+	 *
+	 * @return  string    Contains the modified name.
+	 *
+	 * @since   4.0
+	 */
+	protected function generateNewName($name, $path)
+	{
+		$extension = File::getExt($name);
+
+		while (is_file(Path::check(JPATH_ROOT . '/images/' . dirname($path) . $name)))
+		{
+			$base = File::stripExt($name);
+			$name = StringHelper::increment($base, 'dash') . '.' . $extension;
+		}
+
+		return $name;
 	}
 
 	/**

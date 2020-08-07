@@ -131,6 +131,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     const forUpload = {
       name,
       content: Joomla.MediaManager.Edit.current.contents.replace(`data:image/${format};base64,`, ''),
+      isCopy: false
     };
 
 
@@ -158,6 +159,11 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       case 'apply':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
         Joomla.MediaManager.Edit.Reset(true);
+        break;
+      case 'save2copy':
+        forUpload.isCopy = true;
+        Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
+        window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
         break;
       case 'save':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);

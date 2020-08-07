@@ -69,7 +69,11 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
 		ToolbarHelper::apply('apply');
-		ToolbarHelper::save('save');
+		$toolbarButtons = [['save2copy', 'save2copy'], ['save', 'save']];
+		ToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 		ToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
 
 		ToolbarHelper::cancel('cancel');
