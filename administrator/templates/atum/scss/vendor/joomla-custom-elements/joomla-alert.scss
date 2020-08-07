@@ -18,9 +18,9 @@
 
   .alert-heading {
     display: flex;
+    flex-direction: column;
     padding: .8rem;
     color: rgba(255, 255, 255, .95);
-    flex-direction: column;
     justify-content: center;
     align-content: center;
     background: var(--alert-accent-color, transparent);
