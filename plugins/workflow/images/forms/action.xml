@@ -9,7 +9,7 @@
 				type="list"
 				label="Intro Image required"
 				description="Define, if Intro Image should be required, when executing this transistion"
-				default=""
+				default="0"
 				hide_all="true"
 				>
 				<option value="">JOPTION_DO_NOT_USE</option>
@@ -22,12 +22,34 @@
 				type="list"
 				label="Full Article Image required"
 				description="Define, if Full Article Image should be required, when executing this transistion"
-				default=""
+				default="0"
 				hide_all="true"
 			>
 				<option value="">JOPTION_DO_NOT_USE</option>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="imagesWidth"
+				type="number"
+				label="Width"
+				description="Width of cropped image"
+				default=""
+				hide_all="true"
+				step="1"
+			>
+			</field>
+
+			<field
+				name="imagesHeight"
+				type="number"
+				label="Height"
+				description="Height of cropped image"
+				default=""
+				hide_all="true"
+				step="1"
+			>
 			</field>
 		</fieldset>
 	</fields>
