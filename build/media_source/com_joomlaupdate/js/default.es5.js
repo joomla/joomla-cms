@@ -9,13 +9,19 @@ Joomla = window.Joomla || {};
 	'use strict';
 
 	Joomla.extractionMethodHandler = function(element, prefix) {
-		var displayStyle = element.value === 'direct' ? 'hidden' : 'table-row';
+		var dom = [
+			prefix + '_hostname',
+			prefix + '_port',
+			prefix + '_username',
+			prefix + '_password',
+			prefix + '_directory'
+		];
 
-		document.getElementById(prefix + '_hostname').classList.add(displayStyle);
-		document.getElementById(prefix + '_port').classList.add(displayStyle);
-		document.getElementById(prefix + '_username').classList.add(displayStyle);
-		document.getElementById(prefix + '_password').classList.add(displayStyle);
-		document.getElementById(prefix + '_directory').classList.add(displayStyle);
+		if (element.value === 'direct') {
+			dom.map(el => document.getElementById(el).classList.add('hidden'));
+		} else {
+			dom.map(el => document.getElementById(el).classList.remove('hidden'));
+		}
 	}
 
 	Joomla.submitbuttonUpload = function() {

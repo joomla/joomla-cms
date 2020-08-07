@@ -73,19 +73,25 @@
             "name": "bootstrap.css.grid",
             "type": "style",
             "uri": "bootstrap-grid.min.css",
-            "dependencies": ["bootstrap.css"]
+            "dependencies": [
+              "bootstrap.css"
+            ]
           },
           {
             "name": "bootstrap.js",
             "type": "script",
             "uri": "bootstrap.min.js",
-            "dependencies": ["jquery"]
+            "dependencies": [
+              "jquery"
+            ]
           },
           {
             "name": "bootstrap.js.bundle",
             "type": "script",
             "uri": "bootstrap.bundle.min.js",
-            "dependencies": ["jquery"]
+            "dependencies": [
+              "jquery"
+            ]
           }
         ],
         "dependencies": [],
@@ -232,15 +238,15 @@
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
       },
-	  "roboto-fontface": {
-		"name": "roboto-fontface",
-		"filesExtra": {
-		  "css": "scss",
-		  "fonts": "fonts"
-		},
+      "roboto-fontface": {
+        "name": "roboto-fontface",
+        "filesExtra": {
+          "css": "scss",
+          "fonts": "fonts"
+        },
         "dependencies": [],
-		"licenseFilename": "LICENSE"
-	  },
+        "licenseFilename": "LICENSE"
+      },
       "@fortawesome/fontawesome-free": {
         "name": "fontawesome-free",
         "css": {
@@ -291,7 +297,9 @@
             "name": "jquery-migrate",
             "type": "script",
             "uri": "jquery-migrate.min.js",
-            "dependencies": ["jquery"]
+            "dependencies": [
+              "jquery"
+            ]
           }
         ],
         "dependencies": [
@@ -409,7 +417,9 @@
             "name": "minicolors",
             "type": "script",
             "uri": "jquery.minicolors.min.js",
-            "dependencies": ["jquery"],
+            "dependencies": [
+              "jquery"
+            ],
             "attributes": {
               "defer": true
             }
@@ -585,13 +595,17 @@
             "name": "qrcode_SJIS",
             "type": "script",
             "uri": "qrcode_SJIS.js",
-            "dependencies": ["qrcode"]
+            "dependencies": [
+              "qrcode"
+            ]
           },
           {
             "name": "qrcode_UTF8",
             "type": "script",
             "uri": "qrcode_UTF8.js",
-            "dependencies": ["qrcode"]
+            "dependencies": [
+              "qrcode"
+            ]
           },
           {
             "name": "qrcode",
