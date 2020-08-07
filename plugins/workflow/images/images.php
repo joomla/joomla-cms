@@ -23,8 +23,6 @@ use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
-use Joomla\String\Inflector;
-use Joomla\Filesystem;
 use Joomla\CMS\Image\Image;
 /**
  * Workflow Publishing Plugin
@@ -180,9 +178,10 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 			{
 				if ($value_intro_image == 1)
 				{
-					if ($model->getItem($pk)->images["image_intro"] === "" || !file_exists(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_intro"]))
+					if (!($model->getItem($pk)->images["image_intro"]) || !file_exists(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_intro"]))
 					{
 						Factory::getApplication()->enqueueMessage("ERROR: Intro Image required");
+						$event->setStopTransition(true);
 
 						return false;
 					}
@@ -190,9 +189,10 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 				if ($value_full_article_image == 1)
 				{
-					if ($model->getItem($pk)->images["image_fulltext"] === "" || !file_exists(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"]))
+					if (!($model->getItem($pk)->images["image_fulltext"]) || !file_exists(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"]))
 					{
 						Factory::getApplication()->enqueueMessage("ERROR: Full Article Image required");
+						$event->setStopTransition(true);
 
 						return false;
 					}
@@ -229,6 +229,9 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$transition    = $event->getArgument('transition');
 		$pks           = $event->getArgument('pks');
 
+		$intro_image_required = $transition->options->get('images_intro_image_settings');
+		$full_article_image_required = $transition->options->get('images_full_article_image_settings');
+
 		if (!$this->isSupported($context))
 		{
 			return true;
@@ -236,21 +239,17 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		$component = $this->app->bootComponent($extensionName);
 
-		$width = $transition->options->get('imagesWidth');
+		$fullArticleWidth = $transition->options->get('fullArticleImageWidth');
+		$fullArticleHeight = $transition->options->get('fullArticleImageHeight');
 
-		$height = $transition->options->get('imagesHeight');
+		$introWidth = $transition->options->get('introImageWidth');
+		$introHeight = $transition->options->get('introImageHeight');
 
-		$rect = array(
-			"x" => 0,
-			"y" => 0,
-			"width" => $width,
-			"height" => $height
-		);
-
+		/*
 		if (!is_numeric($width))
 		{
 			return;
-		}
+		}*/
 
 		$options = [
 			'ignore_request'            => true,
@@ -264,12 +263,30 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk)
 		{
-			$image = imagecreatefromstring($model->getItem($pk)->images["image_intro"]);
-			$croppedImage = imagecrop($image, $rect);
-			var_dump($croppedImage);
+			if ($intro_image_required)
+			{
+				if ($model->getItem($pk)->images["image_intro"])
+				{
+					$image = new Image;
+					$image->loadFile(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_intro"]);
+					$image->cropResize($introWidth, $introHeight, true);
+					$image->toFile(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_intro"] . "resized", IMAGETYPE_JPEG);
+				}
+			}
+
+			if ($full_article_image_required)
+			{
+				if ($model->getItem($pk)->images["image_fulltext"])
+				{
+					$image = new Image();
+					$image->loadFile(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"]);
+					$image->cropResize($fullArticleWidth, $fullArticleHeight, true);
+					$image->toFile(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"] . "resized", IMAIMAGETYPE_JPEG);
+				}
+			}
 		}
 
-		$model->publish($pks, $height);
+		// $model->publish($pks);
 	}
 
 	/**
