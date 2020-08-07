@@ -19,10 +19,10 @@
   .alert-heading {
     display: flex;
     flex-direction: column;
-    padding: .8rem;
-    color: rgba(255, 255, 255, .95);
     justify-content: center;
     align-content: center;
+    padding: .8rem;
+    color: rgba(255, 255, 255, .95);
     background: var(--alert-accent-color, transparent);
   }
 
