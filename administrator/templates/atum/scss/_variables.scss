@@ -2,7 +2,7 @@
 @import "../../../../media/vendor/bootstrap/scss/functions";
 
 $white:                            #fff;
-$whiteoffset:                      #fefefe;
+$white-offset:                     #fefefe;
 $gray-100:                         #f8f9fa;
 $gray-200:                         #e8e8e8;
 $gray-300:                         #dee2e6; //used for toolbar and badges
@@ -63,7 +63,7 @@ $colors: (
   danger-border:                   theme-color("danger"),
   login-main-bg:                   darken($base-color, 8%), //used on login
   border:                          $gray-400,
-  white-offset:                    $whiteoffset,
+  white-offset:                    $white-offset,
   focus:                           $focuscolor,
   focus-shadow:                    $focusshadow,
   toggle-color:                    $white, //used in sidebar
