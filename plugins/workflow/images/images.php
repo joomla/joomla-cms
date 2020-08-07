@@ -111,7 +111,8 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	/*protected function enhanceTransitionForm(Form $form, $data)
+	/*
+	protected function enhanceTransitionForm(Form $form, $data)
 	{
 		$workflow = $this->enhanceWorkflowTransitionForm($form, $data);
 
@@ -143,13 +144,13 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$transition = $event->getArgument('transition');
 		$pks        = $event->getArgument('pks');
 
-		//get Values from Form
+		// Get Values from Form
 		$value_intro_image = $transition->options->get('images_intro_image_settings');
 		$value_full_article_image = $transition->options->get('images_full_article_image_settings');
 
-		if (!$this->isSupported($context) ||
-			!is_numeric($value_intro_image) ||
-			!is_numeric($value_full_article_image))
+		if (!$this->isSupported($context)
+			|| !is_numeric($value_intro_image)
+			|| !is_numeric($value_full_article_image))
 		{
 			return true;
 		}
@@ -168,38 +169,50 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
 
+		foreach ($pks as $pk)
+		{
+			print_r($transition);
 
-
-		foreach ($pks as $pk){
-			if($value_intro_image == 0 && $value_full_article_image == 0){
-				//Do nothing
+			if ($value_intro_image == 0 && $value_full_article_image == 0)
+			{
+				// Do nothing
 			}
-			else {
-				if($value_intro_image == 1){
-					if(!isset($model->getItem($pk)->images["image_intro"]) || !file_exists($model->getItem($pk)->images["image_intro"])){
+			else
+			{
+				if ($value_intro_image == 1)
+				{
+					if (!isset($model->getItem($pk)->images["image_intro"]) || !file_exists($model->getItem($pk)->images["image_intro"]))
+					{
 						Factory::getApplication()->enqueueMessage("ERROR: Intro Image required");
+
 						return false;
 					}
 				}
-				if($value_full_article_image == 1){
-					if(!isset($model->getItem($pk)->images["image_fulltext"]) || !file_exists($model->getItem($pk)->images["image_fulltext"])){
+
+				if ($value_full_article_image == 1)
+				{
+					if (!isset($model->getItem($pk)->images["image_fulltext"]) || !file_exists($model->getItem($pk)->images["image_fulltext"]))
+					{
 						Factory::getApplication()->enqueueMessage("ERROR: Full Article Image required");
+
 						return false;
 					}
 				}
 			}
+
 			exit();
 
-			//print_r($model->getItem($pk)->images);
-			//print_r(isset($model->getItem($pk)->images["image_intro"])); //+strleng oder isfile
+			// Print_r($model->getItem($pk)->images);
+			// print_r(isset($model->getItem($pk)->images["image_intro"])); //+strleng oder isfile
 		}
 
-		if (!$this->isSupported($context) ||
-			!is_numeric($value_intro_image) ||
-				!is_numeric($value_full_article_image))
+		if (!$this->isSupported($context)
+			|| !is_numeric($value_intro_image)
+			|| !is_numeric($value_full_article_image))
 		{
 			return true;
 		}
+
 		return true;
 	}
 
@@ -218,6 +231,8 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$extensionName = $event->getArgument('extensionName');
 		$transition    = $event->getArgument('transition');
 		$pks           = $event->getArgument('pks');
+
+
 
 		if (!$this->isSupported($context))
 		{
@@ -242,6 +257,8 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$modelName = $component->getModelName($context);
 
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
+
+
 
 		$model->publish($pks, $value);
 	}
