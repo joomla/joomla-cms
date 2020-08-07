@@ -24,6 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\ArticleModel;
 
 /**
  * HTML Article View class for the Content component
@@ -92,8 +93,10 @@ class HtmlView extends BaseHtmlView
 
 		$app        = Factory::getApplication();
 		$user       = Factory::getUser();
+		/** @var ArticleModel $model */
+		$model = $this->getModel();
+		$this->item  = $model->getItem();
 
-		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print', false);
 		$this->state = $this->get('State');
 		$this->user  = $user;

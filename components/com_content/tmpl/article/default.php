@@ -26,11 +26,34 @@ $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = Factory::getUser();
 $info    = $params->get('info_block_position', 0);
+// experimental stuff
+$this->tab_name = 'com-content-form';
+$this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
+$this->useCoreUI = true;
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 <div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
+	<script src="https://cdn.tiny.cloud/1/b89j3a5vkfye61z7c68hc33rljvvy5s5hlr9jvjqy671vvbh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+	<script>
+		tinymce.init({
+			selector: '.com-content-article__body',
+			menubar: false,
+			inline: true,
+			plugins: [
+				'link',
+				'lists',
+				'powerpaste',
+				'autolink',
+				'tinymcespellchecker'
+			],
+			toolbar: [
+				'undo redo | bold italic underline | fontselect fontsizeselect',
+				'forecolor backcolor | alignleft aligncenter alignright alignfull | numlist bullist outdent indent'
+			]
+		});
+	</script>
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
@@ -97,10 +120,14 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php if (isset ($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
+
+	<!-- form for inline editing needs to be here-->
 	<div itemprop="articleBody" class="com-content-article__body">
 		<?php echo $this->item->text; ?>
 	</div>
+	<!-- experiment from here -->
 
+<!-- experiment end here-->
 	<?php if ($info == 1 || $info == 2) : ?>
 		<?php if ($useDefList) : ?>
 			<?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
