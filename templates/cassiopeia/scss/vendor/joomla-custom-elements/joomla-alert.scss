@@ -5,8 +5,8 @@
 
 #system-message-container joomla-alert {
   position: relative;
-  width:100%;
   display: flex;
+  width:100%;
   min-width: 16rem;
   padding: 0;
   margin-bottom: 1rem;
@@ -19,11 +19,11 @@
   .alert-heading {
     display: flex;
     padding: .8rem;
-    color: rgba(255, 255, 255, 0.95);
-    background: var(--alert-accent-color, transparent);
+    color: rgba(255, 255, 255, .95);
+    flex-direction: column;
     justify-content: center;
     align-content: center;
-    flex-direction: column;
+    background: var(--alert-accent-color, transparent);
   }
 
   .alert-link {
