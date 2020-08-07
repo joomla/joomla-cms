@@ -177,7 +177,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				if($value_intro_image == 1){
 					if(!($model->getItem($pk)->images["image_intro"]) || !file_exists(JPATH_ROOT."/".$model->getItem($pk)->images["image_intro"])){
 						Factory::getApplication()->enqueueMessage("ERROR: Intro Image required");
-						$event->addArgument('stopTransition', 1);
+						$event->setStopTransition();
 						return false;
 					}
 
@@ -185,7 +185,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				if($value_full_article_image == 1){
 					if(!($model->getItem($pk)->images["image_fulltext"]) || !file_exists(JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"])){
 						Factory::getApplication()->enqueueMessage("ERROR: Full Article Image required");
-						$event->addArgument('stopTransition', 1);
+						$event->setStopTransition();
 						return false;
 					}
 				}
@@ -254,19 +254,19 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		foreach ($pks as $pk){
 
 			if($intro_image_required == 1){
-				if(!isset($model->getItem($pk)->images["image_intro"]) || !file_exists(JPATH_ROOT."/".$model->getItem($pk)->images["image_intro"])){
+				if(($model->getItem($pk)->images['image_intro'])){
 					$image = new Image();
-					$image->loadFile(JPATH_ROOT."/".$model->getItem($pk)->images["image_intro"]);
-					$image->cropResize($introWidth,$introHeight,true);
-					$image->toFile(JPATH_ROOT."/".$model->getItem($pk)->images["image_intro"]."resized",IMAGETYPE_JPEG);
+					$image->loadFile(JPATH_ROOT."/".$model->getItem($pk)->images['image_intro']);
+					$newImage = $image->cropResize($introWidth,$introHeight,true);
+					$newImage->toFile(JPATH_ROOT."/images/"."intro_image_resized.jpeg",IMAGETYPE_JPEG);
 				}
 			}
 			if($full_article_image_required == 1){
-				if(!isset($model->getItem($pk)->images["image_fulltext"]) || !file_exists(JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"])){
+				if(($model->getItem($pk)->images["image_fulltext"])){
 					$image = new Image();
 					$image->loadFile(JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"]);
-					$image->cropResize($fullArticleWidth,$fullArticleHeight,true);
-					$image->toFile(JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"]."resized",IMAIMAGETYPE_JPEG);
+					$newImage = $image->cropResize($fullArticleWidth,$fullArticleHeight,true);
+					$newImage->toFile(JPATH_ROOT."/images/"."full_article_image_resized.jpeg",IMAIMAGETYPE_JPEG);
 				}
 			}
 		}
