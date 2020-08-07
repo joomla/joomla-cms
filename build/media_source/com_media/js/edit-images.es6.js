@@ -131,7 +131,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     const forUpload = {
       name,
       content: Joomla.MediaManager.Edit.current.contents.replace(`data:image/${format};base64,`, ''),
-      isCopy: false
+      isCopy: false,
     };
 
 
