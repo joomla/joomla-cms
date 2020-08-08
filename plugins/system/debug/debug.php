@@ -127,6 +127,14 @@ class PlgSystemDebug extends CMSPlugin
 	protected $isAjax = false;
 
 	/**
+	 * Whether displaing a logs is enabled
+	 *
+	 * @var   bool
+	 * @since 4.0.0
+	 */
+	protected $showLogs = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   DispatcherInterface  &$subject  The object to observe.
@@ -167,7 +175,7 @@ class PlgSystemDebug extends CMSPlugin
 		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
 			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
 
-		$this->setupLogging();
+		$this->showLogs = (bool) $this->params->get('logs', false);
 	}
 
 	/**
@@ -205,6 +213,24 @@ class PlgSystemDebug extends CMSPlugin
 		if (JDEBUG && (int) $this->params->get('refresh_assets', 1) === 0)
 		{
 			$this->app->getDocument()->setMediaVersion(null);
+		}
+
+		// Log deprecated class aliases
+		if ($this->showLogs && $this->app->get('log_deprecated'))
+		{
+			foreach (JLoader::getDeprecatedAliases() as $deprecation)
+			{
+				Log::add(
+					sprintf(
+						'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
+						$deprecation['old'],
+						$deprecation['new'],
+						$deprecation['version']
+					),
+					Log::WARNING,
+					'deprecation-notes'
+				);
+			}
 		}
 	}
 
@@ -263,7 +289,7 @@ class PlgSystemDebug extends CMSPlugin
 				$this->debugBar->addCollector(new QueryCollector($this->params, $this->queryMonitor, $this->sqlShowProfileEach, $this->explains));
 			}
 
-			if (!empty($this->logEntries) && $this->params->get('logs', 1))
+			if ($this->showLogs)
 			{
 				$this->collectLogs();
 			}
@@ -349,66 +375,6 @@ class PlgSystemDebug extends CMSPlugin
 			default:
 				return '';
 		}
-	}
-
-	/**
-	 * Setup logging functionality.
-	 *
-	 * @return $this
-	 *
-	 * @since 4.0.0
-	 */
-	private function setupLogging(): self
-	{
-		// Log the deprecated API.
-		if ($this->params->get('log-deprecated'))
-		{
-			Log::addLogger(['text_file' => 'deprecated.php'], Log::ALL, ['deprecated']);
-		}
-
-		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything', 0))
-		{
-			Log::addLogger(['text_file' => 'everything.php'], Log::ALL, ['deprecated', 'databasequery'], true);
-		}
-
-		if ($this->params->get('logs', 1))
-		{
-			$priority = 0;
-
-			foreach ($this->params->get('log_priorities', []) as $p)
-			{
-				$const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
-
-				if (defined($const))
-				{
-					$priority |= constant($const);
-				}
-			}
-
-			// Split into an array at any character other than alphabet, numbers, _, ., or -
-			$categories = preg_split('/[^\w.-]+/', $this->params->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
-			$mode = $this->params->get('log_category_mode', 0);
-
-			Log::addLogger(['logger' => 'callback', 'callback' => [$this, 'logger']], $priority, $categories, $mode);
-		}
-
-		// Log deprecated class aliases
-		foreach (JLoader::getDeprecatedAliases() as $deprecation)
-		{
-			Log::add(
-				sprintf(
-					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
-					$deprecation['old'],
-					$deprecation['new'],
-					$deprecation['version']
-				),
-				Log::WARNING,
-				'deprecation-notes'
-			);
-		}
-
-		return $this;
 	}
 
 	/**
@@ -544,9 +510,16 @@ class PlgSystemDebug extends CMSPlugin
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated  5.0  Use Log::add(LogEntry $entry);
 	 */
 	public function logger(LogEntry $entry)
 	{
+		if (!$this->showLogs)
+		{
+			return;
+		}
+
 		$this->logEntries[] = $entry;
 	}
 
@@ -559,12 +532,21 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	private function collectLogs(): self
 	{
-		if (!$this->logEntries)
+		$loggerOptions = ['group' => 'default'];
+		$logger        = new Joomla\CMS\Log\Logger\InMemoryLogger($loggerOptions);
+		$logEntries    = $logger->getCollectedEntries();
+
+		if (!$this->logEntries && !$logEntries)
 		{
 			return $this;
 		}
 
-		$logDeprecated = $this->params->get('log-deprecated', 0);
+		if ($this->logEntries)
+		{
+			$logEntries = array_merge($logEntries, $this->logEntries);
+		}
+
+		$logDeprecated = $this->app->get('log_deprecated', 0);
 		$logDeprecatedCore = $this->params->get('log-deprecated-core', 0);
 
 		$this->debugBar->addCollector(new MessagesCollector('log'));
@@ -580,7 +562,7 @@ class PlgSystemDebug extends CMSPlugin
 			$this->debugBar->addCollector(new MessagesCollector('deprecated-core'));
 		}
 
-		foreach ($this->logEntries as $entry)
+		foreach ($logEntries as $entry)
 		{
 			switch ($entry->category)
 			{
