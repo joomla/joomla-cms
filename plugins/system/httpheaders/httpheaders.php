@@ -251,11 +251,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// In detecting mode we set this default rule so any report gets collected by com_csp
 		if ($cspMode === 'detect')
 		{
-			$frontendUrl = str_replace('/administrator', '', Uri::base());
-
 			$this->app->setHeader(
 				'content-security-policy-report-only',
-				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
+				"default-src 'self'; report-uri " . Uri::root() . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
 			);
 
 			return;
