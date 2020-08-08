@@ -1,12 +1,12 @@
 @import "../../variables";
-@import "../../../../../node_modules/joomla-ui-custom-elements/dist/css/joomla-alert";
+@import "../../../../../../node_modules/joomla-ui-custom-elements/dist/css/joomla-alert";
 
 // The following is a restyle for the system alerts
 
 #system-message-container joomla-alert {
   position: relative;
-  display: flex;
   width: 100%;
+  display: flex;
   min-width: 16rem;
   padding: 0;
   margin-bottom: 1rem;
@@ -18,12 +18,12 @@
 
   .alert-heading {
     display: flex;
-    flex-direction: column;
+    padding: .8rem;
+    color: rgba(255, 255, 255, 0.95);
+    background: var(--alert-accent-color, transparent);
     justify-content: center;
     align-content: center;
-    padding: .8rem;
-    color: rgba(255, 255, 255, .95);
-    background: var(--alert-accent-color, transparent);
+    flex-direction: column;
   }
 
   .alert-link {
@@ -49,8 +49,9 @@
   .joomla-alert--close,
   .joomla-alert-button--close {
     position: absolute;
+    padding: .2rem .8rem;
     top: 0;
-    right: .3rem;
+    right: 0;
     font-size: 2rem;
     color: var(--alert-accent-color);
     background: none;
@@ -65,6 +66,7 @@
     }
 
     [dir=rtl] & {
+      padding: .2rem .6rem;
       right: auto;
       left: 0;
     }
