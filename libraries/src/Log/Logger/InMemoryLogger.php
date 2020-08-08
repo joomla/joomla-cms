@@ -14,7 +14,7 @@ use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 
 /**
- * Logger class that keep all entries in memory
+ * Logger class that keeps all entries in memory
  *
  * @since  4.0.0
  */

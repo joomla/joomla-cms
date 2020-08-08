@@ -1102,35 +1102,35 @@
 		label="CONFIG_LOGGING_SETTINGS_LABEL">
 
 		<field
-				name="log_path"
-				type="text"
-				label="COM_CONFIG_FIELD_LOG_PATH_LABEL"
-				required="true"
-				filter="string"
-				size="50"
+			name="log_path"
+			type="text"
+			label="COM_CONFIG_FIELD_LOG_PATH_LABEL"
+			required="true"
+			filter="string"
+			size="50"
 		/>
 
 		<field
-				name="log_everything"
-				type="radio"
-				label="COM_CONFIG_FIELD_LOG_EVERYTHING_LABEL"
-				description="COM_CONFIG_FIELD_LOG_EVERYTHING_DESC"
-				layout="joomla.form.field.radio.switcher"
-				default="0"
-				filter="integer"
-		>
+			name="log_everything"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOG_EVERYTHING_LABEL"
+			description="COM_CONFIG_FIELD_LOG_EVERYTHING_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
 		<field
-				name="log_deprecated"
-				type="radio"
-				label="COM_CONFIG_FIELD_LOG_DEPRECATED_LABEL"
-				layout="joomla.form.field.radio.switcher"
-				default="0"
-				filter="integer"
-		>
+			name="log_deprecated"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOG_DEPRECATED_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -1141,14 +1141,14 @@
 		label="CONFIG_LOGGING_CUSTOM_SETTINGS_LABEL">
 
 		<field
-				name="log_priorities"
-				type="list"
-				label="COM_CONFIG_FIELD_LOG_PRIORITIES_LABEL"
-				multiple="true"
-				layout="joomla.form.field.list-fancy-select"
-				default="all"
-				validate="options"
-		>
+			name="log_priorities"
+			type="list"
+			label="COM_CONFIG_FIELD_LOG_PRIORITIES_LABEL"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			default="all"
+			validate="options"
+			>
 			<option value="all">COM_CONFIG_FIELD_LOG_PRIORITIES_ALL</option>
 			<option value="emergency">COM_CONFIG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
 			<option value="alert">COM_CONFIG_FIELD_LOG_PRIORITIES_ALERT</option>
@@ -1161,22 +1161,22 @@
 		</field>
 
 		<field
-				name="log_categories"
-				type="text"
-				label="COM_CONFIG_FIELD_LOG_CATEGORIES_LABEL"
-				description="COM_CONFIG_FIELD_LOG_CATEGORIES_DESC"
-				size="60"
-				default=""
+			name="log_categories"
+			type="text"
+			label="COM_CONFIG_FIELD_LOG_CATEGORIES_LABEL"
+			description="COM_CONFIG_FIELD_LOG_CATEGORIES_DESC"
+			size="60"
+			default=""
 		/>
 
 		<field
-				name="log_category_mode"
-				type="radio"
-				label="COM_CONFIG_FIELD_LOG_CATEGORY_MODE_LABEL"
-				layout="joomla.form.field.radio.switcher"
-				default="0"
-				filter="integer"
-		>
+			name="log_category_mode"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOG_CATEGORY_MODE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
 			<option value="0">COM_CONFIG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 			<option value="1">COM_CONFIG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
 		</field>
