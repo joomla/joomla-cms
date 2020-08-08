@@ -10,15 +10,16 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 extract($displayData);
 
 /**
  * Layout variables
  * -----------------
- * @var  PlgSystemStats             $plugin        Plugin rendering this layout
- * @var  \Joomla\Registry\Registry  $pluginParams  Plugin parameters
- * @var  array                      $statsData     Array containing the data that will be sent to the stats server
+ * @var  PlgSystemStats  $plugin        Plugin rendering this layout
+ * @var  Registry        $pluginParams  Plugin parameters
+ * @var  array           $statsData     Array containing the data that will be sent to the stats server
  */
 ?>
 
