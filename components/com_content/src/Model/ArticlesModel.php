@@ -654,8 +654,12 @@ class ArticlesModel extends ListModel
 				$subQuery = $db->getQuery(true)
 					->select('DISTINCT ' . $db->quoteName('content_item_id'))
 					->from($db->quoteName('#__contentitem_tag_map'))
-					->whereIn($db->quoteName('tag_id'), $tagId)
-					->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
+					->where(
+						[
+							$db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tagId)) . ')',
+							$db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
+						]
+					);
 
 				$query->join(
 					'INNER',

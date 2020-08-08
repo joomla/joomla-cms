@@ -12,9 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseStyle('layouts.chromes.outline', 'layouts/chromes/outline.css');
+Factory::getApplication()->getDocument()
+	->getWebAssetManager()
+	->registerAndUseStyle('layouts.chromes.outline', 'layouts/chromes/outline.css');
 
-$module  = $displayData['module'];
+$module = $displayData['module'];
 
 ?>
 <div class="mod-preview">

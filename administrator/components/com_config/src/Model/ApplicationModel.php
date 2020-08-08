@@ -714,13 +714,12 @@ class ApplicationModel extends FormModel
 		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
-		$temp = Factory::getConfig();
-		$temp->set('ftp_enable', $data['ftp_enable']);
-		$temp->set('ftp_host', $data['ftp_host']);
-		$temp->set('ftp_port', $data['ftp_port']);
-		$temp->set('ftp_user', $data['ftp_user']);
-		$temp->set('ftp_pass', $data['ftp_pass']);
-		$temp->set('ftp_root', $data['ftp_root']);
+		$app->set('ftp_enable', $data['ftp_enable']);
+		$app->set('ftp_host', $data['ftp_host']);
+		$app->set('ftp_port', $data['ftp_port']);
+		$app->set('ftp_user', $data['ftp_user']);
+		$app->set('ftp_pass', $data['ftp_pass']);
+		$app->set('ftp_root', $data['ftp_root']);
 
 		// Clear cache of com_config component.
 		$this->cleanCache('_system', 0);

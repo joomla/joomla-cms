@@ -150,7 +150,7 @@ $assoc = Associations::isEnabled();
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-3 d-none d-lg-table-cell text-center">
@@ -188,7 +188,7 @@ $assoc = Associations::isEnabled();
 
 							?>
 							<tr class="row<?php echo $i % 2; ?>"
-								data-dragable-group="<?php echo $item->catid; ?>"
+								data-draggable-group="<?php echo $item->catid; ?>"
 								data-transitions="<?php echo implode(',', $transition_ids); ?>"
 							>
 								<td class="text-center">
