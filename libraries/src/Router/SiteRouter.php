@@ -288,7 +288,7 @@ class SiteRouter extends Router
 		// Handle an empty URL (special case)
 		if (empty($route))
 		{
-			// If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
+			// If route is empty AND option is set in the query, assume it's non-sef url, and parse appropriately
 			if (isset($vars['option']) || isset($vars['Itemid']))
 			{
 				return $this->parseRawRoute($uri);

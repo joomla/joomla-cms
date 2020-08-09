@@ -141,7 +141,7 @@ class SocketTransport implements TransportInterface
 			$request[] = $data;
 		}
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
 		{
 			$request[] = 'Authorization: Basic ' . base64_encode($this->options->get('userauth') . ':' . $this->options->get('passwordauth'));

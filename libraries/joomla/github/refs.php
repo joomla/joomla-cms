@@ -78,7 +78,7 @@ class JGithubRefs extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/git/refs/' . $ref;
 
-		// Craete the data object.
+		// Create the data object.
 		$data = new stdClass;
 
 		// If a title is set add it to the data object.

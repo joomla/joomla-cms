@@ -328,7 +328,7 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * @testdox  Tests setRedirect() works when message and message type are set in setMessage() and the message is overriden by setRedirect()
+	 * @testdox  Tests setRedirect() works when message and message type are set in setMessage() and the message is overridden by setRedirect()
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */
@@ -403,7 +403,7 @@ class JControllerLegacyTest extends TestCase
 	}
 
 	/**
-	 * @testdox  Tests that message and message type set in setMessage() are overriden by setRedirect()
+	 * @testdox  Tests that message and message type set in setMessage() are overridden by setRedirect()
 	 *
 	 * @covers   JControllerLegacy::setRedirect
 	 */

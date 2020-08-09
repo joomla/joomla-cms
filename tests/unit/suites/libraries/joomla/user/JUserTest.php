@@ -232,7 +232,7 @@ class JUserTest extends TestCaseDatabase
 	 * Tests JUser::authorise().
 	 *
 	 * @param   integer  $userId    User id of user to test
-	 * @param   string   $action    Action to get aithorized for this user
+	 * @param   string   $action    Action to get authorized for this user
 	 * @param   string   $asset     Asset to get authorization for
 	 * @param   boolean  $expected  Expected return from the authorization check
 	 *

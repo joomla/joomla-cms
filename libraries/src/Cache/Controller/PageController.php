@@ -122,7 +122,7 @@ class PageController extends CacheController
 	 * @param   mixed    $data        The data to store
 	 * @param   string   $id          The cache data ID
 	 * @param   string   $group       The cache data group
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 * @param   boolean  $wrkarounds  True to use workarounds
 	 *
 	 * @return  boolean
 	 *

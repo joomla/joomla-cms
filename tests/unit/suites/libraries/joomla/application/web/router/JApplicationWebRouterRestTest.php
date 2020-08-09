@@ -58,7 +58,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	}
 
 	/**
-	 * Provides test data for testing fetch controller sufix
+	 * Provides test data for testing fetch controller suffix
 	 *
 	 * @return  array
 	 *
@@ -124,7 +124,7 @@ class JApplicationWebRouterRestTest extends TestCase
 	{
 		TestReflection::invoke($this->_instance, 'setMethodInPostRequest', $allowMethod);
 
-		// Set reuqest method
+		// Set request method
 		$_SERVER['REQUEST_METHOD'] = $input;
 
 		// Set method in POST request

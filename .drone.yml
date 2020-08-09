@@ -57,9 +57,8 @@ steps:
         - 3.10-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - if [ $DRONE_REPO_NAME = "joomla-cms" ] || [ $DRONE_REPO_NAME = "cms-security" ]; then echo "The rips analysis check only runs on the joomla/joomla-cms and joomla/cms-security repo"; exit 0; fi
-      - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-      - rips-cli rips:scan:start -G -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
+      - rips-cli rips:scan:start --progress --application=3 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_EMAIL:
         from_secret: RIPS_EMAIL
@@ -103,6 +102,6 @@ steps:
 
 ---
 kind: signature
-hmac: b1fc0e755b62f54e43bf66d41462603131e378cfb9d628a3f2074868cc7ae847
+hmac: 2997f84497ff1190cc487b715df97882bbf0f3f10ada468dc197d55bcc63b653
 
 ...

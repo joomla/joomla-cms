@@ -50,7 +50,7 @@ class JMediawikiObjectMock extends JMediawikiObject
 	/**
 	 * Method to validate response for errors
 	 *
-	 * @param   JHttpresponse  $response  reponse from the mediawiki server
+	 * @param   JHttpresponse  $response  response from the mediawiki server
 	 *
 	 * @return  Object
 	 *

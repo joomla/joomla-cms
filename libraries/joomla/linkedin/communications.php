@@ -20,7 +20,7 @@ class JLinkedinCommunications extends JLinkedinObject
 	 * Method used to invite people.
 	 *
 	 * @param   string  $email       A string containing email of the recipient.
-	 * @param   string  $first_name  A string containing frist name of the recipient.
+	 * @param   string  $first_name  A string containing first name of the recipient.
 	 * @param   string  $last_name   A string containing last name of the recipient.
 	 * @param   string  $subject     The subject of the message that will be sent to the recipient
 	 * @param   string  $body        A text of the message.
@@ -79,7 +79,7 @@ class JLinkedinCommunications extends JLinkedinObject
 	 * Method used to invite people.
 	 *
 	 * @param   string  $id          Member id.
-	 * @param   string  $first_name  A string containing frist name of the recipient.
+	 * @param   string  $first_name  A string containing first name of the recipient.
 	 * @param   string  $last_name   A string containing last name of the recipient.
 	 * @param   string  $subject     The subject of the message that will be sent to the recipient
 	 * @param   string  $body        A text of the message.

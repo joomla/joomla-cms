@@ -18,7 +18,7 @@ use Joomla\CMS\Crypt\Key;
  * Crypt cipher for mcrypt algorithm encryption, decryption and key generation.
  *
  * @since       3.0.0
- * @deprecated  4.0   Without replacment use CryptoCipher
+ * @deprecated  4.0   Without replacement use CryptoCipher
  */
 abstract class McryptCipher implements CipherInterface
 {

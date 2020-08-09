@@ -812,7 +812,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @param   TableInterface  $table    Table being processed
 	 * @param   array           $newTags  Array of new tags
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean
 	 *
@@ -1023,7 +1023,7 @@ class TagsHelper extends CMSHelper
 	 * @param   integer         $ucmId    Id of the #__ucm_content item being tagged
 	 * @param   TableInterface  $table    Table object being tagged
 	 * @param   array           $tags     Array of tags to be applied.
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *

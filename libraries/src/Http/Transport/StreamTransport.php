@@ -170,7 +170,7 @@ class StreamTransport implements TransportInterface
 			)
 		);
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
 		{
 			$uri->setUser($this->options->get('userauth'));
