@@ -240,7 +240,7 @@ class JHtmlAtum
 	}
 
 	/**
-	 * Determinates if the given string is a color hex value
+	 * Determines if the given string is a color hex value
 	 *
 	 * @param   string  $hex  The string to test
 	 *

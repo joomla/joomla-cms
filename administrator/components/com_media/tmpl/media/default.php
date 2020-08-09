@@ -10,22 +10,17 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
 $params = ComponentHelper::getParams('com_media');
 
-// Make sure core.js is loaded before media scripts
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.keepalive');
-
-// Add javascripts
-HTMLHelper::_('script', 'com_media/mediamanager.js', ['version' => 'auto', 'relative' => true]);
-
-// Add stylesheets
-HTMLHelper::_('stylesheet', 'com_media/mediamanager.css', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useStyle('com_media.mediamanager')
+	->useScript('com_media.mediamanager');
 
 // Populate the language
 $this->loadTemplate('texts');

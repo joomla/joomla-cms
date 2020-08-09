@@ -117,7 +117,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
 	 * @param   TableInterface  $table  The table object containing the newly created item
 	 * @param   integer         $newId  The id of the new item

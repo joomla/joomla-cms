@@ -245,12 +245,6 @@ class TemplateModel extends FormModel
 			{
 				$this->prepareCoreFiles($path, $element, $template);
 			}
-			else
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
-
-				return false;
-			}
 		}
 
 		// Sort list of stdClass array.

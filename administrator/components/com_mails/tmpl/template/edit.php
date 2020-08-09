@@ -18,11 +18,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
 $app = Factory::getApplication();
-$doc = Factory::getDocument();
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_mails/admin-email-template-edit.min.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_mails.admin-email-template-edit');
 
 $this->useCoreUI = true;
 
@@ -30,7 +31,7 @@ $input = $app->input;
 list($component, $sub_id) = explode('.', $this->master->template_id, 2);
 $sub_id = str_replace('.', '_', $sub_id);
 
-$doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
+$this->document->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 
 ?>
 

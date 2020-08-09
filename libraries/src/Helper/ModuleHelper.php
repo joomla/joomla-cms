@@ -722,7 +722,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  \stdClass  The Module object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function createDummyModule(): \stdClass
 	{

@@ -15,7 +15,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -65,7 +64,7 @@ class HtmlView extends BaseHtmlView
 	protected $canDo;
 
 	/**
-	 * Is there a content type associated with this category aias
+	 * Is there a content type associated with this category alias
 	 *
 	 * @var    boolean
 	 * @since  4.0.0
@@ -176,7 +175,18 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Load specific css component
-		HTMLHelper::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = $this->document->getWebAssetManager();
+		$wa->getRegistry()->addExtensionRegistryFile($component);
+
+		if ($wa->assetExists('style', $component . '.admin-categories'))
+		{
+			$wa->useStyle($component . '.admin-categories');
+		}
+		else
+		{
+			$wa->registerAndUseStyle($component . '.admin-categories', $component . '/administrator/categories.css');
+		}
 
 		// Prepare the toolbar.
 		ToolbarHelper::title(

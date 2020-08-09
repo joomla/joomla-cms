@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
 				}
 				elseif ($parts[0] === 'privacy')
 				{
-					$icon = 'lock';
+					$icon = 'fas fa-lock';
 				}
 				elseif ($parts[0] === 'help')
 				{

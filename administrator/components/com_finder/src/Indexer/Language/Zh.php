@@ -44,7 +44,7 @@ class Zh extends Language
 	 */
 	public function __construct($locale = null)
 	{
-		// Override parent constructor since we don't need to load an externel stemmer
+		// Override parent constructor since we don't need to load an external stemmer
 	}
 
 	/**

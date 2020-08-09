@@ -57,7 +57,11 @@
   Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
     if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
       Joomla.selectedFile = {};
-      reject(new Error('Nothing selected'));
+      resolve({
+        resp: {
+          success: false,
+        },
+      });
       return;
     }
 
@@ -190,6 +194,8 @@
     show() {
       this.querySelector('[role="dialog"]').open();
 
+      Joomla.selectedFile = {};
+
       this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
     }
 
@@ -197,9 +203,13 @@
       const input = this.querySelector(this.input);
 
       Joomla.getImage(Joomla.selectedFile, input, this)
-        .then(() => { Joomla.Modal.getCurrent().close(); })
+        .then(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.selectedFile = {};
+        })
         .catch(() => {
           Joomla.Modal.getCurrent().close();
+          Joomla.selectedFile = {};
           Joomla.renderMessages({
             error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
           });

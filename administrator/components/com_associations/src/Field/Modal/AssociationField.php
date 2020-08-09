@@ -45,8 +45,11 @@ class AssociationField extends FormField
 		// The active item id field.
 		$value = (int) $this->value ?: '';
 
-		Factory::getDocument()->addScriptOptions('admin_associations_modal', ['itemId' => $value]);
-		HTMLHelper::_('script', 'com_associations/admin_associations_modal.min.js', ['version' => 'auto', 'relative' => true]);
+		$doc = Factory::getApplication()->getDocument();
+		$wa  = $doc->getWebAssetManager();
+
+		$doc->addScriptOptions('admin_associations_modal', ['itemId' => $value]);
+		$wa->useScript('com_associations.admin-associations-modal');
 
 		// Setup variables for display.
 		$html = array();
