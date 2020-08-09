@@ -87,7 +87,7 @@ class ModulesModel extends ListModel
 			$this->context .= '.' . $layout;
 		}
 
-		$clientNotChanged = $app->input->get('client_not_changed', "0", 'cmd');
+		$clientNotChanged = $app->input->get('client_not_changed', '0', 'cmd');
 
 		if ($clientNotChanged === "1")
 		{
