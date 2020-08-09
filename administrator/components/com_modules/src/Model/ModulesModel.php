@@ -89,7 +89,7 @@ class ModulesModel extends ListModel
 
 		$clientNotChanged = $app->input->get('client_not_changed', '0', 'cmd');
 
-		if ($clientNotChanged === "1")
+		if ($clientNotChanged === '1')
 		{
 			// Load the filter state.
 			$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
