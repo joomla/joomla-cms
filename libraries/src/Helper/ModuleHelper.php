@@ -319,8 +319,9 @@ abstract class ModuleHelper
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
-		$template = Factory::getApplication()->getTemplate();
+		$templateObj   = Factory::getApplication()->getTemplate(true);
 		$defaultLayout = $layout;
+		$template      = $templateObj->template;
 
 		if (strpos($layout, ':') !== false)
 		{
@@ -333,6 +334,7 @@ abstract class ModuleHelper
 
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
+		$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php';
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
@@ -340,6 +342,11 @@ abstract class ModuleHelper
 		if (file_exists($tPath))
 		{
 			return $tPath;
+		}
+
+		if (!empty($templateObj->parent) && file_exists($iPath))
+		{
+			return $iPath;
 		}
 
 		if (file_exists($bPath))
