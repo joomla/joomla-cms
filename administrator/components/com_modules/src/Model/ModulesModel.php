@@ -136,7 +136,7 @@ class ModulesModel extends ListModel
 		$this->setState('params', $params);
 
 		// List state information.
-		if ($clientNotChanged === "1")
+		if ($clientNotChanged === '1')
 		{
 			parent::populateState($ordering, $direction);
 		}
