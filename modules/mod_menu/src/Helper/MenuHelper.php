@@ -35,13 +35,15 @@ class MenuHelper
 	 */
 	public static function getList(&$params)
 	{
-		$menu = Factory::getApplication()->getMenu();
+		$app   = Factory::getApplication();
+		$menu  = $app->getMenu();
+		$input = $app->getInput();
 
 		// Get active menu item
 		$base   = self::getBase($params);
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
 		asort($levels);
-		$key    = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
+		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 
 		/** @var OutputController $cache */
 		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
@@ -67,6 +69,17 @@ class MenuHelper
 				{
 					$item->parent = false;
 					$itemParams   = $item->getParams();
+
+					$item->current = true;
+
+					foreach ($item->query as $key => $value)
+					{
+						if ($input->get($key) !== $value)
+						{
+							$item->current = false;
+							break;
+						}
+					}
 
 					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id && $itemParams->get('menu_show', 1) == 1)
 					{
@@ -185,7 +198,7 @@ class MenuHelper
 	 *
 	 * @return  object
 	 *
-	 * @since	3.0.2
+	 * @since    3.0.2
 	 */
 	public static function getBase(&$params)
 	{
@@ -215,7 +228,7 @@ class MenuHelper
 	 *
 	 * @return  object
 	 *
-	 * @since	3.0.2
+	 * @since    3.0.2
 	 */
 	public static function getActive(&$params)
 	{
