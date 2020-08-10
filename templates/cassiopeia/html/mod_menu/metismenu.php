@@ -11,21 +11,20 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseScript('metismenu', 'mm-horizontal.js', [], [], ['metismenujs']);
 
-$id = '';
-
-if ($tagId = $params->get('tag_id', ''))
-{
-	$id = ' id="' . $tagId . '"';
-}
+$ulAttribs = [
+		'id'    => $params->get('tag_id', ''),
+		'class' => 'mod-menu metismenu ' . $class_sfx . ' mod-list'
+];
 
 // The menu class is deprecated. Use mod-menu instead
 ?>
-<ul<?php echo $id; ?> class="metismenu <?php echo $class_sfx; ?>">
+<ul <?php echo ArrayHelper::toString($ulAttribs); ?>>
 <?php foreach ($list as $i => &$item)
 {
 	$itemParams = $item->getParams();
