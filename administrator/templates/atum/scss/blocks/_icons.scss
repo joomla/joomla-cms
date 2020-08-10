@@ -14,7 +14,7 @@
 
 .icon-publish,
 .fa-check {
-  color: theme-color("success");
+  color: $whiteoffset;
 
   .dropdown-status-group & {
     color: inherit;
@@ -23,7 +23,7 @@
 
 .icon-unpublish,
 .fa-times {
-  color: theme-color("danger");
+  color: $whiteoffset;
 
   .dropdown-status-group & {
     color: inherit;
