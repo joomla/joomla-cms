@@ -11,7 +11,9 @@ namespace Joomla\Component\Content\Site\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
@@ -26,7 +28,7 @@ use Joomla\Utilities\IpHelper;
  *
  * @since  1.5
  */
-class ArticleModel extends ItemModel
+class ArticleModel extends FormModel
 {
 	/**
 	 * Model context string.
@@ -71,6 +73,37 @@ class ArticleModel extends ItemModel
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.2
+	 */
+	public function save($data)
+	{
+		// Associations are not edited in frontend ATM so we have to inherit them
+		if (Associations::isEnabled() && !empty($data['id'])
+			&& $associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $data['id']))
+		{
+			foreach ($associations as $tag => $associated)
+			{
+				$associations[$tag] = (int) $associated->id;
+			}
+
+			$data['associations'] = $associations;
+		}
+
+		if (!Multilanguage::isEnabled())
+		{
+			$data['language'] = '*';
+		}
+
+		return parent::save($data);
 	}
 
 	/**

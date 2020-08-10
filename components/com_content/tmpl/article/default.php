@@ -26,6 +26,14 @@ $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = Factory::getUser();
 $info    = $params->get('info_block_position', 0);
+
+// Web connection
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+		->useScript('form.validate')
+		->useScript('com_content.form-edit');
+
 // experimental stuff
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
@@ -121,11 +129,27 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		echo $this->item->toc;
 	endif; ?>
 
-	<!-- form for inline editing needs to be here-->
+<form action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+	<fieldset>
+		<!-- form for inline editing needs to be here-->
 	<div itemprop="articleBody" class="com-content-article__body">
 		<?php echo $this->item->text; ?>
+
 	</div>
+	</fieldset>
 	<!-- experiment from here -->
+	<div class="mb-2">
+			<button type="button" class="btn btn-primary" data-submit-task="article.save">
+				<span class="fas fa-check" aria-hidden="true"></span>
+				<?php echo Text::_('JSAVE'); ?>
+			</button>
+			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
+				<span class="fas fa-times" aria-hidden="true"></span>
+				<?php echo Text::_('JCANCEL'); ?>
+			</button>
+
+		</div>
+	</form>
 
 <!-- experiment end here-->
 	<?php if ($info == 1 || $info == 2) : ?>
