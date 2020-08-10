@@ -50,6 +50,10 @@
 			{
 				document.getElementById(fieldPrefix + '_edit').classList.remove('hidden');
 			}
+			if (document.getElementById(fieldPrefix + '_change'))
+			{
+				document.getElementById(fieldPrefix + '_change').classList.remove('hidden');
+			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
 				document.getElementById(fieldPrefix + '_clear').classList.remove('hidden');
@@ -79,6 +83,10 @@
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
 				document.getElementById(fieldPrefix + '_clear').classList.add('hidden');
+			}
+			if (document.getElementById(fieldPrefix + '_change'))
+			{
+				document.getElementById(fieldPrefix + '_change').classList.add('hidden');
 			}
 			if (document.getElementById(fieldPrefix + '_propagate'))
 			{
