@@ -107,7 +107,8 @@ $fullVersion = (new Version)->getShortVersion();
 
 $previousRelease = Version::PATCH_VERSION - 1;
 
-if ($previousRelease < 0) {
+if ($previousRelease < 0)
+{
 	$previousRelease = false;
 }
 
