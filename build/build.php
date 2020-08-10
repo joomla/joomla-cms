@@ -247,12 +247,6 @@ for ($num = $release - 1; $num >= 0; $num--)
 		{
 			continue;
 		}
-		if (strpos($file, '.github') !== false) {
-			print_r('diffdocs/' . $version . '.' . $num);
-			print_r($command);
-			print_r([$fileName, $baseFolderName, $doNotPackageFile, $doNotPatch, $doNotPackageBaseFolder, $doNotPatchBaseFolder]);
-			die();
-		}
 
 		// Act on the file based on the action
 		switch (substr($file, 0, 1))
