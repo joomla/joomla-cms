@@ -88,21 +88,22 @@ $ulAttribs = [
 			break;
 	endswitch;
 
-	// The next item is deeper.
-	if ($item->deeper)
-	{
-		echo '<ul class="mm-collapse">';
-	}
-	// The next item is shallower.
-	elseif ($item->shallower)
-	{
-		echo '</li>';
-		echo str_repeat('</ul></li>', $item->level_diff);
-	}
-	// The next item is on the same level.
-	else
-	{
-		echo '</li>';
-	}
+	switch (true) :
+		// The next item is deeper.
+		case $item->deeper:
+			echo '<ul class="mm-collapse">';
+			break;
+
+		// The next item is shallower.
+		case $item->shallower:
+			echo '</li>';
+			echo str_repeat('</ul></li>', $item->level_diff);
+			break;
+
+		// The next item is on the same level.
+		default:
+			echo '</li>';
+			break;
+	endswitch;
 }
 ?></ul>
