@@ -1,70 +1,72 @@
-.metismenu {
-  display: flex;
-  flex-direction: column;
-
-  @media (min-width: 992px) {
-    flex-direction: row;
-  }
-
-  > li {
-    flex: 1 1 0%;
+@if $metismenu == true {
+  .metismenu {
     display: flex;
     flex-direction: column;
-    position: relative;
 
     @media (min-width: 992px) {
-      flex-direction: column;
+      flex-direction: row;
+    }
 
-      > ul {
-        position: absolute;
-        top: 100%;
-        min-width: 100%;
-        z-index: 1001;
-        background-color: #f8f9fa;
-        color: #333333;
+    > li {
+      flex: 1 1 0%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+
+      @media (min-width: 992px) {
+        flex-direction: column;
+
+        > ul {
+          position: absolute;
+          top: 100%;
+          min-width: 100%;
+          z-index: 1001;
+          background-color: #f8f9fa;
+          color: #333333;
+        }
       }
     }
-  }
 
-  a {
-    position: relative;
-    display: block;
-    padding: 15px;
-    color: #adb5bd;
-    outline-width: 0;
-    transition: all .3s ease-out;
+    a {
+      position: relative;
+      display: block;
+      padding: 15px;
+      color: #adb5bd;
+      outline-width: 0;
+      transition: all .3s ease-out;
 
-    &:hover,
-    &:focus,
-    &:active {
-      color: #f8f9fa;
-      text-decoration: none;
-      background: #0b7285;
+      &:hover,
+      &:focus,
+      &:active {
+        color: #f8f9fa;
+        text-decoration: none;
+        background: #0b7285;
+      }
     }
-  }
 
-  .mm-collapse:not(.mm-show) {
-    display: none;
-  }
+    .mm-collapse:not(.mm-show) {
+      display: none;
+    }
 
-  .has-arrow::after {
-    position: absolute;
-    content: "";
-    width: 0.5em;
-    height: 0.5em;
-    border-width: 1px 0 0 1px;
-    border-style: solid;
-    border-color: currentColor;
-    border-color: initial;
-    right: 1em;
-    transform: rotate(-45deg) translate(0, -50%);
-    transform-origin: top;
-    top: 50%;
-    transition: all 0.3s ease-out;
-  }
+    .has-arrow::after {
+      position: absolute;
+      content: "";
+      width: 0.5em;
+      height: 0.5em;
+      border-width: 1px 0 0 1px;
+      border-style: solid;
+      border-color: currentColor;
+      border-color: initial;
+      right: 1em;
+      transform: rotate(-45deg) translate(0, -50%);
+      transform-origin: top;
+      top: 50%;
+      transition: all 0.3s ease-out;
+    }
 
-  .mm-active > .has-arrow::after,
-  .has-arrow[aria-expanded="true"]::after {
-    transform: rotate(-135deg) translate(0, -50%);
+    .mm-active > .has-arrow::after,
+    .has-arrow[aria-expanded="true"]::after {
+      transform: rotate(-135deg) translate(0, -50%);
+    }
   }
 }
