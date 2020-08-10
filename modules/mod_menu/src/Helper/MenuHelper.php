@@ -37,7 +37,6 @@ class MenuHelper
 	{
 		$app   = Factory::getApplication();
 		$menu  = $app->getMenu();
-		$input = $app->getInput();
 
 		// Get active menu item
 		$base   = self::getBase($params);
@@ -65,21 +64,12 @@ class MenuHelper
 
 			if ($items)
 			{
+				$inputVars = $app->getInput()->getArray();
+
 				foreach ($items as $i => $item)
 				{
 					$item->parent = false;
 					$itemParams   = $item->getParams();
-
-					$item->current = true;
-
-					foreach ($item->query as $key => $value)
-					{
-						if ($input->get($key) !== $value)
-						{
-							$item->current = false;
-							break;
-						}
-					}
 
 					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id && $itemParams->get('menu_show', 1) == 1)
 					{
@@ -101,6 +91,17 @@ class MenuHelper
 						$hidden_parents[] = $item->id;
 						unset($items[$i]);
 						continue;
+					}
+
+					$item->current = true;
+
+					foreach ($item->query as $key => $value)
+					{
+						if (!isset($inputVars[$key]) || $inputVars[$key] !== $value)
+						{
+							$item->current = false;
+							break;
+						}
 					}
 
 					$item->deeper     = false;
