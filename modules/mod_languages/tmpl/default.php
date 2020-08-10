@@ -3,17 +3,18 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 
 ?>
 <div class="mod-languages">
@@ -43,7 +44,7 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 				</a>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<ul class="<?php echo $params->get('lineheight', 0) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo Factory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+		<ul class="<?php echo $params->get('lineheight', 0) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
 			<?php if (!$language->active) : ?>
 				<li>
@@ -69,7 +70,7 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 		</ul>
 	</div>
 <?php else : ?>
-	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>"  dir="<?php echo Factory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>"  dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 	<?php foreach ($list as $language) : ?>
 		<?php if (!$language->active) : ?>
 			<li>
@@ -78,7 +79,7 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 						<?php if ($language->image) : ?>
 							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 						<?php else : ?>
-							<span class="label"><?php echo strtoupper($language->sef); ?></span>
+							<span class="label" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 						<?php endif; ?>
 					<?php else : ?>
 						<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>

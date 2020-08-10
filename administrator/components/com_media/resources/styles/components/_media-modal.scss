@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1070;
+  z-index: 1049;
   display: table;
   width: 100%;
   height: 100%;
@@ -44,9 +44,6 @@
   .modal-header {
     padding: 0;
     border: 0;
-    > .close {
-      display: none;
-    }
   }
   .modal-body {
     padding: 0;
@@ -67,6 +64,9 @@
   right: 0;
   margin: 5px 20px;
   font-size: 3rem;
+  color: inherit;
+  background: none;
+  border: 0;
   opacity: .7;
   &:hover {
     cursor: pointer;

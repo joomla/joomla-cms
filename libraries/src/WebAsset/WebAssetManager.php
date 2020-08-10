@@ -2,29 +2,43 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\WebAsset;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Document\Document;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
+use Joomla\CMS\WebAsset\Exception\InvalidActionException;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 
 /**
  * Web Asset Manager class
  *
+ * @method WebAssetManager registerStyle(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+ * @method WebAssetManager registerAndUseStyle(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+ * @method WebAssetManager useStyle($name)
+ * @method WebAssetManager disableStyle($name)
+ * @method WebAssetManager addInlineStyle(WebAssetItem|string $content, $options = [], $attributes = [], $dependencies = [])
+ *
+ * @method WebAssetManager registerScript(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+ * @method WebAssetManager registerAndUseScript(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+ * @method WebAssetManager useScript($name)
+ * @method WebAssetManager disableScript($name)
+ * @method WebAssetManager addInlineScript(WebAssetItem|string $content, $options = [], $attributes = [], $dependencies = [])
+ *
+ * @method WebAssetManager registerPreset(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+ * @method WebAssetManager registerAndUsePreset(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+ * @method WebAssetManager usePreset($name)
+ * @method WebAssetManager disablePreset($name)
+ *
  * @since  4.0.0
  */
-class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterface
+class WebAssetManager implements WebAssetManagerInterface
 {
-	use DispatcherAwareTrait;
-
 	/**
 	 * Mark inactive asset
 	 *
@@ -72,13 +86,23 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	protected $activeAssets = [];
 
 	/**
-	 * Whether append asset version to asset path
+	 * Internal marker to check the manager state,
+	 * to prevent use of the manager after an assets are rendered
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 *
 	 * @since  4.0.0
 	 */
-	protected $useVersioning = true;
+	protected $locked = false;
+
+	/**
+	 * Internal marker to keep track when need to recheck dependencies
+	 *
+	 * @var    boolean
+	 *
+	 * @since  4.0.0
+	 */
+	protected $dependenciesIsActual = false;
 
 	/**
 	 * Class constructor
@@ -90,6 +114,31 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	public function __construct(WebAssetRegistry $registry)
 	{
 		$this->registry = $registry;
+
+		// Listen to changes in the registry
+		$this->registry->getDispatcher()->addListener(
+			'onWebAssetRegistryChangedAssetOverride',
+			function (WebAssetRegistryAssetChanged $event)
+			{
+				// If the changed asset are used
+				if (!empty($this->activeAssets[$event->getAssetType()][$event->getAsset()->getName()]))
+				{
+					$this->dependenciesIsActual = false;
+				}
+			}
+		);
+
+		$this->registry->getDispatcher()->addListener(
+			'onWebAssetRegistryChangedAssetRemove',
+			function (WebAssetRegistryAssetChanged $event)
+			{
+				// If the changed asset are used
+				if (!empty($this->activeAssets[$event->getAssetType()][$event->getAsset()->getName()]))
+				{
+					$this->dependenciesIsActual = false;
+				}
+			}
+		);
 	}
 
 	/**
@@ -105,49 +154,273 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	}
 
 	/**
-	 * Activate the Asset item
+	 * Adds support for magic method calls
 	 *
+	 * @param   string  $method     A method name
+	 * @param   string  $arguments  An arguments for a method
+	 *
+	 * @return mixed
+	 *
+	 * @throws  \BadMethodCallException
+	 *
+	 * @since  4.0.0
+	 */
+	public function __call($method, $arguments)
+	{
+		$method = strtolower($method);
+
+		if (0 === strpos($method, 'use'))
+		{
+			$type = substr($method, 3);
+
+			if (empty($arguments[0]))
+			{
+				throw new \BadMethodCallException('An asset name is required');
+			}
+
+			return $this->useAsset($type, $arguments[0]);
+		}
+
+		if (0 === strpos($method, 'addinline'))
+		{
+			$type = substr($method, 9);
+
+			if (empty($arguments[0]))
+			{
+				throw new \BadMethodCallException('Content is required');
+			}
+
+			return $this->addInline($type, ...$arguments);
+		}
+
+		if (0 === strpos($method, 'disable'))
+		{
+			$type = substr($method, 7);
+
+			if (empty($arguments[0]))
+			{
+				throw new \BadMethodCallException('An asset name is required');
+			}
+
+			return $this->disableAsset($type, $arguments[0]);
+		}
+
+		if (0 === strpos($method, 'register'))
+		{
+			// Check for registerAndUse<Type>
+			$andUse = substr($method, 8, 6) === 'anduse';
+
+			// Extract the type
+			$type = $andUse ? substr($method, 14) : substr($method, 8);
+
+			if (empty($arguments[0]))
+			{
+				throw new \BadMethodCallException('An asset instance or an asset name is required');
+			}
+
+			if ($andUse)
+			{
+				$name = $arguments[0] instanceof WebAssetItemInterface ? $arguments[0]->getName() : $arguments[0];
+
+				return $this->registerAsset($type, ...$arguments)->useAsset($type, $name);
+			}
+			else
+			{
+				return $this->registerAsset($type, ...$arguments);
+			}
+		}
+
+		throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, get_class($this)));
+	}
+
+	/**
+	 * Enable an asset item to be attached to a Document
+	 *
+	 * @param   string  $type  The asset type, script or style
 	 * @param   string  $name  The asset name
 	 *
 	 * @return self
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
+	 *
 	 * @since  4.0.0
 	 */
-	public function enableAsset(string $name): WebAssetManagerInterface
+	public function useAsset(string $type, string $name): WebAssetManagerInterface
 	{
-		$asset = $this->registry->get($name);
+		if ($this->locked)
+		{
+			throw new InvalidActionException('WebAssetManager is locked, you came late');
+		}
+
+		// Check whether asset exists
+		$asset = $this->registry->get($type, $name);
+
+		if (empty($this->activeAssets[$type]))
+		{
+			$this->activeAssets[$type] = [];
+		}
+
+		// For "preset" need to check the dependencies first
+		if ($type === 'preset')
+		{
+			$this->usePresetItems($name);
+		}
 
 		// Asset already enabled
-		if (!empty($this->activeAssets[$name]))
+		if (!empty($this->activeAssets[$type][$name]))
 		{
 			// Set state to active, in case it was ASSET_STATE_DEPENDENCY
-			$this->activeAssets[$name] = static::ASSET_STATE_ACTIVE;
+			$this->activeAssets[$type][$name] = static::ASSET_STATE_ACTIVE;
 
 			return $this;
 		}
 
-		$this->activeAssets[$name] = static::ASSET_STATE_ACTIVE;
+		$this->activeAssets[$type][$name] = static::ASSET_STATE_ACTIVE;
 
-		$this->enableDependencies($asset);
+		// To re-check dependencies
+		if ($asset->getDependencies())
+		{
+			$this->dependenciesIsActual = false;
+		}
 
 		return $this;
 	}
 
 	/**
-	 * Deactivate the Asset item
+	 * Deactivate an asset item, so it will not be attached to a Document
+	 *
+	 * @param   string  $type  The asset type, script or style
+	 * @param   string  $name  The asset name
+	 *
+	 * @return  self
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
+	 *
+	 * @since  4.0.0
+	 */
+	public function disableAsset(string $type, string $name): WebAssetManagerInterface
+	{
+		if ($this->locked)
+		{
+			throw new InvalidActionException('WebAssetManager is locked, you came late');
+		}
+
+		// Check whether asset exists
+		$this->registry->get($type, $name);
+
+		unset($this->activeAssets[$type][$name]);
+
+		// To re-check dependencies
+		$this->dependenciesIsActual = false;
+
+		// For Preset case
+		if ($type === 'preset')
+		{
+			$this->disablePresetItems($name);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Enable list of assets provided by Preset item.
+	 *
+	 * "Preset" a special kind of asset that hold a list of assets that has to be enabled,
+	 * same as direct call of useAsset() to each of item in list.
+	 * Can hold mixed types of assets (script, style, another preset, etc), the type provided after # symbol, after
+	 * the asset name, example: foo#style, bar#script.
+	 *
+	 * The method call useAsset() internally for each of its dependency, this is important for keeping FIFO order
+	 * of enabled items.
+	 * The Preset not a strict asset, and each of its dependency can be safely disabled by use of disableAsset() later.
 	 *
 	 * @param   string  $name  The asset name
 	 *
 	 * @return self
 	 *
+	 * @throws  UnsatisfiedDependencyException  When Asset dependency cannot be found
+	 *
 	 * @since  4.0.0
 	 */
-	public function disableAsset(string $name): WebAssetManagerInterface
+	protected function usePresetItems($name): WebAssetManagerInterface
 	{
-		unset($this->activeAssets[$name]);
+		// Get the asset object
+		$asset = $this->registry->get('preset', $name);
 
-		// Re-check dependencies
-		$this->enableDependencies();
+		// Call useAsset() to each of its dependency
+		foreach ($asset->getDependencies() as $dependency)
+		{
+			$depType = '';
+			$depName = $dependency;
+			$pos     = strrpos($dependency, '#');
+
+			// Check for cross-dependency "dependency-name#type" case
+			if ($pos)
+			{
+				$depType = substr($dependency, $pos + 1);
+				$depName = substr($dependency, 0, $pos);
+			}
+
+			$depType = $depType ? $depType : 'preset';
+
+			// Make sure dependency exists
+			if (!$this->registry->exists($depType, $depName))
+			{
+				throw new UnsatisfiedDependencyException(
+					sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
+				);
+			}
+
+			$this->useAsset($depType, $depName);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Deactivate list of assets provided by Preset item.
+	 *
+	 * @param   string  $name  The asset name
+	 *
+	 * @return  self
+	 *
+	 * @throws  UnsatisfiedDependencyException  When Asset dependency cannot be found
+	 *
+	 * @since  4.0.0
+	 */
+	protected function disablePresetItems($name): WebAssetManagerInterface
+	{
+		// Get the asset object
+		$asset = $this->registry->get('preset', $name);
+
+		// Call disableAsset() to each of its dependency
+		foreach ($asset->getDependencies() as $dependency)
+		{
+			$depType = '';
+			$depName = $dependency;
+			$pos     = strrpos($dependency, '#');
+
+			// Check for cross-dependency "dependency-name#type" case
+			if ($pos)
+			{
+				$depType = substr($dependency, $pos + 1);
+				$depName = substr($dependency, 0, $pos);
+			}
+
+			$depType = $depType ? $depType : 'preset';
+
+			// Make sure dependency exists
+			if (!$this->registry->exists($depType, $depName))
+			{
+				throw new UnsatisfiedDependencyException(
+					sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $dependency, $name, 'preset')
+				);
+			}
+
+			$this->disableAsset($depType, $depName);
+		}
 
 		return $this;
 	}
@@ -155,20 +428,29 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Get a state for the Asset
 	 *
+	 * @param   string  $type  The asset type, script or style
 	 * @param   string  $name  The asset name
 	 *
-	 * @return  int
+	 * @return  integer
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
 	 * @since  4.0.0
 	 */
-	public function getAssetState(string $name): int
+	public function getAssetState(string $type, string $name): int
 	{
 		// Check whether asset exists first
-		$this->registry->get($name);
+		$this->registry->get($type, $name);
 
-		if (!empty($this->activeAssets[$name]))
+		// Make sure that all dependencies are active
+		if (!$this->dependenciesIsActual)
 		{
-			return $this->activeAssets[$name];
+			$this->enableDependencies();
+		}
+
+		if (!empty($this->activeAssets[$type][$name]))
+		{
+			return $this->activeAssets[$type][$name];
 		}
 
 		return static::ASSET_STATE_INACTIVE;
@@ -177,141 +459,345 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Check whether the asset are enabled
 	 *
+	 * @param   string  $type  The asset type, script or style
 	 * @param   string  $name  The asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
 	 * @since  4.0.0
 	 */
-	public function isAssetActive(string $name): bool
+	public function isAssetActive(string $type, string $name): bool
 	{
-		return $this->getAssetState($name) !== static::ASSET_STATE_INACTIVE;
+		return $this->getAssetState($type, $name) !== static::ASSET_STATE_INACTIVE;
 	}
 
 	/**
-	 * Get all assets that was enabled
+	 * Helper method to check whether the asset exists in the registry.
 	 *
-	 * @param   bool  $sort  Whether need to sort the assets to follow the dependency Graph
+	 * @param   string  $type  Asset type, script or style
+	 * @param   string  $name  Asset name
 	 *
-	 * @return  WebAssetItem[]
+	 * @return  boolean
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
-	public function getAssets(bool $sort = false): array
+	public function assetExists(string $type, string $name): bool
 	{
-		if ($sort)
-		{
-			return $this->calculateOrderOfActiveAssets();
-		}
-
-		$assets = [];
-
-		foreach (array_keys($this->activeAssets) as $name)
-		{
-			$assets[$name] = $this->registry->get($name);
-		}
-
-		return $assets;
+		return $this->registry->exists($type, $name);
 	}
 
 	/**
-	 * Update Dependencies state for all active Assets or only for given
+	 * Register a new asset.
+	 * Allow to register WebAssetItem instance in the registry, by call registerAsset($type, $assetInstance)
+	 * Or create an asset on fly (from name and Uri) and register in the registry, by call registerAsset($type, $assetName, $uri, $options ....)
 	 *
-	 * @param   WebAssetItem  $asset  The asset instance to which need to enable dependencies
+	 * @param   string               $type          The asset type, script or style
+	 * @param   WebAssetItem|string  $asset         The asset name or instance to register
+	 * @param   string               $uri           The URI for the asset
+	 * @param   array                $options       Additional options for the asset
+	 * @param   array                $attributes    Attributes for the asset
+	 * @param   array                $dependencies  Asset dependencies
 	 *
 	 * @return  self
 	 *
 	 * @since  4.0.0
 	 */
-	protected function enableDependencies(WebAssetItem $asset = null): self
+	public function registerAsset(string $type, $asset, string $uri = '', array $options = [], array $attributes = [], array $dependencies = [])
 	{
-		if ($asset)
+		if ($asset instanceof WebAssetItemInterface)
 		{
-			$allDependencies = $this->getDependenciesForAsset($asset, true);
-
-			foreach ($allDependencies as $depItem)
-			{
-				// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
-				if (empty($this->activeAssets[$depItem->getName()]))
-				{
-					$this->activeAssets[$depItem->getName()] = static::ASSET_STATE_DEPENDENCY;
-				}
-			}
+			$this->registry->add($type, $asset);
+		}
+		elseif (is_string($asset))
+		{
+			$options['type'] = $type;
+			$assetInstance = $this->registry->createAsset($asset, $uri, $options, $attributes, $dependencies);
+			$this->registry->add($type, $assetInstance);
 		}
 		else
 		{
-			// Re-Check for Dependencies for all active assets
-			$this->activeAssets = array_filter(
-				$this->activeAssets,
-				function ($state){
-					return $state === WebAssetManager::ASSET_STATE_ACTIVE;
-				}
-			);
-
-			foreach (array_keys($this->activeAssets) as $name)
-			{
-				$asset = $this->registry->get($name);
-				$this->enableDependencies($asset);
-			}
+			throw new \BadMethodCallException('The $asset variable should be either WebAssetItemInterface or a string of the asset name');
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Attach active assets to the document
+	 * Helper method to get the asset from the registry.
 	 *
-	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
+	 * @param   string  $type  Asset type, script or style
+	 * @param   string  $name  Asset name
+	 *
+	 * @return  WebAssetItemInterface
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
+	 * @since   4.0.0
+	 */
+	public function getAsset(string $type, string $name): WebAssetItemInterface
+	{
+		return $this->registry->get($type, $name);
+	}
+
+	/**
+	 * Get all active assets, optionally sort them to follow the dependency Graph
+	 *
+	 * @param   string  $type  The asset type, script or style
+	 * @param   bool    $sort  Whether need to sort the assets to follow the dependency Graph
+	 *
+	 * @return  WebAssetItem[]
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
+	 *
+	 * @since  4.0.0
+	 */
+	public function getAssets(string $type, bool $sort = false): array
+	{
+		// Make sure that all dependencies are active
+		if (!$this->dependenciesIsActual)
+		{
+			$this->enableDependencies();
+		}
+
+		if (empty($this->activeAssets[$type]))
+		{
+			return [];
+		}
+
+		// Apply Tree sorting for regular asset items, but return FIFO order for "preset"
+		if ($sort && $type !== 'preset')
+		{
+			$assets = $this->calculateOrderOfActiveAssets($type);
+		}
+		else
+		{
+			$assets = [];
+
+			foreach (array_keys($this->activeAssets[$type]) as $name)
+			{
+				$assets[$name] = $this->registry->get($type, $name);
+			}
+		}
+
+		return $assets;
+	}
+
+	/**
+	 * Helper method to calculate inline to non inline relation (before/after positions).
+	 * Return associated array, which contain dependency (handle) name as key, and list of inline items for each position.
+	 * Example: ['handle.name' => ['before' => ['inline1', 'inline2'], 'after' => ['inline3', 'inline4']]]
+	 *
+	 * Note: If inline asset have a multiple dependencies, then will be used last one from the list for positioning
+	 *
+	 * @param   WebAssetItem[]  $assets  The assets list
+	 *
+	 * @return  array
+	 *
+	 * @since  4.0.0
+	 */
+	public function getInlineRelation(array $assets): array
+	{
+		$inlineRelation = [];
+
+		// Find an inline assets and their relations to non inline
+		foreach ($assets as $k => $asset)
+		{
+			if (!$asset->getOption('inline'))
+			{
+				continue;
+			}
+
+			// Add to list of inline assets
+			$inlineAssets[$asset->getName()] = $asset;
+
+			// Check whether position are requested with dependencies
+			$position = $asset->getOption('position');
+			$position = $position === 'before' || $position === 'after' ? $position : null;
+			$deps     = $asset->getDependencies();
+
+			if ($position && $deps)
+			{
+				// If inline asset have a multiple dependencies, then use last one from the list for positioning
+				$handle = end($deps);
+				$inlineRelation[$handle][$position][$asset->getName()] = $asset;
+			}
+		}
+
+		return $inlineRelation;
+	}
+
+	/**
+	 * Helper method to filter an inline assets
+	 *
+	 * @param   WebAssetItem[]  $assets  Reference to a full list of active assets
+	 *
+	 * @return  WebAssetItem[]  Array of inline assets
+	 *
+	 * @since  4.0.0
+	 */
+	public function filterOutInlineAssets(array &$assets): array
+	{
+		$inlineAssets = [];
+
+		foreach ($assets as $k => $asset)
+		{
+			if (!$asset->getOption('inline'))
+			{
+				continue;
+			}
+
+			// Remove inline assets from assets list, and add to list of inline
+			unset($assets[$k]);
+
+			$inlineAssets[$asset->getName()] = $asset;
+		}
+
+		return $inlineAssets;
+	}
+
+	/**
+	 * Add a new inline content asset.
+	 * Allow to register WebAssetItem instance in the registry, by call addInline($type, $assetInstance)
+	 * Or create an asset on fly (from name and Uri) and register in the registry, by call addInline($type, $content, $options ....)
+	 *
+	 * @param   string               $type          The asset type, script or style
+	 * @param   WebAssetItem|string  $content       The content to of inline asset
+	 * @param   array                $options       Additional options for the asset
+	 * @param   array                $attributes    Attributes for the asset
+	 * @param   array                $dependencies  Asset dependencies
 	 *
 	 * @return  self
 	 *
 	 * @since  4.0.0
 	 */
-	public function attachActiveAssetsToDocument(Document $doc): WebAssetManagerInterface
+	public function addInline(string $type, string $content, array $options = [], array $attributes = [], array $dependencies = []): self
 	{
-		// Trigger the event
-		if ($this->getDispatcher())
+		if ($content instanceof WebAssetItemInterface)
 		{
-			$event = AbstractEvent::create(
-				'onWebAssetBeforeAttach',
-				[
-					'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetBeforeAttachEvent',
-					'subject'  => $this,
-					'document' => $doc,
-				]
-			);
-			$this->getDispatcher()->dispatch($event->getName(), $event);
+			$assetInstance = $content;
+		}
+		elseif (is_string($content))
+		{
+			$name          = $options['name'] ?? ('inline.' . md5($content));
+			$assetInstance = $this->registry->createAsset($name, '', $options, $attributes, $dependencies);
+		}
+		else
+		{
+			throw new \BadMethodCallException('The $content variable should be either WebAssetItemInterface or a string');
 		}
 
-		// Resolve an Order of Assets and their Dependencies
-		$assets = $this->enableDependencies()->getAssets(true);
+		// Get the name
+		$asset = $assetInstance->getName();
 
-		// Pre-save existing Scripts, and attach them after requested assets.
-		$jsBackup = $doc->_scripts;
-		$doc->_scripts = [];
+		// Set required options
+		$assetInstance->setOption('type', $type);
+		$assetInstance->setOption('inline', true);
+		$assetInstance->setOption('content', $content);
 
-		// Attach active assets to the document
-		foreach ($assets as $asset)
+		// Add to registry
+		$this->registry->add($type, $assetInstance);
+
+		// And make active
+		$this->useAsset($type, $asset);
+
+		return $this;
+	}
+
+	/**
+	 * Lock the manager to prevent further modifications
+	 *
+	 * @return self
+	 *
+	 * @since  4.0.0
+	 */
+	public function lock(): self
+	{
+		$this->locked = true;
+
+		return $this;
+	}
+
+	/**
+	 * Get the manager state. A collection of registry files and active asset names (per type).
+	 *
+	 * @return array
+	 *
+	 * @since  4.0.0
+	 */
+	public function getManagerState(): array
+	{
+		return [
+			'registryFiles' => $this->getRegistry()->getRegistryFiles(),
+			'activeAssets'  => $this->activeAssets,
+		];
+	}
+
+	/**
+	 * Update Dependencies state for all active Assets or only for given
+	 *
+	 * @param   string        $type   The asset type, script or style
+	 * @param   WebAssetItem  $asset  The asset instance to which need to enable dependencies
+	 *
+	 * @return  self
+	 *
+	 * @since  4.0.0
+	 */
+	protected function enableDependencies(string $type = null, WebAssetItem $asset = null): self
+	{
+		if ($type === 'preset')
 		{
-			// Add StyleSheets of the asset
-			foreach ($asset->getStylesheetFiles(true) as $path => $attr)
-			{
-				unset($attr['__isExternal'], $attr['__pathOrigin']);
-				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
-				$doc->addStyleSheet($path, ['version' => $version], $attr);
-			}
-
-			// Add Scripts of the asset
-			foreach ($asset->getScriptFiles(true) as $path => $attr)
-			{
-				unset($attr['__isExternal'], $attr['__pathOrigin']);
-				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
-				$doc->addScript($path, ['version' => $version], $attr);
-			}
+			// Preset items already was enabled by usePresetItems()
+			return $this;
 		}
 
-		// Merge with previously added scripts
-		$doc->_scripts = array_replace($doc->_scripts, $jsBackup);
+		if ($asset)
+		{
+			// Get all dependencies of given asset recursively
+			$allDependencies = $this->getDependenciesForAsset($type, $asset, true);
+
+			foreach ($allDependencies as $depType => $depItems)
+			{
+				foreach ($depItems as $depItem)
+				{
+					// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
+					if (empty($this->activeAssets[$depType][$depItem->getName()]))
+					{
+						// Add the dependency at the top of the list of active assets
+						$this->activeAssets[$depType] = [$depItem->getName() => static::ASSET_STATE_DEPENDENCY] + $this->activeAssets[$depType];
+					}
+				}
+			}
+		}
+		else
+		{
+			// Re-Check for dependencies for all active assets
+			// Firstly, filter out only active assets
+			foreach ($this->activeAssets as $type => $activeAsset)
+			{
+				$this->activeAssets[$type] = array_filter(
+					$activeAsset,
+					function ($state) {
+						return $state === WebAssetManager::ASSET_STATE_ACTIVE;
+					}
+				);
+			}
+
+			// Secondary, check for dependencies of each active asset
+			// This need to be separated from previous step because we may have "cross type" dependency
+			foreach ($this->activeAssets as $type => $activeAsset)
+			{
+				foreach (array_keys($activeAsset) as $name)
+				{
+					$asset = $this->registry->get($type, $name);
+					$this->enableDependencies($type, $asset);
+				}
+			}
+
+			$this->dependenciesIsActual = true;
+		}
 
 		return $this;
 	}
@@ -319,15 +805,17 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Calculate weight of active Assets, by its Dependencies
 	 *
+	 * @param   string  $type  The asset type, script or style
+	 *
 	 * @return  WebAssetItem[]
 	 *
 	 * @since  4.0.0
 	 */
-	protected function calculateOrderOfActiveAssets(): array
+	protected function calculateOrderOfActiveAssets($type): array
 	{
 		// See https://en.wikipedia.org/wiki/Topological_sorting#Kahn.27s_algorithm
 		$graphOrder    = [];
-		$activeAssets  = $this->getAssets();
+		$activeAssets  = $this->getAssets($type, false);
 
 		// Get Graph of Outgoing and Incoming connections
 		$connectionsGraph = $this->getConnectionsGraph($activeAssets);
@@ -341,11 +829,14 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		$emptyIncoming = array_keys(
 			array_filter(
 				$graphIncoming,
-				function ($el){
+				function ($el) {
 					return !$el;
 				}
 			)
 		);
+
+		// Reverse, to start from a last enabled and move up to a first enabled, this helps to maintain an original sorting
+		$emptyIncoming = array_reverse($emptyIncoming);
 
 		// Loop through, and sort the graph
 		while ($emptyIncoming)
@@ -373,7 +864,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		$graphWeights     = [];
 		$requestedWeights = [];
 
-		foreach (array_keys($this->activeAssets) as $index => $name)
+		foreach (array_keys($this->activeAssets[$type]) as $index => $name)
 		{
 			$fifoWeights[$name] = $index * 10 + 10;
 		}
@@ -381,7 +872,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		foreach (array_reverse($graphOrder) as $index => $name)
 		{
 			$graphWeights[$name]     = $index * 10 + 10;
-			$requestedWeights[$name] = $activeAssets[$name]->getWeight() ?: $fifoWeights[$name];
+			$requestedWeights[$name] = $activeAssets[$name]->getOption('weight') ?: $fifoWeights[$name];
 		}
 
 		// Try to set a requested weight, or make it close as possible to requested, but keep the Graph order
@@ -398,13 +889,16 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 			// Check the predecessors (Outgoing vertexes), the weight cannot be lighter than the predecessor have
 			$topBorder = $weight - 1;
+
 			if (!empty($graphOutgoing[$item]))
 			{
 				$prevWeights = [];
+
 				foreach ($graphOutgoing[$item] as $pItem)
 				{
 					$prevWeights[] = $graphWeights[$pItem];
 				}
+
 				$topBorder = max($prevWeights);
 			}
 
@@ -433,6 +927,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 		// Get Assets in calculated order
 		$resultAssets  = [];
+
 		foreach (array_keys($graphWeights) as $name)
 		{
 			$resultAssets[$name] = $activeAssets[$name];
@@ -450,7 +945,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getConnectionsGraph (array $assets): array
+	protected function getConnectionsGraph(array $assets): array
 	{
 		$graphOutgoing = [];
 		$graphIncoming = [];
@@ -458,15 +953,20 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		foreach ($assets as $asset)
 		{
 			$name = $asset->getName();
-			$graphOutgoing[$name] = array_combine($asset->getDependencies(), $asset->getDependencies());
 
-			if (!array_key_exists($name, $graphIncoming))
+			// Initialise an array for outgoing nodes of the asset
+			$graphOutgoing[$name] = [];
+
+			// Initialise an array for incoming nodes of the asset
+			if (!\array_key_exists($name, $graphIncoming))
 			{
 				$graphIncoming[$name] = [];
 			}
 
+			// Collect an outgoing/incoming nodes
 			foreach ($asset->getDependencies() as $depName)
 			{
+				$graphOutgoing[$name][$depName] = $depName;
 				$graphIncoming[$depName][$name] = $name;
 			}
 		}
@@ -480,88 +980,60 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Return dependencies for Asset as array of WebAssetItem objects
 	 *
+	 * @param   string        $type           The asset type, script or style
 	 * @param   WebAssetItem  $asset          Asset instance
-	 * @param   boolean       $recursively    Whether to search for dependancy recursively
+	 * @param   boolean       $recursively    Whether to search for dependency recursively
+	 * @param   string        $recursionType  The type of initial item to prevent loop
 	 * @param   WebAssetItem  $recursionRoot  Initial item to prevent loop
 	 *
-	 * @return  WebAssetItem[]
+	 * @return  array
 	 *
 	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getDependenciesForAsset(WebAssetItem $asset, $recursively = false, WebAssetItem $recursionRoot = null): array
+	protected function getDependenciesForAsset(
+		string $type,
+		WebAssetItem $asset,
+		$recursively = false,
+		string $recursionType = null,
+		WebAssetItem $recursionRoot = null
+	): array
 	{
 		$assets        = [];
 		$recursionRoot = $recursionRoot ?? $asset;
+		$recursionType = $recursionType ?? $type;
 
 		foreach ($asset->getDependencies() as $depName)
 		{
+			$depType = $type;
+
 			// Skip already loaded in recursion
-			if ($recursionRoot->getName() === $depName)
+			if ($recursionRoot->getName() === $depName && $recursionType === $depType)
 			{
 				continue;
 			}
 
-			if (!$this->registry->exists($depName))
+			if (!$this->registry->exists($depType, $depName))
 			{
-				throw new UnsatisfiedDependencyException('Unsatisfied dependency "' . $depName . '" for Asset "' . $asset->getName() . '"');
+				throw new UnsatisfiedDependencyException(
+					sprintf('Unsatisfied dependency "%s" for an asset "%s" of type "%s"', $depName, $asset->getName(), $depType)
+				);
 			}
 
-			$dep = $this->registry->get($depName);
+			$dep = $this->registry->get($depType, $depName);
 
-			$assets[$depName] = $dep;
+			$assets[$depType][$depName] = $dep;
 
 			if (!$recursively)
 			{
 				continue;
 			}
 
-			$parentDeps = $this->getDependenciesForAsset($dep, true, $recursionRoot);
-			$assets     = array_replace($assets, $parentDeps);
+			$parentDeps = $this->getDependenciesForAsset($depType, $dep, true, $recursionType, $recursionRoot);
+			$assets     = array_replace_recursive($assets, $parentDeps);
 		}
 
 		return $assets;
-	}
-
-	/**
-	 * Whether append asset version to asset path
-	 *
-	 * @param   bool  $useVersioning  Boolean flag
-	 *
-	 * @return  self
-	 *
-	 * @since   4.0.0
-	 */
-	public function useVersioning(bool $useVersioning): self
-	{
-		$this->useVersioning = $useVersioning;
-
-		return $this;
-	}
-
-	/**
-	 * Dump available assets to simple array, with some basic info
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	public function debugAssets(): array
-	{
-		// Update dependencies
-		$assets = $this->enableDependencies()->getAssets(true);
-		$result = [];
-
-		foreach ($assets as $asset)
-		{
-			$result[$asset->getName()] = [
-				'name'   => $asset->getName(),
-				'deps'   => implode(', ', $asset->getDependencies()),
-				'state'  => $this->getAssetState($asset->getName()),
-			];
-		}
-
-		return $result;
 	}
 }

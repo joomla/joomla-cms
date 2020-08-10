@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Taggable
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableObjectCreate(CmsEvent\Table\ObjectCreateEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// Parse the type alias
@@ -96,7 +96,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableBeforeStore(CmsEvent\Table\BeforeStoreEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// Parse the type alias
@@ -114,7 +114,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		/** @var JHelperTags $tagsHelper */
+		/** @var TagsHelper $tagsHelper */
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
@@ -142,7 +142,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableAfterStore(CmsEvent\Table\AfterStoreEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table	= $event['subject'];
 		$result = $event['result'];
 
@@ -172,7 +172,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		}
 
 		// Get the Tags helper and assign the parsed alias
-		/** @var JHelperTags $tagsHelper */
+		/** @var TagsHelper $tagsHelper */
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
@@ -209,7 +209,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableBeforeDelete(CmsEvent\Table\BeforeDeleteEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 		$pk				= $event['pk'];
 
@@ -246,7 +246,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableSetNewTags(CmsEvent\Table\SetNewTagsEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 		$newTags		= $event['newTags'];
 		$replaceTags	= $event['replaceTags'];
@@ -267,7 +267,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		}
 
 		// Get the Tags helper and assign the parsed alias
-		/** @var JHelperTags $tagsHelper */
+		/** @var TagsHelper $tagsHelper */
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
@@ -283,13 +283,13 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 * @param   CmsEvent\Table\AfterResetEvent  $event  The event to handle
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function onTableAfterReset(CmsEvent\Table\AfterResetEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// Parse the type alias
@@ -311,13 +311,13 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 * @param   CmsEvent\Table\AfterLoadEvent  $event  The event to handle
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function onTableAfterLoad(CmsEvent\Table\AfterLoadEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// Parse the type alias
@@ -349,7 +349,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 * Internal method
 	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
 	 *
-	 * @param   JTableInterface  &$table  The table
+	 * @param   TableInterface  $table  The table
 	 *
 	 * @return  string
 	 *
@@ -370,7 +370,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		}
 
 		return preg_replace_callback('/{([^}]+)}/',
-			function($matches) use ($table)
+			function ($matches) use ($table)
 			{
 				return $table->{$matches[1]};
 			},

@@ -1,48 +1,42 @@
-export_languages: ["en-GB"]
+export_languages:
+  - en-GB
 files:
   - source: /administrator/language/en-GB/*.ini
-    translation: /administrator/language/%locale%/%locale%.%original_file_name%
-    translation_replace:
-      en-GB.:
+    translation: /administrator/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
-  - source: /administrator/language/en-GB/en-GB.localise.php
-    dest: /administrator/language/en-GB/en-GB.localise.txt
-    type: txt
-    translation: /administrator/language/%locale%/%locale%.localise.php
-    update_option: update_as_unapproved
-  - source: /administrator/language/en-GB/en-GB.xml
-    translation: /administrator/language/%locale%/%locale%.xml
+  - source: /administrator/language/en-GB/*.xml
+    translation: /administrator/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
     content_segmentation: 0
-  - source: /administrator/language/en-GB/install.xml
-    translation: /administrator/language/%locale%/install.xml
+  - source: /administrator/language/en-GB/localise.php
+    dest: /administrator/language/en-GB/localise.txt
+    translation: /administrator/language/%locale%/localise.php
+    update_option: update_as_unapproved
+  - source: /api/language/en-GB/*.ini
+    translation: /api/language/%locale%/%original_file_name%
+    update_option: update_as_unapproved
+  - source: /api/language/en-GB/*.xml
+    translation: /api/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
     content_segmentation: 0
   - source: /language/en-GB/*.ini
-    translation: /language/%locale%/%locale%.%original_file_name%
-    translation_replace:
-      en-GB.:
+    translation: /language/%locale%/%original_file_name%
     update_option: update_as_unapproved
-  - source: /language/en-GB/en-GB.localise.php
-    dest: /language/en-GB/en-GB.localise.txt
-    type: txt
-    translation: /language/%locale%/%locale%.localise.php
-    update_option: update_as_unapproved
-  - source: /language/en-GB/en-GB.xml
-    translation: /language/%locale%/%locale%.xml
+  - source: /language/en-GB/*.xml
+    translation: /language/%locale%/%original_file_name%
     update_option: update_as_unapproved
     content_segmentation: 0
-  - source: /language/en-GB/install.xml
-    translation: /language/%locale%/install.xml
+  - source: /language/en-GB/localise.php
+    dest: /language/en-GB/localise.txt
+    translation: /language/%locale%/localise.php
     update_option: update_as_unapproved
+  - source: /installation/language/en-GB/joomla.ini
+    translation: /installation/language/%locale%/joomla.ini
+    update_option: update_as_unapproved
+  - source: /installation/language/en-GB/langmetadata.xml
+    translation: /installation/language/%locale%/langmetadata.xml
     content_segmentation: 0
-  - source: /installation/language/en-GB/en-GB.ini
-    translation: /installation/language/%locale%/%locale%.ini
     update_option: update_as_unapproved
-  - source: /installation/language/en-GB/en-GB.xml
-    translation: /installation/language/%locale%/%locale%.xml
-    update_option: update_as_unapproved
-    content_segmentation: 0
   - source: /build/media_source/system/js/fields/calendar-locales/en.es5.js
     translation: /build/media_source/system/js/fields/calendar-locales/%locale%.es5.js
     update_option: update_as_unapproved

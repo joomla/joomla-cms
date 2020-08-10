@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Categories;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
@@ -119,7 +119,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	 * @var    boolean
 	 * @since  1.6
 	 */
-	public $checked_out = 0;
+	public $checked_out = null;
 
 	/**
 	 * The time at which the category was checked out
@@ -127,7 +127,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	 * @var    string
 	 * @since  1.6
 	 */
-	public $checked_out_time = 0;
+	public $checked_out_time = null;
 
 	/**
 	 * Access level for the category
@@ -311,7 +311,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	 */
 	public function setParent(NodeInterface $parent)
 	{
-		if (!is_null($this->_parent))
+		if (!\is_null($this->_parent))
 		{
 			$key = array_search($this, $this->_parent->_children);
 			unset($this->_parent->_children[$key]);
@@ -321,7 +321,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 
 		$this->_parent->_children[] = & $this;
 
-		if (count($this->_parent->_children) > 1)
+		if (\count($this->_parent->_children) > 1)
 		{
 			end($this->_parent->_children);
 			$this->_leftSibling = prev($this->_parent->_children);

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -162,7 +162,7 @@ abstract class JLoader
 	/**
 	 * Method to get the list of registered namespaces.
 	 *
-	 * @param   string  $type  Defines the type of namespace, can be prs0 or psr4.
+	 * @param   string  $type  Defines the type of namespace, can be psr0 or psr4.
 	 *
 	 * @return  array  The array of namespace => path values for the autoloader.
 	 *
@@ -172,7 +172,7 @@ abstract class JLoader
 	{
 		if ($type !== 'psr0' && $type !== 'psr4')
 		{
-			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
+			throw new InvalidArgumentException('Type needs to be psr0 or psr4!');
 		}
 
 		return self::$namespaces[$type];
@@ -428,20 +428,19 @@ abstract class JLoader
 	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
 	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
 	 * @param   boolean  $prepend    If true, push the path to the beginning of the namespace lookup paths array.
-	 * @param   string   $type       Defines the type of namespace, can be prs0 or psr4.
+	 * @param   string   $type       Defines the type of namespace, can be psr0 or psr4.
 	 *
 	 * @return  void
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @note    The default argument of $type will be changed in J4 to be 'psr4'
 	 * @since   3.1.4
 	 */
-	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
+	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr4')
 	{
-		if ($type !== 'psr0' && $type !== 'psr4')
+		if ($type !== 'psr4' && $type !== 'psr0')
 		{
-			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
+			throw new InvalidArgumentException('Type needs to be psr0 or psr4!');
 		}
 
 		// Verify the library path exists.
@@ -500,9 +499,6 @@ abstract class JLoader
 
 		if ($enablePrefixes)
 		{
-			// Register the J prefix and base path for Joomla platform libraries.
-			self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
-
 			// Register the prefix autoloader.
 			spl_autoload_register(array('JLoader', '_autoload'));
 		}

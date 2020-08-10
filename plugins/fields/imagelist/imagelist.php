@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Imagelist
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  3.7.0
  */
-class PlgFieldsImagelist extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
+class PlgFieldsImagelist extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.

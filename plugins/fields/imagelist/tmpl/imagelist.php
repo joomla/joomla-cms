@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Imagelist
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -33,7 +33,7 @@ foreach ($value as $path)
 
 	if ($fieldParams->get('directory', '/') !== '/')
 	{
-		$buffer .= sprintf('<img src="images/%s/%s"%s>',
+		$buffer .= sprintf('<img loading="lazy" src="images/%s/%s"%s>',
 			$fieldParams->get('directory'),
 			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 			$class
@@ -41,7 +41,7 @@ foreach ($value as $path)
 	}
 	else
 	{
-		$buffer .= sprintf('<img src="images/%s"%s>',
+		$buffer .= sprintf('<img loading="lazy" src="images/%s"%s>',
 			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 			$class
 		);

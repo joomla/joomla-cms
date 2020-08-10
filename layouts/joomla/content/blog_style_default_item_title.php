@@ -3,15 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // Create a shortcut for params.
 $params  = $displayData->params;
@@ -24,7 +25,7 @@ $canEdit = $displayData->params->get('access-edit');
 			<h2 itemprop="name">
 				<?php if ($params->get('link_titles') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
 					<a href="<?php echo Route::_(
-						ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)
+						RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)
 					); ?>" itemprop="url">
 						<?php echo $this->escape($displayData->title); ?>
 					</a>
@@ -42,9 +43,7 @@ $canEdit = $displayData->params->get('access-edit');
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 
-		<?php if ($displayData->publish_down != Factory::getDbo()->getNullDate()
-			&& (strtotime($displayData->publish_down) < strtotime(Factory::getDate()))
-		) : ?>
+		<?php if ($displayData->publish_down !== null && strtotime($displayData->publish_down) < strtotime(Factory::getDate())) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>

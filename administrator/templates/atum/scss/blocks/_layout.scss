@@ -1,20 +1,16 @@
-.page-link {
-  &.active {
-    padding: 0;
-    &.current {
-      padding: .5rem .75rem;
-      color: #999;
-      background-color: #dee2e6;
-    }
-    a {
-      padding: .5rem .75rem;
-      line-height: 2.25;
-    }
-  }
-  &.disabled {
-    color: #999;
-    &:hover {
-      background: transparent;
-    }
+.options-form {
+  width: 100%;
+  padding: 1vw 2vw;
+  margin-bottom: 1rem;
+  color: var(--atum-text-dark);
+  background-color: $white;
+  border: 1px solid var(--bluegray);
+
+  > legend {
+    width: auto;
+    padding: 0 .5rem;
+    font-weight: $font-weight-bold;
+    color: var(--atum-text-dark);
+    background-color: $white;
   }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_privacy_confirm_view_default_title" option="com_privacy_confirm_view_default_option">
+	<layout title="COM_PRIVACY_CONFIRM_VIEW_DEFAULT_TITLE" option="COM_PRIVACY_CONFIRM_VIEW_DEFAULT_OPTION">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_PRIVACY_CONFIRM_REQUEST"
 		/>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.tabstate');
+/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
+
 ?>
 <div class="row">
 	<?php // Begin Content ?>
 	<div class="col-md-12">
-		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'site')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'site']); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'site', Text::_('COM_ADMIN_SYSTEM_INFORMATION')); ?>
 		<?php echo $this->loadTemplate('system'); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,16 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -30,7 +33,7 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  3.2
 	 */
 	protected $app;
@@ -38,10 +41,50 @@ class PlgUserJoomla extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  3.2
 	 */
 	protected $db;
+
+	/**
+	 * Set as required the passwords fields when mail to user is set to No
+	 *
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   mixed  $data  The associated data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public function onContentPrepareForm($form, $data)
+	{
+		// Check we are manipulating a valid user form before modifying it.
+		$name = $form->getName();
+
+		if ($name === 'com_users.user')
+		{
+			// In case there is a validation error (like duplicated user), $data is an empty array on save.
+			// After returning from error, $data is an array but populated
+			if (!$data)
+			{
+				$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+			}
+
+			if (is_array($data))
+			{
+				$data = (object) $data;
+			}
+
+			// Passwords fields are required when mail to user is set to No
+			if (empty($data->id) && !$this->params->get('mail_to_user', 1))
+			{
+				$form->setFieldAttribute('password', 'required', 'true');
+				$form->setFieldAttribute('password2', 'required', 'true');
+			}
+		}
+
+		return true;
+	}
 
 	/**
 	 * Remove all sessions for the user name
@@ -52,48 +95,51 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
+
+		$db     = $this->db;
+		$userid = (int) $user['id'];
 
 		// Only execute this query if using the database session handler
 		if ($this->app->get('session_handler', 'database') === 'database')
 		{
-			$query = $this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('userid') . ' = :userid')
+				->bind(':userid', $userid, ParameterType::INTEGER);
 
 			try
 			{
-				$this->db->setQuery($query)->execute();
+				$db->setQuery($query)->execute();
 			}
 			catch (ExecutionFailureException $e)
 			{
-				return false;
+				// Continue.
 			}
 		}
 
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__messages'))
-			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user['id']);
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__messages'))
+			->where($db->quoteName('user_id_from') . ' = :userid')
+			->bind(':userid', $userid, ParameterType::INTEGER);
 
 		try
 		{
-			$this->db->setQuery($query)->execute();
+			$db->setQuery($query)->execute();
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			// Do nothing.
 		}
-
-		return true;
 	}
 
 	/**
@@ -110,7 +156,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
@@ -134,8 +180,8 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		$lang = Factory::getLanguage();
-		$defaultLocale = $lang->getTag();
+		$defaultLanguage = Factory::getLanguage();
+		$defaultLocale   = $defaultLanguage->getTag();
 
 		/**
 		 * Look for user language. Priority:
@@ -145,39 +191,34 @@ class PlgUserJoomla extends CMSPlugin
 		$userParams = new Registry($user['params']);
 		$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
 
+		// Temporarily set application language to user's language.
 		if ($userLocale !== $defaultLocale)
 		{
-			$lang->setLanguage($userLocale);
+			Factory::$language = Factory::getContainer()
+				->get(LanguageFactoryInterface::class)
+				->createLanguage($userLocale, $this->app->get('debug_lang', false));
 		}
 
-		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
+		// Load plugin language files.
+		$this->loadLanguage();
 
-		// Compute the mail subject.
-		$emailSubject = Text::sprintf(
-			'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
-			$user['name'],
-			$this->app->get('sitename')
-		);
+		// Collect data for mail
+		$data = [
+			'name' => $user['name'],
+			'sitename' => $this->app->get('sitename'),
+			'url' => Uri::root(),
+			'username' => $user['username'],
+			'password' => $user['password_clear'],
+			'email' => $user['email']
+		];
 
-		// Compute the mail body.
-		$emailBody = Text::sprintf(
-			'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
-			$user['name'],
-			$this->app->get('sitename'),
-			Uri::root(),
-			$user['username'],
-			$user['password_clear']
-		);
+		$mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
+		$mailer->addTemplateData($data);
+		$mailer->addRecipient($user['email'], $user['name']);
 
 		try
 		{
-			$res = Factory::getMailer()->sendMail(
-				$this->app->get('mailfrom'),
-				$this->app->get('fromname'),
-				$user['email'],
-				$emailSubject,
-				$emailBody
-			);
+			$res = $mailer->send();
 		}
 		catch (\Exception $exception)
 		{
@@ -189,7 +230,7 @@ class PlgUserJoomla extends CMSPlugin
 			}
 			catch (\RuntimeException $exception)
 			{
-				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+				$this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
 				$res = false;
 			}
@@ -203,7 +244,7 @@ class PlgUserJoomla extends CMSPlugin
 		// Set application language back to default if we changed it
 		if ($userLocale !== $defaultLocale)
 		{
-			$lang->setLanguage($defaultLocale);
+			Factory::$language = $defaultLanguage;
 		}
 	}
 
@@ -217,7 +258,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function onUserLogin($user, $options = array())
+	public function onUserLogin($user, $options = [])
 	{
 		$instance = $this->_getUser($user, $options);
 
@@ -276,8 +317,9 @@ class PlgUserJoomla extends CMSPlugin
 
 		// Purge the old session
 		$query = $this->db->getQuery(true)
-			->delete('#__session')
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($oldSessionId));
+			->delete($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('session_id') . ' = :sessionid')
+			->bind(':sessionid', $oldSessionId);
 
 		try
 		{
@@ -318,7 +360,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function onUserLogout($user, $options = array())
+	public function onUserLogout($user, $options = [])
 	{
 		$my      = Factory::getUser();
 		$session = Factory::getSession();
@@ -382,11 +424,11 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (remember, autoregister, group).
 	 *
-	 * @return  JUser
+	 * @return  User
 	 *
 	 * @since   1.5
 	 */
-	protected function _getUser($user, $options = array())
+	protected function _getUser($user, $options = [])
 	{
 		$instance = User::getInstance();
 		$id = (int) UserHelper::getUserId($user['username']);
@@ -399,10 +441,10 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		// TODO : move this out of the plugin
-		$config = ComponentHelper::getParams('com_users');
+		$params = ComponentHelper::getParams('com_users');
 
-		// Hard coded default to match the default value from com_users.
-		$defaultUserGroup = $config->get('new_usertype', 2);
+		// Read the default user group option from com_users
+		$defaultUserGroup = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 		$instance->id = 0;
 		$instance->name = $user['fullname'];
@@ -411,7 +453,7 @@ class PlgUserJoomla extends CMSPlugin
 
 		// Result should contain an email (check).
 		$instance->email = $user['email'];
-		$instance->groups = array($defaultUserGroup);
+		$instance->groups = [$defaultUserGroup];
 
 		// If autoregister is set let's register the user
 		$autoregister = $options['autoregister'] ?? $this->params->get('autoregister', 1);
@@ -420,7 +462,7 @@ class PlgUserJoomla extends CMSPlugin
 		{
 			if (!$instance->save())
 			{
-				Log::add('Error in autoregistration for user ' . $user['username'] . '.', Log::WARNING, 'error');
+				Log::add('Failed to automatically create account for user ' . $user['username'] . '.', Log::WARNING, 'error');
 			}
 		}
 		else

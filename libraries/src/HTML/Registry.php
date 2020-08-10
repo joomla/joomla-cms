@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Service registry for JHtml services
@@ -20,52 +20,44 @@ final class Registry
 	/**
 	 * Mapping array of the core CMS JHtml helpers
 	 *
-	 * As of 5.0, the $serviceMap will be prepopulated with the contents of this array
-	 *
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	private $coreServiceMap = [
-		'access'          => \JHtmlAccess::class,
-		'actionsdropdown' => \JHtmlActionsDropdown::class,
-		'batch'           => \JHtmlBatch::class,
-		'behavior'        => \JHtmlBehavior::class,
-		'bootstrap'       => \JHtmlBootstrap::class,
-		'category'        => \JHtmlCategory::class,
-		'content'         => \JHtmlContent::class,
-		'contentlanguage' => \JHtmlContentlanguage::class,
-		'date'            => \JHtmlDate::class,
-		'debug'           => \JHtmlDebug::class,
-		'draggablelist'   => \JHtmlDraggablelist::class,
-		'dropdown'        => \JHtmlDropdown::class,
-		'email'           => \JHtmlEmail::class,
-		'form'            => \JHtmlForm::class,
-		'formbehavior'    => \JHtmlFormbehavior::class,
-		'grid'            => \JHtmlGrid::class,
-		'icons'           => \JHtmlIcons::class,
-		'jgrid'           => \JHtmlJGrid::class,
-		'jquery'          => \JHtmlJquery::class,
-		'links'           => \JHtmlLinks::class,
-		'list'            => \JHtmlList::class,
-		'menu'            => \JHtmlMenu::class,
-		'number'          => \JHtmlNumber::class,
-		'searchtools'     => \JHtmlSearchtools::class,
-		'select'          => \JHtmlSelect::class,
-		'sidebar'         => \JHtmlSidebar::class,
-		'sortablelist'    => \JHtmlSortablelist::class,
-		'string'          => \JHtmlString::class,
-		'tag'             => \JHtmlTag::class,
-		'tel'             => \JHtmlTel::class,
-		'user'            => \JHtmlUser::class,
+	private $serviceMap = [
+		'access'          => Helpers\Access::class,
+		'actionsdropdown' => Helpers\ActionsDropdown::class,
+		'adminlanguage'   => Helpers\AdminLanguage::class,
+		'behavior'        => Helpers\Behavior::class,
+		'bootstrap'       => Helpers\Bootstrap::class,
+		'category'        => Helpers\Category::class,
+		'content'         => Helpers\Content::class,
+		'contentlanguage' => Helpers\ContentLanguage::class,
+		'date'            => Helpers\Date::class,
+		'debug'           => Helpers\Debug::class,
+		'draggablelist'   => Helpers\DraggableList::class,
+		'dropdown'        => Helpers\Dropdown::class,
+		'email'           => Helpers\Email::class,
+		'form'            => Helpers\Form::class,
+		'formbehavior'    => Helpers\FormBehavior::class,
+		'grid'            => Helpers\Grid::class,
+		'icons'           => Helpers\Icons::class,
+		'jgrid'           => Helpers\JGrid::class,
+		'jquery'          => Helpers\Jquery::class,
+		'links'           => Helpers\Links::class,
+		'list'            => Helpers\ListHelper::class,
+		'menu'            => Helpers\Menu::class,
+		'number'          => Helpers\Number::class,
+		'searchtools'     => Helpers\SearchTools::class,
+		'select'          => Helpers\Select::class,
+		'sidebar'         => Helpers\Sidebar::class,
+		'sortablelist'    => Helpers\SortableList::class,
+		'string'          => Helpers\StringHelper::class,
+		'tag'             => Helpers\Tag::class,
+		'tel'             => Helpers\Telephone::class,
+		'uitab'           => Helpers\UiTab::class,
+		'user'            => Helpers\User::class,
+		'workflowstage'   => Helpers\WorkflowStage::class,
 	];
-
-	/**
-	 * Array holding the registered services
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	private $serviceMap = [];
 
 	/**
 	 * Get the service for a given key
@@ -120,19 +112,19 @@ final class Registry
 		}
 
 		// If the handler is a string, it must be a class that exists
-		if (is_string($handler) && !class_exists($handler))
+		if (\is_string($handler) && !class_exists($handler))
 		{
 			throw new \RuntimeException("The '$handler' class for service key '$key' does not exist.");
 		}
 
 		// Otherwise the handler must be a class object
-		if (!is_string($handler) && !is_object($handler))
+		if (!\is_string($handler) && !\is_object($handler))
 		{
 			throw new \RuntimeException(
 				sprintf(
 					'The handler for service key %1$s must be a PHP class name or class object, a %2$s was given.',
 					$key,
-					gettype($handler)
+					\gettype($handler)
 				)
 			);
 		}

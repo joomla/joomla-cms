@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,10 +77,25 @@
 	margin-left: 3.5em;
 }
 
-#toggle-buttons {
-	margin-right: 5em;
-}
-
 .switcher-label-0, .switcher-label-1 {
 	white-space: nowrap;
+}
+
+/* RTL overrides for templates editing*/
+[dir=rtl] .diff-pane {
+	text-align: left;
+}
+
+[dir=rtl] #core-pane textarea,
+#override-pane textarea {
+	text-align: left;
+}
+
+[dir=rtl] #core-pane joomla-editor-codemirror,
+#override-pane joomla-editor-codemirror {
+	text-align: left;
+}
+
+[dir=rtl] #toggle-buttons {
+	text-align: right !important;
 }

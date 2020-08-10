@@ -32,7 +32,7 @@
 			name="password1"
 			type="password"
 			label="COM_USERS_PROFILE_PASSWORD1_LABEL"
-			autocomplete="off"
+			autocomplete="new-password"
 			class="validate-password"
 			filter="raw"
 			size="30"
@@ -43,7 +43,7 @@
 			name="password2"
 			type="password"
 			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
-			autocomplete="off"
+			autocomplete="new-password"
 			class="validate-password"
 			field="password1"
 			filter="raw"
@@ -66,7 +66,7 @@
 		/>
 
 	</fieldset>
-	
+
 	<!-- Used to get the two factor authentication configuration -->
 	<field
 		name="twofactor"

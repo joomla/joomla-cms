@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.joomla
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,13 +64,15 @@ class PlgAuthenticationJoomla extends CMSPlugin
 			return;
 		}
 
-		$query = $this->db->getQuery(true)
-			->select('id, password')
-			->from('#__users')
-			->where('username=' . $this->db->quote($credentials['username']));
+		$db    = $this->db;
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['id', 'password']))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $credentials['username']);
 
-		$this->db->setQuery($query);
-		$result = $this->db->loadObject();
+		$db->setQuery($query);
+		$result = $db->loadObject();
 
 		if ($result)
 		{
@@ -148,7 +150,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 					{
 						$this->loadLanguage();
 
-						$this->app->enqueueMessage(Text::_('PLG_AUTH_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA'), 'warning');
+						$this->app->enqueueMessage(Text::_('PLG_AUTHENTICATION_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA'), 'warning');
 					}
 					catch (Exception $exc)
 					{

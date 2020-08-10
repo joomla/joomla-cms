@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 ?>
-<form class="mod-login-logout form-vertical" action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form">
+<form class="mod-login-logout form-vertical" action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form-<?php echo $module->id; ?>">
 <?php if ($params->get('greeting', 1)) : ?>
 	<div class="mod-login-logout__login-greeting login-greeting">
 	<?php if (!$params->get('name', 0)) : ?>
@@ -26,7 +26,7 @@ HTMLHelper::_('behavior.keepalive');
 	</div>
 <?php endif; ?>
 <?php if ($params->get('profilelink', 0)) : ?>
-	<ul class="mod-login-logout__options unstyled">
+	<ul class="mod-login-logout__options list-unstyled">
 		<li>
 			<a href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>">
 			<?php echo Text::_('MOD_LOGIN_PROFILE'); ?></a>

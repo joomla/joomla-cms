@@ -1,13 +1,17 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Privacy.uscontenter
+ * @subpackage  Privacy.content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\User\User;
+use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
 /**
  * Privacy plugin managing Joomla user content data
@@ -23,14 +27,14 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 *
 	 * - Content custom fields
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   User          $user     The user account associated with this request if available
 	 *
-	 * @return  PrivacyExportDomain[]
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
 	 *
 	 * @since   3.9.0
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyExportRequest(RequestTable $request, User $user = null)
 	{
 		if (!$user)
 		{

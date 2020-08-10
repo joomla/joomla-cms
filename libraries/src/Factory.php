@@ -2,17 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
@@ -166,8 +167,12 @@ abstract class Factory
 			E_USER_DEPRECATED
 		);
 
-		// If there is an application object, fetch the configuration from there
-		if (self::$application)
+		/**
+		 * If there is an application object, fetch the configuration from there.
+		 * Check it's not null because LanguagesModel can make it null and if it's null
+		 * we would want to re-init it from configuration.php.
+		 */
+		if (self::$application && self::$application->getConfig() !== null)
 		{
 			return self::$application->getConfig();
 		}
@@ -333,7 +338,7 @@ abstract class Factory
 
 		$instance = self::getApplication()->getSession()->get('user');
 
-		if (is_null($id))
+		if (\is_null($id))
 		{
 			if (!($instance instanceof User))
 			{
@@ -341,7 +346,7 @@ abstract class Factory
 			}
 		}
 		// Check if we have a string as the id or if the numeric id is the current instance
-		elseif (!($instance instanceof User) || is_string($id) || $instance->id !== $id)
+		elseif (!($instance instanceof User) || \is_string($id) || $instance->id !== $id)
 		{
 			$instance = User::getInstance($id);
 		}
@@ -381,7 +386,7 @@ abstract class Factory
 			return self::$cache[$hash];
 		}
 
-		$handler = ($handler == 'function') ? 'callback' : $handler;
+		$handler = ($handler === 'function') ? 'callback' : $handler;
 
 		$options = array('defaultgroup' => $group);
 
@@ -437,11 +442,11 @@ abstract class Factory
 	/**
 	 * Get a mailer object.
 	 *
-	 * Returns the global {@link \JMail} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link Mail} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	public static function getMailer()
@@ -459,7 +464,7 @@ abstract class Factory
 	/**
 	 * Return the {@link Date} object
 	 *
-	 * @param   mixed  $time      The initial time for the JDate object
+	 * @param   mixed  $time      The initial time for the Date object
 	 * @param   mixed  $tzOffset  The timezone offset.
 	 *
 	 * @return  Date object
@@ -547,7 +552,7 @@ abstract class Factory
 		$name = 'JConfig' . $namespace;
 
 		// Handle the PHP configuration type.
-		if ($type == 'PHP' && class_exists($name))
+		if ($type === 'PHP' && class_exists($name))
 		{
 			// Create the JConfig object
 			$config = new $name;
@@ -627,7 +632,7 @@ abstract class Factory
 
 		$session = Session::getInstance($handler, $options, $sessionHandler);
 
-		if ($session->getState() == 'expired')
+		if ($session->getState() === 'expired')
 		{
 			$session->restart();
 		}
@@ -666,6 +671,24 @@ abstract class Factory
 
 		$options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
+		if ((int) $conf->get('dbencryption') !== 0)
+		{
+			$options['ssl'] = [
+				'enable'             => true,
+				'verify_server_cert' => (bool) $conf->get('dbsslverifyservercert'),
+			];
+
+			foreach (['cipher', 'ca', 'key', 'cert'] as $value)
+			{
+				$confVal = trim($conf->get('dbssl' . $value, ''));
+
+				if ($confVal !== '')
+				{
+					$options['ssl'][$value] = $confVal;
+				}
+			}
+		}
+
 		try
 		{
 			$db = DatabaseDriver::getInstance($options);
@@ -686,9 +709,9 @@ abstract class Factory
 	/**
 	 * Create a mailer object
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     \JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	protected static function createMailer()
@@ -840,8 +863,8 @@ abstract class Factory
 
 		if ($use_prefix)
 		{
-			$FTPOptions = \JClientHelper::getCredentials('ftp');
-			$SCPOptions = \JClientHelper::getCredentials('scp');
+			$FTPOptions = ClientHelper::getCredentials('ftp');
+			$SCPOptions = ClientHelper::getCredentials('scp');
 
 			if ($FTPOptions['enabled'] == 1 && $use_network)
 			{

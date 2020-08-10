@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\String;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Algo26\IdnaConvert\ToIdn;
+use Algo26\IdnaConvert\ToUnicode;
 use Joomla\Uri\UriHelper;
-use Mso\IdnaConvert\IdnaConvert;
 
 /**
  * Joomla Platform String Punycode Class
@@ -35,7 +36,7 @@ abstract class PunycodeHelper
 	 */
 	public static function toPunycode($utfString)
 	{
-		return (new IdnaConvert)->encode($utfString);
+		return (new ToIdn)->convert($utfString);
 	}
 
 	/**
@@ -49,7 +50,7 @@ abstract class PunycodeHelper
 	 */
 	public static function fromPunycode($punycodeString)
 	{
-		return (new IdnaConvert)->decode($punycodeString);
+		return (new ToUnicode)->convert($punycodeString);
 	}
 
 	/**

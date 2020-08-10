@@ -2,14 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Helper\LibraryHelper;
 
 /**
@@ -60,7 +61,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'alpha9-dev';
+	const EXTRA_VERSION = 'beta4-dev';
 
 	/**
 	 * Development status.
@@ -76,7 +77,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Amani';
+	const CODENAME = 'Mañana';
 
 	/**
 	 * Release date.
@@ -84,7 +85,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '19-April-2019';
+	const RELDATE = '29-July-2020';
 
 	/**
 	 * Release time.
@@ -92,7 +93,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '09:23';
+	const RELTIME = '18:21';
 
 	/**
 	 * Release timezone.
@@ -108,7 +109,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = 'Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.';
 
 	/**
 	 * Link text.
@@ -137,7 +138,7 @@ final class Version
 	 *
 	 * @return  boolean True if the version is compatible.
 	 *
-	 * @link    https://secure.php.net/version_compare
+	 * @link    https://www.php.net/version_compare
 	 * @since   1.0
 	 */
 	public function isCompatible(string $minimum): bool
@@ -227,7 +228,7 @@ final class Version
 	 */
 	public function generateMediaVersion(): string
 	{
-		return md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new \JDate)->toSql());
+		return md5($this->getLongVersion() . Factory::getApplication()->get('secret') . (new Date)->toSql());
 	}
 
 	/**

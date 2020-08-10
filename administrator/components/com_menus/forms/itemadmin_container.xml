@@ -15,7 +15,9 @@
 	</fieldset>
 
 	<fields name="params">
-		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
+		<fieldset name="menu-options"
+			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
+		>
 			<field
 				name="menu-anchor_title"
 				type="text"
@@ -23,9 +25,10 @@
 			/>
 
 			<field
-				name="menu-anchor_css"
+				name="menu_icon"
 				type="text"
-				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
 			/>
 
 			<field
@@ -34,18 +37,17 @@
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 			/>
 
-			<field 
+			<field
 				name="menu_image_css"
-				type="text" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC" 
 			/>
 
 			<field
 				name="menu_text"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				filter="integer"
 				>
@@ -57,7 +59,7 @@
 				name="menu_show"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				filter="integer"
 				>

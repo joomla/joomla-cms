@@ -3,13 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
@@ -18,22 +17,22 @@ use Joomla\CMS\Language\Text;
 		<div class="col-md-12">
 			<div class="control-group">
 				<div class="control-label">
-					<label for="height" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_IMAGE_HEIGHT'); ?>">
+					<label for="height">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_HEIGHT')?>
 					</label>
 				</div>
 				<div class="controls">
-					<input class="form-control" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required>
+					<input class="form-control" type="number" name="height" id="height" placeholder="<?php echo $this->image['height']; ?> px" required>
 				</div>
 			</div>
 			<div class="control-group">
 				<div class="control-label">
-					<label for="width" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_IMAGE_WIDTH'); ?>">
+					<label for="width">
 						<?php echo Text::_('COM_TEMPLATES_IMAGE_WIDTH')?>
 					</label>
 				</div>
 				<div class="controls">
-					<input class="form-control" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required>
+					<input class="form-control" type="number" name="width" id="width" placeholder="<?php echo $this->image['width']; ?> px" required>
 				</div>
 			</div>
 		</div>

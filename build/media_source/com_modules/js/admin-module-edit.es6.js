@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -15,8 +15,7 @@ Joomla = window.Joomla || {};
 
       if (window.self !== window.top) {
         if (window.parent.viewLevels) {
-          // @todo remove the chosen!!!
-          const updPosition = window.jQuery('#jform_position').chosen().val();
+          const updPosition = document.getElementById('jform_position').value;
           const updTitle = document.getElementById('jform_title').value;
           const updMenus = document.querySelector('#jform_assignment').value;
           const updStatus = document.querySelector('#jform_published').value;

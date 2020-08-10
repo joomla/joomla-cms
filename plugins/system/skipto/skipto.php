@@ -3,13 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  System.skipto
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -23,7 +23,7 @@ class PlgSystemSkipto extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -37,9 +37,9 @@ class PlgSystemSkipto extends CMSPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$section = $this->params->get('section_skipto', 2);
+		$section = $this->params->get('section', 'administrator');
 
-		if ($section !== 3 && ($this->app->isClient('administrator') && $section !== 2 || $this->app->isClient('site') && $section !== 1))
+		if ($section !== 'both' && $this->app->isClient($section) !== true)
 		{
 			return;
 		}
@@ -68,20 +68,25 @@ class PlgSystemSkipto extends CMSPlugin
 						'menuLabel'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
 						'landmarksLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
 						'headingsLabel'	 => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-						'contentLabel'   => Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
+						// The following string begins with a space
+						'contentLabel'   => ' ' . Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
 					]
 				]
 			]
 		);
 
-		HTMLHelper::_('script', 'vendor/skipto/dropMenu.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-		HTMLHelper::_('script', 'vendor/skipto/skipTo.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-		HTMLHelper::_('stylesheet', 'vendor/skipto/SkipTo.css', ['version' => 'auto', 'relative' => true]);
-
-		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
-			window.SkipToConfig = Joomla.getOptions('skipto-settings');
-			window.skipToMenuInit();
-		});"
-		);
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = $document->getWebAssetManager();
+		$wa->useStyle('skipto')
+			->useScript('skipto.dropmenu')
+			->useScript('skipto')
+			->addInlineScript(
+				'document.addEventListener(\'DOMContentLoaded\', function() {'
+				. 'window.SkipToConfig = Joomla.getOptions(\'skipto-settings\');'
+				. 'window.skipToMenuInit();});',
+				[],
+				['type' => 'module'],
+				['skipto']
+			);
 	}
 }

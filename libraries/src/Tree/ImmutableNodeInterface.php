@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Tree;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface for an immutable node class
@@ -39,9 +39,9 @@ interface ImmutableNodeInterface
 
 	/**
 	 * Get the root of the tree
-	 * 
+	 *
 	 * @return  ImmutableNodeInterface
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function getRoot();

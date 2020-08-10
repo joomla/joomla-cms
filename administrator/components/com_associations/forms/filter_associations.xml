@@ -3,6 +3,7 @@
 	<field
 		name="itemtype"
 		type="itemtype"
+		label="COM_ASSOCIATIONS_FILTER_SELECT_ITEM"
 		filtermode="selector"
 		onchange="Joomla.resetFilters(this)"
 		>
@@ -12,7 +13,7 @@
 	<field
 		name="language"
 		type="contentlanguage"
-		label="JOPTION_SELECT_LANGUAGE"
+		label="COM_ASSOCIATIONS_FILTER_SELECT_LANGUAGE"
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>
@@ -23,6 +24,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_ASSOCIATIONS_FILTER_SEARCH_LABEL"
 			description="COM_ASSOCIATIONS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -31,7 +33,7 @@
 		<field
 			name="state"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -40,7 +42,7 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			published="0,1,2"
 			extension="dynamic"
 			onchange="this.form.submit();"
@@ -51,7 +53,7 @@
 		<field
 			name="menutype"
 			type="menu"
-			label="COM_ASSOCIATIONS_SELECT_MENU"
+			label="COM_ASSOCIATIONS_HEADING_MENUTYPE"
 			clientid="0"
 			onchange="this.form.submit();"
 			>
@@ -61,7 +63,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -70,7 +72,7 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_SELECT_MAX_LEVELS"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"
@@ -87,6 +89,7 @@
 			label="JGLOBAL_SORT_BY"
 			default="id ASC"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="state ASC">JSTATUS_ASC</option>

@@ -126,6 +126,8 @@ Joomla = window.Joomla || {};
 							var iframeTextArr = $self.data('iframe').split('+');
 							var idFieldArr = iframeTextArr[1].split('"');
 
+							idFieldArr[0] = idFieldArr[0].replace(/&quot;/g,'"');
+
 							if (!document.getElementById(idFieldArr[1])) {
 								el = eval(idFieldArr[0]);
 							} else {
@@ -157,7 +159,7 @@ Joomla = window.Joomla || {};
 					}
 					// @TODO throw the standard Joomla event
 				}).on('hide.bs.modal', function() {
-					$('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});
+					$('.modal-body').css({'max-height': 'initial'});
 					$('.modalTooltip').tooltip('dispose');
 					// @TODO throw the standard Joomla event
 				}).on('hidden.bs.modal', function() {
@@ -188,7 +190,7 @@ Joomla = window.Joomla || {};
 		if (tabs) {
 			$.each(tabs, function(index, value) {
 
-				$.each($('#' + index + 'Content').find('.tab-pane'), function(i, v) {
+				$.each($('#' + index + 'Content').children('.tab-pane'), function(i, v) {
 					if ($(v).data('node')) {
 						var attribs = $(v).data('node').split('['),
 						    classLink = (attribs[0] != '') ? 'class="nav-link ' + attribs[0] + '"' : 'class="nav-link"';

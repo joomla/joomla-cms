@@ -2,26 +2,30 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -31,7 +35,31 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
+
+	/**
+	 * The input.
+	 *
+	 * @var    Input
+	 * @since  4.0.0
+	 */
+	protected $input = null;
+
+	/**
+	 * The name of the application.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $name = null;
+
+	/**
+	 * The application language object.
+	 *
+	 * @var    Language
+	 * @since  4.0.0
+	 */
+	protected $language;
 
 	/**
 	 * The application message queue.
@@ -52,42 +80,46 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   InputInterface       $input       An optional argument to provide dependency injection for the application's input object. If the
-	 *                                            argument is an InputInterface object that object will become the application's input object,
-	 *                                            otherwise a default input object is created.
-	 * @param   OutputInterface      $output      An optional argument to provide dependency injection for the application's output object. If the
-	 *                                            argument is an OutputInterface object that object will become the application's output object,
-	 *                                            otherwise a default output object is created.
-	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's config object. If the
-	 *                                            argument is a Registry object that object will become the application's config object,
-	 *                                            otherwise a default config object is created.
-	 * @param   DispatcherInterface  $dispatcher  An optional argument to provide dependency injection for the application's event dispatcher. If the
-	 *                                            argument is a DispatcherInterface object that object will become the application's event dispatcher,
-	 *                                            if it is null then the default event dispatcher will be created based on the application's
-	 *                                            loadDispatcher() method.
-	 * @param   Container            $container   Dependency injection container.
+	 * @param   Registry              $config      An optional argument to provide dependency injection for the application's config object. If the
+	 *                                             argument is a Registry object that object will become the application's config object,
+	 *                                             otherwise a default config object is created.
+	 * @param   DispatcherInterface   $dispatcher  An optional argument to provide dependency injection for the application's event dispatcher. If the
+	 *                                             argument is a DispatcherInterface object that object will become the application's event dispatcher,
+	 *                                             if it is null then the default event dispatcher will be created based on the application's
+	 *                                             loadDispatcher() method.
+	 * @param   Container             $container   Dependency injection container.
+	 * @param   Language              $language    The language object provisioned for the application.
+	 * @param   InputInterface|null   $input       An optional argument to provide dependency injection for the application's input object. If the
+	 *                                             argument is an InputInterface object that object will become the application's input object,
+	 *                                             otherwise a default input object is created.
+	 * @param   OutputInterface|null  $output      An optional argument to provide dependency injection for the application's output object. If the
+	 *                                             argument is an OutputInterface object that object will become the application's output object,
+	 *                                             otherwise a default output object is created.
 	 *
 	 * @since   4.0.0
 	 */
 	public function __construct(
-		InputInterface $input = null,
-		OutputInterface $output = null,
-		Registry $config = null,
-		DispatcherInterface $dispatcher = null,
-		Container $container = null)
+		Registry $config,
+		DispatcherInterface $dispatcher,
+		Container $container,
+		Language $language,
+		?InputInterface $input = null,
+		?OutputInterface $output = null
+	)
 	{
+		// Set up a Input object for Controllers etc to use
+		$this->input    = new \Joomla\CMS\Input\Cli;
+		$this->language = $language;
+
 		parent::__construct($input, $output, $config);
 
-		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
 
-		$container = $container ?: Factory::getContainer();
-		$this->setContainer($container);
+		// Register the client name as cli
+		$this->name = 'cli';
 
-		if ($dispatcher)
-		{
-			$this->setDispatcher($dispatcher);
-		}
+		$this->setContainer($container);
+		$this->setDispatcher($dispatcher);
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -102,6 +134,42 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	}
 
 	/**
+	 * Magic method to access properties of the application.
+	 *
+	 * @param   string  $name  The name of the property.
+	 *
+	 * @return  mixed   A value if the property name is valid, null otherwise.
+	 *
+	 * @since       4.0.0
+	 * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'input':
+				@trigger_error(
+					'Accessing the input property of the application is deprecated, use the getInput() method instead.',
+					E_USER_DEPRECATED
+				);
+
+				return $this->getInput();
+
+			default:
+				$trace = debug_backtrace();
+				trigger_error(
+					sprintf(
+						'Undefined property via __get(): %1$s in %2$s on line %3$s',
+						$name,
+						$trace[0]['file'],
+						$trace[0]['line']
+					),
+					E_USER_NOTICE
+				);
+		}
+	}
+
+	/**
 	 * Method to run the application routines.
 	 *
 	 * @return  integer  The exit code for the application
@@ -109,7 +177,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since   4.0.0
 	 * @throws  \Throwable
 	 */
-	protected function doExecute()
+	protected function doExecute(): int
 	{
 		$exitCode = parent::doExecute();
 
@@ -147,6 +215,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function execute()
 	{
+		// Load extension namespaces
+		$this->createExtensionNamespaceMap();
+
 		// Import CMS plugin groups to be able to subscribe to events
 		PluginHelper::importPlugin('system');
 		PluginHelper::importPlugin('console');
@@ -175,9 +246,21 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	}
 
 	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	/**
 	 * Get the commands which should be registered by default to the application.
 	 *
-	 * @return  \Joomla\Console\CommandInterface[]
+	 * @return  \Joomla\Console\Command\AbstractCommand[]
 	 *
 	 * @since   4.0.0
 	 */
@@ -189,6 +272,12 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\CleanCacheCommand,
 				new Console\CheckUpdatesCommand,
 				new Console\RemoveOldFilesCommand,
+				new Console\AddUserCommand,
+				new Console\AddUserToGroupCommand,
+				new Console\RemoveUserFromGroupCommand,
+				new Console\DeleteUserCommand,
+				new Console\ChangeUserPasswordCommand,
+				new Console\ListUserCommand,
 			]
 		);
 	}
@@ -203,6 +292,30 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function getConfig()
 	{
 		return $this->config;
+	}
+
+	/**
+	 * Method to get the application input object.
+	 *
+	 * @return  Input
+	 *
+	 * @since   4.0.0
+	 */
+	public function getInput(): Input
+	{
+		return $this->input;
+	}
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  Language  The language object
+	 *
+	 * @since   4.0.0
+	 */
+	public function getLanguage()
+	{
+		return $this->language;
 	}
 
 	/**
@@ -240,7 +353,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function isClient($identifier)
 	{
-		return $identifier === 'cli';
+		return $this->getName() === $identifier;
 	}
 
 	/**
@@ -272,5 +385,47 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->session = $session;
 
 		return $this;
+	}
+
+	/**
+	 * Flush the media version to refresh versionable assets
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function flushAssets()
+	{
+		(new Version)->refreshMediaVersion();
+	}
+
+	/**
+	 * Get the long version string for the application.
+	 *
+	 * Overrides the parent method due to conflicting use of the getName method between the console application and
+	 * the CMS application interface.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function getLongVersion(): string
+	{
+		return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version)->getShortVersion(), (defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
+	}
+
+	/**
+	 * Set the name of the application.
+	 *
+	 * @param   string  $name  The new application name.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException because the application name cannot be changed
+	 */
+	public function setName(string $name): void
+	{
+		throw new \RuntimeException('The console application name cannot be changed');
 	}
 }

@@ -11,6 +11,6 @@ Javascript tests
 ==========
 The javascript tests test the Joomla-specific Javascript code. For further information on the tests and on how to run them, please check out https://docs.joomla.org/Running_JavaScript_Tests_for_the_Joomla_CMS
 
-System tests
+Codeception tests
 ==========
-The system tests test the user interface in a real browser. For further information on the tests and on how to run them, please go to https://github.com/joomla/test-system
+The Codeception tests test the user interface in a real browser and the webservices API of Joomla with the help of Codeception. For further information on the tests and on how to run them, please check out tests/Codeception/README.md

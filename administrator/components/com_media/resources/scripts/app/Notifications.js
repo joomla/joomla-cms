@@ -3,7 +3,7 @@ class Notifications {
     /* Send and success notification */
     success(message, options) {
         notifications.notify(message, Object.assign({
-            type: 'success',
+            type: 'message',
             dismiss: true
         }, options));
     }
@@ -11,7 +11,7 @@ class Notifications {
     /* Send an error notification */
     error(message, options) {
         notifications.notify(message, Object.assign({
-            type: 'danger',
+            type: 'error',
             dismiss: true
         }, options));
     }
@@ -23,14 +23,10 @@ class Notifications {
 
     /* Send a notification */
     notify(message, options) {
-        const alert = document.createElement('joomla-alert');
-        alert.setAttribute('type', options.type || 'info');
-        alert.setAttribute('dismiss', options.dismiss || true);
-        alert.setAttribute('auto-dismiss', options.autoDismiss || true);
-        alert.innerHTML = Joomla.JText._(message, message) || '';
-
-        const messageContainer = document.getElementById('system-message');
-        messageContainer.appendChild(alert);
+        Joomla.renderMessages(
+        {
+            [options.type]: [Joomla.JText._(message)],
+        });
     }
 }
 

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Default factory for creating Document objects
@@ -54,7 +54,7 @@ class Factory implements FactoryInterface
 		/** @var Document $instance */
 		$instance = new $class($attributes);
 
-		if (!is_null($ntype))
+		if (!\is_null($ntype))
 		{
 			// Set the type to the Document type originally requested
 			$instance->setType($ntype);

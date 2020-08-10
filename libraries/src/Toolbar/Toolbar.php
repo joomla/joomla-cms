@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -483,7 +483,8 @@ class Toolbar
 			$button = $this->factory->createButton($this, $type);
 
 			$button->name($args[0] ?? '')
-				->text($args[1] ?? '');
+				->text($args[1] ?? '')
+				->task($args[2] ?? '');
 
 			return $this->appendButton($button);
 		}

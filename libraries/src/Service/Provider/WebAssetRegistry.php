@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\WebAsset\WebAssetRegistry as Registry;
 use Joomla\DI\Container;
@@ -40,7 +40,8 @@ class WebAssetRegistry implements ServiceProviderInterface
 					$registry = new Registry;
 
 					// Add Core registry files
-					$registry->addRegistryFile('media/vendor/joomla.asset.json')
+					$registry
+						->addRegistryFile('media/vendor/joomla.asset.json')
 						->addRegistryFile('media/system/joomla.asset.json')
 						->addRegistryFile('media/legacy/joomla.asset.json');
 

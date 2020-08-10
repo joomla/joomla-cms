@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_PLUGINS_FILTER_SEARCH_LABEL"
 			description="COM_PLUGINS_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
@@ -12,7 +13,7 @@
 		<field
 			name="enabled"
 			type="plugin_status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -21,7 +22,7 @@
 		<field
 			name="folder"
 			type="PluginType"
-			label="COM_PLUGINS_OPTION_FOLDER"
+			label="COM_PLUGINS_FOLDER_HEADING"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_PLUGINS_OPTION_FOLDER</option>
@@ -30,7 +31,7 @@
 		<field
 			name="element"
 			type="PluginElement"
-			label="COM_PLUGINS_OPTION_ELEMENT"
+			label="COM_PLUGINS_ELEMENT_HEADING"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_PLUGINS_OPTION_ELEMENT</option>
@@ -39,7 +40,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -53,14 +54,15 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="folder ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="enabled ASC">JSTATUS_ASC</option>
 			<option value="enabled DESC">JSTATUS_DESC</option>
-			<option value="name ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="name DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="name DESC">JGLOBAL_NAME_DESC</option>
 			<option value="folder ASC">COM_PLUGINS_HEADING_FOLDER_ASC</option>
 			<option value="folder DESC">COM_PLUGINS_HEADING_FOLDER_DESC</option>
 			<option value="element ASC">COM_PLUGINS_HEADING_ELEMENT_ASC</option>

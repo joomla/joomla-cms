@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
@@ -22,7 +23,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Base class for a database aware Joomla Model
@@ -70,7 +70,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			if (!preg_match('/(.*)Model/i', \get_class($this), $r))
 			{
 				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
@@ -78,19 +78,20 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
-		$this->setDbo(array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
+		$this->setDbo(\array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
 
 		// Set the default view search path
-		if (array_key_exists('table_path', $config))
+		if (\array_key_exists('table_path', $config))
 		{
 			$this->addTablePath($config['table_path']);
 		}
 		// @codeCoverageIgnoreStart
-		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		// Set the clean cache event
@@ -106,6 +107,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		if ($factory)
 		{
 			$this->setMVCFactory($factory);
+
 			return;
 		}
 
@@ -131,7 +133,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		if (is_string($query))
+		if (\is_string($query))
 		{
 			$query = $this->getDbo()->getQuery(true)->setQuery($query);
 		}
@@ -145,6 +147,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	/**
 	 * Returns a record count for the query.
 	 *
+	 * Note: Current implementation of this method assumes that getListQuery() returns a set of unique rows,
+	 * thus it uses SELECT COUNT(*) to count the rows. In cases that getListQuery() uses DISTINCT
+	 * then either this method must be overridden by a custom implementation at the derived Model Class
+	 * or a GROUP BY clause should be used to make the set unique.
+	 *
 	 * @param   DatabaseQuery|string  $query  The query.
 	 *
 	 * @return  integer  Number of rows for query.
@@ -155,7 +162,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	{
 		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
 		if ($query instanceof DatabaseQuery
-			&& $query->type == 'select'
+			&& $query->type === 'select'
 			&& $query->group === null
 			&& $query->merge === null
 			&& $query->querySet === null
@@ -199,7 +206,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
 		// Make sure we are returning a DBO object
-		if (!array_key_exists('dbo', $config))
+		if (!\array_key_exists('dbo', $config))
 		{
 			$config['dbo'] = $this->getDbo();
 		}
@@ -238,57 +245,6 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		}
 
 		throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
-	}
-
-	/**
-	 * Method to load a row for editing from the version history table.
-	 *
-	 * @param   integer  $version_id  Key to the version history table.
-	 * @param   Table    &$table      Content table object being loaded.
-	 *
-	 * @return  boolean  False on failure or error, true otherwise.
-	 *
-	 * @since   3.2
-	 */
-	public function loadHistory($version_id, Table &$table)
-	{
-		// Only attempt to check the row in if it exists, otherwise do an early exit.
-		if (!$version_id)
-		{
-			return false;
-		}
-
-		// Get an instance of the row to checkout.
-		$historyTable = Table::getInstance('Contenthistory');
-
-		if (!$historyTable->load($version_id))
-		{
-			$this->setError($historyTable->getError());
-
-			return false;
-		}
-
-		$rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
-		$typeId   = Table::getInstance('Contenttype')->getTypeId($this->typeAlias);
-
-		if ($historyTable->ucm_type_id != $typeId)
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
-
-			$key = $table->getKeyName();
-
-			if (isset($rowArray[$key]))
-			{
-				$table->checkIn($rowArray[$key]);
-			}
-
-			return false;
-		}
-
-		$this->setState('save_date', $historyTable->save_date);
-		$this->setState('version_note', $historyTable->version_note);
-
-		return $table->bind($rowArray);
 	}
 
 	/**
@@ -336,7 +292,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
 			$cache->clean();
 		}
-		catch (\JCacheException $exception)
+		catch (CacheExceptionInterface $exception)
 		{
 			$options['result'] = false;
 		}

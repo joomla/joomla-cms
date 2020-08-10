@@ -1,4 +1,4 @@
-((Joomla) => {
+((customElements, Joomla) => {
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
@@ -9,7 +9,7 @@
     Joomla.selectedFile = e.detail;
   });
 
-  Joomla.doIt = (resp, editor, fieldClass) => {
+  const execTransform = (resp, editor, fieldClass) => {
     if (resp.success === true) {
       if (resp.data[0].url) {
         if (/local-/.test(resp.data[0].adapter)) {
@@ -29,16 +29,16 @@
         Joomla.selectedFile.url = false;
       }
 
-      const isElement = o => (
+      const isElement = (o) => (
         typeof HTMLElement === 'object' ? o instanceof HTMLElement
           : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
       );
 
       if (Joomla.selectedFile.url) {
         if (!isElement(editor) && (typeof editor !== 'object')) {
-          Joomla.editors.instances[editor].replaceSelection(`<img src="${Joomla.selectedFile.url}" alt=""/>`);
+          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
         } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img src="${Joomla.selectedFile.url}" alt=""/>`);
+          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
         } else {
           editor.value = Joomla.selectedFile.url;
           fieldClass.updatePreview();
@@ -55,6 +55,16 @@
    * @returns {void}
    */
   Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
+    if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
+      Joomla.selectedFile = {};
+      resolve({
+        resp: {
+          success: false,
+        },
+      });
+      return;
+    }
+
     const apiBaseUrl = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_media&format=json`;
 
     Joomla.request({
@@ -64,17 +74,14 @@
       headers: { 'Content-Type': 'application/json' },
       onSuccess: (response) => {
         const resp = JSON.parse(response);
-        resolve(Joomla.doIt(resp, editor, fieldClass));
+        resolve(execTransform(resp, editor, fieldClass));
       },
-      onError: () => {
-        reject();
+      onError: (err) => {
+        reject(err);
       },
     });
   });
-})(Joomla);
 
-
-((customElements, Joomla) => {
   class JoomlaFieldMedia extends HTMLElement {
     constructor() {
       super();
@@ -170,8 +177,8 @@
       if (this.button) {
         this.button.removeEventListener('click', this.show);
       }
-      if (this.buttonClear) {
-        this.buttonClear.removeEventListener('click', this.clearValue);
+      if (this.buttonClearEl) {
+        this.buttonClearEl.removeEventListener('click', this.clearValue);
       }
     }
 
@@ -187,14 +194,26 @@
     show() {
       this.querySelector('[role="dialog"]').open();
 
+      Joomla.selectedFile = {};
+
       this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
     }
 
     modalClose() {
       const input = this.querySelector(this.input);
-      Joomla.getImage(Joomla.selectedFile, input, this);
 
-      Joomla.Modal.getCurrent().close();
+      Joomla.getImage(Joomla.selectedFile, input, this)
+        .then(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.selectedFile = {};
+        })
+        .catch(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.selectedFile = {};
+          Joomla.renderMessages({
+            error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
+          });
+        });
     }
 
     setValue(value) {

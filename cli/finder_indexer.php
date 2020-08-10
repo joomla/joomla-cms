@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,39 @@
  * This is a command-line script to help with management of Smart Search.
  *
  * Called with no arguments: php finder_indexer.php
- *                           Performs an incremental update of the index.
+ *                           Performs an incremental update of the index using dynamic pausing.
  *
- * Called with --purge:      php finder_indexer.php --purge
+ * IMPORTANT NOTE:  since Joomla version 3.9.12 the default behavior of this script has changed.
+ *                  If called with no arguments, the `--pause` argument is silently applied, in order to avoid the possibility of
+ *                  stressing the server too much and making a site (or multiple sites, if on a shared environment) unresponsive.
+ *                  If a pause is unwanted, just apply `--pause=0` to the command
+ *
+ * Called with --purge       php finder_indexer.php --purge
  *                           Purges and rebuilds the index (search filters are preserved).
+ *
+ * Called with --pause           `php finder_indexer.php --pause`
+ *          or --pause=x         or `php finder_indexer.php --pause=x` where x = seconds.
+ *          or --pause=division  or `php finder_indexer.php --pause=division` The default divisor is 5.
+ *                               If another divisor is required, it can be set with --divisor=y, where
+ *                               y is the integer divisor
+ *
+ *                               This will pause for x seconds between batches,
+ *                               in order to give the server some time to catch up
+ *                               if --pause is called without an assignment, it defaults to dynamic pausing
+ *                               using the division method with a divisor of 5
+ *                               (eg. 1 second pause for every 5 seconds of batch processing time)
+ *
+ * Called with --minproctime=x   Will set the minimum processing time of batches for a pause to occur. Defaults to 1
+ *
  */
 
 // We are a valid entry point.
 const _JEXEC = 1;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -55,6 +78,8 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
  */
 class FinderCli extends \Joomla\CMS\Application\CliApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Start time for the index process
 	 *
@@ -80,6 +105,37 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	private $filters = array();
 
 	/**
+	 * Pausing type or defined pause time in seconds.
+	 * One pausing type is implemented: 'division' for dynamic calculation of pauses
+	 *
+	 * Defaults to 'division'
+	 *
+	 * @var    string|integer
+	 * @since  3.9.12
+	 */
+	private $pause = 'division';
+
+	/**
+	 * The divisor of the division: batch-processing time / divisor.
+	 * This is used together with --pause=division in order to pause dynamically
+	 * in relation to the processing time
+	 * Defaults to 5
+	 *
+	 * @var    integer
+	 * @since  3.9.12
+	 */
+	private $divisor = 5;
+
+	/**
+	 * Minimum processing time in seconds, in order to apply a pause
+	 * Defaults to 1
+	 *
+	 * @var    integer
+	 * @since  3.9.12
+	 */
+	private $minimumBatchProcessingTime = 1;
+
+	/**
 	 * Entry point for Smart Search CLI script
 	 *
 	 * @return  void
@@ -88,8 +144,10 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	protected function doExecute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Print a blank line.
-		$this->out(JText::_('FINDER_CLI'));
+		$this->out(Text::_('FINDER_CLI'));
 		$this->out('============================');
 
 		// Initialize the time value.
@@ -100,6 +158,20 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 
 		// Fool the system into thinking we are running as JSite with Smart Search as the active component.
 		$_SERVER['HTTP_HOST'] = 'domain.com';
+
+		$this->minimumBatchProcessingTime = $this->input->getInt('minproctime', 1);
+
+		// Pause between batches to let the server catch a breath. The default, if not set by the user, is set in the class property `pause`
+		$pauseArg = $this->input->get('pause', $this->pause, 'raw');
+
+		if ($pauseArg === 'division')
+		{
+			$this->divisor = $this->input->getInt('divisor', $this->divisor);
+		}
+		else
+		{
+			$this->pause = (int) $pauseArg;
+		}
 
 		// Purge before indexing if --purge on the command line.
 		if ($this->input->getString('purge', false))
@@ -123,8 +195,8 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		}
 
 		// Total reporting.
-		$this->out(JText::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
-		$this->out(JText::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))));
+		$this->out(Text::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
+		$this->out(Text::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))));
 
 		// Print a blank line at the end.
 		$this->out();
@@ -142,19 +214,19 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 		// Disable caching.
-		$config = Factory::getConfig();
-		$config->set('caching', 0);
-		$config->set('cache_handler', 'file');
+		$app = Factory::getApplication();
+		$app->set('caching', 0);
+		$app->set('cache_handler', 'file');
 
 		// Reset the indexer state.
 		FinderIndexer::resetState();
 
 		// Import the plugins.
-		JPluginHelper::importPlugin('system');
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('finder');
 
 		// Starting Indexer.
-		$this->out(JText::_('FINDER_CLI_STARTING_INDEXER'), true);
+		$this->out(Text::_('FINDER_CLI_STARTING_INDEXER'), true);
 
 		// Trigger the onStartIndex event.
 		Factory::getApplication()->triggerEvent('onStartIndex');
@@ -166,13 +238,13 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		$state = FinderIndexer::getState();
 
 		// Setting up plugins.
-		$this->out(JText::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
+		$this->out(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
 
 		// Trigger the onBeforeIndex event.
 		Factory::getApplication()->triggerEvent('onBeforeIndex');
 
 		// Startup reporting.
-		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
+		$this->out(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
 
 		// Get the number of batches.
 		$t = (int) $state->totalItems;
@@ -194,7 +266,51 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 				Factory::getApplication()->triggerEvent('onBuildIndex');
 
 				// Batch reporting.
-				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, round(microtime(true) - $this->qtime, 3)), true);
+				$this->out(Text::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, $processingTime = round(microtime(true) - $this->qtime, 3)), true);
+
+				if ($this->pause !== 0)
+				{
+					// Pausing Section
+					$skip  = !($processingTime >= $this->minimumBatchProcessingTime);
+					$pause = 0;
+
+					if ($this->pause === 'division' && $this->divisor > 0)
+					{
+						if (!$skip)
+						{
+							$pause = round($processingTime / $this->divisor);
+						}
+						else
+						{
+							$pause = 1;
+						}
+					}
+					elseif ($this->pause > 0)
+					{
+						$pause = $this->pause;
+					}
+
+					if ($pause > 0 && !$skip)
+					{
+						$this->out(Text::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
+						sleep($pause);
+						$this->out(Text::_('FINDER_CLI_BATCH_CONTINUING'));
+					}
+
+					if ($skip)
+					{
+						$this->out(
+							Text::sprintf(
+								'FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME',
+								$processingTime,
+								$this->minimumBatchProcessingTime
+							),
+							true
+						);
+					}
+
+					// End of Pausing Section
+				}
 			}
 		}
 		catch (Exception $e)
@@ -214,6 +330,18 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	}
 
 	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getName()
+	{
+		return 'finder-cli';
+	}
+
+	/**
 	 * Purge the index.
 	 *
 	 * @return  void
@@ -222,11 +350,11 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	private function purge()
 	{
-		$this->out(JText::_('FINDER_CLI_INDEX_PURGE'));
+		$this->out(Text::_('FINDER_CLI_INDEX_PURGE'));
 
 		// Load the model.
-		JModelLegacy::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models', 'FinderModel');
-		$model = JModelLegacy::getInstance('Index', 'FinderModel');
+		BaseDatabaseModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models', 'FinderModel');
+		$model = BaseDatabaseModel::getInstance('Index', 'FinderModel');
 
 		// Attempt to purge the index.
 		$return = $model->purge();
@@ -234,12 +362,12 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		// If unsuccessful then abort.
 		if (!$return)
 		{
-			$message = JText::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
+			$message = Text::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
 			$this->out($message);
 			exit();
 		}
 
-		$this->out(JText::_('FINDER_CLI_INDEX_PURGE_SUCCESS'));
+		$this->out(Text::_('FINDER_CLI_INDEX_PURGE_SUCCESS'));
 	}
 
 	/**
@@ -254,7 +382,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	private function putFilters()
 	{
-		$this->out(JText::_('FINDER_CLI_RESTORE_FILTERS'));
+		$this->out(Text::_('FINDER_CLI_RESTORE_FILTERS'));
 
 		$db = Factory::getDbo();
 
@@ -282,7 +410,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 				}
 				else
 				{
-					$this->out(JText::sprintf('FINDER_CLI_FILTER_RESTORE_WARNING', $element['parent'], $element['title'], $element['filter']));
+					$this->out(Text::sprintf('FINDER_CLI_FILTER_RESTORE_WARNING', $element['parent'], $element['title'], $element['filter']));
 				}
 			}
 
@@ -298,7 +426,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 			$db->setQuery($query)->execute();
 		}
 
-		$this->out(JText::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
+		$this->out(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
 	}
 
 	/**
@@ -315,10 +443,10 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	private function getFilters()
 	{
-		$this->out(JText::_('FINDER_CLI_SAVE_FILTERS'));
+		$this->out(Text::_('FINDER_CLI_SAVE_FILTERS'));
 
 		// Get the taxonomy ids used by the filters.
-		$db = Factory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query
 			->select('filter_id, title, data')
@@ -354,7 +482,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 			}
 		}
 
-		$this->out(JText::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
+		$this->out(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
 	}
 }
 
@@ -373,7 +501,14 @@ Factory::getContainer()->share(
 		);
 	},
 	true
-);
+)
+	->alias('session.web', 'session.cli')
+		->alias('session', 'session.cli')
+		->alias('JSession', 'session.cli')
+		->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+		->alias(\Joomla\Session\Session::class, 'session.cli')
+		->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+
 $app = Factory::getContainer()->get('FinderCli');
 Factory::$application = $app;
 $app->execute();

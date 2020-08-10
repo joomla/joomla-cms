@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Log\Log;
 
 /**
  * Base class for a Joomla Json View
@@ -62,14 +64,14 @@ class JsonView extends AbstractView
 		parent::__construct($config);
 
 		// Set the charset (used by the variable escaping functions)
-		if (array_key_exists('charset', $config))
+		if (\array_key_exists('charset', $config))
 		{
-			\JLog::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', \JLog::WARNING, 'deprecated');
+			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
 			$this->_charset = $config['charset'];
 		}
 
 		// Set a base path for use by the view
-		if (array_key_exists('base_path', $config))
+		if (\array_key_exists('base_path', $config))
 		{
 			$this->_basePath = $config['base_path'];
 		}

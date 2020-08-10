@@ -2,9 +2,9 @@ const Copydir = require('copy-dir');
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
-const RootPath = require('./utils/rootpath.es6.js')._();
 
-const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
+const RootPath = process.cwd();
+const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
 
 /**
  * Method that will erase the media/vendor folder
@@ -26,7 +26,7 @@ const cleanVendors = () => {
     FsExtra.removeSync(Path.join(RootPath, 'media/vendor/debugbar/vendor/jquery'));
   } else {
     // eslint-disable-next-line no-console
-    console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T install all its front end assets');
+    console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T installed all its front end assets');
     process.exit(1);
   }
 };
@@ -119,11 +119,12 @@ const concatFiles = (files, output) => {
 const copyFiles = (options) => {
   const mediaVendorPath = Path.join(RootPath, 'media/vendor');
   const registry = {
+    $schema: 'https://developer.joomla.org/schemas/json-schema/web_assets.json',
     name: options.name,
     version: options.version,
     description: options.description,
     license: options.license,
-    assets: {},
+    assets: [],
   };
 
   if (!FsExtra.existsSync(mediaVendorPath)) {
@@ -200,13 +201,14 @@ const copyFiles = (options) => {
 
       // Update the XML file for Codemirror
       let codemirrorXml = Fs.readFileSync(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'UTF-8' });
-      codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${options.dependencies.codemirror}$3`);
+      codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${moduleOptions.version}$3`);
       Fs.writeFileSync(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'UTF-8' });
     } else if (packageName === 'tinymce') {
       const itemvendorPath = Path.join(RootPath, `media/vendor/${packageName}`);
 
       if (!FsExtra.existsSync(itemvendorPath)) {
         FsExtra.mkdirSync(itemvendorPath);
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'icons'));
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'plugins'));
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'langs'));
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'skins'));
@@ -214,6 +216,7 @@ const copyFiles = (options) => {
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'templates'));
       }
 
+      copyAll('icons', 'tinymce', 'icons');
       copyAll('plugins', 'tinymce', 'plugins');
       copyAll('skins', 'tinymce', 'skins');
       copyAll('themes', 'tinymce', 'themes');
@@ -222,7 +225,7 @@ const copyFiles = (options) => {
 
       // Update the XML file for tinyMCE
       let tinyXml = Fs.readFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
-      tinyXml = tinyXml.replace(xmlVersionStr, `$1${options.dependencies.tinymce}$3`);
+      tinyXml = tinyXml.replace(xmlVersionStr, `$1${moduleOptions.version}$3`);
       Fs.writeFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
 
       // Remove that sourcemap...
@@ -258,55 +261,41 @@ const copyFiles = (options) => {
       Fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
     }
 
+    // Append initialising code to the end of the Short-and-Sweet javascript
+    if (packageName === 'short-and-sweet') {
+      const dest = Path.join(mediaVendorPath, vendorName);
+      const shortandsweetPath = `${dest}/${options.settings.vendors[packageName].js['dist/short-and-sweet.min.js']}`;
+      let ShortandsweetJs = Fs.readFileSync(shortandsweetPath, { encoding: 'UTF-8' });
+      ShortandsweetJs = ShortandsweetJs.concat('document.addEventListener(\'DOMContentLoaded\', function()'
+          + '{shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'}); });');
+      Fs.writeFileSync(shortandsweetPath, ShortandsweetJs, { encoding: 'UTF-8' });
+    }
+
     // Add provided Assets to a registry, if any
     if (vendor.provideAssets && vendor.provideAssets.length) {
       vendor.provideAssets.forEach((assetInfo) => {
-        const registryItem = {
+        const registryItemBase = {
           package: packageName,
           name: assetInfo.name || vendorName,
           version: moduleOptions.version,
-          dependencies: assetInfo.dependencies || [],
-          js: [],
-          css: [],
-          attribute: {},
+          type: assetInfo.type,
         };
 
-        // Update path for JS and CSS files
-        if (assetInfo.js && assetInfo.js.length) {
-          assetInfo.js.forEach((assetJS) => {
-            let itemPath = assetJS;
+        const registryItem = Object.assign(assetInfo, registryItemBase);
 
-            // Check for external path
-            if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-              itemPath = `media/vendor/${vendorName}/js/${itemPath}`;
-            }
-            registryItem.js.push(itemPath);
+        // Update path to file
+        if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) {
+          let itemPath = assetInfo.uri;
 
-            // Check if there are any attribute to this file, then update the path
-            if (assetInfo.attribute && assetInfo.attribute[assetJS]) {
-              registryItem.attribute[itemPath] = assetInfo.attribute[assetJS];
-            }
-          });
+          // Check for external path
+          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+            itemPath = `vendor/${vendorName}/${itemPath}`;
+          }
+
+          registryItem.uri = itemPath;
         }
 
-        if (assetInfo.css && assetInfo.css.length) {
-          assetInfo.css.forEach((assetCSS) => {
-            let itemPath = assetCSS;
-
-            // Check for external path
-            if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-              itemPath = `media/vendor/${vendorName}/css/${itemPath}`;
-            }
-            registryItem.css.push(itemPath);
-
-            // Check if there are any attribute to this file, then update the path
-            if (assetInfo.attribute && assetInfo.attribute[assetCSS]) {
-              registryItem.attribute[itemPath] = assetInfo.attribute[assetCSS];
-            }
-          });
-        }
-
-        registry.assets[registryItem.name] = registryItem;
+        registry.assets.push(registryItem);
       });
     }
 
@@ -352,7 +341,6 @@ const recreateMediaFolder = () => {
     }
   });
 };
-
 
 module.exports.copyAssets = (options) => {
   Promise.resolve()

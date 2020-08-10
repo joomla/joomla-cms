@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Exception;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Error\AbstractRenderer;
@@ -46,7 +46,7 @@ class ExceptionHandler
 			);
 
 			// If debug mode is enabled, we want to let PHP continue to handle the error; otherwise, we can bail early
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
 				return true;
 			}
@@ -67,8 +67,6 @@ class ExceptionHandler
 	 */
 	public static function render(\Throwable $error)
 	{
-		$isCli = false;
-
 		try
 		{
 			// Try to log the error, but don't let the logging cause a fatal error
@@ -77,7 +75,7 @@ class ExceptionHandler
 				Log::add(
 					sprintf(
 						'Uncaught Throwable of type %1$s thrown with message "%2$s". Stack trace: %3$s',
-						get_class($error),
+						\get_class($error),
 						$error->getMessage(),
 						$error->getTraceAsString()
 					),
@@ -156,37 +154,49 @@ class ExceptionHandler
 			// This return is needed to ensure the test suite does not trigger the non-Exception handling below
 			return;
 		}
-		catch (\Throwable $e)
+		catch (\Throwable $errorRendererError)
 		{
 			// Pass the error down
 		}
 
 		/*
 		 * To reach this point in the code means there was an error creating the error page.
-		 * We try to send at least something back other than a WSOD at this point.
+		 *
+		 * Let global handler to handle the error, @see bootstrap.php
 		 */
-		if (!$isCli && !headers_sent())
+		if (isset($errorRendererError))
 		{
-			header('HTTP/1.1 500 Internal Server Error');
-		}
-
-		$message = 'Error';
-
-		// Make sure we do not display sensitive data in production environments
-		if (ini_get('display_errors'))
-		{
-			$message .= ': ';
-
-			if (isset($e))
+			/*
+			 * Here the thing, at this point we have 2 exceptions:
+			 * $errorRendererError  - the error caused by error renderer
+			 * $error               - the main error
+			 *
+			 * We need to show both exceptions, without loss of trace information, so use a bit of magic to merge them.
+			 *
+			 * Use exception nesting feature: rethrow the exceptions, an exception thrown in a finally block
+			 * will take unhandled exception as previous.
+			 * So PHP will add $error Exception as previous to $errorRendererError Exception to keep full error stack.
+			 */
+			try
 			{
-				$message .= $e->getMessage() . ': ';
+				try
+				{
+					throw $error;
+				}
+				finally
+				{
+					throw $errorRendererError;
+				}
 			}
-
-			$message .= $error->getMessage();
+			catch (\Throwable $finalError)
+			{
+				throw $finalError;
+			}
+		}
+		else
+		{
+			throw $error;
 		}
 
-		echo $message;
-
-		jexit(1);
 	}
 }

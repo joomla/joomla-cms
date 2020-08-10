@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -123,16 +123,30 @@ class PluginsField extends ListField
 			// Get list of plugins
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('element AS value, name AS text')
-				->from('#__extensions')
-				->where('folder = ' . $db->quote($folder))
-				->where('enabled = 1')
-				->order('ordering, name');
+				->select(
+					[
+						$db->quoteName('element', 'value'),
+						$db->quoteName('name', 'text'),
+					]
+				)
+				->from($db->quoteName('#__extensions'))
+				->where(
+					[
+						$db->quoteName('folder') . ' = :folder',
+						$db->quoteName('enabled') . ' = 1',
+					]
+				)
+				->bind(':folder', $folder)
+				->order(
+					[
+						$db->quoteName('ordering'),
+						$db->quoteName('name'),
+					]
+				);
 
 			if ((string) $this->element['useaccess'] === 'true')
 			{
-				$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+				$query->whereIn($db->quoteName('access'), Factory::getUser()->getAuthorisedViewLevels());
 			}
 
 			$options   = $db->setQuery($query)->loadObjectList();
@@ -148,7 +162,7 @@ class PluginsField extends ListField
 			{
 				$source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
 				$extension = 'plg_' . $folder . '_' . $item->value;
-				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) || $lang->load($extension . '.sys', $source, null, false, true);
+				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR) || $lang->load($extension . '.sys', $source);
 				$options[$i]->text = Text::_($item->text);
 
 				// If we are using useglobal update the use global value text with the plugin text.
@@ -165,22 +179,5 @@ class PluginsField extends ListField
 		}
 
 		return array_merge($parentOptions, $options);
-	}
-
-	/**
-	 * Method to get input and also set field readonly.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   3.8.7
-	 */
-	protected function getInput()
-	{
-		if (count($this->options) === 1 && $this->options[0]->text === Text::_('JOPTION_DO_NOT_USE'))
-		{
-			$this->readonly = true;
-		}
-
-		return parent::getInput();
 	}
 }

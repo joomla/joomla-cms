@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -18,62 +18,65 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   string  $autocomplete   Autocomplete attribute for the field.
- * @var   boolean $autofocus      Is autofocus enabled?
- * @var   string  $class          Classes for the input.
- * @var   string  $description    Description of the field.
- * @var   boolean $disabled       Is this field disabled?
- * @var   string  $group          Group the field belongs to. <fields> section in form XML.
- * @var   boolean $hidden         Is this field hidden in the form?
- * @var   string  $hint           Placeholder for the field.
- * @var   string  $id             DOM id of the field.
- * @var   string  $label          Label of the field.
- * @var   string  $labelclass     Classes to apply to the label.
- * @var   boolean $multiple       Does this field support multiple values?
- * @var   string  $name           Name of the input field.
- * @var   string  $onchange       Onchange attribute for the field.
- * @var   string  $onclick        Onclick attribute for the field.
- * @var   string  $pattern        Pattern (Reg Ex) of value of the form field.
- * @var   boolean $readonly       Is this field read only?
- * @var   boolean $repeat         Allows extensions to duplicate elements.
- * @var   boolean $required       Is this field required?
- * @var   integer $size           Size attribute of the input.
- * @var   boolean $spellcheck     Spellcheck state for the form field.
- * @var   string  $validate       Validation rules to apply.
- * @var   array   $value          Value of the field.
-  *
- * @var   array   $menus           List of the menu items
- * @var   array   $menubarSource   Menu items for builder
- * @var   array   $buttons         List of the buttons
- * @var   array   $buttonsSource   Buttons by group, for the builder
- * @var   array   $toolbarPreset   Toolbar preset (default values)
- * @var   int     $setsAmount      Amount of sets
- * @var   array   $setsNames       List of Sets names
- * @var   JForm[] $setsForms       Form with extra options for an each set
- * @var   string   $languageFile   TinyMCE language file to translate the buttons
- *
- * @var   JLayoutFile  $this       Context
+ * @var   string       $autocomplete   Autocomplete attribute for the field.
+ * @var   boolean      $autofocus      Is autofocus enabled?
+ * @var   string       $class          Classes for the input.
+ * @var   string       $description    Description of the field.
+ * @var   boolean      $disabled       Is this field disabled?
+ * @var   string       $group          Group the field belongs to. <fields> section in form XML.
+ * @var   boolean      $hidden         Is this field hidden in the form?
+ * @var   string       $hint           Placeholder for the field.
+ * @var   string       $id             DOM id of the field.
+ * @var   string       $label          Label of the field.
+ * @var   string       $labelclass     Classes to apply to the label.
+ * @var   boolean      $multiple       Does this field support multiple values?
+ * @var   string       $name           Name of the input field.
+ * @var   string       $onchange       Onchange attribute for the field.
+ * @var   string       $onclick        Onclick attribute for the field.
+ * @var   string       $pattern        Pattern (Reg Ex) of value of the form field.
+ * @var   boolean      $readonly       Is this field read only?
+ * @var   boolean      $repeat         Allows extensions to duplicate elements.
+ * @var   boolean      $required       Is this field required?
+ * @var   integer      $size           Size attribute of the input.
+ * @var   boolean      $spellcheck     Spellcheck state for the form field.
+ * @var   string       $validate       Validation rules to apply.
+ * @var   array        $value          Value of the field.
+ * @var   array        $menus          List of the menu items
+ * @var   array        $menubarSource  Menu items for builder
+ * @var   array        $buttons        List of the buttons
+ * @var   array        $buttonsSource  Buttons by group, for the builder
+ * @var   array        $toolbarPreset  Toolbar preset (default values)
+ * @var   int          $setsAmount     Amount of sets
+ * @var   array        $setsNames      List of Sets names
+ * @var   JForm[]      $setsForms      Form with extra options for an each set
+ * @var   string       $languageFile   TinyMCE language file to translate the buttons
+ * @var   JLayoutFile  $this           Context
  */
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('stylesheet', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css', array('version' => 'auto', 'relative' => false));
-HTMLHelper::_('stylesheet', 'plg_editors_tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'vendor/dragula/dragula.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'plg_editors_tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+/** @var HtmlDocument $doc */
+$doc = Factory::getApplication()->getDocument();
+$wa  = $doc->getWebAssetManager();
 
+// Add assets
+$wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
+	->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
+	->registerAndUseScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['defer' => true], ['core', 'dragula'])
+	->useScript('bootstrap.js.bundle'); // Need for tabs, can be safely removed when tabs will be moved to CE
+
+// Add TinyMCE language file to translate the buttons
 if ($languageFile)
 {
-	HTMLHelper::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
+	$wa->registerAndUseScript('tinymce.language', $languageFile, [], ['defer' => true]);
 }
 
-Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
-	array(
+// Add the builder options
+$doc->addScriptOptions('plg_editors_tinymce_builder',
+	[
 		'menus'         => $menus,
 		'buttons'       => $buttons,
 		'toolbarPreset' => $toolbarPreset,
 		'formControl'   => $name . '[toolbars]',
-	)
+	]
 );
 
 ?>

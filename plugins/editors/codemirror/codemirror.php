@@ -3,15 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -40,6 +38,32 @@ class PlgEditorCodemirror extends CMSPlugin
 	protected $modeAlias = array();
 
 	/**
+	 * Base path for editor assets.
+	 *
+	 * @var  string
+	 *
+	 * @since  4.0.0
+	 */
+	protected $basePath = 'media/vendor/codemirror/';
+
+	/**
+	 * Base path for editor modes.
+	 *
+	 * @var  string
+	 *
+	 * @since  4.0.0
+	 */
+	protected $modePath = 'media/vendor/codemirror/mode/%N/%N';
+
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
 	 * Initialises the Editor.
 	 *
 	 * @return  void
@@ -57,16 +81,16 @@ class PlgEditorCodemirror extends CMSPlugin
 		$done = true;
 
 		// Most likely need this later
-		$doc = Factory::getDocument();
+		$doc = $this->app->getDocument();
 
 		// Codemirror shall have its own group of plugins to modify and extend its behavior
 		PluginHelper::importPlugin('editors_codemirror');
 
 		// At this point, params can be modified by a plugin before going to the layout renderer.
-		Factory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params));
+		$this->app->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params, &$this->basePath, &$this->modePath));
 
-		$displayData = (object) array('params'  => $this->params);
-		$font = $this->params->get('fontFamily', 0);
+		$displayData = (object) array('params' => $this->params);
+		$font = $this->params->get('fontFamily', '0');
 		$fontInfo = $this->getFontInfo($font);
 
 		if (isset($fontInfo))
@@ -87,7 +111,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		LayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
 
-		Factory::getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params));
+		$this->app->triggerEvent('onCodeMirrorAfterInit', array(&$this->params, &$this->basePath, &$this->modePath));
 	}
 
 	/**
@@ -138,14 +162,13 @@ class PlgEditorCodemirror extends CMSPlugin
 			$autofocused = $options->autofocus;
 		}
 
-		// Until there's a fix for the overflow problem, always wrap lines.
-		$options->lineWrapping = true;
+		$options->lineWrapping = (boolean) $this->params->get('lineWrapping', 1);
 
 		// Add styling to the active line.
-		$options->styleActiveLine = (boolean) $this->params->get('activeLine', true);
+		$options->styleActiveLine = (boolean) $this->params->get('activeLine', 1);
 
-		// Add styling to the active line.
-		if ($this->params->get('selectionMatches', false))
+		// Do we highlight selection matches?
+		if ($this->params->get('selectionMatches', 1))
 		{
 			$options->highlightSelectionMatches = array(
 					'showToken' => true,
@@ -154,7 +177,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		// Do we use line numbering?
-		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', 0))
+		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', 1))
 		{
 			$options->gutters[] = 'CodeMirror-linenumbers';
 		}
@@ -166,7 +189,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		// Do we use a marker gutter?
-		if ($options->markerGutter = (boolean) $this->params->get('markerGutter', $this->params->get('marker-gutter', 0)))
+		if ($options->markerGutter = (boolean) $this->params->get('markerGutter', $this->params->get('marker-gutter', 1)))
 		{
 			$options->gutters[] = 'CodeMirror-markergutter';
 		}
@@ -182,27 +205,28 @@ class PlgEditorCodemirror extends CMSPlugin
 		{
 			$options->theme = $theme;
 
-			HTMLHelper::_('stylesheet', $this->params->get('basePath', 'media/vendor/codemirror/') . 'theme/' . $theme . '.css', array('version' => 'auto'));
+			$this->app->getDocument()->getWebAssetManager()
+				->registerAndUseStyle('codemirror.theme', $this->basePath . 'theme/' . $theme . '.css');
 		}
 
 		// Special options for tagged modes (xml/html).
 		if (in_array($options->mode, array('xml', 'html', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
-			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', true);
+			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', 1);
 
 			// Highlight the matching tag when the cursor is in a tag (html/xml only).
-			$options->matchTags = (boolean) $this->params->get('matchTags', true);
+			$options->matchTags = (boolean) $this->params->get('matchTags', 1);
 		}
 
 		// Special options for non-tagged modes.
 		if (!in_array($options->mode, array('xml', 'html')))
 		{
 			// Autogenerate closing brackets.
-			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', true);
+			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', 1);
 
 			// Highlight the matching bracket.
-			$options->matchBrackets = (boolean) $this->params->get('matchBrackets', true);
+			$options->matchBrackets = (boolean) $this->params->get('matchBrackets', 1);
 		}
 
 		$options->scrollbarStyle = $this->params->get('scrollbarStyle', 'native');
@@ -222,22 +246,24 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		$displayData = (object) array(
-				'options' => $options,
-				'params'  => $this->params,
-				'name'    => $name,
-				'id'      => $id,
-				'cols'    => $col,
-				'rows'    => $row,
-				'content' => $content,
-				'buttons' => $buttons
-			);
+			'options'  => $options,
+			'params'   => $this->params,
+			'name'     => $name,
+			'id'       => $id,
+			'cols'     => $col,
+			'rows'     => $row,
+			'content'  => $content,
+			'buttons'  => $buttons,
+			'basePath' => $this->basePath,
+			'modePath' => $this->modePath,
+		);
 
 		// At this point, displayData can be modified by a plugin before going to the layout renderer.
-		$results = Factory::getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
+		$results = $this->app->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
 
 		$results[] = LayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts');
 
-		foreach (Factory::getApplication()->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
+		foreach ($this->app->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
 		{
 			$results[] = $result;
 		}
@@ -302,8 +328,12 @@ class PlgEditorCodemirror extends CMSPlugin
 	 */
 	protected function loadKeyMap($keyMap)
 	{
-		$basePath = $this->params->get('basePath', 'media/vendor/codemirror/');
-		$ext = JDEBUG ? '.js' : '.min.js';
-		JHtml::_('script', $basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript(
+				'codemirror.keymap.' . $keyMap,
+				$this->basePath . 'keymap/' . $keyMap . '.min.js',
+				[],
+				['defer' => true]
+			);
 	}
 }

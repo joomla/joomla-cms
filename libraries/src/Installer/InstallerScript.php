@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -206,7 +206,7 @@ class InstallerScript
 	 */
 	public function getParam($name, $id = 0)
 	{
-		if (!is_int($id) || $id == 0)
+		if (!\is_int($id) || $id == 0)
 		{
 			// Return false if there is no item given
 			return false;
@@ -232,7 +232,7 @@ class InstallerScript
 	 */
 	public function setParams($param_array = null, $type = 'edit', $id = 0)
 	{
-		if (!is_int($id) || $id == 0)
+		if (!\is_int($id) || $id == 0)
 		{
 			// Return false if there is no valid item given
 			return false;
@@ -247,7 +247,7 @@ class InstallerScript
 				if ($type === 'edit')
 				{
 					// Add or edit the new variable(s) to the existing params
-					if (is_array($value))
+					if (\is_array($value))
 					{
 						// Convert an array into a json encoded string
 						$params[(string) $name] = array_values($value);
@@ -367,6 +367,52 @@ class InstallerScript
 					echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Creates the dashboard menu module
+	 *
+	 * @param string $dashboard The name of the dashboard
+	 * @param string $preset    The name of the menu preset
+	 *
+	 * @return  void
+	 *
+	 * @throws \Exception
+	 * @since   4.0
+	 */
+	public function addDashboardMenu(string $dashboard, string $preset)
+	{
+		$model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
+		$module = array(
+			'id'         => 0,
+			'asset_id'   => 0,
+			'language'   => '*',
+			'note'       => '',
+			'published'  => 1,
+			'assignment' => 0,
+			'client_id'  => 1,
+			'showtitle'  => 0,
+			'content'    => '',
+			'module'     => 'mod_submenu',
+			'position'   => 'cpanel-' . $dashboard,
+		);
+
+		// Try to get a translated module title, otherwise fall back to a fixed string.
+		$titleKey         = strtoupper('COM_' . $this->extension . '_DASHBOARD_' . $dashboard . '_TITLE');
+		$title            = Text::_($titleKey);
+		$module['title']  = ($title === $titleKey) ? ucfirst($dashboard) . ' Dashboard' : $title;
+
+		$module['access'] = (int) Factory::getApplication()->get('access', 1);
+		$module['params'] = array(
+			'menutype' => '*',
+			'preset'   => $preset,
+			'style'    => 'System-none',
+		);
+
+		if (!$model->save($module))
+		{
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
 		}
 	}
 }

@@ -3,21 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
-$cparams = ComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
+$canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
+$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === Factory::getUser()->id);
 ?>
 
 <div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
@@ -31,10 +34,25 @@ $tparams = $this->item->params;
 		<div class="page-header">
 			<h2>
 				<?php if ($this->item->published == 0) : ?>
-					<span class="badge badge-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+					<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
 			</h2>
+		</div>
+	<?php endif; ?>
+
+	<?php if ($canEdit) : ?>
+		<div class="icons">
+			<div class="btn-group float-right">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $this->item->id; ?>"
+					aria-label="<?php echo Text::_('JUSER_TOOLS'); ?>"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fas fa-cog" aria-hidden="true"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $this->item->id; ?>">
+					<li class="edit-icon"> <?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?> </li>
+				</ul>
+			</div>
 		</div>
 	<?php endif; ?>
 
@@ -45,7 +63,7 @@ $tparams = $this->item->params;
 			<span class="contact-category"><?php echo $this->item->category_title; ?></span>
 		</h3>
 	<?php elseif ($show_contact_category === 'show_with_link') : ?>
-		<?php $contactLink = ContactHelperRoute::getCategoryRoute($this->item->catid, $this->item->language); ?>
+		<?php $contactLink = RouteHelper::getCategoryRoute($this->item->catid, $this->item->language); ?>
 		<h3>
 			<span class="contact-category"><a href="<?php echo $contactLink; ?>">
 				<?php echo $this->escape($this->item->category_title); ?></a>
@@ -57,7 +75,7 @@ $tparams = $this->item->params;
 
 	<?php if ($tparams->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
-			<label for="select_contact"><?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?></label>
+			<label for="select_contact"><?php echo Text::_('COM_CONTACT_SELECT_CONTACT'); ?></label>
 			<?php echo HTMLHelper::_('select.genericlist', $this->contacts, 'select_contact', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link); ?>
 		</form>
 	<?php endif; ?>
@@ -72,17 +90,17 @@ $tparams = $this->item->params;
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
 	<?php if ($this->params->get('show_info', 1)) : ?>
-		<?php echo '<h3>' . JText::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
+		<?php echo '<h3>' . Text::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
 
 		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 			<div class="com-contact__thumbnail thumbnail float-right">
-				<?php echo HTMLHelper::_('image', $this->item->image, $this->item->name, array('itemprop' => 'image')); ?>
+				<?php echo HTMLHelper::_('image', $this->item->image, htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8'), array('itemprop' => 'image')); ?>
 			</div>
 		<?php endif; ?>
 
 		<?php if ($this->item->con_position && $tparams->get('show_position')) : ?>
 			<dl class="com-contact__position contact-position dl-horizontal">
-				<dt><?php echo JText::_('COM_CONTACT_POSITION'); ?>:</dt>
+				<dt><?php echo Text::_('COM_CONTACT_POSITION'); ?>:</dt>
 				<dd itemprop="jobTitle">
 					<?php echo $this->item->con_position; ?>
 				</dd>
@@ -92,14 +110,14 @@ $tparams = $this->item->params;
 		<?php echo $this->loadTemplate('address'); ?>
 
 		<?php if ($tparams->get('allow_vcard')) : ?>
-			<?php echo JText::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
+			<?php echo Text::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
 			<a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->item->id . '&amp;format=vcf'); ?>">
-			<?php echo JText::_('COM_CONTACT_VCARD'); ?></a>
+			<?php echo Text::_('COM_CONTACT_VCARD'); ?></a>
 		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>
-		<?php echo '<h3>' . JText::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
+		<?php echo '<h3>' . Text::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
 
 		<?php echo $this->loadTemplate('form'); ?>
 	<?php endif; ?>
@@ -109,13 +127,13 @@ $tparams = $this->item->params;
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_articles') && $this->item->user_id && $this->item->articles) : ?>
-		<?php echo '<h3>' . JText::_('JGLOBAL_ARTICLES') . '</h3>'; ?>
+		<?php echo '<h3>' . Text::_('JGLOBAL_ARTICLES') . '</h3>'; ?>
 
 		<?php echo $this->loadTemplate('articles'); ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_profile') && $this->item->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
-		<?php echo '<h3>' . JText::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
+		<?php echo '<h3>' . Text::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
 
 		<?php echo $this->loadTemplate('profile'); ?>
 	<?php endif; ?>
@@ -125,7 +143,7 @@ $tparams = $this->item->params;
 	<?php endif; ?>
 
 	<?php if ($this->item->misc && $tparams->get('show_misc')) : ?>
-		<?php echo '<h3>' . JText::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
+		<?php echo '<h3>' . Text::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
 
 		<div class="com-contact__miscinfo contact-miscinfo">
 			<dl class="dl-horizontal">

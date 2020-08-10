@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,9 @@
     const onChange = () => {
       if (!batchSelector.value
           || (batchSelector.value && parseInt(batchSelector.value, 10) === 0)) {
-        batchCopyMove.style.display = 'none';
+        batchCopyMove.classList.add('hidden');
       } else {
-        batchCopyMove.style.display = 'block';
+        batchCopyMove.classList.remove('hidden');
       }
     };
 
@@ -33,7 +33,7 @@
     }
 
     if (batchCopyMove) {
-      batchCopyMove.style.display = 'none';
+      batchCopyMove.classList.add('hidden');
     }
 
     if (batchCopyMove) {

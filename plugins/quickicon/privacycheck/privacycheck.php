@@ -3,13 +3,12 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.privacycheck
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -49,7 +48,7 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !$this->app->getIdentity()->authorise('core.admin', 'com_privacy'))
+		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.admin', 'com_privacy'))
 		{
 			return array();
 		}
@@ -59,25 +58,23 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 
 		$options  = array(
 			'plg_quickicon_privacycheck_url'      => Uri::base() . $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
-			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . $privacy . '&task=getNumberUrgentRequests&' . $token,
+			'plg_quickicon_privacycheck_ajax_url' => Uri::base() . $privacy . '&task=getNumberUrgentRequests&format=json&' . $token,
 			'plg_quickicon_privacycheck_text'     => array(
 				"NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST'),
 				"REQUESTFOUND"         => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND'),
-				"REQUESTFOUND_MESSAGE" => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_MESSAGE'),
-				"REQUESTFOUND_BUTTON"  => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_BUTTON'),
 				"ERROR"                => Text::_('PLG_QUICKICON_PRIVACYCHECK_ERROR'),
 			)
 		);
 
 		$this->app->getDocument()->addScriptOptions('js-privacy-check', $options);
 
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', 'plg_quickicon_privacycheck/privacycheck.js', array('version' => 'auto', 'relative' => true));
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_quickicon_privacycheck', 'plg_quickicon_privacycheck/privacycheck.js', [], ['defer' => true], ['core']);
 
 		return array(
 			array(
 				'link'  => $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
-				'image' => 'fa fa-users',
+				'image' => 'fas fa-users',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
 				'id'    => 'plg_quickicon_privacycheck',

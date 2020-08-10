@@ -2,14 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 /**
@@ -31,13 +32,20 @@ class InputFilter extends BaseInputFilter
 	private $stripUSC = 0;
 
 	/**
+	 * A container for InputFilter instances.
+	 *
+	 * @var    InputFilter[]
+	 * @since  __DEPOY_VERSION__
+	 */
+	protected static $instances = array();
+	/**
 	 * Constructor for inputFilter class. Only first parameter is required.
 	 *
 	 * @param   array    $tagsArray   List of user-defined tags
 	 * @param   array    $attrArray   List of user-defined attributes
-	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
-	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
-	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @param   integer  $tagsMethod  The constant static::ONLY_ALLOW_DEFINED_TAGS or static::BLOCK_DEFINED_TAGS
+	 * @param   integer  $attrMethod  The constant static::ONLY_ALLOW_DEFINED_ATTRIBUTES or static::BLOCK_DEFINED_ATTRIBUTES
+	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blocked tags/attributes = 1
 	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0
 	 *
 	 * @since   1.7.0
@@ -55,9 +63,9 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @param   array    $tagsArray   List of user-defined tags
 	 * @param   array    $attrArray   List of user-defined attributes
-	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
-	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
-	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @param   integer  $tagsMethod  The constant static::ONLY_ALLOW_DEFINED_TAGS or static::BLOCK_DEFINED_TAGS
+	 * @param   integer  $attrMethod  The constant static::ONLY_ALLOW_DEFINED_ATTRIBUTES or static::BLOCK_DEFINED_ATTRIBUTES
+	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blocked tags/attributes = 1
 	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0
 	 *
 	 * @return  InputFilter  The InputFilter object.
@@ -134,7 +142,7 @@ class InputFilter extends BaseInputFilter
 			foreach ($matches[0] as $match)
 			{
 				$match  = (string) str_replace(array('?', '"'), '', $match);
-				$text   = (string) str_replace($match, \JStringPunycode::emailToPunycode($match), $text);
+				$text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
 			}
 		}
 
@@ -238,17 +246,17 @@ class InputFilter extends BaseInputFilter
 			$tempNames     = $fileDescriptor['tmp_name'];
 			$intendedNames = $fileDescriptor['name'];
 
-			if (!is_array($tempNames))
+			if (!\is_array($tempNames))
 			{
 				$tempNames = array($tempNames);
 			}
 
-			if (!is_array($intendedNames))
+			if (!\is_array($intendedNames))
 			{
 				$intendedNames = array($intendedNames);
 			}
 
-			$len = count($tempNames);
+			$len = \count($tempNames);
 
 			for ($i = 0; $i < $len; $i++)
 			{
@@ -278,7 +286,7 @@ class InputFilter extends BaseInputFilter
 					 */
 					foreach ($options['forbidden_extensions'] as $ext)
 					{
-						if (in_array($ext, $explodedName))
+						if (\in_array($ext, $explodedName))
 						{
 							return false;
 						}
@@ -329,7 +337,7 @@ class InputFilter extends BaseInputFilter
 
 								foreach ($suspiciousExtensions as $ext)
 								{
-									if (in_array($ext, $explodedName))
+									if (\in_array($ext, $explodedName))
 									{
 										$collide = true;
 
@@ -366,7 +374,7 @@ class InputFilter extends BaseInputFilter
 
 								foreach ($suspiciousExtensions as $ext)
 								{
-									if (in_array($ext, $explodedName))
+									if (\in_array($ext, $explodedName))
 									{
 										$collide = true;
 
@@ -419,7 +427,7 @@ class InputFilter extends BaseInputFilter
 	{
 		$result = array();
 
-		if (is_array($data[0]))
+		if (\is_array($data[0]))
 		{
 			foreach ($data[0] as $k => $v)
 			{
@@ -445,7 +453,7 @@ class InputFilter extends BaseInputFilter
 	{
 		static $ttr;
 
-		if (!is_array($ttr))
+		if (!\is_array($ttr))
 		{
 			// Entity decode
 			$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
@@ -459,17 +467,21 @@ class InputFilter extends BaseInputFilter
 		$source = strtr($source, $ttr);
 
 		// Convert decimal
-		$source = preg_replace_callback('/&#(\d+);/m', function($m)
-		{
-			return utf8_encode(chr($m[1]));
-		}, $source
+		$source = preg_replace_callback(
+			'/&#(\d+);/m',
+			function ($m) {
+				return utf8_encode(\chr($m[1]));
+			},
+			$source
 		);
 
 		// Convert hex
-		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m)
-		{
-			return utf8_encode(chr('0x' . $m[1]));
-		}, $source
+		$source = preg_replace_callback(
+			'/&#x([a-f0-9]+);/mi',
+			function ($m) {
+				return utf8_encode(\chr('0x' . $m[1]));
+			},
+			$source
 		);
 
 		return $source;
@@ -486,12 +498,12 @@ class InputFilter extends BaseInputFilter
 	 */
 	protected function stripUSC($source)
 	{
-		if (is_object($source))
+		if (\is_object($source))
 		{
 			return $source;
 		}
 
-		if (is_array($source))
+		if (\is_array($source))
 		{
 			$filteredArray = array();
 

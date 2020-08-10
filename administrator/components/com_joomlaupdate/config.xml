@@ -11,6 +11,7 @@
 			type="list"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			default="default"
+			validate="options"
 			>
 			<!-- Note: Changed the values lts to default and sts to next with 3.4.0 -->
 			<!--       Eliminated the 'nochange' option with 3.4.0 -->
@@ -22,30 +23,28 @@
 		</field>
 
 		<field
+			name="minimum_stability"
+			type="list"
+			label="COM_JOOMLAUPDATE_MINIMUM_STABILITY_LABEL"
+			description="COM_JOOMLAUPDATE_MINIMUM_STABILITY_DESC"
+			default="4"
+			showon="updatesource:testing[OR]updatesource:custom"
+			validate="options"
+			>
+			<option value="0">COM_JOOMLAUPDATE_MINIMUM_STABILITY_DEV</option>
+			<option value="1">COM_JOOMLAUPDATE_MINIMUM_STABILITY_ALPHA</option>
+			<option value="2">COM_JOOMLAUPDATE_MINIMUM_STABILITY_BETA</option>
+			<option value="3">COM_JOOMLAUPDATE_MINIMUM_STABILITY_RC</option>
+			<option value="4">COM_JOOMLAUPDATE_MINIMUM_STABILITY_STABLE</option>
+		</field>
+
+		<field
 			name="customurl"
 			type="text"
 			label="COM_JOOMLAUPDATE_CONFIG_CUSTOMURL_LABEL"
 			default=""
 			length="50"
 			showon="updatesource:custom"
-		/>
-
-	</fieldset>
-
-	<fieldset
-		name="permissions"
-		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
-		>
-
-		<field
-			name="rules"
-			type="rules"
-			label="JCONFIG_PERMISSIONS_LABEL"
-			filter="rules"
-			validate="rules"
-			component="com_joomlaupdate"
-			section="component"
 		/>
 
 	</fieldset>
