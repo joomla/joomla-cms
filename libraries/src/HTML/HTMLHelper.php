@@ -562,7 +562,7 @@ abstract class HTMLHelper
 									// Try to deal with system files in the template folder
 									if (!empty($template->parent))
 									{
-										$found = static::addFileToBuffer("$templaPath/$template->templete/$folder/system/$file", $ext, $debugMode);
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
 
 										if (!empty($found))
 										{
@@ -583,7 +583,7 @@ abstract class HTMLHelper
 									else
 									{
 										// Try to deal with system files in the template folder
-										$found = static::addFileToBuffer("$templaPath/$template->templete/$folder/system/$file", $ext, $debugMode);
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
 
 										if (!empty($found))
 										{
