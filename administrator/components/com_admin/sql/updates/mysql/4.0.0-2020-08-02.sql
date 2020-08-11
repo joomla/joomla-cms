@@ -6,20 +6,36 @@ ALTER TABLE `#__content` ADD INDEX `idx_catid_ordering` (`catid`, `ordering`);
 ALTER TABLE `#__content_frontpage` ADD INDEX `idx_ordering` (`ordering`);
 
 -- Reverse ordering in #__content table
+SET @new_ordering := 0;
+SET @category := '';
 UPDATE `#__content` AS n
 INNER JOIN (
-	SELECT (
-		SELECT @rownum := IF(@group = catid OR ((@group := catid) AND 0), @rownum + 1, 1)
-		FROM (SELECT @rownum := 0, @group := '') AS r) AS new_ordering, id, catid, ordering
-	FROM `#__content`
-	ORDER BY catid DESC, ordering DESC) n2 ON n2.id = n.id
-SET n.ordering = n2.new_ordering;
+  SELECT 
+    @new_ordering:=CASE
+        WHEN @category:= catid 
+			THEN @new_ordering + 1
+        ELSE 1
+    END AS new_ordering,
+    @category:=catid catid,
+    id,
+    ordering
+  FROM
+    `#__content`
+  ORDER BY catid DESC, ordering DESC
+) AS n2
+SET n.ordering = n2.new_ordering
+WHERE n.id = n2.id;
 
 -- Reverse ordering in #__content_frontpage table
+SET @new_ordering := 0; 
 UPDATE `#__content_frontpage` AS n
 INNER JOIN (
-	SELECT (SELECT @rownum := @rownum + 1 FROM (SELECT @rownum := 0) AS r) AS new_ordering, content_id, ordering
-	FROM `#__content_frontpage`
-	ORDER BY ordering DESC
+  SELECT 
+    (@row_number:=@row_number + 1) AS new_ordering, 
+    content_id, 
+    ordering
+   FROM
+    `#__content_frontpage`
+   ORDER BY ordering DESC
 ) n2 ON n2.content_id = n.content_id
 SET n.ordering = n2.new_ordering;
