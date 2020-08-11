@@ -74,9 +74,11 @@ if (!empty($editor))
 						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" class="w-15">
-							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-						</th>
+						<?php if (Multilanguage::isEnabled()) : ?>
+							<th scope="col" class="w-15">
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif; ?>
 						<th scope="col" class="w-5 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
@@ -143,9 +145,11 @@ if (!empty($editor))
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small">
-							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
-						</td>
+						<?php if (Multilanguage::isEnabled()) : ?>
+							<td class="small">
+								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
+							</td>
+						<?php endif; ?>
 						<td class="small d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
 						</td>
