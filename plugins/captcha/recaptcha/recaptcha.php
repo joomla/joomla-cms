@@ -65,7 +65,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		if ($this->params->get('version', '1.0') === '1.0')
+		/*if ($this->params->get('version', '1.0') === '1.0')
 		{
 			JHtml::_('jquery.framework');
 
@@ -83,7 +83,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
 			JHtml::_('script', $file);
-		}
+		}*/
 
 		return true;
 	}
