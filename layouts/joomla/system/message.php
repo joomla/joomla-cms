@@ -48,7 +48,7 @@ Factory::getDocument()->getWebAssetManager()
 						<div class="alert-heading"><?php echo Text::_($type); ?></div>
 						<div>
 							<?php foreach ($msgs as $msg) : ?>
-								<p><?php echo $msg; ?></p>
+								<div class="alert-message"><?php echo $msg; ?></div>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>
