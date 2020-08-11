@@ -30,8 +30,7 @@ $info    = $params->get('info_block_position', 0);
 // Web connection
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa
-		->useScript('com_content.article-inlineediting');
+$wa->useScript('com_content.article-inlineediting');
 
 // experimental stuff
 $this->tab_name = 'com-content-form';

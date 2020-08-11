@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 
 /**
  * HTML Article View class for the Content component

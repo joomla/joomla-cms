@@ -24,7 +24,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Registry\Registry;
 
 /**
@@ -104,7 +103,6 @@ class HtmlView extends BaseHtmlView
 		/** @var ArticleModel $model */
 		$model = $this->getModel();
 		$this->item  = $model->getItem();
-
 
 		$this->print = $app->input->getBool('print', false);
 		$this->state = $this->get('State');
