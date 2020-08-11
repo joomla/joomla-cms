@@ -30,6 +30,7 @@ class ArticleController extends FormController
 {
 	use VersionableControllerTrait;
 
+
 	/**
 	 * The URL view item variable.
 	 *

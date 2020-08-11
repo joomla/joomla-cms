@@ -70,6 +70,17 @@
       "attributes": {
         "defer": true
       }
+    },
+    {
+      "name": "com_content.article-inlineediting",
+      "type": "script",
+      "uri": "com_content/article-inlineediting.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
     }
 
   ]

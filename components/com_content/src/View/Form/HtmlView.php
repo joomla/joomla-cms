@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 
 /**
  * HTML Article View class for the Content component
@@ -101,7 +102,8 @@ class HtmlView extends BaseHtmlView
 		// Get model data.
 		$this->state       = $this->get('State');
 		$this->item        = $this->get('Item');
-		$this->form        = $this->get('Form');
+
+		$this->form        = $this->getForm();
 		$this->return_page = $this->get('ReturnPage');
 
 		if (empty($this->item->id))

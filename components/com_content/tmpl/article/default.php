@@ -30,9 +30,8 @@ $info    = $params->get('info_block_position', 0);
 // Web connection
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('keepalive')
-		->useScript('form.validate')
-		->useScript('com_content.form-edit');
+$wa
+		->useScript('com_content.article-inlineediting');
 
 // experimental stuff
 $this->tab_name = 'com-content-form';
@@ -138,6 +137,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	</div>
 	</fieldset>
 	<!-- experiment from here -->
+
 	<div class="mb-2">
 			<button type="button" class="btn btn-primary" data-submit-task="article.save">
 				<span class="fas fa-check" aria-hidden="true"></span>

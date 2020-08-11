@@ -36,6 +36,12 @@ class ArticleModel extends FormModel
 	 * @var        string
 	 */
 	protected $_context = 'com_content.article';
+	/**
+	 * Model context _item
+	 *
+	 * @var         \stdClass
+	 */
+	private $_item;
 
 	/**
 	 * Method to auto-populate the model state.
