@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Defines the trait for a Versionable Controller Class.
  * Note: This is a placeholder to ease transition to the new system in 4.0
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.10.0
  */
 trait VersionableControllerTrait
 {

@@ -495,7 +495,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 * Prints a JSON string.
 	 * Called from JS.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 *
 	 * @return void
 	 */
