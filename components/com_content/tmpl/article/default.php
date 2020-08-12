@@ -36,7 +36,11 @@ $wa->useScript('com_content.article-inlineediting');
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
 $this->useCoreUI = true;
+$config = [
+		'test'              => 5,
+];
 
+$this->document->addScriptOptions('test', $config);
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
