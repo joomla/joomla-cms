@@ -40,7 +40,7 @@
   document.addEventListener('DOMContentLoaded', () => {
 
     var x = 5;
-    console.log(Joomla.getOptions('test'));
+    console.log(Joomla.getOptions('original_article'));
 
     const buttons = [].slice.call(document.querySelectorAll(`[${buttonDataSelector}]`));
     buttons.forEach((button) => {

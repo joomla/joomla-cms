@@ -37,10 +37,10 @@ $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
 $this->useCoreUI = true;
 $config = [
-		'test'              => 5,
+		'article'              => $this->item,
 ];
 
-$this->document->addScriptOptions('test', $config);
+$this->document->addScriptOptions('original_article', $config);
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
