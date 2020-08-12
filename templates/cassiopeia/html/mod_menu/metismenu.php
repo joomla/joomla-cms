@@ -19,7 +19,7 @@ $wa->registerAndUseScript('metismenu', 'mm-horizontal.js', [], [], ['metismenujs
 
 $ulAttribs = [
 		'id'    => $params->get('tag_id', ''),
-		'class' => 'mod-menu mod-menu_metismenu metismenu' . $class_sfx . ' mod-list'
+		'class' => 'mod-menu mod-menu_metismenu metismenu mod-list ' . $class_sfx
 ];
 
 // The menu class is deprecated. Use mod-menu instead
