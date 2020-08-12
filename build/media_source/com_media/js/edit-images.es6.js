@@ -147,14 +147,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
     forUpload[options.csrfToken] = '1';
 
-    let fileDirectory = uploadPath.split('/');
-    fileDirectory.pop();
-    fileDirectory = fileDirectory.join('/');
-
-    // If we are in root add a backslash
-    if (fileDirectory.endsWith(':')) {
-      fileDirectory = `${fileDirectory}/`;
-    }
+    const fileDirectory = Joomla.MediaManager.GetDirectory(uploadPath);
     switch (task) {
       case 'apply':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
@@ -196,6 +189,16 @@ Joomla.MediaManager = Joomla.MediaManager || {};
   // The upload object
   Joomla.UploadFile = {};
 
+  Joomla.MediaManager.GetDirectory = (path) => {
+    let fileDirectory = path.split('/');
+    fileDirectory.pop();
+    fileDirectory = fileDirectory.join('/');
+    // If we are in root add a backslash
+    if (fileDirectory.endsWith(':')) {
+      fileDirectory = `${fileDirectory}/`;
+    }
+    return fileDirectory;
+  }
   /**
    * @TODO Extend Joomla.request and drop this code!!!!
    */
@@ -218,6 +221,8 @@ Joomla.MediaManager = Joomla.MediaManager || {};
           if (resp.success === true) {
             Joomla.MediaManager.Edit.removeProgressBar();
             if (resp.data.isClose) {
+              const fileDirectory = Joomla.MediaManager.GetDirectory(resp.data.file.path);
+              const pathName = window.location.pathname.replace(/&view=file.*/g, '');
               window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
             }
             if (resp.data.isCopy) {
