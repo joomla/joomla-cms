@@ -41,25 +41,9 @@ $this->useCoreUI = true;
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 <div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<script src="https://cdn.tiny.cloud/1/b89j3a5vkfye61z7c68hc33rljvvy5s5hlr9jvjqy671vvbh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-	<script>
-		tinymce.init({
-			selector: '.com-content-article__body',
-			menubar: false,
-			inline: true,
-			plugins: [
-				'link',
-				'lists',
-				'powerpaste',
-				'autolink',
-				'tinymcespellchecker'
-			],
-			toolbar: [
-				'undo redo | bold italic underline | fontselect fontsizeselect',
-				'forecolor backcolor | alignleft aligncenter alignright alignfull | numlist bullist outdent indent'
-			]
-		});
-	</script>
+	<?php if ($canEdit) : ?>
+		<script src="https://cdn.tiny.cloud/1/b89j3a5vkfye61z7c68hc33rljvvy5s5hlr9jvjqy671vvbh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+	<?php endif; ?>
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
