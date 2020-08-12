@@ -18,6 +18,9 @@ use Joomla\CMS\Uri\Uri;
 $app = Factory::getApplication();
 $wa  = $this->getWebAssetManager();
 
+// Template path
+$templatePath = Uri::root() . 'templates/'.$this->template;
+
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
@@ -37,8 +40,28 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
-// Preload the stylesheet for the font, actually we need to preload the font
-$this->getPreloadManager()->preload('https://fonts.googleapis.com/css?family=Fira+Sans:400', array('as' => 'style'));
+// Use of Google Font
+if ($this->params->get('googleFont'))
+{
+	$font = $this->params->get('googleFontName');
+
+	if ($font == 0) {
+		// Preload the fonts (todo: crossorigin attribute - see warnings in Chrome)
+		$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-regular.woff', array('as' => 'font'));
+		$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-regular.woff2', array('as' => 'font'));
+		$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-700.woff', array('as' => 'font'));
+		$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-700.woff2', array('as' => 'font'));
+		$wa->useStyle('font.josefin');
+	}
+	elseif ($font == 1) {
+		// Preload the fonts (todo: crossorigin attribute - see warnings in Chrome)
+		$this->getPreloadManager()->preload($templatePath . '/fonts/montserrat-v14-latin-800.woff', array('as' => 'font'));
+		$this->getPreloadManager()->preload($templatePath . '/fonts/montserrat-v14-latin-800.woff2', array('as' => 'font'));
+		$this->getPreloadManager()->preload($templatePath . '/fonts/work-sans-v8-latin-300.woff', array('as' => 'font'));
+		$this->getPreloadManager()->preload($templatePath . '/fonts/work-sans-v8-latin-300.woff2', array('as' => 'font'));
+		$wa->useStyle('font.montserrat');
+	}
+}
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))
