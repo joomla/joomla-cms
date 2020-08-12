@@ -9,6 +9,22 @@
   const buttonDataSelector = 'data-submit-task';
   const formId = 'adminForm';
 
+  tinymce.init({
+    selector: '.com-content-article__body',
+    menubar: false,
+    inline: true,
+    plugins: [
+      'link',
+      'lists',
+      'powerpaste',
+      'autolink',
+      'tinymcespellchecker'
+    ],
+    toolbar: [
+      'undo redo | bold italic underline | fontselect fontsizeselect',
+      'forecolor backcolor | alignleft aligncenter alignright alignfull | numlist bullist outdent indent'
+    ]
+  });
   /**
    * Submit the task
    * @param task
