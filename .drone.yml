@@ -17,7 +17,7 @@ steps:
         path: /cache
 
   - name: composer
-    image: joomlaprojects/docker-images:php7.3-composer
+    image: joomlaprojects/docker-images:php7.3
     depends_on: [ restore-cache ]
     commands:
       - composer validate --no-check-all --strict
@@ -312,6 +312,6 @@ steps:
 
 ---
 kind: signature
-hmac: 413db223fcb4ced2a650d336799dcca6920a1b3b7f2a89bf4a5e0d48b0755c99
+hmac: b5d935f8dbbe84931a2ba712bb447e4a92eba4e1e4720436d6c02cdc7250c67a
 
 ...
