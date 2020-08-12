@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
  *
  * @since  1.6
  */
-class Categories
+class Categories implements CategoryInterface
 {
 	/**
 	 * Array to hold the object instances
