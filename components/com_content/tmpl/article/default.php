@@ -36,11 +36,8 @@ $wa->useScript('com_content.article-inlineediting');
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
 $this->useCoreUI = true;
-$config = [
-		'article'              => $this->item,
-];
 
-$this->document->addScriptOptions('original_article', $config);
+$this->document->addScriptOptions('original_article_text', $this->item->introtext);
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
@@ -118,7 +115,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 <form action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 	<fieldset>
 		<!-- form for inline editing needs to be here-->
-	<div itemprop="articleBody" class="com-content-article__body">
+	<div itemprop="articleBody" class="com-content-article__body" id="test">
 		<?php echo $this->item->text; ?>
 
 	</div>

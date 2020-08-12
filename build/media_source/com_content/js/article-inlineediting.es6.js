@@ -40,7 +40,14 @@
   document.addEventListener('DOMContentLoaded', () => {
 
     var x = 5;
-    console.log(Joomla.getOptions('original_article'));
+    console.log(Joomla.getOptions('original_article_text'));
+
+    var articleBody = document.getElementById("test");
+    articleBody.addEventListener('onmousedown', (e) => {
+      articleBody.innerHTML = Joomla.getOptions('original_article_text');
+      });
+
+    console.log(document.getElementById("test").innerHTML);
 
     const buttons = [].slice.call(document.querySelectorAll(`[${buttonDataSelector}]`));
     buttons.forEach((button) => {
