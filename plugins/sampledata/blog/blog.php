@@ -391,6 +391,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Insert menuitems level 1.
 		$menuItems = array(
+			// Blog
 			array(
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
@@ -417,6 +418,7 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
+				// About
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[0],
@@ -435,6 +437,7 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
+				// Autor Login
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
@@ -582,6 +585,60 @@ class PlgSampledataBlog extends CMSPlugin
 					'secure'            => 0,
 				),
 			),
+			array(
+				// Category Blog
+				'menutype'     => $menuTypes[0],
+				'layout_type'  => 'metismenu',
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=8',
+				'parent_id'    => $menuIdsLevel1[0],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					"page_subheading"	=> 'Subheading of Categories',
+					'menu_text'         => 1,
+					'show_page_heading' => 1,
+					'secure'            => 0,
+				),
+			),
+			array(
+				// Category List
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_12_TITLE'),
+				'link'         => 'index.php?option=com_content&view=category&layout=list&id=8',
+				'parent_id'    => $menuIdsLevel1[0],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'page_subheading'	=> 'Subheading of List',
+					'menu_text'         => 1,
+					'show_page_heading' => 1,
+					'secure'            => 0,
+				),
+			),
+			array(
+				// Single article
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
+				'link'         => 'index.php?option=com_content&view=article&id=3',
+				'parent_id'    => $menuIdsLevel1[0],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'menu_text'         => 1,
+					'show_show'         => 1,
+					'secure'            => 0,
+				),
+			),
+			array(
+				// Category List
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
+				'link'         => 'index.php?option=com_content&view=featured',
+				'parent_id'    => $menuIdsLevel1[0],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'featured_categories'	=> '',
+					'layout_type'			=> 'blog',
+				),
+			),
 		);
 
 		try
@@ -641,23 +698,24 @@ class PlgSampledataBlog extends CMSPlugin
 		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
 
 		$modules = array(
+			// The main menu
 			array(
 				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'top-a',
+				'position'  => 'menu',
 				'module'    => 'mod_menu',
 				'showtitle' => 0,
 				'params'    => array(
 					'menutype'        => $menuTypes[0],
 					'startLevel'      => 1,
 					'endLevel'        => 0,
-					'showAllChildren' => 0,
+					'showAllChildren' => 1,
 					'class_sfx'       => '',
 					'layout'          => '_:default',
 					'cache'           => 1,
 					'cache_time'      => 900,
 					'cachemode'       => 'itemid',
-					'module_tag'      => 'div',
+					'module_tag'      => 'nav',
 					'bootstrap_size'  => 0,
 					'header_tag'      => 'h3',
 					'style'           => 0,
