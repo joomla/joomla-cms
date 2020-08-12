@@ -38,6 +38,10 @@
 
   // Register events
   document.addEventListener('DOMContentLoaded', () => {
+
+    var x = 5;
+    console.log(Joomla.getOptions('test'));
+
     const buttons = [].slice.call(document.querySelectorAll(`[${buttonDataSelector}]`));
     buttons.forEach((button) => {
       button.addEventListener('click', (e) => {
