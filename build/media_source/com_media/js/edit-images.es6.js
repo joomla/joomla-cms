@@ -132,6 +132,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       name,
       content: Joomla.MediaManager.Edit.current.contents.replace(`data:image/${format};base64,`, ''),
       isCopy: false,
+      isClose: false,
     };
 
 
@@ -154,7 +155,6 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     if (fileDirectory.endsWith(':')) {
       fileDirectory = `${fileDirectory}/`;
     }
-
     switch (task) {
       case 'apply':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
@@ -163,11 +163,11 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       case 'save2copy':
         forUpload.isCopy = true;
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-        window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+        Joomla.MediaManager.Edit.Reset(true);
         break;
       case 'save':
+        forUpload.isClose = true;
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-        window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
         break;
       case 'cancel':
         if (window.self !== window.top) {
@@ -213,11 +213,20 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       } catch (er) {
         resp = null;
       }
-
       if (resp) {
         if (xhr.status === 200) {
           if (resp.success === true) {
             Joomla.MediaManager.Edit.removeProgressBar();
+            if (resp.data.isClose) {
+              window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+            }
+            if (resp.data.isCopy) {
+              const fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
+              window.location.href = fileBaseUrl + resp.data.file.path;
+            }
+            Joomla.renderMessages({
+              message: [Joomla.JText._('JLIB_APPLICATION_SAVE_SUCCESS')]
+            });
           }
 
           if (resp.status === '1') {
@@ -231,6 +240,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     };
 
     xhr.onerror = () => {
+      // TODO render error message
       Joomla.MediaManager.Edit.removeProgressBar();
     };
 

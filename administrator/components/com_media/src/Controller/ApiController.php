@@ -255,7 +255,7 @@ class ApiController extends BaseController
 	 *          "move"    : "0"
 	 *     }
 	 *
-	 * @return  array  The data to send with the response
+	 * @return  \stdClass  The data to send with the response
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -270,10 +270,13 @@ class ApiController extends BaseController
 		$mediaContent = base64_decode($content->get('content', '', 'raw'));
 		$newPath      = $content->getString('newPath', null);
 		$move         = $content->get('move', true);
+		$resp = new \stdClass;
 
 		if ($mediaContent != null)
 		{
 			$this->checkContent();
+			$resp->isClose = $content->get('isClose');
+			$resp->isCopy = $content->get('isCopy');
 
 			if ($content->get('isCopy'))
 			{
@@ -303,7 +306,9 @@ class ApiController extends BaseController
 			$path = $destinationPath;
 		}
 
-		return $this->getModel()->getFile($adapter, $path);
+		$resp->file = $this->getModel()->getFile($adapter, $path);
+
+		return $resp;
 	}
 
 	/**
