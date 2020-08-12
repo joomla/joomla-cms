@@ -10,7 +10,7 @@
   const formId = 'adminForm';
 
   tinymce.init({
-    selector: '.com-content-article__body',
+    selector: '.editable',
     menubar: false,
     inline: true,
     plugins: [

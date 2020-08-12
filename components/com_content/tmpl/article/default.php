@@ -63,7 +63,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php if ($params->get('show_title')) : ?>
 	<div class="page-header">
-		<h2 itemprop="headline">
+		<h2 itemprop="headline" class="editable" ">
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
 		<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
@@ -115,7 +115,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 <form action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 	<fieldset>
 		<!-- form for inline editing needs to be here-->
-	<div itemprop="articleBody" class="com-content-article__body" id="test">
+	<div itemprop="articleBody" class="editable com-content-article__body" id="test">
 		<?php echo $this->item->text; ?>
 
 	</div>
