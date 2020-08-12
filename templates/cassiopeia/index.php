@@ -44,23 +44,24 @@ $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($th
 if ($this->params->get('googleFont'))
 {
 	$font = $this->params->get('googleFontName');
-
-	if ($font == 0) {
-		// Preload the fonts (todo: crossorigin attribute - see warnings in Chrome)
-		$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-regular.woff', array('as' => 'font'));
-		$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-regular.woff2', array('as' => 'font'));
-		$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-700.woff', array('as' => 'font'));
-		$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-700.woff2', array('as' => 'font'));
-		$wa->useStyle('font.josefin');
-	}
-	elseif ($font == 1) {
-		// Preload the fonts (todo: crossorigin attribute - see warnings in Chrome)
-		$this->getPreloadManager()->preload($templatePath . '/fonts/montserrat-v14-latin-800.woff', array('as' => 'font'));
-		$this->getPreloadManager()->preload($templatePath . '/fonts/montserrat-v14-latin-800.woff2', array('as' => 'font'));
-		$this->getPreloadManager()->preload($templatePath . '/fonts/work-sans-v8-latin-300.woff', array('as' => 'font'));
-		$this->getPreloadManager()->preload($templatePath . '/fonts/work-sans-v8-latin-300.woff2', array('as' => 'font'));
-		$wa->useStyle('font.montserrat');
-	}
+	switch( $font ) :
+		case "josefin-sans":
+			// Preload the fonts (todo: crossorigin attribute - see warnings in Chrome)
+			$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-regular.woff', array('as' => 'font'));
+			$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-regular.woff2', array('as' => 'font'));
+			$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-700.woff', array('as' => 'font'));
+			$this->getPreloadManager()->preload($templatePath . '/fonts/josefin-sans-v16-latin-700.woff2', array('as' => 'font'));
+			$wa->useStyle('font.josefin');
+			break;
+		case "montserrat":
+			// Preload the fonts (todo: crossorigin attribute - see warnings in Chrome)
+			$this->getPreloadManager()->preload($templatePath . '/fonts/montserrat-v14-latin-800.woff', array('as' => 'font'));
+			$this->getPreloadManager()->preload($templatePath . '/fonts/montserrat-v14-latin-800.woff2', array('as' => 'font'));
+			$this->getPreloadManager()->preload($templatePath . '/fonts/work-sans-v8-latin-300.woff', array('as' => 'font'));
+			$this->getPreloadManager()->preload($templatePath . '/fonts/work-sans-v8-latin-300.woff2', array('as' => 'font'));
+			$wa->useStyle('font.montserrat');
+			break;
+	endswitch;
 }
 
 // Logo file or site title param

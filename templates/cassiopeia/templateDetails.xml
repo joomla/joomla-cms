@@ -112,8 +112,8 @@
 					label="TPL_CASSIOPEIA_FONT_NAME_LABEL" 
 					description="TPL_CASSIOPEIA_FONT_NAME_DESC"
 					showon="googleFont:1">
-  					<option value="0">Josefin Sans</option>
-  					<option value="1">Montserrat + Work Sans</option>
+  					<option value="josefin-sans">Josefin Sans</option>
+  					<option value="montserrat">Montserrat + Work Sans</option>
 				</field>
 			</fieldset>
 		</fields>
