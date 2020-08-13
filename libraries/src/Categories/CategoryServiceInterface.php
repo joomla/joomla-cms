@@ -43,12 +43,12 @@ interface CategoryServiceInterface
 	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
-	public function countItems(array $items, string $section);
+	public function countItems(array $items, $section);
 
 	/**
 	 * Prepares the category form
 	 *
-	 * @param   \Joomla\CMS\Categories\Form  $form  The form to change
+	 * @param   \Joomla\CMS\Form\Form  $form  The form to change
 	 * @param   array|object                 $data  The form data
 	 *
 	 * @return   void

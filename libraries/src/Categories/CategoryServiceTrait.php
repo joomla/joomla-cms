@@ -70,7 +70,7 @@ trait CategoryServiceTrait
 	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
-	public function countItems(array $items, string $section)
+	public function countItems(array $items, $section)
 	{
 		$config = (object) array(
 			'related_tbl'   => $this->getTableNameForSection($section),
@@ -103,7 +103,7 @@ trait CategoryServiceTrait
 	 *
 	 * @since   3.10.0
 	 */
-	protected function getTableNameForSection(string $section = null)
+	protected function getTableNameForSection($section = null)
 	{
 		return null;
 	}
@@ -117,7 +117,7 @@ trait CategoryServiceTrait
 	 *
 	 * @since   3.10.0
 	 */
-	protected function getStateColumnForSection(string $section = null)
+	protected function getStateColumnForSection($section = null)
 	{
 		return 'state';
 	}
