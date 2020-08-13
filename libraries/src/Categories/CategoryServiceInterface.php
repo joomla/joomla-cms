@@ -22,34 +22,34 @@ interface CategoryServiceInterface
 	/**
 	 * Returns the category service.
 	 *
-	 * @param   array   $options  The options
-	 * @param   string  $section  The section
+	 * @param array  $options The options
+	 * @param string $section The section
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @since   3.10.0
 	 * @throws  SectionNotFoundException
+	 * @since   3.10.0
 	 */
 	public function getCategory(array $options = [], $section = '');
 
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   \stdClass[]  $items    The category objects
-	 * @param   string       $section  The section
+	 * @param \stdClass[] $items   The category objects
+	 * @param string      $section The section
 	 *
 	 * @return  void
 	 *
-	 * @since   3.10.0
 	 * @throws  \Exception
+	 * @since   3.10.0
 	 */
 	public function countItems(array $items, $section);
 
 	/**
 	 * Prepares the category form
 	 *
-	 * @param   \Joomla\CMS\Form\Form  $form  The form to change
-	 * @param   array|object                 $data  The form data
+	 * @param \Joomla\CMS\Form\Form $form The form to change
+	 * @param array|object          $data The form data
 	 *
 	 * @return   void
 	 */
