@@ -75,7 +75,7 @@
 
       // Skip titles with untranslated strings
       if (typeof title !== 'undefined') {
-        titleWrapper = document.createElement('span');
+        titleWrapper = document.createElement('div');
         titleWrapper.className = 'alert-heading';
         titleWrapper.innerHTML = Joomla.Text._(type) ? Joomla.Text._(type) : type;
         messagesBox.appendChild(titleWrapper);
@@ -84,7 +84,7 @@
       // Add messages to the message box
       typeMessages.forEach((typeMessage) => {
         messageWrapper = document.createElement('div');
-        messageWrapper.innerHTML = typeMessage;
+        messageWrapper.innerHTML = `<div class="alert-message">${typeMessage}</div>`;
         messagesBox.appendChild(messageWrapper);
       });
 
