@@ -198,7 +198,8 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       fileDirectory = `${fileDirectory}/`;
     }
     return fileDirectory;
-  }
+  };
+
   /**
    * @TODO Extend Joomla.request and drop this code!!!!
    */
@@ -226,11 +227,11 @@ Joomla.MediaManager = Joomla.MediaManager || {};
               window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
             }
             if (resp.data.isCopy) {
-              const fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
+              const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
               window.location.href = fileBaseUrl + resp.data.file.path;
             }
             Joomla.renderMessages({
-              message: [Joomla.JText._('JLIB_APPLICATION_SAVE_SUCCESS')]
+              message: [Joomla.JText._('JLIB_APPLICATION_SAVE_SUCCESS')],
             });
           }
 
