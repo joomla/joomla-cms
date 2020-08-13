@@ -11,7 +11,7 @@ namespace Joomla\CMS\Categories;
 /**
  * Representing when a category section cannot be found.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 class SectionNotFoundException extends \RuntimeException
 {

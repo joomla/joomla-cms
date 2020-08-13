@@ -13,7 +13,7 @@ namespace Joomla\CMS\Categories;
 /**
  * Option based categories factory.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 class CategoryFactory implements CategoryFactoryInterface
 {
@@ -21,7 +21,7 @@ class CategoryFactory implements CategoryFactoryInterface
 	 * The namespace to create the categories from.
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  3.10.0
 	 */
 	private $namespace;
 

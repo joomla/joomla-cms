@@ -16,7 +16,7 @@ use Joomla\CMS\Helper\ContentHelper;
 /**
  * Trait for component categories service.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 trait CategoryServiceTrait
 {
@@ -25,7 +25,7 @@ trait CategoryServiceTrait
 	 *
 	 * @var  CategoryFactoryInterface
 	 *
-	 * @since  4.0.0
+	 * @since  3.10.0
 	 */
 	private $categoryFactory;
 
@@ -52,7 +52,7 @@ trait CategoryServiceTrait
 	 *
 	 * @return  void
 	 *
-	 * @since  4.0.0
+	 * @since  3.10.0
 	 */
 	public function setCategoryFactory(CategoryFactoryInterface $categoryFactory)
 	{

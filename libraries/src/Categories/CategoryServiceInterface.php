@@ -15,7 +15,7 @@ use Joomla\CMS\Form\Form;
 /**
  * Access to component specific categories.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 interface CategoryServiceInterface
 {
