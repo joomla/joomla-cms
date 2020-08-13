@@ -864,8 +864,8 @@ final class SiteApplication extends CMSApplication
 	 *
 	 * @param   string  $template     The template name
 	 * @param   mixed   $styleParams  The template style parameters
-	 * @param   int   inheritable  Support for inheritance
-	 * @param   string   $parent  The name of the parent template
+	 * @param   int     $inheritable  Support for inheritance
+	 * @param   string  $parent       The name of the parent template
 	 *
 	 * @return  void
 	 *
