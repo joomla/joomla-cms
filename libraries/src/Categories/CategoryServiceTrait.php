@@ -40,7 +40,7 @@ trait CategoryServiceTrait
 	 * @since   3.10.0
 	 * @throws  SectionNotFoundException
 	 */
-	public function getCategory(array $options = [], $section = ''): CategoryInterface
+	public function getCategory(array $options = [], $section = '')
 	{
 		return $this->categoryFactory->createCategory($options, $section);
 	}

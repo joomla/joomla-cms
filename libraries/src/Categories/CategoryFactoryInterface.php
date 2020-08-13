@@ -29,5 +29,5 @@ interface CategoryFactoryInterface
 	 *
 	 * @throws  SectionNotFoundException
 	 */
-	public function createCategory(array $options = [], string $section = ''): CategoryInterface;
+	public function createCategory(array $options = [], string $section = '');
 }

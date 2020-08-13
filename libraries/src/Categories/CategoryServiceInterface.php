@@ -30,7 +30,7 @@ interface CategoryServiceInterface
 	 * @since   3.10.0
 	 * @throws  SectionNotFoundException
 	 */
-	public function getCategory(array $options = [], $section = ''): CategoryInterface;
+	public function getCategory(array $options = [], $section = '');
 
 	/**
 	 * Adds Count Items for Category Manager.
