@@ -871,7 +871,7 @@ final class SiteApplication extends CMSApplication
 	 *
 	 * @since   3.2
 	 */
-	public function setTemplate($template, $styleParams = null, inheritable = 0, $parent= null)
+	public function setTemplate($template, $styleParams = null, $inheritable = 0, $parent= null)
 	{
 		if (is_dir(JPATH_THEMES . '/' . $template))
 		{
