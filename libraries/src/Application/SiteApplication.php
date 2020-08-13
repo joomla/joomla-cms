@@ -875,7 +875,9 @@ final class SiteApplication extends CMSApplication
 		{
 			$this->template = new \stdClass;
 			$this->template->template = $template;
-
+			$this->template->parent = 0;
+			$this->template->inheritable = null;
+			
 			if ($styleParams instanceof Registry)
 			{
 				$this->template->params = $styleParams;
