@@ -323,8 +323,8 @@ class TemplateAdapter extends InstallerAdapter
 				$db->quoteName('home'),
 				$db->quoteName('title'),
 				$db->quoteName('params'),
+				$db->quoteName('inheritable'),
 				$db->quoteName('parent'),
-				$db->quoteName('inherits'),
 			];
 
 			$values = $query->bindArray(
