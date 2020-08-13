@@ -142,6 +142,10 @@ class TemplatesModel extends ListModel
 			->where($db->quoteName('a.client_id') . ' = :clientid')
 			->where($db->quoteName('a.enabled') . ' = 1')
 			->where($db->quoteName('a.type') . ' = ' . $db->quote('template'))
+
+			// Exclude children templates
+			->join('INNER', '#__template_styles AS b', $db->quoteName('a.element') . ' = b.template AND ' . $db->quoteName('b.parent') . ' = ""')
+
 			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Filter by search in title.

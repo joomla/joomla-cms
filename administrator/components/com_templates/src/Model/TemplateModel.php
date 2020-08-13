@@ -51,6 +51,22 @@ class TemplateModel extends FormModel
 	protected $element = null;
 
 	/**
+	 * The path to the template
+	 *
+	 * @var    \stdClass
+	 * @since  3.2
+	 */
+	protected $elementMedia = null;
+
+	/**
+	 * Mode indicator
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $supportsChildren = false;
+
+	/**
 	 * Internal method to get file properties.
 	 *
 	 * @param   string  $path  The base path.
@@ -384,24 +400,34 @@ class TemplateModel extends FormModel
 
 		if ($template = $this->getTemplate())
 		{
-			$app    = Factory::getApplication();
-			$client = ApplicationHelper::getClientInfo($template->client_id);
-			$path   = Path::clean($client->path . '/templates/' . $template->element . '/');
-			$lang   = Factory::getLanguage();
+			$app                = Factory::getApplication();
+			$client             = ApplicationHelper::getClientInfo($template->client_id);
+			$clientPath         = ($client->id == 0) ? '' : 'administrator/';
+			$this->element      = Path::clean($client->path . '/templates/' . $template->element . '/');
+			$this->elementMedia = Path::clean(JPATH_ROOT . '/media/templates/' . $clientPath . $template->element . '/');;
+			$lang               = Factory::getLanguage();
 
 			// Load the core and/or local language file(s).
 			$lang->load('tpl_' . $template->element, $client->path) ||
 			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element);
-			$this->element = $path;
 
-			if (!is_writable($path))
+			if (!is_writable($this->element))
 			{
 				$app->enqueueMessage(Text::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
 			}
 
-			if (is_dir($path))
+			if (is_dir($this->element))
 			{
-				$result = $this->getDirectoryTree($path);
+				$result = $this->getDirectoryTree($this->element);
+
+				// New mode
+				if (is_dir($this->elementMedia))
+				{
+					$resultTmp = $this->getDirectoryTree($this->elementMedia);
+
+					$result = array_merge(
+						(array) $result, (array) $resultTmp);
+				}
 			}
 			else
 			{
@@ -439,6 +465,7 @@ class TemplateModel extends FormModel
 				if (is_dir($dir . $value))
 				{
 					$relativePath = str_replace($this->element, '', $dir . $value);
+					$relativePath = str_replace($this->elementMedia, '', $relativePath);
 					$result['/' . $relativePath] = $this->getDirectoryTree($dir . $value . '/');
 				}
 				else
@@ -929,20 +956,12 @@ class TemplateModel extends FormModel
 
 		if ($this->template)
 		{
-			$input    = Factory::getApplication()->input;
-			$fileName = base64_decode($input->get('file'));
-			$client   = ApplicationHelper::getClientInfo($this->template->client_id);
+			$input      = Factory::getApplication()->input;
+			$fileName   = base64_decode($input->get('file'));
+			$client     = ApplicationHelper::getClientInfo($this->template->client_id);
+			$clientPath = ($client->id == 0) ? '' : 'administrator/';
 
-			try
-			{
-				$filePath = Path::check($client->path . '/templates/' . $this->template->element . '/' . $fileName);
-			}
-			catch (\Exception $e)
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
-
-				return;
-			}
+			$filePath = Path::check($client->path . '/templates/' . $this->template->element . $fileName);
 
 			if (file_exists($filePath))
 			{
@@ -950,6 +969,19 @@ class TemplateModel extends FormModel
 				$item->filename = Path::clean($fileName);
 				$item->source = file_get_contents($filePath);
 				$item->filePath = Path::clean($filePath);
+
+				if ($coreFile = $this->getCoreFile($fileName, $this->template->client_id))
+				{
+					$item->coreFile = $coreFile;
+					$item->core = file_get_contents($coreFile);
+				}
+			}
+			elseif (file_exists($filePathNew = Path::check($fileName)))
+			{
+				$item->extension_id = $this->getState('extension.id');
+				$item->filename = Path::clean($fileName);
+				$item->source = file_get_contents($filePathNew);
+				$item->filePath = Path::clean($filePathNew);
 
 				if ($coreFile = $this->getCoreFile($fileName, $this->template->client_id))
 				{

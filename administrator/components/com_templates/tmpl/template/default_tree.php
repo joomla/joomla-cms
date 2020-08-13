@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 
 ksort($this->files, SORT_NATURAL);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa    = $this->document->getWebAssetManager();
+$wa->addInlineStyle('.CodeMirror { height: 100%}');
+
 ?>
 
 <ul class="directory-tree treeselect">
@@ -50,15 +55,15 @@ ksort($this->files, SORT_NATURAL);
 
 			?>
 			<li class="<?php echo $class; ?>">
-				<a class="folder-url" href="">
-					<span class="fas fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?>
-				</a>
-				<?php echo $this->directoryTree($value); ?>
+				<details style="margin: initial">
+					<summary class="folder-url"><span class="fas fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?></summary>
+					<?php echo $this->directoryTree($value); ?>
+				</details>
 			</li>
 		<?php endif; ?>
 		<?php if (is_object($value)) : ?>
 			<li>
-				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
+				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>' style="background:transparent; border:0; color: var(--atum-link-color)">
 					<span class="fas fa-file-alt fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
 				</a>
 			</li>

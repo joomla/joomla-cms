@@ -323,8 +323,8 @@ class TemplateAdapter extends InstallerAdapter
 				$db->quoteName('home'),
 				$db->quoteName('title'),
 				$db->quoteName('params'),
+				$db->quoteName('inheritable'),
 				$db->quoteName('parent'),
-				$db->quoteName('inherits'),
 			];
 
 			$values = $query->bindArray(
@@ -471,22 +471,49 @@ class TemplateAdapter extends InstallerAdapter
 		// Deny remove default template
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
-			->select('COUNT(*)')
+			->select('*')
 			->from($db->quoteName('#__template_styles'))
 			->where(
 				[
-					$db->quoteName('home') . ' = ' . $db->quote('1'),
 					$db->quoteName('template') . ' = :template',
+					$db->quoteName('client_id') . ' = :client_id',
+				]
+			)
+			->orWhere(
+				[
+					$db->quoteName('parent') . ' = :template',
 					$db->quoteName('client_id') . ' = :client_id',
 				]
 			)
 			->bind(':template', $name)
 			->bind(':client_id', $clientId);
 		$db->setQuery($query);
+		$results = $db->loadObjectList();
 
-		if ($db->loadResult() != 0)
+		$isHome = false;
+		$hasChild = false;
+
+		foreach ($results as $k => $v)
+		{
+			if ((int) $v->home === 1)
+			{
+				$isHome = true;
+			}
+
+			if ($v->parent !== '')
+			{
+				$hasChild = true;
+			}
+		}
+
+		if ($isHome)
 		{
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'));
+		}
+
+		if ($hasChild)
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_PARENT'));
 		}
 
 		// Get the template root path

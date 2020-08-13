@@ -22,6 +22,29 @@ $user      = Factory::getUser();
 $clientId = (int) $this->state->get('client_id', 0);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa    = $this->document->getWebAssetManager();
+$wa->addInlineStyle(
+<<<CSS
+.subhead joomla-toolbar-button {
+-webkit-margin-start: 0;
+margin-inline-start: 0;
+}
+.subhead .btn, .subhead .btn-group {
+-webkit-margin-start: .75rem;
+margin-inline-start: .75rem;
+}
+
+.subhead .btn > span {
+-webkit-margin-end: .5rem;
+margin-inline-end: .5rem;
+}
+CSS
+);
+
+$wa->registerAndUseScript('com_templates.styles_default_esm', 'com_templates/admin-styles-default.es6.js', ['version' => 'auto', 'relative' => true], ['type' => 'module', 'defer' => true]);
+$wa->registerAndUseScript('com_templates.styles_default', 'com_templates/admin-styles-default.js', ['version' => 'auto', 'relative' => true], ['nomodule' => '', 'defer' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -38,7 +61,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<thead>
 							<tr>
 								<td class="w-1 text-center">
-									<?php echo HTMLHelper::_('grid.checkall'); ?>
+<!--									--><?php //echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
@@ -67,10 +90,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								$canCreate = $user->authorise('core.create',     'com_templates');
 								$canEdit   = $user->authorise('core.edit',       'com_templates');
 								$canChange = $user->authorise('core.edit.state', 'com_templates');
+								$isParent  = $item->inheritable ? 'true' : 'false';
+								$canEdit   = $canChange ? 'true' : 'false';
+								$isHome    = $item->home == '0' ? 'false' : 'true';
+								$isChild   = !empty($item->parent) ? 'true' : 'false';
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="w-1 text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+									<?php echo '<label for="cb' . $i . '"><span class="sr-only">' . Text::_('JSELECT')
+											. ' ' . htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8') . '</span></label>'
+											. '<input type="radio" id="cb' . $i . '" name="cid[]" value="' . $item->id
+											. '" onclick="Joomla.isChecked(this.checked);" data-is-parent="' . $isParent
+											. '" data-can-edit="' . $canEdit . '" data-is-home="' . $isHome . '" data-is-child="' . $isChild . '">';
+									?>
 								</td>
 								<th scope="row">
 									<?php if ($canEdit) : ?>

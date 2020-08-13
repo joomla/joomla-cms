@@ -39,15 +39,28 @@ class Templates
 		$basePath = $client->path . '/templates/' . $template;
 		$thumb = $basePath . '/template_thumbnail.png';
 		$preview = $basePath . '/template_preview.png';
+		$clientPath = ($clientId == 0) ? '' : 'administrator/';
 		$html = '';
 
 		if (file_exists($thumb))
 		{
-			$clientPath = ($clientId == 0) ? '' : 'administrator/';
 			$thumb = $clientPath . 'templates/' . $template . '/template_thumbnail.png';
 			$html = HTMLHelper::_('image', $thumb, Text::_('COM_TEMPLATES_PREVIEW'));
 
 			if (file_exists($preview))
+			{
+				$html = '<button type="button" data-target="#' . $template . '-Modal" class="thumbnail float-left" data-toggle="modal" title="'. Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+			}
+		}
+
+		// Alter the paths for the new mode
+		$basePath = JPATH_ROOT . '/media/templates/' . $clientPath . $template;
+		$thumb = $basePath . '/template_thumbnail.png';
+
+		if (file_exists($thumb)) {
+			$html = HTMLHelper::_('image', 'media/templates/' . $clientPath . $template  . '/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], false);
+
+			if (file_exists($basePath . '/template_preview.png'))
 			{
 				$html = '<button type="button" data-target="#' . $template . '-Modal" class="thumbnail float-left" data-toggle="modal" title="'. Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 			}
@@ -70,6 +83,7 @@ class Templates
 	{
 		$client = ApplicationHelper::getClientInfo($clientId);
 		$basePath = $client->path . '/templates/' . $template;
+		$clientPath = ($clientId == 0) ? '' : 'administrator/';
 		$baseUrl = ($clientId == 0) ? Uri::root(true) : Uri::root(true) . '/administrator';
 		$thumb = $basePath . '/template_thumbnail.png';
 		$preview = $basePath . '/template_preview.png';
@@ -78,6 +92,31 @@ class Templates
 		if (file_exists($thumb) && file_exists($preview))
 		{
 			$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
+			$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+				. Text::_('JTOOLBAR_CLOSE') . '</button>';
+
+			$html .= HTMLHelper::_(
+				'bootstrap.renderModal',
+				$template . '-Modal',
+				array(
+					'title'  => Text::sprintf('COM_TEMPLATES_SCREENSHOT', ucfirst($template)),
+					'height' => '500px',
+					'width'  => '800px',
+					'footer' => $footer,
+				),
+				$body = '<div><img src="' . $preview . '" style="max-width:100%" alt="' . $template . '"></div>'
+			);
+		}
+
+		// Alter the paths for the new mode
+		$basePath = JPATH_ROOT . '/media/templates/' . $clientPath . $template;
+		$baseUrl = Uri::root(true);
+		$thumb = $basePath . '/template_thumbnail.png';
+		$preview = $basePath . '/template_preview.png';
+
+		if (file_exists($thumb) && file_exists($preview))
+		{
+			$preview = '/media/templates/' . $clientPath . $template . '/template_preview.png';
 			$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
 				. Text::_('JTOOLBAR_CLOSE') . '</button>';
 

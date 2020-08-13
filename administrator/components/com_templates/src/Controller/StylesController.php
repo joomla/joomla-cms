@@ -24,6 +24,39 @@ use Joomla\Utilities\ArrayHelper;
 class StylesController extends AdminController
 {
 	/**
+	 * Method to create a child template.
+	 *
+	 * @return  void
+	 */
+	public function createChild()
+	{
+		// Check for request forgeries
+		$this->checkToken();
+
+		$pks = $this->input->post->get('cid', array(), 'array');
+
+		try
+		{
+			if (empty($pks))
+			{
+				throw new \Exception(Text::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
+			}
+
+			$pks = ArrayHelper::toInteger($pks);
+
+			$model = $this->getModel($name = 'Template', $prefix = 'Administrator', $config = array());
+//			$model->duplicate($pks);
+			$this->setMessage(Text::_('COM_TEMPLATES_SUCCESS_DUPLICATED'));
+		}
+		catch (\Exception $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		$this->setRedirect('index.php?option=com_templates&view=styles');
+	}
+
+	/**
 	 * Method to clone and existing template style.
 	 *
 	 * @return  void

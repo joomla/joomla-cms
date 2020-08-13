@@ -16,6 +16,8 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -115,6 +117,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_templates');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
@@ -128,12 +131,16 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
+			$bar->appendButton('Custom', '<button class="button-copy btn btn-primary" disabled id="style-default" data-token="' . Session::getFormToken() . '" ><span class="icon-star" aria-hidden="true"></span> ' . Text::_('COM_TEMPLATES_TOOLBAR_SET_HOME') . '</button>', 'COM_TEMPLATES_TOOLBAR_SET_HOME', 'styleSetDefault');
 			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.create'))
 		{
+			$bar->appendButton('Custom', '<button class="btn btn-warning" disabled id="create-child" data-token="' . Session::getFormToken() . '" ><span class="icon-copy" aria-hidden="true"></span> ' . Text::_('JTOOLBAR_CREATE_CHILD') . '</button>', 'JTOOLBAR_CREATE_CHILD', 'createChild');
+			ToolbarHelper::divider();
+			$bar->appendButton('Custom', '<button class="btn btn-warning" disabled id="override-child" data-token="' . Session::getFormToken() . '" ><span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JTOOLBAR_OVERRIDE_CHILD') . '</button>', 'JTOOLBAR_OVERRIDE_CHILD', 'overrideChild');
+			ToolbarHelper::divider();
 			ToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 			ToolbarHelper::divider();
 		}
