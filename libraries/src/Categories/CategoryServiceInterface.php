@@ -27,7 +27,7 @@ interface CategoryServiceInterface
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  SectionNotFoundException
 	 */
 	public function getCategory(array $options = [], $section = ''): CategoryInterface;
@@ -40,7 +40,7 @@ interface CategoryServiceInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
 	public function countItems(array $items, string $section);

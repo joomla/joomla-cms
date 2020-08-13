@@ -31,7 +31,7 @@ class CategoryFactory implements CategoryFactoryInterface
 	 *
 	 * @param   string  $namespace  The namespace
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function __construct($namespace)
 	{
@@ -46,7 +46,7 @@ class CategoryFactory implements CategoryFactoryInterface
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 *
 	 * @throws  SectionNotFoundException
 	 */
