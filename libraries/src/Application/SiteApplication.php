@@ -864,19 +864,21 @@ final class SiteApplication extends CMSApplication
 	 *
 	 * @param   string  $template     The template name
 	 * @param   mixed   $styleParams  The template style parameters
+	 * @param   int   inheritable  Support for inheritance
+	 * @param   string   $parent  The name of the parent template
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function setTemplate($template, $styleParams = null)
+	public function setTemplate($template, $styleParams = null, inheritable = 0, $parent= null)
 	{
 		if (is_dir(JPATH_THEMES . '/' . $template))
 		{
 			$this->template = new \stdClass;
 			$this->template->template = $template;
-			$this->template->parent = 0;
-			$this->template->inheritable = null;
+			$this->template->inheritable = inheritable;
+			$this->template->parent = $parent;
 			
 			if ($styleParams instanceof Registry)
 			{
