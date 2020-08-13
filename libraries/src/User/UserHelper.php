@@ -189,12 +189,15 @@ abstract class UserHelper
 
 		if ($key !== false)
 		{
-			// Remove the user from the group.
-			unset($user->groups[$key]);
+			$userGroups = Access::getGroupsByUser($userId, false);
+			unset($userGroups[array_search($groupId, $userGroups)]);
+
+			$user->groups = $userGroups;
 
 			// Store the user object.
 			$user->save();
 		}
+
 
 		// Set the group data for any preloaded user objects.
 		$temp = Factory::getUser((int) $userId);
