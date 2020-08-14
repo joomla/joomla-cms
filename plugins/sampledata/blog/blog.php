@@ -698,7 +698,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
 
 		$modules = array(
-			// The main menu
+			// The main menu Blog
 			array(
 				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
 				'ordering'  => 1,
@@ -708,7 +708,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'params'    => array(
 					'menutype'        => $menuTypes[0],
 					'startLevel'      => 1,
-					'endLevel'        => 0,
+					'endLevel'        => 1,
 					'showAllChildren' => 1,
 					'class_sfx'       => '',
 					'layout'          => '_:default',
@@ -722,6 +722,7 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
+				// The author Menu, for registered users
 				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
 				'ordering'  => 1,
 				'position'  => 'top-a',
@@ -857,15 +858,19 @@ class PlgSampledataBlog extends CMSPlugin
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
 				'ordering' => 1,
 				'position' => 'search',
-				'module'   => 'mod_search',
+				'module'   => 'mod_finder',
 				'params'   => array(
-					'width'      => 20,
-					'button_pos' => 'right',
+					'searchfilter' => '',
+					'show_autosuggest' => 1,
+					'show_advanced' => 0,
+					'show_label' => 0,
+					'alt_label' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
+					'show_button' => 1,
 					'opensearch' => 1,
-					'layout'     => '_:default',
-					'cache'      => 1,
-					'cache_time' => 900,
-					'cachemode'  => 'itemid',
+					'opensearch_name' => '',
+					'set_itemid' => 0,
+					'layout' => '_:default',
+					'module_tag' => 'search',
 				),
 			),
 			array(
