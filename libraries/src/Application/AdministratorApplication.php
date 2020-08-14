@@ -232,9 +232,10 @@ class AdministratorApplication extends CMSApplication
 
 		$query = $db->getQuery(true)
 			/*
-			 * This is important to use asterisk for THIS select query.
-			 * It needed due to upgrade process.
-			 * At some point of time of the upgrade the list of columns is changes that may lead to upgrade crash.
+			 * It is important to use the asterisk for THIS select query here.
+			 * It is needed due to the core update process.
+			 * Depending on the version before the update new database columns are used before they exist.
+			 * This causes the update to crash with SQL error.
 			 *
 			 * Can be reviewed for Joomla! 5.0
 			 */
