@@ -235,6 +235,8 @@ class AdministratorApplication extends CMSApplication
 			 * This is important to use asterisk for THIS select query.
 			 * It needed due to upgrade process.
 			 * At some point of time of the upgrade the list of columns is changes that may lead to upgrade crash.
+			 *
+			 * Can be reviewed for Joomla! 5.0
 			 */
 			->select('s.*')
 			->from($db->quoteName('#__template_styles', 's'))
