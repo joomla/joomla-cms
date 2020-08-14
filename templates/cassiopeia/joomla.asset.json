@@ -92,9 +92,9 @@
       "uri": "system/searchtools/searchtools.min.css"
     },
     {
-      "name": "font.josefin",
+      "name": "font.josefin-sans",
       "type": "style",
-      "uri": "font--josefin.css"
+      "uri": "font--josefin-sans.css"
     },
     {
       "name": "font.montserrat",
