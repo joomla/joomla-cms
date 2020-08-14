@@ -124,6 +124,7 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `locked` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.',
   `manifest_cache` text NOT NULL,
   `params` text NOT NULL,
+  `custom_data` text NOT NULL,
   `checked_out` int(10) unsigned,
   `checked_out_time` datetime,
   `ordering` int(11) DEFAULT 0,

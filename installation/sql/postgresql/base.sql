@@ -130,6 +130,7 @@ CREATE TABLE IF NOT EXISTS "#__extensions" (
   "locked" smallint DEFAULT 0 NOT NULL,
   "manifest_cache" text NOT NULL,
   "params" text NOT NULL,
+  "custom_data" text NOT NULL,
   "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint DEFAULT 0,
