@@ -38,7 +38,12 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Preload the stylesheet for the font, actually we need to preload the font
-$this->getPreloadManager()->preload('https://fonts.googleapis.com/css?family=Fira+Sans:400', array('as' => 'style'));
+// Use of Google Font
+if ($this->params->get('googleFont'))
+{
+	$googleFontName = 'font.'. $this->params->get('googleFontName');
+	$wa->useStyle($googleFontName);	$this->getPreloadManager()->preload($wa->getAsset('style',$googleFontName)->getUri(), ['as' => 'style']);
+}
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))
