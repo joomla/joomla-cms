@@ -231,9 +231,11 @@ class AdministratorApplication extends CMSApplication
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
-			// This is important to use asterisk for THIS select query.
-			// It needed due to upgrade process.
-			// At some point of time of the upgrade the list of columns is changes that may lead to upgrade crash.
+			/*
+			 * This is important to use asterisk for THIS select query.
+			 * It needed due to upgrade process.
+			 * At some point of time of the upgrade the list of columns is changes that may lead to upgrade crash.
+			 */
 			->select('s.*')
 			->from($db->quoteName('#__template_styles', 's'))
 			->join(
