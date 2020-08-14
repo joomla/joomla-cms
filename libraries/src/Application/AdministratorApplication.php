@@ -231,7 +231,10 @@ class AdministratorApplication extends CMSApplication
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
+			// This is important to use asterisk for THIS select query.
+			// It needed due to upgrade process.
+			// At some point of time of the upgrade the list of columns is changes that may lead to upgrade crash.
+			->select('s.*')
 			->from($db->quoteName('#__template_styles', 's'))
 			->join(
 				'LEFT',
@@ -265,7 +268,18 @@ class AdministratorApplication extends CMSApplication
 		$template = $db->loadObject();
 
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
-		$template->params = new Registry($template->params);
+		$template->params   = new Registry($template->params);
+
+		// We have to check required properties, that may not exist while upgrade process
+		if (!property_exists($template, 'parent'))
+		{
+			$template->parent = '';
+		}
+
+		if (!property_exists($template, 'inheritable'))
+		{
+			$template->inheritable = 0;
+		}
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')

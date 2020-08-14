@@ -440,7 +440,7 @@ abstract class HTMLHelper
 				$template   = $app->getTemplate(true);
 				$templaPath = JPATH_THEMES;
 
-				if ($template->inheritable || !empty($template->parent))
+				if (!empty($template->inheritable) || !empty($template->parent))
 				{
 					$client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
 					$templaPath = JPATH_ROOT . "/media/templates/$client";

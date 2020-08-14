@@ -335,7 +335,12 @@ abstract class ModuleHelper
 
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-		$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php';
+
+		if (!empty($templateObj->parent))
+		{
+			$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php';
+		}
+
 		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
