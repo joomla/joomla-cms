@@ -274,7 +274,7 @@ class AdministratorApplication extends CMSApplication
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 		$template->params   = new Registry($template->params);
 
-		// We have to check required properties, that may not exist while upgrade process
+		// We have to check required properties which may not exist during the upgrade process
 		if (!property_exists($template, 'parent'))
 		{
 			$template->parent = '';
