@@ -18,6 +18,7 @@
 		<filename>template_preview.png</filename>
 		<filename>template_thumbnail.png</filename>
 		<folder>css</folder>
+		<folder>fonts</folder>
 		<folder>html</folder>
 		<folder>images</folder>
 		<folder>js</folder>
@@ -90,6 +91,29 @@
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+				</field>
+
+				<field 
+					name="googleFont"
+					type="radio"
+					label="TPL_CASSIOPEIA_FONT_LABEL"
+					description="TPL_CASSIOPEIA_FONT_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field 
+					name="googleFontName" 
+					type="list" 
+					default="" 
+					label="TPL_CASSIOPEIA_FONT_NAME_LABEL" 
+					description="TPL_CASSIOPEIA_FONT_NAME_DESC"
+					showon="googleFont:1">
+  					<option value="josefin-sans">Josefin Sans</option>
+  					<option value="montserrat">Montserrat + Work Sans</option>
 				</field>
 			</fieldset>
 		</fields>
