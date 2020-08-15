@@ -76,7 +76,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * The form event.
+	 * - The form event.
 	 *
 	 * @param   EventInterface  $event  The event
 	 *
@@ -138,10 +138,10 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event)
 	{
-		$context    = $event->getArgument('extension');
+		$context = $event->getArgument('extension');
 		$extensionName = $event->getArgument('extensionName');
 		$transition = $event->getArgument('transition');
-		$pks        = $event->getArgument('pks');
+		$pks = $event->getArgument('pks');
 
 		// Get Values from Form
 		$value_intro_image = $transition->options->get('images_intro_image_settings');
@@ -157,7 +157,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$component = $this->app->bootComponent($extensionName);
 
 		$options = [
-			'ignore_request'            => true,
+			'ignore_request' => true,
 			// We already have triggered onContentBeforeChangeState, so use our own
 			'event_before_change_state' => 'onWorkflowBeforeChangeState'
 		];
@@ -170,48 +170,54 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk)
 		{
-			if ($value_intro_image == 0 && $value_full_article_image == 0)
+			$introImage = $model->getItem($pk)->images["image_intro"];
+			$fullImage = $model->getItem($pk)->images["image_fulltext"];
+
+			if ($value_intro_image)
 			{
-				// Do nothing
-			}
-			else
-			{
-				if ($value_intro_image == 1)
+				if (!($introImage || !file_exists(JPATH_ROOT . "/" . $introImage)))
 				{
-					if (!($model->getItem($pk)->images["image_intro"]) || !file_exists(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_intro"]))
-					{
-						Factory::getApplication()->enqueueMessage("ERROR: Intro Image required");
-						$event->setStopTransition(true);
+					Factory::getApplication()->enqueueMessage("ERROR: Intro Image required");
+					$event->setStopTransition();
 
-						return false;
-					}
-				}
-
-				if ($value_full_article_image == 1)
-				{
-					if (!($model->getItem($pk)->images["image_fulltext"]) || !file_exists(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"]))
-					{
-						Factory::getApplication()->enqueueMessage("ERROR: Full Article Image required");
-						$event->setStopTransition(true);
-
-						return false;
-					}
+					return false;
 				}
 			}
 
-			// Print_r($model->getItem($pk)->images);
-			// print_r(isset($model->getItem($pk)->images["image_intro"])); //+strleng oder isfile
+			if ($value_full_article_image)
+			{
+				if (!($fullImage || !file_exists(JPATH_ROOT . "/" . $fullImage)))
+				{
+					Factory::getApplication()->enqueueMessage("ERROR: Full Article Image required");
+					$event->setStopTransition();
+
+					return false;
+				}
+			}
+
+			$image = getimagesize($_FILES[$fullImage]['tmp_name']);
+			$image['mime'];
+
+			// Check if uploaded file is an image
+			if (exif_imagetype($fullImage !=false) && (exif_imagetype($introImage)!= false))
+			{
+				if (!$this->isSupported($context)
+					|| !is_numeric($value_intro_image)
+					|| !is_numeric($value_full_article_image))
+				{
+					return true;
+				}
+			}
+
+			Factory::getApplication()->enqueueMessage("One of the uploaded imaages is not of type image.");
+			$event->setStopTransition();
+
+			return false;
 		}
 
-		if (!$this->isSupported($context)
-			|| !is_numeric($value_intro_image)
-			|| !is_numeric($value_full_article_image))
-		{
-			return true;
-		}
-
-		return true;
+		return false;
 	}
+
 
 	/**
 	 * Change State of an item. Used to disable state change
@@ -265,23 +271,23 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		{
 			if ($intro_image_required)
 			{
-				if ($model->getItem($pk)->images["image_intro"])
+				if (($model->getItem($pk)->images['image_intro']))
 				{
 					$image = new Image;
-					$image->loadFile(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_intro"]);
-					$image->cropResize($introWidth, $introHeight, true);
-					$image->toFile(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_intro"] . "resized", IMAGETYPE_JPEG);
+					$image->loadFile(JPATH_ROOT . "/" . $model->getItem($pk)->images['image_intro']);
+					$newImage = $image->cropResize($introWidth, $introHeight, true);
+					$newImage->toFile(JPATH_ROOT . "/images/" . "intro_image_resized.jpeg", IMAGETYPE_JPEG);
 				}
 			}
 
 			if ($full_article_image_required)
 			{
-				if ($model->getItem($pk)->images["image_fulltext"])
+				if (($model->getItem($pk)->images["image_fulltext"]))
 				{
-					$image = new Image();
+					$image = new Image;
 					$image->loadFile(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"]);
-					$image->cropResize($fullArticleWidth, $fullArticleHeight, true);
-					$image->toFile(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"] . "resized", IMAIMAGETYPE_JPEG);
+					$newImage = $image->cropResize($fullArticleWidth, $fullArticleHeight, true);
+					$newImage->toFile(JPATH_ROOT . "/images/" . "full_article_image_resized.jpeg", IMAIMAGETYPE_JPEG);
 				}
 			}
 		}
