@@ -40,10 +40,10 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
-// Preload the stylesheet for the font, actually we need to preload the font
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
+	// Preload the stylesheet for the font, actually we need to preload the font
 	$googleFontName = 'font.'. $this->params->get('googleFontName');
 	$wa->useStyle($googleFontName);	$this->getPreloadManager()->preload($wa->getAsset('style',$googleFontName)->getUri(), ['as' => 'style']);
 }
