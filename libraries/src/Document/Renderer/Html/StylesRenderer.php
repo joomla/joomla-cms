@@ -250,7 +250,7 @@ class StylesRenderer extends DocumentRenderer
 
 		$buffer .= $tab . '<style';
 		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= '>' . $lnEnd;
+		$buffer .= '>';
 
 		// This is for full XHTML support.
 		if ($this->_doc->_mime !== 'text/html')
@@ -258,7 +258,7 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
 		}
 
-		$buffer .= $content . $lnEnd;
+		$buffer .= $content;
 
 		// See above note
 		if ($this->_doc->_mime !== 'text/html')
@@ -266,7 +266,7 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
 		}
 
-		$buffer .= $tab . '</style>' . $lnEnd;
+		$buffer .= '</style>' . $lnEnd;
 
 		return $buffer;
 	}
