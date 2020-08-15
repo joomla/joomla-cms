@@ -94,12 +94,12 @@
     {
       "name": "font.josefin-sans",
       "type": "style",
-      "uri": "font--josefin-sans.css"
+      "uri": "fonts/josefin-sans.min.css"
     },
     {
       "name": "font.montserrat",
       "type": "style",
-      "uri": "font--montserrat.css"
+      "uri": "fonts/montserrat.min.css"
     }
   ]
 }
