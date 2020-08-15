@@ -196,7 +196,6 @@ abstract class UserHelper
 			$user->save();
 		}
 
-
 		// Set the group data for any preloaded user objects.
 		$temp = Factory::getUser((int) $userId);
 		$temp->groups = $user->groups;
