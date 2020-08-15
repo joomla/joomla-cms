@@ -189,10 +189,8 @@ abstract class UserHelper
 
 		if ($key !== false)
 		{
-			$userGroups = Access::getGroupsByUser($userId, false);
-			unset($userGroups[array_search($groupId, $userGroups)]);
-
-			$user->groups = $userGroups;
+			unset($user->groups[$key]);
+			$user->groups = array_values($user->groups);
 
 			// Store the user object.
 			$user->save();
