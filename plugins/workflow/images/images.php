@@ -76,7 +76,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * - The form event.
+	 * The form event.
 	 *
 	 * @param   EventInterface  $event  The event
 	 *
@@ -110,8 +110,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	/*
-	protected function enhanceTransitionForm(Form $form, $data)
+	/*protected function enhanceTransitionForm(Form $form, $data)
 	{
 		$workflow = $this->enhanceWorkflowTransitionForm($form, $data);
 
@@ -138,18 +137,18 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event)
 	{
-		$context = $event->getArgument('extension');
+		$context    = $event->getArgument('extension');
 		$extensionName = $event->getArgument('extensionName');
 		$transition = $event->getArgument('transition');
-		$pks = $event->getArgument('pks');
+		$pks        = $event->getArgument('pks');
 
-		// Get Values from Form
+		//get Values from Form
 		$value_intro_image = $transition->options->get('images_intro_image_settings');
 		$value_full_article_image = $transition->options->get('images_full_article_image_settings');
 
 		if (!$this->isSupported($context)
-			|| !is_numeric($value_intro_image)
-			|| !is_numeric($value_full_article_image))
+			||!is_numeric($value_intro_image)
+			||!is_numeric($value_full_article_image))
 		{
 			return true;
 		}
@@ -157,7 +156,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$component = $this->app->bootComponent($extensionName);
 
 		$options = [
-			'ignore_request' => true,
+			'ignore_request'            => true,
 			// We already have triggered onContentBeforeChangeState, so use our own
 			'event_before_change_state' => 'onWorkflowBeforeChangeState'
 		];
@@ -167,6 +166,8 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$modelName = $component->getModelName($context);
 
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
+
+
 
 		foreach ($pks as $pk)
 		{
@@ -198,8 +199,24 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 			$image = getimagesize($_FILES[$fullImage]['tmp_name']);
 			$image['mime'];
 
+			/*
+				Check if in article selected image is a valid imagefile
+			*/
+			if( !exif_imagetype(JPATH_ROOT . "/" . $introImage)){
+				Factory::getApplication()->enqueueMessage("Intro Image is not of type image.");
+				$event->setStopTransition();
+
+				return false;
+			}
+
+			if( !exif_imagetype(JPATH_ROOT . "/" . $fullImage)){
+				Factory::getApplication()->enqueueMessage("Full Article Image is not of type image.");
+				$event->setStopTransition();
+
+				return false;
+			}
 			// Check if uploaded file is an image
-			if (exif_imagetype($fullImage !=false) && (exif_imagetype($introImage)!= false))
+			/*if ((exif_imagetype($fullImage) !=false) && (exif_imagetype($introImage)!= false))
 			{
 				if (!$this->isSupported($context)
 					|| !is_numeric($value_intro_image)
@@ -207,17 +224,19 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				{
 					return true;
 				}
-			}
+			}*/
 
-			Factory::getApplication()->enqueueMessage("One of the uploaded imaages is not of type image.");
-			$event->setStopTransition();
 
-			return false;
 		}
 
-		return false;
+		if (!$this->isSupported($context) ||
+			!is_numeric($value_intro_image) ||
+				!is_numeric($value_full_article_image))
+		{
+			return true;
+		}
+		return true;
 	}
-
 
 	/**
 	 * Change State of an item. Used to disable state change
@@ -251,8 +270,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$introWidth = $transition->options->get('introImageWidth');
 		$introHeight = $transition->options->get('introImageHeight');
 
-		/*
-		if (!is_numeric($width))
+		/*if (!is_numeric($width))
 		{
 			return;
 		}*/
@@ -267,32 +285,28 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
 
-		foreach ($pks as $pk)
-		{
-			if ($intro_image_required)
-			{
-				if (($model->getItem($pk)->images['image_intro']))
-				{
-					$image = new Image;
-					$image->loadFile(JPATH_ROOT . "/" . $model->getItem($pk)->images['image_intro']);
-					$newImage = $image->cropResize($introWidth, $introHeight, true);
-					$newImage->toFile(JPATH_ROOT . "/images/" . "intro_image_resized.jpeg", IMAGETYPE_JPEG);
+		foreach ($pks as $pk){
+
+			if($intro_image_required == 1){
+				if(($model->getItem($pk)->images['image_intro'])){
+					$image = new Image();
+					$image->loadFile(JPATH_ROOT."/".$model->getItem($pk)->images['image_intro']);
+					$newImage = $image->cropResize($introWidth,$introHeight,true);
+					$newImage->toFile(JPATH_ROOT."/images/"."intro_image_resized.jpeg",IMAGETYPE_JPEG);
 				}
 			}
-
-			if ($full_article_image_required)
-			{
-				if (($model->getItem($pk)->images["image_fulltext"]))
-				{
-					$image = new Image;
-					$image->loadFile(JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"]);
-					$newImage = $image->cropResize($fullArticleWidth, $fullArticleHeight, true);
-					$newImage->toFile(JPATH_ROOT . "/images/" . "full_article_image_resized.jpeg", IMAIMAGETYPE_JPEG);
+			if($full_article_image_required == 1){
+				if(($model->getItem($pk)->images["image_fulltext"])){
+					$image = new Image();
+					$image->loadFile(JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"]);
+					$newImage = $image->cropResize($fullArticleWidth,$fullArticleHeight,true);
+					$newImage->toFile(JPATH_ROOT."/images/"."full_article_image_resized.jpeg",IMAIMAGETYPE_JPEG);
 				}
 			}
 		}
 
-		// $model->publish($pks);
+
+		//$model->publish($pks);
 	}
 
 	/**
