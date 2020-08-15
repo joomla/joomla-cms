@@ -22,7 +22,7 @@ steps:
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
-      - apk add patch
+      - apt-get install -y patch
       - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
@@ -312,6 +312,6 @@ steps:
 
 ---
 kind: signature
-hmac: b5d935f8dbbe84931a2ba712bb447e4a92eba4e1e4720436d6c02cdc7250c67a
+hmac: 3f17ee002e7749a60fce6d642908aa0d0881b73d469012b145d2ab5c76195917
 
 ...
