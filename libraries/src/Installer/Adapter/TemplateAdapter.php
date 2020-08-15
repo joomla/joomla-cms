@@ -538,7 +538,6 @@ class TemplateAdapter extends InstallerAdapter
 			$this->extension->state = 0;
 			$this->extension->name = $manifest_details['name'];
 			$this->extension->enabled = 1;
-			$this->extension->custom_data = '';
 			$this->extension->params = $this->parent->getParams();
 
 			if (!$this->extension->store())

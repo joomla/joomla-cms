@@ -425,7 +425,6 @@ class FileAdapter extends InstallerAdapter
 
 			// Update the manifest cache for the entry
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
-			$this->extension->custom_data    = '';
 
 			if (!$this->extension->store())
 			{

@@ -562,13 +562,12 @@ class PackageAdapter extends InstallerAdapter
 			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for packages
-			$this->extension->folder      = '';
-			$this->extension->enabled     = 1;
-			$this->extension->protected   = 0;
-			$this->extension->access      = 1;
-			$this->extension->client_id   = 0;
-			$this->extension->custom_data = '';
-			$this->extension->params      = $this->parent->getParams();
+			$this->extension->folder    = '';
+			$this->extension->enabled   = 1;
+			$this->extension->protected = 0;
+			$this->extension->access    = 1;
+			$this->extension->client_id = 0;
+			$this->extension->params    = $this->parent->getParams();
 		}
 
 		// Update the manifest cache for the entry

@@ -568,7 +568,6 @@ class ModuleAdapter extends InstallerAdapter
 			$this->extension->name = $manifest_details['name'];
 			$this->extension->enabled = 1;
 			$this->extension->params = $this->parent->getParams();
-			$this->extension->custom_data    = '';
 
 			if (!$this->extension->store())
 			{
