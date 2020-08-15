@@ -43,18 +43,9 @@ $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($th
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
-	switch( $this->params->get('googleFontName'))
-	{
-	  case "josefin-sans":
-		$wa->useStyle('font.josefin');
-		$this->getPreloadManager()->preload($wa->getAsset('style','font.josefin')->getUri(), ['as' => 'style']);
-		break;
-	
-	  case "montserrat":
-		$wa->useStyle('font.montserrat');
-		$this->getPreloadManager()->preload($wa->getAsset('style','font.montserrat')->getUri(), ['as' => 'style']);
-		break;
-	}
+	// Preload the stylesheet for the font, actually we need to preload the font
+	$googleFontName = 'font.'. $this->params->get('googleFontName');
+	$wa->useStyle($googleFontName);	$this->getPreloadManager()->preload($wa->getAsset('style',$googleFontName)->getUri(), ['as' => 'style']);
 }
 
 // Logo file or site title param
