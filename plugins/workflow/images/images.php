@@ -14,7 +14,6 @@ use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -100,30 +99,6 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		return;
 	}
 
-	/**
-	 * Add different parameter options to the transition view, we need when executing the transition
-	 *
-	 * @param   Form      $form The form
-	 * @param   stdClass  $data The data
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	/*protected function enhanceTransitionForm(Form $form, $data)
-	{
-		$workflow = $this->enhanceWorkflowTransitionForm($form, $data);
-
-		if (!$workflow)
-		{
-			return true;
-		}
-
-		$form->setFieldAttribute('publishing', 'extension', $workflow->extension, 'options');
-
-		return true;
-	}*/
-
 
 
 	/**
@@ -143,12 +118,12 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$pks        = $event->getArgument('pks');
 
 		//get Values from Form
-		$value_intro_image = $transition->options->get('images_intro_image_settings');
-		$value_full_article_image = $transition->options->get('images_full_article_image_settings');
+		$introImageRequired = $transition->options->get('images_intro_image_settings');
+		$fullArticleImageRequired = $transition->options->get('images_full_article_image_settings');
 
 		if (!$this->isSupported($context)
-			||!is_numeric($value_intro_image)
-			||!is_numeric($value_full_article_image))
+			||!is_numeric($introImageRequired)
+			||!is_numeric($fullArticleImageRequired))
 		{
 			return true;
 		}
@@ -171,67 +146,54 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk)
 		{
-			$introImage = $model->getItem($pk)->images["image_intro"];
-			$fullImage = $model->getItem($pk)->images["image_fulltext"];
+			$introImagePath = $model->getItem($pk)->images['image_intro'];
+			$fullImagePath = $model->getItem($pk)->images["image_fulltext"];
 
-			if ($value_intro_image)
+			if ($introImageRequired)
 			{
-				if (!($introImage || !file_exists(JPATH_ROOT . "/" . $introImage)))
+				if (!($introImagePath || !file_exists(JPATH_ROOT . "/" . $introImagePath)))
 				{
-					Factory::getApplication()->enqueueMessage("ERROR: Intro Image required");
+					Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_REQUIRED'));
 					$event->setStopTransition();
 
 					return false;
 				}
 			}
 
-			if ($value_full_article_image)
+			if ($fullArticleImageRequired)
 			{
-				if (!($fullImage || !file_exists(JPATH_ROOT . "/" . $fullImage)))
+				if (!($fullImagePath || !file_exists(JPATH_ROOT . "/" . $fullImagePath)))
 				{
-					Factory::getApplication()->enqueueMessage("ERROR: Full Article Image required");
+					Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_REQUIRED'));
 					$event->setStopTransition();
 
 					return false;
 				}
 			}
-
-			$image = getimagesize($_FILES[$fullImage]['tmp_name']);
-			$image['mime'];
 
 			/*
 				Check if in article selected image is a valid imagefile
 			*/
-			if( !exif_imagetype(JPATH_ROOT . "/" . $introImage)){
-				Factory::getApplication()->enqueueMessage("Intro Image is not of type image.");
+			if( !exif_imagetype(JPATH_ROOT . "/" . $introImagePath)){
+				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_TYPE'));
 				$event->setStopTransition();
 
 				return false;
 			}
 
-			if( !exif_imagetype(JPATH_ROOT . "/" . $fullImage)){
-				Factory::getApplication()->enqueueMessage("Full Article Image is not of type image.");
+			if( !exif_imagetype(JPATH_ROOT . "/" . $fullImagePath)){
+				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_INVALID_TYPE'));
 				$event->setStopTransition();
 
 				return false;
 			}
-			// Check if uploaded file is an image
-			/*if ((exif_imagetype($fullImage) !=false) && (exif_imagetype($introImage)!= false))
-			{
-				if (!$this->isSupported($context)
-					|| !is_numeric($value_intro_image)
-					|| !is_numeric($value_full_article_image))
-				{
-					return true;
-				}
-			}*/
 
 
 		}
 
 		if (!$this->isSupported($context) ||
-			!is_numeric($value_intro_image) ||
-				!is_numeric($value_full_article_image))
+			!is_numeric($introImageRequired) ||
+				!is_numeric($fullArticleImageRequired))
 		{
 			return true;
 		}
@@ -270,11 +232,6 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$introWidth = $transition->options->get('introImageWidth');
 		$introHeight = $transition->options->get('introImageHeight');
 
-		/*if (!is_numeric($width))
-		{
-			return;
-		}*/
-
 		$options = [
 			'ignore_request'            => true,
 			// We already have triggered onContentBeforeChangeState, so use our own
@@ -287,7 +244,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk){
 
-			if($intro_image_required == 1){
+			if($intro_image_required){
 				if(($model->getItem($pk)->images['image_intro'])){
 					$image = new Image();
 					$image->loadFile(JPATH_ROOT."/".$model->getItem($pk)->images['image_intro']);
@@ -295,7 +252,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 					$newImage->toFile(JPATH_ROOT."/images/"."intro_image_resized.jpeg",IMAGETYPE_JPEG);
 				}
 			}
-			if($full_article_image_required == 1){
+			if($full_article_image_required){
 				if(($model->getItem($pk)->images["image_fulltext"])){
 					$image = new Image();
 					$image->loadFile(JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"]);
@@ -306,7 +263,6 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		}
 
 
-		//$model->publish($pks);
 	}
 
 	/**
