@@ -780,26 +780,27 @@ class HtmlDocument extends Document
 		// Try to find a favicon by checking the template and root folder
 		$icon = '/favicon.ico';
 		$foldersToCheck = [
-			JPATH_BASE => JPATH_BASE,
-			JPATH_ROOT => JPATH_ROOT . '/media/templates/' . $client . $template->template,
-			JPATH_BASE => $directory,
+			JPATH_BASE,
+			JPATH_ROOT . '/media/templates/' . $client . $template->template,
+			$directory,
 		];
 
 		foreach ($foldersToCheck as $base => $dir)
 		{
 			if ($template->parent !== ''
+				&& $base === 1
 				&& !file_exists(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon)
 			)
 			{
-				$base = JPATH_ROOT;
 				$dir  = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
 			}
 
 			if (file_exists($dir . $icon))
 			{
-				$path = str_replace($base, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$urlBase = $base === JPATH_ROOT ? Uri::root(true) : Uri::base(true);
+				$urlBase = in_array($base, [0, 2]) ? Uri::root(true) : Uri::base(true);
+				$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
+				$path    = str_replace($base, '', $dir);
+				$path    = str_replace('\\', '/', $path);
 				$this->addFavicon($urlBase . $path . $icon);
 				break;
 			}
