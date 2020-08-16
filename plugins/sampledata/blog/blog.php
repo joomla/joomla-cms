@@ -676,7 +676,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=5',
-				'parent_id'    => $menuIdsLevel2[4],
+				'parent_id'    => $menuIdsLevel2[6],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'menu_show' => 1,
@@ -688,7 +688,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_17_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=6',
-				'parent_id'    => $menuIdsLevel2[4],
+				'parent_id'    => $menuIdsLevel2[6],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'menu_show' => 1,
@@ -768,7 +768,6 @@ class PlgSampledataBlog extends CMSPlugin
 					'endLevel'        => 3,
 					'showAllChildren' => 1,
 					'class_sfx'       => '',
-					'layout'          => '_:default',
 					'cache'           => 1,
 					'cache_time'      => 900,
 					'cachemode'       => 'itemid',
