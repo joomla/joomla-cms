@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fields name="options">
-		<fieldset name="ieifnienfsonfiefns"
+		<fieldset name="images"
 			label="Image Settings"
 		>
 			<field
 				name="images_intro_image_settings"
 				type="list"
-				label="Intro Image required"
-				description="Define, if Intro Image should be required, when executing this transistion"
+				label="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_SETTING_LABEL"
+				description="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_SETTING_DESC"
 				default="0"
 				hide_all="true"
 				>
@@ -19,8 +19,8 @@
 			<field
 				name="images_full_article_image_settings"
 				type="list"
-				label="Full Article Image required"
-				description="Define, if Full Article Image should be required, when executing this transistion"
+				label="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_SETTING_LABEL"
+				description="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_SETTING_DESC"
 				default="0"
 				hide_all="true"
 			>
@@ -31,8 +31,8 @@
 			<field
 				name="introImageHeight"
 				type="number"
-				label="Height"
-				description="Height of cropped Intro Image"
+				label="PLG_WORKFLOW_IMAGES_HEIGHT_LABEL"
+				description="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_HEIGHT_DESC"
 				default=""
 				hide_all="true"
 				step="1"
@@ -42,8 +42,8 @@
 			<field
 				name="fullArticleImageHeight"
 				type="number"
-				label="Height"
-				description="Height of cropped Full Article Image"
+				label="PLG_WORKFLOW_IMAGES_HEIGHT_LABEL"
+				description="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_HEIGHT_DESC"
 				default=""
 				hide_all="true"
 				step="1"
@@ -53,8 +53,8 @@
 			<field
 				name="introImageWidth"
 				type="number"
-				label="Width"
-				description="Width of cropped Intro Image"
+				label="PLG_WORKFLOW_IMAGES_WIDTH_LABEL"
+				description="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_WIDTH_DESC"
 				default=""
 				hide_all="true"
 				step="1"
@@ -64,8 +64,8 @@
 			<field
 				name="fullArticleImageWidth"
 				type="number"
-				label="Height"
-				description="Width of cropped Full Article Image"
+				label="PLG_WORKFLOW_IMAGES_WIDTH_LABEL"
+				description="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_WIDTH_DESC"
 				default=""
 				hide_all="true"
 				step="1"

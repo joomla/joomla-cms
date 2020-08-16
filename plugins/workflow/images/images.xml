@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="workflow" method="upgrade">
-	<name>plg_workflow_image</name>
+	<name>plg_workflow_images</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2020</creationDate>
 	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
@@ -8,14 +8,14 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
-	<description>Set Image Settings</description>
+	<description>PLG_WORKFLOW_IMAGES_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="images">images.php</filename>
 		<folder>forms</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">plg_workflow_publishing.ini</language>
-		<language tag="en-GB">plg_workflow_publishing.sys.ini</language>
+		<language tag="en-GB">plg_workflow_images.ini</language>
+		<language tag="en-GB">plg_workflow_images.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
