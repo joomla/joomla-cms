@@ -14,7 +14,7 @@ INSERT INTO "#__template_styles" ("template", "client_id", "home", "title", "par
 --
 -- Move mod_version to the right position for the atum template
 --
-UPDATE "#__modules" SET "position"='status' WHERE "module"='mod_version' AND "client_id"=1;
+UPDATE "#__modules" SET "position" = 'status' WHERE "module" = 'mod_version' AND "client_id" = 1;
 
 --
 -- Now we can clean up the old templates
