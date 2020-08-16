@@ -527,8 +527,9 @@ class PlgSampledataBlog extends CMSPlugin
 			return $response;
 		}
 
-		// Insert another level 1.
+		// Insert level 1.
 		$menuItems = array(
+			// Author Login
 			array(
 				'menutype'     => $menuTypes[2],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
@@ -564,7 +565,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
 				'link'         => 'index.php?option=com_config&view=config',
-				'parent_id'    => $menuIdsLevel1[4],
+				'parent_id'    => $menuIdsLevel1[0],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
 				'access'       => 6,
 				'params'       => array(
@@ -577,7 +578,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
 				'link'         => 'index.php?option=com_config&view=templates',
-				'parent_id'    => $menuIdsLevel1[4],
+				'parent_id'    => $menuIdsLevel1[0],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -588,7 +589,6 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Category Blog
 				'menutype'     => $menuTypes[0],
-				'layout_type'  => 'metismenu',
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
 				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=8',
 				'parent_id'    => $menuIdsLevel1[0],
@@ -635,15 +635,71 @@ class PlgSampledataBlog extends CMSPlugin
 				'parent_id'    => $menuIdsLevel1[0],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
-					'featured_categories'	=> '',
-					'layout_type'			=> 'blog',
+					'menu_text'         => 1,
+					'show_show'         => 1,
+					'secure'            => 0,
+				),
+			),
+			array(
+				// Articles (menun header)
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
+				'type'         => 'heading',
+				'link'         => '',
+				'parent_id'    => $menuIdsLevel1[0],
+				'component_id' => '',
+				'params'       => array(
+					'menu_text'         => 1,
+					'show_show'         => 1,
+					'secure'            => 0,
 				),
 			),
 		);
 
 		try
 		{
-			$this->addMenuItems($menuItems, 2);
+			$menuIdsLevel2 = $this->addMenuItems($menuItems, 2);
+		}
+		catch (Exception $e)
+		{
+			$response            = array();
+			$response['success'] = false;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
+
+			return $response;
+		}
+
+		// Add a third level of menuItems
+		$menuItems = array(
+			array(
+				// Article1
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
+				'link'         => 'index.php?option=com_content&view=article&id=5',
+				'parent_id'    => $menuIdsLevel2[4],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'menu_show' => 1,
+					'secure'    => 0,
+				),
+			),
+			array(
+				// Article2
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_17_TITLE'),
+				'link'         => 'index.php?option=com_content&view=article&id=6',
+				'parent_id'    => $menuIdsLevel2[4],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'menu_show' => 1,
+					'secure'    => 0,
+				),
+			),
+		);
+
+		try
+		{
+			$this->addMenuItems($menuItems, 3);
 		}
 		catch (Exception $e)
 		{
@@ -707,8 +763,9 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle' => 0,
 				'params'    => array(
 					'menutype'        => $menuTypes[0],
+					'layout'          => 'cassiopeia:metismenu',
 					'startLevel'      => 1,
-					'endLevel'        => 1,
+					'endLevel'        => 3,
 					'showAllChildren' => 1,
 					'class_sfx'       => '',
 					'layout'          => '_:default',
