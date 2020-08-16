@@ -11,9 +11,7 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Fields Section
@@ -62,7 +60,8 @@ class SectionField extends ListField
 	 */
 	protected function getInput()
 	{
-		HTMLHelper::_('script', 'com_fields/admin-field-changecontext.min.js', ['relative' => true, 'version' => 'auto']);
+		Factory::getApplication()->getDocument()->getWebAssetManager()
+			->useScript('com_fields.admin-field-changecontext');
 
 		return parent::getInput();
 	}

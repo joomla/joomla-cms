@@ -80,7 +80,7 @@ class TemplateModel extends FormModel
 	 * @param   string    $name      The file name.
 	 * @param   stdClass  $template  The std class object of template.
 	 *
-	 * @return  object  StdClass object.
+	 * @return  object  stdClass object.
 	 *
 	 * @since   4.0.0
 	 */
@@ -244,12 +244,6 @@ class TemplateModel extends FormModel
 			if (is_dir($path))
 			{
 				$this->prepareCoreFiles($path, $element, $template);
-			}
-			else
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
-
-				return false;
 			}
 		}
 

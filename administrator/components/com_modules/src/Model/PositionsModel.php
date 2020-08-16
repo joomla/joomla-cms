@@ -59,7 +59,7 @@ class PositionsModel extends ListModel
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = 'value', $direction = 'asc')
+	protected function populateState($ordering = 'ordering', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');

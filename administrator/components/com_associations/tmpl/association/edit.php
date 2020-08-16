@@ -16,14 +16,11 @@ use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
 
 /** @var HtmlView $this */
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('jquery.framework');
-
-HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
-
-$this->document->getWebAssetManager()
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->usePreset('com_associations.sidebyside')
 	->useScript('webcomponent.core-loader');
 
 $options = [

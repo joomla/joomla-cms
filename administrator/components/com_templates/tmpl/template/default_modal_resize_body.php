@@ -22,7 +22,7 @@ use Joomla\CMS\Language\Text;
 					</label>
 				</div>
 				<div class="controls">
-					<input class="form-control" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required>
+					<input class="form-control" type="number" name="height" id="height" placeholder="<?php echo $this->image['height']; ?> px" required>
 				</div>
 			</div>
 			<div class="control-group">
@@ -32,7 +32,7 @@ use Joomla\CMS\Language\Text;
 					</label>
 				</div>
 				<div class="controls">
-					<input class="form-control" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required>
+					<input class="form-control" type="number" name="width" id="width" placeholder="<?php echo $this->image['width']; ?> px" required>
 				</div>
 			</div>
 		</div>

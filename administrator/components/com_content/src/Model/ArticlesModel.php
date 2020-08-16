@@ -14,13 +14,13 @@ namespace Joomla\Component\Content\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -261,6 +261,11 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.introtext'),
 					$db->quoteName('a.fulltext'),
 					$db->quoteName('a.note'),
+					$db->quoteName('a.images'),
+					$db->quoteName('a.metakey'),
+					$db->quoteName('a.metadesc'),
+					$db->quoteName('a.metadata'),
+					$db->quoteName('a.version'),
 				]
 			)
 		)
@@ -396,7 +401,7 @@ class ArticlesModel extends ListModel
 
 		// Filter by categories and by level
 		$categoryId = $this->getState('filter.category_id', array());
-		$level = $this->getState('filter.level');
+		$level      = (int) $this->getState('filter.level');
 
 		if (!is_array($categoryId))
 		{
@@ -415,16 +420,23 @@ class ArticlesModel extends ListModel
 				$categoryTable->load($filter_catid);
 				$categoryWhere = '';
 
+				// Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
+				$valuesToBind = [$categoryTable->lft, $categoryTable->rgt];
+
 				if ($level)
 				{
-					$categoryLevel = (int) $level + (int) $categoryTable->level - 1;
-					$categoryWhere = $db->quoteName('c.level') . ' <= :level' . $key . ' AND ';
-					$query->bind(':level' . $key, $categoryLevel, ParameterType::INTEGER);
+					$valuesToBind[] = $level + $categoryTable->level - 1;
 				}
 
-				$categoryWhere .= $db->quoteName('c.lft') . ' >= :lft' . $key . ' AND ' . $db->quoteName('c.rgt') . ' <= :rgt' . $key;
-				$query->bind(':lft' . $key, $categoryTable->lft, ParameterType::INTEGER)
-					->bind(':rgt' . $key, $categoryTable->rgt, ParameterType::INTEGER);
+				// Bind values and get parameter names.
+				$bounded = $query->bindArray($valuesToBind);
+
+				$categoryWhere = $db->quoteName('c.lft') . ' >= ' . $bounded[0] . ' AND ' . $db->quoteName('c.rgt') . ' <= ' . $bounded[1];
+
+				if ($level)
+				{
+					$categoryWhere .= ' AND ' . $db->quoteName('c.level') . ' <= ' . $bounded[2];
+				}
 
 				$subCatItemsWhere[] = '(' . $categoryWhere . ')';
 			}
@@ -554,7 +566,7 @@ class ArticlesModel extends ListModel
 		}
 		else
 		{
-			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
+			$ordering = $db->escape($orderCol) . ' ' . $db->escape($orderDirn);
 		}
 
 		$query->order($ordering);
@@ -686,6 +698,12 @@ class ArticlesModel extends ListModel
 		foreach ($items as $item)
 		{
 			$item->typeAlias = 'com_content.article';
+
+			if (isset($item->metadata))
+			{
+				$registry = new Registry($item->metadata);
+				$item->metadata = $registry->toArray();
+			}
 		}
 
 		return $items;

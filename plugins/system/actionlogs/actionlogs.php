@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -18,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -92,6 +92,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		$allowedFormNames = [
 			'com_users.profile',
 			'com_users.user',
+			'com_admin.profile',
 		];
 
 		if (!in_array($formName, $allowedFormNames, true))
@@ -196,7 +197,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			return true;
 		}
 
-		$data->actionlogs                       = new StdClass;
+		$data->actionlogs                       = new stdClass;
 		$data->actionlogs->actionlogsNotify     = $values->notify;
 		$data->actionlogs->actionlogsExtensions = $values->extensions;
 
@@ -275,7 +276,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -334,8 +335,6 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $clientId)
@@ -345,7 +344,7 @@ class PlgSystemActionLogs extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
 					];
 
 					$cache = Cache::getInstance('callback', $options);

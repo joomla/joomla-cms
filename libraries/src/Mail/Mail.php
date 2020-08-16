@@ -197,7 +197,7 @@ class Mail extends PHPMailer
 	{
 		if (\is_array($from))
 		{
-			// If $from is an array we assume it has an adress and a name
+			// If $from is an array we assume it has an address and a name
 			if (isset($from[2]))
 			{
 				// If it is an array with entries, use them
@@ -414,7 +414,7 @@ class Mail extends PHPMailer
 	 *
 	 * @since   3.0.1
 	 * @throws  \InvalidArgumentException  if the argument array counts do not match
-	 * @throws  phpmailerException 			if setting the attatchment failed and exception throwing is enabled
+	 * @throws  phpmailerException 			if setting the attachment failed and exception throwing is enabled
 	 */
 	public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
 	{

@@ -21,8 +21,13 @@ $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
 $lang          = Factory::getLanguage();
 $branchFilter  = $this->escape($this->state->get('filter.branch'));
+
 Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' => true]);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_finder.maps');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -67,7 +72,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 							</th>
 							<?php if (Multilanguage::isEnabled()) : ?>
 								<th scope="col" class="w-10 nowrap d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 						</tr>
@@ -77,7 +82,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 						<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
-								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 							</td>
 							<td class="text-center">
 								<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'maps.', $canChange, 'cb'); ?>
@@ -95,9 +100,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 								}
 								?>
 								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1); ?>
-								<label for="cb<?php echo $i; ?>" style="display:inline-block;">
-									<?php echo $this->escape($title); ?>
-								</label>
+								<?php echo $this->escape($title); ?>
 								<?php if ($this->escape(trim($title, '**')) === 'Language' && Multilanguage::isEnabled()) : ?>
 								<div class="small">
 									<strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>

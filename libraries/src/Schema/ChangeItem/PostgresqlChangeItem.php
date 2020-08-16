@@ -145,6 +145,11 @@ class PostgresqlChangeItem extends ChangeItem
 						$datatype = $type;
 					}
 
+					if ($datatype === 'varchar')
+					{
+						$datatype = 'character varying';
+					}
+
 					$result = 'SELECT column_name, data_type '
 						. 'FROM information_schema.columns WHERE table_name='
 						. $this->fixQuote($wordArray[2]) . ' AND column_name='

@@ -6,6 +6,7 @@
   padding: 10px 20px;
 
   .btn-toolbar {
+    justify-content: flex-end;
 
     > * {
       margin: 4px 0;
@@ -20,8 +21,8 @@
 
 .js-stools-container-filters {
   display: none;
-  margin-bottom: 20px;
   padding: 0 20px;
+  margin-bottom: 20px;
 
   &-visible {
     display: flex;

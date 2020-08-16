@@ -24,8 +24,9 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_menus.admin-items-modal');
 
 $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');
@@ -42,9 +43,8 @@ if (!empty($editor))
 }
 ?>
 <div class="container-popup">
-	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
-
-		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">

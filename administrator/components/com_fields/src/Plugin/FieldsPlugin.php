@@ -150,7 +150,7 @@ abstract class FieldsPlugin extends CMSPlugin
 
 		if (!file_exists($path))
 		{
-			$path = JPluginHelper::getLayoutPath('fields', $this->_name, $field->type);
+			$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
 		}
 
 		// Render the layout

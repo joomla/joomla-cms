@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
-extract($displayData, null);
+extract($displayData);
 
 /**
  * Layout variables
@@ -81,15 +81,13 @@ $attr .= $dataAttribute;
 		}
 
 		// Initialize some option attributes.
-		$checked    = (string) $option->value == $value ? 'checked class="active"' : '';
-		$disable    = (string) $option->value != $value && $readonly || $disabled ? 'disabled' : '';
-		$oid        = $id . $i;
-		$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes = array_filter([$checked, $disable]);
-		$text       = $options[$i]->text;
+		$optionValue = (string) $option->value;
+		$optionId    = $id . $i;
+		$attributes  = $optionValue == $value ? 'checked class="active"' : '';
+		$attributes  .= $optionValue != $value && $readonly || $disabled ? ' disabled' : '';
 		?>
-		<?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-		<?php echo '<label for="' . $oid . '">' . $text . '</label>'; ?>
+		<?php echo sprintf($input, $optionId, $name, $this->escape($optionValue), $attributes); ?>
+		<?php echo '<label for="' . $optionId . '">' . $option->text . '</label>'; ?>
 	<?php endforeach; ?>
 	<span class="toggle-outside"><span class="toggle-inside"></span></span>
 	</div>

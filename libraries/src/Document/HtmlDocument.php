@@ -15,7 +15,6 @@ use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
 use Joomla\CMS\WebAsset\WebAssetManager;
@@ -807,13 +806,23 @@ class HtmlDocument extends Document
 		$filter = InputFilter::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
+		$inherits = $params['templateInherits'] ?? '';
+		$baseDir = $directory . '/' . $template;
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
+		if (!empty($inherits)
+			&& !file_exists($directory . '/' . $template . '/' . $file)
+			&& file_exists($directory . '/' . $inherits . '/' . $file)
+		)
+		{
+			$baseDir = $directory . '/' . $inherits;
+		}
+
+		if (!file_exists($baseDir . '/' . $file))
 		{
 			$template = 'system';
 		}
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
+		if (!file_exists($baseDir . '/' . $file))
 		{
 			$file = 'index.php';
 		}
@@ -823,15 +832,16 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE)
+			|| $lang->load('tpl_' . $inherits, $directory . '/' . $inherits)
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables
-		$this->template = $template;
 		$this->baseurl = Uri::base(true);
 		$this->params = $params['params'] ?? new Registry;
+		$this->template = $template;
 
 		// Load
-		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
+		$this->_template = $this->_loadTemplate($baseDir, $file);
 
 		return $this;
 	}

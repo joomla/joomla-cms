@@ -12,7 +12,7 @@ namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 \defined('_JEXEC') or die;
 
 use Exception;
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -83,7 +83,7 @@ class HtmlView extends BaseHtmlView
 		// Access check.
 		if (!Factory::getUser()->authorise('core.admin'))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		/** @var SysinfoModel $model */
@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar(): void
 	{
-		ToolbarHelper::title(Text::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-2 systeminfo');
+		ToolbarHelper::title(Text::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info-circle systeminfo');
 		ToolbarHelper::link(
 			Route::_('index.php?option=com_admin&view=sysinfo&format=text'),
 			'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_TEXT',

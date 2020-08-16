@@ -14,7 +14,6 @@ namespace Joomla\Component\Contact\Site\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
-use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 /**
  * Contact Component Association Helper

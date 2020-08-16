@@ -23,7 +23,7 @@ class ReporterHelper
 	/**
 	 * Gets the httpheaders system plugin extension id.
 	 *
-	 * @return  integer  The httpheaders system plugin extension id.
+	 * @return  mixed  The httpheaders system plugin extension id or false in case of an error.
 	 *
 	 * @since   4.0.0
 	 */
@@ -44,6 +44,8 @@ class ReporterHelper
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
 		return $result;
@@ -72,6 +74,70 @@ class ReporterHelper
 		catch (\RuntimeException $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		return boolval($result);
+	}
+
+	/**
+	 * Check whether there are unsafe-inline rules published
+	 *
+	 * @return  boolean  Whether there are unsafe-inline rules published
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getCspUnsafeInlineStatus()
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->quoteName('#__csp'))
+			->where($db->quoteName('blocked_uri') . ' = ' . $db->quote("'unsafe-inline'"))
+			->where($db->quoteName('published') . ' = 1');
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		return boolval($result);
+	}
+
+	/**
+	 * Check whether there are unsafe-eval rules published
+	 *
+	 * @return  boolean  Whether there are unsafe-eval rules published
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getCspUnsafeEvalStatus()
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->quoteName('#__csp'))
+			->where($db->quoteName('blocked_uri') . ' = ' . $db->quote("'unsafe-eval'"))
+			->where($db->quoteName('published') . ' = 1');
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
 		return boolval($result);

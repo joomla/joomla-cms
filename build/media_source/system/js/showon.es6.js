@@ -98,6 +98,7 @@
               // Setup listeners
               elem.addEventListener('change', () => { self.linkedOptions(key); });
               elem.addEventListener('keyup', () => { self.linkedOptions(key); });
+              elem.addEventListener('click', () => { self.linkedOptions(key); });
             });
           }
         });
@@ -127,7 +128,6 @@
             }
 
             const originId = originField.id;
-
 
             // If checkbox or radio box the value is read from properties
             if (originField.getAttribute('type') && ['checkbox', 'radio'].indexOf(originField.getAttribute('type').toLowerCase()) !== -1) {
@@ -219,16 +219,13 @@
     // Check is it subform, then wee need to fix some "showon" config
     if (target.classList.contains('subform-repeatable-group')) {
       const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
-      const baseName = target.getAttribute('data-baseName');
-      const group = target.getAttribute('data-group');
-      const search = new RegExp(`\\[${baseName}\\]\\[${baseName}X\\]`, 'g');
-      const replace = `[${baseName}][${group}]`;
+      const search = new RegExp(`\\[${target.dataset.baseName}X\\]`, 'g');
+      const replace = `[${target.dataset.group}]`;
 
       // Fix showon field names in a current group
       elements.forEach((element) => {
-        const showon = element.getAttribute('data-showon').replace(search, replace);
-
-        element.setAttribute('data-showon', showon);
+        const showon = element.dataset.showon.replace(search, replace);
+        element.dataset.showon = showon;
       });
     }
 

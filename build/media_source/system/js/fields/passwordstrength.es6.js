@@ -31,7 +31,7 @@ class PasswordStrength {
     this.uppercase = parseInt(settings.uppercase, 10) || 0;
     this.numbers = parseInt(settings.numbers, 10) || 0;
     this.special = parseInt(settings.special, 10) || 0;
-    this.length = parseInt(settings.length, 10) || 4;
+    this.length = parseInt(settings.length, 10) || 12;
   }
 
   getScore(value) {
@@ -96,7 +96,7 @@ class PasswordStrength {
       uppercase: minUppercase || 0,
       numbers: minIntegers || 0,
       special: minSymbols || 0,
-      length: minLength || 4,
+      length: minLength || 12,
     });
 
     const score = strength.getScore(element.value);
@@ -181,7 +181,7 @@ class PasswordStrength {
           uppercase: minUppercase || 0,
           numbers: minIntegers || 0,
           special: minSymbols || 0,
-          length: minLength || 4,
+          length: minLength || 12,
         });
 
         const score = strength.getScore(value);

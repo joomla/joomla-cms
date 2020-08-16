@@ -14,15 +14,18 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('bootstrap.tooltip');
 
 // Load user_profile plugin language
 $lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
-HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_users.two-factor-switcher');
+
 ?>
 <div class="com-users-profile__edit profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -82,13 +85,13 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 						</label>
 					</div>
 					<div class="controls">
-						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+						<?php echo HTMLHelper::_('select.genericlist', $this->twofactormethods, 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'custom-select'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 					</div>
 				</div>
 				<div id="com_users_twofactor_forms_container" class="com-users-profile__twofactor-form">
 					<?php foreach ($this->twofactorform as $form) : ?>
-						<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
-						<div id="com_users_twofactor_<?php echo $form['method']; ?>" style="<?php echo $style; ?>">
+						<?php $class = $form['method'] == $this->otpConfig->method ? '' : ' class="hidden"'; ?>
+						<div id="com_users_twofactor_<?php echo $form['method']; ?>"<?php echo $class; ?>>
 							<?php echo $form['form']; ?>
 						</div>
 					<?php endforeach; ?>

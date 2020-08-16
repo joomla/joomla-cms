@@ -13,8 +13,8 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <div class="container-popup">
-	<p class="tab-description"><?php echo Text::sprintf('COM_FINDER_STATISTICS_STATS_DESCRIPTION', number_format($this->data->term_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')), number_format($this->data->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_node_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_branch_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR'))); ?></p>
 	<table class="table table-sm">
+	<caption class="caption-top"><?php echo Text::sprintf('COM_FINDER_STATISTICS_STATS_DESCRIPTION', number_format($this->data->term_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')), number_format($this->data->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_node_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_branch_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR'))); ?></caption>
 		<thead>
 			<tr>
 				<th scope="col">

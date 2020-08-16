@@ -52,7 +52,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOAY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onCustomFieldsBeforePrepareField($context, $item, $field)
 	{
@@ -63,7 +63,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		}
 
 		// Check if the field value is an old (string) value
-		$field->apivalue = $this->checkValue($field->value);
+		$field->value = $this->checkValue($field->value);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 *
 	 * @return  array  The checked value
 	 *
-	 * @since   __DEPLOAY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function checkValue($value)
 	{

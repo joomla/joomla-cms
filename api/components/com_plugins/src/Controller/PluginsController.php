@@ -14,9 +14,8 @@ namespace Joomla\Component\Plugins\Api\Controller;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\String\Inflector;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
+use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**

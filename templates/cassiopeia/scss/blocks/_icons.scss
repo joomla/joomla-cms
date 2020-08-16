@@ -12,16 +12,18 @@
   color: $white-offset;
 }
 
-.icon-publish {
-  color: theme-color("success");
+.icon-publish,
+.fa-check {
+  color: $white-offset;
 
   .dropdown-status-group & {
     color: inherit;
   }
 }
 
-.icon-unpublish {
-  color: theme-color("danger");
+.icon-unpublish,
+.fas.fa-times {
+  color: $white-offset;
 
   .dropdown-status-group & {
     color: inherit;

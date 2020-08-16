@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($canDo->get('core.edit'))
+			if ($canDo->get('core.create'))
 			{
 				ToolbarHelper::apply('stage.apply');
 				$toolbarButtons = [['save', 'stage.save'], ['save2new', 'stage.save2new']];

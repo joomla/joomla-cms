@@ -15,8 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Registry\Registry;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Registry\Registry;
 
 /**
  * HTML View class for the Content component
