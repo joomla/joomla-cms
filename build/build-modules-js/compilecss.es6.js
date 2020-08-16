@@ -44,8 +44,6 @@ module.exports.compile = (options, path) => {
           `${RootPath}/templates/cassiopeia/scss/offline.scss`,
           `${RootPath}/templates/cassiopeia/scss/template.scss`,
           `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
-          `${RootPath}/templates/cassiopeia/scss/fonts/josefin-sans.scss`,
-          `${RootPath}/templates/cassiopeia/scss/fonts/montserrat.scss`,
           `${RootPath}/templates/cassiopeia/scss/system/searchtools/searchtools.scss`,
           `${RootPath}/templates/cassiopeia/scss/vendor/choicesjs/choices.scss`,
           `${RootPath}/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
@@ -64,6 +62,7 @@ module.exports.compile = (options, path) => {
 
         folders = [
           `${RootPath}/build/media_source`,
+          `${RootPath}/templates/cassiopeia/scss/fonts`,
         ];
       }
 
