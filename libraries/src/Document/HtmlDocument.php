@@ -806,7 +806,7 @@ class HtmlDocument extends Document
 		$filter = InputFilter::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
-		$inherits = $params['templateInherits'];
+		$inherits = $params['templateInherits'] ?? '';
 		$baseDir = $directory . '/' . $template;
 
 		if (!empty($inherits)
