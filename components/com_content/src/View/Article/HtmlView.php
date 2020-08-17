@@ -104,11 +104,20 @@ class HtmlView extends BaseHtmlView
 		$model = $this->getModel();
 		$this->item  = $model->getItem();
 
+		//code for setting up the form-model if needed
+	/*	  $this->setModel($app->bootComponent('com_content')
+			->getMVCFactory()->createModel('Form', 'Site', ['ignore_request' => true]));
+		 $formmodel = $this->getModel('form');
+		$formmodel->set('item',$this->item);
+		$this->form2 = $formmodel->getForm();*/
+
+
 		$this->print = $app->input->getBool('print', false);
 		$this->state = $this->get('State');
 		$this->form  = $this->getForm();
 		$this->user  = $user;
 
+		//$this->formmodel  = $this->getModel('form');
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
