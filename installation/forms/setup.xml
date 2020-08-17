@@ -50,6 +50,7 @@
 			name="admin_password"
 			type="password"
 			label="INSTL_ADMIN_PASSWORD_DESC"
+			hint="INSTL_ADMIN_PASSWORD_LENGTH"
 			id="admin_password"
 			class="form-control"
 			required="true"
