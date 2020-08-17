@@ -922,6 +922,9 @@ ENDDATA;
 
 		// Unset the update filename from the session.
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+
+		// Trigger event after joomla update.
+		JFactory::getApplication()->triggerEvent('onJoomlaAfterUpdate');
 	}
 
 	/**
