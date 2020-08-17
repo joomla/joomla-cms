@@ -327,8 +327,10 @@ class SearchHelper
 				{
 					$pos += $iOriSkippedLen - $iModSkippedLen;
 				}
+				
 				$iOriReturnLen = StringHelper::strlen(StringHelper::substr($text, $pos, $chunk_size));
 				$iModReturnLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, $pos, $chunk_size)));
+				
 				if ($iOriReturnLen != $iModReturnLen)
 				{
 					$chunk_size += $iOriReturnLen - $iModReturnLen;
