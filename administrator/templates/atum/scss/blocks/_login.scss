@@ -24,10 +24,10 @@
     align-self: flex-start;
     width: 25rem;
     padding: 15px;
-    margin-top: 10rem;
+    margin-top: 9rem;
     color: var(--atum-text-dark);
     background: var(--white);
-    border-radius: 3px;
+    border-radius: 2px;
     box-shadow: 0 0 10px 0 #ccc;
 
     @include media-breakpoint-down(md) {
@@ -238,3 +238,8 @@ label {
     display: block;
   }
 }
+
+.login_message {
+  margin: 1rem 1rem 0 1rem;
+}
+
