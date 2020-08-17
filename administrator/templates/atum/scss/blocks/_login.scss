@@ -27,11 +27,11 @@
     margin-top: 9rem;
     color: var(--atum-text-dark);
     background: var(--white);
-    border-radius: 2px;
+    border-radius: 3px;
     box-shadow: 0 0 10px 0 #ccc;
 
     @include media-breakpoint-down(md) {
-      margin-top: 3rem;
+      margin-top: 2rem;
     }
 
     img {
