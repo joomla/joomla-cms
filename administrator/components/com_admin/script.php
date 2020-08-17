@@ -2033,6 +2033,9 @@ class JoomlaInstallerScript
 
 			// Joomla! 3.9.17
 			'/administrator/components/com_templates/controllers/template.php.orig',
+
+			// Joomla! 3.9.21
+			'/.github/SECURITY.md',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
