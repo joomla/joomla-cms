@@ -335,7 +335,9 @@ class SearchHelper
 				}
 			}
 			
-			return (($pos > 0) ? '...&#160;' : '') . StringHelper::substr($text, $pos, $chunk_size) . ($pos + $chunk_size >= StringHelper::strlen($text) ? '' : '&#160;...');
+			$sPre = $pos > 0 ? '...&#160;' : '';
+			$sPost = ($pos + $chunk_size) >= StringHelper::strlen($text) ? '' : '&#160;...';
+			return $sPre . StringHelper::substr($text, $pos, $chunk_size) . $sPost;
 		}
 		else
 		{
