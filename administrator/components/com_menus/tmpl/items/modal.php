@@ -76,7 +76,7 @@ if (!empty($editor))
 						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($multilang) : ?>
+						<?php if ($this->state->get('filter.client_id') == 0 && $multilang) : ?>
 							<th scope="col" class="w-15 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 							</th>
@@ -113,7 +113,7 @@ if (!empty($editor))
 							<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 							<?php echo $prefix; ?>
 							<?php if (!$uselessMenuItem) : ?>
-								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>"  data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
+								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
 									<?php echo $this->escape($item->title); ?>
 								</a>
 							<?php else : ?>
@@ -158,7 +158,7 @@ if (!empty($editor))
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<?php if ($multilang) : ?>
+						<?php if ($this->state->get('filter.client_id') == 0 && $multilang) : ?>
 							<td class="small d-none d-md-table-cell">
 								<?php if ($item->language == '') : ?>
 									<?php echo Text::_('JDEFAULT'); ?>
