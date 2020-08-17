@@ -76,7 +76,7 @@ if (!empty($editor))
 						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($this->state->get('filter.client_id') == 0 && $multilang) : ?>
+						<?php if ($multilang) : ?>
 							<th scope="col" class="w-15 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 							</th>
@@ -158,7 +158,7 @@ if (!empty($editor))
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<?php if ($this->state->get('filter.client_id') == 0 && $multilang) : ?>
+						<?php if ($multilang) : ?>
 							<td class="small d-none d-md-table-cell">
 								<?php if ($item->language == '') : ?>
 									<?php echo Text::_('JDEFAULT'); ?>
