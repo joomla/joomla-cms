@@ -65,9 +65,12 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 		<?php if ($params->get('show_title')) : ?>
 			<div class="page-header">
-				<h2 itemprop="headline" class="editable" ">
+				<h2 id="headline" itemprop="headline" class="editable" ">
 				<?php echo $this->escape($this->item->title); ?>
 				</h2>
+				<?php echo $this->form->renderField('catid'); ?>
+				<?php new \Joomla\CMS\Form\Field\EditorField('test'); ?>
+
 				<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 					<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
@@ -115,12 +118,14 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		endif; ?>
 
 		<!-- form for inline editing needs to be here-->
-	<div itemprop="articleBody" class="editable com-content-article__body" id="test">
+	<div itemprop="articleBody" class="editable com-content-article__body" id="articlebody">
 		<?php echo $this->item->text; ?>
+<?php //echo $this->form->getInput('articletext'); ?>
 
 	</div>
-		<?php echo $this->form->renderField('catid'); ?>
-		<?php echo $this->form->renderField('title'); ?>
+
+
+
 		<input type="hidden" name="task" value="">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
