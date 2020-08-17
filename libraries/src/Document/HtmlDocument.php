@@ -797,7 +797,7 @@ class HtmlDocument extends Document
 
 			if (file_exists($dir . $icon))
 			{
-				$urlBase = in_array($base, [0, 2]) ? Uri::root(true) : Uri::base(true);
+				$urlBase = in_array($base, [0, 2]) ? Uri::bse(true) : Uri::root(true);
 				$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
 				$path    = str_replace($base, '', $dir);
 				$path    = str_replace('\\', '/', $path);
