@@ -674,7 +674,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Article1
 				'menutype'     => $menuTypes[0],
-				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_17_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=5',
 				'parent_id'    => $menuIdsLevel2[6],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -686,7 +686,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Article2
 				'menutype'     => $menuTypes[0],
-				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_17_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_18_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=6',
 				'parent_id'    => $menuIdsLevel2[6],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
