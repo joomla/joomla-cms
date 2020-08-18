@@ -108,6 +108,9 @@ class MessagesModel extends BaseDatabaseModel
 		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
 		$published = (int) $this->getState('published', 1);
 
+		// Build a cache ID for the resulting data object
+		$cacheId = $eid . '.' . $published;
+
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select(
