@@ -72,7 +72,7 @@
     flex-grow: 0;
   }
 
-  .mod-menu li {
+  .mod-menu > li {
     position: relative;
     display: inline-block;
     margin-right: 20px;
@@ -106,7 +106,7 @@
       background: $white;
     }
 
-    a {
+    > a {
       position: relative;
       display: block;
       padding: .25rem 0 0;

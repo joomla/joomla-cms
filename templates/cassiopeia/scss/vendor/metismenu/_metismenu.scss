@@ -1,72 +1,112 @@
-@if $metismenu == true {
+@if $metismenu==true {
   .metismenu {
     display: flex;
     flex-direction: column;
 
-    @media (min-width: 992px) {
-      flex-direction: row;
-    }
-
     > li {
-      flex: 1 1 0%;
       display: flex;
       flex-direction: column;
       position: relative;
+    }
 
-      @media (min-width: 992px) {
-        flex-direction: column;
+    ul {
+      background: white;
+      list-style: none;
+      padding-left: 0;
 
-        > ul {
-          position: absolute;
-          top: 100%;
-          min-width: 100%;
-          z-index: 1001;
-          background-color: #f8f9fa;
-          color: #333333;
+      a {
+        position: relative;
+        display: block;
+        color: #555;
+        letter-spacing: 0;
+        padding: 8px 40px 8px 15px;
+        transition: all 0.3s ease-out;
+        white-space: nowrap;
+
+        &:hover,
+        &:focus,
+        &:active {
+          color: black;
+          text-decoration: none;
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+
+      ul {
+        a {
+          padding-left: 25px;
+        }
+
+        ul {
+          a {
+            opacity: 0.75;
+            font-size: 0.9em;
+          }
         }
       }
     }
 
-    a {
+    .mm-collapsing {
       position: relative;
-      display: block;
-      padding: 15px;
-      color: #adb5bd;
-      outline-width: 0;
-      transition: all .3s ease-out;
-
-      &:hover,
-      &:focus,
-      &:active {
-        color: #f8f9fa;
-        text-decoration: none;
-        background: #0b7285;
-      }
+      height: 0;
+      overflow: hidden;
+      transition-timing-function: ease;
+      transition-duration: 0.35s;
+      transition-property: height, visibility;
     }
 
     .mm-collapse:not(.mm-show) {
       display: none;
     }
 
-    .has-arrow::after {
-      position: absolute;
-      content: "";
-      width: 0.5em;
-      height: 0.5em;
-      border-width: 1px 0 0 1px;
-      border-style: solid;
-      border-color: currentColor;
-      border-color: initial;
-      right: 1em;
-      transform: rotate(-45deg) translate(0, -50%);
-      transform-origin: top;
-      top: 50%;
-      transition: all 0.3s ease-out;
+    .has-arrow {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        content: "";
+        width: 0.5em;
+        height: 0.5em;
+        border-width: 0 1px 1px 0;
+        border-style: solid;
+        border-color: initial;
+        right: 1em;
+        transform: rotate(-45deg) translate(0, -50%);
+        transform-origin: top;
+        top: 50%;
+        transition: all 0.3s ease-out;
+      }
     }
 
     .mm-active > .has-arrow::after,
     .has-arrow[aria-expanded="true"]::after {
-      transform: rotate(-135deg) translate(0, -50%);
+      transform: rotate(45deg) translate(0, -50%);
+    }
+
+    @media (min-width: 992px) {
+      flex-direction: row;
+
+      > li {
+        flex-direction: column;
+
+        > a.has-arrow {
+          padding-right: 1em;
+
+          &:after {
+            right: 0;
+          }
+        }
+
+        > ul,
+        > .mm-collapsing {
+          position: absolute;
+          top: 100%;
+          margin-top: 5px;
+          min-width: 180px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          z-index: 1001;
+        }
+      }
     }
   }
 }
