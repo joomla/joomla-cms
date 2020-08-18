@@ -264,6 +264,7 @@ class ApiController extends BaseController
 	{
 		$adapter = $this->getAdapter();
 		$path    = $this->getPath();
+		$model   = $this->getModel();
 
 		$content      = $this->input->json;
 		$name         = basename($path);
@@ -280,7 +281,7 @@ class ApiController extends BaseController
 
 			if ($content->get('isCopy'))
 			{
-				$name = $this->generateNewName($name, $path);
+				$name = $this->generateNewName($name, $path, $model, $adapter);
 				$path = dirname($path) . '/' . $name;
 				$this->getModel()->createFile($adapter, $name, str_replace($name, '', $path), $mediaContent, false);
 			}
@@ -314,24 +315,35 @@ class ApiController extends BaseController
 	/**
 	 * Method to change the name of an image
 	 *
-	 * @param   string   $name      The current name.
-	 * @param   string   $path      The path.
+	 * @param   string $name The current name.
+	 * @param   string $path The path.
 	 *
+	 * @param   mixed $model The model
+	 * @param   string $adapter The adapter
 	 * @return  string    Contains the modified name.
 	 *
 	 * @since   4.0
 	 */
-	protected function generateNewName($name, $path)
+	protected function generateNewName($name, $path, $model, $adapter)
 	{
 		$extension = File::getExt($name);
 
-		while (is_file(Path::check(JPATH_ROOT . '/images/' . dirname($path) . '/' . $name)))
+		try
 		{
-			$base = File::stripExt($name);
-			$name = StringHelper::increment($base, 'dash') . '.' . $extension;
+			while ($model->getFile($adapter, $path))
+			{
+				$base = File::stripExt($name);
+				$name = StringHelper::increment($base, 'dash') . '.' . $extension;
+				$path = dirname($path) . '/' . $name;
+			}
+		}
+		catch (FileNotFoundException $e)
+		{
+			return $name;
 		}
 
 		return $name;
+
 	}
 
 	/**

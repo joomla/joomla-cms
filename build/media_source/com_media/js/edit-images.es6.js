@@ -239,6 +239,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
             Joomla.renderMessages({ success: [resp.message] }, 'true');
             Joomla.MediaManager.Edit.removeProgressBar();
           }
+        } else {
+          Joomla.renderMessages({
+            error: [Joomla.JText._('JLIB_APPLICATION_ERROR_SAVE_FAILED_FILE')],
+          });
         }
       } else {
         Joomla.MediaManager.Edit.removeProgressBar();
@@ -246,6 +250,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     };
 
     xhr.onerror = () => {
+      console.log(xhr);
       Joomla.renderMessages({
         error: [Joomla.JText._('JLIB_APPLICATION_ERROR_SAVE_FAILED_FILE')],
       });
