@@ -1058,7 +1058,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		$context = $this->app->input->get('option');
 		$user    = JFactory::getUser();
 		$message = array(
-			'action'      => 'cache',
+			'action'      => 'joomlaupdate',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user->id,
 			'title'       => $user->username,
