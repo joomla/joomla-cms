@@ -102,10 +102,14 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItems()
 	{
-		$db = $this->getDbo();
+		$app      = Factory::getApplication();
 
+		// Add a forced extension filtering to the list
+		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
+		$published = (int) $this->getState('published', 1);
+
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
-
 		$query->select(
 			[
 				$db->quoteName('postinstall_message_id'),
@@ -125,20 +129,31 @@ class MessagesModel extends BaseDatabaseModel
 			]
 		)
 			->from($db->quoteName('#__postinstall_messages'));
-
-		// Add a forced extension filtering to the list
-		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
 		$query->where($db->quoteName('extension_id') . ' = :eid')
 			->bind(':eid', $eid, ParameterType::INTEGER);
 
 		// Force filter only enabled messages
-		$published = (int) $this->getState('published', 1);
 		$query->where($db->quoteName('enabled') . ' = :published')
 			->bind(':published', $published, ParameterType::INTEGER);
-
 		$db->setQuery($query);
 
-		$result = $db->loadObjectList();
+		try
+		{
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+
+			$result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
+		}
+		catch (\RuntimeException $e)
+		{
+			$app->getLogger()->warning(
+				Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+				array('category' => 'jerror')
+			);
+
+			return array();
+		}
 
 		$this->onProcessList($result);
 
