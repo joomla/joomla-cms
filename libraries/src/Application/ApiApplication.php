@@ -192,7 +192,7 @@ final class ApiApplication extends CMSApplication
 			$template->template = 'system';
 			$template->params = new Registry;
 			$template->inheritable = 0;
-			$template->parent = null;
+			$template->parent = '';
 
 			return $template;
 		}
