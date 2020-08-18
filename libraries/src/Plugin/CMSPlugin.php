@@ -284,7 +284,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 				$result = $this->{$methodName}(...$arguments);
 
-				// Ignroe null results
+				// Ignore null results
 				if ($result === null)
 				{
 					return;
