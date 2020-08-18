@@ -284,6 +284,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 				$result = $this->{$methodName}(...$arguments);
 
+				// When result is null, then ignore to be compatible with Joomla 3
+				if ($result === null)
+				{
+					return;
+				}
+
 				// Restore the old results and add the new result from our method call
 				array_push($allResults, $result);
 				$event['result'] = $allResults;
