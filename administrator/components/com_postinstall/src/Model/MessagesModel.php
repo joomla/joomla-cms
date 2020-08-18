@@ -102,7 +102,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItems()
 	{
-		$app      = Factory::getApplication();
+		$app = Factory::getApplication();
 
 		// Add a forced extension filtering to the list
 		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
