@@ -310,7 +310,7 @@ class SearchHelper
 
 		if ($wordfound !== false)
 		{
-			// Check if original text is other length than searched text (changed by self::remove_accents)
+			// Check if original text is different length than searched text (changed by function self::remove_accents)
 			if ($pos == 0) // Displayed text only, adjust $chunk_size
 			{
 				$iOriLen = StringHelper::strlen(StringHelper::substr($text, 0, $pos + $chunk_size));
