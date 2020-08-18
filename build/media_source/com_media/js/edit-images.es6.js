@@ -250,7 +250,6 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     };
 
     xhr.onerror = () => {
-      console.log(xhr);
       Joomla.renderMessages({
         error: [Joomla.JText._('JLIB_APPLICATION_ERROR_SAVE_FAILED_FILE')],
       });
