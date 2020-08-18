@@ -183,7 +183,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				return false;
 			}
 
-			if(preg_match("/\.(?:$allowedExtensions)$/i", $introImagePath)){
+			if(!preg_match("/\.(?:$allowedExtensions)$/i", $introImagePath)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_EXTENSION'));
 				$event->setStopTransition();
 				return false;
@@ -196,7 +196,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				return false;
 			}
 
-			if(preg_match("/\.(?:$allowedExtensions)$/i", $fullArticleImagePath)){
+			if(!preg_match("/\.(?:$allowedExtensions)$/i", $fullArticleImagePath)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_EXTENSION'));
 				$event->setStopTransition();
 				return false;
