@@ -281,7 +281,7 @@ class ApiController extends BaseController
 			if ($content->get('isCopy'))
 			{
 				$name = $this->generateNewName($name, $path);
-				$path = dirname($path) . $name;
+				$path = dirname($path) . '/' . $name;
 				$this->getModel()->createFile($adapter, $name, str_replace($name, '', $path), $mediaContent, false);
 			}
 			else
@@ -325,7 +325,7 @@ class ApiController extends BaseController
 	{
 		$extension = File::getExt($name);
 
-		while (is_file(Path::check(JPATH_ROOT . '/images/' . dirname($path) . $name)))
+		while (is_file(Path::check(JPATH_ROOT . '/images/' . dirname($path) . '/' . $name)))
 		{
 			$base = File::stripExt($name);
 			$name = StringHelper::increment($base, 'dash') . '.' . $extension;

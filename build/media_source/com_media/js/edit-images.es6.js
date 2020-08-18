@@ -246,7 +246,9 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     };
 
     xhr.onerror = () => {
-      // TODO render error message
+      Joomla.renderMessages({
+        error: [Joomla.JText._('JLIB_APPLICATION_ERROR_SAVE_FAILED_FILE')],
+      });
       Joomla.MediaManager.Edit.removeProgressBar();
     };
 

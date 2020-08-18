@@ -67,9 +67,8 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar($name)
 	{
 		Text::script('JLIB_APPLICATION_SAVE_SUCCESS');
-		Text::script('JLIB_APPLICATION_ERROR_SAVE_FAILED');
+		Text::script('JLIB_APPLICATION_ERROR_SAVE_FAILED_FILE');
 		ToolbarHelper::title(Text::_('COM_MEDIA_EDIT') . ' - ' . $name, 'images mediamanager');
-
 		ToolbarHelper::apply('apply');
 		$toolbarButtons = [['save', 'save'], ['save2copy', 'save2copy']];
 		ToolbarHelper::saveGroup(
