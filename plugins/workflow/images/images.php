@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Factory;
@@ -100,14 +99,19 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	}
 
 
-
 	/**
 	 * Check if we can execute the transition
 	 *
-	 * @param   WorkflowTransitionEvent  $event
+	 * @param WorkflowTransitionEvent $event
 	 *
 	 * @return boolean
 	 *
+	 * @throws Exception
+	 * @throws Exception
+	 * @throws Exception
+	 * @throws Exception
+	 * @throws Exception
+	 * @throws Exception
 	 * @since   4.0.0
 	 */
 	public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event)
@@ -120,6 +124,8 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		//get Values from Form
 		$introImageRequired = $transition->options->get('images_intro_image_settings');
 		$fullArticleImageRequired = $transition->options->get('images_full_article_image_settings');
+		$allowedExtensions = str_replace(',','|',$transition->options->get('fileExtensions'));
+
 
 		if (!$this->isSupported($context)
 			||!is_numeric($introImageRequired)
@@ -146,12 +152,12 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk)
 		{
-			$introImagePath = $model->getItem($pk)->images['image_intro'];
-			$fullImagePath = $model->getItem($pk)->images["image_fulltext"];
+			$introImagePath = JPATH_ROOT . "/" . $model->getItem($pk)->images['image_intro'];
+			$fullArticleImagePath = JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"];
 
 			if ($introImageRequired)
 			{
-				if (!($introImagePath || !file_exists(JPATH_ROOT . "/" . $introImagePath)))
+				if (!($introImagePath || !file_exists($introImagePath)))
 				{
 					Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_REQUIRED'));
 					$event->setStopTransition();
@@ -162,7 +168,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 			if ($fullArticleImageRequired)
 			{
-				if (!($fullImagePath || !file_exists(JPATH_ROOT . "/" . $fullImagePath)))
+				if (!($fullArticleImagePath || !file_exists($fullArticleImagePath)))
 				{
 					Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_REQUIRED'));
 					$event->setStopTransition();
@@ -171,20 +177,28 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				}
 			}
 
-			/*
-				Check if in article selected image is a valid imagefile
-			*/
-			if( !exif_imagetype(JPATH_ROOT . "/" . $introImagePath)){
+			if( !exif_imagetype($introImagePath) || !getimagesize($introImagePath)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_TYPE'));
+				$event->setStopTransition();
+				return false;
+			}
+
+			if(preg_match("/\.(?:$allowedExtensions)$/i", $introImagePath)){
+				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_EXTENSION'));
+				$event->setStopTransition();
+				return false;
+			}
+
+			if( !exif_imagetype($fullArticleImagePath) || !getimagesize($fullArticleImagePath)){
+				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_INVALID_TYPE'));
 				$event->setStopTransition();
 
 				return false;
 			}
 
-			if( !exif_imagetype(JPATH_ROOT . "/" . $fullImagePath)){
-				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_INVALID_TYPE'));
+			if(preg_match("/\.(?:$allowedExtensions)$/i", $fullArticleImagePath)){
+				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_EXTENSION'));
 				$event->setStopTransition();
-
 				return false;
 			}
 
@@ -243,25 +257,33 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
 
 		foreach ($pks as $pk){
-
+			$introImagePath = JPATH_ROOT."/".$model->getItem($pk)->images['image_intro'];
 			if($intro_image_required){
-				if(($model->getItem($pk)->images['image_intro'])){
+				if(!preg_match("/\.(?:'jpg|png|gif')$/i", $introImagePath)){
+					return true;
+				}
+				else if(($model->getItem($pk)->images['image_intro'])){
 					$image = new Image();
-					$image->loadFile(JPATH_ROOT."/".$model->getItem($pk)->images['image_intro']);
+					$image->loadFile($introImagePath);
 					$newImage = $image->cropResize($introWidth,$introHeight,true);
 					$newImage->toFile(JPATH_ROOT."/images/"."intro_image_resized.jpeg",IMAGETYPE_JPEG);
 				}
 			}
+			$fullArticleImagePath = JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"];
 			if($full_article_image_required){
-				if(($model->getItem($pk)->images["image_fulltext"])){
+				if(!preg_match("/\.(?:'jpg|png|gif')$/i", $fullArticleImagePath)){
+					return true;
+				}
+				else if(($model->getItem($pk)->images["image_fulltext"])){
 					$image = new Image();
-					$image->loadFile(JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"]);
+					$image->loadFile($fullArticleImagePath);
 					$newImage = $image->cropResize($fullArticleWidth,$fullArticleHeight,true);
-					$newImage->toFile(JPATH_ROOT."/images/"."full_article_image_resized.jpeg",IMAIMAGETYPE_JPEG);
+					$newImage->toFile(JPATH_ROOT."/images/"."full_article_image_resized.jpeg",IMAGETYPE_JPEG);
 				}
 			}
 		}
 
+		return true;
 
 	}
 

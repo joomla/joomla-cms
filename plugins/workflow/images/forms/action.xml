@@ -29,6 +29,17 @@
 			</field>
 
 			<field
+				name="fileExtensions"
+				type="text"
+				label="Supported Extensions"
+				description="Image extensions, which are allowed on this transition (comma seperated)"
+				default=""
+				hide_all="true"
+				step="1"
+			>
+			</field>
+
+			<field
 				name="introImageHeight"
 				type="number"
 				label="PLG_WORKFLOW_IMAGES_HEIGHT_LABEL"
@@ -71,6 +82,8 @@
 				step="1"
 			>
 			</field>
+
+
 		</fieldset>
 	</fields>
 </form>
