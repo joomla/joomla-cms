@@ -323,7 +323,8 @@ class SearchHelper
 				$iOriSkippedLen = StringHelper::strlen(StringHelper::substr($text, 0, $pos));
 				$iModSkippedLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, 0, $pos)));
 				
-				if ($iOriSkippedLen != $iModSkippedLen) // Adjust starting position $pos
+				// Adjust starting position $pos
+				if ($iOriSkippedLen != $iModSkippedLen)
 				{
 					$pos += $iOriSkippedLen - $iModSkippedLen;
 				}
