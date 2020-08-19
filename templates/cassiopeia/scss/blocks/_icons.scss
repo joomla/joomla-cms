@@ -12,24 +12,6 @@
   color: $white-offset;
 }
 
-.icon-publish,
-.fa-check {
-  color: $white-offset;
-
-  .dropdown-status-group & {
-    color: inherit;
-  }
-}
-
-.icon-unpublish,
-.fas.fa-times {
-  color: $white-offset;
-
-  .dropdown-status-group & {
-    color: inherit;
-  }
-}
-
 .input-group-text {
   &::before {
     min-width: 16px;

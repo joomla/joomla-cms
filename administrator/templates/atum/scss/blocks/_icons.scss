@@ -12,24 +12,6 @@
   color: $white;
 }
 
-.icon-publish,
-.fa-check {
-  color: $whiteoffset;
-
-  .dropdown-status-group & {
-    color: inherit;
-  }
-}
-
-.icon-unpublish,
-.fa-times {
-  color: $whiteoffset;
-
-  .dropdown-status-group & {
-    color: inherit;
-  }
-}
-
 .tbody-icon {
   padding: 0 3px;
   text-align: center;
