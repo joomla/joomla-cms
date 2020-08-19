@@ -14,6 +14,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 $title      = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
 $anchor_css = $item->anchor_css ?: '';
 $linktype   = $item->title;
+$dropdown	= '';
+
+if ($item->parent)
+{
+	$dropdown = 'has-arrow mm-collapsed';
+}
 
 if ($item->menu_image)
 {
@@ -34,4 +40,4 @@ if ($item->menu_image)
 }
 
 ?>
-<a class="has-arrow mm-collapsed <?php echo $anchor_css; ?>" href="#" aria-expanded="false"><?php echo $title; ?><?php echo $linktype; ?></a>
+<a class="mod-menu__separator separator <?php echo $dropdown; ?> <?php echo $anchor_css; ?>" href="#" aria-expanded="false"><?php echo $title; ?><?php echo $linktype; ?></a>

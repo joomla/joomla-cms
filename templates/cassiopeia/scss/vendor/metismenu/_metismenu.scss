@@ -7,6 +7,10 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      
+      &:not(:last-child) {
+        margin-right: 20px;
+      }
     }
 
     ul {
@@ -32,9 +36,13 @@
         }
       }
 
+      li.active a {
+        color: $cassiopeia-template-color-dark;
+      }
+
       ul {
         a {
-          padding-left: 25px;
+          padding-left: 35px;
         }
 
         ul {
