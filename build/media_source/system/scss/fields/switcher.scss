@@ -73,6 +73,7 @@ $switcher-height: 28px;
   width: 58px;
   height: 100%;
   overflow: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
   background: $off-background-colour;
   border: 1px solid rgba(0, 0, 0, .18);
   transition: .2s ease all;
