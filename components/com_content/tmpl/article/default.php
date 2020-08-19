@@ -43,10 +43,11 @@ $this->document->addScriptOptions('original_article_text', $this->item->introtex
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 <div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<?php if ($canEdit) : ?>
-		<script src="https://cdn.tiny.cloud/1/b89j3a5vkfye61z7c68hc33rljvvy5s5hlr9jvjqy671vvbh/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+	<?php if($canEdit): ?>
+	<script type="text/javascript" src="<?php echo Uri::root() . 'media/vendor/tinymce/'; ?>tinymce.js"></script>
 	<?php endif; ?>
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
+
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -68,8 +69,6 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 				<h2 id="headline" itemprop="headline" class="editable" ">
 				<?php echo $this->escape($this->item->title); ?>
 				</h2>
-				<?php echo $this->form->renderField('catid'); ?>
-				<?php new \Joomla\CMS\Form\Field\EditorField('test'); ?>
 
 				<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 					<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
@@ -128,20 +127,18 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 		<input type="hidden" name="task" value="">
 		<?php echo HTMLHelper::_('form.token'); ?>
+		<?php echo $this->form->renderField('catid'); ?>
+
 	</fieldset>
 	<!-- experiment from here -->
-
+<?php if($canEdit): ?>
 	<div class="mb-2">
 			<button type="button" class="btn btn-primary" data-submit-task="article.save">
 				<span class="fas fa-check" aria-hidden="true"></span>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
-			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
-				<span class="fas fa-times" aria-hidden="true"></span>
-				<?php echo Text::_('JCANCEL'); ?>
-			</button>
-
 		</div>
+	<?php endif ?>
 	</form>
 
 <!-- experiment end here-->
