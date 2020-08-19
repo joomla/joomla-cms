@@ -93,7 +93,7 @@ $attributes = array(
 
 ?>
 <?php if (!empty($description)) : ?>
-	<div id="<?php echo $name . '-desc'; ?>" class="text-muted">
+	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
 		<?php echo htmlspecialchars(Text::_($description), ENT_COMPAT, 'UTF-8'); ?>
 	</div>
 <?php endif; ?>
