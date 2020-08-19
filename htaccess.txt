@@ -32,7 +32,9 @@ Options -Indexes
 
 ## Disable inline JavaScript when directly opening SVG files or embedding them with the object-tag
 <FilesMatch "\.svg$">
-	Header always set Content-Security-Policy "script-src 'none'"
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "script-src 'none'"
+  </IfModule>
 </FilesMatch>
 
 ## Mod_rewrite in use.
