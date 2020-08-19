@@ -36,7 +36,7 @@
 	// Register events
 	document.addEventListener('DOMContentLoaded', () => {
     window.tinyMCE.init({
-        selector: '.editable',
+        selector: 'div.editable',
         menubar: false,
         inline: true,
         plugins: [
@@ -52,6 +52,39 @@
         ]
       }
     );
+    window.tinyMCE.init({
+        selector: 'h2.editable',
+        menubar: false,
+        inline: true,
+        plugins: [
+          'link',
+          'lists',
+          'powerpaste',
+          'autolink',
+          'tinymcespellchecker'
+        ],
+        toolbar: [
+          'undo redo'
+        ]
+      }
+    );
+    var el = [].slice.call(document.getElementsByClassName("editable"));
+    el.forEach((field) => {
+      field.addEventListener('mouseenter', () => {
+        addBorder(field);
+        setTimeout(deleteBorder,500,field);
+
+      });
+    })
+    function addBorder(field)  {
+      field.style.border = "1px solid #000000";
+      field.style.borderRadius = "2px";
+    }
+    function deleteBorder(field){
+      field.style.border= "none";
+    }
+
+
 		const buttons = [].slice.call(document.querySelectorAll(`[${buttonDataSelector}]`));
 		buttons.forEach((button) => {
 			button.addEventListener('click', (e) => {

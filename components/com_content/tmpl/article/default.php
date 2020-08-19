@@ -127,7 +127,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 		<input type="hidden" name="task" value="">
 		<?php echo HTMLHelper::_('form.token'); ?>
-		<?php echo $this->form->renderField('catid'); ?>
+		<input type="hidden" name="jform[catid]" id="catidfield" value=<?php echo $this->item->catid?> />
 
 	</fieldset>
 	<!-- experiment from here -->
