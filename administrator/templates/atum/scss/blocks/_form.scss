@@ -159,7 +159,7 @@ legend {
 
 .input-group-append {
   overflow: hidden;
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(#fff, #000);
 
   [dir=ltr] & {
     border-top-right-radius: $border-radius;
