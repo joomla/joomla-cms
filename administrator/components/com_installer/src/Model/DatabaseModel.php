@@ -259,7 +259,7 @@ class DatabaseModel extends InstallerModel
 			$this->fixSchemaVersion($changeSet['changeset'], $changeSet['extension']->extension_id);
 			$this->fixUpdateVersion($changeSet['extension']->extension_id);
 
-			if ($i === 'com_admin')
+			if ($changeSet['extension']->element === 'com_admin')
 			{
 				$installer = new \JoomlaInstallerScript;
 				$installer->deleteUnexistingFiles();

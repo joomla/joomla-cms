@@ -38,6 +38,7 @@
       overflow: hidden;
       font-weight: $font-weight-normal;
       color: var(--atum-text-dark);
+      text-decoration: none;
 
       &::before {
         position: absolute;
