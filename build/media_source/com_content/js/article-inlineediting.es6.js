@@ -75,6 +75,9 @@
         setTimeout(deleteBorder,500,field);
 
       });
+      field.addEventListener('focusout',()=>{
+        submitTask('article.save');
+      })
     })
     function addBorder(field)  {
       field.style.border = "1px solid #000000";
@@ -85,7 +88,7 @@
     }
 
 
-		const buttons = [].slice.call(document.querySelectorAll(`[${buttonDataSelector}]`));
+		/*const buttons = [].slice.call(document.querySelectorAll(`[${buttonDataSelector}]`));
 		buttons.forEach((button) => {
 			button.addEventListener('click', (e) => {
 				e.preventDefault();
@@ -94,7 +97,7 @@
 				}
 			);
 			}
-		);
+		);*/
 		}
 	);
 })(window.tinyMCE,window,document, Joomla.submitform);

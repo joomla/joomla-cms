@@ -58,7 +58,8 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		echo $this->item->pagination;
 	}
 	?>
-<form action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+	<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+	<form target="dummyframe" action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 	<fieldset>
 		<?php // Todo Not that elegant would be nice to group the params ?>
 		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
@@ -131,14 +132,14 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	</fieldset>
 	<!-- experiment from here -->
-<?php if($canEdit): ?>
+<?php /*if($canEdit): */?><!--
 	<div class="mb-2">
 			<button type="button" class="btn btn-primary" data-submit-task="article.save">
 				<span class="fas fa-check" aria-hidden="true"></span>
-				<?php echo Text::_('JSAVE'); ?>
+				<?php /*echo Text::_('JSAVE'); */?>
 			</button>
 		</div>
-	<?php endif ?>
+	--><?php /*endif */?>
 	</form>
 
 <!-- experiment end here-->
