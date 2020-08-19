@@ -2,69 +2,87 @@
 <form>
 	<fields name="options">
 		<fieldset name="images"
-			label="Image Settings"
+				  label="PLG_WORKFLOW_IMAGES_IMAGE_SETTING_LABEL"
 		>
-			<field
-				name="images_intro_image_settings"
-				type="list"
-				label="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_SETTING_LABEL"
-				default="0"
-				hide_all="true"
+
+			<fieldset name="images_image_settings" label="PLG_WORKFLOW_IMAGES_IMAGE_SETTING_LABEL">
+				<field
+					name="images_intro_image_settings"
+					type="list"
+					label="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_SETTING_LABEL"
+					default="0"
+					hide_all="true"
 				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 
-			<field
-				name="images_full_article_image_settings"
-				type="list"
-				label="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_SETTING_LABEL"
-				default="0"
-				hide_all="true"
-			>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
+				<field
+					name="images_full_article_image_settings"
+					type="list"
+					label="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_SETTING_LABEL"
+					default="0"
+					hide_all="true"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 
-			<field
-				name="introImageHeight"
-				type="number"
-				label="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_HEIGHT_LABEL"
-				default=""
-				hide_all="true"
-				step="1"
-			>
-			</field>
+				<field
+					name="fileExtensions"
+					type="text"
+					label="Supported Extensions"
+					description="Image extensions, which are allowed on this transition (comma seperated)"
+					default=""
+					hide_all="true"
+					step="1"
+				>
+				</field>
+			</fieldset>
 
-			<field
-				name="fullArticleImageHeight"
-				type="number"
-				label="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_HEIGHT_LABEL"
-				default=""
-				hide_all="true"
-				step="1"
-			>
-			</field>
 
-			<field
-				name="introImageWidth"
-				type="number"
-				label="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_WIDTH_LABEL"
-				default=""
-				hide_all="true"
-				step="1"
-			>
-			</field>
+			<fieldset name="images_image_size" label="PLG_WORKFLOW_IMAGES_RESIZE_SETTING_LABEL">
+				<field
+					name="introImageHeight"
+					type="number"
+					label="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_HEIGHT_LABEL"
+					default=""
+					hide_all="true"
+					step="1"
+				>
+				</field>
 
-			<field
-				name="fullArticleImageWidth"
-				type="number"
-				label="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_WIDTH_LABEL"
-				default=""
-				hide_all="true"
-				step="1"
-			>
-			</field>
+				<field
+					name="fullArticleImageHeight"
+					type="number"
+					label="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_HEIGHT_LABEL"
+					default=""
+					hide_all="true"
+					step="1"
+				>
+				</field>
+
+				<field
+					name="introImageWidth"
+					type="number"
+					label="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_WIDTH_LABEL"
+					default=""
+					hide_all="true"
+					step="1"
+				>
+				</field>
+
+				<field
+					name="fullArticleImageWidth"
+					type="number"
+					label="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_WIDTH_LABEL"
+					default=""
+					hide_all="true"
+					step="1"
+				>
+				</field>
+
+			</fieldset>
 
 			<field
 				name="fileExtensions"
@@ -77,16 +95,7 @@
 			>
 			</field>
 
-			<field
-				name="fileExtensions"
-				type="text"
-				label="Supported Extensions"
-				description="Image extensions, which are allowed on this transition (comma seperated)"
-				default=""
-				hide_all="true"
-				step="1"
-			>
-			</field>
+
 
 		</fieldset>
 	</fields>
