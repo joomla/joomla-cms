@@ -59,6 +59,7 @@ function twofactorauth_postinstall_action()
 
 	// Clean cache.
 	JFactory::getCache()->clean('com_plugins');
+
 	// Redirect the user to their profile editor page
 	$url = 'index.php?option=com_users&task=user.edit&id=' . JFactory::getUser()->id;
 	JFactory::getApplication()->redirect($url);
