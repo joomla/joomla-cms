@@ -26,6 +26,7 @@ if ($tagId = $params->get('tag_id', ''))
 
 ?>
 <ul<?php echo $id; ?> class="mod-menu mod-menu_metismenu metismenu mod-list <?php echo $class_sfx; ?>">
+
 <?php foreach ($list as $i => &$item)
 {
 	$itemParams = $item->getParams();
@@ -45,7 +46,7 @@ if ($tagId = $params->get('tag_id', ''))
 	{
 		$class .= ' active';
 	}
-	else if ($item->type === 'alias')
+	elseif ($item->type === 'alias')
 	{
 		$aliasToId = $itemParams->get('aliasoptions');
 
@@ -53,7 +54,8 @@ if ($tagId = $params->get('tag_id', ''))
 		{
 			$class .= ' active';
 		}
-		else if (in_array($aliasToId, $path))
+
+		elseif (in_array($aliasToId, $path))
 		{
 			$class .= ' alias-parent-active';
 		}
