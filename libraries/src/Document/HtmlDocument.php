@@ -789,10 +789,9 @@ class HtmlDocument extends Document
 		{
 			if ($template->parent !== ''
 				&& $base === 1
-				&& !file_exists(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon)
-			)
+				&& !file_exists(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
 			{
-				$dir  = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
+				$dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
 			}
 
 			if (file_exists($dir . $icon))
