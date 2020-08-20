@@ -159,6 +159,7 @@ legend {
 
 .input-group-append {
   overflow: hidden;
+  transform: translate3d(0, 0, 0);
 
   [dir=ltr] & {
     border-top-right-radius: $border-radius;
