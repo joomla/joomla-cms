@@ -73,7 +73,7 @@ $switcher-height: 28px;
   width: 58px;
   height: 100%;
   overflow: hidden;
-  mask-image: radial-gradient(#fff, #000);
+  transform: translate3d(0, 0, 0);
   background: $off-background-colour;
   border: 1px solid rgba(0, 0, 0, .18);
   transition: .2s ease all;

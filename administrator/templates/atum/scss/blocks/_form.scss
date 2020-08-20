@@ -159,7 +159,7 @@ legend {
 
 .input-group-append {
   overflow: hidden;
-  mask-image: radial-gradient(#fff, #000);
+  transform: translate3d(0, 0, 0);
 
   [dir=ltr] & {
     border-top-right-radius: $border-radius;
