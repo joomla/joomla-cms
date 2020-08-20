@@ -133,8 +133,8 @@ class PasswordStrength {
       meter.setAttribute('min', 0);
       meter.setAttribute('max', 100);
       meter.setAttribute('low', 40);
-      meter.setAttribute('high', 60);
-      meter.setAttribute('optimum', 80);
+      meter.setAttribute('high', 99);
+      meter.setAttribute('optimum', 100);
       meter.value = initialVal;
 
       const label = document.createElement('div');
