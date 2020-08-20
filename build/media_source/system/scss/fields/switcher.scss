@@ -73,8 +73,8 @@ $switcher-height: 28px;
   width: 58px;
   height: 100%;
   overflow: hidden;
-  transform: translate3d(0, 0, 0);
   background: $off-background-colour;
+  transform: translate3d(0, 0, 0);
   border: 1px solid rgba(0, 0, 0, .18);
   transition: .2s ease all;
 
