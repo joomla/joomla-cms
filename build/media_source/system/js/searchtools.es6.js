@@ -530,7 +530,7 @@ Joomla = window.Joomla || {};
 
     const sort = document.getElementById('sorted');
 
-    if (sort && sort.hasAttribute('data-caption')) {
+    if (sort && sort.hasAttribute('data-caption') && document.getElementById('orderedBy')) {
       const orderedBy = sort.getAttribute('data-caption');
       document.getElementById('orderedBy').textContent += orderedBy;
     }
