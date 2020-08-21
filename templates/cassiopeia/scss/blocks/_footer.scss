@@ -9,5 +9,6 @@
     border-radius: 3px;
 
     @include margin("right", 5px);
+    @include margin("left", auto);
   }
 }
