@@ -76,6 +76,7 @@ $switcher-height: 28px;
   background: $off-background-colour;
   border: 1px solid rgba(0, 0, 0, .18);
   transition: .2s ease all;
+  transform: translate3d(0, 0, 0);
 
   [dir=rtl] & {
     right: 0;
