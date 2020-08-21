@@ -103,7 +103,9 @@ Text::script('JGLOBAL_WARNCOOKIES');
 
 	<div class="container-fluid container-main order-1">
 		<section id="content" class="content h-100">
-			<jdoc:include type="message" />
+			<div class="login_message">
+				<jdoc:include type="message" />
+			</div>
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
 					<div class="main-brand logo text-center">

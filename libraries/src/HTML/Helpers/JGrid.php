@@ -129,7 +129,7 @@ abstract class JGrid
 		}
 		else
 		{
-			$html[] = '<span class="tbody-icon jgrid';
+			$html[] = '<span class="tbody-icon jgrid"';
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
