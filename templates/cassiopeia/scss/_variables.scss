@@ -161,8 +161,36 @@ $modal-header-height:                46px;
 // Badges
 $badge-default-bg:                   #5e7082;
 
-// Gutter
-$grid-gutter-width:                  15px !default;
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+// Bootstrap 4 is set in PX. Cassiopeia uses relative sizes
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 36em,
+  md: 48em,
+  lg: 62em,
+  xl: 75em
+);
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+  sm: 33.75em,
+  md: 45em,
+  lg: 60em,
+  xl: 71.25em
+);
+
+// Grid columns
+//
+// Set the number of columns and specify the width of the gutters.
+
+$grid-gutter-width:                  1em !default;
 $cassiopeia-grid-gutter:             $grid-gutter-width;
 
 // Z-Index list
