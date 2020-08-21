@@ -75,6 +75,7 @@ $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
@@ -91,6 +92,11 @@ $attributes = array(
 );
 
 ?>
+<?php if (!empty($description)) : ?>
+	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
+		<?php echo htmlspecialchars(Text::_($description), ENT_COMPAT, 'UTF-8'); ?>
+	</div>
+<?php endif; ?>
 <div class="password-group">
 	<div class="input-group">
 		<input

@@ -82,11 +82,12 @@
       }
 
       // Add messages to the message box
+      messageWrapper = document.createElement('div');
+      messageWrapper.className = 'alert-wrapper';
       typeMessages.forEach((typeMessage) => {
-        messageWrapper = document.createElement('div');
-        messageWrapper.innerHTML = `<div class="alert-message">${typeMessage}</div>`;
-        messagesBox.appendChild(messageWrapper);
+        messageWrapper.innerHTML += `<div class="alert-message">${typeMessage}</div>`;
       });
+      messagesBox.appendChild(messageWrapper);
 
       messageContainer.appendChild(messagesBox);
     });
