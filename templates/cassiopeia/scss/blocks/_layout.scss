@@ -3,7 +3,8 @@
 .grid-child {
   display: flex;
   width: 100%;
-  max-width: 1080px + ($cassiopeia-grid-gutter * 4);
+  //max-width: $cassiopeia-grid-max-width + ($cassiopeia-grid-gutter * 4);
+  max-width: max-width(xl);
   margin-right: auto;
   margin-left: auto;
 }
