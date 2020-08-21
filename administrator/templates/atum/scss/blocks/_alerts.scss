@@ -38,7 +38,7 @@ fieldset .alert {
 }
 
 .alert-heading {
-  font-size: $font-size-lg;
+  font-size: $h4-font-size;
 }
 
 @keyframes fadeIn {
@@ -52,3 +52,4 @@ fieldset .alert {
     transform: translateY(0);
   }
 }
+
