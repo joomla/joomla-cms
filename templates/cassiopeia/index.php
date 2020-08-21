@@ -44,9 +44,15 @@ $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($th
 if ($this->params->get('googleFont'))
 {
 	// Preload the stylesheet for the font, actually we need to preload the font
-	$googleFontName = 'font.' . $this->params->get('googleFontName');
-	$wa->useStyle($googleFontName);
-	$this->getPreloadManager()->preload($wa->getAsset('style', $googleFontName)->getUri(), ['as' => 'style']);
+	$paramsFontName = $this->params->get('googleFontName');
+
+	if ($paramsFontName)
+	{
+		$assetFontName  = 'font.' . $paramsFontName;
+
+		$wa->registerAndUseStyle($assetFontName, 'media/fonts/' . $paramsFontName . '.css');
+		$this->getPreloadManager()->preload($wa->getAsset('style', $assetFontName)->getUri(), ['as' => 'style']);
+	}
 }
 
 // Logo file or site title param

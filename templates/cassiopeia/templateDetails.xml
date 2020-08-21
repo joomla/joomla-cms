@@ -93,7 +93,7 @@
 					<option value="1">JYES</option>
 				</field>
 
-				<field 
+				<field
 					name="googleFont"
 					type="radio"
 					label="TPL_CASSIOPEIA_FONT_LABEL"
@@ -105,16 +105,19 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field 
-					name="googleFontName" 
-					type="list" 
-					default="" 
-					label="TPL_CASSIOPEIA_FONT_NAME_LABEL" 
+				<field
+					name="googleFontName"
+					type="filelist"
+					label="TPL_CASSIOPEIA_FONT_NAME_LABEL"
 					description="TPL_CASSIOPEIA_FONT_NAME_DESC"
-					showon="googleFont:1">
-  					<option value="josefin-sans">Josefin Sans</option>
-  					<option value="montserrat">Montserrat + Work Sans</option>
-				</field>
+					stripext="1"
+					directory="media/fonts/"
+					hide_none="1"
+					hide_default="1"
+					fileFilter="\.css$"
+					exclude="\.min\.css$"
+					showon="googleFont:1"
+				/>
 			</fieldset>
 		</fields>
 	</config>

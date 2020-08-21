@@ -62,13 +62,12 @@ module.exports.compile = (options, path) => {
 
         folders = [
           `${RootPath}/build/media_source`,
-          `${RootPath}/templates/cassiopeia/scss/fonts`,
         ];
       }
 
       // Loop to get the files that should be compiled via parameter
       folders.forEach((folder) => {
-        Recurs(folder, ['*.js', '*.map', '*.svg', '*.png', '*.gif', '*.swf', '*.html', '*.json']).then(
+        Recurs(folder, ['*.js', '*.map', '*.svg', '*.png', '*.gif', '*.swf', '*.html', '*.json', '*.woff', '*.woff2']).then(
           (filesRc) => {
             filesRc.forEach(
               (file) => {

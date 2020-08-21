@@ -90,16 +90,6 @@
       "name": "searchtools",
       "type": "style",
       "uri": "system/searchtools/searchtools.min.css"
-    },
-    {
-      "name": "font.josefin-sans",
-      "type": "style",
-      "uri": "fonts/josefin-sans.min.css"
-    },
-    {
-      "name": "font.montserrat",
-      "type": "style",
-      "uri": "fonts/montserrat.min.css"
     }
   ]
 }
