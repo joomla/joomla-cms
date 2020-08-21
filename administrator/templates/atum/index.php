@@ -30,10 +30,17 @@ $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
 
 // Getting user accessibility settings
-$a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
-$a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
-$a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
-$a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
+$currentUser    = $app->getIdentity();
+$a11y_mono      = (bool) $currentUser->getParam('a11y_mono', '');
+$a11y_contrast  = (bool) $currentUser->getParam('a11y_contrast', '');
+$a11y_highlight = (bool) $currentUser->getParam('a11y_highlight', '');
+$a11y_font      = (bool) $currentUser->getParam('a11y_font', '');
+$fontSize       = $a11y_font ? '' : (float) $currentUser->getParam('admin_fontSize', '');
+
+if ($fontSize)
+{
+	$this->getWebAssetManager()->addInlineStyle("html {font-size: {$fontSize}em;}");
+}
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
