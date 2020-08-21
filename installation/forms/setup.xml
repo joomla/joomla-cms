@@ -55,6 +55,9 @@
 			required="true"
 			autocomplete="new-password"
 			validate="password"
+			strengthmeter="true"
+			force="on"
+			filter="raw"
 		/>
 		<field
 			name="db_type"
