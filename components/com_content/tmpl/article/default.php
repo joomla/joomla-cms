@@ -43,7 +43,7 @@ $this->document->addScriptOptions('original_article_text', $this->item->introtex
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 <div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<?php if($canEdit): ?>
+	<?php if($canEdit && $params->get('activate_inline_editor')) :?>
 	<script type="text/javascript" src="<?php echo Uri::root() . 'media/vendor/tinymce/'; ?>tinymce.js"></script>
 	<?php endif; ?>
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
