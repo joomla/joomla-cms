@@ -154,7 +154,7 @@ class PasswordField extends FormField
 			$this->force        = (($force === 'true' || $force === 'on' || $force === '1') && $this->meter === true);
 
 			// Set some initial values
-			$this->minLength    = 4;
+			$this->minLength    = 12;
 			$this->minIntegers  = 0;
 			$this->minSymbols   = 0;
 			$this->minUppercase = 0;
@@ -162,7 +162,7 @@ class PasswordField extends FormField
 
 			if (Factory::getApplication()->get('db') != '')
 			{
-				$this->minLength    = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 4);
+				$this->minLength    = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 12);
 				$this->minIntegers  = (int) ComponentHelper::getParams('com_users')->get('minimum_integers', 0);
 				$this->minSymbols   = (int) ComponentHelper::getParams('com_users')->get('minimum_symbols', 0);
 				$this->minUppercase = (int) ComponentHelper::getParams('com_users')->get('minimum_uppercase', 0);

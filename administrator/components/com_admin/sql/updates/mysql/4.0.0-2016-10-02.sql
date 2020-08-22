@@ -12,6 +12,11 @@ INSERT INTO `#__template_styles` (`template`, `client_id`, `home`, `title`, `par
 ('cassiopeia', 0, (CASE WHEN (SELECT count FROM (SELECT count(`id`) AS count FROM `#__template_styles` WHERE home = '1' AND client_id = 0 AND `template` IN ('protostar', 'beez3')) as c) = 0 THEN '0' ELSE '1' END), 'cassiopeia - Default', '{}');
 
 --
+-- Move mod_version to the right position for the atum template
+--
+UPDATE `#__modules` SET `position` = 'status' WHERE `module` = 'mod_version' AND `client_id` = 1;
+
+--
 -- Now we can clean up the old templates
 --
 DELETE FROM `#__extensions` WHERE `type` = 'template' AND `element` = 'hathor' AND `client_id` = 1;
