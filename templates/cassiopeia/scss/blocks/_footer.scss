@@ -7,6 +7,8 @@
     color: #fff;
     background: $cassiopeia-template-color;
     border-radius: 3px;
+    height: 40px;
+    align-self: flex-end;
 
     @include margin("right", 5px);
     @include margin("left", auto);
