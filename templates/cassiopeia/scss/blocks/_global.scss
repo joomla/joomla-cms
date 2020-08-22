@@ -1,8 +1,10 @@
 // Global
-@media screen and (prefers-reduced-motion: no-preference) {
-  html,
-  body {
-    scroll-behavior: smooth;
+:root {
+  scroll-behavior: smooth;
+
+  // No smooth scroll for people who prefer not to
+  @media screen and (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
   }
 }
 
