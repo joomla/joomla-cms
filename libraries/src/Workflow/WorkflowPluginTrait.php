@@ -131,7 +131,7 @@ trait WorkflowPluginTrait
 	 * Check if the context supports a specific functionality
 	 *
 	 * @param   string  $context       Context to check
-	 * @param   string  $functionality The funcationality
+	 * @param   string  $functionality The functionality
 	 *
 	 * @return boolean
 	 */

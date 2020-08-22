@@ -18,16 +18,14 @@ $app = Factory::getApplication();
 
 $function  = $app->input->getCmd('function');
 
-HTMLHelper::_('script', 'com_modules/admin-module-search.js',
-		[
-				'version' => 'auto', 'relative' => true
-		], [
-				'defer' => true
-		]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_modules.admin-module-search');
 
 if ($function) :
-	HTMLHelper::_('script', 'com_modules/admin-select-modal.js', ['version' => 'auto', 'relative' => true]);
+	$wa->useScript('com_modules.admin-select-modal');
 endif;
+
 ?>
 <h2 class="mb-3"><?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?></h2>
 
@@ -36,12 +34,12 @@ endif;
 		<div class="col-sm-6 offset-sm-2 col-md-4 offset-sm-4 offset-md-5 offset-lg-4">
 			<div class="form-inline">
 				<label class="sr-only" for="comModulesSelectSearch">
-					<?= Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
+					<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
 				</label>
 				<div class="input-group mb-5 mr-sm-2">
 					<input type="text" value=""
 						   class="form-control" id="comModulesSelectSearch"
-						   placeholder="<?= Text::_('JSEARCH_FILTER'); ?>"
+						   placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
 					>
 					<div class="input-group-append" aria-hidden="true">
 						<div class="input-group-text">

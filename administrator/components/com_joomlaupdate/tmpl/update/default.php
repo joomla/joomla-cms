@@ -10,23 +10,20 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-// Include jQuery.
-HTMLHelper::_('jquery.framework');
-
-// Load the scripts
-HTMLHelper::_('script', 'com_joomlaupdate/encryption.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_joomlaupdate/update.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core')
+	->useScript('com_joomlaupdate.encryption')
+	->useScript('com_joomlaupdate.update')
+	->useScript('com_joomlaupdate.admin-update');
 
 $password = Factory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
 $ajaxUrl = Uri::base() . 'components/com_joomlaupdate/restore.php';
 $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory::getSession()->getFormToken() . '=1';
-
-HTMLHelper::_('script', 'com_joomlaupdate/admin-update-default.js', ['version' => 'auto', 'relative' => true]);
 
 $this->document->addScriptOptions(
 	'joomlaupdate',

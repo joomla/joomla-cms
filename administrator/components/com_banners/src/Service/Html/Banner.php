@@ -35,7 +35,7 @@ class Banner
 		return implode(
 			"\n",
 			array(
-				'<label id="batch-client-lbl" for="batch-client">',
+				'<label id="batch-client-lbl" for="batch-client-id">',
 				Text::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
 				'</label>',
 				'<select class="custom-select" name="batch[client_id]" id="batch-client-id">',

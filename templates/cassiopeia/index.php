@@ -15,9 +15,8 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\Document\HtmlDocument $this */
 
-$app  = Factory::getApplication();
-$lang = $app->getLanguage();
-$wa   = $this->getWebAssetManager();
+$app = Factory::getApplication();
+$wa  = $this->getWebAssetManager();
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -150,7 +149,9 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<jdoc:include type="modules" name="main-top" style="cardGrey" />
 		<jdoc:include type="message" />
 		<jdoc:include type="modules" name="breadcrumbs" style="none" />
+		<main>
 		<jdoc:include type="component" />
+		</main>
 		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
 	</div>
 

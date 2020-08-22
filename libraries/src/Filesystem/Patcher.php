@@ -99,7 +99,7 @@ class Patcher
 	}
 
 	/**
-	 * Reset the pacher
+	 * Reset the patcher
 	 *
 	 * @return  FilesystemPatcher  This object for chaining
 	 *

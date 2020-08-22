@@ -68,7 +68,7 @@ $context = $this->escape($this->state->get('filter.context'));
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
 								</th>
 								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
@@ -96,7 +96,7 @@ $context = $this->escape($this->state->get('filter.context'));
 								<?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out); ?>
 								<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.fieldgroup.' . $item->id) && $item->created_by == $userId; ?>
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.fieldgroup.' . $item->id) && $canCheckin; ?>
-								<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
+								<tr class="row<?php echo $i % 2; ?>" data-draggable-group="0" item-id="<?php echo $item->id; ?>">
 									<td class="text-center">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>

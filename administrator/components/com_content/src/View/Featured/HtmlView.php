@@ -86,7 +86,6 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->transitions   = $this->get('Transitions');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
 		if (ComponentHelper::getParams('com_content')->get('workflow_enabled'))

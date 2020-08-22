@@ -375,7 +375,7 @@ trait WorkflowBehaviorTrait
 
 	/**
 	 * Try to load a workflow stage for newly created items
-	 * which does not have a workflow assinged yet. If the category is not the
+	 * which does not have a workflow assigned yet. If the category is not the
 	 * carrier, overwrite it on your model and deliver your own carrier.
 	 *
 	 * @param   Form   $form  A Form object.
