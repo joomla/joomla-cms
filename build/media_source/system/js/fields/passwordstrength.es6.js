@@ -103,19 +103,9 @@ class PasswordStrength {
     const i = meter.getAttribute('id').replace(/^\D+/g, '');
     const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
 
-    if (score > 79) {
+    if (score === 100) {
       label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
-    }
-    if (score > 64 && score < 80) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
-    }
-    if (score > 50 && score < 65) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
-    }
-    if (score > 40 && score < 51) {
-      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
-    }
-    if (score < 41) {
+    } else {
       label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
     }
     meter.value = score;
@@ -143,8 +133,8 @@ class PasswordStrength {
       meter.setAttribute('min', 0);
       meter.setAttribute('max', 100);
       meter.setAttribute('low', 40);
-      meter.setAttribute('high', 60);
-      meter.setAttribute('optimum', 80);
+      meter.setAttribute('high', 99);
+      meter.setAttribute('optimum', 100);
       meter.value = initialVal;
 
       const label = document.createElement('div');

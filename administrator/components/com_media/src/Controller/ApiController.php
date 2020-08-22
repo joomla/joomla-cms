@@ -343,9 +343,7 @@ class ApiController extends BaseController
 		}
 
 		return $name;
-
 	}
-
 	/**
 	 * Send the given data as JSON response in the following format:
 	 *

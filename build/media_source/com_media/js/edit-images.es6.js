@@ -135,13 +135,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       isClose: false,
     };
 
-
     // eslint-disable-next-line prefer-destructuring
     const uploadPath = options.uploadPath;
 
-
     const url = `${options.apiBaseUrl}&task=api.files&path=${uploadPath}`;
-
 
     const type = 'application/json';
 
@@ -294,7 +291,6 @@ Joomla.MediaManager = Joomla.MediaManager || {};
           if (!('contents' in Joomla.MediaManager.Edit.current)) {
             data = Joomla.MediaManager.Edit.original;
           }
-
 
           // Move the container to the correct tab
           const tab = document.getElementById(target.id.replace('tab-', ''));
