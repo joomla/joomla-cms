@@ -6,9 +6,9 @@
     padding: 8px 11px;
     color: #fff;
     background: $cassiopeia-template-color;
-    border-radius: 3px;
-    height: 40px;
     align-self: flex-end;
+    height: 40px;
+    border-radius: 3px;
 
     @include margin("right", 5px);
     @include margin("left", auto);
