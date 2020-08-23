@@ -121,7 +121,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'redis_server_host',
 			'redis_server_auth',
 			'secret',
-			'sitesecret',
+			'privatesalt',
 			'sitekey',
 			'sendmail',
 			'session.save_path',

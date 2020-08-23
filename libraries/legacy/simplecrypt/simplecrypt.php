@@ -41,7 +41,7 @@ class JSimplecrypt
 
 		if (empty($privateKey))
 		{
-			$privateKey = md5(JFactory::getConfig()->get('sitesecret'));
+			$privateKey = md5(JFactory::getConfig()->get('sitekey'));
 		}
 
 		// Build the JCryptKey object.

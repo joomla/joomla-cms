@@ -173,10 +173,10 @@ class JoomlaInstallerScript
 				}
 			}
 
-			// Setup the the new sitekey and sitesecret values
+			// Setup the the new sitekey and privatesalt values
 			if (version_compare($this->fromVersion, '3.10.0', 'lt'))
 			{
-				$this->setupSitekeyAndSitesecert();
+				$this->setupSitekeyAndPrivatesalt();
 			}
 		}
 
@@ -2657,16 +2657,16 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Method to unset the root_user value from configuration data.
+	 * Method to setup the new sitekey and private salt values
 	 *
 	 * This method will load the global configuration data straight from
-	 * JConfig and remove the root_user value for security, then save the configuration.
+	 * JConfig and add the new configuration.
 	 *
 	 * @return	boolean  True on success, false on failure.
 	 *
 	 * @since	__DEPLOY_VERSION__
 	 */
-	public function setupSitekeyAndSitesecert()
+	public function setupSitekeyAndPrivatesalt()
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 
@@ -2675,7 +2675,7 @@ class JoomlaInstallerScript
 		$previousConfig = ArrayHelper::fromObject($previousConfig);
 
 		// Set the new config options on update
-		$previousConfig['sitesecret'] = $previousConfig['secret'];
+		$previousConfig['privatesalt'] = JUserHelper::genRandomPassword(32);
 		$previousConfig['sitekey'] = $previousConfig['secret'];
 
 		$config = new Registry($previousConfig);
