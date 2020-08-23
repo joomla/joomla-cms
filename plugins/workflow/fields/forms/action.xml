@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="options">
+		<fieldset name="fields"
+				  label="Custom Fields"
+		>
+
+				<field
+					name="images_intro_image_settings"
+					type="list"
+					label="PLG_WORKFLOW_IMAGES_INTRO_IMAGE_SETTING_LABEL"
+					default="0"
+					hide_all="true"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="images_full_article_image_settings"
+					type="list"
+					label="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_SETTING_LABEL"
+					default="0"
+					hide_all="true"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="fileExtensions"
+					type="text"
+					label="Supported Extensions"
+					description="Image extensions, which are allowed on this transition (comma seperated)"
+					default=""
+					hide_all="true"
+					step="1"
+				>
+				</field>
+		</fieldset>
+
+	</fields>
+</form>
