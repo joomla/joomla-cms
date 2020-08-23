@@ -89,6 +89,9 @@
       this.onSelected = this.onSelected.bind(this);
       this.show = this.show.bind(this);
       this.clearValue = this.clearValue.bind(this);
+      this.modalClose = this.modalClose.bind(this);
+      this.setValue = this.setValue.bind(this);
+      this.updatePreview = this.updatePreview.bind(this);
     }
 
     static get observedAttributes() {
@@ -158,11 +161,6 @@
     connectedCallback() {
       this.button = this.querySelector(this.buttonSelect);
       this.buttonClearEl = this.querySelector(this.buttonClear);
-      this.show = this.show.bind(this);
-      this.modalClose = this.modalClose.bind(this);
-      this.clearValue = this.clearValue.bind(this);
-      this.setValue = this.setValue.bind(this);
-      this.updatePreview = this.updatePreview.bind(this);
 
       this.button.addEventListener('click', this.show);
 
@@ -192,11 +190,18 @@
     }
 
     show() {
-      this.querySelector('[role="dialog"]').open();
+      const button = this.querySelector(this.buttonSaveSelected);
+      const modalElement = this.querySelector(`#imageModal_${this.querySelector(this.input).id}`);
+
+      if (!button || !modalElement) {
+        throw new Error('Misconfiguaration...');
+      }
+
+      modalElement.open();
 
       Joomla.selectedFile = {};
 
-      this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
+      button.addEventListener('click', this.onSelected);
     }
 
     modalClose() {
