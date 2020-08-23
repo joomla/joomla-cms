@@ -162,7 +162,7 @@
       this.button = this.querySelector(this.buttonSelect);
       this.inputElement = this.querySelector(this.input);
       this.buttonClearEl = this.querySelector(this.buttonClear);
-      this.modalElement = this.querySelector(`.joomla-modal`);
+      this.modalElement = this.querySelector('.joomla-modal');
       this.buttonSaveSelectedElement = this.querySelector(this.buttonSaveSelected);
       this.previewElement = this.querySelector('.field-media-preview');
 
