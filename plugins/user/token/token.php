@@ -56,7 +56,9 @@ class PlgUserToken extends CMSPlugin
 	 * @since   4.0.0
 	 */
 	private $allowedContexts = [
-		'com_users.profile', 'com_users.user',
+		'com_users.profile',
+		'com_users.user',
+		'com_admin.profile',
 	];
 
 	/**
@@ -171,9 +173,9 @@ class PlgUserToken extends CMSPlugin
 		 */
 		if (($context === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit'))
 		{
-			$pluginData = $data->{$this->profileKeyPrefix};
-			$enabled    = $pluginData['enabled'];
-			$token      = $pluginData['token'];
+			$pluginData = $data->{$this->profileKeyPrefix} ?? [];
+			$enabled    = $pluginData['enabled'] ?? false;
+			$token      = $pluginData['token'] ?? '';
 
 			$pluginData['enabled'] = Text::_('JDISABLED');
 			$pluginData['token']   = '';
@@ -208,11 +210,6 @@ class PlgUserToken extends CMSPlugin
 		if (!PluginHelper::isEnabled('api-authentication', $this->_name))
 		{
 			return true;
-		}
-
-		if (!($form instanceof Form))
-		{
-			throw new Exception('JERROR_NOT_A_FORM');
 		}
 
 		// Check we are manipulating a valid form.
@@ -427,7 +424,7 @@ class PlgUserToken extends CMSPlugin
 	 * This event is called after the user data is deleted from the database.
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void

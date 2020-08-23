@@ -65,7 +65,7 @@ Text::script('MESSAGE');
 				>
 				<span class="input-group-append">
 					<button type="button" class="btn btn-secondary input-password-toggle">
-						<span class="fas fa-eye" aria-hidden="true"></span>
+						<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</span>
@@ -101,23 +101,31 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-		<?php foreach ($extraButtons as $button) : ?>
+		<?php foreach($extraButtons as $button):
+			$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+				return substr($key, 0, 5) == 'data-';
+			});
+			?>
 		<div class="form-group">
 			<button type="button"
-			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
-			        data-webauthn-form="<?= $button['data-webauthn-form'] ?>"
-			        data-webauthn-url="<?= $button['data-webauthn-url'] ?>"
-			        title="<?= Text::_($button['label']) ?>"
-			        id="<?= $button['id'] ?>"
+			        class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
+					<?php foreach ($dataAttributeKeys as $key): ?>
+					<?php echo $key ?>="<?php echo $button[$key] ?>"
+					<?php endforeach; ?>
+					<?php if ($button['onclick']): ?>
+					onclick="<?php echo $button['onclick'] ?>"
+					<?php endif; ?>
+			        title="<?php echo Text::_($button['label']) ?>"
+			        id="<?php echo $button['id'] ?>"
 			>
 				<?php if (!empty($button['icon'])): ?>
-					<span class="<?= $button['icon'] ?>"></span>
+					<span class="<?php echo $button['icon'] ?>"></span>
 				<?php elseif (!empty($button['image'])): ?>
-					<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+					<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 						'class' => 'icon',
 					], true) ?>
 				<?php endif; ?>
-				<?= Text::_($button['label']) ?>
+				<?php echo Text::_($button['label']) ?>
 			</button>
 		</div>
 		<?php endforeach; ?>
@@ -133,9 +141,14 @@ Text::script('MESSAGE');
 </form>
 <div class="text-center">
 	<div>
-		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow"
-			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>">
-			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
-		</a>
+		<?php echo HTMLHelper::link(
+			Text::_('MOD_LOGIN_CREDENTIALS_LINK'),
+			Text::_('MOD_LOGIN_CREDENTIALS'),
+			[
+				'target' => '_blank',
+				'rel'    => 'noopener nofollow',
+				'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS'))
+			]
+		); ?>
 	</div>
 </div>

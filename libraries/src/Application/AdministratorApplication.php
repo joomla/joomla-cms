@@ -108,6 +108,7 @@ class AdministratorApplication extends CMSApplication
 			case 'html':
 				// Get the template
 				$template = $this->getTemplate(true);
+				$clientId = $this->getClientId();
 
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
@@ -121,7 +122,12 @@ class AdministratorApplication extends CMSApplication
 					$wr->addExtensionRegistryFile($component);
 				}
 
-				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
+				if (!empty($template->parent))
+				{
+					$wr->addTemplateRegistryFile($template->parent, $clientId);
+				}
+
+				$wr->addTemplateRegistryFile($template->template, $clientId);
 
 				break;
 
@@ -223,8 +229,9 @@ class AdministratorApplication extends CMSApplication
 
 		// Load the template name from the database
 		$db = Factory::getDbo();
+
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['s.template', 's.params']))
+			->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
 			->from($db->quoteName('#__template_styles', 's'))
 			->join(
 				'LEFT',
@@ -260,20 +267,26 @@ class AdministratorApplication extends CMSApplication
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 		$template->params = new Registry($template->params);
 
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		// Fallback template
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')
+			&& !file_exists(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'atum';
+
+			// Check, the data were found and if template really exists
+			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			{
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+			}
 		}
 
 		// Cache the result
 		$this->template = $template;
 
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
-		{
-			throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
-		}
+		// Pass the parent template to the state
+		$this->set('themeInherits', $template->parent);
 
 		if ($params)
 		{
@@ -478,9 +491,9 @@ class AdministratorApplication extends CMSApplication
 				$this->enqueueMessage(
 					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER',
-						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
+						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 			// Show this message to superusers too
@@ -490,9 +503,9 @@ class AdministratorApplication extends CMSApplication
 					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER_ADMIN',
 						$rootUser,
-						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
+						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 		}

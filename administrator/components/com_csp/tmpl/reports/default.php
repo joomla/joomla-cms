@@ -57,6 +57,12 @@ $saveOrder = $listOrder == 'a.id';
 				<?php if (isset($this->trashWarningMessage)) : ?>
 					<?php Factory::getApplication()->enqueueMessage($this->trashWarningMessage, 'warning'); ?>
 				<?php endif; ?>
+				<?php if (isset($this->unsafeInlineWarningMessage)) : ?>
+					<?php Factory::getApplication()->enqueueMessage($this->unsafeInlineWarningMessage, 'warning'); ?>
+				<?php endif; ?>
+				<?php if (isset($this->unsafeEvalWarningMessage)) : ?>
+					<?php Factory::getApplication()->enqueueMessage($this->unsafeEvalWarningMessage, 'warning'); ?>
+				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
 						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>

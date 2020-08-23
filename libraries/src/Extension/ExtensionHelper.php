@@ -309,6 +309,7 @@ class ExtensionHelper
 		array('plugin', 'config', 'webservices', 0),
 		array('plugin', 'contact', 'webservices', 0),
 		array('plugin', 'content', 'webservices', 0),
+		array('plugin', 'installer', 'webservices', 0),
 		array('plugin', 'languages', 'webservices', 0),
 		array('plugin', 'menus', 'webservices', 0),
 		array('plugin', 'messages', 'webservices', 0),
@@ -421,7 +422,7 @@ class ExtensionHelper
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\StdClass
+	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\stdClass
 	{
 		if ($type === 'plugin' && $folder === null)
 		{

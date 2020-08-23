@@ -27,6 +27,12 @@ $alert = [
 	'message'                     => 'success'
 ];
 
+// Load JavaScript message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
+
 // Alerts progressive enhancement
 Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
@@ -40,9 +46,9 @@ Factory::getDocument()->getWebAssetManager()
 				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
 						<div class="alert-heading"><?php echo Text::_($type); ?></div>
-						<div>
+						<div class="alert-wrapper">
 							<?php foreach ($msgs as $msg) : ?>
-								<p><?php echo $msg; ?></p>
+								<div class="alert-message"><?php echo $msg; ?></div>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>

@@ -21,7 +21,11 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative' => true]);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_finder.filters');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=filters'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -45,7 +49,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 							<td class="w-1 text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" class="w-1">
+							<th scope="col" class="w-1 text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col">
@@ -79,7 +83,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
-								<?php echo HTMLHelper::_('grid.id', $i, $item->filter_id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->filter_id, false, 'cid', 'cb', $item->title); ?>
 							</td>
 							<td class="text-center">
 								<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>

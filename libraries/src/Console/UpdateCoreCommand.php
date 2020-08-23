@@ -189,13 +189,10 @@ class UpdateCoreCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Updates joomla core');
+		$help = "<info>%command.name%</info> is used to update Joomla
+		\nUsage: <info>php %command.full_name%</info>";
 
-		$help = <<<'EOF'
-The <info>%command.name%</info> is used to update Joomla.
-
-  <info>php %command.full_name%</info>
-EOF;
+		$this->setDescription('Update Joomla');
 		$this->setHelp($help);
 	}
 

@@ -142,7 +142,7 @@ final class InstallationApplication extends CMSApplication
 
 			$guesses = array();
 
-			foreach ($orphans as $key => $occurance)
+			foreach ($orphans as $key => $occurence)
 			{
 				$guess = str_replace('_', ' ', $key);
 
@@ -405,6 +405,8 @@ final class InstallationApplication extends CMSApplication
 			$template = new \stdClass;
 			$template->template = 'template';
 			$template->params = new Registry;
+			$template->inheritable = 0;
+			$template->parent = null;
 
 			return $template;
 		}
@@ -544,10 +546,11 @@ final class InstallationApplication extends CMSApplication
 			$file = $this->input->getCmd('tmpl', 'index');
 
 			$options = [
-				'template'  => 'template',
-				'file'      => $file . '.php',
-				'directory' => JPATH_THEMES,
-				'params'    => '{}',
+				'template'         => 'template',
+				'file'             => $file . '.php',
+				'directory'        => JPATH_THEMES,
+				'params'           => '{}',
+				"templateInherits" => ''
 			];
 		}
 

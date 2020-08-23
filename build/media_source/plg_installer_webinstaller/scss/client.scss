@@ -7,13 +7,13 @@
 
 // Extension variables
 $extension-types: (
-        "jcommercial": #f6c801,
-        "jcomponent":  #1e9e33,
-        "jlanguage":   $dark,
-        "jmodule":     #e20a0a,
-        "jplugin":     #57278e,
-        "jspecific":   #d69b34,
-        "jtool":       #333
+  "jcommercial": #f6c801,
+  "jcomponent":  #1e9e33,
+  "jlanguage":   $dark,
+  "jmodule":     #e20a0a,
+  "jplugin":     #57278e,
+  "jspecific":   #d69b34,
+  "jtool":       #333
 );
 
 .com-apps-container {
@@ -60,11 +60,18 @@ $extension-types: (
   .grid-container {
     .card {
       height: 400px;
-      margin-bottom: 10px;
+      margin-bottom: 2rem;
 
       &:hover {
         background-color: $white;
       }
+    }
+
+    .card-img, .card-img-top {
+      height: 6rem;
+      overflow: hidden;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
 
     .card-text {
@@ -73,6 +80,7 @@ $extension-types: (
     }
 
     .card-body {
+      padding: .5rem;
       cursor: pointer;
     }
   }

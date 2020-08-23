@@ -1,0 +1,102 @@
+@import "../../variables";
+@import "../../../../../../node_modules/joomla-ui-custom-elements/dist/css/joomla-alert";
+
+// The following is a restyle for the system alerts
+
+#system-message-container joomla-alert {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 16rem;
+  padding: 0;
+  margin-bottom: 1rem;
+  color: var(--atum-text-dark);
+  background-color: var(--white);
+  border: 1px solid var(--alert-accent-color, transparent);
+  border-radius: .25rem;
+  transition: opacity .15s linear;
+
+  .alert-heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    padding: .8rem;
+    color: var(--alert-heading-text);
+    background: var(--alert-accent-color, transparent);
+  }
+
+  .alert-wrapper {
+    width: 100%;
+  }
+
+  .alert-link {
+    color: var(--success, inherit);
+  }
+
+  &[type="success"] {
+    --alert-accent-color: var(--success);
+    --alert-heading-text: rgba(255, 255, 255, .95);
+    --alert-close-button: var(--success);
+  }
+
+  &[type="info"] {
+    --alert-accent-color: var(--info);
+    --alert-heading-text: rgba(255, 255, 255, .95);
+    --alert-close-button: var(--info);
+  }
+
+  &[type="warning"] {
+    --alert-accent-color: var(--warning);
+    --alert-heading-text: #000;
+    --alert-close-button: #000;
+  }
+
+  &[type="danger"] {
+    --alert-accent-color: var(--danger);
+    --alert-heading-text: rgba(255, 255, 255, .95);
+    --alert-close-button: var(--danger);
+  }
+
+  .joomla-alert--close,
+  .joomla-alert-button--close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .2rem .8rem;
+    font-size: 2rem;
+    color: var(--alert-close-button);
+    background: none;
+    border: 0;
+    opacity: 1;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      cursor: pointer;
+      opacity: .75;
+    }
+
+    [dir=rtl] & {
+      right: auto;
+      left: 0;
+      padding: .2rem .6rem;
+    }
+  }
+
+  div {
+    font-size: 1rem;
+    .alert-message {
+      padding: .3rem 2rem .3rem .3rem;
+      margin: .5rem;
+
+      [dir=rtl] & {
+        padding: .3rem .3rem .3rem 2rem;
+      }
+    }
+
+    .alert-message:not(:first-of-type) {
+      border-top: 1px solid var(--alert-accent-color);
+    }
+  }
+}

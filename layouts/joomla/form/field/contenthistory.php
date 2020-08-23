@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
+extract($displayData);
 
 /**
  * Layout variables
@@ -46,13 +49,12 @@ use Joomla\CMS\Language\Text;
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
-extract($displayData);
 
 echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'versionsModal',
 	array(
-		'url'    => $link,
+		'url'    => Route::_($link),
 		'title'  => $label,
 		'height' => '100%',
 		'width'  => '100%',

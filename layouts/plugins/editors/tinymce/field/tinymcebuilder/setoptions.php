@@ -14,8 +14,8 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   JForm        $form    Form with extra options for the set
- * @var   JLayoutFile  $this    Context
+ * @var   JForm        $form  Form with extra options for the set
+ * @var   JLayoutFile  $this  Context
  */
 
 ?>

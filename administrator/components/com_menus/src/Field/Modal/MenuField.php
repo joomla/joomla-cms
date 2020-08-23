@@ -180,8 +180,11 @@ class MenuField extends FormField
 		// Create the modal id.
 		$modalId = 'Item_' . $this->id;
 
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
 		// Add the modal field script to the document head.
-		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
+		$wa->useScript('field.modal-fields');
 
 		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($this->allowSelect)
@@ -195,11 +198,12 @@ class MenuField extends FormField
 
 			if (!isset($scriptSelect[$this->id]))
 			{
-				Factory::getDocument()->addScriptDeclaration("
-				function jSelectMenu_" . $this->id . "(id, title, object) {
+				$wa->addInlineScript("
+				window.jSelectMenu_" . $this->id . " = function (id, title, object) {
 					window.processModalSelect('Item', '" . $this->id . "', id, title, '', object);
-				}
-				"
+				}",
+					[],
+					['type' => 'module']
 				);
 
 				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');

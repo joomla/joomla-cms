@@ -15,10 +15,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentError $this */
+/** @var \Joomla\CMS\Document\ErrorDocument $this */
 
 $app   = Factory::getApplication();
-$lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
@@ -27,23 +26,24 @@ $option     = $input->get('option', '');
 $view       = $input->get('view', '');
 $layout     = $input->get('layout', 'default');
 $task       = $input->get('task', 'display');
-$itemid     = $input->get('Itemid', '');
 $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
-$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
-$siteLogo  = $this->params->get('siteLogo')
-	? Uri::root() . $this->params->get('siteLogo')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
-$smallLogo = $this->params->get('smallLogo')
-	? Uri::root() . $this->params->get('smallLogo')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+$logoBrandLarge  = $this->params->get('logoBrandLarge')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-large.svg';
+$loginLogo = $this->params->get('loginLogo')
+	? Uri::root() . $this->params->get('loginLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/login.svg';
+$logoBrandSmall = $this->params->get('logoBrandSmall')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
 
-$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
-$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+$logoBrandLargeAlt = htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
+$logoBrandSmallAlt = htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -60,8 +60,16 @@ $this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
+$htmlRegistry = HTMLHelper::getServiceRegistry();
+
+// This may already be registered in main template file.
+if (!$htmlRegistry->hasService('atum'))
+{
+	$htmlRegistry->register('atum', 'JHtmlAtum');
+}
+
 HTMLHelper::_('atum.rootcolors', $this->params);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -85,8 +93,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div class="d-flex align-items-center">
 				<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 				   aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $siteLogo; ?>" alt="">
-					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
+					<img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo $logoBrandLargeAlt; ?>">
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo $logoBrandSmallAlt; ?>">
 				</a>
 			</div>
 			<jdoc:include type="modules" name="title" />
@@ -102,10 +110,19 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-			<jdoc:include type="modules" name="menu" style="none" />
-			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
-				<img src="<?php echo $joomlaLogo; ?>" alt="">
+		<button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
+			<div id="sidebarmenu">
+				<div class="sidebar-toggle item item-level-1">
+					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+						<span id="menu-collapse-icon" class="fas fa-toggle-off fa-fw" aria-hidden="true"></span>
+						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
+					</a>
+				</div>
+				<jdoc:include type="modules" name="menu" style="none" />
 			</div>
 		</div>
 	<?php endif; ?>
@@ -116,7 +133,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<?php // Subheader ?>
 			<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse"
 			   data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
-				<span class="icon-wrench"></span></a>
+				<span class="fas fa-wrench"></span></a>
 			<div id="subhead" class="subhead mb-3">
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">

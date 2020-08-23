@@ -75,6 +75,7 @@ $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
@@ -91,6 +92,11 @@ $attributes = array(
 );
 
 ?>
+<?php if (!empty($description)) : ?>
+	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
+		<?php echo htmlspecialchars(Text::_($description), ENT_COMPAT, 'UTF-8'); ?>
+	</div>
+<?php endif; ?>
 <div class="password-group">
 	<div class="input-group">
 		<input
@@ -101,7 +107,7 @@ $attributes = array(
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
 			<button type="button" class="btn btn-secondary input-password-toggle">
-				<span class="fas fa-eye" aria-hidden="true"></span>
+				<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 			</button>
 		</span>

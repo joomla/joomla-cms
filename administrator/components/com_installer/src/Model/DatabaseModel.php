@@ -259,7 +259,7 @@ class DatabaseModel extends InstallerModel
 			$this->fixSchemaVersion($changeSet['changeset'], $changeSet['extension']->extension_id);
 			$this->fixUpdateVersion($changeSet['extension']->extension_id);
 
-			if ($i === 'com_admin')
+			if ($changeSet['extension']->element === 'com_admin')
 			{
 				$installer = new \JoomlaInstallerScript;
 				$installer->deleteUnexistingFiles();
@@ -267,7 +267,7 @@ class DatabaseModel extends InstallerModel
 
 				/*
 				 * Finally, if the schema updates succeeded, make sure the database table is
-				 * converted to utf8mb4 or, if not suported by the server, compatible to it.
+				 * converted to utf8mb4 or, if not supported by the server, compatible to it.
 				 */
 				$statusArray = $changeSet['changeset']->getStatus();
 

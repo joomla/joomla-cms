@@ -79,8 +79,8 @@ if ($saveOrder && !empty($this->items))
 						<td class="w-1 text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" class="w-1 d-none d-md-table-cell text-center">
-							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+						<th scope="col" class="w-1 d-none d-md-table-cell center">
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
 						</th>
 						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
@@ -114,7 +114,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if (Multilanguage::isEnabled()) : ?>
-							<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 							</th>
 						<?php endif; ?>
@@ -161,7 +161,7 @@ if ($saveOrder && !empty($this->items))
 						$parentsStr = '';
 					}
 					?>
-						<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
+						<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
 							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
@@ -235,7 +235,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo $this->escape($item->access_title); ?>
 						</td>
 						<?php if (Multilanguage::isEnabled()) : ?>
-							<td class="small d-none d-md-table-cell text-center">
+							<td class="small d-none d-md-table-cell">
 								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 							</td>
 						<?php endif; ?>
