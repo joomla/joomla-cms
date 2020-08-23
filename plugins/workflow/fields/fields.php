@@ -86,6 +86,7 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 		$data = $event->getArgument('1');
 
 		$context = $form->getName();
+		$form->renderFieldset('notreqired');
 
 		// Extend the transition form
 		if ($context === 'com_workflow.transition')

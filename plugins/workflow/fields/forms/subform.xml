@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fields>
+
+		<field
+			name="required"
+			label="Value Required"
+			type="list"
+			default="0"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="notrequired"
+			label="Blank Required"
+			type="list"
+			default="0"
+			showon="reqired:0"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="contains"
+			label="Contains"
+			type="text"
+			showon="reqired:1"
+		>
+		</field>
+
+		<field
+			name="containsNot"
+			label="Contains NOT"
+			type="text"
+		>
+		</field>
+
+	</fields>
+</form>
