@@ -194,7 +194,7 @@
       const modalElement = this.querySelector(`#imageModal_${this.querySelector(this.input).id}`);
 
       if (!button || !modalElement) {
-        throw new Error('Misconfiguaration...');
+        throw new Error('Misconfiguration...');
       }
 
       modalElement.open();
