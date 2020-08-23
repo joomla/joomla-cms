@@ -36,6 +36,7 @@ extract($displayData);
  * @var   boolean  $readonly        Is this field read only?
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
  * @var   boolean  $required        Is this field required?
+ * @var   boolean  $rules           Are the rules to be displayed?
  * @var   integer  $size            Size attribute of the input.
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
@@ -76,6 +77,7 @@ $attributes = array(
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
+	!empty($rules) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
@@ -97,6 +99,7 @@ $attributes = array(
 		<?php echo htmlspecialchars(Text::_($description), ENT_COMPAT, 'UTF-8'); ?>
 	</div>
 <?php endif; ?>
+
 <div class="password-group">
 	<div class="input-group">
 		<input
@@ -105,6 +108,30 @@ $attributes = array(
 			id="<?php echo $id; ?>"
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
+		<?php if ($rules) : ?>
+			<?php
+				$tooltip = Text::sprintf('JFIELD_PASSWORD_RULES_CHARACTERS', $minLength);
+
+				if ($minIntegers) :
+					$tooltip .= '<br>' . Text::sprintf('JFIELD_PASSWORD_RULES_DIGITS', $minIntegers);
+				endif;
+
+				if ($minSymbols) :
+					$tooltip .= '<br>' . Text::sprintf('JFIELD_PASSWORD_RULES_SYMBOLS', $minSymbols);
+				endif;
+
+				if ($minUppercase) :
+					$tooltip .= '<br>' . Text::sprintf('JFIELD_PASSWORD_RULES_UPPERCASE', $minUppercase);
+				endif;
+
+				if ($minLowercase) :
+					$tooltip .= '<br>' . Text::sprintf('JFIELD_PASSWORD_RULES_LOWERCASE', $minLowercase);
+				endif;
+			?>
+			<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
+				<?php echo $tooltip; ?>
+			</div>
+		<?php endif; ?>
 		<span class="input-group-append">
 			<button type="button" class="btn btn-secondary input-password-toggle">
 				<span class="fas fa-eye fa-fw" aria-hidden="true"></span>

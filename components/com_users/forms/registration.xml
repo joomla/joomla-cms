@@ -43,6 +43,7 @@
 			size="30"
 			validate="password"
 			strengthmeter="true"
+			rules="true"
 			force="on"
 			filter="raw"
 		/>

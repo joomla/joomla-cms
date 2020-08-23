@@ -15,7 +15,6 @@
   &.input-full {
     max-width: 100%;
   }
-
 }
 
 .spacer hr {
@@ -48,7 +47,6 @@ td .form-control {
     position: static;
     margin-left: 0;
   }
-
 }
 
 .modal label {
@@ -70,14 +68,18 @@ td .form-control {
 }
 
 // set up hidden tooltip
+// set up hidden tooltip
 [role="tooltip"]:not(.show) {
   z-index: $zindex-tooltip;
   display: none;
   max-width: 100%;
-  padding: .25em;
+  padding: .5em;
   margin: .25em;
-  color: $white;
-  background: $black;
+  color: $black;
+  background: $white-offset;
+  border: 1px solid $gray-600;
+  border-radius: $border-radius;
+  box-shadow: 0 0 .5rem rgba(0,0,0,.8);
 
   [dir=ltr] & {
     text-align: left;
@@ -95,8 +97,17 @@ td .form-control {
   display: block;
 }
 
-[id="filter[search]-desc"] {
+[id="filter[search]-desc"],
+[id="jform[password1]-desc"] {
   bottom: 100%;
+
+  [dir=ltr] & {
+    left: -.5rem;
+  }
+
+  [dir=rtl] & {
+    right: -.5rem;
+  }
 }
 
 .container-popup [id="filter[search]-desc"] {

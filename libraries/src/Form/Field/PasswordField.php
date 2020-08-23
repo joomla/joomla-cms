@@ -152,6 +152,8 @@ class PasswordField extends FormField
 			$this->meter        = ($meter === 'true' || $meter === 'on' || $meter === '1');
 			$force              = (string) $this->element['forcePassword'];
 			$this->force        = (($force === 'true' || $force === 'on' || $force === '1') && $this->meter === true);
+			$rules              = (string) $this->element['rules'];
+			$this->rules        = (($rules === 'true' || $rules === 'on' || $rules === '1') && $this->meter === true);
 
 			// Set some initial values
 			$this->minLength    = 12;
@@ -208,6 +210,7 @@ class PasswordField extends FormField
 			'minUppercase'     => $this->minUppercase,
 			'minLowercase'     => $this->minLowercase,
 			'forcePassword'    => $this->force,
+			'rules'            => $this->rules,
 		);
 
 		return array_merge($data, $extraData);
