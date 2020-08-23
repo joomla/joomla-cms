@@ -2,7 +2,7 @@
 :root {
   scroll-behavior: smooth;
 
-  // No smooth scroll for people who prefer not to
+  // Disable smooth scroll when the user has set "prefers-reduced-motion"
   @media screen and (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
