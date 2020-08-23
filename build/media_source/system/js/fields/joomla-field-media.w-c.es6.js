@@ -171,7 +171,7 @@
         throw new Error('Misconfiguaration...');
       }
 
-      if (Joomla.Bootstrap || Joomla.Bootstrap.initModal || typeof Joomla.Bootstrap.initModal === 'function') {
+      if (Joomla.Bootstrap && Joomla.Bootstrap.initModal && typeof Joomla.Bootstrap.initModal === 'function') {
         Joomla.Bootstrap.initModal(this.modalElement);
       }
 
