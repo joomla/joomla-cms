@@ -2,9 +2,9 @@
 	<metafile version="3.6"	client="installation">
 	<name>Uyghur (ئۇيغۇرچە)</name>
 	<version>3.5.0</version>
-	<creationDate>2012.10.28</creationDate>
+	<creationDate>2012-10-28</creationDate>
 	<author>Joomla! Uyghur Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2012 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>ug-CN.ini</filename>

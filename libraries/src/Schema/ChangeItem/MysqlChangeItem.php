@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -298,7 +298,7 @@ class MysqlChangeItem extends ChangeItem
 	/**
 	 * Make check query for column changes/modifications tolerant
 	 * for automatic type changes of text columns, e.g. from TEXT
-	 * to MEDIUMTEXT, after comnversion from utf8 to utf8mb4, and
+	 * to MEDIUMTEXT, after conversion from utf8 to utf8mb4, and
 	 * fix integer (int or tinyint) columns without display length
 	 * for MySQL 8.
 	 *

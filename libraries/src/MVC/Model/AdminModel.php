@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -525,7 +525,7 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
 	 * @param   \JTableInterface  $table  The table object containing the newly created item
 	 * @param   integer           $newId  The id of the new item

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,6 +42,14 @@ class Usergroup extends Table
 		if ((trim($this->title)) == '')
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
+
+			return false;
+		}
+
+		// The parent_id can not be equal to the current id
+		if ($this->id === (int) $this->parent_id)
+		{
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
 			return false;
 		}

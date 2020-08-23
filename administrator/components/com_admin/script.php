@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -2048,6 +2048,9 @@ class JoomlaInstallerScript
 
 			// Joomla! 3.9.17
 			'/administrator/components/com_templates/controllers/template.php.orig',
+			// Joomla 3.10.0
+			'/libraries/joomla/base/adapter.php',
+			'/libraries/joomla/base/adapterinstance.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2479,11 +2482,17 @@ class JoomlaInstallerScript
 		{
 			$convertedStep1 = 2;
 			$convertedStep2 = 4;
+
+			// The first step has to be repeated if it has not been run (converted = 4 in database)
+			$convertedRequired = 5;
 		}
 		else
 		{
 			$convertedStep1 = 1;
 			$convertedStep2 = 3;
+
+			// All done after step 2
+			$convertedRequired = 3;
 		}
 
 		// Check conversion status in database
@@ -2510,7 +2519,7 @@ class JoomlaInstallerScript
 		}
 
 		// Nothing to do, saved conversion status from DB is equal to required final status
-		if ($convertedDB == $convertedStep2)
+		if ($convertedDB == $convertedRequired)
 		{
 			return;
 		}
@@ -2519,7 +2528,7 @@ class JoomlaInstallerScript
 		$hasErrors = false;
 
 		// Steps 1 and 2: Convert core tables if necessary and not to be done at later steps
-		if ($convertedDB < $convertedStep1)
+		if ($convertedDB < $convertedStep1 || ($convertedRequired == 5 && ($convertedDB == 3 || $convertedDB == 4)))
 		{
 			// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
 			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
@@ -2606,11 +2615,11 @@ class JoomlaInstallerScript
 					}
 				}
 			}
+		}
 
-			if (!$hasErrors)
-			{
-				$converted = $convertedStep2;
-			}
+		if (!$hasErrors)
+		{
+			$converted = $convertedRequired;
 		}
 
 		if ($doDbFixMsg && $hasErrors)

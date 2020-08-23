@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -362,7 +362,7 @@ class ModulesModelModules extends JModelList
 			{
 				$query->having('MIN(' . $db->quoteName('mm.menuid') . ') IS NULL');
 			}
-			// If user selected the modules assigned to some particlar page (menu item).
+			// If user selected the modules assigned to some particular page (menu item).
 			else
 			{
 				// Modules in "All" pages.
