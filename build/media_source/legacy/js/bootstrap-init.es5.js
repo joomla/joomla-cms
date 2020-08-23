@@ -168,7 +168,7 @@ Joomla = window.Joomla || {};
 
 		/** Modals **/
 		if (modals.length) {
-      modals.forEach((modal) => { Joomla.Bootstrap.initModal(modal); });
+      modals.forEach(function(modal){ Joomla.Bootstrap.initModal(modal); });
 		}
 
 		/** Popover **/
