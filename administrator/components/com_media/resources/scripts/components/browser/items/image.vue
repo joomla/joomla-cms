@@ -124,6 +124,16 @@
             },
             /* Edit an item */
             editItem() {
+							window.parent.document.dispatchEvent(
+									new CustomEvent(
+											'onMediaFileEdit',
+											{
+												"detail": {
+													file: this.item,
+												}
+											}
+									)
+							);
                 // TODO should we use relative urls here?
                 const fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
 

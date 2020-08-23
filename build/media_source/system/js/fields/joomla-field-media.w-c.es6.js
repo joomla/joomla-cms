@@ -1,4 +1,13 @@
 ((customElements, Joomla) => {
+  Joomla.setTitle = (e) => {
+    const t = window.document.getElementsByClassName('modal-title');
+    Array.prototype.forEach.call(t, (el) => {
+      if (el.innerHTML.includes(Joomla.JText._('PLG_IMAGE_BUTTON_IMAGE'))) {
+        el.innerHTML = e ? Joomla.JText._('PLG_IMAGE_BUTTON_IMAGE') + ' -  ' + e : Joomla.JText._('PLG_IMAGE_BUTTON_IMAGE');
+      }
+    });
+  };
+
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
@@ -7,6 +16,15 @@
 
   window.document.addEventListener('onMediaFileSelected', (e) => {
     Joomla.selectedFile = e.detail;
+  });
+
+  window.document.addEventListener('onMediaFileEdit', (e) => {
+    Joomla.setTitle(e.detail.file.name);
+    Joomla.selectedFile = e.detail;
+  });
+
+  window.document.addEventListener('onSetTitle', (e) => {
+    Joomla.setTitle(e.detail);
   });
 
   const execTransform = (resp, editor, fieldClass) => {
@@ -55,6 +73,7 @@
    * @returns {void}
    */
   Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
+    Joomla.setTitle(null);
     if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
       Joomla.selectedFile = {};
       resolve({

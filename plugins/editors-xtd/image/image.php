@@ -63,9 +63,8 @@ class PlgButtonImage extends CMSPlugin
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id))
 		{
 			$app->getDocument()->getWebAssetManager()->useScript('webcomponent.field-media');
-
 			$link = 'index.php?option=com_media&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
-
+			Text::script('PLG_IMAGE_BUTTON_IMAGE');
 			$button = new CMSObject;
 			$button->modal   = true;
 			$button->link    = $link;
