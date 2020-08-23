@@ -120,7 +120,7 @@ foreach ($fieldSets as $name => $fieldSet)
 		echo '<legend>' . $label . '</legend>';
 
 		// Include the description when available
-		if (isset($fieldSet->description) && trim($fieldSet->description))
+		if (!empty($fieldSet->description))
 		{
 			echo '<div class="alert alert-info">';
 			echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
@@ -157,7 +157,7 @@ foreach ($fieldSets as $name => $fieldSet)
 			echo '<legend>' . $label . '</legend>';
 
 			// Include the description when available
-			if (isset($fieldSet->description) && trim($fieldSet->description))
+			if (!empty($fieldSet->description))
 			{
 				echo '<div class="alert alert-info">';
 				echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
@@ -169,16 +169,13 @@ foreach ($fieldSets as $name => $fieldSet)
 
 			$opentab = 2;
 		}
-		else
+		// Include the description when available
+		elseif (!empty($fieldSet->description))
 		{
-			// Include the description when available
-			if (isset($fieldSet->description) && trim($fieldSet->description))
-			{
-				echo '<div class="alert alert-info alert-parent">';
-				echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
-				echo Text::_($fieldSet->description);
-				echo '</div>';
-			}
+			echo '<div class="alert alert-info alert-parent">';
+			echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+			echo Text::_($fieldSet->description);
+			echo '</div>';
 		}
 	}
 
