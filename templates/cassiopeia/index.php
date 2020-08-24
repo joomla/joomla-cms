@@ -111,10 +111,10 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 				<div class="collapse navbar-collapse" id="navbar">
 					<jdoc:include type="modules" name="menu" style="none" />
 					<?php if ($this->countModules('search')) : ?>
-				<div class="form-inline">
-					<jdoc:include type="modules" name="search" style="none" />
-				</div>
-				<?php endif; ?>
+						<div class="form-inline">
+							<jdoc:include type="modules" name="search" style="none" />
+						</div>
+					<?php endif; ?>
 				</div>
 			</nav>
 		<?php endif; ?>
