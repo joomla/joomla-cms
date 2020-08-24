@@ -1,13 +1,4 @@
 ((customElements, Joomla) => {
-  Joomla.setTitle = (e) => {
-    const t = window.document.getElementsByClassName('modal-title');
-    Array.prototype.forEach.call(t, (el) => {
-      if (el.innerHTML.includes(Joomla.JText._('PLG_IMAGE_BUTTON_IMAGE'))) {
-        el.innerHTML = e ? Joomla.JText._('PLG_IMAGE_BUTTON_IMAGE') + ' -  ' + e : Joomla.JText._('PLG_IMAGE_BUTTON_IMAGE');
-      }
-    });
-  };
-
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
@@ -16,15 +7,9 @@
 
   window.document.addEventListener('onMediaFileSelected', (e) => {
     Joomla.selectedFile = e.detail;
-  });
-
-  window.document.addEventListener('onMediaFileEdit', (e) => {
-    Joomla.setTitle(e.detail.file.name);
-    Joomla.selectedFile = e.detail;
-  });
-
-  window.document.addEventListener('onSetTitle', (e) => {
-    Joomla.setTitle(e.detail);
+    window.document.dispatchEvent(new CustomEvent('onMediaFileEdit', {
+      detail: e.detail,
+    }));
   });
 
   const execTransform = (resp, editor, fieldClass) => {
@@ -108,6 +93,8 @@
       this.onSelected = this.onSelected.bind(this);
       this.show = this.show.bind(this);
       this.clearValue = this.clearValue.bind(this);
+      this.onMediaFileEdit = this.onMediaFileEdit.bind(this);
+      this.setTitle = this.setTitle.bind(this);
     }
 
     static get observedAttributes() {
@@ -174,6 +161,13 @@
 
     // attributeChangedCallback(attr, oldValue, newValue) {}
 
+    onMediaFileEdit(e) {
+      if (e.detail && e.detail.file && e.detail.file.name) {
+        this.setTitle(e.detail.file.name);
+        Joomla.selectedFile = e.detail;
+      }
+    }
+
     connectedCallback() {
       this.button = this.querySelector(this.buttonSelect);
       this.buttonClearEl = this.querySelector(this.buttonClear);
@@ -201,6 +195,14 @@
       }
     }
 
+    setTitle(titleString) {
+      const title = this.querySelector('.modal-title');
+
+      if (title) {
+        title.textContent = `${Joomla.JText._('PLG_IMAGE_BUTTON_IMAGE')} - ${titleString} `;
+      }
+    }
+
     onSelected(event) {
       // event.target.removeEventListener('click', this.onSelected);
       event.preventDefault();
@@ -215,11 +217,14 @@
 
       Joomla.selectedFile = {};
 
+      window.document.addEventListener('onMediaFileEdit', this.onMediaFileEdit);
       this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
     }
 
     modalClose() {
       const input = this.querySelector(this.input);
+
+      window.document.removeEventListener('onMediaFileEdit', this.onMediaFileEdit);
 
       Joomla.getImage(Joomla.selectedFile, input, this)
         .then(() => {

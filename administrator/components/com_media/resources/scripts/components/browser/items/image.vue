@@ -128,12 +128,21 @@
 									new CustomEvent(
 											'onMediaFileEdit',
 											{
+												"bubbles": true,
+												"cancelable": false,
 												"detail": {
-													file: this.item,
-												}
+													path: this.item.path,
+													thumb: this.item.thumb,
+													fileType: this.item.mime_type ? this.item.mime_type : false,
+													extension: this.item.extension ? this.item.extension : false,
+													file: {
+														name: this.item.name ? this.item.name : ''
+													}
+												},
 											}
 									)
 							);
+
                 // TODO should we use relative urls here?
                 const fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + '&path=';
 

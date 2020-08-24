@@ -219,16 +219,24 @@ Joomla.MediaManager = Joomla.MediaManager || {};
           if (resp.success === true) {
             Joomla.MediaManager.Edit.removeProgressBar();
             if (resp.data.isClose) {
-              window.parent.document.dispatchEvent(new CustomEvent('onSetTitle', {
-                detail: null,
+              window.parent.document.dispatchEvent(new CustomEvent('onMediaFileEdit', {
+                detail: {
+                  file: {
+                    name: '',
+                  },
+                },
               }));
               const fileDirectory = Joomla.MediaManager.GetDirectory(resp.data.file.path);
               const pathName = window.location.pathname.replace(/&view=file.*/g, '');
               window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
             }
             if (resp.data.isCopy) {
-              window.parent.document.dispatchEvent(new CustomEvent('onSetTitle', {
-                detail: resp.data.file.name,
+              window.parent.document.dispatchEvent(new CustomEvent('onMediaFileEdit', {
+                detail: {
+                  file: {
+                    name: resp.data.file.name,
+                  },
+                },
               }));
               const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
               window.location.href = fileBaseUrl + resp.data.file.path;
