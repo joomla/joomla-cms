@@ -72,7 +72,7 @@ elseif ($icon === 'contract')
 {
 	$icon = 'fas fa-compress';
 }
-elseif ($icon === 'purge')
+elseif ($icon === 'purge' || $icon === 'trash')
 {
 	$icon = 'fas fa-trash';
 }
