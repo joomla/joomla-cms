@@ -181,7 +181,7 @@ abstract class ActionsDropdown
 	public static function trash($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'trash';
-		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'trash', $id, $task);
+		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'fa-trash', $id, $task);
 	}
 
 	/**
@@ -225,9 +225,18 @@ abstract class ActionsDropdown
 	 */
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
+		if(strpos($icon, 'fa-') !== false)
+		{
+			$icon = 'fas ' . $icon;
+		}
+		elseif(strpos($icon, 'icon-') !== false)
+		{
+			$icon = $icon;
+		}
+
 		static::$dropDownList[] = '<li>'
 			. '<a href = "javascript://" onclick="Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')">'
-			. ($icon ? '<span class="icon-' . $icon . '" aria-hidden="true"></span> ' : '')
+			. ($icon ? '<span class="' . $icon . '" aria-hidden="true"></span> ' : '')
 			. $label
 			. '</a>'
 			. '</li>';
