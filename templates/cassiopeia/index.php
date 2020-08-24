@@ -120,13 +120,11 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<?php endif; ?>
 		</header>
 	</div>
-	<section class="container-banner full-width">
-		<?php if ($this->countModules('banner')) : ?>
-			<div class="banner">
-				<jdoc:include type="modules" name="banner" style="none" />
-			</div>
-		<?php endif; ?>
-	</section>
+	<?php if ($this->countModules('banner')) : ?>
+		<section class="container-banner full-width">
+			<jdoc:include type="modules" name="banner" style="none" />
+		</section>
+	<?php endif; ?>
 
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
