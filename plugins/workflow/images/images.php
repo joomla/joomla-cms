@@ -124,7 +124,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		//get Values from Form
 		$introImageRequired = $transition->options->get('images_intro_image_settings');
 		$fullArticleImageRequired = $transition->options->get('images_full_article_image_settings');
-		$allowedExtensions = str_replace(',','|',$transition->options->get('fileExtensions'));
+		//$allowedExtensions = str_replace(',','|',$transition->options->get('fileExtensions'));
 
 
 		if (!$this->isSupported($context)
@@ -177,31 +177,31 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				}
 			}
 
-			if( !exif_imagetype($introImagePath) || !getimagesize($introImagePath)){
+			if( !exif_imagetype($introImagePath)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_TYPE'));
 				$event->setStopTransition();
 				return false;
 			}
-
+			/*
 			if(!preg_match("/\.(?:$allowedExtensions)$/i", $introImagePath)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_EXTENSION'));
 				$event->setStopTransition();
 				return false;
 			}
-
-			if( !exif_imagetype($fullArticleImagePath) || !getimagesize($fullArticleImagePath)){
+			*/
+			if( !exif_imagetype($fullArticleImagePath) ){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_INVALID_TYPE'));
 				$event->setStopTransition();
 
 				return false;
 			}
-
+			/*
 			if(!preg_match("/\.(?:$allowedExtensions)$/i", $fullArticleImagePath)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_EXTENSION'));
 				$event->setStopTransition();
 				return false;
 			}
-
+			*/
 
 		}
 
@@ -233,6 +233,9 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$intro_image_required = $transition->options->get('images_intro_image_settings');
 		$full_article_image_required = $transition->options->get('images_full_article_image_settings');
 
+		$resizeFullArticleImage = $transition->options->get('resizeFullArticleImage');
+		$resizeIntroImage = $transition->options->get('resizeIntroImage');
+
 		if (!$this->isSupported($context))
 		{
 			return true;
@@ -258,20 +261,25 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk){
 			$introImagePath = JPATH_ROOT."/".$model->getItem($pk)->images['image_intro'];
-			if($intro_image_required){
-				if(!preg_match("/\.(?:'jpg|png|gif')$/i", $introImagePath)){
+			$fullArticleImagePath = JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"];
+
+			if($intro_image_required && $resizeIntroImage){
+				//if(!preg_match("/\.(?:'jpg|png|gif')$/i", $introImagePath) || !getimagesize($introImagePath)){
+				if(!getimagesize($introImagePath)){
+					// Image can't get resized
 					return true;
 				}
-				else if(($model->getItem($pk)->images['image_intro'])){
+				else if(($model->getItem($pk)->images['image_intro']) ){
 					$image = new Image();
 					$image->loadFile($introImagePath);
 					$newImage = $image->cropResize($introWidth,$introHeight,true);
 					$newImage->toFile(JPATH_ROOT."/images/"."intro_image_resized.jpeg",IMAGETYPE_JPEG);
 				}
 			}
-			$fullArticleImagePath = JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"];
-			if($full_article_image_required){
-				if(!preg_match("/\.(?:'jpg|png|gif')$/i", $fullArticleImagePath)){
+
+			if($full_article_image_required && $resizeFullArticleImage){
+				//if(!preg_match("/\.(?:'jpg|png|gif')$/i", $fullArticleImagePath) || !getimagesize($fullArticleImagePath)){
+				if(!getimagesize($fullArticleImagePath)){
 					return true;
 				}
 				else if(($model->getItem($pk)->images["image_fulltext"])){

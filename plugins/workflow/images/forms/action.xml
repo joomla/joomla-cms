@@ -28,7 +28,7 @@
 					<option value="1">JYES</option>
 				</field>
 
-				<field
+				<!-- <field
 					name="fileExtensions"
 					type="text"
 					label="Supported Extensions"
@@ -37,11 +37,36 @@
 					hide_all="true"
 					step="1"
 				>
-				</field>
+				</field> -->
 			</fieldset>
 
 
 			<fieldset name="images_image_size" label="PLG_WORKFLOW_IMAGES_RESIZE_SETTING_LABEL">
+
+				<field
+					name="resizeFullArticleImage"
+					type="radio"
+					label="Resize Full Article Image"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="resizeIntroImage"
+					type="radio"
+					label="Resize Full Article Image"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="boolean"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
 				<field
 					name="introImageHeight"
 					type="number"
@@ -83,19 +108,6 @@
 				</field>
 
 			</fieldset>
-
-			<field
-				name="fileExtensions"
-				type="text"
-				label="Supported Extensions"
-				description="Image extensions, which are allowed on this transition (comma seperated)"
-				default=""
-				hide_all="true"
-				step="1"
-			>
-			</field>
-
-
 
 		</fieldset>
 	</fields>
