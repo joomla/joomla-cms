@@ -966,7 +966,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 		// @todo we need the user id somehow here
 		$userId  = 0;
 
-		return md5($this->get('sitekey') . $userId . $this->getSession()->getToken($forceNew));
+		return md5($this->get('privatesalt') . $userId . $this->getSession()->getToken($forceNew));
 	}
 
 	/**

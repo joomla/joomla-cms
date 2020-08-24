@@ -471,7 +471,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	public function loadSession(JSession $session = null)
 	{
 		// Generate a session name.
-		$name = md5($this->get('sitekey') . $this->get('session_name', get_class($this)));
+		$name = md5($this->get('privatesalt') . $this->get('session_name', get_class($this)));
 
 		// Calculate the session lifetime.
 		$lifetime = ($this->get('lifetime') ? $this->get('lifetime') * 60 : 900);

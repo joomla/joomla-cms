@@ -69,7 +69,7 @@ class ApplicationHelper
 	 */
 	public static function getHash($seed)
 	{
-		return md5(\JFactory::getConfig()->get('sitekey') . $seed);
+		return md5(\JFactory::getConfig()->get('privatesalt') . $seed);
 	}
 
 	/**

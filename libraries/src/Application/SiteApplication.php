@@ -626,7 +626,7 @@ final class SiteApplication extends CMSApplication
 		if (empty($options['language']) && $this->getLanguageFilter())
 		{
 			// Detect cookie language
-			$lang = $this->input->cookie->get(md5($this->get('sitekey') . 'language'), null, 'string');
+			$lang = $this->input->cookie->get(md5($this->get('privatesalt') . 'language'), null, 'string');
 
 			// Make sure that the user's language exists
 			if ($lang && \JLanguageHelper::exists($lang))

@@ -1175,7 +1175,7 @@ class WebApplication extends BaseApplication
 		}
 
 		// Generate a session name.
-		$name = md5($this->get('sitekey') . $this->get('session_name', get_class($this)));
+		$name = md5($this->get('privatesalt') . $this->get('session_name', get_class($this)));
 
 		// Calculate the session lifetime.
 		$lifetime = (($this->get('sess_lifetime')) ? $this->get('sess_lifetime') * 60 : 900);

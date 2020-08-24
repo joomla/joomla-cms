@@ -296,7 +296,7 @@ final class Version
 	{
 		$date = new \JDate;
 
-		return md5($this->getLongVersion() . \JFactory::getConfig()->get('sitekey') . $date->toSql());
+		return md5($this->getLongVersion() . \JFactory::getConfig()->get('privatesalt') . $date->toSql());
 	}
 
 	/**

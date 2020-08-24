@@ -76,7 +76,7 @@ class JApplicationTest extends TestCase
 	{
 		// Temporarily override the config cache in JFactory.
 		$temp = JFactory::$config;
-		JFactory::$config = new JObject(array('sitekey' => 'foo'));
+		JFactory::$config = new JObject(array('privatesalt' => 'foo'));
 
 		$this->assertThat(
 			JApplication::getHash('This is a test'),
@@ -96,7 +96,7 @@ class JApplicationTest extends TestCase
 	{
 		// Temporarily override the config cache in JFactory.
 		$temp = JFactory::$config;
-		JFactory::$config = new JObject(array('sitekey' => 'foo'));
+		JFactory::$config = new JObject(array('privatesalt' => 'foo'));
 
 		$this->assertThat(
 			JApplicationHelper::getHash('This is a test'),
