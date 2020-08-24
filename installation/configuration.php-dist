@@ -49,7 +49,7 @@ class JConfig
 	/* Server Settings */
 	public $secret = '';      // The old secret value is deprecated and will be removed in 4.0
 	public $privatesalt = ''; // Please make sure this is a unique and random string with 32 characters
-	public $sitekey = '';     // Please make sure this is a secret and random string with 32 characters
+	public $sitekey = '';     // Please make sure this is a secret unique and random string with 32 characters
 	public $gzip = '0';
 	public $error_reporting = 'default';
 	public $helpurl = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
