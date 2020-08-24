@@ -12,7 +12,12 @@ defined('_JEXEC') or die;
 // Convert icomoon to fa
 $icon = $displayData['icon'];
 
-if(strpos($icon, 'fa-') == true || strpos($icon, 'icon-') == true){
+if(strpos($icon, 'fa-') !== false)
+{
+	$icon = 'fas ' . $icon;
+}
+elseif(strpos($icon, 'icon-') !== false)
+{
 	$icon = $icon;
 }
 elseif  ($icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder-2' || $icon === 'folder-minus' || $icon === 'folder-plus-2' || $icon === 'folder-remove' || $icon === 'drawer-2')
@@ -67,7 +72,7 @@ elseif ($icon === 'contract')
 {
 	$icon = 'fas fa-compress';
 }
-elseif ($icon === 'purge')
+elseif ($icon === 'purge' || $icon === 'trash')
 {
 	$icon = 'fas fa-trash';
 }
