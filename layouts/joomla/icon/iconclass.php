@@ -126,10 +126,9 @@ else
 	$icon = 'icon-' . $icon;
 }
 
-$output = $icon;
 if ($html !== false)
 {
-	$output = '<span class="' . $icon . '" aria-hidden="true"></span>';
+	$icon = '<span class="' . $icon . '" aria-hidden="true"></span>';
 }
 
-echo $output;
+echo $icon;
