@@ -31,7 +31,7 @@
   .navbar-brand {
     position: relative;
     display: inline-block;
-    padding: 2.5rem 0;
+    padding: 2.5rem ($cassiopeia-grid-gutter / 2);
     margin-right: auto;
     font-size: 2rem;
     color: $white-offset;
@@ -68,7 +68,7 @@
   }
 
   .navbar-collapse {
-    flex-grow: 0;
+    justify-content: space-between;
   }
 
   .mod-menu li {
@@ -105,7 +105,9 @@
       background: $white;
     }
 
-    a {
+    a,
+    .nav-header,
+    .separator {
       position: relative;
       display: block;
       padding: .25rem 0 0;
@@ -129,6 +131,10 @@
 
     @include media-breakpoint-down(md) {
       margin: 1rem 0;
+    }
+
+    label {
+      display: none;
     }
   }
 

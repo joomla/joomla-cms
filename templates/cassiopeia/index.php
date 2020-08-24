@@ -102,11 +102,6 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
 				<?php endif; ?>
 			</div>
-			<?php if ($this->countModules('search')) : ?>
-				<div class="form-inline">
-					<jdoc:include type="modules" name="search" style="none" />
-				</div>
-			<?php endif; ?>
 		</div>
 		<?php if ($this->countModules('menu')) : ?>
 			<nav class="grid-child navbar navbar-expand-lg">
@@ -115,6 +110,11 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 				</button>
 				<div class="collapse navbar-collapse" id="navbar">
 					<jdoc:include type="modules" name="menu" style="none" />
+					<?php if ($this->countModules('search')) : ?>
+				<div class="form-inline">
+					<jdoc:include type="modules" name="search" style="none" />
+				</div>
+				<?php endif; ?>
 				</div>
 			</nav>
 		<?php endif; ?>
