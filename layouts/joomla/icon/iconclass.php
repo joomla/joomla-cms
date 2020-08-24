@@ -47,7 +47,7 @@ elseif ($icon === 'featured')
 {
 	$icon = 'fas fa-star featured';
 }
-elseif ($icon === 'checkedout')
+elseif ($icon === 'checkedout' || $icon === 'protected')
 {
 	$icon = 'fas fa-lock';
 }
