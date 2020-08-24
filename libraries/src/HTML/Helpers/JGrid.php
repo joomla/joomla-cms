@@ -90,9 +90,13 @@ abstract class JGrid
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
-			if (strpos($active_class, 'fa-') == true || strpos($active_class, 'icon-') == true)
+			if (strpos($active_class, 'fa-') !== false)
 			{
-				$active_class = $active_class;
+				$active_class = 'fas ' . $active_class;
+			}
+			elseif (strpos($active_class, 'icon-') !== false)
+			{
+				$active_class = 'icon-' . $active_class;
 			}
 			elseif ($active_class === 'publish')
 			{
@@ -139,9 +143,13 @@ abstract class JGrid
 			}
 			else
 			{
-				if (strpos($inactive_class, 'fa-') == true || strpos($inactive_class, 'icon-') == true)
+				if (strpos($inactive_class, 'fa-') !== false)
 				{
-					$inactive_class = $inactive_class;
+					$inactive_class = 'fas ' . $inactive_class;
+				}
+				elseif (strpos($inactive_class, 'icon-') !== false)
+				{
+					$inactive_class = 'icon-' . $inactive_class;
 				}
 				elseif ($inactive_class === 'publish')
 				{
