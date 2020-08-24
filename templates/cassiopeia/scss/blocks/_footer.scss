@@ -1,13 +1,19 @@
 // Footer
 
 .footer {
+  padding: 2.5rem ($cassiopeia-grid-gutter / 2);
+  color: #fff;
+  background: $cassiopeia-template-color;
 
   .back-top {
+    align-self: flex-end;
+    height: 40px;
     padding: 8px 11px;
-    color: #fff;
-    background: $cassiopeia-template-color;
+    color: $cassiopeia-template-color;
+    background: #fff;
     border-radius: 3px;
 
     @include margin("right", 5px);
+    @include margin("left", auto);
   }
 }

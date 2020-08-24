@@ -3,7 +3,6 @@
 .container-header {
   position: relative;
   z-index: 10;
-  margin-bottom: 20px;
   background-color: $cassiopeia-template-color;
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px rgba(0, 0, 0, .03) inset;
@@ -32,7 +31,7 @@
   .navbar-brand {
     position: relative;
     display: inline-block;
-    padding: 0;
+    padding: 2.5rem 0;
     margin-right: auto;
     font-size: 2rem;
     color: $white-offset;
