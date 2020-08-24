@@ -138,6 +138,9 @@
     }
   }
 
+  .form-inline:only-child {
+    margin-left: auto;
+  }
 }
 
 .container-title {
