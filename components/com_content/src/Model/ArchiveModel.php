@@ -52,7 +52,7 @@ class ArchiveModel extends ArticlesModel
 		$params = $this->state->get('params');
 
 		// Filter on archived articles
-		$this->setState('filter.condition', ContentComponent::CONDITION_ARCHIVED);
+		$this->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
 
 		// Filter on month, year
 		$this->setState('filter.month', $app->input->getInt('month'));
