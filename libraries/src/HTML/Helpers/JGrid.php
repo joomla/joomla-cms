@@ -96,7 +96,7 @@ abstract class JGrid
 			}
 			elseif (strpos($active_class, 'icon-') !== false)
 			{
-				$active_class = 'icon-' . $active_class;
+				$active_class = $active_class;
 			}
 			elseif ($active_class === 'publish')
 			{
@@ -149,7 +149,7 @@ abstract class JGrid
 				}
 				elseif (strpos($inactive_class, 'icon-') !== false)
 				{
-					$inactive_class = 'icon-' . $inactive_class;
+					$inactive_class = $inactive_class;
 				}
 				elseif ($inactive_class === 'publish')
 				{
