@@ -279,7 +279,7 @@ abstract class Dropdown
 	public static function trash($checkboxId, $prefix = '')
 	{
 		$task = $prefix . 'trash';
-		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'fa-trash','javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'fa-trash', 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
 
 		return;
 	}

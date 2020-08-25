@@ -225,11 +225,11 @@ abstract class ActionsDropdown
 	 */
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
-		if(strpos($icon, 'fa-') !== false)
+		if (strpos($icon, 'fa-') !== false)
 		{
-			$icon = 'fas ' . $icon;
+			$icon = 'fas ' . str_ireplace('fas ', '', $icon);
 		}
-		elseif(strpos($icon, 'icon-') !== false)
+		elseif (strpos($icon, 'icon-') !== false)
 		{
 			$icon = $icon;
 		}

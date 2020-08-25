@@ -14,7 +14,7 @@ $icon = $displayData['icon'];
 
 if(strpos($icon, 'fa-') !== false)
 {
-	$icon = 'fas ' . str_ireplace('fas ','', $icon);
+	$icon = 'fas ' . str_ireplace('fas ', '', $icon);
 }
 elseif (strpos($icon, 'icon-') !== false)
 {
