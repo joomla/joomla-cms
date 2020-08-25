@@ -8,4 +8,24 @@
     margin: auto;
   }
 
+  .banner-overlay {
+    height: 70vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top,center;
+    background-size: cover;
+
+    .overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #fff;
+      background-color: rgba(0,0,0,.5);
+
+      h2 {
+        font-size: 3rem;
+      }
+    }
+  }
 }
