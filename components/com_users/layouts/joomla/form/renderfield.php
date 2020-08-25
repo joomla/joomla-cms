@@ -3,29 +3,29 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 extract($displayData);
 
 /**
  * Layout variables
- * ---------------------
- *    $options         : (array)  Optional parameters
- *    $label           : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
- *    $input           : (string) The input field html code
+ * -----------------
+ * @var   array   $options  Optional parameters
+ * @var   string  $label    The html code for the label (not required if $options['hiddenLabel'] is true)
+ * @var   string  $input    The input field html code
  */
 
 if (!empty($options['showonEnabled']))
 {
-	HTMLHelper::_('jquery.framework');
-	HTMLHelper::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+	$wa->useScript('showon');
 }
 
 $class = empty($options['class']) ? '' : ' ' . $options['class'];
@@ -53,9 +53,6 @@ $typeOfSpacer = (strpos($label, 'spacer-lbl') !== false);
 	<?php if (empty($options['hiddenLabel'])): ?>
 		<div class="control-label">
 			<?php echo $label; ?>
-			<?php if (!$required && !$typeOfSpacer) : ?>
-				<span class="optional"><?php echo Text::_('COM_USERS_OPTIONAL'); ?></span>
-			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 	<div class="controls">

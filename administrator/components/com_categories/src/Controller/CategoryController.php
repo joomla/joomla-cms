@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
@@ -25,6 +26,8 @@ use Joomla\Registry\Registry;
  */
 class CategoryController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The extension for which the categories apply.
 	 *

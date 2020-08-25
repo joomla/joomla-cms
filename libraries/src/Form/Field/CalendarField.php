@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -338,6 +338,8 @@ class CalendarField extends FormField
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{
+		$app = Factory::getApplication();
+
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
 		{
@@ -356,7 +358,7 @@ class CalendarField extends FormField
 				if ((int) $value > 0)
 				{
 					// Get the server timezone setting.
-					$offset = Factory::getConfig()->get('offset');
+					$offset = $app->get('offset');
 
 					// Return an SQL formatted datetime string in UTC.
 					$return = Factory::getDate($value, $offset)->toSql();
@@ -372,7 +374,7 @@ class CalendarField extends FormField
 				if ((int) $value > 0)
 				{
 					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = Factory::getUser()->getParam('timezone', Factory::getConfig()->get('offset'));
+					$offset = Factory::getUser()->getParam('timezone', $app->get('offset'));
 
 					// Return an SQL formatted datetime string in UTC.
 					$return = Factory::getDate($value, $offset)->toSql();

@@ -90,6 +90,7 @@
 			class="custom-select-color-state"
 			default="1"
 			size="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -232,6 +233,7 @@
 					type="list"
 					label="COM_FIELDS_FIELD_EDITABLE_IN_LABEL"
 					default=""
+					validate="options"
 					>
 					<option value="1">COM_FIELDS_FIELD_EDITABLE_IN_SITE</option>
 					<option value="2">COM_FIELDS_FIELD_EDITABLE_IN_ADMIN</option>
@@ -272,6 +274,7 @@
 					type="list"
 					label="COM_FIELDS_FIELD_DISPLAY_LABEL"
 					default="2"
+					validate="options"
 					>
 					<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
 					<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
@@ -305,6 +308,7 @@
 					type="list"
 					label="JFIELD_DISPLAY_READONLY_LABEL"
 					default="2"
+					validate="options"
 					>
 					<option value="2">JGLOBAL_INHERIT</option>
 					<option value="1">JYES</option>

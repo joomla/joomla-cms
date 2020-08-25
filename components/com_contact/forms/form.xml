@@ -261,6 +261,7 @@
 			id="published"
 			class="custom-select-color-state"
 			size="1"
+			validate="options"
 		>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -274,6 +275,7 @@
 			type="list"
 			label="JFEATURED"
 			default="0"
+			validate="options"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>

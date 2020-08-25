@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -227,7 +227,7 @@ class BannersModel extends ListModel
 				$orderCol = 'cl.name';
 			}
 
-			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
+			$ordering = $db->escape($orderCol) . ' ' . $db->escape($orderDirn);
 		}
 
 		$query->order($ordering);

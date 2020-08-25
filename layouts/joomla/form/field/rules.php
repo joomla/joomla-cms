@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-
 
 extract($displayData);
 
@@ -49,6 +48,8 @@ $document = Factory::getDocument();
  * @var   boolean  $newItem         The new item.
  * @var   object   $assetRules      Rules for asset.
  * @var   integer  $parentAssetId   To calculate permissions.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 // Add Javascript for permission change
@@ -95,7 +96,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</div>
 </details>
 <?php // Begin tabs ?>
-<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>">
+<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>"<?php echo $dataAttribute; ?>>
 	<joomla-tab orientation="vertical" id="permissions-sliders">
 	<?php // Initial Active Pane ?>
 		<?php foreach ($groups as $group) : ?>

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Awesomplete, Joomla, window, document) => {
@@ -10,20 +10,20 @@
   }
 
   // Handle the autocomplete
-  const onKeyUp = (event) => {
-    if (event.target.value.length > 1) {
-      event.target.awesomplete.list = [];
+  const onKeyUp = ({ target }) => {
+    if (target.value.length > 1) {
+      target.awesomplete.list = [];
 
       Joomla.request({
-        url: `${Joomla.getOptions('finder-search').url}&q=${event.target.value}`,
+        url: `${Joomla.getOptions('finder-search').url}&q=${target.value}`,
         method: 'GET',
-        data: { q: event.target.value },
+        data: { q: target.value },
         perform: true,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         onSuccess: (resp) => {
           const response = JSON.parse(resp);
           if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
-            event.target.awesomplete.list = response.suggestions;
+            target.awesomplete.list = response.suggestions;
           }
         },
         onError: (xhr) => {

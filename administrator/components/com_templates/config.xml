@@ -50,7 +50,7 @@
 			name="font_formats"
 			type="text"
 			label="COM_TEMPLATES_CONFIG_FONT_LABEL"
-			default="woff,ttf,otf"
+			default="woff,woff2,ttf,otf"
 			extension="com_templates"
 		/>
 

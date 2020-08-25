@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class TemplateModel extends FormModel
 	 * @param   string    $name      The file name.
 	 * @param   stdClass  $template  The std class object of template.
 	 *
-	 * @return  object  StdClass object.
+	 * @return  object  stdClass object.
 	 *
 	 * @since   4.0.0
 	 */
@@ -244,12 +244,6 @@ class TemplateModel extends FormModel
 			if (is_dir($path))
 			{
 				$this->prepareCoreFiles($path, $element, $template);
-			}
-			else
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
-
-				return false;
 			}
 		}
 
@@ -742,7 +736,45 @@ class TemplateModel extends FormModel
 			}
 
 			// Copy all files from $fromName template to $newName folder
-			if (!Folder::copy($fromPath, $toPath) || !$this->fixTemplateName())
+			if (!Folder::copy($fromPath, $toPath))
+			{
+				return false;
+			}
+
+			// Check manifest for additional files
+			$manifest = simplexml_load_file($toPath . '/templateDetails.xml');
+
+			// Copy language files from global folder
+			if ($languages = $manifest->languages)
+			{
+				$folder        = (string) $languages->attributes()->folder;
+				$languageFiles = $languages->language;
+
+				Folder::create($toPath . '/' . $folder . '/' . $languageFiles->attributes()->tag);
+
+				foreach ($languageFiles as $languageFile)
+				{
+					$src = Path::clean($client->path . '/language/' . $languageFile);
+					$dst = Path::clean($toPath . '/' . $folder . '/' . $languageFile);
+
+					if (File::exists($src))
+					{
+						File::copy($src, $dst);
+					}
+				}
+			}
+
+			// Copy media files
+			if ($media = $manifest->media)
+			{
+				$folder      = (string) $media->attributes()->folder;
+				$destination = (string) $media->attributes()->destination;
+
+				Folder::copy(JPATH_SITE . '/media/' . $destination, $toPath . '/' . $folder);
+			}
+
+			// Adjust to new template name
+			if (!$this->fixTemplateName())
 			{
 				return false;
 			}
@@ -787,7 +819,7 @@ class TemplateModel extends FormModel
 		// Rename Language files
 		// Get list of language files
 		$result   = true;
-		$files    = Folder::files($this->getState('to_path'), '.ini', true, true);
+		$files    = Folder::files($this->getState('to_path'), '\.ini$', true, true);
 		$newName  = strtolower($this->getState('new_name'));
 		$template = $this->getTemplate();
 		$oldName  = $template->element;
@@ -809,6 +841,8 @@ class TemplateModel extends FormModel
 			$replace[] = '<name>' . $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
+			$pattern[] = '#<media(.*)' . $oldName . '(.*)>#';
+			$replace[] = '<media${1}' . $newName . '${2}>';
 			$contents = preg_replace($pattern, $replace, $contents);
 			$result = File::write($xmlFile, $contents) && $result;
 		}

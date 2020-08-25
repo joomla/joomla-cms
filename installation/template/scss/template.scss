@@ -15,6 +15,10 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../administrator/templates/atum/scss/blocks/global";
 @import "../../../administrator/templates/atum/scss/blocks/header";
 @import "../../../administrator/templates/atum/scss/vendor/bootstrap/custom-forms";
+@import "../../../administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert";
+
+// Safari fix
+@import "../../../administrator/templates/atum/scss/vendor/bootstrap/reboot";
 
 body {
   background: var(--atum-bg-light);
@@ -35,7 +39,6 @@ body {
     width: auto;
   }
 }
-
 
 .j-container {
   width: 100%;
@@ -92,7 +95,6 @@ body {
   }
 }
 
-
 .languageForm {
   padding: 0 0 30px;
 
@@ -101,41 +103,13 @@ body {
   }
 }
 
-.system-message .alert {
-  margin: 25px 50px;
+// Alerts
+#system-message-container joomla-alert {
+  margin-top: 25px;
 }
 
-.alert {
-  position: relative;
-  display: flex;
-  margin: 0 0 20px;
-  background: #fafafa;
-  border: 1px solid rgba(0, 0, 0, .1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, .05);
-
-  p {
-    margin-bottom: 0;
-  }
-}
-
-.alert-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 25%;
-  margin-bottom: 0;
-  font-size: 3rem;
-  opacity: .6;
-
-  .fas {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-.alert-text {
-  width: 75%;
-  padding: 10px 20px;
+.alert-heading {
+  font-size: $h4-font-size;
 }
 
 .hidden,

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,9 @@ use Joomla\CMS\MVC\View\Event\OnGetApiFields;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
+use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Resource;
-use Tobscure\JsonApi\AbstractSerializer;
 
 /**
  * Base class for a Joomla Json List View

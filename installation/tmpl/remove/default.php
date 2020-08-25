@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -182,7 +182,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<?php if ($this->development) : ?>
 					<div class="alert flex-column mb-1" id="removeInstallationTab">
 						<span class="mb-1 font-weight-bold"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></span>
-						<button class="btn btn-danger mb-1" id="removeInstallationFolder"><?php echo Text::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></button>
+						<button class="btn btn-danger mb-1" id="removeInstallationFolder"><?php echo Text::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?></button>
 					</div>
 				<?php endif; ?>
 				<?php echo HTMLHelper::_('form.token'); ?>
@@ -220,16 +220,16 @@ HTMLHelper::_('behavior.formvalidator');
 				<caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
 					<thead>
 					<tr>
-						<td width="1%" class="text-center">
+						<td>
 							&nbsp;
 						</td>
 						<th scope="col">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
 						</th>
-						<th scope="col" width="15%">
+						<th scope="col">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
 						</th>
-						<th scope="col" width="5%" class="text-center">
+						<th scope="col" class="text-center">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
 						</th>
 					</tr>

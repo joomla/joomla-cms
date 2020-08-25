@@ -10,6 +10,7 @@ ALTER TABLE "#__finder_filters" ALTER COLUMN "checked_out_time" DROP NOT NULL;
 ALTER TABLE "#__finder_filters" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 
 TRUNCATE TABLE "#__finder_links";
+ALTER TABLE "#__finder_links" ALTER COLUMN "route" TYPE character varying(400);
 ALTER TABLE "#__finder_links" ALTER COLUMN "state" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "access" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE character varying(7);

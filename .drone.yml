@@ -22,6 +22,8 @@ steps:
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
+      - apk add patch
+      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -36,34 +38,6 @@ steps:
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
-
-  - name: publish-diff
-    image: joomlaprojects/docker-images:patchtester
-    depends_on: [ npm ]
-    environment:
-      CMP_ARCHIVE_NAME: "build"
-      CMP_MASTER_FOLDER: "/reference"
-      CMP_SLAVE_FOLDER: "." # The directory the current repo is in
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org
-      FTP_PORT: "21"
-      FTP_DEST_DIR: /artifacts
-      FTP_VERIFY: "false"
-      FTP_SECURE: "true"
-      BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
-      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
-    commands:
-      - export PULL_ID=$DRONE_PULL_REQUEST
-      - /bin/compare.sh
-    volumes:
-      - name: reference
-        path: /reference
-    when:
-      branch:
-      - 4.0-dev
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -94,7 +68,6 @@ steps:
   - name: php74-unit
     depends_on: [ phpcs ]
     image: joomlaprojects/docker-images:php7.4
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
@@ -124,7 +97,6 @@ steps:
   - name: php74-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.4
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -154,7 +126,6 @@ steps:
   - name: php74-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.4
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -167,17 +138,17 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
+  - name: scss-cs
+    depends_on: [ npm ]
+    image: node:current-alpine
+    commands:
+      - npx stylelint -s scss "administrator/components/com_media/resources/**/*.scss" "administrator/templates/**/*.scss" "build/media_source/**/*.scss" "templates/**/*.scss" "installation/template/**/*.scss"
+
   - name: javascript-cs
     depends_on: [ npm ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    image: node:current-alpine
     commands:
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
-      - npm run lint:js
+      - npx eslint "**/*.js"
 
   - name: javascript-tests
     depends_on: [ npm ]
@@ -244,32 +215,6 @@ steps:
       status:
         - failure
 
-  - name: packager
-    image: joomlaprojects/docker-images:packager
-    environment:
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org
-      FTP_PORT: "21"
-      FTP_DEST_DIR: /artifacts
-      FTP_VERIFY: "false"
-      FTP_SECURE: "true"
-      HTTP_ROOT: "https://ci.joomla.org/artifacts"
-      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
-      DRONE_COMMIT: DRONE_COMMIT
-      GITHUB_TOKEN:
-        from_secret: github_token
-    commands:
-      - /bin/drone_build.sh
-    volumes:
-      - name: reference
-        path: /reference
-    when:
-      branch:
-        - 4.0-dev
-
   - name: analysis4x
     image: rips/rips-cli:3.2.2
     depends_on: [ api-tests ]
@@ -280,8 +225,8 @@ steps:
         - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-      - rips-cli rips:scan:start -G -a 2 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
+      - rips-cli rips:scan:start --progress --application=2 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_EMAIL:
         from_secret: RIPS_EMAIL
@@ -333,7 +278,40 @@ services:
       POSTGRES_DB: test_joomla
 
 ---
+kind: pipeline
+name: package
+
+steps:
+  - name: packager
+    image: joomlaprojects/docker-images:packager
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+      DRONE_COMMIT: DRONE_COMMIT
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
+      - /bin/drone_build.sh
+    volumes:
+      - name: reference
+        path: /reference
+    when:
+      branch:
+        - 4.0-dev
+
+
+---
 kind: signature
-hmac: 02ecb90787cb939e40ca5209c05c6b9332b04d834fa60df6a9595cb7df1e135d
+hmac: 413db223fcb4ced2a650d336799dcca6920a1b3b7f2a89bf4a5e0d48b0755c99
 
 ...

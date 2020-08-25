@@ -208,6 +208,7 @@ const copyFiles = (options) => {
 
       if (!FsExtra.existsSync(itemvendorPath)) {
         FsExtra.mkdirSync(itemvendorPath);
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'icons'));
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'plugins'));
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'langs'));
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'skins'));
@@ -215,6 +216,7 @@ const copyFiles = (options) => {
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'templates'));
       }
 
+      copyAll('icons', 'tinymce', 'icons');
       copyAll('plugins', 'tinymce', 'plugins');
       copyAll('skins', 'tinymce', 'skins');
       copyAll('themes', 'tinymce', 'themes');
@@ -339,7 +341,6 @@ const recreateMediaFolder = () => {
     }
   });
 };
-
 
 module.exports.copyAssets = (options) => {
   Promise.resolve()

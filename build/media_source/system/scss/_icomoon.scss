@@ -12,10 +12,13 @@
   font-family: "Font Awesome 5 Free";
   font-style: normal;
   speak: none;
+  font-weight: 900;
 }
 [class^="icon-"].disabled,
-[class*=" icon-"].disabled {
-  font-weight: 900;
+[class*=" icon-"].disabled,
+[class^="fa-"].disabled,
+[class*=" fa-"].disabled {
+  font-weight: 400;
 }
 
 .icon-generic::before {

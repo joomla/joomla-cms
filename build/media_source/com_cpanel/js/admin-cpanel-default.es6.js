@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@
     if (cpanelModules) {
       const links = [].slice.call(cpanelModules.querySelectorAll('.unpublish-module'));
       links.forEach((link) => {
-        link.addEventListener('click', (event) => Joomla.unpublishModule(event.target));
+        link.addEventListener('click', ({ target }) => Joomla.unpublishModule(target));
       });
     }
 
@@ -54,10 +54,12 @@
     // Calculate "grid-row-end" property
     resizeGridItem($cell, rowHeight, rowGap) {
       const $content = $cell.querySelector('.card');
-      const contentHeight = $content.getBoundingClientRect().height + rowGap;
-      const rowSpan = Math.ceil(contentHeight / (rowHeight + rowGap));
+      if ($content) {
+        const contentHeight = $content.getBoundingClientRect().height + rowGap;
+        const rowSpan = Math.ceil(contentHeight / (rowHeight + rowGap));
 
-      $cell.style.gridRowEnd = `span ${rowSpan}`;
+        $cell.style.gridRowEnd = `span ${rowSpan}`;
+      }
     },
 
     // Check a size of every cell in the grid

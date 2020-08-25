@@ -1,9 +1,9 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(function (customElements) {
+((customElements) => {
   'use strict';
 
   const KEYCODE = {
@@ -97,8 +97,8 @@
 
           // Check actine, with extra check for nested joomla-field-subform
           if (btnAdd && btnAdd.closest('joomla-field-subform') === that) {
-            let row = btnAdd.closest(that.repeatableElement);
-            row = row.closest('joomla-field-subform') === that ? row : null;
+            let row = btnAdd.closest('joomla-field-subform');
+            row = row.closest(that.repeatableElement) === that ? row : null;
             that.addRow(row);
             event.preventDefault();
           } else if (btnRem && btnRem.closest('joomla-field-subform') === that) {
@@ -114,8 +114,8 @@
           const isRem = that.buttonRemove && event.target.matches(that.buttonRemove);
 
           if ((isAdd || isRem) && event.target.closest('joomla-field-subform') === that) {
-            let row = event.target.closest(that.repeatableElement);
-            row = row.closest('joomla-field-subform') === that ? row : null;
+            let row = event.target.closest('joomla-field-subform');
+            row = row.closest(that.repeatableElement) === that ? row : null;
             if (isRem && row) {
               that.removeRow(row);
             } else if (isAdd) {
@@ -194,7 +194,7 @@
         this.containerWithRows.append(row);
       }
 
-      // Add dragable attributes
+      // Add draggable attributes
       if (this.buttonMove) {
         row.setAttribute('draggable', 'false');
         row.setAttribute('aria-grabbed', 'false');
@@ -355,7 +355,7 @@
       let item = null; // Storing the selected item
       let touched = false; // We have a touch events
 
-      // Find all existing rows and add dragable attributes
+      // Find all existing rows and add draggable attributes
       const rows = this.getRows();
       for (let ir = 0, lr = rows.length; ir < lr; ir++) {
         const childRow = rows[ir];
@@ -391,7 +391,7 @@
       }
 
       // Touch interaction:
-      // - a touch of "move button" mark a row dragable / "selected", or deselect previous selected
+      // - a touch of "move button" mark a row draggable / "selected", or deselect previous selected
       // - a touch of "move button" in the destination row will move a selected row to a new position
       this.addEventListener('touchstart', (event) => {
         touched = true;
@@ -430,11 +430,11 @@
       // Mouse interaction
       // - mouse down, enable "draggable" and allow to drag the row,
       // - mouse up, disable "draggable"
-      this.addEventListener('mousedown', (event) => {
+      this.addEventListener('mousedown', ({ target }) => {
         if (touched) return;
 
         // Check for .move button
-        const handler = getMoveHandler(event.target);
+        const handler = getMoveHandler(target);
 
 
         const row = handler ? handler.closest(that.repeatableElement) : null;
@@ -448,7 +448,7 @@
         item = row;
       });
 
-      this.addEventListener('mouseup', (event) => {
+      this.addEventListener('mouseup', () => {
         if (item && !touched) {
           item.setAttribute('draggable', 'false');
           item.setAttribute('aria-grabbed', 'false');
@@ -530,13 +530,13 @@
       });
 
       // dragstart event to initiate mouse dragging
-      this.addEventListener('dragstart', (event) => {
+      this.addEventListener('dragstart', ({ dataTransfer }) => {
         if (item) {
           // We going to move the row
-          event.dataTransfer.effectAllowed = 'move';
+          dataTransfer.effectAllowed = 'move';
 
           // This need to work in Firefox and IE10+
-          event.dataTransfer.setData('text', '');
+          dataTransfer.setData('text', '');
         }
       });
 
@@ -547,17 +547,17 @@
       });
 
       // Handle drag action, move element to hovered position
-      this.addEventListener('dragenter', (event) => {
+      this.addEventListener('dragenter', ({ target }) => {
         // Make sure the target in the correct container
         if (!item || (that.rowsContainer
-          && event.target.closest(that.rowsContainer) !== that.containerWithRows)) {
+          && target.closest(that.rowsContainer) !== that.containerWithRows)) {
           return;
         }
 
         // Find a hovered row, and replace it
-        const row = event.target.matches(that.repeatableElement)
-          ? event.target
-          : event.target.closest(that.repeatableElement);
+        const row = target.matches(that.repeatableElement)
+          ? target
+          : target.closest(that.repeatableElement);
         if (!row) return;
 
         switchRowPositions(item, row);
@@ -576,6 +576,4 @@
   }
 
   customElements.define('joomla-field-subform', JoomlaFieldSubform);
-
-
-}(customElements));
+})(customElements);

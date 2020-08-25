@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -592,7 +592,7 @@ class User extends CMSObject
 			// Check the password and create the crypted password
 			if (empty($array['password']))
 			{
-				$array['password']  = UserHelper::genRandomPassword();
+				$array['password']  = UserHelper::genRandomPassword(32);
 				$array['password2'] = $array['password'];
 			}
 

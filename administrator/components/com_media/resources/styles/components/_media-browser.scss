@@ -4,7 +4,7 @@
   width: 75%;
   height: calc(100vh - 208px);
   overflow-y: auto;
-  transition: width .3s cubic-bezier(.4, .0, .2, 1);
+  transition: width .3s cubic-bezier(.4, 0, .2, 1);
 }
 
 // Grid View
@@ -55,7 +55,7 @@
     background-color: $grid-item-hover-color;
     border-radius: $grid-item-border-radius;
     opacity: 0;
-    transition: opacity .2s cubic-bezier(.4, .0, .2, 1);
+    transition: opacity .2s cubic-bezier(.4, 0, .2, 1);
     .media-browser-item.active &, .selected & {
       opacity: 1;
     }
@@ -83,7 +83,7 @@
   border-radius: $grid-item-border-radius;
   box-shadow: inset 0 0 0 0 $grid-item-icon-color;
   opacity: 0;
-  transition: all .3s cubic-bezier(.4, .0, .2, 1);
+  transition: all .3s cubic-bezier(.4, 0, .2, 1);
   .media-browser-item.active & {
     opacity: 1;
   }
@@ -95,11 +95,12 @@
     height: calc(#{$grid-item-icon-size} * 1.3);
     font-family: "Font Awesome 5 Free";
     font-size: $grid-item-icon-size;
+    font-weight: 900;
     line-height: calc(#{$grid-item-icon-size} * 1.3);
     text-align: center;
     content: "\f00c";
     opacity: 0;
-    transition: all .3s cubic-bezier(.4, .0, .2, 1);
+    transition: all .3s cubic-bezier(.4, 0, .2, 1);
     transform: scale(.5);
     .selected & {
       opacity: 1;
@@ -319,7 +320,7 @@
     background-color: $table-item-icon-bg;
     border-right: 1px solid rgba(0, 0, 0, .03);
     &::before, &::after {
-      transition: all .2s cubic-bezier(.4, .0, .2, 1);
+      transition: all .2s cubic-bezier(.4, 0, .2, 1);
     }
     &::before {
       font-family: "Font Awesome 5 Free";

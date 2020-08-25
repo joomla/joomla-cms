@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -304,7 +304,7 @@ class ConfigurationModel extends BaseInstallationModel
 			'#__newsfeeds'       => array('created_by', 'modified_by'),
 			'#__tags'            => array('created_user_id', 'modified_user_id'),
 			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
-			'#__ucm_history'     => array('editor_user_id'),
+			'#__history'         => array('editor_user_id'),
 			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
 			'#__workflows'       => array('created_by', 'modified_by'),
 		);
@@ -425,6 +425,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('dbsslcipher', $options->db_sslcipher);
 
 		// Server settings.
+		$registry->set('force_ssl', 0);
 		$registry->set('live_site', '');
 		$registry->set('secret', UserHelper::genRandomPassword(16));
 		$registry->set('gzip', false);

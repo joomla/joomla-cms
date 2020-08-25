@@ -73,6 +73,7 @@
 			size="1"
 			default="1"
 			filter="integer"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -111,6 +112,7 @@
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			default="0"
 			filter="int"
+			validate="options"
 			>
 			<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
 			<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>

@@ -12,6 +12,18 @@
 			<option value="1">JENABLED</option>
 		</field>
 		<field
+			name="contentsecuritypolicy_client"
+			type="list"
+			label="COM_CSP_CONTENTSECURITYPOLICY_CLIENT"
+			default="site"
+			validate="options"
+			showon="contentsecuritypolicy:1"
+			>
+			<option value="site">JSITE</option>
+			<option value="administrator">JADMINISTRATOR</option>
+			<option value="both">COM_CSP_HEADER_CLIENT_BOTH</option>
+		</field>
+		<field
 			name="contentsecuritypolicy_mode"
 			type="list"
 			label="COM_CSP_CONTENTSECURITYPOLICY_MODE"

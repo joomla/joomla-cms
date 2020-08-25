@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -382,7 +382,7 @@ class PlgUserProfile extends CMSPlugin
 
 			if (Date::getInstance('now') < $date)
 			{
-				// Throw an exception if dob is greather than now.
+				// Throw an exception if dob is greater than now.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
@@ -410,9 +410,9 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
-	public function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
@@ -484,8 +484,6 @@ class PlgUserProfile extends CMSPlugin
 			$db->setQuery($query);
 			$db->execute();
 		}
-
-		return true;
 	}
 
 	/**
@@ -497,13 +495,13 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
@@ -520,7 +518,5 @@ class PlgUserProfile extends CMSPlugin
 			$db->setQuery($query);
 			$db->execute();
 		}
-
-		return true;
 	}
 }

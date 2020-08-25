@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -142,7 +142,7 @@ class CssMenu
 				$uri = clone Uri::getInstance();
 				$uri->setVar('recover_menu', 0);
 
-				$this->root->addChild(new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'url' => $uri->toString()]));
+				$this->root->addChild(new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'link' => $uri->toString()]));
 
 				return $this->root;
 			}
@@ -376,7 +376,9 @@ class CssMenu
 
 				if (isset($query['extension']))
 				{
-					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+					$parts = explode('.', $query['extension']);
+
+					$workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled') && $user->authorise('core.manage.workflow', $parts[0]);
 				}
 
 				if (!$workflow)

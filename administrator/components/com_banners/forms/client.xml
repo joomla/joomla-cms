@@ -41,6 +41,7 @@
 			class="custom-select-color-state"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -61,6 +62,7 @@
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
@@ -75,6 +77,7 @@
 			type="list"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>
@@ -86,6 +89,7 @@
 			type="list"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>

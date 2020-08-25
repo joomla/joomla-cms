@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ class Icon
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public static function create($category, $params, $attribs = array())
 	{
@@ -98,7 +98,7 @@ class Icon
 	 *
 	 * @return  string   The HTML for the contact edit icon.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function edit($contact, $params, $attribs = array(), $legacy = false)
 	{
@@ -123,7 +123,7 @@ class Icon
 		// Show checked_out icon if the contact is checked out by a different user
 		if (property_exists($contact, 'checked_out')
 			&& property_exists($contact, 'checked_out_time')
-			&& $contact->checked_out > 0
+			&& !is_null($contact->checked_out)
 			&& $contact->checked_out !== $user->get('id'))
 		{
 			$checkoutUser = Factory::getUser($contact->checked_out);
@@ -141,7 +141,7 @@ class Icon
 		$contactUrl = RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language);
 		$url        = $contactUrl . '&task=contact.edit&id=' . $contact->id . '&return=' . base64_encode($uri);
 
-		if ($contact->published === 0)
+		if ((int) $contact->published === 0)
 		{
 			$overlib = Text::_('JUNPUBLISHED');
 		}

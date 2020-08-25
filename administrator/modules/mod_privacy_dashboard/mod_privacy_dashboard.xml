@@ -3,7 +3,7 @@
 	<name>mod_privacy_dashboard</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2018</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -28,13 +28,13 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="custom-select"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 				 	rows="3"
 				/>
 
@@ -42,9 +42,9 @@
 					name="cache"
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -54,7 +54,6 @@
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
 					filter="integer"
 				/>

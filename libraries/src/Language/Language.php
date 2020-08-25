@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -324,7 +324,7 @@ class Language
 			// Store debug information
 			if ($this->debug)
 			{
-				$value = Factory::getApplication()->get('debug_lang_const') == 0 ? $key : $string;
+				$value = Factory::getApplication()->get('debug_lang_const', 1) == 0 ? $key : $string;
 				$string = '**' . $value . '**';
 
 				$caller = $this->getCallerInfo();
@@ -821,7 +821,7 @@ class Language
 		}
 
 		// Initialise variables for manually parsing the file for common errors.
-		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+		$reservedWord = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
 		$debug = $this->getDebug();
 		$this->debug = false;
 		$errors = array();
@@ -871,10 +871,10 @@ class Language
 				continue;
 			}
 
-			// Check that the key is not in the blacklist.
+			// Check that the key is not in the reserved constants list.
 			$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
 
-			if (\in_array($key, $blacklist))
+			if (\in_array($key, $reservedWord))
 			{
 				$errors[] = $realNumber;
 			}
