@@ -126,7 +126,7 @@ class Session implements \IteratorAggregate
 		// Set the session handler
 		$this->_handler = $handlerInterface instanceof \JSessionHandlerInterface ? $handlerInterface : new \JSessionHandlerJoomla($options);
 
-		// Initialize the data variable, let's avoid fatal error if the session is not corretly started (ie in CLI).
+		// Initialize the data variable, let's avoid fatal error if the session is not correctly started (ie in CLI).
 		$this->data = new \Joomla\Registry\Registry;
 
 		// Clear any existing sessions

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Editor Contact buton
+ * Editor Contact button
  *
  * @since  3.7.0
  */

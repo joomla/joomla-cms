@@ -49,7 +49,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 * JConfig. If configuration data has been saved in the session, that
 	 * data will be merged into the original data, overwriting it.
 	 *
-	 * @return	array  An array containg all global config data.
+	 * @return	array  An array containing all global config data.
 	 *
 	 * @since	1.6
 	 */
@@ -497,7 +497,7 @@ class ConfigModelApplication extends ConfigModelForm
 			opcache_invalidate($file);
 		}
 
-		// Attempt to make the file unwriteable if using FTP.
+		// Attempt to make the file unwriteable if NOT using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
@@ -816,21 +816,21 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
-			// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
+			// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 			/**
-			 * @to do: incorect info
+			 * @todo: incorrect info
 			 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 			 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 			 */
 
-			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
+			// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
-			// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
+			// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
 				$result['class'] = 'label label-success';

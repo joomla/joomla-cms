@@ -565,7 +565,7 @@ class JDatabaseQueryTest extends TestCase
 				$this->equalTo(null)
 			);
 
-			// Now check the claues have not been affected.
+			// Now check the clauses have not been affected.
 			foreach ($clauses as $clause)
 			{
 				$this->assertThat(

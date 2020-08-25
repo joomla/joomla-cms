@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Editor menu buton
+ * Editor menu button
  *
  * @since  3.7.0
  */

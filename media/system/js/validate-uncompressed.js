@@ -87,9 +87,9 @@ var JFormValidator = function() {
 		// Try HTML5 pattern first then the handlers
 	    if ($el.attr('pattern') && $el.attr('pattern') != '') {
 		if ($el.val().length) {
-			isValid = new RegExp('^'+$el.attr('pattern')+'$').test($el.val());
+			var isValid = new RegExp('^'+$el.attr('pattern')+'$').test($el.val());
 			handleResponse(isValid, $el);
-			return isValid;					
+			return isValid;
 		}
 		if ($el.attr('required') || $el.hasClass('required')) {
 			handleResponse(false, $el);

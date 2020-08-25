@@ -70,7 +70,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		/*
 		 * Finally, if the schema updates succeeded, make sure the database is
-		 * converted to utf8mb4 or, if not suported by the server, compatible to it.
+		 * converted to utf8mb4 or, if not supported by the server, compatible to it.
 		 */
 		$statusArray = $changeSet->getStatus();
 

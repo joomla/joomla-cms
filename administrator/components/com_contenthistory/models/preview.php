@@ -82,7 +82,7 @@ class ContenthistoryModelPreview extends JModelItem
 
 			foreach ($dateProperties as $dateProperty)
 			{
-				if (array_key_exists($dateProperty, $result->data) && $result->data->$dateProperty->value != '0000-00-00 00:00:00')
+				if (property_exists($result->data, $dateProperty) && $result->data->$dateProperty->value != '0000-00-00 00:00:00')
 				{
 					$result->data->$dateProperty->value = JHtml::_('date', $result->data->$dateProperty->value, JText::_('DATE_FORMAT_LC6'));
 				}

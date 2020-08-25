@@ -174,7 +174,7 @@ class JLinkedinTest extends TestCase
 	}
 
 	/**
-	 * Tests the magic __get method - other (non existant)
+	 * Tests the magic __get method - other (non existent)
 	 *
 	 * @return  void
 	 *

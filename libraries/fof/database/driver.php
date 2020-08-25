@@ -917,7 +917,7 @@ abstract class FOFDatabaseDriver extends FOFDatabase implements FOFDatabaseInter
 	}
 
 	/**
-	 * Gets the name of the database used by this conneciton.
+	 * Gets the name of the database used by this connection.
 	 *
 	 * @return  string
 	 *
@@ -1422,7 +1422,7 @@ abstract class FOFDatabaseDriver extends FOFDatabase implements FOFDatabaseInter
 	 * of ['field_name' => 'row_value'].  The array of rows can optionally be keyed by a field name, but defaults to
 	 * a sequential numeric array.
 	 *
-	 * NOTE: Chosing to key the result array by a non-unique field name can result in unwanted
+	 * NOTE: Choosing to key the result array by a non-unique field name can result in unwanted
 	 * behavior and should be avoided.
 	 *
 	 * @param   string  $key     The name of a field on which to key the result array.

@@ -60,7 +60,7 @@ abstract class JGithubObject
 	 */
 	protected function fetchUrl($path, $page = 0, $limit = 0)
 	{
-		// Get a new JUri object fousing the api url and given path.
+		// Get a new JUri object focusing the api url and given path.
 		$uri = new JUri($this->options->get('api.url') . $path);
 
 		if ($this->options->get('gh.token', false))

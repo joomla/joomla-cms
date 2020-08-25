@@ -80,7 +80,7 @@ class FileLayout extends BaseLayout
 		$this->setLayout($layoutId);
 		$this->basePath = $basePath;
 
-		// Init Enviroment
+		// Init Environment
 		$this->setComponent($this->options->get('component', 'auto'));
 		$this->setClient($this->options->get('client', 'auto'));
 	}
@@ -238,7 +238,7 @@ class FileLayout extends BaseLayout
 	/**
 	 * Add one or more paths to include in layout search
 	 *
-	 * @param   string  $paths  The path or array of paths to search for layouts
+	 * @param   string|string[]  $paths  The path or array of paths to search for layouts
 	 *
 	 * @return  self
 	 *
@@ -600,7 +600,7 @@ class FileLayout extends BaseLayout
 			}
 		}
 
-		// (4) Standard Joomla! layouts overriden
+		// (4) Standard Joomla! layouts overridden
 		$paths[] = JPATH_THEMES . '/' . \JFactory::getApplication()->getTemplate() . '/html/layouts';
 
 		// (5 - lower priority) Frontend base layouts
