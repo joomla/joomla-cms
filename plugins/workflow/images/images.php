@@ -13,6 +13,8 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\MediaHelper;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -21,7 +23,7 @@ use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
-use Joomla\CMS\Image\Image;
+
 /**
  * Workflow Publishing Plugin
  *
@@ -177,7 +179,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				}
 			}
 
-			if( !exif_imagetype($introImagePath)){
+			if( !MediaHelper::getMimeType($introImagePath,true)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_TYPE'));
 				$event->setStopTransition();
 				return false;
@@ -189,7 +191,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				return false;
 			}
 			*/
-			if( !exif_imagetype($fullArticleImagePath) ){
+			if( !MediaHelper::getMimeType($fullArticleImagePath, true)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_INVALID_TYPE'));
 				$event->setStopTransition();
 
