@@ -27,12 +27,10 @@ $canEdit = $params->get('access-edit');
 $user    = Factory::getUser();
 $info    = $params->get('info_block_position', 0);
 
-// experimental stuff
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
 $this->useCoreUI = true;
 
-$this->document->addScriptOptions('original_article_text', $this->item->introtext);
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
@@ -57,7 +55,6 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<?php // Todo Not that elegant would be nice to group the params ?>
 		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 				|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
-
 		<?php if ($params->get('show_title')) : ?>
 			<div class="page-header">
 				<h2 id="headline" itemprop="headline" class="editable" ">
@@ -113,8 +110,6 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<!-- form for inline editing needs to be here-->
 	<div itemprop="articleBody" class="editable com-content-article__body" id="articlebody">
 		<?php echo $this->item->text; ?>
-<?php //echo $this->form->getInput('articletext'); ?>
-
 	</div>
 
 
@@ -124,19 +119,9 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<input type="hidden" name="jform[catid]" id="catidfield" value=<?php echo $this->item->catid?> />
 
 	</fieldset>
-	<!-- experiment from here -->
-<?php /*if($canEdit): */?><!--
-	<div class="mb-2">
-			<button type="button" class="btn btn-primary" data-submit-task="article.save">
-				<span class="fas fa-check" aria-hidden="true"></span>
-				<?php /*echo Text::_('JSAVE'); */?>
-			</button>
-		</div>
-	--><?php /*endif */?>
 	</form>
 
-<!-- experiment end here-->
-	<?php if ($info == 1 || $info == 2) : ?>
+<?php if ($info == 1 || $info == 2) : ?>
 		<?php if ($useDefList) : ?>
 			<?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
 		<?php endif; ?>
