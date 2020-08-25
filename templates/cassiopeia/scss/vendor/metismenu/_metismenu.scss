@@ -4,35 +4,35 @@
     flex-direction: column;
 
     > li {
+      position: relative;
       display: flex;
       flex-direction: column;
-      position: relative;
-      
+
       &:not(:last-child) {
         margin-right: 20px;
       }
     }
 
     ul {
-      background: white;
-      list-style: none;
       padding-left: 0;
+      list-style: none;
+      background: $white;
 
       a {
         position: relative;
         display: block;
+        padding: 8px 40px 8px 15px;
         color: #555;
         letter-spacing: 0;
-        padding: 8px 40px 8px 15px;
-        transition: all 0.3s ease-out;
         white-space: nowrap;
+        transition: all .3s ease-out;
 
         &:hover,
         &:focus,
         &:active {
-          color: black;
+          color: #000;
           text-decoration: none;
-          background-color: rgba(0, 0, 0, 0.1);
+          background-color: rgba(0, 0, 0, .1);
         }
       }
 
@@ -47,8 +47,8 @@
 
         ul {
           a {
-            opacity: 0.75;
-            font-size: 0.9em;
+            font-size: .9em;
+            opacity: .75;
           }
         }
       }
@@ -59,7 +59,7 @@
       height: 0;
       overflow: hidden;
       transition-timing-function: ease;
-      transition-duration: 0.35s;
+      transition-duration: .35s;
       transition-property: height, visibility;
     }
 
@@ -72,17 +72,17 @@
 
       &::after {
         position: absolute;
-        content: "";
-        width: 0.5em;
-        height: 0.5em;
-        border-width: 0 1px 1px 0;
-        border-style: solid;
-        border-color: initial;
+        top: 50%;
         right: 1em;
+        width: .5em;
+        height: .5em;
+        content: "";
+        border-color: initial;
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        transition: all .3s ease-out;
         transform: rotate(-45deg) translate(0, -50%);
         transform-origin: top;
-        top: 50%;
-        transition: all 0.3s ease-out;
       }
     }
 
@@ -109,10 +109,10 @@
         > .mm-collapsing {
           position: absolute;
           top: 100%;
-          margin-top: 5px;
-          min-width: 180px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
           z-index: 1001;
+          min-width: 180px;
+          margin-top: 5px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, .1);
         }
       }
     }
