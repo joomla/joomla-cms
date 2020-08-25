@@ -14,7 +14,7 @@ $icon = $displayData['icon'];
 
 if(strpos($icon, 'fa-') !== false)
 {
-	$icon = 'fas ' . $icon;
+	$icon = 'fas ' . str_ireplace('fas ','', $icon);
 }
 elseif(strpos($icon, 'icon-') !== false)
 {
@@ -72,7 +72,7 @@ elseif ($icon === 'contract')
 {
 	$icon = 'fas fa-compress';
 }
-elseif ($icon === 'purge' || $icon === 'trash')
+elseif ($icon === 'purge')
 {
 	$icon = 'fas fa-trash';
 }

@@ -14,13 +14,13 @@ $icon = $displayData['icon'];
 
 if(strpos($icon, 'fa-') !== false)
 {
-	$icon = 'fas ' . $icon;
+	$icon = 'fas ' . str_ireplace('fas ','', $icon);
 }
-elseif(strpos($icon, 'icon-') !== false)
+elseif (strpos($icon, 'icon-') !== false)
 {
 	$icon = $icon;
 }
-elseif  ($icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder-2' || $icon === 'folder-minus' || $icon === 'folder-plus-2' || $icon === 'folder-remove' || $icon === 'drawer-2')
+elseif ($icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder-2' || $icon === 'folder-minus' || $icon === 'folder-plus-2' || $icon === 'folder-remove' || $icon === 'drawer-2')
 {
 	$icon = 'fas fa-folder';
 }
@@ -72,7 +72,7 @@ elseif ($icon === 'contract')
 {
 	$icon = 'fas fa-compress';
 }
-elseif ($icon === 'purge' || $icon === 'trash')
+elseif ($icon === 'purge')
 {
 	$icon = 'fas fa-trash';
 }
