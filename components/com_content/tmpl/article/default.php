@@ -27,12 +27,6 @@ $canEdit = $params->get('access-edit');
 $user    = Factory::getUser();
 $info    = $params->get('info_block_position', 0);
 
-// Web connection
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('form.validate')
-		->useScript('com_content.article-inlineediting');
-
 // experimental stuff
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
@@ -43,9 +37,8 @@ $this->document->addScriptOptions('original_article_text', $this->item->introtex
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 <div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<?php if($canEdit && $params->get('activate_inline_editor')) :?>
-	<script type="text/javascript" src="<?php echo Uri::root() . 'media/vendor/tinymce/'; ?>tinymce.js"></script>
-	<?php endif; ?>
+
+	<?php echo HTMLHelper::_('inlineEditing', $this->item); ?>
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
 
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -59,7 +52,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	}
 	?>
 	<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-	<form target="dummyframe" action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+		<form target="dummyframe" action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 	<fieldset>
 		<?php // Todo Not that elegant would be nice to group the params ?>
 		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')

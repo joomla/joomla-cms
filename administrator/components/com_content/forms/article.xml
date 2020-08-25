@@ -305,6 +305,17 @@
 				</field>
 
 				<field
+					name="inlineEdit"
+					type="list"
+					label="JGLOBAL_LINKED_TITLES_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="show_tags"
 					type="list"
 					label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
