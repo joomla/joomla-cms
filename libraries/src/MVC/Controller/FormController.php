@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -735,6 +735,26 @@ class FormController extends BaseController
 				}
 			}
 
+			/**
+			 * We need the filtered value of calendar fields because the UTC normalision is
+			 * done in the filter and on output. This would apply the Timezone offset on
+			 * reload. We set the calendar values we save to the processed date.
+			 */
+			$filteredData = $form->filter($data);
+
+			foreach ($form->getFieldset() as $field)
+			{
+				if ($field->type === 'Calendar')
+				{
+					$fieldName = $field->fieldname;
+
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
+				}
+			}
+
 			// Save the data in the session.
 			$app->setUserState($context . '.data', $data);
 
@@ -913,6 +933,29 @@ class FormController extends BaseController
 			$this->getRedirectToItemAppend($recordId, $urlVar),
 			false
 		);
+
+		/* @var \JForm $form */
+		$form = $model->getForm($data, false);
+
+		/**
+		 * We need the filtered value of calendar fields because the UTC normalision is
+		 * done in the filter and on output. This would apply the Timezone offset on
+		 * reload. We set the calendar values we save to the processed date.
+		 */
+		$filteredData = $form->filter($data);
+
+		foreach ($form->getFieldset() as $field)
+		{
+			if ($field->type === 'Calendar')
+			{
+				$fieldName = $field->fieldname;
+
+				if (isset($filteredData[$fieldName]))
+				{
+					$data[$fieldName] = $filteredData[$fieldName];
+				}
+			}
+		}
 
 		// Save the data in the session.
 		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);

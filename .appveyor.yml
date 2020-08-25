@@ -9,7 +9,7 @@ branches:
 
 ## Build matrix for lowest and highest possible targets
 environment:
-  DLLVersion: "5.6.1"
+  DLLVersion: "5.8.0"
   PHPBuild: "x64"
   VC: "vc15"
   matrix:
@@ -28,6 +28,7 @@ environment:
   - php_ver_target: 7.2
     DLLVersion: "5.3.0"
   - php_ver_target: 7.3
+  - php_ver_target: 7.4
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
@@ -126,7 +127,7 @@ install:
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
     - IF %PHP%==1 echo extension=php_ldap.dll >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
-    - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
+    - IF %PHP%==1 php -r "readfile('http://getcomposer.org/installer');" | php
     - cd C:\projects\joomla-cms
     - appveyor-retry composer install --no-progress --profile
 

@@ -3,11 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 extract($displayData);
 
@@ -42,7 +42,7 @@ extract($displayData);
  * @var   array    $translateLabel         Should the label be translated?
  * @var   array    $translateDescription   Should the description be translated?
  * @var   array    $translateHint          Should the hint be translated?
- * @var   array    $privacyArticle         The Article ID holding the Privancy Article
+ * @var   array    $privacyArticle         The Article ID holding the Privacy Article
  */
 
 echo '<div class="alert alert-info">' . $privacynote . '</div>';

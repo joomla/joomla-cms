@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,7 @@ $param    = array(
 	'rssimage'    => 1,
 	'rssitems'    => 5,
 	'rssitemdesc' => 1,
+	'rssitemdate' => 1,
 	'rssrtl'      => $lang->isRtl() ? 1 : 0,
 	'word_count'  => 200,
 	'cache'       => 0,
@@ -34,6 +35,7 @@ JHtml::_('formbehavior.chosen', 'select');
 <form action="index.php" method="post" name="adminForm" class="form-inline" id="adminForm">
 	<input type="hidden" name="option" value="com_postinstall">
 	<input type="hidden" name="task" value="">
+	<?php echo JHtml::_('form.token'); ?>
 	<label for="eid"><?php echo JText::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
 	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'input-xlarge'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -288,7 +288,7 @@ class SiteRouter extends Router
 		// Handle an empty URL (special case)
 		if (empty($route))
 		{
-			// If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
+			// If route is empty AND option is set in the query, assume it's non-sef url, and parse appropriately
 			if (isset($vars['option']) || isset($vars['Itemid']))
 			{
 				return $this->parseRawRoute($uri);

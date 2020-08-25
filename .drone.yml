@@ -3,7 +3,6 @@ kind: pipeline
 name: default
 
 clone:
-  depth: 42
 
 steps:
   - name: phpcs
@@ -49,15 +48,17 @@ steps:
       - name: cache
         path: /cache
 
-  - name: analysis3x
+  - name: analysis310x
     image: rips/rips-cli:3.2.2
     when:
-      branch: staging
+      repo:
+        - joomla/joomla-cms
+      branch:
+        - 3.10-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - if [ $DRONE_REPO_NAMESPACE != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-      - rips-cli rips:scan:start -G -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
+      - rips-cli rips:scan:start --progress --application=3 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_EMAIL:
         from_secret: RIPS_EMAIL
@@ -71,8 +72,36 @@ volumes:
 
 branches:
   exclude: [ l10n_* ]
+
+---
+kind: pipeline
+name: package
+
+steps:
+  - name: packager
+    image: joomlaprojects/docker-images:packager
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+      DRONE_COMMIT: DRONE_COMMIT
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
+      - /bin/drone_build.sh
+
+
 ---
 kind: signature
-hmac: 7d1fbc23a21067e251bb5d22a875c5db23c88520d0384f1913a73aa0c992d017
+hmac: 2997f84497ff1190cc487b715df97882bbf0f3f10ada468dc197d55bcc63b653
 
 ...

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,10 +18,12 @@ JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 're
 
 JText::script('JYES');
 JText::script('JNO');
-JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
 
-$latestJoomlaVersion = $this->updateInfo['latest'];
+$latestJoomlaVersion  = $this->updateInfo['latest'];
+$currentJoomlaVersion = $this->updateInfo['current'];
 
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
@@ -38,7 +40,8 @@ jQuery(document).ready(function($) {
 	});
 });
 
-var joomlaTargetVersion = '$latestJoomlaVersion';
+var joomlaTargetVersion  = '$latestJoomlaVersion';
+var joomlaCurrentVersion = '$currentJoomlaVersion';
 JS
 );
 

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -350,6 +350,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 			->method('getOptions')
 			->will($this->returnValue($optionsReturn));
 
+		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('<field />'));
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 		TestReflection::setValue($formFieldCheckboxes, 'checkedOptions', 'blue');
@@ -428,6 +429,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 			->will($this->returnValue($optionsReturn));
 
 		// Test with nothing checked, two values in checked element
+		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('<field />'));
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 		TestReflection::setValue($formFieldCheckboxes, 'value', '""');
@@ -507,6 +509,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 			->will($this->returnValue($optionsReturn));
 
 		// Test with one item checked, a different value in checked element
+		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('<field />'));
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'value', 'red');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
@@ -586,6 +589,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 			->will($this->returnValue($optionsReturn));
 
 		// Test with two values checked, no checked element
+		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('<field />'));
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'value', 'yellow,green');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');

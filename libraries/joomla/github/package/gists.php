@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -112,7 +112,7 @@ class JGithubPackageGists extends JGithubPackage
 		// Build the request path.
 		$path = '/gists/' . (int) $gistId;
 
-		// Craete the data object.
+		// Create the data object.
 		$data = new stdClass;
 
 		// If a description is set add it to the data object.

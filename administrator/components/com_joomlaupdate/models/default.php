@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 * @var   array  $updateInformation  null
 	 * Holds the update information evaluated in getUpdateInformation.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private $updateInformation = null;
 
@@ -199,6 +199,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		$this->updateInformation['latest']    = $updateObject->version;
+		$this->updateInformation['current']   = JVERSION;
 
 		// Check whether this is an update or not.
 		if (version_compare($updateObject->version, JVERSION, '>'))
@@ -1115,7 +1116,7 @@ ENDDATA;
 	 *
 	 * @return array Array of PHP config options
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getPhpOptions()
 	{
@@ -1215,7 +1216,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getPhpSettings()
 	{
@@ -1282,7 +1283,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private function getConfiguredDatabaseType()
 	{
@@ -1295,7 +1296,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function isDatabaseTypeSupported()
 	{
@@ -1316,7 +1317,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function isPhpVersionSupported()
 	{
@@ -1329,7 +1330,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
@@ -1344,7 +1345,7 @@ ENDDATA;
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getIniParserAvailability()
 	{
@@ -1377,7 +1378,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getNonCoreExtensions()
 	{
@@ -1406,7 +1407,9 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 			$this->translateExtensionName($extension);
-			$extension->version = $decode->version;
+			$extension->version = isset($decode->version)
+				? $decode->version
+				: JText::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($extension->manifest_cache);
 		}
 
@@ -1420,7 +1423,7 @@ ENDDATA;
 	 *
 	 * @return  bool  true if extension is not a core extension
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private static function isNonCoreExtension($extension)
 	{
@@ -1446,7 +1449,7 @@ ENDDATA;
 	 *
 	 * @return object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
@@ -1472,6 +1475,11 @@ ENDDATA;
 						// Return the compatible version
 						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
 					}
+					else
+					{
+						// Return the compatible version as false so we can say update server is supported but no compatible version found
+						return (object) array('state' => 1, 'compatibleVersion' => false);
+					}
 				}
 			}
 			else
@@ -1482,6 +1490,11 @@ ENDDATA;
 				{
 					// Return the compatible version
 					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				}
+				else
+				{
+					// Return the compatible version as false so we can say update server is supported but no compatible version found
+					return (object) array('state' => 1, 'compatibleVersion' => false);
 				}
 			}
 		}
@@ -1497,7 +1510,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private function getUpdateSitesInfo($extensionID)
 	{
@@ -1540,7 +1553,7 @@ ENDDATA;
 	 *
 	 * @return  array  An array of URLs.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
 	{
@@ -1598,7 +1611,7 @@ ENDDATA;
 	 *
 	 * @return  mixed  An array of data items or false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
@@ -1618,7 +1631,7 @@ ENDDATA;
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	protected function translateExtensionName(&$item)
 	{

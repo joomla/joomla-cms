@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var   array  Array of PHP config options
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	protected $phpOptions = null;
 
@@ -57,7 +57,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var   array  Array of PHP settings
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	protected $phpSettings = null;
 
@@ -66,7 +66,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var   array  Array of Non-Core-Extensions
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	protected $nonCoreExtensions = null;
 
@@ -255,7 +255,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{

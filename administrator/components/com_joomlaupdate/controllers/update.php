@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -273,6 +273,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			$url = 'index.php?option=com_joomlaupdate';
 			$this->setRedirect($url, $e->getMessage(), 'error');
+
+			return;
 		}
 
 		$token = JSession::getFormToken();
@@ -493,7 +495,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 * Prints a JSON string.
 	 * Called from JS.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 *
 	 * @return void
 	 */
@@ -501,10 +503,56 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	{
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
+		$joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
+		$extensionVersion = $this->input->get('extension-version', '', 'DEFAULT');
 
 		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('default');
-		$compatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
+
+		$upgradeWarning = 0;
+	
+		if ($upgradeCompatibilityStatus->state == 1 && $upgradeCompatibilityStatus->compatibleVersion !== false)
+		{
+			if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $extensionVersion, 'gt'))
+			{
+				// Extension needs upgrade before upgrading Joomla
+				$resultGroup = 2;
+			}
+			else
+			{
+				// Current version is up to date and compatible
+				$resultGroup = 3;
+			}
+
+			if ($currentCompatibilityStatus->state == 1)
+			{
+				if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $currentCompatibilityStatus->compatibleVersion, 'lt'))
+				{
+					// Special case warning when version compatible with target is lower than current
+					$upgradeWarning = 2;
+				}
+			}
+		}
+		elseif ($currentCompatibilityStatus->state == 1)
+		{
+			// No compatible version for target version but there is a compatible version for current version
+			$resultGroup = 1;
+		}
+		else
+		{
+			// No update server available
+			$resultGroup = 1;
+		}
+
+		// Do we need to capture
+		$combinedCompatibilityStatus = array(
+			'upgradeCompatibilityStatus' => $upgradeCompatibilityStatus,
+			'currentCompatibilityStatus' => $currentCompatibilityStatus,
+			'resultGroup' => $resultGroup,
+			'upgradeWarning' => $upgradeWarning,
+		);
 
 		$this->app = JFactory::getApplication();
 		$this->app->mimeType = 'application/json';
@@ -514,7 +562,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		try
 		{
-			echo new JResponseJson($compatibilityStatus);
+			echo new JResponseJson($combinedCompatibilityStatus);
 		}
 		catch (Exception $e)
 		{
