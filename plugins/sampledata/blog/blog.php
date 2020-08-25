@@ -938,6 +938,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle' => 0,
 				'params'    => array(
 					'prepare_content' => 1,
+					'enabled'         => 0,
 					'layout'          => '_:default',
 					'cache'           => 1,
 					'cache_time'      => 900,
