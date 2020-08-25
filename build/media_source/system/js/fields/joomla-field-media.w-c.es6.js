@@ -224,7 +224,6 @@
 
     show() {
       this.modalElement.open();
-
       Joomla.selectedFile = {};
       window.document.addEventListener('onMediaFileEdit', this.onMediaFileEdit);
       this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
