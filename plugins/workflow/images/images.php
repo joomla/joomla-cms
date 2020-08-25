@@ -179,7 +179,9 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				}
 			}
 
-			if( !MediaHelper::getMimeType($introImagePath,true)){
+			$mimetypes = array('image/jpeg', 'image/png', 'image/gif');
+
+			if(!in_array(MediaHelper::getMimeType($introImagePath,true),$mimetypes)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_TYPE'));
 				$event->setStopTransition();
 				return false;
@@ -191,7 +193,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				return false;
 			}
 			*/
-			if( !MediaHelper::getMimeType($fullArticleImagePath, true)){
+			if(!in_array(MediaHelper::getMimeType($fullArticleImagePath,true),$mimetypes)){
 				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_INVALID_TYPE'));
 				$event->setStopTransition();
 
