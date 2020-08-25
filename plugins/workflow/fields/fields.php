@@ -13,6 +13,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -22,6 +23,7 @@ use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Image\Image;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 /**
  * Workflow Publishing Plugin
  *
@@ -86,18 +88,48 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 		$data = $event->getArgument('1');
 
 		$context = $form->getName();
-		$form->renderFieldset('notreqired');
 
 		// Extend the transition form
 		if ($context === 'com_workflow.transition')
 		{
-			$this->enhanceWorkflowTransitionForm($form, $data);
+			$workflow = $this->enhanceWorkflowTransitionForm($form, $data);
 
+			$existingFields = FieldsHelper::getFields($workflow->extension);
+
+			$subform = simplexml_load_file(JPATH_ROOT.'/plugins/workflow/fields/forms/subform.xml');
+			$myfield = $subform -> fields -> addChild('field');
+			$myfield->addAttribute('name','customfield');
+			$myfield->addAttribute('type','list');
+
+			foreach ($existingFields as $existingField){
+				$option = $myfield->addChild('option');
+				$option -> addAttribute('value', $existingField->id);
+			}
+			for ($i = 0; $i < count($form->getXml()->fields);$i++){
+				$attributes = $form->getXml()->fields[$i]->fieldset->attributes();
+				if(!strcmp($attributes['name'],"fields")) {
+					$form->getXml()->fields[$i]->fieldset->field->formsource=$subform->fields->asXML();
+				}
+			}
+			//$form->getXml()->fields[3]->fieldset->field->formsource=$subform->fields->asXML();
+
+			//$form->load($subform,false);
 			return;
 		}
 
 		return;
+
 	}
+	/*protected function enhanceWorkflowTransitionForm(Form $form, $data)
+	{
+
+		$workflow = parent::enhanceWorkflowTransitionForm($form, $data);
+
+		//
+
+		return $workflow;
+	}*/
+
 
 
 	/**
@@ -123,14 +155,15 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 		$pks        = $event->getArgument('pks');
 
 		//get Values from Form
-		$introImageRequired = $transition->options->get('images_intro_image_settings');
-		$fullArticleImageRequired = $transition->options->get('images_full_article_image_settings');
-		$allowedExtensions = str_replace(',','|',$transition->options->get('fileExtensions'));
+		$reqired = $transition->options->get('required');
+		$blankreqired = $transition->options->get('notrequired');
+		$contains = $transition->options->get('contains');
+		$containsNot = $transition->options->get('containsNot');
 
 
 		if (!$this->isSupported($context)
-			||!is_numeric($introImageRequired)
-			||!is_numeric($fullArticleImageRequired))
+			||!is_numeric($reqired)
+			||!is_numeric($blankreqired))
 		{
 			return true;
 		}
@@ -153,62 +186,12 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk)
 		{
-			$introImagePath = JPATH_ROOT . "/" . $model->getItem($pk)->images['image_intro'];
-			$fullArticleImagePath = JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"];
 
-			if ($introImageRequired)
-			{
-				if (!($introImagePath || !file_exists($introImagePath)))
-				{
-					Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_REQUIRED'));
-					$event->setStopTransition();
-
-					return false;
-				}
-			}
-
-			if ($fullArticleImageRequired)
-			{
-				if (!($fullArticleImagePath || !file_exists($fullArticleImagePath)))
-				{
-					Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_REQUIRED'));
-					$event->setStopTransition();
-
-					return false;
-				}
-			}
-
-			if( !exif_imagetype($introImagePath) || !getimagesize($introImagePath)){
-				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_TYPE'));
-				$event->setStopTransition();
-				return false;
-			}
-
-			if(!preg_match("/\.(?:$allowedExtensions)$/i", $introImagePath)){
-				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_EXTENSION'));
-				$event->setStopTransition();
-				return false;
-			}
-
-			if( !exif_imagetype($fullArticleImagePath) || !getimagesize($fullArticleImagePath)){
-				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_INVALID_TYPE'));
-				$event->setStopTransition();
-
-				return false;
-			}
-
-			if(!preg_match("/\.(?:$allowedExtensions)$/i", $fullArticleImagePath)){
-				Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_INVALID_EXTENSION'));
-				$event->setStopTransition();
-				return false;
-			}
 
 
 		}
 
-		if (!$this->isSupported($context) ||
-			!is_numeric($introImageRequired) ||
-				!is_numeric($fullArticleImageRequired))
+		if (!$this->isSupported($context))
 		{
 			return true;
 		}
@@ -231,8 +214,6 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 		$transition    = $event->getArgument('transition');
 		$pks           = $event->getArgument('pks');
 
-		$intro_image_required = $transition->options->get('images_intro_image_settings');
-		$full_article_image_required = $transition->options->get('images_full_article_image_settings');
 
 		if (!$this->isSupported($context))
 		{
@@ -240,12 +221,6 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 		}
 
 		$component = $this->app->bootComponent($extensionName);
-
-		$fullArticleWidth = $transition->options->get('fullArticleImageWidth');
-		$fullArticleHeight = $transition->options->get('fullArticleImageHeight');
-
-		$introWidth = $transition->options->get('introImageWidth');
-		$introHeight = $transition->options->get('introImageHeight');
 
 		$options = [
 			'ignore_request'            => true,
@@ -258,30 +233,7 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
 
 		foreach ($pks as $pk){
-			$introImagePath = JPATH_ROOT."/".$model->getItem($pk)->images['image_intro'];
-			if($intro_image_required){
-				if(!preg_match("/\.(?:'jpg|png|gif')$/i", $introImagePath)){
-					return true;
-				}
-				else if(($model->getItem($pk)->images['image_intro'])){
-					$image = new Image();
-					$image->loadFile($introImagePath);
-					$newImage = $image->cropResize($introWidth,$introHeight,true);
-					$newImage->toFile(JPATH_ROOT."/images/"."intro_image_resized.jpeg",IMAGETYPE_JPEG);
-				}
-			}
-			$fullArticleImagePath = JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"];
-			if($full_article_image_required){
-				if(!preg_match("/\.(?:'jpg|png|gif')$/i", $fullArticleImagePath)){
-					return true;
-				}
-				else if(($model->getItem($pk)->images["image_fulltext"])){
-					$image = new Image();
-					$image->loadFile($fullArticleImagePath);
-					$newImage = $image->cropResize($fullArticleWidth,$fullArticleHeight,true);
-					$newImage->toFile(JPATH_ROOT."/images/"."full_article_image_resized.jpeg",IMAGETYPE_JPEG);
-				}
-			}
+
 		}
 
 		return true;

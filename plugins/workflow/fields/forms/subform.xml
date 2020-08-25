@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields>
 
@@ -17,7 +16,6 @@
 			label="Blank Required"
 			type="list"
 			default="0"
-			showon="reqired:0"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -27,7 +25,6 @@
 			name="contains"
 			label="Contains"
 			type="text"
-			showon="reqired:1"
 		>
 		</field>
 
