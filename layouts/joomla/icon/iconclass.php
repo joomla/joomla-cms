@@ -13,117 +13,135 @@ defined('_JEXEC') or die;
 $icon = $displayData['icon'];
 $html = isset($displayData['html']) ? $displayData['html'] : false;
 
-if (strpos($icon, 'fa-') !== false)
+switch (true)
 {
-	$icon = 'fas ' . $icon;
-}
-else if (strpos($icon, 'icon-') !== false)
-{
-	$icon = $icon;
-}
-else if ($icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder-2' || $icon === 'folder-minus' || $icon === 'folder-plus-2' || $icon === 'folder-remove' || $icon === 'drawer-2')
-{
-	$icon = 'fas fa-folder';
-}
-else if ($icon === 'publish')
-{
-	$icon = 'fas fa-check';
-}
-else if ($icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' || $icon === 'remove')
-{
-	$icon = 'fas fa-times';
-}
-else if ($icon === 'new' || $icon === 'save-new')
-{
-	$icon = 'fas fa-plus';
-}
-else if ($icon === 'apply' || $icon === 'save')
-{
-	$icon = 'fas fa-save';
-}
-else if ($icon === 'mail')
-{
-	$icon = 'fas fa-envelope';
-}
-else if ($icon === 'unfeatured' || $icon === 'asterisk')
-{
-	$icon = 'fas fa-star';
-}
-else if ($icon === 'featured')
-{
-	$icon = 'fas fa-star featured';
-}
-else if ($icon === 'checkedout' || $icon === 'protected')
-{
-	$icon = 'fas fa-lock';
-}
-else if ($icon === 'eye-close')
-{
-	$icon = 'fas fa-eye-slash';
-}
-else if ($icon === 'eye-open')
-{
-	$icon = 'fas fa-eye';
-}
-else if ($icon === 'loop' || $icon === 'refresh' || $icon === 'unblock')
-{
-	$icon = 'fas fa-sync';
-}
-else if ($icon === 'contract')
-{
-	$icon = 'fas fa-compress';
-}
-else if ($icon === 'purge' || $icon === 'trash')
-{
-	$icon = 'fas fa-trash';
-}
-else if ($icon === 'options')
-{
-	$icon = 'fas fa-cog';
-}
-else if ($icon === 'expired')
-{
-	$icon = 'fas fa-minus-circle';
-}
-else if ($icon === 'save-copy')
-{
-	$icon = 'fas fa-copy';
-}
-else if ($icon === 'checkin')
-{
-	$icon = 'fas fa-check-square';
-}
-else if ($icon === 'generic')
-{
-	$icon = 'fas fa-dot-circle';
-}
-else if ($icon === 'list-2')
-{
-	$icon = 'fas fa-list-ul';
-}
-else if ($icon === 'default')
-{
-	$icon = 'fas fa-home';
-}
-else if ($icon === 'crop')
-{
-	$icon = 'fas fa-crop';
-}
-else if ($icon === 'chevron-down')
-{
-	$icon = 'fas fa-chevron-down';
-}
-else if ($icon === 'times')
-{
-	$icon = 'fas fa-times';
-}
-else if ($icon === 'move')
-{
-	$icon = 'fas fa-arrows-alt';
-}
-else
-{
-	$icon = 'icon-' . $icon;
+	case (strpos($icon, 'fa-') !== false):
+		$icon = 'fas ' . $icon;
+		break;
+
+	case (strpos($icon, 'icon-') !== false) :
+		$icon = $icon;
+		break;
+
+	case ($icon === 'archive'):
+	case ($icon === 'folder-close'):
+	case ($icon === 'folder-folder-2'):
+	case ($icon === 'folder-minus'):
+	case ($icon === 'folder-plus-2'):
+	case ($icon === 'folder-remove'):
+	case ($icon === 'drawer-2'):
+		$icon = 'fas fa-folder';
+		break;
+
+	case ($icon === 'publish') :
+		$icon = 'fas fa-check';
+		break;
+
+	case ($icon === 'unpublish'):
+	case ($icon === 'cancel'):
+	case ($icon === 'delete'):
+	case ($icon === 'remove') :
+		$icon = 'fas fa-times';
+		break;
+
+	case ($icon === 'new'):
+	case ($icon === 'save-new') :
+		$icon = 'fas fa-plus';
+		break;
+
+	case ($icon === 'apply'):
+	case ($icon === 'save') :
+		$icon = 'fas fa-save';
+		break;
+
+	case ($icon === 'mail') :
+		$icon = 'fas fa-envelope';
+		break;
+
+	case ($icon === 'unfeatured'):
+	case ($icon === 'asterisk') :
+		$icon = 'fas fa-star';
+		break;
+
+	case ($icon === 'featured') :
+		$icon = 'fas fa-star featured';
+		break;
+
+	case ($icon === 'checkedout'):
+	case ($icon === 'protected') :
+		$icon = 'fas fa-lock';
+		break;
+
+	case ($icon === 'eye-close') :
+		$icon = 'fas fa-eye-slash';
+		break;
+
+	case ($icon === 'eye-open') :
+		$icon = 'fas fa-eye';
+		break;
+
+	case ($icon === 'loop'):
+	case ($icon === 'refresh'):
+	case ($icon === 'unblock') :
+		$icon = 'fas fa-sync';
+		break;
+
+	case ($icon === 'contract') :
+		$icon = 'fas fa-compress';
+		break;
+
+	case ($icon === 'purge'):
+	case ($icon === 'trash') :
+		$icon = 'fas fa-trash';
+		break;
+
+	case ($icon === 'options') :
+		$icon = 'fas fa-cog';
+		break;
+
+	case ($icon === 'expired') :
+		$icon = 'fas fa-minus-circle';
+		break;
+
+	case ($icon === 'save-copy') :
+		$icon = 'fas fa-copy';
+		break;
+
+	case ($icon === 'checkin') :
+		$icon = 'fas fa-check-square';
+		break;
+
+	case ($icon === 'generic') :
+		$icon = 'fas fa-dot-circle';
+		break;
+
+	case ($icon === 'list-2') :
+		$icon = 'fas fa-list-ul';
+		break;
+
+	case ($icon === 'default') :
+		$icon = 'fas fa-home';
+		break;
+
+	case ($icon === 'crop') :
+		$icon = 'fas fa-crop';
+		break;
+
+	case ($icon === 'chevron-down') :
+		$icon = 'fas fa-chevron-down';
+		break;
+
+	case ($icon === 'times') :
+		$icon = 'fas fa-times';
+		break;
+
+	case ($icon === 'move') :
+		$icon = 'fas fa-arrows-alt';
+		break;
+
+	default:
+		$icon = 'icon-' . $icon;
+		break;
 }
 
 if ($html !== false)
