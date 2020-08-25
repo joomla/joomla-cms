@@ -40,7 +40,8 @@ switch (true)
 	case ($icon === 'unpublish'):
 	case ($icon === 'cancel'):
 	case ($icon === 'delete'):
-	case ($icon === 'remove') :
+	case ($icon === 'remove'):
+	case ($icon === 'times'):
 		$icon = 'fas fa-times';
 		break;
 
@@ -131,11 +132,7 @@ switch (true)
 		$icon = 'fas fa-chevron-down';
 		break;
 
-	case ($icon === 'times') :
-		$icon = 'fas fa-times';
-		break;
-
-	case ($icon === 'move') :
+	case ($icon === 'move'):
 		$icon = 'fas fa-arrows-alt';
 		break;
 
