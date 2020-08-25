@@ -84,17 +84,6 @@
         field.style.border = 'none';
       }
 
-
-      /*const buttons = [].slice.call(document.querySelectorAll(`[${buttonDataSelector}]`));
-      buttons.forEach((button) => {
-        button.addEventListener('click', (e) => {
-          e.preventDefault();
-          const task = e.target.getAttribute(buttonDataSelector);
-          submitTask(task);
-          }
-        );
-        }
-      );*/
     }
   );
 })(window.tinyMCE, window, document, Joomla.submitform);
