@@ -19,7 +19,7 @@ switch (true)
 		$icon = 'fas ' . $icon;
 		break;
 
-	case (strpos($icon, 'icon-') !== false) :
+	case (strpos($icon, 'icon-') !== false):
 		$icon = $icon;
 		break;
 
@@ -33,7 +33,7 @@ switch (true)
 		$icon = 'fas fa-folder';
 		break;
 
-	case ($icon === 'publish') :
+	case ($icon === 'publish'):
 		$icon = 'fas fa-check';
 		break;
 
@@ -46,89 +46,89 @@ switch (true)
 		break;
 
 	case ($icon === 'new'):
-	case ($icon === 'save-new') :
+	case ($icon === 'save-new'):
 		$icon = 'fas fa-plus';
 		break;
 
 	case ($icon === 'apply'):
-	case ($icon === 'save') :
+	case ($icon === 'save'):
 		$icon = 'fas fa-save';
 		break;
 
-	case ($icon === 'mail') :
+	case ($icon === 'mail'):
 		$icon = 'fas fa-envelope';
 		break;
 
 	case ($icon === 'unfeatured'):
-	case ($icon === 'asterisk') :
+	case ($icon === 'asterisk'):
 		$icon = 'fas fa-star';
 		break;
 
-	case ($icon === 'featured') :
+	case ($icon === 'featured'):
 		$icon = 'fas fa-star featured';
 		break;
 
 	case ($icon === 'checkedout'):
-	case ($icon === 'protected') :
+	case ($icon === 'protected'):
 		$icon = 'fas fa-lock';
 		break;
 
-	case ($icon === 'eye-close') :
+	case ($icon === 'eye-close'):
 		$icon = 'fas fa-eye-slash';
 		break;
 
-	case ($icon === 'eye-open') :
+	case ($icon === 'eye-open'):
 		$icon = 'fas fa-eye';
 		break;
 
 	case ($icon === 'loop'):
 	case ($icon === 'refresh'):
-	case ($icon === 'unblock') :
+	case ($icon === 'unblock'):
 		$icon = 'fas fa-sync';
 		break;
 
-	case ($icon === 'contract') :
+	case ($icon === 'contract'):
 		$icon = 'fas fa-compress';
 		break;
 
 	case ($icon === 'purge'):
-	case ($icon === 'trash') :
+	case ($icon === 'trash'):
 		$icon = 'fas fa-trash';
 		break;
 
-	case ($icon === 'options') :
+	case ($icon === 'options'):
 		$icon = 'fas fa-cog';
 		break;
 
-	case ($icon === 'expired') :
+	case ($icon === 'expired'):
 		$icon = 'fas fa-minus-circle';
 		break;
 
-	case ($icon === 'save-copy') :
+	case ($icon === 'save-copy'):
 		$icon = 'fas fa-copy';
 		break;
 
-	case ($icon === 'checkin') :
+	case ($icon === 'checkin'):
 		$icon = 'fas fa-check-square';
 		break;
 
-	case ($icon === 'generic') :
+	case ($icon === 'generic'):
 		$icon = 'fas fa-dot-circle';
 		break;
 
-	case ($icon === 'list-2') :
+	case ($icon === 'list-2'):
 		$icon = 'fas fa-list-ul';
 		break;
 
-	case ($icon === 'default') :
+	case ($icon === 'default'):
 		$icon = 'fas fa-home';
 		break;
 
-	case ($icon === 'crop') :
+	case ($icon === 'crop'):
 		$icon = 'fas fa-crop';
 		break;
 
-	case ($icon === 'chevron-down') :
+	case ($icon === 'chevron-down'):
 		$icon = 'fas fa-chevron-down';
 		break;
 
