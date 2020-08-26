@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Convert icomoon to fa
 $icon = $displayData['icon'];
 
-if(strpos($icon, 'fa-') !== false)
+if (strpos($icon, 'fa-') !== false)
 {
 	$icon = 'fas ' . str_ireplace('fas ', '', $icon);
 }

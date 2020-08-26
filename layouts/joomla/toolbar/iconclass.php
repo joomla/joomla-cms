@@ -12,15 +12,15 @@ defined('_JEXEC') or die;
 // Convert icomoon to fa
 $icon = $displayData['icon'];
 
-if(strpos($icon, 'fa-') !== false)
+if (strpos($icon, 'fa-') !== false)
 {
 	$icon = 'fas ' . str_ireplace('fas ', '', $icon);
 }
-elseif(strpos($icon, 'icon-') !== false)
+elseif (strpos($icon, 'icon-') !== false)
 {
 	$icon = $icon;
 }
-elseif  ($icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder-2' || $icon === 'folder-minus' || $icon === 'folder-plus-2' || $icon === 'folder-remove' || $icon === 'drawer-2')
+elseif ($icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder-2' || $icon === 'folder-minus' || $icon === 'folder-plus-2' || $icon === 'folder-remove' || $icon === 'drawer-2')
 {
 	$icon = 'fas fa-folder';
 }
@@ -120,8 +120,7 @@ elseif ($icon === 'move')
 {
 	$icon = 'fas fa-arrows-alt';
 }
-else
-{
+else{
 	$icon = 'icon-' . $icon;
 }
 echo $icon;
