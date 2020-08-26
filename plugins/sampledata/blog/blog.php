@@ -265,39 +265,48 @@ class PlgSampledataBlog extends CMSPlugin
 		$articles     = array(
 			array(
 				'catid'    => $catIds[1],
+				'featured' => 0,
 				'ordering' => 2,
 			),
 			array(
 				'catid'    => $catIds[1],
 				'ordering' => 1,
+				'featured' => 0,
 				'access'   => 3,
 			),
 			array(
 				'catid'    => $catIds[0],
+				'featured' => 1,
 				'ordering' => 2,
 			),
 			array(
 				'catid'    => $catIds[0],
+				'featured' => 1,
 				'ordering' => 1,
 			),
 			array(
 				'catid'    => $catIds[0],
+				'featured' => 1,
 				'ordering' => 0,
 			),
 			array(
 				'catid'    => $catIds[0],
+				'featured' => 0,
 				'ordering' => 0,
 			),
 			array(
 				'catid'    => $catIds[2],
+				'featured' => 0,
 				'ordering' => 0,
 			),
 			array(
 				'catid'    => $catIds[2],
+				'featured' => 0,
 				'ordering' => 0,
 			),
 			array(
 				'catid'    => $catIds[2],
+				'featured' => 0,
 				'ordering' => 0,
 			),
 		);
@@ -333,7 +342,6 @@ class PlgSampledataBlog extends CMSPlugin
 			$article['language']        = $language;
 			$article['associations']    = array();
 			$article['state']           = 1;
-			$article['featured']        = 0;
 			$article['images']          = '';
 			$article['metakey']         = '';
 			$article['metadesc']        = '';
