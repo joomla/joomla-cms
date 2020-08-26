@@ -104,8 +104,6 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItems()
 	{
-		$app = Factory::getApplication();
-
 		// Add a forced extension filtering to the list
 		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
 		$published = (int) $this->getState('published', 1);
@@ -113,7 +111,7 @@ class MessagesModel extends BaseDatabaseModel
 		// Build a cache ID for the resulting data object
 		$cacheId = $eid . '.' . $published;
 
-		$db = Factory::getDbo();
+		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$query->select(
 			[
@@ -152,6 +150,7 @@ class MessagesModel extends BaseDatabaseModel
 		}
 		catch (\RuntimeException $e)
 		{
+			$app = Factory::getApplication();
 			$app->getLogger()->warning(
 				Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
 				array('category' => 'jerror')
