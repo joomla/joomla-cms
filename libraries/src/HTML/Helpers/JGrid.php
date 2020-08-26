@@ -125,6 +125,7 @@ abstract class JGrid
 
 				default:
 					$active_class = 'icon-' . $active_class;
+					break;
 			}
 
 			$html[] = '<span class="' . $active_class . '" aria-hidden="true"></span>';
@@ -173,6 +174,7 @@ abstract class JGrid
 
 				default:
 					$inactive_class = 'icon-' . $inactive_class;
+					break;
 			}
 
 			$html[] = '<span class="' . $inactive_class . '" aria-hidden="true"></span>';
