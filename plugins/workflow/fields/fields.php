@@ -13,7 +13,7 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -96,41 +96,27 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 
 			$existingFields = FieldsHelper::getFields($workflow->extension);
 
+			// build subform
 			$subform = simplexml_load_file(JPATH_ROOT.'/plugins/workflow/fields/forms/subform.xml');
 			$myfield = $subform -> fields -> addChild('field');
 			$myfield->addAttribute('name','customfield');
 			$myfield->addAttribute('type','list');
 
+			// add all existing Custom Fields as option to field
 			foreach ($existingFields as $existingField){
-				$option = $myfield->addChild('option');
+				$option = $myfield->addChild('option',$existingField->name);
 				$option -> addAttribute('value', $existingField->id);
 			}
-			for ($i = 0; $i < count($form->getXml()->fields);$i++){
-				$attributes = $form->getXml()->fields[$i]->fieldset->attributes();
-				if(!strcmp($attributes['name'],"fields")) {
-					$form->getXml()->fields[$i]->fieldset->field->formsource=$subform->fields->asXML();
-				}
-			}
-			//$form->getXml()->fields[3]->fieldset->field->formsource=$subform->fields->asXML();
 
-			//$form->load($subform,false);
+			$form->setFieldAttribute('subform','formsource',$subform->asXML(),'options');
+
+
 			return;
 		}
 
 		return;
 
 	}
-	/*protected function enhanceWorkflowTransitionForm(Form $form, $data)
-	{
-
-		$workflow = parent::enhanceWorkflowTransitionForm($form, $data);
-
-		//
-
-		return $workflow;
-	}*/
-
-
 
 	/**
 	 * Check if we can execute the transition
@@ -163,7 +149,9 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 
 		if (!$this->isSupported($context)
 			||!is_numeric($reqired)
-			||!is_numeric($blankreqired))
+			||!is_numeric($blankreqired)
+			||!is_numeric($contains)
+			||!is_numeric($containsNot))
 		{
 			return true;
 		}
