@@ -120,7 +120,8 @@ elseif ($icon === 'move')
 {
 	$icon = 'fas fa-arrows-alt';
 }
-else{
+else
+{
 	$icon = 'icon-' . $icon;
 }
 echo $icon;
