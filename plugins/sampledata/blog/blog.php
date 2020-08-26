@@ -214,6 +214,53 @@ class PlgSampledataBlog extends CMSPlugin
 		// Get ID from category we just added
 		$catIds[] = $categoryModel->getItem()->id;
 
+		// Create "template" category.
+		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_2_TITLE');
+		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
+
+		// Set unicodeslugs if alias is empty
+		if (trim(str_replace('-', '', $alias) == ''))
+		{
+			$unicode = $this->app->set('unicodeslugs', 1);
+			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
+			$this->app->set('unicodeslugs', $unicode);
+		}
+
+		$category      = array(
+			'title'           => $categoryTitle . $langSuffix,
+			'parent_id'       => 1,
+			'id'              => 0,
+			'published'       => 1,
+			'access'          => $access,
+			'created_user_id' => $user->id,
+			'extension'       => 'com_content',
+			'level'           => 1,
+			'alias'           => $alias . $langSuffix,
+			'associations'    => array(),
+			'description'     => '',
+			'language'        => $language,
+			'params'          => '{}',
+		);
+
+		try
+		{
+			if (!$categoryModel->save($category))
+			{
+				throw new Exception($categoryModel->getError());
+			}
+		}
+		catch (Exception $e)
+		{
+			$response            = array();
+			$response['success'] = false;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
+
+			return $response;
+		}
+
+		// Get ID from category we just added
+		$catIds[] = $categoryModel->getItem()->id;
+
 		// Create Articles.
 		$articles     = array(
 			array(
@@ -239,6 +286,18 @@ class PlgSampledataBlog extends CMSPlugin
 			),
 			array(
 				'catid'    => $catIds[0],
+				'ordering' => 0,
+			),
+			array(
+				'catid'    => $catIds[2],
+				'ordering' => 0,
+			),
+			array(
+				'catid'    => $catIds[2],
+				'ordering' => 0,
+			),
+			array(
+				'catid'    => $catIds[2],
 				'ordering' => 0,
 			),
 		);
@@ -437,7 +496,7 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
-				// Autor Login
+				// Author Login
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
@@ -448,6 +507,34 @@ class PlgSampledataBlog extends CMSPlugin
 					'menu_text'              => 1,
 					'show_page_heading'      => 0,
 					'secure'                 => 0,
+				),
+			),
+			// Blog withm colums
+			array(
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[2],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'layout_type'             => 'blog',
+					'blog_class_leading'      => 'column-1',
+					'blog_class'              => 'column-2',
+					'show_category_title'     => 0,
+					'num_leading_articles'    => 1,
+					'num_intro_articles'      => 2,
+					'num_links'               => 0,
+					'orderby_sec'             => 'rdate',
+					'order_date'              => 'published',
+					'show_pagination'         => 2,
+					'show_pagination_results' => 1,
+					'show_category'           => 0,
+					'info_bloc_position'      => 0,
+					'show_publish_date'       => 0,
+					'show_hits'               => 0,
+					'show_feed_link'          => 1,
+					'menu_text'               => 1,
+					'show_page_heading'       => 0,
+					'secure'                  => 0,
 				),
 			),
 			array(
@@ -587,20 +674,6 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
-				// Category Blog
-				'menutype'     => $menuTypes[0],
-				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
-				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=8',
-				'parent_id'    => $menuIdsLevel1[0],
-				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
-				'params'       => array(
-					"page_subheading"	=> 'Subheading of Categories',
-					'menu_text'         => 1,
-					'show_page_heading' => 1,
-					'secure'            => 0,
-				),
-			),
-			array(
 				// Category List
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_12_TITLE'),
@@ -675,8 +748,8 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article1
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_17_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=5',
-				'parent_id'    => $menuIdsLevel2[6],
+				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[6],
+				'parent_id'    => $menuIdsLevel2[5],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'menu_show' => 1,
@@ -687,8 +760,8 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article2
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_18_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=6',
-				'parent_id'    => $menuIdsLevel2[6],
+				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[7],
+				'parent_id'    => $menuIdsLevel2[5],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'menu_show' => 1,
@@ -929,16 +1002,17 @@ class PlgSampledataBlog extends CMSPlugin
 					'module_tag' => 'search',
 				),
 			),
+			/** */
 			array(
+				// Unbublished module - ToDo decorative and meningful example for a module
 				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
-				'content'   => '<p><img src="images/headers/raindrops.jpg" alt="" /></p>',
+				'content'   => '<p></p>',
 				'ordering'  => 1,
 				'position'  => 'main-top',
 				'module'    => 'mod_custom',
 				'showtitle' => 0,
 				'params'    => array(
 					'prepare_content' => 1,
-					'enabled'         => 0,
 					'layout'          => '_:default',
 					'cache'           => 1,
 					'cache_time'      => 900,
