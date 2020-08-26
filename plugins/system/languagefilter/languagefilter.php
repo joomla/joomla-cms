@@ -287,7 +287,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$path = $uri->getPath();
 			$parts = explode('/', $path);
 
-			$sef = $parts[0];
+			$sef = strtolower($parts[0]);
 
 			// Do we have a URL Language Code ?
 			if (!isset($this->sefs[$sef]))
