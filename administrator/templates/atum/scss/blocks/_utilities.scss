@@ -41,6 +41,10 @@
     &.hidden {
       display: none;
     }
+
+    .control-label {
+      width: 100%;
+    }
   }
 
   .form-no-columns & {
