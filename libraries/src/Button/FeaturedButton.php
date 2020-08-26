@@ -29,7 +29,7 @@ class FeaturedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(0, 'articles.featured', 'icon-color-unfeatured far fa-star',
+		$this->addState(0, 'articles.featured', 'icon-color-unfeatured fas fa-star',
 			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('COM_CONTENT_UNFEATURED')]
 		);
 		$this->addState(1, 'articles.unfeatured', 'icon-color-featured fas fa-star',
