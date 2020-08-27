@@ -48,7 +48,7 @@ class AlphanumericRule extends FormRule
 			return true;
 		}
 
-        // The value must be alphanumeric characters only
+		// The value must be alphanumeric characters only
 		if (!ctype_alnum($value))
 		{
 			return false;
