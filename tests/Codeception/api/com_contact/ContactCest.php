@@ -88,7 +88,9 @@ class ContactCest
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendPATCH('/contact/1', ['name' => 'Frankie Blogs', 'state' => -2]);
+
+		// Category is a required field for this patch request for now TODO: Remove this dependency
+		$I->sendPATCH('/contact/1', ['name' => 'Frankie Blogs', 'catid' => 4, 'state' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
