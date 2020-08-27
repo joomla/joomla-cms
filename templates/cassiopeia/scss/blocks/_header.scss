@@ -134,7 +134,7 @@
     }
 
     label {
-      display: none;
+      @include a11y-visually-hidden();
     }
   }
 
