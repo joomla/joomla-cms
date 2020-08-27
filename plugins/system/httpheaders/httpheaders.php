@@ -79,6 +79,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'expect-ct',
 		'feature-policy',
 		'cross-origin-opener-policy',
+		'permissions-policy',
 	];
 
 	/**
