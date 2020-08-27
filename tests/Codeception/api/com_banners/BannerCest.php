@@ -132,6 +132,7 @@ class BannerCest
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 		$categoryId = $I->grabDataFromResponseByJsonPath('$.data[0].id');
+		var_dump($categoryId);die;
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
