@@ -126,21 +126,22 @@ class ContentCest
 		$I->sendPOST('/content/categories', $testarticle);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
+		$categoryId = $I->grabDataFromResponseByJsonPath('$.data[0].id');
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/content/categories/8');
+		$I->sendGET('/content/categories/' + $categoryId);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendPATCH('/content/categories/8', ['title' => 'Another Title']);
+		$I->sendPATCH('/content/categories/' + $categoryId, ['title' => 'Another Title']);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/content/categories/8');
+		$I->sendDELETE('/content/categories/' + $categoryId);
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 }
