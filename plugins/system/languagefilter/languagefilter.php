@@ -784,7 +784,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			}
 
 			// For each language...
-			foreach ($languages as $i => &$language)
+			foreach ($languages as $i => $language)
 			{
 				switch (true)
 				{
@@ -833,7 +833,7 @@ class PlgSystemLanguageFilter extends JPlugin
 									= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
 				}
 
-				foreach ($languages as $i => &$language)
+				foreach ($languages as $i => $language)
 				{
 					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
 				}
