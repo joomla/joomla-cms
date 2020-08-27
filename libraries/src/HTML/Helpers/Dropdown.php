@@ -279,7 +279,7 @@ abstract class Dropdown
 	public static function trash($checkboxId, $prefix = '')
 	{
 		$task = $prefix . 'trash';
-		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'fa-trash', 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
 
 		return;
 	}
@@ -297,7 +297,7 @@ abstract class Dropdown
 	public static function untrash($checkboxId, $prefix = '')
 	{
 		$task = $prefix . 'publish';
-		static::addCustomItem(Text::_('JTOOLBAR_UNTRASH'), 'fa-trash', 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		static::addCustomItem(Text::_('JTOOLBAR_UNTRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
 
 		return;
 	}
