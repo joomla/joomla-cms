@@ -2,20 +2,26 @@
 
 .com_config {
 
-  .content {
-    background-color: transparent;
+  #fieldset-permissions {
+    grid-template-columns: 1fr;
   }
 
-  [class^='col-'] {
+  #page-filters .custom-select {
+    width: auto;
+  }
 
-    > fieldset {
-      margin-bottom: 2rem;
-    }
+  .tab-description {
+    grid-column: 1 / -1;
   }
 
   .rule-notes,
   .filter-notes {
-    padding: 1em;
     background-color: $white;
+  }
+
+  .options-menu {
+    .revert-controls .controls {
+      margin-inline-start: 0;
+    }
   }
 }

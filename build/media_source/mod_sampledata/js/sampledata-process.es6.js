@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((window, document, Joomla) => {
@@ -12,7 +12,7 @@
 
   Joomla.sampledataAjax = (type, steps, step) => {
     // Get variables
-    const baseUrl = 'index.php?option=com_ajax&format=json&group=sampledata';
+    const baseUrl = `index.php?option=com_ajax&format=json&group=sampledata&${Joomla.getOptions('csrf.token')}=1`;
     const options = Joomla.getOptions('sample-data');
 
     // Create list
@@ -40,13 +40,22 @@
       method: 'GET',
       perform: true,
       onSuccess: (resp) => {
-        const response = JSON.parse(resp);
-        let progressClass = '';
-        let success;
-
         // Remove loader image
         const loader = list.querySelector('.loader-image');
         loader.parentNode.removeChild(loader);
+
+        let response = {};
+
+        try {
+          response = JSON.parse(resp);
+        } catch (e) {
+          Joomla.renderMessages({ error: [Joomla.JText._('MOD_SAMPLEDATA_INVALID_RESPONSE')] }, `.sampledata-steps-${type}-${step}`);
+          Joomla.SampleData.inProgress = false;
+          return;
+        }
+
+        let progressClass = '';
+        let success;
 
         if (response.success && response.data && response.data.length > 0) {
           const progress = document.querySelector(`.sampledata-progress-${type} .progress-bar`);
@@ -139,7 +148,7 @@
     if (sampleDataWrapper) {
       const links = [].slice.call(sampleDataWrapper.querySelectorAll('.apply-sample-data'));
       links.forEach((link) => {
-        link.addEventListener('click', event => Joomla.sampledataApply(event.target));
+        link.addEventListener('click', ({ target }) => Joomla.sampledataApply(target));
       });
     }
 

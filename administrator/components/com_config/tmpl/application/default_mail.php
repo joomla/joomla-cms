@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,8 @@ use Joomla\CMS\Session\Session;
 defined('_JEXEC') or die;
 
 HTMLHelper::_('form.csrf');
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-send-test-mail.min.js', ['version' => 'auto', 'relative' => true]);
+$this->document->getWebAssetManager()
+	->useScript('webcomponent.field-send-test-mail');
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -36,6 +37,8 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&f
 
 $this->name = Text::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';
+$this->formclass = 'options-form';
+
 ?>
 
 <joomla-field-send-test-mail uri="<?php echo $ajaxUri; ?>">

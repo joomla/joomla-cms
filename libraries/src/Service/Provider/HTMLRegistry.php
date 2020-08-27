@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\Registry;
 use Joomla\DI\Container;
@@ -33,12 +33,12 @@ class HTMLRegistry implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->share(
-				Registry::class,
-				function (Container $container)
-				{
-					return new Registry;
-				},
-				true
-			);
+			Registry::class,
+			function (Container $container)
+			{
+				return new Registry;
+			},
+			true
+		);
 	}
 }

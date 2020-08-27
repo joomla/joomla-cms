@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Chrome Styles field.
@@ -75,7 +76,7 @@ class ChromestyleField extends GroupedlistField
 		switch ($name)
 		{
 			case 'clientId':
-				$this->clientId = (string) $value;
+				$this->clientId = (int) $value;
 				break;
 
 			default:
@@ -234,11 +235,21 @@ class ChromestyleField extends GroupedlistField
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name')
-			->from('#__extensions')
-			->where('client_id = ' . $this->clientId)
-			->where('type = ' . $db->quote('template'))
-			->where('enabled = 1');
+		$query->select(
+			[
+				$db->quoteName('element'),
+				$db->quoteName('name'),
+			]
+		)
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('client_id') . ' = :clientId',
+					$db->quoteName('type') . ' = ' . $db->quote('template'),
+					$db->quoteName('enabled') . ' = 1',
+				]
+			)
+			->bind(':clientId', $this->clientId, ParameterType::INTEGER);
 
 		// Set the query and load the templates.
 		$db->setQuery($query);

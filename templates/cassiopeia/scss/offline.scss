@@ -32,9 +32,9 @@ body {
   max-width: 30em;
   margin: 0 auto 60px;
   background-color: #fff;
-  border: 1px solid rgba(0,0,0,.1);
+  border: 1px solid rgba(0, 0, 0, .1);
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .05);
 }
 
 .header {
@@ -76,7 +76,8 @@ img {
   border: 0;
 }
 
-form, fieldset {
+form,
+fieldset {
   padding: 0;
   margin: 0;
 }
@@ -86,7 +87,8 @@ label {
   margin: 0;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"],
+input[type="password"] {
   box-sizing: border-box;
   width: 100%;
   height: auto;
@@ -104,9 +106,9 @@ input {
   padding: 12px;
   margin-top: 2px;
   background-color: #fff;
-  border: 1px solid rgba(0,0,0,.05);
+  border: 1px solid rgba(0, 0, 0, .05);
   border-radius: 50%;
-  box-shadow: 0 0 5px rgba(0,0,0,.075);
+  box-shadow: 0 0 5px rgba(0, 0, 0, .075);
   transform: translate(-50%, -50%);
 }
 

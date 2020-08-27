@@ -2,16 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Usergroup table class.
@@ -62,13 +64,19 @@ class Usergroup extends Table
 
 		// Check for a duplicate parent_id, title.
 		// There is a unique index on the (parent_id, title) field in the table.
-		$db = $this->_db;
-		$query = $db->getQuery(true)
+		$db       = $this->_db;
+		$parentId = (int) $this->parent_id;
+		$title    = trim($this->title);
+		$id       = (int) $this->id;
+		$query    = $db->getQuery(true)
 			->select('COUNT(title)')
 			->from($this->_tbl)
-			->where('title = ' . $db->quote(trim($this->title)))
-			->where('parent_id = ' . (int) $this->parent_id)
-			->where('id <> ' . (int) $this->id);
+			->where($db->quoteName('title') . ' = :title')
+			->where($db->quoteName('parent_id') . ' = :parentid')
+			->where($db->quoteName('id') . ' <> :id')
+			->bind(':title', $title)
+			->bind(':parentid', $parentId, ParameterType::INTEGER)
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		if ($db->loadResult() > 0)
@@ -78,33 +86,78 @@ class Usergroup extends Table
 			return false;
 		}
 
+		// We do not allow to move non public to root and public to non-root
+		if (!empty($this->id))
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+
+			$table->load($this->id);
+
+			if ((!$table->parent_id && $this->parent_id) || ($table->parent_id && !$this->parent_id))
+			{
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
+		}
+		// New entry should always be greater 0
+		elseif (!$this->parent_id)
+		{
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+			return false;
+		}
+
+		// The new parent_id has to be a valid group
+		if ($this->parent_id)
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+			$table->load($this->parent_id);
+
+			if ($table->id != $this->parent_id)
+			{
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
+		}
+
 		return true;
 	}
 
 	/**
 	 * Method to recursively rebuild the nested set tree.
 	 *
-	 * @param   integer  $parent_id  The root of the tree to rebuild.
-	 * @param   integer  $left       The left id to start with in building the tree.
+	 * @param   integer  $parentId  The root of the tree to rebuild.
+	 * @param   integer  $left      The left id to start with in building the tree.
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public function rebuild($parent_id = 0, $left = 0)
+	public function rebuild($parentId = 0, $left = 0)
 	{
 		// Get the database object
-		$db = $this->_db;
+		$db       = $this->_db;
+		$query    = $db->getQuery(true);
+		$parentId = (int) $parentId;
 
 		// Get all children of this node
-		$db->setQuery('SELECT id FROM ' . $this->_tbl . ' WHERE parent_id=' . (int) $parent_id . ' ORDER BY parent_id, title');
+		$query->clear()
+			->select($db->quoteName('id'))
+			->from($db->quoteName($this->_tbl))
+			->where($db->quoteName('parent_id') . ' = :parentid')
+			->bind(':parentid', $parentId, ParameterType::INTEGER)
+			->order($db->quoteName('parent_id'), $db->quoteName('title'));
+
+		$db->setQuery($query);
 		$children = $db->loadColumn();
 
 		// The right value of this node is the left value + 1
 		$right = $left + 1;
 
 		// Execute this function recursively over all children
-		for ($i = 0, $n = count($children); $i < $n; $i++)
+		for ($i = 0, $n = \count($children); $i < $n; $i++)
 		{
 			// $right is the current right value, which is incremented on recursion return
 			$right = $this->rebuild($children[$i], $right);
@@ -116,16 +169,27 @@ class Usergroup extends Table
 			}
 		}
 
+		$left  = (int) $left;
+		$right = (int) $right;
+
 		// We've got the left value, and now that we've processed
 		// the children of this node we also know the right value
-		$db->setQuery('UPDATE ' . $this->_tbl . ' SET lft=' . (int) $left . ', rgt=' . (int) $right . ' WHERE id=' . (int) $parent_id);
+		$query->clear()
+			->update($db->quoteName($this->_tbl))
+			->set($db->quoteName('lft') . ' = :lft')
+			->set($db->quoteName('rgt') . ' = :rgt')
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':lft', $left, ParameterType::INTEGER)
+			->bind(':rgt', $right, ParameterType::INTEGER)
+			->bind(':id', $parentId, ParameterType::INTEGER);
+		$db->setQuery($query);
 
 		// If there is an update failure, return false to break out of the recursion
 		try
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -189,12 +253,17 @@ class Usergroup extends Table
 
 		$db = $this->_db;
 
+		$lft = (int) $this->lft;
+		$rgt = (int) $this->rgt;
+
 		// Select the usergroup ID and its children
 		$query = $db->getQuery(true)
 			->select($db->quoteName('c.id'))
-			->from($db->quoteName($this->_tbl) . 'AS c')
-			->where($db->quoteName('c.lft') . ' >= ' . (int) $this->lft)
-			->where($db->quoteName('c.rgt') . ' <= ' . (int) $this->rgt);
+			->from($db->quoteName($this->_tbl, 'c'))
+			->where($db->quoteName('c.lft') . ' >= :lft')
+			->where($db->quoteName('c.rgt') . ' <= :rgt')
+			->bind(':lft', $lft, ParameterType::INTEGER)
+			->bind(':rgt', $rgt, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 
@@ -206,28 +275,36 @@ class Usergroup extends Table
 		// Delete the usergroup and its children
 		$query->clear()
 			->delete($db->quoteName($this->_tbl))
-			->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
+			->whereIn($db->quoteName('id'), $ids);
 		$db->setQuery($query);
 		$db->execute();
+
+		// Rebuild the nested set tree.
+		$this->rebuild();
 
 		// Delete the usergroup in view levels
 		$replace = array();
 
 		foreach ($ids as $id)
 		{
-			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[') . ')';
-			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(',') . ')';
-			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote(']') . ')';
-			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote('[]') . ')';
+			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[');
+			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(',');
+			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote(']');
+			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote('[]');
 		}
 
 		$query->clear()
-			->select('id, rules')
-			->from('#__viewlevels');
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('rules'),
+				]
+			)
+			->from($db->quoteName('#__viewlevels'));
 		$db->setQuery($query);
 		$rules = $db->loadObjectList();
 
-		$match_ids = array();
+		$matchIds = [];
 
 		foreach ($rules as $rule)
 		{
@@ -235,17 +312,17 @@ class Usergroup extends Table
 			{
 				if (strstr($rule->rules, '[' . $id) || strstr($rule->rules, ',' . $id) || strstr($rule->rules, $id . ']'))
 				{
-					$match_ids[] = $rule->id;
+					$matchIds[] = $rule->id;
 				}
 			}
 		}
 
-		if (!empty($match_ids))
+		if (!empty($matchIds))
 		{
 			$query->clear()
-				->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace))
-				->update('#__viewlevels')
-				->where('id IN (' . implode(',', $match_ids) . ')');
+				->update($db->quoteName('#__viewlevels'))
+				->set($db->quoteName('rules') . ' = ' . str_repeat('REPLACE(', 4 * \count($ids)) . $db->quoteName('rules') . implode(')', $replace) . ')')
+				->whereIn($db->quoteName('id'), $matchIds);
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -253,7 +330,7 @@ class Usergroup extends Table
 		// Delete the user to usergroup mappings for the group(s) from the database.
 		$query->clear()
 			->delete($db->quoteName('#__user_usergroup_map'))
-			->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
+			->whereIn($db->quoteName('group_id'), $ids);
 		$db->setQuery($query);
 		$db->execute();
 

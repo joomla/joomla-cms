@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
@@ -61,15 +61,12 @@ class CleanCacheCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
-		$this->setDescription('Cleans expired cache entries');
-		$this->setHelp(
-<<<EOF
-The <info>%command.name%</info> command cleans the system cache of expired entries
+		$help = "<info>%command.name%</info> will clear expired entries from the system cache
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setDescription('Clean expired cache entries');
+		$this->setHelp($help);
 	}
 }

@@ -23,6 +23,7 @@
 			name="alias"
 			type="alias"
 			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="40"
 		/>
@@ -71,11 +72,36 @@
 			size="1"
 			default="1"
 			filter="integer"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
+
+		<field
+			name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			id="publish_up"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+			showon="home:0"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			id="publish_down"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		   	showon="home:0"
+		/>
 
 		<field
 			name="parent_id"
@@ -91,7 +117,7 @@
 
 		<field
 			name="menuordering"
-			type="menuordering"
+			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			filter="int"
 			size="1">
@@ -109,6 +135,7 @@
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			default="0"
 			filter="int"
+			validate="options"
 			>
 			<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
 			<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
@@ -128,6 +155,7 @@
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			client="site"
 			filter="int"
+			showon="type!:alias[OR]params.alias_redirect:0"
 			>
 			<option value="0">JOPTION_USE_DEFAULT</option>
 		</field>
@@ -137,7 +165,7 @@
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			default="0"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			filter="integer"
 			>
 			<option value="0">JNO</option>
@@ -193,7 +221,7 @@
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
 			default="1"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			filter="integer"
 			>
 			<option value="0">JHIDE</option>
@@ -205,7 +233,7 @@
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
 			default="1"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			filter="integer"
 			>
 			<option value="0">JHIDE</option>

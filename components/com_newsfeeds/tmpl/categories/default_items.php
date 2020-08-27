@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
+use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
 ?>
 <?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
@@ -20,7 +20,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 		<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
 			<div class="com-newsfeeds-categories__items">
 				<h3 class="page-header item-title">
-					<a href="<?php echo Route::_(NewsfeedsHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
+					<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
 						<?php echo $this->escape($item->title); ?>
 					</a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) : ?>
@@ -30,10 +30,16 @@ use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 						</span>
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
-						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>">
-							<span class="icon-plus" aria-hidden="true"></span>
-						</a>
+						<button
+							type="button"
+							id="category-btn-<?php echo $item->id; ?>"
+							data-target="#category-<?php echo $item->id; ?>"
+							data-toggle="collapse"
+							class="btn btn-secondary btn-sm float-right"
+							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
+						>
+							<span class="fas fa-plus" aria-hidden="true"></span>
+						</button>
 					<?php endif; ?>
 				</h3>
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) : ?>

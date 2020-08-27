@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filesystem\Folder;
@@ -247,7 +247,7 @@ class ModuleAdapter extends InstallerAdapter
 		}
 
 		// Do we have any module copies?
-		if (count($modules))
+		if (\count($modules))
 		{
 			// Ensure the list is sane
 			$modules = ArrayHelper::toInteger($modules);
@@ -328,7 +328,7 @@ class ModuleAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			if (count($this->getManifest()->files->children()))
+			if (\count($this->getManifest()->files->children()))
 			{
 				foreach ($this->getManifest()->files->children() as $file)
 				{
@@ -381,7 +381,7 @@ class ModuleAdapter extends InstallerAdapter
 				}
 
 				$client = (string) $this->getManifest()->attributes()->client;
-				$this->doLoadLanguage($extension, $source, constant('JPATH_' . strtoupper($client)));
+				$this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
 			}
 		}
 	}
@@ -601,6 +601,9 @@ class ModuleAdapter extends InstallerAdapter
 
 			// Update namespace
 			$this->extension->namespace = (string) $this->manifest->namespace;
+
+			// Update changelogurl
+			$this->extension->changelogurl = (string) $this->manifest->changelogurl;
 
 			// Update manifest
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -32,12 +32,12 @@ class FilelistField extends ListField
 	protected $type = 'Filelist';
 
 	/**
-	 * The filter.
+	 * The filename filter.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  4.0.0
 	 */
-	protected $filter;
+	protected $fileFilter;
 
 	/**
 	 * The exclude.
@@ -92,7 +92,7 @@ class FilelistField extends ListField
 	{
 		switch ($name)
 		{
-			case 'filter':
+			case 'fileFilter':
 			case 'exclude':
 			case 'hideNone':
 			case 'hideDefault':
@@ -118,7 +118,7 @@ class FilelistField extends ListField
 	{
 		switch ($name)
 		{
-			case 'filter':
+			case 'fileFilter':
 			case 'directory':
 			case 'exclude':
 				$this->$name = (string) $value;
@@ -156,17 +156,17 @@ class FilelistField extends ListField
 
 		if ($return)
 		{
-			$this->filter  = (string) $this->element['filter'];
-			$this->exclude = (string) $this->element['exclude'];
+			$this->fileFilter = (string) $this->element['fileFilter'];
+			$this->exclude    = (string) $this->element['exclude'];
 
 			$hideNone       = (string) $this->element['hide_none'];
-			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
+			$this->hideNone = ($hideNone === 'true' || $hideNone === 'hideNone' || $hideNone === '1');
 
 			$hideDefault       = (string) $this->element['hide_default'];
-			$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
+			$this->hideDefault = ($hideDefault === 'true' || $hideDefault === 'hideDefault' || $hideDefault === '1');
 
 			$stripExt       = (string) $this->element['stripext'];
-			$this->stripExt = ($stripExt == 'true' || $stripExt == 'stripExt' || $stripExt == '1');
+			$this->stripExt = ($stripExt === 'true' || $stripExt === 'stripExt' || $stripExt === '1');
 
 			// Get the path in which to search for file options.
 			$this->directory = (string) $this->element['directory'];
@@ -210,17 +210,17 @@ class FilelistField extends ListField
 		}
 
 		// Get a list of files in the search path with the given filter.
-		$files = Folder::files($path, $this->filter);
+		$files = Folder::files($path, $this->fileFilter);
 
 		// Build the options list from the list of files.
-		if (is_array($files))
+		if (\is_array($files))
 		{
 			foreach ($files as $file)
 			{
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
-					if (preg_match(chr(1) . $this->exclude . chr(1), $file))
+					if (preg_match(\chr(1) . $this->exclude . \chr(1), $file))
 					{
 						continue;
 					}

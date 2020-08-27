@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Error;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
@@ -83,7 +83,7 @@ abstract class AbstractRenderer implements RendererInterface
 		}
 
 		// 404 Resource Not Found
-		throw new \InvalidArgumentException(sprintf('There is not a error renderer for the "%s" format.', $type));
+		throw new \InvalidArgumentException(sprintf('There is not an error renderer for the "%s" format.', $type));
 	}
 
 	/**

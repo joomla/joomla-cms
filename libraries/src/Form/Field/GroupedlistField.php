@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -56,7 +56,7 @@ class GroupedlistField extends FormField
 					}
 
 					$disabled = (string) $element['disabled'];
-					$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+					$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
 
 					// Create a new option object based on the <option /> element.
 					$tmp = HTMLHelper::_(
@@ -93,13 +93,13 @@ class GroupedlistField extends FormField
 					foreach ($element->children() as $option)
 					{
 						// Only add <option /> elements.
-						if ($option->getName() != 'option')
+						if ($option->getName() !== 'option')
 						{
 							continue;
 						}
 
 						$disabled = (string) $option['disabled'];
-						$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+						$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
 
 						// Create a new option object based on the <option /> element.
 						$tmp = HTMLHelper::_(
@@ -119,7 +119,7 @@ class GroupedlistField extends FormField
 
 					if ($groupLabel)
 					{
-						$label = count($groups);
+						$label = \count($groups);
 					}
 					break;
 
@@ -178,9 +178,9 @@ class GroupedlistField extends FormField
 			);
 
 			// E.g. form field type tag sends $this->value as array
-			if ($this->multiple && is_array($this->value))
+			if ($this->multiple && \is_array($this->value))
 			{
-				if (!count($this->value))
+				if (!\count($this->value))
 				{
 					$this->value[] = '';
 				}

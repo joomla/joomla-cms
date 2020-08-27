@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -87,7 +87,7 @@ trait FormBehaviorTrait
 		$form = $formFactory->createForm($name, $options);
 
 		// Load the data.
-		if (substr($source, 0, 1) == '<')
+		if (substr($source, 0, 1) === '<')
 		{
 			if ($form->load($source, false, $xpath) == false)
 			{

@@ -2,18 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Layout;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Version;
 
 /**
  * Base class for rendering a display layout
@@ -82,7 +83,7 @@ class FileLayout extends BaseLayout
 		$this->setLayoutId($layoutId);
 		$this->basePath = $basePath;
 
-		// Init Enviroment
+		// Init Environment
 		$this->setComponent($this->options->get('component', 'auto'));
 		$this->setClient($this->options->get('client', 'auto'));
 	}
@@ -104,7 +105,7 @@ class FileLayout extends BaseLayout
 		$layoutOutput = '';
 
 		// Automatically merge any previously data set if $displayData is an array
-		if (is_array($displayData))
+		if (\is_array($displayData))
 		{
 			$displayData = array_merge($this->data, $displayData);
 		}
@@ -253,7 +254,7 @@ class FileLayout extends BaseLayout
 
 		$includePaths = $this->getIncludePaths();
 
-		if (is_array($paths))
+		if (\is_array($paths))
 		{
 			$includePaths = array_unique(array_merge($paths, $includePaths));
 		}
@@ -355,7 +356,7 @@ class FileLayout extends BaseLayout
 	 */
 	public function loadVersionSuffixes()
 	{
-		$cmsVersion = new \JVersion;
+		$cmsVersion = new Version;
 
 		// Example j311
 		$fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());
@@ -534,6 +535,9 @@ class FileLayout extends BaseLayout
 	 */
 	public function getDefaultIncludePaths()
 	{
+		// Get the template
+		$template = Factory::getApplication()->getTemplate(true);
+
 		// Reset includePaths
 		$paths = array();
 
@@ -549,7 +553,13 @@ class FileLayout extends BaseLayout
 		if (!empty($component))
 		{
 			// (2) Component template overrides path
-			$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts/' . $component;
+			$paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts/' . $component;
+
+			if (!empty($template->parent))
+			{
+				// (2.a) Component template overrides path for an inherited template using the parent
+				$paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts/' . $component;
+			}
 
 			// (3) Component path
 			if ($this->options->get('client') == 0)
@@ -563,7 +573,13 @@ class FileLayout extends BaseLayout
 		}
 
 		// (4) Standard Joomla! layouts overridden
-		$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts';
+		$paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts';
+
+		if (!empty($template->parent))
+		{
+			// (4.a) Component template overrides path for an inherited template using the parent
+			$paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts';
+		}
 
 		// (5 - lower priority) Frontend base layouts
 		$paths[] = JPATH_ROOT . '/layouts';

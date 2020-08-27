@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document) => {
@@ -88,7 +88,7 @@
         // Do some binding
         this.linkedOptions = this.linkedOptions.bind(this);
 
-        // Attach events to referenced element, to check condition on change
+        // Attach events to referenced element, to check condition on change and keyup
         Object.keys(this.fields).forEach((key) => {
           if (this.fields[key].origin.length) {
             this.fields[key].origin.forEach((elem) => {
@@ -97,6 +97,8 @@
 
               // Setup listeners
               elem.addEventListener('change', () => { self.linkedOptions(key); });
+              elem.addEventListener('keyup', () => { self.linkedOptions(key); });
+              elem.addEventListener('click', () => { self.linkedOptions(key); });
             });
           }
         });
@@ -126,7 +128,6 @@
             }
 
             const originId = originField.id;
-
 
             // If checkbox or radio box the value is read from properties
             if (originField.getAttribute('type') && ['checkbox', 'radio'].indexOf(originField.getAttribute('type').toLowerCase()) !== -1) {
@@ -178,17 +179,23 @@
             // AND operator: both the previous and current conditions must be valid
             if (condition.op === 'AND' && condition.valid + elementShowonDatas[index - 1].valid < 2) {
               showfield = false;
+              condition.valid = 0;
             }
             // OR operator: one of the previous and current conditions must be valid
             if (condition.op === 'OR' && condition.valid + elementShowonDatas[index - 1].valid > 0) {
               showfield = true;
+              condition.valid = 1;
             }
           }
         });
 
         // If conditions are satisfied show the target field(s), else hide
         if (field.tagName !== 'option') {
-          field.style.display = (showfield) ? 'block' : 'none';
+          if (showfield) {
+            field.classList.remove('hidden');
+          } else {
+            field.classList.add('hidden');
+          }
         } else {
           // TODO: If chosen or choices.js is active we should update them
           field.disabled = !showfield;
@@ -208,27 +215,21 @@
   /**
    * Initialize 'showon' feature when part of the page was updated
    */
-  document.addEventListener('joomla:updated', (event) => {
-    // eslint-disable-next-line prefer-destructuring
-    const target = event.target;
-
+  document.addEventListener('joomla:updated', ({ target }) => {
     // Check is it subform, then wee need to fix some "showon" config
     if (target.classList.contains('subform-repeatable-group')) {
       const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
-      const baseName = target.getAttribute('data-baseName');
-      const group = target.getAttribute('data-group');
-      const search = new RegExp(`\\[${baseName}\\]\\[${baseName}X\\]`, 'g');
-      const replace = `[${baseName}][${group}]`;
+      const search = new RegExp(`\\[${target.dataset.baseName}X\\]`, 'g');
+      const replace = `[${target.dataset.group}]`;
 
       // Fix showon field names in a current group
       elements.forEach((element) => {
-        const showon = element.getAttribute('data-showon').replace(search, replace);
-
-        element.setAttribute('data-showon', showon);
+        const showon = element.dataset.showon.replace(search, replace);
+        element.dataset.showon = showon;
       });
     }
 
     // eslint-disable-next-line no-new
-    new Showon(event.target);
+    new Showon(target);
   });
 })(document);

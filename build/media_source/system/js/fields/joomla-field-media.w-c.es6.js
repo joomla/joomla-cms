@@ -1,4 +1,4 @@
-((Joomla) => {
+((customElements, Joomla) => {
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
@@ -9,7 +9,7 @@
     Joomla.selectedFile = e.detail;
   });
 
-  Joomla.doIt = (resp, editor, fieldClass) => {
+  const execTransform = (resp, editor, fieldClass) => {
     if (resp.success === true) {
       if (resp.data[0].url) {
         if (/local-/.test(resp.data[0].adapter)) {
@@ -29,16 +29,16 @@
         Joomla.selectedFile.url = false;
       }
 
-      const isElement = o => (
+      const isElement = (o) => (
         typeof HTMLElement === 'object' ? o instanceof HTMLElement
           : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
       );
 
       if (Joomla.selectedFile.url) {
         if (!isElement(editor) && (typeof editor !== 'object')) {
-          Joomla.editors.instances[editor].replaceSelection(`<img src="${Joomla.selectedFile.url}" alt=""/>`);
+          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
         } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img src="${Joomla.selectedFile.url}" alt=""/>`);
+          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
         } else {
           editor.value = Joomla.selectedFile.url;
           fieldClass.updatePreview();
@@ -55,6 +55,16 @@
    * @returns {void}
    */
   Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
+    if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
+      Joomla.selectedFile = {};
+      resolve({
+        resp: {
+          success: false,
+        },
+      });
+      return;
+    }
+
     const apiBaseUrl = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_media&format=json`;
 
     Joomla.request({
@@ -64,17 +74,14 @@
       headers: { 'Content-Type': 'application/json' },
       onSuccess: (response) => {
         const resp = JSON.parse(response);
-        resolve(Joomla.doIt(resp, editor, fieldClass));
+        resolve(execTransform(resp, editor, fieldClass));
       },
-      onError: () => {
-        reject();
+      onError: (err) => {
+        reject(err);
       },
     });
   });
-})(Joomla);
 
-
-((customElements, Joomla) => {
   class JoomlaFieldMedia extends HTMLElement {
     constructor() {
       super();
@@ -82,6 +89,9 @@
       this.onSelected = this.onSelected.bind(this);
       this.show = this.show.bind(this);
       this.clearValue = this.clearValue.bind(this);
+      this.modalClose = this.modalClose.bind(this);
+      this.setValue = this.setValue.bind(this);
+      this.updatePreview = this.updatePreview.bind(this);
     }
 
     static get observedAttributes() {
@@ -150,12 +160,20 @@
 
     connectedCallback() {
       this.button = this.querySelector(this.buttonSelect);
+      this.inputElement = this.querySelector(this.input);
       this.buttonClearEl = this.querySelector(this.buttonClear);
-      this.show = this.show.bind(this);
-      this.modalClose = this.modalClose.bind(this);
-      this.clearValue = this.clearValue.bind(this);
-      this.setValue = this.setValue.bind(this);
-      this.updatePreview = this.updatePreview.bind(this);
+      this.modalElement = this.querySelector('.joomla-modal');
+      this.buttonSaveSelectedElement = this.querySelector(this.buttonSaveSelected);
+      this.previewElement = this.querySelector('.field-media-preview');
+
+      if (!this.button || !this.inputElement || !this.buttonClearEl || !this.modalElement
+        || !this.buttonSaveSelectedElement) {
+        throw new Error('Misconfiguaration...');
+      }
+
+      if (Joomla.Bootstrap && Joomla.Bootstrap.initModal && typeof Joomla.Bootstrap.initModal === 'function') {
+        Joomla.Bootstrap.initModal(this.modalElement);
+      }
 
       this.button.addEventListener('click', this.show);
 
@@ -170,13 +188,12 @@
       if (this.button) {
         this.button.removeEventListener('click', this.show);
       }
-      if (this.buttonClear) {
-        this.buttonClear.removeEventListener('click', this.clearValue);
+      if (this.buttonClearEl) {
+        this.buttonClearEl.removeEventListener('click', this.clearValue);
       }
     }
 
     onSelected(event) {
-      // event.target.removeEventListener('click', this.onSelected);
       event.preventDefault();
       event.stopPropagation();
 
@@ -185,20 +202,30 @@
     }
 
     show() {
-      this.querySelector('[role="dialog"]').open();
+      this.modalElement.open();
 
-      this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
+      Joomla.selectedFile = {};
+
+      this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
     }
 
     modalClose() {
-      const input = this.querySelector(this.input);
-      Joomla.getImage(Joomla.selectedFile, input, this);
-
-      Joomla.Modal.getCurrent().close();
+      Joomla.getImage(Joomla.selectedFile, this.inputElement, this)
+        .then(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.selectedFile = {};
+        })
+        .catch(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.selectedFile = {};
+          Joomla.renderMessages({
+            error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
+          });
+        });
     }
 
     setValue(value) {
-      this.querySelector(this.input).value = value;
+      this.inputElement.value = value;
       this.updatePreview();
     }
 
@@ -207,20 +234,18 @@
     }
 
     updatePreview() {
-      if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false') {
+      if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
         return;
       }
 
       // Reset preview
       if (this.preview) {
-        const input = this.querySelector(this.input);
-        const { value } = input;
-        const div = this.querySelector('.field-media-preview');
+        const { value } = this.inputElement;
 
         if (!value) {
-          div.innerHTML = '<span class="field-media-preview-icon"></span>';
+          this.previewElement.innerHTML = '<span class="field-media-preview-icon"></span>';
         } else {
-          div.innerHTML = '';
+          this.previewElement.innerHTML = '';
           const imgPreview = new Image();
 
           switch (this.type) {
@@ -233,8 +258,8 @@
               break;
           }
 
-          div.style.width = this.previewWidth;
-          div.appendChild(imgPreview);
+          this.previewElement.style.width = this.previewWidth;
+          this.previewElement.appendChild(imgPreview);
         }
       }
     }

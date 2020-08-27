@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -43,17 +44,31 @@ class MenuField extends GroupedlistField
 	{
 		$clientId   = (string) $this->element['clientid'];
 		$accessType = (string) $this->element['accesstype'];
-		$showAll    = (string) $this->element['showAll'] == 'true';
+		$showAll    = (string) $this->element['showAll'] === 'true';
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('menutype', 'value'),
+					$db->quoteName('title', 'text'),
+					$db->quoteName('client_id'),
+				]
+			)
 			->from($db->quoteName('#__menu_types'))
-			->order('client_id, title');
+			->order(
+				[
+					$db->quoteName('client_id'),
+					$db->quoteName('title'),
+				]
+			);
 
-		if (strlen($clientId))
+		if (\strlen($clientId))
 		{
-			$query->where('client_id = ' . (int) $clientId);
+			$client = (int) $clientId;
+			$query->where($db->quoteName('client_id') . ' = :client')
+				->bind(':client', $client, ParameterType::INTEGER);
 		}
 
 		$menus = $db->setQuery($query)->loadObjectList();
@@ -102,7 +117,7 @@ class MenuField extends GroupedlistField
 		$options = array_merge($opts, $menus);
 		$groups  = array();
 
-		if (strlen($clientId))
+		if (\strlen($clientId))
 		{
 			$groups[0] = $options;
 		}

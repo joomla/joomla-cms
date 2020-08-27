@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 !(function(window, document){
@@ -256,26 +256,9 @@
 
 	/** Method to show the calendar. */
 	JoomlaCalendar.prototype.show = function () {
-		/** This is needed for IE8 */
-		if (navigator.appName.indexOf("Internet Explorer")!==-1) {
-			var badBrowser = (
-				navigator.appVersion.indexOf("MSIE 9")===-1 &&
-				navigator.appVersion.indexOf("MSIE 1")===-1
-			);
-
-			if (badBrowser) {
-				if (window.jQuery && jQuery().chosen) {
-					var selItems = this.element.getElementsByTagName('select');
-					for (var i = 0; i < selItems.length; i++) {
-						jQuery(selItems[i]).chosen('destroy');
-					}
-				}
-			}
-		}
-
 		this.checkInputs();
 		this.inputField.focus();
-		this.dropdownElement.style.display = "block";
+		this.dropdownElement.classList.remove('hidden');
 		this.hidden = false;
 
 		document.addEventListener("keydown", this._calKeyEvent, true);
@@ -285,7 +268,7 @@
 		/** Move the calendar to top position if it doesn't fit below. */
 		var containerTmp = this.element.querySelector('.js-calendar');
 
-		if ((window.innerHeight + window.scrollY) < containerTmp.getBoundingClientRect().bottom + 20) {
+		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
 		}
 
@@ -298,7 +281,7 @@
 		document.removeEventListener("keypress", this._calKeyEvent, true);
 		document.removeEventListener("mousedown", this._documentClick, true);
 
-		this.dropdownElement.style.display = "none";
+		this.dropdownElement.classList.add('hidden');
 		this.hidden = true;
 	};
 
@@ -564,7 +547,7 @@
 		div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
 		div.style.minWidth = this.inputField.width;
 		div.style.padding = '0';
-		div.style.display = "none";
+		div.classList.add('hidden');
 		div.style.left = "auto";
 		div.style.top = "auto";
 		div.style.zIndex = 1060;
@@ -798,6 +781,9 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
+				if (self.inputField.onchange) {
+					self.inputField.onchange();
+				}
 			});
 
 		if (this.params.showsTodayBtn) {
@@ -858,10 +844,10 @@
 
 		if (year < this.params.minYear) {                                                                   // Check min,max year
 			year = this.params.minYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setOtherFullYear(this.params.dateType, year);
 		} else if (year > this.params.maxYear) {
 			year = this.params.maxYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setOtherFullYear(this.params.dateType, year);
 		}
 
 		this.params.firstDayOfWeek = firstDayOfWeek;
@@ -939,10 +925,10 @@
 				}
 			}
 			if (!(hasdays || this.params.showsOthers)) {
-				row.style.display = 'none';
+				row.classList.add('hidden');
 				row.className = "emptyrow";
 			} else {
-				row.style.display = '';
+				row.classList.remove('hidden');
 			}
 		}
 
@@ -1004,7 +990,7 @@
 			var calObj = JoomlaCalendar.getCalObject(this)._joomlaCalendar;
 
 			// If calendar is open we will handle the event elsewhere
-			if (calObj.dropdownElement.style.display === 'block') {
+			if (!calObj.dropdownElement.classList.contains('hidden')) {
 				event.preventDefault();
 				return;
 			}
@@ -1062,11 +1048,20 @@
 		return false;
 	};
 
-	/** Method to change input values with the data-alt-value values. **/
+	/**
+	 * Method to change input values with the data-alt-value values. This method is e.g. being called
+	 * by the onSubmit handler of the calendar fields form.
+	 */
 	JoomlaCalendar.prototype.setAltValue = function() {
 		var input = this.inputField;
 		if (input.getAttribute('disabled')) return;
-		input.value = input.getAttribute('data-alt-value') ? input.getAttribute('data-alt-value') : '';
+
+		// Set the value to the data-alt-value attribute, but only if it really has a value.
+		input.value = (
+			input.getAttribute('data-alt-value') && input.getAttribute('data-alt-value') !== '0000-00-00 00:00:00'
+			? input.getAttribute('data-alt-value')
+			: ''
+		);
 	};
 
 	/** Method to change the inputs before submit. **/

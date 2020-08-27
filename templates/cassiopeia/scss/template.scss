@@ -5,18 +5,20 @@
 // Variables
 @import "variables";
 
+// Mixins
+@import "mixin";
+
 // Bootstrap
 @import "../../../media/vendor/bootstrap/scss/variables";
 @import "../../../media/vendor/bootstrap/scss/bootstrap";
 
-// FontAwesome
-@import "../../../media/vendor/font-awesome/scss/font-awesome";
+// "Font Awesome 5 Free"
+@import "../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../media/vendor/fontawesome-free/scss/solid";
+@import "../../../media/vendor/fontawesome-free/scss/brands";
 
 // B/C for Icomoon
 @import "../../../build/media_source/system/scss/icomoon";
-
-// Alert
-@import "../../../build/media_source/system/scss/jalert";
 
 // jQuery Minicolors
 @import "../../../build/media_source/system/scss/jquery-minicolors";
@@ -51,7 +53,6 @@
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
 @import "vendor/chosen";
-@import "vendor/choicesjs";
 @import "vendor/dragula";
 @import "vendor/minicolors";
 @import "vendor/tinymce";
@@ -60,6 +61,7 @@
 .chzn-container-single {
   width: auto !important;
 }
+
 .chzn-container-multi {
   width: 100% !important;
   max-width: 240px;

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,8 +25,12 @@ use Joomla\CMS\Table\Table;
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
  */
 
-// Reference global application object
+/** @var \Joomla\CMS\Application\CMSApplication $app */
 $app = Factory::getApplication();
+$app->allowCache(false);
+
+// Prevent the api url from being indexed
+$app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 
 // JInput object
 $input = $app->input;
@@ -97,8 +101,8 @@ elseif ($input->get('module'))
 				// Load language file for module
 				$basePath = JPATH_BASE;
 				$lang     = Factory::getLanguage();
-				$lang->load('mod_' . $module, $basePath, null, false, true)
-				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+				$lang->load('mod_' . $module, $basePath)
+				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
 				try
 				{
@@ -205,8 +209,8 @@ elseif ($input->get('template'))
 			{
 				// Load language file for template
 				$lang = Factory::getLanguage();
-				$lang->load('tpl_' . $template, $basePath, null, false, true)
-				||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template, null, false, true);
+				$lang->load('tpl_' . $template, $basePath)
+				||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
 
 				try
 				{

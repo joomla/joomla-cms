@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,9 +25,9 @@ class PlgSystemLanguagecode extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	protected $app;	
+	protected $app;
 
 	/**
 	 * Plugin that changes the language code used in the <html /> tag.
@@ -158,8 +158,8 @@ class PlgSystemLanguagecode extends CMSPlugin
 								/>
 							</fieldset>
 						</fields>
-					</form>
-				');
+					</form>'
+				);
 			}
 		}
 

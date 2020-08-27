@@ -1,10 +1,11 @@
 const Fs = require('fs');
 const Ini = require('ini');
+const Path = require('path');
 const Recurs = require('recursive-readdir');
 const UglifyCss = require('uglifycss');
 const UglifyJs = require('uglify-es');
-const RootPath = require('./utils/rootpath.es6.js')._();
 
+const RootPath = process.cwd();
 const dir = `${RootPath}/installation/language`;
 const srcPath = `${RootPath}/build/warning_page`;
 
@@ -37,7 +38,7 @@ module.exports.run = (options) => {
 
         // Build the variables into json for the unsupported page
         if (languageStrings.MIN_PHP_ERROR_LANGUAGE) {
-          const name = file.replace('.ini', '').replace(/.+\//, '').replace(/.+\\/, '');
+          const name = Path.dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
           unsupported += `"${name}":{"language":"${languageStrings.MIN_PHP_ERROR_LANGUAGE}",`
                       + `"header":"${languageStrings.MIN_PHP_ERROR_HEADER}",`
                       + `"text1":"${languageStrings.MIN_PHP_ERROR_TEXT}",`
@@ -46,7 +47,7 @@ module.exports.run = (options) => {
 
         // Build the variables into json for the unsupported page
         if (languageStrings.BUILD_INCOMPLETE_LANGUAGE) {
-          const name = file.replace('.ini', '').replace(/.+\//, '').replace(/.+\\/, '');
+          const name = Path.dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
           incomplete += `"${name}":{"language":"${languageStrings.BUILD_INCOMPLETE_LANGUAGE}",`
                      + `"header":"${languageStrings.BUILD_INCOMPLETE_HEADER}",`
                      + `"text1":"${languageStrings.BUILD_INCOMPLETE_TEXT}",`
@@ -78,6 +79,7 @@ module.exports.run = (options) => {
         Fs.writeFile(
           `${RootPath}${options.settings.errorPages[name].destFile}`,
           checkContent,
+          { encoding: 'utf8' },
           (err) => {
             if (err) {
               // eslint-disable-next-line no-console

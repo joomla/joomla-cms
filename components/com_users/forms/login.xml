@@ -11,16 +11,17 @@
 			required="true"
 			validate="username"
 			autofocus="true"
+			autocomplete="username"
 		/>
 
 		<field
 			name="password"
 			type="password"
 			label="JGLOBAL_PASSWORD"
-			class="validate-password"
 			required="true"
 			filter="raw"
 			size="25"
+			autocomplete="current-password"
 		/>
 	</fieldset>
 
@@ -28,6 +29,7 @@
 			name="secretkey"
 			type="text"
 			label="JGLOBAL_SECRETKEY"
+			autocomplete="one-time-code"
 			class=""
 			filter="int"
 			size="25"

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Component;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
@@ -92,7 +92,7 @@ class ComponentRecord
 			return $this->getParams();
 		}
 
-		return $this->get($name);
+		return $this->$name;
 	}
 
 	/**
@@ -115,7 +115,7 @@ class ComponentRecord
 			return;
 		}
 
-		$this->set($name, $value);
+		$this->$name = $value;
 	}
 
 	/**

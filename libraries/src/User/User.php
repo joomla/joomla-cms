@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\User;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
@@ -142,7 +142,7 @@ class User extends CMSObject
 	/**
 	 * Guest status
 	 *
-	 * @var    boolean
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	public $guest = null;
@@ -158,7 +158,7 @@ class User extends CMSObject
 	/**
 	 * Count since last Reset Time
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.0.1
 	 */
 	public $resetCount = null;
@@ -166,7 +166,7 @@ class User extends CMSObject
 	/**
 	 * Flag to require the user's password be reset
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	public $requireReset = null;
@@ -401,22 +401,27 @@ class User extends CMSObject
 		$db = Factory::getDbo();
 
 		$subQuery = $db->getQuery(true)
-			->select('id,asset_id')
-			->from('#__categories')
-			->where('extension = ' . $db->quote($component))
-			->where('published = 1');
+			->select($db->quoteName(['id', 'asset_id']))
+			->from($db->quoteName('#__categories'))
+			->where(
+				[
+					$db->quoteName('extension') . ' = :component',
+					$db->quoteName('published') . ' = 1',
+				]
+			);
 
 		$query = $db->getQuery(true)
-			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . (string) $subQuery . ') AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
+			->select($db->quoteName(['c.id', 'a.name']))
+			->from('(' . $subQuery . ') AS ' . $db->quoteName('c'))
+			->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
+			->bind(':component', $component);
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
 
 		foreach ($allCategories as $category)
 		{
-			if ($this->authorise($action, $category->asset_name))
+			if ($this->authorise($action, $category->name))
 			{
 				$allowedCategories[] = (int) $category->id;
 			}
@@ -587,7 +592,7 @@ class User extends CMSObject
 			// Check the password and create the crypted password
 			if (empty($array['password']))
 			{
-				$array['password']  = UserHelper::genRandomPassword();
+				$array['password']  = UserHelper::genRandomPassword(32);
 				$array['password2'] = $array['password'];
 			}
 
@@ -606,15 +611,6 @@ class User extends CMSObject
 
 			// Set the registration timestamp
 			$this->set('registerDate', Factory::getDate()->toSql());
-
-			// Check that username is not greater than 150 characters
-			$username = $this->get('username');
-
-			if (strlen($username) > 150)
-			{
-				$username = substr($username, 0, 150);
-				$this->set('username', $username);
-			}
 		}
 		else
 		{
@@ -647,13 +643,17 @@ class User extends CMSObject
 			{
 				$array['password'] = $this->password;
 			}
+
+			// Prevent updating current registration date/last visit date
+			unset($array['registerDate']);
+			unset($array['lastvisitDate']);
 		}
 
-		if (array_key_exists('params', $array))
+		if (\array_key_exists('params', $array))
 		{
 			$this->_params->loadArray($array['params']);
 
-			if (is_array($array['params']))
+			if (\is_array($array['params']))
 			{
 				$params = (string) $this->_params;
 			}
@@ -741,8 +741,16 @@ class User extends CMSObject
 				$iAmRehashingSuperadmin = true;
 			}
 
+			// Check if we are using a CLI application
+			$isCli = false;
+
+			if (Factory::getApplication()->isCli())
+			{
+				$isCli = true;
+			}
+
 			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
+			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true && $isCli != true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
 				if (!$isNew && Access::check($this->id, 'core.admin'))
@@ -768,7 +776,7 @@ class User extends CMSObject
 
 			$result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
 
-			if (in_array(false, $result, true))
+			if (\in_array(false, $result, true))
 			{
 				// Plugin will have to raise its own error or throw an exception.
 				return false;

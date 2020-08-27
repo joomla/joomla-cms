@@ -3,20 +3,24 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Invisible reCAPTCHA Plugin.
  *
  * @since  3.9.0
  */
-class PlgCaptchaRecaptcha_Invisible extends \JPlugin
+class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -25,6 +29,14 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
 
 	/**
 	 * Reports the privacy related capabilities for this plugin to site administrators.
@@ -38,8 +50,8 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
-				JText::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
+				Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
 			)
 		);
 	}
@@ -60,28 +72,16 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 
 		if ($pubkey === '')
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		// Load callback first for browser compatibility
-		\JHtml::_(
-			'script',
-			'plg_captcha_recaptcha_invisible/recaptcha.min.js',
-			array('version' => 'auto', 'relative' => true),
-			array('async' => 'async', 'defer' => 'defer')
-		);
+		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=JoomlainitReCaptchaInvisible&render=explicit&hl='
+			. Factory::getLanguage()->getTag();
 
-		// Load Google reCAPTCHA api js
-		$file = 'https://www.google.com/recaptcha/api.js'
-			. '?onload=JoomlaInitReCaptchaInvisible'
-			. '&render=explicit'
-			. '&hl=' . \JFactory::getLanguage()->getTag();
-		\JHtml::_(
-			'script',
-			$file,
-			array(),
-			array('async' => 'async', 'defer' => 'defer')
-		);
+		// Load assets, the callback should be first
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha.min.js', [], ['defer' => true])
+			->registerAndUseScript('plg_captcha_recaptchainvisible.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptchainvisible']);
 
 		return true;
 	}
@@ -127,28 +127,28 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 */
 	public function onCheckAnswer($code = null)
 	{
-		$input      = \JFactory::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
-		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$remoteip   = IpHelper::getIp();
 
 		$response  = $input->get('g-recaptcha-response', '', 'string');
 
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PRIVATE_KEY'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PRIVATE_KEY'));
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_IP'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_IP'));
 		}
 
 		// Discard spam submissions
 		if (trim($response) == '')
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_INVISIBLE_ERROR_EMPTY_SOLUTION'));
+			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_EMPTY_SOLUTION'));
 		}
 
 		return $this->getResponse($privatekey, $remoteip, $response);

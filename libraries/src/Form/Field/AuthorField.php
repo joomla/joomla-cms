@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 
@@ -55,11 +55,21 @@ class AuthorField extends ListField
 
 			// Construct the query
 			$query = $db->getQuery(true)
-				->select('u.id AS value, u.name AS text')
-				->from('#__users AS u')
-				->join('INNER', '#__content AS c ON c.created_by = u.id')
-				->group('u.id, u.name')
-				->order('u.name');
+				->select(
+					[
+						$db->quoteName('u.id', 'value'),
+						$db->quoteName('u.name', 'text'),
+					]
+				)
+				->from($db->quoteName('#__users', 'u'))
+				->join('INNER', $db->quoteName('#__content', 'c'), $db->quoteName('c.created_by') . ' = ' . $db->quoteName('u.id'))
+				->group(
+					[
+						$db->quoteName('u.id'),
+						$db->quoteName('u.name'),
+					]
+				)
+				->order($db->quoteName('u.name'));
 
 			// Setup the query
 			$db->setQuery($query);

@@ -76,11 +76,13 @@
         this.buttonSelect.removeEventListener('click', this);
       }
 
-      this.modal.removeEventListener('hide', this);
+      if (this.modal) {
+        this.modal.removeEventListener('hide', this);
+      }
     }
 
-    buttonClick(event) {
-      this.setValue(event.target.getAttribute('data-user-value'), event.target.getAttribute('data-user-name'));
+    buttonClick({ target }) {
+      this.setValue(target.getAttribute('data-user-value'), target.getAttribute('data-user-name'));
       this.modalClose();
     }
 
@@ -128,6 +130,8 @@
     setValue(value, name) {
       this.input.setAttribute('value', value);
       this.inputName.setAttribute('value', name || value);
+      // trigger change event
+      this.input.dispatchEvent(new Event('change'));
     }
   }
 

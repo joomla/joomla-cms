@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Error\JsonApi;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Exception;
 use Joomla\CMS\Application\Exception\NotAcceptable;
@@ -28,7 +28,7 @@ class NotAcceptableExceptionHandler implements ExceptionHandlerInterface
 	 *
 	 * @param   \Exception  $e  The exception to be handled
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since  4.0.0
 	 */

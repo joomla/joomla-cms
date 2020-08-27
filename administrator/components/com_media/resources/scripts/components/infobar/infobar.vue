@@ -4,7 +4,7 @@
             <span class="infobar-close" @click="hideInfoBar()">×</span>
             <h2>{{ item.name }}</h2>
             <div v-if="item.path === '/'" class="text-center">
-                <span class="fa fa-file placeholder-icon"></span>
+                <span class="fas fa-file placeholder-icon"></span>
                 Select file or folder to view its details.
             </div>
             <dl v-else>
@@ -12,7 +12,9 @@
                 <dd>{{ item.directory }}</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_TYPE') }}</dt>
-                <dd>{{ item.type || '-' }}</dd>
+                <dd v-if="item.type === 'file'">{{ translate('COM_MEDIA_FILE') }}</dd>
+                <dd v-else-if="item.type === 'dir'">{{ translate('COM_MEDIA_FOLDER') }}</dd>
+                <dd v-else>-</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}</dt>
                 <dd>{{ item.create_date_formatted }}</dd>
@@ -21,11 +23,12 @@
                 <dd>{{ item.modified_date_formatted }}</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</dt>
-                <dd v-if="item.width || item.height">{{ item.width }} x {{ item.height}}</dd>
+                <dd v-if="item.width || item.height">{{ item.width }}px * {{ item.height }}px</dd>
                 <dd v-else>-</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_SIZE') }}</dt>
-                <dd>{{ item.size || '-' }}</dd>
+                <dd v-if="item.size">{{ (item.size / 1024).toFixed(2) }} KB</dd>
+                <dd v-else>-</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_MIME_TYPE') }}</dt>
                 <dd>{{ item.mime_type }}</dd>

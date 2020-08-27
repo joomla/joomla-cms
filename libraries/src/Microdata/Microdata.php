@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Microdata;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Platform class for interacting with Microdata semantics.
@@ -417,7 +417,7 @@ class Microdata
 						$nestedProperty = '';
 
 						// If there is a Fallback Type then probably it could be the expectedType
-						if (in_array($this->fallbackType, $nestedType))
+						if (\in_array($this->fallbackType, $nestedType))
 						{
 							$nestedType = $this->fallbackType;
 
@@ -737,7 +737,7 @@ class Microdata
 		}
 
 		// Control if the $Property exists, and return 'true'
-		if (array_key_exists($property, static::$types[$type]['properties']))
+		if (\array_key_exists($property, static::$types[$type]['properties']))
 		{
 			return true;
 		}
@@ -766,7 +766,7 @@ class Microdata
 	{
 		static::loadTypes();
 
-		return (array_key_exists($type, static::$types)) ? true : false;
+		return (\array_key_exists($type, static::$types)) ? true : false;
 	}
 
 	/**

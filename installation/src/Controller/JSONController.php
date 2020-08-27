@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,6 +45,7 @@ abstract class JSONController extends BaseController
 			$this->app->setHeader('status', 500);
 			echo '{"token":"' . Session::getFormToken(true) . '","lang":"' . Factory::getLanguage()->getTag()
 				. '","error":true,"header":"' . Text::_('INSTL_HEADER_ERROR') . '","message":"' . Text::_('INSTL_WARNJSON') . '"}';
+
 			return;
 		}
 
@@ -60,7 +61,7 @@ abstract class JSONController extends BaseController
 	}
 
 	/**
-	 * Checks for a form token, if it is invalid a JSOn response with the error code 403 is sent.
+	 * Checks for a form token, if it is invalid a JSON response with the error code 403 is sent.
 	 *
 	 * @return  void
 	 *
@@ -70,6 +71,11 @@ abstract class JSONController extends BaseController
 	public function checkValidToken()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or $this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+		if (!Session::checkToken())
+		{
+			$this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			$this->app->close();
+		}
 	}
 }

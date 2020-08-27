@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_BANNERS_CLIENTS_FILTER_SEARCH_LABEL"
 			description="COM_BANNERS_CLIENTS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -12,7 +13,7 @@
 		<field
 			name="state"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -21,9 +22,10 @@
 		<field
 			name="purchase_type"
 			type="list"
-			label="COM_BANNERS_SELECT_TYPE"
+			label="COM_BANNERS_HEADING_TYPE"
 			default="0"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
@@ -41,6 +43,7 @@
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.name ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>

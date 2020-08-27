@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -19,7 +19,7 @@ use Joomla\CMS\Form\FormField;
  * Text field for passwords
  *
  * @link   http://www.w3.org/TR/html-markup/input.password.html#input.password
- * @note   Two password fields may be validated as matching using JFormRuleEquals
+ * @note   Two password fields may be validated as matching using \Joomla\CMS\Form\Rule\EqualsRule
  * @since  1.7.0
  */
 class PasswordField extends FormField
@@ -149,12 +149,12 @@ class PasswordField extends FormField
 			$this->maxLength    = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold    = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 			$meter              = (string) $this->element['strengthmeter'];
-			$this->meter        = ($meter == 'true' || $meter == 'on' || $meter == '1');
+			$this->meter        = ($meter === 'true' || $meter === 'on' || $meter === '1');
 			$force              = (string) $this->element['forcePassword'];
-			$this->force        = (($force == 'true' || $force == 'on' || $force == '1') && $this->meter === true);
+			$this->force        = (($force === 'true' || $force === 'on' || $force === '1') && $this->meter === true);
 
 			// Set some initial values
-			$this->minLength    = 4;
+			$this->minLength    = 12;
 			$this->minIntegers  = 0;
 			$this->minSymbols   = 0;
 			$this->minUppercase = 0;
@@ -162,7 +162,7 @@ class PasswordField extends FormField
 
 			if (Factory::getApplication()->get('db') != '')
 			{
-				$this->minLength    = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 4);
+				$this->minLength    = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 12);
 				$this->minIntegers  = (int) ComponentHelper::getParams('com_users')->get('minimum_integers', 0);
 				$this->minSymbols   = (int) ComponentHelper::getParams('com_users')->get('minimum_symbols', 0);
 				$this->minUppercase = (int) ComponentHelper::getParams('com_users')->get('minimum_uppercase', 0);

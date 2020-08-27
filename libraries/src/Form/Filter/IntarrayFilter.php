@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
@@ -39,12 +39,17 @@ class IntarrayFilter implements FormFilterInterface
 	 */
 	public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		if (is_object($value))
+		if (strtoupper((string) $element['filter']) === 'INT_ARRAY')
+		{
+			@trigger_error('`INT_ARRAY` form filter is deprecated and will be removed in 5.0. Use `Intarray` instead', E_USER_DEPRECATED);
+		}
+
+		if (\is_object($value))
 		{
 			$value = get_object_vars($value);
 		}
 
-		$value = is_array($value) ? $value : array($value);
+		$value = \is_array($value) ? $value : array($value);
 
 		$value = ArrayHelper::toInteger($value);
 

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Error\Renderer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Factory;
@@ -48,6 +48,10 @@ class HtmlRenderer extends AbstractRenderer
 
 		// Push the error object into the document
 		$this->getDocument()->setError($error);
+
+		// Add registry file for the template asset
+		$this->getDocument()->getWebAssetManager()->getRegistry()
+			->addTemplateRegistryFile($template, $app->getClientId());
 
 		if (ob_get_contents())
 		{

@@ -6,15 +6,29 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_CONTACT_FILTER_SEARCH_LABEL"
 			description="COM_CONTACT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 
 		<field
+			name="featured"
+			type="list"
+			label="JFEATURED"
+			onchange="this.form.submit();"
+			default=""
+			validate="options"
+			>
+			<option value="">JOPTION_SELECT_FEATURED</option>
+			<option value="0">JUNFEATURED</option>
+			<option value="1">JFEATURED</option>
+		</field>
+
+		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -23,7 +37,7 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			extension="com_contact"
 			published="0,1,2"
 			onchange="this.form.submit();"
@@ -34,7 +48,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -43,7 +57,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -53,17 +67,18 @@
 		<field
 			name="tag"
 			type="tag"
-			label="JOPTION_SELECT_TAG"
+			label="JTAG"
+			multiple="true"
 			mode="nested"
+			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_SELECT_MAX_LEVELS"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"
@@ -82,6 +97,7 @@
 			label="JGLOBAL_SORT_BY"
 			default="a.name ASC"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
@@ -98,18 +114,8 @@
 			<option value="ul.name DESC">COM_CONTACT_FIELD_LINKED_USER_LABEL_DESC</option>
 			<option value="access_level ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="access_level DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option
-				value="association ASC"
-				requires="associations"
-				>
-				JASSOCIATIONS_ASC
-			</option>
-			<option
-				value="association DESC"
-				requires="associations"
-				>
-				JASSOCIATIONS_DESC
-			</option>
+			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
+			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
 			<option value="language_title ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
 			<option value="language_title DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>

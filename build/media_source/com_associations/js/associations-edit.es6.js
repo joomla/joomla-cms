@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -17,8 +17,8 @@ Joomla = window.Joomla || {};
       if (el) {
         const attribute = el.getAttribute('for');
 
-        if (attribute.replace('_id', '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
-          element.style.display = 'none';
+        if (attribute.replace(new RegExp('_name$'), '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
+          element.classList.add('hidden');
         }
       }
     });
@@ -36,7 +36,7 @@ Joomla = window.Joomla || {};
     }
 
     controlGroup.forEach((element) => {
-      element.style.display = 'none';
+      element.classList.add('hidden');
     });
   };
 
@@ -156,7 +156,7 @@ Joomla = window.Joomla || {};
 
     // When changing the language
     if (formControlLanguage) {
-      formControlLanguage.addEventListener('change', (event) => {
+      formControlLanguage.addEventListener('change', ({ target }) => {
         // Remove message if any
         Joomla.removeMessages();
 
@@ -169,10 +169,10 @@ Joomla = window.Joomla || {};
 
         controlGroup.forEach((element) => {
           const attribute = element.querySelector('.control-label label').getAttribute('for');
-          const languageCode = attribute.replace('_id', '').replace('jform_associations_', '');
+          const languageCode = attribute.replace('_name', '').replace('jform_associations_', '');
 
           // Show the association fields
-          element.style.display = 'block';
+          element.classList.remove('hidden');
 
           // Check if there was an association selected for this language
           if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_id`).value !== '') {
@@ -195,7 +195,7 @@ Joomla = window.Joomla || {};
         }
 
         // If the selected language is All hide the fields and add a message
-        const selectedLanguage = event.target.value;
+        const selectedLanguage = target.value;
 
         if (selectedLanguage === '*') {
           Joomla.showAssociationMessage();

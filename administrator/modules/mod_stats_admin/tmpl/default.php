@@ -3,14 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('jquery.framework');
-JFactory::getDocument()->addScriptDeclaration('
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('jquery.framework');
+$app->getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($) {
 		$("a.js-revert").on("click", function(e) {
 			e.preventDefault();
@@ -26,10 +28,10 @@ JFactory::getDocument()->addScriptDeclaration('
 	});
 ');
 ?>
-<ul class="list-group list-group-flush stats-module <?php echo $moduleclass_sfx ?>">
+<ul class="list-group list-group-flush stats-module">
 	<?php foreach ($list as $item) : ?>
 		<li class="list-group-item">
-			<span class="mr-2 fa-fw fa fa-<?php echo $item->icon; ?>" aria-hidden="true"></span> <?php echo $item->title; ?>
+			<span class="mr-2 fas fa-<?php echo $item->icon; ?> fa-fw" aria-hidden="true"></span> <?php echo $item->title; ?>
 
 			<?php if(isset($item->link)) : ?>
 				<a class="btn btn-info btn-sm js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>

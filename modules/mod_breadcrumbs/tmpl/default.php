@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<nav role="navigation" aria-label="<?php echo $module->name; ?>">
+<nav role="navigation" aria-label="<?php echo $module->title; ?>">
 	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb">
 		<?php if ($params->get('showHere', 1)) : ?>
 			<li class="mod-breadcrumbs__here float-left">
@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
 			</li>
 		<?php else : ?>
 			<li class="mod-breadcrumbs__divider float-left">
-				<span class="divider fa fa-location" aria-hidden="true"></span>
+				<span class="divider fas fa-location" aria-hidden="true"></span>
 			</li>
 		<?php endif; ?>
 
@@ -57,7 +57,7 @@ use Joomla\CMS\Language\Text;
 				</li>
 			<?php elseif ($show_last) :
 				$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
-				// Render last item if reqd. ?>
+				// Render last item if required. ?>
 				<li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item active"><?php echo $breadcrumbItem; ?>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>

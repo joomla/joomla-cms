@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Event\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 
@@ -34,12 +34,12 @@ class BeforeCheckoutEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('userId', $arguments))
+		if (!\array_key_exists('userId', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'userId' is required for event $name");
 		}
 
-		if (!array_key_exists('pk', $arguments))
+		if (!\array_key_exists('pk', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'pk' is required for event $name");
 		}

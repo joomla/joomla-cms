@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document, Joomla) => {
@@ -14,13 +14,12 @@
 
     if (elements.length) {
       elements.forEach((element) => {
-        const type = element.getAttribute('data-type');
+        const badgeurl = element.getAttribute('data-url');
 
-        if (type && Joomla && Joomla.request && typeof Joomla.request === 'function') {
+        if (badgeurl && Joomla && Joomla.request && typeof Joomla.request === 'function') {
           Joomla.request({
-            url: 'index.php?option=com_cpanel&task=system.loadSystemInfo&format=json',
+            url: badgeurl,
             method: 'POST',
-            data: `type=${type}`,
             onSuccess: (resp) => {
               let response;
               try {
@@ -37,9 +36,8 @@
               } else if (response.data) {
                 const elem = document.createElement('span');
 
-                elem.classList.add('pull-right');
+                elem.classList.add('float-right');
                 elem.classList.add('badge');
-                elem.classList.add('badge-pill');
                 elem.classList.add('badge-warning');
                 elem.innerHTML = response.data;
 

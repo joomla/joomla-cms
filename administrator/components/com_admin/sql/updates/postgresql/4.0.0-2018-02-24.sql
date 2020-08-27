@@ -1,1 +1,1 @@
-DELETE FROM "#__extensions" WHERE "extension_id" = 104;
+DELETE FROM "#__extensions" WHERE "type" = 'library' AND "element" = 'idna_convert';

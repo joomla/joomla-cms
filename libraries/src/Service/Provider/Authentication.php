@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Authentication\Password\Argon2idHandler as BaseArgon2idHandler;
 use Joomla\Authentication\Password\Argon2iHandler as BaseArgon2iHandler;
@@ -19,7 +19,6 @@ use Joomla\CMS\Authentication\Password\BCryptHandler;
 use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
-use Joomla\CMS\Authentication\Password\SHA256Handler;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -84,7 +83,6 @@ class Authentication implements ServiceProviderInterface
 					}
 
 					$handler->addHandler($container->get(PHPassHandler::class));
-					$handler->addHandler($container->get(SHA256Handler::class));
 					$handler->addHandler($container->get(MD5Handler::class));
 
 					return $handler;
@@ -139,25 +137,6 @@ class Authentication implements ServiceProviderInterface
 					);
 
 					return new PHPassHandler;
-				},
-				true
-			);
-
-		$container->alias('password.handler.sha256', SHA256Handler::class)
-			->share(
-				SHA256Handler::class,
-				function (Container $container)
-				{
-					@trigger_error(
-						sprintf(
-							'The "%1$s" class service is deprecated, use the "%2$s" service for the active password handler instead.',
-							SHA256Handler::class,
-							'password.handler.default'
-						),
-						E_USER_DEPRECATED
-					);
-
-					return new SHA256Handler;
 				},
 				true
 			);

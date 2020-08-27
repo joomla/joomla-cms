@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,10 +14,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
-HTMLHelper::_('behavior.core');
-
-HTMLHelper::_('script', 'com_tags/tags-default.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_tags.tags-default');
 
 // Get the user object.
 $user = Factory::getUser();
@@ -58,10 +59,10 @@ $n         = count($this->items);
 						<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" title="<?php echo Text::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
 						<span class="input-group-append">
 							<button type="submit" name="filter-search-button" title="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>" class="btn btn-secondary">
-								<span class="fa fa-search" aria-hidden="true"></span>
+								<span class="fas fa-search" aria-hidden="true"></span>
 							</button>
 							<button type="reset" name="filter-clear-button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary">
-								<span class="fa fa-times" aria-hidden="true"></span>
+								<span class="fas fa-times" aria-hidden="true"></span>
 							</button>
 						</span>
 					</div>
@@ -95,7 +96,7 @@ $n         = count($this->items);
 			<li class="list-group-item list-group-item-action">
 				<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 					<h3 class="mb-0">
-						<a href="<?php echo Route::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)); ?>">
+						<a href="<?php echo Route::_(RouteHelper::getTagRoute($item->id . ':' . $item->alias)); ?>">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					</h3>
@@ -109,7 +110,7 @@ $n         = count($this->items);
 							<div class="float-<?php echo htmlspecialchars($imgfloat); ?> item-image">
 								<img
 									<?php if ($images->image_intro_caption) : ?>
-										<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
+										<?php echo 'class="caption" title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
 									<?php endif; ?>
 									src="<?php echo $images->image_intro; ?>"
 									alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
@@ -118,9 +119,9 @@ $n         = count($this->items);
 					</span>
 				<?php endif; ?>
 
-				<?php if ($this->params->get('all_tags_show_tag_description') || $this->params->get('all_tags_show_tag_hits')) : ?>
+				<?php if (($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) || $this->params->get('all_tags_show_tag_hits')) : ?>
 					<div class="caption">
-						<?php if ($this->params->get('all_tags_show_tag_description')) : ?>
+						<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
 							<span class="tag-body">
 								<?php echo HTMLHelper::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
 							</span>

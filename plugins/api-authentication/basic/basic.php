@@ -3,17 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.joomla
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\User\User;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla Authentication plugin
@@ -25,7 +25,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @type   \Joomla\CMS\Application\CMSApplicationInterface
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -33,7 +33,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @type   \Joomla\Database\DatabaseInterface
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  4.0.0
 	 */
 	protected $db;
@@ -53,10 +53,10 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	{
 		$response->type = 'Basic';
 
-		$username = $this->app->input->server->get('PHP_AUTH_USER');
-		$password = $this->app->input->server->get('PHP_AUTH_PW');
+		$username = $this->app->input->server->get('PHP_AUTH_USER', '', 'USERNAME');
+		$password = $this->app->input->server->get('PHP_AUTH_PW', '', 'RAW');
 
-		if (empty($password))
+		if ($password === '')
 		{
 			$response->status        = Authentication::STATUS_FAILURE;
 			$response->error_message = Text::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
@@ -64,14 +64,15 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 			return;
 		}
 
-		// Get a database object
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('id', 'password')))
-			->from($this->db->quoteName('#__users'))
-			->where($this->db->quoteName('username') . '=' . $this->db->quote($username));
+		$db    = $this->db;
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['id', 'password']))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $username);
 
-		$this->db->setQuery($query);
-		$result = $this->db->loadObject();
+		$db->setQuery($query);
+		$result = $db->loadObject();
 
 		if ($result)
 		{

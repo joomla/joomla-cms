@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field to load a list of states
@@ -32,10 +32,10 @@ class StatusField extends PredefinedlistField
 	 * @since  3.2
 	 */
 	protected $predefinedOptions = array(
-		'-2' =>	'JTRASHED',
-		'0'  => 'JUNPUBLISHED',
-		'1'  => 'JPUBLISHED',
-		'2'  => 'JARCHIVED',
-		'*'  => 'JALL',
+		-2  => 'JTRASHED',
+		0   => 'JUNPUBLISHED',
+		1   => 'JPUBLISHED',
+		2   => 'JARCHIVED',
+		'*' => 'JALL',
 	);
 }

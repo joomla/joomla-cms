@@ -6,7 +6,7 @@
 			type="installation.language"
 			label="INSTL_SELECT_LANGUAGE_TITLE"
 			id="language"
-			class="custom-select required ml-2"
+			class="required"
 			default="en-GB"
 		/>
 		<field
@@ -31,24 +31,40 @@
 			type="text"
 			label="INSTL_ADMIN_USER_DESC"
 			id="admin_user"
-			class="form-control"
 			required="true"
+			class="form-control"
+			size="30"
+		/>
+		<field
+			name="admin_username"
+			type="text"
+			label="INSTL_ADMIN_USERNAME_DESC"
+			id="admin_username"
+			required="true"
+			validate="username"
+			class="form-control"
+			size="30"
+			autocomplete="username"
 		/>
 		<field
 			name="admin_password"
 			type="password"
 			label="INSTL_ADMIN_PASSWORD_DESC"
+			description="INSTL_ADMIN_PASSWORD_LENGTH"
 			id="admin_password"
-			class="form-control"
 			required="true"
-			autocomplete="off"
+			autocomplete="new-password"
+			validate="password"
+			strengthmeter="true"
+			force="on"
+			filter="raw"
 		/>
 		<field
 			name="db_type"
 			type="databaseconnection"
 			label="INSTL_DATABASE_TYPE_DESC"
 			id="db_type"
-			class="custom-select form-control"
+			class="custom-select"
 			supported="mysql,mysqli,pgsql,postgresql"
 			required="true"
 			default="mysqli"
@@ -110,5 +126,65 @@
 			id="db_old"
 			default="backup"
 		/>
+
+		<field
+			name="db_encryption"
+			type="list"
+			label="INSTL_DATABASE_ENCRYPTION_MODE_LABEL"
+			class="custom-select"
+			required="true"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
+			<option value="1">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>
+			<option value="2">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_TWO_WAY</option>
+		</field>
+
+		<field
+			name="db_sslkey"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_KEY_LABEL"
+			filter="path"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslcert"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CERT_LABEL"
+			filter="path"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslverifyservercert"
+			type="radio"
+			label="INSTL_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="boolean"
+			showon="db_encryption:1,2"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="db_sslca"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CA_LABEL"
+			filter="path"
+			showon="db_encryption:1,2[AND]db_sslverifyservercert:1"
+		/>
+
+		<field
+			name="db_sslcipher"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CIPHER_LABEL"
+			filter="string"
+			showon="db_type:mysql,mysqli[AND]db_encryption:2"
+		/>
+
 	</fieldset>
 </form>

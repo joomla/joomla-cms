@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
@@ -256,7 +256,7 @@ class EditorField extends TextareaField
 			$this->height,
 			$this->columns,
 			$this->rows,
-			$this->buttons ? (is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false,
+			$this->buttons ? (\is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false,
 			$this->id,
 			$this->asset,
 			$this->form->getValue($this->authorField),
@@ -265,7 +265,7 @@ class EditorField extends TextareaField
 	}
 
 	/**
-	 * Method to get a Editor object based on the form field.
+	 * Method to get an Editor object based on the form field.
 	 *
 	 * @return  Editor  The Editor object.
 	 *
@@ -286,19 +286,28 @@ class EditorField extends TextareaField
 				// Get the database object.
 				$db = Factory::getDbo();
 
+				// Build the query.
+				$query = $db->getQuery(true)
+					->select($db->quoteName('element'))
+					->from($db->quoteName('#__extensions'))
+					->where(
+						[
+							$db->quoteName('element') . ' = :editor',
+							$db->quoteName('folder') . ' = ' . $db->quote('editors'),
+							$db->quoteName('enabled') . ' = 1',
+						]
+					);
+
+				// Declare variable before binding.
+				$element = '';
+				$query->bind(':editor', $element);
+				$query->setLimit(1);
+
 				// Iterate over the types looking for an existing editor.
 				foreach ($types as $element)
 				{
-					// Build the query.
-					$query = $db->getQuery(true)
-						->select('element')
-						->from('#__extensions')
-						->where('element = ' . $db->quote($element))
-						->where('folder = ' . $db->quote('editors'))
-						->where('enabled = 1');
-
-					// Check of the editor exists.
-					$db->setQuery($query, 0, 1);
+					// Check if the editor exists.
+					$db->setQuery($query);
 					$editor = $db->loadResult();
 
 					// If an editor was found stop looking.
@@ -319,26 +328,5 @@ class EditorField extends TextareaField
 		}
 
 		return $this->editor;
-	}
-
-	/**
-	 * Method to get the JEditor output for an onSave event.
-	 *
-	 * @return  string  The JEditor object output.
-	 *
-	 * @since       1.6
-	 * @deprecated  4.0  Will be removed without replacement
-	 * @see         Editor::save()
-	 */
-	public function save()
-	{
-		$editor = $this->getEditor();
-
-		if (!method_exists($editor, 'save'))
-		{
-			return '';
-		}
-
-		return $editor->save($this->id);
 	}
 }

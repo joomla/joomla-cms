@@ -3,18 +3,30 @@
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\User;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Joomla! Users Actions Logging Plugin.
  *
  * @since  3.9.0
  */
-class PlgSystemActionLogs extends JPlugin
+class PlgSystemActionLogs extends CMSPlugin
 {
 	/**
 	 * Application object.
@@ -33,18 +45,10 @@ class PlgSystemActionLogs extends JPlugin
 	protected $db;
 
 	/**
-	 * Load plugin language file automatically so that it can be used inside component
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object  $subject  The object to observe.
+	 * @param   array   $config   An optional associative array of configuration settings.
 	 *
 	 * @since   3.9.0
 	 */
@@ -53,37 +57,45 @@ class PlgSystemActionLogs extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Import actionlog plugin group so that these plugins will be triggered for events
-		JPluginHelper::importPlugin('actionlog');
+		PluginHelper::importPlugin('actionlog');
+	}
+
+	/**
+	 * Listener for the `onAfterInitialise` event
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function onAfterInitialise()
+	{
+		// Load plugin language files.
+		$this->loadLanguage();
 	}
 
 	/**
 	 * Adds additional fields to the user editing form for logs e-mail notifications
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if (!$form instanceof JForm)
-		{
-			$this->subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		$formName = $form->getName();
 
-		$allowedFormNames = array(
+		$allowedFormNames = [
 			'com_users.profile',
-			'com_admin.profile',
 			'com_users.user',
-		);
+			'com_admin.profile',
+		];
 
-		if (!in_array($formName, $allowedFormNames))
+		if (!in_array($formName, $allowedFormNames, true))
 		{
 			return true;
 		}
@@ -93,7 +105,7 @@ class PlgSystemActionLogs extends JPlugin
 		 * who has same Super User permission
 		 */
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!$user->authorise('core.admin'))
 		{
@@ -101,7 +113,7 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		// If we are on the save command, no data is passed to $data variable, we need to get it directly from request
-		$jformData = $this->app->input->get('jform', array(), 'array');
+		$jformData = $this->app->input->get('jform', [], 'array');
 
 		if ($jformData && !$data)
 		{
@@ -113,13 +125,93 @@ class PlgSystemActionLogs extends JPlugin
 			$data = (object) $data;
 		}
 
-		if (!empty($data->id) && !JUser::getInstance($data->id)->authorise('core.admin'))
+		if (empty($data->id) || !User::getInstance($data->id)->authorise('core.admin'))
 		{
 			return true;
 		}
 
-		JForm::addFormPath(dirname(__FILE__) . '/forms');
+		Form::addFormPath(__DIR__ . '/forms');
+
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && Factory::getApplication()->isClient('administrator'))
+		{
+			$form->loadFile('information', false);
+
+			return true;
+		}
+
+		if (!PluginHelper::isEnabled('actionlog', 'joomla'))
+		{
+			return true;
+		}
+
 		$form->loadFile('actionlogs', false);
+	}
+
+	/**
+	 * Runs on content preparation
+	 *
+	 * @param   string  $context  The context for the data
+	 * @param   object  $data     An object containing the data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.0
+	 */
+	public function onContentPrepareData($context, $data)
+	{
+		if (!in_array($context, ['com_users.profile', 'com_admin.profile', 'com_users.user']))
+		{
+			return true;
+		}
+
+		if (is_array($data))
+		{
+			$data = (object) $data;
+		}
+
+		if (!User::getInstance($data->id)->authorise('core.admin'))
+		{
+			return true;
+		}
+
+		$db = $this->db;
+		$id = (int) $data->id;
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['notify', 'extensions']))
+			->from($db->quoteName('#__action_logs_users'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $id, ParameterType::INTEGER);
+
+		try
+		{
+			$values = $db->setQuery($query)->loadObject();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			return false;
+		}
+
+		if (!$values)
+		{
+			return true;
+		}
+
+		$data->actionlogs                       = new stdClass;
+		$data->actionlogs->actionlogsNotify     = $values->notify;
+		$data->actionlogs->actionlogsExtensions = $values->extensions;
+
+		if (!HTMLHelper::isRegistered('users.actionlogsNotify'))
+		{
+			HTMLHelper::register('users.actionlogsNotify', array(__CLASS__, 'renderActionlogsNotify'));
+		}
+
+		if (!HTMLHelper::isRegistered('users.actionlogsExtensions'))
+		{
+			HTMLHelper::register('users.actionlogsExtensions', array(__CLASS__, 'renderActionlogsExtensions'));
+		}
+
+		return true;
 	}
 
 	/**
@@ -154,13 +246,15 @@ class PlgSystemActionLogs extends JPlugin
 		// Update last run status
 		$this->params->set('lastrun', $now);
 
-		$db    = $this->db;
-		$query = $db->getQuery(true)
-			->update($db->qn('#__extensions'))
-			->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
-			->where($db->qn('type') . ' = ' . $db->q('plugin'))
-			->where($db->qn('folder') . ' = ' . $db->q('system'))
-			->where($db->qn('element') . ' = ' . $db->q('actionlogs'));
+		$db     = $this->db;
+		$params = $this->params->toString('JSON');
+		$query  = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('params') . ' = :params')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'))
+			->bind(':params', $params);
 
 		try
 		{
@@ -178,11 +272,11 @@ class PlgSystemActionLogs extends JPlugin
 			// Update the plugin parameters
 			$result = $db->setQuery($query)->execute();
 
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
+			$this->clearCacheGroups(['com_plugins'], [0, 1]);
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -205,14 +299,16 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		$daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
-		$now = $db->quote(JFactory::getDate()->toSql());
+		$now               = Factory::getDate()->toSql();
 
 		if ($daysToDeleteAfter > 0)
 		{
-			$conditions = array($db->quoteName('log_date') . ' < ' . $query->dateAdd($now, -1 * $daysToDeleteAfter , ' DAY'));
+			$days = -1 * $daysToDeleteAfter;
 
 			$query->clear()
-				->delete($db->quoteName('#__action_logs'))->where($conditions);
+				->delete($db->quoteName('#__action_logs'))
+				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd($db->quote($now), $days, 'DAY'));
+
 			$db->setQuery($query);
 
 			try
@@ -237,23 +333,21 @@ class PlgSystemActionLogs extends JPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
-		$conf = JFactory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
-			foreach ($cacheClients as $client_id)
+			foreach ($cacheClients as $clientId)
 			{
 				try
 				{
-					$options = array(
+					$options = [
 						'defaultgroup' => $group,
-						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
-					);
+						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
+					];
 
-					$cache = JCache::getInstance('callback', $options);
+					$cache = Cache::getInstance('callback', $options);
 					$cache->clean();
 				}
 				catch (Exception $e)
@@ -262,5 +356,195 @@ class PlgSystemActionLogs extends JPlugin
 				}
 			}
 		}
+	}
+
+	/**
+	 * Utility method to act on a user after it has been saved.
+	 *
+	 * @param   array    $user     Holds the new user data.
+	 * @param   boolean  $isNew    True if a new user is stored.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
+	 * @param   string   $msg      Message.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.0
+	 */
+	public function onUserAfterSave($user, $isNew, $success, $msg): void
+	{
+		if (!$success)
+		{
+			return;
+		}
+
+		// Clear access rights in case user groups were changed.
+		$userObject = new User($user['id']);
+		$userObject->clearAccessRights();
+
+		$authorised = $userObject->authorise('core.admin');
+		$userid     = (int) $user['id'];
+		$db         = $this->db;
+
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->quoteName('#__action_logs_users'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $userid, ParameterType::INTEGER);
+
+		try
+		{
+			$exists = (bool) $db->setQuery($query)->loadResult();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			return;
+		}
+
+		$query->clear();
+
+		// If preferences don't exist, insert.
+		if (!$exists && $authorised && isset($user['actionlogs']))
+		{
+			$notify  = (int) $user['actionlogs']['actionlogsNotify'];
+			$values  = [':userid', ':notify'];
+			$bind    = [$userid, $notify];
+			$columns = ['user_id', 'notify'];
+
+			$query->bind($values, $bind, ParameterType::INTEGER);
+
+			if (isset($user['actionlogs']['actionlogsExtensions']))
+			{
+				$values[]  = ':extension';
+				$columns[] = 'extensions';
+				$extension = json_encode($user['actionlogs']['actionlogsExtensions']);
+				$query->bind(':extension', $extension);
+			}
+
+			$query->insert($db->quoteName('#__action_logs_users'))
+				->columns($db->quoteName($columns))
+				->values(implode(',', $values));
+		}
+		elseif ($exists && $authorised && isset($user['actionlogs']))
+		{
+			// Update preferences.
+			$notify = (int) $user['actionlogs']['actionlogsNotify'];
+			$values = [$db->quoteName('notify') . ' = :notify'];
+
+			$query->bind(':notify', $notify, ParameterType::INTEGER);
+
+			if (isset($user['actionlogs']['actionlogsExtensions']))
+			{
+				$values[] = $db->quoteName('extensions') . ' = :extension';
+				$extension = json_encode($user['actionlogs']['actionlogsExtensions']);
+				$query->bind(':extension', $extension);
+			}
+
+			$query->update($db->quoteName('#__action_logs_users'))
+				->set($values)
+				->where($db->quoteName('user_id') . ' = :userid')
+				->bind(':userid', $userid, ParameterType::INTEGER);
+		}
+		elseif ($exists && !$authorised)
+		{
+			// Remove preferences if user is not authorised.
+			$query->delete($db->quoteName('#__action_logs_users'))
+				->where($db->quoteName('user_id') . ' = :userid')
+				->bind(':userid', $userid, ParameterType::INTEGER);
+		}
+		else
+		{
+			return;
+		}
+
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			// Do nothing.
+		}
+	}
+
+	/**
+	 * Removes user preferences
+	 *
+	 * Method is called after user data is deleted from the database
+	 *
+	 * @param   array    $user     Holds the user data
+	 * @param   boolean  $success  True if user was successfully stored in the database
+	 * @param   string   $msg      Message
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.0
+	 */
+	public function onUserAfterDelete($user, $success, $msg): void
+	{
+		if (!$success)
+		{
+			return;
+		}
+
+		$db     = $this->db;
+		$userid = (int) $user['id'];
+
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__action_logs_users'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $userid, ParameterType::INTEGER);
+
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (ExecutionFailureException $e)
+		{
+			// Do nothing.
+		}
+	}
+
+	/**
+	 * Method to render a value.
+	 *
+	 * @param   integer|string  $value  The value (0 or 1).
+	 *
+	 * @return  string  The rendered value.
+	 *
+	 * @since   3.9.16
+	 */
+	public static function renderActionlogsNotify($value)
+	{
+		return Text::_($value ? 'JYES' : 'JNO');
+	}
+
+	/**
+	 * Method to render a list of extensions.
+	 *
+	 * @param   array|string  $extensions  Array of extensions or an empty string if none selected.
+	 *
+	 * @return  string  The rendered value.
+	 *
+	 * @since   3.9.16
+	 */
+	public static function renderActionlogsExtensions($extensions)
+	{
+		// No extensions selected.
+		if (!$extensions)
+		{
+			return Text::_('JNONE');
+		}
+
+		// Load the helper.
+		JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+
+		foreach ($extensions as &$extension)
+		{
+			// Load extension language files and translate extension name.
+			ActionlogsHelper::loadTranslationFiles($extension);
+			$extension = Text::_($extension);
+		}
+
+		return implode(', ', $extensions);
 	}
 }

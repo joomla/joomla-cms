@@ -3,24 +3,20 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Image\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
-use Joomla\CMS\Log\Log;
-
-Log::add('JImageFilterBrightness is deprecated, use Joomla\Image\Filter\Brightness instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class adjust the brightness of an image.
  *
- * @since       1.7.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Brightness instead
+ * @since  2.5.0
  */
 class Brightness extends ImageFilter
 {
@@ -31,14 +27,13 @@ class Brightness extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   1.7.3
+	 * @since   2.5.0
 	 * @throws  \InvalidArgumentException
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Brightness::execute() instead
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Validate that the brightness value exists and is an integer.
-		if (!isset($options[IMG_FILTER_BRIGHTNESS]) || !is_int($options[IMG_FILTER_BRIGHTNESS]))
+		if (!isset($options[IMG_FILTER_BRIGHTNESS]) || !\is_int($options[IMG_FILTER_BRIGHTNESS]))
 		{
 			throw new \InvalidArgumentException('No valid brightness value was given.  Expected integer.');
 		}

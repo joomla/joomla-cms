@@ -3,26 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latestactions
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\LatestActions\Administrator\Helper\LatestActionsHelper;
+
 // Only super user can view this data
-if (!JFactory::getUser()->authorise('core.admin'))
+if (!$app->getIdentity()->authorise('core.admin'))
 {
 	return;
 }
 
-// Include dependencies.
-JLoader::register('ModLatestActionsHelper', __DIR__ . '/helper.php');
-
-$list = ModLatestActionsHelper::getList($params);
+$list = LatestActionsHelper::getList($params);
 
 if ($params->get('automatic_title', 0))
 {
-	$module->title = ModLatestHelper::getTitle($params);
+	$module->title = LatestActionsHelper::getTitle($params);
 }
 
-require JModuleHelper::getLayoutPath('mod_latestactions', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_latestactions', $params->get('layout', 'default'));

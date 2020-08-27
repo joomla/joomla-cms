@@ -2,18 +2,16 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\Manifest\LibraryManifest;
@@ -46,7 +44,9 @@ class LibraryAdapter extends InstallerAdapter
 			if ($this->parent->isOverwrite() || $this->parent->isUpgrade())
 			{
 				// We can upgrade, so uninstall the old one
-				$installer = new Installer; // we don't want to compromise this instance!
+
+				// We don't want to compromise this instance!
+				$installer = new Installer;
 				$installer->setPackageUninstall(true);
 				$installer->uninstall('library', $this->currentExtensionId);
 
@@ -113,7 +113,7 @@ class LibraryAdapter extends InstallerAdapter
 			$manifest['src']  = $this->parent->getPath('manifest');
 			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . $this->element . '.xml';
 
-			$destFolder = dirname($manifest['dest']);
+			$destFolder = \dirname($manifest['dest']);
 
 			if (!is_dir($destFolder) && !@mkdir($destFolder))
 			{
@@ -284,7 +284,7 @@ class LibraryAdapter extends InstallerAdapter
 			{
 				$files = Folder::files($this->parent->getPath('extension_root'));
 
-				if (!count($files))
+				if (!\count($files))
 				{
 					Folder::delete($this->parent->getPath('extension_root'));
 				}
@@ -297,7 +297,7 @@ class LibraryAdapter extends InstallerAdapter
 		$elementParts = explode('/', $this->extension->element);
 
 		// Delete empty vendor folders
-		if (2 === count($elementParts))
+		if (2 === \count($elementParts))
 		{
 			Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
 			Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
@@ -319,6 +319,14 @@ class LibraryAdapter extends InstallerAdapter
 		if (!$group)
 		{
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
+		}
+
+		// Don't install libraries which would override core folders
+		$restrictedFolders = array('cms', 'fof', 'idna_convert', 'joomla', 'legacy', 'php-encryption', 'phpass', 'phputf8', 'src', 'vendor');
+
+		if (in_array($group, $restrictedFolders))
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
 		}
 
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
@@ -432,67 +440,6 @@ class LibraryAdapter extends InstallerAdapter
 		// Since we have created a library item, we add it to the installation step stack
 		// so that if we have to rollback the changes we can undo it.
 		$this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
-	}
-
-	/**
-	 * Custom update method
-	 *
-	 * @return  boolean|integer  The extension ID on success, boolean false on failure
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		// Since this is just files, an update removes old files
-		// Get the extension manifest object
-		$this->setManifest($this->parent->getManifest());
-
-		// Set the overwrite setting
-		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
-
-		// And make sure the route is set correctly
-		$this->setRoute('update');
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Set the extensions name
-		$name    = (string) $this->getManifest()->name;
-		$name    = InputFilter::getInstance()->clean($name, 'string');
-		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-
-		$this->name    = $name;
-		$this->element = $element;
-
-		// We don't want to compromise this instance!
-		$installer = new Installer;
-		$db        = $this->parent->getDbo();
-		$query     = $db->getQuery(true)
-			->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-			->where($db->quoteName('element') . ' = :element')
-			->bind(':element', $element);
-		$db->setQuery($query);
-		$result = $db->loadResult();
-
-		if ($result)
-		{
-			// Already installed, which would make sense
-			$installer->setPackageUninstall(true);
-			$installer->uninstall('library', $result);
-
-			// Clear the cached data
-			$this->currentExtensionId = null;
-			$this->extension          = Table::getInstance('Extension', 'JTable', array('dbo' => $this->db));
-		}
-
-		// Now create the new files
-		return $this->install();
 	}
 
 	/**

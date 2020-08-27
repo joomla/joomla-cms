@@ -1,31 +1,31 @@
 <template>
     <div class="media-modal-backdrop" @click="close()">
         <div class="modal" @click.stop style="display: flex">
-            <slot name="backdrop-close"></slot>
-            <div class="modal-dialog" :class="modalClass" role="alertdialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <slot name="header"></slot>
-                        <button type="button" v-if="showClose" class="close" @click="close()"
-                                aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <slot name="body"></slot>
-                    </div>
-                    <div class="modal-footer">
-                        <slot name="footer"></slot>
-                    </div>
-                </div>
-            </div>
+			<tab-lock>
+				<slot name="backdrop-close"></slot>
+				<div class="modal-dialog" :class="modalClass" role="dialog" :aria-labelledby="labelElement">
+					<div class="modal-content">
+						<div class="modal-header">
+							<slot name="header"></slot>
+							<button type="button" v-if="showClose" class="close" @click="close()"
+									aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<slot name="body"></slot>
+						</div>
+						<div class="modal-footer">
+							<slot name="footer"></slot>
+						</div>
+					</div>
+				</div>
+			</tab-lock>
         </div>
     </div>
 </template>
 
 <script>
-    import * as types from "./../../store/mutation-types";
-
     export default {
         name: 'media-modal',
         props: {
@@ -37,6 +37,10 @@
             /* The size of the modal */
             size: {
                 type: String,
+            },
+            labelElement: {
+                type: String,
+                required: true
             }
         },
         computed: {
@@ -54,7 +58,7 @@
             },
             /* Handle keydown events */
             onKeyDown(event) {
-                if (event.keyCode == 27) {
+                if (event.keyCode === 27) {
                     this.close();
                 }
             }

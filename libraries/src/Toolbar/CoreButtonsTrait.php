@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS\Toolbar;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
@@ -47,7 +46,7 @@ trait CoreButtonsTrait
 	 *
 	 * @param   string  $url        The name of the popup file (excluding the file extension)
 	 * @param   string  $text       The text of button.
-	 * @param   bool    $newWindow  Whether to option the preview in _blank or just a modal
+	 * @param   bool    $newWindow  Whether to open the preview in _blank or just a modal
 	 *
 	 * @return  PopupButton|LinkButton
 	 *
@@ -60,7 +59,7 @@ trait CoreButtonsTrait
 			$button = $this->linkButton('link', $text)
 				->url($url)
 				->attributes(['target' => '_blank'])
-				->icon('icon-eye');
+				->icon('fas fa-eye');
 		}
 		else
 		{
@@ -68,14 +67,14 @@ trait CoreButtonsTrait
 				->url($url)
 				->iframeWidth(640)
 				->iframeHeight(480)
-				->icon('icon-eye');
+				->icon('fas fa-eye');
 		}
 
 		return $button;
 	}
 
 	/**
-	 * Writes a preview button for a given option (opens a popup window).
+	 * Writes a help button for a given option (opens a popup window).
 	 *
 	 * @param   string  $ref           The name of the popup file (excluding the file extension for an xml file).
 	 * @param   bool    $useComponent  Use the help file in the component directory.
@@ -447,7 +446,7 @@ trait CoreButtonsTrait
 	 *
 	 * @param   string  $component  The name of the component, eg, com_content.
 	 * @param   string  $text       The text of this button.
-	 * @param   string  $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string  $path       An alternative path for the configuration xml relative to JPATH_SITE.
 	 *
 	 * @return  LinkButton
 	 *
@@ -479,23 +478,18 @@ trait CoreButtonsTrait
 	 * @since   4.0.0
 	 */
 	public function versions(string $typeAlias, int $itemId, int $height = 800, int $width = 500,
-		string $text = 'JTOOLBAR_VERSIONS'): CustomButton
+		string $text = 'JTOOLBAR_VERSIONS'
+	): CustomButton
 	{
 		$lang = Factory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
-
-		/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-		$contentTypeTable = Table::getInstance('Contenttype');
-		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
 		// Options array for Layout
 		$options              = array();
 		$options['title']     = Text::_($text);
 		$options['height']    = $height;
 		$options['width']     = $width;
-		$options['itemId']    = $itemId;
-		$options['typeId']    = $typeId;
-		$options['typeAlias'] = $typeAlias;
+		$options['itemId']    = $typeAlias . '.' . $itemId;
 
 		$layout = new FileLayout('joomla.toolbar.versions');
 

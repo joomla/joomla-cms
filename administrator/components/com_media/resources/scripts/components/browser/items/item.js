@@ -2,7 +2,6 @@ import Directory from "./directory.vue";
 import File from "./file.vue";
 import Image from "./image.vue";
 import Video from "./video.vue";
-import Row from "./row.vue";
 import * as types from "./../../../store/mutation-types";
 
 export default {
@@ -17,10 +16,6 @@ export default {
          * Return the correct item type component
          */
         itemType() {
-            if (this.$store.state.listView === 'table') {
-                return Row;
-            }
-
             let imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
             let videoExtensions = ['mp4'];
 
@@ -46,10 +41,6 @@ export default {
          * @returns {{}}
          */
         styles() {
-            if (this.$store.state.listView === 'table') {
-                return {};
-            }
-
             return {
                 'width': 'calc(' + this.$store.state.gridSize + '% - 20px)',
             };
@@ -90,24 +81,22 @@ export default {
          * @param event
          */
         handleClick(event) {
-            let path = false;
-            const data = {
-                path: path,
-                thumb: false,
-                fileType: this.item.mime_type ? this.item.mime_type : false,
-                extension: this.item.extension ? this.item.extension : false,
-            };
-
-            if (this.item.type === 'file') {
-                data.path = this.item.path;
-                data.thumb = this.item.thumb ? this.item.thumb : false;
-
-                const ev = new CustomEvent('onMediaFileSelected', {
-                    "bubbles": true,
-                    "cancelable": false,
-                    "detail": data
-                });
-                window.parent.document.dispatchEvent(ev);
+            if (this.item.path && this.item.type === 'file') {
+                window.parent.document.dispatchEvent(
+                    new CustomEvent(
+                        'onMediaFileSelected',
+                        {
+                            "bubbles": true,
+                            "cancelable": false,
+                            "detail": {
+                                path: this.item.path,
+                                thumb: this.item.thumb,
+                                fileType: this.item.mime_type ? this.item.mime_type : false,
+                                extension: this.item.extension ? this.item.extension : false,
+                            },
+                        }
+                    )
+                );
             }
 
             // Handle clicks when the item was not selected
@@ -138,7 +127,9 @@ export default {
     },
     render: function (createElement) {
 
-        return createElement('div', {
+        return createElement(
+            'div',
+            {
                 'class': {
                     'media-browser-item': true,
                     selected: this.isSelected(),
@@ -152,12 +143,15 @@ export default {
                 },
             },
             [
-                createElement(this.itemType(), {
-                    props: {
-                        item: this.item,
-                        focused: this.focused,
-                    },
-                })
+                createElement(
+                    this.itemType(),
+                    {
+                        props: {
+                            item: this.item,
+                            focused: this.focused,
+                        },
+                    }
+                )
             ]
         );
     }

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -64,7 +64,7 @@ class WorkflowstageField extends GroupedlistField
 
 		if ($result)
 		{
-			if (strlen($element['extension']))
+			if (\strlen($element['extension']))
 			{
 				$this->extension = (string) $element['extension'];
 			}
@@ -73,9 +73,9 @@ class WorkflowstageField extends GroupedlistField
 				$this->extension = Factory::getApplication()->input->getCmd('extension');
 			}
 
-			if ((string) $element['activeonly'] == '1' || (string) $element['activeonly'] == 'true')
+			if ((string) $element['activeonly'] === '1' || (string) $element['activeonly'] === 'true')
 			{
-				$this->activeonly =  true;
+				$this->activeonly = true;
 			}
 		}
 
@@ -97,27 +97,43 @@ class WorkflowstageField extends GroupedlistField
 
 		// Select distinct stages for existing articles
 		$query
-				->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'))
-				->select(
-					$db->quoteName(
-						['ws.title', 'w.title', 'w.id', 'w.ordering', 'ws.ordering'],
-						['workflow_stage_title', 'workflow_title', 'workflow_id', 'ordering', 'workflow_stage_ordering']
-					)
-				)
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflows', 'w'))
-				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-				->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
-				->order($db->quoteName('w.ordering'))
-				->order($db->quoteName('ws.ordering'));
+			->select(
+				[
+					'DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'),
+					$db->quoteName('ws.title', 'workflow_stage_title'),
+					$db->quoteName('w.title', 'workflow_title'),
+					$db->quoteName('w.id', 'workflow_id'),
+					$db->quoteName('w.ordering', 'ordering'),
+					$db->quoteName('ws.ordering', 'workflow_stage_ordering'),
+				]
+			)
+			->from($db->quoteName('#__workflow_stages', 'ws'))
+			->from($db->quoteName('#__workflows', 'w'))
+			->where(
+				[
+					$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
+					$db->quoteName('w.extension') . ' = :extension',
+				]
+			)
+			->bind(':extension', $this->extension)
+			->order(
+				[
+					$db->quoteName('w.ordering'),
+					$db->quoteName('ws.ordering'),
+				]
+			);
 
 		if ($this->activeonly)
 		{
 			$query
-					->from($db->quoteName('#__workflow_associations', 'wa'))
-					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
-					->where($db->quoteName('wa.extension') . ' = ' . $db->quote($this->extension));
-
+				->from($db->quoteName('#__workflow_associations', 'wa'))
+				->where(
+					[
+						$db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'),
+						$db->quoteName('wa.extension') . ' = :associationExtension',
+					]
+				)
+				->bind(':associationExtension', $this->extension);
 		}
 
 		$stages = $db->setQuery($query)->loadObjectList();
@@ -130,7 +146,7 @@ class WorkflowstageField extends GroupedlistField
 			// Using workflow ID to differentiate workflows having same title
 			$workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
-			if (!array_key_exists($workflowStageKey, $workflowStages))
+			if (!\array_key_exists($workflowStageKey, $workflowStages))
 			{
 				$workflowStages[$workflowStageKey] = array();
 			}

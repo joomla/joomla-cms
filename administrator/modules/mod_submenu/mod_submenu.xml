@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="administrator" method="upgrade">
+	<name>mod_submenu</name>
+	<author>Joomla! Project</author>
+	<creationDate>February 2019</creationDate>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.0.0</version>
+	<description>MOD_SUBMENU_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Submenu</namespace>
+	<files>
+		<filename module="mod_submenu">mod_submenu.php</filename>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_submenu.ini</language>
+		<language tag="en-GB">en-GB.mod_submenu.sys.ini</language>
+	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_SUBMENU" />
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
+				<field
+					name="menutype"
+					type="menu"
+					label="MOD_SUBMENU_FIELD_MENUTYPE_LABEL"
+					clientid="1"
+					>
+					<option value="*">MOD_SUBMENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
+				</field>
+
+				<field
+					name="preset"
+					type="menuPreset"
+					label="MOD_SUBMENU_FIELD_PRESET_LABEL"
+					showon="menutype:*"
+				/>
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
+				/>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

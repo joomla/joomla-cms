@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class DisplayController extends BaseController
 			$defaultView = 'remove';
 		}
 
-		// Are we allowed to proceed?
+		/** @var \Joomla\CMS\Installation\Model\ChecksModel $model */
 		$model = $this->getModel('Checks');
 
 		$vName = $this->input->getWord('view', $defaultView);

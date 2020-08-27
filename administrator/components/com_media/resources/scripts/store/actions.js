@@ -2,7 +2,7 @@ import {api} from "../app/Api";
 import * as types from "./mutation-types";
 import translate from "../plugins/translate";
 import {notifications} from "../app/Notifications";
-import * as FileSaver from './../../../node_modules/file-saver/FileSaver';
+import * as FileSaver from '../../../../../../node_modules/file-saver/src/FileSaver';
 
 // Actions are similar to mutations, the difference being that:
 // - Instead of mutating the state, actions commit mutations.
@@ -174,6 +174,7 @@ export const renameItem = (context, payload) => {
             context.commit(types.RENAME_SUCCESS, {
                 item: item,
                 oldPath: payload.path,
+                newName: payload.newName,
             });
             context.commit(types.HIDE_RENAME_MODAL);
             context.commit(types.SET_IS_LOADING, false);

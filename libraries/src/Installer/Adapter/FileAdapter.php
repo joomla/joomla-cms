@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -267,7 +267,7 @@ class FileAdapter extends InstallerAdapter
 			$folderList = [];
 
 			// Check if all children exists
-			if (count($eFiles->children()) > 0)
+			if (\count($eFiles->children()) > 0)
 			{
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
@@ -289,7 +289,7 @@ class FileAdapter extends InstallerAdapter
 			{
 				$files = Folder::files($folder);
 
-				if ($files !== false && !count($files))
+				if ($files !== false && !\count($files))
 				{
 					Folder::delete($folder);
 				}
@@ -363,7 +363,7 @@ class FileAdapter extends InstallerAdapter
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($xml->getName() !== 'extension')
 		{
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'));
 		}
@@ -547,7 +547,7 @@ class FileAdapter extends InstallerAdapter
 			}
 
 			// Check if all children exists
-			if (count($eFiles->children()))
+			if (\count($eFiles->children()))
 			{
 				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)

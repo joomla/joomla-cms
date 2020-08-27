@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,6 +37,8 @@ use Joomla\Session\SessionEvent;
  */
 final class InstallationApplication extends CMSApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Class constructor.
 	 *
@@ -140,7 +142,7 @@ final class InstallationApplication extends CMSApplication
 
 			$guesses = array();
 
-			foreach ($orphans as $key => $occurance)
+			foreach ($orphans as $key => $occurence)
 			{
 				$guess = str_replace('_', ' ', $key);
 
@@ -224,6 +226,9 @@ final class InstallationApplication extends CMSApplication
 	 */
 	protected function doExecute()
 	{
+		// Ensure we load the namespace loader
+		$this->createExtensionNamespaceMap();
+
 		// Initialise the application.
 		$this->initialiseApp();
 
@@ -342,7 +347,6 @@ final class InstallationApplication extends CMSApplication
 		$ret = array();
 
 		$ret['language']   = (string) $xml->forceLang;
-		$ret['helpurl']    = (string) $xml->helpurl;
 		$ret['debug']      = (string) $xml->debug;
 		$ret['sampledata'] = (string) $xml->sampledata;
 
@@ -401,6 +405,8 @@ final class InstallationApplication extends CMSApplication
 			$template = new \stdClass;
 			$template->template = 'template';
 			$template->params = new Registry;
+			$template->inheritable = 0;
+			$template->parent = null;
 
 			return $template;
 		}
@@ -468,15 +474,8 @@ final class InstallationApplication extends CMSApplication
 			$options['language'] = 'en-GB';
 		}
 
-		// Check for custom helpurl.
-		if (empty($forced['helpurl']))
-		{
-			$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
-		}
-		else
-		{
-			$options['helpurl'] = $forced['helpurl'];
-		}
+		// Set the official helpurl.
+		$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 
 		// Store helpurl in the session.
 		$this->getSession()->set('setup.helpurl', $options['helpurl']);
@@ -547,10 +546,11 @@ final class InstallationApplication extends CMSApplication
 			$file = $this->input->getCmd('tmpl', 'index');
 
 			$options = [
-				'template'  => 'template',
-				'file'      => $file . '.php',
-				'directory' => JPATH_THEMES,
-				'params'    => '{}',
+				'template'         => 'template',
+				'file'             => $file . '.php',
+				'directory'        => JPATH_THEMES,
+				'params'           => '{}',
+				"templateInherits" => ''
 			];
 		}
 

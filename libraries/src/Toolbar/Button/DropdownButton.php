@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar\Button;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Toolbar\ToolbarButton;
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Toolbar\ToolbarButton;
  * @method self toggleSplit(bool $value)
  * @method self toggleButtonClass(string $value)
  * @method bool getToggleSplit()
- * @method bool getToggleButtonClass()
+ * @method string getToggleButtonClass()
  *
  * @since  4.0.0
  */
@@ -35,7 +35,7 @@ class DropdownButton extends AbstractGroupButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  &$options  The options about this button.
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -88,7 +88,7 @@ class DropdownButton extends AbstractGroupButton
 	/**
 	 * Render button HTML.
 	 *
-	 * @param   array  &$options  The button options.
+	 * @param   array  $options  The button options.
 	 *
 	 * @return  string  The button HTML.
 	 *
@@ -104,7 +104,7 @@ class DropdownButton extends AbstractGroupButton
 	 *
 	 * @return  string  Button CSS Id
 	 *
-	 * @since   3.0
+	 * @since   4.0.0
 	 */
 	protected function fetchId()
 	{

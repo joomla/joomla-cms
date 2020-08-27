@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -184,7 +184,8 @@ class MenuitemField extends GroupedlistField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))
-				->where($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
+				->where($db->quoteName('menutype') . ' = :menuType')
+				->bind(':menuType', $menuType);
 			$db->setQuery($query);
 
 			try
@@ -218,7 +219,7 @@ class MenuitemField extends GroupedlistField
 					$link->value, $levelPrefix . $link->text . $lang,
 					'value',
 					'text',
-					in_array($link->type, $this->disable)
+					\in_array($link->type, $this->disable)
 				);
 			}
 		}
@@ -250,7 +251,7 @@ class MenuitemField extends GroupedlistField
 						$link->value, $levelPrefix . $link->text . $lang,
 						'value',
 						'text',
-						in_array($link->type, $this->disable)
+						\in_array($link->type, $this->disable)
 					);
 				}
 			}
