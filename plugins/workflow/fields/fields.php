@@ -141,20 +141,16 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 		$pks        = $event->getArgument('pks');
 
 		//get Values from Form
-		$reqired = $transition->options->get('required');
-		$blankreqired = $transition->options->get('notrequired');
-		$contains = $transition->options->get('contains');
-		$containsNot = $transition->options->get('containsNot');
+		$values = $transition->options->toArray();
 
-
-		if (!$this->isSupported($context)
+		/*if (!$this->isSupported($context)
 			||!is_numeric($reqired)
 			||!is_numeric($blankreqired)
 			||!is_numeric($contains)
 			||!is_numeric($containsNot))
 		{
 			return true;
-		}
+		}*/
 
 		$component = $this->app->bootComponent($extensionName);
 
@@ -170,13 +166,14 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
 
-
-
 		foreach ($pks as $pk)
 		{
-
-
-
+			$articleItem = $model->getItem($pk);
+			$this->app->triggerEvent('onContentPrepare', [$context,$articleItem]);
+			if(!$this->validate($articleItem->jcfields, $values['subform'])){
+				$event->setStopTransition();
+				return false;
+			}
 		}
 
 		if (!$this->isSupported($context))
@@ -184,6 +181,48 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 			return true;
 		}
 		return true;
+	}
+
+	/**
+	 * Validates the Custom Fields in an Article
+	 *
+	 * @param $fieldvalues values of Custom Fields
+	 * @param $formvalues values of transition settings
+	 * @since   4.1.0
+	 */
+
+	private function validate($fieldvalues, $formvalues ){
+		foreach ($formvalues as $formvalue){
+			$id = $formvalue['customfield'];
+
+			if($formvalue['required']){
+				if(!$fieldvalues[$id]->rawvalue){
+					Factory::getApplication()->enqueueMessage(Text::_('Required Field '.$fieldvalues[$id]->title.' is empty'));
+					return false;
+				}
+			}
+			if($formvalue['notrequired']){
+				if($fieldvalues[$id]->rawvalue){
+					Factory::getApplication()->enqueueMessage(Text::_('The Field '.$fieldvalues[$id]->title.' , which has to be blank, is filled'));
+					return false;
+				}
+			}
+			if($formvalue['contains']){
+				if(strpos($fieldvalues[$id]->rawvalue,$formvalue['contains'])==false){
+					Factory::getApplication()->enqueueMessage(Text::_('The Field '.$fieldvalues[$id]->title.' , does not contain '.$formvalue['contains']));
+					return false;
+				}
+			}
+			if($formvalue['containsNot']){
+				if(strpos($fieldvalues[$id]->rawvalue,$formvalue['containsNot'])!=false){
+					Factory::getApplication()->enqueueMessage(Text::_('The Field '.$fieldvalues[$id]->title.' contains '.$formvalue['containsNot'].' but should not contain this value'));
+					return false;
+				}
+			}
+		}
+
+		return true;
+
 	}
 
 	/**
