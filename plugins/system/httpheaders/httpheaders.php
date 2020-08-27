@@ -328,9 +328,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				}
 
 				// Add strict-dynamic to the script-src directive when enabled
-				if ($cspValue->directive === 'script-src'
-					&& strpos($cspValue->value, 'strict-dynamic') === 0
-					&& $scriptDynamicEnabled)
+				if ($scriptDynamicEnabled
+					&& $cspValue->directive === 'script-src'
+					&& strpos($cspValue->value, 'strict-dynamic') === 0)
 				{
 					$cspValue->value .= " 'strict-dynamic' ";
 				}
@@ -459,9 +459,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// Add strict-dynamic to the script-src directive when enabled
-			if ($cspHeaderkey === 'script-src'
-				&& strpos($cspHeaderValue, 'strict-dynamic') === 0
-				&& $scriptDynamicEnabled)
+			if ($scriptDynamicEnabled
+				&& $cspHeaderkey === 'script-src'
+				&& strpos($cspHeaderValue, 'strict-dynamic') === 0)
 			{
 				$cspHeaderValue .= " 'strict-dynamic' ";
 			}
