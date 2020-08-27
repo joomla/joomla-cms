@@ -1,118 +1,120 @@
 @if $metismenu==true {
   .metismenu {
-    display: flex;
-    flex-direction: column;
-
-    > li {
-      position: relative;
+    &.mod-menu {
       display: flex;
       flex-direction: column;
 
-      &:not(:last-child) {
-        margin-right: 20px;
-      }
-    }
-
-    ul {
-      padding-left: 0;
-      list-style: none;
-      background: $white;
-
-      a {
+      > li {
         position: relative;
-        display: block;
-        padding: 8px 40px 8px 15px;
-        color: #555;
-        letter-spacing: 0;
-        white-space: nowrap;
-        transition: all .3s ease-out;
+        display: flex;
+        flex-direction: column;
 
-        &:hover,
-        &:focus,
-        &:active {
-          color: #000;
-          text-decoration: none;
-          background-color: rgba(0, 0, 0, .1);
+        &:not(:last-child) {
+          margin-right: 20px;
         }
       }
 
-      li.active a {
-        color: $cassiopeia-template-color-dark;
-      }
-
       ul {
+        padding-left: 0;
+        list-style: none;
+        background: $white;
+
         a {
-          padding-left: 35px;
+          position: relative;
+          display: block;
+          padding: 8px 40px 8px 15px;
+          color: #555;
+          letter-spacing: 0;
+          white-space: nowrap;
+          transition: all .3s ease-out;
+
+          &:hover,
+          &:focus,
+          &:active {
+            color: #000;
+            text-decoration: none;
+            background-color: rgba(0, 0, 0, .1);
+          }
+        }
+
+        li.active a {
+          color: $cassiopeia-template-color-dark;
         }
 
         ul {
           a {
-            font-size: .9em;
-            opacity: .75;
+            padding-left: 35px;
+          }
+
+          ul {
+            a {
+              font-size: .9em;
+              opacity: .75;
+            }
           }
         }
       }
-    }
 
-    .mm-collapsing {
-      position: relative;
-      height: 0;
-      overflow: hidden;
-      transition-timing-function: ease;
-      transition-duration: .35s;
-      transition-property: height, visibility;
-    }
-
-    .mm-collapse:not(.mm-show) {
-      display: none;
-    }
-
-    .has-arrow {
-      position: relative;
-
-      &::after {
-        position: absolute;
-        top: 50%;
-        right: 1em;
-        width: .5em;
-        height: .5em;
-        content: "";
-        border-color: initial;
-        border-style: solid;
-        border-width: 0 1px 1px 0;
-        transition: all .3s ease-out;
-        transform: rotate(-45deg) translate(0, -50%);
-        transform-origin: top;
+      .mm-collapsing {
+        position: relative;
+        height: 0;
+        overflow: hidden;
+        transition-timing-function: ease;
+        transition-duration: .35s;
+        transition-property: height, visibility;
       }
-    }
 
-    .mm-active > .has-arrow::after,
-    .has-arrow[aria-expanded="true"]::after {
-      transform: rotate(45deg) translate(0, -50%);
-    }
+      .mm-collapse:not(.mm-show) {
+        display: none;
+      }
 
-    @media (min-width: 992px) {
-      flex-direction: row;
+      .has-arrow {
+        position: relative;
 
-      > li {
-        flex-direction: column;
-
-        > a.has-arrow {
-          padding-right: 1em;
-
-          &:after {
-            right: 0;
-          }
-        }
-
-        > ul,
-        > .mm-collapsing {
+        &::after {
           position: absolute;
-          top: 100%;
-          z-index: 1001;
-          min-width: 180px;
-          margin-top: 5px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+          top: 50%;
+          right: 1em;
+          width: .5em;
+          height: .5em;
+          content: "";
+          border-color: initial;
+          border-style: solid;
+          border-width: 0 1px 1px 0;
+          transition: all .3s ease-out;
+          transform: rotate(-45deg) translate(0, -50%);
+          transform-origin: top;
+        }
+      }
+
+      .mm-active > .has-arrow::after,
+      .has-arrow[aria-expanded="true"]::after {
+        transform: rotate(45deg) translate(0, -50%);
+      }
+
+      @media (min-width: 992px) {
+        flex-direction: row;
+
+        > li {
+          flex-direction: column;
+
+          > a.has-arrow {
+            padding-right: 1em;
+
+            &:after {
+              right: 0;
+            }
+          }
+
+          > ul,
+          > .mm-collapsing {
+            position: absolute;
+            top: 100%;
+            z-index: 1001;
+            min-width: 180px;
+            margin-top: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+          }
         }
       }
     }
