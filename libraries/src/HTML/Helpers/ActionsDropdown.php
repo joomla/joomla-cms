@@ -181,7 +181,7 @@ abstract class ActionsDropdown
 	public static function trash($id, $prefix = '')
 	{
 		$task = ($prefix ? $prefix . '.' : '') . 'trash';
-		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'fa-trash', $id, $task);
+		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'trash', $id, $task);
 	}
 
 	/**
