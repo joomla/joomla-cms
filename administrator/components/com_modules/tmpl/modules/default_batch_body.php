@@ -29,7 +29,6 @@ $attr = array(
 );
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
-Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 $this->document->getWebAssetManager()
 	->usePreset('choicesjs')
