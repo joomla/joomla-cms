@@ -137,7 +137,7 @@ class ContentCest
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendPATCH('/content/categories/' . $categoryId, ['title' => 'Another Title', 'params' => ['workflow_id' => 'inherit']]);
+		$I->sendPATCH('/content/categories/' . $categoryId, ['title' => 'Another Title', 'params' => ['workflow_id' => 'inherit'], 'published' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
