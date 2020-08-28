@@ -1,0 +1,4 @@
+// Retrieve the max-width
+@function max-width($key: "md") {
+  @return map-get($container-max-widths, $key);
+}

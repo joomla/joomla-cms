@@ -92,40 +92,41 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	. $hasClass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<div class="grid-child container-header full-width <?php echo $stickyHeader; ?>">
-		<header class="header">
+	<header class="header container-header full-width <?php echo $stickyHeader; ?>">
+		<div class="grid-child">
+			<div class="navbar-brand">
+				<a href="<?php echo $this->baseurl; ?>/">
+					<?php echo $logo; ?>
+				</a>
+				<?php if ($this->params->get('siteDescription')) : ?>
+					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+				<?php endif; ?>
+			</div>
+		</div>
+		<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
 			<nav class="grid-child navbar navbar-expand-lg">
-				<div class="navbar-brand">
-					<a href="<?php echo $this->baseurl; ?>/">
-						<?php echo $logo; ?>
-					</a>
-					<?php if ($this->params->get('siteDescription')) : ?>
-						<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+					<span class="fas fa-bars" aria-hidden="true"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbar">
+					<?php if ($this->countModules('menu')) : ?>
+						<jdoc:include type="modules" name="menu" style="none" />
+					<?php endif; ?>
+					<?php if ($this->countModules('search')) : ?>
+						<div class="form-inline">
+							<jdoc:include type="modules" name="search" style="none" />
+						</div>
 					<?php endif; ?>
 				</div>
-
-				<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
-					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-						<span class="fas fa-bars" aria-hidden="true"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbar">
-						<jdoc:include type="modules" name="menu" style="none" />
-						<?php if ($this->countModules('search')) : ?>
-							<div class="form-inline">
-								<jdoc:include type="modules" name="search" style="none" />
-							</div>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-
 			</nav>
-			<?php if ($this->countModules('banner')) : ?>
-			<div class="grid-child container-banner">
-				<jdoc:include type="modules" name="banner" style="html5" />
-			</div>
-			<?php endif; ?>
+		<?php endif; ?>
 		</header>
 	</div>
+	<?php if ($this->countModules('banner')) : ?>
+		<section class="container-banner full-width">
+			<jdoc:include type="modules" name="banner" style="none" />
+		</section>
+	<?php endif; ?>
 
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
@@ -174,14 +175,16 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<?php endif; ?>
 
 	<?php if ($this->countModules('footer') || ($this->params->get('backTop') == 1)) : ?>
-	<footer class="grid-child container-footer footer">
-		<jdoc:include type="modules" name="footer" style="none" />
-		<?php if ($this->params->get('backTop') == 1) : ?>
-			<a href="#top" id="back-top" class="back-top">
-				<span class="fas fa-arrow-up" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
-			</a>
-		<?php endif; ?>
+	<footer class="container-footer footer full-width">
+		<div class="grid-child">
+			<jdoc:include type="modules" name="footer" style="none" />
+			<?php if ($this->params->get('backTop') == 1) : ?>
+				<a href="#top" id="back-top" class="back-top">
+					<span class="fas fa-arrow-up" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
+				</a>
+			<?php endif; ?>
+		</div>
 	</footer>
 	<?php endif; ?>
 
