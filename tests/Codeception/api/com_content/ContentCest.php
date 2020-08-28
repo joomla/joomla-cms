@@ -126,7 +126,7 @@ class ContentCest
 		$I->sendPOST('/content/categories', $testarticle);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
-		$categoryId = $I->grabDataFromResponseByJsonPath('$.data[0].id');
+		$categoryId = $I->grabDataFromResponseByJsonPath('$.data.id');
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
