@@ -50,7 +50,7 @@ class FilePathRule extends FormRule
 		}
 
 		// Append the root path
-		$value = JPATH_ROOT . '/' . $value;
+		$value = JPATH_ROOT . DIRECTORY_SEPARATOR . $value;
 
 		try
 		{
