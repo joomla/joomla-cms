@@ -467,7 +467,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'component_id' => '',
 				'params'       => array(
 					'menu_text'         => 1,
-					'show_show'         => 1,
+					'show_page_heading' => 1,
 					'secure'            => 0,
 				),
 			),
@@ -504,7 +504,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'secure'                 => 0,
 				),
 			),
-			// Blog withm colums
+			// Blog with 3 columns
 			array(
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_11_TITLE'),
@@ -647,7 +647,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
 				'link'         => 'index.php?option=com_config&view=config',
-				'parent_id'    => $menuIdsLevel1[0],
+				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
 				'access'       => 6,
 				'params'       => array(
@@ -660,7 +660,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
 				'link'         => 'index.php?option=com_config&view=templates',
-				'parent_id'    => $menuIdsLevel1[0],
+				'parent_id'    => $menuIdsLevel1[4],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -691,7 +691,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'menu_text'         => 1,
-					'show_show'         => 1,
+					'show_page_heading' => 1,
 					'secure'            => 0,
 				),
 			),
@@ -704,7 +704,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'menu_text'         => 1,
-					'show_show'         => 1,
+					'show_page_heading' => 1,
 					'secure'            => 0,
 				),
 			),
@@ -718,7 +718,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'component_id' => '',
 				'params'       => array(
 					'menu_text'         => 1,
-					'show_show'         => 1,
+					'show_page_heading' => 1,
 					'secure'            => 0,
 				),
 			),
@@ -997,25 +997,25 @@ class PlgSampledataBlog extends CMSPlugin
 					'module_tag' => 'search',
 				),
 			),
-			/** */
 			array(
-				// Unbublished module - ToDo decorative and meningful example for a module
+				// Headder image
 				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
-				'content'   => '<p></p>',
+				'content'   => '<p>' . Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE') . '</p>',
 				'ordering'  => 1,
-				'position'  => 'main-top',
+				'position'  => 'none',
 				'module'    => 'mod_custom',
 				'showtitle' => 0,
 				'params'    => array(
 					'prepare_content' => 1,
-					'layout'          => '_:default',
+					'backgroundimage' => 'images\/banners\/banner.jpg',
+					'layout'          => 'cassiopeia:banner',
 					'cache'           => 1,
 					'cache_time'      => 900,
 					'cachemode'       => 'static',
 					'module_tag'      => 'div',
 					'bootstrap_size'  => 0,
 					'header_tag'      => 'h3',
-					'style'           => 0,
+					'style'           => 'none',
 				),
 			),
 			array(
