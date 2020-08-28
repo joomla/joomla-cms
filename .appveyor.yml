@@ -49,9 +49,9 @@ install:
     - ps: choco upgrade chocolatey -y --version 0.10.13 --allow-downgrade --no-progress
     - ps: >-
         If ($env:php_ver_target -eq "5.6") {
-          appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y --forcex86 php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
+          appveyor-retry cinst --no-progress --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y --forcex86 php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
         } Else {
-          appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
+          appveyor-retry cinst --no-progress --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
         }
     - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
