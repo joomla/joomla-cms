@@ -1,62 +1,23 @@
 @if $metismenu==true {
   .metismenu {
     &.mod-menu {
-      display: flex;
-      flex-direction: column;
-
-      > li {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-
-        &:not(:last-child) {
-          margin-right: 20px;
-        }
-      }
-
-      ul {
-        padding-left: 0;
-        list-style: none;
-        background: $white;
-
-        a {
-          position: relative;
+      .metismenu-item {
+        > ul {
+          position: absolute;
           display: block;
-          padding: 8px 40px 8px 15px;
-          color: #555;
-          letter-spacing: 0;
-          white-space: nowrap;
-          transition: all .3s ease-out;
-
-          &:hover,
-          &:focus,
-          &:active {
-            color: #000;
-            text-decoration: none;
-            background-color: rgba(0, 0, 0, .1);
-          }
+          list-style: none;
+          padding: .375em;
+          top: 100%;
+          z-index: 1001;
+          min-width: 180px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, .1);
         }
-
-        li.active a {
-          color: $cassiopeia-template-color-dark;
-        }
-
-        ul {
-          a {
-            padding-left: 35px;
-          }
-
-          ul {
-            a {
-              font-size: .9em;
-              opacity: .75;
-            }
-          }
+        > a {
+          display: block;
         }
       }
 
       .mm-collapsing {
-        position: relative;
         height: 0;
         overflow: hidden;
         transition-timing-function: ease;
@@ -64,17 +25,25 @@
         transition-property: height, visibility;
       }
 
-      .mm-collapse:not(.mm-show) {
-        display: none;
+      .mm-collapse {
+        position: absolute;
+        padding: .375em;
+        background-color: hsl(0, 0%, 100%);
+        box-shadow: $cassiopeia-box-shadow;
+
+        &:not(.mm-show) {
+          display: none;
+        }
       }
 
       .has-arrow {
         position: relative;
+        padding-right: 1em;
 
         &::after {
           position: absolute;
           top: 50%;
-          right: 1em;
+          right: 0;
           width: .5em;
           height: .5em;
           content: "";
@@ -90,32 +59,6 @@
       .mm-active > .has-arrow::after,
       .has-arrow[aria-expanded="true"]::after {
         transform: rotate(45deg) translate(0, -50%);
-      }
-
-      @media (min-width: 992px) {
-        flex-direction: row;
-
-        > li {
-          flex-direction: column;
-
-          > a.has-arrow {
-            padding-right: 1em;
-
-            &:after {
-              right: 0;
-            }
-          }
-
-          > ul,
-          > .mm-collapsing {
-            position: absolute;
-            top: 100%;
-            z-index: 1001;
-            min-width: 180px;
-            margin-top: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-          }
-        }
       }
     }
   }
