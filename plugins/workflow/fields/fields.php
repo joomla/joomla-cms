@@ -13,7 +13,6 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -22,7 +21,6 @@ use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
-use Joomla\CMS\Image\Image;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 /**
  * Workflow Publishing Plugin
@@ -140,17 +138,7 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 		$transition = $event->getArgument('transition');
 		$pks        = $event->getArgument('pks');
 
-		//get Values from Form
 		$values = $transition->options->toArray();
-
-		/*if (!$this->isSupported($context)
-			||!is_numeric($reqired)
-			||!is_numeric($blankreqired)
-			||!is_numeric($contains)
-			||!is_numeric($containsNot))
-		{
-			return true;
-		}*/
 
 		$component = $this->app->bootComponent($extensionName);
 
@@ -159,8 +147,6 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 			// We already have triggered onContentBeforeChangeState, so use our own
 			'event_before_change_state' => 'onWorkflowBeforeChangeState'
 		];
-
-		// Get model
 
 		$modelName = $component->getModelName($context);
 
@@ -188,6 +174,10 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param $fieldvalues values of Custom Fields
 	 * @param $formvalues values of transition settings
+	 * @throws Exception
+	 * @throws Exception
+	 * @throws Exception
+	 * @throws Exception
 	 * @since   4.1.0
 	 */
 
@@ -208,13 +198,13 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 				}
 			}
 			if($formvalue['contains']){
-				if(strpos($fieldvalues[$id]->rawvalue,$formvalue['contains'])==false){
+				if(strpos($fieldvalues[$id]->rawvalue, $formvalue['contains']) == false){
 					Factory::getApplication()->enqueueMessage(Text::_('The Field '.$fieldvalues[$id]->title.' , does not contain '.$formvalue['contains']));
 					return false;
 				}
 			}
 			if($formvalue['containsNot']){
-				if(strpos($fieldvalues[$id]->rawvalue,$formvalue['containsNot'])!=false){
+				if(strpos($fieldvalues[$id]->rawvalue, $formvalue['containsNot']) != false){
 					Factory::getApplication()->enqueueMessage(Text::_('The Field '.$fieldvalues[$id]->title.' contains '.$formvalue['containsNot'].' but should not contain this value'));
 					return false;
 				}
@@ -238,8 +228,6 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 	{
 		$context       = $event->getArgument('extension');
 		$extensionName = $event->getArgument('extensionName');
-		$transition    = $event->getArgument('transition');
-		$pks           = $event->getArgument('pks');
 
 
 		if (!$this->isSupported($context))
@@ -256,12 +244,6 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 		];
 
 		$modelName = $component->getModelName($context);
-
-		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
-
-		foreach ($pks as $pk){
-
-		}
 
 		return true;
 
@@ -312,31 +294,17 @@ class PlgWorkflowFields extends CMSPlugin implements SubscriberInterface
 
 		/** @var TableInterface $table */
 		$table = $event->getArgument('1');
-		$isNew = $event->getArgument('2');
-		$data  = $event->getArgument('3');
 
 		if (!$this->isSupported($context))
 		{
 			return true;
 		}
 
-		$keyName = $table->getColumnAlias('published');
 
 		// Check for the old value
 		$article = clone $table;
 
 		$article->load($table->id);
-
-		/**
-		 * We don't allow the change of the state when we use the workflow
-		 * As we're setting the field to disabled, no value should be there at all
-		 */
-		if (isset($data[$keyName]))
-		{
-			$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'), 'error');
-
-			return false;
-		}
 
 		return true;
 	}
