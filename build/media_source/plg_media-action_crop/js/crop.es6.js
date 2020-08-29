@@ -15,7 +15,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
   const initCrop = () => {
     const image = document.getElementById('image-preview');
-
+    const history = Joomla.MediaManager.Edit.history[Joomla.MediaManager.Edit.history.current];
+    if (history && history.file) {
+      image.src = history.file;
+    }
     // Initiate the cropper
     Joomla.MediaManager.Edit.crop.cropper = new Cropper(image, {
       viewMode: 1,
@@ -41,9 +44,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
         // Update the store
         Joomla.MediaManager.Edit.current.contents = this.cropper.getCroppedCanvas().toDataURL(`image/${format}`, quality);
-
-        // Notify the app that a change has been made
-        window.dispatchEvent(new Event('mediaManager.history.point'));
+      },
+      cropend() {
+        const cropBoxData = Joomla.MediaManager.Edit.crop.cropper.getCropBoxData();
+        window.dispatchEvent(new CustomEvent('mediaManager.history.point', { detail: { crop: cropBoxData, plugin: 'crop' } }));
       },
     });
 

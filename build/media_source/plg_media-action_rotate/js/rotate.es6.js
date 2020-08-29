@@ -53,11 +53,19 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
     document.getElementById('jform_rotate_a').value = angle;
 
     // Notify the app that a change has been made
-    window.dispatchEvent(new Event('mediaManager.history.point'));
+    const rotateData = {
+      angle,
+    };
+    window.dispatchEvent(new CustomEvent('mediaManager.history.point', { detail: { rotate: rotateData, plugin: 'rotate' } }));
   };
 
   const initRotate = () => {
     const funct = () => {
+      const image = document.getElementById('image-preview');
+      const history = Joomla.MediaManager.Edit.history[Joomla.MediaManager.Edit.history.current];
+      if (history && history.file) {
+        image.src = history.file;
+      }
       // The number input listener
       document.getElementById('jform_rotate_a').addEventListener('input', ({ target }) => {
         rotate(parseInt(target.value, 10));
