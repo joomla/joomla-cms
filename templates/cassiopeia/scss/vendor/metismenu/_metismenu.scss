@@ -2,6 +2,10 @@
   .metismenu {
     &.mod-menu {
       .metismenu-item {
+        &.parent {
+          position: relative;
+          padding-right: .75rem;
+        }
         > ul {
           position: absolute;
           display: block;
@@ -37,27 +41,22 @@
       }
 
       .has-arrow {
-        position: relative;
-        padding-right: 1em;
-
-        &::after {
-          position: absolute;
-          top: 50%;
-          right: 0;
-          width: .5em;
-          height: .5em;
-          content: "";
-          border-color: initial;
-          border-style: solid;
-          border-width: 0 1px 1px 0;
-          transition: all .3s ease-out;
-          transform: rotate(-45deg) translate(0, -50%);
-          transform-origin: top;
-        }
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: .5em;
+        height: .5em;
+        content: "";
+        border-color: initial;
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        transition: all .3s ease-out;
+        transform: rotate(-45deg) translate(0, -50%);
+        transform-origin: top;
       }
 
-      .mm-active > .has-arrow::after,
-      .has-arrow[aria-expanded="true"]::after {
+      .mm-active > .has-arrow,
+      .has-arrow[aria-expanded="true"] {
         transform: rotate(45deg) translate(0, -50%);
       }
     }
