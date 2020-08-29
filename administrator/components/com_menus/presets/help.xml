@@ -7,7 +7,7 @@
 	<menuitem
 		title="MOD_MENU_HELP_PARENT_START_HERE"
 		type="heading"
-		icon="question-circle"
+		icon="compass"
 		permission="core.admin"
 		>
 		<menuitem
