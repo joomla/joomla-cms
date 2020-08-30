@@ -4,36 +4,36 @@
 	>
 		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
 
-			<field 
-				name="menu-anchor_title" 
+			<field
+				name="menu-anchor_title"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC" 
-			/>
-
-			<field 
-				name="menu-anchor_css" 
-				type="text"
-				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" 
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC"
 			/>
 
 			<field
-				name="menu_image" 
+				name="menu-anchor_css"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC"
+			/>
+
+			<field
+				name="menu_image"
 				type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" 
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC"
 			/>
 
-			<field 
+			<field
 				name="menu_image_css"
-				type="text" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC" 
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC"
 			/>
 
-			<field 
-				name="menu_text" 
+			<field
+				name="menu_text"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
@@ -98,43 +98,43 @@
 		</fieldset>
 
 		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-			<field 
-				name="menu-meta_description" 
+			<field
+				name="menu-meta_description"
 				type="textarea"
-				label="JFIELD_META_DESCRIPTION_LABEL" 
+				label="JFIELD_META_DESCRIPTION_LABEL"
 				description="JFIELD_META_DESCRIPTION_DESC"
-				rows="3" 
-				cols="40" 
+				rows="3"
+				cols="40"
 			/>
 
-			<field 
-				name="menu-meta_keywords" 
+			<field
+				name="menu-meta_keywords"
 				type="textarea"
-				label="JFIELD_META_KEYWORDS_LABEL" 
+				label="JFIELD_META_KEYWORDS_LABEL"
 				description="JFIELD_META_KEYWORDS_DESC"
-				rows="3" 
-				cols="40" 
+				rows="3"
+				cols="40"
 			/>
 
-			<field 
+			<field
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
 			</field>
 
-			<field 
-				name="secure" 
+			<field
+				name="secure"
 				type="list"
-				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" 
+				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
-				default="0" 
+				default="0"
 				filter="integer"
 				>
 				<option value="-1">JOFF</option>
