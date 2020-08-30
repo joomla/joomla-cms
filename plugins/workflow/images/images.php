@@ -154,12 +154,15 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 		foreach ($pks as $pk)
 		{
-			$introImagePath = JPATH_ROOT . "/" . $model->getItem($pk)->images['image_intro'];
-			$fullArticleImagePath = JPATH_ROOT . "/" . $model->getItem($pk)->images["image_fulltext"];
+			$introImage = $model->getItem($pk)->images['image_intro'];
+			$introImagePath = JPATH_ROOT . "/" . $introImage;
+
+			$fullArticleImage = $model->getItem($pk)->images["image_fulltext"];
+			$fullArticleImagePath = JPATH_ROOT . "/" . $fullArticleImage;
 
 			if ($introImageRequired)
 			{
-				if (!($introImagePath || !file_exists($introImagePath)))
+				if (!$introImage || !file_exists($introImagePath))
 				{
 					Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_INTRO_IMAGE_REQUIRED'));
 					$event->setStopTransition();
@@ -170,7 +173,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 
 			if ($fullArticleImageRequired)
 			{
-				if (!($fullArticleImagePath || !file_exists($fullArticleImagePath)))
+				if (!$fullArticleImage || !file_exists($fullArticleImagePath))
 				{
 					Factory::getApplication()->enqueueMessage(Text::_('PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_REQUIRED'));
 					$event->setStopTransition();
