@@ -11,39 +11,42 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\Utilities\ArrayHelper;
 
 /** @var WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['defer' => true]);
 
-$id = '';
+$attributes          = [];
+// The menu class is deprecated. Use mod-menu instead
+$attributes['class'] = 'mod-menu mod-list nav ' . $class_sfx;
 
 if ($tagId = $params->get('tag_id', ''))
 {
-	$id = ' id="' . $tagId . '"';
+	$attributes['id'] = $tagId;
 }
 
-// The menu class is deprecated. Use mod-menu instead
 ?>
-<ul<?php echo $id; ?> class="mod-menu mod-list nav <?php echo $class_sfx; ?>">
+<ul <?php echo ArrayHelper::toString($attributes); ?>>
 <?php foreach ($list as $i => &$item)
 {
 	$itemParams = $item->getParams();
-	$class      = 'nav-item item-' . $item->id;
+	$class      = [];
+	$class[]    = 'nav-item item-' . $item->id;
 
 	if ($item->id == $default_id)
 	{
-		$class .= ' default';
+		$class[] = 'default';
 	}
 
 	if ($item->id == $active_id || ($item->type === 'alias' && $itemParams->get('aliasoptions') == $active_id))
 	{
-		$class .= ' current';
+		$class[] = 'current';
 	}
 
 	if (in_array($item->id, $path))
 	{
-		$class .= ' active';
+		$class[] = 'active';
 	}
 	elseif ($item->type === 'alias')
 	{
@@ -51,30 +54,30 @@ if ($tagId = $params->get('tag_id', ''))
 
 		if (count($path) > 0 && $aliasToId == $path[count($path) - 1])
 		{
-			$class .= ' active';
+			$class[] = 'active';
 		}
 		elseif (in_array($aliasToId, $path))
 		{
-			$class .= ' alias-parent-active';
+			$class[] = 'alias-parent-active';
 		}
 	}
 
 	if ($item->type === 'separator')
 	{
-		$class .= ' divider';
+		$class[] = 'divider';
 	}
 
 	if ($item->deeper)
 	{
-		$class .= ' deeper';
+		$class[] = 'deeper';
 	}
 
 	if ($item->parent)
 	{
-		$class .= ' parent';
+		$class[] = 'parent';
 	}
 
-	echo '<li class="' . $class . '">';
+	echo '<li class="' . implode(' ', $class) . '">';
 
 	switch ($item->type) :
 		case 'separator':
