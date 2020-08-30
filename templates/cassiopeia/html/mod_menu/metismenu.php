@@ -89,7 +89,6 @@ if ($tagId = $params->get('tag_id', ''))
 				[
 						'class'         => 'has-arrow mm-collapsed',
 						'role'          => 'button',
-						'aria-haspopup' => 'true',
 						'aria-expanded' => 'false'
 				]
 		);
@@ -100,11 +99,11 @@ if ($tagId = $params->get('tag_id', ''))
 		case 'component':
 		case 'heading':
 		case 'url':
-			require ModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
+			require ModuleHelper::getLayoutPath('mod_menu', 'metismenu_' . $item->type);
 			break;
 
 		default:
-			require ModuleHelper::getLayoutPath('mod_menu', 'default_url');
+			require ModuleHelper::getLayoutPath('mod_menu', 'metismenu_url');
 			break;
 	endswitch;
 
