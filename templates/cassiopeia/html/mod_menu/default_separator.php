@@ -17,14 +17,12 @@ $linktype   = $item->title;
 
 if ($item->menu_image)
 {
+	$linktype = HTMLHelper::image($item->menu_image, $item->title);
+
 	if ($item->menu_image_css)
 	{
 		$image_attributes['class'] = $item->menu_image_css;
-		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title, $image_attributes);
-	}
-	else
-	{
-		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title);
+		$linktype                  = HTMLHelper::image($item->menu_image, $item->title, $image_attributes);
 	}
 
 	if ($itemParams->get('menu_text', 1))
