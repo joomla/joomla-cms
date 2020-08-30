@@ -39,11 +39,18 @@ if ($item->id == $active_id)
 	}
 }
 
+if ($item->deeper)
+{
+	$attributes['aria-haspopup'] = 'true';
+	$attributes['aria-expanded'] = 'false';
+}
+
 $linktype = $item->title;
 
 if ($item->menu_image)
 {
 	$linktype = HTMLHelper::image($item->menu_image, $item->title);
+
 	if ($item->menu_image_css)
 	{
 		$image_attributes['class'] = $item->menu_image_css;
@@ -67,4 +74,4 @@ elseif ($item->browserNav == 2)
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
 
-echo HTMLHelper::_('link', OutputFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
+echo HTMLHelper::link(OutputFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);

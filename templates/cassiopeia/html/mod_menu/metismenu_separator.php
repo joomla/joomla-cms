@@ -17,6 +17,12 @@ $attributes['title'] = $item->anchor_title ? $item->anchor_title : null;
 $attributes['class'] = 'mod-menu__separator separator';
 $attributes['class'] .= $item->anchor_css ? $item->anchor_css : null;
 
+if ($item->deeper)
+{
+	$attributes['aria-haspopup'] = 'true';
+	$attributes['aria-expanded'] = 'false';
+}
+
 $linktype = $item->title;
 
 if ($item->menu_image)

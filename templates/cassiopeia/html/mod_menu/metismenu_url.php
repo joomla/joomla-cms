@@ -29,6 +29,12 @@ if ($item->anchor_rel)
 	$attributes['rel'] = $item->anchor_rel;
 }
 
+if ($item->deeper)
+{
+	$attributes['aria-haspopup'] = 'true';
+	$attributes['aria-expanded'] = 'false';
+}
+
 $linktype = $item->title;
 
 if ($item->menu_image)
