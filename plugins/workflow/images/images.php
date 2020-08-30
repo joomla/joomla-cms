@@ -345,32 +345,9 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getArgument('0');
 
-		/** @var TableInterface $table */
-		$table = $event->getArgument('1');
-		$isNew = $event->getArgument('2');
-		$data  = $event->getArgument('3');
-
 		if (!$this->isSupported($context))
 		{
 			return true;
-		}
-
-		$keyName = $table->getColumnAlias('published');
-
-		// Check for the old value
-		$article = clone $table;
-
-		$article->load($table->id);
-
-		/**
-		 * We don't allow the change of the state when we use the workflow
-		 * As we're setting the field to disabled, no value should be there at all
-		 */
-		if (isset($data[$keyName]))
-		{
-			$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'), 'error');
-
-			return false;
 		}
 
 		return true;
