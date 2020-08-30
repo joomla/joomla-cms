@@ -5,11 +5,31 @@
 	xsi:schemaLocation="urn:joomla.org menu.xsd"
 	>
 	<menuitem
+		title="MOD_MENU_HELP_PARENT_START_HERE"
+		type="heading"
+		icon="compass"
+		permission="core.admin"
+		>
+		<menuitem
+			title="MOD_MENU_HELP_JOOMLA"
+			type="component"
+			link="index.php?option=com_admin&amp;view=help"
+		/>
+	</menuitem>
+
+	<menuitem
 		title="MOD_MENU_HELP_PARENT_FIND_HELP"
 		type="heading"
 		icon="question-circle"
 		permission="core.admin"
 		>
+		<menuitem
+			title="MOD_MENU_HELP_DOCUMENTATION"
+			type="url"
+			target="_blank"
+			link="https://docs.joomla.org"
+		/>
+
 		<menuitem
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM"
 			type="url"
@@ -22,13 +42,6 @@
 			type="component"
 			target="_blank"
 			link="index.php?option=com_admin&amp;view=help&amp;layout=langforum"
-		/>
-
-		<menuitem
-			title="MOD_MENU_HELP_JOOMLA"
-			type="component"
-			target="_blank"
-			link="index.php?option=com_admin&amp;view=help"
 		/>
 
 		<menuitem
@@ -99,13 +112,6 @@
 		icon="cloud-download-alt"
 		permission="core.manage;com_installer"
 		>
-		<menuitem
-			title="MOD_MENU_HELP_DOCUMENTATION"
-			type="url"
-			target="_blank"
-			link="https://docs.joomla.org"
-		/>
-
 		<menuitem
 			title="MOD_MENU_HELP_DEVELOPER"
 			type="url"
