@@ -63,7 +63,7 @@ class FilePathRule extends FormRule
 		}
 
 		// When there are no exception this rule should pass.
-		// https://github.com/joomla/joomla-cms/issues/30500#issuecomment-683290162
+		// See: https://github.com/joomla/joomla-cms/issues/30500#issuecomment-683290162
 		return true;
 	}
 }
