@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 
-$attributes = array();
+$attributes = [];
 
 if ($item->anchor_title)
 {
@@ -50,7 +50,7 @@ if ($item->menu_image)
 if ($item->browserNav == 1)
 {
 	$attributes['target'] = '_blank';
-	$attributes['rel'] = 'noopener noreferrer';
+	$attributes['rel']    = 'noopener noreferrer';
 
 	if ($item->anchor_rel == 'nofollow')
 	{
@@ -64,4 +64,4 @@ elseif ($item->browserNav == 2)
 	$attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
 
-echo HTMLHelper::_('link', OutputFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
+echo HTMLHelper::link(OutputFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);

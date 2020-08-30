@@ -10,10 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Utilities\ArrayHelper;
 
-$title      = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
-$anchor_css = $item->anchor_css ?: '';
-$linktype   = $item->title;
+$attributes          = [];
+$attributes['title'] = $item->anchor_title ? $item->anchor_title : null;
+$attributes['class'] = 'mod-menu__separator separator';
+$attributes['class'] .= $item->anchor_css ? $item->anchor_css : null;
+
+$linktype = $item->title;
 
 if ($item->menu_image)
 {
@@ -32,4 +36,4 @@ if ($item->menu_image)
 }
 
 ?>
-<span class="mod-menu__separator separator <?php echo $anchor_css; ?>"<?php echo $title; ?>><?php echo $linktype; ?></span>
+<span <?php echo ArrayHelper::toString($attributes); ?>><?php echo $linktype; ?></span>

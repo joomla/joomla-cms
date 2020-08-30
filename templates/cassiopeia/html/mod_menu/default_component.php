@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 
-$attributes = array();
+$attributes = [];
 
 if ($item->anchor_title)
 {
