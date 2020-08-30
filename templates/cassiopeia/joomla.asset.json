@@ -10,8 +10,7 @@
       "type": "style",
       "uri": "template.min.css",
       "dependencies": [
-        "fontawesome",
-        "template.cassiopeia.googlefont"
+        "fontawesome"
       ]
     },
     {
@@ -19,8 +18,7 @@
       "type": "style",
       "uri": "template-rtl.min.css",
       "dependencies": [
-        "fontawesome",
-        "template.cassiopeia.googlefont"
+        "fontawesome"
       ]
     },
     {
@@ -45,11 +43,6 @@
         "template.active",
         "template.active.language"
       ]
-    },
-    {
-      "name": "template.cassiopeia.googlefont",
-      "type": "style",
-      "uri": "https://fonts.googleapis.com/css?family=Fira+Sans:400"
     },
     {
       "name": "template.cassiopeia",
@@ -77,7 +70,6 @@
         "template.active"
       ]
     },
-
     {
       "name": "template.cassiopeia.ltr",
       "type": "preset",
