@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\WebAsset\WebAssetManager;
@@ -79,6 +80,20 @@ if ($tagId = $params->get('tag_id', ''))
 
 	echo '<li class="' . $class . '">';
 
+	if ($item->deeper)
+	{
+		echo HTMLHelper::link(
+			'#',
+			'<span class="sr-only">' . Text::_('JGLOBAL_TOGGLE_DROPDOWN') . '</span>',
+			[
+				'class'         => 'has-arrow mm-collapsed',
+				'role'          => 'button',
+				'aria-haspopup' => 'true',
+				'aria-expanded' => 'false'
+			]
+		);
+	}
+
 	switch ($item->type) :
 		case 'separator':
 		case 'component':
@@ -95,7 +110,6 @@ if ($tagId = $params->get('tag_id', ''))
 	switch (true) :
 		// The next item is deeper.
 		case $item->deeper:
-			echo '<a class="has-arrow mm-collapsed" href="#" role="button" aria-haspopup="true" aria-expanded="false"><span class="sr-only">' . Text::_('JGLOBAL_TOGGLE_DROPDOWN') . '</span></a>';
 			echo '<ul class="mm-collapse">';
 			break;
 
