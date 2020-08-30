@@ -1,0 +1,64 @@
+@if $metismenu==true {
+  .metismenu {
+    &.mod-menu {
+      .metismenu-item {
+        &.parent {
+          position: relative;
+          padding-right: .75rem;
+        }
+        > ul {
+          position: absolute;
+          display: block;
+          list-style: none;
+          padding: .375em;
+          top: 100%;
+          z-index: 1001;
+          min-width: 180px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        }
+        > a {
+          display: block;
+        }
+      }
+
+      .mm-collapsing {
+        height: 0;
+        overflow: hidden;
+        transition-timing-function: ease;
+        transition-duration: .35s;
+        transition-property: height, visibility;
+      }
+
+      .mm-collapse {
+        position: absolute;
+        padding: .375em;
+        background-color: hsl(0, 0%, 100%);
+        box-shadow: $cassiopeia-box-shadow;
+
+        &:not(.mm-show) {
+          display: none;
+        }
+      }
+
+      .has-arrow {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: .5em;
+        height: .5em;
+        content: "";
+        border-color: initial;
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        transition: all .3s ease-out;
+        transform: rotate(-45deg) translate(0, -50%);
+        transform-origin: top;
+      }
+
+      .mm-active > .has-arrow,
+      .has-arrow[aria-expanded="true"] {
+        transform: rotate(45deg) translate(0, -50%);
+      }
+    }
+  }
+}
