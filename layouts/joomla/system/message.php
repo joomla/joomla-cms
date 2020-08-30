@@ -45,7 +45,10 @@ Factory::getDocument()->getWebAssetManager()
 			<?php foreach ($msgList as $type => $msgs) : ?>
 				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
-						<div class="alert-heading"><?php echo Text::_($type); ?></div>
+						<div class="alert-heading">
+							<span class="<?php echo $type; ?>" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo Text::_($type); ?></span>
+						</div>
 						<div class="alert-wrapper">
 							<?php foreach ($msgs as $msg) : ?>
 								<div class="alert-message"><?php echo $msg; ?></div>

@@ -77,7 +77,7 @@
       if (typeof title !== 'undefined') {
         titleWrapper = document.createElement('div');
         titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = Joomla.Text._(type) ? Joomla.Text._(type) : type;
+        titleWrapper.innerHTML = `<span class="${type}" aria-hidden ="true"></span><span class="sr-only">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`;
         messagesBox.appendChild(titleWrapper);
       }
 

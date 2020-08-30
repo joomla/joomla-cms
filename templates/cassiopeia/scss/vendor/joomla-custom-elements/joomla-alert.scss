@@ -1,5 +1,7 @@
 @import "../../variables";
 @import "../../../../../node_modules/joomla-ui-custom-elements/dist/css/joomla-alert";
+@import "../../../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../../../media/vendor/fontawesome-free/scss/solid";
 
 // The following is a restyle for the system alerts
 
@@ -24,6 +26,29 @@
     padding: .8rem;
     color: var(--alert-heading-text);
     background: var(--alert-accent-color, transparent);
+
+    .error,
+    .danger {
+      @extend .fas;
+      @extend .fa-times-circle;
+    }
+
+    .warning {
+      @extend .fas;
+      @extend .fa-exclamation-triangle;
+    }
+
+    .message,
+    .success {
+      @extend .fas;
+      @extend .fa-check-circle;
+    }
+
+    .notice,
+    .info {
+      @extend .fas;
+      @extend .fa-info-circle;
+    }
   }
 
   .alert-wrapper {
