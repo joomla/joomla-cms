@@ -99,7 +99,7 @@ if ($tagId = $params->get('tag_id', ''))
 				'#',
 				'<span class="sr-only">' . Text::_('JGLOBAL_TOGGLE_DROPDOWN') . '</span>',
 				[
-						'class'         => 'has-arrow mm-collapsed',
+						'class'         => 'has-arrow mm-collapsed mm-toggler',
 						'role'          => 'button',
 						'aria-expanded' => 'false'
 				]
