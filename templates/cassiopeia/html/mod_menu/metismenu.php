@@ -81,19 +81,6 @@ if ($tagId = $params->get('tag_id', ''))
 
 	echo '<li class="' . implode(' ', $class) . '">';
 
-	if ($item->deeper)
-	{
-		echo HTMLHelper::link(
-				'#',
-				'<span class="sr-only">' . Text::_('JGLOBAL_TOGGLE_DROPDOWN') . '</span>',
-				[
-						'class'         => 'has-arrow mm-collapsed',
-						'role'          => 'button',
-						'aria-expanded' => 'false'
-				]
-		);
-	}
-
 	switch ($item->type) :
 		case 'separator':
 		case 'component':
@@ -106,6 +93,18 @@ if ($tagId = $params->get('tag_id', ''))
 			require ModuleHelper::getLayoutPath('mod_menu', 'metismenu_url');
 			break;
 	endswitch;
+
+	if ($item->deeper) :
+		echo HTMLHelper::link(
+				'#',
+				'<span class="sr-only">' . Text::_('JGLOBAL_TOGGLE_DROPDOWN') . '</span>',
+				[
+						'class'         => 'has-arrow mm-collapsed',
+						'role'          => 'button',
+						'aria-expanded' => 'false'
+				]
+		);
+	endif;
 
 	switch (true) :
 		// The next item is deeper.
