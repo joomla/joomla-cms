@@ -118,23 +118,6 @@ local pipeline(phpversion, ignore_result) = {
 					"tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run",
 					"echo $(date)"
 				]
-			},
-			{
-				name: "analysis3x",
-				image: "rips/rips-cli:3.2.2",
-				when: {
-					repo: ["joomla/joomla-cms", "joomla/cms-security"],
-					branch: ["staging"]
-				},
-				commands: [
-					"export RIPS_BASE_URI='https://api.rips.joomla.org'",
-					"rips-cli rips:list --table=scans --parameter filter='{\"__and\":[{\"__lessThan\":{\"percent\":100}}]}'",
-					"rips-cli rips:scan:start --progress --application=1 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo \"Please contact the security team at security@joomla.org\"; exit 1; }"
-				],
-				environment: {
-					RIPS_EMAIL: {from_secret:"RIPS_EMAIL"},
-					RIPS_PASSWORD: {from_secret: "RIPS_PASSWORD"}
-				}
 			}
         ]
     },
@@ -172,6 +155,29 @@ local pipeline(phpversion, ignore_result) = {
 					"if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo \"The packager only runs on the joomla/joomla-cms repo\"; exit 0; fi",
 					"/bin/drone_build.sh"
 				]
+			}
+		]
+	},
+	{
+		kind: "pipeline",
+		name: "Rips",
+		steps: [
+			{
+				name: "analysis3x",
+				image: "rips/rips-cli:3.2.2",
+				when: {
+					repo: ["joomla/joomla-cms", "joomla/cms-security"],
+					branch: ["staging"]
+				},
+				commands: [
+					"export RIPS_BASE_URI='https://api.rips.joomla.org'",
+					"rips-cli rips:list --table=scans --parameter filter='{\"__and\":[{\"__lessThan\":{\"percent\":100}}]}'",
+					"rips-cli rips:scan:start --progress --application=1 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo \"Please contact the security team at security@joomla.org\"; exit 1; }"
+				],
+				environment: {
+					RIPS_EMAIL: {from_secret:"RIPS_EMAIL"},
+					RIPS_PASSWORD: {from_secret: "RIPS_PASSWORD"}
+				}
 			}
 		]
 	}
