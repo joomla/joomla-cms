@@ -5,24 +5,15 @@ name: default
 clone:
 
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    settings:
-      restore: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
-
   - name: composer
     image: joomlaprojects/docker-images:php7.3
     depends_on: [ restore-cache ]
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
-      - apt-get install -y patch
       - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
@@ -38,18 +29,6 @@ steps:
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    depends_on: [ npm ]
-    settings:
-      rebuild: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
 
   - name: php72-unit
     depends_on: [ phpcs ]
@@ -240,6 +219,9 @@ volumes:
 - name: cache
   host:
     path: /tmp/cache
+- name: composer-cache
+  host:
+    path: /tmp/composer-cache
 - name: reference
   host:
     path: /tmp/reference
@@ -312,6 +294,6 @@ steps:
 
 ---
 kind: signature
-hmac: 3f17ee002e7749a60fce6d642908aa0d0881b73d469012b145d2ab5c76195917
+hmac: 4cf27469083c431bbd543b7c7d5e994ec601b350072d373d1840e5bfa9aa0966
 
 ...
