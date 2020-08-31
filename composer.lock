@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "brumann/polyfill-unserialize",
-            "version": "v1.0.4",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dbrumann/polyfill-unserialize.git",
-                "reference": "8ed1cd343ddc134a7ef649aca0aa0fe2a1b45008"
+                "reference": "46e5c18ee87d8a9b5765ef95468c1ac27bd107bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/8ed1cd343ddc134a7ef649aca0aa0fe2a1b45008",
-                "reference": "8ed1cd343ddc134a7ef649aca0aa0fe2a1b45008",
+                "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/46e5c18ee87d8a9b5765ef95468c1ac27bd107bf",
+                "reference": "46e5c18ee87d8a9b5765ef95468c1ac27bd107bf",
                 "shasum": ""
             },
             "require": {
@@ -40,7 +40,7 @@
                 }
             ],
             "description": "Backports unserialize options introduced in PHP 7.0 to older PHP versions.",
-            "time": "2019-07-14T23:16:24+00:00"
+            "time": "2020-07-24T10:16:53+00:00"
         },
         {
             "name": "google/recaptcha",
@@ -1719,22 +1719,22 @@
         },
         {
             "name": "typo3/phar-stream-wrapper",
-            "version": "v2.1.3",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "e8a656d72028b97ab9f61ed993734f3cded02eeb"
+                "reference": "5e6269b8a54c5fe82322692f26f10dcd5e4532a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/e8a656d72028b97ab9f61ed993734f3cded02eeb",
-                "reference": "e8a656d72028b97ab9f61ed993734f3cded02eeb",
+                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/5e6269b8a54c5fe82322692f26f10dcd5e4532a1",
+                "reference": "5e6269b8a54c5fe82322692f26f10dcd5e4532a1",
                 "shasum": ""
             },
             "require": {
-                "brumann/polyfill-unserialize": "^1.0",
+                "brumann/polyfill-unserialize": "^1.0 || ^2.0",
                 "ext-json": "*",
-                "php": "^5.3.3|^7.0"
+                "php": "^5.3.3 || ^7.0"
             },
             "require-dev": {
                 "ext-xdebug": "*",
@@ -1761,7 +1761,7 @@
                 "security",
                 "stream-wrapper"
             ],
-            "time": "2019-10-18T11:59:10+00:00"
+            "time": "2020-07-27T09:17:38+00:00"
         }
     ],
     "packages-dev": [
@@ -2345,6 +2345,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2017-12-04T08:55:13+00:00"
         },
         {
@@ -3369,5 +3370,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "5.3.10"
-    }
+    },
+    "plugin-api-version": "1.1.0"
 }

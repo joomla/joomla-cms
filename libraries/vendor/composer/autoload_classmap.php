@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => $vendorDir . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
     'Brumann\\Polyfill\\Unserialize' => $vendorDir . '/brumann/polyfill-unserialize/src/Unserialize.php',
     'CallbackFilterIterator' => $vendorDir . '/joomla/compat/src/CallbackFilterIterator.php',
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',

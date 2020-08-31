@@ -209,6 +209,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
     );
 
     public static $classMap = array (
+        'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
         'Brumann\\Polyfill\\Unserialize' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/Unserialize.php',
         'CallbackFilterIterator' => __DIR__ . '/..' . '/joomla/compat/src/CallbackFilterIterator.php',
         'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
