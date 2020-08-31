@@ -10,7 +10,7 @@
   min-width: 16rem;
   padding: 0;
   margin-bottom: 1rem;
-  color: var(--atum-text-dark);
+  color: var(--gray-dark);
   background-color: var(--white);
   border: 1px solid var(--alert-accent-color, transparent);
   border-radius: .25rem;
@@ -22,8 +22,12 @@
     justify-content: center;
     align-content: center;
     padding: .8rem;
-    color: rgba(255, 255, 255, .95);
+    color: var(--alert-heading-text);
     background: var(--alert-accent-color, transparent);
+  }
+
+  .alert-wrapper {
+    width: 100%;
   }
 
   .alert-link {
@@ -32,18 +36,26 @@
 
   &[type="success"] {
     --alert-accent-color: var(--success);
+    --alert-heading-text: rgba(255, 255, 255, .95);
+    --alert-close-button: var(--success);
   }
 
   &[type="info"] {
     --alert-accent-color: var(--info);
+    --alert-heading-text: rgba(255, 255, 255, .95);
+    --alert-close-button: var(--info);
   }
 
   &[type="warning"] {
     --alert-accent-color: var(--warning);
+    --alert-heading-text: #000;
+    --alert-close-button: #000;
   }
 
   &[type="danger"] {
     --alert-accent-color: var(--danger);
+    --alert-heading-text: rgba(255, 255, 255, .95);
+    --alert-close-button: var(--danger);
   }
 
   .joomla-alert--close,
@@ -53,7 +65,7 @@
     right: 0;
     padding: .2rem .8rem;
     font-size: 2rem;
-    color: var(--alert-accent-color);
+    color: var(--alert-close-button);
     background: none;
     border: 0;
     opacity: 1;
@@ -81,6 +93,10 @@
       [dir=rtl] & {
         padding: .3rem .3rem .3rem 2rem;
       }
+    }
+
+    .alert-message:not(:first-of-type) {
+      border-top: 1px solid var(--alert-accent-color);
     }
   }
 }
