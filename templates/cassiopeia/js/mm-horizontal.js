@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	allMenus.forEach(menu => {
 		// eslint-disable-next-line no-new, no-undef
-		new MetisMenu(menu);
+		new MetisMenu(menu, {
+			triggerElement: 'a.mm-toggler'
+		});
 	});
 });
