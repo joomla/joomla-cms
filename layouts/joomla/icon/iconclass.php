@@ -20,7 +20,6 @@ switch ($icon)
 		break;
 
 	case (strpos($icon, 'icon-') !== false):
-		$icon = $icon;
 		break;
 
 	case 'archive':
