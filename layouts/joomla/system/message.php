@@ -46,7 +46,7 @@ Factory::getDocument()->getWebAssetManager()
 				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
 						<div class="alert-heading">
-							<span class="<?php echo $type; ?>" aria-hidden="true"></span>
+							<span class="<?php echo $type; ?>"></span>
 							<span class="sr-only"><?php echo Text::_($type); ?></span>
 						</div>
 						<div class="alert-wrapper">
