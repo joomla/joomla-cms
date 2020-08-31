@@ -16,7 +16,7 @@ $html = isset($displayData['html']) ? $displayData['html'] : false;
 switch ($icon)
 {
 	case (strpos($icon, 'fa-') !== false):
-		$icon = 'fas ' . $icon;
+		$icon = 'fas ' . str_ireplace('fas ', '', $icon);
 		break;
 
 	case (strpos($icon, 'icon-') !== false):
