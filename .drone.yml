@@ -82,7 +82,7 @@ steps:
   image: joomlaprojects/docker-images:php5.3
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -144,7 +144,7 @@ steps:
   image: joomlaprojects/docker-images:php5.4
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -206,7 +206,7 @@ steps:
   image: joomlaprojects/docker-images:php5.5
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -268,7 +268,7 @@ steps:
   image: joomlaprojects/docker-images:php5.6
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -330,7 +330,7 @@ steps:
   image: joomlaprojects/docker-images:php7.0
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -392,7 +392,7 @@ steps:
   image: joomlaprojects/docker-images:php7.1
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -454,7 +454,7 @@ steps:
   image: joomlaprojects/docker-images:php7.2
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -516,7 +516,7 @@ steps:
   image: joomlaprojects/docker-images:php7.3
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -578,7 +578,7 @@ steps:
   image: joomlaprojects/docker-images:php7.4
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -640,7 +640,7 @@ steps:
   image: joomlaprojects/docker-images:php8.0
   commands:
   - php -v
-  - sleep 15
+  - sleep 20
   - mysql --host=mysql --user=joomla_ut --password=joomla_ut --database=joomla_ut < "tests/unit/schema/mysql.sql"
   - psql -h postgres -d joomla_ut -U joomla_ut -a -f "tests/unit/schema/postgresql.sql"
   environment:
@@ -650,6 +650,7 @@ steps:
   image: joomlaprojects/docker-images:php8.0
   commands:
   - libraries/vendor/bin/phpunit
+  failure: ignore
 
 services:
 - name: mysql
@@ -712,6 +713,6 @@ steps:
 
 ---
 kind: signature
-hmac: 499bff6e6a5530da163a6200af8af3774f8a6f9f720ffe6655d3320691551295
+hmac: 81005daab8969b1f635ba6d27242e962a0b4aef79bd9f33dfd17986993be1210
 
 ...
