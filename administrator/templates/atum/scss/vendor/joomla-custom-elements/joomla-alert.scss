@@ -77,23 +77,27 @@
   &[type="message"] {
     --alert-accent-color: var(--success);
     --alert-close-button: var(--success);
+    background-color: var(--white-offset);
   }
 
   &[type="info"],
   &[type="notice"] {
     --alert-accent-color: var(--info);
     --alert-close-button: var(--info);
+    background-color: var(--white-offset);
   }
 
   &[type="warning"] {
     --alert-accent-color: var(--warning);
     --alert-close-button: #000;
+    background-color: var(--white-offset);
   }
 
   &[type="error"],
   &[type="danger"] {
     --alert-accent-color: var(--danger);
     --alert-close-button: var(--danger);
+    background-color: var(--white-offset);
   }
 
   .joomla-alert--close,
