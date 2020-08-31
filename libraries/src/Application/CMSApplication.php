@@ -1187,7 +1187,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$comUsersParams = ComponentHelper::getComponent('com_users')->getParams();
 
-		// Chech whether we for 2fa for the logged in user.
+		// Check if 2fa is enforced for the logged in user.
 		$forced2faGroups = (array) $comUsersParams->get('enforce_2fa_usergroups', []);
 
 		if (!empty($forced2faGroups))
