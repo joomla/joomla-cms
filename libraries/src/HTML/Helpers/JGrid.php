@@ -90,41 +90,41 @@ abstract class JGrid
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
-			switch ($active_class)
+			if (strpos($active_class, 'fa-') !== false)
 			{
-				case (strpos($active_class, 'fa-') !== false):
-					$active_class = 'fas ' . $active_class;
-					break;
-
-				case  (strpos($active_class, 'icon-') !== false):
-					break;
-
-				case 'publish':
-					$active_class = 'fas fa-check';
-					break;
-
-				case 'unpublish':
-					$active_class = 'fas fa-times';
-					break;
-
-				case 'archive':
-					$active_class = 'fas fa-folder';
-					break;
-
-				case 'checkedout':
-					$active_class = 'fas fa-lock';
-					break;
-
-				case 'unfeatured':
-					$active_class = 'fas fa-star';
-					break;
-
-				case 'featured':
-					$active_class = 'fas fa-star featured';
-					break;
-
-				default:
-					$active_class = 'icon-' . $active_class;
+				$active_class = 'fas ' . $active_class;
+			}
+			elseif (strpos($active_class, 'icon-') !== false)
+			{
+				$active_class = $active_class;
+			}
+			elseif ($active_class === 'publish')
+			{
+				$active_class = 'fas fa-check';
+			}
+			elseif ($active_class === 'unpublish')
+			{
+				$active_class = 'fas fa-times';
+			}
+			elseif ($active_class === 'archive')
+			{
+				$active_class = 'fas fa-folder';
+			}
+			elseif ($active_class === 'checkedout')
+			{
+				$active_class = 'fas fa-lock';
+			}
+			elseif ($active_class === 'unfeatured')
+			{
+				$active_class = 'fas fa-star';
+			}
+			elseif ($active_class === 'featured')
+			{
+				$active_class = 'fas fa-star featured';
+			}
+			else
+			{
+				$active_class = 'icon-' . $active_class;
 			}
 
 			$html[] = '<span class="' . $active_class . '" aria-hidden="true"></span>';
@@ -137,45 +137,51 @@ abstract class JGrid
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
-			switch ($inactive_class)
+			if ($active_class === 'protected')
 			{
-				case (strpos($inactive_class, 'fa-') !== false):
-					$inactive_class = 'fas ' . $inactive_class;
-					break;
-
-				case  (strpos($inactive_class, 'icon-') !== false):
-					break;
-
-				case 'publish':
-					$inactive_class = 'fas fa-check';
-					break;
-
-				case 'unpublish':
-					$inactive_class = 'fas fa-times';
-					break;
-
-				case 'archive':
-					$inactive_class = 'fas fa-folder';
-					break;
-
-				case 'checkedout':
-				case 'protected':
-					$inactive_class = 'fas fa-lock';
-					break;
-
-				case 'unfeatured':
-					$inactive_class = 'fas fa-star';
-					break;
-
-				case 'featured':
-					$inactive_class = 'fas fa-star featured';
-					break;
-
-				default:
-					$inactive_class = 'icon-' . $inactive_class;
+				$html[] = '<span class="fas fa-lock" aria-hidden="true"></span>';
 			}
+			else
+			{
+				if (strpos($inactive_class, 'fa-') !== false)
+				{
+					$inactive_class = 'fas ' . $inactive_class;
+				}
+				elseif (strpos($inactive_class, 'icon-') !== false)
+				{
+					$inactive_class = $inactive_class;
+				}
+				elseif ($inactive_class === 'publish')
+				{
+					$inactive_class = 'fas fa-check';
+				}
+				elseif ($inactive_class === 'unpublish')
+				{
+					$inactive_class = 'fas fa-times';
+				}
+				elseif ($inactive_class === 'archive')
+				{
+					$inactive_class = 'fas fa-folder';
+				}
+				elseif ($inactive_class === 'checkedout')
+				{
+					$inactive_class = 'fas fa-lock';
+				}
+				elseif ($inactive_class === 'unfeatured')
+				{
+					$inactive_class = 'fas fa-star';
+				}
+				elseif ($inactive_class === 'featured')
+				{
+					$inactive_class = 'fas fa-star featured';
+				}
+				else
+				{
+					$inactive_class = 'icon-' . $inactive_class;
+				}
 
-			$html[] = '<span class="' . $inactive_class . '" aria-hidden="true"></span>';
+				$html[] = '<span class="' . $inactive_class . '" aria-hidden="true"></span>';
+			}
 
 			$html[] = '</span>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
