@@ -46,6 +46,7 @@ $config = [
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'contents'                => $this->file->content,
+	'historyLength'						=> $params->get('history_length', 25),
 ];
 
 $this->document->addScriptOptions('com_media', $config);

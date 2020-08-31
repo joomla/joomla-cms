@@ -27,10 +27,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
   const addHistoryPoint = (data) => {
     if (Joomla.MediaManager.Edit.original !== Joomla.MediaManager.Edit.current.contents) {
-      let key = Object.keys(Joomla.MediaManager.Edit.history).length;
-      key = key > 0 ? key - 1 : key;
+      const key = Joomla.MediaManager.Edit.history.lastKey;
       if (Joomla.MediaManager.Edit.history[key] && Joomla.MediaManager.Edit.history[key - 1]
-        && Joomla.MediaManager.Edit.history[key].file === Joomla.MediaManager.Edit.history[key - 1].file) {
+        && Joomla.MediaManager.Edit.history[key].file
+        === Joomla.MediaManager.Edit.history[key - 1].file) {
         return;
       }
       Joomla.MediaManager.Edit.history[key + 1] = {};
@@ -45,10 +45,17 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         } else {
           Object.assign(Joomla.MediaManager.Edit.history[key + 1].data, data.detail);
         }
+        // eslint-disable-next-line max-len
         Joomla.MediaManager.Edit.history[key + 1].data[data.detail.plugin] = data.detail[data.detail.plugin];
       }
 
-      Joomla.MediaManager.Edit.history.current = Number(Joomla.MediaManager.Edit.history.current) + 1;
+      // eslint-disable-next-line max-len
+      Joomla.MediaManager.Edit.history.lastKey = Number(Joomla.MediaManager.Edit.history.lastKey) + 1;
+      Joomla.MediaManager.Edit.history.current = Number(Joomla.MediaManager.Edit.history.lastKey);
+      if (Joomla.MediaManager.Edit.history.lastKey > options.historyLength) {
+        // eslint-disable-next-line max-len
+        delete Joomla.MediaManager.Edit.history[Joomla.MediaManager.Edit.history.lastKey - options.historyLength];
+      }
     }
   };
 
@@ -84,6 +91,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     // Set first history point
     if (Object.keys(Joomla.MediaManager.Edit.history).length === 0) {
       Joomla.MediaManager.Edit.history.current = 0;
+      Joomla.MediaManager.Edit.history.lastKey = 0;
       addHistoryPoint('reset');
     }
   };
@@ -111,10 +119,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
       Joomla.MediaManager.Edit[link.id.replace('tab-attrib-', '').toLowerCase()].Deactivate();
 
-      let data = Joomla.MediaManager.Edit.current;
-      if (!current || (current && current !== true)) {
-        data = Joomla.MediaManager.Edit.original;
-      }
+      const data = Joomla.MediaManager.Edit.current;
 
       link.click();
 
@@ -133,7 +138,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
   });
 
   Joomla.MediaManager.Edit.Undo = () => {
-    if (Joomla.MediaManager.Edit.history.current && Joomla.MediaManager.Edit.history.current - 1 > 0) {
+    if (Joomla.MediaManager.Edit.history.current && Joomla.MediaManager.Edit.history.current - 1
+      > Joomla.MediaManager.Edit.history.lastKey
+      - Object.keys(Joomla.MediaManager.Edit.history).length + 2) {
+      // eslint-disable-next-line max-len
       Joomla.MediaManager.Edit.history.current = Number(Joomla.MediaManager.Edit.history.current) - 1;
       Joomla.MediaManager.Edit.Reset(Joomla.MediaManager.Edit.history.current);
     }
@@ -141,7 +149,8 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
   Joomla.MediaManager.Edit.Redo = () => {
     if (Joomla.MediaManager.Edit.history.current && Joomla.MediaManager.Edit.history.current + 1
-      < Object.keys(Joomla.MediaManager.Edit.history).length) {
+      < Joomla.MediaManager.Edit.history.lastKey) {
+      // eslint-disable-next-line max-len
       Joomla.MediaManager.Edit.history.current = Number(Joomla.MediaManager.Edit.history.current) + 1;
       Joomla.MediaManager.Edit.Reset(Joomla.MediaManager.Edit.history.current);
     }
