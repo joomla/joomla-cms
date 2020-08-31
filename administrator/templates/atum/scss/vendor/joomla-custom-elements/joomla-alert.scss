@@ -26,6 +26,10 @@
     background: var(--alert-accent-color, transparent);
   }
 
+  .alert-wrapper {
+    width: 100%;
+  }
+
   .alert-link {
     color: var(--success, inherit);
   }
@@ -89,6 +93,10 @@
       [dir=rtl] & {
         padding: .3rem .3rem .3rem 2rem;
       }
+    }
+
+    .alert-message:not(:first-of-type) {
+      border-top: 1px solid var(--alert-accent-color);
     }
   }
 }
