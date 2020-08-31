@@ -196,7 +196,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     switch (task) {
       case 'apply':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-        Joomla.MediaManager.Edit.Reset(true);
+        Joomla.MediaManager.Edit.Reset(Joomla.MediaManager.Edit.history.current);
         break;
       case 'save':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
