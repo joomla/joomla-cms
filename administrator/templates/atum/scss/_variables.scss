@@ -165,8 +165,8 @@ $card-border-color:                transparent;
 
 // Alerts
 $state-success-text:               var(--alert-success);
-$state-success-bg:                 lighten($green-dark, 70%);
-$state-success-border:             lighten($green-dark, 30%);
+$state-success-bg:                 lighten($green-dark, 80%);
+$state-success-border:             $green-dark;
 
 $state-info-text:                  var(--white);
 $state-info-bg:                    var(--atum-bg-dark);
@@ -254,6 +254,7 @@ $breadcrumb-bg:                    var(--white);
 // Links
 $link-color:                       var(--atum-link-color);
 $link-hover-color:                 var(--atum-link-hover-color);
+$link-decoration:                  underline;
 
 // Z-Index list
 $zindex-negative:                  -1;

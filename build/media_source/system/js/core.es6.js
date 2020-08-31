@@ -51,7 +51,6 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    */
 };
 
-
 window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * *****************************************************************

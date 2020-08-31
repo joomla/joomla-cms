@@ -176,6 +176,11 @@ final class SiteApplication extends CMSApplication
 					$wr->addExtensionRegistryFile($component);
 				}
 
+				if ($template->parent)
+				{
+					$wr->addTemplateRegistryFile($template->parent, $this->getClientId());
+				}
+
 				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
@@ -394,7 +399,17 @@ final class SiteApplication extends CMSApplication
 	{
 		if (\is_object($this->template))
 		{
-			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
+			if ($this->template->parent)
+			{
+				if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
+				{
+					if (!file_exists(JPATH_THEMES . '/' . $this->template->parent . '/index.php'))
+					{
+						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+					}
+				}
+			}
+			elseif (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
 				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 			}
@@ -453,8 +468,9 @@ final class SiteApplication extends CMSApplication
 		{
 			// Load styles
 			$db = Factory::getDbo();
+
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['id', 'home', 'template', 's.params']))
+				->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
 				->from($db->quoteName('#__template_styles', 's'))
 				->where(
 					[
@@ -529,7 +545,35 @@ final class SiteApplication extends CMSApplication
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 
 		// Fallback template
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		if (!empty($template->parent))
+		{
+			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			{
+				if (!file_exists(JPATH_THEMES . '/' . $template->parent . '/index.php'))
+				{
+					$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+
+					// Try to find data for 'cassiopeia' template
+					$original_tmpl = $template->template;
+
+					foreach ($templates as $tmpl)
+					{
+						if ($tmpl->template === 'cassiopeia')
+						{
+							$template = $tmpl;
+							break;
+						}
+					}
+
+					// Check, the data were found and if template really exists
+					if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+					{
+						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
+					}
+				}
+			}
+		}
+		elseif (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
@@ -750,6 +794,9 @@ final class SiteApplication extends CMSApplication
 				{
 					$this->set('themeFile', $file . '.php');
 				}
+
+				// Pass the parent template to the state
+				$this->set('themeInherits', $template->parent);
 
 				break;
 		}
