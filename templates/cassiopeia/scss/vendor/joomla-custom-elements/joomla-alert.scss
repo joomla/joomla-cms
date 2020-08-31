@@ -76,6 +76,7 @@
   &[type="success"],
   &[type="message"] {
     --alert-accent-color: var(--success);
+    --alert-heading-text: rgba(255, 255, 255, .95);
     --alert-close-button: var(--success);
     background-color: var(--white-offset);
   }
@@ -83,12 +84,14 @@
   &[type="info"],
   &[type="notice"] {
     --alert-accent-color: var(--info);
+    --alert-heading-text: rgba(255, 255, 255, .95);
     --alert-close-button: var(--info);
     background-color: var(--white-offset);
   }
 
   &[type="warning"] {
     --alert-accent-color: var(--warning);
+    --alert-heading-text: #000;
     --alert-close-button: #000;
     background-color: var(--white-offset);
   }
@@ -96,6 +99,7 @@
   &[type="error"],
   &[type="danger"] {
     --alert-accent-color: var(--danger);
+    --alert-heading-text: rgba(255, 255, 255, .95);
     --alert-close-button: var(--danger);
     background-color: var(--white-offset);
   }
