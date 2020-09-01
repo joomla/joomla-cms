@@ -36,11 +36,11 @@ These are the Joomla 4 API (webservices) tests. To run these tests on OSX you wi
 
 ### Installation
 
-Run a `composer install` in the joomla root directory copy the file `tests/Codeception/api.suite.dist.yml`
-to `tests/Codeception/api.suite.yml`. Then adjust the REST url in the new file and copy the `codeception.yml`
-to the Joomla main directory. 
+1) Run a `composer install` in the joomla root directory 
+2) copy the file `tests/Codeception/api.suite.dist.yml` to `tests/Codeception/api.suite.yml`. Then adjust the REST url in the new file.
+3) Make sure, that the file `codeception.yml` is in the Joomla main directory. 
 
->Tests with authentication always use the super user credentials for now. 
+> Tests with authentication always use the super user credentials for now. 
 
 ### Running
 
