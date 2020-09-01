@@ -31,8 +31,7 @@ use Joomla\CMS\Uri\Uri;
 		<?php elseif ($this->explained && $this->params->get('show_explained_query', 1)) : ?>
 			<?php // Display the explained search query. ?>
 			<p role="alert">
-				<?php $total = Text::plural('COM_FINDER_QUERY_RESULTS', $this->total); ?>
-				<?php echo Text::sprintf('COM_FINDER_QUERY_TOKEN_INTERPRETED', $this->explained, $total); ?>
+				<?php echo Text::plural('COM_FINDER_QUERY_RESULTS', $this->total, $this->explained); ?>
 			</p>
 		<?php endif; ?>
 	</div>
