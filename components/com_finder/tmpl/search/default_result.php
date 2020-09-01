@@ -100,8 +100,8 @@ if ($show_description)
 		</time>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
-		<dd class="result-url small">
+		<p class="result-url small">
 			<?php echo $this->baseUrl, Route::_($this->result->cleanURL); ?>
-		</dd>
+		</p>
 	<?php endif; ?>
 </li>
