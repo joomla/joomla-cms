@@ -45,8 +45,12 @@ These are the Joomla 4 API (webservices) tests. To run these tests on OSX you wi
 
 ### Running
 
-`libraries/vendor/bin/codecept run api --fail-fast --steps`
+`libraries/vendor/bin/codecept run api`
 
-You can also run the command with `--debug` to get some extended information.
+You can also run the command with 
 
-`libraries/vendor/bin/codecept run api --fail-fast --steps --debug`
+- `--debug` to get some extended information.
+- `--steps` to print step-by-step execution.
+- `--fail-fast` to stop after first failure.
+
+See [Codeception Console Commands](https://codeception.com/docs/reference/Commands)
