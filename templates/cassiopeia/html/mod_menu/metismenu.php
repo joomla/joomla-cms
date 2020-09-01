@@ -94,21 +94,10 @@ if ($tagId = $params->get('tag_id', ''))
 			break;
 	endswitch;
 
-	if ($item->deeper) :
-		echo HTMLHelper::link(
-				'#',
-				'<span class="sr-only">' . Text::_('JGLOBAL_TOGGLE_DROPDOWN') . '</span>',
-				[
-						'class'         => 'has-arrow mm-collapsed mm-toggler',
-						'role'          => 'button',
-						'aria-expanded' => 'false'
-				]
-		);
-	endif;
-
 	switch (true) :
 		// The next item is deeper.
 		case $item->deeper:
+			echo '<button class="has-arrow mm-collapsed mm-toggler" aria-expanded="false"><span class="sr-only">' . Text::_('JGLOBAL_TOGGLE_DROPDOWN') . '</span></button>';
 			echo '<ul class="mm-collapse">';
 			break;
 
