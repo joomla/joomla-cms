@@ -3,7 +3,6 @@
     &.mod-menu {
       .metismenu-item {
         display: flex;
-        color: $cassiopeia-template-color-dark;
         font-size: 1rem;
         line-height: 1.5;
 
@@ -28,10 +27,6 @@
         > a {
           flex: 1 0 0%;
         }
-      }
-
-      > .metismenu-item {
-        color: $white;
       }
 
       .mm-collapsing {

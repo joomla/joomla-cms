@@ -69,6 +69,7 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    color: $white;
 
     @include media-breakpoint-up(md) {
       flex: 1 1 0%;
@@ -89,7 +90,7 @@
       > a,
       > span {
         position: relative;
-        color: $white;
+        color: currentColor;
         text-decoration: none;
       }
     }
@@ -97,6 +98,7 @@
     .parent {
       > ul {
         display: none;
+        color: $cassiopeia-template-color-dark;
       }
     }
   }
