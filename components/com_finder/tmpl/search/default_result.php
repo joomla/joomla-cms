@@ -91,7 +91,7 @@ if ($show_description)
 		</p>
 	<?php endif; ?>
 	<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
-		<time class="result-date small">
+		<time class="result__date" datetime="<?php echo HTMLHelper::_('date', $this->result->start_date, 'c'); ?>">
 			<?php echo HTMLHelper::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
 		</time>
 	<?php endif; ?>
