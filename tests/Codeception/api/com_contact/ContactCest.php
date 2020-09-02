@@ -3,20 +3,20 @@
  * @package     Joomla.Tests
  * @subpackage  Api.tests
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Codeception\Util\HttpCode;
 
 /**
- * Class ContentCest.
+ * Class ContactCest.
  *
- * Basic com_content (article) tests.
+ * Basic com_contact (contact) tests.
  *
  * @since   4.0.0
  */
-class ContentCest
+class ContactCest
 {
 	/**
 	 * Api test before running.
@@ -53,7 +53,7 @@ class ContentCest
 	}
 
 	/**
-	 * Test the article crud endpoints of com_content from the API.
+	 * Test the crud endpoints of com_contact from the API.
 	 *
 	 * @param   mixed   ApiTester  $I  Api tester
 	 *
@@ -61,45 +61,46 @@ class ContentCest
 	 *
 	 * @since   4.0.0
 	 *
-	 * @TODO: Make these separate tests but requires sample data being installed so there are existing articles
+	 * @TODO: Make these separate tests but requires sample data being installed so there are existing contacts
 	 */
-	public function testCrudOnArticle(ApiTester $I)
+	public function testCrudOnContact(ApiTester $I)
 	{
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
 		$testarticle = [
-			'title' => 'Just for you',
-			'catid' => 2,
-			'articletext' => 'A dummy article to save to the database',
+			'alias' => 'contact-the-ceo',
+			'catid' => 4,
 			'language' => '*',
-			'alias' => 'tobias'
+			'name' => 'Francine Blogs'
 		];
 
-		$I->sendPOST('/content/article', $testarticle);
+		$I->sendPOST('/contact', $testarticle);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/content/article/1');
+		$I->sendGET('/contact/1');
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendPATCH('/content/article/1', ['title' => 'Another Title', 'catid' => 2]);
+
+		// Category is a required field for this patch request for now TODO: Remove this dependency
+		$I->sendPATCH('/contact/1', ['name' => 'Frankie Blogs', 'catid' => 4, 'published' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/content/article/1');
+		$I->sendDELETE('/contact/1');
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 
 	/**
-	 * Test the category crud endpoints of com_content from the API.
+	 * Test the category crud endpoints of com_contact from the API.
 	 *
 	 * @param   mixed   ApiTester  $I  Api tester
 	 *
@@ -111,38 +112,37 @@ class ContentCest
 	 */
 	public function testCrudOnCategory(ApiTester $I)
 	{
-
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
-		$testarticle = [
+		$testContact = [
 			'title' => 'A test category',
-			'parent_id' => 2,
+			'parent_id' => 4,
 			'params' => [
 				'workflow_id' => 'inherit'
 			]
 		];
 
-		$I->sendPOST('/content/categories', $testarticle);
+		$I->sendPOST('/contact/categories', $testContact);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 		$categoryId = $I->grabDataFromResponseByJsonPath('$.data.id')[0];
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/content/categories/' . $categoryId);
+		$I->sendGET('/contact/categories/' . $categoryId);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendPATCH('/content/categories/' . $categoryId, ['title' => 'Another Title', 'params' => ['workflow_id' => 'inherit'], 'published' => -2]);
+		$I->sendPATCH('/contact/categories/' . $categoryId, ['title' => 'Another Title', 'published' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/content/categories/' . $categoryId);
+		$I->sendDELETE('/contact/categories/' . $categoryId);
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 }
