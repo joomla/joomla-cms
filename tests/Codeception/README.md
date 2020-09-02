@@ -37,7 +37,7 @@ These are the Joomla 4 API (webservices) tests. To run these tests on OSX you wi
 ### Installation
 
 1) Checkout the Project in your document root folder, and follow the [setup guide}(https://docs.joomla.org/J4.x:Setting_Up_Your_Local_Environment).
-2) Copy the file `tests/Codeception/api.suite.dist.yml` to `tests/Codeception/api.suite.yml`. Then adjust the REST url in the new file.
+2) Copy the file `tests/Codeception/api.suite.dist.yml` to `tests/Codeception/api.suite.yml`. Then edit the REST url in the new file to point it to your localhost url.
 3) Edit the file configuration.php. Set `$secret` = `'tEstValue'` - see [drone-api-run.sh](https://github.com/joomla/joomla-cms/blob/d8930208814fb52c0871853cfd9298f70998fd1f/tests/Codeception/drone-api-run.sh#L59).
 
 > Tests with authentication always use the super user credentials for now. 
