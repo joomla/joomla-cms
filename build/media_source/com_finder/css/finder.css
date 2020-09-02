@@ -1,17 +1,17 @@
-#search-query-explained {
+.com-finder__explained {
 	padding: 10px 0;
 }
 
-#search-query-explained span.term,
-#search-query-explained span.date,
-#search-query-explained span.when,
-#search-query-explained span.branch,
-#search-query-explained span.node,
-#search-query-explained span.op {
+.com-finder__explained span.term,
+.com-finder__explained span.date,
+.com-finder__explained span.when,
+.com-finder__explained span.branch,
+.com-finder__explained span.node,
+.com-finder__explained span.op {
 	font-weight: bold;
 }
 
-#search-query-explained span.op {
+.com-finder__explained span.op {
 	text-transform: uppercase;
 }
 
