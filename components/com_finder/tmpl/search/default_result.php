@@ -96,7 +96,7 @@ if ($show_description)
 		</time>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
-		<p class="result-url small">
+		<p class="result__url">
 			<?php echo $this->baseUrl, Route::_($this->result->cleanURL); ?>
 		</p>
 	<?php endif; ?>
