@@ -23,17 +23,27 @@
 	margin: 0 auto;
 }
 
-#highlighter-start, #highlighter-end {
-	display: none;
-	height: 0;
-	opacity: 0;
+/**
+ * Styling search word highlight
+ */
+.result__item .highlight {
+  position: relative;
 }
 
-span.highlight {
-	background-color: #ffffcc;
-	font-weight: 900;
-	padding: 1px 4px;
-	color: #343a40;
+.result__item .highlight:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: calc(100% + 6px);
+  height: calc(100% + 2px);
+  background: hsla(60, 100%, 50%, .5);
+  pointer-events: none;
+  border-radius: 3px;
 }
 
 .result-taxonomy .badge {
