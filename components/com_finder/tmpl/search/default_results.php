@@ -50,7 +50,7 @@ use Joomla\CMS\Uri\Uri;
 <?php endif; ?>
 <?php // Display a list of results ?>
 <br id="highlighter-start" />
-<dl class="search-results list-striped">
+<ul id="search-results-list" class="search-results list-unstyled">
 	<?php $this->baseUrl = Uri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 	<?php foreach ($this->results as $i => $result) : ?>
 		<?php $this->result = &$result; ?>
@@ -58,7 +58,7 @@ use Joomla\CMS\Uri\Uri;
 		<?php $layout = $this->getLayoutFile($this->result->layout); ?>
 		<?php echo $this->loadTemplate($layout); ?>
 	<?php endforeach; ?>
-</dl>
+</ul>
 <br id="highlighter-end" />
 <?php // Display the pagination ?>
 <div class="com-finder__navigation search-pagination">
