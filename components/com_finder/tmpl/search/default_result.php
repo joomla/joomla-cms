@@ -80,7 +80,7 @@ if ($show_description)
 
 				if (count($taxonomy_text)) : ?>
 					<li class="result__taxonomy result__taxonomy--<?php echo $type; ?>">
-						<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', $taxonomy_text); ?></span>
+						<span><?php echo $type; ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
 					</li>
 				<?php endif; ?>
 			<?php endif; ?>
