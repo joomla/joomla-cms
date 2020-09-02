@@ -24,6 +24,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Registry\Registry;
 
 /**
  * HTML Article View class for the Content component
@@ -32,6 +33,13 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
  */
 class HtmlView extends BaseHtmlView
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  \JForm
+	 */
+	protected $form;
+
 	/**
 	 * The article object
 	 *
@@ -92,10 +100,14 @@ class HtmlView extends BaseHtmlView
 
 		$app        = Factory::getApplication();
 		$user       = Factory::getUser();
+		/** @var ArticleModel $model */
+		$model = $this->getModel();
+		$this->item  = $model->getItem();
 
-		$this->item  = $this->get('Item');
+
 		$this->print = $app->input->getBool('print', false);
 		$this->state = $this->get('State');
+		$this->form  = $this->getForm();
 		$this->user  = $user;
 
 		// Check for errors.
@@ -153,7 +165,7 @@ class HtmlView extends BaseHtmlView
 			{
 				// Current view is not a single article, so the article params take priority here
 				// Merge the menu item params with the article params so that the article params take priority
-				$temp->merge($item->params);
+				$temp->merge(new Registry($item->params));
 				$item->params = $temp;
 
 				// Check for alternative layouts (since we are not in a single-article menu item)

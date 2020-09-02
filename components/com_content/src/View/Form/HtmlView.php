@@ -101,7 +101,8 @@ class HtmlView extends BaseHtmlView
 		// Get model data.
 		$this->state       = $this->get('State');
 		$this->item        = $this->get('Item');
-		$this->form        = $this->get('Form');
+
+		$this->form        = $this->getForm();
 		$this->return_page = $this->get('ReturnPage');
 
 		if (empty($this->item->id))
