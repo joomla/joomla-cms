@@ -311,7 +311,8 @@ class SearchHelper
 		if ($wordfound !== false)
 		{
 			// Check if original text is different length than searched text (changed by function self::remove_accents)
-			if ($pos == 0) // Displayed text only, adjust $chunk_size
+			// Displayed text only, adjust $chunk_size
+			if ($pos === 0)
 			{
 				$iOriLen = StringHelper::strlen(StringHelper::substr($text, 0, $pos + $chunk_size));
 				$iModLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, 0, $pos + $chunk_size)));
@@ -324,7 +325,7 @@ class SearchHelper
 				$iModSkippedLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, 0, $pos)));
 				
 				// Adjust starting position $pos
-				if ($iOriSkippedLen != $iModSkippedLen)
+				if ($iOriSkippedLen !== $iModSkippedLen)
 				{
 					$pos += $iOriSkippedLen - $iModSkippedLen;
 				}
@@ -332,7 +333,7 @@ class SearchHelper
 				$iOriReturnLen = StringHelper::strlen(StringHelper::substr($text, $pos, $chunk_size));
 				$iModReturnLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, $pos, $chunk_size)));
 				
-				if ($iOriReturnLen != $iModReturnLen)
+				if ($iOriReturnLen !== $iModReturnLen)
 				{
 					$chunk_size += $iOriReturnLen - $iModReturnLen;
 				}
