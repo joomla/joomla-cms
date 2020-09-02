@@ -20,7 +20,7 @@ use Joomla\String\StringHelper;
 $user = Factory::getUser();
 
 // Get the mime type class.
-$mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
+$mime = !empty($this->result->mime) ? 'fas fa-file-' . $this->result->mime : null;
 
 $show_description = $this->params->get('show_description', 1);
 
@@ -53,7 +53,10 @@ if ($show_description)
 ?>
 <li class="result-title">
 	<header class="result-title">
-		<h4 class="result-title <?php echo $mime; ?>">
+		<h4 class="result-title">
+			<?php if ($mime) : ?>
+				<span class="<?php echo $mime; ?>" aria-hidden="true"></span>
+			<?php endif; ?>
 			<?php if ($this->result->route) : ?>
 				<a href="<?php echo Route::_($this->result->route); ?>">
 					<?php echo $this->result->title; ?>
