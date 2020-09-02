@@ -332,7 +332,7 @@ trait CoreButtonsTrait
 	 */
 	public function trash(string $task, string $text = 'JTOOLBAR_TRASH'): StandardButton
 	{
-		return $this->standardButton('fa-trash', $text)
+		return $this->standardButton('trash', $text)
 			->task($task);
 	}
 
