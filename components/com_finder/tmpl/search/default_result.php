@@ -79,7 +79,9 @@ if ($show_description)
 				endforeach;
 
 				if (count($taxonomy_text)) : ?>
-					<li><span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', $taxonomy_text); ?></span></li>
+					<li class="result__taxonomy result__taxonomy--<?php echo $type; ?>">
+						<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', $taxonomy_text); ?></span>
+					</li>
 				<?php endif; ?>
 			<?php endif; ?>
 		<?php endforeach; ?>
