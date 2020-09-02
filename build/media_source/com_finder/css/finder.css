@@ -1,3 +1,6 @@
+/**
+ * Styling search results page
+ */
 .com-finder * {
   margin-bottom: 0;
 }
@@ -7,6 +10,9 @@
   margin-top: 1.5em;
 }
 
+/**
+ * Styling search explained
+ */
 .com-finder__explained span.term,
 .com-finder__explained span.date,
 .com-finder__explained span.when,
@@ -20,6 +26,9 @@
   text-transform: uppercase;
 }
 
+/**
+ * Styling search result items list
+ */
 .com-finder__results-list {
   list-style: none;
   padding: 0;
@@ -48,9 +57,15 @@
 
 .result__taxonomy {
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
   list-style: none;
+}
+
+.result__taxonomy-item {
+  display: inline-block;
+}
+
+.result__taxonomy-item + .result__taxonomy-item {
+  margin-left: .75em;
 }
 
 .result__date {

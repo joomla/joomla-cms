@@ -80,7 +80,7 @@ if ($show_description)
 						<?php endif; ?>
 					<?php endforeach; ?>
 					<?php if (count($taxonomy_text)) : ?>
-						<li class="result__taxonomy result__taxonomy--<?php echo $type; ?>">
+						<li class="result__taxonomy-item result__taxonomy--<?php echo $type; ?>">
 							<span><?php echo $type; ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
 						</li>
 					<?php endif; ?>
