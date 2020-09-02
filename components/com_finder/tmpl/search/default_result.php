@@ -65,7 +65,7 @@ if ($show_description)
 
 	<?php $taxonomies = $this->result->getTaxonomy(); ?>
 	<?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
-		<p class="result-taxonomy">
+		<ul class="result__taxonomy">
 		<?php foreach ($taxonomies as $type => $taxonomy) : ?>
 			<?php $branch = Taxonomy::getBranch($type); ?>
 			<?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
@@ -79,11 +79,11 @@ if ($show_description)
 				endforeach;
 
 				if (count($taxonomy_text)) : ?>
-					<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', $taxonomy_text); ?></span>
+					<li><span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', $taxonomy_text); ?></span></li>
 				<?php endif; ?>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		</p>
+		</ul>
 	<?php endif; ?>
 	<?php if ($show_description && $description !== '') : ?>
 		<p class="result__description">
