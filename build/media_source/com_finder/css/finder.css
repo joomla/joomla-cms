@@ -1,5 +1,10 @@
-.com-finder__explained {
-	padding: 10px 0;
+.com-finder * {
+  margin-bottom: 0;
+}
+
+.com-finder > * + *,
+.com-finder__results > * + * {
+  margin-top: 1.5em;
 }
 
 .com-finder__explained span.term,
@@ -8,19 +13,16 @@
 .com-finder__explained span.branch,
 .com-finder__explained span.node,
 .com-finder__explained span.op {
-	font-weight: bold;
+  font-weight: 800;
 }
 
 .com-finder__explained span.op {
-	text-transform: uppercase;
+  text-transform: uppercase;
 }
 
-
-#search-results .search-pagination,
-#search-results .pagination,
-#search-results .search-pages-counter {
-	clear: both;
-	margin: 0 auto;
+.com-finder__results-list {
+  list-style: none;
+  padding: 0;
 }
 
 /**
