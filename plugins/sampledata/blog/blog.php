@@ -298,16 +298,46 @@ class PlgSampledataBlog extends CMSPlugin
 				'catid'    => $catIds[2],
 				'featured' => 0,
 				'ordering' => 0,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => '',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[2],
 				'featured' => 0,
 				'ordering' => 0,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => '',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[2],
 				'featured' => 0,
 				'ordering' => 0,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => '',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 		);
 
@@ -342,9 +372,13 @@ class PlgSampledataBlog extends CMSPlugin
 			$article['language']        = $language;
 			$article['associations']    = array();
 			$article['state']           = 1;
-			$article['images']          = '';
 			$article['metakey']         = '';
 			$article['metadesc']        = '';
+
+			if (!isset($article['images']))
+			{
+				$article['images']          = '';
+			}
 
 			if (!isset($article['access']))
 			{
