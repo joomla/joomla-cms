@@ -86,7 +86,7 @@ if ($show_description)
 		</p>
 	<?php endif; ?>
 	<?php if ($show_description && $description !== '') : ?>
-		<p class="result-text">
+		<p class="result__description">
 			<?php echo $description; ?>
 		</p>
 	<?php endif; ?>
