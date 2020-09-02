@@ -69,16 +69,13 @@ if ($show_description)
 		<?php foreach ($taxonomies as $type => $taxonomy) : ?>
 			<?php $branch = Taxonomy::getBranch($type); ?>
 			<?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
-				<?php
-				$taxonomy_text = array();
-
-				foreach ($taxonomy as $node) :
-					if ($node->state == 1 && in_array($node->access, $user->getAuthorisedViewLevels())) :
-						$taxonomy_text[] = $node->title;
-					endif;
-				endforeach;
-
-				if (count($taxonomy_text)) : ?>
+				<?php $taxonomy_text = []; ?>
+				<?php foreach ($taxonomy as $node) : ?>
+					<?php if ($node->state == 1 && in_array($node->access, $user->getAuthorisedViewLevels())) : ?>
+						<?php $taxonomy_text[] = $node->title; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
+				<?php if (count($taxonomy_text)) : ?>
 					<li class="result__taxonomy result__taxonomy--<?php echo $type; ?>">
 						<span><?php echo $type; ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
 					</li>
