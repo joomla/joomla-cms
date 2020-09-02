@@ -10,7 +10,7 @@ at the moment
 Here are the steps that are needed to setup UI tests execution on `localhost`
 
 #### Linux OS
-1) Checkout the Project in your document root folder, and follow the setup guide.
+1) Checkout the Project in your document root folder, and follow the [setup guide](https://docs.joomla.org/J4.x:Setting_Up_Your_Local_Environment).
 2) Navigate to `tests/Codeception` folder and edit configuration file `acceptance.suite.yml` file.
     1) Within the JoomlaBrowser config section change `url` point it to your localhost url
     2) update `database host` `database user` & `database password` as per your localhost installed DB,
@@ -36,10 +36,9 @@ These are the Joomla 4 API (webservices) tests. To run these tests on OSX you wi
 
 ### Installation
 
-1) Run a `composer install` in the Joomla main directory 
+1) Checkout the Project in your document root folder, and follow the [setup guide}(https://docs.joomla.org/J4.x:Setting_Up_Your_Local_Environment).
 2) Copy the file `tests/Codeception/api.suite.dist.yml` to `tests/Codeception/api.suite.yml`. Then adjust the REST url in the new file.
-3) Make sure, that the file `codeception.yml` is in the Joomla main directory. 
-4) Edit the file configuration.php. Set `$secret` = `'tEstValue'` - see [drone-api-run.sh](https://github.com/joomla/joomla-cms/blob/d8930208814fb52c0871853cfd9298f70998fd1f/tests/Codeception/drone-api-run.sh#L59).
+3) Edit the file configuration.php. Set `$secret` = `'tEstValue'` - see [drone-api-run.sh](https://github.com/joomla/joomla-cms/blob/d8930208814fb52c0871853cfd9298f70998fd1f/tests/Codeception/drone-api-run.sh#L59).
 
 > Tests with authentication always use the super user credentials for now. 
 
