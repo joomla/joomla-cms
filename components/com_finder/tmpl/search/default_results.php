@@ -52,7 +52,7 @@ use Joomla\CMS\Uri\Uri;
 <?php endif; ?>
 <?php // Display a list of results ?>
 <br id="highlighter-start" />
-<ol id="search-results-list" class="search-results list-unstyled">
+<ol id="search-results-list" class="com-finder__results-list">
 	<?php $this->baseUrl = Uri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 	<?php foreach ($this->results as $i => $result) : ?>
 		<?php $this->result = &$result; ?>
