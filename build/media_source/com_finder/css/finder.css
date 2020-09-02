@@ -1,13 +1,3 @@
-#advanced-search {
-	text-align:l eft;
-	width: 100%;
-	padding: 5px 0 15px;
-}
-
-#advanced-search-toggle {
-	cursor: pointer;
-}
-
 #search-query-explained {
 	padding: 10px 0;
 }
