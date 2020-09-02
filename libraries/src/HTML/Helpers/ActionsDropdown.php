@@ -225,6 +225,8 @@ abstract class ActionsDropdown
 	 */
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
+		$icon = LayoutHelper::render('joomla.icon.iconclass', $icon);
+
 		static::$dropDownList[] = '<li>'
 			. '<a href = "javascript://" onclick="Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')">'
 			. ($icon ? '<span class="icon-' . $icon . '" aria-hidden="true"></span> ' : '')
