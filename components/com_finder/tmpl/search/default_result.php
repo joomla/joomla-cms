@@ -51,7 +51,7 @@ if ($show_description)
 	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
 ?>
-<li class="result-title">
+<li class="result__item">
 	<header class="result-title">
 		<h4 class="result-title">
 			<?php if ($mime) : ?>
