@@ -62,7 +62,11 @@ if ($show_description)
 			<?php echo $this->result->title; ?>
 		<?php endif; ?>
 	</p>
-
+	<?php if ($show_description && $description !== '') : ?>
+		<p class="result__description">
+			<?php echo $description; ?>
+		</p>
+	<?php endif; ?>
 	<?php $taxonomies = $this->result->getTaxonomy(); ?>
 	<?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
 		<ul class="result__taxonomy">
@@ -83,11 +87,6 @@ if ($show_description)
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>
-	<?php endif; ?>
-	<?php if ($show_description && $description !== '') : ?>
-		<p class="result__description">
-			<?php echo $description; ?>
-		</p>
 	<?php endif; ?>
 	<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
 		<time class="result__date" datetime="<?php echo HTMLHelper::_('date', $this->result->start_date, 'c'); ?>">
