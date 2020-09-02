@@ -1212,6 +1212,6 @@ class Language
 	 */
 	public function getWeekEnd()
 	{
-		return $this->metadata['weekEnd'] ?? '0,6';
+		return $this->metadata['weekend'] ?? '0,6';
 	}
 }
