@@ -52,20 +52,16 @@ if ($show_description)
 }
 ?>
 <li class="result__item">
-	<header class="result-title">
-		<h4 class="result-title">
-			<?php if ($mime) : ?>
-				<span class="<?php echo $mime; ?>" aria-hidden="true"></span>
-			<?php endif; ?>
-			<?php if ($this->result->route) : ?>
-				<a href="<?php echo Route::_($this->result->route); ?>">
-					<?php echo $this->result->title; ?>
-				</a>
-			<?php else : ?>
-				<?php echo $this->result->title; ?>
-			<?php endif; ?>
-		</h4>
-	</header>
+	<p class="result__title">
+		<?php if ($mime) : ?>
+			<span class="<?php echo $mime; ?>" aria-hidden="true"></span>
+		<?php endif; ?>
+		<?php if ($this->result->route) : ?>
+			<?php echo HTMLHelper::link(Route::_($this->result->route), $this->result->title); ?>
+		<?php else : ?>
+			<?php echo $this->result->title; ?>
+		<?php endif; ?>
+	</p>
 
 	<?php $taxonomies = $this->result->getTaxonomy(); ?>
 	<?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
