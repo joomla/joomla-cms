@@ -66,22 +66,22 @@ if ($show_description)
 	<?php $taxonomies = $this->result->getTaxonomy(); ?>
 	<?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
 		<ul class="result__taxonomy">
-		<?php foreach ($taxonomies as $type => $taxonomy) : ?>
-			<?php $branch = Taxonomy::getBranch($type); ?>
-			<?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
-				<?php $taxonomy_text = []; ?>
-				<?php foreach ($taxonomy as $node) : ?>
-					<?php if ($node->state == 1 && in_array($node->access, $user->getAuthorisedViewLevels())) : ?>
-						<?php $taxonomy_text[] = $node->title; ?>
+			<?php foreach ($taxonomies as $type => $taxonomy) : ?>
+				<?php $branch = Taxonomy::getBranch($type); ?>
+				<?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
+					<?php $taxonomy_text = []; ?>
+					<?php foreach ($taxonomy as $node) : ?>
+						<?php if ($node->state == 1 && in_array($node->access, $user->getAuthorisedViewLevels())) : ?>
+							<?php $taxonomy_text[] = $node->title; ?>
+						<?php endif; ?>
+					<?php endforeach; ?>
+					<?php if (count($taxonomy_text)) : ?>
+						<li class="result__taxonomy result__taxonomy--<?php echo $type; ?>">
+							<span><?php echo $type; ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
+						</li>
 					<?php endif; ?>
-				<?php endforeach; ?>
-				<?php if (count($taxonomy_text)) : ?>
-					<li class="result__taxonomy result__taxonomy--<?php echo $type; ?>">
-						<span><?php echo $type; ?>:</span> <?php echo implode(',', $taxonomy_text); ?>
-					</li>
 				<?php endif; ?>
-			<?php endif; ?>
-		<?php endforeach; ?>
+			<?php endforeach; ?>
 		</ul>
 	<?php endif; ?>
 	<?php if ($show_description && $description !== '') : ?>
