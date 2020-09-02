@@ -30,7 +30,9 @@ use Joomla\CMS\Uri\Uri;
 			<?php echo Text::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
 		<?php elseif ($this->explained && $this->params->get('show_explained_query', 1)) : ?>
 			<?php // Display the explained search query. ?>
-			<?php echo $this->explained; ?>
+			<p role="alert">
+				<?php echo Text::plural('COM_FINDER_QUERY_RESULTS', $this->total, $this->explained); ?>
+			</p>
 		<?php endif; ?>
 	</div>
 <?php endif; ?>
