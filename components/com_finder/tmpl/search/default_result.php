@@ -32,13 +32,10 @@ if ($show_description)
 	$pad_length  = $term_length < $desc_length ? (int) floor(($desc_length - $term_length) / 2) : 0;
 
 	// Make sure we highlight term both in introtext and fulltext
+	$full_description = $this->result->description;
 	if (!empty($this->result->summary) && !empty($this->result->body))
 	{
 		$full_description = Helper::parse($this->result->summary . $this->result->body);
-	}
-	else
-	{
-		$full_description = $this->result->description;
 	}
 
 	// Find the position of the search term
