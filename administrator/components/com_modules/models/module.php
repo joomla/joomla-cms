@@ -159,7 +159,7 @@ class ModulesModelModule extends JModelAdmin
 
 				$table->position = $position;
 
-				// Copy of the Asset ID 
+				// Copy of the Asset ID
 				$oldAssetId = $table->asset_id;
 
 				// Alter the title if necessary
@@ -498,18 +498,6 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		return array($title);
-	}
-
-	/**
-	 * Method to get the client object
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function &getClient()
-	{
-		return $this->_client;
 	}
 
 	/**
@@ -1129,6 +1117,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('com_modules', $this->getClient());
+		parent::cleanCache('com_modules', 0); // Clean the front-end cache
+		parent::cleanCache('com_modules', 1); // Clean the admin cache
 	}
 }
