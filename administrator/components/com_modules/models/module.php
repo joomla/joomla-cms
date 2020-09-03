@@ -1117,7 +1117,9 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('com_modules', 0); // Clean the front-end cache
-		parent::cleanCache('com_modules', 1); // Clean the admin cache
+		// Clean the front-end cache
+		parent::cleanCache('com_modules', 0);
+		// Clean the admin cache
+		parent::cleanCache('com_modules', 1);
 	}
 }
