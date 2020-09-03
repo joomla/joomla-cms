@@ -237,8 +237,8 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 		$transition    = $event->getArgument('transition');
 		$pks           = $event->getArgument('pks');
 
-		$intro_image_required = $transition->options->get('images_intro_image_settings');
-		$full_article_image_required = $transition->options->get('images_full_article_image_settings');
+		$introImageRequired = $transition->options->get('images_intro_image_settings');
+		$fullArticleImageRequired = $transition->options->get('images_full_article_image_settings');
 
 		$resizeFullArticleImage = $transition->options->get('resizeFullArticleImage');
 		$resizeIntroImage = $transition->options->get('resizeIntroImage');
@@ -270,7 +270,7 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 			$introImagePath = JPATH_ROOT."/".$model->getItem($pk)->images['image_intro'];
 			$fullArticleImagePath = JPATH_ROOT."/".$model->getItem($pk)->images["image_fulltext"];
 
-			if($intro_image_required && $resizeIntroImage){
+			if($introImageRequired && $resizeIntroImage){
 				//if(!preg_match("/\.(?:'jpg|png|gif')$/i", $introImagePath) || !getimagesize($introImagePath)){
 				if(!getimagesize($introImagePath)){
 					// Image can't get resized
@@ -279,12 +279,14 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				else if(($model->getItem($pk)->images['image_intro']) ){
 					$image = new Image();
 					$image->loadFile($introImagePath);
+					if(!$introWidth) $introWidth = getimagesize($introImagePath)[0];
+					if(!$introHeight) $introHeight = getimagesize($introImagePath)[1];
 					$newImage = $image->cropResize($introWidth,$introHeight,true);
 					$newImage->toFile(JPATH_ROOT."/images/"."intro_image_resized.jpeg",IMAGETYPE_JPEG);
 				}
 			}
 
-			if($full_article_image_required && $resizeFullArticleImage){
+			if($fullArticleImageRequired && $resizeFullArticleImage){
 				//if(!preg_match("/\.(?:'jpg|png|gif')$/i", $fullArticleImagePath) || !getimagesize($fullArticleImagePath)){
 				if(!getimagesize($fullArticleImagePath)){
 					return true;
@@ -292,6 +294,8 @@ class PlgWorkflowImages extends CMSPlugin implements SubscriberInterface
 				else if(($model->getItem($pk)->images["image_fulltext"])){
 					$image = new Image();
 					$image->loadFile($fullArticleImagePath);
+					if(!$fullArticleWidth) $fullArticleWidth = getimagesize($fullArticleImagePath)[0];
+					if(!$fullArticleHeight) $fullArticleHeight = getimagesize($fullArticleImagePath)[1];
 					$newImage = $image->cropResize($fullArticleWidth,$fullArticleHeight,true);
 					$newImage->toFile(JPATH_ROOT."/images/"."full_article_image_resized.jpeg",IMAGETYPE_JPEG);
 				}
