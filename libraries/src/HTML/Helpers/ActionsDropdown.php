@@ -227,7 +227,7 @@ abstract class ActionsDropdown
 	{
 		$icon = LayoutHelper::render('joomla.icon.iconclass', $icon);
 
-    static::$dropDownList[] = '<li>'
+		static::$dropDownList[] = '<li>'
 			. '<a href = "javascript://" onclick="Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')">'
 			. ($icon ? '<span class="' . $icon . '" aria-hidden="true"></span> ' : '')
 			. $label
