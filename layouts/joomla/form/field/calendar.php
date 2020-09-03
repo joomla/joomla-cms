@@ -124,7 +124,7 @@ $document->getWebAssetManager()
 				data-dayformat="<?php echo $format; ?>"
 				data-button="<?php echo $id; ?>_btn"
 				data-firstday="<?php echo Factory::getLanguage()->getFirstDay(); ?>"
-				data-weekend="<?php echo Factory::getLanguage()->getWeekEnd(); ?>"
+				data-weekend="<?php echo Factory::getLanguage()->getWeekend(); ?>"
 				data-today-btn="<?php echo $todaybutton; ?>"
 				data-week-numbers="<?php echo $weeknumbers; ?>"
 				data-show-time="<?php echo $showtime; ?>"
