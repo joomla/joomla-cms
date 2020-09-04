@@ -2033,6 +2033,10 @@ class JoomlaInstallerScript
 
 			// Joomla! 3.9.17
 			'/administrator/components/com_templates/controllers/template.php.orig',
+
+			// Joomla! 3.9.21
+			'/.github/SECURITY.md',
+
 			// Joomla 3.10.0
 			'/libraries/joomla/base/adapter.php',
 			'/libraries/joomla/base/adapterinstance.php',
