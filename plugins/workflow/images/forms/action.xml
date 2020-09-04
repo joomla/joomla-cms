@@ -74,6 +74,7 @@
 					default=""
 					hide_all="true"
 					step="1"
+					showon="resizeIntroImage:1"
 				>
 				</field>
 
@@ -82,8 +83,10 @@
 					type="number"
 					label="PLG_WORKFLOW_IMAGES_FULL_ARTICLE_IMAGE_HEIGHT_LABEL"
 					default=""
+					size="50"
 					hide_all="true"
 					step="1"
+					showon="resizeFullArticleImage:1"
 				>
 				</field>
 
@@ -94,6 +97,7 @@
 					default=""
 					hide_all="true"
 					step="1"
+					showon="resizeIntroImage:1"
 				>
 				</field>
 
@@ -104,6 +108,7 @@
 					default=""
 					hide_all="true"
 					step="1"
+					showon="resizeFullArticleImage:1"
 				>
 				</field>
 
