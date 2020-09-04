@@ -287,7 +287,7 @@ class PrivacyControllerRequest extends JControllerForm
 	public function remove()
 	{
 		// Check for request forgeries.
-		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		/** @var PrivacyModelRemove $model */
 		$model = $this->getModel('Remove');
