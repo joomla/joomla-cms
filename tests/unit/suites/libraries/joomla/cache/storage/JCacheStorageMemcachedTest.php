@@ -32,8 +32,7 @@ class JCacheStorageMemcachedTest extends TestCaseCache
 
 		if ($dsn)
 		{
-
-				// First let's trim the redis: part off the front of the DSN if it exists.
+			// First let's trim the memcached: part off the front of the DSN if it exists.
 			if (strpos($dsn, 'memcached:') === 0)
 			{
 				$dsn = substr($dsn, 10);
@@ -60,6 +59,10 @@ class JCacheStorageMemcachedTest extends TestCaseCache
 				}
 			}
 		}
+		else
+		{
+			$this->markTestSkipped('No configuration for Memcached given');
+		}
 
 		try
 		{
@@ -67,7 +70,7 @@ class JCacheStorageMemcachedTest extends TestCaseCache
 		}
 		catch (JCacheExceptionConnecting $e)
 		{
-			$this->markTestSkipped('Failed to connect to Memcached');
+			$this->fail('Failed to connect to Memcached');
 		}
 
 		// Override the lifetime because the JCacheStorage API multiplies it by 60 (converts minutes to seconds)
