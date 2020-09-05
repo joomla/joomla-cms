@@ -32,7 +32,7 @@ $pageclass = $menu->getParams()->get('pageclass_sfx');
 $templatePath = Uri::root() . 'templates/'.$this->template;
 
 // Color Theme
-$paramsColorName = $this->params->get('colorName', 'summer');
+$paramsColorName = $this->params->get('colorName', 'color_summer');
 $assetColorName  = 'theme.' . $paramsColorName;
 $assetColorUri = $templatePath . '/css/global/' . $paramsColorName . '.css';
 $wa->registerAndUseStyle($assetColorName, $assetColorUri);
