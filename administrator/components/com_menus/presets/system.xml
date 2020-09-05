@@ -173,18 +173,10 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER"
 			type="component"
 			element="com_modules"
-			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
-			permission="core.manage;com_modules"
-		/>
-
-		<menuitem
-			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
-			type="component"
-			element="com_modules"
-			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
+			link="index.php?option=com_modules&amp;view=modules"
 			permission="core.manage;com_modules"
 		/>
 	</menuitem>

@@ -81,21 +81,10 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER"
 			type="component"
 			element="com_modules"
-			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
-			quicktask="index.php?option=com_modules&amp;view=select&amp;client_id=0"
-			quicktask-title="COM_CONTENT_MENUS_NEW_SITE_MODULE"
-		/>
-
-		<menuitem
-			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
-			type="component"
-			element="com_modules"
-			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
-			quicktask="index.php?option=com_modules&amp;view=select&amp;client_id=1"
-			quicktask-title="COM_CONTENT_MENUS_NEW_ADMIN_MODULE"
+			link="index.php?option=com_modules&amp;view=modules"
 		/>
 	</menuitem>
 </menu>

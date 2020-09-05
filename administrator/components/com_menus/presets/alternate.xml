@@ -434,12 +434,10 @@
 		</menuitem>
 
 		<menuitem
-			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
-			quicktask-title="COM_CONTENT_MENUS_NEW_SITE_MODULE"
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER"
 			type="component"
 			element="com_modules"
-			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
-			quicktask="index.php?option=com_modules&amp;view=select&amp;client_id=0"
+			link="index.php?option=com_modules&amp;view=modules"
 		/>
 
 		<menuitem
