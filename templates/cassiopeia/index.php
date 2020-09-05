@@ -32,7 +32,7 @@ $pageclass = $menu->getParams()->get('pageclass_sfx');
 $templatePath = 'templates/' . $this->template;
 
 // Use a font scheme if set in the template style options
-$paramsFontScheme = $this->params->get('useFontScheme', 'fonts_local_roboto');
+$paramsFontScheme = $this->params->get('useFontScheme', 'fonts-local_roboto');
 
 if ($paramsFontScheme)
 {
