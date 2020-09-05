@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 		$this->total         = $this->get('Total');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->clientId      = $this->state->get('client_id');
+		$this->clientId      = (int) $this->state->get('client_id', 0);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// We do not need the Language filter when modules are not filtered
-		if ($this->clientId == 1 && !ModuleHelper::isAdminMultilang())
+		if ($this->clientId === 1 && !ModuleHelper::isAdminMultilang())
 		{
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');
@@ -142,7 +142,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		if ($state->get('client_id') == 1)
+		if ($this->clientId === 1)
 		{
 			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
 		}
@@ -204,7 +204,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ((int) $state->get('filter.state') === -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('modules.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
