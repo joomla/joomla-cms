@@ -42,8 +42,8 @@
         Joomla.loadOptions({ 'joomla.jtext': null });
       }
 
-      newKey = newKey.toUpperCase();
       newDef = newDef === undefined ? newKey : newDef;
+      newKey = newKey.toUpperCase();
       
       return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;
     },
