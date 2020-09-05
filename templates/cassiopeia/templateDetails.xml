@@ -105,30 +105,20 @@
 				</field>
 
 				<field
-					name="googleFont"
-					type="radio"
+					name="useFontScheme"
+					type="groupedlist"
 					label="TPL_CASSIOPEIA_FONT_LABEL"
-					description="TPL_CASSIOPEIA_FONT_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
+					default="fonts_local_roboto"
+					validate="options"
 					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="0">JNONE</option>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
+						<option value="fonts_local_roboto">Roboto (local)</option>
+					</group>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
+						<option value="fonts_web_poppins+roboto">Poppins + Roboto (web)</option>
+					</group>
 				</field>
-
-				<field
-					name="googleFontName"
-					type="filelist"
-					label="TPL_CASSIOPEIA_FONT_NAME_LABEL"
-					description="TPL_CASSIOPEIA_FONT_NAME_DESC"
-					stripext="1"
-					directory="media/fonts/"
-					hide_none="1"
-					hide_default="1"
-					fileFilter="\.css$"
-					exclude="\.min\.css$"
-					showon="googleFont:1"
-				/>
 			</fieldset>
 		</fields>
 	</config>

@@ -28,6 +28,9 @@ $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu->getParams()->get('pageclass_sfx');
 
+// Template path
+$templatePath = Uri::root() . 'templates/'.$this->template;
+
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
@@ -37,19 +40,23 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
-// Use of Google Font
-if ($this->params->get('googleFont'))
+// Use a font scheme if set in the template style options
+$paramsFontScheme = $this->params->get('useFontScheme', 'fonts_local_roboto');
+
+if ($paramsFontScheme)
 {
-	// Preload the stylesheet for the font, actually we need to preload the font
-	$paramsFontName = $this->params->get('googleFontName');
+	// Preload the stylesheet for the font scheme, actually we need to preload the font(s)
+	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
 
-	if ($paramsFontName)
-	{
-		$assetFontName  = 'font.' . $paramsFontName;
+	$wa->registerAndUseStyle(
+		$assetFontScheme,
+		$templatePath . '/css/global/' . $paramsFontScheme . '.css'
+	);
 
-		$wa->registerAndUseStyle($assetFontName, 'media/fonts/' . $paramsFontName . '.css');
-		$this->getPreloadManager()->preload($wa->getAsset('style', $assetFontName)->getUri(), ['as' => 'style']);
-	}
+	$this->getPreloadManager()->preload(
+		$wa->getAsset('style', $assetFontScheme)->getUri(),
+		['as' => 'style']
+	);
 }
 
 // Logo file or site title param
