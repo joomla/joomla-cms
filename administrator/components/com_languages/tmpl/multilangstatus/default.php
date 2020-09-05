@@ -113,6 +113,13 @@ $home_pages        = array_column($this->homepages, 'language');
 					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
 				</div>
 			<?php endif; ?>
+			<?php if (empty($contentlang->sef)) : ?>
+				<div class="alert alert-error">
+					<span class="fas fa-exclamation" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_SEF_MISSING', $contentlang->lang_code); ?>
+				</div>
+			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
 			<div class="alert alert-warning">
