@@ -44,6 +44,8 @@ module.exports.compile = (options, path) => {
           `${RootPath}/templates/cassiopeia/scss/offline.scss`,
           `${RootPath}/templates/cassiopeia/scss/template.scss`,
           `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
+          `${RootPath}/templates/cassiopeia/scss/global/fonts_local_roboto.scss`,
+          `${RootPath}/templates/cassiopeia/scss/global/fonts_web_poppins+roboto.scss`,
           `${RootPath}/templates/cassiopeia/scss/system/searchtools/searchtools.scss`,
           `${RootPath}/templates/cassiopeia/scss/vendor/choicesjs/choices.scss`,
           `${RootPath}/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
