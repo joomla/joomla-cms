@@ -31,15 +31,6 @@ $pageclass = $menu->getParams()->get('pageclass_sfx');
 // Template path
 $templatePath = Uri::root() . 'templates/'.$this->template;
 
-// Enable assets
-$wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-	->useStyle('template.active.language')
-	->useStyle('template.user')
-	->useScript('template.user');
-
-// Override 'template.active' asset to set correct ltr/rtl dependency
-$wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
-
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', 'fonts_local_roboto');
 
@@ -58,6 +49,15 @@ if ($paramsFontScheme)
 		['as' => 'style']
 	);
 }
+
+// Enable assets
+$wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user')
+	->useScript('template.user');
+
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))
