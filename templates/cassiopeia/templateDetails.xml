@@ -108,14 +108,14 @@
 					name="useFontScheme"
 					type="groupedlist"
 					label="TPL_CASSIOPEIA_FONT_LABEL"
-					default="fonts_local_roboto"
+					default="fonts-local_roboto"
 					>
 					<option value="0">JNONE</option>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
-						<option value="fonts_local_roboto">Roboto (local)</option>
+						<option value="fonts-local_roboto">Roboto (local)</option>
 					</group>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
-						<option value="fonts_web_poppins+roboto">Poppins + Roboto (web)</option>
+						<option value="fonts-web_poppins+roboto">Poppins + Roboto (web)</option>
 					</group>
 				</field>
 			</fieldset>

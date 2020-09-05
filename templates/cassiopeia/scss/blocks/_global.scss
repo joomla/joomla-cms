@@ -9,6 +9,7 @@
 }
 
 html {
+  font-family: --cassiopeia-font-family-root;
   font-size: $font-size-root;
 }
 
@@ -29,7 +30,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: bold;
+  font-family: --cassiopeia-font-family-headings;
+  font-weight: --cassiopeia-font-weight-headings;
 }
 
 small,
