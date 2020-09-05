@@ -377,7 +377,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 			if (!isset($article['images']))
 			{
-				$article['images']          = '';
+				$article['images']  = '';
 			}
 
 			if (!isset($article['access']))
@@ -828,6 +828,8 @@ class PlgSampledataBlog extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
+		$app = Factory::getApplication();
+
 		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
@@ -939,7 +941,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'position'   => 'top-a',
 				'module'     => 'mod_articles_news',
 				'assignment' => 1,
-				'assigned'   => [101],
+				'assigned'   => [$app->getMenu()->getDefault()],
 				'showtitle'  => 0,
 				'params'   => array(
 					'catid'             => $catids[2],
@@ -1063,7 +1065,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'position'   => 'banner',
 				'module'     => 'mod_custom',
 				'assignment' => 1,
-				'assigned'   => [101],
+				'assigned'   => [$app->getMenu()->getDefault()],
 				'showtitle'  => 0,
 				'params'     => array(
 					'prepare_content' => 0,
@@ -1121,7 +1123,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_11_TITLE'),
 				'ordering'  => 4,
-				'position'  => 'cPanel',
+				'position'  => 'cpanel',
 				'module'    => 'mod_stats_admin',
 				'access'    => 6,
 				'client_id' => 1,
