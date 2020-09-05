@@ -492,17 +492,30 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Insert menuitems level 1.
 		$menuItems = array(
-			// Blog
 			array(
+				// Blog
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
-				'type'         => 'heading',
-				'link'         => '',
-				'component_id' => '',
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
-					'menu_text'         => 1,
-					'show_page_heading' => 1,
-					'secure'            => 0,
+					'layout_type'             => 'blog',
+					'show_category_title'     => 0,
+					'num_leading_articles'    => 4,
+					'num_intro_articles'      => 0,
+					'num_links'               => 2,
+					'orderby_sec'             => 'front',
+					'order_date'              => 'published',
+					'show_pagination'         => 2,
+					'show_pagination_results' => 1,
+					'show_category'           => 0,
+					'info_bloc_position'      => 0,
+					'show_publish_date'       => 0,
+					'show_hits'               => 0,
+					'show_feed_link'          => 1,
+					'menu_text'               => 1,
+					'show_page_heading'       => 0,
+					'secure'                  => 0,
 				),
 			),
 			array(
@@ -940,8 +953,8 @@ class PlgSampledataBlog extends CMSPlugin
 				'ordering'   => 6,
 				'position'   => 'top-a',
 				'module'     => 'mod_articles_news',
+				// Assignment 1 means here - only on the homepage
 				'assignment' => 1,
-				'assigned'   => [$app->getMenu()->getDefault()],
 				'showtitle'  => 0,
 				'params'   => array(
 					'catid'             => $catids[2],
@@ -1064,8 +1077,8 @@ class PlgSampledataBlog extends CMSPlugin
 				'ordering'   => 1,
 				'position'   => 'banner',
 				'module'     => 'mod_custom',
+				// Assignment 1 means here - only on the homepage
 				'assignment' => 1,
-				'assigned'   => [$app->getMenu()->getDefault()],
 				'showtitle'  => 0,
 				'params'     => array(
 					'prepare_content' => 0,
@@ -1183,6 +1196,13 @@ class PlgSampledataBlog extends CMSPlugin
 			if (!isset($module['assignment']))
 			{
 				$module['assignment'] = 0;
+			}
+			else
+			{
+				// Assignment means always "only on the homepage".
+				// @ToDo get the id of the hompage(s) from the menu getMenu()->getDefault() does not work in this context
+				$home = [101];
+				$module['assigned'] = $home;
 			}
 
 			if (!isset($module['content']))
