@@ -1141,6 +1141,7 @@
 		>
 			<option value="strict">COM_CONFIG_FIELD_COOKIE_SAMESITE_OPTION_STRICT_LABEL</option>
 			<option value="lax">COM_CONFIG_FIELD_COOKIE_SAMESITE_OPTION_LAX_LABEL</option>
+			<option value="none">COM_CONFIG_FIELD_COOKIE_SAMESITE_OPTION_NONE_LABEL</option>
 		</field>
 
 	</fieldset>
