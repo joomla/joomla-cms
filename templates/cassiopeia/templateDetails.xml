@@ -116,6 +116,7 @@
 					</group>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
 						<option value="fonts-web_poppins+roboto">Poppins + Roboto (web)</option>
+						<option value="fonts-web_roboto+noto-sans">Roboto + Noto Sans (web)</option>
 					</group>
 				</field>
 			</fieldset>
