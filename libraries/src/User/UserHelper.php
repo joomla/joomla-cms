@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\User;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Authentication\Password\Argon2idHandler;
 use Joomla\Authentication\Password\Argon2iHandler;
@@ -18,7 +18,6 @@ use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
-use Joomla\CMS\Authentication\Password\SHA256Handler;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -26,6 +25,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -87,15 +87,6 @@ abstract class UserHelper
 	const HASH_PHPASS = 101;
 
 	/**
-	 * Constant defining the SHA256 password algorithm for use with password hashes
-	 *
-	 * @var    integer
-	 * @since  4.0.0
-	 * @deprecated  5.0  Support for SHA256 hashed passwords will be removed
-	 */
-	const HASH_SHA256 = 102;
-
-	/**
 	 * Method to add a user to a group.
 	 *
 	 * @param   integer  $userId   The id of the user.
@@ -108,18 +99,23 @@ abstract class UserHelper
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
+		// Cast as integer until method is typehinted.
+		$userId  = (int) $userId;
+		$groupId = (int) $groupId;
+
 		// Get the user object.
-		$user = new User((int) $userId);
+		$user = new User($userId);
 
 		// Add the user to the group if necessary.
-		if (!in_array($groupId, $user->groups))
+		if (!\in_array($groupId, $user->groups))
 		{
 			// Check whether the group exists.
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('id') . ' = ' . (int) $groupId);
+				->where($db->quoteName('id') . ' = :groupId')
+				->bind(':groupId', $groupId, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			// If the group does not exist, return an exception.
@@ -131,12 +127,15 @@ abstract class UserHelper
 			// Add the group data to the user object.
 			$user->groups[$groupId] = $groupId;
 
+			// Reindex the array for prepared statements binding
+			$user->groups = array_values($user->groups);
+
 			// Store the user object.
 			$user->save();
 		}
 
 		// Set the group data for any preloaded user objects.
-		$temp         = User::getInstance((int) $userId);
+		$temp         = User::getInstance($userId);
 		$temp->groups = $user->groups;
 
 		if (Factory::getSession()->getId())
@@ -234,14 +233,14 @@ abstract class UserHelper
 		// Get the titles for the user groups.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
+			->select($db->quoteName(['id', 'title']))
 			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
+			->whereIn($db->quoteName('id'), $user->groups);
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
 
 		// Set the titles for the user groups.
-		for ($i = 0, $n = count($results); $i < $n; $i++)
+		for ($i = 0, $n = \count($results); $i < $n; $i++)
 		{
 			$user->groups[$results[$i]->id] = $results[$i]->id;
 		}
@@ -307,22 +306,23 @@ abstract class UserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		$db = Factory::getDbo();
+		$db       = Factory::getDbo();
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('activation') . ' = ' . $db->quote($activation))
+			->where($db->quoteName('activation') . ' = :activation')
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
+			->where($db->quoteName('lastvisitDate') . ' IS NULL')
+			->bind(':activation', $activation);
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 
 		// Is it a valid user to activate?
 		if ($id)
 		{
-			$user = User::getInstance((int) $id);
+			$user = User::getInstance($id);
 
 			$user->set('block', '0');
 			$user->set('activation', '');
@@ -361,8 +361,10 @@ abstract class UserHelper
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . ' = ' . $db->quote($username));
-		$db->setQuery($query, 0, 1);
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $username)
+			->setLimit(1);
+		$db->setQuery($query);
 
 		return $db->loadResult();
 	}
@@ -406,9 +408,6 @@ abstract class UserHelper
 
 			case self::HASH_PHPASS :
 				return $container->get(PHPassHandler::class)->hashPassword($password, $options);
-
-			case self::HASH_SHA256 :
-				return $container->get(SHA256Handler::class)->hashPassword($password, $options);
 		}
 
 		// Unsupported algorithm, sorry!
@@ -461,11 +460,6 @@ abstract class UserHelper
 			/** @var BCryptHandler $handler */
 			$handler = $container->get(BCryptHandler::class);
 		}
-		elseif (substr($hash, 0, 8) == '{SHA256}')
-		{
-			/** @var SHA256Handler $handler */
-			$handler = $container->get(SHA256Handler::class);
-		}
 		else
 		{
 			/** @var ChainedHandler $handler */
@@ -498,7 +492,7 @@ abstract class UserHelper
 	public static function genRandomPassword($length = 8)
 	{
 		$salt = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-		$base = strlen($salt);
+		$base = \strlen($salt);
 		$makepass = '';
 
 		/*
@@ -509,12 +503,12 @@ abstract class UserHelper
 		 * predictable.
 		 */
 		$random = Crypt::genRandomBytes($length + 1);
-		$shift = ord($random[0]);
+		$shift = \ord($random[0]);
 
 		for ($i = 1; $i <= $length; ++$i)
 		{
-			$makepass .= $salt[($shift + ord($random[$i])) % $base];
-			$shift += ord($random[$i]);
+			$makepass .= $salt[($shift + \ord($random[$i])) % $base];
+			$shift += \ord($random[$i]);
 		}
 
 		return $makepass;

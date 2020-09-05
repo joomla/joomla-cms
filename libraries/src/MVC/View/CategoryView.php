@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -99,7 +99,7 @@ class CategoryView extends HtmlView
 	 * Whether to run the standard Joomla plugin events.
 	 * Off by default for b/c
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  3.5
 	 */
 	protected $runPlugins = false;
@@ -142,7 +142,7 @@ class CategoryView extends HtmlView
 		// Check whether category access level allows access.
 		$groups = $user->getAuthorisedViewLevels();
 
-		if (!in_array($category->access, $groups))
+		if (!\in_array($category->access, $groups))
 		{
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -150,7 +150,7 @@ class CategoryView extends HtmlView
 		// Check whether category access level allows access.
 		$groups = $user->getAuthorisedViewLevels();
 
-		if (!in_array($category->access, $groups))
+		if (!\in_array($category->access, $groups))
 		{
 			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -159,7 +159,7 @@ class CategoryView extends HtmlView
 		$pagination = $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -231,7 +231,7 @@ class CategoryView extends HtmlView
 		if ($active
 			&& $active->component == $this->extension
 			&& isset($active->query['view'], $active->query['id'])
-			&& $active->query['view'] == 'category'
+			&& $active->query['view'] === 'category'
 			&& $active->query['id'] == $this->category->id)
 		{
 			if (isset($active->query['layout']))
@@ -311,11 +311,6 @@ class CategoryView extends HtmlView
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))

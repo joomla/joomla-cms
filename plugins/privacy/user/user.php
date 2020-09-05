@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\User as JTableUser;
+use Joomla\CMS\User\User;
+use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
+use Joomla\Component\Privacy\Administrator\Removal\Status;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -25,16 +31,16 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * This event will not allow a super user account to be removed
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   User          $user     The user account associated with this request if available
 	 *
-	 * @return  PrivacyRemovalStatus
+	 * @return  Status
 	 *
 	 * @since   3.9.0
 	 */
-	public function onPrivacyCanRemoveData(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyCanRemoveData(RequestTable $request, User $user = null)
 	{
-		$status = new PrivacyRemovalStatus;
+		$status = new Status;
 
 		if (!$user)
 		{
@@ -60,14 +66,14 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * - #__user_profiles
 	 * - User custom fields
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   User          $user     The user account associated with this request if available
 	 *
-	 * @return  PrivacyExportDomain[]
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
 	 *
 	 * @since   3.9.0
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyExportRequest(RequestTable $request, User $user = null)
 	{
 		if (!$user)
 		{
@@ -75,7 +81,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		}
 
 		/** @var JTableUser $userTable */
-		$userTable = JUser::getTable();
+		$userTable = User::getTable();
 		$userTable->load($user->id);
 
 		$domains = array();
@@ -92,14 +98,14 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * This event will pseudoanonymise the user account
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   User          $user     The user account associated with this request if available
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onPrivacyRemoveData(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyRemoveData(RequestTable $request, User $user = null)
 	{
 		// This plugin only processes data for registered user accounts
 		if (!$user)
@@ -107,24 +113,29 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$pseudoanonymisedData = array(
+		$db = $this->db;
+
+		$pseudoanonymisedData = [
 			'name'      => 'User ID ' . $user->id,
 			'username'  => bin2hex(random_bytes(12)),
 			'email'     => 'UserID' . $user->id . 'removed@email.invalid',
 			'block'     => true,
-		);
+		];
 
 		$user->bind($pseudoanonymisedData);
 
 		$user->save();
 
 		// Destroy all sessions for the user account
-		$sessionIds = $this->db->setQuery(
-			$this->db->getQuery(true)
-				->select($this->db->quoteName('session_id'))
-				->from($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user->id)
-		)->loadColumn();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName('session_id'))
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('userid') . ' = :userid')
+			->bind(':userid', $user->id, ParameterType::INTEGER);
+
+		$db->setQuery($query);
+		$sessionIds = $db->loadColumn();
 
 		// If there aren't any active sessions then there's nothing to do here
 		if (empty($sessionIds))
@@ -132,22 +143,21 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$storeName = Factory::getConfig()->get('session_handler', 'none');
+		$storeName = Factory::getApplication()->get('session_handler', 'none');
 		$store     = JSessionStorage::getInstance($storeName);
-		$quotedIds = array();
 
 		// Destroy the sessions and quote the IDs to purge the session table
 		foreach ($sessionIds as $sessionId)
 		{
 			$store->destroy($sessionId);
-			$quotedIds[] = $this->db->quote($sessionId);
 		}
 
-		$this->db->setQuery(
-			$this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('session_id') . ' IN (' . implode(', ', $quotedIds) . ')')
-		)->execute();
+		$query->clear()
+			->delete($db->quoteName('#__session'))
+			->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT);
+
+		$db->setQuery($query)
+			->execute();
 	}
 
 	/**
@@ -155,23 +165,25 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @param   JTableUser  $user  The JTableUser object to process
 	 *
-	 * @return  PrivacyExportDomain
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
 	private function createNotesDomain(JTableUser $user)
 	{
 		$domain = $this->createDomain('user_notes', 'joomla_user_notes_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('*')
-			->from($this->db->quoteName('#__user_notes'))
-			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id));
+			->from($db->quoteName('#__user_notes'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $user->id, ParameterType::INTEGER);
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $db->setQuery($query)->loadAssocList();
 
 		// Remove user ID columns
-		foreach (array('user_id', 'created_user_id', 'modified_user_id') as $column)
+		foreach (['user_id', 'created_user_id', 'modified_user_id'] as $column)
 		{
 			$items = ArrayHelper::dropColumn($items, $column);
 		}
@@ -189,21 +201,23 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @param   JTableUser  $user  The JTableUser object to process
 	 *
-	 * @return  PrivacyExportDomain
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
 	private function createProfileDomain(JTableUser $user)
 	{
 		$domain = $this->createDomain('user_profile', 'joomla_user_profile_data');
+		$db     = $this->db;
 
-		$query = $this->db->getQuery(true)
+		$query = $db->getQuery(true)
 			->select('*')
-			->from($this->db->quoteName('#__user_profiles'))
-			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id))
-			->order($this->db->quoteName('ordering') . ' ASC');
+			->from($db->quoteName('#__user_profiles'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->order($db->quoteName('ordering') . ' ASC')
+			->bind(':userid', $user->id, ParameterType::INTEGER);
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $db->setQuery($query)->loadAssocList();
 
 		foreach ($items as $item)
 		{
@@ -218,7 +232,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @param   JTableUser  $user  The JTableUser object to process
 	 *
-	 * @return  PrivacyExportDomain
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
@@ -235,14 +249,14 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @param   JTableUser  $user  The JTableUser object to convert
 	 *
-	 * @return  PrivacyExportItem
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Item
 	 *
 	 * @since   3.9.0
 	 */
 	private function createItemForUserTable(JTableUser $user)
 	{
-		$data    = array();
-		$exclude = array('password', 'otpKey', 'otep');
+		$data    = [];
+		$exclude = ['password', 'otpKey', 'otep'];
 
 		foreach (array_keys($user->getFields()) as $fieldName)
 		{

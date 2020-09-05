@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.phpversioncheck
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,8 +105,8 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 	 *
 	 * @since   3.7.0
 	 * @note    The dates used in this method should correspond to the dates given on PHP.net
-	 * @link    https://secure.php.net/supported-versions.php
-	 * @link    https://secure.php.net/eol.php
+	 * @link    https://www.php.net/supported-versions.php
+	 * @link    https://www.php.net/eol.php
 	 */
 	private function getPhpSupport()
 	{
@@ -118,6 +118,10 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 			'7.3' => array(
 				'security' => '2020-12-06',
 				'eos'      => '2021-12-06',
+			),
+			'7.4' => array(
+				'security' => '2021-11-28',
+				'eos'      => '2022-11-28',
 			),
 		);
 
@@ -149,20 +153,26 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 
 					if (version_compare($version, $activePhpVersion, 'ge') && ($today < $versionEndOfSupport))
 					{
-						$recommendedVersion             = $version;
-						$recommendedVersionEndOfSupport = $versionEndOfSupport;
+						$supportStatus['status']  = self::PHP_UNSUPPORTED;
+						$supportStatus['message'] = Text::sprintf(
+							'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
+							PHP_VERSION,
+							$version,
+							$versionEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
+						);
 
-						break;
+						return $supportStatus;
 					}
 				}
 
+				// PHP version is not supported and we don't know of any supported versions.
 				$supportStatus['status']  = self::PHP_UNSUPPORTED;
 				$supportStatus['message'] = Text::sprintf(
-					'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
-					PHP_VERSION,
-					$recommendedVersion,
-					$recommendedVersionEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
+					'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED_JOOMLA_OUTDATED',
+					PHP_VERSION
 				);
+
+				return $supportStatus;
 			}
 
 			// If the version is still supported, check if it has reached eol minus 3 month

@@ -6,9 +6,11 @@
                 <div class="form-group">
                     <label for="name">{{ translate('COM_MEDIA_NAME') }}</label>
                     <div :class="{'input-group': extension.length}">
-                        <input id="name" class="form-control" :placeholder="translate('COM_MEDIA_NAME')"
+                        <input id="name" class="form-control" type="text" :placeholder="translate('COM_MEDIA_NAME')"
                                :value="name" required autocomplete="off" ref="nameField">
-                        <span class="input-group-addon" v-if="extension.length">{{extension }}</span>
+                        <span class="input-group-append" v-if="extension.length">
+                            <span class="input-group-text">{{extension }}</span>
+                        </span>
                     </div>
                 </div>
             </form>

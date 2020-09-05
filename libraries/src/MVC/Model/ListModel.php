@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -349,26 +349,32 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
-		$form = null;
-
 		// Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
 		if (empty($this->filterFormName))
 		{
-			$classNameParts = explode('Model', get_called_class());
+			$classNameParts = explode('Model', \get_called_class());
 
-			if (count($classNameParts) >= 2)
+			if (\count($classNameParts) >= 2)
 			{
 				$this->filterFormName = 'filter_' . str_replace('\\', '', strtolower($classNameParts[1]));
 			}
 		}
 
-		if (!empty($this->filterFormName))
+		if (empty($this->filterFormName))
 		{
-			// Get the form.
-			$form = $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
+			return null;
 		}
 
-		return $form;
+		try
+		{
+			// Get the form.
+			return $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
+		}
+		catch (\RuntimeException $e)
+		{
+		}
+
+		return null;
 	}
 
 	/**
@@ -427,7 +433,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				foreach ($filters as $name => $value)
 				{
 					// Exclude if blacklisted
-					if (!in_array($name, $this->filterBlacklist))
+					if (!\in_array($name, $this->filterBlacklist))
 					{
 						$this->setState('filter.' . $name, $value);
 					}
@@ -442,7 +448,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				foreach ($list as $name => $value)
 				{
 					// Exclude if blacklisted
-					if (!in_array($name, $this->listBlacklist))
+					if (!\in_array($name, $this->listBlacklist))
 					{
 						// Extra validations
 						switch ($name)
@@ -450,12 +456,12 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 							case 'fullordering':
 								$orderingParts = explode(' ', $value);
 
-								if (count($orderingParts) >= 2)
+								if (\count($orderingParts) >= 2)
 								{
 									// Latest part will be considered the direction
 									$fullDirection = end($orderingParts);
 
-									if (in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
+									if (\in_array(strtoupper($fullDirection), array('ASC', 'DESC', '')))
 									{
 										$this->setState('list.direction', $fullDirection);
 									}
@@ -467,12 +473,12 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 										$value = $ordering . ' ' . $direction;
 									}
 
-									unset($orderingParts[count($orderingParts) - 1]);
+									unset($orderingParts[\count($orderingParts) - 1]);
 
 									// The rest will be the ordering
 									$fullOrdering = implode(' ', $orderingParts);
 
-									if (in_array($fullOrdering, $this->filter_fields))
+									if (\in_array($fullOrdering, $this->filter_fields))
 									{
 										$this->setState('list.ordering', $fullOrdering);
 									}
@@ -495,14 +501,14 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 								break;
 
 							case 'ordering':
-								if (!in_array($value, $this->filter_fields))
+								if (!\in_array($value, $this->filter_fields))
 								{
 									$value = $ordering;
 								}
 								break;
 
 							case 'direction':
-								if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+								if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
 								{
 									$value = $direction;
 								}
@@ -539,7 +545,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				// Check if the ordering field is in the whitelist, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
 
-				if (!in_array($value, $this->filter_fields))
+				if (!\in_array($value, $this->filter_fields))
 				{
 					$value = $ordering;
 					$app->setUserState($this->context . '.ordercol', $value);
@@ -550,7 +556,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				// Check if the ordering direction is valid, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
 
-				if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+				if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
 				{
 					$value = $direction;
 					$app->setUserState($this->context . '.orderdirn', $value);
@@ -562,7 +568,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			// Support old ordering field
 			$oldOrdering = $app->input->get('filter_order');
 
-			if (!empty($oldOrdering) && in_array($oldOrdering, $this->filter_fields))
+			if (!empty($oldOrdering) && \in_array($oldOrdering, $this->filter_fields))
 			{
 				$this->setState('list.ordering', $oldOrdering);
 			}
@@ -570,7 +576,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			// Support old direction field
 			$oldDirection = $app->input->get('filter_order_Dir');
 
-			if (!empty($oldDirection) && in_array(strtoupper($oldDirection), array('ASC', 'DESC', '')))
+			if (!empty($oldDirection) && \in_array(strtoupper($oldDirection), array('ASC', 'DESC', '')))
 			{
 				$this->setState('list.direction', $oldDirection);
 			}

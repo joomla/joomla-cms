@@ -1,6 +1,6 @@
 /**
  * @package         Joomla.JavaScript
- * @copyright       Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright       Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 customElements.define('joomla-field-module-order', class extends HTMLElement {
@@ -76,7 +76,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
       }
 
       selectNode.appendChild(node);
-      i++;
+      i += 1;
     }
 
     this.innerHTML = '';
@@ -89,7 +89,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
     const originalOrder = this.getAttribute('data-ordering');
     const name = this.getAttribute('data-name');
     const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'custom-select';
-    const id = `${this.getAttribute('id')}_1`;
+    const id = `${this.getAttribute('data-id')}`;
     const orders = [];
     const that = this;
 
@@ -98,7 +98,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
       method: 'GET',
       perform: true,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      onSuccess(response, xhr) {
+      onSuccess(response) {
         if (response) {
           response = JSON.parse(response);
 

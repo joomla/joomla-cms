@@ -1,4 +1,4 @@
-// com-admin
+// com_admin
 
 .sysinfo {
 
@@ -6,7 +6,7 @@
     box-shadow: $atum-box-shadow;
 
     th {
-      font-weight: bold;
+      font-weight: $font-weight-bold;
     }
   }
 }

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -44,7 +44,9 @@ class LibraryAdapter extends InstallerAdapter
 			if ($this->parent->isOverwrite() || $this->parent->isUpgrade())
 			{
 				// We can upgrade, so uninstall the old one
-				$installer = new Installer; // we don't want to compromise this instance!
+
+				// We don't want to compromise this instance!
+				$installer = new Installer;
 				$installer->setPackageUninstall(true);
 				$installer->uninstall('library', $this->currentExtensionId);
 
@@ -111,7 +113,7 @@ class LibraryAdapter extends InstallerAdapter
 			$manifest['src']  = $this->parent->getPath('manifest');
 			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . $this->element . '.xml';
 
-			$destFolder = dirname($manifest['dest']);
+			$destFolder = \dirname($manifest['dest']);
 
 			if (!is_dir($destFolder) && !@mkdir($destFolder))
 			{
@@ -282,7 +284,7 @@ class LibraryAdapter extends InstallerAdapter
 			{
 				$files = Folder::files($this->parent->getPath('extension_root'));
 
-				if (!count($files))
+				if (!\count($files))
 				{
 					Folder::delete($this->parent->getPath('extension_root'));
 				}
@@ -295,7 +297,7 @@ class LibraryAdapter extends InstallerAdapter
 		$elementParts = explode('/', $this->extension->element);
 
 		// Delete empty vendor folders
-		if (2 === count($elementParts))
+		if (2 === \count($elementParts))
 		{
 			Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
 			Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
@@ -317,6 +319,14 @@ class LibraryAdapter extends InstallerAdapter
 		if (!$group)
 		{
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
+		}
+
+		// Don't install libraries which would override core folders
+		$restrictedFolders = array('cms', 'fof', 'idna_convert', 'joomla', 'legacy', 'php-encryption', 'phpass', 'phputf8', 'src', 'vendor');
+
+		if (in_array($group, $restrictedFolders))
+		{
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
 		}
 
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));

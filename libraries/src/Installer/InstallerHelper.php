@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Factory;
@@ -89,7 +89,7 @@ abstract class InstallerHelper
 			return false;
 		}
 
-		// Convert keys of headers to lowercase, to accomodate for case variations
+		// Convert keys of headers to lowercase, to accommodate for case variations
 		$headers = array_change_key_case($response->headers, CASE_LOWER);
 
 		if (302 == $response->code && !empty($headers['location']))
@@ -156,7 +156,7 @@ abstract class InstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = Path::clean(dirname($p_filename) . '/' . $tmpdir);
+		$extractdir = Path::clean(\dirname($p_filename) . '/' . $tmpdir);
 		$archivename = Path::clean($archivename);
 
 		// Do the unpacking of the archive
@@ -209,7 +209,7 @@ abstract class InstallerHelper
 		 */
 		$dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
-		if (count($dirList) === 1)
+		if (\count($dirList) === 1)
 		{
 			if (Folder::exists($extractdir . '/' . $dirList[0]))
 			{
@@ -253,7 +253,7 @@ abstract class InstallerHelper
 		// Search the install dir for an XML file
 		$files = Folder::files($p_dir, '\.xml$', 1, true);
 
-		if (!$files || !count($files))
+		if (!$files || !\count($files))
 		{
 			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
@@ -304,7 +304,7 @@ abstract class InstallerHelper
 	{
 		$default = uniqid();
 
-		if (!is_string($url) || strpos($url, '/') === false)
+		if (!\is_string($url) || strpos($url, '/') === false)
 		{
 			return $default;
 		}

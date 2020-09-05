@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -80,25 +80,25 @@ class ListField extends FormField
 			if ($requires = explode(',', (string) $option['requires']))
 			{
 				// Requires multilanguage
-				if (in_array('multilanguage', $requires) && !Multilanguage::isEnabled())
+				if (\in_array('multilanguage', $requires) && !Multilanguage::isEnabled())
 				{
 					continue;
 				}
 
 				// Requires associations
-				if (in_array('associations', $requires) && !Associations::isEnabled())
+				if (\in_array('associations', $requires) && !Associations::isEnabled())
 				{
 					continue;
 				}
 
 				// Requires adminlanguage
-				if (in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang())
+				if (\in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang())
 				{
 					continue;
 				}
 
 				// Requires vote plugin
-				if (in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote'))
+				if (\in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote'))
 				{
 					continue;
 				}
@@ -108,14 +108,14 @@ class ListField extends FormField
 			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
-			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+			$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
 			$disabled = $disabled || ($this->readonly && $value != $this->value);
 
 			$checked = (string) $option['checked'];
-			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+			$checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
 			$selected = (string) $option['selected'];
-			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
+			$selected = ($selected === 'true' || $selected === 'selected' || $selected === '1');
 
 			$tmp = array(
 					'value'    => $value,
@@ -132,12 +132,13 @@ class ListField extends FormField
 
 			if ((string) $option['showon'])
 			{
-				$tmp['optionattr'] = " data-showon='" .
-					json_encode(
-						FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
-					)
-					. "'";
+				$encodedConditions = json_encode(
+					FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+				);
+
+				$tmp['optionattr'] = " data-showon='" . $encodedConditions . "'";
 			}
+
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}
@@ -150,7 +151,7 @@ class ListField extends FormField
 			$component  = Factory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
-			if ($component == 'com_menus')
+			if ($component === 'com_menus')
 			{
 				$link      = $this->form->getData()->get('link');
 				$uri       = new Uri($link);
@@ -161,18 +162,18 @@ class ListField extends FormField
 			$value  = $params->get($this->fieldname);
 
 			// Try with global configuration
-			if (is_null($value))
+			if (\is_null($value))
 			{
 				$value = Factory::getApplication()->get($this->fieldname);
 			}
 
 			// Try with menu configuration
-			if (is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
 
-			if (!is_null($value))
+			if (!\is_null($value))
 			{
 				$value = (string) $value;
 
@@ -233,7 +234,7 @@ class ListField extends FormField
 	 */
 	public function __get($name)
 	{
-		if ($name == 'options')
+		if ($name === 'options')
 		{
 			return $this->getOptions();
 		}

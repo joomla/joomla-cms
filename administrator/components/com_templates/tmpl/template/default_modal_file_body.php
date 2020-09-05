@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,11 +30,12 @@ $input = Factory::getApplication()->input;
 					<div class="card-body">
 						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 							<div class="form-group">
-								<label><?php echo Text::_('COM_TEMPLATES_FILE_NAME'); ?></label>
-								<input type="text" name="name" class="form-control" required>
+								<label for="file_name"><?php echo Text::_('COM_TEMPLATES_FILE_NAME'); ?></label>
+								<input type="text" name="name" id="file_name" class="form-control" required>
 							</div>
 							<div class="form-group">
-								<select class="custom-select" data-chosen="true" name="type" required >
+								<label for="type"><?php echo Text::_('COM_TEMPLATES_NEW_FILE_TYPE'); ?></label>
+								<select class="custom-select" data-chosen="true" name="type" id="type" required >
 									<option value="">- <?php echo Text::_('COM_TEMPLATES_NEW_FILE_SELECT'); ?> -</option>
 									<option value="css">.css</option>
 									<option value="php">.php</option>
@@ -47,11 +48,9 @@ $input = Factory::getApplication()->input;
 									<option value="txt">.txt</option>
 								</select>
 							</div>
-							<div class="form-group">
-								<input type="hidden" class="address" name="address">
-								<?php echo HTMLHelper::_('form.token'); ?>
-								<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
-							</div>
+							<input type="hidden" class="address" name="address">
+							<?php echo HTMLHelper::_('form.token'); ?>
+							<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
 						</form>
 					</div>
 				</div>
@@ -60,15 +59,15 @@ $input = Factory::getApplication()->input;
 						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data">
 							<input type="hidden" class="address" name="address">
 							<div class="input-group">
-								<input type="file" name="files" class="form-control" required>
+								<input type="file" name="files" aria-labelledby="upload" class="form-control" required>
 								<?php echo HTMLHelper::_('form.token'); ?>
 								<span class="input-group-append">
-									<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_UPLOAD'); ?></button>
+									<button type="submit" class="btn btn-primary" id="upload"><?php echo Text::_('COM_TEMPLATES_BUTTON_UPLOAD'); ?></button>
 								</span>
 							</div>
 							<?php $cMax    = $this->state->get('params')->get('upload_limit'); ?>
 							<?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize($cMax . 'MB')); ?>
-							<span class="mt-2"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></span>
+							<span class="mt-2"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></span>
 						</form>
 					</div>
 				</div>

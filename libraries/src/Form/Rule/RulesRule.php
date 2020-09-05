@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Form\Form;
@@ -46,7 +46,7 @@ class RulesRule extends FormRule
 		// Make sure that all posted actions are in the list of possible actions for the field.
 		foreach ($valueActions as $action)
 		{
-			if (!in_array($action, $fieldActions))
+			if (!\in_array($action, $fieldActions))
 			{
 				return false;
 			}
@@ -112,7 +112,7 @@ class RulesRule extends FormRule
 		// Iterate over the children and add to the actions.
 		foreach ($element->children() as $el)
 		{
-			if ($el->getName() == 'action')
+			if ($el->getName() === 'action')
 			{
 				$actions[] = (string) $el['name'];
 			}

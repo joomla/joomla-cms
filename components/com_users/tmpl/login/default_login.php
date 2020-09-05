@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,13 +46,13 @@ $usersConfig = ComponentHelper::getParams('com_users');
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well">
+	<form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well" id="com-users-login__form">
 
 		<fieldset>
 			<?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
 
 			<?php if ($this->tfa) : ?>
-				<?php echo $this->form->renderField('secretkey', ['class' => 'com-users-login__secretkey']); ?>
+				<?php echo $this->form->renderField('secretkey', null, null, ['class' => 'com-users-login__secretkey']); ?>
 			<?php endif; ?>
 
 			<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
@@ -67,6 +67,37 @@ $usersConfig = ComponentHelper::getParams('com_users');
 					</div>
 				</div>
 			<?php endif; ?>
+
+			<?php foreach ($this->extraButtons as $button):
+				$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+					return substr($key, 0, 5) == 'data-';
+				});
+				?>
+				<div class="com-users-login__submit control-group">
+					<div class="controls">
+						<button type="button"
+						        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+								<?php foreach ($dataAttributeKeys as $key): ?>
+								<?php echo $key ?>="<?php echo $button[$key] ?>"
+								<?php endforeach; ?>
+								<?php if ($button['onclick']): ?>
+						        onclick="<?php echo $button['onclick'] ?>"
+								<?php endif; ?>
+						        title="<?php echo Text::_($button['label']) ?>"
+						        id="<?php echo $button['id'] ?>"
+						>
+							<?php if (!empty($button['icon'])): ?>
+								<span class="<?php echo $button['icon'] ?>"></span>
+							<?php elseif (!empty($button['image'])): ?>
+								<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
+									'class' => 'icon',
+								], true) ?>
+							<?php endif; ?>
+							<?php echo Text::_($button['label']) ?>
+						</button>
+					</div>
+				</div>
+			<?php endforeach; ?>
 
 			<div class="com-users-login__submit control-group">
 				<div class="controls">

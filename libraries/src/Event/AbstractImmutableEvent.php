@@ -2,20 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Event;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 
 /**
  * This class implements the immutable base Event object used system-wide to offer orthogonality.
  *
- * @see    Joomla\CMS\Event\AbstractEvent
+ * @see    \Joomla\CMS\Event\AbstractEvent
  * @since  4.0.0
  */
 class AbstractImmutableEvent extends AbstractEvent

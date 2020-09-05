@@ -51,7 +51,6 @@
 				name="all_tags_description"
 				type="textarea"
 				label="COM_TAGS_ALL_TAGS_DESCRIPTION_LABEL"
-				class="inputbox"
 				rows="3"
 				cols="30"
 				filter="safehtml"
@@ -61,7 +60,8 @@
 				name="all_tags_show_description_image"
 				type="list"
 				label="COM_TAGS_SHOW_ALL_TAGS_IMAGE_LABEL"
-				class="chzn-color"
+				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -79,6 +79,7 @@
 				type="list"
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="hits">JGLOBAL_HITS</option>
@@ -92,6 +93,7 @@
 				type="list"
 				label="JGLOBAL_ORDER_DIRECTION_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
 				<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
@@ -102,7 +104,8 @@
 				type="list"
 				label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -112,7 +115,8 @@
 				name="all_tags_show_tag_description"
 				type="list"
 				label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
-				class="chzn-color"
+				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -131,7 +135,8 @@
 				type="list"
 				label="JGLOBAL_HITS"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -156,7 +161,8 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -167,7 +173,8 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -178,7 +185,8 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -190,7 +198,8 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -203,7 +212,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

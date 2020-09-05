@@ -3,13 +3,12 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Page\Acceptance\Administrator\MenuListPage;
 use Page\Acceptance\Administrator\MenuFormPage;
-use Page\Acceptance\Administrator\AdminPage;
+use Page\Acceptance\Administrator\MenuListPage;
 
 /**
  * Administrator Menu Tests
@@ -19,15 +18,17 @@ use Page\Acceptance\Administrator\AdminPage;
 class MenuCest
 {
 	/**
-	 * Create a menu
+	 * Create a menu.
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
+	 * @return  void
+	 *
 	 * @since  4.0.0
 	 *
-	 * @return  void
+	 * @throws Exception
 	 */
-	public function createNewMenu(\AcceptanceTester $I)
+	public function createNewMenu(AcceptanceTester $I)
 	{
 		$I->comment('I am going to create a menu');
 		$I->doAdministratorLogin();
@@ -50,9 +51,8 @@ class MenuCest
 		$I->checkForPhpNoticesOrWarnings();
 	}
 
-
 	/**
-	 * Fill out the menu information form
+	 * Fill out the menu information form.
 	 *
 	 * @param   AcceptanceTester  $I            The AcceptanceTester Object
 	 * @param   string            $title        Title

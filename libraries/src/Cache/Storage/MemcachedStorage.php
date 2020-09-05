@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheStorage;
@@ -18,7 +18,7 @@ use Joomla\CMS\Factory;
 /**
  * Memcached cache storage handler
  *
- * @link   https://secure.php.net/manual/en/book.memcached.php
+ * @link   https://www.php.net/manual/en/book.memcached.php
  * @since  3.0.0
  */
 class MemcachedStorage extends CacheStorage
@@ -129,7 +129,7 @@ class MemcachedStorage extends CacheStorage
 	protected function _getCacheId($id, $group)
 	{
 		$prefix   = Cache::getPlatformPrefix();
-		$length   = strlen($prefix);
+		$length   = \strlen($prefix);
 		$cache_id = parent::_getCacheId($id, $group);
 
 		if ($length)
@@ -188,7 +188,7 @@ class MemcachedStorage extends CacheStorage
 
 		$data = array();
 
-		if (is_array($keys))
+		if (\is_array($keys))
 		{
 			foreach ($keys as $key)
 			{
@@ -199,7 +199,7 @@ class MemcachedStorage extends CacheStorage
 
 				$namearr = explode('-', $key->name);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
 				{
 					$group = $namearr[2];
 
@@ -244,14 +244,14 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (!is_array($index))
+		if (!\is_array($index))
 		{
 			$index = array();
 		}
 
 		$tmparr       = new \stdClass;
 		$tmparr->name = $cache_id;
-		$tmparr->size = strlen($data);
+		$tmparr->size = \strlen($data);
 
 		$index[] = $tmparr;
 		static::$_db->set($this->_hash . '-index', $index, 0);
@@ -283,7 +283,7 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (is_array($index))
+		if (\is_array($index))
 		{
 			foreach ($index as $key => $value)
 			{
@@ -323,13 +323,13 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (is_array($index))
+		if (\is_array($index))
 		{
 			$prefix = $this->_hash . '-cache-' . $group . '-';
 
 			foreach ($index as $key => $value)
 			{
-				if (strpos($value->name, $prefix) === 0 xor $mode != 'group')
+				if (strpos($value->name, $prefix) === 0 xor $mode !== 'group')
 				{
 					static::$_db->delete($value->name);
 					unset($index[$key]);

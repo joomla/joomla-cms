@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 
@@ -30,6 +30,14 @@ class CheckboxField extends FormField
 	 * @since  1.7.0
 	 */
 	protected $type = 'Checkbox';
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $layout = 'joomla.form.field.checkbox';
 
 	/**
 	 * The checked state of checkbox field.
@@ -75,7 +83,7 @@ class CheckboxField extends FormField
 		{
 			case 'checked':
 				$value = (string) $value;
-				$this->checked = ($value == 'true' || $value == $name || $value == '1');
+				$this->checked = ($value === 'true' || $value == $name || $value === '1');
 				break;
 
 			default:
@@ -114,7 +122,7 @@ class CheckboxField extends FormField
 		if ($return)
 		{
 			$checked = (string) $this->element['checked'];
-			$this->checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+			$this->checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
 			empty($this->value) || $this->checked ? null : $this->checked = true;
 		}
@@ -123,33 +131,18 @@ class CheckboxField extends FormField
 	}
 
 	/**
-	 * Method to get the field input markup.
-	 * The checked element sets the field to selected.
+	 * Method to get the data to be passed to the layout for rendering.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  array
 	 *
-	 * @since   1.7.0
+	 * @since   4.0.0
 	 */
-	protected function getInput()
+	protected function getLayoutData()
 	{
-		// Initialize some field attributes.
-		$class     = !empty($this->class) ? ' class="form-check-input ' . $this->class . '"' : ' class="form-check-input"';
-		$disabled  = $this->disabled ? ' disabled' : '';
-		$value     = !empty($this->default) ? $this->default : '1';
-		$required  = $this->required ? ' required' : '';
-		$autofocus = $this->autofocus ? ' autofocus' : '';
-		$checked   = $this->checked || !empty($this->value) ? ' checked' : '';
+		$data            = parent::getLayoutData();
+		$data['value']   = $this->default ?: '1';
+		$data['checked'] = $this->checked || $this->value;
 
-		// Initialize JavaScript field attributes.
-		$onclick  = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-
-		$html = '<div class="form-check form-check-inline">';
-		$html .= '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
-				. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
-				. $required . $autofocus . '>';
-		$html .= '</div>';
-
-		return $html;
+		return $data;
 	}
 }

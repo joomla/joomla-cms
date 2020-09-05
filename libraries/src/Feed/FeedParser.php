@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Feed;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
 
@@ -179,7 +179,7 @@ abstract class FeedParser
 		// Otherwise we treat it like any other element.
 
 		// First call the internal method.
-		if (is_callable(array($this, $method)))
+		if (\is_callable(array($this, $method)))
 		{
 			$this->$method($feed, $el);
 		}
@@ -209,7 +209,7 @@ abstract class FeedParser
 			return $this->namespaces[$prefix];
 		}
 
-		$className = get_class($this) . ucfirst($prefix);
+		$className = \get_class($this) . ucfirst($prefix);
 
 		if (class_exists($className))
 		{

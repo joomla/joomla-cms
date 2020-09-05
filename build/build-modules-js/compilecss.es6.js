@@ -1,14 +1,15 @@
 const Fs = require('fs');
+const FsExtra = require('fs-extra');
 const Path = require('path');
 const Recurs = require('recursive-readdir');
 const UglyCss = require('uglifycss');
-const MakeDir = require('./utils/make-dir.es6.js');
 const CompileScss = require('./stylesheets/scss-transform.es6.js');
-const RootPath = require('./utils/rootpath.es6.js')._();
+
+const RootPath = process.cwd();
 
 /**
- * Method that will crawl the media_source folder and
- * compile any scss files to css and .min.css
+ * Method that will crawl the media_source folder
+ * and compile any scss files to css and .min.css
  * copy any css files to the appropriate destination and
  * minify them in place
  *
@@ -43,10 +44,18 @@ module.exports.compile = (options, path) => {
           `${RootPath}/templates/cassiopeia/scss/offline.scss`,
           `${RootPath}/templates/cassiopeia/scss/template.scss`,
           `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
-          `${RootPath}/administrator/templates/atum/scss/bootstrap.scss`,
-          `${RootPath}/administrator/templates/atum/scss/fontawesome.scss`,
+          `${RootPath}/templates/cassiopeia/scss/system/searchtools/searchtools.scss`,
+          `${RootPath}/templates/cassiopeia/scss/vendor/choicesjs/choices.scss`,
+          `${RootPath}/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
           `${RootPath}/administrator/templates/atum/scss/template.scss`,
           `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
+          `${RootPath}/administrator/templates/atum/scss/system/searchtools/searchtools.scss`,
+          `${RootPath}/administrator/templates/atum/scss/vendor/awesomplete/awesomplete.scss`,
+          `${RootPath}/administrator/templates/atum/scss/vendor/choicesjs/choices.scss`,
+          `${RootPath}/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss`,
+          `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
+          `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-tab.scss`,
+          `${RootPath}/administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome.scss`,
           `${RootPath}/installation/template/scss/template.scss`,
           `${RootPath}/installation/template/scss/template-rtl.scss`,
         ];
@@ -69,7 +78,7 @@ module.exports.compile = (options, path) => {
                 if (file.match(/\.css/)) {
                   // CSS file, we will copy the file and then minify it in place
                   // Ensure that the directories exist or create them
-                  MakeDir.run(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
+                  FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
                   Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
                   Fs.writeFileSync(
                     file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.css', '.min.css'),
@@ -93,7 +102,7 @@ module.exports.compile = (options, path) => {
           (scssFiles) => {
             scssFiles.forEach(
               (inputFile) => {
-                CompileScss.compile(inputFile, options);
+                CompileScss.compile(inputFile);
               },
             );
           },

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -266,6 +266,7 @@ class FeedTest extends UnitTestCase
 
 		$feedCategories = $this->feed->categories;
 		$this->assertCount(3, $feedCategories);
+
 		foreach ($categories as $category)
 		{
 			$this->assertArrayHasKey($category['name'], $feedCategories);
@@ -336,6 +337,7 @@ class FeedTest extends UnitTestCase
 
 		$feedContributors = $this->feed->contributors;
 		$this->assertCount(3, $feedContributors);
+
 		foreach ($contributors as $index => $contributor)
 		{
 			$this->assertEquals($contributor['name'], $feedContributors[$index]->name);

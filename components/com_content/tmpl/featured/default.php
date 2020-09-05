@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,12 +32,10 @@ defined('_JEXEC') or die;
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 						<?php
 						$this->item = & $item;
 						echo $this->loadTemplate('item');
 						?>
-					</div>
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
@@ -49,12 +47,10 @@ defined('_JEXEC') or die;
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<div class="blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-				<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 					<?php
 					$this->item = & $item;
 					echo $this->loadTemplate('item');
 					?>
-				</div>
 			</div>
 		<?php endforeach; ?>
 		</div>

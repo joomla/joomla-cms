@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * Important Notes:
@@ -78,7 +78,7 @@ namespace
 			// Clear OPcache
 			if (function_exists('opcache_reset'))
 			{
-				opcache_reset();
+				\opcache_reset();
 			}
 		}
 	}
@@ -90,7 +90,7 @@ namespace Joomla\CMS\Filesystem
 	if (!class_exists('File'))
 	{
 		/**
-		 * JFile mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+		 * JFile mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
 		 *
 		 * @since  3.5.1
 		 */
@@ -131,7 +131,7 @@ namespace Joomla\CMS\Filesystem
 	if (!class_exists('Folder'))
 	{
 		/**
-		 * Folder mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+		 * Folder mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
 		 *
 		 * @since  3.5.1
 		 */
@@ -174,7 +174,7 @@ namespace Joomla\CMS\Language
 	if (!class_exists('Text'))
 	{
 		/**
-		 * Text mock class proxing behaviour in the post-upgrade script to that of either native PHP or restore.php
+		 * Text mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
 		 *
 		 * @since  3.5.1
 		 */

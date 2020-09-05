@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\ApplicationHelper;
@@ -66,9 +66,7 @@ class ContentHelper
 			'2'  => 'count_archived',
 		);
 
-		$usesWorkflows = (isset($config->uses_workflows) && $config->uses_workflows === true);
-
-			// Index category objects by their ID
+		// Index category objects by their ID
 		$records = array();
 
 		foreach ($items as $item)
@@ -86,41 +84,35 @@ class ContentHelper
 		}
 
 		// Table alias for related data table below will be 'c', and state / condition column is inside related data table
-		$related_tbl = $db->quoteName('#__' . $config->related_tbl, 'c');
-		$state_col_prefix = $usesWorkflows ? 's.' : 'c.';
-		$state_col   = $db->quoteName($state_col_prefix . $config->state_col);
+		$related_tbl = '#__' . $config->related_tbl;
+		$state_col   = 'c.' . $config->state_col;
 
 		// Supported cases
 		switch ($config->relation_type)
 		{
 			case 'tag_assigments':
-				$recid_col = $db->quoteName('ct.' . $config->group_col);
+				$recid_col = 'ct.' . $config->group_col;
 
 				$query = $db->getQuery(true)
 					->from($db->quoteName('#__contentitem_tag_map', 'ct'))
-					->join('INNER', $related_tbl . ' ON ' . $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id') . ' AND ' .
-						$db->quoteName('ct.type_alias') . ' = ' . $db->quote($config->extension)
-					);
+					->join(
+						'INNER',
+						$db->quoteName($related_tbl, 'c'),
+						$db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id')
+						. ' AND ' . $db->quoteName('ct.type_alias') . ' = :extension'
+					)
+					->bind(':extension', $config->extension);
 				break;
 
 			case 'category_or_group':
-				$recid_col = $db->quoteName('c.' . $config->group_col);
+				$recid_col = 'c.' . $config->group_col;
 
 				$query = $db->getQuery(true)
-					->from($related_tbl);
+					->from($db->quoteName($related_tbl, 'c'));
 				break;
 
 			default:
 				return $items;
-		}
-
-		if ($usesWorkflows)
-		{
-			$query->from($db->quoteName('#__workflow_stages', 's'))
-				->from($db->quoteName('#__workflow_associations', 'a'))
-				->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'))
-				->where($db->quoteName('a.extension') . '= ' . $db->quote($config->workflows_component))
-				->where($db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'));
 		}
 
 		/**
@@ -128,14 +120,20 @@ class ContentHelper
 		 * NOTE: 'state IN', allows counting specific states / conditions only, also prevents warnings with custom states / conditions, do not remove
 		 */
 		$query
-			->select($recid_col . ' AS catid, ' . $state_col . ' AS state, COUNT(*) AS count')
-			->where($recid_col . ' IN (' . implode(',', array_keys($records)) . ')')
-			->where($state_col . ' IN (' . implode(',', array_keys($counter_names)) . ')')
-			->group($recid_col . ', ' . $state_col);
+			->select(
+				[
+					$db->quoteName($recid_col, 'catid'),
+					$db->quoteName($state_col, 'state'),
+					'COUNT(*) AS ' . $db->quoteName('count'),
+				]
+			)
+			->whereIn($db->quoteName($recid_col), array_keys($records))
+			->whereIn($db->quoteName($state_col), array_keys($counter_names))
+			->group($db->quoteName([$recid_col, $state_col]));
 
 		$relationsAll = $db->setQuery($query)->loadObjectList();
 
-		// Loop through the DB data overwritting the above zeros with the found count
+		// Loop through the DB data overwriting the above zeros with the found count
 		foreach ($relationsAll as $relation)
 		{
 			// Sanity check in case someone removes the state IN above ... and some views may start throwing warnings
@@ -257,9 +255,10 @@ class ContentHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('lang_id')
-			->from('#__languages')
-			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
+			->select($db->quoteName('lang_id'))
+			->from($db->quoteName('#__languages'))
+			->where($db->quoteName('lang_code') . ' = :language')
+			->bind(':language', $langCode);
 		$db->setQuery($query);
 
 		return $db->loadResult();

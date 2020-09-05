@@ -1,14 +1,14 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Step\Acceptance\Administrator;
 
+use Exception;
 use Page\Acceptance\Administrator\BannerListPage;
 
 /**
@@ -20,7 +20,18 @@ use Page\Acceptance\Administrator\BannerListPage;
  */
 class Banner extends Admin
 {
-
+	/**
+	 * Method to create a banner.
+	 *
+	 * @param   string  $title    Title
+	 * @param   string  $message  Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function createBanner($title, $message)
 	{
 		$I = $this;
@@ -31,13 +42,37 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to see success message.
+	 *
+	 * @param   string   $message  Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function assertSuccessMessage($message)
 	{
 		$I = $this;
-		$I->waitForText($message, TIMEOUT, BannerListPage::$systemMessageContainer);
+		$I->waitForText($message, $I->getConfig('timeout'), BannerListPage::$systemMessageContainer);
 		$I->see($message, BannerListPage::$systemMessageContainer);
 	}
 
+	/**
+	 * Method to modify a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $updatedTitle  Update Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function modifyBanner($bannerTitle, $updatedTitle, $message)
 	{
 		$I = $this;
@@ -46,18 +81,30 @@ class Banner extends Admin
 		$I->click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
 		$I->click($bannerTitle);
-		$I->waitForElement(BannerListPage::$titleField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$titleField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$titleField, $updatedTitle);
 		$I->fillField(BannerListPage::$aliasField, $updatedTitle);
 		$I->clickToolbarButton('Save & Close');
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to publish a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function publishBanner($bannerTitle, $message)
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -65,11 +112,23 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to unpublish a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function unpublishBanner($bannerTitle, $message)
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -77,11 +136,23 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to checkin a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function checkInBanner($bannerTitle, $message)
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -89,11 +160,23 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to trash a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function trashBanner($bannerTitle, $message)
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -101,11 +184,23 @@ class Banner extends Admin
 		$I->assertSuccessMessage($message);
 	}
 
+	/**
+	 * Method to delete a banner.
+	 *
+	 * @param   string   $bannerTitle   Banner Title
+	 * @param   string   $message       Message
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
 	public function deleteBanner($bannerTitle, $message)
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->selectOptionInChosenByIdUsingJs('filter_published', "Trashed");
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);

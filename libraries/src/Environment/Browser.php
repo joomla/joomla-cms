@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Environment;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Browser class, provides capability information about the current web client.
@@ -514,7 +514,7 @@ class Browser
 	public function match($userAgent = null, $accept = null)
 	{
 		// Set our agent string.
-		if (is_null($userAgent))
+		if (\is_null($userAgent))
 		{
 			if (isset($_SERVER['HTTP_USER_AGENT']))
 			{
@@ -529,7 +529,7 @@ class Browser
 		$this->lowerAgent = strtolower($this->agent);
 
 		// Set our accept string.
-		if (is_null($accept))
+		if (\is_null($accept))
 		{
 			if (isset($_SERVER['HTTP_ACCEPT']))
 			{
@@ -577,6 +577,16 @@ class Browser
 					$this->majorVersion = $version[1];
 					$this->minorVersion = 0;
 				}
+			}
+			/*
+			 * We have to check for Edge as the first browser, because Edge has something like:
+			 * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3738.0 Safari/537.36 Edg/75.0.107.0
+			 */
+			elseif (preg_match('|Edg\/([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('edg');
+
+				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('|Opera[\/ ]([0-9.]+)|', $this->agent, $version))
 			{
@@ -927,14 +937,14 @@ class Browser
 			{
 				$wildcard_match = true;
 
-				if ($type != 'image')
+				if ($type !== 'image')
 				{
 					return true;
 				}
 			}
 
 			// Deal with Mozilla pjpeg/jpeg issue
-			if ($this->isBrowser('mozilla') && ($mimetype == 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
+			if ($this->isBrowser('mozilla') && ($mimetype === 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
 			{
 				return true;
 			}
@@ -945,12 +955,12 @@ class Browser
 			}
 		}
 
-		if ($type != 'image')
+		if ($type !== 'image')
 		{
 			return false;
 		}
 
-		return in_array($subtype, $this->images);
+		return \in_array($subtype, $this->images);
 	}
 
 	/**

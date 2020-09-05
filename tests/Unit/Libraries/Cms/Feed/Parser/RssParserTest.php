@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,12 +35,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleCategory()
 	{
 		$category = 'IT/Internet/Web development';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement("<category>$category</category>");
 
@@ -64,6 +65,7 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleCloud()
 	{
@@ -75,22 +77,30 @@ class RssParserTest extends UnitTestCase
 			'protocol' => 'xml-rpc',
 		];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-		$xmlElement = new SimpleXMLElement('<cloud domain="' . $cloud['domain'] . '" port="' . $cloud['port'] . '" path="' . $cloud['path'] . '" registerProcedure="' . $cloud['registerProcedure'] . '" protocol="' . $cloud['protocol'] . '" />');
+		$xmlElement = new SimpleXMLElement('<cloud domain="' . $cloud['domain'] . '" port="' . $cloud['port'] .
+			'" path="' . $cloud['path'] . '" registerProcedure="' . $cloud['registerProcedure'] .
+			'" protocol="' . $cloud['protocol'] . '" />'
+		);
 
 		$feedMock = $this->createMock(Feed::class);
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('cloud', $this->callback(function ($value) use ($cloud) {
-				return is_object($value)
-					&& $value->domain === $cloud['domain']
-					&& $value->port === $cloud['port']
-					&& $value->path === $cloud['path']
-					&& $value->registerProcedure ===$cloud['registerProcedure']
-					&& $value->protocol ===$cloud['protocol'];
-			}));
+			->with('cloud',
+				$this->callback(
+					function ($value) use ($cloud)
+					{
+						return is_object($value)
+							&& $value->domain === $cloud['domain']
+							&& $value->port === $cloud['port']
+							&& $value->path === $cloud['path']
+							&& $value->registerProcedure === $cloud['registerProcedure']
+							&& $value->protocol === $cloud['protocol'];
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -106,12 +116,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleCopyright()
 	{
 		$copyright = 'All Rights Reserved.';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<rights>' . $copyright . '</rights>');
 
@@ -135,12 +146,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleDescription()
 	{
 		$subtitle = 'Lorem Ipsum ...';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<description>' . $subtitle . '</description>');
 
@@ -164,12 +176,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleGenerator()
 	{
 		$generator = 'Joomla';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<generator>' . $generator . '</generator>');
 
@@ -193,6 +206,7 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleImage()
 	{
@@ -203,25 +217,33 @@ class RssParserTest extends UnitTestCase
 			'description' => 'Some description',
 		];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-		$xmlElement = new SimpleXMLElement('<image><url>' . $image['url'] . '</url><title>' . $image['title'] . '</title><link>' . $image['link'] . '</link><description>' . $image['description'] . '</description></image>');
+		$xmlElement = new SimpleXMLElement('<image><url>' . $image['url'] . '</url><title>' . $image['title'] .
+			'</title><link>' . $image['link'] . '</link><description>' . $image['description'] .
+			'</description></image>'
+		);
 
 		$feedMock = $this->createMock(Feed::class);
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('image', $this->callback(function ($value) use ($image) {
-				return $value instanceOf FeedLink
-					&& $value->uri === $image['url']
-					&& $value->relation === null
-					&& $value->type === 'logo'
-					&& $value->language === null
-					&& $value->title === $image['title']
-					&& $value->description === $image['description']
-					&& $value->height === ''
-					&& $value->width === '';
-			}));
+			->with('image',
+				$this->callback(
+					function ($value) use ($image)
+					{
+						return $value instanceOf FeedLink
+							&& $value->uri === $image['url']
+							&& $value->relation === null
+							&& $value->type === 'logo'
+							&& $value->language === null
+							&& $value->title === $image['title']
+							&& $value->description === $image['description']
+							&& $value->height === ''
+							&& $value->width === '';
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -237,12 +259,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleLanguage()
 	{
 		$language = 'en-US';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<language>' . $language . '</language>');
 
@@ -266,12 +289,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleLastBuildDate()
 	{
 		$buildDate = 'Sat, 01 Jan 2011 00:00:00 UTC';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<lastBuildDate>' . $buildDate . '</lastBuildDate>');
 
@@ -295,12 +319,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleLink()
 	{
 		$link = 'http://domain.com/path/to/resource';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement("<link href='$link' />");
 
@@ -308,9 +333,14 @@ class RssParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('link', $this->callback(function ($value) use ($link) {
-				return $value instanceOf FeedLink && $value->uri === $link;
-			}));
+			->with('link',
+				$this->callback(
+					function ($value) use ($link)
+					{
+						return $value instanceOf FeedLink && $value->uri === $link;
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -326,6 +356,7 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleManagingEditor()
 	{
@@ -334,7 +365,7 @@ class RssParserTest extends UnitTestCase
 			'email' => 'editor@domain.com'
 		];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<managingEditor>' . $editor['email'] . ' ' . $editor['name'] . '</managingEditor>');
 
@@ -342,11 +373,16 @@ class RssParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('author', $this->callback(function ($value) use ($editor) {
-				return $value instanceOf FeedPerson
-					&& $value->name === $editor['name']
-					&& $value->email === $editor['email'];
-			}));
+			->with('author',
+				$this->callback(
+					function ($value) use ($editor)
+					{
+						return $value instanceOf FeedPerson
+							&& $value->name === $editor['name']
+							&& $value->email === $editor['email'];
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -362,12 +398,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandlePubDate()
 	{
 		$pubDate = 'Sat, 01 Jan 2011 00:00:00 GMT';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<pubDate>' . $pubDate . '</pubDate>');
 
@@ -391,12 +428,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleSkipDays()
 	{
 		$skipDays = ['Saturday', 'Sunday'];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<skipDays><day>' . $skipDays[0] . '</day><day>' . $skipDays[1] . '</day></skipDays>');
 
@@ -420,12 +458,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleSkipHours()
 	{
 		$skipHours = ['0', '10'];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<skipHours><hour>' . $skipHours[0] . '</hour><hour>' . $skipHours[1] . '</hour></skipHours>');
 
@@ -449,12 +488,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleTitle()
 	{
 		$title = 'My Title.';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement("<title>$title</title>");
 
@@ -478,12 +518,13 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleTtl()
 	{
 		$ttl = '45';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement("<ttl>$ttl</ttl>");
 
@@ -507,6 +548,7 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleWebmaster()
 	{
@@ -515,7 +557,7 @@ class RssParserTest extends UnitTestCase
 			'email' => 'webmaster@domain.com'
 		];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<webmaster>' . $webmaster['email'] . ' ' . $webmaster['name'] . '</webmaster>');
 
@@ -536,18 +578,22 @@ class RssParserTest extends UnitTestCase
 	/**
 	 * Tests RssParser::initialise()
 	 *
+	 * @return void
 	 * @since         3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testInitialiseSetsVersion()
 	{
 		$version = '2.0';
 
 		$readerMock = $this->createMock(XMLReader::class);
+
 		$readerMock
 			->expects($this->once())
 			->method('getAttribute')
 			->with('version')
 			->willReturn($version);
+
 		$readerMock
 			->expects($this->any())
 			->method('read')
@@ -571,6 +617,7 @@ class RssParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testProcessFeedEntry()
 	{
@@ -587,7 +634,7 @@ class RssParserTest extends UnitTestCase
 			'enclosureType' => 'video/wmv',
 		];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement(
 			'<entry>
@@ -597,10 +644,13 @@ class RssParserTest extends UnitTestCase
 				<description>' . $entry['description'] . '</description>
 				<category>' . $entry['category'] . '</category>
 				<author>' . $entry['authorEmail'] . ' (' . $entry['authorName'] . ')</author>
-				<enclosure url="' . $entry['enclosureUrl'] . '" length="' . $entry['enclosureLength'] . '" type="' . $entry['enclosureType'] . '" />
+				<enclosure url="' . $entry['enclosureUrl'] . '" length="' . $entry['enclosureLength'] .
+			'" type="' . $entry['enclosureType'] . '" />
 			</entry>'
 		);
+
 		$feedEntryMock = $this->createMock(FeedEntry::class);
+
 		$feedEntryMock
 			->expects($this->any())
 			->method('__set')
@@ -613,25 +663,36 @@ class RssParserTest extends UnitTestCase
 				['guid', ''],
 				['isPermaLink', true],
 				['comments', ''],
-				['author', $this->callback(function($value) use ($entry) {
-					return $value instanceof FeedPerson
-						&& $value->name === $entry['authorName']
-						&& $value->email === $entry['authorEmail'];
-				})]
+				['author', $this->callback(
+					function ($value) use ($entry)
+					{
+						return $value instanceof FeedPerson
+							&& $value->name === $entry['authorName']
+							&& $value->email === $entry['authorEmail'];
+					}
+				)
+				]
 			);
+
 		$feedEntryMock
 			->expects($this->once())
 			->method('addCategory')
 			->with($entry['category'], '');
+
 		$feedEntryMock
 			->expects($this->once())
 			->method('addLink')
-			->with($this->callback(function($value) use ($entry) {
-				return $value instanceof FeedLink
-					&& $value->uri === $entry['enclosureUrl']
-					&& $value->type === $entry['enclosureType']
-					&& $value->length === (int) $entry['enclosureLength'];
-			}));
+			->with(
+				$this->callback(
+					function ($value) use ($entry)
+					{
+						return $value instanceof FeedLink
+							&& $value->uri === $entry['enclosureUrl']
+							&& $value->type === $entry['enclosureType']
+							&& $value->length === (int) $entry['enclosureLength'];
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));

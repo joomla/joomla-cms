@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Http\Transport;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
@@ -17,7 +17,7 @@ use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
-use Zend\Diactoros\Stream as StreamResponse;
+use Laminas\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using PHP streams.
@@ -66,7 +66,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			}
 
 			// Add the relevant headers.
-			$headers['Content-Length'] = strlen($options['content']);
+			$headers['Content-Length'] = \strlen($options['content']);
 		}
 
 		// If an explicit timeout is given user it.
@@ -143,7 +143,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			)
 		);
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($uri instanceof Uri && $this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
 			$uri->setUser($this->getOption('userauth'));
@@ -241,6 +241,6 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fopen') && is_callable('fopen') && ini_get('allow_url_fopen');
+		return \function_exists('fopen') && \is_callable('fopen') && ini_get('allow_url_fopen');
 	}
 }

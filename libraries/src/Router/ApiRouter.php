@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Router;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
@@ -26,7 +26,7 @@ class ApiRouter extends Router
 	/**
 	 * The application object
 	 *
-	 * @type   CMSApplicationInterface
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -58,17 +58,17 @@ class ApiRouter extends Router
 	 *
 	 * @since   4.0.0
 	 */
-	public function createCRUDRoutes($baseName, $controller, $defaults = array(), $publicGets = false)
+	public function createCRUDRoutes($baseName, $controller, $defaults = [], $publicGets = false)
 	{
-		$getDefaults = array_merge(array('public' => $publicGets), $defaults);
+		$getDefaults = array_merge(['public' => $publicGets], $defaults);
 
-		$routes = array(
+		$routes = [
 			new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
 			new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '(\d+)'], $getDefaults),
 			new Route(['POST'], $baseName, $controller . '.add', [], $defaults),
-			new Route(['PUT'], $baseName . '/:id', $controller . '.edit', ['id' => '(\d+)'], $defaults),
+			new Route(['PATCH'], $baseName . '/:id', $controller . '.edit', ['id' => '(\d+)'], $defaults),
 			new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '(\d+)'], $defaults),
-		);
+		];
 
 		$this->addRoutes($routes);
 	}
@@ -89,7 +89,7 @@ class ApiRouter extends Router
 
 		$validMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "PATCH"];
 
-		if (!in_array($method, $validMethods))
+		if (!\in_array($method, $validMethods))
 		{
 			throw new \InvalidArgumentException(sprintf('%s is not a valid HTTP method.', $method));
 		}
@@ -113,27 +113,17 @@ class ApiRouter extends Router
 		}
 
 		// Remove the base URI path.
-		$path = substr_replace($path, '', 0, strlen($baseUri));
+		$path = substr_replace($path, '', 0, \strlen($baseUri));
 
-		if (!$this->app->get('sef_rewrite'))
-		{
-			// Transform the route
-			if ($path === 'index.php')
-			{
-				$path = '';
-			}
-			else
-			{
-				$path = str_replace('index.php/', '', $path);
-			}
-		}
+		// Transform the route
+		$path = $this->removeIndexPhpFromPath($path);
 
 		$query = Uri::getInstance()->getQuery(true);
 
 		// Iterate through all of the known routes looking for a match.
 		foreach ($this->routes as $route)
 		{
-			if (in_array($method, $route->getMethods()))
+			if (\in_array($method, $route->getMethods()))
 			{
 				if (preg_match($route->getRegex(), ltrim($path, '/'), $matches))
 				{
@@ -158,5 +148,35 @@ class ApiRouter extends Router
 		}
 
 		throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $path));
+	}
+
+	/**
+	 * Removes the index.php from the route's path.
+	 *
+	 * @param   string  $path
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	private function removeIndexPhpFromPath(string $path): string
+	{
+		// Normalize the path
+		$path = ltrim($path, '/');
+
+		// We can only remove index.php if it's present in the beginning of the route
+		if (strpos($path, 'index.php') !== 0)
+		{
+			return $path;
+		}
+
+		// Edge case: the route is index.php without a trailing slash. Bad idea but we can still map it to a null route.
+		if ($path === 'index.php')
+		{
+			return '';
+		}
+
+		// Remove the "index.php/" part of the route and return the result.
+		return substr($path, 10);
 	}
 }

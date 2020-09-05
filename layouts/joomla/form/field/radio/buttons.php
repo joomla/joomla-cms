@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-extract($displayData, null);
+extract($displayData);
 
 /**
  * Layout variables
@@ -38,6 +38,8 @@ extract($displayData, null);
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  * @var   array    $options         Options available for this field.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 $alt         = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
@@ -77,6 +79,10 @@ if ($readonly || $disabled)
 	$attribs[] = 'style="pointer-events: none"';
 }
 
+if ($dataAttribute)
+{
+	$attribs[] = $dataAttribute;
+}
 ?>
 <fieldset id="<?php echo $id; ?>" >
 	<div <?php echo implode(' ', $attribs); ?>>
@@ -111,7 +117,7 @@ if ($readonly || $disabled)
 			$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 			$oid        = $id . $i;
 			$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-			$attributes = array_filter(array($checked, $optionClass, $disabled, $style, $onchange, $onclick));
+			$attributes = array_filter(array($checked, $disabled, $style, $onchange, $onclick));
 			?>
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required'; ?>

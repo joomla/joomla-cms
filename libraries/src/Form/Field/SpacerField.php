@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -61,7 +61,7 @@ class SpacerField extends FormField
 		$html[] = '<span class="before"></span>';
 		$html[] = '<span' . $class . '>';
 
-		if ((string) $this->element['hr'] == 'true')
+		if ((string) $this->element['hr'] === 'true')
 		{
 			$html[] = '<hr' . $class . '>';
 		}

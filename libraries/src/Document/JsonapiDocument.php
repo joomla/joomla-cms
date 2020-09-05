@@ -3,13 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Tobscure\JsonApi\Document;
@@ -46,7 +46,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 		$this->_mime = 'application/vnd.api+json';
 		$this->_type = 'jsonapi';
 
-		if (array_key_exists('api_document', $options) && $options['api_document'] instanceof Document)
+		if (\array_key_exists('api_document', $options) && $options['api_document'] instanceof Document)
 		{
 			$this->document = $options['api_document'];
 		}

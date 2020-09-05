@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,4 +25,4 @@ define('JPATH_THEMES',        JPATH_BASE);
 define('JPATH_CACHE',         JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache');
 define('JPATH_MANIFESTS',     JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
 define('JPATH_API',           JPATH_ROOT . DIRECTORY_SEPARATOR . 'api');
-
+define('JPATH_CLI',           JPATH_ROOT . DIRECTORY_SEPARATOR . 'cli');

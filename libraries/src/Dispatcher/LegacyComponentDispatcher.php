@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Dispatcher;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
@@ -62,10 +62,10 @@ class LegacyComponentDispatcher implements DispatcherInterface
 		$lang = $this->app->getLanguage();
 
 		// Load common and local language files.
-		$lang->load($this->app->scope, JPATH_BASE, null, false, true) || $lang->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+		$lang->load($this->app->scope, JPATH_BASE) || $lang->load($this->app->scope, JPATH_COMPONENT);
 
 		// Execute the component
-		$loader = static function($path){
+		$loader = static function ($path) {
 			require_once $path;
 		};
 		$loader($path);

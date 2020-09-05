@@ -1,35 +1,52 @@
 {
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "joomla",
   "version": "4.0.0",
   "description": "Joomla CMS",
-  "license": "GPL-2.0+",
-  "assets": {
-    "jquery-noconflict": {
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
       "name": "jquery-noconflict",
+      "type": "script",
       "dependencies": [
         "jquery"
       ],
-      "js": [
-        "media/legacy/js/jquery-noconflict.min.js"
-      ]
+      "uri": "legacy/jquery-noconflict.min.js"
     },
-    "jquery.ui.core": {
-      "name": "jquery.ui.core",
+    {
+      "name": "joomla.frontediting",
+      "type": "style",
+      "uri": "system/frontediting.css"
+    },
+    {
+      "name": "joomla.frontediting",
+      "type": "script",
       "dependencies": [
         "jquery"
       ],
-      "js": [
-        "media/vendor/jquery-ui/js/jquery.ui.core.js"
+      "uri": "legacy/frontediting.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "joomla.frontediting",
+      "type": "preset",
+      "dependencies": [
+        "joomla.frontediting#style",
+        "joomla.frontediting#script"
       ]
     },
-    "jquery.ui.sortable": {
-      "name": "jquery.ui.sortable",
+    {
+      "name": "joomla.treeselectmenu",
+      "type": "script",
       "dependencies": [
-        "jquery.ui.core"
+        "jquery"
       ],
-      "js": [
-        "media/vendor/jquery-ui/js/jquery.ui.sortable.js"
-      ]
+      "uri": "legacy/treeselectmenu.min.js",
+      "attributes": {
+        "defer": true
+      }
     }
-  }
+  ]
 }

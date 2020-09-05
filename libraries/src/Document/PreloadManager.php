@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Fig\Link\GenericLinkProvider;
 use Fig\Link\Link;
@@ -100,7 +100,7 @@ class PreloadManager implements PreloadManagerInterface
 	}
 
 	/**
-	 * Initiates a early connection to a resource (DNS resolution, TCP handshake, TLS negotiation).
+	 * Initiates an early connection to a resource (DNS resolution, TCP handshake, TLS negotiation).
 	 *
 	 * @param   string  $uri         A public path
 	 * @param   array   $attributes  The attributes of this link (e.g. "array('as' => true)", "array('pr' => 0.5)")

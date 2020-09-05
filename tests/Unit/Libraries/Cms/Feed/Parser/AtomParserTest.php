@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,6 +33,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleAuthor()
 	{
@@ -42,7 +43,7 @@ class AtomParserTest extends UnitTestCase
 			'uri' => 'http://doe.name',
 		];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<author/>');
 		$xmlElement->name = $author['name'];
@@ -69,6 +70,7 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleContributor()
 	{
@@ -78,7 +80,7 @@ class AtomParserTest extends UnitTestCase
 			'uri' => 'http://doe.name',
 		];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<contributor />');
 		$xmlElement->name = $contributor['name'];
@@ -105,12 +107,13 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleGenerator()
 	{
 		$generator = 'Joomla';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<generator>' . $generator . '</generator>');
 
@@ -134,12 +137,13 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleId()
 	{
 		$id = 'http://domain.com/path/to/resource';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<id>' . $id . '</id>');
 
@@ -163,12 +167,13 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleLink()
 	{
 		$href = 'http://domain.com/path/to/resource';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<link href="' . $href . '" />');
 
@@ -176,9 +181,14 @@ class AtomParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('link', $this->callback(function ($param) use ($href) {
-				return $param instanceof FeedLink && $param->uri === $href;
-			}));
+			->with('link',
+				$this->callback(
+					function ($param) use ($href)
+					{
+						return $param instanceof FeedLink && $param->uri === $href;
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$atomParser = new AtomParser($this->createMock(XMLReader::class));
@@ -194,12 +204,13 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleRights()
 	{
 		$copyright = 'All Rights Reserved.';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<rights>' . $copyright . '</rights>');
 
@@ -223,12 +234,13 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleSubtitle()
 	{
 		$subtitle = 'Lorem Ipsum ...';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<subtitle>' . $subtitle . '</subtitle>');
 
@@ -252,12 +264,13 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleTitle()
 	{
 		$title = 'My Title.';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<title>' . $title . '</title>');
 
@@ -281,12 +294,13 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleUpdated()
 	{
 		$date = '2019-01-01T00:00:00Z';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<updated>' . $date . '</updated>');
 
@@ -307,7 +321,9 @@ class AtomParserTest extends UnitTestCase
 	/**
 	 * Tests AtomParser::initialise()
 	 *
+	 * @return void
 	 * @since         3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testInitialiseSetsDefaultVersion()
 	{
@@ -333,7 +349,9 @@ class AtomParserTest extends UnitTestCase
 	/**
 	 * Tests AtomParser::initialise()
 	 *
+	 * @return void
 	 * @since         3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testInitialiseSetsOldVersion()
 	{
@@ -362,12 +380,15 @@ class AtomParserTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testProcessFeedEntry()
 	{
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
-		$xmlElement = new SimpleXMLElement('<entry><id>http://example.com/id</id><title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>');
+		$xmlElement = new SimpleXMLElement('<entry><id>http://example.com/id</id>
+			<title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>'
+		);
 
 		$feedEntryMock = $this->createMock(FeedEntry::class);
 		$feedEntryMock

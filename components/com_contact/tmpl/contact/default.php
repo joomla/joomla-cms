@@ -3,22 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
-$cparams = ComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
+$canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
+$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === Factory::getUser()->id);
 ?>
 
 <div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
@@ -39,6 +41,21 @@ $tparams = $this->item->params;
 		</div>
 	<?php endif; ?>
 
+	<?php if ($canEdit) : ?>
+		<div class="icons">
+			<div class="btn-group float-right">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $this->item->id; ?>"
+					aria-label="<?php echo Text::_('JUSER_TOOLS'); ?>"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fas fa-cog" aria-hidden="true"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $this->item->id; ?>">
+					<li class="edit-icon"> <?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?> </li>
+				</ul>
+			</div>
+		</div>
+	<?php endif; ?>
+
 	<?php $show_contact_category = $tparams->get('show_contact_category'); ?>
 
 	<?php if ($show_contact_category === 'show_no_link') : ?>
@@ -46,7 +63,7 @@ $tparams = $this->item->params;
 			<span class="contact-category"><?php echo $this->item->category_title; ?></span>
 		</h3>
 	<?php elseif ($show_contact_category === 'show_with_link') : ?>
-		<?php $contactLink = ContactHelperRoute::getCategoryRoute($this->item->catid, $this->item->language); ?>
+		<?php $contactLink = RouteHelper::getCategoryRoute($this->item->catid, $this->item->language); ?>
 		<h3>
 			<span class="contact-category"><a href="<?php echo $contactLink; ?>">
 				<?php echo $this->escape($this->item->category_title); ?></a>

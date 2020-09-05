@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
 
 $user = Factory::getUser();
@@ -32,7 +34,7 @@ if ($show_description)
 	// Make sure we highlight term both in introtext and fulltext
 	if (!empty($this->result->summary) && !empty($this->result->body))
 	{
-		$full_description = FinderIndexerHelper::parse($this->result->summary . $this->result->body);
+		$full_description = Helper::parse($this->result->summary . $this->result->body);
 	}
 	else
 	{
@@ -52,52 +54,54 @@ if ($show_description)
 	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
 ?>
-<dt class="result-title">
-	<h4 class="result-title <?php echo $mime; ?>">
-		<?php if ($this->result->route) : ?>
-			<a href="<?php echo Route::_($this->result->route); ?>">
+<li class="result-title">
+	<header class="result-title">
+		<h4 class="result-title <?php echo $mime; ?>">
+			<?php if ($this->result->route) : ?>
+				<a href="<?php echo Route::_($this->result->route); ?>">
+					<?php echo $this->result->title; ?>
+				</a>
+			<?php else : ?>
 				<?php echo $this->result->title; ?>
-			</a>
-		<?php else : ?>
-			<?php echo $this->result->title; ?>
-		<?php endif; ?>
-	</h4>
-</dt>
-
-<?php $taxonomies = $this->result->getTaxonomy(); ?>
-<?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
-	<dd class="result-taxonomy">
-	<?php foreach ($taxonomies as $type => $taxonomy) : ?>
-		<?php $branch = FinderIndexerTaxonomy::getBranch($type); ?>
-		<?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
-			<?php
-			$taxonomy_text = array();
-
-			foreach ($taxonomy as $node) :
-				if ($node->state == 1 && in_array($node->access, $user->getAuthorisedViewLevels())) :
-					$taxonomy_text[] = $node->title;
-				endif;
-			endforeach;
-
-			if (count($taxonomy_text)) : ?>
-				<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', $taxonomy_text); ?></span>
 			<?php endif; ?>
-		<?php endif; ?>
-	<?php endforeach; ?>
-	</dd>
-<?php endif; ?>
-<?php if ($show_description && $description !== '') : ?>
-	<dd class="result-text">
-		<?php echo $description; ?>
-	</dd>
-<?php endif; ?>
-<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
-	<dd class="result-date small">
-		<?php echo HTMLHelper::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
-	</dd>
-<?php endif; ?>
-<?php if ($this->params->get('show_url', 1)) : ?>
-	<dd class="result-url small">
-		<?php echo $this->baseUrl, Route::_($this->result->cleanURL); ?>
-	</dd>
-<?php endif; ?>
+		</h4>
+	</header>
+
+	<?php $taxonomies = $this->result->getTaxonomy(); ?>
+	<?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
+		<p class="result-taxonomy">
+		<?php foreach ($taxonomies as $type => $taxonomy) : ?>
+			<?php $branch = Taxonomy::getBranch($type); ?>
+			<?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
+				<?php
+				$taxonomy_text = array();
+
+				foreach ($taxonomy as $node) :
+					if ($node->state == 1 && in_array($node->access, $user->getAuthorisedViewLevels())) :
+						$taxonomy_text[] = $node->title;
+					endif;
+				endforeach;
+
+				if (count($taxonomy_text)) : ?>
+					<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', $taxonomy_text); ?></span>
+				<?php endif; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
+		</p>
+	<?php endif; ?>
+	<?php if ($show_description && $description !== '') : ?>
+		<p class="result-text">
+			<?php echo $description; ?>
+		</p>
+	<?php endif; ?>
+	<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
+		<time class="result-date small">
+			<?php echo HTMLHelper::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
+		</time>
+	<?php endif; ?>
+	<?php if ($this->params->get('show_url', 1)) : ?>
+		<p class="result-url small">
+			<?php echo $this->baseUrl, Route::_($this->result->cleanURL); ?>
+		</p>
+	<?php endif; ?>
+</li>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,17 +19,17 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // Create some shortcuts.
-$params     = &$this->item->params;
 $n          = count($this->items);
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $langFilter = false;
 
-// Tags filtering based on language filter 
+// Tags filtering based on language filter
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled()))
-{ 
+{
 	$tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
 	switch ($tagfilter)
@@ -180,14 +180,14 @@ if (!empty($this->items))
 		<?php endif; ?>
 		<tbody>
 		<?php foreach ($this->items as $i => $article) : ?>
-			<?php if ($this->items[$i]->stage_condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+			<?php if ($this->items[$i]->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 				<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 			<?php else : ?>
 				<tr class="cat-list-row<?php echo $i % 2; ?>" >
 			<?php endif; ?>
 			<td headers="categorylist_header_title" class="list-title">
 				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
-					<a href="<?php echo Route::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
+					<a href="<?php echo Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 						<?php echo $this->escape($article->title); ?>
 					</a>
 					<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
@@ -198,7 +198,7 @@ if (!empty($this->items))
 								&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
 								<?php $class = 'badge badge-secondary badge-' . $association['language']->sef; ?>
-								&nbsp;<a class="<?php echo $class; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+								&nbsp;<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
@@ -207,7 +207,7 @@ if (!empty($this->items))
 					echo $this->escape($article->title) . ' : ';
 					$itemId = Factory::getApplication()->getMenu()->getActive()->id;
 					$link   = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-					$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)));
+					$link->setVar('return', base64_encode(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)));
 					?>
 					<a href="<?php echo $link; ?>" class="register">
 						<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
@@ -220,12 +220,12 @@ if (!empty($this->items))
 								&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 							<?php else : ?>
 								<?php $class = 'badge badge-secondary badge-' . $association['language']->sef; ?>
-								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+								&nbsp;<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 							<?php endif; ?>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endif; ?>
-				<?php if ($article->stage_condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+				<?php if ($article->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 					<span class="list-published badge badge-warning">
 						<?php echo Text::_('JUNPUBLISHED'); ?>
 					</span>
@@ -235,7 +235,7 @@ if (!empty($this->items))
 						<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 					</span>
 				<?php endif; ?>
-				<?php if ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()) : ?>
+				<?php if (!is_null($article->publish_down) && strtotime($article->publish_down) < strtotime(Factory::getDate())) : ?>
 					<span class="list-published badge badge-warning">
 						<?php echo Text::_('JEXPIRED'); ?>
 					</span>
@@ -287,7 +287,7 @@ if (!empty($this->items))
 			<?php if ($isEditable) : ?>
 				<td headers="categorylist_header_edit" class="list-edit">
 					<?php if ($article->params->get('access-edit')) : ?>
-						<?php echo HTMLHelper::_('contenticon.edit', $article, $params); ?>
+						<?php echo HTMLHelper::_('contenticon.edit', $article, $article->params); ?>
 					<?php endif; ?>
 				</td>
 			<?php endif; ?>

@@ -3,13 +3,12 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Overridecheck
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -61,7 +60,7 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			return array();
 		}
@@ -80,13 +79,13 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 		Text::script('PLG_QUICKICON_OVERRIDECHECK_UPTODATE', true);
 		Text::script('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND', true);
 
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', 'plg_quickicon_overridecheck/overridecheck.js', array('version' => 'auto', 'relative' => true));
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_quickicon_overridecheck', 'plg_quickicon_overridecheck/overridecheck.js', [], ['defer' => true], ['core']);
 
 		return array(
 			array(
 				'link'  => 'index.php?option=com_templates&view=templates',
-				'image' => 'fa fa-file',
+				'image' => 'fas fa-file',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
 				'id'    => 'plg_quickicon_overridecheck',

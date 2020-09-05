@@ -3,11 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -47,8 +47,8 @@ extract($displayData);
  * @var   array    $translateLabel         Should the label be translated?
  * @var   array    $translateDescription   Should the description be translated?
  * @var   array    $translateHint          Should the hint be translated?
- * @var   array    $privacyArticle         The Article ID holding the Privancy Article
- * $var   object   $article                The Article object
+ * @var   array    $privacyArticle         The Article ID holding the Privacy Article
+ * @var   object   $article                The Article object
  */
 
 // Get the label text from the XML element, defaulting to the element name.
@@ -82,33 +82,34 @@ if (Factory::getLanguage()->isRtl())
 	$label .= ' data-placement="left"';
 }
 
-$attribs                = [];
-$attribs['data-toggle'] = 'modal';
-$attribs['data-target'] = '#consentModal';
-
 if ($article)
 {
+	$attribs = [
+		'data-toggle' => 'modal',
+		'data-target' => '#consentModal',
+	];
+
 	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+
+	echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'consentModal',
+		[
+			'url'    => Route::_($article->link . '&tmpl=component'),
+			'title'  => $text,
+			'height' => '100%',
+			'width'  => '100%',
+			'modalWidth'  => '800',
+			'bodyHeight'  => '500',
+			'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+				. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+		]
+	);
 }
 else
 {
 	$link = $text;
 }
-
-echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'consentModal',
-	array(
-		'url'    => Route::_($article->link . '&tmpl=component'),
-		'title'  => $text,
-		'height' => '100%',
-		'width'  => '100%',
-		'modalWidth'  => '800',
-		'bodyHeight'  => '500',
-		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-	)
-);
 
 // Add the label text and closing tag.
 $label .= '>' . $link . '<span class="star">&#160;*</span></label>';

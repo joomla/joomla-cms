@@ -3,17 +3,17 @@
 	<fieldset>
 		<field
 			name="user_id_to"
-			type="usermessages"
+			type="UserMessages"
 			label="COM_MESSAGES_FIELD_USER_ID_TO_LABEL"
 			default="0"
-			required="true" 
+			required="true"
 		/>
 
 		<field
 			name="subject"
 			type="text"
 			label="COM_MESSAGES_FIELD_SUBJECT_LABEL"
-			required="true" 
+			required="true"
 		/>
 
 		<field
@@ -22,7 +22,7 @@
 			label="COM_MESSAGES_FIELD_MESSAGE_LABEL"
 			required="true"
 			filter="JComponentHelper::filterText"
-			buttons="false" 
+			buttons="false"
 		/>
 	</fieldset>
 </form>

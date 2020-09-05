@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_similar
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ if (!$list)
 					<?php echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8'); ?>
 				<?php endif; ?>
 			<?php else : ?>
-                <a href="<?php echo Route::_($item->link); ?>">
+				<a href="<?php echo Route::_($item->link); ?>">
 					<?php if (!empty($item->core_title)) : ?>
 						<?php echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8'); ?>
 					<?php endif; ?>

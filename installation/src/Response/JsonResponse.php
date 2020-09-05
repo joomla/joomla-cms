@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class JsonResponse
 		// The old token is invalid so send a new one.
 		$this->token = Session::getFormToken(true);
 
-		// Get the language and send it's tag along
+		// Get the language and send its tag along
 		$this->lang = Factory::getLanguage()->getTag();
 
 		// Get the message queue

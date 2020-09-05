@@ -3,24 +3,20 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Image\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
-use Joomla\CMS\Log\Log;
-
-Log::add('JImageFilterContrast is deprecated, use Joomla\Image\Filter\Contrast instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class adjust the contrast of an image.
  *
- * @since       1.7.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Contrast instead
+ * @since  2.5.0
  */
 class Contrast extends ImageFilter
 {
@@ -31,14 +27,13 @@ class Contrast extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   1.7.3
+	 * @since   2.5.0
 	 * @throws  \InvalidArgumentException
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Contrast::execute() instead
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Validate that the contrast value exists and is an integer.
-		if (!isset($options[IMG_FILTER_CONTRAST]) || !is_int($options[IMG_FILTER_CONTRAST]))
+		if (!isset($options[IMG_FILTER_CONTRAST]) || !\is_int($options[IMG_FILTER_CONTRAST]))
 		{
 			throw new \InvalidArgumentException('No valid contrast value was given.  Expected integer.');
 		}

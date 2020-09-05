@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Toolbar\Button;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -31,7 +31,7 @@ class StandardButton extends BasicButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  &$options  The options about this button.
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -97,30 +97,30 @@ class StandardButton extends BasicButton
 		{
 			case 'apply':
 			case 'new':
-				return ' btn btn-sm btn-success';
+				return 'btn btn-success';
 
 			case 'save':
 			case 'save-new':
 			case 'save-copy':
 			case 'save-close':
 			case 'publish':
-				return ' btn btn-sm btn-success';
+				return 'btn btn-success';
 
 			case 'unpublish':
-				return ' btn btn-sm btn-danger';
+				return 'btn btn-danger';
 
 			case 'featured':
-				return ' btn btn-sm btn-warning';
+				return 'btn btn-warning';
 
 			case 'cancel':
-				return ' btn btn-sm btn-danger';
+				return 'btn btn-danger';
 
 			case 'trash':
 			case 'delete':
-				return ' btn btn-sm btn-danger';
+				return 'btn btn-danger';
 
 			default:
-				return ' btn btn-sm btn-primary';
+				return 'btn btn-primary';
 		}
 	}
 

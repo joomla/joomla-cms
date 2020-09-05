@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -12,7 +12,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-HTMLHelper::_('script', 'com_fields/admin-fields-default-batch.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_fields.admin-fields-batch');
 
 $context   = $this->escape($this->state->get('filter.context'));
 ?>
@@ -38,7 +40,9 @@ $context   = $this->escape($this->state->get('filter.context'));
 					HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 				);
 				?>
-				<label id="batch-choose-action-lbl" for="batch-choose-action"><?php echo Text::_('COM_FIELDS_BATCH_GROUP_LABEL'); ?></label>
+				<label id="batch-choose-action-lbl" for="batch-group-id">
+					<?php echo Text::_('COM_FIELDS_BATCH_GROUP_LABEL'); ?>
+				</label>
 				<div id="batch-choose-action" class="control-group">
 					<select name="batch[group_id]" class="custom-select" id="batch-group-id">
 						<option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>

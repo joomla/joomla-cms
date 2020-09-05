@@ -1,10 +1,17 @@
 // Global
+:root {
+  scroll-behavior: smooth;
 
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400'); // @TODO - Move to script tag once webfontloader added to core.js
+  // Disable smooth scroll when the user has set "prefers-reduced-motion"
+  @media screen and (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
 
 html {
   font-size: $font-size-root;
 }
+
 body {
   padding: 0;
   margin: 0;
@@ -36,4 +43,9 @@ dd {
 
 .mod-menu {
   flex-direction: column;
+}
+
+// meter element
+meter {
+  width: 100%;
 }

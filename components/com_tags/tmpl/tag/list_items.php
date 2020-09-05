@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('behavior.core');
-
-HTMLHelper::_('script', 'com_tags/tag-list.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_tags.tag-list');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -32,10 +32,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" title="<?php echo Text::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
 					<span class="input-group-append">
 						<button type="submit" name="filter-search-button" title="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>" class="btn btn-secondary">
-							<span class="fa fa-search" aria-hidden="true"></span>
+							<span class="fas fa-search" aria-hidden="true"></span>
 						</button>
 						<button type="reset" name="filter-clear-button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary">
-							<span class="fa fa-times" aria-hidden="true"></span>
+							<span class="fas fa-times" aria-hidden="true"></span>
 						</button>
 					</span>
 				</div>
@@ -56,7 +56,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</fieldset>
 	<?php endif; ?>
 
-    <?php if (empty($this->items)) : ?>
+	<?php if (empty($this->items)) : ?>
 		<p><?php echo Text::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 		<table class="com-tags-tag-list__category category table table-striped table-bordered table-hover">
@@ -83,13 +83,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<?php endif; ?>
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-                    <?php if ($item->core_state == 0) : ?>
+					<?php if ($item->core_state == 0) : ?>
 						<tr class="table-danger">
 					<?php else : ?>
 						<tr>
 					<?php endif; ?>
 						<td <?php if ($this->params->get('show_headings')) echo "headers=\"categorylist_header_title\""; ?> class="list-title">
-                            <a href="<?php echo Route::_($item->link); ?>">
+							<a href="<?php echo Route::_($item->link); ?>">
 								<?php echo $this->escape($item->core_title); ?>
 							</a>
 							<?php if ($item->core_state == 0) : ?>

@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Updater;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 \JLoader::import('joomla.base.adapter');
 
@@ -25,7 +26,7 @@ class Updater extends \JAdapter
 	/**
 	 * Development snapshots, nightly builds, pre-release versions and so on
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_DEV = 0;
@@ -33,7 +34,7 @@ class Updater extends \JAdapter
 	/**
 	 * Alpha versions (work in progress, things are likely to be broken)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_ALPHA = 1;
@@ -41,7 +42,7 @@ class Updater extends \JAdapter
 	/**
 	 * Beta versions (major functionality in place, show-stopper bugs are likely to be present)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_BETA = 2;
@@ -49,7 +50,7 @@ class Updater extends \JAdapter
 	/**
 	 * Release Candidate versions (almost stable, minor bugs might be present)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_RC = 3;
@@ -57,13 +58,15 @@ class Updater extends \JAdapter
 	/**
 	 * Stable versions (production quality code)
 	 *
-	 * @const  integer
+	 * @var    integer
 	 * @since  3.4
 	 */
 	const STABILITY_STABLE = 4;
 
 	/**
-	 * @var    Updater  Updater instance container.
+	 * Updater instance container.
+	 *
+	 * @var    Updater
 	 * @since  1.7.3
 	 */
 	protected static $instance;
@@ -146,10 +149,19 @@ class Updater extends \JAdapter
 				&& isset($result['last_check_timestamp'])
 				&& ($result['last_check_timestamp'] >= $earliestTime))
 			{
-				$retval = $retval || in_array($result['update_site_id'], $sitesWithUpdates);
+				$retval = $retval || \in_array($result['update_site_id'], $sitesWithUpdates);
 
 				continue;
 			}
+
+			// Make sure there is no update left over in the database.
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__updates'))
+				->where($db->quoteName('update_site_id') . ' = :id')
+				->bind(':id', $result['update_site_id'], ParameterType::INTEGER);
+			$db->setQuery($query);
+			$db->execute();
 
 			$updateObjects = $this->getUpdateObjectsForSite($result, $minimum_stability, $includeCurrent);
 
@@ -187,21 +199,34 @@ class Updater extends \JAdapter
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query')
+		$query->select(
+			[
+				'DISTINCT ' . $db->quoteName('a.update_site_id'),
+				$db->quoteName('a.type'),
+				$db->quoteName('a.location'),
+				$db->quoteName('a.last_check_timestamp'),
+				$db->quoteName('a.extra_query'),
+			]
+		)
 			->from($db->quoteName('#__update_sites', 'a'))
-			->where('a.enabled = 1');
+			->where($db->quoteName('a.enabled') . ' = 1');
 
 		if ($eid)
 		{
-			$query->join('INNER', '#__update_sites_extensions AS b ON a.update_site_id = b.update_site_id');
+			$query->join(
+				'INNER',
+				$db->quoteName('#__update_sites_extensions', 'b'),
+				$db->quoteName('a.update_site_id') . ' = ' . $db->quoteName('b.update_site_id')
+			);
 
-			if (is_array($eid))
+			if (\is_array($eid))
 			{
-				$query->where('b.extension_id IN (' . implode(',', $eid) . ')');
+				$query->whereIn($db->quoteName('b.extension_id'), $eid);
 			}
-			elseif ((int) $eid)
+			elseif ($eid = (int) $eid)
 			{
-				$query->where('b.extension_id = ' . $eid);
+				$query->where($db->quoteName('b.extension_id') . ' = :eid')
+					->bind(':eid', $eid, ParameterType::INTEGER);
 			}
 		}
 
@@ -209,7 +234,7 @@ class Updater extends \JAdapter
 
 		$result = $db->loadAssocList();
 
-		if (!is_array($result))
+		if (!\is_array($result))
 		{
 			return array();
 		}
@@ -250,10 +275,10 @@ class Updater extends \JAdapter
 		// Version comparison operator.
 		$operator = $includeCurrent ? 'ge' : 'gt';
 
-		if (is_array($update_result))
+		if (\is_array($update_result))
 		{
 			// If we have additional update sites in the remote (collection) update XML document, parse them
-			if (array_key_exists('update_sites', $update_result) && count($update_result['update_sites']))
+			if (\array_key_exists('update_sites', $update_result) && \count($update_result['update_sites']))
 			{
 				$thisUrl = trim($updateSite['location']);
 				$thisId  = (int) $updateSite['update_site_id'];
@@ -271,14 +296,14 @@ class Updater extends \JAdapter
 
 					$extraUpdates = $this->getUpdateObjectsForSite($extraUpdateSite, $minimum_stability);
 
-					if (count($extraUpdates))
+					if (\count($extraUpdates))
 					{
 						$retVal = array_merge($retVal, $extraUpdates);
 					}
 				}
 			}
 
-			if (array_key_exists('updates', $update_result) && count($update_result['updates']))
+			if (\array_key_exists('updates', $update_result) && \count($update_result['updates']))
 			{
 				/** @var \Joomla\CMS\Table\Update $current_update */
 				foreach ($update_result['updates'] as $current_update)
@@ -336,6 +361,13 @@ class Updater extends \JAdapter
 					{
 						$update->load($uid);
 
+						// We already have an update in the database lets check whether it has an extension_id
+						if ((int) $update->extension_id === 0 && $eid)
+						{
+							// The current update does not have an extension_id but we found one. Let's use it.
+							$current_update->extension_id = $eid;
+						}
+
 						// If there is an update, check that the version is newer then replaces
 						if (version_compare($current_update->version, $update->version, $operator) == 1)
 						{
@@ -361,21 +393,28 @@ class Updater extends \JAdapter
 	 */
 	private function getSitesWithUpdates($timestamp = 0)
 	{
-		$db = Factory::getDbo();
+		$db        = Factory::getDbo();
+		$timestamp = (int) $timestamp;
 
 		$query = $db->getQuery(true)
-			->select('DISTINCT update_site_id')
-			->from('#__updates');
+			->select('DISTINCT ' . $db->quoteName('update_site_id'))
+			->from($db->quoteName('#__updates'));
 
 		if ($timestamp)
 		{
 			$subQuery = $db->getQuery(true)
-				->select('update_site_id')
-				->from('#__update_sites')
-				->where($db->quoteName('last_check_timestamp') . ' IS NULL', 'OR')
-				->where($db->quoteName('last_check_timestamp') . ' <= ' . $db->quote($timestamp), 'OR');
+				->select($db->quoteName('update_site_id'))
+				->from($db->quoteName('#__update_sites'))
+				->where(
+					[
+						$db->quoteName('last_check_timestamp') . ' IS NULL',
+						$db->quoteName('last_check_timestamp') . ' <= :timestamp',
+					],
+					'OR'
+				);
 
-			$query->where($db->quoteName('update_site_id') . ' IN (' . $subQuery . ')');
+			$query->where($db->quoteName('update_site_id') . ' IN (' . $subQuery . ')')
+				->bind(':timestamp', $timestamp, ParameterType::INTEGER);
 		}
 
 		$retVal = $db->setQuery($query)->loadColumn(0);
@@ -399,13 +438,16 @@ class Updater extends \JAdapter
 	 */
 	private function updateLastCheckTimestamp($updateSiteId)
 	{
-		$timestamp = time();
-		$db        = Factory::getDbo();
+		$timestamp    = time();
+		$db           = Factory::getDbo();
+		$updateSiteId = (int) $updateSiteId;
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__update_sites'))
-			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote($timestamp))
-			->where($db->quoteName('update_site_id') . ' = ' . $db->quote($updateSiteId));
+			->set($db->quoteName('last_check_timestamp') . ' = :timestamp')
+			->where($db->quoteName('update_site_id') . ' = :id')
+			->bind(':timestamp', $timestamp, ParameterType::INTEGER)
+			->bind(':id', $updateSiteId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 	}

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Event\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
@@ -33,7 +33,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('subject', $arguments))
+		if (!\array_key_exists('subject', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
 		}
@@ -52,7 +52,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
 	 */
 	protected function setSubject($value)
 	{
-		if (!is_object($value) || !($value instanceof JTableInterface))
+		if (!\is_object($value) || !($value instanceof JTableInterface))
 		{
 			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
 		}

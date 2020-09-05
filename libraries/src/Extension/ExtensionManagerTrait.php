@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactory;
 use Joomla\CMS\Event\AbstractEvent;
@@ -220,7 +220,7 @@ trait ExtensionManagerTrait
 		// Compile the classname
 		$className = 'Plg' . str_replace('-', '', $type) . $plugin;
 
-		if ($type == 'editors-xtd')
+		if ($type === 'editors-xtd')
 		{
 			// This type doesn't follow the convention
 			$className = 'PlgEditorsXtd' . $plugin;

@@ -6,6 +6,7 @@
  *
  * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
  * @license     GNU GPL v2 or - at your option - any later version
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 /**
@@ -1750,7 +1751,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 					}
 					else
 					{
-						// it's already absolute
+						// It's already absolute
 						$tempDir = $userdir;
 					}
 					// Does the directory exist?
@@ -2335,7 +2336,7 @@ class AKPostprocSFTP extends AKAbstractPostproc
 					}
 					else
 					{
-						// it's already absolute
+						// It's already absolute
 						$tempDir = $userdir;
 					}
 					// Does the directory exist?
@@ -3008,7 +3009,7 @@ class AKPostprocHybrid extends AKAbstractPostproc
 					}
 					else
 					{
-						// it's already absolute
+						// It's already absolute
 						$tempDir = $userdir;
 					}
 					// Does the directory exist?
@@ -6179,7 +6180,7 @@ class AKText extends AKAbstractObject
 				}
 
 				// Sections
-				if ($line{0} == '[')
+				if ($line[0] == '[')
 				{
 					$tmp        = explode(']', $line);
 					$sections[] = trim(substr($tmp[0], 1));
@@ -6196,7 +6197,7 @@ class AKText extends AKAbstractObject
 					$tmp = explode(';', $value);
 					if (count($tmp) == 2)
 					{
-						if ((($value{0} != '"') && ($value{0} != "'")) ||
+						if ((($value[0] != '"') && ($value[0] != "'")) ||
 							preg_match('/^".*"\s*;/', $value) || preg_match('/^".*;[^"]*$/', $value) ||
 							preg_match("/^'.*'\s*;/", $value) || preg_match("/^'.*;[^']*$/", $value)
 						)
@@ -6206,11 +6207,11 @@ class AKText extends AKAbstractObject
 					}
 					else
 					{
-						if ($value{0} == '"')
+						if ($value[0] == '"')
 						{
 							$value = preg_replace('/^"(.*)".*/', '$1', $value);
 						}
-						elseif ($value{0} == "'")
+						elseif ($value[0] == "'")
 						{
 							$value = preg_replace("/^'(.*)'.*/", '$1', $value);
 						}
@@ -8312,15 +8313,15 @@ if (!defined('KICKSTART'))
 					// opcode cache busting before including the filename
 					if (function_exists('opcache_invalidate'))
 					{
-						opcache_invalidate($filename);
+						\opcache_invalidate($filename);
 					}
 					if (function_exists('apc_compile_file'))
 					{
-						apc_compile_file($filename);
+						\apc_compile_file($filename);
 					}
 					if (function_exists('wincache_refresh_if_changed'))
 					{
-						wincache_refresh_if_changed(array($filename));
+						\wincache_refresh_if_changed(array($filename));
 					}
 					if (function_exists('xcache_asm'))
 					{

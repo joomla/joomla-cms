@@ -8,7 +8,7 @@
             :style="mediaBrowserStyles"
             ref="browserItems">
             <div class="media-dragoutline">
-                <span class="fa fa-cloud-upload upload-icon" aria-hidden="true"></span>
+                <span class="fas fa-cloud-upload upload-icon" aria-hidden="true"></span>
                 <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
             </div>
             <table v-if="listView === 'table'" class="table media-browser-table">
@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <media-infobar v-if="!this.isModal" ref="infobar"></media-infobar>
+        <media-infobar ref="infobar"></media-infobar>
     </div>
 </template>
 
@@ -107,6 +107,22 @@
                 const clickedOutside = notClickedBrowserItems && notClickedInfobar && !clickedDelete;
                 if (clickedOutside) {
                     this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+
+                    window.parent.document.dispatchEvent(
+                        new CustomEvent(
+                            'onMediaFileSelected',
+                            {
+                                "bubbles": true,
+                                "cancelable": false,
+                                "detail": {
+                                    path: '',
+                                    thumb: false,
+                                    fileType: false,
+                                    extension: false,
+                                }
+                            }
+                        )
+                    );
                 }
             },
 

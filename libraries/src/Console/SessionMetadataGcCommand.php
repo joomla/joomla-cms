@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Console\Command\AbstractCommand;
@@ -98,13 +98,10 @@ class SessionMetadataGcCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Performs session metadata garbage collection');
-		$this->setHelp(
-<<<EOF
-The <info>%command.name%</info> command runs the garbage collection operation for Joomla session metadata
+		$help = "<info>%command.name%</info> runs the garbage collection operation for Joomla session metadata
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setDescription('Perform session metadata garbage collection');
+		$this->setHelp($help);
 	}
 }

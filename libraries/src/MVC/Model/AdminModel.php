@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -23,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -116,8 +117,7 @@ abstract class AdminModel extends FormModel
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag',
-		'workflowstage_id' => 'batchWorkflowStage',
+		'tag' => 'batchTag'
 	);
 
 	/**
@@ -309,7 +309,7 @@ abstract class AdminModel extends FormModel
 			{
 				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
 
-				if (is_array($result))
+				if (\is_array($result))
 				{
 					foreach ($result as $old => $new)
 					{
@@ -426,6 +426,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$newIds = array();
+		$db     = $this->getDbo();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -451,6 +452,12 @@ abstract class AdminModel extends FormModel
 					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
+			}
+
+			// Check for asset_id
+			if ($this->table->hasField($this->table->getColumnAlias('asset_id')))
+			{
+				$oldAssetId = $this->table->asset_id;
 			}
 
 			$this->generateTitle($categoryId, $this->table);
@@ -500,6 +507,21 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
+			if (!empty($oldAssetId))
+			{
+				// Copy rules
+				$query = $db->getQuery(true);
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+
+				$db->setQuery($query)->execute();
+			}
+
 			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
 
 			// Add the new ID to the array
@@ -513,7 +535,7 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
 	 * @param   \JTableInterface  $table  The table object containing the newly created item
 	 * @param   integer           $newId  The id of the new item
@@ -810,7 +832,7 @@ abstract class AdminModel extends FormModel
 	 */
 	public function delete(&$pks)
 	{
-		$pks = (array) $pks;
+		$pks   = ArrayHelper::toInteger((array) $pks);
 		$table = $this->getTable();
 
 		// Include the plugins for the delete events.
@@ -828,7 +850,7 @@ abstract class AdminModel extends FormModel
 					// Trigger the before delete event.
 					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
-					if (in_array(false, $result, true))
+					if (\in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
 
@@ -840,11 +862,22 @@ abstract class AdminModel extends FormModel
 					{
 						$db = $this->getDbo();
 						$query = $db->getQuery(true)
-							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
-							->from($db->quoteName('#__associations') . ' AS as1')
-							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
-							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
-							->where($db->quoteName('as1.id') . ' = ' . (int) $pk)
+							->select(
+								[
+									'COUNT(*) AS ' . $db->quoteName('count'),
+									$db->quoteName('as1.key'),
+								]
+							)
+							->from($db->quoteName('#__associations', 'as1'))
+							->join('LEFT', $db->quoteName('#__associations', 'as2'), $db->quoteName('as1.key') . ' = ' . $db->quoteName('as2.key'))
+							->where(
+								[
+									$db->quoteName('as1.context') . ' = :context',
+									$db->quoteName('as1.id') . ' = :pk',
+								]
+							)
+							->bind(':context', $this->associationsContext)
+							->bind(':pk', $pk, ParameterType::INTEGER)
 							->group($db->quoteName('as1.key'));
 
 						$db->setQuery($query);
@@ -854,12 +887,19 @@ abstract class AdminModel extends FormModel
 						{
 							$query = $db->getQuery(true)
 								->delete($db->quoteName('#__associations'))
-								->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-								->where($db->quoteName('key') . ' = ' . $db->quote($row['key']));
+								->where(
+									[
+										$db->quoteName('context') . ' = :context',
+										$db->quoteName('key') . ' = :key',
+									]
+								)
+								->bind(':context', $this->associationsContext)
+								->bind(':key', $row['key']);
 
 							if ($row['count'] > 2)
 							{
-								$query->where($db->quoteName('id') . ' = ' . (int) $pk);
+								$query->where($db->quoteName('id') . ' = :pk')
+									->bind(':pk', $pk, ParameterType::INTEGER);
 							}
 
 							$db->setQuery($query);
@@ -925,11 +965,18 @@ abstract class AdminModel extends FormModel
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$table = $this->getTable();
+		$table      = $this->getTable();
+		$aliasField = $table->getColumnAlias('alias');
+		$catidField = $table->getColumnAlias('catid');
+		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
 		{
-			$title = StringHelper::increment($title);
+			if ($title === $table->$titleField)
+			{
+				$title = StringHelper::increment($title);
+			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -1091,7 +1138,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		// Check if there are items to change
-		if (!count($pks))
+		if (!\count($pks))
 		{
 			return true;
 		}
@@ -1099,7 +1146,7 @@ abstract class AdminModel extends FormModel
 		// Trigger the before change state event.
 		$result = Factory::getApplication()->triggerEvent($this->event_before_change_state, array($context, $pks, $value));
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 
@@ -1117,7 +1164,7 @@ abstract class AdminModel extends FormModel
 		// Trigger the change state event.
 		$result = Factory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 
@@ -1214,14 +1261,15 @@ abstract class AdminModel extends FormModel
 	{
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
+		$app        = Factory::getApplication();
 
-		if (array_key_exists('tags', $data) && is_array($data['tags']))
+		if (\array_key_exists('tags', $data) && \is_array($data['tags']))
 		{
 			$table->newTags = $data['tags'];
 		}
 
 		$key = $table->getKeyName();
-		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+		$pk = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
 		// Include the plugins for the save events.
@@ -1257,9 +1305,9 @@ abstract class AdminModel extends FormModel
 			}
 
 			// Trigger the before save event.
-			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+			$result = $app->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
-			if (in_array(false, $result, true))
+			if (\in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
 
@@ -1278,7 +1326,7 @@ abstract class AdminModel extends FormModel
 			$this->cleanCache();
 
 			// Trigger the after save event.
-			Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+			$app->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
 		}
 		catch (\Exception $e)
 		{
@@ -1313,7 +1361,7 @@ abstract class AdminModel extends FormModel
 			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && $table->language === '*')
 			{
-				Factory::getApplication()->enqueueMessage(
+				$app->enqueueMessage(
 					Text::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
 					'warning'
 				);
@@ -1321,31 +1369,42 @@ abstract class AdminModel extends FormModel
 
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
+			$id    = (int) $table->$key;
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->quoteName('id') . ' = ' . (int) $table->$key);
+				->where($db->quoteName('context') . ' = :context')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':context', $this->associationsContext)
+				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
-			$old_key = $db->loadResult();
+			$oldKey = $db->loadResult();
 
-			// Deleting old associations for the associated items
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
-
-			if ($associations)
+			if ($associations || $oldKey !== null)
 			{
-				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
-			}
-			else
-			{
-				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
-			}
+				// Deleting old associations for the associated items
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__associations'))
+					->where($db->quoteName('context') . ' = :context')
+					->bind(':context', $this->associationsContext);
 
-			$db->setQuery($query);
-			$db->execute();
+				$where = [];
+
+				if ($associations)
+				{
+					$where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
+				}
+
+				if ($oldKey !== null)
+				{
+					$where[] = $db->quoteName('key') . ' = :oldKey';
+					$query->bind(':oldKey', $oldKey);
+				}
+
+				$query->extendWhere('AND', $where, 'OR');
+				$db->setQuery($query);
+				$db->execute();
+			}
 
 			// Adding self to the association
 			if ($table->language !== '*')
@@ -1353,21 +1412,41 @@ abstract class AdminModel extends FormModel
 				$associations[$table->language] = (int) $table->$key;
 			}
 
-			if (count($associations) > 1)
+			if (\count($associations) > 1)
 			{
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));
 				$query = $db->getQuery(true)
-					->insert('#__associations');
+					->insert($db->quoteName('#__associations'))
+					->columns(
+						[
+							$db->quoteName('id'),
+							$db->quoteName('context'),
+							$db->quoteName('key'),
+						]
+					);
 
 				foreach ($associations as $id)
 				{
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(
+						implode(
+							',',
+							$query->bindArray(
+								[$id, $this->associationsContext, $key],
+								[ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+							)
+						)
+					);
 				}
 
 				$db->setQuery($query);
 				$db->execute();
 			}
+		}
+
+		if ($app->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
 		}
 
 		return true;
@@ -1525,9 +1604,11 @@ abstract class AdminModel extends FormModel
 	public function generateTitle($categoryId, $table)
 	{
 		// Alter the title & alias
-		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-		$table->title = $data['0'];
-		$table->alias = $data['1'];
+		$titleField         = $table->getColumnAlias('title');
+		$aliasField         = $table->getColumnAlias('alias');
+		$data               = $this->generateNewTitle($categoryId, $table->$aliasField, $table->$titleField);
+		$table->$titleField = $data['0'];
+		$table->$aliasField = $data['1'];
 	}
 
 	/**
@@ -1550,7 +1631,7 @@ abstract class AdminModel extends FormModel
 			$this->table = $this->getTable();
 
 			// Get table class name
-			$tc = explode('\\', get_class($this->table));
+			$tc = explode('\\', \get_class($this->table));
 			$this->tableClassName = end($tc);
 
 			// Get UCM Type data
@@ -1568,12 +1649,27 @@ abstract class AdminModel extends FormModel
 	 * @return  boolean  True if successful, false otherwise.
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
 	 */
 	public function editAssociations($data)
 	{
 		// Save the item
-		$this->save($data);
+		return $this->save($data);
+	}
 
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @throws \Exception
+	 * @since   3.9.17
+	 */
+	protected function redirectToAssociations($data)
+	{
 		$app = Factory::getApplication();
 		$id  = $data['id'];
 
@@ -1619,10 +1715,11 @@ abstract class AdminModel extends FormModel
 		$languages = LanguageHelper::getContentLanguages(array(0, 1));
 		$target    = '';
 
-		/* If the site contains only 2 languages and an association exists for the item
-		   load directly the associated target item in the side by side view
-		   otherwise select already the target language
-		*/
+		/**
+		 * If the site contains only 2 languages and an association exists for the item
+		 * load directly the associated target item in the side by side view
+		 * otherwise select already the target language
+		 */
 		if (count($languages) === 2)
 		{
 			foreach ($languages as $language)

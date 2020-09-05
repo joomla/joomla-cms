@@ -2,20 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Router\Route;
+use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -59,12 +62,12 @@ class AdminController extends BaseController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -83,9 +86,6 @@ class AdminController extends BaseController
 		$this->registerTask('report', 'publish');
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
-
-		// Transition
-		$this->registerTask('runTransition', 'runTransition');
 
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
@@ -134,7 +134,7 @@ class AdminController extends BaseController
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (!\is_array($cid) || \count($cid) < 1)
 		{
 			$this->app->getLogger()->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
@@ -149,7 +149,7 @@ class AdminController extends BaseController
 			// Remove the items.
 			if ($model->delete($cid))
 			{
-				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
 			}
 			else
 			{
@@ -160,7 +160,12 @@ class AdminController extends BaseController
 			$this->postDeleteHook($model, $cid);
 		}
 
-		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+		$this->setRedirect(
+			Route::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. $this->getRedirectToListAppend(), false
+			)
+		);
 	}
 
 	/**
@@ -219,7 +224,7 @@ class AdminController extends BaseController
 				{
 					if ($errors)
 					{
-						Factory::getApplication()->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+						Factory::getApplication()->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', \count($cid)), 'error');
 					}
 					else
 					{
@@ -239,9 +244,9 @@ class AdminController extends BaseController
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
 
-				if (count($cid))
+				if (\count($cid))
 				{
-					$this->setMessage(Text::plural($ntext, count($cid)));
+					$this->setMessage(Text::plural($ntext, \count($cid)));
 				}
 			}
 			catch (\Exception $e)
@@ -250,9 +255,12 @@ class AdminController extends BaseController
 			}
 		}
 
-		$extension = $this->input->get('extension');
-		$extensionURL = $extension ? '&extension=' . $extension : '';
-		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+		$this->setRedirect(
+			Route::_(
+				'index.php?option=' . $this->option . '&view=' . $this->view_list
+				. $this->getRedirectToListAppend(), false
+			)
+		);
 	}
 
 	/**
@@ -273,11 +281,13 @@ class AdminController extends BaseController
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);
 
+		$redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
+
 		if ($return === false)
 		{
 			// Reorder failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect($redirect, $message, 'error');
 
 			return false;
 		}
@@ -285,7 +295,7 @@ class AdminController extends BaseController
 		{
 			// Reorder succeeded.
 			$message = Text::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$this->setRedirect($redirect, $message);
 
 			return true;
 		}
@@ -317,11 +327,13 @@ class AdminController extends BaseController
 		// Save the ordering
 		$return = $model->saveorder($pks, $order);
 
+		$redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
+
 		if ($return === false)
 		{
 			// Reorder failed
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect($redirect, $message, 'error');
 
 			return false;
 		}
@@ -329,7 +341,7 @@ class AdminController extends BaseController
 		{
 			// Reorder succeeded.
 			$this->setMessage(Text::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+			$this->setRedirect($redirect);
 
 			return true;
 		}
@@ -348,23 +360,32 @@ class AdminController extends BaseController
 		$this->checkToken();
 
 		$ids = $this->input->post->get('cid', array(), 'array');
+		$cid = ArrayHelper::toInteger($ids);
 
 		$model = $this->getModel();
-		$return = $model->checkin($ids);
+		$return = $model->checkin($cid);
 
 		if ($return === false)
 		{
 			// Checkin failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect(
+				Route::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false
+				), $message, 'error'
+			);
 
 			return false;
 		}
 		else
 		{
 			// Checkin succeeded.
-			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($cid));
+			$this->setRedirect(
+				Route::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false
+				), $message
+			);
 
 			return true;
 		}
@@ -405,45 +426,62 @@ class AdminController extends BaseController
 	/**
 	 * Method to run Transition by id of item.
 	 *
-	 * @return  void
+	 * @return  boolean  Indicates whether the transition was successful.
 	 *
 	 * @since   4.0.0
 	 */
 	public function runTransition()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
 
-		if (!count($pks))
+		if (!\count($pks))
 		{
 			return false;
 		}
 
-		$pk = (int) $pks[0];
-
-		$transitionId = $this->input->post->get('transition_' . $pk, -1, 'int');
+		$transitionId = (int) $this->input->post->getInt('transition_id');
 
 		// Get the model
 		$model = $this->getModel();
-		$return = $model->runTransition($pk, $transitionId);
+
+		if (!$model instanceof WorkflowModelInterface)
+		{
+			return false;
+		}
+
+		$return = $model->executeTransition($pks, $transitionId);
+
+		$redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
 
 		if ($return === false)
 		{
 			// Transition change failed.
 			$message = Text::sprintf('JLIB_APPLICATION_ERROR_RUN_TRANSITION', $model->getError());
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+			$this->setRedirect($redirect, $message, 'error');
 
 			return false;
 		}
-		else
-		{
-			// Transition change succeeded.
-			$message = Text::_('JLIB_APPLICATION_SUCCESS_RUN_TRANSITION');
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 
-			return true;
-		}
+		// Transition change succeeded.
+		$message = Text::_('JLIB_APPLICATION_SUCCESS_RUN_TRANSITION');
+		$this->setRedirect($redirect, $message);
 
-		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+		return true;
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getRedirectToListAppend()
+	{
+		return '';
 	}
 }

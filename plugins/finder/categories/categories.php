@@ -3,26 +3,29 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Adapter;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-
-JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for Joomla Categories.
  *
  * @since  2.5
  */
-class PlgFinderCategories extends FinderIndexerAdapter
+class PlgFinderCategories extends Adapter
 {
 	/**
 	 * The plugin identifier.
@@ -96,7 +99,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * Method to remove the link information for items that have been deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.
-	 * @param   JTable  $table    A JTable object containing the record to be deleted
+	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -128,15 +131,15 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * It also makes adjustments if the access level of the category has changed.
 	 *
 	 * @param   string   $context  The context of the category passed to the plugin.
-	 * @param   JTable   $row      A JTable object.
+	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    True if the category has just been created.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onFinderAfterSave($context, $row, $isNew): void
 	{
 		// We only want to handle categories here.
 		if ($context === 'com_categories.category')
@@ -157,8 +160,6 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				$this->categoryAccessChange($row);
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -166,7 +167,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * This event is fired before the data is actually saved.
 	 *
 	 * @param   string   $context  The context of the category passed to the plugin.
-	 * @param   JTable   $row      A JTable object.
+	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    True if the category is just about to be created.
 	 *
 	 * @return  boolean  True on success.
@@ -218,7 +219,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				$pk    = (int) $pk;
 				$query = clone $this->getStateQuery();
 
-				$query->where($query->quoteName('a.id') . ' = :plgFinderCategoriesId')
+				$query->where($this->db->quoteName('a.id') . ' = :plgFinderCategoriesId')
 					->bind(':plgFinderCategoriesId', $pk, ParameterType::INTEGER);
 
 				$this->db->setQuery($query);
@@ -250,16 +251,16 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to index an item. The item must be a FinderIndexerResult object.
+	 * Method to index an item. The item must be a Result object.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a Result object.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item)
+	protected function index(Result $item)
 	{
 		// Check if the extension is enabled.
 		if (ComponentHelper::isEnabled($this->extension) === false)
@@ -290,21 +291,22 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		 * Add the metadata processing instructions based on the category's
 		 * configuration parameters.
 		 */
+
 		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
 		// Handle the link to the metadata.
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
+		$item->addInstruction(Indexer::META_CONTEXT, 'link');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(Indexer::META_CONTEXT, 'author');
 
 		// Deactivated Methods
-		// $item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+		// $item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
 
 		// Trigger the onContentPrepare event.
-		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
+		$item->summary = Helper::prepareContent($item->summary, $item->params);
 
 		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $item->extension, $this->layout);
@@ -324,7 +326,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		}
 		else
 		{
-			$item->route = ContentHelperRoute::getCategoryRoute($item->id, $item->language);
+			$item->route = RouteHelper::getCategoryRoute($item->id, $item->language);
 		}
 
 		// Get the menu title if it exists.
@@ -346,7 +348,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
-		FinderIndexerHelper::getContentExtras($item);
+		Helper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);
@@ -355,58 +357,58 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A DatabaseQuery object or null.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true);
 
 		$query->select(
 			$db->quoteName(
+				[
+					'a.id',
+					'a.title',
+					'a.alias',
+					'a.extension',
+					'a.metakey',
+					'a.metadesc',
+					'a.metadata',
+					'a.language',
+					'a.lft',
+					'a.parent_id',
+					'a.level',
+					'a.access',
+					'a.params',
+				]
+			)
+		)
+			->select(
+				$db->quoteName(
 					[
-						'a.id',
-						'a.title',
-						'a.alias',
-						'a.extension',
-						'a.metakey',
-						'a.metadesc',
-						'a.metadata',
-						'a.language',
-						'a.lft',
-						'a.parent_id',
-						'a.level',
-						'a.access',
-						'a.params',
+						'a.description',
+						'a.created_user_id',
+						'a.modified_time',
+						'a.modified_user_id',
+						'a.created_time',
+						'a.published',
+					],
+					[
+						'summary',
+						'created_by',
+						'modified',
+						'modified_by',
+						'start_date',
+						'state',
 					]
 				)
-			)
-					->select(
-						$db->quoteName(
-								[
-									'a.description',
-									'a.created_user_id',
-									'a.modified_time',
-									'a.modified_user_id',
-									'a.created_time',
-									'a.published'
-								],
-								[
-									'summary',
-									'created_by',
-									'modified',
-									'modified_by',
-									'start_date',
-									'state'
-								]
-							)
-						);
+			);
 
 		// Handle the alias CASE WHEN portion of the query.
 		$case_when_item_alias = ' CASE WHEN ';
@@ -428,7 +430,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * Method to get a SQL query to load the published and access states for
 	 * a category and its parents.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -437,33 +439,34 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$query = $this->db->getQuery(true);
 
 		$query->select(
-				$query->quoteName(
+			$this->db->quoteName(
+				[
+					'a.id',
+					'a.parent_id',
+					'a.access',
+				]
+			)
+		)
+			->select(
+				$this->db->quoteName(
 					[
-						'a.id',
-						'a.parent_id',
-						'a.access'
+						'a.' . $this->state_field,
+						'c.published',
+						'c.access',
+					],
+					[
+						'state',
+						'cat_state',
+						'cat_access',
 					]
 				)
 			)
-					->select(
-							$query->quoteName(
-							[
-								'a.' . $this->state_field,
-								'c.published',
-								'c.access'
-							],
-							[
-								'state',
-								'cat_state',
-								'cat_access'
-							]
-						)
-					)
-					->from($query->quoteName('#__categories', 'a'))
-					->leftJoin(
-						$query->quoteName('#__categories', 'c'),
-						$query->quoteName('c.id') . ' = ' . $query->quoteName('a.parent_id')
-					);
+			->from($this->db->quoteName('#__categories', 'a'))
+			->join(
+				'INNER',
+				$this->db->quoteName('#__categories', 'c'),
+				$this->db->quoteName('c.id') . ' = ' . $this->db->quoteName('a.parent_id')
+			);
 
 		return $query;
 	}

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -113,10 +113,10 @@ class ApplicationHelper
 	 * This method will return a client information array if called
 	 * with no arguments which can be used to add custom application information.
 	 *
-	 * @param   integer  $id      A client identifier
-	 * @param   boolean  $byName  If True, find the client by its name
+	 * @param   integer|string|null   $id      A client identifier
+	 * @param   boolean               $byName  If true, find the client by its name
 	 *
-	 * @return  mixed  Object describing the client or false if not known
+	 * @return  \stdClass|array|void  Object describing the client, array containing all the clients or void if $id not known
 	 *
 	 * @since   1.5
 	 */
@@ -197,12 +197,12 @@ class ApplicationHelper
 	 */
 	public static function addClientInfo($client)
 	{
-		if (is_array($client))
+		if (\is_array($client))
 		{
 			$client = (object) $client;
 		}
 
-		if (!is_object($client))
+		if (!\is_object($client))
 		{
 			return false;
 		}
@@ -211,7 +211,7 @@ class ApplicationHelper
 
 		if (!isset($client->id))
 		{
-			$client->id = count($info);
+			$client->id = \count($info);
 		}
 
 		self::$_clients[$client->id] = clone $client;

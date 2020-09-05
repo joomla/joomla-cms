@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -157,7 +157,7 @@ class CheckboxesField extends ListField
 		$checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
 
 		$extraData = array(
-			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
+			'checkedOptions' => \is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
 			'hasValue'       => $hasValue,
 			'options'        => $this->getOptions(),
 		);

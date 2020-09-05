@@ -2,14 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 
@@ -21,7 +22,7 @@ use Joomla\CMS\Object\CMSObject;
 abstract class BaseModel extends CMSObject implements ModelInterface, StatefulModelInterface
 {
 	use StateBehaviorTrait;
-	use LeagcyModelLoaderTrait;
+	use LegacyModelLoaderTrait;
 
 	/**
 	 * The model (base) name
@@ -30,6 +31,14 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 * @since  4.0.0
 	 */
 	protected $name;
+
+	/**
+	 * The include paths
+	 *
+	 * @var   array
+	 * @since  4.0.0
+	 */
+	protected static $paths;
 
 	/**
 	 * Constructor
@@ -44,7 +53,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		// Set the view name
 		if (empty($this->name))
 		{
-			if (array_key_exists('name', $config))
+			if (\array_key_exists('name', $config))
 			{
 				$this->name = $config['name'];
 			}
@@ -55,7 +64,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		}
 
 		// Set the model state
-		if (array_key_exists('state', $config))
+		if (\array_key_exists('state', $config))
 		{
 			$this->state = $config['state'];
 		}
@@ -65,6 +74,54 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		{
 			$this->__state_set = true;
 		}
+	}
+
+	/**
+	 * Add a directory where \JModelLegacy should search for models. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @param   mixed   $path    A path or array[sting] of paths to search.
+	 * @param   string  $prefix  A prefix for models.
+	 *
+	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
+	 *
+	 * @since       3.0
+	 * @deprecated  5.0 See LegacyModelLoaderTrait\getInstance
+	 */
+	public static function addIncludePath($path = '', $prefix = '')
+	{
+		if (!isset(self::$paths))
+		{
+			self::$paths = array();
+		}
+
+		if (!isset(self::$paths[$prefix]))
+		{
+			self::$paths[$prefix] = array();
+		}
+
+		if (!isset(self::$paths['']))
+		{
+			self::$paths[''] = array();
+		}
+
+		if (!empty($path))
+		{
+			foreach ((array) $path as $includePath)
+			{
+				if (!\in_array($includePath, self::$paths[$prefix]))
+				{
+					array_unshift(self::$paths[$prefix], Path::clean($includePath));
+				}
+
+				if (!\in_array($includePath, self::$paths['']))
+				{
+					array_unshift(self::$paths[''], Path::clean($includePath));
+				}
+			}
+		}
+
+		return self::$paths[$prefix];
 	}
 
 	/**
@@ -84,7 +141,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		{
 			$r = null;
 
-			if (!preg_match('/Model(.*)/i', get_class($this), $r))
+			if (!preg_match('/Model(.*)/i', \get_class($this), $r))
 			{
 				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}

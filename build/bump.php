@@ -17,7 +17,7 @@
  * - /usr/bin/php /path/to/joomla-cms/build/bump.php -v 3.7.0
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,11 +43,12 @@ $coreXmlFiles     = array(
 			);
 
 $languageXmlFiles = array(
-			'/language/en-GB/en-GB.xml',
+			'/language/en-GB/langmetadata.xml',
 			'/language/en-GB/install.xml',
-			'/administrator/language/en-GB/en-GB.xml',
+			'/administrator/language/en-GB/langmetadata.xml',
 			'/administrator/language/en-GB/install.xml',
 			'/installation/language/en-GB/en-GB.xml',
+			'/api/language/en-GB/langmetadata.xml'
 			);
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';

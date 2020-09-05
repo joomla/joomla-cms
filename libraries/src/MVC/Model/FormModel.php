@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -191,7 +191,20 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 		// Include the plugins for the delete events.
 		PluginHelper::importPlugin($this->events_map['validate']);
 
-		Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+		$dispatcher = Factory::getContainer()->get('dispatcher');
+
+		if (!empty($dispatcher->getListeners('onUserBeforeDataValidation')))
+		{
+			@trigger_error(
+				'The `onUserBeforeDataValidation` event is deprecated and will be removed in 5.0.'
+				. 'Use the `onContentValidateData` event instead.',
+				E_USER_DEPRECATED
+			);
+
+			Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
+		}
+
+		Factory::getApplication()->triggerEvent('onContentBeforeValidateData', array($form, &$data));
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);

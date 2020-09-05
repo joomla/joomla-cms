@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Session;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -81,6 +81,50 @@ class Session extends BaseSession
 	}
 
 	/**
+	 * Get the available session handlers
+	 *
+	 * @return  array  An array of available session handlers
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getHandlers(): array
+	{
+		$connectors = [];
+
+		// Get an iterator and loop trough the handler classes.
+		$iterator = new \DirectoryIterator(JPATH_LIBRARIES . '/vendor/joomla/session/src/Handler');
+
+		foreach ($iterator as $file)
+		{
+			$fileName = $file->getFilename();
+
+			// Only load for PHP files.
+			if (!$file->isFile() || $file->getExtension() !== 'php')
+			{
+				continue;
+			}
+
+			// Derive the class name from the type.
+			$class = str_ireplace('.php', '', '\\Joomla\\Session\\Handler\\' . $fileName);
+
+			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+			if (!class_exists($class))
+			{
+				continue;
+			}
+
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+			if ($class::isSupported())
+			{
+				// Connector names should not have file the handler suffix or the file extension.
+				$connectors[] = str_ireplace('Handler.php', '', $fileName);
+			}
+		}
+
+		return $connectors;
+	}
+
+	/**
 	 * Returns the global session object.
 	 *
 	 * @return  static  The Session object.
@@ -112,14 +156,15 @@ class Session extends BaseSession
 	public function get($name, $default = null)
 	{
 		// Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
-		if (func_num_args() > 2)
+		if (\func_num_args() > 2)
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 
 			if (!empty($args[2]))
 			{
 				Log::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
 					Log::WARNING,
 					'deprecated'
 				);
@@ -144,14 +189,15 @@ class Session extends BaseSession
 	public function set($name, $value = null)
 	{
 		// Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
-		if (func_num_args() > 2)
+		if (\func_num_args() > 2)
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 
 			if (!empty($args[2]))
 			{
 				Log::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
 					Log::WARNING,
 					'deprecated'
 				);
@@ -175,14 +221,15 @@ class Session extends BaseSession
 	public function has($name)
 	{
 		// Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
-		if (func_num_args() > 1)
+		if (\func_num_args() > 1)
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 
 			if (!empty($args[1]))
 			{
 				Log::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
 					Log::WARNING,
 					'deprecated'
 				);
@@ -204,9 +251,9 @@ class Session extends BaseSession
 	public function clear()
 	{
 		// Handle B/C by checking if parameters were passed to this method; if so proxy to the new remove() method, will be removed at 5.0
-		if (func_num_args() >= 1)
+		if (\func_num_args() >= 1)
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 
 			if (!empty($args[0]))
 			{
@@ -219,10 +266,11 @@ class Session extends BaseSession
 				$name = $args[0];
 
 				// Also check for a namespace
-				if (func_num_args() > 1 && !empty($args[1]))
+				if (\func_num_args() > 1 && !empty($args[1]))
 				{
 					Log::add(
-						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+						 . 'The namespace should be prepended to the name instead.',
 						Log::WARNING,
 						'deprecated'
 					);

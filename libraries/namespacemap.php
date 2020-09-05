@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,12 +24,12 @@ class JNamespacePsr4Map
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected $file = JPATH_LIBRARIES . '/autoload_psr4.php';
+	protected $file = JPATH_CACHE . '/autoload_psr4.php';
 
 	/**
 	 * Check if the file exists
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -56,21 +56,20 @@ class JNamespacePsr4Map
 	/**
 	 * Create the namespace file
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
 	public function create()
 	{
-		$extensions = $this->getNamespaces('administrator/components');
-		$extensions = array_merge($extensions, $this->getNamespaces('api/components'));
-		$extensions = array_merge($extensions, $this->getNamespaces('modules'));
-		$extensions = array_merge($extensions, $this->getNamespaces('administrator/modules'));
+		$extensions = array_merge(
+			$this->getNamespaces('component'),
+			$this->getNamespaces('module'),
+			$this->getNamespaces('plugin'),
+			$this->getNamespaces('library')
+		);
 
-		foreach (Folder::folders(JPATH_ROOT . '/plugins') as $pluginGroup)
-		{
-			$extensions = array_merge($extensions, $this->getNamespaces('/plugins/' . $pluginGroup));
-		}
+		ksort($extensions);
 
 		$this->writeNamespaceFile($extensions);
 
@@ -80,7 +79,7 @@ class JNamespacePsr4Map
 	/**
 	 * Load the PSR4 file
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -130,112 +129,129 @@ class JNamespacePsr4Map
 	}
 
 	/**
-	 * Get an array of namespaces with their respective path for the given extension directory.
+	 * Get an array of namespaces with their respective path for the given extension type.
 	 *
-	 * @param   string  $dir  The directory
+	 * @param   string  $type  The extension type
 	 *
 	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	private function getNamespaces(string $dir): array
+	private function getNamespaces(string $type): array
 	{
-		// If it is not a dir return
-		if (!is_dir(JPATH_ROOT . '/' . $dir))
+		if (!in_array($type, ['component', 'module', 'plugin', 'library'], true))
 		{
 			return [];
 		}
 
-		// The extensions
+		// Select directories containing extension manifest files.
+		if ($type === 'component')
+		{
+			$directories = [JPATH_ADMINISTRATOR . '/components'];
+		}
+		elseif ($type === 'module')
+		{
+			$directories = [JPATH_SITE . '/modules', JPATH_ADMINISTRATOR . '/modules'];
+		}
+		elseif ($type === 'plugin')
+		{
+			$directories = Folder::folders(JPATH_PLUGINS, '.', false, true);
+		}
+		else
+		{
+			$directories = [JPATH_LIBRARIES];
+		}
+
 		$extensions = [];
 
-		// Loop over the extension type directory
-		foreach (Folder::folders(JPATH_ROOT . '/' . $dir) as $extension)
+		foreach ($directories as $directory)
 		{
-			// If it is a file we can't handle, ignore it
-			if (strpos($extension, 'mod_') !== 0 && strpos($extension, 'com_') !== 0 && strpos($dir, '/plugins/') !== 0)
+			foreach (Folder::folders($directory) as $extension)
 			{
-				continue;
-			}
+				// Compile the extension path
+				$extensionPath = $directory . '/' . $extension . '/';
 
-			// Compile the extension path
-			$extensionPath = JPATH_ROOT . '/' . $dir . '/' . $extension . '/';
+				// Strip the com_ from the extension name for components
+				$name = str_replace('com_', '', $extension, $count);
+				$file = $extensionPath . $name . '.xml';
 
-			// Strip the com_ from the extension name for components
-			$name = str_replace('com_', '', $extension, $count);
-			$file = $extensionPath . $name . '.xml';
-
-			// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_
-			// prefix.
-			if (!file_exists($file))
-			{
-				if (!$count)
-				{
-					continue;
-				}
-
-				$file = $extensionPath . $extension . '.xml';
-
+				// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_ prefix.
 				if (!file_exists($file))
 				{
+					if (!$count)
+					{
+						continue;
+					}
+
+					$file = $extensionPath . $extension . '.xml';
+
+					if (!file_exists($file))
+					{
+						continue;
+					}
+				}
+
+				// Load the manifest file
+				$xml = simplexml_load_file($file);
+
+				// When invalid, ignore
+				if (!$xml)
+				{
 					continue;
 				}
-			}
 
-			// Load the manifest file
-			$xml = simplexml_load_file($file);
+				// The namespace node
+				$namespaceNode = $xml->namespace;
 
-			// When invalid, ignore
-			if (!$xml)
-			{
-				continue;
-			}
+				// The namespace string
+				$namespace = (string) $namespaceNode;
 
-			// The namespace node
-			$namespaceNode = $xml->namespace;
-
-			// The namespace string
-			$namespace = (string) $namespaceNode;
-
-			// Ignore when the string is empty
-			if (!$namespace)
-			{
-				continue;
-			}
-
-			// The namespace path
-			$namespacePath = '/' . $dir . '/' . $extension . '/';
-
-			// Normalize the namespace string
-			$namespace = str_replace('\\', '\\\\', $namespace) . '\\\\';
-			$path = str_replace('administrator/', '', $namespacePath);
-
-			// Add the site path when a component
-			if (strpos($extension, 'com_') === 0)
-			{
-				$extensions[$namespace . 'Site\\\\'] = 'JPATH_SITE . \'' . $path . $namespaceNode->attributes()->path . '\'';
-
-				if (is_dir(JPATH_API . $path))
+				// Ignore when the string is empty
+				if (!$namespace)
 				{
-					$extensions[$namespace . 'Api\\\\'] = 'JPATH_API . \'' . $path . $namespaceNode->attributes()->path . '\'';
+					continue;
 				}
-			}
 
-			// Add the application specific segment when not a plugin
-			if (strpos($dir, '/plugins/') !== 0)
-			{
-				$baseDir    =  strpos($namespacePath, 'administrator/') ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
-				$namespace .=  strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
-			}
-			else
-			{
-				// Start in the plugin directory and remove the plugin prefix from the path
-				$baseDir = 'JPATH_PLUGINS . \'';
-				$path    = substr($path, 9);
-			}
+				// Normalize the namespace string
+				$namespace     = str_replace('\\', '\\\\', $namespace) . '\\\\';
+				$namespacePath = rtrim($extensionPath . $namespaceNode->attributes()->path, '/');
 
-			// Set the namespace
-			$extensions[$namespace] = $baseDir . $path . $namespaceNode->attributes()->path . '\'';
+				if ($type === 'plugin' || $type === 'library')
+				{
+					$baseDir = $type === 'plugin' ? 'JPATH_PLUGINS . \'' : 'JPATH_LIBRARIES . \'';
+					$path    = str_replace($type === 'plugin' ? JPATH_PLUGINS : JPATH_LIBRARIES, '', $namespacePath);
+
+					// Set the namespace
+					$extensions[$namespace] = $baseDir . $path . '\'';
+
+					continue;
+				}
+
+				// Check if we need to use administrator path
+				$isAdministrator = strpos($namespacePath, JPATH_ADMINISTRATOR) === 0;
+				$path            = str_replace($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE, '', $namespacePath);
+
+				// Add the site path when a component
+				if ($type === 'component')
+				{
+					if (is_dir(JPATH_SITE . $path))
+					{
+						$extensions[$namespace . 'Site\\\\'] = 'JPATH_SITE . \'' . $path . '\'';
+					}
+
+					if (is_dir(JPATH_API . $path))
+					{
+						$extensions[$namespace . 'Api\\\\'] = 'JPATH_API . \'' . $path . '\'';
+					}
+				}
+
+				// Add the application specific segment when a component or module
+				$baseDir    = $isAdministrator ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
+				$namespace .= $isAdministrator ? 'Administrator\\\\' : 'Site\\\\';
+
+				// Set the namespace
+				$extensions[$namespace] = $baseDir . $path . '\'';
+			}
 		}
 
 		// Return the namespaces

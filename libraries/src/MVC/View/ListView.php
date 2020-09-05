@@ -3,13 +3,13 @@
  * @package     Joomla.Cms
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -93,7 +93,7 @@ class ListView extends HtmlView
 	/**
 	 * The flag which determine whether we want to show batch button
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	protected $supportsBatch = true;
 
@@ -152,7 +152,7 @@ class ListView extends HtmlView
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
-     *
+	 *
 	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
@@ -161,7 +161,7 @@ class ListView extends HtmlView
 		$this->initializeView();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -187,9 +187,9 @@ class ListView extends HtmlView
 
 		if ($this->getLayout() !== 'modal')
 		{
-			if (is_callable($helperClass . '::addSubmenu'))
+			if (\is_callable($helperClass . '::addSubmenu'))
 			{
-				call_user_func(array($helperClass, 'addSubmenu'), $this->getName());
+				\call_user_func(array($helperClass, 'addSubmenu'), $this->getName());
 			}
 
 			$this->sidebar = \JHtmlSidebar::render();

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filesystem\File;
@@ -236,7 +236,7 @@ class PluginAdapter extends InstallerAdapter
 		{
 			// Backward Compatibility
 			// @todo Deprecate in future version
-			if (count($this->getManifest()->files->children()))
+			if (\count($this->getManifest()->files->children()))
 			{
 				$type = (string) $this->getManifest()->attributes()->type;
 
@@ -295,7 +295,7 @@ class PluginAdapter extends InstallerAdapter
 			$group = strtolower((string) $this->getManifest()->attributes()->group);
 			$name = '';
 
-			if (count($element->children()))
+			if (\count($element->children()))
 			{
 				foreach ($element->children() as $file)
 				{
@@ -472,8 +472,19 @@ class PluginAdapter extends InstallerAdapter
 				);
 			}
 
+			// Load the entry and update the manifest_cache
 			$this->extension->load($this->currentExtensionId);
+
+			// Update name
 			$this->extension->name = $this->name;
+
+			// Update namespace
+			$this->extension->namespace = (string) $this->manifest->namespace;
+
+			// Update changelogurl
+			$this->extension->changelogurl = (string) $this->manifest->changelogurl;
+
+			// Update manifest
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			// Update the manifest cache and name

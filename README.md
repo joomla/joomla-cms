@@ -7,7 +7,7 @@ Build Status
 | ------------- | ------------- |
 | [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.0-dev)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/4.0-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
 
-What is this?
+Overview
 ---------------------
 * This is the source of Joomla! 4.x.
 * Joomla's [Official website](https://www.joomla.org).
@@ -55,8 +55,13 @@ composer install
 ```
 - Install all the needed npm packages:
 ```bash
-npm install
+npm ci
 ```
+
+**Things to be aware of when pulling:**
+Joomla creates a cache of the namespaces of its extensions in `JOOMLA_ROOT/administrator/cache/autoload_psr4.php`. If
+extensions are created, deleted or removed in git then this file needs to be recreated. You can simply delete the file
+and it will be regenerated on the next call to Joomla.
 
 Do you want to improve Joomla?
 --------------------
@@ -68,7 +73,6 @@ Do you want to improve Joomla?
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
-* [Special Thanks](https://docs.joomla.org/Special:MyLanguage/Joomla!_Credits_and_Thanks)
+* Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses)

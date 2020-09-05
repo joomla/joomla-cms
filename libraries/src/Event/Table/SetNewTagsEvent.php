@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Event\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 
@@ -35,12 +35,12 @@ class SetNewTagsEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('newTags', $arguments))
+		if (!\array_key_exists('newTags', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'newTags' is required for event $name");
 		}
 
-		if (!array_key_exists('replaceTags', $arguments))
+		if (!\array_key_exists('replaceTags', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'replaceTags' is required for event $name");
 		}

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\DI\ContainerAwareInterface;
@@ -61,7 +61,7 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 
 		if ($gcResult === false)
 		{
-			$symfonyStyle->error('Garbage collection was not completed. Either the operation failed or is not supported on your platform.');
+			$symfonyStyle->error('Garbage collection was not completed. Either the operation failed or it is not supported on your platform.');
 
 			return 1;
 		}
@@ -80,20 +80,15 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Performs session garbage collection');
+		$help = "<info>%command.name%</info> runs PHP's garbage collection operation for session data
+		\nUsage: <info>php %command.full_name%</info>
+		\nThis command defaults to performing garbage collection for the frontend (site) application.
+		\nTo run garbage collection for another application, you can specify it with the <info>--application</info> option.
+		\nUsage: <info>php %command.full_name% --application=[APPLICATION]</info>";
+
+		$this->setDescription('Perform session garbage collection');
 		$this->addOption('application', 'app', InputOption::VALUE_OPTIONAL, 'The application to perform garbage collection for.', 'site');
-		$this->setHelp(
-<<<EOF
-The <info>%command.name%</info> command runs PHP's garbage collection operation for session data
-
-<info>php %command.full_name%</info>
-
-This command defaults to performing garbage collection for the frontend (site) application. To run garbage collection
-for another application, you can specify it with the <info>--application</info> option.
-
-<info>php %command.full_name% --application=[APPLICATION]</info>
-EOF
-		);
+		$this->setHelp($help);
 	}
 
 	/**

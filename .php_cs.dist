@@ -8,8 +8,7 @@ $topFilesFinder = PhpCsFixer\Finder::create()
 $mainFinder = PhpCsFixer\Finder::create()
 	->in(
 		array(
-			__DIR__ . '/libraries/cms',
-			__DIR__ . '/libraries/joomla',
+			__DIR__ . '/libraries/src',
 		)
 	)
 	->append($topFilesFinder);

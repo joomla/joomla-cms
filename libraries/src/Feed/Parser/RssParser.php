@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Feed\Parser;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
@@ -372,7 +372,7 @@ class RssParser extends FeedParser
 		$entry->updatedDate   = (string) $el->pubDate;
 		$entry->content       = (string) $el->description;
 		$entry->guid          = (string) $el->guid;
-		$entry->isPermaLink   = $entry->guid === '' || (string) $el->guid['isPermaLink'] === 'false' ? false : true;
+		$entry->isPermaLink   = $entry->guid !== '' && (string) $el->guid['isPermaLink'] !== 'false';
 		$entry->comments      = (string) $el->comments;
 
 		// Add the feed entry author if available.

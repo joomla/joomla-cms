@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // eslint-disable no-alert
@@ -54,11 +54,12 @@
           progressBar.style.width = `${progress}%`;
           progressBar.setAttribute('aria-valuenow', progress);
         }
+
         // Auto close the window
-        // if (message === msg) {
-        //   removeElement('progress');
-        //   Joomla.Modal.getCurrent().close();
-        // }
+        if (message === Joomla.Text._('COM_FINDER_INDEXER_MESSAGE_COMPLETE')) {
+          removeElement('progress');
+          window.parent.Joomla.Modal.getCurrent().close();
+        }
       }
     };
 

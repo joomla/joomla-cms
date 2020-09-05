@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -54,7 +54,7 @@ $output = array();
 foreach ($fields as $field)
 {
 	// If the value is empty do nothing
-	if (!isset($field->value) || $field->value == '')
+	if (!isset($field->value) || trim($field->value) === '')
 	{
 		continue;
 	}
@@ -63,7 +63,13 @@ foreach ($fields as $field)
 	$layout = $field->params->get('layout', 'render');
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 
-	$output[] = '<dd class="field-entry ' . $class . '">' . $content . '</dd>';
+	// If the content is empty do nothing
+	if (trim($content) === '')
+	{
+		continue;
+	}
+
+	$output[] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
 }
 
 if (empty($output))
@@ -71,6 +77,6 @@ if (empty($output))
 	return;
 }
 ?>
-<dl class="fields-container">
+<ul class="fields-container">
 	<?php echo implode("\n", $output); ?>
-</dl>
+</ul>
