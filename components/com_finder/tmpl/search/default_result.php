@@ -19,9 +19,6 @@ use Joomla\String\StringHelper;
 
 $user = Factory::getUser();
 
-// Get the mime type class.
-$mime = !empty($this->result->mime) ? 'fas fa-file-' . $this->result->mime : null;
-
 $show_description = $this->params->get('show_description', 1);
 
 if ($show_description)
@@ -50,20 +47,38 @@ if ($show_description)
 
 	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
+
+$icon = '';
+if (!empty($this->result->mime)) :
+	$icon = '<span class="fas fa-file-' . $this->result->mime . '" aria-hidden="true"></span> ';
+endif;
+
+$show_url = '';
+if ($this->params->get('show_url', 1)) :
+	$show_url = '<cite class="result__title-url">' . $this->baseUrl . Route::_($this->result->cleanURL) . '</cite>';
+endif;
 ?>
 <li class="result__item">
 	<p class="result__title">
-		<?php if ($mime) : ?>
-			<span class="<?php echo $mime; ?>" aria-hidden="true"></span>
-		<?php endif; ?>
 		<?php if ($this->result->route) : ?>
-			<?php echo HTMLHelper::link(Route::_($this->result->route), $this->result->title); ?>
+			<?php echo HTMLHelper::link(
+					Route::_($this->result->route),
+					'<span class="result__title-text">' . $icon . $this->result->title . '</span>' . $show_url,
+					[
+							'class' => 'result__title-link'
+					]
+			); ?>
 		<?php else : ?>
 			<?php echo $this->result->title; ?>
 		<?php endif; ?>
 	</p>
 	<?php if ($show_description && $description !== '') : ?>
 		<p class="result__description">
+			<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
+				<time class="result__date" datetime="<?php echo HTMLHelper::_('date', $this->result->start_date, 'c'); ?>">
+					<?php echo HTMLHelper::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
+				</time>
+			<?php endif; ?>
 			<?php echo $description; ?>
 		</p>
 	<?php endif; ?>
@@ -88,14 +103,6 @@ if ($show_description)
 			<?php endforeach; ?>
 		</ul>
 	<?php endif; ?>
-	<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
-		<time class="result__date" datetime="<?php echo HTMLHelper::_('date', $this->result->start_date, 'c'); ?>">
-			<?php echo HTMLHelper::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
-		</time>
-	<?php endif; ?>
-	<?php if ($this->params->get('show_url', 1)) : ?>
-		<p class="result__url">
-			<?php echo $this->baseUrl, Route::_($this->result->cleanURL); ?>
-		</p>
-	<?php endif; ?>
+
+
 </li>

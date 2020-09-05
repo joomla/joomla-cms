@@ -51,8 +51,37 @@
   margin-top: .75em;
 }
 
-.result__title {
-  font-size: 1.2rem;
+.result__title-link {
+  display: flex;
+  flex-direction: column;
+}
+
+.result__title-text {
+  font-size: 1.3rem;
+}
+
+.result__title-url {
+  order: -1;
+  color: hsl(0, 0%, 34%);
+  font-style: normal;
+}
+
+.result__title-link:focus,
+.result__title-link:hover {
+  text-decoration: none;
+}
+
+.result__title-link:focus .result__title-text,
+.result__title-link:hover .result__title-text {
+  text-decoration: underline;
+}
+
+.result__date {
+  color: hsl(0, 0%, 34%);
+}
+
+.result__date:after {
+  content: "-";
 }
 
 .result__taxonomy {
@@ -65,11 +94,12 @@
 }
 
 .result__taxonomy-item + .result__taxonomy-item {
-  margin-left: .75em;
+  margin-left: .5em;
 }
 
-.result__date {
-  display: block;
+.result__taxonomy-item + .result__taxonomy-item:before {
+  content: "|";
+  padding-right: .5em;
 }
 
 /**
