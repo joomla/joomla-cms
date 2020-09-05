@@ -123,7 +123,7 @@
 				<field
 					name="noteFontScheme"
 					type="note"
-					label="TPL_CASSIOPEIA_FONT_INFO_TEXT"
+					label="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
 					heading="p"
 					class="alert alert-warning"
 				/>
