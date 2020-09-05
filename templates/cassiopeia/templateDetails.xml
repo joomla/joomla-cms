@@ -119,6 +119,14 @@
 						<option value="fonts-web_roboto+noto-sans">Roboto + Noto Sans (web)</option>
 					</group>
 				</field>
+
+				<field
+					name="noteFontScheme"
+					type="note"
+					label="TPL_CASSIOPEIA_FONT_INFO_TEXT"
+					heading="p"
+					class="alert alert-warning"
+				/>
 			</fieldset>
 		</fields>
 	</config>
