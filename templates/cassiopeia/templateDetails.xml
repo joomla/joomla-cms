@@ -83,7 +83,7 @@
 				<field
 					name="colorName"
 					type="list"
-					default="summer"
+					default="colors_summer"
 					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
 					>
 					<option value="colors_spring">TPL_CASSIOPEIA_COLOR_NAME_SPRING</option>
