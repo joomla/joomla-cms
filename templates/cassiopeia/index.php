@@ -31,23 +31,15 @@ $pageclass = $menu->getParams()->get('pageclass_sfx');
 // Template path
 $templatePath = 'templates/' . $this->template;
 
-// Use a font scheme if set in the template style options
+// Use a font scheme if not "None" selected in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', 'fonts-local_roboto');
 
 if ($paramsFontScheme)
 {
 	// Preload the stylesheet for the font scheme, actually we need to preload the font(s)
 	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
-
-	$wa->registerAndUseStyle(
-		$assetFontScheme,
-		$templatePath . '/css/global/' . $paramsFontScheme . '.css'
-	);
-
-	$this->getPreloadManager()->preload(
-		$wa->getAsset('style', $assetFontScheme)->getUri(),
-		['as' => 'style']
-	);
+	$wa->registerAndUseStyle($assetFontScheme, $templatePath . '/css/global/' . $paramsFontScheme . '.css');
+	$this->getPreloadManager()->preload($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
 }
 
 // Enable assets
