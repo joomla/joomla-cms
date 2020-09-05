@@ -29,13 +29,12 @@ $menu     = $app->getMenu()->getActive();
 $pageclass = $menu->getParams()->get('pageclass_sfx');
 
 // Template path
-$templatePath = Uri::root() . 'templates/'.$this->template;
+$templatePath = 'templates/' . $this->template;
 
 // Color Theme
-$paramsColorName = $this->params->get('colorName', 'color_summer');
+$paramsColorName = $this->params->get('colorName', 'colors_summer');
 $assetColorName  = 'theme.' . $paramsColorName;
-$assetColorUri = $templatePath . '/css/global/' . $paramsColorName . '.css';
-$wa->registerAndUseStyle($assetColorName, $assetColorUri);
+$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
 $this->getPreloadManager()->preload($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
 
 // Enable assets
