@@ -44,7 +44,7 @@
 
       newDef = newDef === undefined ? newKey : newDef;
       newKey = newKey.toUpperCase();
-      
+
       return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;
     },
 
