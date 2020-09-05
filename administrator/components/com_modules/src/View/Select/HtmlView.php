@@ -79,15 +79,9 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$state    = $this->get('State');
-		$clientId = (int) $state->get('client_id', 0);
 
 		// Add page title
 		ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
-
-		if ($clientId === 1)
-		{
-			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
-		}
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
@@ -95,6 +89,6 @@ class HtmlView extends BaseHtmlView
 		// Instantiate a new FileLayout instance and render the layout
 		$layout = new FileLayout('toolbar.cancelselect');
 
-		$bar->appendButton('Custom', $layout->render(array('client_id' => $clientId)), 'new');
+		$bar->appendButton('Custom', $layout->render(), 'new');
 	}
 }
