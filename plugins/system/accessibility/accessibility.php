@@ -56,7 +56,7 @@ class PlgSystemAccessibility extends CMSPlugin
 		$this->loadLanguage();
 
 		// Determine if it is an LTR or RTL language
-		$direction = Factory::getLanguage()->isRTL() ? 'left' : 'right';
+		$direction = Factory::getLanguage()->isRTL() ? 'right' : 'left';
 
 		/**
 		* Add strings for translations in Javascript.
