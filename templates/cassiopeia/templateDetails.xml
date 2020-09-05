@@ -88,7 +88,7 @@
 					>
 					<option value="spring">TPL_CASSIOPEIA_COLOR_NAME_SPRING</option>
 					<option value="summer">TPL_CASSIOPEIA_COLOR_NAME_SUMMER</option>
-					<option value="autumm">TPL_CASSIOPEIA_COLOR_NAME_AUTUMN</option>
+					<option value="autumn">TPL_CASSIOPEIA_COLOR_NAME_AUTUMN</option>
 					<option value="winter">TPL_CASSIOPEIA_COLOR_NAME_WINTER</option>
 				</field>
 
