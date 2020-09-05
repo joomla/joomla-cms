@@ -70,6 +70,30 @@
 				/>
 
 				<field
+					name="useFontScheme"
+					type="groupedlist"
+					label="TPL_CASSIOPEIA_FONT_LABEL"
+					default="fonts-local_roboto"
+					>
+					<option value="0">JNONE</option>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
+						<option value="fonts-local_roboto">Roboto (local)</option>
+					</group>
+					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
+						<option value="fonts-web_poppins+roboto">Poppins + Roboto (web)</option>
+						<option value="fonts-web_roboto+noto-sans">Roboto + Noto Sans (web)</option>
+					</group>
+				</field>
+
+				<field
+					name="noteFontScheme"
+					type="note"
+					label="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
+					heading="p"
+					class="alert alert-warning"
+				/>
+
+				<field
 					name="fluidContainer"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
@@ -103,30 +127,6 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
-				<field
-					name="useFontScheme"
-					type="groupedlist"
-					label="TPL_CASSIOPEIA_FONT_LABEL"
-					default="fonts-local_roboto"
-					>
-					<option value="0">JNONE</option>
-					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">
-						<option value="fonts-local_roboto">Roboto (local)</option>
-					</group>
-					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
-						<option value="fonts-web_poppins+roboto">Poppins + Roboto (web)</option>
-						<option value="fonts-web_roboto+noto-sans">Roboto + Noto Sans (web)</option>
-					</group>
-				</field>
-
-				<field
-					name="noteFontScheme"
-					type="note"
-					label="TPL_CASSIOPEIA_FONT_NOTE_TEXT"
-					heading="p"
-					class="alert alert-warning"
-				/>
 			</fieldset>
 		</fields>
 	</config>
