@@ -146,7 +146,7 @@
 
                         tableExplain = $('<table><thead>'
                             + '<tr><th colspan="10">Explain</th></tr>'
-                            + '<tr><th>Id</th><th>Select Type</th><th>Table</th><th>Type</th><th>Possible Keys</th><th>Key</th><th>Key Len</th><th>Ref</th><th>Rows</th><th>Extra</th></tr>'
+                            + '<tr class="heading-row"><th>Id</th><th>Select Type</th><th>Table</th><th>Type</th><th>Possible Keys</th><th>Key</th><th>Key Len</th><th>Ref</th><th>Rows</th><th>Extra</th></tr>'
                             + '</thead></table>').addClass(csscls('callstack'))
                     }
 
@@ -220,8 +220,15 @@
                             var entry = stmt.explain[i];
 
                             if (entry.error) {
+                                tableExplain.find('.heading-row').hide();
                                 tableExplain.append('<tr><td colspan="10">' + entry.error + '</td></tr>');
+                            }
+                            else if(entry['QUERY PLAN']) {
+                                // PostgreSQL
+                                tableExplain.find('.heading-row').hide();
+                                tableExplain.append('<tr><td>QUERY PLAN </td><td colspan="9">' + entry['QUERY PLAN'] + '</td></tr>');
                             } else {
+                                // MySQL
                                 tableExplain.append('<tr>'
                                   + '<td>' + entry.id + '</td><td>' + entry.select_type + '</td><td>' + entry.table + '</td>'
                                   + '<td>' + entry.type + '</td><td>' + entry.possible_keys + '</td><td>' + entry.key + '</td>'
