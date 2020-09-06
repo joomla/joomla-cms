@@ -222,7 +222,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$parameters = $method->getParameters();
 
 			// If the parameter count is not 1 it is by definition a legacy listener
-			if (\count($parameters) != 1)
+			if (\count($parameters) !== 1)
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -292,7 +292,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 				}
 
 				// Restore the old results and add the new result from our method call
-				array_push($allResults, $result);
+				$allResults[]    = $result;
 				$event['result'] = $allResults;
 			}
 		);
