@@ -154,8 +154,8 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fas fa-cube',
-					'link'    => Route::_('index.php?option=com_modules&view=modules&client_id=0'),
-					'linkadd' => Route::_('index.php?option=com_modules&view=select&client_id=0'),
+					'link'    => Route::_('index.php?option=com_modules&view=modules'),
+					'linkadd' => Route::_('index.php?option=com_modules&view=select'),
 					'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
 					'access'  => array('core.manage', 'com_modules'),
 					'group'   => 'MOD_QUICKICON_SITE'
