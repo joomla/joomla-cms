@@ -223,7 +223,7 @@
                                 tableExplain.find('.heading-row').hide();
                                 tableExplain.append('<tr><td colspan="10">' + entry.error + '</td></tr>');
                             }
-                            else if(entry['QUERY PLAN']) {
+                            else if (entry['QUERY PLAN']) {
                                 // PostgreSQL
                                 tableExplain.find('.heading-row').hide();
                                 tableExplain.append('<tr><td>QUERY PLAN </td><td colspan="9">' + entry['QUERY PLAN'] + '</td></tr>');
