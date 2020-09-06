@@ -278,16 +278,46 @@ class PlgSampledataBlog extends CMSPlugin
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'ordering' => 2,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => 'left',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'ordering' => 1,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => 'right',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'ordering' => 0,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => 'left',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[0],
@@ -506,6 +536,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'num_links'               => 2,
 					'orderby_sec'             => 'front',
 					'order_date'              => 'published',
+					'blog_class_leading'      => 'boxed masonry-2',
 					'show_pagination'         => 2,
 					'show_pagination_results' => 1,
 					'show_category'           => 0,
@@ -1200,9 +1231,8 @@ class PlgSampledataBlog extends CMSPlugin
 			else
 			{
 				// Assignment means always "only on the homepage".
-				// @ToDo get the id of the hompage(s) from the menu getMenu()->getDefault() does not work in this context
-				$home = [101];
-				$module['assigned'] = $home;
+				$home = $app->getMenu('site')->getDefault()->id;
+				$module['assigned'] = [$home];
 			}
 
 			if (!isset($module['content']))
