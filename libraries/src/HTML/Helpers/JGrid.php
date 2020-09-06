@@ -90,7 +90,7 @@ abstract class JGrid
 
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
-			$html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $active_class, 'html' => true]);
+			$html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $active_class]);
 			$html[] = '</a>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
@@ -99,7 +99,7 @@ abstract class JGrid
 			$html[] = '<span class="tbody-icon jgrid"';
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
-			$html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $inactive_class, 'html' => true]);
+			$html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $inactive_class]);
 			$html[] = '</span>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}

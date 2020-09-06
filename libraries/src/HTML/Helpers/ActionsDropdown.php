@@ -230,7 +230,7 @@ abstract class ActionsDropdown
 		static::$dropDownList[] = '<li>'
 			. HTMLHelper::link(
 				'javascript://',
-				($icon ? LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon, 'html' => true] . ' ') : '') . $label,
+				($icon ? LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]) : '') . $label,
 				[
 					'onclick' => 'Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')'
 				]
