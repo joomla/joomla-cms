@@ -9,39 +9,23 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 $article = $displayData['article'];
 $overlib = $displayData['overlib'];
+$nowDate = strtotime(Factory::getDate());
 
-// @deprecated  4.0  The legacy icon flag will be removed from this layout in 4.0
-$legacy  = $displayData['legacy'];
+$icon = $article->state ? 'edit' : 'eye-slash';
 
-if ($legacy)
+if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate)
+	|| ($article->publish_down !== null && strtotime($article->publish_down) < $nowDate
+		&& $article->publish_down !== Factory::getDbo()->getNullDate()))
 {
-	$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-
-	if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-		|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
-	{
-		$icon = 'edit_unpublished.png';
-	}
-}
-else
-{
-	$icon = $article->state ? 'edit' : 'eye-close';
-
-	if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-		|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
-	{
-		$icon = 'eye-close';
-	}
+	$icon = 'eye-slash';
 }
 
 ?>
-<?php if ($legacy) : ?>
-	<?php echo JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), null, true); ?>
-<?php else : ?>
-	<span class="hasTooltip icon-<?php echo $icon; ?> tip" title="<?php echo JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
-	<?php echo JText::_('JGLOBAL_EDIT'); ?>
-<?php endif; ?>
+<span class="hasTooltip fas fa-<?php echo $icon; ?> fa-fw" title="<?php echo HTMLHelper::tooltipText(Text::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
+<?php echo Text::_('JGLOBAL_EDIT'); ?>

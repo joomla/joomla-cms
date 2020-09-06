@@ -9,20 +9,11 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 $tooltip = $displayData['tooltip'];
 
-// @deprecated  4.0  The legacy icon flag will be removed from this layout in 4.0
-$legacy  = $displayData['legacy'];
-
 ?>
-<?php if ($legacy) : ?>
-	<span class="hasTooltip" title="<?php echo JHtml::tooltipText($tooltip . '', 0); ?>">
-		<?php echo JHtml::_('image', 'system/checked_out.png', null, null, true); ?>
-	</span>
-	<?php echo JText::_('JLIB_HTML_CHECKED_OUT'); ?>
-<?php else : ?>
-	<span class="hasTooltip icon-lock" title="<?php echo JHtml::tooltipText($tooltip . '', 0); ?>"></span>
-	<?php echo JText::_('JLIB_HTML_CHECKED_OUT'); ?>
-<?php endif; ?>
+<span class="hasTooltip fas fa-lock fa-fw" title="<?php echo HTMLHelper::tooltipText($tooltip . '', 0); ?>"></span>
+<?php echo Text::_('JLIB_HTML_CHECKED_OUT'); ?>

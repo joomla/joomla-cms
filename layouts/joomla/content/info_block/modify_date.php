@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <dd class="modified">
-	<span class="fas fa-calendar" aria-hidden="true"></span>
+	<span class="fas fa-calendar fa-fw" aria-hidden="true"></span>
 	<time datetime="<?php echo HTMLHelper::_('date', $displayData['item']->modified, 'c'); ?>" itemprop="dateModified">
 		<?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $displayData['item']->modified, Text::_('DATE_FORMAT_LC3'))); ?>
 	</time>
