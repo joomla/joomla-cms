@@ -217,13 +217,18 @@
                     if (tableExplain) {
                         tableExplain.appendTo(li)
                         for (i in stmt.explain) {
-                            var entry = stmt.explain[i]
-                            tableExplain.append('<tr>'
-                                + '<td>' + entry.id + '</td><td>' + entry.select_type + '</td><td>' + entry.table + '</td>'
-                                + '<td>' + entry.type + '</td><td>' + entry.possible_keys + '</td><td>' + entry.key + '</td>'
-                                + '<td>' + entry.key_len + '</td><td>' + entry.ref + '</td><td>' + entry.rows + '</td>'
-                                + '<td>' + entry.Extra + '</td>'
-                                + '</tr>')
+                            var entry = stmt.explain[i];
+
+                            if (entry.error) {
+                                tableExplain.append('<tr><td colspan="10">' + entry.error + '</td></tr>');
+                            } else {
+                                tableExplain.append('<tr>'
+                                  + '<td>' + entry.id + '</td><td>' + entry.select_type + '</td><td>' + entry.table + '</td>'
+                                  + '<td>' + entry.type + '</td><td>' + entry.possible_keys + '</td><td>' + entry.key + '</td>'
+                                  + '<td>' + entry.key_len + '</td><td>' + entry.ref + '</td><td>' + entry.rows + '</td>'
+                                  + '<td>' + entry.Extra + '</td>'
+                                  + '</tr>');
+                            }
                         }
                     }
 
