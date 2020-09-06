@@ -441,15 +441,6 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
-			quicktask-title="COM_CONTENT_MENUS_NEW_ADMIN_MODULE"
-			type="component"
-			element="com_modules"
-			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
-			quicktask="index.php?option=com_modules&amp;view=select&amp;client_id=1"
-		/>
-
-		<menuitem
 			title="MOD_MENU_EXTENSIONS_PLUGIN_MANAGER"
 			type="component"
 			element="com_plugins"
