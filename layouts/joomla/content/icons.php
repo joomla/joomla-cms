@@ -23,7 +23,7 @@ $articleId = $displayData['item']->id;
 		<div class="btn-group float-right">
 			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $articleId; ?>" aria-label="<?php echo Text::_('JUSER_TOOLS'); ?>"
 				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<span class="fas fa-cog" aria-hidden="true"></span>
+				<span class="fas fa-cog fa-fw" aria-hidden="true"></span>
 			</button>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton-<?php echo $articleId; ?>">
 				<?php echo HTMLHelper::_('icon.edit', $displayData['item'], $displayData['params']); ?>
