@@ -961,7 +961,6 @@ class PlgSampledataBlog extends CMSPlugin
 					'format'       => 'rss',
 					'layout'       => '_:default',
 					'cache'        => 0,
-
 					'module_tag'   => 'section',
 				),
 			),
