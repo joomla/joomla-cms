@@ -773,16 +773,34 @@ class HtmlDocument extends Document
 			ob_end_clean();
 		}
 
+		$app      = CmsFactory::getApplication();
+		$client   = $app->isClient('administrator') === true ? 'administrator/' : 'site/';
+		$template = $app->getTemplate(true);
+
 		// Try to find a favicon by checking the template and root folder
 		$icon = '/favicon.ico';
+		$foldersToCheck = [
+			JPATH_BASE,
+			JPATH_ROOT . '/media/templates/' . $client . $template->template,
+			$directory,
+		];
 
-		foreach (array(JPATH_BASE, $directory) as $dir)
+		foreach ($foldersToCheck as $base => $dir)
 		{
+			if ($template->parent !== ''
+				&& $base === 1
+				&& !file_exists(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
+			{
+				$dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
+			}
+
 			if (file_exists($dir . $icon))
 			{
-				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(Uri::base(true) . $path . $icon);
+				$urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
+				$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
+				$path    = str_replace($base, '', $dir);
+				$path    = str_replace('\\', '/', $path);
+				$this->addFavicon($urlBase . $path . $icon);
 				break;
 			}
 		}
