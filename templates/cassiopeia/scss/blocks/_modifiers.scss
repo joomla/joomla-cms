@@ -108,8 +108,8 @@
   padding: 0 ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter;
 
   .boxed & {
-    background-color: #fff;
-    box-shadow: 0 0 2px rgba(52, 58, 67, .1), 0 2px 5px rgba(52, 58, 67, .08), 0 5px 15px rgba(52, 58, 67, .08), inset 0 3px 0 $cassiopeia-template-color;
+    background-color: $white;
+    box-shadow: 0 0 2px hsla(216, 13%, 23%, .1), 0 2px 5px hsla(216, 13%, 23%, .08), 0 5px 15px hsla(216, 13%, 23%, .08), inset 0 3px 0 $cassiopeia-template-color;
 
     .item-content {
       padding: 25px;
