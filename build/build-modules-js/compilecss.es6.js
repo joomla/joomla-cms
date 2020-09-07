@@ -44,6 +44,9 @@ module.exports.compile = (options, path) => {
           `${RootPath}/templates/cassiopeia/scss/offline.scss`,
           `${RootPath}/templates/cassiopeia/scss/template.scss`,
           `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
+          `${RootPath}/templates/cassiopeia/scss/global/fonts-local_roboto.scss`,
+          `${RootPath}/templates/cassiopeia/scss/global/fonts-web_poppins+roboto.scss`,
+          `${RootPath}/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss`,
           `${RootPath}/templates/cassiopeia/scss/global/colors_autumn.scss`,
           `${RootPath}/templates/cassiopeia/scss/global/colors_spring.scss`,
           `${RootPath}/templates/cassiopeia/scss/global/colors_summer.scss`,
@@ -71,7 +74,7 @@ module.exports.compile = (options, path) => {
 
       // Loop to get the files that should be compiled via parameter
       folders.forEach((folder) => {
-        Recurs(folder, ['*.js', '*.map', '*.svg', '*.png', '*.gif', '*.swf', '*.html', '*.json', '*.woff', '*.woff2']).then(
+        Recurs(folder, ['*.js', '*.map', '*.svg', '*.png', '*.gif', '*.swf', '*.html', '*.json']).then(
           (filesRc) => {
             filesRc.forEach(
               (file) => {

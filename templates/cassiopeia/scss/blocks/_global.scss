@@ -13,6 +13,7 @@ html {
 }
 
 body {
+  font-family: var(--cassiopeia-font-family-body);
   padding: 0;
   margin: 0;
   line-height: 1.6;
@@ -29,7 +30,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: bold;
+  font-family: var(--cassiopeia-font-family-headings);
+  font-weight: var(--cassiopeia-font-weight-headings);
 }
 
 a {
