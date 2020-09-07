@@ -81,6 +81,18 @@
 				</field>
 
 				<field
+					name="colorName"
+					type="list"
+					default="colors_summer"
+					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
+					>
+					<option value="colors_spring">TPL_CASSIOPEIA_COLOR_NAME_SPRING</option>
+					<option value="colors_summer">TPL_CASSIOPEIA_COLOR_NAME_SUMMER</option>
+					<option value="colors_autumn">TPL_CASSIOPEIA_COLOR_NAME_AUTUMN</option>
+					<option value="colors_winter">TPL_CASSIOPEIA_COLOR_NAME_WINTER</option>
+				</field>
+
+				<field
 					name="stickyHeader"
 					type="radio"
 					label="TPL_CASSIOPEIA_STICKY_LABEL"
