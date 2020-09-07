@@ -78,10 +78,17 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$state    = $this->get('State');
+		$state = $this->get('State');
 
 		// Add page title
-		ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+		if ((int) $state->get('client_id') === 1)
+		{
+			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+		}
+		else
+		{
+			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+		}
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
