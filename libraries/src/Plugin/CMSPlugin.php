@@ -324,7 +324,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 */
 	protected function checkTypeHint(\ReflectionType $reflectionType): bool
 	{
-		if ($reflectionType->isBuiltin() || $reflectionType->allowsNull())
+		if ($reflectionType->allowsNull())
 		{
 			return false;
 		}
@@ -338,9 +338,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		// Handle PHP 8 union types.
 		if ($reflectionType instanceof \ReflectionUnionType)
 		{
-			foreach (explode('|', $reflectionType->getNames()) as $type)
+			foreach ($reflectionType->getTypes() as $type)
 			{
-				if (!\is_a($type, EventInterface::class, true))
+				if (!\is_a($type->getName(), EventInterface::class, true))
 				{
 					return false;
 				}
