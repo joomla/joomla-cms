@@ -34,22 +34,28 @@ h6 {
 
 a {
   color: var(--cassiopeia-color-primary);
-}
-a:hover {
-  color: var(--cassiopeia-color-hover);
-}
-a.navbar-brand {
-  color: var(--cassiopeia-color-brand);
+  
+  &:hover,
+  &:focus {
+    color: var(--cassiopeia-color-hover);
+  }
+
+  &.navbar-brand {
+    color: var(--cassiopeia-color-brand);
+  }
 }
 
 .btn-primary {
   background-color: var(--cassiopeia-color-primary);
   border-color: var(--cassiopeia-color-primary);
-  &:hover {
+  
+  &:hover,
+  &:focus {
     background-color: var(--cassiopeia-color-hover);
     border-color: var(--cassiopeia-color-hover);
   }
 }
+
 small,
 .small {
   font-size: $font-size-sm;
