@@ -103,6 +103,4 @@ endif;
 			<?php endforeach; ?>
 		</ul>
 	<?php endif; ?>
-
-
 </li>
