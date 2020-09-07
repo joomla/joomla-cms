@@ -153,7 +153,6 @@ class Icon
 
 		$text = LayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy));
 
-		//$attribs['title']   = Text::_('JGLOBAL_EDIT_TITLE');
 		$attribs['role']  = 'button';
 		$attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
 		$output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
