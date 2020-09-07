@@ -1,4 +1,9 @@
-// TODO use _variables.scss
+// Bootstrap functions
+@import "../../../media/vendor/bootstrap/scss/functions";
+
+// Variables, Functions and Mixins
+@import "tools/tools";
+
 html {
   background: radial-gradient(circle, $gray-100, $gray-200);
   background-color: $cyan;
