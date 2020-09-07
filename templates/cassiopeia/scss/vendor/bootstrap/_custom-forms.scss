@@ -17,7 +17,7 @@
 
   &[multiple] {
     padding: 0;
-    background-color: var(--white-offset);
+    background-color: var(--white);
 
     option {
       padding: $custom-select-multiple-padding-y $custom-select-padding-x;
@@ -38,7 +38,7 @@
 
       option {
         color: $custom-select-color;
-        background-color: $white-offset;
+        background-color: $white;
       }
     }
 
@@ -48,7 +48,7 @@
 
       option {
         color: $custom-select-color;
-        background-color: $white-offset;
+        background-color: $white;
       }
     }
   }

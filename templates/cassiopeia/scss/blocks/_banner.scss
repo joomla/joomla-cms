@@ -1,7 +1,7 @@
 // Banner
 
 .container-banner {
-  color: #fff;
+  color: $white;
 
   img {
     display: block;
@@ -21,8 +21,8 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      color: #fff;
-      background-color: rgba(0,0,0,.5);
+      color: $white;
+      background-color: hsla(0, 0%, 0%, .5);
 
       h2 {
         font-size: 3rem;

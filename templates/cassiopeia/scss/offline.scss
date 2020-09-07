@@ -1,7 +1,12 @@
-// TODO use _variables.scss
+// Bootstrap functions
+@import "../../../media/vendor/bootstrap/scss/functions";
+
+// Variables, Functions and Mixins
+@import "tools/tools";
+
 html {
-  background: radial-gradient(circle, #fdfdfd, #f1f1f1);
-  background-color: #3a92c8;
+  background: radial-gradient(circle, $gray-100, $gray-200);
+  background-color: $cyan;
   background-image: none;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -11,7 +16,7 @@ body {
   padding: 0;
   margin: 0;
   font: 14px / 18px sans-serif;
-  color: #555;
+  color: $gray-700;
   background-color: transparent;
 }
 
@@ -31,10 +36,10 @@ body {
   width: 100%;
   max-width: 30em;
   margin: 0 auto 60px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, .1);
+  background-color: $white;
+  border: 1px solid hsla(0, 0%, 0%,.1);
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .05);
+  box-shadow: 0 0 10px hsla(0, 0%, 0%,.05);
 }
 
 .header {
@@ -57,8 +62,8 @@ html[dir=rtl] .header {
   left: 0;
   height: 3px;
   content: "";
-  background-color: #007eb7;
-  background-image: linear-gradient(to right, #59afff 0%, #59daff 100%);
+  background-color: hsl(199, 100%, 36%);
+  background-image: linear-gradient(to right, hsl(209, 100%, 67%) 0%, hsl(193, 100%, 67%) 100%);
 }
 
 .login {
@@ -105,10 +110,10 @@ input {
   z-index: 1;
   padding: 12px;
   margin-top: 2px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, .05);
+  background-color: $white;
+  border: 1px solid hsla(0, 0%, 0%,.05);
   border-radius: 50%;
-  box-shadow: 0 0 5px rgba(0, 0, 0, .075);
+  box-shadow: 0 0 5px hsla(0, 0%, 0%,.075);
   transform: translate(-50%, -50%);
 }
 

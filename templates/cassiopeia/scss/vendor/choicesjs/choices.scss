@@ -60,7 +60,7 @@
     }
 
     &:focus {
-      box-shadow: 0 0 0 2px #00bcd4;
+      box-shadow: 0 0 0 2px hsl(187, 100%, 42%);
     }
   }
 
@@ -102,7 +102,7 @@
     margin-bottom: 0;
     margin-left: 8px;
     line-height: 1;
-    border-left: 1px solid #008fa1;
+    border-left: 1px solid hsl(187, 100%, 32%);
     opacity: .75;
 
     &:hover,
@@ -111,7 +111,7 @@
     }
 
     &::before {
-      color: #fff;
+      color: $white;
     }
   }
 }

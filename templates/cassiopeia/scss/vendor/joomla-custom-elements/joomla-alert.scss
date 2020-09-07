@@ -76,32 +76,32 @@
   &[type="success"],
   &[type="message"] {
     --alert-accent-color: var(--success);
-    --alert-heading-text: rgba(255, 255, 255, .95);
+    --alert-heading-text: hsla(0, 0%, 100%, .95);
     --alert-close-button: var(--success);
-    background-color: var(--white-offset);
+    background-color: var(--white);
   }
 
   &[type="info"],
   &[type="notice"] {
     --alert-accent-color: var(--info);
-    --alert-heading-text: rgba(255, 255, 255, .95);
+    --alert-heading-text: hsla(0, 0%, 100%, .95);
     --alert-close-button: var(--info);
-    background-color: var(--white-offset);
+    background-color: var(--white);
   }
 
   &[type="warning"] {
     --alert-accent-color: var(--warning);
-    --alert-heading-text: #000;
-    --alert-close-button: #000;
-    background-color: var(--white-offset);
+    --alert-heading-text: $black;
+    --alert-close-button: $black;
+    background-color: var(--white);
   }
 
   &[type="error"],
   &[type="danger"] {
     --alert-accent-color: var(--danger);
-    --alert-heading-text: rgba(255, 255, 255, .95);
+    --alert-heading-text: hsla(0, 0%, 100%, .95);
     --alert-close-button: var(--danger);
-    background-color: var(--white-offset);
+    background-color: var(--white);
   }
 
   .joomla-alert--close,
