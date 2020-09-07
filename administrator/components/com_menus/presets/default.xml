@@ -84,9 +84,11 @@
 
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER"
+			quicktask-title="COM_CONTENT_MENUS_NEW_MODULE"
 			type="component"
 			element="com_modules"
 			link="index.php?option=com_modules&amp;view=modules"
+			quicktask="index.php?option=com_modules&amp;view=select"
 		/>
 	</menuitem>
 
