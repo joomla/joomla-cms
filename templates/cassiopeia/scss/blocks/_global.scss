@@ -16,7 +16,7 @@ body {
   padding: 0;
   margin: 0;
   line-height: 1.6;
-  background: #fff;
+  background: $white;
 }
 
 img {
@@ -34,7 +34,7 @@ h6 {
 
 a {
   color: var(--cassiopeia-color-primary);
-  
+
   &:hover,
   &:focus {
     color: var(--cassiopeia-color-hover);
@@ -48,7 +48,7 @@ a {
 .btn-primary {
   background-color: var(--cassiopeia-color-primary);
   border-color: var(--cassiopeia-color-primary);
-  
+
   &:hover,
   &:focus {
     background-color: var(--cassiopeia-color-hover);

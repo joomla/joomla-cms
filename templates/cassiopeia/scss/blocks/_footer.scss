@@ -2,11 +2,11 @@
 
 .footer {
   padding: 2.5rem ($cassiopeia-grid-gutter / 2);
-  color: #fff;
+  color: $white;
   background: $cassiopeia-template-color;
 
   a {
-    color: #fff;
+    color: $white;
   }
 
   .back-top {
@@ -14,7 +14,7 @@
     height: 40px;
     padding: 8px 11px;
     color: $cassiopeia-template-color;
-    background: #fff;
+    background: $white;
     border-radius: 3px;
 
     @include margin("right", 5px);

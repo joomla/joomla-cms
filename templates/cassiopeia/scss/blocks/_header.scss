@@ -5,7 +5,7 @@
   z-index: 10;
   background-color: $cassiopeia-template-color;
   background-image: $cassiopeia-header-grad;
-  box-shadow: 0 5px 5px rgba(0, 0, 0, .03) inset;
+  box-shadow: 0 5px 5px hsla(0, 0%, 0%,.03) inset;
 
   @include media-breakpoint-down(sm) {
     position: relative !important;
@@ -25,7 +25,7 @@
 
   .site-description {
     font-size: 1rem;
-    color: $white-offset;
+    color: $white;
   }
 
   .navbar-brand {
@@ -34,7 +34,7 @@
     padding: 2.5rem ($cassiopeia-grid-gutter / 2);
     margin-right: auto;
     font-size: 2rem;
-    color: $white-offset;
+    color: $white;
 
     [dir=rtl] & {
       margin-right: 0;
@@ -52,7 +52,7 @@
 
     &:hover,
     &:focus {
-      color: darken($white-offset, 6%);
+      color: darken($white, 6%);
     }
   }
 
@@ -104,9 +104,9 @@
   }
 
   .navbar-toggler {
-    color: $white-offset;
+    color: $white;
     cursor: default;
-    border: 1px solid $white-offset;
+    border: 1px solid $white;
 
     .fas {
       font-size: 24px;
