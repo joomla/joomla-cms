@@ -31,7 +31,13 @@ $pageclass = $menu->getParams()->get('pageclass_sfx');
 // Template path
 $templatePath = 'templates/' . $this->template;
 
-// Use a font scheme if not "None" selected in the template style options
+// Color Theme
+$paramsColorName = $this->params->get('colorName', 'colors_summer');
+$assetColorName  = 'theme.' . $paramsColorName;
+$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$this->getPreloadManager()->preload($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
+
+// Use a font scheme if not "None" is set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', 'fonts-local_roboto');
 
 if ($paramsFontScheme)
@@ -62,7 +68,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 $hasClass = '';
