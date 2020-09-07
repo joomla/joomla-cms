@@ -94,17 +94,6 @@
 				/>
 
 				<field
-					name="fluidContainer"
-					type="radio"
-					layout="joomla.form.field.radio.switcher"
-					default="0"
-					label="TPL_CASSIOPEIA_FLUID_LABEL"
-					>
-					<option value="1">TPL_CASSIOPEIA_FLUID</option>
-					<option value="0">TPL_CASSIOPEIA_STATIC</option>
-				</field>
-
-				<field
 					name="colorName"
 					type="list"
 					default="colors_summer"
@@ -114,6 +103,17 @@
 					<option value="colors_summer">TPL_CASSIOPEIA_COLOR_NAME_SUMMER</option>
 					<option value="colors_autumn">TPL_CASSIOPEIA_COLOR_NAME_AUTUMN</option>
 					<option value="colors_winter">TPL_CASSIOPEIA_COLOR_NAME_WINTER</option>
+				</field>
+
+				<field
+					name="fluidContainer"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					label="TPL_CASSIOPEIA_FLUID_LABEL"
+					>
+					<option value="1">TPL_CASSIOPEIA_FLUID</option>
+					<option value="0">TPL_CASSIOPEIA_STATIC</option>
 				</field>
 
 				<field
