@@ -37,6 +37,17 @@ $assetColorName  = 'theme.' . $paramsColorName;
 $wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
 $this->getPreloadManager()->preload($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
 
+// Use a font scheme if not "None" is set in the template style options
+$paramsFontScheme = $this->params->get('useFontScheme', 'fonts-local_roboto');
+
+if ($paramsFontScheme)
+{
+	// Preload the stylesheet for the font scheme, actually we need to preload the font(s)
+	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
+	$wa->registerAndUseStyle($assetFontScheme, $templatePath . '/css/global/' . $paramsFontScheme . '.css');
+	$this->getPreloadManager()->preload($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
+}
+
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
@@ -45,21 +56,6 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
-
-// Use of Google Font
-if ($this->params->get('googleFont'))
-{
-	// Preload the stylesheet for the font, actually we need to preload the font
-	$paramsFontName = $this->params->get('googleFontName');
-
-	if ($paramsFontName)
-	{
-		$assetFontName  = 'font.' . $paramsFontName;
-
-		$wa->registerAndUseStyle($assetFontName, 'media/fonts/' . $paramsFontName . '.css');
-		$this->getPreloadManager()->preload($wa->getAsset('style', $assetFontName)->getUri(), ['as' => 'style']);
-	}
-}
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))
