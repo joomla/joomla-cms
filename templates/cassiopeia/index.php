@@ -28,6 +28,15 @@ $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu->getParams()->get('pageclass_sfx');
 
+// Template path
+$templatePath = 'templates/' . $this->template;
+
+// Color Theme
+$paramsColorName = $this->params->get('colorName', 'colors_summer');
+$assetColorName  = 'theme.' . $paramsColorName;
+$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$this->getPreloadManager()->preload($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
+
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
@@ -63,7 +72,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 $hasClass = '';
