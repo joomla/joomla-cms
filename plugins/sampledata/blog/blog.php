@@ -278,16 +278,46 @@ class PlgSampledataBlog extends CMSPlugin
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'ordering' => 2,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => 'left',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'ordering' => 1,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => 'right',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'ordering' => 0,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => 'left',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[0],
@@ -298,16 +328,46 @@ class PlgSampledataBlog extends CMSPlugin
 				'catid'    => $catIds[2],
 				'featured' => 0,
 				'ordering' => 0,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => '',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[2],
 				'featured' => 0,
 				'ordering' => 0,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => '',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 			array(
 				'catid'    => $catIds[2],
 				'featured' => 0,
 				'ordering' => 0,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'float_intro'            => '',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'float_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 		);
 
@@ -342,9 +402,13 @@ class PlgSampledataBlog extends CMSPlugin
 			$article['language']        = $language;
 			$article['associations']    = array();
 			$article['state']           = 1;
-			$article['images']          = '';
 			$article['metakey']         = '';
 			$article['metadesc']        = '';
+
+			if (!isset($article['images']))
+			{
+				$article['images']  = '';
+			}
 
 			if (!isset($article['access']))
 			{
@@ -458,17 +522,31 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Insert menuitems level 1.
 		$menuItems = array(
-			// Blog
 			array(
+				// Blog
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
-				'type'         => 'heading',
-				'link'         => '',
-				'component_id' => '',
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
-					'menu_text'         => 1,
-					'show_page_heading' => 1,
-					'secure'            => 0,
+					'layout_type'             => 'blog',
+					'show_category_title'     => 0,
+					'num_leading_articles'    => 4,
+					'num_intro_articles'      => 0,
+					'num_links'               => 2,
+					'orderby_sec'             => 'front',
+					'order_date'              => 'published',
+					'blog_class_leading'      => 'boxed masonry-2',
+					'show_pagination'         => 2,
+					'show_pagination_results' => 1,
+					'show_category'           => 0,
+					'info_bloc_position'      => 0,
+					'show_publish_date'       => 0,
+					'show_hits'               => 0,
+					'show_feed_link'          => 1,
+					'menu_text'               => 1,
+					'show_page_heading'       => 0,
+					'secure'                  => 0,
 				),
 			),
 			array(
@@ -794,6 +872,8 @@ class PlgSampledataBlog extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
+		$app = Factory::getApplication();
+
 		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
@@ -849,7 +929,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// The author Menu, for registered users
 				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'top-a',
+				'position'  => 'sidebar-right',
 				'module'    => 'mod_menu',
 				'access'    => 3,
 				'showtitle' => 0,
@@ -863,7 +943,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'cache'           => 1,
 					'cache_time'      => 900,
 					'cachemode'       => 'itemid',
-					'module_tag'      => 'div',
+					'module_tag'      => 'aside',
 					'bootstrap_size'  => 0,
 					'header_tag'      => 'h3',
 					'style'           => 0,
@@ -881,6 +961,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'format'       => 'rss',
 					'layout'       => '_:default',
 					'cache'        => 0,
+					'module_tag'   => 'section',
 				),
 			),
 			array(
@@ -893,22 +974,44 @@ class PlgSampledataBlog extends CMSPlugin
 					'layout'     => '_:default',
 					'cache'      => 1,
 					'cache_time' => 900,
+					'module_tag' => 'div',
 					'cachemode'  => 'static',
 				),
 			),
 			array(
-				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
-				'ordering' => 5,
-				'position' => 'sidebar-right',
-				'module'   => 'mod_articles_popular',
+				'title'      => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
+				'ordering'   => 6,
+				'position'   => 'top-a',
+				'module'     => 'mod_articles_news',
+				// Assignment 1 means here - only on the homepage
+				'assignment' => 1,
+				'showtitle'  => 0,
 				'params'   => array(
-					'catid'      => $catids[0],
-					'count'      => 5,
-					'show_front' => 1,
-					'layout'     => '_:default',
-					'cache'      => 1,
-					'cache_time' => 900,
-					'cachemode'  => 'static',
+					'catid'             => $catids[2],
+					'image'             => 1,
+					'img_intro_full'    => 'intro',
+					'item_title'        => 0,
+					'link_titles'       => '',
+					'item_heading'      => 'h4',
+					'triggerevents'     => 1,
+					'showLastSeparator' => 1,
+					'show_introtext'    => 1,
+					'readmore'          => 1,
+					'count'             => 3,
+					'show_featured'     => '',
+					'exclude_current'   => 0,
+					'ordering'          => 'a.publish_up',
+					'direction'         => 1,
+					'layout'            => '_:horizontal',
+					'moduleclass_sfx'   => '',
+					'cache'             => 1,
+					'cache_time'        => 900,
+					'cachemode'         => 'itemid',
+					'style'             => 'Cassiopeia-default',
+					'module_tag'        => 'div',
+					'bootstrap_size'    => '0',
+					'header_tag'        => 'h3',
+					'header_class'      => ''
 				),
 			),
 			array(
@@ -984,38 +1087,42 @@ class PlgSampledataBlog extends CMSPlugin
 				'position' => 'search',
 				'module'   => 'mod_finder',
 				'params'   => array(
-					'searchfilter' => '',
+					'searchfilter'     => '',
 					'show_autosuggest' => 1,
-					'show_advanced' => 0,
-					'show_label' => 0,
-					'alt_label' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
-					'show_button' => 1,
-					'opensearch' => 1,
-					'opensearch_name' => '',
-					'set_itemid' => 0,
-					'layout' => '_:default',
-					'module_tag' => 'search',
+					'show_advanced'    => 0,
+					'show_label'       => 0,
+					'alt_label'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
+					'show_button'      => 1,
+					'opensearch'       => 1,
+					'opensearch_name'  => '',
+					'set_itemid'       => 0,
+					'layout'           => '_:default',
+					'module_tag'       => 'search',
 				),
 			),
 			array(
 				// Headder image
-				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
-				'content'   => '<p>' . Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE') . '</p>',
-				'ordering'  => 1,
-				'position'  => 'none',
-				'module'    => 'mod_custom',
-				'showtitle' => 0,
-				'params'    => array(
-					'prepare_content' => 1,
-					'backgroundimage' => 'images\/banners\/banner.jpg',
+				'title'      => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
+				'content'    => '<p>' . Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_CONTENT') . '</p>',
+				'ordering'   => 1,
+				'position'   => 'banner',
+				'module'     => 'mod_custom',
+				// Assignment 1 means here - only on the homepage
+				'assignment' => 1,
+				'showtitle'  => 0,
+				'params'     => array(
+					'prepare_content' => 0,
+					'backgroundimage' => 'images/banners/banner.jpg',
 					'layout'          => 'cassiopeia:banner',
+					'moduleclass_sfx' => '',
 					'cache'           => 1,
 					'cache_time'      => 900,
 					'cachemode'       => 'static',
+					'style'           => '0',
 					'module_tag'      => 'div',
-					'bootstrap_size'  => 0,
+					'bootstrap_size'  => '0',
 					'header_tag'      => 'h3',
-					'style'           => 'none',
+					'header_class'    => ''
 				),
 			),
 			array(
@@ -1034,7 +1141,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'maxsize'         => 2,
 					'layout'          => '_:default',
 					'owncache'        => 1,
-					'module_tag'      => 'div',
+					'module_tag'      => 'aside',
 					'bootstrap_size'  => 0,
 					'header_tag'      => 'h3',
 					'style'           => 0,
@@ -1115,7 +1222,31 @@ class PlgSampledataBlog extends CMSPlugin
 			$module['language']   = $language;
 			$module['note']       = '';
 			$module['published']  = 1;
-			$module['assignment'] = 0;
+
+			if (!isset($module['assignment']))
+			{
+				$module['assignment'] = 0;
+			}
+			else
+			{
+				// Assignment means always "only on the homepage".
+				if (Multilanguage::isEnabled())
+				{
+					$homes = Multilanguage::getSiteHomePages();
+
+					if (isset($homes[$language]))
+					{
+						$home = $homes[$language]->id;
+					}
+				}
+
+				if (!isset($home))
+				{
+					$home = $app->getMenu('site')->getDefault()->id;
+				}
+
+				$module['assigned'] = [$home];
+			}
 
 			if (!isset($module['content']))
 			{
