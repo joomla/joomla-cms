@@ -1120,7 +1120,7 @@ class ModulesModelModule extends JModelAdmin
 		// Clean the front-end cache
 		parent::cleanCache('com_modules', 0);
 
-		// Clean the admin cache
+		// Clean the administrator cache
 		parent::cleanCache('com_modules', 1);
 	}
 }
