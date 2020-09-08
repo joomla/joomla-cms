@@ -27,5 +27,5 @@ if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate
 }
 
 ?>
-<span class="hasTooltip fas fa-<?php echo $icon; ?>" title="<?php echo HTMLHelper::tooltipText(Text::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
+<span class="hasTooltip fas fa-<?php echo $icon; ?> fa-fw" title="<?php echo HTMLHelper::tooltipText(Text::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
 <?php echo Text::_('JGLOBAL_EDIT'); ?>
