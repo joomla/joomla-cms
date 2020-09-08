@@ -48,7 +48,7 @@
 }
 
 .result__item > * + * {
-  margin-top: .75em;
+  margin-top: .25em;
 }
 
 .result__title-link {
@@ -62,6 +62,7 @@
 
 .result__title-url {
   order: -1;
+  margin-bottom: .25em;
   color: hsl(0, 0%, 34%);
   font-style: normal;
 }
