@@ -299,13 +299,16 @@ class Toolbar
 		}
 
 		// Render each button in the toolbar.
+		$i = 0;
+		$len = count($this->_bar);
 		foreach ($this->_bar as $button)
 		{
 			if ($button instanceof ToolbarButton)
 			{
 				// Child dropdown only support new syntax
 				$button->setOption('is_child', $isChild);
-
+				$button->setOption('is_first_child', $i === 0);
+				$button->setOption('is_last_child', $i === $len - 1);
 				$html[] = $button->render();
 			}
 			// B/C
@@ -313,6 +316,7 @@ class Toolbar
 			{
 				$html[] = $this->renderButton($button);
 			}
+			$i++;
 		}
 
 		// End toolbar div.
