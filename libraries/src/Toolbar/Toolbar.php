@@ -298,11 +298,10 @@ class Toolbar
 			$html[] = $layout->render(['id' => $this->_name]);
 		}
 
-		$i = 0;
 		$len = count($this->_bar);
 
 		// Render each button in the toolbar.
-		foreach ($this->_bar as $button)
+		foreach ($this->_bar as $i => $button)
 		{
 			if ($button instanceof ToolbarButton)
 			{
@@ -317,8 +316,6 @@ class Toolbar
 			{
 				$html[] = $this->renderButton($button);
 			}
-
-			$i++;
 		}
 
 		// End toolbar div.
