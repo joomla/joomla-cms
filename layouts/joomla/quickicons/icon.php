@@ -61,9 +61,9 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	<?php endif; ?>
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<?php if (isset($displayData['image'])): ?>
+			<?php if (isset($displayData['icon'])): ?>
 				<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-					<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+					<div class="<?php echo $displayData['icon']; ?>" aria-hidden="true"></div>
 				</div>
 			<?php endif; ?>
 			<?php if (isset($displayData['ajaxurl'])) : ?>
