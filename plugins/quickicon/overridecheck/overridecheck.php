@@ -85,8 +85,7 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 		return array(
 			array(
 				'link'  => 'index.php?option=com_templates&view=templates',
-				'image' => 'fas fa-file',
-				'icon'  => '',
+				'icon' => 'fas fa-file',
 				'text'  => Text::_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
 				'id'    => 'plg_quickicon_overridecheck',
 				'group' => 'MOD_QUICKICON_MAINTENANCE'

@@ -67,8 +67,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 
 		$iconDefinition = [
 			'link'  => 'index.php?option=com_installer&view=updatesites&filter[supported]=1',
-			'image' => 'fas fa-key',
-			'icon'  => '',
+			'icon' => 'fas fa-key',
 			'text'  => Text::_('PLG_QUICKICON_DOWNLOADKEY_OK'),
 			'class' => 'success',
 			'id'    => 'plg_quickicon_downloadkey',
