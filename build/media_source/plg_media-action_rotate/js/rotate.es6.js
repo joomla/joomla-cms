@@ -75,7 +75,9 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       elements.forEach((element) => {
         element.addEventListener('click', ({ target }) => {
           const inputElement = target.querySelector('input');
-          inputElement && rotate(parseInt(inputElement.value, 10));
+          if (inputElement) {
+            rotate(parseInt(inputElement.value, 10));
+          }
         });
       });
     };
