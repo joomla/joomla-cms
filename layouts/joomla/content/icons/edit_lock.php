@@ -16,7 +16,7 @@ $tooltip = $displayData['tooltip'];
 
 $aria_described = 'editarticle-' . (int) $article->id;
 ?>
-<span class="hasTooltip fas fa-lock"  aria-hidden="false"></span>
+<span class="hasTooltip fas fa-lock"  aria-hidden="true"></span>
 	<?php echo Text::_('JLIB_HTML_CHECKED_OUT'); ?>
 <div role="tooltip" id="<?php echo $aria_described; ?>">
 	<?php echo $tooltip; ?>

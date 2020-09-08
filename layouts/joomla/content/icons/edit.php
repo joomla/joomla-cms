@@ -27,7 +27,7 @@ if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate
 $aria_described = 'editarticle-' . (int) $article->id;
 
 ?>
-<span class="fas fa-<?php echo $icon; ?>" aria-hidden="false"></span>
+<span class="fas fa-<?php echo $icon; ?>" aria-hidden="true"></span>
  <?php echo Text::_('JGLOBAL_EDIT'); ?>
 <div role="tooltip" id="<?php echo $aria_described; ?>">
 	<?php echo $tooltip; ?>

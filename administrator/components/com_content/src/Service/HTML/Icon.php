@@ -127,7 +127,7 @@ class Icon
 		{
 			$checkoutUser = Factory::getUser($article->checked_out);
 			$date         = HTMLHelper::_('date', $article->checked_out_time);
-			$tooltip      = Text::_('JLIB_HTML_CHECKED_OUT') . ' <br> ' . Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
+			$tooltip      = Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br> ' . $date;
 
 			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy));
