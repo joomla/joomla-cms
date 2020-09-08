@@ -29,6 +29,6 @@ $aria_described = 'editarticle-' . (int) $article->id;
 ?>
 <span class="fas fa-<?php echo $icon; ?>" aria-hidden="false"></span>
  <?php echo Text::_('JGLOBAL_EDIT'); ?>
-<div role="tooltip" id="<?php echo $aria_described; ?>" aria-live="polite">
+<div role="tooltip" id="<?php echo $aria_described; ?>">
 	<?php echo $tooltip; ?>
 </div>
