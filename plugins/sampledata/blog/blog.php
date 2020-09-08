@@ -1230,7 +1230,21 @@ class PlgSampledataBlog extends CMSPlugin
 			else
 			{
 				// Assignment means always "only on the homepage".
-				$home = $app->getMenu('site')->getDefault($language)->id;
+				if (Multilanguage::isEnabled())
+				{
+					$homes = Multilanguage::getSiteHomePages();
+
+					if (isset($homes[$language]))
+					{
+						$home = $homes[$language]->id;
+					}
+				}
+
+				if (!isset($home))
+				{
+					$home = $app->getMenu('site')->getDefault()->id;
+				}
+
 				$module['assigned'] = [$home];
 			}
 
