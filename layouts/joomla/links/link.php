@@ -17,10 +17,15 @@ $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['o
 $title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
 $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>')
 
+$icon = $displayData['icon'];
+if (isset($displayData['image']):
+    $icon = $displayData['icon'];
+endif;
+
 ?>
 <li<?php echo $id; ?>>
 	<a href="<?php echo OutputFilter::ampReplace($displayData['link']); ?>"<?php echo $target . $onclick . $title; ?>>
-		<span class="<?php echo $displayData['icon']; ?>" aria-hidden="true"></span>
+		<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 		<?php echo $text; ?>
 	</a>
 </li>
