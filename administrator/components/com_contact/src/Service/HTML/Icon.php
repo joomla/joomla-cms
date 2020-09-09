@@ -164,7 +164,7 @@ class Icon
 		$text .= Text::_('JGLOBAL_EDIT');
 		$text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
 
-		$attribs['aria-describedby'] = 'editcontact-' . (int) $contact->id;
+		$attribs['aria-describedby'] = $aria_described;
 		$output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		return $output;
