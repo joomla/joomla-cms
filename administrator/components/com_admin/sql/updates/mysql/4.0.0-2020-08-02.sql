@@ -27,7 +27,8 @@ SET n.ordering = n2.new_ordering
 WHERE n.id = n2.id;
 
 -- Reverse ordering in #__content_frontpage table
-SET @new_ordering := 0; 
+SET @new_ordering := 0;
+SET @row_number := 0;
 UPDATE `#__content_frontpage` AS n
 INNER JOIN (
   SELECT 
