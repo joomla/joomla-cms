@@ -474,7 +474,8 @@ class PlgSystemDebug extends CMSPlugin
 
 		if ($this->params->get('query_explains') && in_array($db->getServerType(), ['mysql', 'postgresql'], true))
 		{
-			$logs = $this->queryMonitor->getLogs();
+			$logs        = $this->queryMonitor->getLogs();
+			$boundParams = $this->queryMonitor->getBoundParams();
 
 			foreach ($logs as $k => $query)
 			{
@@ -490,12 +491,22 @@ class PlgSystemDebug extends CMSPlugin
 				{
 					try
 					{
-						$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
-						$this->explains[$k] = $db->loadAssocList();
+						$queryInstance = $db->getQuery(true);
+						$queryInstance->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
+
+						if ($boundParams[$k])
+						{
+							foreach ($boundParams[$k] as $key => $obj)
+							{
+								$queryInstance->bind($key, $obj->value, $obj->dataType, $obj->length, $obj->driverOptions);
+							}
+						}
+
+						$this->explains[$k] = $db->setQuery($queryInstance)->loadAssocList();
 					}
 					catch (Exception $e)
 					{
-						$this->explains[$k] = [['Error' => $e->getMessage()]];
+						$this->explains[$k] = [['error' => $e->getMessage()]];
 					}
 				}
 			}
