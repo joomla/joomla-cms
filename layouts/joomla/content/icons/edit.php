@@ -28,7 +28,7 @@ $aria_described = 'editarticle-' . (int) $article->id;
 
 ?>
 <span class="fas fa-<?php echo $icon; ?>" aria-hidden="true"></span>
- <?php echo Text::_('JGLOBAL_EDIT'); ?>
+	<?php echo Text::_('JGLOBAL_EDIT'); ?>
 <div role="tooltip" id="<?php echo $aria_described; ?>">
 	<?php echo $tooltip; ?>
 </div>
