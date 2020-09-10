@@ -141,11 +141,11 @@ class Icon
 
 		if ((int) $contact->published === 0)
 		{
-			$tooltip = Text::_('COM_CONTACT_EDIT_UNPUBLIHED_CONTACT');
+			$tooltip = Text::_('COM_CONTACT_EDIT_UNPUBLISHED_CONTACT');
 		}
 		else
 		{
-			$tooltip = Text::_('COM_CONTACT_EDIT_PUBLIHED_CONTACT');
+			$tooltip = Text::_('COM_CONTACT_EDIT_PUBLISHED_CONTACT');
 		}
 
 		$nowDate = strtotime(Factory::getDate());
