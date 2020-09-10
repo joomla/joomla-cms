@@ -196,7 +196,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
   KEY `idx_alias` (`alias`(191)),
-  KEY `idx_catid_ordering` (`catid`, `ordering`),													 
+  KEY `idx_catid_ordering` (`catid`, `ordering`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
