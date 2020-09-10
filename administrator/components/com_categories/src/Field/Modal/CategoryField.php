@@ -324,6 +324,6 @@ class CategoryField extends FormField
 	 */
 	protected function getLabel()
 	{
-		return str_replace($this->id, $this->id . '_name', parent::getLabel());
+		return str_replace($this->id, $this->id . '_id', parent::getLabel());
 	}
 }
