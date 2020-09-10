@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
   `featured_up` datetime,
   `featured_down` datetime,
   PRIMARY KEY (`content_id`),
-  KEY `idx_ordering` (`ordering`),
+  KEY `idx_ordering` (`ordering`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
