@@ -157,7 +157,7 @@ class Api {
                 headers: {'Content-Type': 'application/json'},
                 onSuccess: (response) => {
                     notifications.success('COM_MEDIA_RENAME_SUCCESS');
-                    resolve(this._normalizeItem(JSON.parse(response).data))
+                    resolve(this._normalizeItem(JSON.parse(response).data.file))
                 },
                 onError: (xhr) => {
                     notifications.error('COM_MEDIA_RENAME_ERROR');

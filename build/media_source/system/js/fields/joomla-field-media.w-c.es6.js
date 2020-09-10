@@ -7,6 +7,9 @@
 
   window.document.addEventListener('onMediaFileSelected', (e) => {
     Joomla.selectedFile = e.detail;
+    window.document.dispatchEvent(new CustomEvent('onMediaFileEdit', {
+      detail: e.detail,
+    }));
   });
 
   const execTransform = (resp, editor, fieldClass) => {
@@ -55,6 +58,7 @@
    * @returns {void}
    */
   Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
+    Joomla.setTitle(null);
     if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
       Joomla.selectedFile = {};
       resolve({
@@ -92,6 +96,8 @@
       this.modalClose = this.modalClose.bind(this);
       this.setValue = this.setValue.bind(this);
       this.updatePreview = this.updatePreview.bind(this);
+      this.onMediaFileEdit = this.onMediaFileEdit.bind(this);
+      this.setTitle = this.setTitle.bind(this);
     }
 
     static get observedAttributes() {
@@ -158,6 +164,13 @@
 
     // attributeChangedCallback(attr, oldValue, newValue) {}
 
+    onMediaFileEdit(e) {
+      if (e.detail && e.detail.file && e.detail.file.name) {
+        this.setTitle(e.detail.file.name);
+        Joomla.selectedFile = e.detail;
+      }
+    }
+
     connectedCallback() {
       this.button = this.querySelector(this.buttonSelect);
       this.inputElement = this.querySelector(this.input);
@@ -193,6 +206,14 @@
       }
     }
 
+    setTitle(titleString) {
+      const title = this.querySelector('.modal-title');
+
+      if (title) {
+        title.textContent = `${Joomla.JText._('PLG_IMAGE_BUTTON_IMAGE')} - ${titleString} `;
+      }
+    }
+
     onSelected(event) {
       event.preventDefault();
       event.stopPropagation();
@@ -203,13 +224,13 @@
 
     show() {
       this.modalElement.open();
-
       Joomla.selectedFile = {};
-
+      window.document.addEventListener('onMediaFileEdit', this.onMediaFileEdit);
       this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
     }
 
     modalClose() {
+      window.document.removeEventListener('onMediaFileEdit', this.onMediaFileEdit);
       Joomla.getImage(Joomla.selectedFile, this.inputElement, this)
         .then(() => {
           Joomla.Modal.getCurrent().close();

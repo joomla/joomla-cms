@@ -131,6 +131,8 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     const forUpload = {
       name,
       content: Joomla.MediaManager.Edit.current.contents.replace(`data:image/${format};base64,`, ''),
+      isCopy: false,
+      isClose: false,
     };
 
     // eslint-disable-next-line prefer-destructuring
@@ -142,23 +144,20 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
     forUpload[options.csrfToken] = '1';
 
-    let fileDirectory = uploadPath.split('/');
-    fileDirectory.pop();
-    fileDirectory = fileDirectory.join('/');
-
-    // If we are in root add a backslash
-    if (fileDirectory.endsWith(':')) {
-      fileDirectory = `${fileDirectory}/`;
-    }
-
+    const fileDirectory = Joomla.MediaManager.GetDirectory(uploadPath);
     switch (task) {
       case 'apply':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
         Joomla.MediaManager.Edit.Reset(true);
         break;
-      case 'save':
+      case 'save2copy':
+        forUpload.isCopy = true;
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-        window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+        Joomla.MediaManager.Edit.Reset(true);
+        break;
+      case 'save':
+        forUpload.isClose = true;
+        Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
         break;
       case 'cancel':
         if (window.self !== window.top) {
@@ -187,6 +186,17 @@ Joomla.MediaManager = Joomla.MediaManager || {};
   // The upload object
   Joomla.UploadFile = {};
 
+  Joomla.MediaManager.GetDirectory = (path) => {
+    let fileDirectory = path.split('/');
+    fileDirectory.pop();
+    fileDirectory = fileDirectory.join('/');
+    // If we are in root add a backslash
+    if (fileDirectory.endsWith(':')) {
+      fileDirectory = `${fileDirectory}/`;
+    }
+    return fileDirectory;
+  };
+
   /**
    * @TODO Extend Joomla.request and drop this code!!!!
    */
@@ -204,17 +214,46 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       } catch (er) {
         resp = null;
       }
-
       if (resp) {
         if (xhr.status === 200) {
           if (resp.success === true) {
             Joomla.MediaManager.Edit.removeProgressBar();
+            if (resp.data.isClose) {
+              window.parent.document.dispatchEvent(new CustomEvent('onMediaFileEdit', {
+                detail: {
+                  file: {
+                    name: '',
+                  },
+                },
+              }));
+              const fileDirectory = Joomla.MediaManager.GetDirectory(resp.data.file.path);
+              const pathName = window.location.pathname.replace(/&view=file.*/g, '');
+              window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+            }
+            if (resp.data.isCopy) {
+              window.parent.document.dispatchEvent(new CustomEvent('onMediaFileEdit', {
+                detail: {
+                  file: {
+                    name: resp.data.file.name,
+                  },
+                },
+              }));
+              const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
+              window.location.href = fileBaseUrl + resp.data.file.path;
+            }
+            Joomla.renderMessages({
+              message: [Joomla.JText._('JLIB_APPLICATION_SAVE_SUCCESS')],
+            });
           }
 
           if (resp.status === '1') {
             Joomla.renderMessages({ success: [resp.message] }, 'true');
             Joomla.MediaManager.Edit.removeProgressBar();
           }
+        } else {
+          Joomla.renderMessages({
+            error: [Joomla.JText._('JLIB_APPLICATION_ERROR_SAVE_FAILED_FILE')],
+          });
         }
       } else {
         Joomla.MediaManager.Edit.removeProgressBar();
@@ -222,6 +261,9 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     };
 
     xhr.onerror = () => {
+      Joomla.renderMessages({
+        error: [Joomla.JText._('JLIB_APPLICATION_ERROR_SAVE_FAILED_FILE')],
+      });
       Joomla.MediaManager.Edit.removeProgressBar();
     };
 

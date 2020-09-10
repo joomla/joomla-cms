@@ -13,6 +13,8 @@ namespace Joomla\Component\Media\Administrator\Controller;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -22,6 +24,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
+use Joomla\String\StringHelper;
 
 /**
  * Api Media Controller
@@ -252,7 +255,7 @@ class ApiController extends BaseController
 	 *          "move"    : "0"
 	 *     }
 	 *
-	 * @return  array  The data to send with the response
+	 * @return  \stdClass  The data to send with the response
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -261,18 +264,31 @@ class ApiController extends BaseController
 	{
 		$adapter = $this->getAdapter();
 		$path    = $this->getPath();
+		$model   = $this->getModel();
 
 		$content      = $this->input->json;
 		$name         = basename($path);
 		$mediaContent = base64_decode($content->get('content', '', 'raw'));
 		$newPath      = $content->getString('newPath', null);
 		$move         = $content->get('move', true);
+		$resp = new \stdClass;
 
 		if ($mediaContent != null)
 		{
 			$this->checkContent();
+			$resp->isClose = $content->get('isClose');
+			$resp->isCopy = $content->get('isCopy');
 
-			$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+			if ($content->get('isCopy'))
+			{
+				$name = $this->generateNewName($name, $path, $model, $adapter);
+				$path = dirname($path) . '/' . $name;
+				$this->getModel()->createFile($adapter, $name, str_replace($name, '', $path), $mediaContent, false);
+			}
+			else
+			{
+				$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
+			}
 		}
 
 		if ($newPath != null && $newPath !== $adapter . ':' . $path)
@@ -291,9 +307,43 @@ class ApiController extends BaseController
 			$path = $destinationPath;
 		}
 
-		return $this->getModel()->getFile($adapter, $path);
+		$resp->file = $this->getModel()->getFile($adapter, $path);
+
+		return $resp;
 	}
 
+	/**
+	 * Method to change the name of an image
+	 *
+	 * @param   string $name The current name.
+	 * @param   string $path The path.
+	 *
+	 * @param   mixed $model The model
+	 * @param   string $adapter The adapter
+	 * @return  string    Contains the modified name.
+	 *
+	 * @since   4.0
+	 */
+	protected function generateNewName($name, $path, $model, $adapter)
+	{
+		$extension = File::getExt($name);
+
+		try
+		{
+			while ($model->getFile($adapter, $path))
+			{
+				$base = File::stripExt($name);
+				$name = StringHelper::increment($base, 'dash') . '.' . $extension;
+				$path = dirname($path) . '/' . $name;
+			}
+		}
+		catch (FileNotFoundException $e)
+		{
+			return $name;
+		}
+
+		return $name;
+	}
 	/**
 	 * Send the given data as JSON response in the following format:
 	 *

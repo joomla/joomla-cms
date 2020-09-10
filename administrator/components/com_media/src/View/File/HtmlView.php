@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 			throw new \Exception('No content available!');
 		}
 
-		$this->addToolbar();
+		$this->addToolbar($this->file->name);
 
 		return parent::display($tpl);
 	}
@@ -64,12 +64,17 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   4.0.0
 	 */
-	protected function addToolbar()
+	protected function addToolbar($name)
 	{
-		ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
-
+		Text::script('JLIB_APPLICATION_SAVE_SUCCESS');
+		Text::script('JLIB_APPLICATION_ERROR_SAVE_FAILED_FILE');
+		ToolbarHelper::title(Text::_('COM_MEDIA_EDIT') . ' - ' . $name, 'images mediamanager');
 		ToolbarHelper::apply('apply');
-		ToolbarHelper::save('save');
+		$toolbarButtons = [['save', 'save'], ['save2copy', 'save2copy']];
+		ToolbarHelper::saveGroup(
+			$toolbarButtons,
+			'btn-success'
+		);
 		ToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
 
 		ToolbarHelper::cancel('cancel');
