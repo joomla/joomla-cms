@@ -47,6 +47,7 @@ switch ($icon)
 
 	case 'new':
 	case 'save-new':
+	case 'add':
 	case 'collapse':
 		$icon = 'fas fa-plus';
 		break;
