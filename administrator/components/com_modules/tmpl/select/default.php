@@ -58,7 +58,7 @@ endif;
 			<?php foreach ($this->items as &$item) : ?>
 				<div class="card mb-4 comModulesSelectCard">
 					<?php // Prepare variables for the link. ?>
-					<?php $link = 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id; ?>
+					<?php $link = 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id . $this->modalLink; ?>
 					<?php $name = $this->escape($item->name); ?>
 					<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
 
