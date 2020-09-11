@@ -42,7 +42,7 @@
 
     .btn-group.show .dropdown-menu &:not(.disabled) {
       color: var(--atum-text-light);
-      background-color: var(--atum-bg-dark);
+      background-color: theme-color("success");;
     }
   }
 
