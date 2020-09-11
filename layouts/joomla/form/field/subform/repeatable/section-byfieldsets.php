@@ -27,7 +27,7 @@ extract($displayData);
 	<?php if (!empty($buttons)) : ?>
 	<div class="btn-toolbar text-right">
 		<div class="btn-group">
-			<?php if (!empty($buttons['add'])) : ?><a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>" tabindex="0"><span class="fas fa-plus icon-white" aria-hidden="true"></span> </a><?php endif; ?>
+			<?php if (!empty($buttons['add'])) : ?><a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>" tabindex="0"><?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'add', 'class' => 'icon-white']); ?> </a><?php endif; ?>
 			<?php if (!empty($buttons['remove'])) : ?><a class="group-remove btn btn-sm button btn-danger" aria-label="<?php echo Text::_('JGLOBAL_FIELD_REMOVE'); ?>" tabindex="0"><span class="fas fa-minus icon-white" aria-hidden="true"></span> </a><?php endif; ?>
 			<?php if (!empty($buttons['move'])) : ?><a class="group-move btn btn-sm button btn-primary" aria-label="<?php echo Text::_('JGLOBAL_FIELD_MOVE'); ?>"><span class="fas fa-arrows-alt icon-white" aria-hidden="true"></span> </a><?php endif; ?>
 		</div>

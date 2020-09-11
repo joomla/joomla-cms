@@ -10,12 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $params = $displayData['params'];
 
 ?>
 <?php if ($params->get('show_icons')) : ?>
-	<span class="fas fa-plus fa-fw" aria-hidden="true"></span>
+	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'new', 'class' => 'fa-fw']); ?>
 	<?php echo Text::_('JNEW'); ?>
 <?php else : ?>
 	<?php echo Text::_('JNEW') . '&#160;'; ?>

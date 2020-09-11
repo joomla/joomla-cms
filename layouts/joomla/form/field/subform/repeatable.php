@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 extract($displayData);
 
@@ -49,7 +50,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			<div class="btn-toolbar">
 				<div class="btn-group">
 					<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>" tabindex="0">
-						<span class="fas fa-plus icon-white" aria-hidden="true"></span> </a>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'add', 'class' => 'icon-white']); ?>
 				</div>
 			</div>
 			<?php endif; ?>
