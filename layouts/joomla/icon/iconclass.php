@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Convert icomoon to fa
 $icon  = $displayData['icon'];
-$class = $displayData['class'] ? ' ' . $displayData['class'] : null;
+$class = isset($displayData['class']) ? ' ' . $displayData['class'] : null;
 $html  = $displayData['html'] ?? true;
 
 switch ($icon)
