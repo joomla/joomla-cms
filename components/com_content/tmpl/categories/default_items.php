@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
@@ -38,7 +39,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 							class="btn btn-secondary btn-sm float-right"
 							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
 						>
-							<span class="fas fa-plus" aria-hidden="true"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'collapse']); ?>
 						</button>
 					<?php endif; ?>
 				</h3>

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
@@ -144,7 +145,7 @@ $this->document->getWebAssetManager()
 								<a class="dropdown-item uncheckall" href="javascript://"><span class="fas fa-square" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_DESELECT'); ?></a>
 								<div class="treeselect-menu-expand">
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item expandall" href="javascript://"><span class="fas fa-plus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_EXPAND'); ?></a>
+									<a class="dropdown-item expandall" href="javascript://"><?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'collapse']); ?> <?php echo Text::_('COM_MODULES_EXPAND'); ?></a>
 									<a class="dropdown-item collapseall" href="javascript://"><span class="fas fa-minus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_COLLAPSE'); ?></a>
 								</div>
 							</div>

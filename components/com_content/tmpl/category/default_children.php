@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
@@ -37,7 +38,7 @@ $groups = $user->getAuthorisedViewLevels();
 					<?php echo $this->escape($child->title); ?></a>
 
 					<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="fas fa-plus" aria-hidden="true"></span></a>
+						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'collapse']); ?></a>
 					<?php endif; ?>
 				</h3>
 				<?php else : ?>
@@ -50,7 +51,7 @@ $groups = $user->getAuthorisedViewLevels();
 					<?php endif; ?>
 
 					<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="fas fa-plus" aria-hidden="true"></span></a>
+						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'collapse']); ?></a>
 					<?php endif; ?>
 				</h3>
 				<?php endif; ?>
