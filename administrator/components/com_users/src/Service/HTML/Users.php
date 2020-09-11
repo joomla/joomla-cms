@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
@@ -66,8 +67,9 @@ class Users
 		$title = Text::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . Route::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
-			. '" class="btn btn-secondary btn-sm"><span class="fas fa-plus" aria-hidden="true">'
-			. '</span> ' . $title . '</a>';
+			. '" class="btn btn-secondary btn-sm">'
+			. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'add'])
+			. ' ' . $title . '</a>';
 	}
 
 	/**

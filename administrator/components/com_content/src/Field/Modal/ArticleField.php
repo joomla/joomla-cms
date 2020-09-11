@@ -16,6 +16,7 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\ParameterType;
 
@@ -170,7 +171,8 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalNew' . $modalId . '">'
-				. '<span class="fas fa-plus" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
+				. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'add'])
+				. ' ' . Text::_('JACTION_CREATE')
 				. '</button>';
 		}
 

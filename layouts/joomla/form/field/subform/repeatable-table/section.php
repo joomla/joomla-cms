@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 extract($displayData);
 
@@ -34,7 +35,7 @@ extract($displayData);
 		<div class="btn-group">
 			<?php if (!empty($buttons['add'])) : ?>
 				<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
-					<span class="fas fa-plus" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'add']); ?>
 				</button>
 			<?php endif; ?>
 			<?php if (!empty($buttons['remove'])) : ?>
