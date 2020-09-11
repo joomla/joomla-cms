@@ -31,6 +31,7 @@ Text::script('COM_MEDIA_ERROR', true);
 Text::script('COM_MEDIA_ERROR_NOT_AUTHENTICATED', true);
 Text::script('COM_MEDIA_ERROR_NOT_AUTHORIZED', true);
 Text::script('COM_MEDIA_ERROR_NOT_FOUND', true);
+Text::script('COM_MEDIA_ERROR_WARNFILETOOLARGE', true);
 Text::script('COM_MEDIA_FILE', true);
 Text::script('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', true);
 Text::script('COM_MEDIA_FOLDER', true);
