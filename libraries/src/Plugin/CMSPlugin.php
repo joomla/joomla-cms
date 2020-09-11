@@ -284,6 +284,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 				$result = $this->{$methodName}(...$arguments);
 
+				// Ignore null results
+				if ($result === null)
+				{
+					return;
+				}
+
 				// Restore the old results and add the new result from our method call
 				array_push($allResults, $result);
 				$event['result'] = $allResults;

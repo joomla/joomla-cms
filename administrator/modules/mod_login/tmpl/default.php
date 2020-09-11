@@ -141,9 +141,14 @@ Text::script('MESSAGE');
 </form>
 <div class="text-center">
 	<div>
-		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="noopener nofollow"
-			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>">
-			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
-		</a>
+		<?php echo HTMLHelper::link(
+			Text::_('MOD_LOGIN_CREDENTIALS_LINK'),
+			Text::_('MOD_LOGIN_CREDENTIALS'),
+			[
+				'target' => '_blank',
+				'rel'    => 'noopener nofollow',
+				'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS'))
+			]
+		); ?>
 	</div>
 </div>
