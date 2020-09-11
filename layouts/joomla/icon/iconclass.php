@@ -7,12 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 // Convert icomoon to fa
-$icon  = $displayData['icon'];
-$class = isset($displayData['class']) ? ' ' . $displayData['class'] : null;
-$html  = $displayData['html'] ?? true;
+$icon     = $displayData['icon'];
+$class    = $displayData['class'] ?? null;
+$tabindex = $displayData['tabindex'] ?? null;
+$html     = $displayData['html'] ?? true;
 
 switch ($icon)
 {
@@ -142,6 +145,10 @@ switch ($icon)
 		$icon = 'fas fa-spinner';
 		break;
 
+	case 'info':
+		$icon = 'fas fa-info-circle';
+		break;
+
 	default:
 		$icon = 'icon-' . $icon;
 		break;
@@ -149,7 +156,17 @@ switch ($icon)
 
 if ($html !== false)
 {
-	$icon = '<span class="' . $icon . $class . '" aria-hidden="true"></span>';
+	$iconAttribs = [
+		'class'       => implode(' ', [$icon, $class]),
+		'aria-hidden' => "true"
+	];
+
+	if ($tabindex)
+	{
+		$iconAttribs['tabindex'] = $tabindex;
+	}
+
+	$icon = '<span ' . ArrayHelper::toString($iconAttribs) . '></span>';
 }
 
-echo $icon . $class;
+echo implode(' ', [$icon, $class]);
