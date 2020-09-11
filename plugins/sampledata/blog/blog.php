@@ -1112,7 +1112,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle'  => 0,
 				'params'     => array(
 					'prepare_content' => 0,
-					'backgroundimage' => 'images/banners/banner.jpg',
+					'backgroundimage' => '',
 					'layout'          => 'cassiopeia:banner',
 					'moduleclass_sfx' => '',
 					'cache'           => 1,
