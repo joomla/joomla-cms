@@ -124,30 +124,50 @@
                         })
                     }
 
-                    var tableExplain
+                    var tableExplain;
+
+                    function showTableExplain() {
+                        if (tableExplain) {
+                            tableExplain.show();
+                            return;
+                        }
+
+                        // Render table
+                        tableExplain = $('<table>').addClass(csscls('callstack')).appendTo(li);
+                        tableExplain.append('<tr><th>' + stmt.explain_col.join('</th><th>') + '</th></tr>');
+
+                        var i, entry, cols;
+                        for (i in stmt.explain) {
+                            cols  = []
+                            entry = stmt.explain[i];
+
+                            stmt.explain_col.forEach(function (key){
+                                cols.push(entry[key]);
+                            });
+
+                            tableExplain.append('<tr><td>' + cols.join('</td><td>') + '</td></tr>');
+                        }
+
+                        tableExplain.show();
+                    }
 
                     if (stmt.explain && !$.isEmptyObject(stmt.explain)) {
                         var btnExplain = $('<span title="Explain" />')
-                            .text('Explain')
-                            .addClass(csscls('eye'))
-                            .css('cursor', 'pointer')
-                            .on('click', function () {
-                                if (tableExplain.is(':visible')) {
-                                    tableExplain.hide()
-                                    btnExplain.addClass(csscls('eye'))
-                                    btnExplain.removeClass(csscls('eye-dash'))
-                                } else {
-                                    tableExplain.show()
-                                    btnExplain.addClass(csscls('eye-dash'))
-                                    btnExplain.removeClass(csscls('eye'))
-                                }
-                            })
-                            .appendTo(li)
-
-                        tableExplain = $('<table><thead>'
-                            + '<tr><th colspan="10">Explain</th></tr>'
-                            + '<tr><th>Id</th><th>Select Type</th><th>Table</th><th>Type</th><th>Possible Keys</th><th>Key</th><th>Key Len</th><th>Ref</th><th>Rows</th><th>Extra</th></tr>'
-                            + '</thead></table>').addClass(csscls('callstack'))
+                          .text('Explain')
+                          .addClass(csscls('eye'))
+                          .css('cursor', 'pointer')
+                          .on('click', function () {
+                              if (tableExplain && tableExplain.is(':visible')) {
+                                  tableExplain.hide()
+                                  btnExplain.addClass(csscls('eye'))
+                                  btnExplain.removeClass(csscls('eye-dash'))
+                              } else {
+                                  showTableExplain();
+                                  btnExplain.addClass(csscls('eye-dash'))
+                                  btnExplain.removeClass(csscls('eye'))
+                              }
+                          })
+                          .appendTo(li)
                     }
 
                     var tableStack
@@ -211,19 +231,6 @@
                                 location = '<a href="' + self.xdebug_link.replace('%f', entry[3]).replace('%l', entry[4]) + '">' + location + '</a>'
                             }
                             tableStack.append('<tr class="' + cssClass + '"><th>' + entry[0] + '</th><td>' + caller + '</td><td>' + location + '</td></tr>')
-                        }
-                    }
-
-                    if (tableExplain) {
-                        tableExplain.appendTo(li)
-                        for (i in stmt.explain) {
-                            var entry = stmt.explain[i]
-                            tableExplain.append('<tr>'
-                                + '<td>' + entry.id + '</td><td>' + entry.select_type + '</td><td>' + entry.table + '</td>'
-                                + '<td>' + entry.type + '</td><td>' + entry.possible_keys + '</td><td>' + entry.key + '</td>'
-                                + '<td>' + entry.key_len + '</td><td>' + entry.ref + '</td><td>' + entry.rows + '</td>'
-                                + '<td>' + entry.Extra + '</td>'
-                                + '</tr>')
                         }
                     }
 
