@@ -68,10 +68,10 @@ $multilang = Multilanguage::isEnabled();
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'fas fa-trash',
-					0  => 'fas fa-times',
-					1  => 'fas fa-check',
-					2  => 'fas fa-folder',
+					-2 => 'trash',
+					0  => 'times',
+					1  => 'check',
+					2  => 'folder',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -97,7 +97,7 @@ $multilang = Multilanguage::isEnabled();
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center tbody-icon">
-							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $iconStates[$this->escape($item->published)]]); ?>
 						</td>
 						<th scope="row">
 							<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(RouteHelper::getNewsfeedRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">

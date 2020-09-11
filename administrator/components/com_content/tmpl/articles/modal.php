@@ -91,9 +91,9 @@ if (!empty($editor))
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'fas fa-trash',
-					0  => 'fas fa-times',
-					1  => 'fas fa-check',
+					-2 => 'trash',
+					0  => 'times',
+					1  => 'check',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
@@ -119,7 +119,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center tbody-icon">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $iconStates[$this->escape($item->state)]]); ?>
 						</td>
 						<th scope="row">
 							<?php $attribs = 'data-function="' . $this->escape($onclick) . '"'

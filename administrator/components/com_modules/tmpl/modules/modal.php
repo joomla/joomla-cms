@@ -79,16 +79,16 @@ if (!empty($editor))
 			<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'fas fa-trash',
-					0  => 'fas fa-times',
-					1  => 'fas fa-check',
-					2  => 'fas fa-folder',
+					-2 => 'trash',
+					0  => 'times',
+					1  => 'check',
+					2  => 'folder',
 				);
 				foreach ($this->items as $i => $item) :
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="text-center tbody-icon">
-						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $iconStates[$this->escape($item->published)]]); ?>
 					</td>
 					<td scope="row" class="has-context">
 						<a class="js-module-insert btn btn-sm btn-block btn-success" href="#" data-module="<?php echo $item->id; ?>" data-editor="<?php echo $this->escape($editor); ?>">

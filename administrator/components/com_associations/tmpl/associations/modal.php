@@ -36,10 +36,10 @@ $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 
 $iconStates = array(
-	-2 => 'fas fa-trash',
-	0  => 'fas fa-times',
-	1  => 'fas fa-check',
-	2  => 'fas fa-folder',
+	-2 => 'trash',
+	0  => 'times',
+	1  => 'check',
+	2  => 'folder',
 );
 
 $this->document->addScriptOptions('associations-modal', ['func' => $function]);
@@ -101,7 +101,7 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!empty($this->typeSupports['state'])) : ?>
 						<td class="text-center tbody-icon">
-							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $iconStates[$this->escape($item->state)]]); ?>
 						</td>
 					<?php endif; ?>
 					<th scope="row" class="has-context">

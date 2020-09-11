@@ -72,10 +72,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<tbody>
 					<?php
 					$iconStates = array(
-						-2 => 'fas fa-trash',
-						0  => 'fas fa-times',
-						1  => 'fas fa-check',
-						2  => 'fas fa-folder',
+						-2 => 'trash',
+						0  => 'times',
+						1  => 'check',
+						2  => 'folder',
 					);
 					?>
 					<?php foreach ($this->items as $i => $item) : ?>
@@ -102,7 +102,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center tbody-icon">
-								<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $iconStates[$this->escape($item->published)]]); ?>
 							</td>
 							<th scope="row">
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
