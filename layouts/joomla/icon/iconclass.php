@@ -138,6 +138,10 @@ switch ($icon)
 		$icon = 'fas fa-arrows-alt';
 		break;
 
+	case 'loading':
+		$icon = 'fas fa-spinner';
+		break;
+
 	default:
 		$icon = 'icon-' . $icon;
 		break;

@@ -69,7 +69,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 			<?php endif; ?>
 			<?php if (isset($displayData['ajaxurl'])) : ?>
 				<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
-					<span class="fas fa-spinner" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'loading']); ?>
 				</div>
 				<div class="quickicon-sr-desc sr-only"></div>
 			<?php endif; ?>
