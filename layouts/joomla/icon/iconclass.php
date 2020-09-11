@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 // Convert icomoon to fa
-$icon = $displayData['icon'];
-$html = $displayData['html'] ?? true;
+$icon  = $displayData['icon'];
+$class = $displayData['class'] ? ' ' . $displayData['class'] : null;
+$html  = $displayData['html'] ?? true;
 
 switch ($icon)
 {
@@ -143,7 +144,7 @@ switch ($icon)
 
 if ($html !== false)
 {
-	$icon = '<span class="' . $icon . '" aria-hidden="true"></span>';
+	$icon = '<span class="' . $icon . $class . '" aria-hidden="true"></span>';
 }
 
-echo $icon;
+echo $icon . $class;
