@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 Factory::getDocument()->getWebAssetManager()
 	->useScript('webcomponent.toolbar-button');
@@ -19,7 +20,7 @@ $title = Text::_('COM_MEDIA_CREATE_NEW_FOLDER');
 ?>
 <joomla-toolbar-button>
 	<button class="btn btn-info" onclick="MediaManager.Event.fire('onClickCreateFolder');">
-		<span class="fas fa-folder" aria-hidden="true"></span>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder'); ?>
 		<?php echo $title; ?>
 	</button>
 </joomla-toolbar-button>

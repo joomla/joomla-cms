@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 defined('_JEXEC') or die;
 ksort($this->files, SORT_STRING);
 ?>
@@ -16,7 +18,7 @@ ksort($this->files, SORT_STRING);
 		<?php if (is_array($value)) : ?>
 			<li class="folder-select">
 				<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="">
-					<span class="fas fa-folder fa-fw" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder', 'class' => 'fa-fw']); ?>
 					<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?>
 				</a>
 				<?php echo $this->folderTree($value); ?>

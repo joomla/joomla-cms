@@ -27,6 +27,7 @@ switch ($icon)
 		break;
 
 	case 'archive':
+	case 'folder':
 	case 'folder-close':
 	case 'folder-folder-2':
 	case 'folder-minus':

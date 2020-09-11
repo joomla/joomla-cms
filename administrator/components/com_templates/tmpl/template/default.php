@@ -147,7 +147,7 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-								<span class="fas fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder', 'class' => 'fa-fw']); ?>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
 								<span class="fas fa-file fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
@@ -263,7 +263,7 @@ if ($this->type == 'font')
 						<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
 							<li class="component-folder">
 								<a href="#" class="component-folder-url">
-									<span class="fas fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder']); ?>&nbsp;<?php echo $key; ?>
 								</a>
 								<ul class="list-unstyled">
 									<?php foreach ($value as $view) : ?>
@@ -291,7 +291,7 @@ if ($this->type == 'font')
 						<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
 							<li class="plugin-folder">
 								<a href="#" class="plugin-folder-url">
-									<span class="fas fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder']); ?>&nbsp;<?php echo $key; ?>
 								</a>
 								<ul class="list-unstyled">
 									<?php foreach ($group as $plugin) : ?>
@@ -319,7 +319,7 @@ if ($this->type == 'font')
 						<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
 						<li class="layout-folder">
 							<a href="#" class="layout-folder-url">
-								<span class="fas fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder']); ?>&nbsp;<?php echo $key; ?>
 							</a>
 							<ul class="list-unstyled">
 								<?php foreach ($value as $layout) : ?>
