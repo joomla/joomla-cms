@@ -123,7 +123,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_categories'))
 			{
 				$tmp = [
-					'image'   => 'fas fa-folder-open',
+					'image'   => 'folder-open',
 					'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
 					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
 					'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',

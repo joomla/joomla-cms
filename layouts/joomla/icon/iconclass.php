@@ -36,6 +36,10 @@ switch ($icon)
 		$icon = 'fas fa-folder';
 		break;
 
+	case 'folder-open':
+		$icon = 'fas fa-folder-open';
+		break;
+
 	case 'publish':
 		$icon = 'fas fa-check';
 		break;

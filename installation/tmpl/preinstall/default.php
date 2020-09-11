@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 
@@ -63,7 +64,7 @@ HTMLHelper::_('behavior.formvalidator');
 								<div class="col-md-8 offset-md-2">
 									<?php echo $this->form->getLabel('ftp_host'); ?>
 									<div class="input-append d-flex">
-										<?php echo $this->form->getInput('ftp_host'); ?><button id="findbutton" class="btn btn-secondary ml-2" onclick="Joomla.installation.detectFtpRoot(this);"><span class="fas fa-folder-open"></span> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
+										<?php echo $this->form->getInput('ftp_host'); ?><button id="findbutton" class="btn btn-secondary ml-2" onclick="Joomla.installation.detectFtpRoot(this);"><?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder-open']); ?> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
 									</div>
 								</div>
 							</div>
