@@ -45,8 +45,10 @@ class PlgAuthenticationGMail extends JPlugin
 
 		$curlParams = array(
 			'follow_location' => true,
-			'transport.curl'  => array(
-				CURLOPT_SSL_VERIFYPEER => $this->params->get('verifypeer', 1)
+			'transport' => array(
+				'curl' => array(
+					CURLOPT_SSL_VERIFYPEER => $this->params->get('verifypeer', 1),
+				),
 			),
 		);
 
