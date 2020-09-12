@@ -910,16 +910,16 @@
         },
         {
             "name": "joomla/database",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "1332ca4c1ed8411d58898c5c68c1a818ff95bb21"
+                "reference": "1eef40d30cca0661b5cfb5c60c8600ed0d09b42d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/1332ca4c1ed8411d58898c5c68c1a818ff95bb21",
-                "reference": "1332ca4c1ed8411d58898c5c68c1a818ff95bb21",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/1eef40d30cca0661b5cfb5c60c8600ed0d09b42d",
+                "reference": "1eef40d30cca0661b5cfb5c60c8600ed0d09b42d",
                 "shasum": ""
             },
             "require": {
@@ -936,6 +936,7 @@
                 "joomla/test": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0",
                 "psr/log": "^1.1",
+                "symfony/deprecation-contracts": "^2.1",
                 "symfony/phpunit-bridge": "^4.4|^5.0"
             },
             "suggest": {
@@ -971,7 +972,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:27:58+00:00"
+            "time": "2020-09-01T07:19:19+00:00"
         },
         {
             "name": "joomla/di",
@@ -6806,6 +6807,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
