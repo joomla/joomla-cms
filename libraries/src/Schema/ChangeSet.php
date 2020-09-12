@@ -69,6 +69,13 @@ class ChangeSet
 		$this->db = $db;
 		$this->folder = $folder;
 		$updateFiles = $this->getUpdateFiles();
+
+		// If no files were found nothing more we can do - continue
+		if ($updateFiles === false)
+		{
+			return;
+		}
+
 		$updateQueries = $this->getUpdateQueries($updateFiles);
 
 		foreach ($updateQueries as $obj)
