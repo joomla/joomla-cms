@@ -38,10 +38,10 @@
 					<option value="disabled">JDISABLED</option>
 					<option value="no-referrer">no-referrer</option>
 					<option value="no-referrer-when-downgrade">no-referrer-when-downgrade</option>
-					<option value="same-origin">same-origin</option>
 					<option value="origin">origin</option>
-					<option value="strict-origin">strict-origin</option>
 					<option value="origin-when-cross-origin">origin-when-cross-origin</option>
+					<option value="same-origin">same-origin</option>
+					<option value="strict-origin">strict-origin</option>
 					<option value="strict-origin-when-cross-origin">strict-origin-when-cross-origin</option>
 					<option value="unsafe-url">unsafe-url</option>
 				</field>
@@ -72,14 +72,15 @@
 							validate="options"
 							class="col-md-4"
 							>
-							<option value="strict-transport-security">Strict-Transport-Security</option>
 							<option value="content-security-policy">Content-Security-Policy</option>
 							<option value="content-security-policy-report-only">Content-Security-Policy-Report-Only</option>
-							<option value="x-frame-options">X-Frame-Options</option>
-							<option value="referrer-policy">Referrer-Policy</option>
+							<option value="cross-origin-opener-policy">Cross-Origin-Opener-Policy</option>
 							<option value="expect-ct">Expect-CT</option>
 							<option value="feature-policy">Feature-Policy</option>
-							<option value="cross-origin-opener-policy">Cross-Origin-Opener-Policy</option>
+							<option value="permissions-policy">Permissions-Policy</option>
+							<option value="referrer-policy">Referrer-Policy</option>
+							<option value="strict-transport-security">Strict-Transport-Security</option>
+							<option value="x-frame-options">X-Frame-Options</option>
 						</field>
 						<field
 							name="value"

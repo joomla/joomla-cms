@@ -52,7 +52,7 @@ if (Multilanguage::isEnabled())
 				<span class="fas fa-check" aria-hidden="true"></span>
 				<?php echo Text::_('JAPPLY'); ?>
 			</button>
-			<button type="button" class="btn btn-secondary" data-submit-task="modules.save">
+			<button type="button" class="btn btn-primary" data-submit-task="modules.save">
 				<span class="fas fa-check" aria-hidden="true"></span>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>

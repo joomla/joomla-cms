@@ -240,7 +240,7 @@ class FieldsModel extends ListModel
 				$query->where(
 					'(' .
 						$db->quoteName('fc.category_id') . ' IS NULL OR ' .
-						$db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray($categories, ParameterType::INTEGER)) . ')' .
+						$db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray(array_values($categories), ParameterType::INTEGER)) . ')' .
 					')'
 				);
 			}
