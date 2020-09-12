@@ -25,7 +25,7 @@
 
       &:checked {
         color: var(--white);
-        background-color: $cassiopeia-template-color-dark !important;
+        background-color: var(--cassiopeia-color-primary) !important;
       }
     }
   }

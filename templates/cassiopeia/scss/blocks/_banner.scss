@@ -21,11 +21,11 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      color: $white;
-      background-color: hsla(0, 0%, 0%, .5);
+      padding: $cassiopeia-grid-gutter;
+      text-align: center;
 
-      h2 {
-        font-size: 3rem;
+      .text-thin {
+        font-weight: $font-weight-lighter;
       }
     }
   }

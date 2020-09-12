@@ -3,7 +3,8 @@
     &.mod-menu {
       .metismenu-item {
         display: flex;
-        font-size: 1rem;
+        padding: $cassiopeia-grid-gutter/2;
+        font-size: 1.1em;
         line-height: 1.5;
 
         &.parent {
@@ -11,21 +12,27 @@
         }
         > ul {
           position: absolute;
-          display: block;
-          list-style: none;
-          padding: .375em;
           top: 100%;
           z-index: 1001;
+          display: block;
           min-width: 180px;
+          padding: .375em;
+          list-style: none;
           box-shadow: 0 0 10px hsla(0, 0%, 0%, .1);
 
           @include media-breakpoint-down(md) {
             width: 100%;
           }
+          .active a {
+            text-decoration: underline;
+          }
         }
         > span,
         > a {
           flex: 1 0 0%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
 
@@ -51,23 +58,23 @@
       .mm-toggler {
         position: relative;
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         width: 1.5em;
         height: 1.5em;
         padding: 0;
         margin-left: .1875em;
         color: currentColor;
+        user-select: none;
         background: none;
         border: none;
         box-shadow: none;
-        user-select: none;
 
         &:after {
-          content: "";
-          justify-self: flex-end;
           width: .5em;
           height: .5em;
+          content: "";
+          justify-self: flex-end;
           border-color: currentColor;
           border-style: solid;
           border-width: 0 1px 1px 0;

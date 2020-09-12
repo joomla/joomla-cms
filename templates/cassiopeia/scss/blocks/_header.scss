@@ -3,7 +3,7 @@
 .container-header {
   position: relative;
   z-index: 10;
-  background-color: $cassiopeia-template-color;
+  background-color: var(--cassiopeia-color-primary);
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px hsla(0, 0%, 0%,.03) inset;
 
@@ -20,7 +20,7 @@
   }
 
   nav {
-    padding: 2.5rem ($cassiopeia-grid-gutter / 2);
+    padding: ($cassiopeia-grid-gutter / 2) ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter ($cassiopeia-grid-gutter / 2);
   }
 
   .site-description {
@@ -31,7 +31,7 @@
   .navbar-brand {
     position: relative;
     display: inline-block;
-    padding: 2.5rem ($cassiopeia-grid-gutter / 2);
+    padding: $cassiopeia-grid-gutter / 2;
     margin-right: auto;
     font-size: 2rem;
     color: $white;
@@ -66,14 +66,14 @@
 
   .mod-menu {
     flex: 1 0 100%;
-    margin: 0;
     padding: 0;
-    list-style: none;
+    margin: 0;
     color: $white;
+    list-style: none;
 
     @include media-breakpoint-up(md) {
-      flex: 1 1 0%;
       display: flex;
+      flex: 1 1 0%;
       flex-direction: row;
     }
 
@@ -93,12 +93,36 @@
         color: currentColor;
         text-decoration: none;
       }
+
+      &::after {
+
+        @include media-breakpoint-up(md) {
+          position: absolute;
+          right: 50%;
+          bottom: 0;
+          left: 50%;
+          display: block;
+          height: 2px;
+          margin: auto;
+          content: "";
+          background: transparent;
+          opacity: .2;
+          transition: all .2s ease, background-color .2s ease;
+        }
+      }
+
+      &.active::after,
+      &:hover::after {
+        right: 2px;
+        left: 0;
+        background: $white;
+      }
     }
 
     .parent {
       > ul {
         display: none;
-        color: $cassiopeia-template-color-dark;
+        color: var(--cassiopeia-color-primary);
       }
     }
   }
@@ -137,7 +161,7 @@
   padding-top: 13px;
   padding-bottom: 13px;
   color: $white;
-  background-color: $cassiopeia-template-color;
+  background-color: var(--cassiopeia-color-hover);
 
   .row {
     margin-right: 0;
@@ -155,7 +179,7 @@
       margin-right: 12px;
       margin-left: 5px;
       font-size: $h1-font-size;
-      color: lighten($cassiopeia-template-color, 10%);
+//      color: scale-color(var(--cassiopeia-color-primary), $lightness: 10%);
     }
   }
 }

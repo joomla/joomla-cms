@@ -80,7 +80,7 @@
 						<option value="fonts-local_roboto">Roboto (local)</option>
 					</group>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
-						<option value="fonts-web_poppins+roboto">Poppins + Roboto (web)</option>
+						<option value="fonts-web_fira">Fira Sans (web)</option>
 						<option value="fonts-web_roboto+noto-sans">Roboto + Noto Sans (web)</option>
 					</group>
 				</field>
@@ -96,13 +96,11 @@
 				<field
 					name="colorName"
 					type="list"
-					default="colors_summer"
+					default="colors_standard"
 					label="TPL_CASSIOPEIA_COLOR_NAME_LABEL"
 					>
-					<option value="colors_spring">TPL_CASSIOPEIA_COLOR_NAME_SPRING</option>
-					<option value="colors_summer">TPL_CASSIOPEIA_COLOR_NAME_SUMMER</option>
-					<option value="colors_autumn">TPL_CASSIOPEIA_COLOR_NAME_AUTUMN</option>
-					<option value="colors_winter">TPL_CASSIOPEIA_COLOR_NAME_WINTER</option>
+					<option value="colors_standard">TPL_CASSIOPEIA_COLOR_NAME_STANDARD</option>
+					<option value="colors_alternative">TPL_CASSIOPEIA_COLOR_NAME_ALTERNATIVE</option>
 				</field>
 
 				<field

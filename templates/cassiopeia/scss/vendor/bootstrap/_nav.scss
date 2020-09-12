@@ -36,7 +36,7 @@
   .nav-link {
     position: relative;
     padding: .75em 1em;
-    color: $cassiopeia-template-color;
+    color: var(--cassiopeia-color-primary);
     border: 0;
     border-top-left-radius: 0;
     border-top-right-radius: 0;

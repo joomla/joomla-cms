@@ -109,7 +109,7 @@
 
   .boxed & {
     background-color: $white;
-    box-shadow: 0 0 2px hsla(216, 13%, 23%, .1), 0 2px 5px hsla(216, 13%, 23%, .08), 0 5px 15px hsla(216, 13%, 23%, .08), inset 0 3px 0 $cassiopeia-template-color;
+    box-shadow: 0 0 2px hsla(216, 13%, 23%, .1), 0 2px 5px hsla(216, 13%, 23%, .08), 0 5px 15px hsla(216, 13%, 23%, .08), inset 0 3px 0 var(--cassiopeia-color-primary);
 
     .item-content {
       padding: 25px;

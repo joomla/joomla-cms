@@ -1,12 +1,19 @@
 // Global
-$cassiopeia-template-color-dark:      hsl(220, 67%, 20%) !default;
-$cassiopeia-template-color:           hsl(242, 30%, 36%) !default;
 $cassiopeia-container-main-bg:        hsl(0, 0%, 95%) !default;
 $cassiopeia-border-color:             hsl(210, 14%, 89%) !default;
-$cassiopeia-box-shadow:               0 0 3px hsla(0, 0%, 0%, 0.04) !default;
+$cassiopeia-box-shadow:               0 0 3px hsla(0, 0%, 0%, .04) !default;
 $cassiopeia-block-header-bg:          hsl(0, 0%, 96%) !default;
-$cassiopeia-header-grad:              linear-gradient(135deg, $cassiopeia-template-color-dark 0%, $cassiopeia-template-color 100%);
-$input-max-width:                     100%;
+$cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
+
+// Standard
+$standard-color-primary:hsl(220, 67%, 20%);
+$standard-color-link:hsl(220, 67%, 20%);
+$standard-color-hover: hsl(242, 30%, 36%);
+
+// Alternative
+$alternative-color-primary: hsl(351, 54%, 37%);
+$alternative-color-link: hsl(216, 21%, 51%);
+$alternative-color-hover: hsl(351, 33%, 44%);
 
 $white:                               hsl(0, 0%, 100%);
 $gray-100:                            hsl(210, 17%, 98%);
@@ -14,7 +21,7 @@ $gray-200:                            hsl(210, 16%, 93%);
 $gray-300:                            hsl(210, 14%, 89%);
 $gray-400:                            hsl(210, 14%, 83%);
 $gray-500:                            hsl(210, 11%, 71%);
-$gray-600:                            hsl(208, 7%, 46%);
+$gray-600:                            hsl(210, 7%, 46%);
 $gray-700:                            hsl(210, 9%, 31%);
 $gray-800:                            hsl(210, 10%, 23%);
 $gray-900:                            hsl(210, 11%, 15%);
@@ -32,7 +39,7 @@ $grays: (
   900: $gray-900
 );
 
-$blue:                                $cassiopeia-template-color-dark;
+$blue:                                hsl(240, 98%, 17%);
 $indigo:                              hsl(263, 90%, 51%);
 $purple:                              hsl(261, 51%, 51%);
 $pink:                                hsl(332, 79%, 58%);
@@ -55,26 +62,28 @@ $colors: (
   teal: $teal,
   cyan: $cyan,
   white: $white,
-  gray: $gray-600,
-  gray-dark: $gray-800
+  gray: gray(600),
+  gray-dark: gray(800)
 );
+
+$primary: var(--cassiopeia-color-primary);
 
 $theme-colors: (
   primary: $blue,
-  secondary: $gray-600,
+  secondary: gray(600),
   success: $green,
   info: $cyan,
   warning: $yellow,
   danger: $red,
-  light: $gray-100,
-  dark: $gray-800
+  light: gray(100),
+  dark: gray(800)
 );
 
 // Toolbar
 $cassiopeia-toolbar-line-height:      1.8rem;
 
 // Fonts
-$cassiopeia-inverted-text-color:      $cassiopeia-template-color;
+$cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover);
 $font-size-root:                      1em;
 $h1-font-size:                        1.857rem;
 $h2-font-size:                        1.571rem;
@@ -102,36 +111,36 @@ $cassiopeia-tabs-active-highlight:    theme-color("primary");
 // Cards
 $cassiopeia-card-title-bg:            $cassiopeia-block-header-bg;
 $cassiopeia-card-title-icon-bg:       $cassiopeia-block-header-bg;
-$cassiopeia-card-title-icon-bg-hover: darken($cassiopeia-card-title-bg, 2%);
-$card-bg-color-light:                 $gray-100;
-$card-bg-color-dark:                  $cassiopeia-template-color;
+$cassiopeia-card-title-icon-bg-hover: scale-color($cassiopeia-card-title-bg, $lightness: 2%);
+$card-bg-color-light:                 gray(100);
+$card-bg-color-dark:                  var(--cassiopeia-color-primary);
 $card-border-color:                   $cassiopeia-border-color;
 
 // Alerts
-$state-success-text:                  $white !default;
+$state-success-text:                  color("white") !default;
 $state-success-bg:                    theme-color("success") !default;
-$state-success-border:                darken(theme-color("success"), 5%) !default;
+$state-success-border:                scale-color(theme-color("success"), $lightness: -5%) !default;
 
-$state-info-text:                     $white !default;
+$state-info-text:                     color("white") !default;
 $state-info-bg:                       theme-color("info") !default;
-$state-info-border:                   darken(theme-color("info"), 7%) !default;
+$state-info-border:                   scale-color(theme-color("info"), $lightness: -7%) !default;
 
-$state-warning-text:                  $white !default;
+$state-warning-text:                  color("white") !default;
 $state-warning-bg:                    theme-color("warning") !default;
-$state-warning-border:                darken(theme-color("warning"), 5%) !default;
+$state-warning-border:                scale-color(theme-color("warning"), $lightness: -5%) !default;
 
-$state-danger-text:                   $white !default;
+$state-danger-text:                   color("white") !default;
 $state-danger-bg:                     theme-color("danger") !default;
-$state-danger-border:                 darken(theme-color("danger"), 5%) !default;
+$state-danger-border:                 scale-color(theme-color("danger"), $lightness: -5%) !default;
 
 // Treeselect
 $treeselect-line-height:              2.2rem;
 
 // List
-$list-group-bg:                       $white;
+$list-group-bg:                       color("white");
 
 // Custom form
-$custom-select-bg:                    $gray-200;
+$custom-select-bg:                    gray(200);
 
 // Custom form
 $custom-select-indicator-padding:     3rem;
@@ -147,15 +156,16 @@ $custom-select-multiple-padding-y:    .3rem;
 
 //input
 $input-padding:                       .6rem 1rem;
-$input-border:                        solid 1px $gray-600;
+$input-border:                        solid 1px gray(600);
 $input-btn-padding-y:                 .6rem;
 $input-btn-padding-x:                 1rem;
+$input-max-width:                     100%;
 
 // Modals
 $modal-header-height:                 46px;
 
 // Badges
-$badge-default-bg:                    $gray-600;
+$badge-default-bg:                    gray(600);
 
 // Grid breakpoints
 //
