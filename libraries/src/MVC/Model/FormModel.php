@@ -153,9 +153,31 @@ abstract class FormModel extends BaseDatabaseModel
 			// Check if this is the user having previously checked out the row.
 			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id'))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+				// Check if the session of the user that checked out the item is expired.
+				$db = $this->getDbo();
+				$query = $db->getQuery(true);
+				$query->select($db->quoteName('time'))
+					->from($db->quoteName('#__session'))
+					->where($db->quoteName('userid') . ' = ' . $table->{$checkedOutField})
+					->order($db->quoteName('time') . ' DESC')
+					->limit(1);
+				$db->setQuery($query);
+				$result = $db->loadResult();
 
-				return false;
+				if ($result)
+				{
+					$lifetime = \JFactory::getConfig()->get('lifetime', '15');
+
+					if (((time() - $result) / 60) <= $lifetime)
+					{
+						$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
+
+						return false;
+					}
+				}
+
+				// We either found no session or the session was already expired.
+				$table->checkIn();
 			}
 
 			// Attempt to check the row out.
