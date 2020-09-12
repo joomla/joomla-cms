@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 $data = $displayData;
-$icon = "icon-menu-2";
+$icon = "fas fa-sort";
 $sort = '';
 $caption = '';
 $selected = '';

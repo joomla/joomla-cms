@@ -998,7 +998,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$preset['simple'] = [
 			'menu' => [],
-			'toolbar' => [
+			'toolbar1' => [
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
@@ -1075,7 +1075,7 @@ class PlgEditorTinymce extends CMSPlugin
 	}
 
 	/**
-	 * Array helper funtion to remove specific arrays by key-value
+	 * Array helper function to remove specific arrays by key-value
 	 *
 	 * @param   array   $array  the parent array
 	 * @param   string  $key    the key

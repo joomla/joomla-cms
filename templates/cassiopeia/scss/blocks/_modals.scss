@@ -20,7 +20,9 @@
 
   .close {
     width: $modal-header-height;
+    padding: 0;
     margin-top: 0;
+    margin-bottom: 0;
     font-size: 2rem;
     line-height: $modal-header-height;
 
@@ -36,10 +38,6 @@
   }
 }
 
-.modal-body {
-  padding: 0;
-}
-
 .modal-title {
   font-weight: normal;
   line-height: $modal-header-height;
@@ -52,4 +50,8 @@
 // Content History
 .container-popup .mb-3 {
   margin: 1rem;
+}
+
+.container-popup .custom-select {
+  width: auto;
 }

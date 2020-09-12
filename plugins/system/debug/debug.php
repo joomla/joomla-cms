@@ -15,6 +15,7 @@ use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -54,7 +55,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @var    LogEntry[]
 	 * @since  3.1
 	 */
-	private $logEntries = array();
+	private $logEntries = [];
 
 	/**
 	 * Holds SHOW PROFILES of queries.
@@ -62,7 +63,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	private $sqlShowProfiles = array();
+	private $sqlShowProfiles = [];
 
 	/**
 	 * Holds all SHOW PROFILE FOR QUERY n, indexed by n-1.
@@ -70,7 +71,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	private $sqlShowProfileEach = array();
+	private $sqlShowProfileEach = [];
 
 	/**
 	 * Holds all EXPLAIN EXTENDED for all queries.
@@ -78,7 +79,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * @var    array
 	 * @since  3.1.2
 	 */
-	private $explains = array();
+	private $explains = [];
 
 	/**
 	 * Holds total amount of executed queries.
@@ -181,7 +182,7 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterDispatch()
 	{
 		// Only if debugging or language debug is enabled.
-		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && strtolower($this->app->getDocument()->getType()) === 'html')
+		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && $this->app->getDocument() instanceof HtmlDocument)
 		{
 			// Use our own jQuery and fontawesome instead of the debug bar shipped version
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
@@ -218,7 +219,7 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterRespond()
 	{
 		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang || $this->isAjax || strtolower($this->app->getDocument()->getType()) !== 'html')
+		if (!JDEBUG && !$this->debugLang || $this->isAjax || !($this->app->getDocument() instanceof HtmlDocument))
 		{
 			return;
 		}
@@ -277,7 +278,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// Only render for HTML output.
-		if ($this->app->getDocument()->getType() !== 'html')
+		if (!($this->app->getDocument() instanceof HtmlDocument))
 		{
 			$this->debugBar->stackData();
 
@@ -293,7 +294,7 @@ class PlgSystemDebug extends CMSPlugin
 		/**
 		 * @todo disable highlightjs from the DebugBar, import it through NPM
 		 *       and deliver it through Joomla's API
-		 *       Also every DebuBar script and stylesheet needs to use Joomla's API
+		 *       Also every DebugBar script and stylesheet needs to use Joomla's API
 		 *       $debugBarRenderer->disableVendor('highlightjs');
 		 */
 
@@ -363,20 +364,20 @@ class PlgSystemDebug extends CMSPlugin
 		// Log the deprecated API.
 		if ($this->params->get('log-deprecated'))
 		{
-			Log::addLogger(array('text_file' => 'deprecated.php'), Log::ALL, array('deprecated'));
+			Log::addLogger(['text_file' => 'deprecated.php'], Log::ALL, ['deprecated']);
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
 		if ($this->params->get('log-everything', 0))
 		{
-			Log::addLogger(array('text_file' => 'everything.php'), Log::ALL, array('deprecated', 'databasequery'), true);
+			Log::addLogger(['text_file' => 'everything.php'], Log::ALL, ['deprecated', 'databasequery'], true);
 		}
 
 		if ($this->params->get('logs', 1))
 		{
 			$priority = 0;
 
-			foreach ($this->params->get('log_priorities', array()) as $p)
+			foreach ($this->params->get('log_priorities', []) as $p)
 			{
 				$const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
 
@@ -390,7 +391,7 @@ class PlgSystemDebug extends CMSPlugin
 			$categories = preg_split('/[^\w.-]+/', $this->params->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
 			$mode = $this->params->get('log_category_mode', 0);
 
-			Log::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
+			Log::addLogger(['logger' => 'callback', 'callback' => [$this, 'logger']], $priority, $categories, $mode);
 		}
 
 		// Log deprecated class aliases
@@ -428,7 +429,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', array());
+		$filterGroups = (array) $this->params->get('filter_groups', []);
 
 		if (!empty($filterGroups))
 		{
@@ -496,18 +497,19 @@ class PlgSystemDebug extends CMSPlugin
 				}
 				else
 				{
-					$this->sqlShowProfileEach[0] = array(array('Error' => 'MySql have_profiling = off'));
+					$this->sqlShowProfileEach[0] = [['Error' => 'MySql have_profiling = off']];
 				}
 			}
 			catch (Exception $e)
 			{
-				$this->sqlShowProfileEach[0] = array(array('Error' => $e->getMessage()));
+				$this->sqlShowProfileEach[0] = [['Error' => $e->getMessage()]];
 			}
 		}
 
 		if ($this->params->get('query_explains') && in_array($db->getServerType(), ['mysql', 'postgresql'], true))
 		{
-			$logs = $this->queryMonitor->getLogs();
+			$logs        = $this->queryMonitor->getLogs();
+			$boundParams = $this->queryMonitor->getBoundParams();
 
 			foreach ($logs as $k => $query)
 			{
@@ -523,12 +525,22 @@ class PlgSystemDebug extends CMSPlugin
 				{
 					try
 					{
-						$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
-						$this->explains[$k] = $db->loadAssocList();
+						$queryInstance = $db->getQuery(true);
+						$queryInstance->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
+
+						if ($boundParams[$k])
+						{
+							foreach ($boundParams[$k] as $key => $obj)
+							{
+								$queryInstance->bind($key, $obj->value, $obj->dataType, $obj->length, $obj->driverOptions);
+							}
+						}
+
+						$this->explains[$k] = $db->setQuery($queryInstance)->loadAssocList();
 					}
 					catch (Exception $e)
 					{
-						$this->explains[$k] = array(array('Error' => $e->getMessage()));
+						$this->explains[$k] = [['error' => $e->getMessage()]];
 					}
 				}
 			}

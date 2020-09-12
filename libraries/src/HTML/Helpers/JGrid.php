@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -89,25 +90,16 @@ abstract class JGrid
 
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
-			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
+			$html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $active_class]);
 			$html[] = '</a>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
 		else
 		{
-			$html[] = '<span class="tbody-icon ' . $active_class . '-disabled disabled jgrid"';
+			$html[] = '<span class="tbody-icon jgrid"';
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
-
-			if ($active_class === 'protected')
-			{
-				$html[] = '<span class="fas fa-lock" aria-hidden="true"></span>';
-			}
-			else
-			{
-				$html[] = '<span class="icon-' . $inactive_class . '" aria-hidden="true"></span>';
-			}
-
+			$html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $inactive_class]);
 			$html[] = '</span>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
@@ -278,7 +270,7 @@ abstract class JGrid
 	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
-	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'color-featured fas fa-star', $inactive_class = 'color-unfeatured far fa-star')
+	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured fas fa-star', $inactive_class = 'icon-color-unfeatured fas fa-star')
 	{
 		if (is_array($prefix))
 		{

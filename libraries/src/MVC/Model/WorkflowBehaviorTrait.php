@@ -375,7 +375,7 @@ trait WorkflowBehaviorTrait
 
 	/**
 	 * Try to load a workflow stage for newly created items
-	 * which does not have a workflow assinged yet. If the category is not the
+	 * which does not have a workflow assigned yet. If the category is not the
 	 * carrier, overwrite it on your model and deliver your own carrier.
 	 *
 	 * @param   Form   $form  A Form object.
@@ -411,17 +411,15 @@ trait WorkflowBehaviorTrait
 		{
 			$catId = $field->getAttribute('default', null);
 
-			// Choose the first category available
-			$xml = new \DOMDocument;
-			libxml_use_internal_errors(true);
-			$xml->loadHTML($field->__get('input'));
-			libxml_clear_errors();
-			libxml_use_internal_errors(false);
-			$options = $xml->getElementsByTagName('option');
-
-			if (!$catId && $firstChoice = $options->item(0))
+			if (!$catId)
 			{
-				$catId = $firstChoice->getAttribute('value');
+				// Choose the first category available
+				$catOptions = $field->options;
+
+				if ($catOptions && !empty($catOptions[0]->value))
+				{
+					$catId = (int) $catOptions[0]->value;
+				}
 			}
 		}
 

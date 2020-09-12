@@ -44,6 +44,7 @@ class MapsModel extends ListModel
 				'branch',
 				'branch_title', 'd.branch_title',
 				'level', 'd.level',
+				'language', 'a.language',
 			);
 		}
 

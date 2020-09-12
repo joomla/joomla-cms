@@ -46,7 +46,7 @@
     }
   }
 
-  & + .dropdown-item {
+  + .dropdown-item {
     border-top: 1px solid rgba(0, 0, 0, .1);
   }
 
@@ -56,5 +56,19 @@
 
   .dropdown-save-group .dropdown-menu &:not(.disabled) {
     color: theme-color("success");
+  }
+
+  &.first {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &.last {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  &:not(.first):not(.last) {
+    border-radius: 0;
   }
 }

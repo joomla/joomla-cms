@@ -48,7 +48,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
 						<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
 						</th>
 						<th scope="col" style="min-width:85px" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
@@ -71,7 +71,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
 						<?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
-						<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
 						<?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
@@ -92,7 +92,7 @@ if ($saveOrder && !empty($this->items))
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| is_null($item->checked_out);
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
-					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->position ?: 'none'; ?>">
+					<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">
 						<td class="text-center">
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
@@ -170,7 +170,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
-						<td class="small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
