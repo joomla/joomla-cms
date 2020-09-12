@@ -46,6 +46,12 @@ dd {
 }
 
 // SearchTools rounded corners
+.awesomplete {
+  input {
+    @include border-left-radius(0);
+  }
+}
+
 .input-group > .input-group-prepend > .btn,
 .input-group > .input-group-prepend > .input-group-text,
 .input-group > .input-group-append:not(:last-child) > .btn,
