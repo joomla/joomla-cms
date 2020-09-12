@@ -157,11 +157,12 @@ class DatabaseModel extends InstallerModel
 			}
 			elseif ($result->type === 'module')
 			{
-				if ($result->client_id === 1)
+				// Typehint to integer to normalise some DBs returning strings and others integers
+				if ((int) $result->client_id === 1)
 				{
 					$basePath = JPATH_ADMINISTRATOR . '/modules/' . $result->element;
 				}
-				elseif ($result->client_id === 0)
+				elseif ((int) $result->client_id === 0)
 				{
 					$basePath = JPATH_SITE . '/modules/' . $result->element;
 				}
