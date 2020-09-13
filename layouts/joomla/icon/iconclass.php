@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
 $icon     = $displayData['icon'];
 $class    = $displayData['class'] ?? null;
 $tabindex = $displayData['tabindex'] ?? null;
+$title    = $displayData['title'] ?? null;
 $html     = $displayData['html'] ?? true;
 
 switch ($icon)
@@ -170,6 +171,11 @@ if ($html !== false)
 	if ($tabindex)
 	{
 		$iconAttribs['tabindex'] = $tabindex;
+	}
+
+	if ($title)
+	{
+		$iconAttribs['title'] = $title;
 	}
 
 	$icon = '<span ' . ArrayHelper::toString($iconAttribs) . '></span>';
