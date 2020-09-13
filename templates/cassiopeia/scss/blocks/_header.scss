@@ -156,30 +156,3 @@
     }
   }
 }
-
-.container-title {
-  padding-top: 13px;
-  padding-bottom: 13px;
-  color: $white;
-  background-color: var(--cassiopeia-color-hover);
-
-  .row {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  .page-title {
-    margin-bottom: 0;
-    font-size: 1.3rem;
-    font-weight: normal;
-
-    span {
-      position: relative;
-      top: 2px;
-      margin-right: 12px;
-      margin-left: 5px;
-      font-size: $h1-font-size;
-//      color: scale-color(var(--cassiopeia-color-primary), $lightness: 10%);
-    }
-  }
-}
