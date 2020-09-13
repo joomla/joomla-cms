@@ -147,7 +147,7 @@ class DatabaseModel extends InstallerModel
 
 			$db        = $this->getDbo();
 
-			if ($result->type === 'component' || $result->type === 'file')
+			if ($result->type === 'component')
 			{
 				$basePath = JPATH_ADMINISTRATOR . '/components/' . $result->element;
 			}
