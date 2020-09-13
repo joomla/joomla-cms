@@ -84,6 +84,10 @@ td .form-control {
     margin-inline-start: -10em;
   }
 
+  &[id^=editcontact-] {
+    margin-inline-start: -10em;
+  }
+
   [dir=ltr] & {
     text-align: left;
   }
