@@ -40,9 +40,14 @@
       background-color: theme-color("info");
     }
 
-    .btn-group.show .dropdown-menu &:not(.disabled) {
+    .dropdown-status-group .dropdown-menu &:not(.disabled) {
       color: var(--atum-text-light);
       background-color: var(--atum-bg-dark);
+    }
+
+    .dropdown-save-group .dropdown-menu &:not(.disabled) {
+      color: var(--atum-text-light);
+      background-color: theme-color("success");
     }
   }
 
