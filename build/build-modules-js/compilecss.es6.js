@@ -45,7 +45,7 @@ module.exports.compile = (options, path) => {
           `${RootPath}/templates/cassiopeia/scss/template.scss`,
           `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
           `${RootPath}/templates/cassiopeia/scss/global/fonts-local_roboto.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/fonts-web_fira.scss`,
+          `${RootPath}/templates/cassiopeia/scss/global/fonts-web_fira-sans.scss`,
           `${RootPath}/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss`,
           `${RootPath}/templates/cassiopeia/scss/global/colors_standard.scss`,
           `${RootPath}/templates/cassiopeia/scss/global/colors_alternative.scss`,
