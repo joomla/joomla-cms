@@ -17,15 +17,15 @@
 
   &[multiple] {
     padding: 0;
-    background-color: var(--white);
+    background-color: $white;
 
     option {
       padding: $custom-select-multiple-padding-y $custom-select-padding-x;
-      background-color: var(--white);
+      background-color: $white;
 
       &:checked {
-        color: var(--white);
-        background-color: $cassiopeia-template-color-dark !important;
+        color: $white;
+        background-color: var(--cassiopeia-color-primary) !important;
       }
     }
   }

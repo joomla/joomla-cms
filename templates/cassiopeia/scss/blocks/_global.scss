@@ -13,9 +13,9 @@ html {
 }
 
 body {
-  font-family: var(--cassiopeia-font-family-body);
   padding: 0;
   margin: 0;
+  font-family: var(--cassiopeia-font-family-body);
   line-height: 1.6;
   background: $white;
 }
@@ -74,4 +74,41 @@ dd {
 // meter element
 meter {
   width: 100%;
+}
+
+.pagenavigation {
+  .pagination {
+    justify-content: space-between;
+
+    li.next:only-child {
+      margin-left: auto;
+    }
+  }
+}
+
+.page-item {
+  &:first-child {
+    .page-link {
+      @include border-radius($border-radius);
+    }
+  }
+  &:last-child {
+    .page-link {
+      @include border-radius($border-radius);
+    }
+  }
+}
+
+.page-link {
+  color: var(--cassiopeia-color-link);
+  border: 1px solid $white;
+  &:hover {
+    color: var(--cassiopeia-color-link);
+  }
+}
+
+.awesomplete {
+  input {
+    @include border-right-radius(0);
+  }
 }

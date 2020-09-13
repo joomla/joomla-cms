@@ -2,8 +2,10 @@
 
 .footer {
   padding: 2.5rem ($cassiopeia-grid-gutter / 2);
+  margin-top: $cassiopeia-grid-gutter;
   color: $white;
-  background: $cassiopeia-template-color;
+  background-color: var(--cassiopeia-color-primary);
+  background-image: $cassiopeia-header-grad;
 
   a {
     color: $white;
@@ -12,10 +14,10 @@
   .back-top {
     align-self: flex-end;
     height: 40px;
-    padding: 8px 11px;
-    color: $cassiopeia-template-color;
+    padding: $cassiopeia-grid-gutter/2;
+    color: var(--cassiopeia-color-primary);
     background: $white;
-    border-radius: 3px;
+    border-radius: $border-radius;
 
     @include margin("right", 5px);
     @include margin("left", auto);

@@ -109,7 +109,7 @@
 
   .boxed & {
     background-color: $white;
-    box-shadow: 0 0 2px hsla(216, 13%, 23%, .1), 0 2px 5px hsla(216, 13%, 23%, .08), 0 5px 15px hsla(216, 13%, 23%, .08), inset 0 3px 0 $cassiopeia-template-color;
+    box-shadow: 0 0 2px hsla(216, 13%, 23%, .1), 0 2px 5px hsla(216, 13%, 23%, .08), 0 5px 15px hsla(216, 13%, 23%, .08), inset 0 3px 0 var(--cassiopeia-color-primary);
 
     .item-content {
       padding: 25px;
@@ -247,6 +247,30 @@
     .blog-item:nth-of-type(2n+1) {
       .item-image {
         order: 1;
+      }
+    }
+  }
+}
+
+// Modules
+
+.breadcrumb {
+  background-color: hsla(0, 0%, 0%, .03);
+}
+
+.no-card {
+  .newsflash-horiz {
+    li {
+      padding: 0 1rem 1rem;
+      border: 1px solid $gray-300;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      @include border-bottom-left-radius($border-radius);
+      @include border-bottom-right-radius($border-radius);
+      box-shadow: $cassiopeia-box-shadow;
+
+      figure {
+        margin: 0 -1rem 1rem;
       }
     }
   }
