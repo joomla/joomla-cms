@@ -80,7 +80,7 @@
 						<option value="fonts-local_roboto">Roboto (local)</option>
 					</group>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_WEB">
-						<option value="fonts-web_fira">Fira Sans (web)</option>
+						<option value="fonts-web_fira-sans">Fira Sans (web)</option>
 						<option value="fonts-web_roboto+noto-sans">Roboto + Noto Sans (web)</option>
 					</group>
 				</field>
