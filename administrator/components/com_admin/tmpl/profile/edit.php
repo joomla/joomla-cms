@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
@@ -68,7 +69,8 @@ $fieldsets = $this->form->getFieldsets();
 			<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS'); ?>
 		</legend>
 		<div class="alert alert-info">
-			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+			<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS_DESC'); ?>
 		</div>
 		<?php if (empty($this->otpConfig->otep)) : ?>

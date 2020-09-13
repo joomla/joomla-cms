@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $form = $displayData->getForm();
 
@@ -20,7 +21,8 @@ $fieldSets = $form->getFieldsets('metadata');
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
 	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 		<div class="alert alert-info">
-			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+			<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo $this->escape(Text::_($fieldSet->description)); ?>
 		</div>
 	<?php endif; ?>

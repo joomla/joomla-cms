@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $notice_disabled  = !$this->language_filter && ($this->homes > 1 || $this->switchers != 0);
 $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_filter);
@@ -23,13 +24,13 @@ $home_pages        = array_column($this->homepages, 'language');
 	<?php if (!$this->language_filter && $this->switchers == 0) : ?>
 		<?php if ($this->homes == 1) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
 				<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_NONE'); ?>
 			</div>
 		<?php else : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
 				<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?>
 			</div>

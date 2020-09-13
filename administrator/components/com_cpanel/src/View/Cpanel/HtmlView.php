@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 				}
 				elseif ($parts[0] === 'help')
 				{
-					$icon = 'fas fa-info-circle';
+					$icon = 'info';
 				}
 				elseif ($lang->hasKey($keyIcon))
 				{

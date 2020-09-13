@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
@@ -48,7 +49,8 @@ HTMLHelper::_('behavior.keepalive');
 				<div class="card-body">
 					<?php if (empty($this->actionlogs)) : ?>
 						<div class="alert alert-info">
-							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+							<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>

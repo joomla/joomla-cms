@@ -43,12 +43,14 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if ($this->state->get('itemtype') == '' || $this->state->get('language') == '') : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+						<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'); ?>
 					</div>
 				<?php elseif (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+						<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>

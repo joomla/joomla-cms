@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 
@@ -44,7 +45,8 @@ $wa->useScript('joomla.treeselectmenu')
 
 		<hr>
 		<div class="alert alert-info">
-			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+			<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
 		</div>
 			<?php if (count($menuLinks)) : ?>

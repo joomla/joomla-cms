@@ -123,7 +123,8 @@ foreach ($fieldSets as $name => $fieldSet)
 		if (!empty($fieldSet->description))
 		{
 			echo '<div class="alert alert-info">';
-			echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+			echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']);
+			echo '<span class="sr-only">' . Text::_('INFO') . '</span> ';
 			echo Text::_($fieldSet->description);
 			echo '</div>';
 		}
@@ -160,7 +161,8 @@ foreach ($fieldSets as $name => $fieldSet)
 			if (!empty($fieldSet->description))
 			{
 				echo '<div class="alert alert-info">';
-				echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+				echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']);
+				echo '<span class="sr-only">' . Text::_('INFO') . '</span> ';
 				echo Text::_($fieldSet->description);
 				echo '</div>';
 			}
@@ -173,7 +175,8 @@ foreach ($fieldSets as $name => $fieldSet)
 		elseif (!empty($fieldSet->description))
 		{
 			echo '<div class="alert alert-info alert-parent">';
-			echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+			echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']);
+			echo '<span class="sr-only">' . Text::_('INFO') . '</span> ';
 			echo Text::_($fieldSet->description);
 			echo '</div>';
 		}

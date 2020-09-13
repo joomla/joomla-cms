@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -59,9 +60,8 @@ class PlugininfoField extends FormField
 		);
 
 		return '<div class="alert alert-info">'
-			. '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">'
-			. Text::_('INFO')
-			. '</span>'
+			. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info'])
+			. '<span class="sr-only">' . Text::_('INFO') . '</span>'
 			. Text::sprintf('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED_REDIRECT', $link)
 			. '</div>';
 	}

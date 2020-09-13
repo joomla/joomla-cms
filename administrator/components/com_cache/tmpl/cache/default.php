@@ -30,14 +30,15 @@ $wa->useScript('keepalive')
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<div class="alert alert-info">
-					<span class="fas fa-info-circle" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
 					<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?>
 				</div>
 				<?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 				<?php if (!$this->data) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+						<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>

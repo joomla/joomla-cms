@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 $app = Factory::getApplication();
@@ -105,7 +106,8 @@ $xml = $this->form->getXml();
 
 					<?php if (!empty($fieldSet->description)) : ?>
 						<div class="tab-description alert alert-info">
-							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+							<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_($fieldSet->description); ?>
 						</div>
 					<?php endif; ?>
@@ -133,7 +135,8 @@ $xml = $this->form->getXml();
 
 			<?php else : ?>
 				<div class="alert alert-info">
-					<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+					<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
 				</div>
 			<?php endif; ?>

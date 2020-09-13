@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
@@ -49,7 +50,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 									<?php if ($option->notice) : ?>
-										<span class="fas fa-info icon-white" title="<?php echo $option->notice; ?>"></span>
+										<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info', 'class' => 'icon-white', 'title' => $option->notice]); ?>
 									<?php endif; ?>
 								</span>
 							</td>

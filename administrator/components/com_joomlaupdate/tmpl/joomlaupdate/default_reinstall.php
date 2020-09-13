@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
@@ -21,7 +22,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 		<?php echo Text::_('COM_JOOMLAUPDATE_UPDATE_CHECK'); ?>
 	</legend>
 	<p class="alert alert-info">
-		<span class="fas fa-info-circle" aria-hidden="true"></span>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
 		<span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?>
 	</p>

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 ?>
@@ -32,7 +33,7 @@ use Joomla\CMS\Router\Route;
 						<?php endforeach; ?>
 						<div class="alert alert-info">
 							<h4 class="alert-heading">
-								<span class="fas fa-info-circle" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
 								<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 								<?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?>
 							</h4>
@@ -40,7 +41,7 @@ use Joomla\CMS\Router\Route;
 						</div>
 					<?php else: ?>
 						<div class="alert alert-info">
-							<span class="fas fa-info-circle" aria-hidden="true"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
 							<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?>
 						</div>

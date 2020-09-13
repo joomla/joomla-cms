@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 Factory::getDocument()->getWebAssetManager()->usePreset('qrcode');
 
@@ -101,7 +102,8 @@ Factory::getDocument()->addScriptDeclaration($js);
 	</div>
 
 	<div class="alert alert-info">
-		<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info']); ?>
+		<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?>
 	</div>
 </fieldset>
