@@ -251,3 +251,23 @@
     }
   }
 }
+
+// Modules
+
+.no-card {
+  .newsflash-horiz {
+    li {
+      padding: 0 1rem 1rem;
+      border: 1px solid $gray-300;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      @include border-bottom-left-radius($border-radius);
+      @include border-bottom-right-radius($border-radius);
+      box-shadow: $cassiopeia-box-shadow;
+
+      figure {
+        margin: 0 -1rem 1rem;
+      }
+    }
+  }
+}
