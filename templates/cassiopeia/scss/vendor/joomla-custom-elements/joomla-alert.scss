@@ -11,7 +11,7 @@
   padding: 0;
   margin-bottom: 1rem;
   color: var(--gray-dark);
-  background-color: var(--white);
+  background-color: $white;
   border: 1px solid var(--alert-accent-color, transparent);
   border-radius: .25rem;
   transition: opacity .15s linear;
@@ -78,7 +78,7 @@
     --alert-accent-color: var(--success);
     --alert-heading-text: hsla(0, 0%, 100%, .95);
     --alert-close-button: var(--success);
-    background-color: var(--white);
+    background-color: $white;
   }
 
   &[type="info"],
@@ -86,14 +86,14 @@
     --alert-accent-color: var(--info);
     --alert-heading-text: hsla(0, 0%, 100%, .95);
     --alert-close-button: var(--info);
-    background-color: var(--white);
+    background-color: $white;
   }
 
   &[type="warning"] {
     --alert-accent-color: var(--warning);
     --alert-heading-text: $black;
     --alert-close-button: $black;
-    background-color: var(--white);
+    background-color: $white;
   }
 
   &[type="error"],
@@ -101,7 +101,7 @@
     --alert-accent-color: var(--danger);
     --alert-heading-text: hsla(0, 0%, 100%, .95);
     --alert-close-button: var(--danger);
-    background-color: var(--white);
+    background-color: $white;
   }
 
   .joomla-alert--close,

@@ -6,14 +6,14 @@ $cassiopeia-block-header-bg:          hsl(0, 0%, 96%) !default;
 $cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
 
 // Standard
-$standard-color-primary:hsl(220, 67%, 20%);
-$standard-color-link:hsl(220, 67%, 20%);
-$standard-color-hover: hsl(242, 30%, 36%);
+$standard-color-primary:              hsl(220, 67%, 20%);
+$standard-color-link:                 hsl(220, 67%, 20%);
+$standard-color-hover:                hsl(242, 30%, 36%);
 
 // Alternative
-$alternative-color-primary: hsl(351, 54%, 37%);
-$alternative-color-link: hsl(216, 21%, 51%);
-$alternative-color-hover: hsl(351, 33%, 44%);
+$alternative-color-primary:           hsl(351, 54%, 37%);
+$alternative-color-link:              hsl(216, 21%, 51%);
+$alternative-color-hover:             hsl(351, 33%, 44%);
 
 $white:                               hsl(0, 0%, 100%);
 $gray-100:                            hsl(210, 17%, 98%);
@@ -61,9 +61,7 @@ $colors: (
   green: $green,
   teal: $teal,
   cyan: $cyan,
-  white: $white,
-  gray: gray(600),
-  gray-dark: gray(800)
+  white: $white
 );
 
 $primary: var(--cassiopeia-color-primary);
@@ -117,19 +115,19 @@ $card-bg-color-dark:                  var(--cassiopeia-color-primary);
 $card-border-color:                   $cassiopeia-border-color;
 
 // Alerts
-$state-success-text:                  color("white") !default;
+$state-success-text:                  $white !default;
 $state-success-bg:                    theme-color("success") !default;
 $state-success-border:                scale-color(theme-color("success"), $lightness: -5%) !default;
 
-$state-info-text:                     color("white") !default;
+$state-info-text:                     $white !default;
 $state-info-bg:                       theme-color("info") !default;
 $state-info-border:                   scale-color(theme-color("info"), $lightness: -7%) !default;
 
-$state-warning-text:                  color("white") !default;
+$state-warning-text:                  $white !default;
 $state-warning-bg:                    theme-color("warning") !default;
 $state-warning-border:                scale-color(theme-color("warning"), $lightness: -5%) !default;
 
-$state-danger-text:                   color("white") !default;
+$state-danger-text:                   $white !default;
 $state-danger-bg:                     theme-color("danger") !default;
 $state-danger-border:                 scale-color(theme-color("danger"), $lightness: -5%) !default;
 
@@ -137,7 +135,7 @@ $state-danger-border:                 scale-color(theme-color("danger"), $lightn
 $treeselect-line-height:              2.2rem;
 
 // List
-$list-group-bg:                       color("white");
+$list-group-bg:                       $white;
 
 // Custom form
 $custom-select-bg:                    gray(200);

@@ -16,7 +16,7 @@
     height: 40px;
     padding: $cassiopeia-grid-gutter/2;
     color: var(--cassiopeia-color-primary);
-    background: color("white");
+    background: $white;
     border-radius: $border-radius;
 
     @include margin("right", 5px);

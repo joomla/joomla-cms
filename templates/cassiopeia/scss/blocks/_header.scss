@@ -52,7 +52,7 @@
 
     &:hover,
     &:focus {
-      color: darken($white, 6%);
+      color: scale-color($white, $lightness: -6%);
     }
   }
 
