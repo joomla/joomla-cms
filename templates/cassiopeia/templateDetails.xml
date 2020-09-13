@@ -76,8 +76,8 @@
 					default="0"
 					label="TPL_CASSIOPEIA_FLUID_LABEL"
 					>
-					<option value="1">TPL_CASSIOPEIA_FLUID</option>
 					<option value="0">TPL_CASSIOPEIA_STATIC</option>
+					<option value="1">TPL_CASSIOPEIA_FLUID</option>
 				</field>
 
 				<field
