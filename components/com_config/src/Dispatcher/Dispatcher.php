@@ -36,9 +36,19 @@ class Dispatcher extends ComponentDispatcher
 
 		$user = $this->app->getIdentity();
 
-		if (!$user->authorise('module.edit.frontend', 'com_modules') && !$user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
+		if ($this->input->get('view') === 'modules')
 		{
-			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			if (!$user->authorise('module.edit.frontend', 'com_modules') && !$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id')))
+			{
+				throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			}
+		}
+		else
+		{
+			if (!$this->app->getIdentity()->authorise('core.admin'))
+			{
+				throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			}
 		}
 	}
 }
