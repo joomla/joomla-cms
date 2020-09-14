@@ -246,7 +246,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'suffix' => 'text-danger']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php elseif ($status->lang_code && $status->published == -2) : ?>
-								<span class="fas fa-trash" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'trash']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php else : ?>
 								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
@@ -262,7 +262,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'suffix' => 'text-danger']); ?>
 								<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
 							<?php elseif ($status->home_published == -2) : ?>
-								<span class="fas fa-trash" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'trash']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php else : ?>
 								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
@@ -289,7 +289,7 @@ $home_pages        = array_column($this->homepages, 'language');
 									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'suffix' => 'text-danger']); ?>
 									<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
 								<?php elseif ($contentlang->published == -2 && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
-									<span class="fas fa-trash" aria-hidden="true"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'trash']); ?>
 									<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 								<?php endif; ?>
 							</td>

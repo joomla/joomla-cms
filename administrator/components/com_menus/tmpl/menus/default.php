@@ -78,7 +78,7 @@ $wa->useScript('com_menus.admin-menus');
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
-									<span class="fas fa-trash" aria-hidden="true"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'trash']); ?>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-lg-table-cell">
