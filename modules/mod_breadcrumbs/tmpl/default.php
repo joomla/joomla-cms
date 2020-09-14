@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 ?>
 <nav role="navigation" aria-label="<?php echo $module->title; ?>">
@@ -20,7 +21,7 @@ use Joomla\CMS\Language\Text;
 			</li>
 		<?php else : ?>
 			<li class="mod-breadcrumbs__divider float-left">
-				<span class="divider fas fa-location" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'default']); ?>
 			</li>
 		<?php endif; ?>
 
