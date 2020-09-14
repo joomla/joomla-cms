@@ -117,7 +117,7 @@ if ($saveOrder && !empty($this->items))
 											<?php $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED'); ?>
 										<?php endif; ?>
 										<span class="sortable-handler<?php echo $iconClass; ?>">
-											<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+											<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'ellipsis-v']); ?>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" class="hidden" name="order[]" size="5" value="<?php echo $item->ordering; ?>">

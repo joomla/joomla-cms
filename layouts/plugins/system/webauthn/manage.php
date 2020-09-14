@@ -106,6 +106,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 				<td><?php echo htmlentities($method['label']) ?></td>
 				<td>
 					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-edit btn btn-secondary">
+						$iconPrefix . '
 						<span class="fas fa-edit" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
 					</button>

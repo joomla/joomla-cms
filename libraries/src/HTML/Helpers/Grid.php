@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -258,7 +259,9 @@ abstract class Grid
 	{
 		return '<a href="javascript:saveorder('
 			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-right" title="'
-			. Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="fas fa-sort"></span></a>';
+			. Text::_('JLIB_HTML_SAVE_ORDER') . '">'
+			. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'sort'])
+			. '</a>';
 	}
 
 	/**

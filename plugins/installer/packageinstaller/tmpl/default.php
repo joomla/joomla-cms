@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /** @var PlgInstallerPackageInstaller $this */
 
@@ -78,7 +79,7 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 				</p>
 				<p>
 					<button id="select-file-button" type="button" class="btn btn-success">
-						<span class="fas fa-copy" aria-hidden="true"></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'select-file']); ?>
 						<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
 					</button>
 				</p>

@@ -106,7 +106,7 @@ if ($saveOrder && !empty($this->items))
 											$disableClassName = 'inactive';
 										endif; ?>
 										<span class="sortable-handler <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
-											<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+											<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'ellipsis-v']); ?>
 										</span>
 										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php else : ?>

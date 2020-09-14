@@ -176,7 +176,7 @@ if ($saveOrder && !empty($this->items))
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="fas fa-ellipsis-v"></span>
+											<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'ellipsis-v']); ?>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" class="hidden" name="order[]" size="5" value="<?php echo $item->lft; ?>">

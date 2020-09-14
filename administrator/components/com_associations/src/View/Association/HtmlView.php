@@ -15,6 +15,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
@@ -370,13 +371,15 @@ class HtmlView extends BaseHtmlView
 
 		$bar->appendButton(
 			'Custom', '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
+			. 'class="btn btn-success">'
+			. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'save'])
 			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
+			. 'class="btn btn-success">'
+			. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'save'])
 			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>', 'target'
 		);
 

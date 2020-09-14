@@ -154,7 +154,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+											<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'ellipsis-v']); ?>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" class="hidden" name="order[]" size="5"

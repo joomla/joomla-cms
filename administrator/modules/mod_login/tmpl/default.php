@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -65,7 +66,7 @@ Text::script('MESSAGE');
 				>
 				<span class="input-group-append">
 					<button type="button" class="btn btn-secondary input-password-toggle">
-						<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'eye-open', 'fixed' => true]); ?>
 						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</span>

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
@@ -214,7 +215,7 @@ $params = $this->params;
 				<?php if ($params->get('show_hits')) : ?>
 					<dd>
 						<div class="hits">
-							<span class="fas fa-eye"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'hits']); ?>
 							<meta content="UserPageVisits:<?php echo $item->hits; ?>" itemprop="interactionCount">
 							<?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 						</div>

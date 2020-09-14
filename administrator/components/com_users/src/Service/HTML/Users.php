@@ -115,7 +115,9 @@ class Users
 		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
 
 		return '<button  type="button" data-target="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId
-			. '" data-toggle="modal" class="dropdown-item"><span class="fas fa-eye" aria-hidden="true"></span> ' . $title . '</button>';
+			. '" data-toggle="modal" class="dropdown-item">'
+			.  LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'eye-open'])
+			. ' ' . $title . '</button>';
 	}
 
 	/**

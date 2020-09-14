@@ -103,6 +103,7 @@ switch ($icon)
 		$icon = $iconPrefix . 'eye-slash';
 		break;
 
+	case 'hits';
 	case 'eye-open':
 		$icon = $iconPrefix . 'eye';
 		break;
@@ -194,6 +195,14 @@ switch ($icon)
 		$icon = $iconPrefix . 'search-plus';
 		break;
 
+	case 'ellipsis-v':
+		$icon = $iconPrefix . 'ellipsis-v';
+		break;
+
+	case 'ellipsis-h':
+		$icon = $iconPrefix . 'ellipsis-h';
+		break;
+
 	case 'sort':
 		$icon = $iconPrefix . 'sort';
 		break;
@@ -216,6 +225,26 @@ switch ($icon)
 
 	case 'warning-2':
 		$icon = $iconPrefix . 'exclamation-triangle';
+		break;
+
+	case 'paginationStart':
+	case 'paginationEndRtl':
+		$icon = $iconPrefix . 'fa-angle-double-left';
+		break;
+
+	case 'paginationStartRtl':
+	case 'paginationEnd':
+		$icon = $iconPrefix . 'fa-angle-double-right';
+		break;
+
+	case 'paginationNext':
+	case 'paginationPrevRtl':
+		$icon = $iconPrefix . 'fa-angle-left';
+		break;
+
+	case 'paginationNextRtl':
+	case 'paginationPrev':
+		$icon = $iconPrefix . 'fa-angle-right';
 		break;
 
 	default:

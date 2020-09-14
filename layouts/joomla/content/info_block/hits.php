@@ -10,10 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 ?>
 <dd class="hits">
-	<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
+	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'hits', 'fixed' => true]); ?>
 	<meta itemprop="interactionCount" content="UserPageVisits:<?php echo $displayData['item']->hits; ?>">
 	<?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $displayData['item']->hits); ?>
 </dd>

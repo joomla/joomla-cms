@@ -89,7 +89,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
 										</a>
 									<?php else : ?>
-										<span class="fas fa-eye-slash" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
+										<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'eye-close', 'title' => Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW')]); ?>
 										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 									<?php endif; ?>
 								</td>

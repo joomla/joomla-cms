@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
@@ -39,7 +40,7 @@ Text::script('JHIDEPASSWORD');
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
 						<span class="input-group-text" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-							<span class="fas fa-user" aria-hidden="true"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'user']); ?>
 						</span>
 					</span>
 				</div>
@@ -56,7 +57,7 @@ Text::script('JHIDEPASSWORD');
 					<span class="input-group-append">
 						<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 						<button type="button" class="btn btn-secondary input-password-toggle">
-							<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'eye-open', 'fixed' => true]); ?>
 							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 						</button>
 					</span>
@@ -73,14 +74,14 @@ Text::script('JHIDEPASSWORD');
 					<div class="input-group">
 						<span class="input-group-prepend" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 							<span class="input-group-text">
-								<span class="fas fa-star" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'asterisk']); ?>
 							</span>
 							<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
 						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="input-group-text">
-								<span class="fas fa-question" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'question']); ?>
 							</span>
 						</span>
 					</div>
@@ -88,7 +89,7 @@ Text::script('JHIDEPASSWORD');
 					<label for="modlgn-secretkey-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 					<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 					<span class="btn width-auto" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-						<span class="fas fa-question" aria-hidden="true"></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'question']); ?>
 					</span>
 				<?php endif; ?>
 			</div>
@@ -144,7 +145,8 @@ Text::script('JHIDEPASSWORD');
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
 					<a href="<?php echo Route::_($registerLink); ?>">
-					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="fas fa-arrow-alt-circle-right"></span></a>
+						<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'register']); ?>
+					</a>
 				</li>
 			<?php endif; ?>
 				<li>

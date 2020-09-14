@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * Clicks field.
@@ -43,6 +44,7 @@ class ClicksField extends FormField
 		return '<div class="input-group"><input class="form-control" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly">'
 			. '<span class="input-group-append"><button type="button" class="btn btn-secondary" ' . $onclick . '>'
-			. '<span class="fas fa-sync" aria-hidden="true"></span> ' . Text::_('COM_BANNERS_RESET_CLICKS') . '</button></span></div>';
+			. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'refresh'])
+			. ' ' . Text::_('COM_BANNERS_RESET_CLICKS') . '</button></span></div>';
 	}
 }

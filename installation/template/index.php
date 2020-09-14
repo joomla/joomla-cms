@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
@@ -83,7 +84,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 					</div>
 					<div class="m-2 d-flex align-items-center">
 						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
-							<span class="fas fa-question" aria-hidden="true"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'question']); ?>
 							<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 						</a>
 					</div>
