@@ -137,8 +137,8 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 				</div>
 			</nav>
 		<?php endif; ?>
-		</header>
-	</div>
+	</header>
+
 	<?php if ($this->countModules('banner')) : ?>
 		<div class="container-banner full-width">
 			<jdoc:include type="modules" name="banner" style="none" />
