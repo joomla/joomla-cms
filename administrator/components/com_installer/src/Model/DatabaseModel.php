@@ -173,7 +173,7 @@ class DatabaseModel extends InstallerModel
 				}
 			}
 			// Specific bodge for the Joomla CMS special database check which points to com_admin
-			elseif ($result->type === 'file' && $result->name === 'files_joomla')
+			elseif ($result->type === 'file' && $result->element === 'com_admin')
 			{
 				$basePath = JPATH_ADMINISTRATOR . '/components/' . $result->element;
 			}
