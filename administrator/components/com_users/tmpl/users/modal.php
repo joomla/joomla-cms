@@ -21,8 +21,8 @@ $input           = Factory::getApplication()->input;
 $field           = $input->getCmd('field');
 $listOrder       = $this->escape($this->state->get('list.ordering'));
 $listDirn        = $this->escape($this->state->get('list.direction'));
-$enabledStates   = array(0 => 'fas fa-check', 1 => 'fas fa-times');
-$activatedStates = array(0 => 'fas fa-check', 1 => 'fas fa-times');
+$enabledStates   = array(0 => 'check', 1 => 'times');
+$activatedStates = array(0 => 'check', 1 => 'times');
 $userRequired    = (int) $input->get('required', 0, 'int');
 $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.getCurrent().close()";
 

@@ -28,7 +28,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 	</p>
 	<p><?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?></p>
 	<p class="alert alert-success">
-		<span class="fas fa-check-circle" aria-hidden="true"></span>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check-circle']); ?>
 		<span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', '&#x200E;' . JVERSION); ?>
 	</p>

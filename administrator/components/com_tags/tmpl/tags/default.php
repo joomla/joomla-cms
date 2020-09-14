@@ -92,7 +92,8 @@ if ($saveOrder && !empty($this->items))
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-								<span class="fas fa-check" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'title' => Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS')]); ?>
+								<span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>

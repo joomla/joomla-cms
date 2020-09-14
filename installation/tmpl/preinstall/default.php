@@ -21,7 +21,7 @@ HTMLHelper::_('behavior.formvalidator');
 			<div class="col-md-12 mb-4">
 				<div class="j-install-step active">
 					<div class="j-install-step-header">
-						<span class="fas fa-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check']); ?> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
 					</div>
 					<div class="j-install-step-form">
 						<?php foreach ($this->options as $option) : ?>
@@ -76,7 +76,7 @@ HTMLHelper::_('behavior.formvalidator');
 							</div>
 							<div class="form-group row">
 								<div class="col-md-8 offset-md-2 justify-content-end d-flex">
-									<button id="verifybutton" class="btn btn-success"><span class="fas fa-check icon-white"></span> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
+									<button id="verifybutton" class="btn btn-success"><?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'icon-white']); ?> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
 								</div>
 							</div>
 							<input type="hidden" name="format" value="json">

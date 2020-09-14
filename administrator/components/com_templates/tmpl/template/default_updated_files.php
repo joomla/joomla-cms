@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 $input = Factory::getApplication()->input;
@@ -81,7 +82,8 @@ $input = Factory::getApplication()->input;
 					<?php echo HTMLHelper::_('form.token'); ?>
 				<?php else : ?>
 					<div class="alert alert-success">
-						<span class="fas fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check']); ?>
+						<span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 						<?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
 					</div>
 				<?php endif; ?>

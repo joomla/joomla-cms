@@ -160,7 +160,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<td class="text-center d-none d-md-table-cell">
 									<span class="tbody-icon">
 									<?php if (!empty($item->otpKey)) : ?>
-										<span class="fas fa-check" aria-hidden="true"></span>
+										<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check']); ?>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
 									<?php else : ?>
 										<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times']); ?>

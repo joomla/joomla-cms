@@ -66,7 +66,7 @@ $this->useCoreUI        = true;
 		</fieldset>
 		<div class="mb-2">
 			<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('contact.save')">
-				<span class="fas fa-check" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check']); ?>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('contact.cancel')">

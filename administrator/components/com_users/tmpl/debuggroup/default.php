@@ -62,7 +62,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								$name  = $action[0];
 								$check = $item->checks[$name];
 								if ($check === true) :
-									$icon   = 'fas fa-check';
+									$icon   = 'check';
 									$class  = 'text-success';
 									$button = 'btn-success';
 									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
@@ -102,7 +102,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</table>
 			<div class="legend">
 				<span class="text-danger fas fa-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
-				<span class="text-success fas fa-check" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'text-success']); ?>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
 				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'suffix' => 'text-danger']); ?>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			</div>
 

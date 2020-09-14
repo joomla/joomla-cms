@@ -59,7 +59,7 @@ $wa->useScript('com_users.admin-users-groups');
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
 								<th scope="col" class="w-10 text-center">
-									<span class="fas fa-check" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'title' => Text::_('COM_USERS_COUNT_ENABLED_USERS')]); ?>
 									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center">

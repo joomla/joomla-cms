@@ -64,7 +64,7 @@ $wa->useScript('com_finder.maps');
 								</th>
 							<?php endif; ?>
 							<th scope="col" class="w-1 text-center">
-								<span class="fas fa-check" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check']); ?>
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 							<th scope="col" class="w-1 text-center">

@@ -229,7 +229,7 @@ $home_pages        = array_column($this->homepages, 'language');
 					<?php // Published Site languages ?>
 					<?php if ($status->element) : ?>
 							<td class="text-center">
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'text-success']); ?>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							</td>
 					<?php else : ?>
@@ -240,7 +240,7 @@ $home_pages        = array_column($this->homepages, 'language');
 					<?php // Published Content languages ?>
 						<td class="text-center">
 							<?php if ($status->lang_code && $status->published == 1) : ?>
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'text-success']); ?>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php elseif ($status->lang_code && $status->published == 0) : ?>
 								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'suffix' => 'text-danger']); ?>
@@ -256,7 +256,7 @@ $home_pages        = array_column($this->homepages, 'language');
 					<?php // Published Home pages ?>
 						<td class="text-center">
 							<?php if ($status->home_published == 1) : ?>
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'text-success']); ?>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php elseif ($status->home_published == 0) : ?>
 								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'suffix' => 'text-danger']); ?>
@@ -283,7 +283,7 @@ $home_pages        = array_column($this->homepages, 'language');
 							</td>
 							<td class="text-center">
 								<?php if ($contentlang->published == 1) : ?>
-									<span class="text-success fas fa-check" aria-hidden="true"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'text-success']); ?>
 									<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 								<?php elseif ($contentlang->published == 0 && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
 									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'suffix' => 'text-danger']); ?>
@@ -298,7 +298,7 @@ $home_pages        = array_column($this->homepages, 'language');
 									<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 								<?php else : ?>
-									<span class="text-success fas fa-check" aria-hidden="true"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'text-success']); ?>
 									<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 								<?php endif; ?>
 							</td>
@@ -313,7 +313,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<?php echo $sitelang; ?>
 							</th>
 							<td class="text-center">
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'text-success']); ?>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							</td>
 							<td class="text-center">
@@ -321,7 +321,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							</td>
 							<td class="text-center">
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'text-success']); ?>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							</td>
 						</tr>

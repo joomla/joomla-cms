@@ -48,6 +48,10 @@ switch ($icon)
 		$icon = 'fas fa-check';
 		break;
 
+	case 'check-circle':
+		$icon = 'fas fa-check-circle';
+		break;
+
 	case 'unpublish':
 	case 'cancel':
 	case 'delete':
@@ -125,6 +129,7 @@ switch ($icon)
 		$icon = 'fas fa-copy';
 		break;
 
+	case 'success':
 	case 'checkin':
 		$icon = 'fas fa-check-square';
 		break;

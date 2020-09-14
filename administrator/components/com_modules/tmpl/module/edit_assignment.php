@@ -141,7 +141,7 @@ $this->document->getWebAssetManager()
 							<div class="dropdown-menu">
 								<h1 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h1>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item checkall" href="javascript://"><span class="fas fa-check-square" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?></a>
+								<a class="dropdown-item checkall" href="javascript://"><?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check']); ?> <?php echo Text::_('JSELECT'); ?></a>
 								<a class="dropdown-item uncheckall" href="javascript://"><span class="fas fa-square" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_DESELECT'); ?></a>
 								<div class="treeselect-menu-expand">
 									<div class="dropdown-divider"></div>

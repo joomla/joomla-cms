@@ -50,11 +50,11 @@ if (Multilanguage::isEnabled())
 		<div class="col-md-12">
 
 			<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
-				<span class="fas fa-check" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check']); ?>
 				<?php echo Text::_('JAPPLY'); ?>
 			</button>
 			<button type="button" class="btn btn-primary" data-submit-task="modules.save">
-				<span class="fas fa-check" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check']); ?>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">

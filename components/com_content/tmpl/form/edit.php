@@ -156,7 +156,7 @@ if (!$editoroptions)
 		</fieldset>
 		<div class="mb-2">
 			<button type="button" class="btn btn-primary" data-submit-task="article.save">
-				<span class="fas fa-check" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check']); ?>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
