@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 // Convert icomoon to fa
 $icon       = $displayData['icon'];
 $iconFixed  = $displayData['fixed'] ?? null;
+$iconPrefix = 'fas fa-';
 $iconSuffix = $displayData['suffix'] ?? null;
 $tabindex   = $displayData['tabindex'] ?? null;
 $title      = $displayData['title'] ?? null;
@@ -29,7 +30,7 @@ switch ($icon)
 		break;
 
 	case 'file':
-		$icon = 'fas fa-file';
+		$icon = $iconPrefix . 'file';
 		break;
 
 	case 'archive':
@@ -40,20 +41,20 @@ switch ($icon)
 	case 'folder-plus-2':
 	case 'folder-remove':
 	case 'drawer-2':
-		$icon = 'fas fa-folder';
+		$icon = $iconPrefix . 'folder';
 		break;
 
 	case 'folder-open':
-		$icon = 'fas fa-folder-open';
+		$icon = $iconPrefix . 'folder-open';
 		break;
 
 	case 'check':
 	case 'publish':
-		$icon = 'fas fa-check';
+		$icon = $iconPrefix . 'check';
 		break;
 
 	case 'check-circle':
-		$icon = 'fas fa-check-circle';
+		$icon = $iconPrefix . 'check-circle';
 		break;
 
 	case 'unpublish':
@@ -61,133 +62,160 @@ switch ($icon)
 	case 'delete':
 	case 'remove':
 	case 'times':
-		$icon = 'fas fa-times';
+		$icon = $iconPrefix . 'times';
 		break;
 
 	case 'times-cancel':
-		$icon = 'fas fa-times-cancel';
+		$icon = $iconPrefix . 'times-cancel';
 		break;
 
 	case 'new':
 	case 'save-new':
 	case 'add':
 	case 'collapse':
-		$icon = 'fas fa-plus';
+		$icon = $iconPrefix . 'plus';
 		break;
 
 	case 'apply':
 	case 'save':
-		$icon = 'fas fa-save';
+		$icon = $iconPrefix . 'save';
 		break;
 
 	case 'mail':
-		$icon = 'fas fa-envelope';
+		$icon = $iconPrefix . 'envelope';
 		break;
 
 	case 'unfeatured':
 	case 'asterisk':
-		$icon = 'fas fa-star';
+		$icon = $iconPrefix . 'star';
 		break;
 
 	case 'featured':
-		$icon = 'fas fa-star featured';
+		$icon = $iconPrefix . 'star featured';
 		break;
 
 	case 'checkedout':
 	case 'protected':
-		$icon = 'fas fa-lock';
+		$icon = $iconPrefix . 'lock';
 		break;
 
 	case 'eye-close':
-		$icon = 'fas fa-eye-slash';
+		$icon = $iconPrefix . 'eye-slash';
 		break;
 
 	case 'eye-open':
-		$icon = 'fas fa-eye';
+		$icon = $iconPrefix . 'eye';
 		break;
 
 	case 'loop':
 	case 'refresh':
 	case 'unblock':
-		$icon = 'fas fa-sync';
+		$icon = $iconPrefix . 'sync';
 		break;
 
 	case 'contract':
-		$icon = 'fas fa-compress';
+		$icon = $iconPrefix . 'compress';
 		break;
 
 	case 'purge':
 	case 'trash':
-		$icon = 'fas fa-trash';
+		$icon = $iconPrefix . 'trash';
 		break;
 
 	case 'options':
-		$icon = 'fas fa-cog';
+		$icon = $iconPrefix . 'cog';
 		break;
 
 	case 'expired':
-		$icon = 'fas fa-minus-circle';
+		$icon = $iconPrefix . 'minus-circle';
 		break;
 
+	case 'select-file':
 	case 'save-copy':
-		$icon = 'fas fa-copy';
+		$icon = $iconPrefix . 'copy';
 		break;
 
 	case 'success':
 	case 'checkin':
-		$icon = 'fas fa-check-square';
+		$icon = $iconPrefix . 'check-square';
 		break;
 
 	case 'generic':
-		$icon = 'fas fa-dot-circle';
+		$icon = $iconPrefix . 'dot-circle';
 		break;
 
 	case 'list-2':
-		$icon = 'fas fa-list-ul';
+		$icon = $iconPrefix . 'list-ul';
 		break;
 
 	case 'default':
-		$icon = 'fas fa-home';
+		$icon = $iconPrefix . 'home';
 		break;
 
 	case 'crop':
-		$icon = 'fas fa-crop';
+		$icon = $iconPrefix . 'crop';
 		break;
 
 	case 'chevron-down':
-		$icon = 'fas fa-chevron-down';
+		$icon = $iconPrefix . 'chevron-down';
+		break;
+
+	case 'previous':
+	case 'nextRtl':
+		$icon = $iconPrefix . 'chevron-left';
+		break;
+
+	case 'next':
+	case 'previousRtl':
+		$icon = $iconPrefix . 'chevron-right';
 		break;
 
 	case 'move':
-		$icon = 'fas fa-arrows-alt';
+		$icon = $iconPrefix . 'arrows-alt';
 		break;
 
 	case 'loading':
-		$icon = 'fas fa-spinner';
+		$icon = $iconPrefix . 'spinner';
+		break;
+
+	case 'question':
+		$icon = $iconPrefix . 'question';
+		break;
+
+	case 'register':
+		$icon = $iconPrefix . 'arrow-alt-circle-right';
 		break;
 
 	case 'search':
-		$icon = 'fas fa-search';
+		$icon = $iconPrefix . 'search';
 		break;
 
 	case 'search-plus':
-		$icon = 'fas fa-search-plus';
+		$icon = $iconPrefix . 'search-plus';
+		break;
+
+	case 'sort':
+		$icon = $iconPrefix . 'sort';
+		break;
+
+	case 'user':
+		$icon = $iconPrefix . 'user';
 		break;
 
 	case 'info':
-		$icon = 'fas fa-info-circle';
+		$icon = $iconPrefix . 'info-circle';
 		break;
 
 	case 'error':
-		$icon = 'fa-exclamation';
+		$icon = $iconPrefix . 'exclamation';
 		break;
 
 	case 'warning':
-		$icon = 'fa-exclamation-circle';
+		$icon = $iconPrefix . 'exclamation-circle';
 		break;
 
 	case 'warning-2':
-		$icon = 'fa-exclamation-triangle';
+		$icon = $iconPrefix . 'exclamation-triangle';
 		break;
 
 	default:
