@@ -68,8 +68,8 @@ $colors: (
   white: $white
 );
 
-//$primary: var(--cassiopeia-color-primary);
-$primary:                             $blue;
+$primary: var(--cassiopeia-color-primary);
+$primaryBS:                           $blue;
 $secondary:                           $gray-600;
 $success:                             $green;
 $info:                                $cyan;
@@ -80,7 +80,7 @@ $dark:                                $gray-800;
 
 
 $theme-colors: (
-  primary: $primary,
+  primary: $primaryBS,
   secondary: $secondary,
   success: $success,
   info: $info,
