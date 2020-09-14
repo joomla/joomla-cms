@@ -217,6 +217,12 @@ class DatabaseModel extends InstallerModel
 			// than the update files, add to problems message
 			$schema = $changeSet->getSchema();
 
+			// If the schema is empty we couldn't find any update files. Just ignore the extension.
+			if (empty($schema))
+			{
+				continue;
+			}
+
 			if ($result->version_id !== $schema)
 			{
 				$errorMessages[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $result->version_id, $schema);
