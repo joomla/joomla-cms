@@ -33,7 +33,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" title="<?php echo Text::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
 					<span class="input-group-append">
 						<button type="submit" name="filter-search-button" title="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>" class="btn btn-secondary">
-							<span class="fas fa-search" aria-hidden="true"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'search']); ?>
 						</button>
 						<button type="reset" name="filter-clear-button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary">
 							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times']); ?>

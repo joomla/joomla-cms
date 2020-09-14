@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
 $data = $displayData;
@@ -48,7 +49,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 					<?php endif; ?>
 					</label>
 					<button type="submit" class="btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
-						<span class="fas fa-search" aria-hidden="true"></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'search']); ?>
 					</button>
 				</span>
 			</div>

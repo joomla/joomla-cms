@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 $app = Factory::getApplication();
@@ -43,7 +44,7 @@ endif;
 					>
 					<div class="input-group-append" aria-hidden="true">
 						<div class="input-group-text">
-							<span class="fa fa-search"></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'search']); ?>
 						</div>
 					</div>
 				</div>
