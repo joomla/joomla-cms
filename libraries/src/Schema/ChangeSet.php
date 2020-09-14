@@ -256,7 +256,7 @@ class ChangeSet
 	/**
 	 * Get list of SQL update files for this database
 	 *
-	 * @return  array|bool  list of sql update full-path names. False if directory doesn't exist
+	 * @return  array|boolean  list of sql update full-path names. False if directory doesn't exist
 	 *
 	 * @since   2.5
 	 */
