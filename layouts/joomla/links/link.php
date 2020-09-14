@@ -19,7 +19,7 @@ $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $
 
 $icon = $displayData['icon'];
 if (isset($displayData['image']):
-    $icon = $displayData['icon'];
+    $icon = $displayData['image'];
 endif;
 
 ?>
