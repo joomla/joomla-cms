@@ -1,23 +1,12 @@
 // Global
 :root {
   scroll-behavior: smooth;
+  font-size: $font-size-root;
 
   // Disable smooth scroll when the user has set "prefers-reduced-motion"
   @media screen and (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
-}
-
-html {
-  font-size: $font-size-root;
-}
-
-body {
-  padding: 0;
-  margin: 0;
-  font-family: var(--cassiopeia-font-family-body);
-  line-height: 1.6;
-  background: $white;
 }
 
 img {
