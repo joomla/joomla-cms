@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
 						<?php foreach ($this->messages as $message) : ?>
 							<div class="alert alert-warning">
 								<h4 class="alert-heading">
-									<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 									<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 									<?php echo $message['message']; ?>
 								</h4>

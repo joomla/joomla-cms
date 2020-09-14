@@ -75,7 +75,8 @@ $fieldsets = $this->form->getFieldsets();
 		</div>
 		<?php if (empty($this->otpConfig->otep)) : ?>
 			<div class="alert alert-warning">
-				<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning']); ?>
+				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS_WAIT_DESC'); ?>
 			</div>
 		<?php else : ?>

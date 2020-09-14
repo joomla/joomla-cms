@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Uri\Uri;
 
 $app->getDocument()->getWebAssetManager()
@@ -56,7 +57,8 @@ $app->getDocument()->addScriptOptions(
 	</ul>
 <?php else : ?>
 	<div class="alert alert-warning">
-		<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning']); ?>
+		<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
 	</div>
 <?php endif; ?>

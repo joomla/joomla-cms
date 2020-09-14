@@ -71,7 +71,8 @@ class AssociationField extends FormField
 			. ' data-select="' . Text::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . Text::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' data-target="#associationSelect' . $this->id . 'Modal">'
-			. '<span class="fas fa-file" aria-hidden="true"></span> '
+			. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'file'])
+			. ' '
 			. '<span id="select-change-text"></span>'
 			. '</button>';
 

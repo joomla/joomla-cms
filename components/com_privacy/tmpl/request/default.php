@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Privacy\Site\View\Request\HtmlView $this */
@@ -48,7 +49,8 @@ HTMLHelper::_('behavior.formvalidator');
 		</form>
 	<?php else : ?>
 		<div class="alert alert-warning">
-			<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+			<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning']); ?>
+			<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 			<?php echo Text::_('COM_PRIVACY_WARNING_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'); ?>
 		</div>
 	<?php endif; ?>

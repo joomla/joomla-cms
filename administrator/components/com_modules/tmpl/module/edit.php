@@ -119,7 +119,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							<?php endif; ?>
 						<?php else : ?>
 							<div class="alert alert-danger">
-								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
+								<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 								<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
 							</div>
 						<?php endif; ?>

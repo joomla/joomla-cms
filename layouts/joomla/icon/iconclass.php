@@ -28,6 +28,10 @@ switch ($icon)
 	case (strpos($icon, 'icon-') !== false):
 		break;
 
+	case 'file':
+		$icon = 'fas fa-file';
+		break;
+
 	case 'archive':
 	case 'folder':
 	case 'folder-close':
@@ -172,6 +176,18 @@ switch ($icon)
 
 	case 'info':
 		$icon = 'fas fa-info-circle';
+		break;
+
+	case 'error':
+		$icon = 'fa-exclamation';
+		break;
+
+	case 'warning':
+		$icon = 'fa-exclamation-circle';
+		break;
+
+	case 'warning-2':
+		$icon = 'fa-exclamation-triangle';
 		break;
 
 	default:

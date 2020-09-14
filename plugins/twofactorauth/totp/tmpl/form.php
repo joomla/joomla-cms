@@ -59,7 +59,8 @@ Factory::getDocument()->addScriptDeclaration($js);
 		</li>
 	</ul>
 	<div class="alert alert-warning">
-		<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning']); ?>
+		<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?>
 	</div>
 </fieldset>

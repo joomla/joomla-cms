@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 // Load JavaScript message titles
@@ -45,7 +46,8 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
 
 					<?php if (!$tabs) : ?>
 						<div class="alert alert-warning">
-							<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning']); ?>
+							<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php echo Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'); ?>
 						</div>
 					<?php endif; ?>

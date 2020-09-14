@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 /** @var JDocumentError $this */
@@ -63,12 +64,13 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<div id="container-installation" class="container-installation flex">
 					<div class="j-install-step active">
 						<div class="j-install-step-header">
-							<span class="fas fa-exclamation" aria-hidden="true"></span> <?php echo Text::_('INSTL_ERROR'); ?>
+							<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'error']); ?>
+							 <?php echo Text::_('INSTL_ERROR'); ?>
 						</div>
 						<div class="j-install-step-form">
 							<div class="alert preinstall-alert">
 								<div class="alert-icon">
-									<span class="alert-icon fas fa-exclamation-triangle" aria-hidden="true"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2', 'suffix' => 'alert-icon']); ?>
 								</div>
 								<div class="alert-text">
 									<h2><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>

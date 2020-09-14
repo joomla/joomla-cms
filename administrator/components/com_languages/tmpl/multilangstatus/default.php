@@ -38,7 +38,7 @@ $home_pages        = array_column($this->homepages, 'language');
 	<?php else : ?>
 		<?php if (!in_array($this->default_lang, $content_languages)) : ?>
 			<div class="alert alert-error">
-				<span class="fas fa-exclamation" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'error']); ?>
 				<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 				<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_DEFAULT_CONTENT_LANGUAGE', $this->default_lang); ?>
 			</div>
@@ -46,7 +46,7 @@ $home_pages        = array_column($this->homepages, 'language');
 			<?php foreach ($this->contentlangs as $contentlang) : ?>
 				<?php if ($contentlang->lang_code == $this->default_lang && $contentlang->published != 1) : ?>
 					<div class="alert alert-error">
-						<span class="fas fa-exclamation" aria-hidden="true"></span>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'error']); ?>
 						<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_DEFAULT_CONTENT_LANGUAGE', $this->default_lang); ?>
 					</div>
@@ -55,7 +55,7 @@ $home_pages        = array_column($this->homepages, 'language');
 		<?php endif; ?>
 		<?php if ($this->defaultHome == true) : ?>
 			<div class="alert alert-warning">
-				<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
 			</div>
@@ -64,7 +64,7 @@ $home_pages        = array_column($this->homepages, 'language');
 			<?php // Displays error when Site language and Content language are published but Home page is unpublished, trashed or missing. ?>
 			<?php if ($status->lang_code && $status->published == 1 && $status->home_published != 1) : ?>
 				<div class="alert alert-warning">
-					<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_HOME_UNPUBLISHED', $status->lang_code, $status->lang_code); ?>
 				</div>
@@ -72,7 +72,7 @@ $home_pages        = array_column($this->homepages, 'language');
 			<?php // Displays error when both Content Language and Home page are unpublished. ?>
 			<?php if ($status->lang_code && $status->published == 0 && $status->home_published != 1) : ?>
 				<div class="alert alert-warning">
-					<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_HOME_UNPUBLISHED', $status->lang_code, $status->lang_code); ?>
 				</div>
@@ -80,14 +80,14 @@ $home_pages        = array_column($this->homepages, 'language');
 		<?php endforeach; ?>
 		<?php if ($notice_disabled) : ?>
 			<div class="alert alert-warning">
-				<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGUAGEFILTER_DISABLED'); ?>
 			</div>
 		<?php endif; ?>
 		<?php if ($notice_switchers) : ?>
 			<div class="alert alert-warning">
-				<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_UNPUBLISHED'); ?>
 			</div>
@@ -95,28 +95,28 @@ $home_pages        = array_column($this->homepages, 'language');
 		<?php foreach ($this->contentlangs as $contentlang) : ?>
 			<?php if (array_key_exists($contentlang->lang_code, $this->homepages) && (!array_key_exists($contentlang->lang_code, $this->site_langs) || $contentlang->published != 1)) : ?>
 				<div class="alert alert-warning">
-					<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE', $contentlang->lang_code); ?>
 				</div>
 			<?php endif; ?>
 			<?php if (!array_key_exists($contentlang->lang_code, $this->site_langs)) : ?>
 				<div class="alert alert-warning">
-					<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_LANGUAGE_TAG', $contentlang->lang_code); ?>
 				</div>
 			<?php endif; ?>
 			<?php if ($contentlang->published == -2) : ?>
 				<div class="alert alert-warning">
-					<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
 				</div>
 			<?php endif; ?>
 			<?php if (empty($contentlang->sef)) : ?>
 				<div class="alert alert-error">
-					<span class="fas fa-exclamation" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'error']); ?>
 					<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_SEF_MISSING', $contentlang->lang_code); ?>
 				</div>
@@ -124,7 +124,7 @@ $home_pages        = array_column($this->homepages, 'language');
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
 			<div class="alert alert-warning">
-				<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
 				<ul>
@@ -140,7 +140,7 @@ $home_pages        = array_column($this->homepages, 'language');
 		<?php foreach ($sitelangs as $sitelang) : ?>
 			<?php if (!in_array($sitelang, $content_languages) && in_array($sitelang, $home_pages)) : ?>
 				<div class="alert alert-warning">
-					<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_MISSING', $sitelang); ?>
 				</div>
@@ -249,7 +249,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'trash']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php else : ?>
-								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php endif; ?>
 						</td>
@@ -265,7 +265,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'trash']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php else : ?>
-								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php endif; ?>
 						</td>
@@ -278,7 +278,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<?php echo $contentlang->lang_code; ?>
 							</th>
 							<td class="text-center">
-								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							</td>
 							<td class="text-center">
@@ -295,7 +295,7 @@ $home_pages        = array_column($this->homepages, 'language');
 							</td>
 							<td class="text-center">
 								<?php if (!array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
-									<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 									<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 								<?php else : ?>
 									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'check', 'suffix' => 'text-success']); ?>
@@ -317,7 +317,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							</td>
 							<td class="text-center">
-								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							</td>
 							<td class="text-center">

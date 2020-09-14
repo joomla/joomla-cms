@@ -28,7 +28,7 @@ HTMLHelper::_('behavior.formvalidator');
 							<?php if ($option->state === 'JNO' || $option->state === false) : ?>
 								<div class="alert preinstall-alert">
 									<div class="alert-icon">
-										<span class="alert-icon fas fa-exclamation-triangle" aria-hidden="true"></span>
+										<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'warning-2', 'suffix' => 'alert-icon']); ?>
 									</div>
 									<div class="alert-text">
 										<strong><?php echo $option->label; ?></strong>
