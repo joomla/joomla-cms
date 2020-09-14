@@ -189,14 +189,12 @@ class DatabaseModel extends InstallerModel
 
 			if (!file_exists($folderTmp))
 			{
-				if ($result->type === 'plugin')
-				{
-					$installationXML = InstallerHelper::getInstallationXML($result->element, $result->type, $result->client_id, $result->folder);
-				}
-				else
-				{
-					$installationXML = InstallerHelper::getInstallationXML($result->element, $result->type, $result->client_id);
-				}
+				$installationXML = InstallerHelper::getInstallationXML(
+					$result->element,
+					$result->type,
+					$result->client_id,
+					$result->type === 'plugin' ? $result->folder : null
+				);
 
 				if ($installationXML !== null)
 				{
@@ -556,14 +554,12 @@ class DatabaseModel extends InstallerModel
 		}
 		else
 		{
-			if ($extension->type === 'plugin')
-			{
-				$installationXML = InstallerHelper::getInstallationXML($extension->element, $extension->type, $extension->client_id, $extension->folder);
-			}
-			else
-			{
-				$installationXML = InstallerHelper::getInstallationXML($extension->element, $extension->type, $extension->client_id);
-			}
+			$installationXML = InstallerHelper::getInstallationXML(
+				$extension->element,
+				$extension->type,
+				$extension->client_id,
+				$extension->type === 'plugin' ? $extension->folder : null
+			);
 
 			$extensionVersion = (string) $installationXML->version;
 		}
