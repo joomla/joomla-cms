@@ -49,4 +49,37 @@ class JFileTest extends \PHPUnit\Framework\TestCase
 			JFile::getName('nopath.csv')
 		);
 	}
+
+	/**
+	 * Test...
+	 *
+	 * @return void
+	 */
+	public function testGetExt()
+	{
+		$this->assertEquals(
+			'php',
+			JFile::getExt(__FILE__)
+		);
+
+		$this->assertEquals(
+			'yml',
+			JFile::getExt('C:\\server\\joomla\\.drone.yml')
+		);
+
+		$this->assertEquals(
+			'php_cs',
+			JFile::getExt('/home/joomla/.php_cs')
+		);
+
+		$this->assertEquals(
+			'',
+			JFile::getExt('joomla-cms/LICENSE')
+		);
+
+		$this->assertEquals(
+			'',
+			JFile::getExt('\\joomla.git\\tmpfile')
+		);
+	}
 }
