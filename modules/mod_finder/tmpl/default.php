@@ -35,7 +35,7 @@ if ($params->get('show_button', 0))
 	$output .= $input;
 	$output .= '<span class="input-group-append">';
 	$output .= '<button class="btn btn-primary" type="submit">';
-	$output .= LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'search', 'class' => 'icon-white']);
+	$output .= LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'search', 'suffix' => 'icon-white']);
 	$output .= Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
 	$output .= '</span>';
 	$output .= '</div>';

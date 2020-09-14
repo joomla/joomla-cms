@@ -20,7 +20,7 @@ $title = Text::_('COM_MEDIA_CREATE_NEW_FOLDER');
 ?>
 <joomla-toolbar-button>
 	<button class="btn btn-info" onclick="MediaManager.Event.fire('onClickCreateFolder');">
-		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder'); ?>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder']); ?>
 		<?php echo $title; ?>
 	</button>
 </joomla-toolbar-button>

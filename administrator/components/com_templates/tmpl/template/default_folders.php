@@ -18,7 +18,7 @@ ksort($this->files, SORT_STRING);
 		<?php if (is_array($value)) : ?>
 			<li class="folder-select">
 				<a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="">
-					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder', 'class' => 'fa-fw']); ?>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder', 'fixed' => true]); ?>
 					<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?>
 				</a>
 				<?php echo $this->folderTree($value); ?>

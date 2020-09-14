@@ -50,7 +50,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 									<?php if ($option->notice) : ?>
-										<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info', 'class' => 'icon-white', 'title' => $option->notice]); ?>
+										<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'info', 'suffix' => 'icon-white', 'title' => $option->notice]); ?>
 									<?php endif; ?>
 								</span>
 							</td>

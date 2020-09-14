@@ -50,7 +50,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			<div class="btn-toolbar">
 				<div class="btn-group">
 					<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>" tabindex="0">
-						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'add', 'class' => 'icon-white']); ?>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'add', 'suffix' => 'icon-white']); ?>
 				</div>
 			</div>
 			<?php endif; ?>

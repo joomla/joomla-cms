@@ -32,7 +32,7 @@ $wa->useScript('keepalive')
 		<?php echo Text::_('JSAVE') ?>
 	</button>
 	<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
-		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'class' => 'text-white']); ?>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'suffix' => 'text-white']); ?>
 		<?php echo Text::_('JCANCEL') ?>
 	</button>
 

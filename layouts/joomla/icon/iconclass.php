@@ -12,11 +12,12 @@ use Joomla\Utilities\ArrayHelper;
 defined('_JEXEC') or die;
 
 // Convert icomoon to fa
-$icon     = $displayData['icon'];
-$class    = $displayData['class'] ?? null;
-$tabindex = $displayData['tabindex'] ?? null;
-$title    = $displayData['title'] ?? null;
-$html     = $displayData['html'] ?? true;
+$icon       = $displayData['icon'];
+$iconFixed  = $displayData['fixed'] ?? null;
+$iconSuffix = $displayData['suffix'] ?? null;
+$tabindex   = $displayData['tabindex'] ?? null;
+$title      = $displayData['title'] ?? null;
+$html       = $displayData['html'] ?? true;
 
 switch ($icon)
 {
@@ -173,10 +174,15 @@ switch ($icon)
 		break;
 }
 
+if ($iconFixed)
+{
+	$iconFixed = 'fa-fw';
+}
+
 if ($html !== false)
 {
 	$iconAttribs = [
-		'class'       => implode(' ', [$icon, $class]),
+		'class'       => implode(' ', [$icon, $iconFixed, $iconSuffix]),
 		'aria-hidden' => "true"
 	];
 
@@ -193,4 +199,4 @@ if ($html !== false)
 	$icon = '<span ' . ArrayHelper::toString($iconAttribs) . '></span>';
 }
 
-echo implode(' ', [$icon, $class]);
+echo implode(' ', [$icon, $iconFixed, $iconSuffix]);

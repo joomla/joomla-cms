@@ -16,7 +16,7 @@ $params = $displayData['params'];
 
 ?>
 <?php if ($params->get('show_icons')) : ?>
-	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'new', 'class' => 'fa-fw']); ?>
+	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'new', 'fixed' => true]); ?>
 	<?php echo Text::_('JNEW'); ?>
 <?php else : ?>
 	<?php echo Text::_('JNEW') . '&#160;'; ?>

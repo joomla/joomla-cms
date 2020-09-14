@@ -103,7 +103,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div class="legend">
 				<span class="text-danger fas fa-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
 				<span class="text-success fas fa-check" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
-				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'class' => 'text-danger']); ?>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'suffix' => 'text-danger']); ?>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			</div>
 
 			<?php // load the pagination. ?>

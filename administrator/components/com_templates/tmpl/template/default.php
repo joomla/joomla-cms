@@ -147,7 +147,7 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder', 'class' => 'fa-fw']); ?>&nbsp;<?php echo $file; ?>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder', 'fixed' => true]); ?>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
 								<span class="fas fa-file fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>

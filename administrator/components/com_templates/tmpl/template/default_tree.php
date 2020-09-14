@@ -52,7 +52,7 @@ ksort($this->files, SORT_NATURAL);
 			?>
 			<li class="<?php echo $class; ?>">
 				<a class="folder-url" href="">
-					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder', 'class' => 'fa-fw']); ?>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder', 'fixed' => true]); ?>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
 			</li>

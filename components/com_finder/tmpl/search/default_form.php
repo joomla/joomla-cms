@@ -39,7 +39,7 @@ if ($this->params->get('show_autosuggest', 1))
 				<input type="text" name="q" id="q" class="js-finder-search-query form-control" value="<?php echo $this->escape($this->query->input); ?>">
 				<span class="input-group-append">
 				<button type="submit" class="btn btn-primary">
-					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'search', 'class' => 'icon-white']); ?>
+					<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'search', 'suffix' => 'icon-white']); ?>
 					<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>
 				</button>
 				<?php if ($this->params->get('show_advanced', 1)) : ?>
