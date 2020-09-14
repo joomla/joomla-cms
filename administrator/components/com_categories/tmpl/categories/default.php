@@ -97,7 +97,7 @@ if ($saveOrder && !empty($this->items))
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 									<th scope="col" class="w-3 text-center d-none d-md-table-cell">
-										<span class="fas fa-folder" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></span>
+										<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'folder', 'title' => Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS')]); ?>
 										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
