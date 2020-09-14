@@ -50,6 +50,20 @@ if (!empty($displayData['class']))
 // Make the class string
 $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : '';
 
+// Use image as icon if set. Otherwhise icon if set. Otherwise no icon to be displayed
+switch (true):
+	case isset($displayData['image']):
+		$icon = $displayData['image'];
+		break;
+
+	case isset($displayData['icon']):
+		$icon = $displayData['icon'];
+		break;
+
+	default:
+		$icon = false;
+endswitch;
+
 ?>
 <?php // If it is a button with two links: make it a list
 	if (isset($displayData['linkadd'])): ?>
@@ -61,9 +75,9 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	<?php endif; ?>
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-			<?php if (isset($displayData['icon'])): ?>
+			<?php if ($icon): ?>
 				<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-					<div class="<?php echo $displayData['icon']; ?>" aria-hidden="true"></div>
+					<div class="<?php echo $icon; ?>" aria-hidden="true"></div>
 				</div>
 			<?php endif; ?>
 			<?php if (isset($displayData['ajaxurl'])) : ?>
