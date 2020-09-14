@@ -156,6 +156,10 @@ switch ($icon)
 		$icon = 'fas fa-spinner';
 		break;
 
+	case 'search-plus':
+		$icon = 'fas fa-search-plus';
+		break;
+
 	case 'info':
 		$icon = 'fas fa-info-circle';
 		break;
