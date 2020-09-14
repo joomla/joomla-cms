@@ -34,7 +34,9 @@ class Dispatcher extends ComponentDispatcher
 	{
 		parent::checkAccess();
 
-		if (!$this->app->getIdentity()->authorise('core.admin'))
+		$user = $this->app->getIdentity();
+
+		if (!$user->authorise('module.edit.frontend', 'com_modules') && !$user->authorise('module.edit.frontend', 'com_modules.module.' . $mod->id))
 		{
 			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
