@@ -62,24 +62,29 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								$name  = $action[0];
 								$check = $item->checks[$name];
 								if ($check === true) :
-									$class  = 'text-success fas fa-check';
+									$icon   = 'fas fa-check';
+									$class  = 'text-success';
 									$button = 'btn-success';
 									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
 								elseif ($check === false) :
-									$class  = 'text-danger fas fa-times';
+									$icon   = 'times';
+									$class  = 'text-danger';
 									$button = 'btn-danger';
 									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
 								elseif ($check === null) :
-									$class  = 'text-danger fas fa-minus-circle';
+									$icon   = 'fas fa-minus-circle';
+									$class  = 'text-danger';
 									$button = 'btn-warning';
 									$text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
 								else :
+									$icon   = '';
 									$class  = '';
 									$button = '';
 									$text   = '';
 								endif;
 								?>
 							<td class="text-center">
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon, 'class' => $class]); ?>
 								<span class="<?php echo $class; ?>" aria-hidden="true"></span>
 								<span class="sr-only"> <?php echo $text; ?></span>
 							</td>
@@ -98,7 +103,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div class="legend">
 				<span class="text-danger fas fa-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
 				<span class="text-success fas fa-check" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
-				<span class="text-danger fas fa-times" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'class' => 'text-danger']); ?>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			</div>
 
 			<?php // load the pagination. ?>

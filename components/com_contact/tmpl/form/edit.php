@@ -70,7 +70,7 @@ $this->useCoreUI        = true;
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('contact.cancel')">
-				<span class="fas fa-times-cancel" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times-cancel']); ?>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 			<?php if ($this->params->get('save_history', 0) && $this->item->id) : ?>

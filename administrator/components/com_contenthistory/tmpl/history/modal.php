@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
@@ -63,7 +64,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span>
 			</button>
 			<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.delete')}" class="btn btn-secondary pointer" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
-				<span class="fas fa-times" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times']); ?>
 				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span>
 			</button>
 		</div>

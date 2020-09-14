@@ -160,7 +160,7 @@ if (!$editoroptions)
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
-				<span class="fas fa-times" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times']); ?>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>

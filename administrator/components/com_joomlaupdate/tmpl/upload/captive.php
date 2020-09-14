@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
@@ -86,7 +87,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			<div class="controls">
 				<div class="btn-group">
 					<a class="btn btn-danger" href="index.php?option=com_joomlaupdate">
-						<span class="fas fa-times icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
+						<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'class' => 'icon-white']); ?> <?php echo Text::_('JCANCEL'); ?>
 					</a>
 					<button type="submit" class="btn btn-primary">
 						<span class="fas fa-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>

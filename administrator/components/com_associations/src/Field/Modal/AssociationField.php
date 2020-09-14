@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
 
 /**
@@ -80,7 +81,8 @@ class AssociationField extends FormField
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
 			. ' id="remove-assoc">'
-			. '<span class="fas fa-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
+			. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times'])
+			. ' ' . Text::_('JCLEAR')
 			. '</button>';
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '">';

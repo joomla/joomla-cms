@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 $user = Factory::getUser();
@@ -31,7 +32,7 @@ $wa->useScript('keepalive')
 		<?php echo Text::_('JSAVE') ?>
 	</button>
 	<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
-		<span class="fas fa-times text-white" aria-hidden="true"></span>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'class' => 'text-white']); ?>
 		<?php echo Text::_('JCANCEL') ?>
 	</button>
 

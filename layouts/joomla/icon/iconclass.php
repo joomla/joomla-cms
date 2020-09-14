@@ -55,6 +55,10 @@ switch ($icon)
 		$icon = 'fas fa-times';
 		break;
 
+	case 'times-cancel':
+		$icon = 'fas fa-times-cancel';
+		break;
+
 	case 'new':
 	case 'save-new':
 	case 'add':

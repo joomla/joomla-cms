@@ -290,7 +290,7 @@ class HtmlView extends BaseHtmlView
 				ToolbarHelper::modal('renameModal', 'fas fa-sync', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 
 				// Add a Delete file Button
-				ToolbarHelper::modal('deleteModal', 'fas fa-times', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
+				ToolbarHelper::modal('deleteModal', 'times', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
 			}
 		}
 

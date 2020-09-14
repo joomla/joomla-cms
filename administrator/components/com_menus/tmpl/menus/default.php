@@ -74,7 +74,7 @@ $wa->useScript('com_menus.admin-menus');
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
-									<span class="fas fa-times" aria-hidden="true"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times']); ?>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-md-table-cell">

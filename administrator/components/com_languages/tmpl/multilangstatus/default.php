@@ -243,7 +243,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<span class="text-success fas fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php elseif ($status->lang_code && $status->published == 0) : ?>
-								<span class="text-danger fas fa-times" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'class' => 'text-danger']); ?>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php elseif ($status->lang_code && $status->published == -2) : ?>
 								<span class="fas fa-trash" aria-hidden="true"></span>
@@ -259,7 +259,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<span class="text-success fas fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php elseif ($status->home_published == 0) : ?>
-								<span class="text-danger fas fa-times" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'class' => 'text-danger']); ?>
 								<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
 							<?php elseif ($status->home_published == -2) : ?>
 								<span class="fas fa-trash" aria-hidden="true"></span>
@@ -286,7 +286,7 @@ $home_pages        = array_column($this->homepages, 'language');
 									<span class="text-success fas fa-check" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 								<?php elseif ($contentlang->published == 0 && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
-									<span class="text-danger fas fa-times" aria-hidden="true"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'class' => 'text-danger']); ?>
 									<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
 								<?php elseif ($contentlang->published == -2 && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
 									<span class="fas fa-trash" aria-hidden="true"></span>

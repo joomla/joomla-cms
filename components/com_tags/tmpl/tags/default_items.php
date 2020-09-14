@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
@@ -62,7 +63,7 @@ $n         = count($this->items);
 								<span class="fas fa-search" aria-hidden="true"></span>
 							</button>
 							<button type="reset" name="filter-clear-button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary">
-								<span class="fas fa-times" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times']); ?>
 							</button>
 						</span>
 					</div>

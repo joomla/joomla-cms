@@ -14,6 +14,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.combobox');
@@ -57,7 +58,7 @@ if (Multilanguage::isEnabled())
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
-				<span class="fas fa-times" aria-hidden="true"></span>
+				<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times']); ?>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 

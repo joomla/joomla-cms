@@ -63,7 +63,7 @@ $wa->useScript('com_users.admin-users-groups');
 									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center">
-									<span class="fas fa-times" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'title' => Text::_('COM_USERS_COUNT_DISABLED_USERS')]); ?>
 									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">

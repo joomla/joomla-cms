@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 Factory::getDocument()->getWebAssetManager()
 	->useScript('webcomponent.toolbar-button');
@@ -19,7 +20,7 @@ $title = Text::_('JTOOLBAR_DELETE');
 ?>
 <joomla-toolbar-button>
 	<button id="mediaDelete" class="btn btn-danger" onclick="MediaManager.Event.fire('onClickDelete');">
-		<span class="fas fa-times" aria-hidden="true"></span>
+		<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times']); ?>
 		<?php echo $title; ?>
 	</button>
 </joomla-toolbar-button>

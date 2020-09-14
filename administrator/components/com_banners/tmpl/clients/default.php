@@ -74,7 +74,7 @@ $params     = $this->state->params ?? new CMSObject;
 									<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-3 text-center d-none d-md-table-cell">
-									<span class="fas fa-times" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></span>
+									<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times', 'title' => Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS')]); ?>
 									<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-3 text-center d-none d-md-table-cell">

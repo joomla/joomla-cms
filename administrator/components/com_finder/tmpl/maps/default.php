@@ -68,7 +68,7 @@ $wa->useScript('com_finder.maps');
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 							<th scope="col" class="w-1 text-center">
-								<span class="fas fa-times" aria-hidden="true"></span>
+								<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times']); ?>
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 							<?php if (Multilanguage::isEnabled()) : ?>

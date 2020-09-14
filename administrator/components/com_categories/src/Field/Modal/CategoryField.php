@@ -205,7 +205,8 @@ class CategoryField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="fas fa-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
+				. LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'times'])
+				. Text::_('JCLEAR')
 				. '</button>';
 		}
 
