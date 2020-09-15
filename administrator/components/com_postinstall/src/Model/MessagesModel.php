@@ -240,6 +240,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		$result = $db->execute();
 		Factory::getCache()->clean('com_postinstall');
+
 		return $result;
 	}
 
@@ -266,6 +267,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		$result = $db->execute();
 		Factory::getCache()->clean('com_postinstall');
+
 		return $result;
 	}
 
