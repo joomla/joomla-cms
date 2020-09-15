@@ -233,13 +233,23 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 				}
 			}
 
+			$explain        = $this->explains[$id] ?? [];
+			$explainColumns = [];
+
+			// Extract column labels for Explain table
+			if ($explain)
+			{
+				$explainColumns = array_keys(reset($explain));
+			}
+
 			$statements[] = [
 				'sql'          => $item,
 				'duration_str' => $this->getDataFormatter()->formatDuration($queryTime),
 				'memory_str'   => $this->getDataFormatter()->formatBytes($queryMemory),
 				'caller'       => $callerLocation,
 				'callstack'    => $trace,
-				'explain'      => $this->explains[$id] ?? [],
+				'explain'      => $explain,
+				'explain_col'  => $explainColumns,
 				'profile'      => $this->profiles[$id] ?? [],
 			];
 		}

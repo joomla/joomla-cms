@@ -102,10 +102,9 @@ if ($showPreview)
 
 // The url for the modal
 $url    = ($readonly ? ''
-	: ($link ? $link
-		: 'index.php?option=com_media&amp;tmpl=component&amp;asset='
-		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;path=local-0:/' . $folder);
+	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&asset='
+		. $asset . '&author=' . $authorId)
+	. '&fieldid={field-media-id}&path=local-0:/' . $folder);
 
 // Correctly route the url to ensure it's correctly using sef modes and subfolders
 $url = Route::_($url);

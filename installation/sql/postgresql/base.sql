@@ -372,7 +372,6 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_content_imagelazyload', 'plugin', 'imagelazyload', 'content', 0, 0, 1, 0, 1, '', '{}', '', 0, 0),
 (0, 'plg_system_scheduler', 'plugin', 'scheduler', 'system', 0, 1, 1, 0, 1, '', '{"timeout":"3","webcron":"0","webcronkey":"mywebcronactivationkey","lastrun":"0","unit":"60","taskid":"0"}', '', 0, 0);
 
-
 -- Templates
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
 (0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),

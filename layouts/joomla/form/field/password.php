@@ -36,6 +36,7 @@ extract($displayData);
  * @var   boolean  $readonly        Is this field read only?
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
  * @var   boolean  $required        Is this field required?
+ * @var   boolean  $rules           Are the rules to be displayed?
  * @var   integer  $size            Size attribute of the input.
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
@@ -91,12 +92,46 @@ $attributes = array(
 	$dataAttribute,
 );
 
+if ($rules && !empty($description))
+{
+	$requirements = [];
+
+	if ($minLength)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_CHARACTERS', $minLength);
+	}
+
+	if ($minIntegers)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_DIGITS', $minIntegers);
+	}
+
+	if ($minSymbols)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_SYMBOLS', $minSymbols);
+	}
+
+	if ($minUppercase)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_UPPERCASE', $minUppercase);
+	}
+
+	if ($minLowercase)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_LOWERCASE', $minLowercase);
+	}
+}
 ?>
 <?php if (!empty($description)) : ?>
 	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
-		<?php echo htmlspecialchars(Text::_($description), ENT_COMPAT, 'UTF-8'); ?>
+		<?php if ($rules) : ?>
+			<?php echo Text::sprintf($description, implode(', ', $requirements)); ?>
+		<?php else : ?>
+			<?php echo Text::_($description); ?>
+		<?php endif; ?>
 	</div>
 <?php endif; ?>
+
 <div class="password-group">
 	<div class="input-group">
 		<input
