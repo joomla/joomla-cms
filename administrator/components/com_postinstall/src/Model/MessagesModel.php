@@ -93,6 +93,7 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
+		Factory::getCache()->clean('com_postinstall');
 	}
 
 	/**
@@ -632,6 +633,7 @@ class MessagesModel extends BaseDatabaseModel
 		// Insert the new row
 		$options = (object) $options;
 		$db->insertObject($tableName, $options);
+		Factory::getCache()->clean('com_postinstall');
 
 		return $this;
 	}
