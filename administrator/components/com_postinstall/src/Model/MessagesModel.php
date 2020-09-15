@@ -238,7 +238,9 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':eid', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
-		return $db->execute();
+		$result = $db->execute();
+		Factory::getCache()->clean('com_postinstall');
+		return $result;
 	}
 
 	/**
@@ -262,7 +264,9 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':eid', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
-		return $db->execute();
+		$result = $db->execute();
+		Factory::getCache()->clean('com_postinstall');
+		return $result;
 	}
 
 	/**
