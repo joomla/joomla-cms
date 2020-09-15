@@ -44,7 +44,15 @@ class File
 			return '';
 		}
 
-		return (string) substr($file, $dot + 1);
+		$ext = substr($file, $dot + 1);
+
+		// Extension cannot contain slashes.
+		if (preg_match('#[/\\\\]+#', $ext))
+		{
+			return '';
+		}
+
+		return $ext;
 	}
 
 	/**
