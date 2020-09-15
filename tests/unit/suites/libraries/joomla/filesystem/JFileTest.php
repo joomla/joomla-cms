@@ -79,6 +79,11 @@ class JFileTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals(
 			'',
+			JFile::getExt('/joomla.git/tmpfile')
+		);
+
+		$this->assertEquals(
+			'',
 			JFile::getExt('\\joomla.git\\tmpfile')
 		);
 	}
