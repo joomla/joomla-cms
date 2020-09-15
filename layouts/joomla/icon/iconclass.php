@@ -146,6 +146,9 @@ switch ($icon)
 if ($html !== false)
 {
 	$icon = '<span class="' . $iconPrefix . $icon . '" aria-hidden="true"></span>';
+	echo $icon;
 }
-
-echo $iconPrefix . $icon;
+else
+{
+	echo $iconPrefix . $icon;
+}
