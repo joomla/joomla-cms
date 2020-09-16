@@ -114,6 +114,10 @@ $userId  = Factory::getUser()->id;
 						</div>
 
 						<div class="col-md-3">
+							<?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by === $userId)) : ?>
+								<div class="float-right"><?php echo HTMLHelper::_('contacticon.edit', $item, $this->params); ?></div>
+							<?php endif; ?>
+
 							<?php if ($this->params->get('show_telephone_headings') && !empty($item->telephone)) : ?>
 								<?php echo Text::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br>
 							<?php endif; ?>
@@ -126,9 +130,6 @@ $userId  = Factory::getUser()->id;
 								<?php echo Text::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br>
 							<?php endif; ?>
 						</div>
-						<?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by === $userId)) : ?>
-							<div><?php echo HTMLHelper::_('contacticon.edit', $item, $this->params); ?></div>
-						<?php endif; ?>
 
 						<?php echo $item->event->afterDisplayContent; ?>
 					</li>

@@ -32,15 +32,15 @@
 
   .logo {
     display: flex;
-    height: 100%;
-    width: $sidebar-width;
     flex-flow: row nowrap;
     align-items: center;
-    transition: all 0.3s ease-in-out;
+    width: $sidebar-width;
+    height: 100%;
+    transition: all .3s ease-in-out;
 
     &.small {
       width: $sidebar-width-closed;
-      transition: all 0.3s ease-in-out;
+      transition: all .3s ease-in-out;
 
       svg,
       img {
@@ -87,8 +87,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    [class^='icon-'],
-    [class^='fa-'] {
+    [class^="icon-"],
+    [class^="fa-"] {
       margin-inline-end: .625rem;
       font-size: 1rem;
     }
@@ -126,6 +126,7 @@
 
       a,
       button {
+        text-decoration: none;
 
         &:hover,
         &[aria-expanded="true"] {
