@@ -11,16 +11,12 @@
     position: relative !important;
   }
 
-  header {
-    width: 100%;
-    max-width: 72.1875rem;
-    padding: 0 ($cassiopeia-grid-gutter / 2);
-    margin: 0 auto;
-
+  .grid-child {
+    padding: ($cassiopeia-grid-gutter / 2);
   }
 
   nav {
-    padding: ($cassiopeia-grid-gutter / 2) ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter ($cassiopeia-grid-gutter / 2);
+    padding: ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter $cassiopeia-grid-gutter ($cassiopeia-grid-gutter / 2);
   }
 
   .site-description {
@@ -31,7 +27,6 @@
   .navbar-brand {
     position: relative;
     display: inline-block;
-    padding: $cassiopeia-grid-gutter / 2;
     margin-right: auto;
     font-size: 2rem;
     color: $white;
