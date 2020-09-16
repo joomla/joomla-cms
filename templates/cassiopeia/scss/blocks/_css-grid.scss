@@ -60,8 +60,14 @@
 
     &.wrapper-fluid {
       grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 25%)) [main-end] minmax(0, 1fr) [full-end];
+      grid-gap: 0 ($cassiopeia-grid-gutter*2);
       .grid-child {
         max-width: none;
+      }
+      header > .grid-child,
+      footer > .grid-child {
+        padding-right: $cassiopeia-grid-gutter*2;
+        padding-left: $cassiopeia-grid-gutter*2;
       }
     }
   }

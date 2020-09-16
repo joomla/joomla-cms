@@ -3,8 +3,8 @@
     &.mod-menu {
       .metismenu-item {
         display: flex;
-        padding: $cassiopeia-grid-gutter/2;
-        font-size: 1.1em;
+        padding: $cassiopeia-grid-gutter/2 0;
+        font-size: 1.1rem;
         line-height: 1.5;
 
         &.parent {
