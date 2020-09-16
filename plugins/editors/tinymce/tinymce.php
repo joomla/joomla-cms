@@ -998,7 +998,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$preset['simple'] = [
 			'menu' => [],
-			'toolbar' => [
+			'toolbar1' => [
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
