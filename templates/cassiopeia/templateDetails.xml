@@ -76,14 +76,26 @@
 					default="0"
 					label="TPL_CASSIOPEIA_FLUID_LABEL"
 					>
-					<option value="1">TPL_CASSIOPEIA_FLUID</option>
 					<option value="0">TPL_CASSIOPEIA_STATIC</option>
+					<option value="1">TPL_CASSIOPEIA_FLUID</option>
 				</field>
 
 				<field
 					name="stickyHeader"
 					type="radio"
 					label="TPL_CASSIOPEIA_STICKY_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="backTop"
+					type="radio"
+					label="TPL_CASSIOPEIA_BACKTOTOP_LABEL"
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="integer"

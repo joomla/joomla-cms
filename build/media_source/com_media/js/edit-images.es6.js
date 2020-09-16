@@ -158,13 +158,13 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         break;
       case 'save':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-        window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+        window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}`;
         break;
       case 'cancel':
         if (window.self !== window.top) {
-          window.location = `${pathName}?option=com_media&path=${fileDirectory}&tmpl=component`;
+          window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}&tmpl=component`;
         } else {
-          window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+          window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}`;
         }
         break;
       case 'reset':
