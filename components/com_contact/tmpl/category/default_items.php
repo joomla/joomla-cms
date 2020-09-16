@@ -24,7 +24,6 @@ $userId  = Factory::getUser()->id;
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-
 ?>
 <div class="com-contact-category__items">
 	<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
@@ -66,22 +65,27 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>
 			</div>
 		<?php else : ?>
-			<table class="com-content-category__table category table table-striped table-bordered table-hover">
-				<thead>
-					<tr>
-						<th scope="col" id="categorylist_header_title">
-							<?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
-						</th>
-						<th>
-							<?php echo Text::_('COM_CONTACT_CONTACT_DETAILS'); ?>
-						</th>
-						<?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by === $userId)) : ?>
-							<th>
-								<?php echo Text::_('COM_CONTACT_EDIT_CONTACT'); ?>
+			<table class="com-content-category__table category table table-striped table-bordered table-hover" id="contactList">
+				<caption id="captionTable" class="sr-only">
+					<?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
+				</caption>
+				<?php if ($this->params->get('show_headings')) : ?>
+					<thead>
+						<tr>
+							<th scope="col" id="categorylist_header_title">
+								<?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
 							</th>
-						<?php endif; ?>
-					</tr>
-				</thead>
+							<th scope="col">
+								<?php echo Text::_('COM_CONTACT_CONTACT_DETAILS'); ?>
+							</th>
+							<?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by === $userId)) : ?>
+								<th scope="col">
+									<?php echo Text::_('COM_CONTACT_EDIT_CONTACT'); ?>
+								</th>
+							<?php endif; ?>
+						</tr>
+					</thead>
+				<?php endif; ?>
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<?php if ($this->items[$i]->published == 0) : ?>
@@ -89,7 +93,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 						<?php else : ?>
 							<tr class="cat-list-row<?php echo $i % 2; ?>" >
 						<?php endif; ?>
-						<td headers="categorylist_header_title" class="list-title">
+						<th scope="row" class="list-title">
 							<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
 								<?php if ($this->params->get('show_image_heading')) : ?>
 									<?php if ($item->image) : ?>
@@ -128,7 +132,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<?php endif; ?>
 
 							<?php echo $item->event->afterDisplayTitle; ?>
-						</td>
+						</th>
 						<td>
 							<?php echo $item->event->beforeDisplayContent; ?>
 
