@@ -79,10 +79,6 @@ switch ($icon)
 		$icon = 'times';
 		break;
 
-	case 'times-cancel':
-		$icon = 'times-cancel';
-		break;
-
 	case 'new':
 	case 'save-new':
 	case 'add':
@@ -167,10 +163,6 @@ switch ($icon)
 		$icon = 'home';
 		break;
 
-	case 'crop':
-		$icon = 'crop';
-		break;
-
 	case 'chevron-down':
 		$icon = 'chevron-down';
 		break;
@@ -193,36 +185,12 @@ switch ($icon)
 		$icon = 'spinner';
 		break;
 
-	case 'question':
-		$icon = 'question';
-		break;
-
 	case 'register':
 		$icon = 'arrow-alt-circle-right';
 		break;
 
-	case 'search':
-		$icon = 'search';
-		break;
-
 	case 'search-plus':
 		$icon = 'search-plus';
-		break;
-
-	case 'ellipsis-v':
-		$icon = 'ellipsis-v';
-		break;
-
-	case 'ellipsis-h':
-		$icon = 'ellipsis-h';
-		break;
-
-	case 'sort':
-		$icon = 'sort';
-		break;
-
-	case 'user':
-		$icon = 'user';
 		break;
 
 	case 'info':
