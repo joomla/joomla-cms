@@ -40,6 +40,23 @@ dd {
   padding-right: 0;
 }
 
+.metismenu.mod-menu .mm-toggler {
+  margin-right: .5em;
+  margin-left: 0;
+}
+
+.container-header .mod-menu {
+
+  @include media-breakpoint-up(md) {
+    margin-right: 0;
+    margin-left: $cassiopeia-grid-gutter;
+  }
+
+  > li {
+    margin-left: 1.55em;
+  }
+}
+
 .mr-2 {
   margin-right: 0 !important;
   margin-left: .5rem;
