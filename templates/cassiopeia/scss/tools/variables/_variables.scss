@@ -4,6 +4,7 @@ $cassiopeia-border-color:             hsl(210, 14%, 89%) !default;
 $cassiopeia-box-shadow:               1px 1px 4px hsla(0, 0%, 0%, .1) !default;
 $cassiopeia-block-header-bg:          hsl(0, 0%, 96%) !default;
 $cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
+$cassiopeia-header-grad-rtl:          linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%);
 $cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover);
 
 
