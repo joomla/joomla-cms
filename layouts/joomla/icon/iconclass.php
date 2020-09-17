@@ -7,14 +7,28 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Utilities\ArrayHelper;
+
 defined('_JEXEC') or die;
 
 // Convert icomoon to fa
-$icon = $displayData['icon'];
-$html = $displayData['html'] ?? true;
+$icon       = $displayData['icon'];
+
+// Get fixed width icon or not
+$iconFixed  = $displayData['fixed'] ?? null;
 
 // Set default prefix to be fontawesome
 $iconPrefix = $displayData['prefix'] ?? 'fas fa-';
+
+// Get other classNames if set, like icon-white, text-danger
+$iconSuffix = $displayData['suffix'] ?? null;
+
+// Get other attributes besides classNames
+$tabindex   = $displayData['tabindex'] ?? null;
+$title      = $displayData['title'] ?? null;
+
+// Default output in <span>. ClassNames if set to false
+$html       = $displayData['html'] ?? true;
 
 switch ($icon)
 {
@@ -25,7 +39,16 @@ switch ($icon)
 		$iconPrefix = $displayData['prefix'] ?? null;
 		break;
 
+	case (strpos($icon, 'fa-') !== false):
+		$iconPrefix = $displayData['prefix'] ?? 'fas ';
+		break;
+
+	case 'file':
+		$icon = 'file';
+		break;
+
 	case 'archive':
+	case 'folder':
 	case 'folder-close':
 	case 'folder-folder-2':
 	case 'folder-minus':
@@ -35,8 +58,17 @@ switch ($icon)
 		$icon = 'folder';
 		break;
 
+	case 'folder-open':
+		$icon = 'folder-open';
+		break;
+
+	case 'check':
 	case 'publish':
 		$icon = 'check';
+		break;
+
+	case 'check-circle':
+		$icon = 'check-circle';
 		break;
 
 	case 'unpublish':
@@ -47,8 +79,14 @@ switch ($icon)
 		$icon = 'times';
 		break;
 
+	case 'times-cancel':
+		$icon = 'times-cancel';
+		break;
+
 	case 'new':
 	case 'save-new':
+	case 'add':
+	case 'collapse':
 		$icon = 'plus';
 		break;
 
@@ -79,6 +117,7 @@ switch ($icon)
 		$icon = 'eye-slash';
 		break;
 
+	case 'hits';
 	case 'eye-open':
 		$icon = 'eye';
 		break;
@@ -106,10 +145,12 @@ switch ($icon)
 		$icon = 'minus-circle';
 		break;
 
+	case 'select-file':
 	case 'save-copy':
 		$icon = 'copy';
 		break;
 
+	case 'success':
 	case 'checkin':
 		$icon = 'check-square';
 		break;
@@ -134,8 +175,90 @@ switch ($icon)
 		$icon = 'chevron-down';
 		break;
 
+	case 'previous':
+	case 'nextRtl':
+		$icon = 'chevron-left';
+		break;
+
+	case 'next':
+	case 'previousRtl':
+		$icon = 'chevron-right';
+		break;
+
 	case 'move':
 		$icon = 'arrows-alt';
+		break;
+
+	case 'loading':
+		$icon = 'spinner';
+		break;
+
+	case 'question':
+		$icon = 'question';
+		break;
+
+	case 'register':
+		$icon = 'arrow-alt-circle-right';
+		break;
+
+	case 'search':
+		$icon = 'search';
+		break;
+
+	case 'search-plus':
+		$icon = 'search-plus';
+		break;
+
+	case 'ellipsis-v':
+		$icon = 'ellipsis-v';
+		break;
+
+	case 'ellipsis-h':
+		$icon = 'ellipsis-h';
+		break;
+
+	case 'sort':
+		$icon = 'sort';
+		break;
+
+	case 'user':
+		$icon = 'user';
+		break;
+
+	case 'info':
+		$icon = 'info-circle';
+		break;
+
+	case 'error':
+		$icon = 'exclamation';
+		break;
+
+	case 'warning':
+		$icon = 'exclamation-circle';
+		break;
+
+	case 'warning-2':
+		$icon = 'exclamation-triangle';
+		break;
+
+	case 'paginationStart':
+	case 'paginationEndRtl':
+		$icon = 'fa-angle-double-left';
+		break;
+
+	case 'paginationStartRtl':
+	case 'paginationEnd':
+		$icon = 'fa-angle-double-right';
+		break;
+
+	case 'paginationNext':
+	case 'paginationPrevRtl':
+		$icon = 'fa-angle-left';
+		break;
+
+	case 'paginationNextRtl':
+	case 'paginationPrev':
+		$icon = 'fa-angle-right';
 		break;
 
 	default:
@@ -143,12 +266,33 @@ switch ($icon)
 		break;
 }
 
+if ($iconFixed)
+{
+	$iconFixed = 'fa-fw';
+}
+
+// Just render icon as className
+$icon = trim(implode(' ', [$iconPrefix . $icon, $iconFixed, $iconSuffix]));
+
+// Convert icon to html output when HTML !== false
 if ($html !== false)
 {
-	$icon = '<span class="' . $iconPrefix . $icon . '" aria-hidden="true"></span>';
-	echo $icon;
+	$iconAttribs = [
+		'class'       => $icon,
+		'aria-hidden' => "true"
+	];
+
+	if ($tabindex)
+	{
+		$iconAttribs['tabindex'] = $tabindex;
+	}
+
+	if ($title)
+	{
+		$iconAttribs['title'] = $title;
+	}
+
+	$icon = '<span ' . ArrayHelper::toString($iconAttribs) . '></span>';
 }
-else
-{
-	echo $iconPrefix . $icon;
-}
+
+echo $icon;
