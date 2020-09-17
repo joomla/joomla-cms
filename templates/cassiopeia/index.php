@@ -121,21 +121,25 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 			</div>
 		</div>
 		<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
-			<nav class="grid-child navbar navbar-expand-lg">
-				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-					<span class="fas fa-bars" aria-hidden="true"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbar">
-					<?php if ($this->countModules('menu')) : ?>
-						<jdoc:include type="modules" name="menu" style="none" />
-					<?php endif; ?>
-					<?php if ($this->countModules('search')) : ?>
+			<div class="grid-child container-nav">
+				<nav class="navbar navbar-expand-lg">
+					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+						<span class="fas fa-bars" aria-hidden="true"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbar">
+						<?php if ($this->countModules('menu')) : ?>
+							<jdoc:include type="modules" name="menu" style="none" />
+						<?php endif; ?>
+					</div>
+				</nav>
+				<?php if ($this->countModules('search')) : ?>
+					<div class="container-search">
 						<div class="form-inline">
 							<jdoc:include type="modules" name="search" style="none" />
 						</div>
-					<?php endif; ?>
-				</div>
-			</nav>
+					</div>
+				<?php endif; ?>
+			</div>
 		<?php endif; ?>
 	</header>
 
