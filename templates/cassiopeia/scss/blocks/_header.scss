@@ -62,6 +62,10 @@
         margin-top: $cassiopeia-grid-gutter;
       }
     }
+
+    .container-search:only-child {
+      margin-left: auto;
+    }
   }
 
   .navbar-collapse {
