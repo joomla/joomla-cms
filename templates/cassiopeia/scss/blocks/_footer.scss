@@ -18,10 +18,9 @@
     align-self: flex-end;
     height: 40px;
     padding: $cassiopeia-grid-gutter/2;
+    margin-left: auto;
     color: var(--cassiopeia-color-primary);
     background: $white;
     border-radius: $border-radius;
-
-    @include margin("left", auto);
   }
 }

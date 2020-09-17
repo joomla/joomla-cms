@@ -119,4 +119,8 @@ dd {
 
 .footer {
   background-image: $cassiopeia-header-grad-rtl;
+  .back-top {
+    margin-right: auto;
+    margin-left: 0;
+  }
 }
