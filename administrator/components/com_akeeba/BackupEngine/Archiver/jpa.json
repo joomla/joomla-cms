@@ -1,0 +1,45 @@
+{
+    "_information": {
+        "title": "COM_AKEEBA_CONFIG_ENGINE_ARCHIVER_JPA_TITLE",
+        "description": "COM_AKEEBA_CONFIG_ENGINE_ARCHIVER_JPA_DESCRIPTION"
+    },
+    "engine.archiver.common.dereference_symlinks": {
+        "default": "0",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_DEREFERENCESYMLINKS_TITLE",
+        "description": "COM_AKEEBA_CONFIG_DEREFERENCESYMLINKS_DESCRIPTION"
+    },
+    "engine.archiver.common.part_size": {
+        "default": "0",
+        "type": "integer",
+        "min": "0",
+        "max": "2147483648",
+        "shortcuts": "0|131072|262144|524288|1048576|2097152|5242880|10485760|20971520|52428800|104857600|268435456|536870912|1073741824|1610612736|2097152000",
+        "scale": "1048576",
+        "uom": "MB",
+        "title": "COM_AKEEBA_CONFIG_PARTSIZE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_PARTSIZE_DESCRIPTION"
+    },
+    "engine.archiver.common.chunk_size": {
+        "default": "1048576",
+        "type": "integer",
+        "min": "65536",
+        "max": "10485760",
+        "shortcuts": "65536|131072|262144|524288|1048576|2097152|5242880|10485760",
+        "scale": "1048576",
+        "uom": "MB",
+        "title": "COM_AKEEBA_CONFIG_CHUNKSIZE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_CHUNKSIZE_DESCRIPTION"
+    },
+    "engine.archiver.common.big_file_threshold": {
+        "default": "1048576",
+        "type": "integer",
+        "min": "65536",
+        "max": "10485760",
+        "shortcuts": "65536|131072|262144|524288|1048576|2097152|5242880|10485760",
+        "scale": "1048576",
+        "uom": "MB",
+        "title": "COM_AKEEBA_CONFIG_BIGFILETHRESHOLD_TITLE",
+        "description": "COM_AKEEBA_CONFIG_BIGFILETHRESHOLD_DESCRIPTION"
+    }
+}

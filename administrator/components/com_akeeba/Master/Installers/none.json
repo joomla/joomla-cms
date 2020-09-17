@@ -1,0 +1,11 @@
+{
+  "none": {
+    "name": "No Installer",
+    "package": "",
+    "installerroot": "",
+    "sqlroot": "sql",
+    "databasesini": 0,
+    "readme": 0,
+    "extrainfo": 0
+  }
+}

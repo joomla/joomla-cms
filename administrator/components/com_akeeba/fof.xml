@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ @package   akeebabackup
+  ~ @copyright Copyright (c)2006-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+<fof>
+    <common>
+        <container>
+            <option name="componentNamespace">Akeeba\Backup</option>
+            <option name="factoryClass">FOF30\Factory\BasicFactory</option>
+            <option name="scaffolding">0</option>
+            <option name="saveScaffolding">0</option>
+            <option name="rendererClass">FOF30\Render\FEF</option>
+        </container>
+    </common>
+
+    <backend>
+        <model name="Profiles">
+            <behaviors>Filters</behaviors>
+        </model>
+        <model name="Stats">
+            <behaviors>Filters</behaviors>
+        </model>
+    </backend>
+</fof>

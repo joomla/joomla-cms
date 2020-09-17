@@ -1,0 +1,26 @@
+## This file was generated automatically by the Akeeba Backup Engine
+##
+## DO NOT REMOVE THIS FILE
+##
+## This file makes sure that your backup output directory is not directly accessible from the web if you are using
+## the Apache, Lighttpd and Litespeed web server. This prevents unauthorized access to your backup archive files and
+## backup log files. Removing this file could have security implications for your site.
+##
+## You are strongly advised to never delete or modify any of the files automatically created in this folder by the
+## Akeeba Backup Engine, namely:
+##
+## * .htaccess
+## * web.config
+## * index.html
+## * index.htm
+## * index.php
+##
+<IfModule !mod_authz_core.c>
+Order deny,allow
+Deny from all
+</IfModule>
+<IfModule mod_authz_core.c>
+  <RequireAll>
+    Require all denied
+  </RequireAll>
+</IfModule>

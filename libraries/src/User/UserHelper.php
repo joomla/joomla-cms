@@ -189,8 +189,8 @@ abstract class UserHelper
 
 		if ($key !== false)
 		{
-			// Remove the user from the group.
 			unset($user->groups[$key]);
+			$user->groups = array_values($user->groups);
 
 			// Store the user object.
 			$user->save();

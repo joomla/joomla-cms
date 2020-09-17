@@ -1,0 +1,81 @@
+{
+    "_information": {
+        "title": "COM_AKEEBA_CONFIG_ENGINE_DUMP_NATIVE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_ENGINE_DUMP_NATIVE_DESCRIPTION"
+    },
+    "engine.dump.divider.common": {
+        "default": "0",
+        "type": "separator",
+        "title": "COM_AKEEBA_CONFIG_DUMP_DIVIDER_COMMON",
+        "bold": "1"
+    },
+    "engine.dump.common.blankoutpass": {
+        "default": "0",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_BLANKOUTPASS_TITLE",
+        "description": "COM_AKEEBA_CONFIG_BLANKOUTPASS_DESCRIPTION"
+    },
+    "engine.dump.common.extended_inserts": {
+        "default": "1",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_EXTENDEDINSERTS_TITLE",
+        "description": "COM_AKEEBA_CONFIG_EXTENDEDINSERTS_DESCRIPTION"
+    },
+    "engine.dump.common.packet_size": {
+        "default": "131072",
+        "type": "integer",
+        "min": "1",
+        "max": "1048576",
+        "shortcuts": "16384|32768|65536|131072|262144|524288|1048576",
+        "scale": "1024",
+        "uom": "KB",
+        "title": "COM_AKEEBA_CONFIG_MAXPACKET_TITLE",
+        "description": "COM_AKEEBA_CONFIG_MAXPACKET_DESCRIPTION"
+    },
+    "engine.dump.common.splitsize": {
+        "default": "524288",
+        "type": "integer",
+        "min": "0",
+        "max": "10485760",
+        "shortcuts": "524288|1048576|2097152|5242880|10485760",
+        "scale": "1048576",
+        "uom": "MB",
+        "title": "COM_AKEEBA_CONFIG_SPLITDBDUMP_TITLE",
+        "description": "COM_AKEEBA_CONFIG_SPLITDBDUMP_DESCRIPTION"
+    },
+    "engine.dump.common.batchsize": {
+        "default": "1000",
+        "type": "integer",
+        "min": "0",
+        "max": "100000",
+        "shortcuts": "10|20|50|100|200|500|1000",
+        "scale": "1",
+        "uom": "queries",
+        "title": "COM_AKEEBA_CONFIG_BACTHSIZE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_BACTHSIZE_DESCRIPTION"
+    },
+    "engine.dump.divider.mysql": {
+        "default": "0",
+        "type": "separator",
+        "title": "COM_AKEEBA_CONFIG_DUMP_DIVIDER_MYSQL",
+        "bold": "1"
+    },
+    "engine.dump.native.advanced_entitites": {
+        "default": "0",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_MYSQL5FEATURES_ENABLE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_MYSQL5FEATURES_ENABLE_DESCRIPTION"
+    },
+    "engine.dump.native.nodependencies": {
+        "default": "0",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_NODEPENDENCIES_TITLE",
+        "description": "COM_AKEEBA_CONFIG_NODEPENDENCIES_DESCRIPTION"
+    },
+    "engine.dump.native.nobtree": {
+        "default": "1",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_MYSQLNOBTREE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_MYSQLNOBTREE_TIP"
+    }
+}

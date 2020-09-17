@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ @package   akeebabackup
+  ~ @copyright Copyright (c)2006-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+
+<schema>
+    <!-- Metadata -->
+    <meta>
+        <!-- Supported driver types -->
+        <drivers>
+            <driver>mysql</driver>
+            <driver>mysqli</driver>
+            <driver>pdomysql</driver>
+        </drivers>
+    </meta>
+
+    <!-- SQL commands to run on installation and update -->
+    <sql>
+        <!-- Create the #__ak_profiles table if it's missing -->
+        <action table="#__ak_profiles" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__ak_profiles` (
+`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+`description` varchar(255) NOT NULL,
+`configuration` longtext,
+`filters` longtext,
+`quickicon` tinyint(3) NOT NULL DEFAULT '1',
+PRIMARY KEY (`id`)
+) DEFAULT COLLATE utf8_general_ci;
+            ]]></query>
+        </action>
+
+        <!-- Insert into #__ak_profiles if id=1 is not there -->
+        <action table="#__ak_profiles" canfail="1">
+            <condition type="equals" operator="not" value="1"><![CDATA[
+SELECT COUNT(*) FROM `#__ak_profiles` WHERE `id` = 1;
+            ]]></condition>
+
+            <query><![CDATA[
+INSERT IGNORE INTO `#__ak_profiles`
+(`id`,`description`, `configuration`, `filters`, `quickicon`) VALUES
+(1,'Default Backup Profile','','',1);
+            ]]></query>
+        </action>
+
+        <!-- Create #__ak_stats if it's missing -->
+        <action table="#__ak_stats" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__ak_stats` (
+	`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`description` varchar(255) NOT NULL,
+	`comment` longtext,
+	`backupstart` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`backupend` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`status` enum('run','fail','complete') NOT NULL DEFAULT 'run',
+	`origin` varchar(30) NOT NULL DEFAULT 'backend',
+	`type` varchar(30) NOT NULL DEFAULT 'full',
+	`profile_id` bigint(20) NOT NULL DEFAULT '1',
+	`archivename` longtext,
+	`absolute_path` longtext,
+	`multipart` int(11) NOT NULL DEFAULT '0',
+	`tag` varchar(255) DEFAULT NULL,
+	`backupid` varchar(255) DEFAULT NULL,
+	`filesexist` tinyint(3) NOT NULL DEFAULT '1',
+	`remote_filename` varchar(1000) DEFAULT NULL,
+	`total_size` bigint(20) NOT NULL DEFAULT '0',
+	`frozen` tinyint(1) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`),
+	KEY `idx_fullstatus` (`filesexist`,`status`),
+	KEY `idx_stale` (`status`,`origin`)
+) DEFAULT COLLATE utf8_general_ci;
+            ]]></query>
+        </action>
+
+        <!-- Create #__ak_storage if it's missing -->
+        <action table="#__ak_storage" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__ak_storage` (
+	`tag` varchar(255) NOT NULL,
+	`lastupdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`data` longtext,
+	PRIMARY KEY (`tag`(100))
+) DEFAULT COLLATE utf8_general_ci;
+            ]]></query>
+        </action>
+
+        <!-- Add the backupid column to #__ak_stats if it's missing -->
+        <action table="#__ak_stats" canfail="1">
+            <condition type="missing" value="backupid" />
+            <query><![CDATA[
+ALTER TABLE `#__ak_stats`
+ADD COLUMN `backupid` varchar(255) DEFAULT NULL
+AFTER `tag`
+            ]]></query>
+        </action>
+
+        <!-- Add the quickicon column to #__ak_profiles if it's missing -->
+        <action table="#__ak_profiles" canfail="1">
+            <condition type="missing" value="quickicon" />
+            <query><![CDATA[
+ALTER TABLE `#__ak_profiles`
+ADD COLUMN `quickicon` tinyint(3) NOT NULL DEFAULT '1'
+AFTER `filters`
+            ]]></query>
+        </action>
+
+        <!-- Shorten the primary key before upgrading to utf8mb4 (in Joomla! 3.5+) -->
+        <action table="#__ak_storage" canfail="1">
+            <condition type="utf8mb4upgrade" />
+            <query><![CDATA[
+ALTER TABLE `#__ak_storage` DROP PRIMARY KEY;
+            ]]></query>
+            <query><![CDATA[
+ALTER TABLE `#__ak_storage` ADD PRIMARY KEY (`tag`(100));
+            ]]></query>
+        </action>
+
+        <!-- Add the backupid column to #__ak_stats if it's missing -->
+        <action table="#__ak_stats" canfail="1">
+            <condition type="missing" value="frozen" />
+            <query><![CDATA[
+ALTER TABLE `#__ak_stats` ADD COLUMN `frozen` tinyint(1) DEFAULT '0';
+            ]]></query>
+        </action>
+    </sql>
+</schema>

@@ -1,0 +1,37 @@
+{
+    "_information": {
+        "title": "COM_AKEEBA_CONFIG_ENGINE_POSTPROC_PCLOUD_TITLE",
+        "description": "COM_AKEEBA_CONFIG_ENGINE_POSTPROC_PCLOUD_DESCRIPTION"
+    },
+    "engine.postproc.common.after_part": {
+        "default": "0",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_POSTPROCPARTS_TITLE",
+        "description": "COM_AKEEBA_CONFIG_POSTPROCPARTS_DESCRIPTION"
+    },
+    "engine.postproc.common.delete_after": {
+        "default": "1",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_DELETEAFTER_TITLE",
+        "description": "COM_AKEEBA_CONFIG_DELETEAFTER_DESCRIPTION"
+    },
+    "engine.postproc.pcloud.openoauth": {
+        "default": "",
+        "type": "button",
+        "title": "COM_AKEEBA_CONFIG_BOX_OPENOAUTH_TITLE",
+        "description": "COM_AKEEBA_CONFIG_BOX_OPENOAUTH_DESC",
+        "hook": "akconfig_pcloud_openoauth"
+    },
+    "engine.postproc.pcloud.directory": {
+        "default": "\/",
+        "type": "string",
+        "title": "COM_AKEEBA_CONFIG_PCLOUD_DIRECTORY_TITLE",
+        "description": "COM_AKEEBA_CONFIG_PCLOUD_DIRECTORY_DESCRIPTION"
+    },
+    "engine.postproc.pcloud.access_token": {
+        "default": "",
+        "type": "string",
+        "title": "COM_AKEEBA_CONFIG_PCLOUD_ACCESSTOKEN_TITLE",
+        "description": "COM_AKEEBA_CONFIG_PCLOUD_ACCESSTOKEN_DESCRIPTION"
+    }
+}
