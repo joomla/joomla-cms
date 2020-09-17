@@ -16,7 +16,7 @@
   }
 
   nav {
-    padding: ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter $cassiopeia-grid-gutter ($cassiopeia-grid-gutter / 2);
+    padding: 0;
   }
 
   .site-description {
@@ -51,6 +51,23 @@
     }
   }
 
+  .container-nav {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-bottom: $cassiopeia-grid-gutter;
+
+    @include media-breakpoint-down(xs) {
+      .container-search,
+      nav {
+        margin-top: $cassiopeia-grid-gutter;
+      }
+    }
+
+    .container-search:only-child {
+      margin-left: auto;
+    }
+  }
+
   .navbar-collapse {
     &.show {
       display: flex;
@@ -70,7 +87,6 @@
       display: flex;
       flex: 1 1 0%;
       flex-direction: row;
-      margin-right: $cassiopeia-grid-gutter;
     }
 
     > li {
@@ -130,15 +146,6 @@
 
     .fas {
       font-size: 24px;
-    }
-  }
-
-  .form-inline {
-    margin-top: .75rem;
-
-    @include media-breakpoint-up(md) {
-      margin-top: 0;
-      margin-left: auto;
     }
   }
 

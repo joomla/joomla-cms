@@ -45,15 +45,16 @@ dd {
   margin-left: 0;
 }
 
-.container-header .mod-menu {
-
-  @include media-breakpoint-up(md) {
-    margin-right: 0;
-    margin-left: $cassiopeia-grid-gutter;
+.container-header {
+  .container-nav .container-search:only-child {
+    margin-right: auto;
+    margin-left: 0;
   }
 
-  > li {
-    margin-left: 1.55em;
+  .mod-menu {
+    > li {
+      margin-left: 1.55em;
+    }
   }
 }
 
