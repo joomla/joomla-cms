@@ -26,23 +26,6 @@ use Joomla\Input\Input;
 class Dispatcher extends ComponentDispatcher
 {
 	/**
-	 * Constructor for ComponentDispatcher
-	 *
-	 * @param   CMSApplication       $app         The application instance
-	 * @param   Input                $input       The input instance
-	 * @param   MVCFactoryInterface  $mvcFactory  The MVC factory instance
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(CMSApplication $app, Input $input, MVCFactoryInterface $mvcFactory)
-	{
-		parent::__construct($app, $input, $mvcFactory);
-
-		// As default the view is set to featured, so we need to initialize it
-		$this->input->set('view', 'media');
-	}
-
-	/**
 	 * Load the language
 	 *
 	 * @since   4.0.0

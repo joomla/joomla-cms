@@ -97,7 +97,7 @@ if ($tagId = $params->get('tag_id', ''))
 	switch (true) :
 		// The next item is deeper.
 		case $item->deeper:
-			echo '<button class="has-arrow mm-collapsed mm-toggler" aria-expanded="false"><span class="sr-only">' . Text::_('JGLOBAL_TOGGLE_DROPDOWN') . '</span></button>';
+			echo '<button class="mm-collapsed mm-toggler" aria-expanded="false"><span class="sr-only">' . Text::_('JGLOBAL_TOGGLE_DROPDOWN') . '</span></button>';
 			echo '<ul class="mm-collapse">';
 			break;
 

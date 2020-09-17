@@ -61,7 +61,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'beta4-dev';
+	const EXTRA_VERSION = 'beta5-dev';
 
 	/**
 	 * Development status.
@@ -85,7 +85,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '29-July-2020';
+	const RELDATE = '15-September-2020';
 
 	/**
 	 * Release time.
@@ -93,7 +93,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '18:21';
+	const RELTIME = '19:15';
 
 	/**
 	 * Release timezone.

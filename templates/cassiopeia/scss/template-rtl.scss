@@ -40,6 +40,24 @@ dd {
   padding-right: 0;
 }
 
+.metismenu.mod-menu .mm-toggler {
+  margin-right: .5em;
+  margin-left: 0;
+}
+
+.container-header {
+  .container-nav .container-search:only-child {
+    margin-right: auto;
+    margin-left: 0;
+  }
+
+  .mod-menu {
+    > li {
+      margin-left: 1.55em;
+    }
+  }
+}
+
 .mr-2 {
   margin-right: 0 !important;
   margin-left: .5rem;

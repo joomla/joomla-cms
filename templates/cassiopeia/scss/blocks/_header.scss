@@ -11,16 +11,12 @@
     position: relative !important;
   }
 
-  header {
-    width: 100%;
-    max-width: 72.1875rem;
-    padding: 0 ($cassiopeia-grid-gutter / 2);
-    margin: 0 auto;
-
+  .grid-child {
+    padding: ($cassiopeia-grid-gutter / 2);
   }
 
   nav {
-    padding: ($cassiopeia-grid-gutter / 2) ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter ($cassiopeia-grid-gutter / 2);
+    padding: 0;
   }
 
   .site-description {
@@ -31,7 +27,6 @@
   .navbar-brand {
     position: relative;
     display: inline-block;
-    padding: $cassiopeia-grid-gutter / 2;
     margin-right: auto;
     font-size: 2rem;
     color: $white;
@@ -53,6 +48,23 @@
     &:hover,
     &:focus {
       color: scale-color($white, $lightness: -6%);
+    }
+  }
+
+  .container-nav {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-bottom: $cassiopeia-grid-gutter;
+
+    @include media-breakpoint-down(xs) {
+      .container-search,
+      nav {
+        margin-top: $cassiopeia-grid-gutter;
+      }
+    }
+
+    .container-search:only-child {
+      margin-left: auto;
     }
   }
 
@@ -134,15 +146,6 @@
 
     .fas {
       font-size: 24px;
-    }
-  }
-
-  .form-inline {
-    margin-top: .75rem;
-
-    @include media-breakpoint-up(md) {
-      margin-top: 0;
-      margin-left: auto;
     }
   }
 
