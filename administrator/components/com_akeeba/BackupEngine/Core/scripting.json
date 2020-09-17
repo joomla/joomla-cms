@@ -1,0 +1,76 @@
+{
+    "volatile.akeebaengine.domains": "init|installer|packdb|packing|finale",
+    "volatile.akeebaengine.scripts": "full|dbonly|fileonly|alldb|incfile|incfull",
+
+    "volatile.domain.init.domain": "init",
+    "volatile.domain.init.class": "Init",
+    "volatile.domain.init.text": "COM_AKEEBA_BACKUP_LABEL_DOMAIN_INIT",
+
+    "volatile.domain.installer.domain": "installer",
+    "volatile.domain.installer.class": "Installer",
+    "volatile.domain.installer.text": "COM_AKEEBA_BACKUP_LABEL_DOMAIN_INSTALLER",
+
+    "volatile.domain.packdb.domain": "PackDB",
+    "volatile.domain.packdb.class": "Db",
+    "volatile.domain.packdb.text": "COM_AKEEBA_BACKUP_LABEL_DOMAIN_PACKDB",
+
+    "volatile.domain.packing.domain": "Packing",
+    "volatile.domain.packing.class": "Pack",
+    "volatile.domain.packing.text": "COM_AKEEBA_BACKUP_LABEL_DOMAIN_PACKING",
+
+    "volatile.domain.finale.domain": "finale",
+    "volatile.domain.finale.class": "Finalization",
+    "volatile.domain.finale.text": "COM_AKEEBA_BACKUP_LABEL_DOMAIN_FINISHED",
+
+    "volatile.scripting.full.chain": "init|installer|packdb|packing|finale",
+    "volatile.scripting.full.text": "COM_AKEEBA_CONFIG_BACKUPTYPE_FULL",
+    "volatile.scripting.full.db.saveasname": "normal",
+    "volatile.scripting.full.db.databasesini": "1",
+    "volatile.scripting.full.db.skipextradb": "0",
+    "volatile.scripting.full.db.abstractnames": "1",
+    "volatile.scripting.full.db.dropstatements": "0",
+    "volatile.scripting.full.db.delimiterstatements": "0",
+    "volatile.scripting.full.core.createarchive": "1",
+
+    "volatile.scripting.dbonly.chain": "init|packdb|finale",
+    "volatile.scripting.dbonly.text": "COM_AKEEBA_CONFIG_BACKUPTYPE_DBONLY",
+    "volatile.scripting.dbonly.db.saveasname": "output",
+    "volatile.scripting.dbonly.db.databasesini": "0",
+    "volatile.scripting.dbonly.db.skipextradb": "1",
+    "volatile.scripting.dbonly.db.abstractnames": "0",
+    "volatile.scripting.dbonly.db.dropstatements": "1",
+    "volatile.scripting.dbonly.db.delimiterstatements": "1",
+    "volatile.scripting.dbonly.core.forceextension": ".sql",
+    "volatile.scripting.dbonly.core.createarchive": "0",
+
+    "volatile.scripting.fileonly.chain": "init|packing|finale",
+    "volatile.scripting.fileonly.text": "COM_AKEEBA_CONFIG_BACKUPTYPE_FILEONLY",
+    "volatile.scripting.fileonly.core.createarchive": "1",
+
+    "volatile.scripting.alldb.chain": "init|installer|packdb|finale",
+    "volatile.scripting.alldb.text": "COM_AKEEBA_CONFIG_BACKUPTYPE_ALLDB",
+    "volatile.scripting.alldb.db.tempfile": "temporary",
+    "volatile.scripting.alldb.db.saveasname": "normal",
+    "volatile.scripting.alldb.db.databasesini": "1",
+    "volatile.scripting.alldb.db.skipextradb": "0",
+    "volatile.scripting.alldb.db.abstractnames": "1",
+    "volatile.scripting.alldb.db.dropstatements": "0",
+    "volatile.scripting.alldb.db.delimiterstatements": "0",
+    "volatile.scripting.alldb.db.finalizearchive": "1",
+    "volatile.scripting.alldb.core.createarchive": "1",
+
+    "volatile.scripting.incfile.chain": "init|packing|finale",
+    "volatile.scripting.incfile.text": "COM_AKEEBA_CONFIG_BACKUPTYPE_INCFILE",
+    "volatile.scripting.incfile.filter.incremental": "1",
+
+    "volatile.scripting.incfull.chain": "init|installer|packdb|packing|finale",
+    "volatile.scripting.incfull.text": "COM_AKEEBA_CONFIG_BACKUPTYPE_INCFULL",
+    "volatile.scripting.incfull.db.saveasname": "normal",
+    "volatile.scripting.incfull.db.databasesini": "1",
+    "volatile.scripting.incfull.db.skipextradb": "0",
+    "volatile.scripting.incfull.db.abstractnames": "1",
+    "volatile.scripting.incfull.db.dropstatements": "0",
+    "volatile.scripting.incfull.db.delimiterstatements": "0",
+    "volatile.scripting.incfull.core.createarchive": "1",
+    "volatile.scripting.incfull.filter.incremental": "1"
+}

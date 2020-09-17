@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   akeebabackup
+  ~ @copyright Copyright (c)2006-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+<access component="com_akeeba">
+	<section name="component">
+		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+		<action name="akeeba.backup" title="Backup" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="akeeba.configure" title="Configure" description="JACTION_MANAGE_COMPONENT_DESC" />
+		<action name="akeeba.download" title="Download" description="JACTION_CREATE_COMPONENT_DESC" />
+	</section>
+</access>

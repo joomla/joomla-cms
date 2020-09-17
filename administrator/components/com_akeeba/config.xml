@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   akeebabackup
+  ~ @copyright Copyright (c)2006-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+<config addfieldpath="/administrator/components/com_akeeba/fields">
+	<fieldset
+			name="permissions"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			description="JCONFIG_PERMISSIONS_DESC"
+	>
+
+		<field
+				name="rules"
+				type="rules"
+				label="JCONFIG_PERMISSIONS_LABEL"
+				class="inputbox"
+				filter="rules"
+				component="com_akeeba"
+				section="component"/>
+	</fieldset>
+
+	<fieldset name="backend" label="COM_AKEEBA_CONFIG_BACKEND_HEADER_LABEL"
+			  description="COM_AKEEBA_CONFIG_BACKEND_HEADER_DESC">
+
+		<field name="dark_mode" type="radio" default="-1"
+			   label="COM_AKEEBA_CONFIG_BACKEND_DARKMODE_LABEL"
+			   description="COM_AKEEBA_CONFIG_BACKEND_DARKMODE_DESC"
+			   class="btn-group">
+			<option value="-1">COM_AKEEBA_CONFIG_BACKEND_DARKMODE_AUTO</option>
+			<option value="0">COM_AKEEBA_CONFIG_BACKEND_DARKMODE_NEVER</option>
+			<option value="1">COM_AKEEBA_CONFIG_BACKEND_DARKMODE_ALWAYS</option>
+		</field>
+
+		<field name="dateformat" type="text" default="" size="30"
+			   label="COM_AKEEBA_CONFIG_DATEFORMAT_LABEL"
+			   description="COM_AKEEBA_CONFIG_DATEFORMAT_DESC"/>
+
+		<field name="localtime" type="radio" default="1"
+			   label="COM_AKEEBA_CONFIG_BACKEND_LOCALTIME_LABEL"
+			   description="COM_AKEEBA_CONFIG_BACKEND_LOCALTIME_DESC"
+			   class="btn-group btn-group-yesno">
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+		<field name="timezonetext" type="radio" default="T"
+			   label="COM_AKEEBA_CONFIG_BACKEND_TIMEZONETEXT_LABEL"
+			   description="COM_AKEEBA_CONFIG_BACKEND_TIMEZONETEXT_DESC"
+			   class="btn-group">
+			<option value="">COM_AKEEBA_CONFIG_BACKEND_TIMEZONETEXT_NONE</option>
+			<option value="T">COM_AKEEBA_CONFIG_BACKEND_TIMEZONETEXT_ABBREVIATION</option>
+			<option value="\G\M\TP">COM_AKEEBA_CONFIG_BACKEND_TIMEZONETEXT_GMTOFFSET</option>
+		</field>
+
+		<field name="showDeleteOnRestore" type="radio" default="0"
+			   label="COM_AKEEBA_CONFIG_BACKEND_SHOWDELETEONRESTORE_LABEL"
+			   description="COM_AKEEBA_CONFIG_BACKEND_SHOWDELETEONRESTORE_DESC"
+			   class="btn-group btn-group-yesno">
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="frontend" label="COM_AKEEBA_CONFIG_FRONTEND_HEADER_LABEL"
+			  description="COM_AKEEBA_CONFIG_FRONTEND_HEADER_DESC">
+
+		<field name="legacyapi_enabled" type="radio" default="0"
+			   label="COM_AKEEBA_CONFIG_LEGACYAPI_ENABLED_LABEL"
+			   description="COM_AKEEBA_CONFIG_LEGACYAPI_ENABLED_DESC"
+			   class="btn-group btn-group-yesno">
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+		<field name="jsonapi_enabled" type="radio" default="0"
+			   label="COM_AKEEBA_CONFIG_JSONAPI_ENABLED_LABEL"
+			   description="COM_AKEEBA_CONFIG_JSONAPI_ENABLED_DESC"
+			   class="btn-group btn-group-yesno">
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+		<field name="frontend_secret_word" type="akencrypted"
+			   default="" size="30"
+			   label="COM_AKEEBA_CONFIG_SECRETWORD_LABEL"
+			   description="COM_AKEEBA_CONFIG_SECRETWORD_DESC"
+			   class="input-xxlarge"/>
+
+		<field name="forced_backup_timezone" type="timezone" default="AKEEBA/DEFAULT"
+			   size="1"
+			   label="COM_AKEEBA_CONFIG_FORCEDBACKUPTZ_LABEL"
+			   description="COM_AKEEBA_CONFIG_FORCEDBACKUPTZ_DESC"
+			   class="input-xxlarge">
+			<option value="AKEEBA/DEFAULT">COM_AKEEBA_CONFIG_FORCEDBACKUPTZ_DEFAULT</option>
+			<option value="GMT">GMT</option>
+		</field>
+
+		<field name="frontend_email_on_finish" type="radio" default="0"
+			   label="COM_AKEEBA_CONFIG_FRONTENDEMAIL_LABEL"
+			   description="COM_AKEEBA_CONFIG_FRONTENDEMAIL_DESC"
+			   class="btn-group btn-group-yesno">
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+		<field name="frontend_email_when" type="radio" default="always"
+			   label="COM_AKEEBA_CONFIG_FRONTEND_EMAIL_WHEN_LABEL"
+			   description="COM_AKEEBA_CONFIG_FRONTEND_EMAIL_WHEN_DESC"
+			   class="btn-group">
+			<option value="always">COM_AKEEBA_CONFIG_FRONTEND_EMAIL_WHEN_ALWAYS</option>
+			<option value="failedupload">COM_AKEEBA_CONFIG_FRONTEND_EMAIL_WHEN_FAILEDUPLOAD</option>
+		</field>
+
+		<field name="frontend_email_address" type="text" default="" size="50"
+			   label="COM_AKEEBA_CONFIG_ARBITRARYFEEMAIL_LABEL"
+			   description="COM_AKEEBA_CONFIG_ARBITRARYFEEMAIL_DESC"
+			   class="input-xxlarge"/>
+
+		<field name="frontend_email_subject" type="text" default="" size="50"
+			   label="COM_AKEEBA_CONFIG_FEEMAILSUBJECT_LABEL"
+			   description="COM_AKEEBA_CONFIG_FEEMAILSUBJECT_DESC"
+			   class="input-xxlarge"/>
+
+		<field name="frontend_email_body" type="textarea" default="" rows="10" cols="55"
+			   label="COM_AKEEBA_CONFIG_FEEMAILBODY_LABEL"
+			   description="COM_AKEEBA_CONFIG_FEEMAILBODY_DESC"/>
+
+		<!-- FAILURE CHECK SETTINGS -->
+		<field type="spacer" label="COM_AKEEBA_CONFIG_FAILURE_SEPARATOR"/>
+
+		<field name="failure_timeout" type="text" default="180"
+			   filter="integer"
+			   label="COM_AKEEBA_CONFIG_FAILURE_TIMEOUT_LABEL"
+			   description="COM_AKEEBA_CONFIG_FAILURE_TIMEOUT_DESC"
+		/>
+
+		<field name="failure_email_address" type="text" default="" size="50"
+			   label="COM_AKEEBA_CONFIG_FAILURE_EMAILADDRESS_LABEL"
+			   description="COM_AKEEBA_CONFIG_FAILURE_EMAILADDRESS_DESC"/>
+
+		<field name="failure_email_subject" type="text" default="" size="50"
+			   label="COM_AKEEBA_CONFIG_FAILURE_EMAILSUBJECT_LABEL"
+			   description="COM_AKEEBA_CONFIG_FAILURE_EMAILSUBJECT_DESC"/>
+
+		<field name="failure_email_body" type="textarea" default="" rows="10" cols="55"
+			   label="COM_AKEEBA_CONFIG_FAILURE_EMAILBODY_LABEL"
+			   description="COM_AKEEBA_CONFIG_FAILURE_EMAILBODY_DESC"/>
+
+		<field name="siteurl" type="hidden" default="" label=""/>
+		<field name="jversion" type="hidden" default="" label=""/>
+		<field name="jlibrariesdir" type="hidden" default="" label=""/>
+		<field name="lastversion" type="hidden" default="" label=""/>
+		<field name="angieupgrade" type="hidden" default="0" label=""/>
+		<field name="show_howtorestoremodal" type="hidden" default="1" label=""/>
+		<field name="updatedb" type="hidden" default="" label=""/>
+	</fieldset>
+
+	<fieldset name="liveupdate" label="COM_AKEEBA_CONFIG_LIVEUPDATE_HEADER_LABEL"
+			  description="COM_AKEEBA_CONFIG_LIVEUPDATE_HEADER_DESC">
+		<field name="update_dlid" type="text" default="" size="30"
+			   label="COM_AKEEBA_CONFIG_DOWNLOADID_LABEL"
+			   description="COM_AKEEBA_CONFIG_DOWNLOADID_DESC"/>
+
+		<field name="stats_enabled"
+			   type="radio"
+			   default="1"
+			   label="COM_AKEEBA_CONFIG_USAGESTATS_LABEL"
+			   description="COM_AKEEBA_CONFIG_USAGESTATS_DESC"
+			   class="btn-group btn-group-yesno">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+	</fieldset>
+
+	<fieldset name="security" label="COM_AKEEBA_CONFIG_SECURITY_HEADER_LABEL"
+			  description="COM_AKEEBA_CONFIG_SECURITY_HEADER_DESC">
+		<field name="useencryption" type="radio" default="1"
+			   label="COM_AKEEBA_CONFIG_SECURITY_USEENCRYPTION_LABEL"
+			   description="COM_AKEEBA_CONFIG_SECURITY_USEENCRYPTION_DESCRIPTION"
+			   class="btn-group btn-group-yesno">
+			<option value="0">JNo</option>
+			<option value="1">JYes</option>
+		</field>
+
+	</fieldset>
+
+	<fieldset name="push" label="COM_AKEEBA_CONFIG_PUSH_HEADER_LABEL" description="COM_AKEEBA_CONFIG_PUSH_HEADER_DESC">
+		<field name="desktop_notifications" type="radio" default="0"
+			   label="COM_AKEEBA_CONFIG_DESKTOP_NOTIFICATIONS_LABEL"
+			   description="COM_AKEEBA_CONFIG_DESKTOP_NOTIFICATIONS_DESC"
+			   class="btn-group btn-group-yesno">
+		<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field name="push_preference" type="list" default="0"
+			   label="COM_AKEEBA_CONFIG_PUSH_PREFERENCE_LABEL"
+			   description="COM_AKEEBA_CONFIG_PUSH_PREFERENCE_DESC">
+			<option value="0">COM_AKEEBA_CONFIG_PUSH_PREFERENCE_OPT_NONE</option>
+			<option value="1">COM_AKEEBA_CONFIG_PUSH_PREFERENCE_OPT_PUSHBULLET</option>
+		</field>
+
+		<field name="push_apikey" type="text" default="" size="30"
+			   label="COM_AKEEBA_CONFIG_PUSH_APIKEY_LABEL"
+			   description="COM_AKEEBA_CONFIG_PUSH_APIKEY_DESC"/>
+	</fieldset>
+
+</config>

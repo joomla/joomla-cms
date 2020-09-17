@@ -1,0 +1,9 @@
+{
+    "core.filters.hoststats.enabled": {
+        "default": "1",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_OPTIONALFILTERS_HOSTSTATS_ENABLED_TITLE",
+        "description": "COM_AKEEBA_CONFIG_OPTIONALFILTERS_HOSTSTATS_ENABLED_DESCRIPTION",
+        "bold": "1"
+    }
+}

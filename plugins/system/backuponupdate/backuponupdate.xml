@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   akeebabackup
+  ~ @copyright Copyright (c)2006-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+
+<extension version="2.5.0" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_BACKUPONUPDATE</name>
+	<author>Nicholas K. Dionysopoulos</author>
+	<authorEmail>nicholas@dionysopoulos.me</authorEmail>
+	<authorUrl>https://www.akeeba.com</authorUrl>
+	<copyright>Copyright (c)2006-2019 Nicholas K. Dionysopoulos</copyright>
+	<license>GNU General Public License version 3, or later</license>
+	<creationDate>2020-09-10</creationDate>
+	<version>7.3.1</version>
+	<description>PLG_SYSTEM_BACKUPONUPDATE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="backuponupdate">backuponupdate.php</filename>
+		<filename>.htaccess</filename>
+		<filename>web.config</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_backuponupdate.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_backuponupdate.sys.ini</language>
+	</languages>
+    <config addfieldpath="/administrator/components/com_akeeba/fields">
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="profileid" type="backupprofiles" default="1"
+                       label="PLG_SYSTEM_BACKUPONUPDATE_PROFILE_LABEL"
+                       description="PLG_SYSTEM_BACKUPONUPDATE_PROFILE_DESC"
+                />
+
+				<field name="description" type="text" default="" size="30"
+					   label="COM_AKEEBA_CONFIG_DESCRIPTION_LABEL"
+					   description="COM_AKEEBA_CONFIG_DESCRIPTION_DESC"/>
+
+			</fieldset>
+        </fields>
+    </config>
+
+	<scriptfile>script.php</scriptfile>
+</extension>

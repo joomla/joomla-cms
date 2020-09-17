@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   akeebabackup
+  ~ @copyright Copyright (c)2006-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+
+<extension version="3.9.0" type="component" method="upgrade">
+	<name>Akeeba</name>
+	<creationDate>2020-09-10</creationDate>
+	<author>Nicholas K. Dionysopoulos</author>
+	<authorEmail>nicholas@dionysopoulos.me</authorEmail>
+	<authorUrl>https://www.akeeba.com</authorUrl>
+	<copyright>Copyright (c)2006-2019 Akeeba Ltd / Nicholas K. Dionysopoulos</copyright>
+	<license>GNU GPL v3 or later</license>
+	<version>7.3.1</version>
+	<description>Akeeba Backup Core - Full Joomla! site backup solution, Core Edition.</description>
+
+	<!-- Public front end files -->
+	<files folder="frontend">
+		<folder>Dispatcher</folder>
+		<filename>akeeba.php</filename>
+	</files>
+
+	<!-- Front end translation files -->
+	<languages folder="language/frontend">
+		<language tag="en-GB">en-GB/en-GB.com_akeeba.ini</language>
+	</languages>
+
+	<!-- Media files -->
+	<media destination="com_akeeba" folder="media">
+		<folder>css</folder>
+		<folder>fonts</folder>
+		<folder>icons</folder>
+		<folder>js</folder>
+	</media>
+
+	<!-- Administrator back-end section -->
+	<administration>
+		<!-- Administration menu -->
+		<menu>COM_AKEEBA</menu>
+
+		<!-- Back-end files -->
+		<files folder="backend">
+			<folder>backup</folder>
+			<folder>BackupEngine</folder>
+			<folder>BackupPlatform</folder>
+			<folder>Controller</folder>
+			<folder>Dispatcher</folder>
+			<folder>fields</folder>
+			<folder>Helper</folder>
+			<folder>Master</folder>
+			<folder>Model</folder>
+			<folder>sql</folder>
+			<folder>Toolbar</folder>
+			<folder>View</folder>
+			<folder>views</folder>
+			<folder>ViewTemplates</folder>
+
+			<filename>akeeba.php</filename>
+			<filename>fof.xml</filename>
+			<filename>version.php</filename>
+			<filename>config.xml</filename>
+			<filename>access.xml</filename>
+			<filename>CHANGELOG.php</filename>
+			<filename>Container.php</filename>
+		</files>
+
+		<!-- Back-end translation files -->
+		<languages folder="language/backend">
+			<language tag="en-GB">en-GB/en-GB.com_akeeba.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_akeeba.sys.ini</language>
+		</languages>
+
+	</administration>
+
+	<!-- Installation / uninstallation script file -->
+	<scriptfile>script.com_akeeba.php</scriptfile>
+</extension>

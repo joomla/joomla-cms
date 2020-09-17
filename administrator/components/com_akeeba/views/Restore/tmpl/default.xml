@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   akeebabackup
+  ~ @copyright Copyright (c)2006-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+<metadata>
+	<layout title="COM_AKEEBA_VIEW_RESTORE_TITLE">
+		<message>
+			<![CDATA[COM_AKEEBA_VIEW_RESTORE_DESC]]>
+		</message>
+	</layout>
+	<fields name="request" addfieldpath="administrator/components/com_akeeba/fields">
+		<fieldset name="request">
+			<field name="profileid" type="backupprofiles"
+				   show_none="no"
+				   default="0"
+				   label="COM_AKEEBA_VIEW_RESTORE_PROFILE_LABEL"
+				   description="COM_AKEEBA_VIEW_RESTORE_PROFILE_DESC"
+			/>
+		</fieldset>
+	</fields>
+</metadata>

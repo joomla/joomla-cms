@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   akeebabackup
+  ~ @copyright Copyright (c)2006-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+
+<extension version="3.9.0" type="plugin" group="actionlog" method="upgrade">
+	<name>PLG_ACTIONLOG_AKEEBABACKUP</name>
+	<author>Nicholas K. Dionysopoulos</author>
+	<authorEmail>nicholas@dionysopoulos.me</authorEmail>
+	<authorUrl>https://www.akeeba.com</authorUrl>
+	<copyright>Copyright (c)2006-2019 Nicholas K. Dionysopoulos</copyright>
+	<license>GNU General Public License version 3, or later</license>
+	<creationDate>2020-09-10</creationDate>
+	<version>7.3.1</version>
+	<description>PLG_ACTIONLOG_AKEEBABACKUP_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="akeebabackup">akeebabackup.php</filename>
+		<filename>.htaccess</filename>
+		<filename>web.config</filename>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_actionlog_akeebabackup.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_actionlog_akeebabackup.sys.ini</language>
+	</languages>
+
+	<scriptfile>script.php</scriptfile>
+</extension>

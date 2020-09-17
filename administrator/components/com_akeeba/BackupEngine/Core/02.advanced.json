@@ -1,0 +1,43 @@
+{
+    "_group": {
+        "description": "COM_AKEEBA_CONFIG_ADVANCED"
+    },
+    "akeeba.advanced.dump_engine": {
+        "default": "native",
+        "type": "engine",
+        "subtype": "dump",
+        "protected": "1",
+        "title": "COM_AKEEBA_CONFIG_DUMPENGINE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_DUMPENGINE_DESCRIPTION"
+    },
+    "akeeba.advanced.scan_engine": {
+        "default": "smart",
+        "type": "engine",
+        "subtype": "scan",
+        "protected": "1",
+        "title": "COM_AKEEBA_CONFIG_SCANENGINE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_SCANENGINE_DESCRIPTION"
+    },
+    "akeeba.advanced.archiver_engine": {
+        "default": "jpa",
+        "type": "engine",
+        "subtype": "archiver",
+        "title": "COM_AKEEBA_CONFIG_ARCHIVERENGINE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_ARCHIVERENGINE_DESCRIPTION"
+    },
+    "akeeba.advanced.postproc_engine": {
+        "default": "none",
+        "type": "none",
+        "protected": "1"
+    },
+    "akeeba.advanced.embedded_installer": {
+        "default": "angie",
+        "type": "none",
+        "protected": "1"
+    },
+    "engine.installer.angie.key": {
+        "default": "",
+        "type": "none",
+        "protected": "1"
+    }
+}

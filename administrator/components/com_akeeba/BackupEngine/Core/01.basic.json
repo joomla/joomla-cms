@@ -1,0 +1,39 @@
+{
+    "_group": {
+        "description": "COM_AKEEBA_CONFIG_HEADER_BASIC"
+    },
+    "akeeba.basic.output_directory": {
+        "default": "[DEFAULT_OUTPUT]",
+        "type": "browsedir",
+        "title": "COM_AKEEBA_CONFIG_OUTDIR_TITLE",
+        "description": "COM_AKEEBA_CONFIG_OUTDIR_DESCRIPTION"
+    },
+    "akeeba.basic.log_level": {
+        "default": "4",
+        "type": "enum",
+        "enumkeys": "COM_AKEEBA_CONFIG_LOGLEVEL_NONE|COM_AKEEBA_CONFIG_LOGLEVEL_WARNING|COM_AKEEBA_CONFIG_LOGLEVEL_DEBUG",
+        "enumvalues": "0|2|4",
+        "title": "COM_AKEEBA_CONFIG_LOGLEVEL_TITLE",
+        "description": "COM_AKEEBA_CONFIG_LOGLEVEL_DESCRIPTION"
+    },
+    "akeeba.basic.archive_name": {
+        "default": "site-[HOST]-[DATE]-[TIME_TZ]-[RANDOM]",
+        "type": "string",
+        "title": "COM_AKEEBA_CONFIG_ARCHIVENAME_TITLE",
+        "description": "COM_AKEEBA_CONFIG_ARCHIVENAME_DESCRIPTION"
+    },
+    "akeeba.basic.backup_type": {
+        "default": "full",
+        "type": "enum",
+        "enumkeys": "COM_AKEEBA_CONFIG_BACKUPTYPE_FULL|COM_AKEEBA_CONFIG_BACKUPTYPE_DBONLY",
+        "enumvalues": "full|dbonly",
+        "title": "COM_AKEEBA_CONFIG_BACKUPTYPE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_BACKUPTYPE_DESCRIPTION"
+    },
+    "akeeba.basic.clientsidewait": {
+        "default": "0",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_CLIENTSIDEWAIT_TITLE",
+        "description": "COM_AKEEBA_CONFIG_CLIENTSIDEWAIT_DESCRIPTION"
+    }
+}
