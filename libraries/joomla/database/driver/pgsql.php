@@ -162,7 +162,8 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	private function getDefaultSchema()
 	{
 
-		$this->setQuery('SELECT (current_schemas(false))[1]'); // Supported since PostgreSQL 7.3
+        // Supported since PostgreSQL 7.3
+		$this->setQuery('SELECT (current_schemas(false))[1]');
 		return $this->loadResult();
 
 	}
