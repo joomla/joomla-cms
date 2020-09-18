@@ -87,10 +87,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    [class^="#{$fa-css-prefix}-"],
-    [class^="fa-"] {
+    [class^="#{$fa-css-prefix}-"] {
       margin-inline-end: .625rem;
-      font-size: 1rem;
     }
   }
 

@@ -1,13 +1,7 @@
 // IcoMoon Conversion
 
-[class^="#{$fa-css-prefix}-"]:not(.input-group-text),
-[class*=" #{$fa-css-prefix}-"]:not(.input-group-text) {
-  display: inline-block;
-  height: 1rem;
-  line-height: 1rem;
-}
-[class^="#{$fa-css-prefix}-"]::before,
-[class*=" #{$fa-css-prefix}-"]::before {
+[class^="#{$fa-css-prefix}-"],
+[class*=" #{$fa-css-prefix}-"] {
   font-family: "Font Awesome 5 Free";
   speak: none;
   font-weight: 900;
@@ -18,11 +12,10 @@
   font-variant: normal;
   text-rendering: auto;
   line-height: 1;
-}
 
-[class^="#{$fa-css-prefix}-"].disabled,
-[class*=" #{$fa-css-prefix}-"].disabled {
-  font-weight: 400;
+  &.disabled {
+    font-weight: 400;
+  }
 }
 
 .icon-generic::before {
