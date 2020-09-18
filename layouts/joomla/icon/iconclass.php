@@ -26,7 +26,7 @@ switch ($icon)
 	case (strpos($icon, 'icon-') !== false):
 		break;
 
-	// If its missing the fa prefix add it since its incomplete
+	// If it's missing the fa prefix add it since it's incomplete
 	case (strpos($icon, 'fa-') !== false):
 		$icon = 'fas ' . str_ireplace('fas ', '', $icon);
 		break;
