@@ -43,7 +43,7 @@ endif;
 					>
 					<div class="input-group-append" aria-hidden="true">
 						<div class="input-group-text">
-							<span class="fa icon-search"></span>
+							<span class="icon-search" aria-hidden="true"></span>
 						</div>
 					</div>
 				</div>
