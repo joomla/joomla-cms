@@ -30,6 +30,10 @@ $title      = $displayData['title'] ?? null;
 // Default output in <span>. ClassNames if set to false
 $html       = $displayData['html'] ?? true;
 
+// Replace double set icon-icon-
+// ToDo: Joomla should be cleaned so this replacement is not needed. 
+$icon       = str_replace('icon-icon-', 'icon-', $icon);
+
 switch ($icon)
 {
 	case (strpos($icon, 'icon-') !== false):
