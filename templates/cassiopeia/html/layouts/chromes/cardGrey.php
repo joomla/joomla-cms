@@ -29,14 +29,14 @@ $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT
 
 $header = '<div class="card-header'. $headerClass .'"><h3>' . $module->title . '</h3/></div>';
 if ($module->content) : ?>
-<?php if ($module->showtitle) : ?>
-<div id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>">
-<?php echo $header; ?>
-<div class="card-body"><?php echo $module->content; ?></div>
-</div>
-<?php else : ?>
-<div id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>" aria-labelledby="<?php echo $module->title; ?>">
-<div class="card-body"><?php echo $module->content; ?></div>
-</div>
-<?php endif; ?>
+	<?php if ($module->showtitle) : ?>
+		<div id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>">
+			<?php echo $header; ?>
+			<div class="card-body"><?php echo $module->content; ?></div>
+		</div>
+	<?php else : ?>
+		<div id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>" aria-labelledby="<?php echo $module->title; ?>">
+			<div class="card-body"><?php echo $module->content; ?></div>
+		</div>
+	<?php endif; ?>
 <?php endif; ?>
