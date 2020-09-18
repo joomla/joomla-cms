@@ -176,8 +176,8 @@
     }
   }
 
-  .fas,
-  .fab {
+  [class^="icon-"],
+  [class*=" icon-"] {
     font-size: 1.5rem;
     vertical-align: middle;
     transition: all .2s ease-in-out;
@@ -198,7 +198,7 @@
     }
   }
 
-  .fa-angle-down {
+  .icon-angle-down {
     position: absolute;
     top: .9rem;
 
@@ -238,7 +238,8 @@
         text-align: right;
       }
 
-      .fas {
+      [class^="icon-"],
+      [class*=" icon-"] {
         [dir=ltr] & {
           margin-right: $dropdown-item-padding-x;
         }
@@ -258,7 +259,8 @@
       text-align: right;
     }
 
-    .fas {
+    [class^="icon-"],
+    [class*=" icon-"] {
       [dir=ltr] & {
         margin-right: $dropdown-item-padding-x;
       }
@@ -327,7 +329,8 @@
       background-color: var(--atum-bg-dark);
       border: 0;
 
-      .fas {
+      [class^="icon-"],
+      [class*=" icon-"] {
         margin: auto;
       }
 
@@ -405,7 +408,7 @@
       }
     }
 
-    .fa-angle-down {
+    .icon-angle-down {
       transform: rotate(180deg);
     }
   }

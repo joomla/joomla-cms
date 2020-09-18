@@ -33,7 +33,8 @@
       min-height: 44px;
       font-size: .9rem;
 
-      .fas {
+      [class^="icon-"],
+      [class*=" icon-"] {
         margin: 0 .85rem;
         transform: scale(1.3);
       }

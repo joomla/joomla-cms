@@ -47,8 +47,8 @@
    */
   function toggleArrowIcon(positionTop) {
     const navDropDownIcon = doc.querySelectorAll('.nav-item.dropdown span[class*="fa-angle-"]');
-    const remIcon = (positionTop) ? 'fa-angle-up' : 'fa-angle-down';
-    const addIcon = (positionTop) ? 'fa-angle-down' : 'fa-angle-up';
+    const remIcon = (positionTop) ? 'icon-angle-up' : 'icon-angle-down';
+    const addIcon = (positionTop) ? 'icon-angle-down' : 'icon-angle-up';
 
     if (!navDropDownIcon) {
       return;

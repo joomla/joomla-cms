@@ -29,10 +29,10 @@
               }
 
               if (response.error || !response.success) {
-                element.classList.remove('fa-spin');
-                element.classList.remove('fa-spinner');
+                element.classList.remove('icon-spin');
+                element.classList.remove('icon-spinner');
                 element.classList.add('text-danger');
-                element.classList.add('fa-remove');
+                element.classList.add('icon-remove');
               } else if (response.data) {
                 const elem = document.createElement('span');
 
@@ -43,17 +43,17 @@
 
                 element.parentNode.replaceChild(elem, element);
               } else {
-                element.classList.remove('fa-spin');
-                element.classList.remove('fa-spinner');
-                element.classList.add('fa-check');
+                element.classList.remove('icon-spin');
+                element.classList.remove('icon-spinner');
+                element.classList.add('icon-check');
                 element.classList.add('text-success');
               }
             },
             onError: () => {
-              element.classList.remove('fa-spin');
-              element.classList.remove('fa-spinner');
+              element.classList.remove('icon-spin');
+              element.classList.remove('icon-spinner');
               element.classList.add('text-danger');
-              element.classList.add('fa-remove');
+              element.classList.add('icon-remove');
             },
           });
         }

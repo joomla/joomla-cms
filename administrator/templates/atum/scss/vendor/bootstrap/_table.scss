@@ -68,11 +68,11 @@
       margin-bottom: 0;
     }
 
-    .inactive .fas,
-    .inactive .fab,
-    .inactive [class^=icon-] {
-      color: $gray-400;
+    .inactive {
+      [class^="icon-"],
+      [class*=" icon-"] {
+        color: $gray-400;
+      }
     }
-
   }
 }

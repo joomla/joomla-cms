@@ -19,9 +19,7 @@
   border: 0;
 
   [class^="icon-"],
-  [class*=" icon-"],
-  [class^="fa-"],
-  [class*=" fa-"] {
+  [class*=" icon-"] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -32,25 +30,25 @@
   }
 
   .icon-publish,
-  .fa-check {
+  .icon-check {
     color: var(--success);
     border-color: var(--success);
   }
 
   .icon-color-featured,
-  .fas.fa-star.featured {
+  .icon-star.featured {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
 
   .icon-archive,
-  .fa-folder {
+  .icon-folder {
     color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
   .icon-checkedout,
-  .fa-lock {
+  .icon-lock {
     width: auto;
     height: auto;
     font-size: 1.2rem;
@@ -62,13 +60,12 @@
   &.home-disabled,
   &.featured-disabled,
   &.color-featured-disabled,
-  &.fa-star-disabled {
+  &.icon-star-disabled {
     cursor: not-allowed;
     opacity: 1;
   }
 
-  &.disabled .icon-home,
-  &.disabled .fas.fa-home {
+  &.disabled .icon-home {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
