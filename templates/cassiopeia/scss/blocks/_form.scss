@@ -55,12 +55,12 @@ td .form-control {
 
 // Validation
 .invalid {
-  color: theme-color("danger");
-  border-color: theme-color("danger");
+  color: $danger;
+  border-color: $danger;
 }
 
 .valid {
-  border-color: theme-color("success");
+  border-color: $success;
 }
 
 .form-control-feedback {

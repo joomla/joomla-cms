@@ -91,7 +91,6 @@
 
     > li {
       position: relative;
-      letter-spacing: 1.75px;
 
       @include media-breakpoint-up(md) {
         + li {

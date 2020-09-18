@@ -5,6 +5,10 @@ $cassiopeia-box-shadow:               1px 1px 4px hsla(0, 0%, 0%, .1) !default;
 $cassiopeia-block-header-bg:          hsl(0, 0%, 96%) !default;
 $cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
 $cassiopeia-header-grad-rtl:          linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%);
+$cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover);
+
+
+// Color system
 
 // Standard
 $standard-color-primary:              hsl(220, 67%, 20%);
@@ -66,112 +70,35 @@ $colors: (
 );
 
 $primary: var(--cassiopeia-color-primary);
+$primaryBS:                           $blue;
+$secondary:                           $gray-600;
+$success:                             $green;
+$info:                                $cyan;
+$warning:                             $yellow;
+$danger:                              $red;
+$light:                               $gray-100;
+$dark:                                $gray-800;
+
 
 $theme-colors: (
-  primary: $blue,
-  secondary: gray(600),
-  success: $green,
-  info: $cyan,
-  warning: $yellow,
-  danger: $red,
-  light: gray(100),
-  dark: gray(800)
+  primary: $primaryBS,
+  secondary: $secondary,
+  success: $success,
+  info: $info,
+  warning: $warning,
+  danger: $danger,
+  light: $light,
+  dark: $dark
 );
 
-// Toolbar
-$cassiopeia-toolbar-line-height:      1.8rem;
+// Body
+$body-color:                          var(--cassiopeia-color-primary);
 
-// Fonts
-$cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover);
-$font-size-root:                      1em;
-$h1-font-size:                        1.857rem;
-$h2-font-size:                        1.571rem;
-$h3-font-size:                        1.286rem;
-$h4-font-size:                        1rem;
-$h5-font-size:                        .9286rem;
-$h6-font-size:                        .8571rem;
-$font-size-sm:                        .8rem;
-$fa-font-path:                        "../../../media/vendor/fontawesome-free/webfonts";
-
-// Border Radius
-$border-radius:                       .25rem !default;
-$border-radius-lg:                    .3rem !default;
-$border-radius-sm:                    .2rem !default;
-
-// Tables
-$table-bg:                            transparent !default;
-$table-bg-accent:                     hsla(0, 0%, 0%, .3) !default;
-
-// Tabs
-$cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg;
-$cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3);
-$cassiopeia-tabs-active-highlight:    theme-color("primary");
-
-// Cards
-$cassiopeia-card-title-bg:            $cassiopeia-block-header-bg;
-$cassiopeia-card-title-icon-bg:       $cassiopeia-block-header-bg;
-$cassiopeia-card-title-icon-bg-hover: scale-color($cassiopeia-card-title-bg, $lightness: 2%);
-$card-bg-color-light:                 gray(100);
-$card-bg-color-dark:                  var(--cassiopeia-color-primary);
-$card-border-color:                   $cassiopeia-border-color;
-
-// Alerts
-$state-success-text:                  $white !default;
-$state-success-bg:                    theme-color("success") !default;
-$state-success-border:                scale-color(theme-color("success"), $lightness: -5%) !default;
-
-$state-info-text:                     $white !default;
-$state-info-bg:                       theme-color("info") !default;
-$state-info-border:                   scale-color(theme-color("info"), $lightness: -7%) !default;
-
-$state-warning-text:                  $white !default;
-$state-warning-bg:                    theme-color("warning") !default;
-$state-warning-border:                scale-color(theme-color("warning"), $lightness: -5%) !default;
-
-$state-danger-text:                   $white !default;
-$state-danger-bg:                     theme-color("danger") !default;
-$state-danger-border:                 scale-color(theme-color("danger"), $lightness: -5%) !default;
-
-// Treeselect
-$treeselect-line-height:              2.2rem;
-
-// List
-$list-group-bg:                       $white;
-
-// Custom form
-$custom-select-bg:                    gray(200);
-
-// Custom form
-$custom-select-indicator-padding:     3rem;
-$custom-select-bg-size:               116rem;
-$custom-select-indicator:             url("../images/select-bg.svg");
-$custom-select-indicator-rtl:         url("../images/select-bg-rtl.svg");
-$custom-select-indicator-active:      url("../../../images/select-bg.svg");
-$custom-select-indicator-active-rtl:  url("../../../images/select-bg-rtl.svg");
-$custom-select-background:            $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$custom-select-background-rtl:        $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$custom-select-bg-size-sm:            75rem;
-$custom-select-multiple-padding-y:    .3rem;
-
-//input
-$input-padding:                       .6rem 1rem;
-$input-border:                        solid 1px gray(600);
-$input-btn-padding-y:                 .6rem;
-$input-btn-padding-x:                 1rem;
-$input-max-width:                     100%;
-
-// Modals
-$modal-header-height:                 46px;
-
-// Badges
-$badge-default-bg:                    gray(600);
+// Links
+$link-color:                          var(--cassiopeia-color-link);
+$link-hover-color:                    var(--cassiopeia-color-hover);
 
 // Grid breakpoints
-//
-// Define the minimum dimensions at which your layout will change,
-// adapting to different screen sizes, for use in media queries.
-// Bootstrap 4 is set in PX. Cassiopeia uses relative sizes
-
 $grid-breakpoints: (
   xs: 0,
   sm: 36em,
@@ -181,9 +108,6 @@ $grid-breakpoints: (
 );
 
 // Grid containers
-//
-// Define the maximum width of `.container` for different screen sizes.
-
 $container-max-widths: (
   sm: 33.75em,
   md: 45em,
@@ -192,13 +116,59 @@ $container-max-widths: (
 );
 
 // Grid columns
-//
-// Set the number of columns and specify the width of the gutters.
-
 $grid-gutter-width:                   1em !default;
 $cassiopeia-grid-gutter:              $grid-gutter-width;
 
-// Z-Index list
+// Components
+$fa-font-path:                        "../../../media/vendor/fontawesome-free/webfonts";
+
+// Treeselect
+$treeselect-line-height:              2.2rem;
+
+// MetisMenu
+$metismenu:                           true !default;
+
+// Toolbar
+$cassiopeia-toolbar-line-height:      1.8rem;
+
+// Typography
+$font-family-base:                    var(--cassiopeia-font-family-body);
+
+$font-size-root:                      calc(1em + .16vw);
+$font-size-lg:                        1.25rem;
+$font-size-sm:                        .875rem;
+
+$h1-font-size:                        1.857rem;
+$h2-font-size:                        1.571rem;
+$h3-font-size:                        1.286rem;
+$h4-font-size:                        1rem;
+$h5-font-size:                        .9286rem;
+$h6-font-size:                        .8571rem;
+
+// Tables
+$table-bg:                            transparent !default;
+$table-bg-accent:                     hsla(0, 0%, 0%, .3) !default;
+
+// Forms
+$input-padding:                       .6rem 1rem;
+$input-border:                        solid 1px $gray-600;
+$input-btn-padding-y:                 .6rem;
+$input-btn-padding-x:                 1rem;
+$input-max-width:                     100%;
+
+$custom-select-indicator-padding:     3rem;
+$custom-select-bg:                    $gray-200;
+$custom-select-bg-size:               116rem;
+$custom-select-bg-size-sm:            75rem;
+$custom-select-indicator:             url("../images/select-bg.svg");
+$custom-select-indicator-rtl:         url("../images/select-bg-rtl.svg");
+$custom-select-indicator-active:      url("../../../images/select-bg.svg");
+$custom-select-indicator-active-rtl:  url("../../../images/select-bg-rtl.svg");
+$custom-select-background:            $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$custom-select-background-rtl:        $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$custom-select-multiple-padding-y:    .3rem;
+
+// Z-index master list
 $zindex-negative:                     -1;
 $zindex-actions:                      auto;
 $zindex-toolbar:                      1000;
@@ -213,5 +183,46 @@ $zindex-mobile-bottom:                8000;
 $zindex-mobile-toggle:                9999;
 $zindex-mobile-menu:                  9000;
 
-// MetisMenu
-$metismenu:                           true !default;
+// Navs
+$nav-link-padding-y:                  .5rem;
+
+$cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg;
+$cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3);
+$cassiopeia-tabs-active-highlight:    theme-color("primary");
+
+// Navbar
+$nav-link-height:                     1.5rem + $nav-link-padding-y * 2;
+
+// Cards
+$cassiopeia-card-title-bg:            $cassiopeia-block-header-bg;
+$cassiopeia-card-title-icon-bg:       $cassiopeia-block-header-bg;
+$cassiopeia-card-title-icon-bg-hover: scale-color($cassiopeia-card-title-bg, $lightness: 2%);
+$card-bg-color-light:                 $gray-100;
+$card-bg-color-dark:                  var(--cassiopeia-color-primary);
+$card-border-color:                   $cassiopeia-border-color;
+
+// Badges
+$badge-default-bg:                    $gray-600;
+
+// Modals
+$modal-header-height:                 3rem;
+
+// Alerts
+$state-success-text:                  $white !default;
+$state-success-bg:                    $success !default;
+$state-success-border:                scale-color($success, $lightness: -5%) !default;
+
+$state-info-text:                     $white !default;
+$state-info-bg:                       $info !default;
+$state-info-border:                   scale-color($info, $lightness: -7%) !default;
+
+$state-warning-text:                  $white !default;
+$state-warning-bg:                    $warning !default;
+$state-warning-border:                scale-color($warning, $lightness: -5%) !default;
+
+$state-danger-text:                   $white !default;
+$state-danger-bg:                     $danger !default;
+$state-danger-border:                 scale-color($danger, $lightness: -5%) !default;
+
+// List group
+$list-group-bg:                       $white;
