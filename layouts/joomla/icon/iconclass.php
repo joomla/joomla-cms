@@ -36,12 +36,7 @@ switch ($icon)
 		$iconPrefix = $displayData['prefix'] ?? null;
 		break;
 
-	case 'file':
-		$icon = 'file';
-		break;
-
 	case 'archive':
-	case 'folder':
 	case 'folder-close':
 	case 'folder-folder-2':
 	case 'folder-minus':
@@ -55,7 +50,6 @@ switch ($icon)
 		$icon = 'folder-open';
 		break;
 
-	case 'check':
 	case 'publish':
 		$icon = 'check';
 		break;
@@ -68,7 +62,6 @@ switch ($icon)
 	case 'cancel':
 	case 'delete':
 	case 'remove':
-	case 'times':
 		$icon = 'times';
 		break;
 
@@ -80,7 +73,6 @@ switch ($icon)
 		break;
 
 	case 'apply':
-	case 'save':
 		$icon = 'save';
 		break;
 
@@ -122,7 +114,6 @@ switch ($icon)
 		break;
 
 	case 'purge':
-	case 'trash':
 		$icon = 'trash';
 		break;
 
