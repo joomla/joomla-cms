@@ -10,7 +10,6 @@
 
   const mobile = window.matchMedia('(max-width: 992px)');
   const small = window.matchMedia('(max-width: 575.98px)');
-  const smallLandscape = window.matchMedia('(max-width: 767.98px)');
   const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
 
   /**
