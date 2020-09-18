@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 defined('_JEXEC') or die;
 
 $icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
@@ -19,6 +21,6 @@ if ($icon === 'generic')
 $icon = stristr($icon, "joomla") ? str_ireplace("joomla", "icon-joomla", $icon) : "icon-" . $icon;
 ?>
 <h1 class="page-title">
-	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
+	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]); ?>
 	<?php echo $displayData['title']; ?>
 </h1>
