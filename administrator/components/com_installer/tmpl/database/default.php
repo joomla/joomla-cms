@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,35 +35,37 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 						<?php else : ?>
 							<table class="table">
 								<caption id="captionTable" class="sr-only">
-									<?php echo Text::_('COM_INSTALLER_DATABASE_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+									<?php echo Text::_('COM_INSTALLER_DATABASE_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 								</caption>
 								<thead>
 									<tr>
-										<td class="text-center" style="width:1%">
+										<td class="w-1 text-center">
 											<?php echo HTMLHelper::_('grid.checkall'); ?>
 										</td>
 										<th scope="col">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" style="width:10%">
+										<th scope="col" class="w-10">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" style="width:10%">
+										<th scope="col" class="w-10">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
+										<th scope="col" class="w-10 d-none d-md-table-cell">
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-right" style="width:10%">
+										<th scope="col" class="w-10 d-none d-md-table-cell text-right">
 											<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
+										<th scope="col" class="w-10 d-none d-md-table-cell">
 											<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
+										<th scope="col" class="w-10 d-none d-md-table-cell">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell" style="width:1%">
+										<th scope="col" class="w-1 d-none d-md-table-cell">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirection, $listOrder); ?>
 										</th>
 									</tr>
@@ -75,12 +77,10 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 
 										<tr>
 											<td class="text-center">
-												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id); ?>
+												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id, false, 'cid', 'cb', $extension->name); ?>
 											</td>
 											<th scope="row">
-												<label for="cb<?php echo $i; ?>">
-													<?php echo $extension->name; ?>
-												</label>
+												<?php echo $extension->name; ?>
 												<div class="small">
 													<?php echo Text::_($manifest->description); ?>
 												</div>

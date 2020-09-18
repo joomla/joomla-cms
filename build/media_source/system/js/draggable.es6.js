@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let i;
       let l;
       const result = [];
-      const rows = wrapper.querySelectorAll('[name="order[]"]');
-      const inputRows = wrapper.querySelectorAll('[name="cid[]"]');
+      const rows = [].slice.call(wrapper.querySelectorAll('[name="order[]"]'));
+      const inputRows = [].slice.call(wrapper.querySelectorAll('[name="cid[]"]'));
 
       if (dir === 'desc') {
         // Reverse the array
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       accepts(el, target, source, sibling) {
         if (isNested) {
           if (sibling !== null) {
-            return sibling.getAttribute('data-dragable-group') && sibling.getAttribute('data-dragable-group') === el.getAttribute('data-dragable-group');
+            return sibling.getAttribute('data-draggable-group') && sibling.getAttribute('data-draggable-group') === el.getAttribute('data-draggable-group');
           }
 
           return sibling === null || (sibling && sibling.tagName.toLowerCase() === 'tr');

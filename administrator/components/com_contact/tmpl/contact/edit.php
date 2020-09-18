@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,10 +16,12 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-
-HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_contenthistory.admin-history-versions');
 
 $app = Factory::getApplication();
 $input = $app->input;
@@ -89,7 +91,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				<fieldset id="fieldset-misc" class="options-form">
 					<legend><?php echo $this->form->getField('misc')->title; ?></legend>
 					<div>
-					<?php echo $this->form->getInput('misc'); ?>
+						<?php echo $this->form->getLabel('misc'); ?>
+						<?php echo $this->form->getInput('misc'); ?>
 					</div>
 				</fieldset>
 			</div>

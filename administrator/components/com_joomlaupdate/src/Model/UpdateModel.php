@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,7 +96,7 @@ class UpdateModel extends BaseDatabaseModel
 				$updateURL = 'https://update.joomla.org/core/list.xml';
 		}
 
-		$id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us') . '.*')
@@ -166,11 +166,11 @@ class UpdateModel extends BaseDatabaseModel
 		if (count($methodParameters) >= 4)
 		{
 			// Reinstall support is available in Updater
-			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, $minimumStability, true);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability, true);
 		}
 		else
 		{
-			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, $minimumStability);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability);
 		}
 	}
 
@@ -197,7 +197,7 @@ class UpdateModel extends BaseDatabaseModel
 		);
 
 		// Fetch the update information from the database.
-		$id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
@@ -731,7 +731,7 @@ ENDDATA;
 		$installer->setOverwrite(true);
 
 		$installer->extension = new \Joomla\CMS\Table\Extension(Factory::getDbo());
-		$installer->extension->load(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id);
+		$installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
 
@@ -1331,7 +1331,7 @@ ENDDATA;
 
 		if (!empty($disabledFunctions))
 		{
-			// Attempt to detect them in the disable_functions blacklist.
+			// Attempt to detect them in the PHP INI disable_functions variable.
 			$disabledFunctions = explode(',', trim($disabledFunctions));
 			$numberOfDisabledFunctions = count($disabledFunctions);
 
@@ -1375,11 +1375,11 @@ ENDDATA;
 			]
 		)
 			->from($db->quoteName('#__extensions', 'ex'))
-			->where($db->quoteName('ex.package_id') . ' = 0');
+			->where($db->quoteName('ex.package_id') . ' = 0')
+			->whereNotIn($db->quoteName('ex.extension_id'), ExtensionHelper::getCoreExtensionIds());
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
-		$rows = array_filter($rows, self::class . '::isNonCoreExtension');
 
 		foreach ($rows as $extension)
 		{
@@ -1391,31 +1391,6 @@ ENDDATA;
 		}
 
 		return $rows;
-	}
-
-	/**
-	 * Checks if extension is non core extension.
-	 *
-	 * @param   object  $extension  The extension to be checked
-	 *
-	 * @return  bool  true if extension is not a core extension
-	 *
-	 * @since   4.0.0
-	 */
-	private static function isNonCoreExtension($extension)
-	{
-		$coreExtensions = ExtensionHelper::getCoreExtensions();
-
-		foreach ($coreExtensions as $coreExtension)
-		{
-			if ($coreExtension[1] == $extension->element)
-			{
-				return false;
-			}
-		}
-
-		return true;
-
 	}
 
 	/**
@@ -1519,14 +1494,14 @@ ENDDATA;
 	}
 
 	/**
-	 * Method to get details URLs from a colletion update site for given extension and Joomla target version.
+	 * Method to get details URLs from a collection update site for given extension and Joomla target version.
 	 *
 	 * @param   array   $updateSiteInfo       The update site and extension information record to process
 	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against,
 	 *
 	 * @return  array  An array of URLs.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
 	{

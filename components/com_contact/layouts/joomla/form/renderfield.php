@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,10 +15,10 @@ extract($displayData);
 
 /**
  * Layout variables
- * ---------------------
- * 	$options         : (array)  Optional parameters
- * 	$label           : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
- * 	$input           : (string) The input field html code
+ * -----------------
+ * @var   array   $options  Optional parameters
+ * @var   string  $label    The html code for the label (not required if $options['hiddenLabel'] is true)
+ * @var   string  $input    The input field html code
  */
 
 if (!empty($options['showonEnabled']))

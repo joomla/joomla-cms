@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ class StylesRenderer extends DocumentRenderer
 	 *
 	 * @var array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $renderedSrc = [];
 
@@ -129,7 +129,7 @@ class StylesRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The resulting string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function renderElement($item) : string
 	{
@@ -215,7 +215,7 @@ class StylesRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The resulting string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function renderInlineElement($item) : string
 	{
@@ -250,7 +250,7 @@ class StylesRenderer extends DocumentRenderer
 
 		$buffer .= $tab . '<style';
 		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= '>' . $lnEnd;
+		$buffer .= '>';
 
 		// This is for full XHTML support.
 		if ($this->_doc->_mime !== 'text/html')
@@ -258,7 +258,7 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
 		}
 
-		$buffer .= $content . $lnEnd;
+		$buffer .= $content;
 
 		// See above note
 		if ($this->_doc->_mime !== 'text/html')
@@ -266,7 +266,7 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
 		}
 
-		$buffer .= $tab . '</style>' . $lnEnd;
+		$buffer .= '</style>' . $lnEnd;
 
 		return $buffer;
 	}
@@ -278,7 +278,7 @@ class StylesRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The attributes string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function renderAttributes(array $attributes) : string
 	{

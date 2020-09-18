@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,17 +13,17 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
-// Add javascripts
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.formvalidator');
-
-// Add stylesheets
-HTMLHelper::_('stylesheet', 'com_media/mediamanager.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'com_media/edit-images.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_media.edit-images')
+	->useStyle('com_media.mediamanager');
 
 $params = ComponentHelper::getParams('com_media');
 
@@ -40,10 +40,10 @@ if ($tmpl == 'component')
 
 // Populate the media config
 $config = [
-	'apiBaseUrl'              => Uri::root() . 'administrator/index.php?option=com_media&format=json',
+	'apiBaseUrl'              => Route::_('index.php?option=com_media&format=json', false, Route::TLS_IGNORE, true),
 	'csrfToken'               => Session::getFormToken(),
 	'uploadPath'              => $this->file->path,
-	'editViewUrl'             => Uri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
+	'editViewUrl'             => Route::_('index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : ''), false, Route::TLS_IGNORE, true),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'contents'                => $this->file->content,

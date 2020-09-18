@@ -21,6 +21,7 @@
 			type="list"
 			label="COM_INSTALLER_MINIMUM_STABILITY_LABEL"
 			default="4"
+			validate="options"
 			>
 			<option value="0">COM_INSTALLER_MINIMUM_STABILITY_DEV</option>
 			<option value="1">COM_INSTALLER_MINIMUM_STABILITY_ALPHA</option>

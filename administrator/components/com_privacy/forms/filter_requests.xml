@@ -13,7 +13,7 @@
 		<field
 			name="status"
 			type="requeststatus"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -22,7 +22,7 @@
 		<field
 			name="request_type"
 			type="requesttype"
-			label="COM_PRIVACY_SELECT_REQUEST_TYPE"
+			label="COM_PRIVACY_HEADING_REQUEST_TYPE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_PRIVACY_SELECT_REQUEST_TYPE</option>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class SubformField extends FormField
 	protected $groupByFieldset = false;
 
 	/**
-	 * Which buttons to show in miltiple mode
+	 * Which buttons to show in multiple mode
 	 * @var array $buttons
 	 */
 	protected $buttons = array('add' => true, 'remove' => true, 'move' => true);

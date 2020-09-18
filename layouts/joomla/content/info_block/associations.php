@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 <?php $associations = $displayData['item']->associations; ?>
 
 <dd class="association">
-	<span class="fas fa-globe" aria-hidden="true"></span>
+	<span class="fas fa-globe fa-fw" aria-hidden="true"></span>
 	<?php echo Text::_('JASSOCIATIONS'); ?>
 	<?php foreach ($associations as $association) : ?>
 		<?php if ($displayData['item']->params->get('flags', 1) && $association['language']->image) : ?>

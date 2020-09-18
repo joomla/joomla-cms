@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,14 +14,13 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <a href="<?php echo $link; ?>" class="mod-syndicate syndicate-module">
-	<?php echo HTMLHelper::_('image', 'system/livemarks.png', 'feed-image', null, true); ?>
-	<?php if ($params->get('display_text', 1)) : ?>
-		<span>
+	<?php echo HTMLHelper::_('image', 'system/livemarks.png', '', null, true); ?>
+	<?php $class = $params->get('display_text', 1) ? '' : 'class="sr-only"'; ?>
+	<span <?php echo $class; ?>>
 		<?php if (str_replace(' ', '', $text) !== '') : ?>
 			<?php echo $text; ?>
 		<?php else : ?>
 			<?php echo Text::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES'); ?>
 		<?php endif; ?>
-		</span>
-	<?php endif; ?>
+	</span>
 </a>

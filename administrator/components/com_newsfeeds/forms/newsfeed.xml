@@ -36,6 +36,7 @@
 			default="1"
 			class="custom-select-color-state"
 			size="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -248,6 +249,7 @@
 					type="list"
 					label="COM_NEWSFEEDS_FLOAT_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="right">COM_NEWSFEEDS_RIGHT</option>
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
@@ -285,6 +287,7 @@
 					type="list"
 					label="COM_NEWSFEEDS_FLOAT_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="right">COM_NEWSFEEDS_RIGHT</option>
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
@@ -329,6 +332,7 @@
 			type="list"
 			label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE</option>
 			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR</option>
@@ -342,6 +346,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -352,6 +357,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -362,6 +368,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -390,6 +397,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
@@ -405,6 +413,7 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

@@ -15,7 +15,7 @@
     <span class="red"></span>
     <span class="blue"></span>
     <span class="green"></span>
-    <p>&reg;</p>
+    <p>&trade;</p>
 </div>`;
 
       // Patch the shadow DOM

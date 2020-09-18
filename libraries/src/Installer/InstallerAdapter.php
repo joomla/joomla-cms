@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1151,8 +1151,16 @@ abstract class InstallerAdapter
 			return false;
 		}
 
-		// Protected extensions cannot be removed
-		if ($this->extension->protected)
+		// Joomla 4: Locked extensions cannot be removed.
+		if (isset($this->extension->locked) && $this->extension->locked)
+		{
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_LOCKED_EXTENSION'), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
+		// Joomla 3 ('locked' property does not exist yet): Protected extensions cannot be removed.
+		elseif (!isset($this->extension->locked) && $this->extension->protected)
 		{
 			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), Log::WARNING, 'jerror');
 
