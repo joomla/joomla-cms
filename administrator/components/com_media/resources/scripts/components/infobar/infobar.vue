@@ -4,7 +4,7 @@
             <span class="infobar-close" @click="hideInfoBar()">×</span>
             <h2>{{ item.name }}</h2>
             <div v-if="item.path === '/'" class="text-center">
-                <span class="fas fa-file placeholder-icon"></span>
+                <span class="icon-file placeholder-icon"></span>
                 Select file or folder to view its details.
             </div>
             <dl v-else>

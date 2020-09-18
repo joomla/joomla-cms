@@ -8,7 +8,7 @@
             </video>
         </div>
         <button type="button" slot="backdrop-close" @click="close()" class="media-preview-close">
-            <span class="fas fa-times"></span>
+            <span class="icon-times"></span>
         </button>
     </media-modal>
 </template>

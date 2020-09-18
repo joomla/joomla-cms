@@ -19,14 +19,14 @@
                :class="{disabled: isGridSize('xs')}"
                @click.stop.prevent="decreaseGridSize()"
                :aria-label="translate('COM_MEDIA_DECREASE_GRID')">
-                <span class="fas fa-search-minus" aria-hidden="true"></span>
+                <span class="icon-search-minus" aria-hidden="true"></span>
             </button>
             <button type="button" class="media-toolbar-icon media-toolbar-increase-grid-size"
                v-if="isGridView"
                :class="{disabled: isGridSize('xl')}"
                @click.stop.prevent="increaseGridSize()"
                :aria-label="translate('COM_MEDIA_INCREASE_GRID')">
-                <span class="fas fa-search-plus" aria-hidden="true"></span>
+                <span class="icon-search-plus" aria-hidden="true"></span>
             </button>
             <button type="button" href="#" class="media-toolbar-icon media-toolbar-list-view"
                @click.stop.prevent="changeListView()"
@@ -36,7 +36,7 @@
             <button type="button" href="#" class="media-toolbar-icon media-toolbar-info"
                @click.stop.prevent="toggleInfoBar"
                :aria-label="translate('COM_MEDIA_TOGGLE_INFO')">
-                <span class="fas fa-info" aria-hidden="true"></span>
+                <span class="icon-info" aria-hidden="true"></span>
             </button>
         </div>
     </div>
@@ -49,10 +49,10 @@
         name: 'media-toolbar',
         computed: {
             toggleListViewBtnIcon() {
-                return (this.isGridView) ? 'fas fa-list' : 'fas fa-th';
+                return (this.isGridView) ? 'icon-list' : 'icon-th';
             },
             toggleSelectAllBtnIcon() {
-                return (this.allItemsSelected) ? 'fas fa-check-square' : 'fas fa-square'
+                return (this.allItemsSelected) ? 'icon-check-square' : 'icon-square'
             },
             isLoading() {
                 return this.$store.state.isLoading;
