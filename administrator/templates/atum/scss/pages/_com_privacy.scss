@@ -1,18 +1,18 @@
 // com-privacy
 
 .tbody-icon {
-  .icon-download {
+  .#{$fa-css-prefix}-download {
     color: var(--success);
     border-color: var(--success);
   }
 
-  .icon-mail {
+  .#{$fa-css-prefix}-mail {
     color: var(--primary);
     border-color: var(--primary);
   }
 
-  .icon-delete,
-  .icon-times {
+  .#{$fa-css-prefix}-delete,
+  .#{$fa-css-prefix}-times {
     color: var(--danger);
     border-color: var(--danger);
   }

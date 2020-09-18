@@ -30,7 +30,7 @@ ul {
 
 // Header
 .header {
-  .page-title [class^="icon-"] {
+  .page-title [class^="#{$fa-css-prefix}-"] {
     margin-right: 0;
     margin-left: 15px;
   }

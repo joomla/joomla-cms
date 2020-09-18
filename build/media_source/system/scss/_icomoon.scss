@@ -1,23 +1,27 @@
 // IcoMoon Conversion
 
-[class^="icon-"]:not(.input-group-text),
-[class*=" icon-"]:not(.input-group-text) {
+[class^="#{$fa-css-prefix}-"]:not(.input-group-text),
+[class*=" #{$fa-css-prefix}-"]:not(.input-group-text) {
   display: inline-block;
-  width: 1rem;
   height: 1rem;
   line-height: 1rem;
 }
-[class^="icon-"]::before,
-[class*=" icon-"]::before {
+[class^="#{$fa-css-prefix}-"]::before,
+[class*=" #{$fa-css-prefix}-"]::before {
   font-family: "Font Awesome 5 Free";
-  font-style: normal;
   speak: none;
   font-weight: 900;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
 }
-[class^="icon-"].disabled,
-[class*=" icon-"].disabled,
-[class^="fa-"].disabled,
-[class*=" fa-"].disabled {
+
+[class^="#{$fa-css-prefix}-"].disabled,
+[class*=" #{$fa-css-prefix}-"].disabled {
   font-weight: 400;
 }
 
@@ -26,6 +30,7 @@
 }
 
 .icon-joomla::before {
+  font-weight: 400;
   @extend .#{$fa-css-prefix}-joomla:before;
 }
 

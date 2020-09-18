@@ -69,8 +69,8 @@
     }
 
     .inactive {
-      [class^="icon-"],
-      [class*=" icon-"] {
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         color: $gray-400;
       }
     }

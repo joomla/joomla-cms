@@ -55,8 +55,8 @@
   }
 
   .btn.btn-danger {
-    [class^="icon-"],
-    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"],
     span {
       display: inline-block;
       width: 2.375rem;
@@ -70,8 +70,8 @@
   }
 
   .btn.btn-success {
-    [class^="icon-"],
-    [class*=" icon-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"],
     span {
       display: inline-block;
       width: 2.375rem;

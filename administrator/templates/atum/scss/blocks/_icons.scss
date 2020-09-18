@@ -1,14 +1,14 @@
 // Icons
 
-.icon-back::before {
+.#{$fa-css-prefix}-back::before {
   content: "\e008";
 }
 
-.icon-crop::before {
+.#{$fa-css-prefix}-crop::before {
   content: "\f125";
 }
 
-.icon-white {
+.#{$fa-css-prefix}-white {
   color: $white;
 }
 
@@ -18,8 +18,8 @@
   background-color: transparent;
   border: 0;
 
-  [class^="icon-"],
-  [class*=" icon-"] {
+  [class^="#{$fa-css-prefix}-"],
+  [class*=" #{$fa-css-prefix}-"] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -29,26 +29,26 @@
     border-radius: 50%;
   }
 
-  .icon-publish,
-  .icon-check {
+  .#{$fa-css-prefix}-publish,
+  .#{$fa-css-prefix}-check {
     color: var(--success);
     border-color: var(--success);
   }
 
-  .icon-color-featured,
-  .icon-star.featured {
+  .#{$fa-css-prefix}-color-featured,
+  .#{$fa-css-prefix}-star.featured {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
 
-  .icon-archive,
-  .icon-folder {
+  .#{$fa-css-prefix}-archive,
+  .#{$fa-css-prefix}-folder {
     color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
-  .icon-checkedout,
-  .icon-lock {
+  .#{$fa-css-prefix}-checkedout,
+  .#{$fa-css-prefix}-lock {
     width: auto;
     height: auto;
     font-size: 1.2rem;
@@ -60,31 +60,32 @@
   &.home-disabled,
   &.featured-disabled,
   &.color-featured-disabled,
-  &.icon-star-disabled {
+  &.#{$fa-css-prefix}-star-disabled {
     cursor: not-allowed;
     opacity: 1;
   }
 
-  &.disabled .icon-home {
+  &.disabled .#{$fa-css-prefix}-home {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
 }
 
-.icon-joomla::before {
+.#{$fa-css-prefix}-joomla::before {
   font-family: "Font Awesome 5 Brands";
+  font-weight: 400;
   content: "\f1aa";
 }
 
-.icon-shield-alt::before {
+.#{$fa-css-prefix}-shield-alt::before {
   content: "\f3ed";
 }
 
-.icon-address-book::before {
+.#{$fa-css-prefix}-address-book::before {
   content: "\f2b9";
 }
 
-.icon-images::before {
+.#{$fa-css-prefix}-images::before {
   content: "\f302";
 }
 
@@ -92,30 +93,30 @@
   content: "\f05a";
 }
 
-.icon-paint-brush::before {
+.#{$fa-css-prefix}-paint-brush::before {
   content: "\f1fc";
 }
 
-.icon-language::before {
+.#{$fa-css-prefix}-language::before {
   content: "\f1ab";
 }
 
-.icon-rss::before {
+.#{$fa-css-prefix}-rss::before {
   content: "\f09e";
 }
 
-.icon-map-signs::before {
+.#{$fa-css-prefix}-map-signs::before {
   content: "\f277";
 }
 
-.icon-envelope-open-text::before {
+.#{$fa-css-prefix}-envelope-open-text::before {
   content: "\f658";
 }
 
-.icon-users-cog::before {
+.#{$fa-css-prefix}-users-cog::before {
   content: "\f509";
 }
 
-.icon-user-lock::before {
+.#{$fa-css-prefix}-user-lock::before {
   content: "\f502";
 }
