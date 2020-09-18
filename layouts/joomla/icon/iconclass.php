@@ -15,11 +15,20 @@ $html = $displayData['html'] ?? true;
 
 switch ($icon)
 {
-	case (strpos($icon, 'fa-') !== false):
-		$icon = 'fas ' . str_ireplace('fas ', '', $icon);
+	// Check for Brand family
+	case (stristr($icon, "joomla") !== false):
+		str_ireplace("joomla", "fab fa-joomla", $icon);
 		break;
 
+	case (strpos($icon, 'fa ') !== false):
+	case (strpos($icon, 'fas ') !== false):
+	case (strpos($icon, 'fab ') !== false):
 	case (strpos($icon, 'icon-') !== false):
+		break;
+
+	// If its missing the fa prefix add it since its incomplete
+	case (strpos($icon, 'fa-') !== false):
+		$icon = 'fas ' . str_ireplace('fas ', '', $icon);
 		break;
 
 	case 'archive':
