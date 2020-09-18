@@ -223,7 +223,6 @@ switch ($icon)
 		break;
 
 	default:
-		$icon = 'icon-' . $icon;
 		break;
 }
 
