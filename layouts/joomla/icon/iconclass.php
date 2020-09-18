@@ -16,8 +16,8 @@ $html = $displayData['html'] ?? true;
 switch ($icon)
 {
 	// Check for Brand family
-	case (stristr($icon, "joomla") !== false):
-		str_ireplace("joomla", "fab fa-joomla", $icon);
+	case (stristr($icon, 'joomla') !== false):
+		str_ireplace('joomla', 'fab fa-joomla', $icon);
 		break;
 
 	case (strpos($icon, 'fa ') !== false):
