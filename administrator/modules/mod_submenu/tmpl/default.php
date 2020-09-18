@@ -22,7 +22,7 @@ use Joomla\CMS\Router\Route;
 				<?php
 				if (substr($child->img, 0, 6) === 'class:')
 					{
-						$iconImage = '<span class="fas fa-' . substr($child->img, 6) . '" aria-hidden="true"></span>';
+						$iconImage = '<span class="icon-' . substr($child->img, 6) . '" aria-hidden="true"></span>';
 					}
 					elseif (substr($child->img, 0, 6) === 'image:')
 					{
@@ -34,7 +34,7 @@ use Joomla\CMS\Router\Route;
 					}
 					elseif ($child->icon)
 					{
-						$iconImage = '<span class="fas fa-' . $child->icon . '" aria-hidden="true"></span>';
+						$iconImage = '<span class="icon-' . $child->icon . '" aria-hidden="true"></span>';
 					}
 					else
 					{
@@ -65,7 +65,7 @@ use Joomla\CMS\Router\Route;
 									<?php echo ($params->get('menu_text', 1)) ? htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8') . $item->iconImage : ''; ?>
 									<?php if ($item->ajaxbadge) : ?>
 										<span class="menu-badge">
-											<span class="fas fa-spin fa-spinner mt-1 system-counter float-right" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+											<span class="icon-spin icon-spinner mt-1 system-counter float-right" data-url="<?php echo $item->ajaxbadge; ?>"></span>
 										</span>
 									<?php endif; ?>
 								</a>
@@ -88,7 +88,7 @@ use Joomla\CMS\Router\Route;
 											$sronly = Text::_($item->title) . ' - ' . $title;
 											?>
 											<a href="<?php echo $link; ?>">
-												<span class="fas fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
+												<span class="icon-<?php echo $icon; ?> icon-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
 												<span class="sr-only"><?php echo htmlentities($sronly); ?></span>
 											</a>
 										</span>
@@ -97,7 +97,7 @@ use Joomla\CMS\Router\Route;
 								<?php if ($item->dashboard) : ?>
 									<span class="menu-dashboard">
 										<a href="<?php echo Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>">
-											<span class="fas fa-th-large" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
+											<span class="icon-th-large" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
 										</a>
 									</span>
 								<?php endif; ?>

@@ -19,7 +19,7 @@ $title = Text::_('JTOOLBAR_UPLOAD');
 ?>
 <joomla-toolbar-button>
 	<button class="btn btn-success" onclick="MediaManager.Event.fire('onClickUpload');">
-		<span class="fas fa-upload" aria-hidden="true"></span>
+		<span class="icon-upload" aria-hidden="true"></span>
 		<?php echo $title; ?>
 	</button>
 </joomla-toolbar-button>

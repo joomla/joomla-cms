@@ -31,7 +31,7 @@ class FieldListPage extends AdminListPage
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	public static $seePublished = ['xpath' => "//table[@id='fieldList']//*//span[@class='fas fa-check']"];
+	public static $seePublished = ['xpath' => "//table[@id='fieldList']//*//span[@class='icon-check']"];
 
 	public static $titleField = "#jform_title";
 

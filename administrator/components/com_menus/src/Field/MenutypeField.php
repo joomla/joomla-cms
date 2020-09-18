@@ -91,7 +91,7 @@ class MenutypeField extends ListField
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
 		$html[] = '<span class="input-group-append"><button type="button" data-target="#menuTypeModal" class="btn btn-primary" data-toggle="modal">'
-			. '<span class="fas fa-list icon-white" aria-hidden="true"></span> '
+			. '<span class="icon-list icon-white" aria-hidden="true"></span> '
 			. Text::_('JSELECT') . '</button></span></span>';
 		$html[] = HTMLHelper::_(
 			'bootstrap.renderModal',

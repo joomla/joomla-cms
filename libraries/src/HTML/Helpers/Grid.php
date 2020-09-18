@@ -258,7 +258,7 @@ abstract class Grid
 	{
 		return '<a href="javascript:saveorder('
 			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-right" title="'
-			. Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="fas fa-sort"></span></a>';
+			. Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-sort"></span></a>';
 	}
 
 	/**

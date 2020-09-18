@@ -49,7 +49,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 									<?php if ($option->notice) : ?>
-										<span class="fas fa-info icon-white" title="<?php echo $option->notice; ?>"></span>
+										<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
 									<?php endif; ?>
 								</span>
 							</td>
@@ -136,7 +136,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 						<td class="extension-check"
 							data-extension-id="<?php echo $extension->extension_id; ?>"
 							data-extension-current-version="<?php echo $extension->version; ?>">
-							<span class="fas fa-spinner fa-spin" aria-hidden="true"></span>
+							<span class="icon-spinner icon-spin" aria-hidden="true"></span>
 						</td>
 						<td>
 							<?php echo $extension->version; ?>

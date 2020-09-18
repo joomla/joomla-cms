@@ -247,8 +247,8 @@ class HtmlView extends BaseHtmlView
 			// Add a Crop and Resize button
 			elseif ($this->type === 'image')
 			{
-				ToolbarHelper::custom('template.cropImage', 'fas fa-crop', 'fas fa-arrows-alt', 'COM_TEMPLATES_BUTTON_CROP', false);
-				ToolbarHelper::modal('resizeModal', 'fas fa-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
+				ToolbarHelper::custom('template.cropImage', 'icon-crop', 'icon-arrows-alt', 'COM_TEMPLATES_BUTTON_CROP', false);
+				ToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
 			}
 			// Add an extract button
 			elseif ($this->type === 'archive')
@@ -258,7 +258,7 @@ class HtmlView extends BaseHtmlView
 			// Add a copy template button
 			elseif ($this->type === 'home')
 			{
-				ToolbarHelper::modal('copyModal', 'fas fa-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+				ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 			}
 		}
 
@@ -267,7 +267,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$client = (int) $this->preview->client_id === 1 ? 'administrator/' : '';
 			$bar->linkButton('preview')
-				->icon('fas fa-image')
+				->icon('icon-image')
 				->text('COM_TEMPLATES_BUTTON_PREVIEW')
 				->url(Uri::root() . $client . 'index.php?tp=1&templateStyle=' . $this->preview->id)
 				->attributes(['target' => '_new']);
@@ -279,18 +279,18 @@ class HtmlView extends BaseHtmlView
 			if ($this->type === 'home')
 			{
 				// Add Manage folders button
-				ToolbarHelper::modal('folderModal', 'fas fa-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
+				ToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
 
 				// Add a new file button
-				ToolbarHelper::modal('fileModal', 'fas fa-file', 'COM_TEMPLATES_BUTTON_FILE');
+				ToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
 			}
 			else
 			{
 				// Add a Rename file Button
-				ToolbarHelper::modal('renameModal', 'fas fa-sync', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
+				ToolbarHelper::modal('renameModal', 'icon-sync', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 
 				// Add a Delete file Button
-				ToolbarHelper::modal('deleteModal', 'fas fa-times', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
+				ToolbarHelper::modal('deleteModal', 'icon-times', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
 			}
 		}
 

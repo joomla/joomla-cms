@@ -123,7 +123,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'fas fa-list-ul');
+		ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'icon-list-ul');
 
 		ToolbarHelper::custom('actionlogs.exportSelectedLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_CSV', true);
 		ToolbarHelper::custom('actionlogs.exportLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', false);

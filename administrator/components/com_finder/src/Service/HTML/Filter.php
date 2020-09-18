@@ -184,7 +184,7 @@ class Filter
 			// Populate the toggle button.
 			// @todo Remove jQuery
 			$html .= '<button class="btn btn-secondary" type="button" onclick="jQuery(\'[id=&quot;tax-'
-				. $bk . '&quot;]\').each(function(){this.click();});"><span class="fas fa-square" aria-hidden="true"></span> '
+				. $bk . '&quot;]\').each(function(){this.click();});"><span class="icon-square" aria-hidden="true"></span> '
 				. Text::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
 
 			// Populate the group with nodes.

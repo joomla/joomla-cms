@@ -36,7 +36,7 @@ $wa->useScript('com_users.admin-users-groups');
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -58,11 +58,11 @@ $wa->useScript('com_users.admin-users-groups');
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
 								<th scope="col" class="w-10 text-center">
-									<span class="fas fa-check" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
+									<span class="icon-check" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
 									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center">
-									<span class="fas fa-times" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
+									<span class="icon-times" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
 									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
@@ -99,7 +99,7 @@ $wa->useScript('com_users.admin-users-groups');
 								</th>
 								<td class="text-center btns">
 									<a href="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
-										<span class="fas fa-list" aria-hidden="true"></span>
+										<span class="icon-list" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>

@@ -74,7 +74,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 					</div>
 					<div class="d-flex flex-wrap align-items-center mx-auto">
 						<h1 class="h2 mx-1 d-flex align-items-baseline">
-							<span class="fas fa-cogs d-none d-md-block mx-2 alig-items-center" aria-hidden="true"></span>
+							<span class="icon-cogs d-none d-md-block mx-2 alig-items-center" aria-hidden="true"></span>
 							<?php echo Text::_('INSTL_PAGE_TITLE'); ?>
 						</h1>
 						<span class="small mx-1">
@@ -83,7 +83,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 					</div>
 					<div class="m-2 d-flex align-items-center">
 						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
-							<span class="fas fa-question" aria-hidden="true"></span>
+							<span class="icon-question" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 						</a>
 					</div>
