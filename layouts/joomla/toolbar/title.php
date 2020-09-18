@@ -11,12 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
 
+// Strip extension if given
 $icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
-
-if ($icon === 'generic')
-{
-	$icon = 'dot-circle';
-}
 
 ?>
 <h1 class="page-title">
