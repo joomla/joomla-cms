@@ -207,6 +207,7 @@ abstract class ToolbarButton
 
 		// Isolate button class from icon class
 		$buttonClass = str_replace('fas fa-', '', $this->getName());
+		$buttonClass = str_ireplace('fa-', '', $buttonClass);
 		$iconclass = $options['btnClass'] ?? '';
 		$options['btnClass'] = 'button-' . $buttonClass . ' ' . $iconclass;
 
