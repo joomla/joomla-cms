@@ -825,7 +825,8 @@
   @extend .#{$fa-css-prefix}-cube:before;
 }
 
-.icon-puzzle::before {
+.icon-puzzle::before,
+.icon-puzzle-piece::before {
   @extend .#{$fa-css-prefix}-puzzle-piece:before;
 }
 
