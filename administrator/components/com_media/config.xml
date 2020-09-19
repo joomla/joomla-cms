@@ -111,14 +111,14 @@
 		/>
 
 		<field
-				name="history_length"
-				type="number"
-				label="COM_MEDIA_HISTORY_LENGTH_LABEL"
-				description="COM_MEDIA_HISTORY_LENGTH_DESC"
-				validate="number"
-				min="1"
-				max="100"
-				default="25"
+			name="history_length"
+			type="number"
+			label="COM_MEDIA_HISTORY_LENGTH_LABEL"
+			description="COM_MEDIA_HISTORY_LENGTH_DESC"
+			validate="number"
+			min="1"
+			max="100"
+			default="25"
 		/>
 	</fieldset>
 
