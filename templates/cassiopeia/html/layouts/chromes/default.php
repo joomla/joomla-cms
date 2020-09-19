@@ -25,19 +25,19 @@ $modulePos              = $module->position;
 $moduleAttribs['class'] = $module->position . ' card ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8');
 $headerAttribs          = [];
 $modId = 'mod-' . $module->id;
-$headerTag = htmlspecialchars($params->get('header_tag', 'h4'), ENT_QUOTES, 'UTF-8');
+$headerTag = htmlspecialchars($params->get('header_tag', ''), ENT_QUOTES, 'UTF-8');
 $headerClass = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 
-$header = '<div class="card-header'. $headerClass .'"><h3>' . $module->title . '</h3/></div>';
+$header = '<div class="card-header'. $headerClass .'"><' . $headerTag . '>' . $module->title . '</ . $headerTag .></div>';
 if ($module->content) : ?>
 	<?php if ($module->showtitle) : ?>
-		<div id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>">
+		<<?php echo $moduleTag; ?> id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>">
 			<?php echo $header; ?>
 			<div class="card-body"><?php echo $module->content; ?></div>
-		</div>
+		</<?php echo $moduleTag; ?>>
 	<?php else : ?>
-		<div id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>" aria-labelledby="<?php echo $module->title; ?>">
+		<<?php echo $moduleTag; ?> id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>" aria-labelledby="<?php echo $module->title; ?>">
 			<div class="card-body"><?php echo $module->content; ?></div>
-		</div>
+		</<?php echo $moduleTag; ?>>
 	<?php endif; ?>
 <?php endif; ?>
