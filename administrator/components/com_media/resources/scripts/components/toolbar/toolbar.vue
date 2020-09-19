@@ -1,5 +1,5 @@
 <template>
-    <div class="media-toolbar"role="toolbar" :aria-label="translate('COM_MEDIA_TOOLBAR_LABEL')">
+    <div class="media-toolbar" role="toolbar" :aria-label="translate('COM_MEDIA_TOOLBAR_LABEL')">
         <div class="media-loader" v-if="isLoading"></div>
         <div class="media-view-icons">
             <a href="#" class="media-toolbar-icon media-toolbar-select-all"
