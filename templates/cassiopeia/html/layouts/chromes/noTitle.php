@@ -13,9 +13,9 @@ $module  = $displayData['module'];
 $params  = $displayData['params'];
 $attribs = $displayData['attribs'];
 
-$modulePos   = $module->position;
-$moduleTag   = $params->get('module_tag', 'div');
-$modId 		 = 'mod-' . $module->id;
+$modulePos = $module->position;
+$moduleTag = $params->get('module_tag', 'div');
+$modId     = 'mod-' . $module->id;
 
 if ($module->content) : ?>
 	<div id="<?php echo $modId; ?>" class="<?php echo $modulePos; ?> <?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>"  aria-labelledby="<?php echo $module->title; ?>">
