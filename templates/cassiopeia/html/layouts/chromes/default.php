@@ -21,7 +21,7 @@ if ($module->content === null || $module->content === '')
 }
 
 $moduleTag              = $params->get('module_tag', 'div');
-$modulePos 		= $module->position;
+$modulePos              = $module->position;
 $moduleAttribs['class'] = $module->position . ' card ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8');
 $headerAttribs          = [];
 $modId = 'mod-' . $module->id;
