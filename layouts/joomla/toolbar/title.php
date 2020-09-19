@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Layout\LayoutHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Layout\LayoutHelper;
 
 $icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
 
