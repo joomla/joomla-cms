@@ -18,7 +18,7 @@ $moduleTag = $params->get('module_tag', 'div');
 $modId     = 'mod-' . $module->id;
 
 if ($module->content) : ?>
-	<div id="<?php echo $modId; ?>" class="<?php echo $modulePos; ?> <?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>"  aria-labelledby="<?php echo $module->title; ?>">
+	<<?php echo $moduleTag; ?> id="<?php echo $modId; ?>" class="<?php echo $modulePos; ?> <?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>"  aria-labelledby="<?php echo $module->title; ?>">
 		<div>
 		<?php echo $module->content; ?>
 		</div>
