@@ -89,7 +89,7 @@
   content: "\f302";
 }
 
-.info-circle::before {
+.#{$fa-css-prefix}-info-circle::before {
   content: "\f05a";
 }
 
