@@ -113,7 +113,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       Joomla.submitbutton(this.task, this.form, this.formValidation);
     }
 
-    // Enable call to task again after it's execution
+    // Enable call to task again after its execution
     this.disabled = false;
 
     return true;
