@@ -57,34 +57,46 @@ class JFileTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetExt()
 	{
+		$file = __FILE__;
 		$this->assertEquals(
-			'php',
-			JFile::getExt(__FILE__)
+			pathinfo($file, PATHINFO_EXTENSION),
+			JFile::getExt($file)
 		);
 
+		$file = 'C:\\server\\joomla\\.drone.yml';
 		$this->assertEquals(
-			'yml',
-			JFile::getExt('C:\\server\\joomla\\.drone.yml')
+			pathinfo($file, PATHINFO_EXTENSION),
+			JFile::getExt($file)
 		);
 
+		$file = '/home/joomla/.php_cs';
 		$this->assertEquals(
-			'php_cs',
-			JFile::getExt('/home/joomla/.php_cs')
+			pathinfo($file, PATHINFO_EXTENSION),
+			JFile::getExt($file)
 		);
 
+		$file = 'joomla-cms/LICENSE';
 		$this->assertEquals(
-			'',
-			JFile::getExt('joomla-cms/LICENSE')
+			pathinfo($file, PATHINFO_EXTENSION),
+			JFile::getExt($file)
 		);
 
+		$file = '/joomla.git/tmpfile';
 		$this->assertEquals(
-			'',
-			JFile::getExt('/joomla.git/tmpfile')
+			pathinfo($file, PATHINFO_EXTENSION),
+			JFile::getExt($file)
 		);
 
+		$file = '\\joomla.git\\tmpfile';
 		$this->assertEquals(
-			'',
-			JFile::getExt('\\joomla.git\\tmpfile')
+			pathinfo($file, PATHINFO_EXTENSION),
+			JFile::getExt($file)
+		);
+
+		$file = 'filewith.extentionand\behindit';
+		$this->assertEquals(
+			pathinfo($file, PATHINFO_EXTENSION),
+			JFile::getExt($file)
 		);
 	}
 }
