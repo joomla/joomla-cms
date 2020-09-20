@@ -47,7 +47,7 @@ class File
 		$ext = substr($file, $dot + 1);
 
 		// Extension cannot contain slashes.
-		if (strpos($ext, '/') !== false || strpos($ext, '\\') !== false)
+		if (strpos($ext, '/') !== false || (DIRECTORY_SEPARATOR === '\\' && strpos($ext, '\\') !== false))
 		{
 			return '';
 		}
