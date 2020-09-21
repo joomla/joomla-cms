@@ -1050,6 +1050,9 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user update the CMS.
 	 *
 	 * @return  void
+	 * @param   string  $oldVersion  The Joomla version before the update
+	 *
+	 * @return  void
 	 *
 	 * @since   3.9.21
 	 */
