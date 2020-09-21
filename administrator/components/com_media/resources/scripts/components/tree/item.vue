@@ -54,8 +54,8 @@
             iconClass() {
                 return {
                     fas: true,
-                    'fa-folder': !this.isOpen,
-                    'fa-folder-open': this.isOpen,
+                    'icon-folder': !this.isOpen,
+                    'icon-folder-open': this.isOpen,
                 }
             },
             getTabindex() {

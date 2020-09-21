@@ -10,7 +10,7 @@ $inverted-color: rgba(255, 255, 255, .9);
     color: theme-color("primary");
   }
 
-  .fa-joomla {
+  .icon-joomla {
     font-size: 32px;
     color: theme-color("primary");
   }
@@ -28,7 +28,7 @@ $inverted-color: rgba(255, 255, 255, .9);
     .demo-module {
 
       .demo-title,
-      .fa-joomla {
+      .icon-joomla {
         color: $inverted-color;
       }
     }
