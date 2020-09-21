@@ -1,5 +1,6 @@
 // Variables
 @import "../../../administrator/templates/atum/scss/variables";
+$fa-css-prefix: icon;
 $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
 // Bootstrap
@@ -204,20 +205,21 @@ caption {
   color: #292b2c;
 }
 
-.fa-eye,
-.icon-eye-open,
-.icon-eye {
+[class^="icon-"],
+[class*=" icon-"] {
   font-family: "Font Awesome 5 Free";
   cursor: pointer;
+}
+
+.#{$fa-css-prefix}-eye-open,
+.#{$fa-css-prefix}-eye {
   content: "\f06e";
 }
 
-.fa-eye-slash,
-.icon-eye-close,
-.icon-eye-blocked,
-.icon-eye-2::before {
-  font-family: "Font Awesome 5 Free";
-  cursor: pointer;
+.#{$fa-css-prefix}-eye-slash,
+.#{$fa-css-prefix}-eye-close,
+.#{$fa-css-prefix}-eye-blocked,
+.#{$fa-css-prefix}-eye-2::before {
   content: "\f070";
 }
 
