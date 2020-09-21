@@ -186,11 +186,9 @@
         color: var(--white);
         background: var(--danger);
 
-        [class^="#{$fa-css-prefix}-"],
-        [class*=" #{$fa-css-prefix}-"] {
-          &::before {
-            color: var(--white);
-          }
+        [class^="#{$fa-css-prefix}-"]::before,
+        [class*=" #{$fa-css-prefix}-"]::before {
+          color: var(--white);
         }
       }
     }
