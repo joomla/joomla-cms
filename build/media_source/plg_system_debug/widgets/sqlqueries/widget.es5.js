@@ -107,21 +107,46 @@
                         li.addClass(csscls('error'))
                         li.append($('<span />').addClass(csscls('error')).text('[' + stmt.error_code + '] ' + stmt.error_message))
                     }
-                    if (stmt.params && !$.isEmptyObject(stmt.params)) {
-                        var table = $('<table><tr><th colspan="2">Params</th></tr></table>').addClass(csscls('params')).appendTo(li)
-                        for (var key in stmt.params) {
-                            if (typeof stmt.params[key] !== 'function') {
-                                table.append('<tr><td class="' + csscls('name') + '">' + key + '</td><td class="' + csscls('value') +
-                                    '">' + stmt.params[key] + '</td></tr>')
-                            }
+
+                    var tableParams;
+
+                    function showTableParams() {
+                        if (tableParams) {
+                            tableParams.show();
+                            return;
                         }
-                        li.css('cursor', 'pointer').click(function () {
-                            if (table.is(':visible')) {
-                                table.hide()
-                            } else {
-                                table.show()
-                            }
-                        })
+
+                        // Render table
+                        tableParams = $('<table>').addClass(csscls('params')).appendTo(li);
+                        tableParams.append('<tr><th>ID</th><th>Value</th><th>Data Type</th><th>Length</th></tr>');
+
+                        var pRow;
+                        for (var key in stmt.params) {
+                            pRow = stmt.params[key];
+                            tableParams.append('<tr><th>' + key + '</th><th>' + pRow.value + '</th><th>'
+                              + pRow.dataType + '</th><th>' + pRow.length + '</th></tr>');
+                        }
+
+                        tableParams.show();
+                    }
+
+                    if (stmt.params && !$.isEmptyObject(stmt.params)) {
+                        var btnParams = $('<span title="Params" />')
+                          .text('Params')
+                          .addClass(csscls('eye'))
+                          .css('cursor', 'pointer')
+                          .on('click', function () {
+                              if (tableParams && tableParams.is(':visible')) {
+                                  tableParams.hide()
+                                  btnParams.addClass(csscls('eye'))
+                                  btnParams.removeClass(csscls('eye-dash'))
+                              } else {
+                                  showTableParams();
+                                  btnParams.addClass(csscls('eye-dash'))
+                                  btnParams.removeClass(csscls('eye'))
+                              }
+                          })
+                          .appendTo(li)
                     }
 
                     var tableExplain;
