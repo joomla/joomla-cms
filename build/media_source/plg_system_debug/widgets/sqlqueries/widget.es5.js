@@ -279,7 +279,7 @@
                 if (data.length <= 0) {
                     return false
                 }
-console.log(data);
+
                 this.root_path = data.root_path
                 this.xdebug_link = data.xdebug_link
                 this.$list.set('data', data.statements)
