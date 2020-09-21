@@ -134,7 +134,7 @@
         const headerMoreBtn = document.createElement('button');
         headerMoreBtn.className = 'header-more-btn d-flex flex-column align-items-stretch';
         headerMoreBtn.setAttribute('type', 'button');
-        headerMoreBtn.setAttribute('title', 'More Elements');
+        headerMoreBtn.setAttribute('title', Joomla.Text._('TPL_ATUM_MORE_ELEMENTS'));
         const spanFa = document.createElement('span');
         spanFa.className = 'fas fa-ellipsis-h';
         spanFa.setAttribute('aria-hidden', 'true');

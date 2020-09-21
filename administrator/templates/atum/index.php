@@ -65,6 +65,8 @@ $this->setMetaData('theme-color', '#1c3d5c');
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
 
+Text::script('TPL_ATUM_MORE_ELEMENTS');
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $fontsize ? ' class="a11y_font"' : ''; ?>>
