@@ -219,14 +219,14 @@ caption {
   line-height: 1;
 }
 
-.#{$fa-css-prefix}-eye-open,
-.#{$fa-css-prefix}-eye {
+.#{$fa-css-prefix}-eye-open::before,
+.#{$fa-css-prefix}-eye::before {
   content: "\f06e";
 }
 
-.#{$fa-css-prefix}-eye-slash,
-.#{$fa-css-prefix}-eye-close,
-.#{$fa-css-prefix}-eye-blocked,
+.#{$fa-css-prefix}-eye-slash::before,
+.#{$fa-css-prefix}-eye-close::before,
+.#{$fa-css-prefix}-eye-blocked::before,
 .#{$fa-css-prefix}-eye-2::before {
   content: "\f070";
 }
