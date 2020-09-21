@@ -208,13 +208,11 @@
         color: var(--white);
         background: var(--success);
 
-        [class^="#{$fa-css-prefix}-"],
-        [class*=" #{$fa-css-prefix}-"] {
-          &::before {
-            color: transparent;
-            background: linear-gradient($white, lighten($green, 40%));
-            background-clip: text;
-          }
+        [class^="#{$fa-css-prefix}-"]::before,
+        [class*=" #{$fa-css-prefix}-"]::before {
+          color: transparent;
+          background: linear-gradient($white, lighten($green, 40%));
+          background-clip: text;
         }
       }
     }
