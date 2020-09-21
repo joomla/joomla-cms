@@ -922,6 +922,7 @@ ENDDATA;
 
 		// Unset the update filename from the session.
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+		$oldVersion = JFactory::getApplication()->getUserState('com_joomlaupdate.oldversion');
 
 		// Trigger event after joomla update.
 		JFactory::getApplication()->triggerEvent('onJoomlaAfterUpdate', array($oldVersion));
@@ -1010,7 +1011,6 @@ ENDDATA;
 		}
 
 		JFactory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.oldversion', JVERSION);
 	}
 
 	/**
