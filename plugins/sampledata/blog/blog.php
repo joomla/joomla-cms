@@ -127,9 +127,9 @@ class PlgSampledataBlog extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = $this->app->set('unicodeslugs', 1);
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
 			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
-			$this->app->set('unicodeslugs', $unicode);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
 		}
 
 		$category      = array(
@@ -174,9 +174,9 @@ class PlgSampledataBlog extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = $this->app->set('unicodeslugs', 1);
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
 			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
-			$this->app->set('unicodeslugs', $unicode);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
 		}
 
 		$category      = array(
@@ -266,9 +266,9 @@ class PlgSampledataBlog extends CMSPlugin
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $alias) == ''))
 			{
-				$unicode = $this->app->set('unicodeslugs', 1);
+				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
 				$article['alias'] = ApplicationHelper::stringURLSafe($article['title']);
-				$this->app->set('unicodeslugs', $unicode);
+				Factory::getConfig()->set('unicodeslugs', $unicode);
 			}
 
 			$article['language']        = $language;
@@ -1003,7 +1003,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$itemIds = array();
 		$access  = (int) $this->app->get('access', 1);
 		$user    = Factory::getUser();
-		$app     = Factory::getApplication();
 
 		// Detect language to be used.
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
@@ -1022,9 +1021,9 @@ class PlgSampledataBlog extends CMSPlugin
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $menuItem['alias']) == ''))
 			{
-				$unicode = $app->set('unicodeslugs', 1);
+				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
 				$menuItem['alias'] = ApplicationHelper::stringURLSafe($menuItem['title']);
-				$app->set('unicodeslugs', $unicode);
+				Factory::getConfig()->set('unicodeslugs', $unicode);
 			}
 
 			// Append language suffix to title.

@@ -197,7 +197,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testSetupWithValueThatIsValidStdclass()
 	{
@@ -220,7 +220,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
 
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function testSetupWithValueThatIsNoValidStdclass()
 	{

@@ -55,12 +55,12 @@
     &:not([disabled]):hover,
     &:not([disabled]):active,
     &:not([disabled]):focus {
-      color: rgba(255, 255, 255, .9);
+      color: rgba(255, 255, 255, .90);
       background-color: var(--subhead-btn-accent);
       border-color: var(--subhead-btn-accent);
 
       > span {
-        color: rgba(255, 255, 255, .9);
+        color: rgba(255, 255, 255, .90);
       }
     }
 
@@ -92,10 +92,9 @@
       &::after {
         width: 2.375rem;
         font-family: "Font Awesome 5 Free";
-        font-weight: 900;
         content: "\f078";
         border: 0;
-
+        font-weight: 900;
       }
     }
 
@@ -152,7 +151,7 @@
     }
 
     .toggler-toolbar-icon::before {
-      font: normal normal 900 30px/1 "Font Awesome 5 Free";
+      font: normal normal 900 30px/1 'Font Awesome 5 Free';
       color: var(--toggle-color);
       content: "\f00d";
     }

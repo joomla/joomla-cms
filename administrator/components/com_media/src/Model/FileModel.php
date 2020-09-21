@@ -11,7 +11,6 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -35,9 +34,6 @@ class FileModel extends FormModel
 	public function getForm($data = [], $loadData = true)
 	{
 		PluginHelper::importPlugin('media-action');
-
-		// Load backend forms in frontend.
-		FormHelper::addFormPath(JPATH_ADMINISTRATOR . '/components/com_media/forms');
 
 		// Get the form.
 		$form = $this->loadForm('com_media.file', 'file', ['control' => 'jform', 'load_data' => $loadData]);

@@ -539,14 +539,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public static function getRouter($name = null, array $options = array())
 	{
-		$app = Factory::getApplication();
-
 		if (!isset($name))
 		{
+			$app = Factory::getApplication();
 			$name = $app->getName();
 		}
 
-		$options['mode'] = $app->get('sef');
+		$options['mode'] = Factory::getConfig()->get('sef');
 
 		return Router::getInstance($name, $options);
 	}
@@ -562,19 +561,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getTemplate($params = false)
 	{
+		$template = new \stdClass;
+
+		$template->template = 'system';
+		$template->params   = new Registry;
+
 		if ($params)
 		{
-			$template = new \stdClass;
-
-			$template->template    = 'system';
-			$template->params      = new Registry;
-			$template->inheritable = 0;
-			$template->parent      = '';
-
 			return $template;
 		}
 
-		return 'system';
+		return $template->template;
 	}
 
 	/**
@@ -942,11 +939,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function render()
 	{
 		// Setup the document options.
-		$this->docOptions['template']         = $this->get('theme');
-		$this->docOptions['file']             = $this->get('themeFile', 'index.php');
-		$this->docOptions['params']           = $this->get('themeParams');
-		$this->docOptions['csp_nonce']        = $this->get('csp_nonce');
-		$this->docOptions['templateInherits'] = $this->get('themeInherits');
+		$this->docOptions['template']  = $this->get('theme');
+		$this->docOptions['file']      = $this->get('themeFile', 'index.php');
+		$this->docOptions['params']    = $this->get('themeParams');
+		$this->docOptions['csp_nonce'] = $this->get('csp_nonce');
 
 		if ($this->get('themes.base'))
 		{
@@ -1255,37 +1251,39 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function redirectIfTwoFactorAuthenticationRequired(): void
 	{
-		$option = $this->input->get('option');
+		$option = $this->input->getCmd('option');
 		$task   = $this->input->get('task');
-		$view   = $this->input->get('view', null, 'STRING');
-		$layout = $this->input->get('layout', null, 'STRING');
+		$view   = $this->input->getString('view', '');
+		$layout = $this->input->getString('layout', '');
 
-		if ($this->isClient('site'))
-		{
-			// If user is already on edit profile screen or press update/apply button, do nothing to avoid infinite redirect
-			if (($option === 'com_users' && \in_array($task, ['profile.edit', 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout'], true))
-				|| $option === 'com_users' && $view === 'profile' && $layout === 'edit')
-			{
-				return;
-			}
-
-			// Redirect to com_users profile edit
-			$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
-			$this->redirect('index.php?option=com_users&view=profile&layout=edit');
-		}
-
-		if ($option === 'com_admin' && \in_array($task, ['profile.edit', 'profile.save', 'profile.apply'], true)
-			|| ($option === 'com_admin' && $view === 'profile' && $layout === 'edit')
-			|| ($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
+		/**
+		* If user is already on edit profile screen or press update/apply button,
+		* do nothing to avoid infinite redirect
+		*/
+		if ($option === 'com_users' && \in_array($task, ['profile.save', 'profile.apply', 'user.logout', 'user.menulogout'])
+			|| ($option === 'com_users' && $view === 'profile' && $layout === 'edit')
 			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
-			|| ($option === 'com_login' && \in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'], true)))
+			|| ($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout']))
+			|| ($option === 'com_login' && \in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'])))
 		{
 			return;
 		}
 
-		// Redirect to com_admin profile edit
+		// Redirect to com_users profile edit
 		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
-		$this->redirect('index.php?option=com_admin&task=profile.edit&id=' . $this->getIdentity()->id);
+
+		if ($this->isClient('site'))
+		{
+			$link = 'index.php?option=com_users&view=profile&layout=edit';
+		}
+
+		if ($this->isClient('administrator'))
+		{
+			$userId = $this->getIdentity()->id;
+			$link   = 'index.php?option=com_users&task=user.edit&id=' . $userId;
+		}
+
+		$this->redirect($link);
 	}
 
 	/**

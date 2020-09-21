@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 		$this->form            = $this->get('Form');
 		$this->state           = $this->get('State');
 		$this->params          = $this->state->params;
-		$this->sendMailEnabled = (bool) Factory::getApplication()->get('mailonline', 1);
+		$this->sendMailEnabled = (bool) Factory::getConfig()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

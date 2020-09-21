@@ -165,8 +165,8 @@ $card-border-color:                transparent;
 
 // Alerts
 $state-success-text:               var(--alert-success);
-$state-success-bg:                 lighten($green-dark, 80%);
-$state-success-border:             $green-dark;
+$state-success-bg:                 lighten($green-dark, 70%);
+$state-success-border:             lighten($green-dark, 30%);
 
 $state-info-text:                  var(--white);
 $state-info-bg:                    var(--atum-bg-dark);
@@ -219,10 +219,10 @@ $input-btn-submenu-icon-distance:   1rem;
 $custom-select-indicator-padding:    3rem;
 $custom-select-bg:                   var(--atum-bg-light);
 $custom-select-bg-size:              116rem;
-$custom-select-indicator:            url("../images/select-bg.svg");
-$custom-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
-$custom-select-indicator-active:     url("../../../images/select-bg.svg");
-$custom-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
+$custom-select-indicator:            url(../images/select-bg.svg);
+$custom-select-indicator-rtl:        url(../images/select-bg-rtl.svg);
+$custom-select-indicator-active:     url(../../../images/select-bg.svg);
+$custom-select-indicator-active-rtl: url(../../../images/select-bg-rtl.svg);
 $custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $custom-select-background-rtl:       $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $custom-select-box-shadow:           $atum-box-shadow;
@@ -254,7 +254,6 @@ $breadcrumb-bg:                    var(--white);
 // Links
 $link-color:                       var(--atum-link-color);
 $link-hover-color:                 var(--atum-link-hover-color);
-$link-decoration:                  underline;
 
 // Z-Index list
 $zindex-negative:                  -1;

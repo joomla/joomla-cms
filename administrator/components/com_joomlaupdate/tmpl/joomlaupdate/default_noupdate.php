@@ -10,9 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
-/** @var HtmlView $this */
+/** @var JoomlaupdateViewDefault $this */
 ?>
 <fieldset>
 	<legend>

@@ -9,22 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-/** @var PlgInstallerFolderInstaller $this */
-
-Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
-
-$this->app->getDocument()->getWebAssetManager()
-	->registerAndUseScript(
-		'plg_installer_folderinstaller.folderinstaller',
-		'plg_installer_folderinstaller/folderinstaller.js',
-		[],
-		['defer' => true],
-		['core']
-	);
-
+$app = Factory::getApplication();
 ?>
+
 <legend><?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
 <hr>
 <div class="control-group">
@@ -33,7 +23,7 @@ $this->app->getDocument()->getWebAssetManager()
 	</label>
 	<div class="controls">
 		<input type="text" id="install_directory" name="install_directory" class="form-control"
-			value="<?php echo $this->app->input->get('install_directory', $this->app->get('tmp_path')); ?>">
+			value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>">
 	</div>
 </div>
 <hr>

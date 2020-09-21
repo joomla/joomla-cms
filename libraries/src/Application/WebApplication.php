@@ -180,10 +180,9 @@ abstract class WebApplication extends AbstractWebApplication
 	{
 		// Setup the document options.
 		$options = array(
-			'template'         => $this->get('theme'),
-			'file'             => $this->get('themeFile', 'index.php'),
-			'params'           => $this->get('themeParams'),
-			'templateInherits' => $this->get('themeInherits'),
+			'template' => $this->get('theme'),
+			'file' => $this->get('themeFile', 'index.php'),
+			'params' => $this->get('themeParams'),
 		);
 
 		if ($this->get('themes.base'))

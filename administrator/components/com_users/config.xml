@@ -147,74 +147,72 @@
 		label="COM_USERS_CONFIG_PASSWORD_OPTIONS" >
 		<field
 			name="reset_count"
-			type="number"
+			type="integer"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_LABEL"
-			min="0"
-			max="20"
+			first="0"
+			last="20"
 			step="1"
 			default="10"
-			validate="number"
 		/>
 
 		<field
 			name="reset_time"
-			type="number"
+			type="integer"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_LABEL"
-			min="1"
-			max="24"
+			first="1"
+			last="24"
 			step="1"
 			default="1"
-			validate="number"
 		/>
 
 		<field
 			name="minimum_length"
-			type="number"
+			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
-			min="8"
+			first="4"
+			last="99"
 			step="1"
-			default="12"
-			validate="number"
+			default="4"
 		/>
 
 		<field
 			name="minimum_integers"
-			type="number"
+			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
-			min="0"
+			first="0"
+			last="98"
 			step="1"
 			default="0"
-			validate="number"
 		/>
 
 		<field
 			name="minimum_symbols"
-			type="number"
+			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
-			min="0"
+			first="0"
+			last="98"
 			step="1"
 			default="0"
-			validate="number"
 		/>
 
 		<field
 			name="minimum_uppercase"
-			type="number"
+			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
-			min="0"
+			first="0"
+			last="98"
 			step="1"
 			default="0"
-			validate="number"
 		/>
 
 		<field
 			name="minimum_lowercase"
-			type="number"
+			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE"
-			min="0"
+			first="0"
+			last="98"
 			step="1"
 			default="0"
-			validate="number"
 		/>
 	</fieldset>
 

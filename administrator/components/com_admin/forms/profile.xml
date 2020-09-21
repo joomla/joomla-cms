@@ -145,5 +145,4 @@
 			</field>
 		</fieldset>
 	</fields>
-	<field name="twofactor" type="hidden" />
 </form>

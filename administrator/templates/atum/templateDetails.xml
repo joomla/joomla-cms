@@ -108,34 +108,34 @@
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
 				<field
-					name="loginLogo"
-					type="media"
-					label="TPL_ATUM_LOGIN_LOGO_LABEL"
-				/>
-				<field
-					name="altLoginLogo"
-					type="text"
-					label="TPL_ATUM_ALTTEXT_LOGIN_LOGO_LABEL"
-				/>
-				<field
-					name="logoBrandLarge"
+					name="siteLogo"
 					type="media"
 					label="TPL_ATUM_SITE_LOGO_LABEL"
 				/>
 				<field
-					name="logoBrandLargeAlt"
+					name="altSiteLogo"
 					type="text"
 					label="TPL_ATUM_ALTTEXT_SITE_LOGO_LABEL"
 				/>
 				<field
-					name="logoBrandSmall"
+					name="smallLogo"
 					type="media"
 					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
 				/>
 				<field
-					name="logoBrandSmallAlt"
+					name="altSmallLogo"
 					type="text"
 					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
+				/>
+				<field
+					name="loginLogo"
+					type="media"
+					label="TPL_ATUM_LOGIN_LOGO_LABEL"
+				 />
+				<field
+					name="altLoginLogo"
+					type="text"
+					label="TPL_ATUM_ALTTEXT_LOGIN_LOGO_LABEL"
 				/>
 			</fieldset>
 

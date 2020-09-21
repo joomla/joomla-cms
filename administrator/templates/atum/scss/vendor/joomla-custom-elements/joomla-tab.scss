@@ -31,7 +31,6 @@ joomla-tab {
 
   > ul {
     display: flex;
-    flex-flow: wrap;
     padding: 0;
     margin: 0;
     white-space: nowrap;
@@ -83,9 +82,9 @@ joomla-tab {
     display: none;
     padding: 30px 2vw;
     background-color: $white;
-    border: 1px solid var(--bluegray);
     border-radius: 0;
     box-shadow: none;
+    border: 1px solid var(--bluegray);
 
     [dir=ltr] & {
       margin-left: -1px;
@@ -100,7 +99,7 @@ joomla-tab {
     }
 
     .tab-pane {
-      margin: 0;
+      margin: 0
     }
   }
 
@@ -197,7 +196,6 @@ joomla-tab {
 
     a[role=tab] {
       color: var(--atum-text-light);
-      background-color: var(--atum-link-color);
       border: 1px solid var(--atum-text-light);
       border-top: 0;
 
@@ -206,10 +204,6 @@ joomla-tab {
       &:focus {
         color: var(--atum-text-light);
         background-color: var(--atum-bg-dark);
-      }
-
-      .text-muted {
-        color: var(--atum-text-light) !important;
       }
     }
 
@@ -234,72 +228,76 @@ joomla-tab {
         border-bottom: 1px solid $gray-300;
         box-shadow: none;
 
-        &[active]::after,
-        &:hover::after {
-          position: absolute;
-          top: auto;
-          right: -1px;
-          bottom: -1px;
-          left: -1px;
-          display: block;
-          width: calc(100% + 2px);
-          height: 5px;
-          content: "";
-          background-color: var(--atum-bg-dark);
-          opacity: .8;
+        &[active],
+        &:hover {
+          &::after {
+            position: absolute;
+            top: auto;
+            right: -1px;
+            bottom: -1px;
+            left: -1px;
+            display: block;
+            width: calc(100% + 2px);
+            height: 5px;
+            content: "";
+            background-color: var(--atum-bg-dark);
+            opacity: .8;
+          }
         }
       }
     }
 
-    #permissions-sliders section[active] {
-      padding: 0 !important;
+    #permissions-sliders {
+      section[active] {
+        padding: 0 !important;
 
-      @include media-breakpoint-down(md) {
-        [dir=ltr] & .respTable {
-          text-align: right;
-        }
+        @include media-breakpoint-down(md) {
+          .respTable {
+            [dir=ltr] & {
+              text-align: right;
+            }
 
-        [dir=rtl] & .respTable {
-          text-align: left;
-        }
-
-        .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
-          display: block;
-        }
-
-        .respTable thead {
-          position: absolute;
-          top: -1111px;
-          left: -1111px;
-        }
-
-        /* stylelint-disable */
-        .respTable td::before {
-          font-weight: $bold-weight;
-          content: attr(data-label) ":";
-
-          [dir=ltr] & {
-            float: left;
-            padding: 0 2em 0 0;
+            [dir=rtl] & {
+              text-align: left;
+            }
           }
 
-          [dir=rtl] & {
-            float: right;
-            padding: 0 0 0 2em;
+          .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
+            display: block;
           }
-        }
-        /* stylelint-enable */
 
-        .respTable td:nth-child(1) {
-          font-weight: $bold-weight;
-        }
+          .respTable thead {
+            position: absolute;
+            top: -1111px;
+            left: -1111px;
+          }
 
-        .respTable td:last-child {
-          border-bottom: 1em var(--atum-bg-dark-80) solid;
-        }
+          .respTable td::before {
+            font-weight: $bold-weight;
+            content: attr(data-label) ":";
 
-        .oddCol {
-          background: var(--atum-bg-light);
+            [dir=ltr] & {
+              float: left;
+              padding: 0 2em 0 0;
+            }
+
+            [dir=rtl] & {
+              float: right;
+              padding: 0 0 0 2em;
+            }
+          }
+
+          .respTable td:nth-child(1) {
+            font-weight: $bold-weight;
+          }
+
+          .respTable td:last-child {
+            border-bottom: 1em var(--atum-bg-dark-80) solid;
+          }
+
+          .oddCol {
+            background: var(--atum-bg-light);
+          }
         }
       }
     }

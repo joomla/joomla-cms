@@ -10,13 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 ?>
 <dd class="category-name">
-	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'fa-folder-open fa-fw']); ?>
+	<span class="fas fa-folder-open" aria-hidden="true"></span>
 	<?php $title = $this->escape($displayData['item']->category_title); ?>
 	<?php if ($displayData['params']->get('link_category') && !empty($displayData['item']->catid)) : ?>
 		<?php $url = '<a href="' . Route::_(

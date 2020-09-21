@@ -56,9 +56,17 @@ class Helper
 	 */
 	public static function tokenize($input, $lang, $phrase = false)
 	{
-		static $cache = [], $tuplecount;
+		static $cache, $tuplecount;
 		static $multilingual;
 		static $defaultLanguage;
+
+		$store = md5($input . '::' . $lang . '::' . $phrase);
+
+		// Check if the string has been tokenized already.
+		if (isset($cache[$store]))
+		{
+			return $cache[$store];
+		}
 
 		if (!$tuplecount)
 		{
@@ -103,11 +111,6 @@ class Helper
 			$language = Language::getInstance($lang);
 		}
 
-		if (!isset($cache[$lang]))
-		{
-			$cache[$lang] = [];
-		}
-
 		$tokens = array();
 		$terms = $language->tokenise($input);
 
@@ -130,16 +133,7 @@ class Helper
 			// Create tokens from the terms.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
-				if (isset($cache[$lang][$terms[$i]]))
-				{
-					$tokens[] = $cache[$lang][$terms[$i]];
-				}
-				else
-				{
-					$token = new Token($terms[$i], $language->language);
-					$tokens[] = $token;
-					$cache[$lang][$terms[$i]] = $token;
-				}
+				$tokens[] = new Token($terms[$i], $language->language);
 			}
 
 			// Create multi-word phrase tokens from the individual words.
@@ -158,37 +152,19 @@ class Helper
 						}
 
 						$temp[] = $tokens[$i + $j]->term;
-						$key = implode('::', $temp);
+						$token = new Token($temp, $language->language, $language->spacer);
+						$token->derived = true;
 
-						if (isset($cache[$lang][$key]))
-						{
-							$tokens[] = $cache[$lang][$key];
-						}
-						else
-						{
-							$token = new Token($temp, $language->language, $language->spacer);
-							$token->derived = true;
-							$tokens[] = $token;
-							$cache[$lang][$key] = $token;
-						}
+						// Add the token to the stack.
+						$tokens[] = $token;
 					}
 				}
 			}
 		}
 
-		// Prevent the cache to fill up the memory
-		while (count($cache[$lang]) > 1024)
-		{
-			/**
-			 * We want to cache the most common words/tokens. At the same time
-			 * we don't want to cache too much. The most common words will also
-			 * be early in the text, so we are dropping all terms/tokens which
-			 * have been cached later.
-			 */
-			array_pop($cache[$lang]);
-		}
+		$cache[$store] = $tokens;
 
-		return $tokens;
+		return $cache[$store];
 	}
 
 	/**

@@ -21,12 +21,12 @@ use Joomla\CMS\Plugin\PluginHelper;
 class PlgInstallerPackageInstaller extends CMSPlugin
 {
 	/**
-	 * Application object
+	 * Load the language file on instantiation.
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  4.0.0
+	 * @var    boolean
+	 * @since  3.6.0
 	 */
-	protected $app;
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Textfield or Form of the Plugin.
@@ -37,9 +37,6 @@ class PlgInstallerPackageInstaller extends CMSPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		// Load language files
-		$this->loadLanguage();
-
 		$tab            = array();
 		$tab['name']    = 'package';
 		$tab['label']   = Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');

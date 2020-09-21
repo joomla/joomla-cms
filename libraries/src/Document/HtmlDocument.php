@@ -773,34 +773,16 @@ class HtmlDocument extends Document
 			ob_end_clean();
 		}
 
-		$app      = CmsFactory::getApplication();
-		$client   = $app->isClient('administrator') === true ? 'administrator/' : 'site/';
-		$template = $app->getTemplate(true);
-
 		// Try to find a favicon by checking the template and root folder
 		$icon = '/favicon.ico';
-		$foldersToCheck = [
-			JPATH_BASE,
-			JPATH_ROOT . '/media/templates/' . $client . $template->template,
-			$directory,
-		];
 
-		foreach ($foldersToCheck as $base => $dir)
+		foreach (array(JPATH_BASE, $directory) as $dir)
 		{
-			if ($template->parent !== ''
-				&& $base === 1
-				&& !file_exists(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
-			{
-				$dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
-			}
-
 			if (file_exists($dir . $icon))
 			{
-				$urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
-				$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
-				$path    = str_replace($base, '', $dir);
-				$path    = str_replace('\\', '/', $path);
-				$this->addFavicon($urlBase . $path . $icon);
+				$path = str_replace(JPATH_BASE, '', $dir);
+				$path = str_replace('\\', '/', $path);
+				$this->addFavicon(Uri::base(true) . $path . $icon);
 				break;
 			}
 		}
@@ -824,23 +806,13 @@ class HtmlDocument extends Document
 		$filter = InputFilter::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
-		$inherits = $params['templateInherits'] ?? '';
-		$baseDir = $directory . '/' . $template;
 
-		if (!empty($inherits)
-			&& !file_exists($directory . '/' . $template . '/' . $file)
-			&& file_exists($directory . '/' . $inherits . '/' . $file)
-		)
-		{
-			$baseDir = $directory . '/' . $inherits;
-		}
-
-		if (!file_exists($baseDir . '/' . $file))
+		if (!file_exists($directory . '/' . $template . '/' . $file))
 		{
 			$template = 'system';
 		}
 
-		if (!file_exists($baseDir . '/' . $file))
+		if (!file_exists($directory . '/' . $template . '/' . $file))
 		{
 			$file = 'index.php';
 		}
@@ -850,16 +822,15 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE)
-			|| $lang->load('tpl_' . $inherits, $directory . '/' . $inherits)
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables
+		$this->template = $template;
 		$this->baseurl = Uri::base(true);
 		$this->params = $params['params'] ?? new Registry;
-		$this->template = $template;
 
 		// Load
-		$this->_template = $this->_loadTemplate($baseDir, $file);
+		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
 
 		return $this;
 	}

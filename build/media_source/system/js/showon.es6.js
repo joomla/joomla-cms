@@ -129,6 +129,7 @@
 
             const originId = originField.id;
 
+
             // If checkbox or radio box the value is read from properties
             if (originField.getAttribute('type') && ['checkbox', 'radio'].indexOf(originField.getAttribute('type').toLowerCase()) !== -1) {
               if (!originField.checked) {

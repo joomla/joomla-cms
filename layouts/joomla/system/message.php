@@ -29,14 +29,9 @@ $alert = [
 
 // Load JavaScript message titles
 Text::script('ERROR');
-Text::script('MESSAGE');
-Text::script('NOTICE');
 Text::script('WARNING');
-
-// Load other Javascript message strings
-Text::script('JCLOSE');
-Text::script('JOK');
-Text::script('JOPEN');
+Text::script('NOTICE');
+Text::script('MESSAGE');
 
 // Alerts progressive enhancement
 Factory::getDocument()->getWebAssetManager()
@@ -50,13 +45,10 @@ Factory::getDocument()->getWebAssetManager()
 			<?php foreach ($msgList as $type => $msgs) : ?>
 				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
-						<div class="alert-heading">
-							<span class="<?php echo $type; ?>"></span>
-							<span class="sr-only"><?php echo Text::_($type); ?></span>
-						</div>
-						<div class="alert-wrapper">
+						<div class="alert-heading"><?php echo Text::_($type); ?></div>
+						<div>
 							<?php foreach ($msgs as $msg) : ?>
-								<div class="alert-message"><?php echo $msg; ?></div>
+								<p><?php echo $msg; ?></p>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>

@@ -11,16 +11,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-extract($displayData);
-
 /**
- * Layout variables
- * -----------------
- * @var   JForm   $form       The form instance for render the section
- * @var   string  $basegroup  The base group name
- * @var   string  $group      Current group name
- * @var   array   $buttons    Array of the buttons that will be rendered
+ * Make thing clear
+ *
+ * @var JForm   $form       The form instance for render the section
+ * @var string  $basegroup  The base group name
+ * @var string  $group      Current group name
+ * @var array   $buttons    Array of the buttons that will be rendered
  */
+extract($displayData);
 ?>
 
 <div class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">

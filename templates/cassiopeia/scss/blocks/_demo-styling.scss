@@ -23,7 +23,7 @@ $inverted-color: rgba(255, 255, 255, .9);
 }
 
 @each $color,
-  $value in $theme-colors {
+$value in $theme-colors {
   .bg-#{$color} {
     .demo-module {
 

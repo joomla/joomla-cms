@@ -391,7 +391,7 @@ class RequestModel extends AdminModel
 		$key   = $table->getKeyName();
 		$pk    = !empty($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 
-		if (!$pk && !Factory::getApplication()->get('mailonline', 1))
+		if (!$pk && !Factory::getConfig()->get('mailonline', 1))
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 

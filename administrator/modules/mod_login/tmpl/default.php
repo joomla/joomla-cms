@@ -65,7 +65,7 @@ Text::script('MESSAGE');
 				>
 				<span class="input-group-append">
 					<button type="button" class="btn btn-secondary input-password-toggle">
-						<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
+						<span class="fas fa-eye" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</span>
@@ -141,14 +141,9 @@ Text::script('MESSAGE');
 </form>
 <div class="text-center">
 	<div>
-		<?php echo HTMLHelper::link(
-			Text::_('MOD_LOGIN_CREDENTIALS_LINK'),
-			Text::_('MOD_LOGIN_CREDENTIALS'),
-			[
-				'target' => '_blank',
-				'rel'    => 'noopener nofollow',
-				'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS'))
-			]
-		); ?>
+		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="noopener nofollow"
+			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>">
+			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
+		</a>
 	</div>
 </div>

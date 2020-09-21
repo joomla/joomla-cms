@@ -117,6 +117,9 @@ class Icon
 			return '';
 		}
 
+		// Set the link class
+		$attribs['class'] = 'dropdown-item';
+
 		// Show checked_out icon if the contact is checked out by a different user
 		if (property_exists($contact, 'checked_out')
 			&& property_exists($contact, 'checked_out_time')
@@ -125,12 +128,11 @@ class Icon
 		{
 			$checkoutUser = Factory::getUser($contact->checked_out);
 			$date         = HTMLHelper::_('date', $contact->checked_out_time);
-			$tooltip      = Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
-				. ' <br> ' . $date;
+			$tooltip      = Text::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
+				. ' <br /> ' . $date;
 
-			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy));
+			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
 
-			$attribs['aria-describedby'] = 'editcontact-' . (int) $contact->id;
 			$output = HTMLHelper::_('link', '#', $text, $attribs);
 
 			return $output;
@@ -141,12 +143,20 @@ class Icon
 
 		if ((int) $contact->published === 0)
 		{
-			$tooltip = Text::_('COM_CONTACT_EDIT_UNPUBLISHED_CONTACT');
+			$overlib = Text::_('JUNPUBLISHED');
 		}
 		else
 		{
-			$tooltip = Text::_('COM_CONTACT_EDIT_PUBLISHED_CONTACT');
+			$overlib = Text::_('JPUBLISHED');
 		}
+
+		$date   = HTMLHelper::_('date', $contact->created);
+		$author = $contact->created_by_alias ?: Factory::getUser($contact->created_by)->name;
+
+		$overlib .= '&lt;br /&gt;';
+		$overlib .= $date;
+		$overlib .= '&lt;br /&gt;';
+		$overlib .= Text::sprintf('COM_CONTACT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
 		$nowDate = strtotime(Factory::getDate());
 		$icon    = $contact->published ? 'edit' : 'eye-slash';
@@ -158,14 +168,12 @@ class Icon
 			$icon = 'eye-slash';
 		}
 
-		$aria_described = 'editcontact-' . (int) $contact->id;
-
-		$text = '<span class="fas fa-' . $icon . '" aria-hidden="true"></span>';
+		$text = '<span class="hasTooltip fas fa-' . $icon . '" title="'
+			. HTMLHelper::tooltipText(Text::_('COM_CONTACT_EDIT_CONTACT'), $overlib, 0, 0) . '"></span> ';
 		$text .= Text::_('JGLOBAL_EDIT');
-		$text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
 
-		$attribs['aria-describedby'] = $aria_described;
-		$output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+		$attribs['title'] = Text::_('COM_CONTACT_EDIT_CONTACT');
+		$output           = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		return $output;
 	}

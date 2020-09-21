@@ -31,7 +31,7 @@ class PasswordStrength {
     this.uppercase = parseInt(settings.uppercase, 10) || 0;
     this.numbers = parseInt(settings.numbers, 10) || 0;
     this.special = parseInt(settings.special, 10) || 0;
-    this.length = parseInt(settings.length, 10) || 12;
+    this.length = parseInt(settings.length, 10) || 4;
   }
 
   getScore(value) {
@@ -96,16 +96,26 @@ class PasswordStrength {
       uppercase: minUppercase || 0,
       numbers: minIntegers || 0,
       special: minSymbols || 0,
-      length: minLength || 12,
+      length: minLength || 4,
     });
 
     const score = strength.getScore(element.value);
     const i = meter.getAttribute('id').replace(/^\D+/g, '');
     const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
 
-    if (score === 100) {
+    if (score > 79) {
       label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
-    } else {
+    }
+    if (score > 64 && score < 80) {
+      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+    }
+    if (score > 50 && score < 65) {
+      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+    }
+    if (score > 40 && score < 51) {
+      label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+    }
+    if (score < 41) {
       label.innerText = Joomla.JText._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
     }
     meter.value = score;
@@ -133,8 +143,8 @@ class PasswordStrength {
       meter.setAttribute('min', 0);
       meter.setAttribute('max', 100);
       meter.setAttribute('low', 40);
-      meter.setAttribute('high', 99);
-      meter.setAttribute('optimum', 100);
+      meter.setAttribute('high', 60);
+      meter.setAttribute('optimum', 80);
       meter.value = initialVal;
 
       const label = document.createElement('div');
@@ -171,7 +181,7 @@ class PasswordStrength {
           uppercase: minUppercase || 0,
           numbers: minIntegers || 0,
           special: minSymbols || 0,
-          length: minLength || 12,
+          length: minLength || 4,
         });
 
         const score = strength.getScore(value);

@@ -88,7 +88,6 @@ abstract class MultilangstatusHelper
 				[
 					$db->quoteName('lang_code'),
 					$db->quoteName('published'),
-					$db->quoteName('sef'),
 				]
 			)
 			->from($db->quoteName('#__languages'));

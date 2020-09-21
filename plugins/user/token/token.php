@@ -212,6 +212,11 @@ class PlgUserToken extends CMSPlugin
 			return true;
 		}
 
+		if (!($form instanceof Form))
+		{
+			throw new Exception('JERROR_NOT_A_FORM');
+		}
+
 		// Check we are manipulating a valid form.
 		if (!in_array($form->getName(), $this->allowedContexts))
 		{

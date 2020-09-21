@@ -50,14 +50,10 @@
 			name="admin_password"
 			type="password"
 			label="INSTL_ADMIN_PASSWORD_DESC"
-			description="INSTL_ADMIN_PASSWORD_LENGTH"
 			id="admin_password"
+			class="form-control"
 			required="true"
 			autocomplete="new-password"
-			validate="password"
-			strengthmeter="true"
-			force="on"
-			filter="raw"
 		/>
 		<field
 			name="db_type"

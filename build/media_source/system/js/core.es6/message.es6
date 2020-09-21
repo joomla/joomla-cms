@@ -75,19 +75,18 @@
 
       // Skip titles with untranslated strings
       if (typeof title !== 'undefined') {
-        titleWrapper = document.createElement('div');
+        titleWrapper = document.createElement('span');
         titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = `<span class="${type}"></span><span class="sr-only">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`;
+        titleWrapper.innerHTML = Joomla.Text._(type) ? Joomla.Text._(type) : type;
         messagesBox.appendChild(titleWrapper);
       }
 
       // Add messages to the message box
-      messageWrapper = document.createElement('div');
-      messageWrapper.className = 'alert-wrapper';
       typeMessages.forEach((typeMessage) => {
-        messageWrapper.innerHTML += `<div class="alert-message">${typeMessage}</div>`;
+        messageWrapper = document.createElement('div');
+        messageWrapper.innerHTML = typeMessage;
+        messagesBox.appendChild(messageWrapper);
       });
-      messagesBox.appendChild(messageWrapper);
 
       messageContainer.appendChild(messagesBox);
     });

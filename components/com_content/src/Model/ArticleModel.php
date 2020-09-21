@@ -288,7 +288,7 @@ class ArticleModel extends ItemModel
 				if ($e->getCode() == 404)
 				{
 					// Need to go through the error handler to allow Redirect to work.
-					throw $e;
+					throw new \Exception($e->getMessage(), 404);
 				}
 				else
 				{

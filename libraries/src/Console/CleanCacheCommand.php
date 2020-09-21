@@ -63,10 +63,13 @@ class CleanCacheCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$help = "<info>%command.name%</info> will clear expired entries from the system cache
-		\nUsage: <info>php %command.full_name%</info>";
-
 		$this->setDescription('Clean expired cache entries');
-		$this->setHelp($help);
+		$this->setHelp(
+			<<<EOF
+The <info>%command.name%</info> command cleans the system cache of expired entries
+
+<info>php %command.full_name%</info>
+EOF
+		);
 	}
 }

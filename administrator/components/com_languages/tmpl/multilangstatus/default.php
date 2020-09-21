@@ -113,13 +113,6 @@ $home_pages        = array_column($this->homepages, 'language');
 					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
 				</div>
 			<?php endif; ?>
-			<?php if (empty($contentlang->sef)) : ?>
-				<div class="alert alert-error">
-					<span class="fas fa-exclamation" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
-					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_SEF_MISSING', $contentlang->lang_code); ?>
-				</div>
-			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
 			<div class="alert alert-warning">
@@ -228,7 +221,7 @@ $home_pages        = array_column($this->homepages, 'language');
 					<?php // Published Site languages ?>
 					<?php if ($status->element) : ?>
 							<td class="text-center">
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<span class="fas fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							</td>
 					<?php else : ?>
@@ -239,10 +232,10 @@ $home_pages        = array_column($this->homepages, 'language');
 					<?php // Published Content languages ?>
 						<td class="text-center">
 							<?php if ($status->lang_code && $status->published == 1) : ?>
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<span class="fas fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php elseif ($status->lang_code && $status->published == 0) : ?>
-								<span class="text-danger fas fa-times" aria-hidden="true"></span>
+								<span class="fas fa-times" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php elseif ($status->lang_code && $status->published == -2) : ?>
 								<span class="fas fa-trash" aria-hidden="true"></span>
@@ -255,10 +248,10 @@ $home_pages        = array_column($this->homepages, 'language');
 					<?php // Published Home pages ?>
 						<td class="text-center">
 							<?php if ($status->home_published == 1) : ?>
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<span class="fas fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php elseif ($status->home_published == 0) : ?>
-								<span class="text-danger fas fa-times" aria-hidden="true"></span>
+								<span class="fas fa-times" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
 							<?php elseif ($status->home_published == -2) : ?>
 								<span class="fas fa-trash" aria-hidden="true"></span>
@@ -282,10 +275,10 @@ $home_pages        = array_column($this->homepages, 'language');
 							</td>
 							<td class="text-center">
 								<?php if ($contentlang->published == 1) : ?>
-									<span class="text-success fas fa-check" aria-hidden="true"></span>
+									<span class="fas fa-check" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 								<?php elseif ($contentlang->published == 0 && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
-									<span class="text-danger fas fa-times" aria-hidden="true"></span>
+									<span class="fas fa-times" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
 								<?php elseif ($contentlang->published == -2 && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
 									<span class="fas fa-trash" aria-hidden="true"></span>
@@ -297,7 +290,7 @@ $home_pages        = array_column($this->homepages, 'language');
 									<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 								<?php else : ?>
-									<span class="text-success fas fa-check" aria-hidden="true"></span>
+									<span class="fas fa-check" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 								<?php endif; ?>
 							</td>
@@ -312,7 +305,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<?php echo $sitelang; ?>
 							</th>
 							<td class="text-center">
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<span class="fas fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							</td>
 							<td class="text-center">
@@ -320,7 +313,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							</td>
 							<td class="text-center">
-								<span class="text-success fas fa-check" aria-hidden="true"></span>
+								<span class="fas fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							</td>
 						</tr>

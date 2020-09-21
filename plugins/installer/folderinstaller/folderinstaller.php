@@ -20,12 +20,12 @@ use Joomla\CMS\Plugin\PluginHelper;
 class PlgInstallerFolderInstaller extends CMSPlugin
 {
 	/**
-	 * Application object.
+	 * Load the language file on instantiation.
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  4.0.0
+	 * @var    boolean
+	 * @since  3.6.0
 	 */
-	protected $app;
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Textfield or Form of the Plugin.
@@ -36,9 +36,6 @@ class PlgInstallerFolderInstaller extends CMSPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		// Load language files
-		$this->loadLanguage();
-
 		$tab            = array();
 		$tab['name']    = 'folder';
 		$tab['label']   = Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');

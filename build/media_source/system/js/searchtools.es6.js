@@ -529,11 +529,10 @@ Joomla = window.Joomla || {};
     }
 
     const sort = document.getElementById('sorted');
-    const order = document.getElementById('orderedBy');
 
-    if (sort && sort.hasAttribute('data-caption') && order) {
+    if (sort && sort.hasAttribute('data-caption')) {
       const orderedBy = sort.getAttribute('data-caption');
-      order.textContent += orderedBy;
+      document.getElementById('orderedBy').textContent += orderedBy;
     }
 
     if (sort && sort.hasAttribute('data-sort')) {

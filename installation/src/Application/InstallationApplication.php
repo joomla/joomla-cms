@@ -405,8 +405,6 @@ final class InstallationApplication extends CMSApplication
 			$template = new \stdClass;
 			$template->template = 'template';
 			$template->params = new Registry;
-			$template->inheritable = 0;
-			$template->parent = '';
 
 			return $template;
 		}
@@ -546,11 +544,10 @@ final class InstallationApplication extends CMSApplication
 			$file = $this->input->getCmd('tmpl', 'index');
 
 			$options = [
-				'template'         => 'template',
-				'file'             => $file . '.php',
-				'directory'        => JPATH_THEMES,
-				'params'           => '{}',
-				"templateInherits" => ''
+				'template'  => 'template',
+				'file'      => $file . '.php',
+				'directory' => JPATH_THEMES,
+				'params'    => '{}',
 			];
 		}
 

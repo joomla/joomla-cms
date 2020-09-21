@@ -1,10 +1,10 @@
 // Bootstrap alert mapping
 
 @mixin alert-variant($background, $border, $body-color) {
-  color: $body-color;
   background-color: $background;
   border-color: $border;
   border-left: 10px solid $background;
+  color: $body-color;
 
   hr {
     border-top-color: darken($background, 5%);

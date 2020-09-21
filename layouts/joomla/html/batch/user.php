@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-extract($displayData);
-
 /**
  * Layout variables
- * -----------------
- * @var   boolean  $noUser  Inject an option for no user?
+ * ---------------------
+ *
+ * @var  boolean   $noUser Inject an option for no user?
  */
+
+extract($displayData);
 
 $optionNo = '';
 

@@ -11,17 +11,14 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('bootstrap.popover');
 
-extract($displayData, EXTR_OVERWRITE);
-
 /**
- * Layout variables
- * -----------------
- * @var   string  $icon
- * @var   string  $title
- * @var   string  $value
- * @var   string  $task
- * @var   array   $options
+ * @var $icon    string
+ * @var $title   string
+ * @var $value   string
+ * @var $task    string
+ * @var $options array
  */
+extract($displayData, EXTR_OVERWRITE);
 
 $disabled = !empty($options['disabled']);
 $taskPrefix = $options['task_prefix'];

@@ -332,7 +332,7 @@ class NewsfeedsModel extends ListModel
 		}
 		else
 		{
-			$ordering = $db->escape($orderCol) . ' ' . $db->escape($orderDirn);
+			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
 		}
 
 		$query->order($ordering);

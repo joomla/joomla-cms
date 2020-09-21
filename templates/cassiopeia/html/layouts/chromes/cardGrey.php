@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 $module  = $displayData['module'];
 $params  = $displayData['params'];
 $attribs = $displayData['attribs'];
@@ -20,34 +18,19 @@ if ($module->content === null || $module->content === '')
 	return;
 }
 
-$moduleTag              = $params->get('module_tag', 'div');
-$moduleAttribs          = [];
-$moduleAttribs['class'] = $module->position . ' card card-grey ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8');
-$headerTag              = htmlspecialchars($params->get('header_tag', 'h4'), ENT_QUOTES, 'UTF-8');
-$headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
-$headerAttribs          = [];
-$headerAttribs['class'] = $headerClass;
+$modulePos   = $module->position;
+$moduleTag   = $params->get('module_tag', 'div');
+$headerTag   = htmlspecialchars($params->get('header_tag', 'h4'), ENT_QUOTES, 'UTF-8');
+$headerClass = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 
-if ($module->showtitle) :
-	$moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
-	$headerAttribs['id']             = 'mod-' . $module->id;
-
-	if ($headerClass !== 'card-title') :
-		$headerAttribs['class'] .= 'card-header ' . $headerClass;
-	endif;
-else:
-	$moduleAttribs['aria-label'] = $module->title;
-endif;
-
-$header = '<' . $headerTag . ' ' . ArrayHelper::toString($headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
 ?>
-<<?php echo $moduleTag; ?> <?php echo ArrayHelper::toString($moduleAttribs); ?>>
+<<?php echo $moduleTag; ?> class="<?php echo $modulePos; ?> card card-grey <?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
 	<?php if ($module->showtitle && $headerClass !== 'card-title') : ?>
-		<?php echo $header; ?>
+		<<?php echo $headerTag; ?> class="card-header <?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 	<?php endif; ?>
 	<div class="card-body">
 		<?php if ($module->showtitle && $headerClass === 'card-title') : ?>
-			<?php echo $header; ?>
+			<<?php echo $headerTag; ?> class="<?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 		<?php endif; ?>
 		<?php echo $module->content; ?>
 	</div>

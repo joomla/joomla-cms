@@ -18,7 +18,6 @@ use Joomla\CMS\Schema\ChangeSet;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
-use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -146,69 +145,18 @@ class DatabaseModel extends InstallerModel
 			}
 
 			$db        = $this->getDbo();
+			$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/sql/updates/';
 
-			if ($result->type === 'component')
-			{
-				$basePath = JPATH_ADMINISTRATOR . '/components/' . $result->element;
-			}
-			elseif ($result->type === 'plugin')
-			{
-				$basePath = JPATH_PLUGINS . '/' . $result->folder . '/' . $result->element;
-			}
-			elseif ($result->type === 'module')
-			{
-				// Typehint to integer to normalise some DBs returning strings and others integers
-				if ((int) $result->client_id === 1)
-				{
-					$basePath = JPATH_ADMINISTRATOR . '/modules/' . $result->element;
-				}
-				elseif ((int) $result->client_id === 0)
-				{
-					$basePath = JPATH_SITE . '/modules/' . $result->element;
-				}
-				else
-				{
-					// Module with unknown client id!? - bail
-					continue;
-				}
-			}
-			// Specific bodge for the Joomla CMS special database check which points to com_admin
-			elseif ($result->type === 'file' && $result->element === 'com_admin')
-			{
-				$basePath = JPATH_ADMINISTRATOR . '/components/' . $result->element;
-			}
-			else
-			{
-				// Unknown extension type (library, files etc which don't have known SQL paths right now)
-				continue;
-			}
-
-			// Search the standard SQL Path for the SQL Updates and then if not there check the configuration of the XML
-			// file. This just gives us a small performance win of not parsing the XML every time.
-			$folderTmp = $basePath . '/sql/updates/';
-
+			// If the extension doesn't follow the standard location for the
+			// update sql files we don't support it
 			if (!file_exists($folderTmp))
 			{
-				$installationXML = InstallerHelper::getInstallationXML(
-					$result->element,
-					$result->type,
-					$result->client_id,
-					$result->type === 'plugin' ? $result->folder : null
-				);
+				$installationXML = InstallerHelper::getInstallationXML($result->element, $result->type);
+				$folderTmp       = (string) $installationXML->update->schemas->schemapath[0];
 
-				if ($installationXML !== null)
-				{
-					$folderTmp = (string) $installationXML->update->schemas->schemapath[0];
-					$a = explode('/', $folderTmp);
-					array_pop($a);
-					$folderTmp = $basePath . '/' . implode('/', $a);
-				}
-			}
-
-			// Can't find the folder still - give up now and move on.
-			if (!file_exists($folderTmp))
-			{
-				continue;
+				$a = explode('/', $folderTmp);
+				array_pop($a);
+				$folderTmp = JPATH_ADMINISTRATOR . '/components/' . $result->element . '/' . implode('/', $a);
 			}
 
 			$changeSet = new ChangeSet($db, $folderTmp);
@@ -216,12 +164,6 @@ class DatabaseModel extends InstallerModel
 			// If the version in the #__schemas is different
 			// than the update files, add to problems message
 			$schema = $changeSet->getSchema();
-
-			// If the schema is empty we couldn't find any update files. Just ignore the extension.
-			if (empty($schema))
-			{
-				continue;
-			}
 
 			if ($result->version_id !== $schema)
 			{
@@ -317,7 +259,7 @@ class DatabaseModel extends InstallerModel
 			$this->fixSchemaVersion($changeSet['changeset'], $changeSet['extension']->extension_id);
 			$this->fixUpdateVersion($changeSet['extension']->extension_id);
 
-			if ($changeSet['extension']->element === 'com_admin')
+			if ($i === 'com_admin')
 			{
 				$installer = new \JoomlaInstallerScript;
 				$installer->deleteUnexistingFiles();
@@ -359,7 +301,7 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  DatabaseQuery  The database query
+	 * @return  \JDatabaseQuery  The database query
 	 *
 	 * @since   4.0.0
 	 */
@@ -560,13 +502,7 @@ class DatabaseModel extends InstallerModel
 		}
 		else
 		{
-			$installationXML = InstallerHelper::getInstallationXML(
-				$extension->element,
-				$extension->type,
-				$extension->client_id,
-				$extension->type === 'plugin' ? $extension->folder : null
-			);
-
+			$installationXML  = InstallerHelper::getInstallationXML($extension->element, $extension->type);
 			$extensionVersion = (string) $installationXML->version;
 		}
 

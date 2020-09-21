@@ -186,17 +186,6 @@ final class ApiApplication extends CMSApplication
 	public function getTemplate($params = false)
 	{
 		// The API application should not need to use a template
-		if ($params)
-		{
-			$template = new \stdClass;
-			$template->template = 'system';
-			$template->params = new Registry;
-			$template->inheritable = 0;
-			$template->parent = '';
-
-			return $template;
-		}
-
 		return 'system';
 	}
 

@@ -9,15 +9,16 @@
 
 defined('_JEXEC') or die;
 
-extract($displayData);
-
 /**
  * Layout variables
- * -----------------
- * @var   integer  $level  The level of the item in the tree like structure.
+ * ---------------------
+ *
+ * @var  integer  $level  The level of the item in the tree like structure.
  *
  * @since  3.6.0
  */
+
+extract($displayData);
 
 if ($level > 1)
 {

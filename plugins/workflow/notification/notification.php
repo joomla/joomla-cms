@@ -60,7 +60,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Returns an array of events this subscriber will listen to.
 	 *
-	 * @return   array
+	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
@@ -78,7 +78,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 * @param   Form      $form  The form
 	 * @param   stdClass  $data  The data
 	 *
-	 * @return   boolean
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -101,11 +101,11 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Send a Notification to defined users a transition is performed
 	 *
-	 * @param   string  $context  The context for the content passed to the plugin.
-	 * @param   array   $pks      A list of primary key ids of the content that has changed stage.
-	 * @param   object  $data     Object containing data about the transition
+	 * @param   string   $context  The context for the content passed to the plugin.
+	 * @param   array    $pks      A list of primary key ids of the content that has changed stage.
+	 * @param   object  $data    Object containing data about the transition
 	 *
-	 * @return   boolean
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -230,7 +230,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Get user_ids of receivers
 	 *
-	 * @param   object  $data  Object containing data about the transition
+	 * @param   object  $data    Object containing data about the transition
 	 *
 	 * @return   array  $userIds  The receivers
 	 *
@@ -280,9 +280,9 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Check if the current plugin should execute workflow related activities
 	 *
-	 * @param   string  $context
+	 * @param string $context
 	 *
-	 * @return   boolean
+	 * @return boolean
 	 *
 	 * @since   4.0.0
 	 */

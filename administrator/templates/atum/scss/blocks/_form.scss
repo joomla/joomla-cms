@@ -114,7 +114,7 @@ legend {
   display: block;
 }
 
-[aria-grabbed="true"] {
+[aria-grabbed='true'] {
   box-shadow: $input-box-shadow;
 }
 
@@ -130,9 +130,9 @@ legend {
   padding: .5em;
   margin: .25em;
   color: $white;
-  text-align: start;
   background: $black;
   border-radius: .2rem;
+  text-align: start;
 }
 
 // reveal associated tooltip on focus
@@ -159,7 +159,6 @@ legend {
 
 .input-group-append {
   overflow: hidden;
-  transform: translate3d(0, 0, 0);
 
   [dir=ltr] & {
     border-top-right-radius: $border-radius;

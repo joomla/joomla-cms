@@ -535,9 +535,6 @@ class FileLayout extends BaseLayout
 	 */
 	public function getDefaultIncludePaths()
 	{
-		// Get the template
-		$template = Factory::getApplication()->getTemplate(true);
-
 		// Reset includePaths
 		$paths = array();
 
@@ -553,13 +550,7 @@ class FileLayout extends BaseLayout
 		if (!empty($component))
 		{
 			// (2) Component template overrides path
-			$paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts/' . $component;
-
-			if (!empty($template->parent))
-			{
-				// (2.a) Component template overrides path for an inherited template using the parent
-				$paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts/' . $component;
-			}
+			$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts/' . $component;
 
 			// (3) Component path
 			if ($this->options->get('client') == 0)
@@ -573,13 +564,7 @@ class FileLayout extends BaseLayout
 		}
 
 		// (4) Standard Joomla! layouts overridden
-		$paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts';
-
-		if (!empty($template->parent))
-		{
-			// (4.a) Component template overrides path for an inherited template using the parent
-			$paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts';
-		}
+		$paths[] = JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/layouts';
 
 		// (5 - lower priority) Frontend base layouts
 		$paths[] = JPATH_ROOT . '/layouts';

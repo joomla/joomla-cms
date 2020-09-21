@@ -12,16 +12,33 @@
   color: $white;
 }
 
+.icon-publish,
+.fa-check {
+  color: theme-color("success");
+
+  .dropdown-status-group & {
+    color: inherit;
+  }
+}
+
+.icon-unpublish {
+  color: theme-color("danger");
+
+  .dropdown-status-group & {
+    color: inherit;
+  }
+}
+
 .tbody-icon {
   padding: 0 3px;
   text-align: center;
   background-color: transparent;
   border: 0;
 
-  [class^="icon-"],
-  [class*=" icon-"],
-  [class^="fa-"],
-  [class*=" fa-"] {
+  [class^='icon-'],
+  [class*=' icon-'],
+  [class^='fa-'],
+  [class*=' fa-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -43,14 +60,12 @@
     border-color: $state-warning-bg;
   }
 
-  .icon-archive,
-  .fa-folder {
+  .icon-archive {
     color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
-  .icon-checkedout,
-  .fa-lock {
+  .icon-checkedout {
     width: auto;
     height: auto;
     font-size: 1.2rem;
@@ -63,8 +78,8 @@
   &.featured-disabled,
   &.color-featured-disabled,
   &.fa-star-disabled {
-    cursor: not-allowed;
     opacity: 1;
+    cursor: not-allowed;
   }
 
   &.disabled .icon-home,

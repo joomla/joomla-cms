@@ -13,13 +13,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-extract($displayData);
-
 /**
  * Layout variables
- * -----------------
- * @var   string  $extension  The extension name
+ * ---------------------
+ *
+ * @var  string   $extension The extension name
  */
+
+extract($displayData);
 
 // Create the copy/move options.
 $options = array(
@@ -46,10 +47,10 @@ $wa->useScript('joomla.batch-language');
 	</select>
 </div>
 <div id="batch-copy-move" class="control-group radio">
+	<label id="batch-copy-move-lbl" for="batch-copy-move-id" class="control-label">
+		<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
+	</label>
 	<fieldset id="batch-copy-move-id">
-		<legend>
-			<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
-		</legend>
 		<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 	</fieldset>
 </div>

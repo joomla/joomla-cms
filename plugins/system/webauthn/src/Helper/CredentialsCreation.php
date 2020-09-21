@@ -75,7 +75,7 @@ abstract class CredentialsCreation
 		try
 		{
 			$app      = Factory::getApplication();
-			$siteName = $app->getConfig()->get('sitename', 'Joomla! Site');
+			$siteName = $app->getConfig()->get('sitename');
 		}
 		catch (Exception $e)
 		{

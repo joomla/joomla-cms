@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,21 +25,6 @@ use Joomla\Component\Users\Administrator\Model\UserModel;
  */
 class ProfileModel extends UserModel
 {
-	/**
-	 * Method to auto-populate the state.
-	 *
-	 * @return  void
-	 *
-	 * @note    Calling getState in this method will result in recursion.
-	 * @since   4.0.0
-	 */
-	protected function populateState()
-	{
-		parent::populateState();
-
-		$this->setState('user.id', Factory::getApplication()->getIdentity()->id);
-	}
-
 	/**
 	 * Method to get the record form.
 	 *
@@ -146,16 +131,36 @@ class ProfileModel extends UserModel
 	public function save($data)
 	{
 		$user = Factory::getUser();
-		$pk   = $user->id;
-		$data['id'] = $pk;
-		$data['block'] = $user->block;
-		$iAmSuperAdmin = $user->authorise('core.admin');
 
-		if ($iAmSuperAdmin)
+		unset($data['id'], $data['groups'], $data['sendEmail'], $data['block']);
+
+		$isUsernameCompliant = $this->getState('user.username.compliant');
+
+		if (!ComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
 		{
-			$data['groups'] = $user->groups;
+			unset($data['username']);
 		}
 
-		return parent::save($data);
+		// Bind the data.
+		if (!$user->bind($data))
+		{
+			$this->setError($user->getError());
+
+			return false;
+		}
+
+		$user->groups = null;
+
+		// Store the data.
+		if (!$user->save())
+		{
+			$this->setError($user->getError());
+
+			return false;
+		}
+
+		$this->setState('user.id', $user->id);
+
+		return true;
 	}
 }

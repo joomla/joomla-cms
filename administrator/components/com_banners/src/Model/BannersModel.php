@@ -227,7 +227,7 @@ class BannersModel extends ListModel
 				$orderCol = 'cl.name';
 			}
 
-			$ordering = $db->escape($orderCol) . ' ' . $db->escape($orderDirn);
+			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
 		}
 
 		$query->order($ordering);

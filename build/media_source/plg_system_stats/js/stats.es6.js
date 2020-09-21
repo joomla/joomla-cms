@@ -34,6 +34,7 @@
       toggler.addEventListener('click', onToggle);
     }
 
+
     // Reset the unique id
     const reset = document.getElementById(resetId);
     if (reset) {

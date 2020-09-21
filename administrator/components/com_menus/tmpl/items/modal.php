@@ -28,12 +28,11 @@ if ($app->isClient('site'))
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_menus.admin-items-modal');
 
-$function  = $app->input->get('function', 'jSelectMenuItem', 'cmd');
+$function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$link      = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
-$multilang = Multilanguage::isEnabled();
+$listOrder    = $this->escape($this->state->get('list.ordering'));
+$listDirn     = $this->escape($this->state->get('list.direction'));
+$link         = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
 
 if (!empty($editor))
 {
@@ -76,11 +75,9 @@ if (!empty($editor))
 						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($multilang) : ?>
-							<th scope="col" class="w-15 d-none d-md-table-cell">
-								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-							</th>
-						<?php endif; ?>
+						<th scope="col" class="w-15 d-none d-md-table-cell">
+							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+						</th>
 						<th scope="col" class="w-1 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -89,7 +86,7 @@ if (!empty($editor))
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php $uselessMenuItem = in_array($item->type, array('separator', 'heading', 'alias', 'url', 'container')); ?>
-					<?php if ($item->language && $multilang)
+					<?php if ($item->language && Multilanguage::isEnabled())
 					{
 						if ($item->language !== '*')
 						{
@@ -100,7 +97,7 @@ if (!empty($editor))
 							$language = '';
 						}
 					}
-					elseif (!$multilang)
+					elseif (!Multilanguage::isEnabled())
 					{
 						$language = '';
 					}
@@ -113,7 +110,7 @@ if (!empty($editor))
 							<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 							<?php echo $prefix; ?>
 							<?php if (!$uselessMenuItem) : ?>
-								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
+								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>"  data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
 									<?php echo $this->escape($item->title); ?>
 								</a>
 							<?php else : ?>
@@ -158,17 +155,15 @@ if (!empty($editor))
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<?php if ($multilang) : ?>
-							<td class="small d-none d-md-table-cell">
-								<?php if ($item->language == '') : ?>
-									<?php echo Text::_('JDEFAULT'); ?>
-								<?php elseif ($item->language == '*') : ?>
-									<?php echo Text::alt('JALL', 'language'); ?>
-								<?php else : ?>
-									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
-								<?php endif; ?>
-							</td>
-						<?php endif; ?>
+						<td class="small d-none d-md-table-cell">
+							<?php if ($item->language == '') : ?>
+								<?php echo Text::_('JDEFAULT'); ?>
+							<?php elseif ($item->language == '*') : ?>
+								<?php echo Text::alt('JALL', 'language'); ?>
+							<?php else : ?>
+								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
+							<?php endif; ?>
+						</td>
 						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->id; ?>
 						</td>

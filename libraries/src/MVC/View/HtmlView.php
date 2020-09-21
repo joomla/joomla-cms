@@ -372,7 +372,7 @@ class HtmlView extends AbstractView
 		// Clear prior output
 		$this->_output = null;
 
-		$template = Factory::getApplication()->getTemplate(true);
+		$template = Factory::getApplication()->getTemplate();
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
@@ -385,15 +385,14 @@ class HtmlView extends AbstractView
 
 		// Load the language file for the template
 		$lang = Factory::getLanguage();
-		$lang->load('tpl_' . $template->template, JPATH_BASE)
-			|| $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
-			|| $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
+		$lang->load('tpl_' . $template, JPATH_BASE)
+		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
 
 		// Change the template folder if alternative layout is in different template
-		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template->template)
+		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template)
 		{
 			$this->_path['template'] = str_replace(
-				JPATH_THEMES . DIRECTORY_SEPARATOR . $template->template,
+				JPATH_THEMES . DIRECTORY_SEPARATOR . $template,
 				JPATH_THEMES . DIRECTORY_SEPARATOR . $layoutTemplate,
 				$this->_path['template']
 			);
@@ -492,9 +491,6 @@ class HtmlView extends AbstractView
 		// Actually add the user-specified directories
 		$this->_addPath($type, $path);
 
-		// Get the active template object
-		$template = $app->getTemplate(true);
-
 		// Always add the fallback directories as last resort
 		switch (strtolower($type))
 		{
@@ -503,20 +499,8 @@ class HtmlView extends AbstractView
 				if (isset($app))
 				{
 					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-					$name = $this->getName();
-
-					if (!empty($template->parent))
-					{
-						// Parent template's overrides
-						$this->_addPath('template', JPATH_THEMES . '/' . $template->parent . '/html/' . $component . '/' . $name);
-
-						// Child template's overrides
-						$this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
-
-						break;
-					}
-
-					$this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
+					$fallback = JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
+					$this->_addPath('template', $fallback);
 				}
 				break;
 		}

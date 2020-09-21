@@ -411,15 +411,17 @@ trait WorkflowBehaviorTrait
 		{
 			$catId = $field->getAttribute('default', null);
 
-			if (!$catId)
-			{
-				// Choose the first category available
-				$catOptions = $field->options;
+			// Choose the first category available
+			$xml = new \DOMDocument;
+			libxml_use_internal_errors(true);
+			$xml->loadHTML($field->__get('input'));
+			libxml_clear_errors();
+			libxml_use_internal_errors(false);
+			$options = $xml->getElementsByTagName('option');
 
-				if ($catOptions && !empty($catOptions[0]->value))
-				{
-					$catId = (int) $catOptions[0]->value;
-				}
+			if (!$catId && $firstChoice = $options->item(0))
+			{
+				$catId = $firstChoice->getAttribute('value');
 			}
 		}
 

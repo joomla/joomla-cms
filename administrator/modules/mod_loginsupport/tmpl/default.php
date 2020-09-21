@@ -9,45 +9,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
 <section class="loginsupport">
 	<p><?php echo Text::_('MOD_LOGINSUPPORT_HEADLINE'); ?></p>
 	<ul class="list-unstyled">
-		<li>
-			<?php echo HTMLHelper::link(
-				$params->get('forum_url'),
-				Text::_('MOD_LOGINSUPPORT_FORUM'),
-				[
-					'target' => '_blank',
-					'rel'    => 'nofollow noopener',
-					'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_FORUM'))
-				]
-			); ?>
+		<li><a href="<?php echo $params->get('forum_url') ?>" target="_blank" rel="nofollow noopener">
+			<?php echo Text::_('MOD_LOGINSUPPORT_FORUM'); ?></a>
 		</li>
-		<li>
-			<?php echo HTMLHelper::link(
-				$params->get('documentation_url'),
-				Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'),
-				[
-					'target' => '_blank',
-					'rel'    => 'nofollow noopener',
-					'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'))
-				]
-			); ?>
+		<li><a href="<?php echo $params->get('documentation_url') ?>" target="_blank" rel="nofollow noopener">
+			<?php echo Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'); ?></a>
 		</li>
-		<li>
-			<?php echo HTMLHelper::link(
-				$params->get('news_url'),
-				Text::_('MOD_LOGINSUPPORT_NEWS'),
-				[
-					'target' => '_blank',
-					'rel'    => 'nofollow noopener',
-					'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_NEWS'))
-				]
-			); ?>
+		<li><a href="<?php echo $params->get('news_url') ?>" target="_blank" rel="nofollow noopener">
+			<?php echo Text::_('MOD_LOGINSUPPORT_NEWS'); ?></a>
 		</li>
 	</ul>
 </section>

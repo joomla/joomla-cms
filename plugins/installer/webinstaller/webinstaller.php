@@ -43,6 +43,14 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	protected $app;
 
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * The URL to install from
 	 *
 	 * @var    string|null
@@ -67,9 +75,6 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		// Load language files
-		$this->loadLanguage();
-
 		$installfrom = $this->getInstallFrom();
 		$doc         = $this->app->getDocument();
 		$lang        = $this->app->getLanguage();
@@ -115,7 +120,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 
 		$tab = [
 			'name'  => 'web',
-			'label' => Text::_('PLG_INSTALLER_WEBINSTALLER_TAB_LABEL'),
+			'label' => Text::_('COM_INSTALLER_INSTALL_FROM_WEB'),
 		];
 
 		// Render the input

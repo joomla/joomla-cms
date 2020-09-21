@@ -157,7 +157,7 @@ class HtmlView extends BaseHtmlView
 							'download'
 						);
 
-						if (Factory::getApplication()->get('mailonline', 1))
+						if (Factory::getConfig()->get('mailonline', 1))
 						{
 							ToolbarHelper::link(
 								Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),

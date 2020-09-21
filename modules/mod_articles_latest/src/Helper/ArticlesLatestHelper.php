@@ -65,9 +65,6 @@ abstract class ArticlesLatestHelper
 		// Category filter
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
-		// State filter
-		$model->setState('filter.condition', 1);
-
 		// User filter
 		$userId = $user->get('id');
 

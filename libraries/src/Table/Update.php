@@ -12,6 +12,7 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
 
 /**
  * Update table
@@ -21,14 +22,6 @@ use Joomla\Database\DatabaseDriver;
  */
 class Update extends Table
 {
-	/**
-	 * Ensure the params in json encoded in the bind method
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $_jsonEncode = ['params'];
-
 	/**
 	 * Constructor
 	 *
@@ -82,6 +75,35 @@ class Update extends Table
 		}
 
 		return true;
+	}
+
+	/**
+	 * Overloaded bind function
+	 *
+	 * @param   array  $array   Named array
+	 * @param   mixed  $ignore  An optional array or space separated list of properties
+	 *                          to ignore while binding.
+	 *
+	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
+	 *
+	 * @see     Table::bind()
+	 * @since   1.7.0
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (isset($array['params']) && \is_array($array['params']))
+		{
+			$registry = new Registry($array['params']);
+			$array['params'] = (string) $registry;
+		}
+
+		if (isset($array['control']) && \is_array($array['control']))
+		{
+			$registry = new Registry($array['control']);
+			$array['control'] = (string) $registry;
+		}
+
+		return parent::bind($array, $ignore);
 	}
 
 	/**

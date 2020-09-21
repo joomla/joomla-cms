@@ -9,13 +9,10 @@
 
 defined('_JEXEC') or die;
 
-extract($displayData);
-
 /**
- * Layout variables
- * -----------------
- * @var   string  $text  infotext to be displayed
+ * $text  string  infotext to be displayed
  */
+extract($displayData);
 
 // Closing the opening .control-group and .control-label div so we can add our info text on own line ?>
 </div></div>

@@ -498,9 +498,9 @@ class MenusHelper extends ContentHelper
 			$item->alias = $menutype . '-' . $item->title;
 
 			// Temporarily set unicodeslugs if a menu item has an unicode alias
-			$unicode     = Factory::getApplication()->set('unicodeslugs', 1);
+			$unicode     = Factory::getConfig()->set('unicodeslugs', 1);
 			$item->alias = ApplicationHelper::stringURLSafe($item->alias);
-			Factory::getApplication()->set('unicodeslugs', $unicode);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
 
 			if ($item->type == 'separator')
 			{

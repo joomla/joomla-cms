@@ -342,6 +342,7 @@ const recreateMediaFolder = () => {
   });
 };
 
+
 module.exports.copyAssets = (options) => {
   Promise.resolve()
     // Copy a fresh version of the files

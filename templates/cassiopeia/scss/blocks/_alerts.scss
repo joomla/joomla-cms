@@ -8,10 +8,6 @@
 
 }
 
-.alert-heading {
-  font-size: $h4-font-size;
-}
-
 @keyframes fadeIn {
 
   from {
@@ -23,4 +19,5 @@
     opacity: 1;
     transform: translateY(0);
   }
+
 }

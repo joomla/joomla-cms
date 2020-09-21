@@ -23,33 +23,15 @@ $user  = $app->getIdentity();
 $input = $app->input;
 
 // In case of modal
-$isModal  = $input->get('layout') === 'modal';
-$layout   = $isModal ? 'modal' : 'edit';
-$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
-$clientId = $this->state->get('item.client_id', 0);
-$lang     = Factory::getLanguage()->getTag();
+$isModal = $input->get('layout') === 'modal';
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_workflow&view=stage&workflow_id=' . $input->getCmd('workflow_id') . '&extension=' . $input->getCmd('extension') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
-
-	<?php // Add the translation of the workflow item title when client is administrator ?>
-	<?php if ($clientId === 0 && $this->item->id != 0) : ?>
-		<div class="row title-alias form-vertical mb-3">
-			<div class="col-12">
-				<div class="control-group">
-					<div class="control-label">
-						<label for="stage_title_translation"><?php echo Text::sprintf('COM_WORKFLOW_TITLE_TRANSLATION', $lang); ?></label>
-					</div>
-					<div class="controls">
-						<input id="stage_title_translation" class="form-control" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
-					</div>
-				</div>
-			</div>
-		</div>
-	<?php endif; ?>
 
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 

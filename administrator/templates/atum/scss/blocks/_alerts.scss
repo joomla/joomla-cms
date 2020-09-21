@@ -31,10 +31,6 @@
   }
 }
 
-.alert-parent {
-  margin-top: 0;
-}
-
 fieldset .alert {
   &.alert-info {
     margin: -1rem 0 1rem;
@@ -42,7 +38,7 @@ fieldset .alert {
 }
 
 .alert-heading {
-  font-size: $h4-font-size;
+  font-size: $font-size-lg;
 }
 
 @keyframes fadeIn {

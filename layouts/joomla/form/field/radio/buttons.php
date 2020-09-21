@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-extract($displayData);
+extract($displayData, null);
 
 /**
  * Layout variables

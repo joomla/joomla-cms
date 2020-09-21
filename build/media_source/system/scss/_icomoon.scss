@@ -3,9 +3,9 @@
 [class^="icon-"]:not(.input-group-text),
 [class*=" icon-"]:not(.input-group-text) {
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  line-height: 1rem;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
 }
 [class^="icon-"]::before,
 [class*=" icon-"]::before {
@@ -16,8 +16,8 @@
 }
 [class^="icon-"].disabled,
 [class*=" icon-"].disabled,
-[class^="fa-"].disabled,
-[class*=" fa-"].disabled {
+[class^="far"]::before,
+[class*=" far"]::before {
   font-weight: 400;
 }
 

@@ -108,7 +108,6 @@ class AdministratorApplication extends CMSApplication
 			case 'html':
 				// Get the template
 				$template = $this->getTemplate(true);
-				$clientId = $this->getClientId();
 
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
@@ -122,12 +121,7 @@ class AdministratorApplication extends CMSApplication
 					$wr->addExtensionRegistryFile($component);
 				}
 
-				if (!empty($template->parent))
-				{
-					$wr->addTemplateRegistryFile($template->parent, $clientId);
-				}
-
-				$wr->addTemplateRegistryFile($template->template, $clientId);
+				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
 
@@ -229,9 +223,8 @@ class AdministratorApplication extends CMSApplication
 
 		// Load the template name from the database
 		$db = Factory::getDbo();
-
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
+			->select($db->quoteName(['s.template', 's.params']))
 			->from($db->quoteName('#__template_styles', 's'))
 			->join(
 				'LEFT',
@@ -267,26 +260,20 @@ class AdministratorApplication extends CMSApplication
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 		$template->params = new Registry($template->params);
 
-		// Fallback template
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')
-			&& !file_exists(JPATH_THEMES . '/' . $template->parent . '/index.php'))
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'atum';
-
-			// Check, the data were found and if template really exists
-			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
-			{
-				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
-			}
 		}
 
 		// Cache the result
 		$this->template = $template;
 
-		// Pass the parent template to the state
-		$this->set('themeInherits', $template->parent);
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		{
+			throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+		}
 
 		if ($params)
 		{

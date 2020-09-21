@@ -59,12 +59,6 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
         this.checkElement('CodeMirror', 'findModeByName')
           .then(() => {
-            // Check if instance exists to avoid duplication on resize
-            if (this.instance !== '') {
-              Joomla.editors.instances[this.element.id] = this.instance;
-              return;
-            }
-
             // For mode autoloading.
             window.CodeMirror.modeURL = this.getAttribute('mod-path');
 
@@ -109,7 +103,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
             // Register Editor
             this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
-            this.instance.disable = (disabled) => this.instance.setOption('readOnly', disabled ? 'nocursor' : false);
+            this.instance.disable = disabled => this.instance.setOption('readOnly', disabled ? 'nocursor' : false);
             Joomla.editors.instances[this.element.id] = this.instance;
           });
       });

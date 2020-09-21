@@ -39,10 +39,10 @@ if ($tmpl == 'component')
 
 // Populate the media config
 $config = [
-	'apiBaseUrl'              => Uri::base() . 'index.php?option=com_media&format=json',
+	'apiBaseUrl'              => Uri::root() . 'administrator/index.php?option=com_media&format=json',
 	'csrfToken'               => Session::getFormToken(),
 	'uploadPath'              => $this->file->path,
-	'editViewUrl'             => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : ''),
+	'editViewUrl'             => Uri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'contents'                => $this->file->content,

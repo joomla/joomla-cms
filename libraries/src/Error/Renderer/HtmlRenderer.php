@@ -44,20 +44,14 @@ class HtmlRenderer extends AbstractRenderer
 		$app = Factory::getApplication();
 
 		// Get the current template from the application
-		$template = $app->getTemplate(true);
+		$template = $app->getTemplate();
 
 		// Push the error object into the document
 		$this->getDocument()->setError($error);
 
 		// Add registry file for the template asset
-		$wa = $this->getDocument()->getWebAssetManager()->getRegistry();
-
-		$wa->addTemplateRegistryFile($template->template, $app->getClientId());
-
-		if (!empty($template->parent))
-		{
-			$wa->addTemplateRegistryFile($template->parent, $app->getClientId());
-		}
+		$this->getDocument()->getWebAssetManager()->getRegistry()
+			->addTemplateRegistryFile($template, $app->getClientId());
 
 		if (ob_get_contents())
 		{
@@ -69,11 +63,10 @@ class HtmlRenderer extends AbstractRenderer
 		return $this->getDocument()->render(
 			false,
 			[
-				'template'         => $template->template,
-				'directory'        => JPATH_THEMES,
-				'debug'            => JDEBUG,
-				'csp_nonce'        => $app->get('csp_nonce'),
-				'templateInherits' => $template->parent
+				'template'  => $template,
+				'directory' => JPATH_THEMES,
+				'debug'     => JDEBUG,
+				'csp_nonce' => $app->get('csp_nonce'),
 			]
 		);
 	}

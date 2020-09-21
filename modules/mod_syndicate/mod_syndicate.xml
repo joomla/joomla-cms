@@ -24,23 +24,25 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="text"
-					type="text"
-					label="MOD_SYNDICATE_FIELD_TEXT_LABEL"
-					description="MOD_SYNDICATE_FIELD_TEXT_DESC"
-				/>
-
-				<field
 					name="display_text"
 					type="radio"
 					layout="joomla.form.field.radio.switcher"
 					label="MOD_SYNDICATE_FIELD_DISPLAYTEXT_LABEL"
+					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC"
 					default="1"
 					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
+				<field
+					name="text"
+					type="text"
+					label="MOD_SYNDICATE_FIELD_TEXT_LABEL"
+					description="MOD_SYNDICATE_FIELD_TEXT_DESC"
+					showon="display_text:1"
+				/>
 
 				<field
 					name="format"

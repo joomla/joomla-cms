@@ -13,27 +13,23 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-extract($displayData, EXTR_OVERWRITE);
-
-/**
- * Layout variables
- * -----------------
- * @var   string  $id
- * @var   string  $onclick
- * @var   string  $class
- * @var   string  $text
- * @var   string  $btnClass
- * @var   string  $tagName
- * @var   string  $htmlAttributes
- * @var   string  $hasButtons
- * @var   string  $button
- * @var   string  $dropdownItems
- * @var   string  $caretClass
- * @var   string  $toggleSplit
- */
-
 $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 
+/**
+ * @var  string  $id
+ * @var  string  $onclick
+ * @var  string  $class
+ * @var  string  $text
+ * @var  string  $btnClass
+ * @var  string  $tagName
+ * @var  string  $htmlAttributes
+ * @var  string  $hasButtons
+ * @var  string  $button
+ * @var  string  $dropdownItems
+ * @var  string  $caretClass
+ * @var  string  $toggleSplit
+ */
+extract($displayData, EXTR_OVERWRITE);
 ?>
 <?php if ($hasButtons && trim($button) !== ''): ?>
 	<?php HTMLHelper::_('bootstrap.framework'); ?>

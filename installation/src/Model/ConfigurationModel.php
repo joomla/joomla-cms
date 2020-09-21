@@ -362,7 +362,6 @@ class ConfigurationModel extends BaseInstallationModel
 		$testingPlugin->access = 1;
 		$testingPlugin->manifest_cache = '';
 		$testingPlugin->params = '{}';
-		$testingPlugin->custom_data = '';
 
 		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
 

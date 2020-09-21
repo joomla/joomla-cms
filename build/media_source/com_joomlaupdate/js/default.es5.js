@@ -9,19 +9,13 @@ Joomla = window.Joomla || {};
 	'use strict';
 
 	Joomla.extractionMethodHandler = function(element, prefix) {
-		var dom = [
-			prefix + '_hostname',
-			prefix + '_port',
-			prefix + '_username',
-			prefix + '_password',
-			prefix + '_directory'
-		];
+		var displayStyle = element.value === 'direct' ? 'hidden' : 'table-row';
 
-		if (element.value === 'direct') {
-			dom.map(el => document.getElementById(el).classList.add('hidden'));
-		} else {
-			dom.map(el => document.getElementById(el).classList.remove('hidden'));
-		}
+		document.getElementById(prefix + '_hostname').classList.add(displayStyle);
+		document.getElementById(prefix + '_port').classList.add(displayStyle);
+		document.getElementById(prefix + '_username').classList.add(displayStyle);
+		document.getElementById(prefix + '_password').classList.add(displayStyle);
+		document.getElementById(prefix + '_directory').classList.add(displayStyle);
 	}
 
 	Joomla.submitbuttonUpload = function() {
@@ -157,15 +151,17 @@ Joomla = window.Joomla || {};
 
 		// Request the server to check the compatiblity for the passed extension and joomla version
 		Joomla.request({
-			url: PreUpdateChecker.config.serverUrl
-				+ '&joomla-target-version=' + encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
-				+ '&extension-id=' + encodeURIComponent(node.getAttribute('data-extension-id')),
+			url: PreUpdateChecker.config.serverUrl,
+			data: {
+				'joomla-target-version': PreUpdateChecker.joomlaTargetVersion,
+				'extension-id': node.getAttribute('data-extensionId')
+			},
 			onSuccess(data) {
 				var response = JSON.parse(data);
 				// Extract the data from the JResponseJson object
 				extension.state = response.data.state;
 				extension.compatibleVersion = response.data.compatibleVersion;
-				extension.currentVersion = node.getAttribute('data-extension-current-version');
+				extension.currentVersion = node.getAttribute('data-extensionCurrentVersion');
 
 				// Pass the retrieved data to the callback
 				callback(extension);

@@ -42,7 +42,7 @@
         Joomla.loadOptions({ 'joomla.jtext': null });
       }
 
-      newDef = newDef === undefined ? newKey : newDef;
+      newDef = newDef === undefined ? '' : newDef;
       newKey = newKey.toUpperCase();
 
       return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;

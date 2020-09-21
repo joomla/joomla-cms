@@ -256,7 +256,7 @@ class ScriptsRenderer extends DocumentRenderer
 
 		$buffer .= $tab . '<script';
 		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= '>';
+		$buffer .= '>' . $lnEnd;
 
 		// This is for full XHTML support.
 		if ($this->_doc->_mime !== 'text/html')
@@ -264,7 +264,7 @@ class ScriptsRenderer extends DocumentRenderer
 			$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
 		}
 
-		$buffer .= $content;
+		$buffer .= $content . $lnEnd;
 
 		// See above note
 		if ($this->_doc->_mime !== 'text/html')
@@ -272,7 +272,7 @@ class ScriptsRenderer extends DocumentRenderer
 			$buffer .= $tab . $tab . '//]]>' . $lnEnd;
 		}
 
-		$buffer .= '</script>' . $lnEnd;
+		$buffer .= $tab . '</script>' . $lnEnd;
 
 		return $buffer;
 	}

@@ -323,8 +323,6 @@ class TemplateAdapter extends InstallerAdapter
 				$db->quoteName('home'),
 				$db->quoteName('title'),
 				$db->quoteName('params'),
-				$db->quoteName('inheritable'),
-				$db->quoteName('parent'),
 			];
 
 			$values = $query->bindArray(
@@ -334,16 +332,12 @@ class TemplateAdapter extends InstallerAdapter
 					'0',
 					Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name)),
 					$this->extension->params,
-					(int) $this->manifest->inheritable,
-					$this->manifest->parent ?: '',
 				],
 				[
 					ParameterType::STRING,
 					ParameterType::INTEGER,
 					ParameterType::STRING,
 					ParameterType::STRING,
-					ParameterType::STRING,
-					ParameterType::INTEGER,
 					ParameterType::STRING,
 				]
 			);

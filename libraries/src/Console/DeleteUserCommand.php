@@ -86,13 +86,6 @@ class DeleteUserCommand extends AbstractCommand
 			return 1;
 		}
 
-		if ($input->isInteractive() && !$this->ioStyle->confirm('Are you sure you want to delete this user?', false))
-		{
-			$this->ioStyle->note('User not deleted');
-
-			return 0;
-		}
-
 		$groups = UserHelper::getUserGroups($userId);
 		$user = User::getInstance($userId);
 
@@ -189,11 +182,14 @@ class DeleteUserCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$help = "<info>%command.name%</info> deletes a user
-		\nUsage: <info>php %command.full_name%</info>";
-
 		$this->setDescription('Delete a user');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
-		$this->setHelp($help);
+		$this->setHelp(
+			<<<EOF
+The <info>%command.name%</info> command deletes a user
+
+<info>php %command.full_name%</info>
+EOF
+		);
 	}
 }
