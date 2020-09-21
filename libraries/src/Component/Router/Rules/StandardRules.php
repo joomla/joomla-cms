@@ -40,7 +40,7 @@ class StandardRules implements RulesInterface
 	}
 
 	/**
-	 * Dummy method to fullfill the interface requirements
+	 * Dummy method to fulfill the interface requirements
 	 *
 	 * @param   array  &$query  The query array to process
 	 *
