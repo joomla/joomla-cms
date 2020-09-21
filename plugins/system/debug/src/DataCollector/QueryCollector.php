@@ -10,7 +10,6 @@
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DataCollector\AssetProvider;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
@@ -100,9 +99,6 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 */
 	public function collect(): array
 	{
-		// @todo fetch the database object in a non deprecated way..
-		$database = Factory::$database;
-
 		$statements = $this->getStatements();
 
 		return [
@@ -132,7 +128,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 
 	/**
 	 * Returns a hash where keys are control names and their values
-	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
+	 * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
 	 *
 	 * @since  4.0.0
 	 *
@@ -163,10 +159,10 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 */
 	public function getAssets(): array
 	{
-		return array(
+		return [
 			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.css',
 			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/sqlqueries/widget.min.js'
-		);
+		];
 	}
 
 	/**
@@ -237,13 +233,23 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 				}
 			}
 
+			$explain        = $this->explains[$id] ?? [];
+			$explainColumns = [];
+
+			// Extract column labels for Explain table
+			if ($explain)
+			{
+				$explainColumns = array_keys(reset($explain));
+			}
+
 			$statements[] = [
 				'sql'          => $item,
 				'duration_str' => $this->getDataFormatter()->formatDuration($queryTime),
 				'memory_str'   => $this->getDataFormatter()->formatBytes($queryMemory),
 				'caller'       => $callerLocation,
 				'callstack'    => $trace,
-				'explain'      => $this->explains[$id] ?? [],
+				'explain'      => $explain,
+				'explain_col'  => $explainColumns,
 				'profile'      => $this->profiles[$id] ?? [],
 			];
 		}

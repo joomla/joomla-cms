@@ -3,13 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -21,40 +20,44 @@ use Joomla\CMS\Uri\Uri;
  * =========================================================================================================
  */
 /** @var  \Joomla\Module\Menu\Administrator\Menu\CssMenu  $this */
-$class         = '';
+$class         = 'item';
 $currentParams = $current->getParams();
 
 // Build the CSS class suffix
 if (!$this->enabled)
 {
-	$class = ' class="disabled"';
+	$class .= ' disabled';
 }
 elseif ($current->type == 'separator')
 {
-	$class = $current->title ? ' class="menuitem-group"' : ' class="divider"';
+	$class = $current->title ? 'menuitem-group' : 'divider';
 }
 elseif ($current->hasChildren())
 {
-	$class = ' class="dropdown-submenu"';
+	$class .= ' parent';
+}
 
-	if ($current->level == 1)
-	{
-		$class = ' class="parent"';
-	}
-	elseif ($current->class === 'scrollable-menu')
-	{
-		$class = ' class="dropdown scrollable-menu"';
-	}
+if ($current->level == 1)
+{
+	$class .= ' item-level-1';
+}
+elseif ($current->level == 2)
+{
+	$class .= ' item-level-2';
+}
+elseif ($current->level == 3)
+{
+	$class .= ' item-level-3';
 }
 
 // Set the correct aria role and print the item
 if ($current->type == 'separator')
 {
-	echo '<li' . $class . ' role="presentation">';
+	echo '<li class="' . $class . '" role="presentation">';
 }
 else
 {
-	echo '<li' . $class . '>';
+	echo '<li class="' . $class . '">';
 }
 
 // Print a link if it exists
@@ -106,7 +109,7 @@ if ($iconImage)
 {
 	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
 	{
-		$iconImage = '<span class="home-image fas fa-star" aria-hidden="true"></span>';
+		$iconImage = '<span class="home-image fas fa-home" aria-hidden="true"></span>';
 		$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
 	}
 	elseif (substr($iconImage, 0, 6) == 'image:')

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,8 +25,8 @@ HTMLHelper::_('bootstrap.framework');
 					<?php echo Text::_('MOD_LOGGED_NAME'); ?>
 				<?php endif; ?>
 			</th>
-			<th scope="col" style="width:30%"><?php echo Text::_('JCLIENT'); ?></th>
-			<th scope="col" style="width:20%"><?php echo Text::_('JDATE'); ?></th>
+			<th scope="col" class="w-30"><?php echo Text::_('JCLIENT'); ?></th>
+			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
 	<tbody>

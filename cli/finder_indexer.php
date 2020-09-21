@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -214,9 +214,9 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 		// Disable caching.
-		$config = Factory::getConfig();
-		$config->set('caching', 0);
-		$config->set('cache_handler', 'file');
+		$app = Factory::getApplication();
+		$app->set('caching', 0);
+		$app->set('cache_handler', 'file');
 
 		// Reset the indexer state.
 		FinderIndexer::resetState();
@@ -334,7 +334,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 *
 	 * @return  string  The name of the application.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getName()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -152,16 +152,16 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		// Only create an entry on front-end user creation/update profile
 		if ($this->app->isClient('administrator'))
 		{
-			return true;
+			return;
 		}
 
 		// Get the user's ID
@@ -170,7 +170,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		// If user already consented before, no need to check it further
 		if ($userId > 0 && $this->isUserConsented($userId))
 		{
-			return true;
+			return;
 		}
 
 		$option = $this->app->input->get('option');
@@ -222,8 +222,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			$model = $this->app->bootComponent('com_actionlogs')->getMVCFactory()->createModel('Actionlog', 'Administrator');
 			$model->addLog([$message], 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
-
-		return true;
 	}
 
 	/**
@@ -232,18 +230,18 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
@@ -263,12 +261,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			catch (Exception $e)
 			{
 				$this->_subject->setError($e->getMessage());
-
-				return false;
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -421,7 +415,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 	/**
 	 * Get privacy article ID. If the site is a multilingual website and there is associated article for the
-	 * current language, ID of the associlated article will be returned
+	 * current language, ID of the associated article will be returned
 	 *
 	 * @return  integer
 	 *
@@ -718,8 +712,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $client_id)
@@ -729,7 +721,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
 					];
 
 					$cache = Cache::getInstance('callback', $options);

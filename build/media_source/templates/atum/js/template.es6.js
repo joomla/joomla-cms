@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,6 @@
 
   const mobile = window.matchMedia('(max-width: 992px)');
   const small = window.matchMedia('(max-width: 575.98px)');
-  const smallLandscape = window.matchMedia('(max-width: 767.98px)');
   const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
 
   /**
@@ -210,12 +209,12 @@
       wrapper.classList.add('closed');
     }
 
-    if (smallLandscape.matches) {
-      if (sidebarNav) sidebarNav.classList.add('mm-collapse');
-      if (subhead) subhead.classList.add('mm-collapse');
+    if (small.matches) {
+      if (sidebarNav) sidebarNav.classList.add('collapse');
+      if (subhead) subhead.classList.add('collapse');
     } else {
-      if (sidebarNav) sidebarNav.classList.remove('mm-collapse');
-      if (subhead) subhead.classList.remove('mm-collapse');
+      if (sidebarNav) sidebarNav.classList.remove('collapse');
+      if (subhead) subhead.classList.remove('collapse');
     }
   }
 
@@ -225,12 +224,17 @@
    * @since   4.0.0
    */
   function setDesktop() {
+    const sidebarNav = doc.querySelector('.sidebar-nav');
+    const subhead = doc.querySelector('.subhead');
     const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
     if (!sidebarWrapper) {
       changeLogo('closed');
     } else {
       changeLogo();
     }
+
+    if (sidebarNav) sidebarNav.classList.remove('collapse');
+    if (subhead) subhead.classList.remove('collapse');
 
     toggleArrowIcon('top');
   }
@@ -284,8 +288,8 @@
       if (!navigator.cookieEnabled) {
         Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
       }
-      window.addEventListener('joomla:menu-toggle', (event) => {
-        changeLogo(event.detail);
+      window.addEventListener('joomla:menu-toggle', ({ detail }) => {
+        changeLogo(detail);
       });
     }
   });

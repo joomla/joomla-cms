@@ -1,5 +1,5 @@
-INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
-(0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0);
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+(0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 TRUNCATE TABLE `#__finder_filters`;
 ALTER TABLE `#__finder_filters` MODIFY `created_by` int(10) unsigned NOT NULL DEFAULT 0;
@@ -11,6 +11,7 @@ ALTER TABLE `#__finder_filters` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4
 ALTER TABLE `#__finder_filters` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 TRUNCATE TABLE `#__finder_links`;
+ALTER TABLE `#__finder_links` CHANGE `route` `route` varchar(400);
 ALTER TABLE `#__finder_links` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `access`;
 ALTER TABLE `#__finder_links` MODIFY `state` int(5) NOT NULL DEFAULT 1;
 ALTER TABLE `#__finder_links` MODIFY `access` int(5) NOT NULL DEFAULT 0;

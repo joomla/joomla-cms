@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ use Joomla\CMS\Router\Route;
 									<?php echo ($params->get('menu_text', 1)) ? htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8') . $item->iconImage : ''; ?>
 									<?php if ($item->ajaxbadge) : ?>
 										<span class="menu-badge">
-											<span class="fas fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+											<span class="fas fa-spin fa-spinner mt-1 system-counter float-right" data-url="<?php echo $item->ajaxbadge; ?>"></span>
 										</span>
 									<?php endif; ?>
 								</a>

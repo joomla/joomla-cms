@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,15 +25,19 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_content/admin-articles-modal.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('behavior.multiselect');
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core')
+	->useScript('com_content.admin-articles-modal');
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
 $editor    = $app->input->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $onclick   = $this->escape($function);
+$multilang = Multilanguage::isEnabled();
 
 if (!empty($editor))
 {
@@ -44,7 +48,7 @@ if (!empty($editor))
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo Route::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1&editor=' . $editor); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
@@ -56,26 +60,30 @@ if (!empty($editor))
 		<?php else : ?>
 			<table class="table table-sm">
 				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="text-center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%">
-							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-						</th>
-						<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+						<?php if ($multilang) : ?>
+							<th scope="col" class="w-15">
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif; ?>
+						<th scope="col" class="w-5 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-1 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -83,13 +91,13 @@ if (!empty($editor))
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'icon-trash',
-					0  => 'icon-unpublish',
-					1  => 'icon-publish',
+					-2 => 'fas fa-trash',
+					0  => 'fas fa-times',
+					1  => 'fas fa-check',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($item->language && Multilanguage::isEnabled())
+					<?php if ($item->language && $multilang)
 					{
 						$tag = strlen($item->language);
 						if ($tag == 5)
@@ -104,7 +112,7 @@ if (!empty($editor))
 							$lang = '';
 						}
 					}
-					elseif (!Multilanguage::isEnabled())
+					elseif (!$multilang)
 					{
 						$lang = '';
 					}
@@ -138,9 +146,11 @@ if (!empty($editor))
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small">
-							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
-						</td>
+						<?php if ($multilang) : ?>
+							<td class="small">
+								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
+							</td>
+						<?php endif; ?>
 						<td class="small d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
 						</td>

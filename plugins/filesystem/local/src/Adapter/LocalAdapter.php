@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Filesystem.Local
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -816,7 +816,7 @@ class LocalAdapter implements AdapterInterface
 
 		if (!$can)
 		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 403);
+			throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 403);
 		}
 	}
 

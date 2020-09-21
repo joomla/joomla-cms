@@ -60,7 +60,7 @@
 		</field>
 
 		<field
-			name="logging_enabled"
+			name="gather_search_statistics"
 			type="radio"
 			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			layout="joomla.form.field.radio.switcher"
@@ -171,6 +171,7 @@
 			validate="options"
 			>
 			<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
+			<option value="title">COM_FINDER_CONFIG_SORT_OPTION_TITLE</option>
 			<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
 			<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
 		</field>

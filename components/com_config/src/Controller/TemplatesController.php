@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,10 +104,6 @@ class TemplatesController extends BaseController
 		// Check the return value.
 		if ($return === false)
 		{
-			// Save the data in the session.
-			// TODO Which data?! How did that work?
-			$app->setUserState('com_config.config.global.data', $data);
-
 			// Save failed, go back to the screen and display a notice.
 			$this->setMessage(Text::sprintf('JERROR_SAVE_FAILED'), 'error');
 			$this->setRedirect(Route::_('index.php?option=com_config&view=templates', false));

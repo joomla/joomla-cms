@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,35 +43,37 @@ $stateMsgs  = array(
 		<?php else : ?>
 			<table class="table" id="consentList">
 				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
-						<td style="width:1%" class="text-center">
+						<td class="w-1 text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" style="width:5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'u.username', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="1%">
+						<th scope="col" class="w-1">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_USERID', 'a.user_id', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_CONSENTS_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col">
 							<?php echo Text::_('COM_PRIVACY_HEADING_CONSENTS_BODY'); ?>
 						</th>
-						<th scope="col" width="15%">
+						<th scope="col" class="w-15">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_CONSENTS_CREATED', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="1%">
+						<th scope="col" class="w-1">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -79,7 +81,7 @@ $stateMsgs  = array(
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr>
-							<td class="center">
+							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="tbody-icon">

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -300,8 +300,16 @@ class ContactModel extends FormModel
 			}
 			catch (\Exception $e)
 			{
-				$this->setError($e);
-				$this->_item[$pk] = false;
+				if ($e->getCode() == 404)
+				{
+					// Need to go through the error handler to allow Redirect to work.
+					throw $e;
+				}
+				else
+				{
+					$this->setError($e);
+					$this->_item[$pk] = false;
+				}
 			}
 		}
 
@@ -464,7 +472,6 @@ class ContactModel extends FormModel
 			$pk = $pk ?: (int) $this->getState('contact.id');
 
 			$table = $this->getTable('Contact');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

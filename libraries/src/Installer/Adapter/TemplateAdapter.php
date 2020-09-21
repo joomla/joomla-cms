@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -323,6 +323,8 @@ class TemplateAdapter extends InstallerAdapter
 				$db->quoteName('home'),
 				$db->quoteName('title'),
 				$db->quoteName('params'),
+				$db->quoteName('inheritable'),
+				$db->quoteName('parent'),
 			];
 
 			$values = $query->bindArray(
@@ -332,12 +334,16 @@ class TemplateAdapter extends InstallerAdapter
 					'0',
 					Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name)),
 					$this->extension->params,
+					(int) $this->manifest->inheritable,
+					$this->manifest->parent ?: '',
 				],
 				[
 					ParameterType::STRING,
 					ParameterType::INTEGER,
 					ParameterType::STRING,
 					ParameterType::STRING,
+					ParameterType::STRING,
+					ParameterType::INTEGER,
 					ParameterType::STRING,
 				]
 			);
@@ -471,9 +477,11 @@ class TemplateAdapter extends InstallerAdapter
 				[
 					$db->quoteName('home') . ' = ' . $db->quote('1'),
 					$db->quoteName('template') . ' = :template',
+					$db->quoteName('client_id') . ' = :client_id',
 				]
 			)
-			->bind(':template', $name);
+			->bind(':template', $name)
+			->bind(':client_id', $clientId);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)

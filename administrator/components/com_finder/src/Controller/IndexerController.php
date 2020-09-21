@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -155,7 +153,6 @@ class IndexerController extends BaseController
 		 * in order to work around some plugins that don't do proper environment
 		 * checks before trying to use HTML document functions.
 		 */
-		$raw = clone Factory::getDocument();
 		$lang = Factory::getLanguage();
 
 		// Get the document properties.
@@ -166,27 +163,6 @@ class IndexerController extends BaseController
 			'language'  => $lang->getTag(),
 			'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
 		);
-
-		// Get the HTML document.
-		$html = Factory::getContainer()->get(FactoryInterface::class)->createDocument('html', $attributes);
-
-		// TODO: Why is this document fetched and immediately overwritten?
-		$doc  = Factory::getDocument();
-
-		// Swap the documents.
-		$doc = $html;
-
-		// Get the admin application.
-		$admin = clone Factory::getApplication();
-
-		// Get the site app.
-		$site = Factory::getContainer()->get(SiteApplication::class);
-
-		// Swap the app.
-		$app = Factory::getApplication();
-
-		// TODO: Why is the app fetched and immediately overwritten?
-		$app = $site;
 
 		// Start the indexer.
 		try
@@ -201,12 +177,6 @@ class IndexerController extends BaseController
 			$state = Indexer::getState();
 			$state->start = 0;
 			$state->complete = 0;
-
-			// Swap the documents back.
-			$doc = $raw;
-
-			// Swap the applications back.
-			$app = $admin;
 
 			// Log batch completion and memory high-water mark.
 			try
@@ -225,9 +195,6 @@ class IndexerController extends BaseController
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
-			// Swap the documents back.
-			$doc = $raw;
-
 			// Send the response.
 			static::sendResponse($e);
 		}
@@ -257,7 +224,8 @@ class IndexerController extends BaseController
 		try
 		{
 			// Optimize the index
-			Indexer::getInstance()->optimize();
+			$indexer = new Indexer;
+			$indexer->optimize();
 
 			// Get the indexer state.
 			$state = Indexer::getState();
@@ -317,8 +285,12 @@ class IndexerController extends BaseController
 		// Create the response object.
 		$response = new Response($data);
 
-		// Add the buffer.
-		$response->buffer = \JDEBUG ? ob_get_contents() : ob_end_clean();
+		if (\JDEBUG)
+		{
+			// Add the buffer and memory usage
+			$response->buffer = ob_get_contents();
+			$response->memory = memory_get_usage(true);
+		}
 
 		// Send the JSON response.
 		echo json_encode($response);

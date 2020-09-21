@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,14 +25,16 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_contact/admin-contacts-modal.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_contact.admin-contacts-modal');
 
 $function  = $app->input->getCmd('function', 'jSelectContact');
 $editor    = $app->input->getCmd('editor', '');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $onclick   = $this->escape($function);
+$multilang = Multilanguage::isEnabled();
 
 if (!empty($editor))
 {
@@ -43,7 +45,7 @@ if (!empty($editor))
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&editor=' . $editor . '&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo Route::_('index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&editor=' . $editor . '&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
@@ -56,25 +58,29 @@ if (!empty($editor))
 			<table class="table table-sm">
 				<thead>
 					<caption id="captionTable" class="sr-only">
-						<?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						<?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 					</caption>
 					<tr>
-						<th scope="col" style="width:1%" class="text-center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-15 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
-							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
-						</th>
-						<th scope="col" style="width:1%">
+						<?php if ($multilang) : ?>
+							<th scope="col" class="w-10 d-none d-md-table-cell">
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif; ?>
+						<th scope="col" class="w-1">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -82,14 +88,14 @@ if (!empty($editor))
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'icon-trash',
-					0  => 'icon-unpublish',
-					1  => 'icon-publish',
-					2  => 'icon-archive',
+					-2 => 'fas fa-trash',
+					0  => 'fas fa-times',
+					1  => 'fas fa-check',
+					2  => 'fas fa-folder',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($item->language && Multilanguage::isEnabled())
+					<?php if ($item->language && $multilang)
 					{
 						$tag = strlen($item->language);
 						if ($tag == 5)
@@ -104,7 +110,7 @@ if (!empty($editor))
 							$lang = '';
 						}
 					}
-					elseif (!Multilanguage::isEnabled())
+					elseif (!$multilang)
 					{
 						$lang = '';
 					}
@@ -129,9 +135,11 @@ if (!empty($editor))
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small d-none d-md-table-cell">
-							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
-						</td>
+						<?php if ($multilang) : ?>
+							<td class="small d-none d-md-table-cell">
+								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
+							</td>
+						<?php endif; ?>
 						<td>
 							<?php echo (int) $item->id; ?>
 						</td>

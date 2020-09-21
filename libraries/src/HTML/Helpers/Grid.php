@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ abstract class Grid
 	{
 		HTMLHelper::_('behavior.core');
 
-		return '<input type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
+		return '<input autocomplete="off" type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
 	}
 
 	/**
@@ -128,7 +128,7 @@ abstract class Grid
 
 		return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="sr-only">' . Text::_('JSELECT')
 			. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-			. '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
+			. '<input autocomplete="off" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 			. '" onclick="Joomla.isChecked(this.checked);">';
 	}
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,13 +65,10 @@ class RemoveOldFilesCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Remove old system files');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command removes old files which should have been deleted during a Joomla update
+		$help = "<info>%command.name%</info> removes old files which should have been deleted during a Joomla update
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setDescription('Remove old system files');
+		$this->setHelp($help);
 	}
 }

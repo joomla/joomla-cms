@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -391,7 +391,7 @@ class RequestModel extends AdminModel
 		$key   = $table->getKeyName();
 		$pk    = !empty($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 
-		if (!$pk && !Factory::getConfig()->get('mailonline', 1))
+		if (!$pk && !Factory::getApplication()->get('mailonline', 1))
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 

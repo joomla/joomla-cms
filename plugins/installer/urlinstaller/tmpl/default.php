@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.urlinstaller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-?>
+/** @var PlgInstallerUrlInstaller $this */
 
+Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
+
+$this->app->getDocument()->getWebAssetManager()
+	->registerAndUseScript('plg_installer_urlinstaller.urlinstaller', 'plg_installer_urlinstaller/urlinstaller.js', [], ['defer' => true], ['core']);
+
+?>
 <legend><?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
 <hr>
 <div class="control-group">

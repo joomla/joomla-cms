@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,15 +43,10 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 
 	<?php if ($canEdit) : ?>
 		<div class="icons">
-			<div class="btn-group float-right">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $this->item->id; ?>"
-					aria-label="<?php echo Text::_('JUSER_TOOLS'); ?>"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="fas fa-cog" aria-hidden="true"></span>
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $this->item->id; ?>">
-					<li class="edit-icon"> <?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?> </li>
-				</ul>
+			<div class="float-right">
+				<div>
+					<?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?>
+				</div>
 			</div>
 		</div>
 	<?php endif; ?>

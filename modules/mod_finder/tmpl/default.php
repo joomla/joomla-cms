@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,8 @@ else
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
-$wa->registerAndUseScript('com_finder', 'com_finder/finder.js', [], ['defer' => true]);
+$wa->getRegistry()->addExtensionRegistryFile('com_finder');
+$wa->useScript('com_finder.finder');
 
 Text::script('MOD_FINDER_SEARCH_VALUE', true);
 

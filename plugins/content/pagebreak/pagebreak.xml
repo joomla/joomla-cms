@@ -3,7 +3,7 @@
 	<name>plg_content_pagebreak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -80,6 +80,7 @@
 					type="list"
 					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL"
 					default="pages"
+					validate="options"
 					>
 					<option value="pages">PLG_CONTENT_PAGEBREAK_PAGES</option>
 					<option value="sliders">PLG_CONTENT_PAGEBREAK_SLIDERS</option>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,20 +43,22 @@ abstract class PluginHelper
 	 */
 	public static function getLayoutPath($type, $name, $layout = 'default')
 	{
-		$template = Factory::getApplication()->getTemplate();
+		$templateObj   = Factory::getApplication()->getTemplate(true);
 		$defaultLayout = $layout;
+		$template      = $templateObj->template;
 
 		if (strpos($layout, ':') !== false)
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = $temp[0] === '_' ? $template : $temp[0];
+			$template = $temp[0] === '_' ? $templateObj->template : $temp[0];
 			$layout = $temp[1];
 			$defaultLayout = $temp[1] ?: 'default';
 		}
 
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
+		$iPath = JPATH_THEMES . '/' . $templateObj->parent . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
 		$bPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
 		$dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
 
@@ -64,6 +66,10 @@ abstract class PluginHelper
 		if (file_exists($tPath))
 		{
 			return $tPath;
+		}
+		elseif (!empty($templateObj->parent) && file_exists($iPath))
+		{
+			return $iPath;
 		}
 		elseif (file_exists($bPath))
 		{

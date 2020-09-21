@@ -1,5 +1,5 @@
-INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0);
+INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
+(0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 TRUNCATE TABLE "#__finder_filters";
 ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by" SET DEFAULT 0;
@@ -10,6 +10,7 @@ ALTER TABLE "#__finder_filters" ALTER COLUMN "checked_out_time" DROP NOT NULL;
 ALTER TABLE "#__finder_filters" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 
 TRUNCATE TABLE "#__finder_links";
+ALTER TABLE "#__finder_links" ALTER COLUMN "route" TYPE character varying(400);
 ALTER TABLE "#__finder_links" ALTER COLUMN "state" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "access" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE character varying(7);
