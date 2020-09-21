@@ -30,7 +30,9 @@ use Joomla\CMS\Uri\Uri;
 			<?php echo Text::sprintf('COM_FINDER_SEARCH_SIMILAR', $link); ?>
 		<?php elseif ($this->explained && $this->params->get('show_explained_query', 1)) : ?>
 			<?php // Display the explained search query. ?>
-			<?php echo $this->explained; ?>
+			<p role="alert">
+				<?php echo Text::plural('COM_FINDER_QUERY_RESULTS', $this->total, $this->explained); ?>
+			</p>
 		<?php endif; ?>
 	</div>
 <?php endif; ?>
@@ -50,7 +52,7 @@ use Joomla\CMS\Uri\Uri;
 <?php endif; ?>
 <?php // Display a list of results ?>
 <br id="highlighter-start" />
-<dl class="search-results list-striped">
+<ol id="search-result-list" class="com-finder__results-list" start="<?php echo (int) $this->pagination->limitstart + 1; ?>">
 	<?php $this->baseUrl = Uri::getInstance()->toString(array('scheme', 'host', 'port')); ?>
 	<?php foreach ($this->results as $i => $result) : ?>
 		<?php $this->result = &$result; ?>
@@ -58,7 +60,7 @@ use Joomla\CMS\Uri\Uri;
 		<?php $layout = $this->getLayoutFile($this->result->layout); ?>
 		<?php echo $this->loadTemplate($layout); ?>
 	<?php endforeach; ?>
-</dl>
+</ol>
 <br id="highlighter-end" />
 <?php // Display the pagination ?>
 <div class="com-finder__navigation search-pagination">

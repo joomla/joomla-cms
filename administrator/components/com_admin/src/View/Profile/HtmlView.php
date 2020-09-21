@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ class HtmlView extends BaseHtmlView
 	 * Configuration forms for all two-factor authentication methods
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $tfaform;
 
@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
 	 * Returns the one time password (OTP) – a.k.a. two factor authentication – configuration for the user.
 	 *
 	 * @var    \stdClass
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $otpConfig;
 

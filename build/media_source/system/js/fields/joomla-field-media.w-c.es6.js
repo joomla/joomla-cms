@@ -65,7 +65,7 @@
       return;
     }
 
-    const apiBaseUrl = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_media&format=json`;
+    const apiBaseUrl = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&format=json`;
 
     Joomla.request({
       url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`,
@@ -89,6 +89,9 @@
       this.onSelected = this.onSelected.bind(this);
       this.show = this.show.bind(this);
       this.clearValue = this.clearValue.bind(this);
+      this.modalClose = this.modalClose.bind(this);
+      this.setValue = this.setValue.bind(this);
+      this.updatePreview = this.updatePreview.bind(this);
     }
 
     static get observedAttributes() {
@@ -157,12 +160,20 @@
 
     connectedCallback() {
       this.button = this.querySelector(this.buttonSelect);
+      this.inputElement = this.querySelector(this.input);
       this.buttonClearEl = this.querySelector(this.buttonClear);
-      this.show = this.show.bind(this);
-      this.modalClose = this.modalClose.bind(this);
-      this.clearValue = this.clearValue.bind(this);
-      this.setValue = this.setValue.bind(this);
-      this.updatePreview = this.updatePreview.bind(this);
+      this.modalElement = this.querySelector('.joomla-modal');
+      this.buttonSaveSelectedElement = this.querySelector(this.buttonSaveSelected);
+      this.previewElement = this.querySelector('.field-media-preview');
+
+      if (!this.button || !this.inputElement || !this.buttonClearEl || !this.modalElement
+        || !this.buttonSaveSelectedElement) {
+        throw new Error('Misconfiguaration...');
+      }
+
+      if (Joomla.Bootstrap && Joomla.Bootstrap.initModal && typeof Joomla.Bootstrap.initModal === 'function') {
+        Joomla.Bootstrap.initModal(this.modalElement);
+      }
 
       this.button.addEventListener('click', this.show);
 
@@ -183,7 +194,6 @@
     }
 
     onSelected(event) {
-      // event.target.removeEventListener('click', this.onSelected);
       event.preventDefault();
       event.stopPropagation();
 
@@ -192,17 +202,15 @@
     }
 
     show() {
-      this.querySelector('[role="dialog"]').open();
+      this.modalElement.open();
 
       Joomla.selectedFile = {};
 
-      this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
+      this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
     }
 
     modalClose() {
-      const input = this.querySelector(this.input);
-
-      Joomla.getImage(Joomla.selectedFile, input, this)
+      Joomla.getImage(Joomla.selectedFile, this.inputElement, this)
         .then(() => {
           Joomla.Modal.getCurrent().close();
           Joomla.selectedFile = {};
@@ -217,7 +225,7 @@
     }
 
     setValue(value) {
-      this.querySelector(this.input).value = value;
+      this.inputElement.value = value;
       this.updatePreview();
     }
 
@@ -226,20 +234,18 @@
     }
 
     updatePreview() {
-      if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false') {
+      if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
         return;
       }
 
       // Reset preview
       if (this.preview) {
-        const input = this.querySelector(this.input);
-        const { value } = input;
-        const div = this.querySelector('.field-media-preview');
+        const { value } = this.inputElement;
 
         if (!value) {
-          div.innerHTML = '<span class="field-media-preview-icon"></span>';
+          this.previewElement.innerHTML = '<span class="field-media-preview-icon"></span>';
         } else {
-          div.innerHTML = '';
+          this.previewElement.innerHTML = '';
           const imgPreview = new Image();
 
           switch (this.type) {
@@ -252,8 +258,8 @@
               break;
           }
 
-          div.style.width = this.previewWidth;
-          div.appendChild(imgPreview);
+          this.previewElement.style.width = this.previewWidth;
+          this.previewElement.appendChild(imgPreview);
         }
       }
     }

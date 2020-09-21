@@ -27,11 +27,11 @@ $wa->useScript('keepalive')
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 
 	<button type="button" class="btn btn-primary" data-submit-task="templates.apply">
-		<span class="fas fa-check" aria-hidden="true"></span>
+		<span class="fas fa-check text-white" aria-hidden="true"></span>
 		<?php echo Text::_('JSAVE') ?>
 	</button>
 	<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
-		<span class="fas fa-times" aria-hidden="true"></span>
+		<span class="fas fa-times text-white" aria-hidden="true"></span>
 		<?php echo Text::_('JCANCEL') ?>
 	</button>
 

@@ -149,7 +149,9 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<jdoc:include type="modules" name="main-top" style="cardGrey" />
 		<jdoc:include type="message" />
 		<jdoc:include type="modules" name="breadcrumbs" style="none" />
+		<main>
 		<jdoc:include type="component" />
+		</main>
 		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
 	</div>
 
@@ -171,16 +173,15 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('footer')) : ?>
+	<?php if ($this->countModules('footer') || ($this->params->get('backTop') == 1)) : ?>
 	<footer class="grid-child container-footer footer">
-		<hr>
-		<p class="float-right">
+		<jdoc:include type="modules" name="footer" style="none" />
+		<?php if ($this->params->get('backTop') == 1) : ?>
 			<a href="#top" id="back-top" class="back-top">
 				<span class="fas fa-arrow-up" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
 			</a>
-		</p>
-		<jdoc:include type="modules" name="footer" style="none" />
+		<?php endif; ?>
 	</footer>
 	<?php endif; ?>
 

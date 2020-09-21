@@ -66,7 +66,7 @@ $wa->useScript('keepalive')
 									<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
 								</button>
 							</span>
-							<span id="refresh-status" class="help-block">
+							<span id="refresh-status" class="form-text">
 								<span class="fas fa-sync fa-spin" aria-hidden="true"></span>
 								<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 							</span>

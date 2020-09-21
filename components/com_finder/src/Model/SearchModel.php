@@ -232,7 +232,7 @@ class SearchModel extends ListModel
 		}
 
 		// Get the result ordering and direction.
-		$ordering = $this->getState('list.ordering', 'l.start_date');
+		$ordering = $this->getState('list.ordering', 'm.weight');
 		$direction = $this->getState('list.direction', 'DESC');
 
 		/*
@@ -243,28 +243,18 @@ class SearchModel extends ListModel
 		{
 			// Get the base query and add the ordering information.
 			$query->select('SUM(' . $db->escape($ordering) . ') AS ordering');
-			$query->order('ordering ' . $db->escape($direction));
 		}
 		/*
-		 * If we are ordering by start date we have to add convert the
-		 * dates to unix timestamps.
-		 */
-		elseif ($ordering === 'l.start_date')
-		{
-			// Get the base query and add the ordering information.
-			$query->select($db->escape($ordering) . ' AS ordering');
-			$query->order($db->escape($ordering) . ' ' . $db->escape($direction));
-		}
-		/*
-		 * If we are not ordering by relevance or date, we just have to add
+		 * If we are not ordering by relevance, we just have to add
 		 * the unique items to the set.
 		 */
 		else
 		{
 			// Get the base query and add the ordering information.
 			$query->select($db->escape($ordering) . ' AS ordering');
-			$query->order($db->escape($ordering) . ' ' . $db->escape($direction));
 		}
+
+		$query->order('ordering ' . $db->escape($direction));
 
 		/*
 		 * If there are no optional or required search terms in the query, we
@@ -436,8 +426,9 @@ class SearchModel extends ListModel
 		 * from the pool of fields that are indexed like the 'title' field.
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
-		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
+		$order = $input->getWord('o', $params->get('sort_order', 'relevance'));
 		$order = StringHelper::strtolower($order);
+		$this->setState('list.raworder', $order);
 
 		switch ($order)
 		{
@@ -453,13 +444,13 @@ class SearchModel extends ListModel
 				$this->setState('list.ordering', 'm.weight');
 				break;
 
-			// Custom field that is indexed and might be required for ordering
 			case 'title':
 				$this->setState('list.ordering', 'l.title');
 				break;
 
 			default:
 				$this->setState('list.ordering', 'l.link_id');
+				$this->setState('list.raworder');
 				break;
 		}
 
@@ -469,7 +460,7 @@ class SearchModel extends ListModel
 		 * More flexibility was way more user friendly. So we allow to be inverted.
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
-		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
+		$dirn = $input->getWord('od', $params->get('sort_direction', 'desc'));
 		$dirn = StringHelper::strtolower($dirn);
 
 		switch ($dirn)
