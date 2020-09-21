@@ -26,6 +26,10 @@ h6 {
 a {
   color: var(--cassiopeia-color-primary);
 
+  &:not([class]) {
+    text-decoration: underline;
+  }
+
   &:hover,
   &:focus {
     color: var(--cassiopeia-color-hover);

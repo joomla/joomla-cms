@@ -112,3 +112,7 @@ td .form-control {
   top: 100%;
   bottom: auto;
 }
+
+.control-group {
+  margin-top: $cassiopeia-grid-gutter*2;
+}
