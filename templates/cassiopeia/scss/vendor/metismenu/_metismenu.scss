@@ -31,8 +31,13 @@
         > a {
           flex: 1 0 0%;
           overflow: hidden;
+          text-decoration: none;
           text-overflow: ellipsis;
           white-space: nowrap;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
 
