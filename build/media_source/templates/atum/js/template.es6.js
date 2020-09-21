@@ -192,6 +192,7 @@
     const sidebarNav = doc.querySelector('.sidebar-nav');
     const subhead = doc.querySelector('.subhead');
     const wrapper = doc.querySelector('.wrapper');
+    const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
 
     changeLogo('closed');
 
@@ -212,9 +213,11 @@
     if (small.matches) {
       if (sidebarNav) sidebarNav.classList.add('collapse');
       if (subhead) subhead.classList.add('collapse');
+      if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
     } else {
       if (sidebarNav) sidebarNav.classList.remove('collapse');
       if (subhead) subhead.classList.remove('collapse');
+      if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
     }
   }
 
@@ -231,6 +234,7 @@
       changeLogo('closed');
     } else {
       changeLogo();
+      sidebarWrapper.classList.remove('collapse');
     }
 
     if (sidebarNav) sidebarNav.classList.remove('collapse');
