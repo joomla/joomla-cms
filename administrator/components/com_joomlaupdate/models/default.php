@@ -18,10 +18,7 @@ jimport('joomla.filesystem.file');
  * @since  2.5.4
  */
 class JoomlaupdateModelDefault extends JModelLegacy
-{
-	
-	public $oldVersion = null;
-
+{	
 	/**
 	 * Detects if the Joomla! update site currently in use matches the one
 	 * configured in this component. If they don't match, it changes it.
@@ -160,7 +157,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			'object'    => null,
 			'hasUpdate' => false,
 		);
-		$this->oldVersion = JVERSION;
 
 		// Fetch the update information from the database.
 		$db = $this->getDbo();
@@ -927,8 +923,10 @@ ENDDATA;
 		// Unset the update filename from the session.
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
 
+		$oldVersion = JFactory::getApplication()->getUserState('com_joomlaupdate.oldversion', JVERSION);
 		// Trigger event after joomla update.
-		JFactory::getApplication()->triggerEvent('onJoomlaAfterUpdate', array($this->oldVersion));
+		JFactory::getApplication()->triggerEvent('onJoomlaAfterUpdate', array($oldVersion));
+		JFactory::getApplication()->setUserState('com_joomlaupdate.oldversion', null);
 	}
 
 	/**
@@ -1013,6 +1011,7 @@ ENDDATA;
 		}
 
 		JFactory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
+		JFactory::getApplication()->setUserState('com_joomlaupdate.oldversion', JVERSION);
 	}
 
 	/**
