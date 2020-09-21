@@ -2,12 +2,12 @@
 
 [class^="#{$fa-css-prefix}-"],
 [class*=" #{$fa-css-prefix}-"] {
+  display: inline-block;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   font-family: "Font Awesome 5 Free";
   speak: none;
   font-weight: 900;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
   font-style: normal;
   font-variant: normal;
   text-rendering: auto;
