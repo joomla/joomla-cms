@@ -27,11 +27,10 @@ $modId                  = 'mod-' . $module->id;
 $headerTag              = htmlspecialchars($params->get('header_tag', ''), ENT_QUOTES, 'UTF-8');
 $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 
-$header = '<div class="card-header'. $headerClass .'"><' . $headerTag . '>' . $module->title . '</ . $headerTag .></div>';
 if ($module->content) : ?>
 	<?php if ($module->showtitle) : ?>
 		<<?php echo $moduleTag; ?> id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>">
-			<?php echo $header; ?>
+			<<?php echo $headerTag; ?> class="card-header <?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 			<div class="card-body"><?php echo $module->content; ?></div>
 		</<?php echo $moduleTag; ?>>
 	<?php else : ?>
