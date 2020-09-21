@@ -195,7 +195,33 @@
                           .appendTo(li)
                     }
 
-                    var tableStack
+                    var tableStack;
+
+                    function showTableStack() {
+                        if (tableStack) {
+                            tableStack.show();
+                            return;
+                        }
+
+                        // Render table
+                        tableStack = $('<table><thead><tr><th colspan="3">Call Stack</th></tr></thead></table>')
+                          .addClass(csscls('callstack')).appendTo(li);
+
+                        var i, entry, location, caller, cssClass;
+                        for (i in stmt.callstack) {
+                            entry = stmt.callstack[i]
+                            location = entry[3] ? entry[3].replace(self.root_path, '') + ':' + entry[4] : ''
+                            caller = entry[2].replace(self.root_path, '')
+                            cssClass = entry[1] ? 'caller' : ''
+
+                            if (location && self.xdebug_link) {
+                                location = '<a href="' + self.xdebug_link.replace('%f', entry[3]).replace('%l', entry[4]) + '">' + location + '</a>'
+                            }
+                            tableStack.append('<tr class="' + cssClass + '"><th>' + entry[0] + '</th><td>' + caller + '</td><td>' + location + '</td></tr>')
+                        }
+
+                        tableStack.show();
+                    }
 
                     if (stmt.callstack && !$.isEmptyObject(stmt.callstack)) {
                         var btnStack = $('<span title="Call Stack" />')
@@ -203,19 +229,17 @@
                             .addClass(csscls('eye'))
                             .css('cursor', 'pointer')
                             .on('click', function () {
-                                if (tableStack.is(':visible')) {
+                                if (tableStack && tableStack.is(':visible')) {
                                     tableStack.hide()
                                     btnStack.addClass(csscls('eye'))
                                     btnStack.removeClass(csscls('eye-dash'))
                                 } else {
-                                    tableStack.show()
+                                    showTableStack();
                                     btnStack.addClass(csscls('eye-dash'))
                                     btnStack.removeClass(csscls('eye'))
                                 }
                             })
                             .appendTo(li)
-
-                        tableStack = $('<table><thead><tr><th colspan="3">Call Stack</th></tr></thead></table>').addClass(csscls('callstack'))
                     }
 
                     if (typeof(stmt.caller) != 'undefined' && stmt.caller) {
@@ -245,20 +269,6 @@
                         })
                         .appendTo(li)
 
-                    if (tableStack) {
-                        tableStack.appendTo(li)
-                        for (var i in stmt.callstack) {
-                            var entry = stmt.callstack[i]
-                            var location = entry[3] ? entry[3].replace(self.root_path, '') + ':' + entry[4] : ''
-                            var caller = entry[2].replace(self.root_path, '')
-                            var cssClass = entry[1] ? 'caller' : ''
-                            if (location && self.xdebug_link) {
-                                location = '<a href="' + self.xdebug_link.replace('%f', entry[3]).replace('%l', entry[4]) + '">' + location + '</a>'
-                            }
-                            tableStack.append('<tr class="' + cssClass + '"><th>' + entry[0] + '</th><td>' + caller + '</td><td>' + location + '</td></tr>')
-                        }
-                    }
-
                     li.attr('dupeindex', 'dupe-0')
                 }
             })
@@ -269,7 +279,7 @@
                 if (data.length <= 0) {
                     return false
                 }
-
+console.log(data);
                 this.root_path = data.root_path
                 this.xdebug_link = data.xdebug_link
                 this.$list.set('data', data.statements)
