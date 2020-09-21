@@ -18,7 +18,7 @@ jimport('joomla.filesystem.file');
  * @since  2.5.4
  */
 class JoomlaupdateModelDefault extends JModelLegacy
-{	
+{
 	/**
 	 * Detects if the Joomla! update site currently in use matches the one
 	 * configured in this component. If they don't match, it changes it.
