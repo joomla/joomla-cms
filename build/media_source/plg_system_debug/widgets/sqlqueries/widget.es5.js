@@ -118,13 +118,13 @@
 
                         // Render table
                         tableParams = $('<table>').addClass(csscls('params')).appendTo(li);
-                        tableParams.append('<tr><th>ID</th><th>Value</th><th>Data Type</th><th>Length</th></tr>');
+                        tableParams.append('<tr><th>ID</th><th>Value</th><th>Data Type</th></tr>');
 
                         var pRow;
                         for (var key in stmt.params) {
                             pRow = stmt.params[key];
                             tableParams.append('<tr><th>' + key + '</th><th>' + pRow.value + '</th><th>'
-                              + pRow.dataType + '</th><th>' + pRow.length + '</th></tr>');
+                              + pRow.dataType + '</th></tr>');
                         }
 
                         tableParams.show();
