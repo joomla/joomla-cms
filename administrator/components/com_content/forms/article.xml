@@ -234,6 +234,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			default="0"
 		/>
 
 		<field

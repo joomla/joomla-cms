@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-
-$app  = Factory::getApplication();
 $form = $displayData->getForm();
 
 $fields = $displayData->get('fields') ?: array(

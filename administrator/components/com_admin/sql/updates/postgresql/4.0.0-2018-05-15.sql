@@ -33,6 +33,8 @@ CREATE INDEX "#__workflows_idx_checked_out" ON "#__workflows" ("checked_out");
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out") VALUES
 (1, 0, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, NULL, 0);
 
+SELECT setval('#__workflows_id_seq', 2, false);
+
 --
 -- Table structure for table "#__workflow_associations"
 --
@@ -81,6 +83,8 @@ CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("chec
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "default", "checked_out_time", "checked_out") VALUES
 (1, 0, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1, NULL, 0);
 
+SELECT setval('#__workflow_stages_id_seq', 2, false);
+
 --
 -- Table structure for table "#__workflow_transitions"
 --
@@ -116,6 +120,8 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 (6, 0, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}', NULL, 0),
 (7, 0, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}', NULL, 0);
 
+SELECT setval('#__workflow_transitions_id_seq', 8, false);
+
 --
 -- Creating extension entry
 --
@@ -124,11 +130,11 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 -- update SQL script.
 --
 
-INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(0, 'plg_workflow_featuring', 'plugin', 'featuring', 'workflow', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(0, 'plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0);
+INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
+(0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', '', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, '', '{}', '', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'plg_workflow_featuring', 'plugin', 'featuring', 'workflow', 0, 1, 1, 0, '', '{}', '', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, '', '{}', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 --
 -- Creating Associations for existing content

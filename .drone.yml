@@ -5,23 +5,15 @@ name: default
 clone:
 
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    settings:
-      restore: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
-
   - name: composer
-    image: joomlaprojects/docker-images:php7.3-composer
-    depends_on: [ restore-cache ]
+    image: joomlaprojects/docker-images:php7.3
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
+      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -36,18 +28,6 @@ steps:
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    depends_on: [ npm ]
-    settings:
-      rebuild: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
 
   - name: php72-unit
     depends_on: [ phpcs ]
@@ -136,17 +116,17 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
+  - name: scss-cs
+    depends_on: [ npm ]
+    image: node:current-alpine
+    commands:
+      - npx stylelint -s scss "administrator/components/com_media/resources/**/*.scss" "administrator/templates/**/*.scss" "build/media_source/**/*.scss" "templates/**/*.scss" "installation/template/**/*.scss"
+
   - name: javascript-cs
     depends_on: [ npm ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    image: node:current-alpine
     commands:
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
-      - npm run lint:js
+      - npx eslint "**/*.js"
 
   - name: javascript-tests
     depends_on: [ npm ]
@@ -223,8 +203,8 @@ steps:
         - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-      - rips-cli rips:scan:start -G -a 2 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
+      - rips-cli rips:scan:start --progress --application=2 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_EMAIL:
         from_secret: RIPS_EMAIL
@@ -238,6 +218,9 @@ volumes:
 - name: cache
   host:
     path: /tmp/cache
+- name: composer-cache
+  host:
+    path: /tmp/composer-cache
 - name: reference
   host:
     path: /tmp/reference
@@ -310,6 +293,6 @@ steps:
 
 ---
 kind: signature
-hmac: 9bb74c784835b3ef017189b6f407cf7750d3f38464d42006da76999b62b41277
+hmac: 400e7cdcd516fbb54ccc3f0f152e39a86346a47b7876a65741fec4898fe80b1f
 
 ...
