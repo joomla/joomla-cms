@@ -972,6 +972,16 @@
                 "framework",
                 "joomla"
             ],
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
             "time": "2020-09-01T07:19:19+00:00"
         },
         {
@@ -5766,12 +5776,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "0323d0d0741b0c9096bec5a015fc39444dd28cf5"
+                "reference": "d5a1e284fccc271121bfc096bc72e34ea61293a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/0323d0d0741b0c9096bec5a015fc39444dd28cf5",
-                "reference": "0323d0d0741b0c9096bec5a015fc39444dd28cf5",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/d5a1e284fccc271121bfc096bc72e34ea61293a7",
+                "reference": "d5a1e284fccc271121bfc096bc72e34ea61293a7",
                 "shasum": ""
             },
             "require": {
@@ -5809,7 +5819,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2020-05-01T19:53:33+00:00"
+            "time": "2020-09-18T20:24:29+00:00"
         },
         {
             "name": "joomla/cms-coding-standards",
@@ -8346,5 +8356,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
-    }
+    },
+    "plugin-api-version": "1.1.0"
 }
