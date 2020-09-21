@@ -118,13 +118,14 @@
 
                         // Render table
                         tableParams = $('<table>').addClass(csscls('params')).appendTo(li);
-                        tableParams.append('<tr><th>ID</th><th>Value</th><th>Data Type</th></tr>');
+                        tableParams.append('<tr><th colspan="3">Query Parameters</th></tr>');
+                        tableParams.append('<tr><td>ID</td><td>Value</td><td>Data Type</td></tr>');
 
                         var pRow;
                         for (var key in stmt.params) {
                             pRow = stmt.params[key];
-                            tableParams.append('<tr><th>' + key + '</th><th>' + pRow.value + '</th><th>'
-                              + pRow.dataType + '</th></tr>');
+                            tableParams.append('<tr><td>' + key + '</td><td>' + pRow.value + '</td><td>'
+                              + pRow.dataType + '</td></tr>');
                         }
 
                         tableParams.show();
@@ -158,7 +159,7 @@
                         }
 
                         // Render table
-                        tableExplain = $('<table>').addClass(csscls('callstack')).appendTo(li);
+                        tableExplain = $('<table>').addClass(csscls('explain')).appendTo(li);
                         tableExplain.append('<tr><th>' + stmt.explain_col.join('</th><th>') + '</th></tr>');
 
                         var i, entry, cols;
@@ -204,7 +205,7 @@
                         }
 
                         // Render table
-                        tableStack = $('<table><thead><tr><th colspan="3">Call Stack</th></tr></thead></table>')
+                        tableStack = $('<table><tr><th colspan="3">Call Stack</th></tr></table>')
                           .addClass(csscls('callstack')).appendTo(li);
 
                         var i, entry, location, caller, cssClass;
