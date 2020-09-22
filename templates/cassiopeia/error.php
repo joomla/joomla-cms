@@ -110,7 +110,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
-		<jdoc:include type="modules" name="top-a" style="cardGrey" />
+		<jdoc:include type="modules" name="top-a" style="card" />
 	</div>
 	<?php endif; ?>
 
@@ -182,7 +182,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 	<?php if ($this->countModules('bottom-a')) : ?>
 	<div class="grid-child container-bottom-a">
-		<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
+		<jdoc:include type="modules" name="bottom-a" style="card" />
 	</div>
 	<?php endif; ?>
 
