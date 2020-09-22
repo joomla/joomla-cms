@@ -158,7 +158,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         break;
       case 'save':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function() {
-          if (this.readyState !== XMLHttpRequest.DONE) {
+          if (this.readyState === XMLHttpRequest.DONE) {
             if (window.self !== window.top) {
               window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}&tmpl=component`;
             } else {
