@@ -24,6 +24,26 @@ $wa               = $this->getWebAssetManager();
 
 $fullWidth = 1;
 
+// Template path
+$templatePath = 'templates/' . $this->template;
+
+// Color Theme
+$paramsColorName = $this->params->get('colorName', 'colors_standard');
+$assetColorName  = 'theme.' . $paramsColorName;
+$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$this->getPreloadManager()->preload($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
+
+// Use a font scheme if not "None" is set in the template style options
+$paramsFontScheme = $this->params->get('useFontScheme', 'fonts-local_roboto');
+
+if ($paramsFontScheme)
+{
+	// Preload the stylesheet for the font scheme, actually we need to preload the font(s)
+	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
+	$wa->registerAndUseStyle($assetFontScheme, $templatePath . '/css/global/' . $paramsFontScheme . '.css');
+	$this->getPreloadManager()->preload($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
+}
+
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.offline')
@@ -39,16 +59,17 @@ $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
 }
 elseif ($this->params->get('siteTitle'))
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle')) . '</span>';
+	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
-	$logo = '<span class="site-title">' . $sitename . '</span>';
+	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

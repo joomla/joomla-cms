@@ -28,6 +28,29 @@ $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
+// Getting params from template
+$params = $app->getTemplate(true)->params;
+
+// Template path
+$templatePath = 'templates/' . $this->template;
+
+// Color Theme
+$paramsColorName = $params->get('colorName', 'colors_standard');
+$assetColorName  = 'theme.' . $paramsColorName;
+$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$this->getPreloadManager()->preload($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
+
+// Use a font scheme if not "None" is set in the template style options
+$paramsFontScheme = $params->get('useFontScheme', 'fonts-local_roboto');
+
+if ($paramsFontScheme)
+{
+	// Preload the stylesheet for the font scheme, actually we need to preload the font(s)
+	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
+	$wa->registerAndUseStyle($assetFontScheme, $templatePath . '/css/global/' . $paramsFontScheme . '.css');
+	$this->getPreloadManager()->preload($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
+}
+
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
@@ -38,13 +61,13 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Logo file or site title param
-if ($this->params->get('logoFile'))
+if ($params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root() . $params->get('logoFile') . '" alt="' . $sitename . '">';
 }
-elseif ($this->params->get('siteTitle'))
+elseif ($params->get('siteTitle'))
 {
-	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
+	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
@@ -54,8 +77,20 @@ else
 // Header bottom margin
 $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
+$hasClass = '';
+
+if ($this->countModules('sidebar-left'))
+{
+	$hasClass .= ' has-sidebar-left';
+}
+
+if ($this->countModules('sidebar-right'))
+{
+	$hasClass .= ' has-sidebar-right';
+}
+
 // Container
-$wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
+$wrapper = $params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>
@@ -73,40 +108,49 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ' ' . $pageclass;
+	. ' ' . $pageclass
+	. $hasClass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<header class="header full-width">
-		<nav class="navbar navbar-toggleable-md navbar-full">
+	<header class="header container-header full-width <?php echo $headerMargin; ?>">
+		<div class="grid-child">
 			<div class="navbar-brand">
 				<a href="<?php echo $this->baseurl; ?>/">
 					<?php echo $logo; ?>
 				</a>
-				<?php if ($this->params->get('siteDescription')) : ?>
-					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+				<?php if ($params->get('siteDescription')) : ?>
+					<div class="site-description"><?php echo htmlspecialchars($params->get('siteDescription')); ?></div>
 				<?php endif; ?>
 			</div>
-
-			<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
-				<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-					<span class="fas fa-bars"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbar">
-					<jdoc:include type="modules" name="menu" style="none" />
-					<?php if ($this->countModules('search')) : ?>
+		</div>
+		<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
+			<div class="grid-child container-nav">
+				<?php if ($this->countModules('menu')) : ?>
+					<nav class="navbar navbar-expand-lg">
+						<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+							<span class="fas fa-bars" aria-hidden="true"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbar">
+							<jdoc:include type="modules" name="menu" style="none" />
+						</div>
+					</nav>
+					<?php endif; ?>
+				<?php if ($this->countModules('search')) : ?>
+					<div class="container-search">
 						<div class="form-inline">
 							<jdoc:include type="modules" name="search" style="none" />
 						</div>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
-		</nav>
-		<?php if ($this->countModules('banner')) : ?>
-		<div class="grid-child container-banner">
-			<jdoc:include type="modules" name="banner" style="xhtml" />
-		</div>
+					</div>
+				<?php endif; ?>
+			</div>
 		<?php endif; ?>
 	</header>
+
+	<?php if ($this->countModules('banner')) : ?>
+		<div class="container-banner full-width">
+			<jdoc:include type="modules" name="banner" style="none" />
+		</div>
+	<?php endif; ?>
 
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
@@ -120,15 +164,14 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</div>
 	<?php endif; ?>
 
-	<div class="grid-child container-main">
-
-		<?php if ($this->countModules('sidebar-left')) : ?>
-		<div class="container-sidebar-left">
+	<?php if ($this->countModules('sidebar-left')) : ?>
+		<div class="grid-child container-sidebar-left">
 			<jdoc:include type="modules" name="sidebar-left" style="default" />
 		</div>
-		<?php endif; ?>
+	<?php endif; ?>
 
-		<div class="container-component">
+	<div class="grid-child container-component">
+		<div class="mt-3">
 			<h1 class="page-header"><?php echo Text::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h1>
 			<div class="card">
 				<div class="card-body">
@@ -171,14 +214,13 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				</div>
 			</div>
 		</div>
-
-		<?php if ($this->countModules('sidebar-right')) : ?>
-		<div class="container-sidebar-right">
-			<jdoc:include type="modules" name="sidebar-right" style="default" />
-		</div>
-		<?php endif; ?>
-
 	</div>
+
+	<?php if ($this->countModules('sidebar-right')) : ?>
+	<div class="grid-child container-sidebar-right">
+		<jdoc:include type="modules" name="sidebar-right" style="default" />
+	</div>
+	<?php endif; ?>
 
 	<?php if ($this->countModules('bottom-a')) : ?>
 	<div class="grid-child container-bottom-a">
@@ -192,16 +234,17 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('footer')) : ?>
-	<footer class="grid-child container-footer footer">
-		<hr>
-		<p class="float-right">
-			<a href="#top" id="back-top" class="back-top">
-				<span class="fas fa-arrow-up" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
-			</a>
-		</p>
-		<jdoc:include type="modules" name="footer" style="none" />
+	<?php if ($this->countModules('footer') || ($params->get('backTop') == 1)) : ?>
+	<footer class="container-footer footer full-width">
+		<div class="grid-child">
+			<jdoc:include type="modules" name="footer" style="none" />
+			<?php if ($params->get('backTop') == 1) : ?>
+				<a href="#top" id="back-top" class="back-top">
+					<span class="fas fa-arrow-up" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
+				</a>
+			<?php endif; ?>
+		</div>
 	</footer>
 	<?php endif; ?>
 
