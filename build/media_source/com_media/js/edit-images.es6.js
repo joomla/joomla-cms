@@ -157,7 +157,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         Joomla.MediaManager.Edit.Reset(true);
         break;
       case 'save':
-        Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function() {
+        Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
           if (this.readyState === XMLHttpRequest.DONE) {
             if (window.self !== window.top) {
               window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}&tmpl=component`;
@@ -204,7 +204,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       Joomla.MediaManager.Edit.updateProgressBar((e.loaded / e.total) * 100);
     };
 
-    if (typeof(stateChangeCallback) === 'function') {
+    if (typeof stateChangeCallback === 'function') {
       xhr.onreadystatechange = stateChangeCallback;
     }
 
