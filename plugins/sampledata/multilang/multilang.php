@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Multilang
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -374,6 +375,8 @@ class PlgSampledataMultilang extends CMSPlugin
 		}
 
 		$siteLanguages = $this->getInstalledlangsFrontend();
+
+		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
 
 		foreach ($siteLanguages as $siteLang)
 		{
@@ -766,7 +769,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=categories&id=0',
-			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -845,7 +848,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $categoryId,
-			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -1002,12 +1005,14 @@ class PlgSampledataMultilang extends CMSPlugin
 		$title = $newlanguage->_('JCATEGORY');
 		$alias = ApplicationHelper::stringURLSafe($title);
 
+		$app = Factory::getApplication();
+
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $app->set('unicodeslugs', 1);
 			$alias   = ApplicationHelper::stringURLSafe($title);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$app->set('unicodeslugs', $unicode);
 		}
 
 		// Initialize a new category.
@@ -1020,7 +1025,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":"", "workflow_id":"1"}',
+			'params'          => '{"target":"","image":""}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
@@ -1081,9 +1086,9 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $this->app->set('unicodeslugs', 1);
 			$alias   = ApplicationHelper::stringURLSafe($title);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$this->app->set('unicodeslugs', $unicode);
 		}
 
 		// Initialize a new article.
@@ -1155,15 +1160,16 @@ class PlgSampledataMultilang extends CMSPlugin
 			return false;
 		}
 
-		$assoc = new stdClass;
-
-		$assoc->item_id   = $newId;
-		$assoc->stage_id  = 2;
-		$assoc->extension = 'com_content';
+		$workflow = new Workflow(['extension' => 'com_content.article']);
 
 		try
 		{
-			$db->insertObject('#__workflow_associations', $assoc);
+			$stage_id = $workflow->getDefaultStageByCategory($categoryId);
+
+			if ($stage_id)
+			{
+				$workflow->createAssociation($newId, $stage_id);
+			}
 		}
 		catch (ExecutionFailureException $e)
 		{
@@ -1279,7 +1285,7 @@ class PlgSampledataMultilang extends CMSPlugin
 				$row->published = 0;
 			}
 
-			$row->checked_out = 0;
+			$row->checked_out = null;
 			$data[]           = $row;
 		}
 

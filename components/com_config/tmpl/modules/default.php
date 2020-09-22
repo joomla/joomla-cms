@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,11 +16,13 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.combobox');
 
-HTMLHelper::_('script', 'com_config/modules-default.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_config.modules');
 
 $editorText  = false;
 $moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
@@ -46,26 +48,18 @@ if (Multilanguage::isEnabled())
 	<div class="row">
 		<div class="col-md-12">
 
-			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
-				<div class="btn-group">
-					<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
-						<span class="fas fa-check" aria-hidden="true"></span>
-						<?php echo Text::_('JAPPLY') ?>
-					</button>
-				</div>
-				<div class="btn-group">
-					<button type="button" class="btn btn-secondary" data-submit-task="modules.save">
-						<span class="fas fa-check" aria-hidden="true"></span>
-						<?php echo Text::_('JSAVE') ?>
-					</button>
-				</div>
-				<div class="btn-group">
-					<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
-						<span class="fas fa-times" aria-hidden="true"></span>
-						<?php echo Text::_('JCANCEL') ?>
-					</button>
-				</div>
-			</div>
+			<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
+				<span class="fas fa-check" aria-hidden="true"></span>
+				<?php echo Text::_('JAPPLY'); ?>
+			</button>
+			<button type="button" class="btn btn-primary" data-submit-task="modules.save">
+				<span class="fas fa-check" aria-hidden="true"></span>
+				<?php echo Text::_('JSAVE'); ?>
+			</button>
+			<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
+				<span class="fas fa-times" aria-hidden="true"></span>
+				<?php echo Text::_('JCANCEL'); ?>
+			</button>
 
 			<hr>
 
@@ -182,7 +176,7 @@ if (Multilanguage::isEnabled())
 					</div>
 
 					<?php if ($editorText) : ?>
-						<div class="tab-pane" id="custom">
+						<div class="mt-2" id="custom">
 							<?php echo $this->form->getInput('content'); ?>
 						</div>
 					<?php endif; ?>

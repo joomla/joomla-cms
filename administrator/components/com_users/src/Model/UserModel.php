@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -496,7 +495,7 @@ class UserModel extends AdminModel
 						}
 
 						// Trigger the after save event
-						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
 					}
 					catch (\Exception $e)
 					{
@@ -593,7 +592,7 @@ class UserModel extends AdminModel
 						}
 
 						// Fire the after save event
-						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
 					}
 					catch (\Exception $e)
 					{

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ Text::script('JHIDEPASSWORD');
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
 						<span class="input-group-text" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-							<span class="fas fa-user" aria-hidden="true"></span>
+							<span class="fas fa-user fa-fw" aria-hidden="true"></span>
 						</span>
 					</span>
 				</div>
@@ -56,7 +56,7 @@ Text::script('JHIDEPASSWORD');
 					<span class="input-group-append">
 						<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 						<button type="button" class="btn btn-secondary input-password-toggle">
-							<span class="fas fa-eye" aria-hidden="true"></span>
+							<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 						</button>
 					</span>
@@ -73,7 +73,7 @@ Text::script('JHIDEPASSWORD');
 					<div class="input-group">
 						<span class="input-group-prepend" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 							<span class="input-group-text">
-								<span class="icon-star" aria-hidden="true"></span>
+								<span class="fas fa-star" aria-hidden="true"></span>
 							</span>
 							<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
@@ -105,22 +105,31 @@ Text::script('JHIDEPASSWORD');
 			</div>
 		<?php endif; ?>
 
-		<?php foreach($extraButtons as $button): ?>
+		<?php foreach($extraButtons as $button):
+			$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+				return substr($key, 0, 5) == 'data-';
+			});
+			?>
 			<div class="mod-login__submit form-group">
 				<button type="button"
 				        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
-				        onclick="<?php echo $button['onclick'] ?>"
+						<?php foreach ($dataAttributeKeys as $key): ?>
+						<?php echo $key ?>="<?php echo $button[$key] ?>"
+						<?php endforeach; ?>
+						<?php if ($button['onclick']): ?>
+						onclick="<?php echo $button['onclick'] ?>"
+						<?php endif; ?>
 				        title="<?php echo Text::_($button['label']) ?>"
 				        id="<?php echo $button['id'] ?>"
 						>
 					<?php if (!empty($button['icon'])): ?>
 						<span class="<?php echo $button['icon'] ?>"></span>
 					<?php elseif (!empty($button['image'])): ?>
-						<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+						<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 							'class' => 'icon',
 						], true) ?>
 					<?php endif; ?>
-					<?= Text::_($button['label']) ?>
+					<?php echo Text::_($button['label']) ?>
 				</button>
 			</div>
 		<?php endforeach; ?>

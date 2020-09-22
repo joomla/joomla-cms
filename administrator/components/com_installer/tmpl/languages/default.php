@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-15 text-right d-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
-								<th scope="col" style="width:35%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-35 d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 								</th>
 							</tr>

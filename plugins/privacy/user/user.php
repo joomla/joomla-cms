@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\User as JTableUser;
+use Joomla\CMS\User\User;
+use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
+use Joomla\Component\Privacy\Administrator\Removal\Status;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -26,16 +31,16 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * This event will not allow a super user account to be removed
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   User          $user     The user account associated with this request if available
 	 *
-	 * @return  PrivacyRemovalStatus
+	 * @return  Status
 	 *
 	 * @since   3.9.0
 	 */
-	public function onPrivacyCanRemoveData(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyCanRemoveData(RequestTable $request, User $user = null)
 	{
-		$status = new PrivacyRemovalStatus;
+		$status = new Status;
 
 		if (!$user)
 		{
@@ -61,14 +66,14 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * - #__user_profiles
 	 * - User custom fields
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   User          $user     The user account associated with this request if available
 	 *
-	 * @return  PrivacyExportDomain[]
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
 	 *
 	 * @since   3.9.0
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyExportRequest(RequestTable $request, User $user = null)
 	{
 		if (!$user)
 		{
@@ -76,7 +81,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		}
 
 		/** @var JTableUser $userTable */
-		$userTable = JUser::getTable();
+		$userTable = User::getTable();
 		$userTable->load($user->id);
 
 		$domains = array();
@@ -93,14 +98,14 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * This event will pseudoanonymise the user account
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   User          $user     The user account associated with this request if available
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onPrivacyRemoveData(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyRemoveData(RequestTable $request, User $user = null)
 	{
 		// This plugin only processes data for registered user accounts
 		if (!$user)
@@ -138,7 +143,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$storeName = Factory::getConfig()->get('session_handler', 'none');
+		$storeName = Factory::getApplication()->get('session_handler', 'none');
 		$store     = JSessionStorage::getInstance($storeName);
 
 		// Destroy the sessions and quote the IDs to purge the session table
@@ -160,7 +165,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @param   JTableUser  $user  The JTableUser object to process
 	 *
-	 * @return  PrivacyExportDomain
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
@@ -196,7 +201,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @param   JTableUser  $user  The JTableUser object to process
 	 *
-	 * @return  PrivacyExportDomain
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
@@ -227,7 +232,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @param   JTableUser  $user  The JTableUser object to process
 	 *
-	 * @return  PrivacyExportDomain
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
 	 *
 	 * @since   3.9.0
 	 */
@@ -244,7 +249,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @param   JTableUser  $user  The JTableUser object to convert
 	 *
-	 * @return  PrivacyExportItem
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Item
 	 *
 	 * @since   3.9.0
 	 */

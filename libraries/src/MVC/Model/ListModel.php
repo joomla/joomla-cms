@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -349,8 +349,6 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
-		$form = null;
-
 		// Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
 		if (empty($this->filterFormName))
 		{
@@ -362,13 +360,21 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			}
 		}
 
-		if (!empty($this->filterFormName))
+		if (empty($this->filterFormName))
 		{
-			// Get the form.
-			$form = $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
+			return null;
 		}
 
-		return $form;
+		try
+		{
+			// Get the form.
+			return $this->loadForm($this->context . '.filter', $this->filterFormName, array('control' => '', 'load_data' => $loadData));
+		}
+		catch (\RuntimeException $e)
+		{
+		}
+
+		return null;
 	}
 
 	/**

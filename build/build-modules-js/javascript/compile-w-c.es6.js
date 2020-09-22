@@ -25,7 +25,7 @@ const createJsFiles = (inputFile, es6FileContents) => {
             browsers: ['last 1 Chrome version'],
           },
         }],
-        ['minify'],
+        ['minify', { builtIns: false }],
       ],
       comments: false,
     },
@@ -51,7 +51,7 @@ const createJsFiles = (inputFile, es6FileContents) => {
             browsers: ['ie 11'],
           },
         }],
-        ['minify'],
+        ['minify', { builtIns: false }],
       ],
       plugins: [
         ['@babel/plugin-transform-classes'],

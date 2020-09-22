@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,18 +14,21 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
+extract($displayData, EXTR_OVERWRITE);
+
+/**
+ * Layout variables
+ * -----------------
+ * @var   string  $id
+ * @var   string  $itemId
+ * @var   string  $typeId
+ * @var   string  $typeAlias
+ * @var   string  $title
+ */
+
 Factory::getDocument()->getWebAssetManager()
 	->useScript('core')
 	->useScript('webcomponent.toolbar-button');
-
-/**
- * @var  string  $id
- * @var  string  $itemId
- * @var  string  $typeId
- * @var  string  $typeAlias
- * @var  string  $title
- */
-extract($displayData, EXTR_OVERWRITE);
 
 echo HTMLHelper::_(
 	'bootstrap.renderModal',
@@ -37,9 +40,7 @@ echo HTMLHelper::_(
 				'view' => 'history',
 				'layout' => 'modal',
 				'tmpl' => 'component',
-				'item_id' => (int) $itemId,
-				'type_id' => $typeId,
-				'type_alias' => $typeAlias,
+				'item_id' => $itemId,
 				Session::getFormToken() => 1
 			]
 		),
@@ -55,7 +56,7 @@ echo HTMLHelper::_(
 ?>
 <joomla-toolbar-button id="toolbar-versions">
 	<button
-		class="btn btn-sm btn-primary"
+		class="btn btn-primary"
 		type="button"
 		onclick="document.getElementById('versionsModal').open()"
 		data-toggle="modal">

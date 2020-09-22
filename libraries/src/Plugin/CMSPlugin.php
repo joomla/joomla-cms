@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -283,6 +283,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 				$arguments = array_values($arguments);
 
 				$result = $this->{$methodName}(...$arguments);
+
+				// Ignore null results
+				if ($result === null)
+				{
+					return;
+				}
 
 				// Restore the old results and add the new result from our method call
 				array_push($allResults, $result);

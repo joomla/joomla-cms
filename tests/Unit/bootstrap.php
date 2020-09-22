@@ -4,7 +4,7 @@
  *
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -117,7 +117,7 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivilents
+// Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Define the Joomla version if not already defined.

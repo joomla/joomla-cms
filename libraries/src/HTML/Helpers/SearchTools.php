@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,7 +104,7 @@ abstract class SearchTools
 	)
 	{
 		$direction = strtolower($direction);
-		$orderIcons = array('icon-arrow-up-3', 'icon-arrow-down-3');
+		$orderIcons = array('fas fa-caret-up', 'fas fa-caret-down');
 		$index = (int) ($direction === 'desc');
 
 		if ($order !== $selected)

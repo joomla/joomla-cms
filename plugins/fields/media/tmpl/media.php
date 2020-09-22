@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -20,20 +20,23 @@ if ($class)
 	$class = ' class="' . htmlentities($class, ENT_COMPAT, 'UTF-8', true) . '"';
 }
 
-$value  = (array) $field->value;
+$value  = $field->value;
+
 $buffer = '';
 
-foreach ($value as $path)
+if ($value)
 {
-	if (!$path)
-	{
-		continue;
-	}
+	$path = $value['imagefile'];
+	$alt = ' alt="' . htmlentities($value['alt_text'], ENT_COMPAT, 'UTF-8', true) . '"';
 
-	$buffer .= sprintf('<img loading="lazy" src="%s"%s>',
-		htmlentities($path, ENT_COMPAT, 'UTF-8', true),
-		$class
-	);
+	if (file_exists($path))
+	{
+		$buffer .= sprintf('<img loading="lazy" src="%s"%s%s>',
+			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
+			$class,
+			$alt
+		);
+	}
 }
 
 echo $buffer;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,10 +72,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<tbody>
 					<?php
 					$iconStates = array(
-						-2 => 'icon-trash',
-						0  => 'icon-unpublish',
-						1  => 'icon-publish',
-						2  => 'icon-archive',
+						-2 => 'fas fa-trash',
+						0  => 'fas fa-times',
+						1  => 'fas fa-check',
+						2  => 'fas fa-folder',
 					);
 					?>
 					<?php foreach ($this->items as $i => $item) : ?>
@@ -108,13 +108,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 									<?php echo $this->escape($item->title); ?></a>
-								<span class="small" title="<?php echo $this->escape($item->path); ?>">
+								<div class="small" title="<?php echo $this->escape($item->path); ?>">
 									<?php if (empty($item->note)) : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									<?php else : ?>
 										<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 									<?php endif; ?>
-								</span>
+								</div>
 							</th>
 							<td class="small d-none d-md-table-cell">
 								<?php echo $this->escape($item->access_level); ?>

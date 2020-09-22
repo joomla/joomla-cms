@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class PlgContentFinder extends CMSPlugin
 	 *
 	 * @since   2.5
 	 */
-	public function onContentAfterSave($context, $article, $isNew)
+	public function onContentAfterSave($context, $article, $isNew): void
 	{
 		PluginHelper::importPlugin('finder');
 
@@ -72,7 +72,7 @@ class PlgContentFinder extends CMSPlugin
 	 *
 	 * @since   2.5
 	 */
-	public function onContentAfterDelete($context, $article)
+	public function onContentAfterDelete($context, $article): void
 	{
 		PluginHelper::importPlugin('finder');
 

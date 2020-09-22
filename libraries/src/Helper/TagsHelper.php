@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -764,7 +764,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @param   TableInterface  $table    Table being processed
 	 * @param   array           $newTags  Array of new tags
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean
 	 *
@@ -1003,7 +1003,7 @@ class TagsHelper extends CMSHelper
 	 * @param   integer         $ucmId    Id of the #__ucm_content item being tagged
 	 * @param   TableInterface  $table    Table object being tagged
 	 * @param   array           $tags     Array of tags to be applied.
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *

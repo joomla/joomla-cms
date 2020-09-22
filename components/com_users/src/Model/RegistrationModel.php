@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -191,7 +191,7 @@ class RegistrationModel extends FormModel
 			{
 				$usercreator = Factory::getUser($row->id);
 
-				if ($usercreator->authorise('core.create', 'com_users'))
+				if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users'))
 				{
 					try
 					{
