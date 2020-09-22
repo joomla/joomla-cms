@@ -103,7 +103,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		</nav>
 		<?php if ($this->countModules('banner')) : ?>
 		<div class="grid-child container-banner">
-			<jdoc:include type="modules" name="banner" style="xhtml" />
+			<jdoc:include type="modules" name="banner" style="html5" />
 		</div>
 		<?php endif; ?>
 	</header>
