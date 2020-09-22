@@ -616,6 +616,13 @@ class PlgActionlogJoomla extends ActionLogPlugin
 				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE';
 				$action             = 'resetcomplete';
 			}
+
+			// Registration Activation
+			if ($task === 'registration.activate')
+			{
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTRATION_ACTIVATE';
+				$action             = 'activaterequest';
+			}
 		}
 		elseif ($isnew)
 		{
