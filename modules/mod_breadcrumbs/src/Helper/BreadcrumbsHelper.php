@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
 /**
@@ -57,18 +56,18 @@ class BreadcrumbsHelper
 		// Don't use $items here as it references JPathway properties directly
 		$crumbs = array();
 
-		for ($i = 0; $i < $count; $i ++)
+		for ($i = 0; $i < $count; $i++)
 		{
 			$crumbs[$i]       = new \stdClass;
 			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$crumbs[$i]->link = Route::_($items[$i]->link);
+			$crumbs[$i]->link = $items[$i]->link;
 		}
 
 		if ($params->get('showHome', 1))
 		{
 			$item       = new \stdClass;
 			$item->name = htmlspecialchars($params->get('homeText', Text::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
-			$item->link = Route::_('index.php?Itemid=' . $home->id);
+			$item->link = 'index.php?Itemid=' . $home->id;
 			array_unshift($crumbs, $item);
 		}
 
