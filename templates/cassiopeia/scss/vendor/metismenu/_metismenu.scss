@@ -26,6 +26,11 @@
           .active > a {
             text-decoration: underline;
           }
+
+          span:hover,
+          a:hover {
+            text-decoration: underline;
+          }
         }
         > span,
         > a {
@@ -34,10 +39,6 @@
           text-decoration: none;
           text-overflow: ellipsis;
           white-space: nowrap;
-
-          &:hover {
-            text-decoration: underline;
-          }
         }
       }
 

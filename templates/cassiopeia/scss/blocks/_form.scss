@@ -112,6 +112,10 @@ fieldset + fieldset {
   margin-top: $cassiopeia-grid-gutter*2;
 }
 
+fieldset:only-child {
+  margin-top: $cassiopeia-grid-gutter*2;
+}
+
 .container-popup [id="filter[search]-desc"] {
   top: 100%;
   bottom: auto;
