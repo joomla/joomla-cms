@@ -9,11 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 ?>
 <nav role="navigation" aria-label="<?php echo $module->title; ?>">
-	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb">
+	<ol class="mod-breadcrumbs breadcrumb">
 		<?php if ($params->get('showHere', 1)) : ?>
 			<li class="mod-breadcrumbs__here float-left">
 				<?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
@@ -36,32 +38,56 @@ use Joomla\CMS\Language\Text;
 
 		// Find last and penultimate items in breadcrumbs list
 		end($list);
-		$last_item_key   = key($list);
+		$last_item_key = key($list);
 		prev($list);
 		$penult_item_key = key($list);
 
 		// Make a link if not the last item in the breadcrumbs
 		$show_last = $params->get('showLast', 1);
 
+		$class   = null;
+		$divider = null;
+
 		// Generate the trail
 		foreach ($list as $key => $item) :
 			if ($key !== $last_item_key) :
 				if (!empty($item->link)) :
-					$breadcrumbItem = '<a itemprop="item" href="' . $item->link . '" class="pathway"><span itemprop="name">' . $item->name . '</span></a>';
+					$breadcrumbItem = HTMLHelper::link($item->link, '<span>' . $item->name . '</span>', ['class' => 'pathway']);
 				else :
-					$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
+					$breadcrumbItem = '<span>' . $item->name . '</span>';
 				endif;
-				// Render all but last item - along with separator ?>
-				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item"><?php echo $breadcrumbItem; ?>
-					<meta itemprop="position" content="<?php echo $key + 1; ?>">
-				</li>
-			<?php elseif ($show_last) :
-				$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
-				// Render last item if required. ?>
-				<li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item active"><?php echo $breadcrumbItem; ?>
-					<meta itemprop="position" content="<?php echo $key + 1; ?>">
-				</li>
-			<?php endif;
+
+			elseif ($show_last) :
+				// Render last item if required.
+				$breadcrumbItem = '<span>' . $item->name . '</span>';
+				$class          = ' active';
+			endif;
+
+			echo '<li class="mod-breadcrumbs__item breadcrumb-item' . $class . '">' . $breadcrumbItem . '</li>';
 		endforeach; ?>
 	</ol>
+	<?php
+
+	// Structured data as JSON
+	$data = [
+			'@context'        => 'https://schema.org',
+			'@type'           => 'BreadcrumbList',
+			'itemListElement' => []
+	];
+
+	foreach ($list as $key => $item)
+	{
+		$data['itemListElement'][] = [
+				'@type'    => 'ListItem',
+				'position' => $key + 1,
+				'item'     => [
+						'@id'  => $item->link ? Uri::base() . ltrim($item->link, '/') : Uri::current(),
+						'name' => $item->name
+				]
+		];
+	}
+	?>
+	<script type="application/ld+json">
+	<?php echo json_encode($data, JSON_UNESCAPED_UNICODE); ?>
+	</script>
 </nav>
