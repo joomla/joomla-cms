@@ -53,9 +53,16 @@
     height: 20px;
     padding: 0;
     margin-top: -10px;
-    margin-right: 25px;
+    margin-right: 45px;
     border-radius: 10em;
     opacity: .5;
+
+    [dir=rtl] & {
+      right: auto;
+      left: 0;
+      margin-right: 0;
+      margin-left: 45px;
+    }
 
     &:hover,
     &:focus {
@@ -64,15 +71,6 @@
 
     &:focus {
       box-shadow: 0 0 0 2px #00bcd4;
-    }
-  }
-
-  &[dir="rtl"] {
-    .choices__button_joomla {
-      right: auto;
-      left: 0;
-      margin-right: 0;
-      margin-left: 25px;
     }
   }
 

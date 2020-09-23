@@ -111,6 +111,15 @@ abstract class FormField
 	protected $hiddenLabel = false;
 
 	/**
+	 * Should the description be hidden when rendering the form field? This may be useful if you have the
+	 * description rendering in your form field itself for e.g. note fields.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $hiddenDescription = false;
+
+	/**
 	 * True to translate the field label string.
 	 *
 	 * @var    boolean
@@ -1027,9 +1036,28 @@ abstract class FormField
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->hiddenLabel)
+		if (empty($options['hiddenLabel']))
 		{
-			$options['hiddenLabel'] = true;
+			if ($this->getAttribute('hiddenLabel'))
+			{
+				$options['hiddenLabel'] = $this->getAttribute('hiddenLabel') == 'true' ? true : false;
+			}
+			else
+			{
+				$options['hiddenLabel'] = $this->hiddenLabel;
+			}
+		}
+
+		if (empty($options['hiddenDescription']))
+		{
+			if ($this->getAttribute('hiddenDescription'))
+			{
+				$options['hiddenDescription'] = $this->getAttribute('hiddenDescription') == 'true' ? true : false;
+			}
+			else
+			{
+				$options['hiddenDescription'] = $this->hiddenDescription;
+			}
 		}
 
 		if ($this->showon)

@@ -132,7 +132,6 @@ class Icon
 
 			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy));
 
-			$attribs['role']  = 'button';
 			$attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
 			$output = HTMLHelper::_('link', '#', $text, $attribs);
 
