@@ -107,24 +107,29 @@ class CheckinModel extends ListModel
 				continue;
 			}
 
+			$query = $db->getQuery(true)
+				->update($db->quoteName($tn))
+				->set($db->quoteName('checked_out') . ' = DEFAULT');
+
 			if ($fields['checked_out_time']->Null === 'YES')
 			{
-				$query = $db->getQuery(true)
-					->update($db->quoteName($tn))
-					->set($db->quoteName('checked_out') . ' = DEFAULT')
-					->set($db->quoteName('checked_out_time') . ' = NULL')
-					->where($db->quoteName('checked_out') . ' > 0');
+				$query->set($db->quoteName('checked_out_time') . ' = NULL');
 			}
 			else
 			{
 				$nullDate = $db->getNullDate();
 
-				$query = $db->getQuery(true)
-					->update($db->quoteName($tn))
-					->set($db->quoteName('checked_out') . ' = DEFAULT')
-					->set($db->quoteName('checked_out_time') . ' = :checkouttime')
-					->where($db->quoteName('checked_out') . ' > 0')
+				$query->set($db->quoteName('checked_out_time') . ' = :checkouttime')
 					->bind(':checkouttime', $nullDate);
+			}
+
+			if ($fields['checked_out']->Null === 'YES')
+			{
+				$query->where($db->quoteName('checked_out') . ' IS NOT NULL');
+			}
+			else
+			{
+				$query->where($db->quoteName('checked_out') . ' != 0');
 			}
 
 			$db->setQuery($query);
