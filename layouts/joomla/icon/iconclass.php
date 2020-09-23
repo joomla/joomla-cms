@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\Utilities\ArrayHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 // Convert icomoon to fa
 $icon       = $displayData['icon'];
