@@ -112,6 +112,10 @@ fieldset {
   + fieldset {
     margin-top: $cassiopeia-grid-gutter*2;
   }
+  
+  > * {
+    margin-bottom: 0
+  }
 
   > * + * {
     margin-top: $cassiopeia-grid-gutter*2;
