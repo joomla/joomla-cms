@@ -69,6 +69,8 @@
     }
 
     .inactive {
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
       [class^="#{$fa-css-prefix}-"],
       [class*=" #{$fa-css-prefix}-"] {
         color: $gray-400;

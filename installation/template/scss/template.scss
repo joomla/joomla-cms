@@ -205,8 +205,8 @@ caption {
   color: #292b2c;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="#{$jicon-css-prefix}-"],
+[class*=" #{$jicon-css-prefix}-"] {
   display: inline-block;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -219,15 +219,15 @@ caption {
   line-height: 1;
 }
 
-.#{$fa-css-prefix}-eye-open::before,
-.#{$fa-css-prefix}-eye::before {
+.#{$jicon-css-prefix}-eye-open::before,
+.#{$jicon-css-prefix}-eye::before {
   content: "\f06e";
 }
 
-.#{$fa-css-prefix}-eye-slash::before,
-.#{$fa-css-prefix}-eye-close::before,
-.#{$fa-css-prefix}-eye-blocked::before,
-.#{$fa-css-prefix}-eye-2::before {
+.#{$jicon-css-prefix}-eye-slash::before,
+.#{$jicon-css-prefix}-eye-close::before,
+.#{$jicon-css-prefix}-eye-blocked::before,
+.#{$jicon-css-prefix}-eye-2::before {
   content: "\f070";
 }
 

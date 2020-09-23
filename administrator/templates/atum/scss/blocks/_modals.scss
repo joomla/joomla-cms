@@ -55,6 +55,8 @@
   }
 
   .btn.btn-danger {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"],
     span {
@@ -70,6 +72,8 @@
   }
 
   .btn.btn-success {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"],
     span {

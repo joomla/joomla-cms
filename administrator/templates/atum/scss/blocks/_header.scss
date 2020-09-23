@@ -87,6 +87,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"] {
       margin-inline-end: .625rem;
@@ -175,6 +177,8 @@
     }
   }
 
+  [class^="#{$jicon-css-prefix}-"],
+  [class*=" #{$jicon-css-prefix}-"],
   [class^="#{$fa-css-prefix}-"],
   [class*=" #{$fa-css-prefix}-"] {
     font-size: 1.5rem;
@@ -197,6 +201,7 @@
     }
   }
 
+  .#{$jicon-css-prefix}-angle-down,
   .#{$fa-css-prefix}-angle-down {
     position: absolute;
     top: .9rem;
@@ -237,6 +242,8 @@
         text-align: right;
       }
 
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
       [class^="#{$fa-css-prefix}-"],
       [class*=" #{$fa-css-prefix}-"] {
         [dir=ltr] & {
@@ -258,6 +265,8 @@
       text-align: right;
     }
 
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"] {
       [dir=ltr] & {
@@ -328,6 +337,8 @@
       background-color: var(--atum-bg-dark);
       border: 0;
 
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
       [class^="#{$fa-css-prefix}-"],
       [class*=" #{$fa-css-prefix}-"] {
         margin: auto;
@@ -407,6 +418,7 @@
       }
     }
 
+    .#{$jicon-css-prefix}-angle-down,
     .#{$fa-css-prefix}-angle-down {
       transform: rotate(180deg);
     }

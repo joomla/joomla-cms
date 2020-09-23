@@ -1,14 +1,14 @@
 // Icons
 
-.#{$fa-css-prefix}-back::before {
+.#{$jicon-css-prefix}-back::before {
   content: "\e008";
 }
 
-.#{$fa-css-prefix}-crop::before {
+.#{$jicon-css-prefix}-crop::before {
   content: "\f125";
 }
 
-.#{$fa-css-prefix}-white {
+.#{$jicon-css-prefix}-white {
   color: $white;
 }
 
@@ -18,6 +18,8 @@
   background-color: transparent;
   border: 0;
 
+  [class^="#{$jicon-css-prefix}-"],
+  [class*=" #{$jicon-css-prefix}-"],
   [class^="#{$fa-css-prefix}-"],
   [class*=" #{$fa-css-prefix}-"] {
     width: 26px;
@@ -29,25 +31,29 @@
     border-radius: 50%;
   }
 
-  .#{$fa-css-prefix}-publish,
+  .#{$jicon-css-prefix}-publish,
+  .#{$jicon-css-prefix}-check,
   .#{$fa-css-prefix}-check {
     color: var(--success);
     border-color: var(--success);
   }
 
-  .#{$fa-css-prefix}-color-featured,
+  .#{$jicon-css-prefix}-color-featured,
+  .#{$jicon-css-prefix}-star.featured,
   .#{$fa-css-prefix}-star.featured {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
 
-  .#{$fa-css-prefix}-archive,
+  .#{$jicon-css-prefix}-archive,
+  .#{$jicon-css-prefix}-folder,
   .#{$fa-css-prefix}-folder {
     color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
-  .#{$fa-css-prefix}-checkedout,
+  .#{$jicon-css-prefix}-checkedout,
+  .#{$jicon-css-prefix}-lock,
   .#{$fa-css-prefix}-lock {
     width: auto;
     height: auto;
@@ -60,63 +66,65 @@
   &.home-disabled,
   &.featured-disabled,
   &.color-featured-disabled,
+  &.#{$jicon-css-prefix}-star-disabled,
   &.#{$fa-css-prefix}-star-disabled {
     cursor: not-allowed;
     opacity: 1;
   }
 
+  &.disabled .#{$jicon-css-prefix}-home,
   &.disabled .#{$fa-css-prefix}-home {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
 }
 
-.#{$fa-css-prefix}-joomla::before {
+.#{$jicon-css-prefix}-joomla::before {
   font-family: "Font Awesome 5 Brands";
   font-weight: 400;
   content: "\f1aa";
 }
 
-.#{$fa-css-prefix}-shield-alt::before {
+.#{$jicon-css-prefix}-shield-alt::before {
   content: "\f3ed";
 }
 
-.#{$fa-css-prefix}-address-book::before {
+.#{$jicon-css-prefix}-address-book::before {
   content: "\f2b9";
 }
 
-.#{$fa-css-prefix}-images::before {
+.#{$jicon-css-prefix}-images::before {
   content: "\f302";
 }
 
-.#{$fa-css-prefix}-info-circle::before {
+.#{$jicon-css-prefix}-info-circle::before {
   content: "\f05a";
 }
 
-.#{$fa-css-prefix}-paint-brush::before {
+.#{$jicon-css-prefix}-paint-brush::before {
   content: "\f1fc";
 }
 
-.#{$fa-css-prefix}-language::before {
+.#{$jicon-css-prefix}-language::before {
   content: "\f1ab";
 }
 
-.#{$fa-css-prefix}-rss::before {
+.#{$jicon-css-prefix}-rss::before {
   content: "\f09e";
 }
 
-.#{$fa-css-prefix}-map-signs::before {
+.#{$jicon-css-prefix}-map-signs::before {
   content: "\f277";
 }
 
-.#{$fa-css-prefix}-envelope-open-text::before {
+.#{$jicon-css-prefix}-envelope-open-text::before {
   content: "\f658";
 }
 
-.#{$fa-css-prefix}-users-cog::before {
+.#{$jicon-css-prefix}-users-cog::before {
   content: "\f509";
 }
 
-.#{$fa-css-prefix}-user-lock::before {
+.#{$jicon-css-prefix}-user-lock::before {
   content: "\f502";
 }

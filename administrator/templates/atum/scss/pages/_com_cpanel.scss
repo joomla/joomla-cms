@@ -156,6 +156,8 @@
       bottom: 0;
       left: 12rem;
 
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
       [class^="#{$fa-css-prefix}-"],
       [class*=" #{$fa-css-prefix}-"] {
         font-size: 7rem;
@@ -172,6 +174,8 @@
   }
 
   .list-group-item a > span {
+    &[class^="#{$jicon-css-prefix}-"],
+    &[class*=" #{$jicon-css-prefix}-"],
     &[class^="#{$fa-css-prefix}-"],
     &[class*=" #{$fa-css-prefix}-"] {
       display: block;
@@ -187,6 +191,8 @@
   }
 
   .list-group-item a > span.home-image {
+    &[class^="#{$jicon-css-prefix}-"],
+    &[class*=" #{$jicon-css-prefix}-"],
     &[class^="#{$fa-css-prefix}-"],
     &[class*=" #{$fa-css-prefix}-"] {
       display: inline-block;
