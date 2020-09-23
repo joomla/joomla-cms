@@ -34,10 +34,11 @@ foreach ($value as $path)
 	}
 
 	$imageFilePath = htmlentities($path, ENT_COMPAT, 'UTF-8', true);
-	$imageInfo = Image::getImageFileProperties($imageFilePath);
 
 	if ($fieldParams->get('directory', '/') !== '/')
 	{
+		$imageInfo = Image::getImageFileProperties('images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
+
 		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s/%s"%s>',
 			$imageInfo->width,
 			$imageInfo->height,
@@ -48,7 +49,7 @@ foreach ($value as $path)
 	}
 	else
 	{
-		$imageInfo = Image::getImageFileProperties(htmlentities($path, ENT_COMPAT, 'UTF-8', true));
+		$imageInfo = Image::getImageFileProperties('images/' . $imageFilePath);
 
 		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s"%s>',
 			$imageInfo->width,
