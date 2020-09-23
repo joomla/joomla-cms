@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Language\Language;
+
 defined('_JEXEC') or die;
 
 extract($displayData);
@@ -34,20 +36,23 @@ extract($displayData);
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
  * @var   boolean  $required        Is this field required?
  * @var   integer  $size            Size attribute of the input.
- * @var   boolean  $spellchec       Spellcheck state for the form field.
+ * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- * @var   array    $checkedOptions  Options that will be set as checked.
- * @var   boolean  $hasValue        Has this field a value assigned?
- * @var   array    $options         Options available for this field.
- * @var   array    $checked         Is this field checked?
- * @var   array    $position        Is this field checked?
- * @var   array    $control         Is this field checked?
+ * @var   string   $position        Is this field checked? TODO
+ * @var   string   $control         Is this field checked? TODO
+ * @var   string   $color           Color representation of the value in the adequate format.
+ * @var   string   $format          Format of the color representation.
+ * @var   string   $keywords        Keywords for the color selector control element.
+ * @var   array    $colors          Set of colors to be displayed in the color picker.
+ * @var   integer  $split           Number of columns for arranging the options in the color picker.
  */
 
 $class    = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
 $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
+$required = $required ? ' required aria-required="true"' : '';
+$onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 
 // Include jQuery
 JHtml::_('jquery.framework');
@@ -58,7 +63,7 @@ JHtml::_('script', 'system/color-field-init.min.js', array('version' => 'auto', 
 ?>
 <select data-chosen="true" name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
 echo $disabled; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
-echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
+echo $onchange; ?> style="visibility:hidden;width:22px;height:1px">
 	<?php foreach ($colors as $i => $c) : ?>
 		<option<?php echo ($c == $color ? ' selected="selected"' : ''); ?>><?php echo $c; ?></option>
 		<?php if (($i + 1) % $split == 0) : ?>
