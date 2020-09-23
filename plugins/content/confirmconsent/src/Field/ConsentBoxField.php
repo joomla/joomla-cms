@@ -159,8 +159,8 @@ class ConsentBoxField extends CheckboxesField
 		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
 		// When we have an article let's add the modal and make the title clickable
-		$hasLink = ($data['privacyType'] == 'article' && $data['articleid'])
-			|| ($data['privacyType'] == 'menu_item' && $data['menuItemId']);
+		$hasLink = ($data['privacyType'] === 'article' && $data['articleid'])
+			|| ($data['privacyType'] === 'menu_item' && $data['menuItemId']);
 
 		if ($hasLink)
 		{
@@ -226,7 +226,7 @@ class ConsentBoxField extends CheckboxesField
 		$extraData = array(
 			'articleid' => (integer) $this->articleid,
 			'menuItemId' => (integer) $this->menuItemId,
-			'privacyType' => (integer) $this->privacyType,
+			'privacyType' => (string) $this->privacyType,
 		);
 
 		return array_merge($data, $extraData);
