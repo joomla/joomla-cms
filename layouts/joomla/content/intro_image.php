@@ -32,12 +32,12 @@ if (count($imageParams))
 {
 	if ($imageParams['width'] !== 'undefined')
 	{
-		$attr['width'] = $imageParams['width'] . 'px';
+		$attr['width'] = $imageParams['width'];
 	}
 
 	if ($imageParams['height'] !== 'undefined')
 	{
-		$attr['height'] = $imageParams['height'] . 'px';
+		$attr['height'] = $imageParams['height'];
 	}
 }
 ?>

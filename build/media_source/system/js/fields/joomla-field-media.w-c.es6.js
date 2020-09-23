@@ -36,9 +36,9 @@
 
       if (Joomla.selectedFile.url) {
         if (!isElement(editor) && (typeof editor !== 'object')) {
-          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" width="${Joomla.selectedFile.width}px" height="${Joomla.selectedFile.height}px" alt="" />`);
+          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" width="${Joomla.selectedFile.width}" height="${Joomla.selectedFile.height}" alt="" />`);
         } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" width="${Joomla.selectedFile.width}px" height="${Joomla.selectedFile.height}px" alt="" />`);
+          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" width="${Joomla.selectedFile.width}" height="${Joomla.selectedFile.height}" alt="" />`);
         } else {
           editor.value = `${Joomla.selectedFile.url}?width=${Joomla.selectedFile.width}&height=${Joomla.selectedFile.height}`;
           fieldClass.updatePreview();
