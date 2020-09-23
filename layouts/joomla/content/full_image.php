@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
+$images = json_decode($displayData->images);
+
 // When we have no image nothing is going to be displayed.
 if (empty($images->image_fulltext))
 {
@@ -18,10 +20,8 @@ if (empty($images->image_fulltext))
 }
 
 $params   = $displayData->params;
-$images   = json_decode($displayData->images);
 $imgfloat = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext;
 $image    = parse_url($images->image_fulltext);
-$src      = $image['path'];
 $attr     = [];
 
 parse_str($image['query'], $imageParams);
@@ -42,7 +42,7 @@ if (count($imageParams))
 <figure class="float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 	<img
 		loading="lazy"
-		src="<?php echo htmlspecialchars($src, ENT_COMPAT, 'UTF-8'); ?>"
+		src="<?php echo htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8'); ?>"
 		alt="<?php echo htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8'); ?>"
 		itemprop="image"
 		<?php echo ArrayHelper::toString($attr); ?>

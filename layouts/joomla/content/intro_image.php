@@ -13,6 +13,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Utilities\ArrayHelper;
 
+$images = json_decode($displayData->images);
+
 // When we have no image nothing is going to be displayed.
 if (empty($images->image_intro))
 {
@@ -20,10 +22,8 @@ if (empty($images->image_intro))
 }
 
 $params   = $displayData->params;
-$images   = json_decode($displayData->images);
 $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
 $image    = parse_url($images->image_intro);
-$src      = $image['path'];
 $attr     = [];
 
 parse_str($image['query'], $imageParams);
@@ -46,7 +46,7 @@ if (count($imageParams))
 		<a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>">
 			<img
 				loading="lazy"
-				src="<?php echo htmlspecialchars($src, ENT_COMPAT, 'UTF-8'); ?>"
+				src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>"
 				alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"
 				itemprop="thumbnailUrl"
 				<?php echo ArrayHelper::toString($attr); ?>
@@ -55,7 +55,7 @@ if (count($imageParams))
 	<?php else : ?>
 		<img
 			loading="lazy"
-			src="<?php echo htmlspecialchars($src, ENT_COMPAT, 'UTF-8'); ?>"
+			src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>"
 			alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"
 			itemprop="thumbnailUrl"
 			<?php echo ArrayHelper::toString($attr); ?>
