@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Language\Language;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Language;
 
 extract($displayData);
 
