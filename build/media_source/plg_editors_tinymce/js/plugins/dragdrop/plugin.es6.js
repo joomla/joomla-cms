@@ -60,7 +60,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
             urlPath = response.data.thumb_path;
           }
 
-          tinyMCE.activeEditor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" alt=""/>`);
+          tinyMCE.activeEditor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" width="${response.data.width}" height="${response.data.height}" alt=""/>`);
         }
       },
       onError: (xhr) => {
