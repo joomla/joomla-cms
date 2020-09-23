@@ -9,7 +9,6 @@
 
   th,
   td {
-    padding: $table-cell-padding;
     vertical-align: middle;
 
     label {
@@ -18,11 +17,4 @@
 
   }
 
-}
-
-.table-sm {
-  th,
-  td {
-    padding: $table-cell-padding-sm;
-  }
 }
