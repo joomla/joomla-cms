@@ -37,6 +37,7 @@ class File
 	 */
 	public static function getExt($file)
 	{
+		// String manipulation should be faster than pathinfo() on newer PHP versions.
 		$dot = strrpos($file, '.');
 
 		if ($dot === false)
