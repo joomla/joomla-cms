@@ -129,7 +129,7 @@ class CheckinModel extends ListModel
 			}
 			else
 			{
-				$query->where($db->quoteName('checked_out') . ' != 0');
+				$query->where($db->quoteName('checked_out') . ' > 0');
 			}
 
 			$db->setQuery($query);
