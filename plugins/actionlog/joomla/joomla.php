@@ -1055,10 +1055,16 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.21
 	 */
-	public function onJoomlaAfterUpdate($oldVersion)
+	public function onJoomlaAfterUpdate($oldVersion = 'unknown')
 	{
 		$context = $this->app->input->get('option');
 		$user    = JFactory::getUser();
+		
+		if ($oldVersion === 'unknown')
+		{			
+			$oldVersion = JText::_('JLIB_UNKNOWN');	
+		}
+
 		$message = array(
 			'action'      => 'joomlaupdate',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
