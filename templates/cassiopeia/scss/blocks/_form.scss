@@ -108,21 +108,19 @@ td .form-control {
   bottom: 100%;
 }
 
-fieldset + fieldset {
-  margin-top: $cassiopeia-grid-gutter*2;
-}
+fieldset {
+  + fieldset {
+    margin-top: $cassiopeia-grid-gutter*2;
+  }
 
-fieldset:only-child {
-  margin-top: $cassiopeia-grid-gutter*2;
+  > * + * {
+    margin-top: $cassiopeia-grid-gutter*2;
+  }
 }
 
 .container-popup [id="filter[search]-desc"] {
   top: 100%;
   bottom: auto;
-}
-
-.control-group {
-  margin-top: $cassiopeia-grid-gutter*2;
 }
 
 .com-users-login__options {
