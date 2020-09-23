@@ -145,7 +145,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 
 	<?php if ($this->countModules('sidebar-left')) : ?>
 	<div class="grid-child container-sidebar-left">
-		<jdoc:include type="modules" name="sidebar-left" style="default" />
+		<jdoc:include type="modules" name="sidebar-left" style="card" />
 	</div>
 	<?php endif; ?>
 
@@ -161,7 +161,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 
 	<?php if ($this->countModules('sidebar-right')) : ?>
 	<div class="grid-child container-sidebar-right">
-		<jdoc:include type="modules" name="sidebar-right" style="default" />
+		<jdoc:include type="modules" name="sidebar-right" style="card" />
 	</div>
 	<?php endif; ?>
 
