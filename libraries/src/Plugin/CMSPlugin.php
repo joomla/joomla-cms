@@ -16,6 +16,7 @@ use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -221,7 +222,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$parameters = $method->getParameters();
 
 			// If the parameter count is not 1 it is by definition a legacy listener
-			if (\count($parameters) != 1)
+			if (\count($parameters) !== 1)
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -230,11 +231,11 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 			/** @var \ReflectionParameter $param */
 			$param = array_shift($parameters);
-			$typeHint = $param->getClass();
+			$typeHint = $param->getType();
 			$paramName = $param->getName();
 
 			// No type hint / type hint class not an event and parameter name is not "event"? It's a legacy listener.
-			if ((empty($typeHint) || !$typeHint->implementsInterface('Joomla\\Event\\EventInterface')) && ($paramName !== 'event'))
+			if (($typeHint === null || !$this->checkTypeHint($typeHint)) && $paramName !== 'event')
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -291,7 +292,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 				}
 
 				// Restore the old results and add the new result from our method call
-				array_push($allResults, $result);
+				$allResults[]    = $result;
 				$event['result'] = $allResults;
 			}
 		);
@@ -310,5 +311,44 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	final protected function registerListener(string $methodName)
 	{
 		$this->getDispatcher()->addListener($methodName, [$this, $methodName]);
+	}
+
+	/**
+	 * Used for checking if parameter is typehinted to accept \Joomla\Event\EventInterface, based on reflection type.
+	 *
+	 * @param   \ReflectionType  $reflectionType
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function checkTypeHint(\ReflectionType $reflectionType): bool
+	{
+		if ($reflectionType->allowsNull())
+		{
+			return false;
+		}
+
+		// Handle standard typehints.
+		if ($reflectionType instanceof \ReflectionNamedType)
+		{
+			return \is_a($reflectionType->getName(), EventInterface::class, true);
+		}
+
+		// Handle PHP 8 union types.
+		if ($reflectionType instanceof \ReflectionUnionType)
+		{
+			foreach ($reflectionType->getTypes() as $type)
+			{
+				if (!\is_a($type->getName(), EventInterface::class, true))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 }
