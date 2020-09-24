@@ -226,8 +226,7 @@ class AdminModelProfile extends UsersModelUser
 	public function getTwofactorform($userId = null)
 	{
 		$userId = (!empty($userId)) ? $userId : (int) JFactory::getUser()->id;
-
-		$model = new UsersModelUser;
+		$model  = new UsersModelUser;
 
 		return $model->getTwofactorform($userId);
 	}
@@ -245,8 +244,7 @@ class AdminModelProfile extends UsersModelUser
 	public function getOtpConfig($userId = null)
 	{
 		$userId = (!empty($userId)) ? $userId : (int) JFactory::getUser()->id;
-
-		$model = new UsersModelUser;
+		$model  = new UsersModelUser;
 
 		return $model->getOtpConfig($userId);
 	}
@@ -266,8 +264,7 @@ class AdminModelProfile extends UsersModelUser
 	public function setOtpConfig($userId, $otpConfig)
 	{
 		$userId = (!empty($userId)) ? $userId : (int) JFactory::getUser()->id;
-
-		$model = new UsersModelUser;
+		$model  = new UsersModelUser;
 
 		return $model->setOtpConfig($userId, $otpConfig);
 	}
@@ -285,8 +282,7 @@ class AdminModelProfile extends UsersModelUser
 	public function generateOteps($userId, $count = 10)
 	{
 		$userId = (!empty($userId)) ? $userId : (int) JFactory::getUser()->id;
-
-		$model = new UsersModelUser;
+		$model  = new UsersModelUser;
 
 		return $model->generateOteps($userId, $count);
 	}
