@@ -1,15 +1,11 @@
 // Variables
 @import "../../../administrator/templates/atum/scss/variables";
-$fa-css-prefix: icon;
-$fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
+
+// Font Awesome
+@import "../../../administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome";
 
 // Bootstrap
 @import "../../../media/vendor/bootstrap/scss/bootstrap";
-
-// "Font Awesome 5 Free"
-@import "../../../media/vendor/fontawesome-free/scss/fontawesome";
-@import "../../../media/vendor/fontawesome-free/scss/solid";
-@import "../../../media/vendor/fontawesome-free/scss/brands";
 
 // Backend Template stuff
 @import "../../../administrator/templates/atum/scss/mixin";
@@ -203,32 +199,6 @@ caption {
 
 .badge-warning {
   color: #292b2c;
-}
-
-[class^="#{$jicon-css-prefix}-"],
-[class*=" #{$jicon-css-prefix}-"] {
-  display: inline-block;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  font-family: "Font Awesome 5 Free";
-  speak: none;
-  font-style: normal;
-  font-weight: 900;
-  font-variant: normal;
-  text-rendering: auto;
-  line-height: 1;
-}
-
-.#{$jicon-css-prefix}-eye-open::before,
-.#{$jicon-css-prefix}-eye::before {
-  content: "\f06e";
-}
-
-.#{$jicon-css-prefix}-eye-slash::before,
-.#{$jicon-css-prefix}-eye-close::before,
-.#{$jicon-css-prefix}-eye-blocked::before,
-.#{$jicon-css-prefix}-eye-2::before {
-  content: "\f070";
 }
 
 // footer

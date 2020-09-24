@@ -1,5 +1,5 @@
 // IcoMoon Conversion
-$jicon-css-prefix:                 icon;
+$jicon-css-prefix: icon;
 
 [class^="#{$jicon-css-prefix}-"],
 [class*=" #{$jicon-css-prefix}-"] {
@@ -15,8 +15,6 @@ $jicon-css-prefix:                 icon;
   line-height: 1;
 }
 
-[class^="#{$jicon-css-prefix}-joomla "],
-[class*=" #{$jicon-css-prefix}-joomla"],
 [class^="#{$jicon-css-prefix}b"],
 [class*=" #{$jicon-css-prefix}b"] {
   font-family: "Font Awesome 5 Brands";
@@ -36,9 +34,13 @@ $jicon-css-prefix:                 icon;
   @extend .#{$fa-css-prefix}-dot-circle:before;
 }
 
-.#{$jicon-css-prefix}-joomla::before {
+.#{$jicon-css-prefix}-joomla {
+  font-family: "Font Awesome 5 Brands";
   font-weight: 400;
-  @extend .#{$fa-css-prefix}-joomla:before;
+
+  &::before {
+    @extend .#{$fa-css-prefix}-joomla:before;
+  }
 }
 
 .#{$jicon-css-prefix}-chevron-up::before,
@@ -570,10 +572,12 @@ $jicon-css-prefix:                 icon;
 .#{$jicon-css-prefix}-images::before {
   @extend .#{$fa-css-prefix}-image:before;
 }
+
 .#{$jicon-css-prefix}-palette::before,
 .#{$jicon-css-prefix}-color-palette::before {
   @extend .#{$fa-css-prefix}-paint-brush:before;
 }
+
 .#{$jicon-css-prefix}-camera::before {
   @extend .#{$fa-css-prefix}-camera:before;
 }
@@ -608,6 +612,7 @@ $jicon-css-prefix:                 icon;
 .#{$jicon-css-prefix}-address::before {
   @extend .#{$fa-css-prefix}-file-alt:before;
 }
+
 .#{$jicon-css-prefix}-share-alt::before,
 .#{$jicon-css-prefix}-out::before {
   @extend .#{$fa-css-prefix}-share:before;
@@ -767,13 +772,17 @@ $jicon-css-prefix:                 icon;
 }
 
 .#{$jicon-css-prefix}-eye-open::before,
-.#{$jicon-css-prefix}-eye::before {
+.#{$jicon-css-prefix}-eye::before,
+.#{$fa-css-prefix}-eye-open::before {
   @extend .#{$fa-css-prefix}-eye:before;
 }
 
 .#{$jicon-css-prefix}-eye-close::before,
 .#{$jicon-css-prefix}-eye-blocked::before,
-.#{$jicon-css-prefix}-eye-2::before {
+.#{$jicon-css-prefix}-eye-2::before,
+.#{$fa-css-prefix}-eye-close::before,
+.#{$fa-css-prefix}-eye-blocked::before,
+.#{$fa-css-prefix}-eye-2::before {
   @extend .#{$fa-css-prefix}-eye-slash:before;
 }
 
