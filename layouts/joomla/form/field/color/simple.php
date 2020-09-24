@@ -37,8 +37,7 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- * @var   string   $position        Is this field checked? TODO
- * @var   string   $control         Is this field checked? TODO
+ * @var   string   $position        Position of the color picker dropdown. One of 'bottom left', 'bottom right', 'top left', or 'top right'.
  * @var   string   $color           Color representation of the value in the adequate format.
  * @var   string   $format          Format of the color representation.
  * @var   string   $keywords        Keywords for the color selector control element.
