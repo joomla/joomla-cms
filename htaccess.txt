@@ -59,6 +59,11 @@ RewriteRule .* index.php [F]
 #
 ## End - Rewrite rules to block out some common exploits.
 
+## Help users change passwords easily by adding a well-known URL for changing passwords
+## https://web.dev/change-password-url/
+RewriteCond %{REQUEST_URI} \.well-known/change-password$
+RewriteRule .* index.php?option=com_users&view=reset [R=302,L]
+
 ## Begin - Custom redirects
 #
 # If you need to redirect some pages, or set a canonical non-www to
