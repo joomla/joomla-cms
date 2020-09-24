@@ -221,7 +221,7 @@ class AdminModelProfile extends UsersModelUser
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPÖLOY_VERSION__
+	 * @since   __DEPOLOY_VERSION__
 	 */
 	public function getTwofactorform($userId = null)
 	{
@@ -239,7 +239,7 @@ class AdminModelProfile extends UsersModelUser
 	 *
 	 * @return  stdClass  An object holding the OTP configuration for this user
 	 *
-	 * @since   __DEPÖLOY_VERSION__
+	 * @since   __DEPOLOY_VERSION__
 	 */
 	public function getOtpConfig($userId = null)
 	{
@@ -259,7 +259,7 @@ class AdminModelProfile extends UsersModelUser
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPÖLOY_VERSION__
+	 * @since   __DEPOLOY_VERSION__
 	 */
 	public function setOtpConfig($userId, $otpConfig)
 	{
@@ -277,7 +277,7 @@ class AdminModelProfile extends UsersModelUser
 	 *
 	 * @return  array  The generated OTEPs
 	 *
-	 * @since   __DEPÖLOY_VERSION__
+	 * @since   __DEPOLOY_VERSION__
 	 */
 	public function generateOteps($userId, $count = 10)
 	{
