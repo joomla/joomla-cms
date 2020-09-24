@@ -804,6 +804,10 @@ $jicon-css-prefix: icon;
   @extend .#{$fa-css-prefix}-book:before;
 }
 
+.#{$jicon-css-prefix}-language::before {
+  @extend .#{$fa-css-prefix}-language:before;
+}
+
 .#{$jicon-css-prefix}-lightning::before,
 .#{$jicon-css-prefix}-flash::before {
   @extend .#{$fa-css-prefix}-bolt:before;
