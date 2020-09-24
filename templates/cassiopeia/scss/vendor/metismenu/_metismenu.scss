@@ -23,7 +23,12 @@
           @include media-breakpoint-down(md) {
             width: 100%;
           }
-          .active a {
+          .active > a {
+            text-decoration: underline;
+          }
+
+          span:hover,
+          a:hover {
             text-decoration: underline;
           }
         }
@@ -31,6 +36,7 @@
         > a {
           flex: 1 0 0%;
           overflow: hidden;
+          text-decoration: none;
           text-overflow: ellipsis;
           white-space: nowrap;
         }

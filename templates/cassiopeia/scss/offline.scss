@@ -4,22 +4,6 @@
 // Variables, Functions and Mixins
 @import "tools/tools";
 
-html {
-  background: radial-gradient(circle, $gray-100, $gray-200);
-  background-color: $cyan;
-  background-image: none;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-body {
-  padding: 0;
-  margin: 0;
-  font: 14px / 18px sans-serif;
-  color: $gray-700;
-  background-color: transparent;
-}
-
 .outer {
   position: relative;
   display: flex;
@@ -35,7 +19,7 @@ body {
 .offline-card {
   width: 100%;
   max-width: 30em;
-  margin: 0 auto 60px;
+  margin: 60px auto;
   background-color: $white;
   border: 1px solid hsla(0, 0%, 0%,.1);
   border-radius: 5px;
@@ -44,26 +28,22 @@ body {
 
 .header {
   position: relative;
-  padding-top: 25px;
-  padding-bottom: 35px;
+  padding: $cassiopeia-grid-gutter ($cassiopeia-grid-gutter*2);
   margin: 0;
+  color: $white;
   text-align: center;
+  background-color: var(--cassiopeia-color-primary);
+  background-image: $cassiopeia-header-grad;
   border-radius: 5px 5px 0 0;
+
+  [dir=rtl] & {
+    background-image: $cassiopeia-header-grad-rtl;
+  }
+
 }
 
 html[dir=rtl] .header {
   border-radius: 5px 0 0 5px;
-}
-
-.header::after {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  left: 0;
-  height: 3px;
-  content: "";
-  background-color: hsl(199, 100%, 36%);
-  background-image: linear-gradient(to right, hsl(209, 100%, 67%) 0%, hsl(193, 100%, 67%) 100%);
 }
 
 .login {

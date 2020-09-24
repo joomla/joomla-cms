@@ -23,4 +23,13 @@
     background: $white;
     border-radius: $border-radius;
   }
+
+  [dir=rtl] & {
+    background-image: $cassiopeia-header-grad-rtl;
+
+    .back-top {
+      margin-right: auto;
+      margin-left: 0;
+    }
+  }
 }
