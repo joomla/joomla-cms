@@ -254,7 +254,7 @@ class AdminModelProfile extends UsersModelUser
 	 * configuration for a particular user. The $otpConfig object is the same as
 	 * the one returned by the getOtpConfig method.
 	 *
-	 * @param   integer   $userId    The numeric ID of the user
+	 * @param   integer   $userId     The numeric ID of the user
 	 * @param   stdClass  $otpConfig  The OTP configuration object
 	 *
 	 * @return  boolean  True on success
@@ -272,7 +272,7 @@ class AdminModelProfile extends UsersModelUser
 	/**
 	 * Generates a new set of One Time Emergency Passwords (OTEPs) for a given user.
 	 *
-	 * @param   integer  $userId  The user ID
+	 * @param   integer  $userId   The user ID
 	 * @param   integer  $count    How many OTEPs to generate? Default: 10
 	 *
 	 * @return  array  The generated OTEPs
