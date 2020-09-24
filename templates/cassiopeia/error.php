@@ -32,7 +32,7 @@ $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 $params = $app->getTemplate(true)->params;
 
 // Template path
-$templatePath = 'templates/' . $this->template;
+$templatePath = Uri::root() .'templates/' . $this->template;
 
 // Color Theme
 $paramsColorName = $params->get('colorName', 'colors_standard');
@@ -61,17 +61,17 @@ $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'l
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Logo file or site title param
-if ($params->get('logoFile'))
+if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . $params->get('logoFile') . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
 }
-elseif ($params->get('siteTitle'))
+elseif ($this->params->get('siteTitle'))
 {
 	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 // Container
