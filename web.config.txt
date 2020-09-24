@@ -24,6 +24,13 @@
                    </conditions>
                    <action type="Rewrite" url="index.php" />
                </rule>
+               <rule name="A well-known URL for changing passwords">
+                   <match url="(.*)" ignoreCase="false" />
+                   <conditions logicalGrouping="MatchAll">
+                     <add input="{URL}" pattern="\.well-known/change-password$" ignoreCase="true" negate="true" />
+                   </conditions>
+                   <action type="Redirect" url="index.php?option=com_users&amp;view=reset" statusCode="302" />
+               </rule>
            </rules>
        </rewrite>
        <httpProtocol>
