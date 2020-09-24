@@ -22,6 +22,8 @@ JFactory::getDocument()->addScriptDeclaration('
 		// do field validation
 		if (form.install_package.value == "") {
 			alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE', true) . '");
+		} else if (form.install_package.files[0].size > form.max_upload_size.value) {
+			alert("' . JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG', true) . '");
 		} else {
 			JoomlaInstaller.showLoading();
 			form.installtype.value = "upload";
@@ -47,6 +49,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		var uploading = false;
 		var dragZone = $('#dragarea');
 		var fileInput = $('#install_package');
+		var fileSizeMax = $('#max_upload_size').val();
 		var button = $('#select-file-button');
 		var url = 'index.php?option=com_installer&task=install.ajax_upload';
 		var returnUrl = $('#installer-return').val();
@@ -118,6 +121,12 @@ JFactory::getDocument()->addScriptDeclaration(
 			var file = files[0];
 
 			var data = new FormData();
+
+			if (file.size > fileSizeMax) {
+				alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+				return;
+			}
+
 			data.append('install_package', file);
 			data.append('installtype', 'upload');
 
@@ -335,7 +344,8 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 	<div class="control-group">
 		<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 		<div class="controls">
-			<input id="install_package" class="input_box" name="install_package" type="file" size="57" /><br>
+			<input id="install_package" class="input_box" name="install_package" type="file" size="57" />
+			<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" /><br>
 			<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 		</div>
 	</div>
