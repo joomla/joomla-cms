@@ -819,7 +819,7 @@ class PlgSampledataBlog extends CMSPlugin
 			return $response;
 		}
 
-		// Add a third level of menuItems - use article title aslo for menuItem title
+		// Add a third level of menuItems - use article title also for menuItem title
 		$menuItems = array(
 			array(
 				'menutype'     => $menuTypes[0],
