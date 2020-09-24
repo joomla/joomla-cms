@@ -60,6 +60,9 @@ class AdminViewProfile extends JViewLegacy
 		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
 
+		// Load the language strings for the 2FA
+		JFactory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR);
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

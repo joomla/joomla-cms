@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 // Load the helper and model used for two factor authentication
 JLoader::register('UsersModelUser', JPATH_ADMINISTRATOR . '/components/com_users/models/user.php');
 JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
+
 /**
  * User model.
  *
@@ -141,12 +142,10 @@ class AdminModelProfile extends UsersModelUser
 		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))
 		{
-			$model = new UsersModelUser;
-
 			$twoFactorMethod = $data['twofactor']['method'];
 
 			// Get the current One Time Password (two factor auth) configuration
-			$otpConfig = $model->getOtpConfig($userId);
+			$otpConfig = $this->getOtpConfig($user->id);
 
 			if ($twoFactorMethod !== 'none')
 			{
@@ -169,26 +168,26 @@ class AdminModelProfile extends UsersModelUser
 				}
 
 				// Save OTP configuration.
-				$model->setOtpConfig($userId, $otpConfig);
+				$this->setOtpConfig($user->id, $otpConfig);
 
 				// Generate one time emergency passwords if required (depleted or not set)
 				if (empty($otpConfig->otep))
 				{
-					$model->generateOteps($userId);
+					$this->generateOteps($user->id);
 				}
 			}
 			else
 			{
 				$otpConfig->method = 'none';
 				$otpConfig->config = array();
-				$model->setOtpConfig($userId, $otpConfig);
+				$this->setOtpConfig($user->id, $otpConfig);
 			}
 
 			// Unset the raw data
 			unset($data['twofactor']);
 
 			// Reload the user record with the updated OTP configuration
-			$user->load($userId);
+			$user->load($user->id);
 		}
 
 		// Bind the data.
@@ -218,41 +217,77 @@ class AdminModelProfile extends UsersModelUser
 	 * Gets the configuration forms for all two-factor authentication methods
 	 * in an array.
 	 *
-	 * @param   integer  $user_id  The user ID to load the forms for (optional)
+	 * @param   integer  $userId  The user ID to load the forms for (optional)
 	 *
 	 * @return  array
 	 *
-	 * @since   3.2
+	 * @since   __DEPÖLOY_VERSION__
 	 */
-	protected function XXgetTwofactorform($user_id = null)
+	public function getTwofactorform($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) JFactory::getUser()->id;
 
 		$model = new UsersModelUser;
 
-		$otpConfig = $model->getOtpConfig($user_id);
-
-		FOFPlatform::getInstance()->importPlugin('twofactorauth');
-
-		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return $model->getTwofactorform($userId);
 	}
 
 	/**
 	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
 	 * configuration for a particular user.
 	 *
-	 * @param   integer  $user_id  The numeric ID of the user
+	 * @param   integer  $userId  The numeric ID of the user
 	 *
 	 * @return  stdClass  An object holding the OTP configuration for this user
 	 *
-	 * @since   3.2
+	 * @since   __DEPÖLOY_VERSION__
 	 */
-	protected function XXgetOtpConfig($user_id = null)
+	public function getOtpConfig($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) JFactory::getUser()->id;
 
 		$model = new UsersModelUser;
 
-		return $model->getOtpConfig($user_id);
+		return $model->getOtpConfig($userId);
+	}
+
+		/**
+	 * Sets the one time password (OTP) – a.k.a. two factor authentication –
+	 * configuration for a particular user. The $otpConfig object is the same as
+	 * the one returned by the getOtpConfig method.
+	 *
+	 * @param   integer   $userId    The numeric ID of the user
+	 * @param   stdClass  $otpConfig  The OTP configuration object
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   __DEPÖLOY_VERSION__
+	 */
+	public function setOtpConfig($userId, $otpConfig)
+	{
+		$userId = (!empty($userId)) ? $userId : (int) JFactory::getUser()->id;
+
+		$model = new UsersModelUser;
+
+		return $model->setOtpConfig($userId, $otpConfig);
+	}
+
+	/**
+	 * Generates a new set of One Time Emergency Passwords (OTEPs) for a given user.
+	 *
+	 * @param   integer  $userId  The user ID
+	 * @param   integer  $count    How many OTEPs to generate? Default: 10
+	 *
+	 * @return  array  The generated OTEPs
+	 *
+	 * @since   __DEPÖLOY_VERSION__
+	 */
+	public function generateOteps($userId, $count = 10)
+	{
+		$userId = (!empty($userId)) ? $userId : (int) JFactory::getUser()->id;
+
+		$model = new UsersModelUser;
+
+		return $model->generateOteps($userId, $count);
 	}
 }
