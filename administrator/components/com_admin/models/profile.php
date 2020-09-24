@@ -249,7 +249,7 @@ class AdminModelProfile extends UsersModelUser
 		return $model->getOtpConfig($userId);
 	}
 
-		/**
+	/**
 	 * Sets the one time password (OTP) – a.k.a. two factor authentication –
 	 * configuration for a particular user. The $otpConfig object is the same as
 	 * the one returned by the getOtpConfig method.
