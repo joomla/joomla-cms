@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -95,7 +95,7 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
@@ -104,29 +104,12 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$pluginParams = new Registry;
-
-		if (JPluginHelper::isEnabled('user', 'joomla'))
-		{
-			$plugin = JPluginHelper::getPlugin('user', 'joomla');
-			$pluginParams->loadString($plugin->params);
-		}
-
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
 			return false;
-		}
-
-		$userId = $form->getValue('id');
-
-		// Passwords fields are required when mail to user is set to No in the joomla user plugin
-		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
-		{
-			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		// If the user needs to change their password, mark the password fields as required
@@ -141,6 +124,8 @@ class UsersModelUser extends JModelAdmin
 		{
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
+
+		$userId = $form->getValue('id');
 
 		// The user should not be able to set the requireReset value on their own account
 		if ((int) $userId === (int) JFactory::getUser()->id)

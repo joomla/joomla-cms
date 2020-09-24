@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -141,6 +141,13 @@ class InstallerScript
 		if (!$this->allowDowngrades && strtolower($type) === 'update')
 		{
 			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', \JFactory::getDbo()->quote($this->extension));
+
+			// Check whether we have an old release installed and skip this check when this here is the initial install.
+			if (!isset($manifest['version']))
+			{
+				return true;
+			}
+
 			$oldRelease = $manifest['version'];
 
 			if (version_compare($this->release, $oldRelease, '<'))

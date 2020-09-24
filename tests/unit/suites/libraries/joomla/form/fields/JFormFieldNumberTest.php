@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -134,6 +134,8 @@ class JFormFieldNumberTest extends TestCaseDatabase
 	public function testGetInput($data, $expected)
 	{
 		$formField = new JFormFieldNumber;
+
+		TestReflection::setValue($formField, 'element', new SimpleXMLElement('<field />'));
 
 		foreach ($data as $attr => $value)
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -286,6 +286,9 @@ class PrivacyControllerRequest extends JControllerForm
 	 */
 	public function remove()
 	{
+		// Check for request forgeries.
+		$this->checkToken('request');
+
 		/** @var PrivacyModelRemove $model */
 		$model = $this->getModel('Remove');
 

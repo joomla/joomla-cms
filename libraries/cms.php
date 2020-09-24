@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivilents
+// Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Suppress phar stream wrapper for non .phar files

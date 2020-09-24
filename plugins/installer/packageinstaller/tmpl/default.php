@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageinstaller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ JHtml::_('jquery.token');
 
 JText::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 JText::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+JText::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbuttonpackage = function() {
@@ -56,7 +57,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		var actions = $('.upload-actions');
 		var progress = $('.upload-progress');
 		var progressBar = progress.find('.bar');
-		var percentage = progress.find('.uploading-number');
+		var percentage  = progress.find('.uploading-number');
 
 		if (returnUrl) {
 			url += '&return=' + returnUrl;
@@ -292,7 +293,8 @@ JFactory::getDocument()->addStyleDeclaration(
 CSS
 );
 
-$maxSize = JFilesystemHelper::fileUploadMaxSize();
+$maxSizeBytes = JFilesystemHelper::fileUploadMaxSize(false);
+$maxSize = JHtml::_('number.bytes', $maxSizeBytes);
 ?>
 <legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 <div id="uploader-wrapper">

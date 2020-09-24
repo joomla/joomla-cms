@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -191,8 +191,14 @@ class FieldsModelField extends JModelAdmin
 				}
 
 				$query = $db->getQuery(true);
-				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where('value NOT IN (' . implode(',', $names) . ')');
+				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id);
+
+				// If new values are set, delete only old values. Otherwise delete all values.
+				if ($names)
+				{
+					$query->where('value NOT IN (' . implode(',', $names) . ')');
+				}
+
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -217,7 +223,7 @@ class FieldsModelField extends JModelAdmin
 	private function checkDefaultValue($data)
 	{
 		// Empty default values are correct
-		if (empty($data['default_value']))
+		if (empty($data['default_value']) && $data['default_value'] !== '0')
 		{
 			return true;
 		}

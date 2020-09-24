@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -313,7 +313,7 @@ abstract class BaseDatabaseModel extends \JObject
 	 *
 	 * Note: Current implementation of this method assumes that getListQuery() returns a set of unique rows,
 	 * thus it uses SELECT COUNT(*) to count the rows. In cases that getListQuery() uses DISTINCT
-	 * then either this method must be overriden by a custom implementation at the derived Model Class
+	 * then either this method must be overridden by a custom implementation at the derived Model Class
 	 * or a GROUP BY clause should be used to make the set unique.
 	 *
 	 * @param   \JDatabaseQuery|string  $query  The query.

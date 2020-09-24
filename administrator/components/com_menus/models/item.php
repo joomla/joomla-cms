@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -1553,6 +1554,11 @@ class MenusModelItem extends JModelAdmin
 			parent::cleanCache($option);
 		}
 
+		if (Factory::getApplication()->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
+		}
+
 		return true;
 	}
 
@@ -1564,7 +1570,7 @@ class MenusModelItem extends JModelAdmin
 	 * @param   array  $idArray    Rows identifiers to be reordered
 	 * @param   array  $lft_array  lft values of rows to be reordered
 	 *
-	 * @return  boolean false on failuer or error, true otherwise.
+	 * @return  boolean false on failure or error, true otherwise.
 	 *
 	 * @since   1.6
 	 */

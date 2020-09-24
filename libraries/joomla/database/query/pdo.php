@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class JDatabaseQueryPdo extends JDatabaseQuery
 	 *
 	 * @param   string  $value  The value to cast as a char.
 	 *
-	 * @param   string  $len    The lenght of the char.
+	 * @param   string  $len    The length of the char.
 	 *
 	 * @return  string  Returns the cast value.
 	 *

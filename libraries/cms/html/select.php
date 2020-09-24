@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -167,7 +167,7 @@ abstract class JHtmlSelect
 			'deprecated'
 		);
 
-		// Note: $idtag is requried but has to be an optional argument in the funtion call due to argument order
+		// Note: $idtag is required but has to be an optional argument in the funtion call due to argument order
 		if (!$idtag)
 		{
 			throw new InvalidArgumentException('$idtag is a required argument in deprecated JHtmlSelect::suggestionlist');

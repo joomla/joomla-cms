@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -154,7 +154,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
-	 * This is unsuported by PostgreSQL.
+	 * This is unsupported by PostgreSQL.
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,6 +52,8 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 */
 	public function purge()
 	{
+		$this->checkToken();
+
 		$this->getModel('associations')->purge();
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
@@ -65,6 +67,8 @@ class AssociationsControllerAssociations extends JControllerAdmin
 	 */
 	public function clean()
 	{
+		$this->checkToken();
+
 		$this->getModel('associations')->clean();
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -442,7 +442,7 @@ class JArchiveZip implements JArchiveExtractable
 	}
 
 	/**
-	 * Returns the file data for a file by offsest in the ZIP archive
+	 * Returns the file data for a file by offset in the ZIP archive
 	 *
 	 * @param   integer  $key  The position of the file in the archive.
 	 *

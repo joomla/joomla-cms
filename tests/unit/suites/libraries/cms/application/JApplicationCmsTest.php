@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -169,7 +169,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JApplicationCms::__construct method with dependancy injection.
+	 * Tests the JApplicationCms::__construct method with dependency injection.
 	 *
 	 * @return  void
 	 *

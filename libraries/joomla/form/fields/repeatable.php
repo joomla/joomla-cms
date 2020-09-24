@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -88,7 +88,7 @@ class JFormFieldRepeatable extends JFormField
 					. '<tbody><tr>' . implode("\n", $body_row_str) . '</tr></tbody>'
 				. '</table>';
 
-		// And finaly build a main container
+		// And finally build a main container
 		$str = array();
 		$str[] = '<div id="' . $this->id . '_container">';
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -107,7 +107,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the username.
 	 * @param   string   $filter    User's stream filter.
-	 * @param   boolean  $location  Retreive only posts with a location attached.
+	 * @param   boolean  $location  Retrieve only posts with a location attached.
 	 * @param   integer  $limit     The number of objects per page.
 	 * @param   integer  $offset    The object's number on the page.
 	 * @param   string   $until     A unix timestamp or any date accepted by strtotime.
@@ -656,7 +656,7 @@ class JFacebookUser extends JFacebookObject
 	 * Method to get the user's posts. Requires authentication and read_stream permission for non-public posts.
 	 *
 	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the username.
-	 * @param   boolean  $location  Retreive only posts with a location attached.
+	 * @param   boolean  $location  Retrieve only posts with a location attached.
 	 * @param   integer  $limit     The number of objects per page.
 	 * @param   integer  $offset    The object's number on the page.
 	 * @param   string   $until     A unix timestamp or any date accepted by strtotime.

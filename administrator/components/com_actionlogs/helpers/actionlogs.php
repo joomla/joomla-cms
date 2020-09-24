@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -219,12 +219,15 @@ class ActionlogsHelper
 
 		foreach ($messageData as $key => $value)
 		{
+			// Escape any markup in the values to prevent XSS attacks
+			$value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+
 			// Convert relative url to absolute url so that it is clickable in action logs notification email
 			if ($generateLinks && StringHelper::strpos($value, 'index.php?') === 0)
 			{
 				if (!isset($links[$value]))
 				{
-					$links[$value] = Route::link('administrator', $value, false, $linkMode);
+					$links[$value] = Route::link('administrator', $value, false, $linkMode, true);
 				}
 
 				$value = $links[$value];

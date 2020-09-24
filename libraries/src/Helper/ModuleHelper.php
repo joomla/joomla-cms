@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -665,7 +665,7 @@ abstract class ModuleHelper
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the id of the module
-			if ($modules[$i]->id === $id)
+			if ((string) $modules[$i]->id === $id)
 			{
 				// Found it
 				return $modules[$i];

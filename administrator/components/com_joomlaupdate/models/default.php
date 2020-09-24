@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -922,6 +922,9 @@ ENDDATA;
 
 		// Unset the update filename from the session.
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+
+		// Trigger event after joomla update.
+		JFactory::getApplication()->triggerEvent('onJoomlaAfterUpdate');
 	}
 
 	/**
