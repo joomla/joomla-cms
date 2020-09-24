@@ -73,14 +73,6 @@
   }
 }
 
-.choices__list--single {
-  .choices__button_joomla {
-    left: 22px;
-    width: 40px;
-    padding-right: 0;
-  }
-}
-
 .choices .choices__list--dropdown {
   .choices__item {
     padding-inline-end: 10px;
@@ -143,6 +135,35 @@
   .choices__item {
     display: flex;
     justify-content: space-between;
+  }
+
+  .choices__button_joomla {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-top: -10px;
+    margin-right: 45px;
+    border-radius: 10em;
+    opacity: .5;
+
+    [dir=rtl] & {
+      right: auto;
+      left: 0;
+      margin-right: 0;
+      margin-left: 45px;
+    }
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px #00bcd4;
+    }
   }
 
   &::after {
