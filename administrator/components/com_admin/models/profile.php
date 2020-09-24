@@ -272,8 +272,8 @@ class AdminModelProfile extends UsersModelUser
 	/**
 	 * Generates a new set of One Time Emergency Passwords (OTEPs) for a given user.
 	 *
-	 * @param   integer  $userId   The user ID
-	 * @param   integer  $count    How many OTEPs to generate? Default: 10
+	 * @param   integer  $userId  The user ID
+	 * @param   integer  $count   How many OTEPs to generate? Default: 10
 	 *
 	 * @return  array  The generated OTEPs
 	 *
