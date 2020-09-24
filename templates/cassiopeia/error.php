@@ -32,7 +32,7 @@ $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 $params = $app->getTemplate(true)->params;
 
 // Template path
-$templatePath = Uri::root() .'templates/' . $this->template;
+$templatePath = 'templates/' . $this->template;
 
 // Color Theme
 $paramsColorName = $params->get('colorName', 'colors_standard');
@@ -71,7 +71,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = '<img src="' . $this->baseurl . '/' . $templatePath. '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 // Container
