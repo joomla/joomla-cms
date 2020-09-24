@@ -4,13 +4,6 @@
 // Variables, Functions and Mixins
 @import "tools/tools";
 
-body {
-  padding: 0;
-  margin: 0;
-  font-size: $font-size-root;
-  color: $gray-700;
-}
-
 .outer {
   position: relative;
   display: flex;
