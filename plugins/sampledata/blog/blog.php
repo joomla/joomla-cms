@@ -819,22 +819,11 @@ class PlgSampledataBlog extends CMSPlugin
 			return $response;
 		}
 
-		// Add a third level of menuItems
+		// Add a third level of menuItems - use article title aslo for menuItem title
 		$menuItems = array(
 			array(
 				'menutype'     => $menuTypes[0],
-				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[5],
-				'parent_id'    => $menuIdsLevel2[4],
-				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
-				'params'       => array(
-					'menu_show' => 1,
-					'secure'    => 0,
-				),
-			),
-			array(
-				'menutype'     => $menuTypes[0],
-				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_6_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[6],
 				'parent_id'    => $menuIdsLevel2[4],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
@@ -845,8 +834,19 @@ class PlgSampledataBlog extends CMSPlugin
 			),
 			array(
 				'menutype'     => $menuTypes[0],
-				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_16_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[7],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_7_TITLE'),
+				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[7],
+				'parent_id'    => $menuIdsLevel2[4],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'menu_show' => 1,
+					'secure'    => 0,
+				),
+			),
+			array(
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_8_TITLE'),
+				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[8],
 				'parent_id'    => $menuIdsLevel2[4],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
