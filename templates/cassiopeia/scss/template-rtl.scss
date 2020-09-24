@@ -116,11 +116,3 @@ dd {
 .btn-group > .btn-group:not(:first-child) {
   @include border-right-radius(0);
 }
-
-.footer {
-  background-image: $cassiopeia-header-grad-rtl;
-  .back-top {
-    margin-right: auto;
-    margin-left: 0;
-  }
-}

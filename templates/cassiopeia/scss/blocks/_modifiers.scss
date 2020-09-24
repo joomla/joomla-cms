@@ -275,3 +275,30 @@
     }
   }
 }
+
+.mod-list {
+  padding-left: 0;
+  list-style-position: inside;
+
+  [dir=rtl] & {
+    padding-right: 0;
+  }
+}
+
+.mod-menu.nav {
+  li {
+    padding: ($cassiopeia-grid-gutter/2) 0;
+
+    a {
+      text-decoration: none;
+    }
+
+    &.active > a {
+      text-decoration: underline;
+    }
+
+    .mod-menu__sub {
+      padding-left: $cassiopeia-grid-gutter;
+    }
+  }
+}

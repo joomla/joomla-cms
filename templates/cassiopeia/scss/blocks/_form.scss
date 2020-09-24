@@ -108,7 +108,29 @@ td .form-control {
   bottom: 100%;
 }
 
+fieldset {
+  margin-bottom: $cassiopeia-grid-gutter*2;
+  + fieldset {
+    margin-top: $cassiopeia-grid-gutter*2;
+  }
+
+  > * {
+    margin-bottom: 0
+  }
+
+  > * + * {
+    margin-top: $cassiopeia-grid-gutter*2;
+  }
+}
+
+.control-group {
+  margin: $cassiopeia-grid-gutter 0;
+}
 .container-popup [id="filter[search]-desc"] {
   top: 100%;
   bottom: auto;
+}
+
+.com-users-login__options {
+  margin-top: $cassiopeia-grid-gutter*2;
 }
