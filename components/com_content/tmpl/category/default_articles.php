@@ -96,12 +96,14 @@ if (!empty($this->items))
 					<?php echo $this->pagination->getLimitBox(); ?>
 				</div>
 			<?php endif; ?>
-
-			<div class="com-content-category__filter-submit control-group hidden-xs-up float-right">
-				<div class="controls">
-					<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
+			
+			<?php if ($this->params->get('filter_field') !== 'hide') : ?>
+				<div class="com-content-category__filter-submit control-group hidden-xs-up float-right">
+					<div class="controls">
+						<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
+					</div>
 				</div>
-			</div>
+			<?php endif; ?>
 		</div>
 
 		<input type="hidden" name="filter_order" value="">
