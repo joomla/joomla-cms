@@ -2,61 +2,49 @@
 /**
  * This is a PHP library that handles calling reCAPTCHA.
  *
- * @copyright Copyright (c) 2015, Google Inc.
- * @link      http://www.google.com/recaptcha
+ * BSD 3-Clause License
+ * @copyright (c) 2019, Google Inc.
+ * @link https://www.google.com/recaptcha
+ * All rights reserved.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from
+ *    this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 namespace ReCaptcha\RequestMethod;
 
+use ReCaptcha\ReCaptcha;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
 /**
  * Sends a POST request to the reCAPTCHA service, but makes use of fsockopen()
  * instead of get_file_contents(). This is to account for people who may be on
- * servers where allow_furl_open is disabled.
+ * servers where allow_url_open is disabled.
  */
 class SocketPost implements RequestMethod
 {
-    /**
-     * reCAPTCHA service host.
-     * @const string
-     */
-    const RECAPTCHA_HOST = 'www.google.com';
-
-    /**
-     * @const string reCAPTCHA service path
-     */
-    const SITE_VERIFY_PATH = '/recaptcha/api/siteverify';
-
-    /**
-     * @const string Bad request error
-     */
-    const BAD_REQUEST = '{"success": false, "error-codes": ["invalid-request"]}';
-
-    /**
-     * @const string Bad response error
-     */
-    const BAD_RESPONSE = '{"success": false, "error-codes": ["invalid-response"]}';
-
     /**
      * Socket to the reCAPTCHA service
      * @var Socket
@@ -64,17 +52,15 @@ class SocketPost implements RequestMethod
     private $socket;
 
     /**
-     * Constructor
+     * Only needed if you want to override the defaults
      *
      * @param \ReCaptcha\RequestMethod\Socket $socket optional socket, injectable for testing
+     * @param string $siteVerifyUrl URL for reCAPTCHA siteverify API
      */
-    public function __construct(Socket $socket = null)
+    public function __construct(Socket $socket = null, $siteVerifyUrl = null)
     {
-        if (!is_null($socket)) {
-            $this->socket = $socket;
-        } else {
-            $this->socket = new Socket();
-        }
+        $this->socket = (is_null($socket)) ? new Socket() : $socket;
+        $this->siteVerifyUrl = (is_null($siteVerifyUrl)) ? ReCaptcha::SITE_VERIFY_URL : $siteVerifyUrl;
     }
 
     /**
@@ -87,15 +73,16 @@ class SocketPost implements RequestMethod
     {
         $errno = 0;
         $errstr = '';
+        $urlParsed = parse_url($this->siteVerifyUrl);
 
-        if (false === $this->socket->fsockopen('ssl://' . self::RECAPTCHA_HOST, 443, $errno, $errstr, 30)) {
-            return self::BAD_REQUEST;
+        if (false === $this->socket->fsockopen('ssl://' . $urlParsed['host'], 443, $errno, $errstr, 30)) {
+            return '{"success": false, "error-codes": ["'.ReCaptcha::E_CONNECTION_FAILED.'"]}';
         }
 
         $content = $params->toQueryString();
 
-        $request = "POST " . self::SITE_VERIFY_PATH . " HTTP/1.1\r\n";
-        $request .= "Host: " . self::RECAPTCHA_HOST . "\r\n";
+        $request = "POST " . $urlParsed['path'] . " HTTP/1.0\r\n";
+        $request .= "Host: " . $urlParsed['host'] . "\r\n";
         $request .= "Content-Type: application/x-www-form-urlencoded\r\n";
         $request .= "Content-length: " . strlen($content) . "\r\n";
         $request .= "Connection: close\r\n\r\n";
@@ -110,8 +97,8 @@ class SocketPost implements RequestMethod
 
         $this->socket->fclose();
 
-        if (0 !== strpos($response, 'HTTP/1.1 200 OK')) {
-            return self::BAD_RESPONSE;
+        if (0 !== strpos($response, 'HTTP/1.0 200 OK')) {
+            return '{"success": false, "error-codes": ["'.ReCaptcha::E_BAD_RESPONSE.'"]}';
         }
 
         $parts = preg_split("#\n\s*\n#Uis", $response);
