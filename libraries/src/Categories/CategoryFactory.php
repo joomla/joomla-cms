@@ -50,7 +50,7 @@ class CategoryFactory implements CategoryFactoryInterface
 	 *
 	 * @throws  SectionNotFoundException
 	 */
-	public function createCategory(array $options = array(), $section = '')
+	public function createCategory(array $options = array, $section = '')
 	{
 		$className = trim($this->namespace, '\\') . '\\Site\\Service\\' . ucfirst($section) . 'Category';
 
