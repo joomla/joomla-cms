@@ -371,10 +371,10 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__history`
+-- Table structure for table `#__content_history`
 --
 
-CREATE TABLE IF NOT EXISTS `#__history` (
+CREATE TABLE IF NOT EXISTS `#__content_history` (
   `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `item_id` VARCHAR(50) NOT NULL,
   `version_note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Optional version name',
