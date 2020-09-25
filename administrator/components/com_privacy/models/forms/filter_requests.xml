@@ -6,6 +6,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_PRIVACY_FILTER_SEARCH_LABEL"
 			description="COM_PRIVACY_SEARCH_IN_EMAIL"
 			hint="JSEARCH_FILTER"
@@ -40,6 +41,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.email ASC">COM_PRIVACY_HEADING_EMAIL_ASC</option>

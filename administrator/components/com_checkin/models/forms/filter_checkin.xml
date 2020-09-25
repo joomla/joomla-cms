@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_CHECKIN_FILTER_SEARCH_LABEL"
 			description="COM_CHECKIN_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -18,13 +19,14 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="table ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="table ASC">COM_CHECKIN_DATABASE_TABLE_ASC</option>
 			<option value="table DESC">COM_CHECKIN_DATABASE_TABLE_DESC</option>
 			<option value="count ASC">COM_CHECKIN_ITEMS_TO_CHECK_IN_ASC</option>
 			<option value="count DESC">COM_CHECKIN_ITEMS_TO_CHECK_IN_DESC</option>
-		</field> 
+		</field>
 		<field
 			name="limit"
 			type="limitbox"

@@ -5,6 +5,7 @@
 			<field
 				name="search"
 				type="text"
+				inputmode="search"
 				label="COM_MENUS_ITEMS_SEARCH_FILTER_LABEL"
 				description="COM_MENUS_ITEMS_SEARCH_FILTER"
 				hint="JSEARCH_FILTER"
@@ -61,6 +62,7 @@
 				statuses="*,0,1,2,-2"
 				onchange="this.form.submit();"
 				default="a.lft ASC"
+				validate="options"
 				>
 				<option value="">JGLOBAL_SORT_BY</option>
 				<option value="a.lft ASC">JGRID_HEADING_ORDERING_ASC</option>

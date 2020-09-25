@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,7 +78,8 @@ abstract class JHtmlJquery
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  4.0  jQuery UI will be removed from Joomla 4 without replacement.
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{

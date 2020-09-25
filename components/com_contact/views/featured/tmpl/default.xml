@@ -454,7 +454,7 @@
 			<field
 				name="linkb_name"
 				type="text"
-				label="COM_CONTACT_FIELD_LINKB_LABEL"
+				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
 				size="30"
 				useglobal="true"

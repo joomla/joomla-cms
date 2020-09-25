@@ -2,15 +2,15 @@
 /**
  * Part of the Joomla Framework Event Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Event;
 
-use Serializable;
 use ArrayAccess;
 use Countable;
+use Serializable;
 
 /**
  * Implementation of EventInterface.
@@ -56,7 +56,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		$this->name = $name;
+		$this->name      = $name;
 		$this->arguments = $arguments;
 	}
 
@@ -128,7 +128,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 */
 	public function isStopped()
 	{
-		return true === $this->stopped;
+		return $this->stopped === true;
 	}
 
 	/**
@@ -140,7 +140,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 */
 	public function count()
 	{
-		return count($this->arguments);
+		return \count($this->arguments);
 	}
 
 	/**

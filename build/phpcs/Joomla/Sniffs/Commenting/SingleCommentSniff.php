@@ -51,7 +51,7 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 		* The exception to this is if the preceding line consists of a single open bracket.
 		*/
 
-		if (isset($comment{2}) && $comment{2} != ' ')
+		if (isset($comment[2]) && $comment[2] != ' ')
 		{
 			$phpcsFile->addError('Please put a space between the // and the start of comment text; found "%s"'
 					, $stackPtr, 'NoSpace', array($comment));
@@ -65,7 +65,7 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 		*    The term is code and is case sensitive.(@todo)
 		*/
 
-		if (isset($comment{3}) && $comment{3} != strtoupper($comment{3}))
+		if (isset($comment[3]) && $comment[3] != strtoupper($comment[3]))
 		{
 			// Comment does not start with an upper case letter
 

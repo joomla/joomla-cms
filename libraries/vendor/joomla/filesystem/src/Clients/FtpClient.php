@@ -1319,7 +1319,7 @@ class FtpClient
 	 * @param   string  $path  Path to the local file to be stored on the FTP server
 	 * @param   string  $type  Return type [raw|all|folders|files]
 	 *
-	 * @return  mixed  If $type is raw: string Directory listing, otherwise array of string with file-names
+	 * @return  string[]  If $type is raw: string Directory listing, otherwise array of string with file-names
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
@@ -1458,7 +1458,7 @@ class FtpClient
 
 				if (@preg_match($regexp, $file, $regs))
 				{
-					$fType = (int) strpos('-dl', $regs[1]{0});
+					$fType = (int) strpos('-dl', $regs[1][0]);
 
 					// $tmpArray['line'] = $regs[0];
 					$tmpArray['type']   = $fType;

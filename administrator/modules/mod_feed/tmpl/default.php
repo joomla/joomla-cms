@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,9 +49,6 @@ else
 	}
 
 	if ($feed != false) :
-		// Image handling
-		$iUrl   = isset($feed->image) ? $feed->image : null;
-		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important"  class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
@@ -76,8 +73,8 @@ else
 		<?php endif; ?>
 
 		<!--  Feed image  -->
-		<?php if ($params->get('rssimage', 1) && $iUrl) : ?>
-			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+		<?php if ($params->get('rssimage', 1) && $feed->image) : ?>
+			<img src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
 		<?php endif; ?>
 
 

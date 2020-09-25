@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_SEARCH_SEARCH_IN_PHRASE"
 			description="COM_SEARCH_SEARCH_IN_PHRASE"
 			hint="JSEARCH_FILTER"
@@ -15,6 +16,7 @@
 			type="list"
 			onchange="this.form.submit();"
 			default="a.hits ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.search_term ASC">COM_SEARCH_HEADING_SEARCH_TERM_ASC</option>

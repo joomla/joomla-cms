@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Svenska (Sverige)</name>
 	<version>3.9.12</version>
-	<creationDate>Semptember 2018</creationDate>
+	<creationDate>2018-09-01</creationDate>
 	<author>Swedish Joomla Translation Team - SvenskJoomla</author>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 eller senare; Se LICENSE.txt</license>
 	<files>
 		<filename>sv-SE.ini</filename>

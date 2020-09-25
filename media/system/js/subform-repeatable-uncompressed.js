@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -7,6 +7,9 @@
 	"use strict";
 	$.subformRepeatable = function(container, options){
 		this.$container = $(container);
+
+		// To avoid scope issues,
+		var self = this;
 
 		// check if already exist
 		if(this.$container.data("subformRepeatable")){
@@ -28,8 +31,8 @@
 		// check rows container
 		this.$containerRows = this.options.rowsContainer ? this.$container.find(this.options.rowsContainer) : this.$container;
 
-		// To avoid scope issues,
-		var self = this;
+		// Keep track of amount of rows, this is important to avoid a name duplication
+		this.lastRowNum = this.$containerRows.find(this.options.repeatableElement).length;
 
 		// bind add button
 		this.$container.on('click', this.options.btAdd, function (e) {
@@ -153,12 +156,14 @@
 		$row, // the jQuery object to do fixes in
 		_count, // existing count of rows
 		_group, // current group name, e.g. 'optionsX'
-		_basename // group base name, without count, e.g. 'options'
+		_basename, // group base name, without count, e.g. 'options'
+		isNested
 	) {
 		var group = (typeof _group === 'undefined' ? $row.attr('data-group') : _group),
 			basename = (typeof _basename === 'undefined' ? $row.attr('data-base-name') : _basename),
 			count    = (typeof _count === 'undefined' ? 0 : _count),
-			groupnew = basename + count;
+			countnew = Math.max(this.lastRowNum, count),
+			groupnew = basename + countnew;
 
 		$row.attr('data-group', groupnew);
 
@@ -169,9 +174,9 @@
 		for (var i = 0, l = haveName.length; i < l; i++) {
 			var $el     = $(haveName[i]),
 				name    = $el.attr('name'),
-				id      = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, '').replace(/\W/g, '_'), // id from name
+				id      = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''), // id from name
 				nameNew = name.replace('[' + group + '][', '['+ groupnew +']['), // New name
-				idNew   = id.replace(group, groupnew), // Count new id
+				idNew   = id.replace(group, groupnew).replace(/\W/g, '_'), // Count new id
 				countMulti = 0, // count for multiple radio/checkboxes
 				forOldAttr = id; // Fix "for" in the labels
 
@@ -226,7 +231,12 @@
 			// to a jQuery object
 			var nestedTemplate = $($(nestedTemplates[j]).prop('content'));
 			// Fix the attributes for this nested template.
-			this.fixUniqueAttributes(nestedTemplate, count, group, basename);
+			this.fixUniqueAttributes(nestedTemplate, count, group, basename, true);
+		}
+
+		// Increment a row counter for current instance only
+		if (!isNested) {
+			this.lastRowNum = countnew + 1;
 		}
 	};
 
