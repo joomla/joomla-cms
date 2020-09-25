@@ -83,29 +83,9 @@ meter {
   }
 }
 
-.page-item {
-  &:first-child {
-    .page-link {
-      @include border-radius($border-radius);
-    }
-  }
-  &:last-child {
-    .page-link {
-      @include border-radius($border-radius);
-    }
-  }
-}
-
 .page-link {
   color: var(--cassiopeia-color-link);
-  border: 1px solid $white;
   &:hover {
     color: var(--cassiopeia-color-link);
-  }
-}
-
-.awesomplete {
-  input {
-    @include border-right-radius(0);
   }
 }
