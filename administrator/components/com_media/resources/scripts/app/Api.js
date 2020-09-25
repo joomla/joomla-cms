@@ -244,24 +244,29 @@ class Api {
      * @TODO DN improve error handling
      */
     _handleError(error) {
-        switch (error.status) {
-            case 409:
-                // Handled in consumer
-                break;
-            case 404:
-                notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
-                break;
-            case 401:
-                notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
-                break;
-            case 403:
-                notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
-                break;
-            case 500:
-                notifications.error('COM_MEDIA_SERVER_ERROR');
-                break;
-            default:
-                notifications.error('COM_MEDIA_ERROR');
+        const response = JSON.parse(error.response);
+        if (response.message) {
+            notifications.error(response.message);
+        } else {
+            switch (error.status) {
+                case 409:
+                    // Handled in consumer
+                    break;
+                case 404:
+                    notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
+                    break;
+                case 401:
+                    notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
+                    break;
+                case 403:
+                    notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
+                    break;
+                case 500:
+                    notifications.error('COM_MEDIA_SERVER_ERROR');
+                    break;
+                default:
+                    notifications.error('COM_MEDIA_ERROR');
+            }
         }
 
         throw error;

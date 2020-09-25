@@ -562,17 +562,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getTemplate($params = false)
 	{
-		$template = new \stdClass;
-
-		$template->template = 'system';
-		$template->params   = new Registry;
-
 		if ($params)
 		{
+			$template = new \stdClass;
+
+			$template->template    = 'system';
+			$template->params      = new Registry;
+			$template->inheritable = 0;
+			$template->parent      = '';
+
 			return $template;
 		}
 
-		return $template->template;
+		return 'system';
 	}
 
 	/**
@@ -940,10 +942,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function render()
 	{
 		// Setup the document options.
-		$this->docOptions['template']  = $this->get('theme');
-		$this->docOptions['file']      = $this->get('themeFile', 'index.php');
-		$this->docOptions['params']    = $this->get('themeParams');
-		$this->docOptions['csp_nonce'] = $this->get('csp_nonce');
+		$this->docOptions['template']         = $this->get('theme');
+		$this->docOptions['file']             = $this->get('themeFile', 'index.php');
+		$this->docOptions['params']           = $this->get('themeParams');
+		$this->docOptions['csp_nonce']        = $this->get('csp_nonce');
+		$this->docOptions['templateInherits'] = $this->get('themeInherits');
 
 		if ($this->get('themes.base'))
 		{

@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -89,92 +90,16 @@ abstract class JGrid
 
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
-
-			if (strpos($active_class, 'fa-') == true || strpos($active_class, 'icon-') == true)
-			{
-				$active_class = $active_class;
-			}
-			elseif ($active_class === 'publish')
-			{
-				$active_class = 'fas fa-check';
-			}
-			elseif ($active_class === 'unpublish')
-			{
-				$active_class = 'fas fa-times';
-			}
-			elseif ($active_class === 'archive')
-			{
-				$active_class = 'fas fa-folder';
-			}
-			elseif ($active_class === 'checkedout')
-			{
-				$active_class = 'fas fa-lock';
-			}
-			elseif ($active_class === 'unfeatured')
-			{
-				$active_class = 'fas fa-star';
-			}
-			elseif ($active_class === 'featured')
-			{
-				$active_class = 'fas fa-star featured';
-			}
-			else
-			{
-				$active_class = 'icon-' . $active_class;
-			}
-
-			$html[] = '<span class="' . $active_class . '" aria-hidden="true"></span>';
+			$html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $active_class]);
 			$html[] = '</a>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
 		else
 		{
-			$html[] = '<span class="tbody-icon jgrid';
+			$html[] = '<span class="tbody-icon jgrid"';
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
-
-			if ($active_class === 'protected')
-			{
-				$html[] = '<span class="fas fa-lock" aria-hidden="true"></span>';
-			}
-			else
-			{
-				if (strpos($inactive_class, 'fa-') == true || strpos($inactive_class, 'icon-') == true)
-				{
-					$inactive_class = $inactive_class;
-				}
-				elseif ($inactive_class === 'publish')
-				{
-					$inactive_class = 'fas fa-check';
-				}
-				elseif ($inactive_class === 'unpublish')
-				{
-					$inactive_class = 'fas fa-times';
-				}
-				elseif ($inactive_class === 'archive')
-				{
-					$inactive_class = 'fas fa-folder';
-				}
-				elseif ($inactive_class === 'checkedout')
-				{
-					$inactive_class = 'fas fa-lock';
-				}
-				elseif ($inactive_class === 'unfeatured')
-				{
-					$inactive_class = 'fas fa-star';
-				}
-				elseif ($inactive_class === 'featured')
-				{
-					$inactive_class = 'fas fa-star featured';
-				}
-				else
-				{
-					$inactive_class = 'icon-' . $inactive_class;
-				}
-
-				$html[] = '<span class="' . $inactive_class . '" aria-hidden="true"></span>';
-			}
-
+			$html[] = LayoutHelper::render('joomla.icon.iconclass', ['icon' => $inactive_class]);
 			$html[] = '</span>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}

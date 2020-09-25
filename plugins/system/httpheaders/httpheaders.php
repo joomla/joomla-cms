@@ -79,6 +79,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'expect-ct',
 		'feature-policy',
 		'cross-origin-opener-policy',
+		'permissions-policy',
 	];
 
 	/**
@@ -174,9 +175,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Generate the hashes for the style-src
 			$inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
 
-			foreach ($inlineStyles as $type => $styleContent)
+			foreach ($inlineStyles as $type => $styles)
 			{
-				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+				foreach ($styles as $hash => $styleContent)
+				{
+					$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+				}
 			}
 		}
 
@@ -411,12 +415,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['script-src']) && $nonceEnabled)
+			if (!isset($cspHeaderCollection['script-src']) && ($scriptHashesEnabled || $nonceEnabled))
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['script-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['style-src']) && $nonceEnabled)
+			if (!isset($cspHeaderCollection['style-src']) && ($scriptHashesEnabled || $nonceEnabled))
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
 			}
