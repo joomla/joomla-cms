@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -246,8 +246,6 @@ class ContactControllerContact extends JControllerForm
 		$sent = $mail->Send();
 
 		// If we are supposed to copy the sender, do so.
-
-		// Check whether email copy function activated
 		if ($copy_email_activated == true && !empty($data['contact_email_copy']))
 		{
 			$copytext    = JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);

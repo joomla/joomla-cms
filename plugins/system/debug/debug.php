@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -169,7 +169,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			// Split into an array at any character other than alphabet, numbers, _, ., or -
-			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
+			$categories = preg_split('/[^\w.-]+/', $this->params->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
 			$mode       = $this->params->get('log_category_mode', 0);
 
 			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
@@ -1537,7 +1537,7 @@ class PlgSystemDebug extends JPlugin
 
 				if ($dbVersion80)
 				{
-					$dbVersion56 = false; 
+					$dbVersion56 = false;
 				}
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
@@ -2022,8 +2022,11 @@ class PlgSystemDebug extends JPlugin
 		// In PHP 5.4.0 or later we have pretty print option.
 		if (version_compare(PHP_VERSION, '5.4', '>='))
 		{
-			$json = json_encode($json, JSON_PRETTY_PRINT);
+			$json = json_encode($json, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 		}
+
+		// Escape HTML in session vars
+		$json = htmlentities($json);
 
 		// Add some colors
 		$json = preg_replace('#"([^"]+)":#', '<span class=\'black\'>"</span><span class=\'green\'>$1</span><span class=\'black\'>"</span>:', $json);
