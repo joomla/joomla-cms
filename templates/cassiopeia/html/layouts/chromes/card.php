@@ -24,7 +24,7 @@ $moduleTag              = $params->get('module_tag', 'div');
 $modulePos              = $module->position;
 $moduleAttribs['class'] = $module->position . ' card ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8');
 $modId                  = 'mod-' . $module->id;
-$headerTag              = htmlspecialchars($params->get('header_tag', ''), ENT_QUOTES, 'UTF-8');
+$headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
 $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 
 if ($module->showtitle) : ?>
