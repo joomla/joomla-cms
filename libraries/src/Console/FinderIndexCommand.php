@@ -1,6 +1,6 @@
 <?php
 /**
- * Joomla! Cli 
+ * Joomla! CLI
  *
  * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -137,7 +137,7 @@ class FinderIndexCommand extends AbstractCommand
 	protected function configure(): void
 	{
 		$this->addArgument('purge', InputArgument::OPTIONAL, 'Purge the index and rebuilds');
-		$this->addOption('minproctime', null, InputOption::VALUE_REQUIRED, 'Minimum processing time in seconds, in order to apply a pause', 1); 
+		$this->addOption('minproctime', null, InputOption::VALUE_REQUIRED, 'Minimum processing time in seconds, in order to apply a pause', 1);
 		$this->addOption('pause', null, InputOption::VALUE_REQUIRED, 'Pausing type or defined pause time in seconds', 'division');
 		$this->addOption('divisor', null, InputOption::VALUE_REQUIRED, 'The divisor of the division: batch-processing time / divisor', 5);
 		$help = <<<'EOF'
@@ -161,7 +161,7 @@ EOF;
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		
+
 		// Initialize the time value.
 		$this->time = microtime(true);
 		$this->configureIO($input, $output);
@@ -171,13 +171,13 @@ EOF;
 			'<info>==========================</>',
 			'',
 		]);
-		
+
 
 		if ($this->cliInput->getOption('minproctime'))
 		{
 			$this->minimumBatchProcessingTime = $this->cliInput->getOption('minproctime');
 		}
-		
+
 		if ($this->cliInput->getOption('pause'))
 		{
 			$this->pause = $this->cliInput->getOption('pause');
@@ -188,21 +188,21 @@ EOF;
 			$this->divisor = $this->cliInput->getOption('divisor');
 		}
 
-		if ($this->cliInput->getArgument('purge')) 
+		if ($this->cliInput->getArgument('purge'))
 		{
 
 			// Taxonomy ids will change following a purge/index, so save filter information first.
 			$this->getFilters();
-			
+	
 			// Purge the index.
 			$this->purge();
-			
+
 			// Run the indexer.
 			$this->index();
-			
+
 			// Restore the filters again.
 			$this->putFilters();
-			
+
 		}
 		else
 		{
@@ -214,11 +214,11 @@ EOF;
 		// Total reporting.
 		$this->ioStyle->writeln([
 			'<info>' . Text::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)) . '</>',
-            '<info>' . Text::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))) . '</>',
+			'<info>' . Text::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))) . '</>',
 		]);
 
 		$this->ioStyle->newline(1);
-				
+
 		return 0;
 	}
 
@@ -243,7 +243,7 @@ EOF;
 		$language->load('finder_cli', JPATH_SITE, null, false, false)||
 		$language->load('finder_cli', JPATH_SITE, null, true);
 	}
-	
+
 	/**
 	 * Save static filters.
 	 *
@@ -337,7 +337,7 @@ EOF;
 	 * @since   2.5
 	 */
 	private function index()
-	{		
+	{
 
 		// Disable caching.
 		$app = $this->getApplication();
