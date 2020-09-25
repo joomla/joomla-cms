@@ -17,15 +17,15 @@ use Joomla\CMS\Layout\LayoutHelper;
 $msgList = $displayData['msgList'];
 
 $alert = [
-		CMSApplication::MSG_EMERGENCY => 'danger',
-		CMSApplication::MSG_ALERT     => 'danger',
-		CMSApplication::MSG_CRITICAL  => 'danger',
-		CMSApplication::MSG_ERROR     => 'danger',
-		CMSApplication::MSG_WARNING   => 'warning',
-		CMSApplication::MSG_NOTICE    => 'info',
-		CMSApplication::MSG_INFO      => 'info',
-		CMSApplication::MSG_DEBUG     => 'info',
-		'message'                     => 'success'
+	CMSApplication::MSG_EMERGENCY => 'danger',
+	CMSApplication::MSG_ALERT     => 'danger',
+	CMSApplication::MSG_CRITICAL  => 'danger',
+	CMSApplication::MSG_ERROR     => 'danger',
+	CMSApplication::MSG_WARNING   => 'warning',
+	CMSApplication::MSG_NOTICE    => 'info',
+	CMSApplication::MSG_INFO      => 'info',
+	CMSApplication::MSG_DEBUG     => 'info',
+	'message'                     => 'success'
 ];
 
 // Load JavaScript message titles
@@ -41,8 +41,8 @@ Text::script('JOPEN');
 
 // Alerts progressive enhancement
 Factory::getDocument()->getWebAssetManager()
-		->useStyle('webcomponent.joomla-alert')
-		->useScript('webcomponent.joomla-alert');
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('webcomponent.joomla-alert');
 
 $output = null;
 
