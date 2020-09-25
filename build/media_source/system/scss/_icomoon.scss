@@ -975,3 +975,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-expired::before {
   @extend .#{$fa-css-prefix}-minus-circle:before;
 }
+
+.#{$jicon-css-prefix}-trophy::before {
+  @extend .#{$fa-css-prefix}-trophy:before;
+}
