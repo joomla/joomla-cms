@@ -392,7 +392,7 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
             $foundIndexes = array_keys($foundTags, $tag);
 
             if (count($foundIndexes) > 1) {
-                // Multiple occurance not allowed.
+                // Multiple occurrence not allowed.
                 if ($info['allow_multiple'] === false) {
                     $error = 'Only 1 @%s tag is allowed in a %s comment';
                     $data  = array(
@@ -593,9 +593,9 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
                     $newContent = str_replace(' ', '_', $content);
                     $nameBits   = explode('_', $newContent);
                     $firstBit   = array_shift($nameBits);
-                    $newName    = strtoupper($firstBit{0}).substr($firstBit, 1).'_';
+                    $newName    = strtoupper($firstBit[0]).substr($firstBit, 1).'_';
                     foreach ($nameBits as $bit) {
-                        $newName .= strtoupper($bit{0}).substr($bit, 1).'_';
+                        $newName .= strtoupper($bit[0]).substr($bit, 1).'_';
                     }
 
                     $error     = 'Package name "%s" is not valid; consider "%s" instead';
@@ -632,9 +632,9 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
 //                    $newContent = str_replace(' ', '_', $content);
 //                    $nameBits   = explode('_', $newContent);
 //                    $firstBit   = array_shift($nameBits);
-//                    $newName    = strtoupper($firstBit{0}).substr($firstBit, 1).'_';
+//                    $newName    = strtoupper($firstBit[0]).substr($firstBit, 1).'_';
 //                    foreach ($nameBits as $bit) {
-//                        $newName .= strtoupper($bit{0}).substr($bit, 1).'_';
+//                        $newName .= strtoupper($bit[0]).substr($bit, 1).'_';
 //                    }
 //
 //                    $error     = 'Subpackage name "%s" is not valid; consider "%s" instead';

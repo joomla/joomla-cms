@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_USERS_SEARCH_USER_NOTES"
 			description="COM_USERS_SEARCH_IN_NOTE_TITLE"
 			hint="JSEARCH_FILTER"
@@ -47,6 +48,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.review_time DESC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>

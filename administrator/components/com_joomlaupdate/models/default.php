@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 * @var   array  $updateInformation  null
 	 * Holds the update information evaluated in getUpdateInformation.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private $updateInformation = null;
 
@@ -124,12 +124,17 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 		else
 		{
-			$update_params = JComponentHelper::getParams('com_installer');
-			$cache_timeout = $update_params->get('cachetimeout', 6, 'int');
-			$cache_timeout = 3600 * $cache_timeout;
+			$cache_timeout = 3600 * JComponentHelper::getParams('com_installer')->get('cachetimeout', 6, 'int');
 		}
 
-		$updater = JUpdater::getInstance();
+		$updater               = JUpdater::getInstance();
+		$minimumStability      = JUpdater::STABILITY_STABLE;
+		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom')))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', JUpdater::STABILITY_STABLE);
+		}
 
 		$reflection = new ReflectionObject($updater);
 		$reflectionMethod = $reflection->getMethod('findUpdates');
@@ -138,11 +143,11 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		if (count($methodParameters) >= 4)
 		{
 			// Reinstall support is available in JUpdater
-			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE, true);
+			$updater->findUpdates(700, $cache_timeout, $minimumStability, true);
 		}
 		else
 		{
-			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE);
+			$updater->findUpdates(700, $cache_timeout, $minimumStability);
 		}
 	}
 
@@ -184,13 +189,36 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			return $this->updateInformation;
 		}
 
+		// Check whether this is a valid update or not
+		if (version_compare($updateObject->version, JVERSION, '<'))
+		{
+			// This update points to an outdated version we should not offer to update to this
+			$this->updateInformation['latest'] = JVERSION;
+
+			return $this->updateInformation;
+		}
+
 		$this->updateInformation['latest']    = $updateObject->version;
-		$this->updateInformation['hasUpdate'] = $updateObject->version != JVERSION;
+		$this->updateInformation['current']   = JVERSION;
+
+		// Check whether this is an update or not.
+		if (version_compare($updateObject->version, JVERSION, '>'))
+		{
+			$this->updateInformation['hasUpdate'] = true;
+		}
+
+		$minimumStability      = JUpdater::STABILITY_STABLE;
+		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom')))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', JUpdater::STABILITY_STABLE);
+		}
 
 		// Fetch the full update details from the update details URL.
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
-		$update->loadFromXML($updateObject->detailsurl);
+		$update->loadFromXML($updateObject->detailsurl, $minimumStability);
 
 		$this->updateInformation['object'] = $update;
 
@@ -229,16 +257,18 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$db = $this->getDbo();
 
-		// Modify the database record
-		$update_site = new stdClass;
-		$update_site->last_check_timestamp = 0;
-		$update_site->enabled = 1;
-		$update_site->update_site_id = 1;
-		$db->updateObject('#__update_sites', $update_site, 'update_site_id');
+		// Reset the last update check timestamp
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('last_check_timestamp') . ' = 0');
+		$db->setQuery($query);
+		$db->execute();
 
+		// We should delete all core updates here
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
-			->where($db->quoteName('update_site_id') . ' = ' . $db->quote('1'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'));
 		$db->setQuery($query);
 
 		if ($db->execute())
@@ -907,6 +937,9 @@ ENDDATA;
 
 		// Unset the update filename from the session.
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+
+		// Trigger event after joomla update.
+		JFactory::getApplication()->triggerEvent('onJoomlaAfterUpdate');
 	}
 
 	/**
@@ -1086,7 +1119,7 @@ ENDDATA;
 	 *
 	 * @return array Array of PHP config options
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getPhpOptions()
 	{
@@ -1186,7 +1219,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getPhpSettings()
 	{
@@ -1253,7 +1286,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private function getConfiguredDatabaseType()
 	{
@@ -1266,7 +1299,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function isDatabaseTypeSupported()
 	{
@@ -1287,7 +1320,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function isPhpVersionSupported()
 	{
@@ -1300,7 +1333,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
@@ -1315,7 +1348,7 @@ ENDDATA;
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getIniParserAvailability()
 	{
@@ -1348,7 +1381,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public function getNonCoreExtensions()
 	{
@@ -1362,16 +1395,9 @@ ENDDATA;
 			$db->qn('ex.type') . ', ' .
 			$db->qn('ex.folder') . ', ' .
 			$db->qn('ex.element') . ', ' .
-			$db->qn('ex.client_id') . ', ' .
-			$db->qn('si.location')
+			$db->qn('ex.client_id')
 		)->from(
 			$db->qn('#__extensions', 'ex')
-		)->leftJoin(
-			$db->qn('#__update_sites_extensions', 'se') .
-			' ON ' . $db->qn('se.extension_id') . ' = ' . $db->qn('ex.extension_id')
-		)->leftJoin(
-			$db->qn('#__update_sites', 'si') .
-			' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
 		)->where(
 			$db->qn('ex.package_id') . ' = 0'
 		);
@@ -1384,7 +1410,9 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 			$this->translateExtensionName($extension);
-			$extension->version = $decode->version;
+			$extension->version = isset($decode->version)
+				? $decode->version
+				: JText::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($extension->manifest_cache);
 		}
 
@@ -1398,7 +1426,7 @@ ENDDATA;
 	 *
 	 * @return  bool  true if extension is not a core extension
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private static function isNonCoreExtension($extension)
 	{
@@ -1424,58 +1452,158 @@ ENDDATA;
 	 *
 	 * @return object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
 	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
-		$updateFileUrl = $this->getUpdateSiteLocation($extensionID);
+		$updateSites = $this->getUpdateSitesInfo($extensionID);
 
-		if (!$updateFileUrl)
+		if (empty($updateSites))
 		{
 			return (object) array('state' => 2);
 		}
-		else
-		{
-			$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
-			if ($compatibleVersion)
+		foreach ($updateSites as $updateSite)
+		{
+			if ($updateSite['type'] === 'collection')
 			{
-				return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				$updateFileUrls = $this->getCollectionDetailsUrls($updateSite, $joomlaTargetVersion);
+
+				foreach ($updateFileUrls as $updateFileUrl)
+				{
+					$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+
+					if ($compatibleVersion)
+					{
+						// Return the compatible version
+						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+					}
+					else
+					{
+						// Return the compatible version as false so we can say update server is supported but no compatible version found
+						return (object) array('state' => 1, 'compatibleVersion' => false);
+					}
+				}
 			}
 			else
 			{
-				return (object) array('state' => 0);
+				$compatibleVersion = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+
+				if ($compatibleVersion)
+				{
+					// Return the compatible version
+					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				}
+				else
+				{
+					// Return the compatible version as false so we can say update server is supported but no compatible version found
+					return (object) array('state' => 1, 'compatibleVersion' => false);
+				}
 			}
 		}
+
+		// In any other case we mark this extension as not compatible
+		return (object) array('state' => 0);
 	}
 
 	/**
-	 * Get the URL to the update server for a given extension ID
+	 * Returns records with update sites and extension information for a given extension ID.
 	 *
 	 * @param   int  $extensionID  The extension ID
 	 *
-	 * @return  mixed  URL or false
+	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.10.0
 	 */
-	private function getUpdateSiteLocation($extensionID)
+	private function getUpdateSitesInfo($extensionID)
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('us.location'))
-			->from($db->qn('#__update_sites', 'us'))
-			->leftJoin(
-				$db->qn('#__update_sites_extensions', 'e')
-				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
-			)
-			->where($db->qn('e.extension_id') . ' = ' . (int) $extensionID);
+		$query->select(
+			$db->qn('us.type') . ', ' .
+			$db->qn('us.location') . ', ' .
+			$db->qn('e.element') . ' AS ' . $db->qn('ext_element') . ', ' .
+			$db->qn('e.type') . ' AS ' . $db->qn('ext_type') . ', ' .
+			$db->qn('e.folder') . ' AS ' . $db->qn('ext_folder')
+		)->from(
+			$db->qn('#__update_sites', 'us')
+		)->leftJoin(
+				$db->qn('#__update_sites_extensions', 'ue')
+				. ' ON ' . $db->qn('ue.update_site_id') . ' = ' . $db->qn('us.update_site_id')
+		)->leftJoin(
+				$db->qn('#__extensions', 'e')
+				. ' ON ' . $db->qn('e.extension_id') . ' = ' . $db->qn('ue.extension_id')
+		)->where($db->qn('e.extension_id') . ' = ' . (int) $extensionID);
 
 		$db->setQuery($query);
 
-		$rows = $db->loadObjectList();
+		$result = $db->loadAssocList();
 
-		return count($rows) >= 1 ? end($rows)->location : false;
+		if (!is_array($result))
+		{
+			return array();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Method to get details URLs from a colletion update site for given extension and Joomla target version.
+	 *
+	 * @param   array   $updateSiteInfo       The update site and extension information record to process
+	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against,
+	 *
+	 * @return  array  An array of URLs.
+	 *
+	 * @since   3.10.0
+	 */
+	private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
+	{
+		$return = array();
+
+		$http = new JHttp;
+
+		try
+		{
+			$response = $http->get($updateSiteInfo['location']);
+		}
+		catch (RuntimeException $e)
+		{
+			$response = null;
+		}
+
+		if ($response === null || $response->code !== 200)
+		{
+			return $return;
+		}
+
+		$updateSiteXML = simplexml_load_string($response->body);
+
+		foreach ($updateSiteXML->extension as $extension)
+		{
+			$attribs = new stdClass;
+
+			$attribs->element               = '';
+			$attribs->type                  = '';
+			$attribs->folder                = '';
+			$attribs->targetplatformversion = '';
+
+			foreach ($extension->attributes() as $key => $value)
+			{
+				$attribs->$key = (string) $value;
+			}
+
+			if ($attribs->element === $updateSiteInfo['ext_element']
+				&& $attribs->type === $updateSiteInfo['ext_type']
+				&& $attribs->folder === $updateSiteInfo['ext_folder']
+				&& preg_match('/^' . $attribs->targetplatformversion . '/', $joomlaTargetVersion))
+			{
+				$return[] = (string) $extension['detailsurl'];
+			}
+		}
+
+		return $return;
 	}
 
 	/**
@@ -1486,7 +1614,7 @@ ENDDATA;
 	 *
 	 * @return  mixed  An array of data items or false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
@@ -1506,7 +1634,7 @@ ENDDATA;
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	protected function translateExtensionName(&$item)
 	{

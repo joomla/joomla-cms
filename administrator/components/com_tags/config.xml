@@ -86,6 +86,7 @@
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 			default="title"
+			validate="options"
 			>
 			<option value="c.core_title">JGLOBAL_TITLE</option>
 			<option value="match_count">COM_TAGS_MATCH_COUNT</option>
@@ -124,6 +125,7 @@
 			label="COM_TAGS_TAG_LIST_SHOW_DATE_DESC"
 			description="COM_TAGS_TAG_LIST_SHOW_DATE_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="created">JGLOBAL_CREATED</option>
@@ -248,6 +250,7 @@
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 			default="title"
+			validate="options"
 			>
 			<option value="title">JGLOBAL_TITLE</option>
 			<option value="hits">JGLOBAL_HITS</option>

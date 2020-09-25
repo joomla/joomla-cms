@@ -303,7 +303,7 @@ abstract class Folder
 	 * @param   string   $path        An optional base path to prefix to the file names.
 	 * @param   boolean  $useStreams  Optionally use streams.
 	 *
-	 * @return  mixed  Error message on false or boolean true on success.
+	 * @return  string|boolean  Error message on false or boolean true on success.
 	 *
 	 * @since   1.0
 	 */

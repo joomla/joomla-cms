@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,8 +69,8 @@ class JGithubPackageUsers extends JGithubPackage
 	 * @param   string  $blog      The blog
 	 * @param   string  $company   The company
 	 * @param   string  $location  The location
-	 * @param   string  $hireable  If he is unemplayed :P
-	 * @param   string  $bio       The biometrical DNA fingerprint (or smthng...)
+	 * @param   string  $hireable  If he is unemployed :P
+	 * @param   string  $bio       The biometrical DNA fingerprint (or something...)
 	 *
 	 * @throws DomainException
 	 *
@@ -148,8 +148,8 @@ class JGithubPackageUsers extends JGithubPackage
 	 * @param   string  $blog      The blog
 	 * @param   string  $company   The company
 	 * @param   string  $location  The location
-	 * @param   string  $hireable  If he is unemplayed :P
-	 * @param   string  $bio       The biometrical DNA fingerprint (or smthng...)
+	 * @param   string  $hireable  If he is unemployed :P
+	 * @param   string  $bio       The biometrical DNA fingerprint (or something...)
 	 *
 	 * @deprecated use users->edit()
 	 *

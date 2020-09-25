@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class TestMockInput
 	private static $test;
 
 	/**
-	 * Class contructor.
+	 * Class constructor.
 	 *
 	 * @param   PHPUnit_Framework_TestCase  $test  A test class.
 	 *

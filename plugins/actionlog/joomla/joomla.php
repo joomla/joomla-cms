@@ -3,7 +3,7 @@
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
+use Joomla\CMS\Version;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ActionLogPlugin', JPATH_ADMINISTRATOR . '/components/com_actionlogs/libraries/actionlogplugin.php');
@@ -578,7 +579,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
@@ -650,7 +651,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -728,7 +729,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $group    Holds the group data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -847,7 +848,13 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedOutUser      = User::getInstance($user['id']);
+		$loggedOutUser = User::getInstance($user['id']);
+
+		if ($loggedOutUser->block)
+		{
+			return;
+		}
+
 		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_OUT';
 
 		$message = array(
@@ -1035,5 +1042,32 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'group'       => $group,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CACHE', $context, $user->id);
+	}
+
+	/**
+	 * On after CMS Update
+	 *
+	 * Method is called after user update the CMS.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.21
+	 */
+	public function onJoomlaAfterUpdate()
+	{
+		$context = $this->app->input->get('option');
+		$user    = JFactory::getUser();
+		$message = array(
+			'action'      => 'joomlaupdate',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'version'     => JVERSION,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
 	}
 }

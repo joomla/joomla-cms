@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -120,7 +120,7 @@ class ContenthistoryModelHistory extends JModelList
 		{
 			if ($table->load($pk))
 			{
-				if ($table->keep_forever === "1")
+				if ((int) $table->keep_forever === 1)
 				{
 					unset($pks[$i]);
 					continue;

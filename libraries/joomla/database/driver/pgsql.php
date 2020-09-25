@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -154,7 +154,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
-	 * This is unsuported by PostgreSQL.
+	 * This is unsupported by PostgreSQL.
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
@@ -986,5 +986,19 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(' AND ', $where)));
 
 		return $this->execute();
+	}
+
+	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   3.9.12
+	 */
+	public function quoteBinary($data)
+	{
+		return "decode('" . bin2hex($data) . "', 'hex')";
 	}
 }

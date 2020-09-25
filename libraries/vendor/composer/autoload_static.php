@@ -67,7 +67,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Image\\' => 13,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Filesystem\\' => 18,
-            'Joomla\\Event\\Tests\\' => 19,
             'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
             'Joomla\\Data\\' => 12,
@@ -161,10 +160,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filesystem/src',
-        ),
-        'Joomla\\Event\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/event/Tests',
         ),
         'Joomla\\Event\\' => 
         array (
@@ -307,15 +302,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Session\\Storage\\None' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/None.php',
         'Joomla\\Session\\Storage\\Wincache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Wincache.php',
         'Joomla\\Session\\Storage\\Xcache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Xcache.php',
-        'Joomla\\Session\\Tests\\StorageCase' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/StorageCase.php',
-        'Joomla\\Session\\Tests\\StorageTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/StorageTest.php',
-        'Joomla\\Session\\Tests\\Storage\\ApcTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/ApcTest.php',
-        'Joomla\\Session\\Tests\\Storage\\DatabaseTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/DatabaseTest.php',
-        'Joomla\\Session\\Tests\\Storage\\MemcacheTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/MemcacheTest.php',
-        'Joomla\\Session\\Tests\\Storage\\MemcachedTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/MemcachedTest.php',
-        'Joomla\\Session\\Tests\\Storage\\NoneTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/NoneTest.php',
-        'Joomla\\Session\\Tests\\Storage\\WincacheTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/WincacheTest.php',
-        'Joomla\\Session\\Tests\\Storage\\XcacheTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/XcacheTest.php',
         'Joomla\\String\\Inflector' => __DIR__ . '/..' . '/joomla/string/src/Inflector.php',
         'Joomla\\String\\Normalise' => __DIR__ . '/..' . '/joomla/string/src/Normalise.php',
         'Joomla\\String\\String' => __DIR__ . '/..' . '/joomla/string/src/String.php',

@@ -32,7 +32,7 @@ People on every project come and go, and Joomla is no different. When you leave 
 Check your e-mails regularly and answer them promptly—even if it's "I'll get back to you."
 ## Be Honest
 
-Sometimes the hardest thing to say is "no" or admit you've forgotten do something. Be honest with each other and yourself with regards to what you say and what you can realistically commit to.
+Sometimes the hardest thing to say is "no" or admit you've forgotten to do something. Be honest with each other and yourself with regards to what you say and what you can realistically commit to.
 ## Follow the Rules
 
 Volunteers are expected to uphold Joomla's licensing and trademark requirements including, but not limited to, compliance on their own or affiliate Web sites and extensions. Make sure you have sought the appropriate approvals for domain name, name and logo usage prior to volunteering and that any extensions you distribute comply with the Joomla license.

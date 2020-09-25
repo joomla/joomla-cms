@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -376,6 +376,18 @@ class Update extends \JObject
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
+						// MySQL and MariaDB use the same database driver but not the same version numbers
+						if ($dbType === 'mysql')
+						{
+							// Check whether we have a MariaDB version string and extract the proper version from it
+							if (stripos($dbVersion, 'mariadb') !== false)
+							{
+								// MariaDB: Strip off any leading '5.5.5-', if present
+								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+								$dbType    = 'mariadb';
+							}
+						}
+
 						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
@@ -410,11 +422,6 @@ class Update extends \JObject
 						{
 							$this->latest = $this->currentUpdate;
 						}
-					}
-					else
-					{
-						$this->latest = new \stdClass;
-						$this->latest->php_minimum = $this->currentUpdate->php_minimum;
 					}
 				}
 				break;

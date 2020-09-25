@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,10 +18,12 @@ JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 're
 
 JText::script('JYES');
 JText::script('JNO');
-JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
+$currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
 
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
@@ -39,6 +41,7 @@ jQuery(document).ready(function($) {
 });
 
 var joomlaTargetVersion = '$latestJoomlaVersion';
+var joomlaCurrentVersion = '$currentJoomlaVersion';
 JS
 );
 
@@ -63,13 +66,15 @@ JS
 			<?php echo $this->loadTemplate('updatemefirst'); ?>
 		<?php else : ?>
 			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)
-				&& $this->updateInfo['installed'] < $this->updateInfo['latest'])
+				&& !$this->updateInfo['hasUpdate'])
 				|| !$this->getModel()->isDatabaseTypeSupported()
 				|| !$this->getModel()->isPhpVersionSupported()) : ?>
-				<?php // If we have no download URL or our PHP version or our DB type is not supported we can't reinstall or update ?>
+		<?php // If we have no download URL or our PHP version or our DB type is not supported we can't reinstall or update ?>
+				<?php echo $this->loadTemplate('noupdate'); ?>
+			<?php elseif (!isset($this->updateInfo['object']->downloadurl->_data)) : ?>
 				<?php echo $this->loadTemplate('nodownload'); ?>
 			<?php elseif (!$this->updateInfo['hasUpdate']) : ?>
-				<?php // If we have no update we can reinstall the core ?>
+				<?php // If we have no update but we have a downloadurl we can reinstall the core ?>
 				<?php echo $this->loadTemplate('reinstall'); ?>
 			<?php else : ?>
 				<?php // Ok let's show the update template ?>

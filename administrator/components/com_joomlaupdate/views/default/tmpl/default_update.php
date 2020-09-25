@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,10 +29,7 @@ defined('_JEXEC') or die;
 				<?php echo '&#x200E;' . $this->updateInfo['installed']; ?>
 			</td>
 		</tr>
-		<tr>- New Joomla! Installations [.tar.bz2](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.7-Stable-Full_Package.tar.bz2) | [.tar.gz](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.7-Stable-Full_Package.tar.gz) | [.zip](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.7-Stable-Full_Package.zip)
-- Update from Joomla! 3.9.6 [.tar.bz2](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.6_to_3.9.7-Stable-Patch_Package.tar.bz2) | [.tar.gz](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.6_to_3.9.7-Stable-Patch_Package.tar.gz) | [.zip](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.6_to_3.9.7-Stable-Patch_Package.zip)
-- Update from Joomla! 3.9.x [.tar.bz2](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.x_to_3.9.7-Stable-Patch_Package.tar.bz2) | [.tar.gz](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.x_to_3.9.7-Stable-Patch_Package.tar.gz) | [.zip](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.x_to_3.9.7-Stable-Patch_Package.zip)
-- Update from Joomla! 2.5 or previous 3.x releases [.tar.bz2](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.7-Stable-Update_Package.tar.bz2) | [.tar.gz](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.7-Stable-Update_Package.tar.gz) | [.zip](https://github.com/joomla/joomla-cms/releases/download/3.9.7/Joomla_3.9.7-Stable-Update_Package.zip)
+		<tr>
 			<td>
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_LATEST'); ?>
 			</td>
@@ -45,8 +42,10 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE'); ?>
 			</td>
 			<td>
-				<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
+				<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
 					<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
+					<span class="icon-out-2" aria-hidden="true"></span>
+					<span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span>
 				</a>
 			</td>
 		</tr>
@@ -57,8 +56,10 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
 				</td>
 				<td>
-					<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
+					<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer">
 						<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
+						<span class="icon-out-2" aria-hidden="true"></span>
+						<span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span>
 					</a>
 				</td>
 			</tr>

@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Arabic Unitag (العربية الموحدة)</name>
     <version>3.9.0</version>
-	<creationDate>October 2018</creationDate>
+	<creationDate>2018-10-01</creationDate>
 	<author>Joomla! Arabic Unitag Translation team</author>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>ar-AA.ini</filename>

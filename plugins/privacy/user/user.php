@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -141,7 +141,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		foreach ($sessionIds as $sessionId)
 		{
 			$store->destroy($sessionId);
-			$quotedIds[] = $this->db->quote($sessionId);
+			$quotedIds[] = $this->db->quoteBinary($sessionId);
 		}
 
 		$this->db->setQuery(
