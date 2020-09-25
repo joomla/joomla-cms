@@ -34,19 +34,9 @@ $wa->useScript('keepalive')
 
 	<hr>
 
-	<div id="page-site" class="tab-pane active">
-		<div class="row">
-			<div class="col-md-12">
-				<?php echo $this->loadTemplate('site'); ?>
-			</div>
-			<div class="col-md-12">
-				<?php echo $this->loadTemplate('seo'); ?>
-			</div>
-			<div class="col-md-12">
-				<?php echo $this->loadTemplate('metadata'); ?>
-			</div>
-		</div>
-	</div>
+	<?php echo $this->loadTemplate('site'); ?>
+	<?php echo $this->loadTemplate('seo'); ?>
+	<?php echo $this->loadTemplate('metadata'); ?>
 
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
