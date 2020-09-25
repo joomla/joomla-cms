@@ -97,14 +97,6 @@ class ExceptionHandler
 				// Clear buffered output at all levels in non-test mode
 				$callerFunction = static::getCallerFunctionName();
 
-				if ($callerFunction === false || !preg_match('~\Atest[A-Z]~', $callerFunction))
-				{
-					while (ob_get_level())
-					{
-						ob_end_clean();
-					}
-				}
-
 				$document->setTitle(Text::_('ERROR') . ': ' . $error->getCode());
 
 				$data = $document->render(
