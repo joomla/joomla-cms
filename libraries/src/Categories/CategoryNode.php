@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -148,7 +148,7 @@ class CategoryNode extends \JObject
 	public $metadesc = null;
 
 	/**
-	 * Key words for meta data
+	 * Key words for metadata
 	 *
 	 * @var    string
 	 * @since  1.6
@@ -156,7 +156,7 @@ class CategoryNode extends \JObject
 	public $metakey = null;
 
 	/**
-	 * JSON string of other meta data
+	 * JSON string of other metadata
 	 *
 	 * @var    string
 	 * @since  1.6
@@ -196,7 +196,7 @@ class CategoryNode extends \JObject
 	public $modified_time = null;
 
 	/**
-	 * Nmber of times the category has been viewed
+	 * Number of times the category has been viewed
 	 *
 	 * @var    integer
 	 * @since  1.6

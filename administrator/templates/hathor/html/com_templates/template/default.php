@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -134,7 +134,9 @@ if ($this->type == 'font')
 		<div  id="deleteModal" class="modal hide fade">
 			<fieldset>
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="<?php echo JText::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>">
+						<span aria-hidden="true">&times;</span>
+					</button>
 					<h3><?php echo JText::_('COM_TEMPLATES_ARE_YOU_SURE');?></h3>
 				</div>
 				<div class="modal-body">
@@ -147,7 +149,7 @@ if ($this->type == 'font')
 						<input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>" />
 						<input type="hidden" name="file" value="<?php echo $this->file; ?>" />
 						<?php echo JHtml::_('form.token'); ?>
-						<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+						<button type="button" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
 						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></button>
 					</form>
 				</div>
@@ -176,7 +178,7 @@ if ($this->type == 'font')
 			<div class="modal-footer">
 				<form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 					<fieldset>
-						<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+						<button type="button" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
 						<input type="hidden" class="address" name="address" />
 						<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?>" class="btn btn-danger" />
 					</fieldset>
@@ -245,7 +247,7 @@ if ($this->type == 'font')
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+				<button type="button" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
 			</div>
 		</fieldset>
 	</div>
@@ -255,7 +257,9 @@ if ($this->type == 'font')
 			  method="post" >
 			<div  id="resizeModal" class="modal hide fade">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="<?php echo JText::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>">
+						<span aria-hidden="true">&times;</span>
+					</button>
 					<h3><?php echo JText::_('COM_TEMPLATES_RESIZE_IMAGE'); ?></h3>
 				</div>
 				<div class="modal-body">
@@ -274,8 +278,8 @@ if ($this->type == 'font')
 					</div>
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-					<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
+					<button type="button" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></button>
+					<button type="submit" class="btn btn-primary"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
 				</div>
 			</div>
 			<?php echo JHtml::_('form.token'); ?>

@@ -1,54 +1,69 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.2
  */
 
-(function($)
-{
-	$(document).ready(function()
+jQuery(function($) {
+	'use strict';
+
+	$(document).on('click', ".btn-group label:not(.active)", function() {
+			var $label = $(this);
+			var $input = $(document.getElementById($label.attr('for')));
+
+			if ($input.prop('checked'))
+			{
+				return;
+			}
+
+			$label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
+
+			var btnClass = 'primary';
+
+			if ($input.val() != '')
+			{
+				var reversed = $label.closest('.btn-group').hasClass('btn-group-reversed');
+				btnClass = ($input.val() == 0 ? !reversed : reversed) ? 'danger' : 'success';
+			}
+
+			$label.addClass('active btn-' + btnClass);
+			$input.prop('checked', true).trigger('change');
+		})
+		.on('subform-row-add', initButtonGroup)
+		.on('subform-row-add', initTooltip);
+
+	initButtonGroup();
+	initTooltip();
+
+	// Called once on domready, again when a subform row is added
+	function initTooltip(event, container)
 	{
-		$('*[rel=tooltip]').tooltip()
+		$(container || document).find('*[rel=tooltip]').tooltip();
+	}
+
+	// Called once on domready, again when a subform row is added
+	function initButtonGroup(event, container)
+	{
+		var $container = $(container || document);
 
 		// Turn radios into btn-group
-		$('.radio.btn-group label').addClass('btn');
+		$container.find('.radio.btn-group label').addClass('btn');
 
-		$('fieldset.btn-group').each(function() {
-			// Handle disabled, prevent clicks on the container, and add disabled style to each button
-			if ($(this).prop('disabled')) {
-				$(this).css('pointer-events', 'none').off('click');
-				$(this).find('.btn').addClass('disabled');
-			}
-		});
+		// Setup coloring for buttons
+		$container.find('.btn-group input:checked').each(function() {
+			var $input  = $(this);
+			var $label = $(document.querySelector('label[for=' + $input.attr('id') + ']'));
+			var btnClass = 'primary';
 
-		$(".btn-group label:not(.active)").click(function()
-		{
-			var label = $(this);
-			var input = $('#' + label.attr('for'));
+			if ($input.val() != '')
+			{
+				var reversed = $input.parent().hasClass('btn-group-reversed');
+				btnClass = ($input.val() == 0 ? !reversed : reversed) ? 'danger' : 'success';
+			}
 
-			if (!input.prop('checked')) {
-				label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-				if (input.val() === '') {
-					label.addClass('active btn-primary');
-				} else if (input.val() == 0) {
-					label.addClass('active btn-danger');
-				} else {
-					label.addClass('active btn-success');
-				}
-				input.prop('checked', true);
-			}
+			$label.addClass('active btn-' + btnClass);
 		});
-		$(".btn-group input[checked=checked]").each(function()
-		{
-			if ($(this).val() == '') {
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-			} else if ($(this).val() == 0) {
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
-			} else {
-				$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
-			}
-		});
-	})
-})(jQuery);
+	}
+});

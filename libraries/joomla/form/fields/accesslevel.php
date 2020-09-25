@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  * groups can see.
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldAccessLevel extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'AccessLevel';
 
@@ -34,7 +34,7 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

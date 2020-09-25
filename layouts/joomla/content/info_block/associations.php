@@ -3,14 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
+
 ?>
 <?php if (!empty($displayData['item']->associations)) : ?>
 <?php $associations = $displayData['item']->associations; ?>
+
 <dd class="association">
 	<?php echo JText::_('JASSOCIATIONS'); ?>
 	<?php foreach ($associations as $association) : ?>
@@ -19,7 +21,7 @@ defined('JPATH_BASE') or die;
 			&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 		<?php else : ?>
 			<?php $class = 'label label-association label-' . $association['language']->sef; ?>
-			&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+			&nbsp;<a class="<?php echo $class; ?>" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 		<?php endif; ?>
 	<?php endforeach; ?>
 </dd>

@@ -6,6 +6,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_PLUGINS_FILTER_SEARCH_LABEL"
 			description="COM_PLUGINS_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
@@ -28,6 +29,14 @@
 		</field>
 
 		<field
+			name="element"
+			type="pluginelement"
+			onchange="this.form.submit();"
+		>
+			<option value="">COM_PLUGINS_OPTION_ELEMENT</option>
+		</field>
+
+		<field
 			name="access"
 			type="accesslevel"
 			label="JOPTION_FILTER_ACCESS"
@@ -46,6 +55,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="folder ASC"
+			validate="options"
 		>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

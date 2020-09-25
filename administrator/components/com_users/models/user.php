@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,15 +86,7 @@ class UsersModelUser extends JModelAdmin
 
 		if (!isset($this->_item[$pk]))
 		{
-			$result = parent::getItem($pk);
-
-			if ($result)
-			{
-				$result->tags = new JHelperTags;
-				$result->tags->getTagIds($result->id, 'com_users.user');
-			}
-
-			$this->_item[$pk] = $result;
+			$this->_item[$pk] = parent::getItem($pk);
 		}
 
 		return $this->_item[$pk];
@@ -103,7 +95,7 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
@@ -112,29 +104,12 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$pluginParams = new Registry;
-		
-		if (JPluginHelper::isEnabled('user', 'joomla'))
-		{
-			$plugin = JPluginHelper::getPlugin('user', 'joomla');
-			$pluginParams->loadString($plugin->params);
-		}
-
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
 			return false;
-		}
-
-		// Passwords fields are required when mail to user is set to No in joomla user plugin
-		$userId = $form->getValue('id');
-
-		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
-		{
-			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		// If the user needs to change their password, mark the password fields as required
@@ -149,6 +124,8 @@ class UsersModelUser extends JModelAdmin
 		{
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
+
+		$userId = $form->getValue('id');
 
 		// The user should not be able to set the requireReset value on their own account
 		if ((int) $userId === (int) JFactory::getUser()->id)
@@ -946,9 +923,9 @@ class UsersModelUser extends JModelAdmin
 			}
 			else
 			{
-				$config = JComponentHelper::getParams('com_users');
+				$params = JComponentHelper::getParams('com_users');
 
-				if ($groupId = $config->get('new_usertype'))
+				if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1)))
 				{
 					$result[] = $groupId;
 				}

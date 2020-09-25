@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Mail
- * @since       11.1
+ * @since       1.7.0
  */
 class JMailHelperTest extends TestCase
 {
@@ -21,7 +21,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanLine()
 	{
@@ -40,7 +40,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanLine
 	 */
@@ -57,7 +57,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanText()
 	{
@@ -105,7 +105,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanText
 	 */
@@ -122,7 +122,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanBody()
 	{
@@ -151,7 +151,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanBody
 	 */
@@ -168,7 +168,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanSubject()
 	{
@@ -195,7 +195,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanSubject
 	 */
@@ -212,7 +212,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataCleanAddress()
 	{
@@ -233,7 +233,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataCleanAddress
 	 */
@@ -250,7 +250,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataIsEmailAddress()
 	{
@@ -287,7 +287,7 @@ class JMailHelperTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataIsEmailAddress
 	 */

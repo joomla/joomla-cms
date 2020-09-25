@@ -3,11 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
@@ -43,12 +46,25 @@ class ContentModelFeatured extends ContentModelArticles
 
 		$input = JFactory::getApplication()->input;
 		$user  = JFactory::getUser();
+		$app   = JFactory::getApplication('site');
 
 		// List state information
 		$limitstart = $input->getUInt('limitstart', 0);
 		$this->setState('list.start', $limitstart);
 
 		$params = $this->state->params;
+		$menuParams = new Registry;
+
+		if ($menu = $app->getMenu()->getActive())
+		{
+			$menuParams->loadString($menu->params);
+		}
+
+		$mergedParams = clone $menuParams;
+		$mergedParams->merge($params);
+
+		$this->setState('params', $mergedParams);
+
 		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 		$this->setState('list.limit', $limit);
 		$this->setState('list.links', $params->get('num_links'));
@@ -63,6 +79,16 @@ class ContentModelFeatured extends ContentModelArticles
 		else
 		{
 			$this->setState('filter.published', array(0, 1, 2));
+		}
+
+		// Process show_noauth parameter
+		if (!$params->get('show_noauth'))
+		{
+			$this->setState('filter.access', true);
+		}
+		else
+		{
+			$this->setState('filter.access', false);
 		}
 
 		// Check for category selection
@@ -137,7 +163,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		if (is_array($featuredCategories) && !in_array('', $featuredCategories))
 		{
-			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
+			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($featuredCategories)) . ')');
 		}
 
 		return $query;

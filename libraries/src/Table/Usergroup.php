@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Usergroup table class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Usergroup extends Table
 {
@@ -22,7 +22,7 @@ class Usergroup extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($db)
 	{
@@ -34,7 +34,7 @@ class Usergroup extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -42,6 +42,14 @@ class Usergroup extends Table
 		if ((trim($this->title)) == '')
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
+
+			return false;
+		}
+
+		// The parent_id can not be equal to the current id
+		if ($this->id === (int) $this->parent_id)
+		{
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
 			return false;
 		}
@@ -64,6 +72,42 @@ class Usergroup extends Table
 			return false;
 		}
 
+		// We do not allow to move non public to root and public to non-root
+		if (!empty($this->id))
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+
+			$table->load($this->id);
+
+			if ((!$table->parent_id && $this->parent_id) || ($table->parent_id && !$this->parent_id))
+			{
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
+		}
+		// New entry should always be greater 0
+		elseif (!$this->parent_id)
+		{
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+			return false;
+		}
+
+		// The new parent_id has to be a valid group
+		if ($this->parent_id)
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+			$table->load($this->parent_id);
+
+			if ($table->id != $this->parent_id)
+			{
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
+		}
+
 		return true;
 	}
 
@@ -75,7 +119,7 @@ class Usergroup extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function rebuild($parent_id = 0, $left = 0)
 	{
@@ -127,7 +171,7 @@ class Usergroup extends Table
 	 *
 	 * @return  boolean  True if successful, false otherwise and an internal error message is set
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -147,7 +191,7 @@ class Usergroup extends Table
 	 *
 	 * @return  mixed  Boolean or Exception.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 * @throws  \UnexpectedValueException on data error.
 	 */
@@ -160,12 +204,12 @@ class Usergroup extends Table
 
 		if ($this->id == 0)
 		{
-			throw new \UnexpectedValueException('Global Category not found');
+			throw new \UnexpectedValueException('Usergroup not found');
 		}
 
 		if ($this->parent_id == 0)
 		{
-			throw new \UnexpectedValueException('Root categories cannot be deleted.');
+			throw new \UnexpectedValueException('Root usergroup cannot be deleted.');
 		}
 
 		if ($this->lft == 0 || $this->rgt == 0)
@@ -189,15 +233,15 @@ class Usergroup extends Table
 			throw new \UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
 
-		// Delete the category dependencies
-		// @todo Remove all related threads, posts and subscriptions
-
 		// Delete the usergroup and its children
 		$query->clear()
 			->delete($db->quoteName($this->_tbl))
 			->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
 		$db->execute();
+
+		// Rebuild the nested set tree.
+		$this->rebuild();
 
 		// Delete the usergroup in view levels
 		$replace = array();

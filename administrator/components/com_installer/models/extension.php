@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,17 +110,17 @@ class InstallerModel extends JModelList
 			}
 
 			// Process ordering.
-			// Sort array object by selected ordering and selected direction. Sort is case insensative and using locale sorting.
+			// Sort array object by selected ordering and selected direction. Sort is case insensitive and using locale sorting.
 			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
 
 			// Process pagination.
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 
-			if ($total < $limitstart)
+			if ($total <= $limitstart)
 			{
 				$limitstart = 0;
-				$this->setState('list.start', 0);
+				$this->setState('list.limitstart', 0);
 			}
 
 			return array_slice($result, $limitstart, $limit ?: null);
@@ -137,7 +137,7 @@ class InstallerModel extends JModelList
 	/**
 	 * Translate a list of objects
 	 *
-	 * @param   array  &$items  The array of objects
+	 * @param   array  $items  The array of objects
 	 *
 	 * @return  array The array of translated objects
 	 */
@@ -182,8 +182,15 @@ class InstallerModel extends JModelList
 						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
 				break;
 				case 'library':
-					$extension = 'lib_' . $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
+					$parts = explode('/', $item->element);
+					$vendor = (isset($parts[1]) ? $parts[0] : null);
+					$extension = 'lib_' . ($vendor ? implode('_', $parts) : $item->element);
+
+					if (!$lang->load("$extension.sys", $path, null, false, true))
+					{
+						$source = $path . '/libraries/' . ($vendor ? $vendor . '/' . $parts[1] : $item->element);
+						$lang->load("$extension.sys", $source, null, false, true);
+					}
 				break;
 				case 'module':
 					$extension = $item->element;

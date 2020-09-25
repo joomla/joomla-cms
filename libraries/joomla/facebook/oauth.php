@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,14 +14,14 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for generating Facebook API access token.
  *
- * @since       13.1
+ * @since       3.2.0
  * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookOAuth extends JOAuth2Client
 {
 	/**
 	 * @var    Registry Options for the JFacebookOAuth object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
@@ -32,7 +32,7 @@ class JFacebookOAuth extends JOAuth2Client
 	 * @param   JHttp     $client   The HTTP client object.
 	 * @param   JInput    $input    The input object.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null)
 	{
@@ -53,7 +53,7 @@ class JFacebookOAuth extends JOAuth2Client
 	 *
 	 * @return  JFacebookOauth  This object for method chaining
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function setScope($scope)
 	{
@@ -67,7 +67,7 @@ class JFacebookOAuth extends JOAuth2Client
 	 *
 	 * @return  string Comma separated list of permissions.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getScope()
 	{

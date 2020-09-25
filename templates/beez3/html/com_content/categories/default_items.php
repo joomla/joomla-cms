@@ -3,7 +3,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 				<?php echo JHtml::_('content.prepare', $item->description); ?>
 			</div>
 		<?php endif; ?>
-        <?php endif; ?>
+		<?php endif; ?>
 		<?php if ($this->params->get('show_cat_num_articles_cat') == 1) :?>
 			<dl class="article-count"><dt>
 				<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?></dt>

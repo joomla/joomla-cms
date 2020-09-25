@@ -47,7 +47,6 @@
 			description="JFIELD_PUBLISHED_DESC"
 			class="chzn-color-state"
 			size="1"
-			required="true"
 			default="1"
 			>
 			<option value="1">JENABLED</option>

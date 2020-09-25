@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,8 +123,9 @@ class InstallerScript
 		}
 
 		// Extension manifest file version
-		$this->release = $parent->get('manifest')->version;
-		$extensionType = substr($this->extension, 0, 3);
+		$this->extension = $parent->getName();
+		$this->release   = $parent->get('manifest')->version;
+		$extensionType   = substr($this->extension, 0, 3);
 
 		// Modules parameters are located in the module table - else in the extension table
 		if ($extensionType === 'mod')
@@ -140,6 +141,13 @@ class InstallerScript
 		if (!$this->allowDowngrades && strtolower($type) === 'update')
 		{
 			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', \JFactory::getDbo()->quote($this->extension));
+
+			// Check whether we have an old release installed and skip this check when this here is the initial install.
+			if (!isset($manifest['version']))
+			{
+				return true;
+			}
+
 			$oldRelease = $manifest['version'];
 
 			if (version_compare($this->release, $oldRelease, '<'))

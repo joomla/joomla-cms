@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ class UsersModelMail extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm	A JForm object on success, false on failure
@@ -109,37 +109,38 @@ class UsersModelMail extends JModelAdmin
 			return false;
 		}
 
-		// Get users in the group out of the ACL
-		$to = $access->getUsersByGroup($grp, $recurse);
+		// Get users in the group out of the ACL, if group is provided.
+		$to = $grp !== 0 ? $access->getUsersByGroup($grp, $recurse) : array();
 
-		// Get all users email and group except for senders
-		$query = $db->getQuery(true)
-			->select('email')
-			->from('#__users')
-			->where('id != ' . (int) $user->get('id'));
-
-		if ($grp !== 0)
+		// When group is provided but no users are found in the group.
+		if ($grp !== 0 && !$to)
 		{
-			if (empty($to))
-			{
-				$query->where('0');
-			}
-			else
-			{
-				$query->where('id IN (' . implode(',', $to) . ')');
-			}
+			$rows = array();
 		}
-
-		if ($disabled == 0)
+		else
 		{
-			$query->where('block = 0');
-		}
+			// Get all users email and group except for senders
+			$query = $db->getQuery(true)
+				->select($db->quoteName('email'))
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('id') . ' != ' . (int) $user->id);
 
-		$db->setQuery($query);
-		$rows = $db->loadColumn();
+			if ($grp !== 0)
+			{
+				$query->where($db->quoteName('id') . ' IN (' . implode(',', $to) . ')');
+			}
+
+			if ($disabled === 0)
+			{
+				$query->where($db->quoteName('block') . ' = 0');
+			}
+
+			$db->setQuery($query);
+			$rows = $db->loadColumn();
+		}
 
 		// Check to see if there are any users in this group before we continue
-		if (!count($rows))
+		if (!$rows)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 

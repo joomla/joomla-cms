@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,26 +54,16 @@ class CaptchaRule extends FormRule
 		{
 			return true;
 		}
-		else
+
+		try
 		{
 			$captcha = Captcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
+			return $captcha->checkAnswer($value);
 		}
-
-		// Test the value.
-		if (!$captcha->checkAnswer($value))
+		catch (\RuntimeException $e)
 		{
-			$error = $captcha->getError();
-
-			if ($error instanceof \Exception)
-			{
-				return $error;
-			}
-			else
-			{
-				return new \JException($error);
-			}
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
-
-		return true;
+		return false;
 	}
 }

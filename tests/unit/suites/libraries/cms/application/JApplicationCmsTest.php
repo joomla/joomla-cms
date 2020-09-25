@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -169,7 +169,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JApplicationCms::__construct method with dependancy injection.
+	 * Tests the JApplicationCms::__construct method with dependency injection.
 	 *
 	 * @return  void
 	 *
@@ -190,11 +190,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Build the mock object.
 		$mockClient = $this->getMockBuilder('JApplicationWebClient')
-					->setMethods(array('test'))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
+			->setMethods(array('test'))
+			->setConstructorArgs(array())
+			->setMockClassName('')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 
@@ -638,7 +638,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
-		$this->assertEquals("<script>document.location.href='{$base}{$url}';</script>\n", $buffer);
+		$this->assertEquals("<script>document.location.href=" . json_encode($base . $url) . ";</script>\n", $buffer);
 	}
 
 	/**
@@ -670,7 +670,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->assertEquals(
 			'<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8" />'
-			. "<script>document.location.href='{$url}';</script></head><body></body></html>",
+			. "<script>document.location.href=" . json_encode($url) . ";</script></head><body></body></html>",
 			trim($buffer)
 		);
 	}

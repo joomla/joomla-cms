@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,7 +93,7 @@ class ContentControllerArticle extends JControllerForm
 
 		if ($allow === null)
 		{
-			// In the absense of better information, revert to the component permissions.
+			// In the absence of better information, revert to the component permissions.
 			return parent::allowAdd();
 		}
 		else
@@ -368,7 +368,7 @@ class ContentControllerArticle extends JControllerForm
 			if (JLanguageMultilang::isEnabled())
 			{
 				$item = $app->getMenu()->getItem($menuitem);
-				$lang =  !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
+				$lang = !is_null($item) && $item->language != '*' ? '&lang=' . $item->language : '';
 			}
 
 			// If ok, redirect to the return page.
@@ -424,6 +424,12 @@ class ContentControllerArticle extends JControllerForm
 			$id = $this->input->getInt('id', 0);
 			$viewName = $this->input->getString('view', $this->default_view);
 			$model = $this->getModel($viewName);
+
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($url))
+			{
+				$url = JRoute::_('index.php');
+			}
 
 			if ($model->storeVote($id, $user_rating))
 			{

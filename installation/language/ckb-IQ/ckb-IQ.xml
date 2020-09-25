@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Kurdish Soranî (کوردى)</name>
 	<version>3.2.0</version>
-	<creationDate>January 2011</creationDate>
+	<creationDate>2011-01-23</creationDate>
 	<author>Kurdish Soranî Translation team</author>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>ckb-IQ.ini</filename>

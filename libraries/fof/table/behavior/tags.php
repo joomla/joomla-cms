@@ -4,7 +4,9 @@
  * @subpackage  table
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
+
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
 
@@ -75,7 +77,7 @@ class FOFTableBehaviorTags extends FOFTableBehavior
 			// TODO: JHelperTags sucks in Joomla! 3.1, it requires that tags are
 			// stored in the metadata property. Not our case, therefore we need
 			// to add it in a fake object. We sent a PR to Joomla! CMS to fix
-			// that. Once it's accepted, we'll have to remove the attrocity
+			// that. Once it's accepted, we'll have to remove the atrocity
 			// here...
 			$tagsTable = clone($table);
 			$tagsHelper->preStoreProcess($tagsTable);

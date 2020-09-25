@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormRuleCustom extends JFormRule
 {
@@ -20,7 +20,7 @@ class JFormRuleCustom extends JFormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var        string
-	 * @since    11.1
+	 * @since    1.7.0
 	 */
 	protected $regex = '^custom';
 
@@ -28,7 +28,7 @@ class JFormRuleCustom extends JFormRule
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
 	 * @var        string
-	 * @since    11.1
+	 * @since    1.7.0
 	 */
 	protected $modifiers = 'i';
 }

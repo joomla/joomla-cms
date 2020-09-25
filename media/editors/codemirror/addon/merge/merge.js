@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 // declare global: diff_match_patch, DIFF_INSERT, DIFF_DELETE, DIFF_EQUAL
 
@@ -43,6 +43,7 @@
         if (!this.edit.state.trackAlignable) this.edit.state.trackAlignable = new TrackAlignable(this.edit)
         this.orig.state.trackAlignable = new TrackAlignable(this.orig)
       }
+      this.lockButton.title = this.edit.phrase("Toggle locked scrolling");
 
       this.orig.state.diffViews = [this];
       var classLocation = options.chunkClassLocation || "background";
@@ -211,7 +212,7 @@
   function setScrollLock(dv, val, action) {
     dv.lockScroll = val;
     if (val && action != false) syncScroll(dv, DIFF_INSERT) && makeConnections(dv);
-    dv.lockButton.innerHTML = val ? "\u21db\u21da" : "\u21db&nbsp;&nbsp;\u21da";
+    (val ? CodeMirror.addClass : CodeMirror.rmClass)(dv.lockButton, "CodeMirror-merge-scrolllock-enabled");
   }
 
   // Updating the marks for editor content
@@ -442,22 +443,26 @@
       aligners[i].clear();
     aligners.length = 0;
 
-    var cm = [dv.edit, dv.orig], scroll = [];
+    var cm = [dv.edit, dv.orig], scroll = [], offset = []
     if (other) cm.push(other.orig);
-    for (var i = 0; i < cm.length; i++)
+    for (var i = 0; i < cm.length; i++) {
       scroll.push(cm[i].getScrollInfo().top);
+      offset.push(-cm[i].getScrollerElement().getBoundingClientRect().top)
+    }
 
+    if (offset[0] != offset[1] || cm.length == 3 && offset[1] != offset[2])
+      alignLines(cm, offset, [0, 0, 0], aligners)
     for (var ln = 0; ln < linesToAlign.length; ln++)
-      alignLines(cm, linesToAlign[ln], aligners);
+      alignLines(cm, offset, linesToAlign[ln], aligners);
 
     for (var i = 0; i < cm.length; i++)
       cm[i].scrollTo(null, scroll[i]);
   }
 
-  function alignLines(cm, lines, aligners) {
-    var maxOffset = 0, offset = [];
+  function alignLines(cm, cmOffset, lines, aligners) {
+    var maxOffset = -1e8, offset = [];
     for (var i = 0; i < cm.length; i++) if (lines[i] != null) {
-      var off = cm[i].heightAtLine(lines[i], "local");
+      var off = cm[i].heightAtLine(lines[i], "local") - cmOffset[i];
       offset[i] = off;
       maxOffset = Math.max(maxOffset, off);
     }
@@ -500,7 +505,7 @@
       var copy = dv.copyButtons.appendChild(elt("div", dv.type == "left" ? "\u21dd" : "\u21dc",
                                                 "CodeMirror-merge-copy"));
       var editOriginals = dv.mv.options.allowEditingOriginals;
-      copy.title = editOriginals ? "Push to left" : "Revert chunk";
+      copy.title = dv.edit.phrase(editOriginals ? "Push to left" : "Revert chunk");
       copy.chunk = chunk;
       copy.style.top = (chunk.origTo > chunk.origFrom ? top : dv.edit.heightAtLine(chunk.editFrom, "local") - sTopEdit) + "px";
 
@@ -594,7 +599,6 @@
 
   function buildGap(dv) {
     var lock = dv.lockButton = elt("div", null, "CodeMirror-merge-scrolllock");
-    lock.title = "Toggle locked scrolling";
     var lockWrap = elt("div", [lock], "CodeMirror-merge-scrolllock-wrap");
     CodeMirror.on(lock, "click", function() { setScrollLock(dv, !dv.lockScroll); });
     var gapElts = [lockWrap];
@@ -664,6 +668,7 @@
 
   function getChunks(diff) {
     var chunks = [];
+    if (!diff.length) return chunks;
     var startEdit = 0, startOrig = 0;
     var edit = Pos(0, 0), orig = Pos(0, 0);
     for (var i = 0; i < diff.length; ++i) {
@@ -727,7 +732,7 @@
     cm.addLineClass(from, "wrap", "CodeMirror-merge-collapsed-line");
     var widget = document.createElement("span");
     widget.className = "CodeMirror-merge-collapsed-widget";
-    widget.title = "Identical text collapsed. Click to expand.";
+    widget.title = cm.phrase("Identical text collapsed. Click to expand.");
     var mark = cm.markText(Pos(from, 0), Pos(to - 1), {
       inclusiveLeft: true,
       inclusiveRight: true,
@@ -738,6 +743,9 @@
       mark.clear();
       cm.removeLineClass(from, "wrap", "CodeMirror-merge-collapsed-line");
     }
+    if (mark.explicitlyCleared) clear();
+    CodeMirror.on(widget, "click", clear);
+    mark.on("clear", clear);
     CodeMirror.on(widget, "click", clear);
     return {mark: mark, clear: clear};
   }
@@ -914,7 +922,7 @@
     hasMarker: function(n) {
       var handle = this.cm.getLineHandle(n)
       if (handle.markedSpans) for (var i = 0; i < handle.markedSpans.length; i++)
-        if (handle.markedSpans[i].mark.collapsed && handle.markedSpans[i].to != null)
+        if (handle.markedSpans[i].marker.collapsed && handle.markedSpans[i].to != null)
           return true
       return false
     },

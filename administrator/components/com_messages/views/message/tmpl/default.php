@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php echo JText::_('COM_MESSAGES_FIELD_DATE_TIME_LABEL'); ?>
 			</div>
 			<div class="controls">
-				<?php echo JHtml::_('date', $this->item->date_time); ?>
+				<?php echo JHtml::_('date', $this->item->date_time, JText::_('DATE_FORMAT_LC2')); ?>
 			</div>
 		</div>
 		<div class="control-group">

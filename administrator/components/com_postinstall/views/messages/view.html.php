@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,5 +43,26 @@ class PostinstallViewMessages extends FOFViewHtml
 		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $model->getExtensionName($this->eid)));
 
 		return parent::onBrowse($tpl);
+	}
+
+	/**
+	 * Executes on display of the page
+	 *
+	 * @param   string  $tpl  Subtemplate to use
+	 *
+	 * @return  boolean  Return true to allow rendering of the page
+	 *
+	 * @since   3.8.7
+	 */
+	protected function onDisplay($tpl = null)
+	{
+		$return = parent::onDisplay($tpl);
+
+		if (!empty($this->items))
+		{
+			JToolbarHelper::custom('hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
+		}
+
+		return $return;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  View
- * @since       12.1
+ * @since       3.0.0
  */
 class BaseView extends JViewBase
 {
@@ -21,7 +21,7 @@ class BaseView extends JViewBase
 	 *
 	 * @return  string  The rendered view.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function render()

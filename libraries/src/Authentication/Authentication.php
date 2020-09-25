@@ -2,65 +2,71 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Authentication;
 
-use Joomla\CMS\Plugin\PluginHelper;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Authentication extends \JObject
 {
 	// Shared success status
 	/**
 	 * This is the status code returned when the authentication is success (permit login)
-	 * @const  STATUS_SUCCESS successful response
-	 * @since  11.2
+	 *
+	 * @var    integer
+	 * @since  1.7.0
 	 */
 	const STATUS_SUCCESS = 1;
 
 	// These are for authentication purposes (username and password is valid)
 	/**
 	 * Status to indicate cancellation of authentication (unused)
-	 * @const  STATUS_CANCEL cancelled request (unused)
-	 * @since  11.2
+	 *
+	 * @var    integer
+	 * @since  1.7.0
 	 */
 	const STATUS_CANCEL = 2;
 
 	/**
 	 * This is the status code returned when the authentication failed (prevent login if no success)
-	 * @const  STATUS_FAILURE failed request
-	 * @since  11.2
+	 *
+	 * @var    integer
+	 * @since  1.7.0
 	 */
 	const STATUS_FAILURE = 4;
 
 	// These are for authorisation purposes (can the user login)
 	/**
 	 * This is the status code returned when the account has expired (prevent login)
-	 * @const  STATUS_EXPIRED an expired account (will prevent login)
-	 * @since  11.2
+	 *
+	 * @var    integer
+	 * @since  1.7.0
 	 */
 	const STATUS_EXPIRED = 8;
 
 	/**
 	 * This is the status code returned when the account has been denied (prevent login)
-	 * @const  STATUS_DENIED denied request (will prevent login)
-	 * @since  11.2
+	 *
+	 * @var    integer
+	 * @since  1.7.0
 	 */
 	const STATUS_DENIED = 16;
 
 	/**
 	 * This is the status code returned when the account doesn't exist (not an error)
-	 * @const  STATUS_UNKNOWN unknown account (won't permit or prevent login)
-	 * @since  11.2
+	 *
+	 * @var    integer
+	 * @since  1.7.0
 	 */
 	const STATUS_UNKNOWN = 32;
 
@@ -68,7 +74,7 @@ class Authentication extends \JObject
 	 * An array of Observer objects to notify
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $observers = array();
 
@@ -76,7 +82,7 @@ class Authentication extends \JObject
 	 * The state of the observable object
 	 *
 	 * @var    mixed
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $state = null;
 
@@ -84,20 +90,20 @@ class Authentication extends \JObject
 	 * A multi dimensional array of [function][] = key for observers
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $methods = array();
 
 	/**
 	 * @var    Authentication  Authentication instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance;
 
 	/**
 	 * Constructor
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct()
 	{
@@ -115,7 +121,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  Authentication  The global Authentication object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance()
 	{
@@ -132,7 +138,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  mixed    The state of the object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getState()
 	{
@@ -146,7 +152,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function attach($observer)
 	{
@@ -214,7 +220,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  boolean  True if the observer object was detached.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function detach($observer)
 	{
@@ -251,7 +257,7 @@ class Authentication extends \JObject
 	 * @return  AuthenticationResponse  Response object with status variable filled in for last plugin or first successful plugin.
 	 *
 	 * @see     AuthenticationResponse
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function authenticate($credentials, $options = array())
 	{
@@ -324,7 +330,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  AuthenticationResponse[]  Array of authentication response objects
 	 *
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	public static function authorise($response, $options = array())
 	{

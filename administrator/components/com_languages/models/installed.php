@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ class LanguagesModelInstalled extends JModelList
 	protected $user = null;
 
 	/**
-	 * @var boolean|JExeption True, if FTP settings should be shown, or an exeption
+	 * @var boolean|JExeption True, if FTP settings should be shown, or an exception
 	 */
 	protected $ftp = null;
 
@@ -45,12 +45,12 @@ class LanguagesModelInstalled extends JModelList
 	protected $data = null;
 
 	/**
-	 * @var int total number pf languages
+	 * @var int total number of languages
 	 */
 	protected $total = null;
 
 	/**
-	 * @var int total number pf languages installed
+	 * @var int total number of languages installed
 	 * @deprecated 4.0
 	 */
 	protected $langlist = null;
@@ -83,7 +83,7 @@ class LanguagesModelInstalled extends JModelList
 				'author',
 				'authorEmail',
 				'extension_id',
-				'cliend_id',
+				'client_id',
 			);
 		}
 
@@ -280,6 +280,7 @@ class LanguagesModelInstalled extends JModelList
 		if ($limit !== 0)
 		{
 			$start = (int) $this->getState('list.start', 0);
+
 			return array_slice($installedLanguages, $start, $limit);
 		}
 

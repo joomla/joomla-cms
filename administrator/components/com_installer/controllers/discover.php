@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,8 @@ class InstallerControllerDiscover extends JControllerLegacy
 	 */
 	public function refresh()
 	{
+		$this->checkToken();
+
 		$model = $this->getModel('discover');
 		$model->discover();
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=discover', false));
@@ -39,6 +41,8 @@ class InstallerControllerDiscover extends JControllerLegacy
 	 */
 	public function install()
 	{
+		$this->checkToken();
+
 		$this->getModel('discover')->discover_install();
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=discover', false));
 	}
@@ -52,6 +56,8 @@ class InstallerControllerDiscover extends JControllerLegacy
 	 */
 	public function purge()
 	{
+		$this->checkToken();
+
 		$model = $this->getModel('discover');
 		$model->purge();
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=discover', false), $model->_message);

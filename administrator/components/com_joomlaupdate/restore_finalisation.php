@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ if (!function_exists('jimport'))
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   3.5.1
 	 */
 	function jimport($path, $base = null)
 	{
@@ -49,7 +49,7 @@ if (!class_exists('JFile'))
 		 *
 		 * @param   string  $fileName  The path to the file to be checked
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -63,7 +63,7 @@ if (!class_exists('JFile'))
 		 *
 		 * @param   string  $fileName  The path to the file to be deleted
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -90,7 +90,7 @@ if (!class_exists('JFolder'))
 		 *
 		 * @param   string  $folderName  The path to the folder to be checked
 		 *
-		 * @return  bool
+		 * @return  boolean
 		 *
 		 * @since   3.5.1
 		 */
@@ -170,7 +170,7 @@ if (!function_exists('finalizeRestore'))
 		// Make sure Joomla!'s code can figure out which files exist and need be removed
 		clearstatcache();
 
-		// Remove obsolete files - prevents errors occuring in some system plugins
+		// Remove obsolete files - prevents errors occurring in some system plugins
 		if (class_exists('JoomlaInstallerScript'))
 		{
 			$script = new JoomlaInstallerScript;

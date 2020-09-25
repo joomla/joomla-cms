@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@
  * Class to mock JLanguage.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockLanguage
 {
@@ -21,7 +21,7 @@ class TestMockLanguage
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function create($test)
 	{
@@ -30,6 +30,7 @@ class TestMockLanguage
 			'_',
 			'getInstance',
 			'getTag',
+			'isRTL',
 			'test',
 		);
 
@@ -46,6 +47,7 @@ class TestMockLanguage
 			$mockObject, array(
 				'getInstance' => $mockObject,
 				'getTag' => 'en-GB',
+				'isRTL' => false,
 				// An additional 'test' method for confirming this object is successfully mocked.
 				'test' => 'ok',
 			)
@@ -70,7 +72,7 @@ class TestMockLanguage
 	 *
 	 * @return void
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static function mock_($string, $jsSafe = false, $interpretBackSlashes = true)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 $user       = JFactory::getUser();
 $params     = new Registry;
 $dispatcher = JEventDispatcher::getInstance();
-$dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_video, &$params));
+$dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_video, &$params, 0));
 
 JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
@@ -29,11 +29,11 @@ jQuery(document).ready(function($){
 
 <tr>
 	<td>
-		<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL . '/' . $this->_tmp_video->name; ?>" title="<?php echo $this->_tmp_video->title; ?>"><?php JHtml::_('image', $this->_tmp_video->icon_16, $this->_tmp_video->title, null, true); ?></a>
+		<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL . '/' . rawurlencode($this->_tmp_video->name); ?>" title="<?php echo $this->escape($this->_tmp_video->title); ?>"><?php JHtml::_('image', $this->_tmp_video->icon_16, $this->escape($this->_tmp_video->title), null, true); ?></a>
 	</td>
 	<td class="description">
-		<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL . '/' . $this->_tmp_video->name; ?>" title="<?php echo $this->_tmp_video->name; ?>">
-			<?php echo JHtml::_('string.truncate', $this->_tmp_video->name, 10, false); ?>
+		<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL . '/' . rawurlencode($this->_tmp_video->name); ?>" title="<?php echo $this->escape($this->_tmp_video->name); ?>">
+			<?php echo JHtml::_('string.truncate', $this->escape($this->_tmp_video->name), 10, false); ?>
 		</a>
 	</td>
 	<td class="dimensions">
@@ -44,11 +44,11 @@ jQuery(document).ready(function($){
 	</td>
 	<?php if ($user->authorise('core.delete', 'com_media')):?>
 		<td>
-			<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_video->name; ?>" rel="<?php echo $this->_tmp_video->name; ?>"><span class="icon-remove hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JACTION_DELETE');?>"></span></a>
-			<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_video->name; ?>" />
+			<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo rawurlencode($this->state->folder); ?>&amp;rm[]=<?php echo $this->escape($this->_tmp_video->name); ?>" rel="<?php echo $this->escape($this->_tmp_video->name); ?>"><span class="icon-remove hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JACTION_DELETE');?>"></span></a>
+			<input type="checkbox" name="rm[]" value="<?php echo $this->escape($this->_tmp_video->name); ?>" />
 		</td>
 	<?php endif;?>
 </tr>
 
 <?php
-$dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_video, &$params));
+$dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_video, &$params, 0));

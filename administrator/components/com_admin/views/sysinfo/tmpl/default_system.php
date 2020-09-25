@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,6 +36,14 @@ defined('_JEXEC') or die;
 					<?php echo $this->info['php']; ?>
 				</td>
 			</tr>
+			<tr>
+				<td>
+					<strong><?php echo JText::_('COM_ADMIN_DATABASE_TYPE'); ?></strong>
+				</td>
+				<td>
+					<?php echo $this->info['dbserver']; ?>
+				</td>
+			</tr>			
 			<tr>
 				<td>
 					<strong><?php echo JText::_('COM_ADMIN_DATABASE_VERSION'); ?></strong>

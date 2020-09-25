@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Chinese Traditional (Taiwan)</name>
 	<version>3.8.0</version>
-	<creationDate>August 2017</creationDate>
+	<creationDate>2017-08-01</creationDate>
 	<author>Joomla! Taiwan</author>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>zh-TW.ini</filename>

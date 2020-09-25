@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ abstract class JHtmlCategory
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
-			
+
 			// Filter on user access level
 			$query->where('a.access IN (' . $groups . ')');
 
@@ -154,13 +154,13 @@ abstract class JHtmlCategory
 			$user = JFactory::getUser();
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('a.id, a.title, a.level, a.parent_id')
+				->select('a.id, a.title, a.level, a.parent_id, a.language')
 				->from('#__categories AS a')
 				->where('a.parent_id > 0');
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
-			
+
 			// Filter on user level.
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
@@ -191,6 +191,12 @@ abstract class JHtmlCategory
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
+
+				if ($item->language !== '*')
+				{
+					$item->title .= ' (' . $item->language . ')';
+				}
+
 				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 			// Special "Add to root" option:

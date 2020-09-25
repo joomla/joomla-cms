@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class JFormFieldVoteradio extends JFormFieldRadio
 	 *
 	 * @throws \Exception
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.8.2
 	 */
 	public function getLabel()
 	{

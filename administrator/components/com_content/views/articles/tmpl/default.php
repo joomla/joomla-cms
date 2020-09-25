@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -137,6 +137,10 @@ $assoc = JLanguageAssociations::isEnabled();
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 					$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.' . $item->id) && $item->created_by == $userId;
 					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+					$canEditCat    = $user->authorise('core.edit',       'com_content.category.' . $item->catid);
+					$canEditOwnCat = $user->authorise('core.edit.own',   'com_content.category.' . $item->catid) && $item->category_uid == $userId;
+					$canEditParCat    = $user->authorise('core.edit',       'com_content.category.' . $item->parent_category_id);
+					$canEditOwnParCat = $user->authorise('core.edit.own',   'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
 						<td class="order nowrap center hidden-phone">
@@ -187,10 +191,68 @@ $assoc = JLanguageAssociations::isEnabled();
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
 								<span class="small break-word">
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									<?php if (empty($item->note)) : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									<?php else : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+									<?php endif; ?>
 								</span>
 								<div class="small">
-									<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+									<?php
+									$ParentCatUrl = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
+									$CurrentCatUrl = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
+									$EditCatTxt = JText::_('COM_CONTENT_EDIT_CATEGORY');
+
+										echo JText::_('JCATEGORY') . ': ';
+
+										if ($item->category_level != '1') :
+											if ($item->parent_category_level != '1') :
+												echo ' &#187; ';
+											endif;
+										endif;
+
+										if (JFactory::getLanguage()->isRtl())
+										{
+											if ($canEditCat || $canEditOwnCat) :
+												echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+											endif;
+											echo $this->escape($item->category_title);
+											if ($canEditCat || $canEditOwnCat) :
+												echo '</a>';
+											endif;
+
+											if ($item->category_level != '1') :
+												echo ' &#171; ';
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+												endif;
+												echo $this->escape($item->parent_category_title);
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '</a>';
+												endif;
+											endif;
+										}
+										else
+										{
+											if ($item->category_level != '1') :
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+												endif;
+												echo $this->escape($item->parent_category_title);
+												if ($canEditParCat || $canEditOwnParCat) :
+													echo '</a>';
+												endif;
+												echo ' &#187; ';
+											endif;
+											if ($canEditCat || $canEditOwnCat) :
+												echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+											endif;
+											echo $this->escape($item->category_title);
+											if ($canEditCat || $canEditOwnCat) :
+												echo '</a>';
+											endif;
+										}
+									?>
 								</div>
 							</div>
 						</td>
@@ -205,13 +267,22 @@ $assoc = JLanguageAssociations::isEnabled();
 						</td>
 						<?php endif; ?>
 						<td class="small hidden-phone">
-							<?php if ($item->created_by_alias) : ?>
-								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-								<?php echo $this->escape($item->author_name); ?></a>
-								<div class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+							<?php if ((int) $item->created_by != 0) : ?>
+								<?php if ($item->created_by_alias) : ?>
+									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+									<?php echo $this->escape($item->author_name); ?></a>
+									<div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+								<?php else : ?>
+									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+									<?php echo $this->escape($item->author_name); ?></a>
+								<?php endif; ?>
 							<?php else : ?>
-								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
-								<?php echo $this->escape($item->author_name); ?></a>
+								<?php if ($item->created_by_alias) : ?>
+									<?php echo JText::_('JNONE'); ?>
+									<div class="smallsub"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
+								<?php else : ?>
+									<?php echo JText::_('JNONE'); ?>
+								<?php endif; ?>
 							<?php endif; ?>
 						</td>
 						<td class="small hidden-phone">

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,7 +76,7 @@ class PlgExtensionJoomla extends JPlugin
 			}
 		}
 
-		// Check if it has an update site id (creation might have faileD)
+		// Check if it has an update site id (creation might have failed)
 		if ($update_site_id)
 		{
 			// Look for an update site entry that exists
@@ -111,7 +111,7 @@ class PlgExtensionJoomla extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onExtensionAfterInstall($installer, $eid )
+	public function onExtensionAfterInstall($installer, $eid)
 	{
 		if ($eid)
 		{

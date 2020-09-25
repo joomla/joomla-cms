@@ -21,6 +21,7 @@ abstract class ParagonIE_Sodium_Core_HSalsa20 extends ParagonIE_Sodium_Core_Sals
      * @param string $k
      * @param string|null $c
      * @return string
+     * @throws TypeError
      */
     public static function hsalsa20($in, $k, $c = null)
     {

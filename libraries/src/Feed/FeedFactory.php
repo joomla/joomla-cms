@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,13 +16,13 @@ use Joomla\Registry\Registry;
 /**
  * Feed factory class.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class FeedFactory
 {
 	/**
 	 * @var    array  The list of registered parser classes for feeds.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $parsers = array('rss' => 'Joomla\\CMS\\Feed\\Parser\\RssParser', 'feed' => 'Joomla\\CMS\\Feed\\Parser\\AtomParser');
 
@@ -33,7 +33,7 @@ class FeedFactory
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \InvalidArgumentException
 	 * @throws  \RuntimeException
 	 */
@@ -48,19 +48,25 @@ class FeedFactory
 			// Retry with JHttpFactory that allow using CURL and Sockets as alternative method when available
 
 			// Adding a valid user agent string, otherwise some feed-servers returning an error
-			$options 	= new Registry;
+			$options = new Registry;
 			$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
 
-			$connector 	= HttpFactory::getHttp($options);
-			$feed 		= $connector->get($uri);
+			try
+			{
+				$response = HttpFactory::getHttp($options)->get($uri);
+			}
+			catch (RuntimeException $e)
+			{
+				throw new \RuntimeException('Unable to open the feed.', $e->getCode(), $e);
+			}
 
-			if ($feed->code != 200)
+			if ($response->code != 200)
 			{
 				throw new \RuntimeException('Unable to open the feed.');
 			}
 
 			// Set the value to the XMLReader parser
-			if (!$reader->xml($feed->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
+			if (!$reader->xml($response->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 			{
 				throw new \RuntimeException('Unable to parse the feed.');
 			}
@@ -97,7 +103,7 @@ class FeedFactory
 	 *
 	 * @return  FeedFactory
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \InvalidArgumentException
 	 */
 	public function registerParser($tagName, $className, $overwrite = false)
@@ -131,7 +137,7 @@ class FeedFactory
 	 *
 	 * @return  FeedParser
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \LogicException
 	 */
 	private function _fetchFeedParser($type, \XMLReader $reader)

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -376,6 +376,8 @@ class HtmlView extends \JObject
 	 *
 	 * @return  mixed  The escaped value.
 	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
+	 *
 	 * @since   3.0
 	 */
 	public function escape($var)
@@ -661,7 +663,11 @@ class HtmlView extends \JObject
 		// Change the template folder if alternative layout is in different template
 		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template)
 		{
-			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
+			$this->_path['template'] = str_replace(
+				JPATH_THEMES . DIRECTORY_SEPARATOR . $template,
+				JPATH_THEMES . DIRECTORY_SEPARATOR . $layoutTemplate,
+				$this->_path['template']
+			);
 		}
 
 		// Load the template script

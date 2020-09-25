@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,49 +68,47 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		$app = \JFactory::getApplication();
+		$config = \JFactory::getConfig();
 
-		$this->_persistent = $app->get('redis_persist', true);
+		$this->_persistent = $config->get('redis_persist', true);
 
 		$server = array(
-			'host' => $app->get('redis_server_host', 'localhost'),
-			'port' => $app->get('redis_server_port', 6379),
-			'auth' => $app->get('redis_server_auth', null),
-			'db'   => (int) $app->get('redis_server_db', null),
+			'host' => $config->get('redis_server_host', 'localhost'),
+			'port' => $config->get('redis_server_port', 6379),
+			'auth' => $config->get('redis_server_auth', null),
+			'db'   => (int) $config->get('redis_server_db', null),
 		);
+
+		// If you are trying to connect to a socket file, ignore the supplied port
+		if ($server['host'][0] === '/')
+		{
+			$server['port'] = 0;
+		}
 
 		static::$_redis = new \Redis;
 
-		if ($this->_persistent)
+		try
 		{
-			try
+			if ($this->_persistent)
 			{
 				$connection = static::$_redis->pconnect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
-		}
-		else
-		{
-			try
+			else
 			{
 				$connection = static::$_redis->connect($server['host'], $server['port']);
-				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (\RedisException $e)
-			{
-				Log::add($e->getMessage(), Log::DEBUG);
-			}
+		}
+		catch (\RedisException $e)
+		{
+			Log::add($e->getMessage(), Log::DEBUG);
 		}
 
 		if ($connection == false)
 		{
 			static::$_redis = null;
 
-			if ($app->isClient('administrator'))
+			// Because the application instance may not be available on cli script, use it only if needed
+			if (\JFactory::getApplication()->isClient('administrator'))
 			{
 				\JError::raiseWarning(500, 'Redis connection failed');
 			}
@@ -118,9 +116,22 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		if ($auth == false)
+		try
 		{
-			if ($app->isClient('administrator'))
+			$auth = $server['auth'] ? static::$_redis->auth($server['auth']) : true;
+		}
+		catch (\RedisException $e)
+		{
+			$auth = false;
+			Log::add($e->getMessage(), Log::DEBUG);
+		}
+
+		if ($auth === false)
+		{
+			static::$_redis = null;
+
+			// Because the application instance may not be available on cli script, use it only if needed
+			if (\JFactory::getApplication()->isClient('administrator'))
 			{
 				\JError::raiseWarning(500, 'Redis authentication failed');
 			}
@@ -134,7 +145,8 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isClient('administrator'))
+			// Because the application instance may not be available on cli script, use it only if needed
+			if (\JFactory::getApplication()->isClient('administrator'))
 			{
 				\JError::raiseWarning(500, 'Redis failed to select database');
 			}
@@ -150,7 +162,8 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis = null;
 
-			if ($app->isClient('administrator'))
+			// Because the application instance may not be available on cli script, use it only if needed
+			if (\JFactory::getApplication()->isClient('administrator'))
 			{
 				\JError::raiseWarning(500, 'Redis ping failed');
 			}
@@ -178,7 +191,8 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		return static::$_redis->exists($this->_getCacheId($id, $group));
+		// Redis exists returns integer values lets convert that to boolean see: https://redis.io/commands/exists
+		return (bool) static::$_redis->exists($this->_getCacheId($id, $group));
 	}
 
 	/**
@@ -288,7 +302,7 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		return (bool) static::$_redis->delete($this->_getCacheId($id, $group));
+		return (bool) static::$_redis->del($this->_getCacheId($id, $group));
 	}
 
 	/**
@@ -324,12 +338,12 @@ class RedisStorage extends CacheStorage
 		{
 			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode == 'group')
 			{
-				static::$_redis->delete($key);
+				static::$_redis->del($key);
 			}
 
 			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode != 'group')
 			{
-				static::$_redis->delete($key);
+				static::$_redis->del($key);
 			}
 		}
 

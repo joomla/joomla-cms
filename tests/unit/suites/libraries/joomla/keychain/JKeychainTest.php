@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Keychain
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ jimport('joomla.filesystem.folder');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Keychain
- * @since       12.3
+ * @since       3.1.4
  */
 class JKeychainTest extends \PHPUnit\Framework\TestCase
 {
@@ -25,7 +25,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -40,7 +40,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -55,7 +55,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testLoadCLIKeychain()
 	{
@@ -75,7 +75,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCreatePassphraseFile()
 	{
@@ -89,14 +89,14 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Try to load a keychain that liaosn't exist (this shouldn't cause an error)
+	 * Try to load a keychain that doesn't exist (this shouldn't cause an error)
 	 *
 	 * @expectedException         RuntimeException
 	 * @expectedExceptionMessage  Attempting to load non-existent keychain file
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testLoadKeychainNonexistant()
 	{
@@ -118,7 +118,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testLoadKeychainInvalid()
 	{
@@ -137,7 +137,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSaveKeychain()
 	{
@@ -159,7 +159,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return   void
 	 *
-	 * @since    12.3
+	 * @since    3.1.4
 	 */
 	public function testLoadKeychain()
 	{
@@ -181,7 +181,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return   void
 	 *
-	 * @since    12.3
+	 * @since    3.1.4
 	 */
 	public function testDeleteValue()
 	{

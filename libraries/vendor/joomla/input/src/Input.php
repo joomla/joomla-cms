@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,6 +21,7 @@ use Joomla\Filter;
  * @property-read    Input   $post
  * @property-read    Input   $request
  * @property-read    Input   $server
+ * @property-read    Input   $env
  * @property-read    Files   $files
  * @property-read    Cookie  $cookie
  *
@@ -40,6 +41,15 @@ use Joomla\Filter;
 class Input implements \Serializable, \Countable
 {
 	/**
+	 * Container with allowed superglobals
+	 *
+	 * @var    array
+	 * @since  1.3.0
+	 * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
+	 */
+	private static $allowedGlobals = array('REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV');
+
+	/**
 	 * Options array for the Input instance.
 	 *
 	 * @var    array
@@ -53,7 +63,7 @@ class Input implements \Serializable, \Countable
 	 * @var    Filter\InputFilter
 	 * @since  1.0
 	 */
-	protected $filter = null;
+	protected $filter;
 
 	/**
 	 * Input data.
@@ -99,7 +109,7 @@ class Input implements \Serializable, \Countable
 			$this->filter = new Filter\InputFilter;
 		}
 
-		if (is_null($source))
+		if ($source === null)
 		{
 			$this->data = &$_REQUEST;
 		}
@@ -139,7 +149,7 @@ class Input implements \Serializable, \Countable
 
 		$superGlobal = '_' . strtoupper($name);
 
-		if (isset($GLOBALS[$superGlobal]))
+		if (\in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal]))
 		{
 			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 
@@ -159,7 +169,7 @@ class Input implements \Serializable, \Countable
 	 */
 	public function count()
 	{
-		return count($this->data);
+		return \count($this->data);
 	}
 
 	/**
@@ -198,7 +208,7 @@ class Input implements \Serializable, \Countable
 	 */
 	public function getArray(array $vars = array(), $datasource = null)
 	{
-		if (empty($vars) && is_null($datasource))
+		if (empty($vars) && $datasource === null)
 		{
 			$vars = $this->data;
 		}
@@ -207,9 +217,9 @@ class Input implements \Serializable, \Countable
 
 		foreach ($vars as $k => $v)
 		{
-			if (is_array($v))
+			if (\is_array($v))
 			{
-				if (is_null($datasource))
+				if ($datasource === null)
 				{
 					$results[$k] = $this->getArray($v, $this->get($k, null, 'array'));
 				}
@@ -220,7 +230,7 @@ class Input implements \Serializable, \Countable
 			}
 			else
 			{
-				if (is_null($datasource))
+				if ($datasource === null)
 				{
 					$results[$k] = $this->get($k, null, $v);
 				}
@@ -236,6 +246,29 @@ class Input implements \Serializable, \Countable
 		}
 
 		return $results;
+	}
+
+	/**
+	 * Get the Input instance holding the data for the current request method
+	 *
+	 * @return  Input
+	 *
+	 * @since   1.3.0
+	 */
+	public function getInputForRequestMethod()
+	{
+		switch (strtoupper($this->getMethod()))
+		{
+			case 'GET':
+				return $this->get;
+
+			case 'POST':
+				return $this->post;
+
+			default:
+				// PUT, PATCH, etc. don't have superglobals
+				return $this;
+		}
 	}
 
 	/**
@@ -276,7 +309,7 @@ class Input implements \Serializable, \Countable
 	/**
 	 * Check if a value name exists.
 	 *
-	 * @param   string  $path  Value name
+	 * @param   string  $name  Value name
 	 *
 	 * @return  boolean
 	 *
@@ -342,8 +375,7 @@ class Input implements \Serializable, \Countable
 
 		// Remove $_ENV and $_SERVER from the inputs.
 		$inputs = $this->inputs;
-		unset($inputs['env']);
-		unset($inputs['server']);
+		unset($inputs['env'], $inputs['server']);
 
 		// Serialize the options, data, and inputs.
 		return serialize(array($this->options, $this->data, $inputs));
@@ -354,7 +386,7 @@ class Input implements \Serializable, \Countable
 	 *
 	 * @param   string  $input  The serialized input.
 	 *
-	 * @return  Input  The input object.
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */
@@ -388,8 +420,8 @@ class Input implements \Serializable, \Countable
 			// Load up all the globals.
 			foreach ($GLOBALS as $global => $data)
 			{
-				// Check if the global starts with an underscore.
-				if (strpos($global, '_') === 0)
+				// Check if the global starts with an underscore and is allowed.
+				if (strpos($global, '_') === 0 && \in_array(substr($global, 1), self::$allowedGlobals, true))
 				{
 					// Convert global name to input name.
 					$global = strtolower($global);

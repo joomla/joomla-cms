@@ -19,6 +19,8 @@ class ParagonIE_Sodium_Core32_ChaCha20_IetfCtx extends ParagonIE_Sodium_Core32_C
      * @param string $counter The initial counter value.
      *                        Defaults to 4 0x00 bytes.
      * @throws InvalidArgumentException
+     * @throws SodiumException
+     * @throws TypeError
      */
     public function __construct($key = '', $iv = '', $counter = '')
     {
@@ -28,10 +30,10 @@ class ParagonIE_Sodium_Core32_ChaCha20_IetfCtx extends ParagonIE_Sodium_Core32_C
         parent::__construct($key, self::substr($iv, 0, 8), $counter);
 
         if (!empty($counter)) {
-            $this->container[12] = ParagonIE_Sodium_Core32_Int32::fromString(self::substr($counter, 0, 4));
+            $this->container[12] = ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($counter, 0, 4));
         }
-        $this->container[13] = ParagonIE_Sodium_Core32_Int32::fromString(self::substr($iv, 0, 4));
-        $this->container[14] = ParagonIE_Sodium_Core32_Int32::fromString(self::substr($iv, 4, 4));
-        $this->container[15] = ParagonIE_Sodium_Core32_Int32::fromString(self::substr($iv, 4, 4));
+        $this->container[13] = ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($iv, 0, 4));
+        $this->container[14] = ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($iv, 4, 4));
+        $this->container[15] = ParagonIE_Sodium_Core32_Int32::fromReverseString(self::substr($iv, 8, 4));
     }
 }

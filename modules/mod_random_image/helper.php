@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,18 +28,13 @@ class ModRandomImageHelper
 	 */
 	public static function getRandomImage(&$params, $images)
 	{
-		$width  = $params->get('width');
-		$height = $params->get('height');
+		$width  = $params->get('width', 100);
+		$height = $params->get('height', null);
 
 		$i      = count($images);
 		$random = mt_rand(0, $i - 1);
 		$image  = $images[$random];
 		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
-
-		if ($width == '')
-		{
-			$width = 100;
-		}
 
 		if ($size[0] < $width)
 		{
@@ -48,7 +43,7 @@ class ModRandomImageHelper
 
 		$coeff = $size[0] / $size[1];
 
-		if ($height == '')
+		if ($height === null)
 		{
 			$height = (int) ($width / $coeff);
 		}

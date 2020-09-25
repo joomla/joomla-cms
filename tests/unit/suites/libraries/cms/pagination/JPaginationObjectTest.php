@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,11 +53,11 @@ class JPaginationObjectTest extends TestCase
 	 * This is a basic data driven test. It takes the data passed, runs the constructor
 	 * and make sure the appropriate values get setup.
 	 *
-     * @param   string   $text      The link text.
-     * @param   integer  $prefix    The prefix used for request variables.
-     * @param   integer  $base      The number of rows as a base offset.
-     * @param   string   $link      The link URL.
-     * @param   boolean  $active    Flag whether the object is the 'active' page
+	 * @param   string   $text      The link text.
+	 * @param   integer  $prefix    The prefix used for request variables.
+	 * @param   integer  $base      The number of rows as a base offset.
+	 * @param   string   $link      The link URL.
+	 * @param   boolean  $active    Flag whether the object is the 'active' page
 	 * @param   array    $expected  The expected results for the JPagination object
 	 *
 	 * @return  void

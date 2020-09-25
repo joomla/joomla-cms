@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.yubikey
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -189,7 +189,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		// Remove the last 32 digits and store the rest in the user configuration parameters
 		$yubikey      = substr($data['securitycode'], 0, -32);
 
-		// Check succeedeed; return an OTP configuration object
+		// Check succeeded; return an OTP configuration object
 		$otpConfig    = (object) array(
 			'method'  => $this->methodName,
 			'config'  => array(
@@ -273,7 +273,6 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$gotResponse = false;
 		$check       = false;
 
-		$http  = JHttpFactory::getHttp();
 		$token = JSession::getFormToken();
 		$nonce = md5($token . uniqid(mt_rand()));
 
@@ -301,6 +300,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 			try
 			{
+				$http     = JHttpFactory::getHttp();
 				$response = $http->get($uri->toString(), null, 6);
 
 				if (!empty($response))

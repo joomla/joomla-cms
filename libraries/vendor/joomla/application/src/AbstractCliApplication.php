@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Base class for a Joomla! command line application.
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  2.0  Use the `joomla/console` package instead
  */
 abstract class AbstractCliApplication extends AbstractApplication
 {
@@ -56,7 +57,7 @@ abstract class AbstractCliApplication extends AbstractApplication
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
-		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
+		if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}

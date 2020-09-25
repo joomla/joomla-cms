@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		$hostname = JUri::getInstance()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
-		$url = $totp->getUrl($username, $hostname, $secret);
+		$url = sprintf("otpauth://totp/%s@%s?secret=%s", $username, $hostname, $secret);
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
 		$new_totp = $otpConfig->method !== 'totp';
@@ -223,7 +223,7 @@ class PlgTwofactorauthTotp extends JPlugin
 			return false;
 		}
 
-		// Check succeedeed; return an OTP configuration object
+		// Check succeeded; return an OTP configuration object
 		$otpConfig = (object) array(
 			'method'   => 'totp',
 			'config'   => array(

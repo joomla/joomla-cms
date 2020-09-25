@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="user" method="upgrade">
+	<name>plg_user_terms</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2018</creationDate>
+	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.9.0</version>
+	<description>PLG_USER_TERMS_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="terms">terms.php</filename>
+		<folder>terms</folder>
+		<folder>field</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_user_terms.ini</language>
+		<language tag="en-GB">en-GB.plg_user_terms.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
+				<field 
+					name="terms_note" 
+					type="textarea" 
+					label="PLG_USER_TERMS_NOTE_FIELD_LABEL"
+					description="PLG_USER_TERMS_NOTE_FIELD_DESC"
+					hint="PLG_USER_TERMS_NOTE_FIELD_DEFAULT"
+					class="span12"
+					rows="7" 
+					cols="20" 
+					filter="html"
+				/>	
+				<field
+					name="terms_article"
+					type="modal_article"
+					label="PLG_USER_TERMS_FIELD_ARTICLE_LABEL"
+					description="PLG_USER_TERMS_FIELD_ARTICLE_DESC"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+					filter="integer"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

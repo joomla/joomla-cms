@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\Uri\UriHelper;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class UrlRule extends FormRule
 {
@@ -36,7 +36,7 @@ class UrlRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @link    http://www.w3.org/Addressing/URL/url-spec.txt
 	 * @see	    JString
 	 */
@@ -56,7 +56,7 @@ class UrlRule extends FormRule
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
 		{
-			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais', 
+			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais',
 				'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
 		}
 		else
@@ -68,25 +68,27 @@ class UrlRule extends FormRule
 		 * Note that parse_url() does not always parse accurately without a scheme,
 		 * but at least the path should be set always. Note also that parse_url()
 		 * returns False for seriously malformed URLs instead of an associative array.
-		 * @link https://secure.php.net/manual/en/function.parse-url.php
+		 * @link https://www.php.net/manual/en/function.parse-url.php
 		 */
-		if ($urlParts === false or !array_key_exists('scheme', $urlParts))
+		if ($urlParts === false || !array_key_exists('scheme', $urlParts))
 		{
 			/*
 			 * The function parse_url() returned false (seriously malformed URL) or no scheme
 			 * was found and the relative option is not set: in both cases the field is not valid.
 			 */
-			if ($urlParts === false or !$element['relative'])
+			if ($urlParts === false || !$element['relative'])
 			{
 				$element->addAttribute('message', \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_URL_SCHEMA_MISSING', $value, implode(', ', $scheme)));
 
 				return false;
 			}
+
 			// The best we can do for the rest is make sure that the path exists and is valid UTF-8.
 			if (!array_key_exists('path', $urlParts) || !StringHelper::valid((string) $urlParts['path']))
 			{
 				return false;
 			}
+
 			// The internal URL seems to be good.
 			return true;
 		}

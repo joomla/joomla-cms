@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -812,7 +812,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @param   TableInterface  $table    Table being processed
 	 * @param   array           $newTags  Array of new tags
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean
 	 *
@@ -899,6 +899,7 @@ class TagsHelper extends CMSHelper
 			{
 				$newTags = implode(',', $newTags);
 			}
+
 			// We need to process tags if the tags have changed or if we have a new row
 			$this->tagsChanged = (empty($this->oldTags) && !empty($newTags)) ||(!empty($this->oldTags) && $this->oldTags != $newTags) || !$table->$key;
 		}
@@ -951,6 +952,13 @@ class TagsHelper extends CMSHelper
 		if (isset($filters['published']) && is_numeric($filters['published']))
 		{
 			$query->where('a.published = ' . (int) $filters['published']);
+		}
+
+		// Filter on the access level
+		if (isset($filters['access']) && is_array($filters['access']) && count($filters['access']))
+		{
+			$groups = ArrayHelper::toInteger($filters['access']);
+			$query->where('a.access IN (' . implode(",", $groups) . ')');
 		}
 
 		// Filter by parent_id
@@ -1015,7 +1023,7 @@ class TagsHelper extends CMSHelper
 	 * @param   integer         $ucmId    Id of the #__ucm_content item being tagged
 	 * @param   TableInterface  $table    Table object being tagged
 	 * @param   array           $tags     Array of tags to be applied.
-	 * @param   boolean         $replace  Flag indicating if all exising tags should be replaced
+	 * @param   boolean         $replace  Flag indicating if all existing tags should be replaced
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *

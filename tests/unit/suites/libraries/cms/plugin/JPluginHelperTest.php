@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,7 +99,7 @@ class JPluginHelperTest extends TestCaseDatabase
 			'plg_content_loadmodule should return loadmodule as the name'
 		);
 	}
-	
+
 	/**
 	 * Test JPluginHelper::getPlugin with a whole plugin group
 	 *

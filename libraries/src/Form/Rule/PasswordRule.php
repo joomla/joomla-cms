@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,12 +43,13 @@ class PasswordRule extends FormRule
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		$meter            = isset($element['strengthmeter'])  ? ' meter="0"' : '1';
+		$meter            = isset($element['strengthmeter']) ? ' meter="0"' : '1';
 		$threshold        = isset($element['threshold']) ? (int) $element['threshold'] : 66;
 		$minimumLength    = isset($element['minimum_length']) ? (int) $element['minimum_length'] : 4;
 		$minimumIntegers  = isset($element['minimum_integers']) ? (int) $element['minimum_integers'] : 0;
 		$minimumSymbols   = isset($element['minimum_symbols']) ? (int) $element['minimum_symbols'] : 0;
 		$minimumUppercase = isset($element['minimum_uppercase']) ? (int) $element['minimum_uppercase'] : 0;
+		$minimumLowercase = isset($element['minimum_lowercase']) ? (int) $element['minimum_lowercase'] : 0;
 
 		// If we have parameters from com_users, use those instead.
 		// Some of these may be empty for legacy reasons.
@@ -60,6 +61,7 @@ class PasswordRule extends FormRule
 			$minimumIntegersp  = $params->get('minimum_integers');
 			$minimumSymbolsp   = $params->get('minimum_symbols');
 			$minimumUppercasep = $params->get('minimum_uppercase');
+			$minimumLowercasep = $params->get('minimum_lowercase');
 			$meterp            = $params->get('meter');
 			$thresholdp        = $params->get('threshold');
 
@@ -67,6 +69,7 @@ class PasswordRule extends FormRule
 			empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
 			empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
 			empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
+			empty($minimumLowercasep) ? : $minimumLowercase = (int) $minimumLowercasep;
 			empty($meterp) ? : $meter = $meterp;
 			empty($thresholdp) ? : $threshold = $thresholdp;
 		}
@@ -147,6 +150,22 @@ class PasswordRule extends FormRule
 			{
 				\JFactory::getApplication()->enqueueMessage(
 					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
+					'warning'
+				);
+
+				$validPassword = false;
+			}
+		}
+
+		// Minimum number of lower case ASCII characters required
+		if (!empty($minimumLowercase))
+		{
+			$nLowercase = preg_match_all('/[a-z]/', $value, $umatch);
+
+			if ($nLowercase < $minimumLowercase)
+			{
+				\JFactory::getApplication()->enqueueMessage(
+					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase),
 					'warning'
 				);
 

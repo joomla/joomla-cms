@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPicasa extends JGoogleData
@@ -25,7 +25,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -44,7 +44,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function listAlbums($userID = 'default')
@@ -90,7 +90,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function createAlbum($userID = 'default', $title = '', $access = 'private', $summary = '', $location = '', $time = false, $keywords = array())
 	{
@@ -106,7 +106,7 @@ class JGoogleDataPicasa extends JGoogleData
 			$xml->addChild('gphoto:access', $access);
 			$xml->addChild('gphoto:timestamp', $time);
 			$media = $xml->addChild('media:group', '', 'http://search.yahoo.com/mrss/');
-			$media->addChild('media:keywords', implode($keywords, ', '));
+			$media->addChild('media:keywords', implode(', ', $keywords));
 			$cat = $xml->addChild('category', '');
 			$cat->addAttribute('scheme', 'http://schemas.google.com/g/2005#kind');
 			$cat->addAttribute('term', 'http://schemas.google.com/photos/2007#album');
@@ -131,7 +131,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function getAlbum($url)

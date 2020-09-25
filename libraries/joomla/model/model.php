@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform Model Interface
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  4.0 Use the default MVC library
  */
 interface JModel
 {
@@ -23,7 +24,7 @@ interface JModel
 	 *
 	 * @return  Registry  The state object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getState();
 
@@ -34,7 +35,7 @@ interface JModel
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setState(Registry $state);
 }

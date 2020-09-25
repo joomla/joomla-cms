@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,6 @@ class PlgSystemUpdatenotification extends JPlugin
 	public function onAfterRender()
 	{
 		// Get the timeout for Joomla! updates, as configured in com_installer's component parameters
-		JLoader::import('joomla.application.component.helper');
 		$component = JComponentHelper::getComponent('com_installer');
 
 		/** @var \Joomla\Registry\Registry $params */
@@ -93,7 +92,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -192,11 +191,13 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		/* Load the appropriate language. We try to load English (UK), the current user's language and the forced
+		/*
+		 * Load the appropriate language. We try to load English (UK), the current user's language and the forced
 		 * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
 		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
 		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
-		 * solution! */
+		 * solution! 
+		 */
 		$jLanguage = JFactory::getLanguage();
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
@@ -365,7 +366,7 @@ class PlgSystemUpdatenotification extends JPlugin
 
 			if (!empty($emails))
 			{
-				$query->where($db->qn('email') . 'IN(' . implode(',', $emails) . ')');
+				$query->where('LOWER(' . $db->qn('email') . ') IN(' . implode(',', array_map('strtolower', $emails)) . ')');
 			}
 
 			$db->setQuery($query);

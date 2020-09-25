@@ -11,7 +11,9 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label=""
+			description="COM_FIELDS_FIELDS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
@@ -67,6 +69,7 @@
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.ordering ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

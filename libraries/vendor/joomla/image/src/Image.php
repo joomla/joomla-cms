@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Image Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,8 @@ use Psr\Log\LoggerAwareInterface;
 /**
  * Class to manipulate an image.
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  The joomla/image package is deprecated
  */
 class Image implements LoggerAwareInterface
 {
@@ -598,7 +599,7 @@ class Image implements LoggerAwareInterface
 	/**
 	 * Method to determine whether or not the image has transparency.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 * @throws  \LogicException

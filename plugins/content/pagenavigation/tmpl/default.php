@@ -3,14 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$lang = JFactory::getLanguage(); ?>
+JHtml::_('bootstrap.tooltip');
 
+$lang = JFactory::getLanguage();
+
+?>
 <ul class="pager pagenav">
 <?php if ($row->prev) :
 	$direction = $lang->isRtl() ? 'right' : 'left'; ?>

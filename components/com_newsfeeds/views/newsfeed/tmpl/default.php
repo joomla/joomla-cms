@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,9 +79,9 @@ defined('_JEXEC') or die;
 			</div>
 		<?php endif; ?>
 		<!-- Show Image -->
-		<?php if (isset($this->rssDoc->image, $this->rssDoc->imagetitle) && $this->params->get('show_feed_image')) : ?>
+		<?php if ($this->rssDoc->image && $this->params->get('show_feed_image')) : ?>
 			<div>
-				<img src="<?php echo $this->rssDoc->image; ?>" alt="<?php echo $this->rssDoc->image->decription; ?>" />
+				<img src="<?php echo $this->rssDoc->image->uri; ?>" alt="<?php echo $this->rssDoc->image->title; ?>" />
 			</div>
 		<?php endif; ?>
 		<!-- Show items -->
@@ -91,21 +91,20 @@ defined('_JEXEC') or die;
 					<?php if (empty($this->rssDoc[$i])) : ?>
 						<?php break; ?>
 					<?php endif; ?>
-					<?php $uri   = !empty($this->rssDoc[$i]->guid) || $this->rssDoc[$i]->guid !== null ? trim($this->rssDoc[$i]->guid) : trim($this->rssDoc[$i]->uri); ?>
-					<?php $uri   = strpos($uri, 'http') !== 0 ? $this->item->link : $uri; ?>
-					<?php $text  = !empty($this->rssDoc[$i]->content) || $this->rssDoc[$i]->content !== null ? trim($this->rssDoc[$i]->content) : trim($this->rssDoc[$i]->description); ?>
-					<?php $title = trim($this->rssDoc[$i]->title); ?>
+					<?php $uri  = $this->rssDoc[$i]->uri || !$this->rssDoc[$i]->isPermaLink ? trim($this->rssDoc[$i]->uri) : trim($this->rssDoc[$i]->guid); ?>
+					<?php $uri  = !$uri || stripos($uri, 'http') !== 0 ? $this->item->link : $uri; ?>
+					<?php $text = $this->rssDoc[$i]->content !== '' ? trim($this->rssDoc[$i]->content) : ''; ?>
 					<li>
 						<?php if (!empty($uri)) : ?>
 							<h3 class="feed-link">
 								<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
-									<?php echo $title; ?>
+									<?php echo trim($this->rssDoc[$i]->title); ?>
 								</a>
 							</h3>
 						<?php else : ?>
-							<h3 class="feed-link"><?php echo $title; ?></h3>
+							<h3 class="feed-link"><?php echo trim($this->rssDoc[$i]->title); ?></h3>
 						<?php endif; ?>
-						<?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
+						<?php if ($this->params->get('show_item_description') && $text !== '') : ?>
 							<div class="feed-item-description">
 								<?php if ($this->params->get('show_feed_image', 0) == 0) : ?>
 									<?php $text = JFilterOutput::stripImages($text); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,6 +49,15 @@ class ConfigControllerComponentSave extends JControllerBase
 		$id     = $this->input->getInt('id');
 		$option = $this->input->get('component');
 		$user   = JFactory::getUser();
+
+		// Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
+		if (in_array(strtolower($option), array('com_joomlaupdate', 'com_privacy'))
+			&& !JFactory::getUser()->authorise('core.admin'))
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return;
+		}
 
 		// Check if the user is authorised to do this.
 		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
@@ -120,6 +129,7 @@ class ConfigControllerComponentSave extends JControllerBase
 				break;
 
 			case 'save':
+				$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
 			default:
 				$redirect = 'index.php?option=' . $option;
 

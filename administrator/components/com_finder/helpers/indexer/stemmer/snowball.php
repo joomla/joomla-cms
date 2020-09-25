@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class FinderIndexerStemmerSnowball extends FinderIndexerStemmer
 		static $defaultLang = '';
 
 		// If language is All then try to get site default language.
-		if ($lang == '*' && $defaultLang == '')
+		if ($lang === '*' && $defaultLang === '')
 		{
 			$languages = JLanguageHelper::getLanguages();
 			$defaultLang = isset($languages[0]->sef) ? $languages[0]->sef : '*';

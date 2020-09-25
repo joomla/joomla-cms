@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.9"
+	client="installation">
+	<name>Kazakh (Kazakhstan)</name>
+	<version>3.9.4</version>
+	<creationDate>2019-03-01</creationDate>
+	<author>Sarvarov Akylkerey</author>
+	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Kazakh language pack (site) for Joomla!</description>
+	<files>
+		<filename>kk-KZ.ini</filename>
+	</files>
+	<metadata>
+		<name>Kazakh (kk-KZ)</name>
+		<nativeName>Қазақша (Kazakhstan)</nativeName>
+		<tag>kk-KZ</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

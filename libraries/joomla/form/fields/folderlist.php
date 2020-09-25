@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Supports an HTML select list of folder
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldFolderList extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldFolderList extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'FolderList';
 
@@ -80,7 +80,7 @@ class JFormFieldFolderList extends JFormFieldList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -105,7 +105,7 @@ class JFormFieldFolderList extends JFormFieldList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -178,7 +178,7 @@ class JFormFieldFolderList extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{
@@ -188,9 +188,16 @@ class JFormFieldFolderList extends JFormFieldList
 
 		if (!is_dir($path))
 		{
-			$path = JPATH_ROOT . '/' . $path;
+			if (is_dir(JPATH_ROOT . '/' . $path))
+			{
+				$path = JPATH_ROOT . '/' . $path;
+			}
+			else 
+			{
+				return;
+			}
 		}
-		
+
 		$path = JPath::clean($path);
 
 		// Prepend some default options based on field attributes.
@@ -212,6 +219,9 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			foreach ($folders as $folder)
 			{
+				// Remove the root part and the leading /
+				$folder = trim(str_replace($path, '', $folder), '/');
+
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
@@ -220,9 +230,6 @@ class JFormFieldFolderList extends JFormFieldList
 						continue;
 					}
 				}
-
-				// Remove the root part and the leading /
-				$folder = trim(str_replace($path, '', $folder), '/');
 
 				$options[] = JHtml::_('select.option', $folder, $folder);
 			}
