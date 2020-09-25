@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 
 $msgList = $displayData['msgList'];
 
@@ -44,14 +43,27 @@ Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
 	->useScript('webcomponent.joomla-alert');
 
-$output = null;
-
-if (is_array($msgList) && !empty($msgList)) :
-	foreach ($msgList as $type => $msgs) :
-		$output = LayoutHelper::render('joomla.system.joomla-alert', ['alertType' => $alert[$type], 'type' => $type, 'msg' => $msgs]);
-	endforeach;
-endif;
 ?>
 <div id="system-message-container" aria-live="polite">
-	<div id="system-message"><?php echo $output; ?></div>
+	<?php if (is_array($msgList) && !empty($msgList)) : ?>
+		<div id="system-message">
+			<?php foreach ($msgList as $type => $msgs) : ?>
+				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
+					<?php if (!empty($msgs)) : ?>
+						<div class="alert-heading">
+							<span class="<?php echo $type; ?>"></span>
+							<span class="sr-only"><?php echo Text::_($type); ?></span>
+						</div>
+						<div class="alert-wrapper">
+							<?php foreach ($msgs as $msg) : ?>
+								<div class="alert-message"><?php echo $msg; ?></div>
+							<?php endforeach; ?>
+						</div>
+					<?php endif; ?>
+				</joomla-alert>
+			<?php endforeach; ?>
+		</div>
+	<?php else: ?>
+		<div id="system-message"></div>
+	<?php endif; ?>
 </div>
