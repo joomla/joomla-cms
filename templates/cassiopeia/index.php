@@ -168,9 +168,9 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<?php endif; ?>
 
 	<div class="grid-child container-component">
+		<jdoc:include type="modules" name="breadcrumbs" style="none" />
 		<jdoc:include type="modules" name="main-top" style="card" />
 		<jdoc:include type="message" />
-		<jdoc:include type="modules" name="breadcrumbs" style="none" />
 		<main>
 		<jdoc:include type="component" />
 		</main>
