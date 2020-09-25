@@ -320,6 +320,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-trash::before { @extend .#{$fa-css-prefix}-trash;}
 .#{$jicon-css-prefix}-tree-2::before { @extend .#{$fa-css-prefix}-sitemap;}
 .#{$jicon-css-prefix}-tree::before { @extend .#{$fa-css-prefix}-code-branch;}
+.#{$jicon-css-prefix}-trophy::before { @extend .#{$fa-css-prefix}-trophy:before;}
 .#{$jicon-css-prefix}-unarchive::before { @extend .#{$fa-css-prefix}-folder-open;}
 .#{$jicon-css-prefix}-unblock::before { @extend .#{$fa-css-prefix}-sync;}
 .#{$jicon-css-prefix}-undo-2::before { @extend .#{$fa-css-prefix}-undo;}
