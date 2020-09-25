@@ -38,7 +38,7 @@ class Versioning
 		$itemid = $typeAlias . '.' . $id;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
-			->from($db->quoteName('#__history', 'h'))
+			->from($db->quoteName('#__content_history', 'h'))
 			->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
 			->where($db->quoteName('item_id') . ' = :item_id')
 			->bind(':item_id', $itemid, ParameterType::STRING)
@@ -63,7 +63,7 @@ class Versioning
 		$db = Factory::getDbo();
 		$itemid = $typeAlias . '.' . $id;
 		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__history'))
+		$query->delete($db->quoteName('#__content_history'))
 			->where($db->quoteName('item_id') . ' = :item_id')
 			->bind(':item_id', $itemid, ParameterType::STRING);
 		$db->setQuery($query);

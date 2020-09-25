@@ -49,7 +49,7 @@ class ContentHistory extends Table
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
-		parent::__construct('#__history', 'version_id', $db);
+		parent::__construct('#__content_history', 'version_id', $db);
 		$this->ignoreChanges = array(
 			'modified_by',
 			'modified_user_id',
@@ -175,7 +175,7 @@ class ContentHistory extends Table
 		$sha1Hash = $this->get('sha1_hash');
 		$query    = $db->getQuery(true);
 		$query->select('*')
-			->from($db->quoteName('#__history'))
+			->from($db->quoteName('#__content_history'))
 			->where($db->quoteName('item_id') . ' = :item_id')
 			->where($db->quoteName('sha1_hash') . ' = :sha1_hash')
 			->bind(':item_id', $itemId, ParameterType::STRING)
@@ -205,7 +205,7 @@ class ContentHistory extends Table
 		$itemId = $this->get('item_id');
 		$query     = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
-			->from($db->quoteName('#__history'))
+			->from($db->quoteName('#__content_history'))
 			->where($db->quoteName('item_id') . ' = :item_id')
 			->where($db->quoteName('keep_forever') . ' != 1')
 			->bind(':item_id', $itemId, ParameterType::STRING)
@@ -220,7 +220,7 @@ class ContentHistory extends Table
 		{
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);
-			$query->delete($db->quoteName('#__history'))
+			$query->delete($db->quoteName('#__content_history'))
 				->where($db->quoteName('item_id') . ' = :item_id')
 				->whereNotIn($db->quoteName('version_id'), $idsToSave)
 				->where($db->quoteName('keep_forever') . ' != 1')

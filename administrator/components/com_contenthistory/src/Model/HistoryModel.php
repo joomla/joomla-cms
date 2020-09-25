@@ -383,7 +383,7 @@ class HistoryModel extends ListModel
 				]
 			)
 		)
-			->from($db->quoteName('#__history', 'h'))
+			->from($db->quoteName('#__content_history', 'h'))
 			->where($db->quoteName('h.item_id') . ' = :itemid')
 			->bind(':itemid', $itemId, ParameterType::STRING)
 
