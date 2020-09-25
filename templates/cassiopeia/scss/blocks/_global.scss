@@ -103,9 +103,3 @@ meter {
     color: var(--cassiopeia-color-link);
   }
 }
-
-.awesomplete {
-  input {
-    @include border-right-radius(0);
-  }
-}

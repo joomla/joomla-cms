@@ -1,5 +1,20 @@
 // Awesomplete
 
+.mod-finder__search.input-group {
+  flex-wrap: nowrap;
+  .awesomplete {
+    input {
+      @include border-right-radius(0);
+    }
+  }
+}
+
 .awesomplete {
-  display: block;
+  > input {
+    max-width: 200px;
+
+    @include media-breakpoint-up(sm) {
+      max-width: none;
+    }
+  }
 }
