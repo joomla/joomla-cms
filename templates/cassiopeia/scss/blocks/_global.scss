@@ -86,12 +86,12 @@ meter {
 .page-item {
   &:first-child {
     .page-link {
-      @include border-radius($border-radius);
+      @include border-radius($border-radius 0 0 $border-radius);
     }
   }
   &:last-child {
     .page-link {
-      @include border-radius($border-radius);
+      @include border-radius(0 $border-radius $border-radius 0);
     }
   }
 }
