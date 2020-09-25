@@ -260,7 +260,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-purge::before { @extend .#{$fa-css-prefix}-trash;}
 .#{$jicon-css-prefix}-pushpin::before { @extend .#{$fa-css-prefix}-thumbtack;}
 .#{$jicon-css-prefix}-puzzle-piece::before { @extend .#{$fa-css-prefix}-puzzle-piece;}
-.#{$jicon-css-prefix}-puzzle::before{ @extend .#{$fa-css-prefix}-puzzle-piece;}
+.#{$jicon-css-prefix}-puzzle::before { @extend .#{$fa-css-prefix}-puzzle-piece;}
 .#{$jicon-css-prefix}-question-2::before { @extend .#{$fa-css-prefix}-question-circle;}
 .#{$jicon-css-prefix}-question-circle::before { @extend .#{$fa-css-prefix}-question-circle;}
 .#{$jicon-css-prefix}-question-sign::before { @extend .#{$fa-css-prefix}-question;}
