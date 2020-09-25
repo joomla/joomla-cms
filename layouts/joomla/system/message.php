@@ -45,8 +45,8 @@ Factory::getDocument()->getWebAssetManager()
 
 ?>
 <div id="system-message-container" aria-live="polite">
-	<div id="system-message">
-		<?php if (is_array($msgList) && !empty($msgList)) : ?>
+	<div id="system-message"><?php
+		if (is_array($msgList) && !empty($msgList)) : ?>
 			<?php foreach ($msgList as $type => $msgs) : ?>
 				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
@@ -62,6 +62,6 @@ Factory::getDocument()->getWebAssetManager()
 					<?php endif; ?>
 				</joomla-alert>
 			<?php endforeach; ?>
-		<?php endif; ?>
-	</div>
+		<?php endif;
+	?></div>
 </div>
