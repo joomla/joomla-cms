@@ -4,7 +4,7 @@
   }
 
   /**
-   * An object holding all the information of the selected image on media manager
+   * An object holding all the information of the selected image in media manager
    * eg:
    * {
    *   extension: "png"
