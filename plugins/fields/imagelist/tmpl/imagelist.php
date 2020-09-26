@@ -39,7 +39,7 @@ foreach ($value as $path)
 	{
 		$imageInfo = Image::getImageFileProperties('images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
 
-		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s/%s"%s>',
+		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s/%s"%s alt="">',
 			$imageInfo->width,
 			$imageInfo->height,
 			$fieldParams->get('directory'),

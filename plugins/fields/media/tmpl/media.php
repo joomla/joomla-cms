@@ -33,7 +33,7 @@ if ($value)
 	$imgUrl    = htmlentities($img->url, ENT_COMPAT, 'UTF-8', true);
 	if (file_exists($img->url))
 	{
-		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s>',
+		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s%s>',
 			$img->attributes['width'],
 			$img->attributes['height'],
 			$imgUrl,
