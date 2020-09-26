@@ -97,7 +97,7 @@ use Joomla\CMS\Router\Route;
 								<?php if ($item->dashboard) : ?>
 									<span class="menu-dashboard">
 										<a href="<?php echo Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>">
-											<span class="icon-th-large" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
+											<span class="icon-th-large icon-fw" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
 										</a>
 									</span>
 								<?php endif; ?>

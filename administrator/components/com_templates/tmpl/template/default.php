@@ -263,7 +263,7 @@ if ($this->type == 'font')
 						<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
 							<li class="component-folder">
 								<a href="#" class="component-folder-url">
-									<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+									<span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 								</a>
 								<ul class="list-unstyled">
 									<?php foreach ($value as $view) : ?>
@@ -291,7 +291,7 @@ if ($this->type == 'font')
 						<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
 							<li class="plugin-folder">
 								<a href="#" class="plugin-folder-url">
-									<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+									<span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 								</a>
 								<ul class="list-unstyled">
 									<?php foreach ($group as $plugin) : ?>
@@ -319,7 +319,7 @@ if ($this->type == 'font')
 						<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
 						<li class="layout-folder">
 							<a href="#" class="layout-folder-url">
-								<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+								<span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 							</a>
 							<ul class="list-unstyled">
 								<?php foreach ($value as $layout) : ?>
