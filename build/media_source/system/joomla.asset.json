@@ -177,17 +177,6 @@
       }
     },
     {
-      "name": "field.modal-fields",
-      "type": "script",
-      "uri": "system/fields/modal-fields.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "defer": true
-      }
-    },
-    {
       "name": "joomla.batch-language",
       "type": "script",
       "uri": "layouts/joomla/html/batch/batch-language.min.js",
@@ -208,12 +197,6 @@
       "name": "webcomponent.field-media",
       "type": "style",
       "uri": "system/fields/joomla-field-media.min.css",
-      "webcomponent": true
-    },
-    {
-      "name": "webcomponent.image-select",
-      "type": "script",
-      "uri": "system/fields/joomla-image-select.min.js",
       "webcomponent": true
     },
     {

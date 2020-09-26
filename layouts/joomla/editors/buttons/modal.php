@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,8 +32,8 @@ $confirm = '';
 
 if (is_array($button->get('options')) && isset($options['confirmText']) && isset($options['confirmCallback']))
 {
-	$confirm = '<button type="button" class="btn btn-success" data-dismiss="modal" onclick="' . $options['confirmCallback'] . '">'
-		. $options['confirmText'] . ' </button>';
+	$confirm = '<a class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="' . $options['confirmCallback'] . '">'
+		. $options['confirmText'] . '</a>';
 }
 
 if (null !== $button->get('id'))
@@ -57,7 +57,7 @@ echo HTMLHelper::_(
 		'width'  => array_key_exists('width', $options) ? $options['width'] : '800px',
 		'bodyHeight'  => array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70',
 		'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
-		'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+		'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	)
 );
