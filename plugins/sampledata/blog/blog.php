@@ -673,21 +673,23 @@ class PlgSampledataBlog extends CMSPlugin
 			return $response;
 		}
 
-		// Insert level 1.
+		// Insert level 1 (Link in the footer as alias)
 		$menuItems = array(
-			// Author Login
 			array(
 				'menutype'     => $menuTypes[2],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
-				'link'         => 'index.php?option=com_users&view=login',
-				'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
+				'link'         => 'index.php?Itemid=',
+				'type'         => 'alias',
 				'params'       => array(
-					'login_redirect_url'     => 'index.php?Itemid=' . $menuIdsLevel1[0],
-					'logindescription_show'  => 1,
-					'logoutdescription_show' => 1,
-					'menu_text'              => 1,
-					'show_page_heading'      => 0,
-					'secure'                 => 0,
+					'aliasoptions'      => $menuIdsLevel1[2],
+					'alias_redirect'    => 0,
+					'menu-anchor_title' => '',
+					'menu-anchor_css'   => '',
+					'menu_image'        => '',
+					'menu_image_css'    => '',
+					'menu_text'         => 1,
+					'menu_show'         => 1,
+					'secure'            => 0,
 				),
 			),
 		);
