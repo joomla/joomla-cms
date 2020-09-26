@@ -1,6 +1,6 @@
 // Override the font path
-$jicon-css-prefix:                 icon;
-$fa-css-prefix:                    fa;
+$jicon-css-prefix:                 icon !global;
+$fa-css-prefix:                    fa !global;
 $fa-font-path:                     "../../../../../../media/vendor/fontawesome-free/webfonts" !default;
 
 // Font Awesome 5 Free

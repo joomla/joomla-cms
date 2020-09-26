@@ -33,7 +33,7 @@ $target = empty($target) ? '' : 'target="' . $target . '"';
 		href="<?php echo $url; ?>"
 		<?php echo $target; ?>
 		<?php echo $htmlAttributes; ?>>
-		<span class="<?php echo $class; ?>" aria-hidden="true"></span>
+		<span class="<?php echo $class; ?> icon-fw" aria-hidden="true"></span>
 		<?php echo $text ?: ''; ?>
 	</a>
 </joomla-toolbar-button>
