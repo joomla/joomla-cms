@@ -19,7 +19,7 @@
 
   /**
    * Event Listener that updates the Joomla.selectedMediaFile
-   * to the selected file on the media manager
+   * to the selected file in the media manager
    */
   window.document.addEventListener('onMediaFileSelected', (e) => {
     Joomla.selectedMediaFile = e.detail;
