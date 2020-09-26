@@ -24,7 +24,7 @@ if (empty($images->image_intro))
 
 $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
 
-$img = HTMLHelper::cleanImageURL($images->image_fulltext);
+$img = HTMLHelper::cleanImageURL($images->image_intro);
 
 // Set or not the lazyloading
 $img->attributes['loading'] = 'lazy';
@@ -32,14 +32,14 @@ $img->attributes['loading'] = 'lazy';
 <figure class="float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 		<a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>">
-			<img src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>"
+			<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
 					 alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"
 					 itemprop="thumbnailUrl"
 					 <?php echo ArrayHelper::toString($img->attributes); ?>
 			/>
 		</a>
 	<?php else : ?>
-		<img src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>"
+		<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
 				 alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"
 				 itemprop="thumbnailUrl"
 				 <?php echo ArrayHelper::toString($img->attributes); ?>
