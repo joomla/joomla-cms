@@ -670,7 +670,7 @@ abstract class HTMLHelper
 	 */
 	public static function cleanImageURL($url)
 	{
-		$obj = new \stdClass();
+		$obj = new \stdClass;
 
 		$obj->attibutes = [
 			'width'  => 0,
