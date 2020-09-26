@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 tinymce.PluginManager.add('jdragndrop', (editor) => {
+  let responseData;
   // Reset the drop area border
   tinyMCE.DOM.bind(document, 'dragleave', (e) => {
     e.stopPropagation();
@@ -49,18 +50,57 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
         }
 
         if (response.data && response.data.path) {
+          responseData = response.data;
           let urlPath;
           // For local adapters use relative paths
-          if (/local-/.test(response.data.adapter)) {
+          if (/local-/.test(responseData.adapter)) {
             const { rootFull } = Joomla.getOptions('system.paths');
 
             urlPath = `${response.data.thumb_path.split(rootFull)[1]}`;
-          } else if (response.data.thumb_path) {
+          } else if (responseData.thumb_path) {
             // Absolute path for different domain
-            urlPath = response.data.thumb_path;
+            urlPath = responseData.thumb_path;
           }
 
-          tinyMCE.activeEditor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" alt=""/>`);
+          editor.windowManager.open({
+            title: 'Additional Data',
+            body: {
+              type: 'panel',
+              items: [
+                {
+                  type: 'input',
+                  name: 'altText',
+                  label: 'Alt Text', // @todo traslate
+                },
+                {
+                  type: 'checkbox',
+                  name: 'isLazy',
+                  label: 'Image will be lazyloaded', // @todo traslate
+                },
+              ],
+            },
+            buttons: [
+              {
+                type: 'submit',
+                name: 'submitButton',
+                text: 'Do Cat Thing',
+                primary: true,
+              },
+            ],
+            initialData: {
+              catdata: '',
+              isLazy: true,
+            },
+            onSubmit(api) {
+              const dialogData = api.getData();
+              const altValue = `alt="${dialogData.altText || ''}"`;
+              const lazyValue = dialogData.isLazy ? 'loading="lazy"' : '';
+              const width = dialogData.isLazy ? `width="${responseData.width}"` : '';
+              const height = dialogData.isLazy ? `height="${responseData.height}"` : '';
+              tinyMCE.activeEditor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" ${altValue} ${lazyValue} ${width} ${height}/>`);
+              api.close();
+            },
+          });
         }
       },
       onError: (xhr) => {

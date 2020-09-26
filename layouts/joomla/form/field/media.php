@@ -108,9 +108,15 @@ $url    = ($readonly ? ''
 
 // Correctly route the url to ensure it's correctly using sef modes and subfolders
 $url = Route::_($url);
+$wam = Factory::getDocument()->getWebAssetManager();
 
-Factory::getDocument()->getWebAssetManager()
-	->useStyle('webcomponent.field-media')
+$wam->useScript('webcomponent.image-select');
+
+Text::script('JFIELD_MEDIA_LAZY_LABEL');
+Text::script('JFIELD_MEDIA_ALT_LABEL');
+Text::script('JFIELD_MEDIA_CONFIRM_TEXT');
+
+$wam->useStyle('webcomponent.field-media')
 	->useScript('webcomponent.field-media');
 
 Text::script('JLIB_APPLICATION_ERROR_SERVER');

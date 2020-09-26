@@ -38,7 +38,7 @@
     }
 
     if (Joomla.selectedMediaFile.path) {
-      container.insertAdjacentHTML('afterbegin', `<joomla-field-mediamore with-alt parent-id="${currentModal.id}" lazy-label="Image will be lazyloaded" alt-label="Alternative text" confirm-text="Confirm"></joomla-field-mediamore>`);
+      container.insertAdjacentHTML('afterbegin', `<joomla-field-mediamore with-alt parent-id="${currentModal.id}" lazy-label="${Joomla.Text._('JFIELD_MEDIA_LAZY_LABEL')}" alt-label="${Joomla.Text._('JFIELD_MEDIA_ALT_LABEL')}" confirm-text="${Joomla.Text._('JFIELD_MEDIA_CONFIRM_TEXT')}"></joomla-field-mediamore>`);
     }
   });
 
@@ -77,7 +77,7 @@
       const appendParam = (url, key, value) => {
         const newKey = encodeURIComponent(key);
         const newValue = encodeURIComponent(value);
-        const r = new RegExp(`(&|\\?)${key}=[^\&]*`);
+        const r = new RegExp(`(&|\\?)${key}=[^&]*`);
         let s = url;
         const param = `${newKey}=${newValue}`;
 
@@ -95,30 +95,32 @@
       };
 
       if (Joomla.selectedMediaFile.url) {
-        let isLasy;
-        let alt;
+        let isLasy = '';
+        let alt = '';
 
         if (!isElement(editor) && (typeof editor !== 'object')) {
           const currentModal = fieldClass.closest('.modal-content');
           const attribs = currentModal.querySelector('joomla-field-mediamore');
           if (attribs) {
-            isLasy = attribs.getAttribute('is-lazy') === 'true' ? 'loading="lazy"' : '';
             alt = attribs.getAttribute('alt-value') ? `alt="${attribs.getAttribute('alt-value')}"` : 'alt=""';
+            if (attribs.getAttribute('is-lazy') === 'true') {
+              isLasy = `loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
+            }
           }
 
-          alt = alt || 'alt=""';
-          Joomla.editors.instances[editor].replaceSelection(`<img ${isLasy} src="${Joomla.selectedMediaFile.url}" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}" ${alt} />`);
+          Joomla.editors.instances[editor].replaceSelection(`<img src="${Joomla.selectedMediaFile.url}" ${isLasy} ${alt}/>`);
           attribs.parentNode.removeChild(attribs);
         } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
           const currentModal = fieldClass.closest('.modal-content');
           const attribs = currentModal.querySelector('joomla-field-mediamore');
           if (attribs) {
-            isLasy = attribs.getAttribute('is-lazy') === 'true' ? 'loading="lazy"' : '';
             alt = attribs.getAttribute('alt-value') ? `alt="${attribs.getAttribute('alt-value')}"` : 'alt=""';
+            if (attribs.getAttribute('is-lazy') === 'true') {
+              isLasy = `loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
+            }
           }
 
-          alt = alt || 'alt=""';
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img ${isLasy} src="${Joomla.selectedMediaFile.url}" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}" ${alt} />`);
+          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img src="${Joomla.selectedMediaFile.url}" ${isLasy} ${alt}/>`);
           attribs.parentNode.removeChild(attribs);
         } else {
           const val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width);
@@ -132,9 +134,9 @@
   /**
    * Method that resolves the real url for the image
    *
-   * @param data        {object}       The data for the detail
-   * @param editor      string|object  The data for the detail
-   * @param fieldClass  HTMLElement    The data for the detail
+   * @param data        {object}         The data for the detail
+   * @param editor      {string|object}  The data for the detail
+   * @param fieldClass  {HTMLElement}    The data for the detail
    *
    * @returns {void}
    */
@@ -174,10 +176,14 @@
       this.adjustHeight = this.adjustHeight.bind(this);
     }
 
-    get parentId() {return this.getAttribute('parent-id'); }
-    get lazytext() {return this.getAttribute('lazy-label'); }
-    get alttext() {return this.getAttribute('alt-label'); }
-    get confirmtext() {return this.getAttribute('confirm-text'); }
+    get parentId() { return this.getAttribute('parent-id'); }
+
+    get lazytext() { return this.getAttribute('lazy-label'); }
+
+    get alttext() { return this.getAttribute('alt-label'); }
+
+    get confirmtext() { return this.getAttribute('confirm-text'); }
+
     get enableAltField() { return this.hasAttribute('with-alt'); }
 
     connectedCallback() {
@@ -235,7 +241,7 @@
       const that = this;
       const nextEl = this.nextElementSibling;
       requestAnimationFrame(() => {
-        const height = `${nextEl.getBoundingClientRect().height - that.getBoundingClientRect().height}`
+        const height = `${nextEl.getBoundingClientRect().height - that.getBoundingClientRect().height}`;
         nextEl.style.height = `${height}px`;
       });
     }
