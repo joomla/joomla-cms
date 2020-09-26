@@ -136,7 +136,7 @@
    *
    * @param data        {object}         The data for the detail
    * @param editor      {string|object}  The data for the detail
-   * @param fieldClass  {HTMLElement}    The data for the detail
+   * @param fieldClass  {HTMLElement}    The fieldClass for the detail
    *
    * @returns {void}
    */
