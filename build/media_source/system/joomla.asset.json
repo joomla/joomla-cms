@@ -200,6 +200,12 @@
       "webcomponent": true
     },
     {
+      "name": "webcomponent.image-select",
+      "type": "script",
+      "uri": "system/fields/joomla-image-select.min.js",
+      "webcomponent": true
+    },
+    {
       "name": "webcomponent.field-media",
       "type": "script",
       "uri": "system/fields/joomla-field-media.min.js",
