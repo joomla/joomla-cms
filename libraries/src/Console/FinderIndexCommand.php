@@ -166,12 +166,13 @@ EOF;
 		$this->time = microtime(true);
 		$this->configureIO($input, $output);
 
-		$this->ioStyle->writeln([
+		$this->ioStyle->writeln(
+			[
 			'<info>Finder Indexer</>',
 			'<info>==========================</>',
 			'',
-		]);
-
+			]
+		);
 
 		if ($this->cliInput->getOption('minproctime'))
 		{
@@ -190,10 +191,9 @@ EOF;
 
 		if ($this->cliInput->getArgument('purge'))
 		{
-
 			// Taxonomy ids will change following a purge/index, so save filter information first.
 			$this->getFilters();
-	
+
 			// Purge the index.
 			$this->purge();
 
@@ -202,7 +202,6 @@ EOF;
 
 			// Restore the filters again.
 			$this->putFilters();
-
 		}
 		else
 		{
@@ -212,10 +211,12 @@ EOF;
 		$this->ioStyle->newline(1);
 
 		// Total reporting.
-		$this->ioStyle->writeln([
+		$this->ioStyle->writeln(
+			[
 			'<info>' . Text::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)) . '</>',
 			'<info>' . Text::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))) . '</>',
-		]);
+			]
+		);
 
 		$this->ioStyle->newline(1);
 
@@ -392,7 +393,8 @@ EOF;
 				Factory::getApplication()->triggerEvent('onBuildIndex');
 
 				// Batch reporting.
-				$this->ioStyle->text(Text::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, $processingTime = round(microtime(true) - $this->qtime, 3)), true);
+				$text = Text::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, $processingTime = round(microtime(true) - $this->qtime, 3));
+				$this->ioStyle->text($text);
 
 				if ($this->pause !== 0)
 				{
@@ -495,7 +497,8 @@ EOF;
 				}
 				else
 				{
-					$this->ioStyle->text(Text::sprintf('FINDER_CLI_FILTER_RESTORE_WARNING', $element['parent'], $element['title'], $element['filter']));
+					$text = Text::sprintf('FINDER_CLI_FILTER_RESTORE_WARNING', $element['parent'], $element['title'], $element['filter']);
+					$this->ioStyle->text($text);
 				}
 			}
 
