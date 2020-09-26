@@ -41,6 +41,10 @@ $jicon-css-prefix: icon;
 
 .#{$jicon-css-prefix}-address-book:before { @extend .#{$fa-css-prefix}-address-book;}
 .#{$jicon-css-prefix}-address:before { @extend .#{$fa-css-prefix}-file-alt;}
+.#{$jicon-css-prefix}-angle-double-left:before { @extend .#{$fa-css-prefix}-angle-double-left;}
+.#{$jicon-css-prefix}-angle-double-right:before { @extend .#{$fa-css-prefix}-angle-double-right;}
+.#{$jicon-css-prefix}-angle-left:before { @extend .#{$fa-css-prefix}-angle-left;}
+.#{$jicon-css-prefix}-angle-right:before { @extend .#{$fa-css-prefix}-angle-right;}
 .#{$jicon-css-prefix}-apply:before { @extend .#{$fa-css-prefix}-save;}
 .#{$jicon-css-prefix}-archive:before { @extend .#{$fa-css-prefix}-folder;}
 .#{$jicon-css-prefix}-arrow-down-2:before { @extend .#{$fa-css-prefix}-arrow-alt-circle-down;}
@@ -69,6 +73,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-ban-circle:before { @extend .#{$fa-css-prefix}-minus-circle;}
 .#{$jicon-css-prefix}-bars:before { @extend .#{$fa-css-prefix}-chart-bar;}
 .#{$jicon-css-prefix}-basket:before { @extend .#{$fa-css-prefix}-shopping-basket;}
+.#{$jicon-css-prefix}-bell:before { @extend .#{$fa-css-prefix}-bell;}
 .#{$jicon-css-prefix}-book:before { @extend .#{$fa-css-prefix}-book;}
 .#{$jicon-css-prefix}-bookmark-2:before { @extend .#{$fa-css-prefix}-bookmark;}
 .#{$jicon-css-prefix}-bookmark:before { @extend .#{$fa-css-prefix}-bookmark;}
@@ -133,6 +138,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-envelope:before { @extend .#{$fa-css-prefix}-envelope;}
 .#{$jicon-css-prefix}-equalizer:before { @extend .#{$fa-css-prefix}-sliders-h;}
 .#{$jicon-css-prefix}-exit:before { @extend .#{$fa-css-prefix}-sign-out-alt;}
+.#{$jicon-css-prefix}-external-link-alt:before { @extend .#{$fa-css-prefix}-external-link-alt;}
 .#{$jicon-css-prefix}-expand-2:before { @extend .#{$fa-css-prefix}-expand-arrows-alt;}
 .#{$jicon-css-prefix}-expand:before { @extend .#{$fa-css-prefix}-expand;}
 .#{$jicon-css-prefix}-expired:before { @extend .#{$fa-css-prefix}-minus-circle;}
@@ -145,6 +151,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-feed:before { @extend .#{$fa-css-prefix}-rss-square;}
 .#{$jicon-css-prefix}-file-2:before { @extend .#{$fa-css-prefix}-file;}
 .#{$jicon-css-prefix}-file-add:before { @extend .#{$fa-css-prefix}-plus;}
+.#{$jicon-css-prefix}-file-alt:before { @extend .#{$fa-css-prefix}-file-alt;}
 .#{$jicon-css-prefix}-file-check:before { @extend .#{$fa-css-prefix}-check;}
 .#{$jicon-css-prefix}-file-minus:before { @extend .#{$fa-css-prefix}-minus;}
 .#{$jicon-css-prefix}-file-plus:before { @extend .#{$fa-css-prefix}-plus;}
@@ -168,6 +175,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-forward-2:before { @extend .#{$fa-css-prefix}-arrow-alt-circle-right;}
 .#{$jicon-css-prefix}-forward-circle:before { @extend .#{$fa-css-prefix}-chevron-circle-right;}
 .#{$jicon-css-prefix}-forward:before { @extend .#{$fa-css-prefix}-forward;}
+.#{$jicon-css-prefix}-fw:before { @extend .#{$fa-css-prefix}-fw;}
 .#{$jicon-css-prefix}-grid-2:before { @extend .#{$fa-css-prefix}-th;}
 .#{$jicon-css-prefix}-grid-view-2:before { @extend .#{$fa-css-prefix}-th;}
 .#{$jicon-css-prefix}-grid-view:before { @extend .#{$fa-css-prefix}-th-large;}
@@ -303,6 +311,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-stop-circle:before { @extend .#{$fa-css-prefix}-stop-circle;}
 .#{$jicon-css-prefix}-stop:before { @extend .#{$fa-css-prefix}-stop;}
 .#{$jicon-css-prefix}-support:before { @extend .#{$fa-css-prefix}-life-ring;}
+.#{$jicon-css-prefix}-sync:before { @extend .#{$fa-css-prefix}-sync;}
 .#{$jicon-css-prefix}-switch:before { @extend .#{$fa-css-prefix}-power-off;}
 .#{$jicon-css-prefix}-tablet:before { @extend .#{$fa-css-prefix}-tablet;}
 .#{$jicon-css-prefix}-tag-2:before { @extend .#{$fa-css-prefix}-tag;}
@@ -327,6 +336,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-upload:before { @extend .#{$fa-css-prefix}-upload;}
 .#{$jicon-css-prefix}-user-lock:before { @extend .#{$fa-css-prefix}-user-lock;}
 .#{$jicon-css-prefix}-user:before { @extend .#{$fa-css-prefix}-user;}
+.#{$jicon-css-prefix}-user-circle:before { @extend .#{$fa-css-prefix}-user-circle;}
 .#{$jicon-css-prefix}-users-cog:before { @extend .#{$fa-css-prefix}-users-cog;}
 .#{$jicon-css-prefix}-users:before { @extend .#{$fa-css-prefix}-users;}
 .#{$jicon-css-prefix}-vcard:before { @extend .#{$fa-css-prefix}-file-alt;}
