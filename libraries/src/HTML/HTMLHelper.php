@@ -672,7 +672,7 @@ abstract class HTMLHelper
 	{
 		$obj = new \stdClass;
 
-		$obj->attibutes = [
+		$obj->attributes = [
 			'width'  => 0,
 			'height' => 0,
 		];

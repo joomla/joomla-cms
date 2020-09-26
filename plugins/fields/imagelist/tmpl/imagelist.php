@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Image\Image;
 
 if ($field->value == '')
 {
@@ -37,23 +37,24 @@ foreach ($value as $path)
 
 	if ($fieldParams->get('directory', '/') !== '/')
 	{
-		$img = HTMLHelper::cleanImageURL('images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
+		$imageInfo = Image::getImageFileProperties('images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
 
-		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s>',
-			$img->attributes['width'],
-			$img->attributes['height'],
-			$img->url,
+		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s/%s"%s>',
+			$imageInfo->width,
+			$imageInfo->height,
+			$fieldParams->get('directory'),
+			$imageFilePath,
 			$class
 		);
 	}
 	else
 	{
-		$img = HTMLHelper::cleanImageURL('images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
+		$imageInfo = Image::getImageFileProperties('images/' . $imageFilePath);
 
-		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s>',
-			$img->attributes['width'],
-			$img->attributes['height'],
-			$img->url,
+		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s"%s>',
+			$imageInfo->width,
+			$imageInfo->height,
+			$imageFilePath,
 			$class
 		);
 	}
