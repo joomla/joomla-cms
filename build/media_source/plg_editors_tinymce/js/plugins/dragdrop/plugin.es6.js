@@ -63,27 +63,27 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
           }
 
           editor.windowManager.open({
-            title: 'Additional Data',
+            title: 'Additional Data', // @todo translate
             body: {
               type: 'panel',
               items: [
                 {
                   type: 'input',
                   name: 'altText',
-                  label: 'Alt Text', // @todo traslate
+                  label: 'Alt Text', // @todo translate
                 },
                 {
                   type: 'checkbox',
                   name: 'isLazy',
-                  label: 'Image will be lazyloaded', // @todo traslate
+                  label: 'Image will be lazyloaded', // @todo translate
                 },
               ],
             },
             buttons: [
               {
                 type: 'submit',
-                name: 'submitButton',
-                text: 'Do Cat Thing',
+                name: 'submitButton', // @todo translate
+                text: 'Confirm',
                 primary: true,
               },
             ],
