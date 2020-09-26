@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 if ($field->value == '')
 {
 	return;
@@ -31,18 +33,27 @@ foreach ($value as $path)
 		continue;
 	}
 
+	$imageFilePath = htmlentities($path, ENT_COMPAT, 'UTF-8', true);
+
 	if ($fieldParams->get('directory', '/') !== '/')
 	{
-		$buffer .= sprintf('<img loading="lazy" src="images/%s/%s"%s>',
-			$fieldParams->get('directory'),
-			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
+		$img = HTMLHelper::cleanImageURL('images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
+
+		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s>',
+			$img->attributes['width'],
+			$img->attributes['height'],
+			$img->url,
 			$class
 		);
 	}
 	else
 	{
-		$buffer .= sprintf('<img loading="lazy" src="images/%s"%s>',
-			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
+		$img = HTMLHelper::cleanImageURL('images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
+
+		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s>',
+			$img->attributes['width'],
+			$img->attributes['height'],
+			$img->url,
 			$class
 		);
 	}
