@@ -36,11 +36,11 @@
 
       if (Joomla.selectedFile.url) {
         if (!isElement(editor) && (typeof editor !== 'object')) {
-          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" width="${Joomla.selectedFile.width}" height="${Joomla.selectedFile.height}" alt="" />`);
+          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
         } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" width="${Joomla.selectedFile.width}" height="${Joomla.selectedFile.height}" alt="" />`);
+          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
         } else {
-          editor.value = `${Joomla.selectedFile.url}?width=${Joomla.selectedFile.width}&height=${Joomla.selectedFile.height}`;
+          editor.value = Joomla.selectedFile.url;
           fieldClass.updatePreview();
         }
       }
@@ -68,7 +68,7 @@
     const apiBaseUrl = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&format=json`;
 
     Joomla.request({
-      url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1`,
+      url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`,
       method: 'GET',
       perform: true,
       headers: { 'Content-Type': 'application/json' },
