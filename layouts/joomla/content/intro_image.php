@@ -22,12 +22,16 @@ if (empty($images->image_intro))
 	return;
 }
 
-$imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
+$imgfloat  = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
+$extraAttr = '';
+$img       = HTMLHelper::cleanImageURL($images->image_intro);
 
-$img = HTMLHelper::cleanImageURL($images->image_intro);
-
-// Set or not the lazyloading
-$img->attributes['loading'] = 'lazy';
+// Set lazyloading only for images that there's a record of width and height
+if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
+		&& (isset($img->attributes['width']) && (int) $img->attributes['width'] > 0))
+{
+	$extraAttr = ArrayHelper::toString($img->attributes) . ' loading="lazy"';
+}
 ?>
 <figure class="float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
@@ -35,14 +39,14 @@ $img->attributes['loading'] = 'lazy';
 			<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
 					 alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"
 					 itemprop="thumbnailUrl"
-					 <?php echo ArrayHelper::toString($img->attributes); ?>
+					 <?php echo $extraAttr; ?>
 			/>
 		</a>
 	<?php else : ?>
 		<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
 				 alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"
 				 itemprop="thumbnailUrl"
-				 <?php echo ArrayHelper::toString($img->attributes); ?>
+				 <?php echo $extraAttr; ?>
 		/>
 	<?php endif; ?>
 	<?php if (isset($images->image_intro_caption) && $images->image_intro_caption !== '') : ?>
