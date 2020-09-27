@@ -69,7 +69,6 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
             const width = dialogData.isLazy ? `width="${responseData.width}"` : '';
             const height = dialogData.isLazy ? `height="${responseData.height}"` : '';
             editor.execCommand('mceInsertContent', false, `<img src="${urlPath}" ${altValue} ${lazyValue} ${width} ${height}/>`);
-            api.close();
           };
 
           editor.windowManager.open({
@@ -107,6 +106,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
             },
             onSubmit(api) {
               dialogClose(api);
+              api.close();
             },
             onCancel(api) {
               dialogClose(api);
