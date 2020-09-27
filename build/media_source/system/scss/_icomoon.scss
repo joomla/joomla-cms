@@ -1,5 +1,4 @@
 // IcoMoon Conversion
-$jicon-css-prefix: icon;
 
 [class^="#{$jicon-css-prefix}-"],
 [class*=" #{$jicon-css-prefix}-"] {
@@ -38,11 +37,6 @@ $jicon-css-prefix: icon;
 
   &::before { @extend .#{$fa-css-prefix}-joomla;}
 }
-
-.#{$fa-css-prefix}-eye-2::before { @extend .#{$fa-css-prefix}-eye-slash;}
-.#{$fa-css-prefix}-eye-blocked::before { @extend .#{$fa-css-prefix}-eye-slash;}
-.#{$fa-css-prefix}-eye-close::before { @extend .#{$fa-css-prefix}-eye-slash;}
-.#{$fa-css-prefix}-eye-open::before { @extend .#{$fa-css-prefix}-eye;}
 
 .#{$jicon-css-prefix}-address-book::before { @extend .#{$fa-css-prefix}-address-book;}
 .#{$jicon-css-prefix}-address::before { @extend .#{$fa-css-prefix}-file-alt;}
@@ -88,11 +82,12 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-calendar::before { @extend .#{$fa-css-prefix}-calendar;}
 .#{$jicon-css-prefix}-camera-2::before { @extend .#{$fa-css-prefix}-video;}
 .#{$jicon-css-prefix}-camera::before { @extend .#{$fa-css-prefix}-camera;}
+.#{$jicon-css-prefix}-cancel::before { @extend .#{$fa-css-prefix}-times;}
 .#{$jicon-css-prefix}-cancel-2::before { @extend .#{$fa-css-prefix}-times;}
 .#{$jicon-css-prefix}-cancel-circle::before { @extend .#{$fa-css-prefix}-times-circle;}
-.#{$jicon-css-prefix}-cancel::before { @extend .#{$fa-css-prefix}-times;}
 .#{$jicon-css-prefix}-cart::before { @extend .#{$fa-css-prefix}-shopping-cart;}
 .#{$jicon-css-prefix}-chart::before { @extend .#{$fa-css-prefix}-chart-area;}
+.#{$jicon-css-prefix}-check-circle::before { @extend .#{$fa-css-prefix}-check-circle;}
 .#{$jicon-css-prefix}-checkbox-checked::before { @extend .#{$fa-css-prefix}-check-square;}
 .#{$jicon-css-prefix}-checkbox-partial::before { @extend .#{$fa-css-prefix}-square;}
 .#{$jicon-css-prefix}-checkbox-unchecked::before { @extend .#{$fa-css-prefix}-square;}
@@ -111,6 +106,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-cog::before { @extend .#{$fa-css-prefix}-cog;}
 .#{$jicon-css-prefix}-cogs::before { @extend .#{$fa-css-prefix}-cogs;}
 .#{$jicon-css-prefix}-color-palette::before { @extend .#{$fa-css-prefix}-paint-brush;}
+.#{$jicon-css-prefix}-collapse::before { @extend .#{$fa-css-prefix}-plus;}
 .#{$jicon-css-prefix}-comment::before { @extend .#{$fa-css-prefix}-comment;}
 .#{$jicon-css-prefix}-comments-2::before { @extend .#{$fa-css-prefix}-comments;}
 .#{$jicon-css-prefix}-comments::before { @extend .#{$fa-css-prefix}-comment;}

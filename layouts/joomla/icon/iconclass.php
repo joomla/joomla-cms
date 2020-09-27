@@ -40,35 +40,6 @@ switch ($icon)
 		$iconPrefix = $displayData['prefix'] ?? null;
 		break;
 
-	case 'archive':
-	case 'folder-close':
-	case 'folder-folder-2':
-	case 'folder-minus':
-	case 'folder-plus-2':
-	case 'folder-remove':
-	case 'drawer-2':
-		$icon = 'folder';
-		break;
-
-	case 'folder-open':
-		$icon = 'folder-open';
-		break;
-
-	case 'publish':
-		$icon = 'check';
-		break;
-
-	case 'check-circle':
-		$icon = 'check-circle';
-		break;
-
-	case 'unpublish':
-	case 'cancel':
-	case 'delete':
-	case 'remove':
-		$icon = 'times';
-		break;
-
 	case 'new':
 	case 'save-new':
 	case 'add':
