@@ -26,7 +26,7 @@ $imgfloat  = empty($images->float_intro) ? $params->get('float_intro') : $images
 $extraAttr = '';
 $img       = HTMLHelper::cleanImageURL($images->image_intro);
 
-// Set lazyloading only for images that there's a record of width and height
+// Set lazyloading only for images which have width and height attributes
 if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 		&& (isset($img->attributes['width']) && (int) $img->attributes['width'] > 0))
 {
