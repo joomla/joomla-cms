@@ -95,14 +95,9 @@ class ExceptionHandler
 				$document->setError($error);
 
 				// Clear buffered output at all levels
-				$callerFunction = static::getCallerFunctionName();
-
-				if ($callerFunction === false)
+				while (ob_get_level())
 				{
-					while (ob_get_level())
-					{
-						ob_end_clean();
-					}
+					ob_end_clean();
 				}
 
 				$document->setTitle(Text::_('ERROR') . ': ' . $error->getCode());
