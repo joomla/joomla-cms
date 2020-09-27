@@ -135,6 +135,7 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-envelope-opened:before { @extend .#{$fa-css-prefix}-envelope;}
 .#{$jicon-css-prefix}-envelope:before { @extend .#{$fa-css-prefix}-envelope;}
 .#{$jicon-css-prefix}-equalizer:before { @extend .#{$fa-css-prefix}-sliders-h;}
+.#{$jicon-css-prefix}-error:before { @extend .#{$fa-css-prefix}-exclamation;}
 .#{$jicon-css-prefix}-exit:before { @extend .#{$fa-css-prefix}-sign-out-alt;}
 .#{$jicon-css-prefix}-expand-2:before { @extend .#{$fa-css-prefix}-expand-arrows-alt;}
 .#{$jicon-css-prefix}-expand:before { @extend .#{$fa-css-prefix}-expand;}
@@ -345,7 +346,7 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-video:before { @extend .#{$fa-css-prefix}-video;}
 .#{$jicon-css-prefix}-wand:before { @extend .#{$fa-css-prefix}-magic;}
 .#{$jicon-css-prefix}-warning-2:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
-.#{$jicon-css-prefix}-warning-circle:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
+.#{$jicon-css-prefix}-warning-circle:before { @extend .#{$fa-css-prefix}-exclamation-circle;}
 .#{$jicon-css-prefix}-warning:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
 .#{$jicon-css-prefix}-wifi:before { @extend .#{$fa-css-prefix}-wifi;}
 .#{$jicon-css-prefix}-wrench:before { @extend .#{$fa-css-prefix}-wrench;}

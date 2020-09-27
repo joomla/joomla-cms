@@ -48,18 +48,6 @@ switch ($icon)
 		$icon = 'angle-right';
 		break;
 
-	case 'error':
-		$icon = 'exclamation';
-		break;
-
-	case 'warning':
-		$icon = 'exclamation-circle';
-		break;
-
-	case 'warning-2':
-		$icon = 'exclamation-triangle';
-		break;
-
 	case 'paginationStart':
 	case 'paginationEndRtl':
 		$icon = 'angle-double-left';
