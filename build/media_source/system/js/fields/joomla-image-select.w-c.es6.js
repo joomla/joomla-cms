@@ -171,6 +171,8 @@
   class JoomlaFieldMediaOptions extends HTMLElement {
     constructor() {
       super();
+
+      this.adjustedHeight = false;
       this.lazyInputFn = this.lazyInputFn.bind(this);
       this.altInputFn = this.altInputFn.bind(this);
       this.adjustHeight = this.adjustHeight.bind(this);
@@ -217,7 +219,9 @@
         this.altInput.addEventListener('input', this.altInputFn);
       }
 
-      requestAnimationFrame(this.adjustHeight);
+      if (!this.adjustedHeight) {
+        requestAnimationFrame(this.adjustHeight);
+      }
     }
 
     disconnectedCallback() {
@@ -241,8 +245,9 @@
       const that = this;
       const nextEl = this.nextElementSibling;
       requestAnimationFrame(() => {
-        const height = `${nextEl.getBoundingClientRect().height - that.getBoundingClientRect().height}`;
+        const height = `${nextEl.getBoundingClientRect().height - (that.getBoundingClientRect().height + 40)}`;
         nextEl.style.height = `${height}px`;
+        that.adjustedHeight = true;
       });
     }
   }
