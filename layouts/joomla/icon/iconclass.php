@@ -40,120 +40,12 @@ switch ($icon)
 		$iconPrefix = $displayData['prefix'] ?? null;
 		break;
 
-	case 'new':
-	case 'save-new':
-	case 'add':
-	case 'collapse':
-		$icon = 'plus';
-		break;
-
-	case 'apply':
-		$icon = 'save';
-		break;
-
-	case 'mail':
-		$icon = 'envelope';
-		break;
-
-	case 'unfeatured':
-	case 'asterisk':
-		$icon = 'star';
-		break;
-
-	case 'featured':
-		$icon = 'star featured';
-		break;
-
-	case 'checkedout':
-	case 'protected':
-		$icon = 'lock';
-		break;
-
-	case 'eye-close':
-		$icon = 'eye-slash';
-		break;
-
-	case 'hits';
-	case 'eye-open':
-		$icon = 'eye';
-		break;
-
-	case 'loop':
-	case 'refresh':
-	case 'unblock':
-		$icon = 'sync';
-		break;
-
-	case 'contract':
-		$icon = 'compress';
-		break;
-
-	case 'purge':
-		$icon = 'trash';
-		break;
-
-	case 'options':
-		$icon = 'cog';
-		break;
-
-	case 'expired':
-		$icon = 'minus-circle';
-		break;
-
-	case 'select-file':
-	case 'save-copy':
-		$icon = 'copy';
-		break;
-
-	case 'success':
-	case 'checkin':
-		$icon = 'check-square';
-		break;
-
-	case 'generic':
-		$icon = 'dot-circle';
-		break;
-
-	case 'list-2':
-		$icon = 'list-ul';
-		break;
-
-	case 'default':
-		$icon = 'home';
-		break;
-
-	case 'chevron-down':
-		$icon = 'chevron-down';
-		break;
-
-	case 'previous':
 	case 'nextRtl':
-		$icon = 'chevron-left';
+		$icon = 'angle-left';
 		break;
 
-	case 'next':
 	case 'previousRtl':
-		$icon = 'chevron-right';
-		break;
-
-	case 'move':
-		$icon = 'arrows-alt';
-		break;
-
-	case 'loading':
-		$icon = 'spinner';
-		break;
-
-	case 'register':
-		$icon = 'arrow-alt-circle-right';
-		break;
-
-	case 'search-plus':
-		$icon = 'search-plus';
-		break;
-
-	case 'info':
-		$icon = 'info-circle';
+		$icon = 'angle-right';
 		break;
 
 	case 'error':
