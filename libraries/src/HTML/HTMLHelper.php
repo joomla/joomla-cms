@@ -695,7 +695,7 @@ abstract class HTMLHelper
 
 		if (is_string($attribs) && !strpos($attribs, 'loading='))
 		{
-			$attribs .= ' loading="lazy"'
+			$attribs .= ' loading="lazy"';
 		}
 
 		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
