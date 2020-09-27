@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Image\Image;
-
 if ($field->value == '')
 {
 	return;
@@ -33,28 +31,18 @@ foreach ($value as $path)
 		continue;
 	}
 
-	$imageFilePath = htmlentities($path, ENT_COMPAT, 'UTF-8', true);
-
 	if ($fieldParams->get('directory', '/') !== '/')
 	{
-		$imageInfo = Image::getImageFileProperties('images/' . $fieldParams->get('directory') . '/' . $imageFilePath);
-
-		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s/%s"%s>',
-			$imageInfo->width,
-			$imageInfo->height,
+		$buffer .= sprintf('<img loading="lazy" src="images/%s/%s"%s>',
 			$fieldParams->get('directory'),
-			$imageFilePath,
+			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 			$class
 		);
 	}
 	else
 	{
-		$imageInfo = Image::getImageFileProperties('images/' . $imageFilePath);
-
-		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="images/%s"%s>',
-			$imageInfo->width,
-			$imageInfo->height,
-			$imageFilePath,
+		$buffer .= sprintf('<img loading="lazy" src="images/%s"%s>',
+			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 			$class
 		);
 	}
