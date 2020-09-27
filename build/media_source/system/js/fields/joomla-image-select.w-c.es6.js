@@ -34,7 +34,7 @@
 
     const optionsEl = container.querySelector('joomla-field-mediamore');
     if (optionsEl) {
-      optionsEl.parentElement.removeChild(optionsEl);
+      optionsEl.parentNode.removeChild(optionsEl);
     }
 
     if (Joomla.selectedMediaFile.path) {
@@ -106,10 +106,10 @@
             if (attribs.getAttribute('is-lazy') === 'true') {
               isLasy = `loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
             }
+            attribs.parentNode.removeChild(attribs);
           }
 
           Joomla.editors.instances[editor].replaceSelection(`<img src="${Joomla.selectedMediaFile.url}" ${isLasy} ${alt}/>`);
-          attribs.parentNode.removeChild(attribs);
         } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
           const currentModal = fieldClass.closest('.modal-content');
           const attribs = currentModal.querySelector('joomla-field-mediamore');
@@ -118,10 +118,10 @@
             if (attribs.getAttribute('is-lazy') === 'true') {
               isLasy = `loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
             }
+            attribs.parentNode.removeChild(attribs);
           }
 
           window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img src="${Joomla.selectedMediaFile.url}" ${isLasy} ${alt}/>`);
-          attribs.parentNode.removeChild(attribs);
         } else {
           const val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width);
           editor.value = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);
