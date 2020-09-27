@@ -225,11 +225,8 @@
       this.lazyInput = this.querySelector(`#${this.parentId}-lazy`);
       this.lazyInput.addEventListener('change', this.lazyInputFn);
       this.setAttribute('is-lazy', !!this.lazyInput.checked);
-
-      if (this.enableAltField) {
-        this.altInput = this.querySelector(`#${this.parentId}-alt`);
-        this.altInput.addEventListener('input', this.altInputFn);
-      }
+      this.altInput = this.querySelector(`#${this.parentId}-alt`);
+      this.altInput.addEventListener('input', this.altInputFn);
 
       if (!this.adjustedHeight) {
         requestAnimationFrame(this.adjustHeight);
