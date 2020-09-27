@@ -28,7 +28,7 @@ $img       = HTMLHelper::cleanImageURL($images->image_intro);
 
 // Set lazyloading only for images which have width and height attributes
 if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
-		&& (isset($img->attributes['width']) && (int) $img->attributes['width'] > 0))
+&& (isset($img->attributes['height']) && (int) $img->attributes['height'] > 0))
 {
 	$extraAttr = ArrayHelper::toString($img->attributes) . ' loading="lazy"';
 }
