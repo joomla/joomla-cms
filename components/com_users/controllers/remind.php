@@ -49,7 +49,7 @@ class UsersControllerRemind extends UsersController
 
 		// To not expose if the user exists or not we send a generic message.
 		$message = JText::_('COM_USERS_REMIND_REQUEST');
-		$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false), $message);
+		$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false), $message, 'notice');
 
 		return true;
 	}
