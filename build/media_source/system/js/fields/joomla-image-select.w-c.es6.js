@@ -1,4 +1,6 @@
 ((customElements, Joomla) => {
+  'use strict';
+
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
@@ -38,7 +40,7 @@
     }
 
     if (Joomla.selectedMediaFile.path) {
-      container.insertAdjacentHTML('afterbegin', `<joomla-field-mediamore with-alt parent-id="${currentModal.id}" lazy-label="${Joomla.Text._('JFIELD_MEDIA_LAZY_LABEL')}" alt-label="${Joomla.Text._('JFIELD_MEDIA_ALT_LABEL')}" confirm-text="${Joomla.Text._('JFIELD_MEDIA_CONFIRM_TEXT')}"></joomla-field-mediamore>`);
+      container.insertAdjacentHTML('afterbegin', `<joomla-field-mediamore parent-id="${currentModal.id}" lazy-label="${Joomla.Text._('JFIELD_MEDIA_LAZY_LABEL')}" alt-label="${Joomla.Text._('JFIELD_MEDIA_ALT_LABEL')}" confirm-text="${Joomla.Text._('JFIELD_MEDIA_CONFIRM_TEXT')}"></joomla-field-mediamore>`);
     }
   });
 
@@ -51,7 +53,7 @@
    */
   const isElement = (o) => (
     typeof HTMLElement === 'object' ? o instanceof HTMLElement
-      : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
+      : o && typeof o === 'object' && o.nodeType === 1 && typeof o.nodeName === 'string'
   );
 
   /**
@@ -222,12 +224,17 @@
   </div>
 </div>`;
 
+      // Add event listeners
       this.lazyInput = this.querySelector(`#${this.parentId}-lazy`);
       this.lazyInput.addEventListener('change', this.lazyInputFn);
-      this.setAttribute('is-lazy', !!this.lazyInput.checked);
       this.altInput = this.querySelector(`#${this.parentId}-alt`);
       this.altInput.addEventListener('input', this.altInputFn);
 
+      // Set initial values
+      this.setAttribute('is-lazy', !!this.lazyInput.checked);
+      this.setAttribute('alt-value', '');
+
+      // Reduce iframe height
       if (!this.adjustedHeight) {
         requestAnimationFrame(this.adjustHeight);
       }
