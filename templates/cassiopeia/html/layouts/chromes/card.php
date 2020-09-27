@@ -27,7 +27,7 @@ $headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT
 $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 
 if ($module->showtitle) : ?>
-	<<?php echo $moduleTag; ?> id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>" aria-labelledby="<?php echo $module->title; ?>">
+	<<?php echo $moduleTag; ?> id="<?php echo $modId; ?>" class="<?php echo $moduleAttribs['class'] ?>">
 		<<?php echo $headerTag; ?> class="card-header <?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 		<div class="card-body"><?php echo $module->content; ?></div>
 	</<?php echo $moduleTag; ?>>
