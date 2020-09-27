@@ -32,8 +32,28 @@ final class Unserialize
             );
         }
 
-        $worker = new DisallowedClassesSubstitutor($serialized, $allowedClasses);
+        $sanitizedSerialized = preg_replace_callback(
+            '/(^|;)O:\d+:"([^"]*)":(\d+):{/',
+            function ($match) use ($allowedClasses) {
+                $completeMatch = (string) array_shift($match);
+                $leftBorder = (string) array_shift($match);
+                $className = (string) array_shift($match);
+                $objectSize = (int) array_shift($match);
 
-        return \unserialize($worker->getSubstitutedSerialized());
+                if (in_array($className, $allowedClasses, true)) {
+                    return $completeMatch;
+                }
+
+                return sprintf(
+                    '%sO:22:"__PHP_Incomplete_Class":%d:{s:27:"__PHP_Incomplete_Class_Name";%s',
+                    $leftBorder,
+                    $objectSize + 1, // size of object + 1 for added string
+                    \serialize($className)
+                );
+            },
+            $serialized
+        );
+
+        return \unserialize($sanitizedSerialized);
     }
 }

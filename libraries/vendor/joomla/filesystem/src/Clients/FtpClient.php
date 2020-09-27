@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -56,74 +56,56 @@ if (!\defined('FTP_NATIVE'))
 class FtpClient
 {
 	/**
-	 * Socket resource
-	 *
-	 * @var    resource
+	 * @var    resource  Socket resource
 	 * @since  1.0
 	 */
 	private $conn;
 
 	/**
-	 * Data port connection resource
-	 *
-	 * @var    resource
+	 * @var    resource  Data port connection resource
 	 * @since  1.0
 	 */
 	private $dataconn;
 
 	/**
-	 * Passive connection information
-	 *
-	 * @var    array
+	 * @var    array  Passive connection information
 	 * @since  1.0
 	 */
 	private $pasv;
 
 	/**
-	 * Response Message
-	 *
-	 * @var    string
+	 * @var    string  Response Message
 	 * @since  1.0
 	 */
 	private $response;
 
 	/**
-	 * Response Code
-	 *
-	 * @var    integer
+	 * @var    integer  Response Code
 	 * @since  1.0
 	 */
 	private $responseCode;
 
 	/**
-	 * Response Message
-	 *
-	 * @var    string
+	 * @var    string  Response Message
 	 * @since  1.0
 	 */
 	private $responseMsg;
 
 	/**
-	 * Timeout limit
-	 *
-	 * @var    integer
+	 * @var    integer  Timeout limit
 	 * @since  1.0
 	 */
 	private $timeout = 15;
 
 	/**
-	 * Transfer Type
-	 *
-	 * @var    integer
+	 * @var    integer  Transfer Type
 	 * @since  1.0
 	 */
 	private $type;
 
 	/**
-	 * Array to hold ascii format file extensions
-	 *
-	 * @var    array
-	 * @since  1.0
+	 * @var    array  Array to hold ascii format file extensions
+	 * @since   1.0
 	 */
 	private $autoAscii = array(
 		'asp',
@@ -158,9 +140,7 @@ class FtpClient
 	private $lineEndings = array('UNIX' => "\n", 'WIN' => "\r\n");
 
 	/**
-	 * FtpClient instances container.
-	 *
-	 * @var    FtpClient[]
+	 * @var    FtpClient[]  FtpClient instances container.
 	 * @since  1.0
 	 */
 	protected static $instances = array();
@@ -177,7 +157,7 @@ class FtpClient
 		// If default transfer type is not set, set it to autoascii detect
 		if (!isset($options['type']))
 		{
-			$options['type'] = \FTP_BINARY;
+			$options['type'] = FTP_BINARY;
 		}
 
 		$this->setOptions($options);
@@ -308,7 +288,7 @@ class FtpClient
 			}
 
 			// Set the timeout for this connection
-			ftp_set_option($this->conn, \FTP_TIMEOUT_SEC, $this->timeout);
+			ftp_set_option($this->conn, FTP_TIMEOUT_SEC, $this->timeout);
 
 			return true;
 		}
@@ -813,7 +793,7 @@ class FtpClient
 
 			$buffer = fopen('buffer://tmp', 'r');
 
-			if (@ftp_fput($this->conn, $path, $buffer, \FTP_ASCII) === false)
+			if (@ftp_fput($this->conn, $path, $buffer, FTP_ASCII) === false)
 			{
 				fclose($buffer);
 
@@ -930,7 +910,7 @@ class FtpClient
 		fclose($this->dataconn);
 
 		// Let's try to cleanup some line endings if it is ascii
-		if ($mode == \FTP_ASCII)
+		if ($mode == FTP_ASCII)
 		{
 			$os = 'UNIX';
 
@@ -1319,7 +1299,7 @@ class FtpClient
 			);
 		}
 
-		$data = preg_split('/[' . CRLF . ']+/', $data, -1, \PREG_SPLIT_NO_EMPTY);
+		$data = preg_split('/[' . CRLF . ']+/', $data, -1, PREG_SPLIT_NO_EMPTY);
 		$data = preg_replace('#^' . preg_quote(substr($path, 1), '#') . '[/\\\\]?#', '', $data);
 
 		if ($keys = array_merge(array_keys($data, '.'), array_keys($data, '..')))
@@ -1760,20 +1740,20 @@ class FtpClient
 
 			if (\in_array($ext, $this->autoAscii))
 			{
-				$mode = \FTP_ASCII;
+				$mode = FTP_ASCII;
 			}
 			else
 			{
-				$mode = \FTP_BINARY;
+				$mode = FTP_BINARY;
 			}
 		}
-		elseif ($this->type == \FTP_ASCII)
+		elseif ($this->type == FTP_ASCII)
 		{
-			$mode = \FTP_ASCII;
+			$mode = FTP_ASCII;
 		}
 		else
 		{
-			$mode = \FTP_BINARY;
+			$mode = FTP_BINARY;
 		}
 
 		return $mode;
@@ -1792,7 +1772,7 @@ class FtpClient
 	 */
 	protected function _mode($mode)
 	{
-		if ($mode == \FTP_BINARY)
+		if ($mode == FTP_BINARY)
 		{
 			if (!$this->_putCmd('TYPE I', 200))
 			{
