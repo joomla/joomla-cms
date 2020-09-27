@@ -5,7 +5,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
   tinyMCE.DOM.bind(document, 'dragleave', (e) => {
     e.stopPropagation();
     e.preventDefault();
-    tinyMCE.activeEditor.contentAreaContainer.style.borderWidth = '1px 0 0';
+    editor.contentAreaContainer.style.borderWidth = '1px 0 0';
 
     return false;
   });
@@ -27,12 +27,12 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
   });
 
   function uploadFile(name, content) {
-    const url = `${tinyMCE.activeEditor.settings.uploadUri}&path=${tinyMCE.activeEditor.settings.comMediaAdapter}`;
+    const url = `${editor.settings.uploadUri}&path=${editor.settings.comMediaAdapter}`;
     const data = {
-      [tinyMCE.activeEditor.settings.csrfToken]: '1',
+      [editor.settings.csrfToken]: '1',
       name,
       content,
-      parent: tinyMCE.activeEditor.settings.parentUploadFolder,
+      parent: editor.settings.parentUploadFolder,
     };
 
     Joomla.request({
@@ -88,7 +88,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
               },
             ],
             initialData: {
-              catdata: '',
+              altText: '',
               isLazy: true,
             },
             onSubmit(api) {
@@ -97,7 +97,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
               const lazyValue = dialogData.isLazy ? 'loading="lazy"' : '';
               const width = dialogData.isLazy ? `width="${responseData.width}"` : '';
               const height = dialogData.isLazy ? `height="${responseData.height}"` : '';
-              tinyMCE.activeEditor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" ${altValue} ${lazyValue} ${width} ${height}/>`);
+              editor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" ${altValue} ${lazyValue} ${width} ${height}/>`);
               api.close();
             },
           });
