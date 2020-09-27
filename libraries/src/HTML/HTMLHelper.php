@@ -693,7 +693,7 @@ abstract class HTMLHelper
 			$attribs['loading'] = 'lazy';
 		}
 
-		if ((is_string($attribs) || $attribs === NULL) && !strpos($attribs, 'loading='))
+		if ((is_string($attribs) || $attribs === null) && !strpos($attribs, 'loading='))
 		{
 			$attribs .= ' loading="lazy"';
 		}
@@ -1278,4 +1278,3 @@ abstract class HTMLHelper
 		return '';
 	}
 }
-
