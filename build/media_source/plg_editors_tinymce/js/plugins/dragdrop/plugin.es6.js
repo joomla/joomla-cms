@@ -62,6 +62,16 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
             urlPath = responseData.thumb_path;
           }
 
+          const dialogClose = (api) => {
+            const dialogData = api.getData();
+            const altValue = `alt="${dialogData.altText || ''}"`;
+            const lazyValue = dialogData.isLazy ? 'loading="lazy"' : '';
+            const width = dialogData.isLazy ? `width="${responseData.width}"` : '';
+            const height = dialogData.isLazy ? `height="${responseData.height}"` : '';
+            editor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" ${altValue} ${lazyValue} ${width} ${height}/>`);
+            api.close();
+          };
+
           editor.windowManager.open({
             title: 'Additional Data', // @todo translate
             body: {
@@ -70,7 +80,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
                 {
                   type: 'input',
                   name: 'altText',
-                  label: 'Alt Text', // @todo translate
+                  label: 'Alternative desription',
                 },
                 {
                   type: 'checkbox',
@@ -81,9 +91,13 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
             },
             buttons: [
               {
+                type: 'cancel',
+                text: 'Cancel',
+              },
+              {
                 type: 'submit',
                 name: 'submitButton',
-                text: 'Confirm', // @todo translate
+                text: 'Save',
                 primary: true,
               },
             ],
@@ -92,13 +106,10 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
               isLazy: true,
             },
             onSubmit(api) {
-              const dialogData = api.getData();
-              const altValue = `alt="${dialogData.altText || ''}"`;
-              const lazyValue = dialogData.isLazy ? 'loading="lazy"' : '';
-              const width = dialogData.isLazy ? `width="${responseData.width}"` : '';
-              const height = dialogData.isLazy ? `height="${responseData.height}"` : '';
-              editor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" ${altValue} ${lazyValue} ${width} ${height}/>`);
-              api.close();
+              dialogClose(api);
+            },
+            onCancel(api) {
+              dialogClose(api);
             },
           });
         }
