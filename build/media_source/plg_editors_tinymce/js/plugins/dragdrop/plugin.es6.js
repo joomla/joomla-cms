@@ -68,7 +68,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
             const lazyValue = dialogData.isLazy ? 'loading="lazy"' : '';
             const width = dialogData.isLazy ? `width="${responseData.width}"` : '';
             const height = dialogData.isLazy ? `height="${responseData.height}"` : '';
-            editor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" ${altValue} ${lazyValue} ${width} ${height}/>`);
+            editor.execCommand('mceInsertContent', false, `<img src="${urlPath}" ${altValue} ${lazyValue} ${width} ${height}/>`);
             api.close();
           };
 
