@@ -43,6 +43,47 @@
   });
 
   /**
+   * Method to check if passed param is HTMLElement
+   *
+   * @param o {string|HTMLElement}  Element to be checked
+   *
+   * @returns {boolean}
+   */
+  const isElement = (o) => (
+    typeof HTMLElement === 'object' ? o instanceof HTMLElement
+      : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
+  );
+
+  /**
+   * Method to safely append parameters to a URL string
+   *
+   * @param url   {string}  The URL
+   * @param key   {string}  The key of the parameter
+   * @param value {string}  The value of the parameter
+   *
+   * @returns {string}
+   */
+  const appendParam = (url, key, value) => {
+    const newKey = encodeURIComponent(key);
+    const newValue = encodeURIComponent(value);
+    const r = new RegExp(`(&|\\?)${key}=[^&]*`);
+    let s = url;
+    const param = `${newKey}=${newValue}`;
+
+    s = s.replace(r, `$1${param}`);
+
+    if (!RegExp.$1 && s.includes('?')) {
+      return `${s}&${param}`;
+    }
+
+    if (!RegExp.$1 && !s.includes('?')) {
+      return `${s}?${param}`;
+    }
+
+    return s;
+  };
+
+  /**
    * Method to append the image in an editor or a field
    *
    * @param resp
@@ -69,36 +110,11 @@
         Joomla.selectedMediaFile.url = false;
       }
 
-      const isElement = (o) => (
-        typeof HTMLElement === 'object' ? o instanceof HTMLElement
-          : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
-      );
-
-      const appendParam = (url, key, value) => {
-        const newKey = encodeURIComponent(key);
-        const newValue = encodeURIComponent(value);
-        const r = new RegExp(`(&|\\?)${key}=[^&]*`);
-        let s = url;
-        const param = `${newKey}=${newValue}`;
-
-        s = s.replace(r, `$1${param}`);
-
-        if (!RegExp.$1 && s.includes('?')) {
-          return `${s}&${param}`;
-        }
-
-        if (!RegExp.$1 && !s.includes('?')) {
-          return `${s}?${param}`;
-        }
-
-        return s;
-      };
-
       if (Joomla.selectedMediaFile.url) {
         let isLasy = '';
         let alt = '';
 
-        if (!isElement(editor) && (typeof editor !== 'object')) {
+        if (!isElement(editor)) {
           const currentModal = fieldClass.closest('.modal-content');
           const attribs = currentModal.querySelector('joomla-field-mediamore');
           if (attribs) {
@@ -110,18 +126,6 @@
           }
 
           Joomla.editors.instances[editor].replaceSelection(`<img src="${Joomla.selectedMediaFile.url}" ${isLasy} ${alt}/>`);
-        } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
-          const currentModal = fieldClass.closest('.modal-content');
-          const attribs = currentModal.querySelector('joomla-field-mediamore');
-          if (attribs) {
-            alt = attribs.getAttribute('alt-value') ? `alt="${attribs.getAttribute('alt-value')}"` : 'alt=""';
-            if (attribs.getAttribute('is-lazy') === 'true') {
-              isLasy = `loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
-            }
-            attribs.parentNode.removeChild(attribs);
-          }
-
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img src="${Joomla.selectedMediaFile.url}" ${isLasy} ${alt}/>`);
         } else {
           const val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width);
           editor.value = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);
@@ -132,7 +136,7 @@
   };
 
   /**
-   * Method that resolves the real url for the image
+   * Method that resolves the real url for the selected image
    *
    * @param data        {object}         The data for the detail
    * @param editor      {string|object}  The data for the detail
@@ -168,6 +172,19 @@
     });
   });
 
+  /**
+   * A sipmle Custom Element for adding alt text and controlling
+   * the lazy loading on a selected image
+   *
+   * Will be rendered only for editor content images
+   * Attributes:
+   * - parent-id: the id of the parent media field {string}
+   * - lazy-label: The text for the checkbox label {string}
+   * - alt-label: The text for the alt label {string}
+   * - confirm-text: The text for the confirm button {string}
+   * - is-lazy: The value for the lazyloading (calculated, defaults to 'true') {string}
+   * - alt-value: The value for the alt text (calculated, defaults to '') {string}
+   */
   class JoomlaFieldMediaOptions extends HTMLElement {
     constructor() {
       super();
@@ -186,22 +203,17 @@
 
     get confirmtext() { return this.getAttribute('confirm-text'); }
 
-    get enableAltField() { return this.hasAttribute('with-alt'); }
-
     connectedCallback() {
-      const altField = `
-<div class="col-auto">
-  <div class="input-group">
-    <div class="input-group-prepend">
-      <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
-    </div>
-    <input class="form-control" type="text" id="${this.parentId}-alt" />
-  </div>
-</div>`;
-
       this.innerHTML = `
 <div class="form-row align-items-center">
-  ${this.enableAltField ? altField : ''}
+  <div class="col-auto">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
+      </div>
+      <input class="form-control" type="text" id="${this.parentId}-alt" />
+    </div>
+  </div>
   <div class="col-auto">
     <div class="form-check mb-2">
       <input class="form-check-input" type="checkbox" id="${this.parentId}-lazy" checked>
