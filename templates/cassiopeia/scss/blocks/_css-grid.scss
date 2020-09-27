@@ -99,16 +99,10 @@
 
 .container-sidebar-left {
   grid-area: side-l;
-  .sidebar-left:first-child {
-    margin-top: $cassiopeia-grid-gutter;
-  }
 }
 
 .container-sidebar-right {
   grid-area: side-r;
-  .sidebar-right:first-child {
-    margin-top: $cassiopeia-grid-gutter;
-  }
 }
 
 .container-main-top {

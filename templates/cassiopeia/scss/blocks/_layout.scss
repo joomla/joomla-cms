@@ -84,6 +84,23 @@
   }
 }
 
+.container-sidebar-left {
+  .sidebar-left:first-child {
+    margin-top: $cassiopeia-grid-gutter;
+  }
+  .sidebar-left:last-child {
+    margin-bottom: $cassiopeia-grid-gutter;
+  }
+}
+.container-sidebar-right {
+  .sidebar-right:first-child {
+    margin-top: $cassiopeia-grid-gutter;
+  }
+  .sidebar-right:last-child {
+    margin-bottom: $cassiopeia-grid-gutter;
+  }
+}
+
 .system-debug {
   display: block;
 }
