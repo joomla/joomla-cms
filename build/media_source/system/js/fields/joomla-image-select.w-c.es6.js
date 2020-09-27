@@ -259,9 +259,10 @@
 
     adjustHeight() {
       const that = this;
+      const parentEl = this.parentNode;
       const nextEl = this.nextElementSibling;
       requestAnimationFrame(() => {
-        const height = `${nextEl.getBoundingClientRect().height - (that.getBoundingClientRect().height + 40)}`;
+        const height = `${parentEl.getBoundingClientRect().height - (that.getBoundingClientRect().height + 40)}`;
         nextEl.style.height = `${height}px`;
         that.adjustedHeight = true;
       });
