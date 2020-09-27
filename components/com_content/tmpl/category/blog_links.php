@@ -15,7 +15,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 ?>
 
 <ol class="com-content-blog__links">
-	<?php foreach ($this->link_items as &$item) : ?>
+	<?php foreach ($this->link_items as $item) : ?>
 		<li class="com-content-blog__link">
 			<a href="<?php echo Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)); ?>">
 				<?php echo $item->title; ?></a>
