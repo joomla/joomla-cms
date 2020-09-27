@@ -82,8 +82,8 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
             buttons: [
               {
                 type: 'submit',
-                name: 'submitButton', // @todo translate
-                text: 'Confirm',
+                name: 'submitButton',
+                text: 'Confirm', // @todo translate
                 primary: true,
               },
             ],
