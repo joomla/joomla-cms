@@ -140,6 +140,7 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-database:before { @extend .#{$fa-css-prefix}-database;}
 .#{$jicon-css-prefix}-default:before { @extend .#{$fa-css-prefix}-home;}
 .#{$jicon-css-prefix}-delete:before { @extend .#{$fa-css-prefix}-times;}
+.#{$jicon-css-prefix}-desktop:before { @extend .#{$fa-css-prefix}-desktop;}
 .#{$jicon-css-prefix}-downarrow:before { @extend .#{$fa-css-prefix}-chevron-down;}
 .#{$jicon-css-prefix}-download:before { @extend .#{$fa-css-prefix}-download;}
 .#{$jicon-css-prefix}-drawer-2:before { @extend .#{$fa-css-prefix}-folder;}
@@ -161,7 +162,9 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-eye-2:before { @extend .#{$fa-css-prefix}-eye-slash;}
 .#{$jicon-css-prefix}-eye-blocked:before { @extend .#{$fa-css-prefix}-eye-slash;}
 .#{$jicon-css-prefix}-eye-close:before { @extend .#{$fa-css-prefix}-eye-slash;}
+.#{$jicon-css-prefix}-eye-close:before { @extend .#{$fa-css-prefix}-eye-slash;}
 .#{$jicon-css-prefix}-eye-open:before { @extend .#{$fa-css-prefix}-eye;}
+.#{$jicon-css-prefix}-eye-slash:before { @extend .#{$fa-css-prefix}-eye-slash;}
 .#{$jicon-css-prefix}-eye:before { @extend .#{$fa-css-prefix}-eye;}
 .#{$jicon-css-prefix}-featured:before { @extend .#{$fa-css-prefix}-star;}
 .#{$jicon-css-prefix}-feed:before { @extend .#{$fa-css-prefix}-rss-square;}
@@ -277,6 +280,7 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-plug:before { @extend .#{$fa-css-prefix}-plug;}
 .#{$jicon-css-prefix}-plus-2:before { @extend .#{$fa-css-prefix}-plus;}
 .#{$jicon-css-prefix}-plus-circle:before { @extend .#{$fa-css-prefix}-plus-circle;}
+.#{$jicon-css-prefix}-plus-square:before { @extend .#{$fa-css-prefix}-plus-square;}
 .#{$jicon-css-prefix}-plus:before { @extend .#{$fa-css-prefix}-plus;}
 .#{$jicon-css-prefix}-power-cord:before { @extend .#{$fa-css-prefix}-plug;}
 .#{$jicon-css-prefix}-previous:before { @extend .#{$fa-css-prefix}-backward;}
