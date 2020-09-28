@@ -497,24 +497,159 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-switch:before { @extend .#{$fa-css-prefix}-power-off;}
 .#{$jicon-css-prefix}-switch:before { @extend .#{$fa-css-prefix}-power-off;}
 .#{$jicon-css-prefix}-sync:before { @extend .#{$fa-css-prefix}-sync;}
-.#{$jicon-css-prefix}-tablet:before { @extend .#{$fa-css-prefix}-tablet;}
-.#{$jicon-css-prefix}-tablet:before { @extend .#{$fa-css-prefix}-tablet;}
-.#{$jicon-css-prefix}-tachometer-alt:before { @extend .#{$fa-css-prefix}-tachometer-alt;}
-.#{$jicon-css-prefix}-tag-2:before { @extend .#{$fa-css-prefix}-tag;}
-.#{$jicon-css-prefix}-tag:before { @extend .#{$fa-css-prefix}-tag;}
-.#{$jicon-css-prefix}-tags-2:before { @extend .#{$fa-css-prefix}-tags;}
-.#{$jicon-css-prefix}-tags:before { @extend .#{$fa-css-prefix}-tags;}
-.#{$jicon-css-prefix}-th-large:before { @extend .#{$fa-css-prefix}-th-large;}
-.#{$jicon-css-prefix}-thumbs-down:before { @extend .#{$fa-css-prefix}-thumbs-down;}
-.#{$jicon-css-prefix}-thumbs-up:before { @extend .#{$fa-css-prefix}-thumbs-up;}
-.#{$jicon-css-prefix}-times:before { @extend .#{$fa-css-prefix}-times;}
-.#{$jicon-css-prefix}-toggle-off:before { @extend .#{$fa-css-prefix}-toggle-off;}
-.#{$jicon-css-prefix}-toggle-on:before { @extend .#{$fa-css-prefix}-toggle-on;}
-.#{$jicon-css-prefix}-tools:before { @extend .#{$fa-css-prefix}-wrench;}
-.#{$jicon-css-prefix}-trash:before { @extend .#{$fa-css-prefix}-trash;}
-.#{$jicon-css-prefix}-tree-2:before { @extend .#{$fa-css-prefix}-sitemap;}
-.#{$jicon-css-prefix}-tree:before { @extend .#{$fa-css-prefix}-code-branch;}
-.#{$jicon-css-prefix}-trophy:before { @extend .#{$fa-css-prefix}-trophy;}
+
+.#{$jicon-css-prefix}-tablet {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-tablet);
+  }
+}
+
+.#{$jicon-css-prefix}-tachometer-alt {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-tachometer-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-tag-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-tag);
+  }
+}
+
+.#{$jicon-css-prefix}-tag {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-tag);
+  }
+}
+
+.#{$jicon-css-prefix}-tags-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-tags);
+  }
+}
+
+.#{$jicon-css-prefix}-tags {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-tags);
+  }
+}
+
+.#{$jicon-css-prefix}-th-large {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-th-large);
+  }
+}
+
+.#{$jicon-css-prefix}-thumbs-down {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-thumbs-down);
+  }
+}
+
+.#{$jicon-css-prefix}-thumbs-up {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-thumbs-up);
+  }
+}
+
+.#{$jicon-css-prefix}-times {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-times);
+  }
+}
+
+.#{$jicon-css-prefix}-toggle-off {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-toggle-off);
+  }
+}
+
+.#{$jicon-css-prefix}-toggle-on {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-toggle-on);
+  }
+}
+
+.#{$jicon-css-prefix}-tools {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-wrench);
+  }
+}
+
+.#{$jicon-css-prefix}-trash {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-trash);
+  }
+}
+
+.#{$jicon-css-prefix}-tree-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-sitemap);
+  }
+}
+
+.#{$jicon-css-prefix}-tree {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-code-branch);
+  }
+}
+
+.#{$jicon-css-prefix}-trophy {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-trophy);
+  }
+}
 
 .#{$jicon-css-prefix}-unarchive {
   @extend %fa-icon;
