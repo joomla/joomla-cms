@@ -515,30 +515,214 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-tree-2:before { @extend .#{$fa-css-prefix}-sitemap;}
 .#{$jicon-css-prefix}-tree:before { @extend .#{$fa-css-prefix}-code-branch;}
 .#{$jicon-css-prefix}-trophy:before { @extend .#{$fa-css-prefix}-trophy;}
-.#{$jicon-css-prefix}-unarchive:before { @extend .#{$fa-css-prefix}-folder-open;}
-.#{$jicon-css-prefix}-unblock:before { @extend .#{$fa-css-prefix}-sync;}
-.#{$jicon-css-prefix}-undo-2:before { @extend .#{$fa-css-prefix}-undo;}
-.#{$jicon-css-prefix}-undo:before { @extend .#{$fa-css-prefix}-undo;}
-.#{$jicon-css-prefix}-unfeatured:before { @extend .#{$fa-css-prefix}-star;}
-.#{$jicon-css-prefix}-universal:before { @extend .#{$fa-css-prefix}-universal-access;}
-.#{$jicon-css-prefix}-unlock-alt:before { @extend .#{$fa-css-prefix}-unlock-alt;}
-.#{$jicon-css-prefix}-unlock-alt:before { @extend .#{$fa-css-prefix}-unlock-alt;}
-.#{$jicon-css-prefix}-unlock:before { @extend .#{$fa-css-prefix}-unlock;}
-.#{$jicon-css-prefix}-unpublish:before { @extend .#{$fa-css-prefix}-times;}
-.#{$jicon-css-prefix}-uparrow:before { @extend .#{$fa-css-prefix}-chevron-up;}
-.#{$jicon-css-prefix}-upload:before { @extend .#{$fa-css-prefix}-upload;}
-.#{$jicon-css-prefix}-user-circle:before { @extend .#{$fa-css-prefix}-user-circle;}
-.#{$jicon-css-prefix}-user-lock:before { @extend .#{$fa-css-prefix}-user-lock;}
-.#{$jicon-css-prefix}-user:before { @extend .#{$fa-css-prefix}-user;}
-.#{$jicon-css-prefix}-users-cog:before { @extend .#{$fa-css-prefix}-users-cog;}
-.#{$jicon-css-prefix}-users:before { @extend .#{$fa-css-prefix}-users;}
-.#{$jicon-css-prefix}-vcard:before { @extend .#{$fa-css-prefix}-file-alt;}
-.#{$jicon-css-prefix}-video-2:before { @extend .#{$fa-css-prefix}-play;}
-.#{$jicon-css-prefix}-video:before { @extend .#{$fa-css-prefix}-video;}
-.#{$jicon-css-prefix}-wand:before { @extend .#{$fa-css-prefix}-magic;}
-.#{$jicon-css-prefix}-warning-2:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
-.#{$jicon-css-prefix}-warning-circle:before { @extend .#{$fa-css-prefix}-exclamation-circle;}
-.#{$jicon-css-prefix}-warning:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
+
+.#{$jicon-css-prefix}-unarchive {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-folder-open);
+  }
+}
+
+.#{$jicon-css-prefix}-unblock {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-sync);
+  }
+}
+
+.#{$jicon-css-prefix}-undo-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-undo);
+  }
+}
+
+.#{$jicon-css-prefix}-undo {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-undo);
+  }
+}
+
+.#{$jicon-css-prefix}-unfeatured {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-star);
+  }
+}
+
+.#{$jicon-css-prefix}-universal {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-universal-access);
+  }
+}
+
+.#{$jicon-css-prefix}-unlock-alt {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-unlock-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-unlock {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-unlock);
+  }
+}
+
+.#{$jicon-css-prefix}-unpublish {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-times);
+  }
+}
+
+.#{$jicon-css-prefix}-uparrow {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-chevron-up);
+  }
+}
+
+.#{$jicon-css-prefix}-upload {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-upload);
+  }
+}
+
+.#{$jicon-css-prefix}-user-circle {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-user-circle);
+  }
+}
+
+.#{$jicon-css-prefix}-user-lock {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-user-lock);
+  }
+}
+
+.#{$jicon-css-prefix}-user {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-user);
+  }
+}
+
+.#{$jicon-css-prefix}-users-cog {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-users-cog);
+  }
+}
+
+.#{$jicon-css-prefix}-users {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-users);
+  }
+}
+
+.#{$jicon-css-prefix}-vcard {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-file-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-video-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-play);
+  }
+}
+
+.#{$jicon-css-prefix}-video {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-video);
+  }
+}
+
+.#{$jicon-css-prefix}-wand {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-magic);
+  }
+}
+
+.#{$jicon-css-prefix}-warning-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-exclamation-triangle);
+  }
+}
+
+.#{$jicon-css-prefix}-warning-circle {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-exclamation-circle);
+  }
+}
+
+.#{$jicon-css-prefix}-warning {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-exclamation-triangle);
+  }
+}
+
 
 .#{$jicon-css-prefix}-wifi {
   @extend %fa-icon;
