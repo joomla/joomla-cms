@@ -449,54 +449,349 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-quote:before { @extend .#{$fa-css-prefix}-quote-left;}
 .#{$jicon-css-prefix}-quotes-left:before { @extend .#{$fa-css-prefix}-quote-left;}
 .#{$jicon-css-prefix}-quotes-right:before { @extend .#{$fa-css-prefix}-quote-right;}
-.#{$jicon-css-prefix}-radio-checked:before { @extend .#{$fa-css-prefix}-check-circle;}
-.#{$jicon-css-prefix}-radio-unchecked:before { @extend .#{$fa-css-prefix}-circle;}
-.#{$jicon-css-prefix}-redo-2:before { @extend .#{$fa-css-prefix}-sync;}
-.#{$jicon-css-prefix}-redo:before { @extend .#{$fa-css-prefix}-share;}
-.#{$jicon-css-prefix}-refresh:before { @extend .#{$fa-css-prefix}-sync;}
-.#{$jicon-css-prefix}-register:before { @extend .#{$fa-css-prefix}-arrow-alt-circle-right;}
-.#{$jicon-css-prefix}-remove:before { @extend .#{$fa-css-prefix}-times;}
-.#{$jicon-css-prefix}-reply:before { @extend .#{$fa-css-prefix}-arrow-alt-circle-left;}
-.#{$jicon-css-prefix}-rightarrow:before { @extend .#{$fa-css-prefix}-chevron-right;}
-.#{$jicon-css-prefix}-rss:before { @extend .#{$fa-css-prefix}-rss;}
-.#{$jicon-css-prefix}-save-copy:before { @extend .#{$fa-css-prefix}-copy;}
-.#{$jicon-css-prefix}-save-new:before { @extend .#{$fa-css-prefix}-plus;}
-.#{$jicon-css-prefix}-save:before { @extend .#{$fa-css-prefix}-save;}
-.#{$jicon-css-prefix}-scissors:before { @extend .#{$fa-css-prefix}-cut;}
-.#{$jicon-css-prefix}-screen:before { @extend .#{$fa-css-prefix}-desktop;}
-.#{$jicon-css-prefix}-screwdriver:before { @extend .#{$fa-css-prefix}-wrench;}
-.#{$jicon-css-prefix}-search-minus:before { @extend .#{$fa-css-prefix}-search-minus;}
-.#{$jicon-css-prefix}-search-plus:before { @extend .#{$fa-css-prefix}-search-plus;}
-.#{$jicon-css-prefix}-search:before { @extend .#{$fa-css-prefix}-search;}
-.#{$jicon-css-prefix}-select-file:before { @extend .#{$fa-css-prefix}-copy;}
-.#{$jicon-css-prefix}-share-alt:before { @extend .#{$fa-css-prefix}-share;}
-.#{$jicon-css-prefix}-share:before { @extend .#{$fa-css-prefix}-share;}
-.#{$jicon-css-prefix}-shield-alt:before { @extend .#{$fa-css-prefix}-shield-alt;}
-.#{$jicon-css-prefix}-shield:before { @extend .#{$fa-css-prefix}-shield-alt;}
-.#{$jicon-css-prefix}-shuffle:before { @extend .#{$fa-css-prefix}-random;}
-.#{$jicon-css-prefix}-signup:before { @extend .#{$fa-css-prefix}-sign-in-alt;}
-.#{$jicon-css-prefix}-smiley-2:before { @extend .#{$fa-css-prefix}-smile;}
-.#{$jicon-css-prefix}-smiley-happy-2:before { @extend .#{$fa-css-prefix}-smile;}
-.#{$jicon-css-prefix}-smiley-happy:before { @extend .#{$fa-css-prefix}-smile;}
-.#{$jicon-css-prefix}-smiley-neutral-2:before { @extend .#{$fa-css-prefix}-smile;}
-.#{$jicon-css-prefix}-smiley-neutral:before { @extend .#{$fa-css-prefix}-smile;}
-.#{$jicon-css-prefix}-smiley-sad-2:before { @extend .#{$fa-css-prefix}-frown;}
-.#{$jicon-css-prefix}-smiley-sad:before { @extend .#{$fa-css-prefix}-frown;}
-.#{$jicon-css-prefix}-smiley:before { @extend .#{$fa-css-prefix}-smile;}
-.#{$jicon-css-prefix}-sort:before { @extend .#{$fa-css-prefix}-sort;}
-.#{$jicon-css-prefix}-spinner:before { @extend .#{$fa-css-prefix}-spinner;}
-.#{$jicon-css-prefix}-square:before { @extend .#{$fa-css-prefix}-square;}
-.#{$jicon-css-prefix}-stack:before { @extend .#{$fa-css-prefix}-copy;}
-.#{$jicon-css-prefix}-star-2:before { @extend .#{$fa-css-prefix}-star-half;}
-.#{$jicon-css-prefix}-star-empty:before { @extend .#{$fa-css-prefix}-star;}
-.#{$jicon-css-prefix}-star:before { @extend .#{$fa-css-prefix}-star;}
-.#{$jicon-css-prefix}-stop-circle:before { @extend .#{$fa-css-prefix}-stop-circle;}
-.#{$jicon-css-prefix}-stop:before { @extend .#{$fa-css-prefix}-stop;}
-.#{$jicon-css-prefix}-success:before { @extend .#{$fa-css-prefix}-check-square;}
-.#{$jicon-css-prefix}-support:before { @extend .#{$fa-css-prefix}-life-ring;}
-.#{$jicon-css-prefix}-switch:before { @extend .#{$fa-css-prefix}-power-off;}
-.#{$jicon-css-prefix}-switch:before { @extend .#{$fa-css-prefix}-power-off;}
-.#{$jicon-css-prefix}-sync:before { @extend .#{$fa-css-prefix}-sync;}
+
+.#{$jicon-css-prefix}-radio-checked {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-check-circle);
+  }
+}
+
+.#{$jicon-css-prefix}-radio-unchecked {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-circle);
+  }
+}
+
+.#{$jicon-css-prefix}-redo {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-share);
+  }
+}
+
+.#{$jicon-css-prefix}-refresh,
+.#{$jicon-css-prefix}-redo-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-sync);
+  }
+}
+
+.#{$jicon-css-prefix}-register {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-arrow-alt-circle-right);
+  }
+}
+
+.#{$jicon-css-prefix}-remove {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-times);
+  }
+}
+
+.#{$jicon-css-prefix}-reply {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-arrow-alt-circle-left);
+  }
+}
+
+.#{$jicon-css-prefix}-rightarrow {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-chevron-right);
+  }
+}
+
+.#{$jicon-css-prefix}-rss {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-rss);
+  }
+}
+
+.#{$jicon-css-prefix}-save-copy {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-copy);
+  }
+}
+
+.#{$jicon-css-prefix}-save-new {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-plus);
+  }
+}
+
+.#{$jicon-css-prefix}-save {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-save);
+  }
+}
+
+.#{$jicon-css-prefix}-scissors {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-cut);
+  }
+}
+
+.#{$jicon-css-prefix}-screen {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-desktop);
+  }
+}
+
+.#{$jicon-css-prefix}-screwdriver {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-wrench);
+  }
+}
+
+.#{$jicon-css-prefix}-search-minus {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-search-minus);
+  }
+}
+
+.#{$jicon-css-prefix}-search-plus {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-search-plus);
+  }
+}
+
+.#{$jicon-css-prefix}-search {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-search);
+  }
+}
+
+.#{$jicon-css-prefix}-select-file {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-copy);
+  }
+}
+
+.#{$jicon-css-prefix}-share,
+.#{$jicon-css-prefix}-share-alt {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-share);
+  }
+}
+
+.#{$jicon-css-prefix}-shield,
+.#{$jicon-css-prefix}-shield-alt {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-shield-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-shuffle {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-random);
+  }
+}
+
+.#{$jicon-css-prefix}-signup {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-sign-in-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-smiley-sad,
+.#{$jicon-css-prefix}-smiley-sad-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-frown);
+  }
+}
+
+.#{$jicon-css-prefix}-smiley,
+.#{$jicon-css-prefix}-smiley-neutral,
+.#{$jicon-css-prefix}-smiley-neutral-2,
+.#{$jicon-css-prefix}-smiley-happy,
+.#{$jicon-css-prefix}-smiley-happy-2,
+.#{$jicon-css-prefix}-smile-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-smile);
+  }
+}
+
+.#{$jicon-css-prefix}-sort {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-sort);
+  }
+}
+
+.#{$jicon-css-prefix}-spinner {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-spinner);
+  }
+}
+
+.#{$jicon-css-prefix}-square {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-square);
+  }
+}
+
+.#{$jicon-css-prefix}-stack {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-copy);
+  }
+}
+
+.#{$jicon-css-prefix}-star-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-star-half);
+  }
+}
+
+.#{$jicon-css-prefix}-star,
+.#{$jicon-css-prefix}-star-empty {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-star);
+  }
+}
+
+.#{$jicon-css-prefix}-stop-circle {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-stop-circle);
+  }
+}
+
+.#{$jicon-css-prefix}-stop {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-stop);
+  }
+}
+
+.#{$jicon-css-prefix}-success {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-check-square);
+  }
+}
+
+.#{$jicon-css-prefix}-support {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-life-ring);
+  }
+}
+
+.#{$jicon-css-prefix}-switch {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-power-off);
+  }
+}
+
+.#{$jicon-css-prefix}-sync {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-sync);
+  }
+}
 
 .#{$jicon-css-prefix}-tablet {
   @extend %fa-icon;
@@ -516,6 +811,7 @@ $jicon-css-prefix:                 icon !global;
   }
 }
 
+.#{$jicon-css-prefix}-tag,
 .#{$jicon-css-prefix}-tag-2 {
   @extend %fa-icon;
   @extend .fas;
@@ -525,25 +821,8 @@ $jicon-css-prefix:                 icon !global;
   }
 }
 
-.#{$jicon-css-prefix}-tag {
-  @extend %fa-icon;
-  @extend .fas;
-
-  &:before {
-    content: fa-content($fa-var-tag);
-  }
-}
-
+.#{$jicon-css-prefix}-tags,
 .#{$jicon-css-prefix}-tags-2 {
-  @extend %fa-icon;
-  @extend .fas;
-
-  &:before {
-    content: fa-content($fa-var-tags);
-  }
-}
-
-.#{$jicon-css-prefix}-tags {
   @extend %fa-icon;
   @extend .fas;
 
@@ -669,16 +948,8 @@ $jicon-css-prefix:                 icon !global;
   }
 }
 
+.#{$jicon-css-prefix}-undo,
 .#{$jicon-css-prefix}-undo-2 {
-  @extend %fa-icon;
-  @extend .fas;
-
-  &:before {
-    content: fa-content($fa-var-undo);
-  }
-}
-
-.#{$jicon-css-prefix}-undo {
   @extend %fa-icon;
   @extend .fas;
 
