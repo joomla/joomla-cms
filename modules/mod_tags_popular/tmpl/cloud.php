@@ -16,6 +16,10 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 $minsize = $params->get('minsize', 1);
 $maxsize = $params->get('maxsize', 2);
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseStyle('mod_modules', 'mod_tagas_popular/template.css');
+
 ?>
 <div class="mod-tagspopular-cloud tagspopular tagscloud">
 <?php
@@ -50,9 +54,16 @@ if (!count($list)) : ?>
 ?>
 		<span class="tag">
 			<a class="tag-name" href="<?php echo Route::_(RouteHelper::getTagRoute($item->tag_id . ':' . $item->alias)); ?>">
-				<?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?>
-				<?php if ($display_count) : ?>
-					<span class="tag-count badge badge-info"><?php echo $item->count; ?></span>
+				<?php if (!$display_count) : ?>
+					<?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?>
+				<?php else : ?>
+					<?php $tmp = explode(' ', htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'));?>
+					<?php $lastWord = array_pop($tmp);?>
+					<?php echo htmlspecialchars(implode(' ', $tmp), ENT_COMPAT, 'UTF-8'); ?>
+					<span class="nowrap">
+						<?php echo htmlspecialchars($lastWord, ENT_COMPAT, 'UTF-8'); ?>
+						<span class="tag-count badge badge-info"><?php echo $item->count; ?></span>
+					</span>
 				<?php endif; ?>
 			</a>
 		</span>
