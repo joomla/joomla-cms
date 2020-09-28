@@ -781,7 +781,7 @@ abstract class HTMLHelper
 
 		if ($html !== false)
 		{
-			$attribs =  trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs));
+			$attribs =  trim(ArrayHelper::toString($attribs));
 			$icon = '<' . $elem . ' ' . $attribs . '>' . $children . '</' . $elem . '>';
 		}
 
