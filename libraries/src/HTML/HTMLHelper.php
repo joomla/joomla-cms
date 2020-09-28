@@ -777,7 +777,7 @@ abstract class HTMLHelper
 			$attribs['aria-hidden'] = 'true';
 		}
 
-		$attribs['class'] =  $iconPrefix . $icon;
+		$attribs['class'] = $iconPrefix . $icon;
 
 		if ($html !== false)
 		{
