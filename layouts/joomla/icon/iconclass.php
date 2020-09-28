@@ -40,34 +40,6 @@ switch ($icon)
 		$iconPrefix = $displayData['prefix'] ?? null;
 		break;
 
-	case 'nextRtl':
-		$icon = 'angle-left';
-		break;
-
-	case 'previousRtl':
-		$icon = 'angle-right';
-		break;
-
-	case 'paginationStart':
-	case 'paginationEndRtl':
-		$icon = 'angle-double-left';
-		break;
-
-	case 'paginationStartRtl':
-	case 'paginationEnd':
-		$icon = 'angle-double-right';
-		break;
-
-	case 'paginationNext':
-	case 'paginationPrevRtl':
-		$icon = 'angle-left';
-		break;
-
-	case 'paginationNextRtl':
-	case 'paginationPrev':
-		$icon = 'angle-right';
-		break;
-
 	default:
 		break;
 }
