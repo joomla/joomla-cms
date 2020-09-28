@@ -22,6 +22,5 @@ $icon = stristr($icon, "joomla") ? str_ireplace("joomla", "fab fa-joomla", $icon
 ?>
 <h1 class="page-title">
 	<?php echo HTMLHelper::icon($icon); ?>
-	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $displayData['title']; ?>
 </h1>
