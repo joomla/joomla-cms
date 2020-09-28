@@ -440,15 +440,67 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-pushpin:before { @extend .#{$fa-css-prefix}-thumbtack;}
 .#{$jicon-css-prefix}-puzzle-piece:before { @extend .#{$fa-css-prefix}-puzzle-piece;}
 .#{$jicon-css-prefix}-puzzle:before { @extend .#{$fa-css-prefix}-puzzle-piece;}
-.#{$jicon-css-prefix}-question-2:before { @extend .#{$fa-css-prefix}-question-circle;}
-.#{$jicon-css-prefix}-question-circle:before { @extend .#{$fa-css-prefix}-question-circle;}
-.#{$jicon-css-prefix}-question-sign:before { @extend .#{$fa-css-prefix}-question;}
-.#{$jicon-css-prefix}-question:before { @extend .#{$fa-css-prefix}-question;}
-.#{$jicon-css-prefix}-quote-2:before { @extend .#{$fa-css-prefix}-quote-right;}
-.#{$jicon-css-prefix}-quote-3:before { @extend .#{$fa-css-prefix}-comment;}
-.#{$jicon-css-prefix}-quote:before { @extend .#{$fa-css-prefix}-quote-left;}
-.#{$jicon-css-prefix}-quotes-left:before { @extend .#{$fa-css-prefix}-quote-left;}
-.#{$jicon-css-prefix}-quotes-right:before { @extend .#{$fa-css-prefix}-quote-right;}
+
+.#{$jicon-css-prefix}-question-circle,
+.#{$jicon-css-prefix}-question-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-question-circle);
+    }
+  }
+
+.#{$jicon-css-prefix}-question,
+.#{$jicon-css-prefix}-question-sign {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-question);
+    }
+  }
+
+.#{$jicon-css-prefix}-quote-2,
+.#{$jicon-css-prefix}-quote-right,
+.#{$jicon-css-prefix}-quotes-right {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-quote-right);
+  }
+}
+
+.#{$jicon-css-prefix}-quote-3,
+.#{$jicon-css-prefix}-comment {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-comment);
+  }
+}
+
+.#{$jicon-css-prefix}-quotes-left,
+.#{$jicon-css-prefix}-quote-left,
+.#{$jicon-css-prefix}-quote {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-quote-left);
+  }
+}
+
+.#{$jicon-css-prefix}-quotes-right {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-quote-right);
+  }
+}
 
 .#{$jicon-css-prefix}-radio-checked {
   @extend %fa-icon;
