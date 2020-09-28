@@ -117,6 +117,8 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-circle:before { @extend .#{$fa-css-prefix}-circle;}
 .#{$jicon-css-prefix}-clock:before { @extend .#{$fa-css-prefix}-clock;}
 .#{$jicon-css-prefix}-cloud:before { @extend .#{$fa-css-prefix}-cloud;}
+.#{$jicon-css-prefix}-cloud-download:before { @extend .#{$fa-css-prefix}-cloud-download-alt;}
+.#{$jicon-css-prefix}-cloud-download-alt:before { @extend .#{$fa-css-prefix}-cloud-download-alt;}
 .#{$jicon-css-prefix}-cloud-upload:before { @extend .#{$fa-css-prefix}-cloud-upload-alt;}
 .#{$jicon-css-prefix}-cog:before { @extend .#{$fa-css-prefix}-cog;}
 .#{$jicon-css-prefix}-cogs:before { @extend .#{$fa-css-prefix}-cogs;}
@@ -124,6 +126,7 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-collapse:before { @extend .#{$fa-css-prefix}-plus;}
 .#{$jicon-css-prefix}-comment:before { @extend .#{$fa-css-prefix}-comment;}
 .#{$jicon-css-prefix}-comments-2:before { @extend .#{$fa-css-prefix}-comments;}
+.#{$jicon-css-prefix}-comment-dots:before { @extend .#{$fa-css-prefix}-comment-dots;}
 .#{$jicon-css-prefix}-comments:before { @extend .#{$fa-css-prefix}-comment;}
 .#{$jicon-css-prefix}-compass:before { @extend .#{$fa-css-prefix}-compass;}
 .#{$jicon-css-prefix}-connection:before { @extend .#{$fa-css-prefix}-wifi;}
@@ -194,6 +197,7 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-grid-view-2:before { @extend .#{$fa-css-prefix}-th;}
 .#{$jicon-css-prefix}-grid-view:before { @extend .#{$fa-css-prefix}-th-large;}
 .#{$jicon-css-prefix}-grid:before { @extend .#{$fa-css-prefix}-th-large;}
+.#{$jicon-css-prefix}-handshake:before { @extend .#{$fa-css-prefix}-handshake;}
 .#{$jicon-css-prefix}-health:before { @extend .#{$fa-css-prefix}-medkit;}
 .#{$jicon-css-prefix}-heart-2:before { @extend .#{$fa-css-prefix}-heart;}
 .#{$jicon-css-prefix}-heart:before { @extend .#{$fa-css-prefix}-heart;}
