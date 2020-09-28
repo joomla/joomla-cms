@@ -3,16 +3,16 @@ $jicon-css-prefix:                 icon !global;
 
 [class^="#{$jicon-css-prefix}-"],
 [class*=" #{$jicon-css-prefix}-"] {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
   display: inline-block;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: "Font Awesome 5 Free";
   speak: none;
-  font-style: normal;
-  font-weight: 900;
-  font-variant: normal;
   text-rendering: auto;
-  line-height: 1;
 }
 
 [class^="#{$jicon-css-prefix}b"],
@@ -30,33 +30,172 @@ $jicon-css-prefix:                 icon !global;
   }
 }
 
-.#{$jicon-css-prefix}-generic:before { @extend .#{$fa-css-prefix}-dot-circle;}
 
 .#{$jicon-css-prefix}-joomla {
-  font-family: "Font Awesome 5 Brands";
-  font-weight: 400;
+  @extend %fa-icon;
+  @extend .fab;
 
-  &:before { @extend .#{$fa-css-prefix}-joomla;}
+  &:before {
+    content: fa-content($fa-var-joomla);
+  }
 }
 
 
-.#{$jicon-css-prefix}-add:before { @extend .#{$fa-css-prefix}-plus;}
-.#{$jicon-css-prefix}-address-book:before { @extend .#{$fa-css-prefix}-address-book;}
-.#{$jicon-css-prefix}-address:before { @extend .#{$fa-css-prefix}-file-alt;}
-.#{$jicon-css-prefix}-angle-double-left:before { @extend .#{$fa-css-prefix}-angle-double-left;}
-.#{$jicon-css-prefix}-angle-double-right:before { @extend .#{$fa-css-prefix}-angle-double-right;}
-.#{$jicon-css-prefix}-angle-down:before { @extend .#{$fa-css-prefix}-angle-down;}
-.#{$jicon-css-prefix}-angle-left:before { @extend .#{$fa-css-prefix}-angle-left;}
-.#{$jicon-css-prefix}-angle-right:before { @extend .#{$fa-css-prefix}-angle-right;}
-.#{$jicon-css-prefix}-angle-up:before { @extend .#{$fa-css-prefix}-angle-up;}
-.#{$jicon-css-prefix}-apply:before { @extend .#{$fa-css-prefix}-save;}
-.#{$jicon-css-prefix}-archive:before { @extend .#{$fa-css-prefix}-folder;}
-.#{$jicon-css-prefix}-arrow-down-2:before { @extend .#{$fa-css-prefix}-arrow-alt-circle-down;}
-.#{$jicon-css-prefix}-arrow-down-3:before { @extend .#{$fa-css-prefix}-caret-down;}
-.#{$jicon-css-prefix}-arrow-down-4:before { @extend .#{$fa-css-prefix}-arrow-down;}
-.#{$jicon-css-prefix}-arrow-down:before { @extend .#{$fa-css-prefix}-chevron-down;}
-.#{$jicon-css-prefix}-arrow-first:before { @extend .#{$fa-css-prefix}-step-backward;}
-.#{$jicon-css-prefix}-arrow-last:before { @extend .#{$fa-css-prefix}-fast-backward;}
+//.#{$jicon-css-prefix}-add:before { @extend .#{$fa-css-prefix}-plus;}
+.#{$jicon-css-prefix}-add {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-add);
+  }
+}
+
+.#{$jicon-css-prefix}-address-book {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-address-book);
+  }
+}
+
+.#{$jicon-css-prefix}-address {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-address);
+  }
+}
+
+.#{$jicon-css-prefix}-angle-double-left {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-angle-double-left);
+  }
+}
+
+.#{$jicon-css-prefix}-angle-double-right {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-angle-double-right);
+  }
+}
+
+.#{$jicon-css-prefix}-angle-down {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-angle-down);
+  }
+}
+
+.#{$jicon-css-prefix}-angle-left {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-angle-left);
+  }
+}
+
+.#{$jicon-css-prefix}-angle-right {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-angle-right);
+  }
+}
+
+.#{$jicon-css-prefix}-angle-up {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-angle-up);
+  }
+}
+
+.#{$jicon-css-prefix}-apply {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-apply);
+  }
+}
+
+.#{$jicon-css-prefix}-archive {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-folder);
+  }
+}
+
+.#{$jicon-css-prefix}-arrow-down-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-arrow-alt-circle-down);
+  }
+}
+
+.#{$jicon-css-prefix}-arrow-down-3 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-caret-down);
+    }
+  }
+
+.#{$jicon-css-prefix}-arrow-down-4 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-arrow-down);
+    }
+  }
+
+
+.#{$jicon-css-prefix}-arrow-down {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-chevron-down);
+    }
+  }
+
+.#{$jicon-css-prefix}-arrow-first {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-step-backward);
+  }
+}
+
+.#{$jicon-css-prefix}-arrow-last {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-fast-backward);
+  }
+}
+
 .#{$jicon-css-prefix}-arrow-left-2:before { @extend .#{$fa-css-prefix}-arrow-alt-circle-left;}
 .#{$jicon-css-prefix}-arrow-left-3:before { @extend .#{$fa-css-prefix}-caret-left;}
 .#{$jicon-css-prefix}-arrow-left-4:before { @extend .#{$fa-css-prefix}-arrow-left;}
@@ -400,8 +539,49 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-warning-2:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
 .#{$jicon-css-prefix}-warning-circle:before { @extend .#{$fa-css-prefix}-exclamation-circle;}
 .#{$jicon-css-prefix}-warning:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
-.#{$jicon-css-prefix}-wifi:before { @extend .#{$fa-css-prefix}-wifi;}
-.#{$jicon-css-prefix}-wrench:before { @extend .#{$fa-css-prefix}-wrench;}
-.#{$jicon-css-prefix}-youtube:before { @extend .#{$fa-css-prefix}-play;}
-.#{$jicon-css-prefix}-zoom-in:before { @extend .#{$fa-css-prefix}-search-plus;}
-.#{$jicon-css-prefix}-zoom-out:before { @extend .#{$fa-css-prefix}-search-minus;}
+
+.#{$jicon-css-prefix}-wifi {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-wifi);
+  }
+}
+
+
+.#{$jicon-css-prefix}-wrench {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-wrench);
+  }
+}
+
+.#{$jicon-css-prefix}-youtube {
+  @extend %fa-icon;
+  @extend .fab;
+
+  &:before {
+    content: fa-content($fa-var-youtube);
+  }
+}
+
+.#{$jicon-css-prefix}-zoom-in {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-search-plus);
+  }
+}
+
+.#{$jicon-css-prefix}-zoom-out {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-search-minus);
+  }
+}
