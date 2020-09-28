@@ -688,12 +688,15 @@ abstract class HTMLHelper
 		}
 
 		// Default to loading=lazy you can disable it by passing $attribs['loading'] = 'eager';
-		if (is_array($attribs) && !isset($attribs['loading']))
+		if ((is_null($attribs) 
+		{
+			$attribs = ' loading="lazy"';
+		}
+		elseif (is_array($attribs) && !isset($attribs['loading']))
 		{
 			$attribs['loading'] = 'lazy';
 		}
-
-		if ((is_string($attribs) || $attribs === null) && !strpos($attribs, 'loading='))
+		elseif (is_string($attribs) && !strpos($attribs, ' loading='))
 		{
 			$attribs .= ' loading="lazy"';
 		}
