@@ -36,7 +36,7 @@
             <button type="button" href="#" class="media-toolbar-icon media-toolbar-info"
                @click.stop.prevent="toggleInfoBar"
                :aria-label="translate('COM_MEDIA_TOGGLE_INFO')">
-                <span class="icon-info" aria-hidden="true"></span>
+                <span class="icon-info-circle" aria-hidden="true"></span>
             </button>
         </div>
     </div>

@@ -1,5 +1,5 @@
 // IcoMoon Conversion
-$jicon-css-prefix: icon;
+$jicon-css-prefix:                 icon !global;
 
 [class^="#{$jicon-css-prefix}-"],
 [class*=" #{$jicon-css-prefix}-"] {
@@ -39,6 +39,7 @@ $jicon-css-prefix: icon;
   &:before { @extend .#{$fa-css-prefix}-joomla;}
 }
 
+.#{$jicon-css-prefix}-add:before { @extend .#{$fa-css-prefix}-plus;}
 .#{$jicon-css-prefix}-address-book:before { @extend .#{$fa-css-prefix}-address-book;}
 .#{$jicon-css-prefix}-address:before { @extend .#{$fa-css-prefix}-file-alt;}
 .#{$jicon-css-prefix}-angle-double-left:before { @extend .#{$fa-css-prefix}-angle-double-left;}
@@ -91,6 +92,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-calendar:before { @extend .#{$fa-css-prefix}-calendar;}
 .#{$jicon-css-prefix}-camera-2:before { @extend .#{$fa-css-prefix}-video;}
 .#{$jicon-css-prefix}-camera:before { @extend .#{$fa-css-prefix}-camera;}
+.#{$jicon-css-prefix}-cancel:before { @extend .#{$fa-css-prefix}-times;}
 .#{$jicon-css-prefix}-cancel-2:before { @extend .#{$fa-css-prefix}-times;}
 .#{$jicon-css-prefix}-cancel-circle:before { @extend .#{$fa-css-prefix}-times-circle;}
 .#{$jicon-css-prefix}-cancel:before { @extend .#{$fa-css-prefix}-times;}
@@ -119,6 +121,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-cog:before { @extend .#{$fa-css-prefix}-cog;}
 .#{$jicon-css-prefix}-cogs:before { @extend .#{$fa-css-prefix}-cogs;}
 .#{$jicon-css-prefix}-color-palette:before { @extend .#{$fa-css-prefix}-paint-brush;}
+.#{$jicon-css-prefix}-collapse:before { @extend .#{$fa-css-prefix}-plus;}
 .#{$jicon-css-prefix}-comment:before { @extend .#{$fa-css-prefix}-comment;}
 .#{$jicon-css-prefix}-comments-2:before { @extend .#{$fa-css-prefix}-comments;}
 .#{$jicon-css-prefix}-comments:before { @extend .#{$fa-css-prefix}-comment;}
@@ -132,7 +135,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-cube:before { @extend .#{$fa-css-prefix}-cube;}
 .#{$jicon-css-prefix}-dashboard:before { @extend .#{$fa-css-prefix}-tachometer-alt;}
 .#{$jicon-css-prefix}-database:before { @extend .#{$fa-css-prefix}-database;}
-.#{$jicon-css-prefix}-default:before { @extend .#{$fa-css-prefix}-star;}
+.#{$jicon-css-prefix}-default:before { @extend .#{$fa-css-prefix}-home;}
 .#{$jicon-css-prefix}-delete:before { @extend .#{$fa-css-prefix}-times;}
 .#{$jicon-css-prefix}-downarrow:before { @extend .#{$fa-css-prefix}-chevron-down;}
 .#{$jicon-css-prefix}-download:before { @extend .#{$fa-css-prefix}-download;}
@@ -146,6 +149,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-envelope-opened:before { @extend .#{$fa-css-prefix}-envelope;}
 .#{$jicon-css-prefix}-envelope:before { @extend .#{$fa-css-prefix}-envelope;}
 .#{$jicon-css-prefix}-equalizer:before { @extend .#{$fa-css-prefix}-sliders-h;}
+.#{$jicon-css-prefix}-error:before { @extend .#{$fa-css-prefix}-exclamation;}
 .#{$jicon-css-prefix}-exit:before { @extend .#{$fa-css-prefix}-sign-out-alt;}
 .#{$jicon-css-prefix}-external-link-alt:before { @extend .#{$fa-css-prefix}-external-link-alt;}
 .#{$jicon-css-prefix}-expand-2:before { @extend .#{$fa-css-prefix}-expand-arrows-alt;}
@@ -185,6 +189,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-forward-circle:before { @extend .#{$fa-css-prefix}-chevron-circle-right;}
 .#{$jicon-css-prefix}-forward:before { @extend .#{$fa-css-prefix}-forward;}
 .#{$jicon-css-prefix}-fw:before { @extend .#{$fa-css-prefix}-fw;}
+.#{$jicon-css-prefix}-generic:before { @extend .#{$fa-css-prefix}-dot-circle;}
 .#{$jicon-css-prefix}-grid-2:before { @extend .#{$fa-css-prefix}-th;}
 .#{$jicon-css-prefix}-grid-view-2:before { @extend .#{$fa-css-prefix}-th;}
 .#{$jicon-css-prefix}-grid-view:before { @extend .#{$fa-css-prefix}-th-large;}
@@ -195,8 +200,10 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-help:before { @extend .#{$fa-css-prefix}-question;}
 .#{$jicon-css-prefix}-home-2:before { @extend .#{$fa-css-prefix}-home;}
 .#{$jicon-css-prefix}-home:before { @extend .#{$fa-css-prefix}-home;}
+.#{$jicon-css-prefix}-hits:before { @extend .#{$fa-css-prefix}-eye;}
 .#{$jicon-css-prefix}-image:before { @extend .#{$fa-css-prefix}-image;}
 .#{$jicon-css-prefix}-images:before { @extend .#{$fa-css-prefix}-image;}
+.#{$jicon-css-prefix}-info:before { @extend .#{$fa-css-prefix}-info;}
 .#{$jicon-css-prefix}-info-2:before { @extend .#{$fa-css-prefix}-info-circle;}
 .#{$jicon-css-prefix}-info-circle:before { @extend .#{$fa-css-prefix}-info-circle;}
 .#{$jicon-css-prefix}-info:before { @extend .#{$fa-css-prefix}-info;}
@@ -210,6 +217,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-list-2:before { @extend .#{$fa-css-prefix}-list-ul;}
 .#{$jicon-css-prefix}-list-view:before { @extend .#{$fa-css-prefix}-list;}
 .#{$jicon-css-prefix}-list:before { @extend .#{$fa-css-prefix}-list;}
+.#{$jicon-css-prefix}-loading:before { @extend .#{$fa-css-prefix}-spinner;}
 .#{$jicon-css-prefix}-location:before { @extend .#{$fa-css-prefix}-map-marker-alt;}
 .#{$jicon-css-prefix}-lock:before { @extend .#{$fa-css-prefix}-lock;}
 .#{$jicon-css-prefix}-locked:before { @extend .#{$fa-css-prefix}-lock;}
@@ -230,7 +238,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-new-tab-2:before { @extend .#{$fa-css-prefix}-external-link-square-alt;}
 .#{$jicon-css-prefix}-new-tab:before { @extend .#{$fa-css-prefix}-external-link-alt;}
 .#{$jicon-css-prefix}-new:before { @extend .#{$fa-css-prefix}-plus;}
-.#{$jicon-css-prefix}-next:before { @extend .#{$fa-css-prefix}-forward;}
+.#{$jicon-css-prefix}-next:before { @extend .#{$fa-css-prefix}-angle-right;}
 .#{$jicon-css-prefix}-not-ok:before { @extend .#{$fa-css-prefix}-minus;}
 .#{$jicon-css-prefix}-notification-2:before { @extend .#{$fa-css-prefix}-exclamation-circle;}
 .#{$jicon-css-prefix}-notification-circle:before { @extend .#{$fa-css-prefix}-exclamation-circle;}
@@ -249,6 +257,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-paragraph-right:before { @extend .#{$fa-css-prefix}-align-right;}
 .#{$jicon-css-prefix}-pause-circle:before { @extend .#{$fa-css-prefix}-pause-circle;}
 .#{$jicon-css-prefix}-pause:before { @extend .#{$fa-css-prefix}-pause;}
+.#{$jicon-css-prefix}-pen-square:before { @extend .#{$fa-css-prefix}-pen-square;}
 .#{$jicon-css-prefix}-pencil-2:before { @extend .#{$fa-css-prefix}-pencil-alt;}
 .#{$jicon-css-prefix}-pencil:before { @extend .#{$fa-css-prefix}-edit;}
 .#{$jicon-css-prefix}-pending:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
@@ -269,6 +278,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-previous:before { @extend .#{$fa-css-prefix}-backward;}
 .#{$jicon-css-prefix}-print:before { @extend .#{$fa-css-prefix}-print;}
 .#{$jicon-css-prefix}-printer:before { @extend .#{$fa-css-prefix}-print;}
+.#{$jicon-css-prefix}-protected:before { @extend .#{$fa-css-prefix}-lock;}
 .#{$jicon-css-prefix}-publish:before { @extend .#{$fa-css-prefix}-check;}
 .#{$jicon-css-prefix}-purge:before { @extend .#{$fa-css-prefix}-trash;}
 .#{$jicon-css-prefix}-pushpin:before { @extend .#{$fa-css-prefix}-thumbtack;}
@@ -288,6 +298,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-redo-2:before { @extend .#{$fa-css-prefix}-sync;}
 .#{$jicon-css-prefix}-redo:before { @extend .#{$fa-css-prefix}-share;}
 .#{$jicon-css-prefix}-refresh:before { @extend .#{$fa-css-prefix}-sync;}
+.#{$jicon-css-prefix}-register:before { @extend .#{$fa-css-prefix}-arrow-alt-circle-right;}
 .#{$jicon-css-prefix}-remove:before { @extend .#{$fa-css-prefix}-times;}
 .#{$jicon-css-prefix}-reply:before { @extend .#{$fa-css-prefix}-arrow-alt-circle-left;}
 .#{$jicon-css-prefix}-rightarrow:before { @extend .#{$fa-css-prefix}-chevron-right;}
@@ -301,6 +312,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-search:before { @extend .#{$fa-css-prefix}-search;}
 .#{$jicon-css-prefix}-search-minus:before { @extend .#{$fa-css-prefix}-search-minus;}
 .#{$jicon-css-prefix}-search-plus:before { @extend .#{$fa-css-prefix}-search-plus;}
+.#{$jicon-css-prefix}-select-file:before { @extend .#{$fa-css-prefix}-copy;}
 .#{$jicon-css-prefix}-share-alt:before { @extend .#{$fa-css-prefix}-share;}
 .#{$jicon-css-prefix}-share:before { @extend .#{$fa-css-prefix}-share;}
 .#{$jicon-css-prefix}-shield-alt:before { @extend .#{$fa-css-prefix}-shield-alt;}
@@ -323,8 +335,12 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-star:before { @extend .#{$fa-css-prefix}-star;}
 .#{$jicon-css-prefix}-stop-circle:before { @extend .#{$fa-css-prefix}-stop-circle;}
 .#{$jicon-css-prefix}-stop:before { @extend .#{$fa-css-prefix}-stop;}
+.#{$jicon-css-prefix}-success:before { @extend .#{$fa-css-prefix}-check-square;}
 .#{$jicon-css-prefix}-support:before { @extend .#{$fa-css-prefix}-life-ring;}
+.#{$jicon-css-prefix}-switch:before { @extend .#{$fa-css-prefix}-power-off;}
 .#{$jicon-css-prefix}-sync:before { @extend .#{$fa-css-prefix}-sync;}
+.#{$jicon-css-prefix}-tablet:before { @extend .#{$fa-css-prefix}-tablet;}
+.#{$jicon-css-prefix}-tachometer-alt:before { @extend .#{$fa-css-prefix}-tachometer-alt;}
 .#{$jicon-css-prefix}-switch:before { @extend .#{$fa-css-prefix}-power-off;}
 .#{$jicon-css-prefix}-tablet:before { @extend .#{$fa-css-prefix}-tablet;}
 .#{$jicon-css-prefix}-tag-2:before { @extend .#{$fa-css-prefix}-tag;}
@@ -349,6 +365,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-undo:before { @extend .#{$fa-css-prefix}-undo;}
 .#{$jicon-css-prefix}-unfeatured:before { @extend .#{$fa-css-prefix}-star;}
 .#{$jicon-css-prefix}-unlock:before { @extend .#{$fa-css-prefix}-unlock;}
+.#{$jicon-css-prefix}-unlock-alt:before { @extend .#{$fa-css-prefix}-unlock-alt;}
 .#{$jicon-css-prefix}-unpublish:before { @extend .#{$fa-css-prefix}-times;}
 .#{$jicon-css-prefix}-uparrow:before { @extend .#{$fa-css-prefix}-chevron-up;}
 .#{$jicon-css-prefix}-upload:before { @extend .#{$fa-css-prefix}-upload;}
@@ -362,7 +379,7 @@ $jicon-css-prefix: icon;
 .#{$jicon-css-prefix}-video:before { @extend .#{$fa-css-prefix}-video;}
 .#{$jicon-css-prefix}-wand:before { @extend .#{$fa-css-prefix}-magic;}
 .#{$jicon-css-prefix}-warning-2:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
-.#{$jicon-css-prefix}-warning-circle:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
+.#{$jicon-css-prefix}-warning-circle:before { @extend .#{$fa-css-prefix}-exclamation-circle;}
 .#{$jicon-css-prefix}-warning:before { @extend .#{$fa-css-prefix}-exclamation-triangle;}
 .#{$jicon-css-prefix}-wifi:before { @extend .#{$fa-css-prefix}-wifi;}
 .#{$jicon-css-prefix}-wrench:before { @extend .#{$fa-css-prefix}-wrench;}
