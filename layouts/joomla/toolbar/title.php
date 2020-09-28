@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 $icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
 
 if ($icon === 'generic')
@@ -19,6 +21,7 @@ if ($icon === 'generic')
 $icon = stristr($icon, "joomla") ? str_ireplace("joomla", "fab fa-joomla", $icon) : "fas fa-" . $icon;
 ?>
 <h1 class="page-title">
+	<?php echo HTMLHelper::icon($icon); ?>
 	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $displayData['title']; ?>
 </h1>

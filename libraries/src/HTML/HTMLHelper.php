@@ -749,6 +749,46 @@ abstract class HTMLHelper
 	}
 
 	/**
+	 * Write a `<span>` element for an icon
+	 *
+	 * @param   string        $icon        The funcitonal name for an icon.
+	 * @param   array         $attribs     Attributes to be added to the wrapping element
+	 * @param   string        $iconPrefix  String prepend to icon className
+	 * @param   string        $iconSuffix  String append to icon className
+	 * @param   string        $elem        String that indicates the wrapping element. Default `span`
+	 * @param   string        $children    String append to icon className
+	 *
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0
+	 */
+	public static function icon($icon = 'default', $attribs = [], $iconPrefix = 'icon-', $iconSuffix = null, $html = true, $elem = 'span', $children = null)
+	{
+		$icon = $iconPrefix . $icon;
+
+		if (isset($iconSuffix))
+		{
+			$icon = $icon . $iconSuffix;
+		}
+
+		if (!isset($attribs['aria-hidden']))
+		{
+			$attribs['aria-hidden'] = 'true';
+		}
+
+		$attribs['class'] =  $iconPrefix . $icon;
+
+		if ($html !== false)
+		{
+			$attribs =  trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs));
+			$icon = '<' . $elem . ' ' . $attribs . '>' . $children . '</' . $elem . '>';
+		}
+
+		return $icon;
+	}
+
+	/**
 	 * Write a `<script>` element to load a JavaScript file
 	 *
 	 * @param   string  $file     Path to file.
