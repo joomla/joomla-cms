@@ -21,6 +21,6 @@ if ($icon === 'generic')
 $icon = stristr($icon, "joomla") ? str_ireplace("joomla", "fab fa-joomla", $icon) : "fas fa-" . $icon;
 ?>
 <h1 class="page-title">
-	<?php echo HTMLHelper::icon($icon); ?>
+	<?php echo HTMLHelper::_('icon', $icon); ?>
 	<?php echo $displayData['title']; ?>
 </h1>
