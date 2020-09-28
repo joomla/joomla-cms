@@ -30,8 +30,6 @@ $jicon-css-prefix:                 icon !global;
   }
 }
 
-.#{$jicon-css-prefix}-generic:before { @extend .#{$fa-css-prefix}-dot-circle;}
-
 .#{$jicon-css-prefix}-joomla {
   font-family: "Font Awesome 5 Brands";
   font-weight: 400;
@@ -88,6 +86,7 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-broadcast:before { @extend .#{$fa-css-prefix}-wifi;}
 .#{$jicon-css-prefix}-brush:before { @extend .#{$fa-css-prefix}-paint-brush;}
 .#{$jicon-css-prefix}-bubble-quote:before { @extend .#{$fa-css-prefix}-comment;}
+.#{$jicon-css-prefix}-bullhorn:before { @extend .#{$fa-css-prefix}-bullhorn;}
 .#{$jicon-css-prefix}-calendar-2:before { @extend .#{$fa-css-prefix}-calendar-check;}
 .#{$jicon-css-prefix}-calendar-3:before { @extend .#{$fa-css-prefix}-calendar;}
 .#{$jicon-css-prefix}-calendar:before { @extend .#{$fa-css-prefix}-calendar;}
@@ -138,6 +137,7 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-credit:before { @extend .#{$fa-css-prefix}-credit-card;}
 .#{$jicon-css-prefix}-crop:before { @extend .#{$fa-css-prefix}-crop;}
 .#{$jicon-css-prefix}-cube:before { @extend .#{$fa-css-prefix}-cube;}
+.#{$jicon-css-prefix}-cubes:before { @extend .#{$fa-css-prefix}-cubes;}
 .#{$jicon-css-prefix}-dashboard:before { @extend .#{$fa-css-prefix}-tachometer-alt;}
 .#{$jicon-css-prefix}-database:before { @extend .#{$fa-css-prefix}-database;}
 .#{$jicon-css-prefix}-default:before { @extend .#{$fa-css-prefix}-home;}
@@ -362,6 +362,7 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-tag:before { @extend .#{$fa-css-prefix}-tag;}
 .#{$jicon-css-prefix}-tags-2:before { @extend .#{$fa-css-prefix}-tags;}
 .#{$jicon-css-prefix}-tags:before { @extend .#{$fa-css-prefix}-tags;}
+.#{$jicon-css-prefix}-tasks:before { @extend .#{$fa-css-prefix}-tasks;}
 .#{$jicon-css-prefix}-th-large:before { @extend .#{$fa-css-prefix}-th-large;}
 .#{$jicon-css-prefix}-thumbs-down:before { @extend .#{$fa-css-prefix}-thumbs-down;}
 .#{$jicon-css-prefix}-thumbs-up:before { @extend .#{$fa-css-prefix}-thumbs-up;}
@@ -385,7 +386,9 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-uparrow:before { @extend .#{$fa-css-prefix}-chevron-up;}
 .#{$jicon-css-prefix}-upload:before { @extend .#{$fa-css-prefix}-upload;}
 .#{$jicon-css-prefix}-user-circle:before { @extend .#{$fa-css-prefix}-user-circle;}
+.#{$jicon-css-prefix}-user-edit:before { @extend .#{$fa-css-prefix}-user-edit;}
 .#{$jicon-css-prefix}-user-lock:before { @extend .#{$fa-css-prefix}-user-lock;}
+.#{$jicon-css-prefix}-user-tag:before { @extend .#{$fa-css-prefix}-user-tag;}
 .#{$jicon-css-prefix}-user:before { @extend .#{$fa-css-prefix}-user;}
 .#{$jicon-css-prefix}-users-cog:before { @extend .#{$fa-css-prefix}-users-cog;}
 .#{$jicon-css-prefix}-users:before { @extend .#{$fa-css-prefix}-users;}
@@ -401,3 +404,4 @@ $jicon-css-prefix:                 icon !global;
 .#{$jicon-css-prefix}-youtube:before { @extend .#{$fa-css-prefix}-play;}
 .#{$jicon-css-prefix}-zoom-in:before { @extend .#{$fa-css-prefix}-search-plus;}
 .#{$jicon-css-prefix}-zoom-out:before { @extend .#{$fa-css-prefix}-search-minus;}
+
