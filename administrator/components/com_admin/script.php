@@ -82,6 +82,7 @@ class JoomlaInstallerScript
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
+		$this->fixFilenameCasing();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
@@ -2639,5 +2640,52 @@ class JoomlaInstallerScript
 		// Clean admin cache
 		$model->setState('client_id', 1);
 		$model->clean();
+	}
+
+	/**
+	 * Renames or removes incorrectly cased files.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function fixFilenameCasing()
+	{
+		$files = array(
+			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
+			'libraries/vendor/paragonie/sodium_compat/src/Core/Xsalsa20.php' => 'libraries/vendor/paragonie/sodium_compat/src/Core/XSalsa20.php',
+		);
+
+		foreach ($files as $old => $expected)
+		{
+			$oldRealpath = realpath(JPATH_ROOT . '/' . $old);
+
+			// On Unix without incorrectly cased file.
+			if ($oldRealpath === false)
+			{
+				continue;
+			}
+
+			$oldBasename      = basename($oldRealpath);
+			$newRealpath      = realpath(JPATH_ROOT . '/' . $expected);
+			$newBasename      = basename($newRealpath);
+			$expectedBasename = basename($expected);
+
+			// On Windows with incorrectly cased file.
+			if ($newBasename !== $expectedBasename)
+			{
+				// Rename the file.
+				rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
+				rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+
+				continue;
+			}
+
+			// On Unix with correctly and incorrectly cased files.
+			if ($oldBasename === basename($old) && $newBasename === $expectedBasename)
+			{
+				unlink(JPATH_ROOT . '/' . $old);
+			}
+		}
 	}
 }
