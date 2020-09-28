@@ -47,7 +47,7 @@ $jicon-css-prefix:                 icon !global;
   @extend .fas;
 
   &:before {
-    content: fa-content($fa-var-add);
+    content: fa-content($fa-var-plus);
   }
 }
 
@@ -65,7 +65,7 @@ $jicon-css-prefix:                 icon !global;
   @extend .fas;
 
   &:before {
-    content: fa-content($fa-var-address);
+    content: fa-content($fa-var-file-alt);
   }
 }
 
@@ -128,7 +128,7 @@ $jicon-css-prefix:                 icon !global;
   @extend .fas;
 
   &:before {
-    content: fa-content($fa-var-apply);
+    content: fa-content($fa-var-edit);
   }
 }
 
