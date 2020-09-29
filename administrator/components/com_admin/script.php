@@ -2684,6 +2684,7 @@ class JoomlaInstallerScript
 			// On Unix with correctly and incorrectly cased files.
 			if ($oldBasename === basename($old) && $newBasename === $expectedBasename)
 			{
+				// Delete the file.
 				unlink(JPATH_ROOT . '/' . $old);
 			}
 		}
