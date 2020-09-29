@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for list jobs queue
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class JobListCommand extends AbstractCommand
 {
