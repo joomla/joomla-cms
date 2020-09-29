@@ -143,7 +143,7 @@ class JobListCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function configure(): void
 	{
