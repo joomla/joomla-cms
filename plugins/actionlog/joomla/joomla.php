@@ -1127,7 +1127,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAfterJob($info = []) :void
+	public function onAfterScheduledTask($info = []) :void
 	{
 
 		if (!$this->loggableJob)
