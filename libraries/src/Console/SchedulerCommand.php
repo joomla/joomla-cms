@@ -29,7 +29,7 @@ class SchedulerCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected static $defaultName = 'job:run';
 
