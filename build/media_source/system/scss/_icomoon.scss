@@ -1,4 +1,9 @@
-// IcoMoon Conversion
+// IcoMoon to Fontawesome Conversion
+
+// Import fontawesome so extends work.
+@import "../../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../../media/vendor/fontawesome-free/scss/solid";
+@import "../../../../media/vendor/fontawesome-free/scss/brands";
 
 // Define global icon prefix
 $jicon-css-prefix: icon !global;
@@ -11,7 +16,6 @@ $jicon-css-prefix: icon !global;
 // Standard icon global definition
 [class^="#{$jicon-css-prefix}-"],
 [class*=" #{$jicon-css-prefix}-"] {
-  @extend .fas;
   speak: none;
 }
 
@@ -27,6 +31,7 @@ $jicon-css-prefix: icon !global;
 // Brand icon global definition
 [class^="#{$jicon-css-prefix}b"],
 [class*=" #{$jicon-css-prefix}b"] {
+  @extend %fa-icon;
   @extend .fab;
   speak: none;
 }
@@ -45,6 +50,7 @@ $jicons-brand: map-merge(
 @each $jiconb-key, $jiconb-value in $jicons-brand {
   .#{$jicon-css-prefix}-#{$jiconb-key} {
     @extend %fa-icon;
+    @extend .fab;
 
     &:before {
       content: fa-content($jiconb-value);
@@ -435,6 +441,7 @@ $jicons: map-merge(
 @each $jicon-key, $jicon-value in $jicons {
   .#{$jicon-css-prefix}-#{$jicon-key} {
     @extend %fa-icon;
+    @extend .fas;
 
     &:before {
       content: fa-content($jicon-value);
