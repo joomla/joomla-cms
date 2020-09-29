@@ -159,7 +159,8 @@
       font-size: $display1-size;
       font-weight: $bold-weight;
 
-      > .fa-spinner {
+      > .fa-spinner,
+        .icon-spinner {
         font-size: $display1-size;
       }
     }

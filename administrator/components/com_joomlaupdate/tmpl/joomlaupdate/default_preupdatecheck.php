@@ -136,7 +136,7 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 						<td class="extension-check"
 							data-extension-id="<?php echo $extension->extension_id; ?>"
 							data-extension-current-version="<?php echo $extension->version; ?>">
-							<span class="fas fa-spinner fa-spin" aria-hidden="true"></span>
+							<span class="icon-spinner icon-spin" aria-hidden="true"></span>
 						</td>
 						<td>
 							<?php echo $extension->version; ?>
