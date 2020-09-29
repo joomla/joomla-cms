@@ -414,36 +414,208 @@ $jicon-css-prefix: icon !global;
 
 .#{$jicon-css-prefix}-loop:before { @extend .#{$fa-css-prefix}-sync;}
 
-.#{$jicon-css-prefix}-mail-2:before { @extend .#{$fa-css-prefix}-envelope;}
-.#{$jicon-css-prefix}-mail:before { @extend .#{$fa-css-prefix}-envelope;}
+.#{$jicon-css-prefix}-mail,
+.#{$jicon-css-prefix}-mail-2 {
+  @extend %fa-icon;
+  @extend .fas;
 
-.#{$jicon-css-prefix}-map-signs:before { @extend .#{$fa-css-prefix}-map-signs;}
-.#{$jicon-css-prefix}-menu-2:before { @extend .#{$fa-css-prefix}-sort;}
-.#{$jicon-css-prefix}-menu-3:before { @extend .#{$fa-css-prefix}-list-ol;}
-.#{$jicon-css-prefix}-menu:before { @extend .#{$fa-css-prefix}-bars;}
-.#{$jicon-css-prefix}-minus-2:before { @extend .#{$fa-css-prefix}-minus;}
-.#{$jicon-css-prefix}-minus-sign:before { @extend .#{$fa-css-prefix}-minus;}
-.#{$jicon-css-prefix}-minus:before { @extend .#{$fa-css-prefix}-minus;}
-.#{$jicon-css-prefix}-not-ok:before { @extend .#{$fa-css-prefix}-minus;}
+  &:before {
+    content: fa-content($fa-var-envelope);
+  }
+}
 
-.#{$jicon-css-prefix}-minus-circle:before { @extend .#{$fa-css-prefix}-minus-circle;}
+.#{$jicon-css-prefix}-map-signs {
+  @extend %fa-icon;
+  @extend .fas;
 
-.#{$jicon-css-prefix}-mobile:before { @extend .#{$fa-css-prefix}-mobile;}
-.#{$jicon-css-prefix}-move:before { @extend .#{$fa-css-prefix}-arrows-alt;}
-.#{$jicon-css-prefix}-music:before { @extend .#{$fa-css-prefix}-music;}
-.#{$jicon-css-prefix}-new-tab-2:before { @extend .#{$fa-css-prefix}-external-link-square-alt;}
-.#{$jicon-css-prefix}-new-tab:before { @extend .#{$fa-css-prefix}-external-link-alt;}
-.#{$jicon-css-prefix}-new:before { @extend .#{$fa-css-prefix}-plus;}
-.#{$jicon-css-prefix}-next:before { @extend .#{$fa-css-prefix}-angle-right;}
-.#{$jicon-css-prefix}-notification-2:before { @extend .#{$fa-css-prefix}-exclamation-circle;}
-.#{$jicon-css-prefix}-notification-circle:before { @extend .#{$fa-css-prefix}-exclamation-circle;}
-.#{$jicon-css-prefix}-notification:before { @extend .#{$fa-css-prefix}-exclamation;}
-.#{$jicon-css-prefix}-ok:before { @extend .#{$fa-css-prefix}-check;}
-.#{$jicon-css-prefix}-open:before { @extend .#{$fa-css-prefix}-lock-open;}
-.#{$jicon-css-prefix}-options:before { @extend .#{$fa-css-prefix}-cog;}
-.#{$jicon-css-prefix}-out-2:before { @extend .#{$fa-css-prefix}-external-link-alt;}
-.#{$jicon-css-prefix}-out-3:before { @extend .#{$fa-css-prefix}-external-link-square-alt;}
-.#{$jicon-css-prefix}-out:before { @extend .#{$fa-css-prefix}-share;}
+  &:before {
+    content: fa-content($fa-var-map-signs);
+  }
+}
+
+.#{$jicon-css-prefix}-menu-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-sort);
+  }
+}
+
+.#{$jicon-css-prefix}-menu-3 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-list-ol);
+  }
+}
+
+.#{$jicon-css-prefix}-menu {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-bars);
+  }
+}
+
+.#{$jicon-css-prefix}-minus-circle {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-minus-circle);
+  }
+}
+
+.#{$jicon-css-prefix}-mobile {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-mobile);
+  }
+}
+
+.#{$jicon-css-prefix}-move {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-arrows-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-music {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-music);
+  }
+}
+
+.#{$jicon-css-prefix}-not-ok,
+.#{$jicon-css-prefix}-minus,
+.#{$jicon-css-prefix}-minus-sign,
+.#{$jicon-css-prefix}-minus-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-minus);
+  }
+}
+
+.#{$jicon-css-prefix}-new-tab-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-external-link-square-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-new-tab {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-external-link-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-new {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-plus);
+  }
+}
+
+.#{$jicon-css-prefix}-next {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-angle-right);
+  }
+}
+
+.#{$jicon-css-prefix}-notification-circle,
+.#{$jicon-css-prefix}-notification-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-exclamation-circle);
+  }
+}
+
+.#{$jicon-css-prefix}-notification {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-exclamation);
+  }
+}
+
+.#{$jicon-css-prefix}-ok {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-check);
+  }
+}
+
+.#{$jicon-css-prefix}-open {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-lock-open);
+  }
+}
+
+.#{$jicon-css-prefix}-options {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-cog);
+  }
+}
+
+.#{$jicon-css-prefix}-out-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-external-link-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-out-3 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-external-link-square-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-out {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-share);
+  }
+}
 
 .#{$jicon-css-prefix}-palette,
 .#{$jicon-css-prefix}-paint-brush {
