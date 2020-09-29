@@ -117,7 +117,7 @@ class JobListCommand extends AbstractCommand
 	 *
 	 * @return  object
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function listJobs(string $folder = 'job', string $type = 'plugin')
 	{
