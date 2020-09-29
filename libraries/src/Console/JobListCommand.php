@@ -70,7 +70,7 @@ class JobListCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
