@@ -138,7 +138,7 @@ class PlgSystemScheduler extends JobsPlugin
 
 		foreach ($results as $result)
 		{
-			$this->app->triggerEvent('onAfterJob', [$result]);
+			$this->app->triggerEvent('onAfterScheduledTask', [$result]);
 		}
 
 		return $results;
