@@ -13,6 +13,11 @@ $jicon-css-prefix: icon !global;
   @extend .fa-fw
 }
 
+// Simulate spinner
+.#{$jicon-css-prefix}-spin {
+  @extend .fa-spin;
+}
+
 // Standard icon global definition
 [class^="#{$jicon-css-prefix}-"],
 [class*=" #{$jicon-css-prefix}-"] {
