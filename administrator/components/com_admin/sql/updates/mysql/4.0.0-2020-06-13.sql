@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS `#__jobs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `ordering`, `state`, `custom_data`) VALUES
-(0, 'plg_system_scheduler', 'plugin', 'scheduler', 'system', 0, 1, 1, 0, 1, '', '{"timeout":"3","webcron":"0","webcronkey":"mywebcronactivationkey","lastrun":"0","unit":"60","taskid":"0"}', 0, 0, '');
+(0, 'plg_system_scheduler', 'plugin', 'scheduler', 'system', 0, 1, 1, 0, 1, '', '{"timeout":"3","webcron":"0","webcronkey":"","lastrun":"0","unit":"60","taskid":"0"}', 0, 0, '');
