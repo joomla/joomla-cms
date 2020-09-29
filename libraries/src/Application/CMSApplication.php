@@ -1320,7 +1320,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return void
 	 *
-	 * @since 4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setupLogging(): void
 	{
