@@ -13,7 +13,7 @@ $jicon-css-prefix: icon !global;
   -webkit-font-smoothing: antialiased;
   speak: none;
   text-rendering: auto;
-}
+  }
 
 [class^="#{$jicon-css-prefix}-"],
 [class*=" #{$jicon-css-prefix}-"],
@@ -21,8 +21,8 @@ $jicon-css-prefix: icon !global;
 [class*=" #{$fa-css-prefix}-"] {
   &.disabled {
     font-weight: 400;
+    }
   }
-}
 
 // Brands
 [class^="#{$jicon-css-prefix}b"],
@@ -36,8 +36,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-joomla);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-youtube {
   @extend %fa-icon;
@@ -45,9 +45,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-youtube);
+    }
   }
-}
-
 
 // Solids
 .#{$jicon-css-prefix}-add {
@@ -56,8 +55,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-plus);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-address-book {
   @extend %fa-icon;
@@ -65,8 +64,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-address-book);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-address {
   @extend %fa-icon;
@@ -74,8 +73,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-file-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-angle-double-left {
   @extend %fa-icon;
@@ -83,8 +82,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-angle-double-left);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-angle-double-right {
   @extend %fa-icon;
@@ -92,8 +91,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-angle-double-right);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-angle-down {
   @extend %fa-icon;
@@ -101,8 +100,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-angle-down);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-angle-left {
   @extend %fa-icon;
@@ -110,8 +109,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-angle-left);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-angle-right {
   @extend %fa-icon;
@@ -119,8 +118,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-angle-right);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-angle-up {
   @extend %fa-icon;
@@ -128,8 +127,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-angle-up);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-apply {
   @extend %fa-icon;
@@ -137,8 +136,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-edit);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-archive {
   @extend %fa-icon;
@@ -146,8 +145,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-folder);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-arrow-down-2 {
   @extend %fa-icon;
@@ -155,8 +154,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-arrow-alt-circle-down);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-arrow-down-3 {
   @extend %fa-icon;
@@ -176,7 +175,6 @@ $jicon-css-prefix: icon !global;
     }
   }
 
-
 .#{$jicon-css-prefix}-arrow-down {
   @extend %fa-icon;
   @extend .fas;
@@ -192,8 +190,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-step-backward);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-arrow-last {
   @extend %fa-icon;
@@ -201,8 +199,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-fast-backward);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-arrow-left-2:before { @extend .#{$fa-css-prefix}-arrow-alt-circle-left;}
 .#{$jicon-css-prefix}-arrow-left-3:before { @extend .#{$fa-css-prefix}-caret-left;}
@@ -375,8 +373,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-dot-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-globe {
   @extend %fa-icon;
@@ -384,8 +382,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-globe);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-grid-view-2,
 .#{$jicon-css-prefix}-grid-2 {
@@ -394,8 +392,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-th);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-grid-view,
 .#{$jicon-css-prefix}-grid {
@@ -404,8 +402,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-th-large);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-handshake {
   @extend %fa-icon;
@@ -413,8 +411,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-handshake);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-health {
   @extend %fa-icon;
@@ -422,8 +420,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-medkit);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-heart-2,
 .#{$jicon-css-prefix}-heart {
@@ -432,8 +430,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-heart);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-help {
   @extend %fa-icon;
@@ -441,8 +439,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-question);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-hits {
   @extend %fa-icon;
@@ -450,8 +448,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-eye);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-home-2,
 .#{$jicon-css-prefix}-home {
@@ -460,8 +458,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-home);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-image,
 .#{$jicon-css-prefix}-images {
@@ -470,8 +468,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-image);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-info-circle,
 .#{$jicon-css-prefix}-info-2 {
@@ -480,8 +478,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-info-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-info {
   @extend %fa-icon;
@@ -489,8 +487,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-info);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-key {
   @extend %fa-icon;
@@ -498,8 +496,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-key);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-lamp {
   @extend %fa-icon;
@@ -507,8 +505,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-lightbulb);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-language {
   @extend %fa-icon;
@@ -516,8 +514,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-language);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-last {
   @extend %fa-icon;
@@ -525,8 +523,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-fast-forward);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-leftarrow {
   @extend %fa-icon;
@@ -534,8 +532,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-chevron-left);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-lightbulb {
   @extend %fa-icon;
@@ -543,8 +541,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-lightbulb);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-lightning {
   @extend %fa-icon;
@@ -552,8 +550,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-bolt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-link {
   @extend %fa-icon;
@@ -561,8 +559,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-link);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-list-2 {
   @extend %fa-icon;
@@ -570,8 +568,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-list-ul);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-list,
 .#{$jicon-css-prefix}-list-view {
@@ -580,8 +578,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-list);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-loading {
   @extend %fa-icon;
@@ -589,8 +587,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-spinner);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-location {
   @extend %fa-icon;
@@ -598,8 +596,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-map-marker-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-locked,
 .#{$jicon-css-prefix}-lock {
@@ -608,8 +606,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-lock);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-loop {
   @extend %fa-icon;
@@ -617,8 +615,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-sync);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-mail,
 .#{$jicon-css-prefix}-mail-2 {
@@ -627,8 +625,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-envelope);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-map-signs {
   @extend %fa-icon;
@@ -636,8 +634,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-map-signs);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-menu-2 {
   @extend %fa-icon;
@@ -645,8 +643,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-sort);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-menu-3 {
   @extend %fa-icon;
@@ -654,8 +652,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-list-ol);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-menu {
   @extend %fa-icon;
@@ -663,8 +661,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-bars);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-minus-circle {
   @extend %fa-icon;
@@ -672,8 +670,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-minus-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-mobile {
   @extend %fa-icon;
@@ -681,8 +679,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-mobile);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-move {
   @extend %fa-icon;
@@ -690,8 +688,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-arrows-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-music {
   @extend %fa-icon;
@@ -699,8 +697,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-music);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-not-ok,
 .#{$jicon-css-prefix}-minus,
@@ -711,8 +709,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-minus);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-new-tab-2 {
   @extend %fa-icon;
@@ -720,8 +718,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-external-link-square-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-new-tab {
   @extend %fa-icon;
@@ -729,8 +727,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-external-link-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-new {
   @extend %fa-icon;
@@ -738,8 +736,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-plus);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-next {
   @extend %fa-icon;
@@ -747,8 +745,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-angle-right);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-notification-circle,
 .#{$jicon-css-prefix}-notification-2 {
@@ -757,8 +755,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-exclamation-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-notification {
   @extend %fa-icon;
@@ -766,8 +764,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-exclamation);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-ok {
   @extend %fa-icon;
@@ -775,8 +773,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-check);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-open {
   @extend %fa-icon;
@@ -784,8 +782,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-lock-open);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-options {
   @extend %fa-icon;
@@ -793,8 +791,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-cog);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-out-2 {
   @extend %fa-icon;
@@ -802,8 +800,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-external-link-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-out-3 {
   @extend %fa-icon;
@@ -811,8 +809,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-external-link-square-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-out {
   @extend %fa-icon;
@@ -820,8 +818,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-share);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-palette,
 .#{$jicon-css-prefix}-paint-brush {
@@ -830,8 +828,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-paint-brush);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-paperclip {
   @extend %fa-icon;
@@ -839,8 +837,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-paperclip);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-paragraph-center {
   @extend %fa-icon;
@@ -848,8 +846,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-align-center);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-paragraph-justify {
   @extend %fa-icon;
@@ -857,8 +855,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-align-justify);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-paragraph-left {
   @extend %fa-icon;
@@ -866,8 +864,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-align-left);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-paragraph-right {
   @extend %fa-icon;
@@ -875,8 +873,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-align-right);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pause-circle {
   @extend %fa-icon;
@@ -884,8 +882,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-pause-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pause {
   @extend %fa-icon;
@@ -893,8 +891,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-pause);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pen {
   @extend %fa-icon;
@@ -902,8 +900,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-pen);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pen-square {
   @extend %fa-icon;
@@ -911,8 +909,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-pen-square);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pencil-2 {
   @extend %fa-icon;
@@ -920,8 +918,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-pencil-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pencil {
   @extend %fa-icon;
@@ -929,8 +927,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-edit);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pending {
   @extend %fa-icon;
@@ -938,8 +936,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-exclamation-triangle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-phone-2 {
   @extend %fa-icon;
@@ -947,8 +945,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-phone);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-phone {
   @extend %fa-icon;
@@ -956,8 +954,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-phone-square);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pictures,
 .#{$jicon-css-prefix}-picture {
@@ -966,8 +964,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-image);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pie {
   @extend %fa-icon;
@@ -975,8 +973,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-chart-pie);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pin {
   @extend %fa-icon;
@@ -984,8 +982,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-thumbtack);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-play-2 {
   @extend %fa-icon;
@@ -993,8 +991,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-play);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-play-circle {
   @extend %fa-icon;
@@ -1002,8 +1000,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-play-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-play {
   @extend %fa-icon;
@@ -1011,8 +1009,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-expand-arrows-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-plus-circle {
   @extend %fa-icon;
@@ -1020,8 +1018,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-plus-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-plus-square {
   @extend %fa-icon;
@@ -1029,8 +1027,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-plus-square);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-plus,
 .#{$jicon-css-prefix}-plus-2 {
@@ -1039,8 +1037,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-plus);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-power-cord,
 .#{$jicon-css-prefix}-plug {
@@ -1049,8 +1047,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-plug);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-power-off {
   @extend %fa-icon;
@@ -1058,8 +1056,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-power-off);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-previous {
   @extend %fa-icon;
@@ -1067,8 +1065,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-backward);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-printer,
 .#{$jicon-css-prefix}-print {
@@ -1077,8 +1075,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-print);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-project-diagram {
   @extend %fa-icon;
@@ -1086,8 +1084,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-project-diagram);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-protected {
   @extend %fa-icon;
@@ -1095,8 +1093,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-lock);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-publish {
   @extend %fa-icon;
@@ -1104,8 +1102,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-check);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-purge {
   @extend %fa-icon;
@@ -1113,8 +1111,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-trash);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-pushpin {
   @extend %fa-icon;
@@ -1122,8 +1120,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-thumbtack);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-puzzle,
 .#{$jicon-css-prefix}-puzzle-piece {
@@ -1132,8 +1130,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-puzzle-piece);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-question-circle,
 .#{$jicon-css-prefix}-question-2 {
@@ -1163,8 +1161,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-quote-right);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-quote-3,
 .#{$jicon-css-prefix}-comment {
@@ -1173,8 +1171,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-comment);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-quotes-left,
 .#{$jicon-css-prefix}-quote-left,
@@ -1184,8 +1182,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-quote-left);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-quotes-right {
   @extend %fa-icon;
@@ -1193,8 +1191,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-quote-right);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-radio-checked {
   @extend %fa-icon;
@@ -1202,8 +1200,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-check-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-radio-unchecked {
   @extend %fa-icon;
@@ -1211,8 +1209,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-redo {
   @extend %fa-icon;
@@ -1220,8 +1218,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-share);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-refresh,
 .#{$jicon-css-prefix}-redo-2 {
@@ -1230,8 +1228,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-sync);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-register {
   @extend %fa-icon;
@@ -1239,8 +1237,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-arrow-alt-circle-right);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-remove {
   @extend %fa-icon;
@@ -1248,8 +1246,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-times);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-reply {
   @extend %fa-icon;
@@ -1257,8 +1255,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-arrow-alt-circle-left);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-rightarrow {
   @extend %fa-icon;
@@ -1266,8 +1264,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-chevron-right);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-rss {
   @extend %fa-icon;
@@ -1275,8 +1273,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-rss);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-save-copy {
   @extend %fa-icon;
@@ -1284,8 +1282,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-copy);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-save-new {
   @extend %fa-icon;
@@ -1293,8 +1291,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-plus);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-save {
   @extend %fa-icon;
@@ -1302,8 +1300,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-save);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-scissors {
   @extend %fa-icon;
@@ -1311,8 +1309,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-cut);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-screen {
   @extend %fa-icon;
@@ -1320,8 +1318,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-desktop);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-screwdriver {
   @extend %fa-icon;
@@ -1329,8 +1327,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-wrench);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-search-minus {
   @extend %fa-icon;
@@ -1338,8 +1336,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-search-minus);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-search-plus {
   @extend %fa-icon;
@@ -1347,8 +1345,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-search-plus);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-search {
   @extend %fa-icon;
@@ -1356,8 +1354,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-search);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-select-file {
   @extend %fa-icon;
@@ -1365,8 +1363,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-copy);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-share,
 .#{$jicon-css-prefix}-share-alt {
@@ -1375,8 +1373,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-share);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-shield,
 .#{$jicon-css-prefix}-shield-alt {
@@ -1385,8 +1383,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-shield-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-shuffle {
   @extend %fa-icon;
@@ -1394,8 +1392,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-random);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-signup {
   @extend %fa-icon;
@@ -1403,8 +1401,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-sign-in-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-smiley-sad,
 .#{$jicon-css-prefix}-smiley-sad-2 {
@@ -1413,8 +1411,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-frown);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-smiley,
 .#{$jicon-css-prefix}-smiley-neutral,
@@ -1427,8 +1425,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-smile);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-sort {
   @extend %fa-icon;
@@ -1436,8 +1434,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-sort);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-spinner {
   @extend %fa-icon;
@@ -1445,8 +1443,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-spinner);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-square {
   @extend %fa-icon;
@@ -1454,8 +1452,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-square);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-stack {
   @extend %fa-icon;
@@ -1463,8 +1461,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-copy);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-star-2 {
   @extend %fa-icon;
@@ -1472,8 +1470,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-star-half);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-star,
 .#{$jicon-css-prefix}-star-empty {
@@ -1482,8 +1480,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-star);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-stop-circle {
   @extend %fa-icon;
@@ -1491,8 +1489,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-stop-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-stop {
   @extend %fa-icon;
@@ -1500,8 +1498,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-stop);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-success {
   @extend %fa-icon;
@@ -1509,8 +1507,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-check-square);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-support {
   @extend %fa-icon;
@@ -1518,8 +1516,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-life-ring);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-switch {
   @extend %fa-icon;
@@ -1527,8 +1525,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-power-off);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-sync {
   @extend %fa-icon;
@@ -1536,8 +1534,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-sync);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-tablet {
   @extend %fa-icon;
@@ -1545,8 +1543,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-tablet);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-tachometer-alt {
   @extend %fa-icon;
@@ -1554,8 +1552,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-tachometer-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-tag,
 .#{$jicon-css-prefix}-tag-2 {
@@ -1564,8 +1562,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-tag);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-tags,
 .#{$jicon-css-prefix}-tags-2 {
@@ -1574,8 +1572,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-tags);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-th-large {
   @extend %fa-icon;
@@ -1583,8 +1581,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-th-large);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-thumbs-down {
   @extend %fa-icon;
@@ -1592,8 +1590,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-thumbs-down);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-thumbs-up {
   @extend %fa-icon;
@@ -1601,8 +1599,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-thumbs-up);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-times {
   @extend %fa-icon;
@@ -1610,8 +1608,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-times);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-toggle-off {
   @extend %fa-icon;
@@ -1619,8 +1617,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-toggle-off);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-toggle-on {
   @extend %fa-icon;
@@ -1628,8 +1626,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-toggle-on);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-tools {
   @extend %fa-icon;
@@ -1637,8 +1635,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-wrench);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-trash {
   @extend %fa-icon;
@@ -1646,8 +1644,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-trash);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-tree-2 {
   @extend %fa-icon;
@@ -1655,8 +1653,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-sitemap);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-tree {
   @extend %fa-icon;
@@ -1664,8 +1662,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-code-branch);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-trophy {
   @extend %fa-icon;
@@ -1673,8 +1671,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-trophy);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-unarchive {
   @extend %fa-icon;
@@ -1682,8 +1680,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-folder-open);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-unblock {
   @extend %fa-icon;
@@ -1691,8 +1689,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-sync);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-undo,
 .#{$jicon-css-prefix}-undo-2 {
@@ -1701,8 +1699,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-undo);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-unfeatured {
   @extend %fa-icon;
@@ -1710,8 +1708,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-star);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-universal {
   @extend %fa-icon;
@@ -1719,8 +1717,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-universal-access);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-unlock-alt {
   @extend %fa-icon;
@@ -1728,8 +1726,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-unlock-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-unlock {
   @extend %fa-icon;
@@ -1737,8 +1735,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-unlock);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-unpublish {
   @extend %fa-icon;
@@ -1746,8 +1744,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-times);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-uparrow {
   @extend %fa-icon;
@@ -1755,8 +1753,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-chevron-up);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-upload {
   @extend %fa-icon;
@@ -1764,8 +1762,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-upload);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-user-circle {
   @extend %fa-icon;
@@ -1773,8 +1771,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-user-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-user-lock {
   @extend %fa-icon;
@@ -1782,8 +1780,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-user-lock);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-user {
   @extend %fa-icon;
@@ -1791,8 +1789,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-user);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-users-cog {
   @extend %fa-icon;
@@ -1800,8 +1798,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-users-cog);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-users {
   @extend %fa-icon;
@@ -1809,8 +1807,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-users);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-vcard {
   @extend %fa-icon;
@@ -1818,8 +1816,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-file-alt);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-video-2 {
   @extend %fa-icon;
@@ -1827,8 +1825,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-play);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-video {
   @extend %fa-icon;
@@ -1836,8 +1834,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-video);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-wand {
   @extend %fa-icon;
@@ -1845,8 +1843,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-magic);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-warning-2 {
   @extend %fa-icon;
@@ -1854,8 +1852,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-exclamation-triangle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-warning-circle {
   @extend %fa-icon;
@@ -1863,8 +1861,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-exclamation-circle);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-warning {
   @extend %fa-icon;
@@ -1872,9 +1870,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-exclamation-triangle);
+    }
   }
-}
-
 
 .#{$jicon-css-prefix}-wifi {
   @extend %fa-icon;
@@ -1882,8 +1879,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-wifi);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-wrench {
   @extend %fa-icon;
@@ -1891,8 +1888,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-wrench);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-zoom-in {
   @extend %fa-icon;
@@ -1900,8 +1897,8 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-search-plus);
+    }
   }
-}
 
 .#{$jicon-css-prefix}-zoom-out {
   @extend %fa-icon;
@@ -1909,5 +1906,5 @@ $jicon-css-prefix: icon !global;
 
   &:before {
     content: fa-content($fa-var-search-minus);
+    }
   }
-}
