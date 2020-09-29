@@ -8,15 +8,6 @@
 // Define global icon prefix
 $jicon-css-prefix: icon !global;
 
-// Simulate fa-fw
-.#{$jicon-css-prefix}-fw {
-  @extend .fa-fw
-}
-
-// Simulate spinner
-.#{$jicon-css-prefix}-spin {
-  @extend .fa-spin;
-}
 
 // Standard icon global definition
 [class^="#{$jicon-css-prefix}-"],
@@ -60,6 +51,25 @@ $jicons-brand: map-merge(
     &:before {
       content: fa-content($jiconb-value);
     }
+  }
+}
+
+// Create special actions mapping array
+$jicons-special: () !default;
+$jicons-special: map-merge(
+    (
+      fw : fw,
+      spin : spin,
+      pulse : pulse,
+      stack : stack
+    ),
+    $jicons-special
+);
+
+// Parse special actions mapping array
+@each $jicon-special-key, $jicon-special-value in $jicons-special {
+  .#{$jicon-css-prefix}-#{$jicon-special-key} {
+    @extend .fa-#{$jicon-special-value};
   }
 }
 
