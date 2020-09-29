@@ -368,34 +368,138 @@ $jicon-css-prefix: icon !global;
 .#{$jicon-css-prefix}-forward-circle:before { @extend .#{$fa-css-prefix}-chevron-circle-right;}
 .#{$jicon-css-prefix}-forward:before { @extend .#{$fa-css-prefix}-forward;}
 .#{$jicon-css-prefix}-fw:before { @extend .#{$fa-css-prefix}-fw;}
-.#{$jicon-css-prefix}-generic:before { @extend .#{$fa-css-prefix}-dot-circle;}
-.#{$jicon-css-prefix}-globe:before { @extend .#{$fa-css-prefix}-globe;}
-.#{$jicon-css-prefix}-grid-2:before { @extend .#{$fa-css-prefix}-th;}
-.#{$jicon-css-prefix}-grid-view-2:before { @extend .#{$fa-css-prefix}-th;}
-.#{$jicon-css-prefix}-grid-view:before { @extend .#{$fa-css-prefix}-th-large;}
-.#{$jicon-css-prefix}-grid:before { @extend .#{$fa-css-prefix}-th-large;}
-.#{$jicon-css-prefix}-handshake:before { @extend .#{$fa-css-prefix}-handshake;}
-.#{$jicon-css-prefix}-health:before { @extend .#{$fa-css-prefix}-medkit;}
 
-.#{$jicon-css-prefix}-heart-2:before { @extend .#{$fa-css-prefix}-heart;}
-.#{$jicon-css-prefix}-heart:before { @extend .#{$fa-css-prefix}-heart;}
+.#{$jicon-css-prefix}-generic {
+  @extend %fa-icon;
+  @extend .fas;
 
-.#{$jicon-css-prefix}-help:before { @extend .#{$fa-css-prefix}-question;}
-.#{$jicon-css-prefix}-hits:before { @extend .#{$fa-css-prefix}-eye;}
+  &:before {
+    content: fa-content($fa-var-dot-circle);
+  }
+}
 
-.#{$jicon-css-prefix}-home-2:before { @extend .#{$fa-css-prefix}-home;}
-.#{$jicon-css-prefix}-home:before { @extend .#{$fa-css-prefix}-home;}
+.#{$jicon-css-prefix}-globe {
+  @extend %fa-icon;
+  @extend .fas;
 
-.#{$jicon-css-prefix}-image:before { @extend .#{$fa-css-prefix}-image;}
-.#{$jicon-css-prefix}-images:before { @extend .#{$fa-css-prefix}-image;}
+  &:before {
+    content: fa-content($fa-var-globe);
+  }
+}
 
-.#{$jicon-css-prefix}-info-2:before { @extend .#{$fa-css-prefix}-info-circle;}
-.#{$jicon-css-prefix}-info-circle:before { @extend .#{$fa-css-prefix}-info-circle;}
+.#{$jicon-css-prefix}-grid-view-2,
+.#{$jicon-css-prefix}-grid-2 {
+  @extend %fa-icon;
+  @extend .fas;
 
-.#{$jicon-css-prefix}-info:before { @extend .#{$fa-css-prefix}-info;}
-.#{$jicon-css-prefix}-info:before { @extend .#{$fa-css-prefix}-info;}
+  &:before {
+    content: fa-content($fa-var-th);
+  }
+}
 
-.#{$jicon-css-prefix}-key:before { @extend .#{$fa-css-prefix}-key;}
+.#{$jicon-css-prefix}-grid-view,
+.#{$jicon-css-prefix}-grid {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-th-large);
+  }
+}
+
+.#{$jicon-css-prefix}-handshake {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-handshake);
+  }
+}
+
+.#{$jicon-css-prefix}-health {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-medkit);
+  }
+}
+
+.#{$jicon-css-prefix}-heart-2,
+.#{$jicon-css-prefix}-heart {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-heart);
+  }
+}
+
+.#{$jicon-css-prefix}-help {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-question);
+  }
+}
+
+.#{$jicon-css-prefix}-hits {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-eye);
+  }
+}
+
+.#{$jicon-css-prefix}-home-2,
+.#{$jicon-css-prefix}-home {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-home);
+  }
+}
+
+.#{$jicon-css-prefix}-image,
+.#{$jicon-css-prefix}-images {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-image);
+  }
+}
+
+.#{$jicon-css-prefix}-info-circle,
+.#{$jicon-css-prefix}-info-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-info-circle);
+  }
+}
+
+.#{$jicon-css-prefix}-info {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-info);
+  }
+}
+
+.#{$jicon-css-prefix}-key {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-key);
+  }
+}
 
 .#{$jicon-css-prefix}-lamp {
   @extend %fa-icon;
