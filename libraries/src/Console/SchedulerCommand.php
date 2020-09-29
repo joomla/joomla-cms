@@ -46,7 +46,8 @@ class SchedulerCommand extends AbstractCommand
 	 * Stores the Input Object
 	 *
 	 * @var InputInterface
-	 * @since 4.0
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $cliInput;
 
