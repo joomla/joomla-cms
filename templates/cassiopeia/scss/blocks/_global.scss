@@ -41,6 +41,10 @@ dd {
   margin-bottom: 0;
 }
 
+th dd {
+  font-weight: normal;
+}
+
 .mod-menu {
   flex-direction: column;
 }
