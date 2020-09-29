@@ -8,7 +8,6 @@ $jicon-css-prefix: icon !global;
   @extend .fa-fw
 }
 
-
 // Standard icon global definition
 [class^="#{$jicon-css-prefix}-"],
 [class*=" #{$jicon-css-prefix}-"] {
@@ -53,7 +52,7 @@ $jicons-brand: map-merge(
   }
 }
 
-// Create standard mapping array
+// Create standard icons mapping array
 $jicons: () !default;
 $jicons: map-merge(
     (
@@ -426,7 +425,7 @@ $jicons: map-merge(
     $jicons
 );
 
-// Parse standard icon mapping array
+// Parse standard icons mapping array
 @each $jicon-key, $jicon-value in $jicons {
   .#{$jicon-css-prefix}-#{$jicon-key} {
     @extend %fa-icon;
