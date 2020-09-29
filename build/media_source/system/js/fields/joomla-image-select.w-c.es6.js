@@ -254,7 +254,7 @@
     }
 
     altInputFn(e) {
-      this.setAttribute('alt-value', e.target.value);
+      this.setAttribute('alt-value', e.target.value.replace(/"/g, '&quot;'));
     }
 
     adjustHeight() {
