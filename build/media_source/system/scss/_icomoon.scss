@@ -396,23 +396,125 @@ $jicon-css-prefix: icon !global;
 .#{$jicon-css-prefix}-info:before { @extend .#{$fa-css-prefix}-info;}
 
 .#{$jicon-css-prefix}-key:before { @extend .#{$fa-css-prefix}-key;}
-.#{$jicon-css-prefix}-lamp:before { @extend .#{$fa-css-prefix}-lightbulb;}
-.#{$jicon-css-prefix}-language:before { @extend .#{$fa-css-prefix}-language;}
-.#{$jicon-css-prefix}-last:before { @extend .#{$fa-css-prefix}-fast-forward;}
-.#{$jicon-css-prefix}-leftarrow:before { @extend .#{$fa-css-prefix}-chevron-left;}
-.#{$jicon-css-prefix}-lightbulb:before { @extend .#{$fa-css-prefix}-lightbulb;}
-.#{$jicon-css-prefix}-lightning:before { @extend .#{$fa-css-prefix}-bolt;}
-.#{$jicon-css-prefix}-link:before { @extend .#{$fa-css-prefix}-link;}
-.#{$jicon-css-prefix}-list-2:before { @extend .#{$fa-css-prefix}-list-ul;}
-.#{$jicon-css-prefix}-list-view:before { @extend .#{$fa-css-prefix}-list;}
-.#{$jicon-css-prefix}-list:before { @extend .#{$fa-css-prefix}-list;}
-.#{$jicon-css-prefix}-loading:before { @extend .#{$fa-css-prefix}-spinner;}
-.#{$jicon-css-prefix}-location:before { @extend .#{$fa-css-prefix}-map-marker-alt;}
 
-.#{$jicon-css-prefix}-lock:before { @extend .#{$fa-css-prefix}-lock;}
-.#{$jicon-css-prefix}-locked:before { @extend .#{$fa-css-prefix}-lock;}
+.#{$jicon-css-prefix}-lamp {
+  @extend %fa-icon;
+  @extend .fas;
 
-.#{$jicon-css-prefix}-loop:before { @extend .#{$fa-css-prefix}-sync;}
+  &:before {
+    content: fa-content($fa-var-lightbulb);
+  }
+}
+
+.#{$jicon-css-prefix}-language {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-language);
+  }
+}
+
+.#{$jicon-css-prefix}-last {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-fast-forward);
+  }
+}
+
+.#{$jicon-css-prefix}-leftarrow {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-chevron-left);
+  }
+}
+
+.#{$jicon-css-prefix}-lightbulb {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-lightbulb);
+  }
+}
+
+.#{$jicon-css-prefix}-lightning {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-bolt);
+  }
+}
+
+.#{$jicon-css-prefix}-link {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-link);
+  }
+}
+
+.#{$jicon-css-prefix}-list-2 {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-list-ul);
+  }
+}
+
+.#{$jicon-css-prefix}-list,
+.#{$jicon-css-prefix}-list-view {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-list);
+  }
+}
+
+.#{$jicon-css-prefix}-loading {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-spinner);
+  }
+}
+
+.#{$jicon-css-prefix}-location {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-map-marker-alt);
+  }
+}
+
+.#{$jicon-css-prefix}-locked,
+.#{$jicon-css-prefix}-lock {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-lock);
+  }
+}
+
+.#{$jicon-css-prefix}-loop {
+  @extend %fa-icon;
+  @extend .fas;
+
+  &:before {
+    content: fa-content($fa-var-sync);
+  }
+}
 
 .#{$jicon-css-prefix}-mail,
 .#{$jicon-css-prefix}-mail-2 {
