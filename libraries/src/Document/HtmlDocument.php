@@ -761,7 +761,7 @@ class HtmlDocument extends Document
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory . '/' . $filename))
+		if (is_file($directory . '/' . $filename))
 		{
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
@@ -789,12 +789,12 @@ class HtmlDocument extends Document
 		{
 			if ($template->parent !== ''
 				&& $base === 1
-				&& !file_exists(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
+				&& !is_file(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
 			{
 				$dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
 			}
 
-			if (file_exists($dir . $icon))
+			if (is_file($dir . $icon))
 			{
 				$urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
 				$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
@@ -828,19 +828,19 @@ class HtmlDocument extends Document
 		$baseDir = $directory . '/' . $template;
 
 		if (!empty($inherits)
-			&& !file_exists($directory . '/' . $template . '/' . $file)
-			&& file_exists($directory . '/' . $inherits . '/' . $file)
+			&& !is_file($directory . '/' . $template . '/' . $file)
+			&& is_file($directory . '/' . $inherits . '/' . $file)
 		)
 		{
 			$baseDir = $directory . '/' . $inherits;
 		}
 
-		if (!file_exists($baseDir . '/' . $file))
+		if (!is_file($baseDir . '/' . $file))
 		{
 			$template = 'system';
 		}
 
-		if (!file_exists($baseDir . '/' . $file))
+		if (!is_file($baseDir . '/' . $file))
 		{
 			$file = 'index.php';
 		}
