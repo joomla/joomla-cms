@@ -3,6 +3,12 @@
 // Define global icon prefix
 $jicon-css-prefix: icon !global;
 
+// Simulate fa-fw
+.#{$jicon-css-prefix}-fw {
+  @extend .fa-fw
+}
+
+
 // Standard icon global definition
 [class^="#{$jicon-css-prefix}-"],
 [class*=" #{$jicon-css-prefix}-"] {
@@ -211,7 +217,6 @@ $jicons: map-merge(
       forward-2 : $fa-var-arrow-alt-circle-right,
       forward-circle : $fa-var-chevron-circle-right,
       forward : $fa-var-forward,
-      fw : $fa-var-fw,
       generic : $fa-var-dot-circle,
       globe : $fa-var-globe,
       grid-2 : $fa-var-th,
