@@ -29,9 +29,14 @@ $alert = [
 
 // Load JavaScript message titles
 Text::script('ERROR');
-Text::script('WARNING');
-Text::script('NOTICE');
 Text::script('MESSAGE');
+Text::script('NOTICE');
+Text::script('WARNING');
+
+// Load other Javascript message strings
+Text::script('JCLOSE');
+Text::script('JOK');
+Text::script('JOPEN');
 
 // Alerts progressive enhancement
 Factory::getDocument()->getWebAssetManager()
