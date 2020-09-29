@@ -21,7 +21,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for checking if there are pending jobs
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class SchedulerCommand extends AbstractCommand
 {
