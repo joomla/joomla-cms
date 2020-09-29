@@ -174,7 +174,7 @@ class SchedulerCommand extends AbstractCommand
 
 		foreach ($results as $result)
 		{
-			$this->getApplication()->triggerEvent('onAfterJob', [$result]);
+			$this->getApplication()->triggerEvent('onAfterScheduledTask', [$result]);
 		}
 
 		return $results;
