@@ -70,7 +70,7 @@ class PlgSystemScheduler extends JobsPlugin
 		{
 			$webcronkey = $this->app->input->get('webcronkey', '', 'cmd');
 
-			if ($webcronkey !== $this->params->get('webcronkey', ''))
+			if (empty($webcronkey) || $webcronkey !== $this->params->get('webcronkey', ''))
 			{
 				return;
 			}
