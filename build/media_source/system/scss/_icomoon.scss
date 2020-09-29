@@ -410,7 +410,11 @@ $jicons: map-merge(
 );
 
 @each $jicon-key, $jicon-value in $jicons {
-  .#{$jicon-css-prefix}-#{$jicon-key}:before {
-    @extend .#{$fa-css-prefix}-#{$jicon-value};
+  .#{$jicon-css-prefix}-#{$jicon-key} {
+    @include fa-icon;
+
+    &:before {
+      content: fa-content(#{$jicon-value});
+    }
   }
 }
