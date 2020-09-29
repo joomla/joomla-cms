@@ -47,7 +47,7 @@
 					name="webcronkey"
 					type="text"
 					label="PLG_SYSTEM_SCHEDULER_WEBCRONKEY_LABEL"
-					default="mywebcronactivationkey"
+					default=""
 					size="30"
 					showon="webcron:1"
 				/>
