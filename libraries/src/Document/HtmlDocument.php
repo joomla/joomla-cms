@@ -827,22 +827,18 @@ class HtmlDocument extends Document
 		$inherits = $params['templateInherits'] ?? '';
 		$baseDir = $directory . '/' . $template;
 
-		if (!empty($inherits)
-			&& !is_file($directory . '/' . $template . '/' . $file)
-			&& is_file($directory . '/' . $inherits . '/' . $file)
-		)
+		if (!is_file($directory . '/' . $template . '/' . $file))
 		{
-			$baseDir = $directory . '/' . $inherits;
-		}
-
-		if (!is_file($baseDir . '/' . $file))
-		{
-			$template = 'system';
-		}
-
-		if (!is_file($baseDir . '/' . $file))
-		{
-			$file = 'index.php';
+			if ($inherits !== '' && is_file($directory . '/' . $inherits . '/' . $file))
+			{
+				$baseDir = $directory . '/' . $inherits;
+			}
+			else
+			{
+				$baseDir = $directory . '/system';
+				$template = 'system';
+				$file = 'index.php';
+			}
 		}
 
 		// Load the language file for the template
