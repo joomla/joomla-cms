@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -65,6 +65,7 @@ class JNamespacePsr4Map
 		$extensions = array_merge(
 			$this->getNamespaces('component'),
 			$this->getNamespaces('module'),
+			$this->getNamespaces('template'),
 			$this->getNamespaces('plugin'),
 			$this->getNamespaces('library')
 		);
@@ -139,7 +140,7 @@ class JNamespacePsr4Map
 	 */
 	private function getNamespaces(string $type): array
 	{
-		if (!in_array($type, ['component', 'module', 'plugin', 'library'], true))
+		if (!in_array($type, ['component', 'module', 'plugin', 'template', 'library'], true))
 		{
 			return [];
 		}
@@ -152,6 +153,10 @@ class JNamespacePsr4Map
 		elseif ($type === 'module')
 		{
 			$directories = [JPATH_SITE . '/modules', JPATH_ADMINISTRATOR . '/modules'];
+		}
+		elseif ($type === 'template')
+		{
+			$directories = [JPATH_SITE . '/templates', JPATH_ADMINISTRATOR . '/templates'];
 		}
 		elseif ($type === 'plugin')
 		{
@@ -172,7 +177,9 @@ class JNamespacePsr4Map
 				$extensionPath = $directory . '/' . $extension . '/';
 
 				// Strip the com_ from the extension name for components
+				// $name = $type === 'component' ? str_replace('com_', '', $extension, $count) : $extension; 
 				$name = str_replace('com_', '', $extension, $count);
+				$name = $type === 'template' ? 'templateDetails' : $name; 
 				$file = $extensionPath . $name . '.xml';
 
 				// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_ prefix.
