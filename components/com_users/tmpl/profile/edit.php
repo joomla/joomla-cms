@@ -55,19 +55,7 @@ $wa->useScript('keepalive')
 					<?php endif; ?>
 					<?php // Iterate through the fields in the set and display them. ?>
 					<?php foreach ($fields as $field) : ?>
-					<?php // If the field is hidden, just display the input. ?>
-						<?php if ($field->hidden) : ?>
-							<?php echo $field->input; ?>
-						<?php else : ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $field->label; ?>
-								</div>
-								<div class="controls">
-									<?php echo $field->input; ?>
-								</div>
-							</div>
-						<?php endif; ?>
+						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</fieldset>
 			<?php endif; ?>

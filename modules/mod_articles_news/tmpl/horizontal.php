@@ -15,21 +15,16 @@ use Joomla\CMS\Helper\ModuleHelper;
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('mod_modules', 'mod_articles_news/template.css');
 
-if (!$list)
+if (empty($list))
 {
 	return;
 }
 
 ?>
 <ul class="mod-articlesnews-horizontal newsflash-horiz mod-list">
-	<?php for ($i = 0, $n = count($list); $i < $n; $i ++) : ?>
-		<?php $item = $list[$i]; ?>
+	<?php foreach ($list as $item) : ?>
 		<li>
 			<?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
-
-			<?php if ($n > 1 && (($i < $n - 1) || $params->get('showLastSeparator'))) : ?>
-				<span class="article-separator">&#160;</span>
-			<?php endif; ?>
 		</li>
-	<?php endfor; ?>
+	<?php endforeach; ?>
 </ul>
