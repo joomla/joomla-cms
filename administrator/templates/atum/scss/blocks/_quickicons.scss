@@ -166,8 +166,8 @@
       font-size: $display1-size;
       font-weight: $bold-weight;
 
-      > .#{$jicon-css-prefix}-spinner,
-      > .#{$fa-css-prefix}-spinner {
+      > .#{$jicon-css-prefix}-spin,
+      > .#{$fa-css-prefix}-spin {
         font-size: $display1-size;
       }
     }
