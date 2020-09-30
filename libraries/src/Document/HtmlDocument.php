@@ -846,7 +846,7 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE)
-			|| $lang->load('tpl_' . $inherits, $directory . '/' . $inherits)
+			|| ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables
