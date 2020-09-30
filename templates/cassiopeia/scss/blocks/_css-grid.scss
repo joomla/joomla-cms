@@ -23,17 +23,6 @@
       max-width: none;
     }
 
-    .container-component,
-    .container-sidebar-left,
-    .container-sidebar-right {
-      display: flex;
-      flex-direction: column;
-
-      > * + * {
-        margin-top: $cassiopeia-grid-gutter;
-      }
-    }
-
     &:not(.has-sidebar-left) .container-component {
       grid-column-start: main-start;
     }
@@ -87,10 +76,6 @@
 
 .container-top-b {
   grid-area: top-b;
-}
-
-.container-main {
-  grid-area: main;
 }
 
 .container-component {

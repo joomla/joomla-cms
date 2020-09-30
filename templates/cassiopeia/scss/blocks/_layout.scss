@@ -32,6 +32,7 @@
 .container-bottom-a,
 .container-bottom-b {
   padding: 4rem 0;
+
   > * {
     flex: 1;
     margin: ($cassiopeia-grid-gutter / 2);
@@ -46,29 +47,23 @@
   }
 }
 
-.container-main {
-  > * {
-    margin: ($cassiopeia-grid-gutter / 2);
-  }
-
-  @include media-breakpoint-down(sm) {
-    flex-direction: column;
-
-    > * {
-      flex: 0 1 auto;
-    }
-  }
-}
-
-.container-component {
+.container-component,
+.container-sidebar-left,
+.container-sidebar-right {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 
-  > *:not(#system-message-container) {
-    margin-bottom: $cassiopeia-grid-gutter;
+  > * {
+    margin-bottom: 0;
 
-    &:last-of-type {
-      margin-bottom: 0;
+    &:first-child {
+      margin-top: $cassiopeia-grid-gutter;
     }
+  }
+
+  > * + * {
+    margin-top: $cassiopeia-grid-gutter;
   }
 }
 

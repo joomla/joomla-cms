@@ -9,12 +9,16 @@
   width: 100%;
   min-width: 16rem;
   padding: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
   color: var(--gray-dark);
   background-color: $white;
   border: 1px solid var(--alert-accent-color, transparent);
   border-radius: .25rem;
   transition: opacity .15s linear;
+
+  + * {
+    margin-top: 1rem;
+  }
 
   .alert-heading {
     display: flex;
