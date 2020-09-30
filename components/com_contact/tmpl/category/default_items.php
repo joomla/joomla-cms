@@ -17,6 +17,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_contact.contacts-list');
+
 HTMLHelper::_('behavior.core');
 $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
@@ -46,6 +50,10 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 						title="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
 						placeholder="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
 					>
+					<span class="input-group-append">
+						<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+						<button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
+					</span>
 				</div>
 			<?php endif; ?>
 
@@ -57,6 +65,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<?php echo $this->pagination->getLimitBox(); ?>
 				</div>
 			<?php endif; ?>
+
 		</fieldset>
 		<?php endif; ?>
 		<?php if (empty($this->items)) : ?>
