@@ -50,18 +50,6 @@
 		</field>
 
 		<field
-			name="link_intro_image"
-			type="radio"
-			label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			showon="show_intro:1"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
 			name="info_block_position"
 			type="list"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
@@ -776,6 +764,23 @@
 			<option value="3">J3</option>
 			<option value="4">J4</option>
 			<option value="5">J5</option>
+		</field>
+
+		<field
+			name="spacer2"
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
+			name="link_intro_image"
+			type="radio"
+			label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 	<fieldset
