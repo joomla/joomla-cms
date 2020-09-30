@@ -38,7 +38,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 							class="btn btn-secondary btn-sm float-right"
 							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
 						>
-							<span class="fas fa-plus" aria-hidden="true"></span>
+							<span class="icon-plus" aria-hidden="true"></span>
 						</button>
 					<?php endif; ?>
 				</h3>

@@ -47,7 +47,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				</div>
 				<div class="j-header-help">
 					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
-						<span class="fas fa-lightbulb" aria-hidden="true"></span>
+						<span class="icon-lightbulb" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 					</a>
 				</div>
@@ -63,12 +63,12 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<div id="container-installation" class="container-installation flex">
 					<div class="j-install-step active">
 						<div class="j-install-step-header">
-							<span class="fas fa-exclamation" aria-hidden="true"></span> <?php echo Text::_('INSTL_ERROR'); ?>
+							<span class="icon-exclamation" aria-hidden="true"></span> <?php echo Text::_('INSTL_ERROR'); ?>
 						</div>
 						<div class="j-install-step-form">
 							<div class="alert preinstall-alert">
 								<div class="alert-icon">
-									<span class="alert-icon fas fa-exclamation-triangle" aria-hidden="true"></span>
+									<span class="alert-icon icon-exclamation-triangle" aria-hidden="true"></span>
 								</div>
 								<div class="alert-text">
 									<h2><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>

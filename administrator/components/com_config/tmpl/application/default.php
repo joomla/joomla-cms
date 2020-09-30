@@ -29,7 +29,7 @@ Text::script('MESSAGE');
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-3">
 			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-				<span class="fas fa-align-justify" aria-hidden="true"></span>
+				<span class="icon-align-justify" aria-hidden="true"></span>
 				<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
 			<div class="sidebar-nav bg-light p-2 my-2">

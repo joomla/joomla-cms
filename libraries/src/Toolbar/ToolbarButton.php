@@ -206,8 +206,7 @@ abstract class ToolbarButton
 		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
 
 		// Isolate button class from icon class
-		$buttonClass = str_replace('fas fa-', '', $this->getName());
-		$buttonClass = str_ireplace('fa-', '', $buttonClass);
+		$buttonClass = str_replace('icon-', '', $this->getName());
 		$iconclass = $options['btnClass'] ?? '';
 		$options['btnClass'] = 'button-' . $buttonClass . ' ' . $iconclass;
 

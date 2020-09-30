@@ -4,7 +4,7 @@
              @dblclick.stop.prevent="onPreviewDblClick()">
             <div class="file-background">
                 <div class="folder-icon">
-                    <span class="fas fa-folder"></span>
+                    <span class="icon-folder"></span>
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
               :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')" :title="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')" @keyup.enter="openActions()"
                @focus="focused(true)" @blur="focused(false)" @keyup.space="openActions()"
                @keyup.down="openActions()" @keyup.up="openLastActions()">
-                <span class="image-browser-action fas fa-ellipsis-h" aria-hidden="true"
+                <span class="image-browser-action icon-ellipsis-h" aria-hidden="true"
                       @click.stop="openActions()"></span>
             </button>
             <div v-if="showActions" class="media-browser-actions-list">
@@ -31,7 +31,7 @@
                           :aria-label="translate('COM_MEDIA_ACTION_RENAME')" :title="translate('COM_MEDIA_ACTION_RENAME')" @keyup.space="openRenameModal()"
                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
                           @keyup.up="$refs.actionDelete.focus()" @keyup.down="$refs.actionDelete.focus()">
-                            <span class="image-browser-action fas fa-text-width" aria-hidden="true"
+                            <span class="image-browser-action icon-text-width" aria-hidden="true"
                                   @click.stop="openRenameModal()"></span>
                         </button>
                     </li>
@@ -40,7 +40,7 @@
                           :aria-label="translate('COM_MEDIA_ACTION_DELETE')" :title="translate('COM_MEDIA_ACTION_DELETE')" @keyup.space="openConfirmDeleteModal()"
                            @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
                            @keyup.up="$refs.actionRename.focus()" @keyup.down="$refs.actionRename.focus()">
-                            <span class="image-browser-action fas fa-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>
+                            <span class="image-browser-action icon-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>
                         </button>
                     </li>
                 </ul>

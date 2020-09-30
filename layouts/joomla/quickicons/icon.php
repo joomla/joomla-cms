@@ -90,7 +90,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	if (isset($displayData['linkadd'])): ?>
 		<li class="btn-block quickicon-linkadd j-links-link d-flex">
 			<a class="d-flex align-items-center" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
-				<span class="fas fa-plus" aria-hidden="true"></span>
+				<span class="icon-plus" aria-hidden="true"></span>
 			</a>
 		</li>
 	</ul>

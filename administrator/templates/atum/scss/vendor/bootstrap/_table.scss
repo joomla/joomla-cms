@@ -68,11 +68,13 @@
       margin-bottom: 0;
     }
 
-    .inactive .fas,
-    .inactive .fab,
-    .inactive [class^=icon-] {
-      color: $gray-400;
+    .inactive {
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
+        color: $gray-400;
+      }
     }
-
   }
 }

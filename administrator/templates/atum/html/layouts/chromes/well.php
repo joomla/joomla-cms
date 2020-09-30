@@ -51,7 +51,7 @@ $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($
 					<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
 					<div class="module-actions dropdown">
 						<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
-							<span class="fas fa-cog" aria-hidden="true"></span>
+							<span class="icon-cog" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
 						</button>
 						<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">

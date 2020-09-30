@@ -54,34 +54,38 @@
     }
   }
 
-  .btn.btn-danger [class*=" fa-"],
-  .btn.btn-danger [class*=" icon-"],
-  .btn.btn-danger [class^=fa-],
-  .btn.btn-danger [class^=icon-],
-  .btn.btn-danger span {
-    display: inline-block;
-    width: 2.375rem;
-    height: 100%;
-    margin: 0 16px;
-    margin-inline-start: -22px;
-    line-height: 2.375rem;
-    color: hsla(0, 0%, 100%, .9);
-    background-color: var(--danger);
+  .btn.btn-danger {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"],
+    span {
+      display: inline-block;
+      width: 2.375rem;
+      height: 100%;
+      margin: 0 16px;
+      margin-inline-start: -22px;
+      line-height: 2.375rem;
+      color: hsla(0, 0%, 100%, .9);
+      background-color: var(--danger);
+    }
   }
 
-  .btn.btn-success [class*=" fa-"],
-  .btn.btn-success [class*=" icon-"],
-  .btn.btn-success [class^=fa-],
-  .btn.btn-success [class^=icon-],
-  .btn.btn-success span {
-    display: inline-block;
-    width: 2.375rem;
-    height: 100%;
-    margin: 0 16px;
-    margin-inline-start: -22px;
-    line-height: 2.375rem;
-    color: hsla(0, 0%, 100%, .9);
-    background-color: var(--success);
+  .btn.btn-success {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"],
+    span {
+      display: inline-block;
+      width: 2.375rem;
+      height: 100%;
+      margin: 0 16px;
+      margin-inline-start: -22px;
+      line-height: 2.375rem;
+      color: hsla(0, 0%, 100%, .9);
+      background-color: var(--success);
+    }
   }
 }
 

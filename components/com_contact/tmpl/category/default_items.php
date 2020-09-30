@@ -61,7 +61,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>
 			</div>
 		<?php else : ?>

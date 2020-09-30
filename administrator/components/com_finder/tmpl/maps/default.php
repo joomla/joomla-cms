@@ -36,7 +36,7 @@ $wa->useScript('com_finder.maps');
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
 					</div>
 				<?php else : ?>
@@ -63,11 +63,11 @@ $wa->useScript('com_finder.maps');
 								</th>
 							<?php endif; ?>
 							<th scope="col" class="w-1 text-center">
-								<span class="fas fa-check" aria-hidden="true"></span>
+								<span class="icon-check" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 							<th scope="col" class="w-1 text-center">
-								<span class="fas fa-times" aria-hidden="true"></span>
+								<span class="icon-times" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 							<?php if (Multilanguage::isEnabled()) : ?>

@@ -20,14 +20,14 @@ HTMLHelper::_('behavior.formvalidator');
 			<div class="col-md-12 mb-4">
 				<div class="j-install-step active">
 					<div class="j-install-step-header">
-						<span class="fas fa-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
+						<span class="icon-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
 					</div>
 					<div class="j-install-step-form">
 						<?php foreach ($this->options as $option) : ?>
 							<?php if ($option->state === 'JNO' || $option->state === false) : ?>
 								<div class="alert preinstall-alert">
 									<div class="alert-icon">
-										<span class="alert-icon fas fa-exclamation-triangle" aria-hidden="true"></span>
+										<span class="alert-icon icon-exclamation-triangle" aria-hidden="true"></span>
 									</div>
 									<div class="alert-text">
 										<strong><?php echo $option->label; ?></strong>
@@ -63,7 +63,7 @@ HTMLHelper::_('behavior.formvalidator');
 								<div class="col-md-8 offset-md-2">
 									<?php echo $this->form->getLabel('ftp_host'); ?>
 									<div class="input-append d-flex">
-										<?php echo $this->form->getInput('ftp_host'); ?><button id="findbutton" class="btn btn-secondary ml-2" onclick="Joomla.installation.detectFtpRoot(this);"><span class="fas fa-folder-open"></span> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
+										<?php echo $this->form->getInput('ftp_host'); ?><button id="findbutton" class="btn btn-secondary ml-2" onclick="Joomla.installation.detectFtpRoot(this);"><span class="icon-folder-open"></span> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
 									</div>
 								</div>
 							</div>
@@ -75,7 +75,7 @@ HTMLHelper::_('behavior.formvalidator');
 							</div>
 							<div class="form-group row">
 								<div class="col-md-8 offset-md-2 justify-content-end d-flex">
-									<button id="verifybutton" class="btn btn-success"><span class="fas fa-check icon-white"></span> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
+									<button id="verifybutton" class="btn btn-success"><span class="icon-check icon-white"></span> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
 								</div>
 							</div>
 							<input type="hidden" name="format" value="json">

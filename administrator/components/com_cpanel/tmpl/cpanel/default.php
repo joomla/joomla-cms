@@ -41,9 +41,9 @@ echo HTMLHelper::_(
 		'url'         => Route::_('index.php?option=com_cpanel&task=addModule&function=jSelectModuleType&position=' . $this->escape($this->position)),
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<button type="button" class="button-cancel btn btn-sm btn-danger" data-dismiss="modal" data-target="#closeBtn"><span class="fas fa-times" aria-hidden="true"></span>'
+		'footer'      => '<button type="button" class="button-cancel btn btn-sm btn-danger" data-dismiss="modal" data-target="#closeBtn"><span class="icon-times" aria-hidden="true"></span>'
 			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-			. '<button type="button" class="button-save btn btn-sm btn-success hidden" data-target="#saveBtn"><span class="fas fa-copy" aria-hidden="true"></span>'
+			. '<button type="button" class="button-save btn btn-sm btn-success hidden" data-target="#saveBtn"><span class="icon-copy" aria-hidden="true"></span>'
 			. Text::_('JSAVE') . '</button>',
 	)
 );
@@ -71,7 +71,7 @@ echo HTMLHelper::_(
 	<div class="col-md-6">
 		<button type="button" data-toggle="modal" data-target="#moduleDashboardAddModal" class="cpanel-add-module text-center py-5 w-100 d-block">
 			<div class="cpanel-add-module-icon text-center">
-				<span class="fas fa-plus-square text-light mt-2"></span>
+				<span class="icon-plus-square text-light mt-2"></span>
 			</div>
 			<span><?php echo Text::_('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
 		</button>
