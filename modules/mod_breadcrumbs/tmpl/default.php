@@ -9,10 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\WebAsset\WebAssetManager;
 
+$app       = Factory::getApplication();
 ?>
 <nav role="navigation" aria-label="<?php echo $module->title; ?>">
 	<ol class="mod-breadcrumbs breadcrumb">
@@ -86,8 +89,9 @@ use Joomla\CMS\Uri\Uri;
 				]
 		];
 	}
+
+	/** @var WebAssetManager $wa */
+	$wa = $app->getDocument()->getWebAssetManager();
+	$wa->addInline('script', json_encode($data, JSON_UNESCAPED_UNICODE), [], ['type' => 'application/ld+json']);
 	?>
-	<script type="application/ld+json">
-	<?php echo json_encode($data, JSON_UNESCAPED_UNICODE); ?>
-	</script>
 </nav>
