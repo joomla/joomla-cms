@@ -177,9 +177,8 @@ class JNamespacePsr4Map
 				$extensionPath = $directory . '/' . $extension . '/';
 
 				// Strip the com_ from the extension name for components
-				// $name = $type === 'component' ? str_replace('com_', '', $extension, $count) : $extension; 
 				$name = str_replace('com_', '', $extension, $count);
-				$name = $type === 'template' ? 'templateDetails' : $name; 
+				$name = $type === 'template' ? 'templateDetails' : $name;
 				$file = $extensionPath . $name . '.xml';
 
 				// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_ prefix.
