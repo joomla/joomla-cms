@@ -254,10 +254,12 @@ class ListField extends FormField
 	protected function getLayoutData()
 	{
 		$data = parent::getLayoutData();
-		if ($this->layout === 'joomla.form.field.list-fancy-select') {	
+		if ($this->layout === 'joomla.form.field.list-fancy-select')
+		{
 			$data['renderLimit']    = !empty($this->element['renderLimit'])   ? (int) $this->element['renderLimit']  : '';
 			$data['resultsLimit']   = !empty($this->element['resultsLimit'])  ? (int) $this->element['resultsLimit'] : '';
 		}
-		return $data;		
-	}	
+
+		return $data;
+	}
 }
