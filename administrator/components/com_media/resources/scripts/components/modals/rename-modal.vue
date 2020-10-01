@@ -6,61 +6,66 @@
     label-element="renameTitle"
     @close="close()"
   >
-    <h3
-      id="renameTitle"
-      slot="header"
-      class="modal-title"
-    >
-      {{ translate('COM_MEDIA_RENAME') }}
-    </h3>
-    <div slot="body">
-      <form
-        class="form"
-        novalidate
-        @submit.prevent="save"
+    <template #header>
+      <h3
+        id="renameTitle"
+        class="modal-title"
       >
-        <div class="form-group">
-          <label for="name">{{ translate('COM_MEDIA_NAME') }}</label>
-          <div :class="{'input-group': extension.length}">
-            <input
-              id="name"
-              ref="nameField"
-              class="form-control"
-              type="text"
-              :placeholder="translate('COM_MEDIA_NAME')"
-              :value="name"
-              required
-              autocomplete="off"
-            >
-            <span
-              v-if="extension.length"
-              class="input-group-append"
-            >
-              <span class="input-group-text">{{ extension }}</span>
-            </span>
+        {{ translate('COM_MEDIA_RENAME') }}
+      </h3>
+    </template>
+    <template #body>
+      <div>
+        <form
+          class="form"
+          novalidate
+          @submit.prevent="save"
+        >
+          <div class="form-group">
+            <label for="name">{{ translate('COM_MEDIA_NAME') }}</label>
+            <div :class="{'input-group': extension.length}">
+              <input
+                id="name"
+                ref="nameField"
+                class="form-control"
+                type="text"
+                :placeholder="translate('COM_MEDIA_NAME')"
+                :value="name"
+                required
+                autocomplete="off"
+              >
+              <span
+                v-if="extension.length"
+                class="input-group-append"
+              >
+                <span class="input-group-text">{{ extension }}</span>
+              </span>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
-    <div slot="footer">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        @click="close()"
-        @keyup.enter="close()"
-      >
-        {{ translate('JCANCEL') }}
-      </button>
-      <button
-        type="button"
-        class="btn btn-success"
-        :disabled="!isValid()"
-        @click="save()"
-        @keyup.enter="save()"
-      >
-        {{ translate('JAPPLY') }}
-      </button>
-    </div>
+        </form>
+      </div>
+    </template>
+    <template #footer>
+      <div>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          @click="close()"
+          @keyup.enter="close()"
+        >
+          {{ translate('JCANCEL') }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          :disabled="!isValid()"
+          @click="save()"
+          @keyup.enter="save()"
+        >
+          {{ translate('JAPPLY') }}
+        </button>
+      </div>
+    </template>
   </media-modal>
 </template>
 

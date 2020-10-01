@@ -7,37 +7,41 @@
     :show-close="false"
     @close="close()"
   >
-    <h3
-      id="previewTitle"
-      slot="header"
-      class="modal-title"
-    >
-      {{ item.name }}
-    </h3>
-    <div slot="body">
-      <img
-        v-if="isImage()"
-        :src="item.url"
-        :type="item.mime_type"
+    <template #header>
+      <h3
+        id="previewTitle"
+        class="modal-title"
       >
-      <video
-        v-if="isVideo()"
-        controls
-      >
-        <source
+        {{ item.name }}
+      </h3>
+    </template>
+    <template #body>
+      <div>
+        <img
+          v-if="isImage()"
           :src="item.url"
           :type="item.mime_type"
         >
-      </video>
-    </div>
-    <button
-      slot="backdrop-close"
-      type="button"
-      class="media-preview-close"
-      @click="close()"
-    >
-      <span class="fas fa-times" />
-    </button>
+        <video
+          v-if="isVideo()"
+          controls
+        >
+          <source
+            :src="item.url"
+            :type="item.mime_type"
+          >
+        </video>
+      </div>
+    </template>
+    <template #backdrop-close>
+      <button
+        type="button"
+        class="media-preview-close"
+        @click="close()"
+      >
+        <span class="fas fa-times" />
+      </button>
+    </template>
   </media-modal>
 </template>
 

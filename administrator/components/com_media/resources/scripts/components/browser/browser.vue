@@ -95,12 +95,17 @@ export default {
   computed: {
     /* Get the contents of the currently selected directory */
     items() {
-      const directories = this.$store.getters.getSelectedDirectoryDirectories.sort((a, b) =>
-      // Sort by type and alphabetically
-        ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1)).filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
-      const files = this.$store.getters.getSelectedDirectoryFiles.sort((a, b) =>
-      // Sort by type and alphabetically
-        ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1)).filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      const directories = this.$store.getters.getSelectedDirectoryDirectories
+        // Sort by type and alphabetically
+        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
+        .filter((dir) => dir.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
+
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      const files = this.$store.getters.getSelectedDirectoryFiles
+        // Sort by type and alphabetically
+        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1))
+        .filter((file) => file.name.toLowerCase().includes(this.$store.state.search.toLowerCase()));
 
       return [...directories, ...files];
     },
@@ -154,8 +159,13 @@ export default {
     /* Unselect all browser items */
     unselectAllBrowserItems(event) {
       const clickedDelete = !!((event.target.id !== undefined && event.target.id === 'mediaDelete'));
-      const notClickedBrowserItems = (this.$refs.browserItems && !this.$refs.browserItems.contains(event.target)) || event.target === this.$refs.browserItems;
-      const notClickedInfobar = this.$refs.infobar !== undefined && !this.$refs.infobar.$el.contains(event.target);
+      const notClickedBrowserItems = (this.$refs.browserItems
+        && !this.$refs.browserItems.contains(event.target))
+        || event.target === this.$refs.browserItems;
+
+      const notClickedInfobar = this.$refs.infobar !== undefined
+        && !this.$refs.infobar.$el.contains(event.target);
+
       const clickedOutside = notClickedBrowserItems && notClickedInfobar && !clickedDelete;
       if (clickedOutside) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
@@ -220,6 +230,7 @@ export default {
 
       // Loop through array of files and upload each file
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        // eslint-disable-next-line no-plusplus,no-cond-assign
         for (let i = 0, f; f = e.dataTransfer.files[i]; i++) {
           document.querySelector('.media-dragoutline').classList.remove('active');
           this.upload(f);

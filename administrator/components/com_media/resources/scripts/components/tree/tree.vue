@@ -32,9 +32,8 @@ export default {
     directories() {
       return this.$store.state.directories
         .filter((directory) => (directory.directory === this.root))
-        .sort((a, b) =>
         // Sort alphabetically
-          ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1));
+        .sort((a, b) => ((a.name.toUpperCase() < b.name.toUpperCase()) ? -1 : 1));
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <tr
     class="media-browser-item"
-    :class="{selected: this.isSelected()}"
+    :class="{selected}"
     @dblclick.stop.prevent="onDblClick()"
     @click="onClick"
   >
@@ -37,6 +37,7 @@ import navigable from '../../../mixins/navigable.es6';
 export default {
   name: 'MediaBrowserItemRow',
   mixins: [navigable],
+  // eslint-disable-next-line vue/require-prop-types
   props: ['item'],
   computed: {
     /* The dimension of a file */
@@ -56,6 +57,9 @@ export default {
       }
       return `${(this.item.size / 1024).toFixed(2)} KB`;
     },
+    selected() {
+      return !!this.isSelected();
+    },
   },
 
   methods: {
@@ -69,7 +73,8 @@ export default {
       const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'mp4'];
 
       // Show preview
-      if (this.item.extension && extensionWithPreview.indexOf(this.item.extension.toLowerCase()) !== -1) {
+      if (this.item.extension
+        && !extensionWithPreview.includes(this.item.extension.toLowerCase())) {
         this.$store.commit(types.SHOW_PREVIEW_MODAL);
         this.$store.dispatch('getFullContents', this.item);
       }
@@ -110,7 +115,8 @@ export default {
 
       // Handle clicks when the item was not selected
       if (!this.isSelected()) {
-        // Unselect all other selected items, if the shift key was not pressed during the click event
+        // Unselect all other selected items,
+        // if the shift key was not pressed during the click event
         if (!(event.shiftKey || event.keyCode === 13)) {
           this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
         }

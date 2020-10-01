@@ -13,9 +13,11 @@
 export default {
   name: 'MediaUpload',
   props: {
+    // eslint-disable-next-line vue/require-default-prop
     accept: {
       type: String,
     },
+    // eslint-disable-next-line vue/require-prop-types
     extensions: {
       default: () => [],
     },
@@ -43,7 +45,7 @@ export default {
       const { files } = e.target;
 
       // Loop through array of files and upload each file
-      for (const file of files) {
+      Array.from(files).forEach((file) => {
         // Create a new file reader instance
         const reader = new FileReader();
 
@@ -62,7 +64,7 @@ export default {
         };
 
         reader.readAsDataURL(file);
-      }
+      });
     },
   },
 };

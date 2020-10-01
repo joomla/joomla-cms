@@ -5,48 +5,53 @@
     label-element="createFolderTitle"
     @close="close()"
   >
-    <h3
-      id="createFolderTitle"
-      slot="header"
-      class="modal-title"
-    >
-      {{ translate('COM_MEDIA_CREATE_NEW_FOLDER') }}
-    </h3>
-    <div slot="body">
-      <form
-        class="form"
-        novalidate
-        @submit.prevent="save"
+    <template #header>
+      <h3
+        id="createFolderTitle"
+        class="modal-title"
       >
-        <div class="form-group">
-          <label for="folder">{{ translate('COM_MEDIA_FOLDER_NAME') }}</label>
-          <input
-            id="folder"
-            v-model.trim="folder"
-            class="form-control"
-            type="text"
-            required
-            autocomplete="off"
-            @input="folder = $event.target.value"
-          >
-        </div>
-      </form>
-    </div>
-    <div slot="footer">
-      <button
-        class="btn btn-secondary"
-        @click="close()"
-      >
-        {{ translate('JCANCEL') }}
-      </button>
-      <button
-        class="btn btn-success"
-        :disabled="!isValid()"
-        @click="save()"
-      >
-        {{ translate('JACTION_CREATE') }}
-      </button>
-    </div>
+        {{ translate('COM_MEDIA_CREATE_NEW_FOLDER') }}
+      </h3>
+    </template>
+    <template #body>
+      <div>
+        <form
+          class="form"
+          novalidate
+          @submit.prevent="save"
+        >
+          <div class="form-group">
+            <label for="folder">{{ translate('COM_MEDIA_FOLDER_NAME') }}</label>
+            <input
+              id="folder"
+              v-model.trim="folder"
+              class="form-control"
+              type="text"
+              required
+              autocomplete="off"
+              @input="folder = $event.target.value"
+            >
+          </div>
+        </form>
+      </div>
+    </template>
+    <template #footer>
+      <div>
+        <button
+          class="btn btn-secondary"
+          @click="close()"
+        >
+          {{ translate('JCANCEL') }}
+        </button>
+        <button
+          class="btn btn-success"
+          :disabled="!isValid()"
+          @click="save()"
+        >
+          {{ translate('JACTION_CREATE') }}
+        </button>
+      </div>
+    </template>
   </media-modal>
 </template>
 

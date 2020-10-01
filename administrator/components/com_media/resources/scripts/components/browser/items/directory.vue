@@ -109,6 +109,7 @@ import * as types from '../../../store/mutation-types.es6';
 export default {
   name: 'MediaBrowserItemDirectory',
   mixins: [navigable],
+  // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
   data() {
     return {
@@ -122,18 +123,18 @@ export default {
     },
     /* Opening confirm delete modal */
     openConfirmDeleteModal() {
-	            this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-	            this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-	            this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
+      this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
     },
     /* Rename an item */
     openRenameModal() {
-	           this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-	           this.$store.commit(types.SHOW_RENAME_MODAL);
+      this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(types.SHOW_RENAME_MODAL);
     },
     /* Toggle the item selection */
     toggleSelect() {
-	           this.$store.dispatch('toggleBrowserItemSelect', this.item);
+      this.$store.dispatch('toggleBrowserItemSelect', this.item);
     },
     /* Open actions dropdown */
     openActions() {

@@ -114,6 +114,7 @@ export default {
       return (this.$store.state.listView === 'grid');
     },
     allItemsSelected() {
+      // eslint-disable-next-line max-len
       return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
     },
   },
@@ -146,6 +147,7 @@ export default {
       if (this.allItemsSelected) {
         this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
       } else {
+        // eslint-disable-next-line max-len
         this.$store.commit(types.SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
       }
     },

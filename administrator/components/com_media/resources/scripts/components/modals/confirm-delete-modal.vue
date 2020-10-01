@@ -6,33 +6,38 @@
     label-element="confirmDeleteTitle"
     @close="close()"
   >
-    <h3
-      id="confirmDeleteTitle"
-      slot="header"
-      class="modal-title"
-    >
-      {{ translate('COM_MEDIA_CONFIRM_DELETE_MODAL_HEADING') }}
-    </h3>
-    <div slot="body">
-      <div class="desc">
-        {{ translate('JGLOBAL_CONFIRM_DELETE') }}
+    <template #header>
+      <h3
+        id="confirmDeleteTitle"
+        class="modal-title"
+      >
+        {{ translate('COM_MEDIA_CONFIRM_DELETE_MODAL_HEADING') }}
+      </h3>
+    </template>
+    <template #body>
+      <div>
+        <div class="desc">
+          {{ translate('JGLOBAL_CONFIRM_DELETE') }}
+        </div>
       </div>
-    </div>
-    <div slot="footer">
-      <button
-        id="media-delete-item"
-        class="btn btn-danger"
-        @click="deleteItem()"
-      >
-        {{ translate('COM_MEDIA_CONFIRM_DELETE_MODAL') }}
-      </button>
-      <button
-        class="btn btn-success"
-        @click="close()"
-      >
-        {{ translate('JCANCEL') }}
-      </button>
-    </div>
+    </template>
+    <template #footer>
+      <div>
+        <button
+          id="media-delete-item"
+          class="btn btn-danger"
+          @click="deleteItem()"
+        >
+          {{ translate('COM_MEDIA_CONFIRM_DELETE_MODAL') }}
+        </button>
+        <button
+          class="btn btn-success"
+          @click="close()"
+        >
+          {{ translate('JCANCEL') }}
+        </button>
+      </div>
+    </template>
   </media-modal>
 </template>
 

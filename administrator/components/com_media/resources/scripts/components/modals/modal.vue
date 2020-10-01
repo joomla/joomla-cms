@@ -52,6 +52,7 @@ export default {
       default: true,
     },
     /* The size of the modal */
+    // eslint-disable-next-line vue/require-default-prop
     size: {
       type: String,
     },
@@ -60,6 +61,7 @@ export default {
       required: true,
     },
   },
+  emits: ['close'],
   computed: {
     /* Get the modal css class */
     modalClass() {

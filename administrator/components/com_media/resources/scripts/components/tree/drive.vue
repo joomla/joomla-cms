@@ -34,6 +34,7 @@ import navigable from '../../mixins/navigable.es6';
 export default {
   name: 'MediaDrive',
   mixins: [navigable],
+  // eslint-disable-next-line vue/require-prop-types
   props: ['drive', 'total', 'diskId', 'counter'],
   computed: {
     /* Whether or not the item is active */

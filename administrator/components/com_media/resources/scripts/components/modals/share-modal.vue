@@ -6,67 +6,72 @@
     label-element="shareTitle"
     @close="close()"
   >
-    <h3
-      id="shareTitle"
-      slot="header"
-      class="modal-title"
-    >
-      {{ translate('COM_MEDIA_SHARE') }}
-    </h3>
-    <div slot="body">
-      <div class="desc">
-        {{ translate('COM_MEDIA_SHARE_DESC') }}
-
-        <template v-if="!url">
-          <div class="control">
-            <button
-              class="btn btn-success btn-block"
-              type="button"
-              @click="generateUrl"
-            >
-              {{ translate('COM_MEDIA_ACTION_SHARE') }}
-            </button>
-          </div>
-        </template>
-        <template v-else>
-          <div class="control">
-            <span class="input-group">
-              <input
-                id="url"
-                ref="urlText"
-                v-model="url"
-                readonly
-                type="url"
-                class="form-control input-xxlarge"
-                placeholder="URL"
-                autocomplete="off"
-              >
-              <span class="input-group-append">
-                <button
-                  class="btn btn-secondary"
-                  type="button"
-                  :title="translate('COM_MEDIA_SHARE_COPY')"
-                  @click="copyToClipboard"
-                >
-                  <span
-                    class="fas fa-clipboard"
-                    aria-hidden="true"
-                  />
-                </button>
-              </span>
-            </span>
-          </div>
-        </template>
-      </div>
-    </div>
-    <div slot="footer">
-      <button
-        class="btn btn-secondary"
-        @click="close()"
+    <template #header>
+      <h3
+        id="shareTitle"
+        class="modal-title"
       >
-        {{ translate('JCANCEL') }}
-      </button>
-    </div>
+        {{ translate('COM_MEDIA_SHARE') }}
+      </h3>
+    </template>
+    <template #body>
+      <div>
+        <div class="desc">
+          {{ translate('COM_MEDIA_SHARE_DESC') }}
+
+          <template v-if="!url">
+            <div class="control">
+              <button
+                class="btn btn-success btn-block"
+                type="button"
+                @click="generateUrl"
+              >
+                {{ translate('COM_MEDIA_ACTION_SHARE') }}
+              </button>
+            </div>
+          </template>
+          <template v-else>
+            <div class="control">
+              <span class="input-group">
+                <input
+                  id="url"
+                  ref="urlText"
+                  v-model="url"
+                  readonly
+                  type="url"
+                  class="form-control input-xxlarge"
+                  placeholder="URL"
+                  autocomplete="off"
+                >
+                <span class="input-group-append">
+                  <button
+                    class="btn btn-secondary"
+                    type="button"
+                    :title="translate('COM_MEDIA_SHARE_COPY')"
+                    @click="copyToClipboard"
+                  >
+                    <span
+                      class="fas fa-clipboard"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </span>
+              </span>
+            </div>
+          </template>
+        </div>
+      </div>
+    </template>
+    <template #footer>
+      <div>
+        <button
+          class="btn btn-secondary"
+          @click="close()"
+        >
+          {{ translate('JCANCEL') }}
+        </button>
+      </div>
+    </template>
   </media-modal>
 </template>
 
@@ -81,7 +86,7 @@ export default {
     },
 
     url() {
-      return (this.$store.state.previewItem && this.$store.state.previewItem.hasOwnProperty('url') ? this.$store.state.previewItem.url : null);
+      return (this.$store.state.previewItem && Object.prototype.hasOwnProperty.call(this.$store.state.previewItem, 'url') ? this.$store.state.previewItem.url : null);
     },
   },
   methods: {
@@ -105,6 +110,7 @@ export default {
         document.execCommand('copy');
       } catch (err) {
         // TODO Error handling in joomla way
+        // eslint-disable-next-line no-undef
         alert(translate('COM_MEDIA_SHARE_COPY_FAILED_ERROR'));
       }
     },
