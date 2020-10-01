@@ -752,18 +752,17 @@ abstract class HTMLHelper
 	 * Write a `<span>` element for an icon
 	 *
 	 * @param   string        $icon        The funcitonal name for an icon.
+	 * @param   string        $srOnly      Screen Reader text if no visible text is placed
 	 * @param   array         $attribs     Attributes to be added to the wrapping element
 	 * @param   string        $iconPrefix  String prepend to icon className
 	 * @param   string        $iconSuffix  String append to icon className
-	 * @param   string        $elem        String that indicates the wrapping element. Default `span`
-	 * @param   string        $children    String append to icon className
 	 *
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0
 	 */
-	public static function icon($icon = 'default', $attribs = [], $iconPrefix = 'icon-', $iconSuffix = null, $html = true, $elem = 'span', $children = null)
+	public static function icon($icon = 'default', $srOnly = null, $attribs = [], $iconPrefix = 'icon-', $iconSuffix = null)
 	{
 		$icon = $iconPrefix . $icon;
 
@@ -779,13 +778,13 @@ abstract class HTMLHelper
 
 		$attribs['class'] = $iconPrefix . $icon;
 
-		if ($html !== false)
+		if (isset($srOnly))
 		{
-			$attribs = trim(ArrayHelper::toString($attribs));
-			$icon = '<' . $elem . ' ' . $attribs . '>' . $children . '</' . $elem . '>';
+			$text = htmlspecialchars($srOnly, ENT_COMPAT, 'UTF-8');
+			$srOnly = '<span class="sr-only">' . $text . '</span>';
 		}
 
-		return $icon;
+		return '<span ' . trim(ArrayHelper::toString($attribs)) . '></span>' . $srOnly;
 	}
 
 	/**
