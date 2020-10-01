@@ -241,4 +241,23 @@ class ListField extends FormField
 
 		return parent::__get($name);
 	}
+
+	/**
+	 * Allow additional parameters for the "joomla.form.field.list-fancy-select" layout.
+	 * @var integer $renderLimit the maximum amount of items to be rendered in the choices.js dropdown
+	 * @var integer $resultsLimit the maximum amount of search results to be displayed in the choices.js dropdown
+	 *
+	 * @return  array
+	 *
+	 * @since 4.0.0
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
+		if ($this->layout === 'joomla.form.field.list-fancy-select') {	
+			$data['renderLimit']    = !empty($this->element['renderLimit'])   ? (int) $this->element['renderLimit']  : '';
+			$data['resultsLimit']   = !empty($this->element['resultsLimit'])  ? (int) $this->element['resultsLimit'] : '';
+		}
+		return $data;		
+	}	
 }
