@@ -181,7 +181,7 @@ class Console implements ServiceProviderInterface
 			},
 			true
 		);
- 
+
 		$container->share(
 			SchedulerCommand::class,
 			function (Container $container)
