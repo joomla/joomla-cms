@@ -48,7 +48,7 @@ $blue:                                hsl(240, 98%, 17%);
 $indigo:                              hsl(263, 90%, 51%);
 $purple:                              hsl(261, 51%, 51%);
 $pink:                                hsl(332, 79%, 58%);
-$red:                                 hsl(2, 64%, 58%);
+$red:                                 hsl(3, 75%, 37%);
 $orange:                              hsl(27, 98%, 54%);
 $yellow:                              hsl(35, 84%, 62%);
 $green:                               hsl(120, 32%, 39%);
@@ -94,6 +94,9 @@ $theme-colors: (
 // Links
 $link-color:                          var(--cassiopeia-color-link);
 $link-hover-color:                    var(--cassiopeia-color-hover);
+
+// Breadcrumbs
+$breadcrumb-active-color:             $gray-700;
 
 // Grid breakpoints
 $grid-breakpoints: (
