@@ -48,7 +48,7 @@ Text::script('JHIDEPASSWORD');
 					<input name="username" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
 					<span class="input-group-append">
 						<span class="input-group-text">
-							<span class="fas fa-user" aria-hidden="true"></span>
+							<span class="fas fa-user fa-fw" aria-hidden="true"></span>
 							<label for="mod-login-username" class="sr-only">
 								<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 							</label>
