@@ -147,7 +147,7 @@ class UserController extends BaseController
 		{
 			$this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
 		}
-		
+
 		$this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
 	}
 
@@ -245,7 +245,7 @@ class UserController extends BaseController
 		{
 			$this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
 		}
-		
+
 		// Redirect the user.
 		$app->redirect(Route::_($return, false));
 	}
