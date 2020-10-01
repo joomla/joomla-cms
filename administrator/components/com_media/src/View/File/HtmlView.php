@@ -71,7 +71,8 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::apply('apply');
 		ToolbarHelper::save('save');
 		ToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
-
+		ToolbarHelper::custom('undo', 'undo', '', 'COM_MEDIA_UNDO', false);
+		ToolbarHelper::custom('redo', 'redo', '', 'COM_MEDIA_REDO', false);
 		ToolbarHelper::cancel('cancel');
 	}
 }

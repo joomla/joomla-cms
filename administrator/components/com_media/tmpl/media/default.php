@@ -45,6 +45,7 @@ $config = array(
 	'editViewUrl'             => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : ''),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
+	'historyLength'           => $params->get('history_length', 25),
 	'providers'               => (array) $this->providers,
 	'currentPath'             => $this->currentPath,
 	'isModal'                 => $tmpl === 'component',

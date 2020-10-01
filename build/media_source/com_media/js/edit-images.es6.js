@@ -25,6 +25,40 @@ Joomla.MediaManager = Joomla.MediaManager || {};
   Joomla.MediaManager.Edit.history = {};
   Joomla.MediaManager.Edit.current = {};
 
+  const addHistoryPoint = (data) => {
+    if (Joomla.MediaManager.Edit.original !== Joomla.MediaManager.Edit.current.contents) {
+      const key = Joomla.MediaManager.Edit.history.lastKey;
+      if (Joomla.MediaManager.Edit.history[key] && Joomla.MediaManager.Edit.history[key - 1]
+        && Joomla.MediaManager.Edit.history[key].file
+        === Joomla.MediaManager.Edit.history[key - 1].file) {
+        return;
+      }
+      Joomla.MediaManager.Edit.history[key + 1] = {};
+      Joomla.MediaManager.Edit.history[key + 1].data = {};
+      if (data === 'reset') {
+        Joomla.MediaManager.Edit.history[key + 1].file = Joomla.MediaManager.Edit.original.contents;
+      } else {
+        Joomla.MediaManager.Edit.history[key + 1].file = Joomla.MediaManager.Edit.current.contents;
+        if (Joomla.MediaManager.Edit.history[key] && Joomla.MediaManager.Edit.history[key].data) {
+          Object.assign(Joomla.MediaManager.Edit.history[key + 1].data,
+            Joomla.MediaManager.Edit.history[key].data);
+        } else {
+          Object.assign(Joomla.MediaManager.Edit.history[key + 1].data, data.detail);
+        }
+        // eslint-disable-next-line max-len
+        Joomla.MediaManager.Edit.history[key + 1].data[data.detail.plugin] = data.detail[data.detail.plugin];
+      }
+
+      // eslint-disable-next-line max-len
+      Joomla.MediaManager.Edit.history.lastKey = Number(Joomla.MediaManager.Edit.history.lastKey) + 1;
+      Joomla.MediaManager.Edit.history.current = Number(Joomla.MediaManager.Edit.history.lastKey);
+      if (Joomla.MediaManager.Edit.history.lastKey > options.historyLength) {
+        // eslint-disable-next-line max-len
+        delete Joomla.MediaManager.Edit.history[Joomla.MediaManager.Edit.history.lastKey - options.historyLength];
+      }
+    }
+  };
+
   const activate = (name, data) => {
     if (!data.contents) {
       return;
@@ -53,14 +87,18 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
     // Activate the first plugin
     Joomla.MediaManager.Edit[name.toLowerCase()].Activate(data);
+
+    // Set first history point
+    if (Object.keys(Joomla.MediaManager.Edit.history).length === 0) {
+      Joomla.MediaManager.Edit.history.current = 0;
+      Joomla.MediaManager.Edit.history.lastKey = 0;
+      addHistoryPoint('reset');
+    }
   };
 
   // Reset the image to the initial state
   Joomla.MediaManager.Edit.Reset = (current) => {
-    if (!current || (current && current === 'initial')) {
-      Joomla.MediaManager.Edit.current.contents = Joomla.MediaManager.Edit.original.contents;
-    }
-
+    Joomla.MediaManager.Edit.current.contents = Joomla.MediaManager.Edit.history[current].file;
     // Clear the DOM
     const container = document.getElementById('media-manager-edit-container');
     container.innerHTML = '';
@@ -81,10 +119,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
       Joomla.MediaManager.Edit[link.id.replace('tab-attrib-', '').toLowerCase()].Deactivate();
 
-      let data = Joomla.MediaManager.Edit.current;
-      if (!current || (current && current !== true)) {
-        data = Joomla.MediaManager.Edit.original;
-      }
+      const data = Joomla.MediaManager.Edit.current;
 
       link.click();
 
@@ -98,21 +133,28 @@ Joomla.MediaManager = Joomla.MediaManager || {};
   };
 
   // Create history entry
-  window.addEventListener('mediaManager.history.point', () => {
-    if (Joomla.MediaManager.Edit.original !== Joomla.MediaManager.Edit.current.contents) {
-      const key = Object.keys(Joomla.MediaManager.Edit.history).length;
-      if (Joomla.MediaManager.Edit.history[key] && Joomla.MediaManager.Edit.history[key - 1]
-        && Joomla.MediaManager.Edit.history[key] === Joomla.MediaManager.Edit.history[key - 1]) {
-        return;
-      }
-      Joomla.MediaManager.Edit.history[key + 1] = Joomla.MediaManager.Edit.current.contents;
-    }
+  window.addEventListener('mediaManager.history.point', (data) => {
+    addHistoryPoint(data);
   });
 
-  // @TODO History
-  Joomla.MediaManager.Edit.Undo = () => { };
-  // @TODO History
-  Joomla.MediaManager.Edit.Redo = () => { };
+  Joomla.MediaManager.Edit.Undo = () => {
+    if (Joomla.MediaManager.Edit.history.current && Joomla.MediaManager.Edit.history.current - 1
+      > Joomla.MediaManager.Edit.history.lastKey
+      - Object.keys(Joomla.MediaManager.Edit.history).length + 2) {
+      // eslint-disable-next-line max-len
+      Joomla.MediaManager.Edit.history.current = Number(Joomla.MediaManager.Edit.history.current) - 1;
+      Joomla.MediaManager.Edit.Reset(Joomla.MediaManager.Edit.history.current);
+    }
+  };
+
+  Joomla.MediaManager.Edit.Redo = () => {
+    if (Joomla.MediaManager.Edit.history.current && Joomla.MediaManager.Edit.history.current + 1
+      < Joomla.MediaManager.Edit.history.lastKey) {
+      // eslint-disable-next-line max-len
+      Joomla.MediaManager.Edit.history.current = Number(Joomla.MediaManager.Edit.history.current) + 1;
+      Joomla.MediaManager.Edit.Reset(Joomla.MediaManager.Edit.history.current);
+    }
+  };
 
   // @TODO Create the progress bar
   Joomla.MediaManager.Edit.createProgressBar = () => { };
@@ -154,7 +196,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     switch (task) {
       case 'apply':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-        Joomla.MediaManager.Edit.Reset(true);
+        Joomla.MediaManager.Edit.Reset(Joomla.MediaManager.Edit.history.current);
         break;
       case 'save':
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
@@ -175,13 +217,14 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         }
         break;
       case 'reset':
-        Joomla.MediaManager.Edit.Reset('initial');
+        addHistoryPoint('reset');
+        Joomla.MediaManager.Edit.Reset(Object.keys(Joomla.MediaManager.Edit.history).length - 1);
         break;
       case 'undo':
-        // @TODO magic goes here
+        Joomla.MediaManager.Edit.Undo();
         break;
       case 'redo':
-        // @TODO other magic goes here
+        Joomla.MediaManager.Edit.Redo();
         break;
       default:
         break;

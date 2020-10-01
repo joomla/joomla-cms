@@ -41,14 +41,45 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
 
     // Update the height input box
     document.getElementById('jform_resize_height').value = parseInt(height, 10);
+  };
 
-    // Notify the app that a change has been made
-    window.dispatchEvent(new Event('mediaManager.history.point'));
+  const setHistory = ({ target }) => {
+    const image = document.getElementById('image-source');
+    const quality = document.getElementById('jform_resize_quality').value;
+    const w = parseInt(target.value, 10);
+    const h = parseInt(target.value, 10) / (image.width / image.height);
+    resize(w, h);
+
+    const resizeData = {
+      width: w,
+      height: h,
+      quality: parseInt(quality, 10),
+    };
+    window.dispatchEvent(new CustomEvent('mediaManager.history.point', { detail: { resize: resizeData, plugin: 'resize' } }));
+  };
+
+  const removeListeners = () => {
+    const resizeWidth = document.getElementById('jform_resize_w');
+    const resizeHeight = document.getElementById('jform_resize_h');
+    const resizeWidthInputBox = document.getElementById('jform_resize_width');
+    const resizeHeightInputBox = document.getElementById('jform_resize_height');
+    resizeWidthInputBox.removeEventListener('change', setHistory);
+    resizeHeightInputBox.removeEventListener('change', setHistory);
+    ['mouseup', 'touchend'].forEach((evt) => {
+      resizeHeight.addEventListener(evt, setHistory);
+      resizeWidth.addEventListener(evt, setHistory);
+    });
   };
 
   const initResize = () => {
     const funct = () => {
+      removeListeners();
       const image = document.getElementById('image-source');
+      const preview = document.getElementById('image-preview');
+      const history = Joomla.MediaManager.Edit.history[Joomla.MediaManager.Edit.history.current];
+      if (history && history.file) {
+        preview.src = history.file;
+      }
 
       const resizeWidthInputBox = document.getElementById('jform_resize_width');
       const resizeHeightInputBox = document.getElementById('jform_resize_height');
@@ -58,18 +89,8 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       resizeHeightInputBox.value = image.height;
 
       // The listeners
-      resizeWidthInputBox.addEventListener('change', ({ target }) => {
-        resize(
-          parseInt(target.value, 10),
-          parseInt(target.value, 10) / (image.width / image.height),
-        );
-      });
-      resizeHeightInputBox.addEventListener('change', ({ target }) => {
-        resize(
-          parseInt(target.value, 10) * (image.width / image.height),
-          parseInt(target.value, 10),
-        );
-      });
+      resizeWidthInputBox.addEventListener('change', setHistory);
+      resizeHeightInputBox.addEventListener('change', setHistory);
 
       // Set the values for the range fields
       const resizeWidth = document.getElementById('jform_resize_w');
@@ -86,8 +107,8 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       // The listeners
       resizeWidth.addEventListener('input', ({ target }) => {
         resize(
+          parseInt(target.value, 10) * (image.width / image.height),
           parseInt(target.value, 10),
-          parseInt(target.value, 10) / (image.width / image.height),
         );
       });
       resizeHeight.addEventListener('input', ({ target }) => {
@@ -95,6 +116,10 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
           parseInt(target.value, 10) * (image.width / image.height),
           parseInt(target.value, 10),
         );
+      });
+      ['mouseup', 'touchend'].forEach((evt) => {
+        resizeHeight.addEventListener(evt, setHistory);
+        resizeWidth.addEventListener(evt, setHistory);
       });
     };
     setTimeout(funct, 1000);
@@ -107,6 +132,7 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       initResize(mediaData);
     },
     Deactivate() {
+      removeListeners();
     },
   };
 })();
