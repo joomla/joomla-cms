@@ -37,7 +37,8 @@ abstract class JobsPlugin extends CMSPlugin
 
 	/**
 	 * Exit Code For lock failure
-	 * @since
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public const JOB_NO_LOCK = 2;
 
