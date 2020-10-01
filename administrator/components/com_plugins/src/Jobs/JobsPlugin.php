@@ -44,7 +44,8 @@ abstract class JobsPlugin extends CMSPlugin
 
 	/**
 	 * Exit Code For execution failure
-	 * @since
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public const JOB_KO_RUN = 3;
 
