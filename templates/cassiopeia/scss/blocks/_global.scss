@@ -64,6 +64,15 @@ th dd {
   font-weight: normal;
 }
 
+figure {
+  margin: 0 0 ($cassiopeia-grid-gutter*2);
+}
+
+figcaption {
+  font-size: .9em;
+  color: $gray-600;
+}
+
 .mod-menu {
   flex-direction: column;
 }
