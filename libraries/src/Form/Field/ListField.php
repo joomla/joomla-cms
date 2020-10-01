@@ -257,7 +257,7 @@ class ListField extends FormField
 
 		if ($this->layout === 'joomla.form.field.list-fancy-select')
 		{
-			$data['renderLimit']  = !empty($this->element['renderLimit']) ? (int) $this->element['renderLimit'] : '';
+			$data['renderLimit'] = !empty($this->element['renderLimit']) ? (int) $this->element['renderLimit'] : '';
 			$data['resultsLimit'] = !empty($this->element['resultsLimit']) ? (int) $this->element['resultsLimit'] : '';
 		}
 
