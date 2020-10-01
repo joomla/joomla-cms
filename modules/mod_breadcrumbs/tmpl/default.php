@@ -16,7 +16,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetManager;
 
-$app       = Factory::getApplication();
 ?>
 <nav role="navigation" aria-label="<?php echo $module->title; ?>">
 	<ol class="mod-breadcrumbs breadcrumb">
