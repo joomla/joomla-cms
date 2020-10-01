@@ -68,7 +68,7 @@ if (!empty($this->items))
 
 <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="com-content-category__filters filters btn-toolbar clearfix">
-		<legend class="hidden-xs-up"><?php echo Text::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
+		<legend class="sr-only"><?php echo Text::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
 		<div class="btn-group">
 			<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 				<?php if ($this->params->get('filter_field') === 'tag') : ?>
@@ -88,7 +88,7 @@ if (!empty($this->items))
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo Text::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
 				<?php endif; ?>
 			<?php endif; ?>
-			
+
 			<?php if ($this->params->get('show_pagination_limit')) : ?>
 				<div class="com-content-category__pagination btn-group float-right">
 					<label for="limit" class="sr-only">
@@ -97,9 +97,9 @@ if (!empty($this->items))
 					<?php echo $this->pagination->getLimitBox(); ?>
 				</div>
 			<?php endif; ?>
-			
+
 			<?php if ($this->params->get('filter_field') !== 'hide') : ?>
-				<div class="com-content-category__filter-submit control-group hidden-xs-up float-right">
+				<div class="com-content-category__filter-submit control-group float-right">
 					<div class="controls">
 						<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
 					</div>
