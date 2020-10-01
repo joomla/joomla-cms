@@ -87,7 +87,7 @@ class JobListCommand extends AbstractCommand
 
 		foreach ($list as $job)
 		{
-			$nextrun    = ' the next run will be asap';
+			$nextrun    = ' the next run will be as soon as possible';
 			$taskParams = json_decode($job->params, true);
 			$lastrun    = $taskParams['lastrun'];
 			$lastcount  = $taskParams['taskid'];
