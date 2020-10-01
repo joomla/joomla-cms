@@ -48,7 +48,6 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 		$show_last = $params->get('showLast', 1);
 
 		$class   = null;
-		$divider = null;
 
 		// Generate the trail
 		foreach ($list as $key => $item) :
