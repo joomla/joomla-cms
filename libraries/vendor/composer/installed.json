@@ -39,32 +39,30 @@
     },
     {
         "name": "google/recaptcha",
-        "version": "1.2.4",
-        "version_normalized": "1.2.4.0",
+        "version": "1.1.2",
+        "version_normalized": "1.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/google/recaptcha.git",
-            "reference": "614f25a9038be4f3f2da7cbfd778dc5b357d2419"
+            "reference": "2b7e00566afca82a38a1d3adb8e42c118006296e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/google/recaptcha/zipball/614f25a9038be4f3f2da7cbfd778dc5b357d2419",
-            "reference": "614f25a9038be4f3f2da7cbfd778dc5b357d2419",
+            "url": "https://api.github.com/repos/google/recaptcha/zipball/2b7e00566afca82a38a1d3adb8e42c118006296e",
+            "reference": "2b7e00566afca82a38a1d3adb8e42c118006296e",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.5"
+            "php": ">=5.3.2"
         },
         "require-dev": {
-            "friendsofphp/php-cs-fixer": "^2.2.20|^2.15",
-            "php-coveralls/php-coveralls": "^2.1",
-            "phpunit/phpunit": "^4.8.36|^5.7.27|^6.59|^7.5.11"
+            "phpunit/phpunit": "4.5.*"
         },
-        "time": "2020-03-31T17:50:54+00:00",
+        "time": "2015-09-02T17:23:59+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.2.x-dev"
+                "dev-master": "1.1.x-dev"
             }
         },
         "installation-source": "dist",
@@ -77,8 +75,8 @@
         "license": [
             "BSD-3-Clause"
         ],
-        "description": "Client library for reCAPTCHA, a free service that protects websites from spam and abuse.",
-        "homepage": "https://www.google.com/recaptcha/",
+        "description": "Client library for reCAPTCHA, a free service that protect websites from spam and abuse.",
+        "homepage": "http://www.google.com/recaptcha/",
         "keywords": [
             "Abuse",
             "captcha",
@@ -484,6 +482,16 @@
             "filesystem",
             "framework",
             "joomla"
+        ],
+        "funding": [
+            {
+                "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/joomla",
+                "type": "github"
+            }
         ]
     },
     {
@@ -869,6 +877,16 @@
             "framework",
             "joomla",
             "string"
+        ],
+        "funding": [
+            {
+                "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/joomla",
+                "type": "github"
+            }
         ]
     },
     {
@@ -1441,6 +1459,20 @@
             "ctype",
             "polyfill",
             "portable"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
         ]
     },
     {
@@ -1503,6 +1535,20 @@
             "polyfill",
             "portable",
             "shim"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
         ]
     },
     {
@@ -1565,6 +1611,20 @@
             "polyfill",
             "portable",
             "shim"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
         ]
     },
     {
@@ -1626,6 +1686,20 @@
             "polyfill",
             "portable",
             "shim"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
         ]
     },
     {
@@ -1690,6 +1764,20 @@
             "polyfill",
             "portable",
             "shim"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
         ]
     },
     {
@@ -1748,6 +1836,20 @@
             "compatibility",
             "polyfill",
             "shim"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
         ]
     },
     {
