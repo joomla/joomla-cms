@@ -9,11 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $data = $displayData;
 ?>
 <div class="alert alert-info">
-	<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+	<?php echo HTMLHelper::_('icon', 'fas fa-info-circle', Text::_('INFO')); ?>
 	<?php echo $data['options']['noResultsText']; ?>
 </div>
