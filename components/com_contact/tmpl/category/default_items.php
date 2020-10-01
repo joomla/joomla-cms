@@ -33,6 +33,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 	<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 		<fieldset class="com-contact-category__filters filters btn-toolbar">
+			<legend class="hidden-xs-up"><?php echo Text::_('COM_CONTACT_FORM_FILTER_LEGEND'); ?></legend>
 			<?php if ($this->params->get('filter_field')) : ?>
 				<div class="com-contact-category__filter btn-group">
 					<label class="filter-search-lbl sr-only" for="filter-search">
