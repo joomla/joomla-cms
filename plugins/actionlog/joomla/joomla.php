@@ -1147,6 +1147,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'duration' => $info['duration'],
 			'status'   => $info['status'],
 		);
+
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_PLUGIN_JOB', 'job', 0);
 	}
 }
