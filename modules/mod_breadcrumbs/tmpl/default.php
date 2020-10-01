@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetManager;
 
@@ -55,7 +56,7 @@ $app       = Factory::getApplication();
 		foreach ($list as $key => $item) :
 			if ($key !== $last_item_key) :
 				if (!empty($item->link)) :
-					$breadcrumbItem = HTMLHelper::link($item->link, '<span>' . $item->name . '</span>', ['class' => 'pathway']);
+					$breadcrumbItem = HTMLHelper::_('link', Route::_($item->link), '<span>' . $item->name . '</span>', ['class' => 'pathway']);
 				else :
 					$breadcrumbItem = '<span>' . $item->name . '</span>';
 				endif;
@@ -84,7 +85,7 @@ $app       = Factory::getApplication();
 				'@type'    => 'ListItem',
 				'position' => $key + 1,
 				'item'     => [
-						'@id'  => $item->link ? Uri::base() . ltrim($item->link, '/') : Uri::current(),
+						'@id'  => $item->link ? Route::_(Uri::base() . ltrim($item->link, '/')) : Route::_(Uri::current()),
 						'name' => $item->name
 				]
 		];
