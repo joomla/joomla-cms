@@ -47,6 +47,8 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
+ * @var   integer  $renderLimit     Maximum amount of items to display, makes faster JavaScript initialization for large lists
+ * @var   integer  $resultsLimit    Maximum amount of search results to display, makes faster JavaScript execution
  */
 
 $html = array();
@@ -67,6 +69,8 @@ if ($readonly || $disabled)
 
 $attr2  = '';
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
+$attr2 .= !empty($renderLimit) ? ' render-limit="' . (int) $renderLimit . '"' : '';
+$attr2 .= !empty($resultsLimit) ? ' results-limit="' . (int) $resultsLimit . '"' : '';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
 
 if ($required)
