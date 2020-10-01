@@ -13,7 +13,7 @@
   > input {
     max-width: 200px;
 
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       max-width: none;
     }
   }
