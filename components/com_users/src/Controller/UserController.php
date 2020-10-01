@@ -12,6 +12,7 @@ namespace Joomla\Component\Users\Site\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -138,6 +139,15 @@ class UserController extends BaseController
 		}
 
 		$this->app->setUserState('users.login.form.data', array());
+
+		$login = ComponentHelper::getParams('com_users')->get('frontend_login', 0);
+
+		// Show a message when a user is logged in.
+		if ($login === 1 && Factory::getUser()->get('id') > 0)
+		{
+			$this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
+		}
+		
 		$this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
 	}
 
@@ -228,6 +238,14 @@ class UserController extends BaseController
 			$return = Uri::root();
 		}
 
+		$logout = ComponentHelper::getParams('com_users')->get('frontend_logout', 0);
+
+		// Show a message when a user is logged out.
+		if ($logout === 1 && Factory::getUser()->get('id') === 0)
+		{
+			$this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
+		}
+		
 		// Redirect the user.
 		$app->redirect(Route::_($return, false));
 	}
