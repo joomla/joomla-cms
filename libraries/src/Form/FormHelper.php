@@ -64,8 +64,8 @@ class FormHelper
 	/**
 	 * Method to load a form field object given a type.
 	 *
-	 * @param   string   $type  The field type.
-	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+	 * @param string  $type The field type.
+	 * @param boolean $new  Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
@@ -79,8 +79,8 @@ class FormHelper
 	/**
 	 * Method to load a form rule object given a type.
 	 *
-	 * @param   string   $type  The rule type.
-	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+	 * @param string  $type The rule type.
+	 * @param boolean $new  Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
@@ -96,9 +96,9 @@ class FormHelper
 	 * Each type is loaded only once and then used as a prototype for other objects of same type.
 	 * Please, use this method only with those entities which support types (forms don't support them).
 	 *
-	 * @param   string   $entity  The entity.
-	 * @param   string   $type    The entity type.
-	 * @param   boolean  $new     Flag to toggle whether we should get a new instance of the object.
+	 * @param string  $entity The entity.
+	 * @param string  $type   The entity type.
+	 * @param boolean $new    Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  mixed  Entity object on success, false otherwise.
 	 *
@@ -134,7 +134,7 @@ class FormHelper
 	 * Attempt to import the JFormField class file if it isn't already imported.
 	 * You can use this method outside of JForm for loading a field for inheritance or composition.
 	 *
-	 * @param   string  $type  Type of a field whose class should be loaded.
+	 * @param string $type Type of a field whose class should be loaded.
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
@@ -149,7 +149,7 @@ class FormHelper
 	 * Attempt to import the JFormRule class file if it isn't already imported.
 	 * You can use this method outside of JForm for loading a rule for inheritance or composition.
 	 *
-	 * @param   string  $type  Type of a rule whose class should be loaded.
+	 * @param string $type Type of a rule whose class should be loaded.
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
@@ -165,8 +165,8 @@ class FormHelper
 	 * Currently, it makes sense to use this method for the "field" and "rule" entities
 	 * (but you can support more entities in your subclass).
 	 *
-	 * @param   string  $entity  One of the form entities (field or rule).
-	 * @param   string  $type    Type of an entity.
+	 * @param string $entity One of the form entities (field or rule).
+	 * @param string $type   Type of an entity.
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
@@ -255,7 +255,7 @@ class FormHelper
 	/**
 	 * Method to add a path to the list of field include paths.
 	 *
-	 * @param   mixed  $new  A path or array of paths to add.
+	 * @param mixed $new A path or array of paths to add.
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
@@ -269,7 +269,7 @@ class FormHelper
 	/**
 	 * Method to add a path to the list of form include paths.
 	 *
-	 * @param   mixed  $new  A path or array of paths to add.
+	 * @param mixed $new A path or array of paths to add.
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
@@ -283,7 +283,7 @@ class FormHelper
 	/**
 	 * Method to add a path to the list of rule include paths.
 	 *
-	 * @param   mixed  $new  A path or array of paths to add.
+	 * @param mixed $new A path or array of paths to add.
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
@@ -298,8 +298,8 @@ class FormHelper
 	 * Method to add a path to the list of include paths for one of the form's entities.
 	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
 	 *
-	 * @param   string  $entity  Form's entity name for which paths will be added.
-	 * @param   mixed   $new     A path or array of paths to add.
+	 * @param string $entity Form's entity name for which paths will be added.
+	 * @param mixed  $new    A path or array of paths to add.
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
@@ -345,7 +345,7 @@ class FormHelper
 	/**
 	 * Method to add a namespace prefix to the list of field lookups.
 	 *
-	 * @param   mixed  $new  A namespaces or array of namespaces to add.
+	 * @param mixed $new A namespaces or array of namespaces to add.
 	 *
 	 * @return  array  The list of namespaces that have been added.
 	 *
@@ -359,7 +359,7 @@ class FormHelper
 	/**
 	 * Method to add a namespace to the list of form lookups.
 	 *
-	 * @param   mixed  $new  A namespace or array of namespaces to add.
+	 * @param mixed $new A namespace or array of namespaces to add.
 	 *
 	 * @return  array  The list of namespaces that have been added.
 	 *
@@ -373,7 +373,7 @@ class FormHelper
 	/**
 	 * Method to add a namespace to the list of rule lookups.
 	 *
-	 * @param   mixed  $new  A namespace or array of namespaces to add.
+	 * @param mixed $new A namespace or array of namespaces to add.
 	 *
 	 * @return  array  The list of namespaces that have been added.
 	 *
@@ -388,8 +388,8 @@ class FormHelper
 	 * Method to add a namespace to the list of namespaces for one of the form's entities.
 	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
 	 *
-	 * @param   string  $entity  Form's entity name for which paths will be added.
-	 * @param   mixed   $new     A namespace or array of namespaces to add.
+	 * @param string $entity Form's entity name for which paths will be added.
+	 * @param mixed  $new    A namespace or array of namespaces to add.
 	 *
 	 * @return  array  The list of namespaces that have been added.
 	 *
@@ -428,9 +428,9 @@ class FormHelper
 	/**
 	 * Parse the show on conditions
 	 *
-	 * @param   string  $showOn       Show on conditions.
-	 * @param   string  $formControl  Form name.
-	 * @param   string  $group        The dot-separated form group path.
+	 * @param string $showOn      Show on conditions.
+	 * @param string $formControl Form name.
+	 * @param string $group       The dot-separated form group path.
 	 *
 	 * @return  array   Array with show on conditions.
 	 *
@@ -481,16 +481,16 @@ class FormHelper
 
 			$dotPos = strpos($showOnPartBlocks[0], '.');
 
-			if($dotPos === false)
+			if ($dotPos === false)
 			{
 				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
 			}
 			else
 			{
-				if($dotPos === 0)
+				if ($dotPos === 0)
 				{
 					$fieldName = substr($showOnPartBlocks[0], 1);
-					$field = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
+					$field     = $formControl ? $formControl . '[' . $fieldName . ']' : $fieldName;
 				}
 				else
 				{
