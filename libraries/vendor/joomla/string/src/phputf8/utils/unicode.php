@@ -24,6 +24,12 @@
 * and raises a PHP error at level E_USER_WARNING
 * Note: this function has been modified slightly in this library to
 * trigger errors on encountering bad bytes
+*
+* Joomla modification - As of PHP 7.4, curly brace access has been deprecated. As a result this function has been
+* modified to use square brace syntax
+* See https://github.com/php/php-src/commit/d574df63dc375f5fc9202ce5afde23f866b6450a
+* for additional references
+*
 * @author <hsivonen@iki.fi>
 * @param string UTF-8 encoded string
 * @return mixed array of unicode code points or FALSE if UTF-8 invalid
@@ -43,7 +49,7 @@ function utf8_to_unicode($str) {
 
     for($i = 0; $i < $len; $i++) {
 
-        $in = ord($str{$i});
+        $in = ord($str[$i]);
 
         if ( $mState == 0) {
 
