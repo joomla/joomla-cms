@@ -1,7 +1,7 @@
 export default {
-    methods: {
-        navigateTo: function (path) {
-            this.$store.dispatch('getContents', path);
-        }
-    }
-}
+  methods: {
+    navigateTo(path) {
+      this.$store.dispatch('getContents', path);
+    },
+  },
+};
