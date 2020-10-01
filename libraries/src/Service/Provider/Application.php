@@ -19,6 +19,7 @@ use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\JobListCommand;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
@@ -159,6 +160,7 @@ class Application implements ServiceProviderInterface
 						ExtensionRemoveCommand::getDefaultName()    => ExtensionRemoveCommand::class,
 						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
 						UpdateCoreCommand::getDefaultName()         => UpdateCoreCommand::class,
+            FinderIndexCommand::getDefaultName()        => FinderIndexCommand::class,
 						JobListCommand::getDefaultName()            => JobListCommand::class,
 						SchedulerCommand::getDefaultName()          => SchedulerCommand::class,
 					];

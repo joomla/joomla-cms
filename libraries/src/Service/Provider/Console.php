@@ -15,6 +15,7 @@ use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\JobListCommand;
 use Joomla\CMS\Console\SchedulerCommand;
@@ -172,6 +173,15 @@ class Console implements ServiceProviderInterface
 			true
 		);
 
+		$container->share(
+			FinderIndexCommand::class,
+			function (Container $container)
+			{
+				return new FinderIndexCommand($container->get('db'));
+			},
+			true
+		);
+ 
 		$container->share(
 			SchedulerCommand::class,
 			function (Container $container)

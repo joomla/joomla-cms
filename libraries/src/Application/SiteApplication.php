@@ -401,15 +401,15 @@ final class SiteApplication extends CMSApplication
 		{
 			if ($this->template->parent)
 			{
-				if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
+				if (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 				{
-					if (!file_exists(JPATH_THEMES . '/' . $this->template->parent . '/index.php'))
+					if (!is_file(JPATH_THEMES . '/' . $this->template->parent . '/index.php'))
 					{
 						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 					}
 				}
 			}
-			elseif (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
+			elseif (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php'))
 			{
 				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
 			}
@@ -528,7 +528,7 @@ final class SiteApplication extends CMSApplication
 		// Only set template override if it is a valid template (= it exists and is enabled)
 		if (!empty($template_override))
 		{
-			if (file_exists(JPATH_THEMES . '/' . $template_override . '/index.php'))
+			if (is_file(JPATH_THEMES . '/' . $template_override . '/index.php'))
 			{
 				foreach ($templates as $tmpl)
 				{
@@ -547,9 +547,9 @@ final class SiteApplication extends CMSApplication
 		// Fallback template
 		if (!empty($template->parent))
 		{
-			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
-				if (!file_exists(JPATH_THEMES . '/' . $template->parent . '/index.php'))
+				if (!is_file(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 				{
 					$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
@@ -566,14 +566,14 @@ final class SiteApplication extends CMSApplication
 					}
 
 					// Check, the data were found and if template really exists
-					if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+					if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
 					{
 						throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 					}
 				}
 			}
 		}
-		elseif (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		elseif (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
@@ -590,7 +590,7 @@ final class SiteApplication extends CMSApplication
 			}
 
 			// Check, the data were found and if template really exists
-			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
 				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
 			}

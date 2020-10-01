@@ -68,8 +68,8 @@ if (!empty($this->items))
 <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="com-content-category__filters filters btn-toolbar clearfix">
 		<legend class="hidden-xs-up"><?php echo Text::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
-		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
-			<div class="btn-group">
+		<div class="btn-group">
+			<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 				<?php if ($this->params->get('filter_field') === 'tag') : ?>
 					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
 						<option value=""><?php echo Text::_('JOPTION_SELECT_TAG'); ?></option>
@@ -86,28 +86,31 @@ if (!empty($this->items))
 					</label>
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo Text::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
 				<?php endif; ?>
-			</div>
-		<?php endif; ?>
-		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="com-content-category__pagination btn-group float-right">
-				<label for="limit" class="sr-only">
-					<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
-				</label>
-				<?php echo $this->pagination->getLimitBox(); ?>
-			</div>
-		<?php endif; ?>
+			<?php endif; ?>
+			
+			<?php if ($this->params->get('show_pagination_limit')) : ?>
+				<div class="com-content-category__pagination btn-group float-right">
+					<label for="limit" class="sr-only">
+						<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
+					</label>
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
+			<?php endif; ?>
+			
+			<?php if ($this->params->get('filter_field') !== 'hide') : ?>
+				<div class="com-content-category__filter-submit control-group hidden-xs-up float-right">
+					<div class="controls">
+						<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
+					</div>
+				</div>
+			<?php endif; ?>
+		</div>
 
 		<input type="hidden" name="filter_order" value="">
 		<input type="hidden" name="filter_order_Dir" value="">
 		<input type="hidden" name="limitstart" value="">
 		<input type="hidden" name="task" value="">
 	</fieldset>
-
-	<div class="com-content-category__filter-submit control-group hidden-xs-up float-right">
-		<div class="controls">
-			<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('COM_CONTENT_FORM_FILTER_SUBMIT'); ?></button>
-		</div>
-	</div>
 <?php endif; ?>
 
 <?php if (empty($this->items)) : ?>
@@ -117,6 +120,9 @@ if (!empty($this->items))
 <?php else : ?>
 
 	<table class="com-content-category__table category table table-striped table-bordered table-hover">
+		<caption id="captionTable" class="sr-only">
+			<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
+		</caption>
 		<?php
 		$headerTitle    = '';
 		$headerDate     = '';
