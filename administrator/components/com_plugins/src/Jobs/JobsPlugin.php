@@ -76,7 +76,7 @@ abstract class JobsPlugin extends CMSPlugin
 	 * The Application object
 	 *
 	 * @var    JApplicationSite
-	 * @since  3.9.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
