@@ -30,7 +30,8 @@ abstract class JobsPlugin extends CMSPlugin
 
 	/**
 	 * Exit Code For no time to run
-	 * @since
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public const JOB_NO_TIME = 1;
 
