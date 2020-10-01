@@ -147,7 +147,7 @@ export default {
   created() {
     document.body.addEventListener('click', this.unselectAllBrowserItems, false);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     document.body.removeEventListener('click', this.unselectAllBrowserItems, false);
   },
   methods: {

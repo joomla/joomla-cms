@@ -72,7 +72,7 @@ export default {
     // Listen to keydown events on the document
     document.addEventListener('keydown', this.onKeyDown);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     // Remove the keydown event listener
     document.removeEventListener('keydown', this.onKeyDown);
   },

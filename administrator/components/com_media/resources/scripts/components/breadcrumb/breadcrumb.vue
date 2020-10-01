@@ -7,6 +7,7 @@
     <ol>
       <li
         v-for="(val,index) in crumbs"
+        v-bind="index"
         class="media-breadcrumb-item"
       >
         <a

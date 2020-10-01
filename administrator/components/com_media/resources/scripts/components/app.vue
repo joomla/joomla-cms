@@ -62,7 +62,7 @@ export default {
     // Initial load the data
     this.$store.dispatch('getContents', this.$store.state.selectedDirectory);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     // Remove the global resize event listener
     window.removeEventListener('resize', this.setFullHeight);
   },
