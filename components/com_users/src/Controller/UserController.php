@@ -140,7 +140,7 @@ class UserController extends BaseController
 
 		$this->app->setUserState('users.login.form.data', array());
 
-		$login = ComponentHelper::getParams('com_users')->get('frontend_login', 0);
+		$login = ComponentHelper::getParams('com_users')->get('frontend_login_message', 0);
 
 		// Show a message when a user is logged in.
 		if ($login === 1 && Factory::getUser()->get('id') > 0)
@@ -238,7 +238,7 @@ class UserController extends BaseController
 			$return = Uri::root();
 		}
 
-		$logout = ComponentHelper::getParams('com_users')->get('frontend_logout', 0);
+		$logout = ComponentHelper::getParams('com_users')->get('frontend_logout_message', 0);
 
 		// Show a message when a user is logged out.
 		if ($logout === 1 && Factory::getUser()->get('id') === 0)
