@@ -2,7 +2,7 @@ import Directory from "./directory.vue";
 import File from "./file.vue";
 import Image from "./image.vue";
 import Video from "./video.vue";
-import * as types from "./../../../store/mutation-types";
+import * as types from "./../../../store/mutation-types.es6";
 
 export default {
     props: ['item'],

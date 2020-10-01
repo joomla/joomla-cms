@@ -1,4 +1,4 @@
-import {notifications} from "./Notifications";
+import {notifications} from "./Notifications.es6";
 
 const path = require('path');
 

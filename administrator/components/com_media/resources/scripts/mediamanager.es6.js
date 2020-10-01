@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Event from './app/Event';
+import Event from './app/Event.es6';
 import App from "./components/app.vue";
 import Disk from "./components/tree/disk.vue";
 import Drive from "./components/tree/drive.vue";
@@ -8,7 +8,7 @@ import TreeItem from "./components/tree/item.vue";
 import Toolbar from "./components/toolbar/toolbar.vue";
 import Breadcrumb from "./components/breadcrumb/breadcrumb.vue";
 import Browser from "./components/browser/browser.vue";
-import BrowserItem from "./components/browser/items/item";
+import BrowserItem from "./components/browser/items/item.es6";
 import BrowserItemRow from "./components/browser/items/row.vue";
 import Modal from "./components/modals/modal.vue";
 import CreateFolderModal from "./components/modals/create-folder-modal.vue";
@@ -18,8 +18,8 @@ import ShareModal from "./components/modals/share-modal.vue";
 import ConfirmDeleteModal from "./components/modals/confirm-delete-modal.vue";
 import Infobar from "./components/infobar/infobar.vue";
 import Upload from "./components/upload/upload.vue";
-import Translate from "./plugins/translate";
-import store from './store/store';
+import Translate from "./plugins/translate.es6";
+import store from './store/store.es6';
 import Lock from 'vue-focus-lock';
 
 // Add the plugins

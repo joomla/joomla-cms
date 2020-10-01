@@ -19,8 +19,8 @@
 </template>
 
 <script>
-    import * as types from "./../store/mutation-types";
-    import {notifications} from "./../app/Notifications";
+    import * as types from "./../store/mutation-types.es6";
+    import {notifications} from "./../app/Notifications.es6";
 
     export default {
         name: 'media-app',

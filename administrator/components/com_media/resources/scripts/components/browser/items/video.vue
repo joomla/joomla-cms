@@ -74,7 +74,7 @@
 </template>
 
 <script>
-    import * as types from './../../../store/mutation-types';
+    import * as types from './../../../store/mutation-types.es6';
 
     export default {
         name: 'media-browser-item-video',

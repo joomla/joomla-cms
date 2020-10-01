@@ -1,7 +1,7 @@
-import {api} from "../app/Api";
-import * as types from "./mutation-types";
-import translate from "../plugins/translate";
-import {notifications} from "../app/Notifications";
+import {api} from "../app/Api.es6";
+import * as types from "./mutation-types.es6";
+import translate from "../plugins/translate.es6";
+import {notifications} from "../app/Notifications.es6";
 import * as FileSaver from '../../../../../../node_modules/file-saver/src/FileSaver';
 
 // Actions are similar to mutations, the difference being that:

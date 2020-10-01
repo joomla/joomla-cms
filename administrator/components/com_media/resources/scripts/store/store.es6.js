@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import state from './state';
-import * as getters from './getters';
-import * as actions from './actions';
-import mutations from './mutations';
+import state from './state.es6';
+import * as getters from './getters.es6';
+import * as actions from './actions.es6';
+import mutations from './mutations.es6';
 import createPersistedState from 'vuex-persistedstate'
-import {persistedStateOptions} from "./plugins/persisted-state";
+import {persistedStateOptions} from "./plugins/persisted-state.es6";
 
 Vue.use(Vuex);
 

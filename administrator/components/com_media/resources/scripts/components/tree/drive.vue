@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import navigable from "../../mixins/navigable";
+    import navigable from "../../mixins/navigable.es6";
 
     export default {
         name: 'media-drive',

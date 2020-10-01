@@ -1,4 +1,4 @@
-import * as types from "./mutation-types";
+import * as types from "./mutation-types.es6";
 
 const nodePath = require('path');
 
