@@ -160,7 +160,7 @@ class Application implements ServiceProviderInterface
 						ExtensionRemoveCommand::getDefaultName()    => ExtensionRemoveCommand::class,
 						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
 						UpdateCoreCommand::getDefaultName()         => UpdateCoreCommand::class,
-            FinderIndexCommand::getDefaultName()        => FinderIndexCommand::class,
+            			FinderIndexCommand::getDefaultName()        => FinderIndexCommand::class,
 						JobListCommand::getDefaultName()            => JobListCommand::class,
 						SchedulerCommand::getDefaultName()          => SchedulerCommand::class,
 					];
