@@ -55,7 +55,7 @@ class JFileTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.22
 	 */
 	public function getGetExtData()
 	{
@@ -78,7 +78,7 @@ class JFileTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getGetExtData
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.9.22
 	 */
 	public function testGetExt($file)
 	{
