@@ -749,45 +749,6 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Write a `<span>` element for an icon
-	 *
-	 * @param   string        $icon        The funcitonal name for an icon.
-	 * @param   string        $srOnly      Screen Reader text if no visible text is placed
-	 * @param   array         $attribs     Attributes to be added to the wrapping element
-	 * @param   string        $iconPrefix  String prepend to icon className
-	 * @param   string        $iconSuffix  String append to icon className
-	 *
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0
-	 */
-	public static function icon($icon = 'default', $srOnly = null, $attribs = [], $iconPrefix = 'icon-', $iconSuffix = null)
-	{
-		$icon = $iconPrefix . $icon;
-
-		if (isset($iconSuffix))
-		{
-			$icon = $icon . $iconSuffix;
-		}
-
-		if (!isset($attribs['aria-hidden']))
-		{
-			$attribs['aria-hidden'] = 'true';
-		}
-
-		$attribs['class'] = $iconPrefix . $icon;
-
-		if (isset($srOnly))
-		{
-			$text = htmlspecialchars($srOnly, ENT_COMPAT, 'UTF-8');
-			$srOnly = '<span class="sr-only">' . $text . '</span>';
-		}
-
-		return '<span ' . trim(ArrayHelper::toString($attribs)) . '></span>' . $srOnly;
-	}
-
-	/**
 	 * Write a `<script>` element to load a JavaScript file
 	 *
 	 * @param   string  $file     Path to file.
