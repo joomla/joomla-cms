@@ -834,8 +834,6 @@ class MediaListCest
 		$I->seeElement(MediaListPage::$itemsContainerMedium);
 		$I->click(MediaListPage::$decreaseThumbnailSizeButton);
 		$I->seeElement(MediaListPage::$itemsContainerSmall);
-		$I->click(MediaListPage::$decreaseThumbnailSizeButton);
-		$I->seeElement(MediaListPage::$itemsContainerExtraSmall);
 		$I->seeElement(MediaListPage::$decreaseThumbnailSizeButtonDisabled);
 	}
 
