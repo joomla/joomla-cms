@@ -827,22 +827,22 @@ class HtmlDocument extends Document
 		$inherits = $params['templateInherits'] ?? '';
 		$baseDir = $directory . '/' . $template;
 
-		if (!empty($inherits)
-			&& !is_file($directory . '/' . $template . '/' . $file)
-			&& is_file($directory . '/' . $inherits . '/' . $file)
-		)
+		if (!is_file($directory . '/' . $template . '/' . $file))
 		{
-			$baseDir = $directory . '/' . $inherits;
-		}
+			if ($inherits !== '' && is_file($directory . '/' . $inherits . '/' . $file))
+			{
+				$baseDir = $directory . '/' . $inherits;
+			}
+			else
+			{
+				$baseDir  = $directory . '/system';
+				$template = 'system';
 
-		if (!is_file($baseDir . '/' . $file))
-		{
-			$template = 'system';
-		}
-
-		if (!is_file($baseDir . '/' . $file))
-		{
-			$file = 'index.php';
+				if ($file !== 'index.php' && !is_file($baseDir . '/' . $file))
+				{
+					$file = 'index.php';
+				}
+			}
 		}
 
 		// Load the language file for the template
@@ -850,7 +850,7 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE)
-			|| $lang->load('tpl_' . $inherits, $directory . '/' . $inherits)
+			|| ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables
