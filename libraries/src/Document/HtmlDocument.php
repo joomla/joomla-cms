@@ -835,9 +835,13 @@ class HtmlDocument extends Document
 			}
 			else
 			{
-				$baseDir = $directory . '/system';
+				$baseDir  = $directory . '/system';
 				$template = 'system';
-				$file = 'index.php';
+
+				if ($file !== 'index.php' && !is_file($baseDir . '/' . $file))
+				{
+					$file = 'index.php';
+				}
 			}
 		}
 
