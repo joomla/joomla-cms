@@ -244,6 +244,7 @@ class ListField extends FormField
 
 	/**
 	 * Allow additional parameters for the "joomla.form.field.list-fancy-select" layout.
+	 *
 	 * @var integer $renderLimit the maximum amount of items to be rendered in the choices.js dropdown
 	 * @var integer $resultsLimit the maximum amount of search results to be displayed in the choices.js dropdown
 	 *
