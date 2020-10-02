@@ -175,7 +175,7 @@ class Image
 	public static function getImageFileProperties($path)
 	{
 		// Make sure the file exists.
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			throw new \InvalidArgumentException('The image file does not exist.');
 		}
@@ -580,7 +580,7 @@ class Image
 		$this->destroy();
 
 		// Make sure the file exists.
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			throw new \InvalidArgumentException('The image file does not exist.');
 		}
