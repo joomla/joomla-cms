@@ -15,94 +15,125 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
-HTMLHelper::_('behavior.core');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_contact.contacts-list');
 
+HTMLHelper::_('behavior.core');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 ?>
-
 <div class="com-contact-featured__items">
-	<?php if (empty($this->items)) : ?>
-		<p class="com-contact-featured__message"> <?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>	 </p>
-	<?php else : ?>
-
 	<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+		<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 		<fieldset class="com-contact-featured__filters filters">
-		<legend class="hidelabeltxt"><?php echo Text::_('JGLOBAL_FILTER_LABEL'); ?></legend>
-		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="display-limit">
-				<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>&#160;
-				<?php echo $this->pagination->getLimitBox(); ?>
-			</div>
-		<?php endif; ?>
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>">
-			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
-		</fieldset>
-
-		<table class="com-contact-featured__table table">
-			<?php if ($this->params->get('show_headings')) : ?>
-			<thead class="thead-default">
-				<tr>
-					<th class="item-num">
-						<?php echo Text::_('JGLOBAL_NUM'); ?>
-					</th>
-
-					<th class="item-title">
-						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
-					</th>
-
-					<?php if ($this->params->get('show_position_headings')) : ?>
-					<th class="item-position">
-						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
-					</th>
-					<?php endif; ?>
-
-					<?php if ($this->params->get('show_email_headings')) : ?>
-					<th class="item-email">
-						<?php echo Text::_('JGLOBAL_EMAIL'); ?>
-					</th>
-					<?php endif; ?>
-
-					<?php if ($this->params->get('show_telephone_headings')) : ?>
-					<th class="item-phone">
-						<?php echo Text::_('COM_CONTACT_TELEPHONE'); ?>
-					</th>
-					<?php endif; ?>
-
-					<?php if ($this->params->get('show_mobile_headings')) : ?>
-					<th class="item-phone">
-						<?php echo Text::_('COM_CONTACT_MOBILE'); ?>
-					</th>
-					<?php endif; ?>
-
-					<?php if ($this->params->get('show_fax_headings')) : ?>
-					<th class="item-phone">
-						<?php echo Text::_('COM_CONTACT_FAX'); ?>
-					</th>
-					<?php endif; ?>
-
-					<?php if ($this->params->get('show_suburb_headings')) : ?>
-					<th class="item-suburb">
-						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
-					</th>
-					<?php endif; ?>
-
-					<?php if ($this->params->get('show_state_headings')) : ?>
-					<th class="item-state">
-						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
-					</th>
-					<?php endif; ?>
-
-					<?php if ($this->params->get('show_country_headings')) : ?>
-					<th class="item-state">
-						<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
-					</th>
-					<?php endif; ?>
-				</tr>
-			</thead>
+			<legend class="sr-only"><?php echo Text::_('COM_CONTACT_FORM_FILTER_LEGEND'); ?></legend>
+			<?php if ($this->params->get('filter_field')) : ?>
+				<div class="com-contact-featured__filter btn-group">
+					<label class="filter-search-lbl sr-only" for="filter-search">
+						<span class="badge badge-warning">
+							<?php echo Text::_('JUNPUBLISHED'); ?>
+						</span>
+						<?php echo Text::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?>
+					</label>
+					<input
+						type="text"
+						name="filter-search"
+						id="filter-search"
+						value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
+						class="inputbox" onchange="document.adminForm.submit();"
+						title="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
+						placeholder="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
+					>
+					<span class="input-group-append">
+						<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+						<button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
+					</span>
+				</div>
 			<?php endif; ?>
 
+			<?php if ($this->params->get('show_pagination_limit')) : ?>
+				<div class="com-contact-featured__pagination btn-group float-right">
+					<label for="limit" class="sr-only">
+						<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
+					</label>
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
+			<?php endif; ?>
+		</fieldset>
+		<?php endif; ?>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-info">
+				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>
+			</div>
+		<?php else : ?>
+		<table class="com-contact-featured__table table table-striped table-bordered table-hover">
+			<caption id="captionTable" class="sr-only">
+				<?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
+			</caption>
+			<?php if ($this->params->get('show_headings')) : ?>
+				<thead>
+					<tr>
+						<th scope="col" class="item-num">
+							<?php echo Text::_('JGLOBAL_NUM'); ?>
+						</th>
+
+						<th scope="col" class="item-title">
+							<?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
+						</th>
+
+						<?php if ($this->params->get('show_position_headings')) : ?>
+						<th scope="col" class="item-position">
+							<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
+						</th>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_email_headings')) : ?>
+						<th scope="col" class="item-email">
+							<?php echo Text::_('JGLOBAL_EMAIL'); ?>
+						</th>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_telephone_headings')) : ?>
+						<th scope="col" class="item-phone">
+							<?php echo Text::_('COM_CONTACT_TELEPHONE'); ?>
+						</th>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_mobile_headings')) : ?>
+						<th scope="col" class="item-phone">
+							<?php echo Text::_('COM_CONTACT_MOBILE'); ?>
+						</th>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_fax_headings')) : ?>
+						<th scope="col" class="item-phone">
+							<?php echo Text::_('COM_CONTACT_FAX'); ?>
+						</th>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_suburb_headings')) : ?>
+						<th scope="col" class="item-suburb">
+							<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
+						</th>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_state_headings')) : ?>
+						<th scope="col" class="item-state">
+							<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
+						</th>
+						<?php endif; ?>
+
+						<?php if ($this->params->get('show_country_headings')) : ?>
+						<th scope="col" class="item-state">
+							<?php echo HTMLHelper::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
+						</th>
+						<?php endif; ?>
+					</tr>
+				</thead>
+			<?php endif; ?>
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<tr class="<?php echo ($i % 2) ? 'odd' : 'even'; ?>" itemscope itemtype="https://schema.org/Person">
@@ -170,7 +201,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-
+		<?php endif; ?>
+		<div>
+			<input type="hidden" name="filter_order" value="<?php echo $this->escape($this->state->get('list.ordering')); ?>">
+			<input type="hidden" name="filter_order_Dir" value="<?php echo $this->escape($this->state->get('list.direction')); ?>">
+		</div>
 	</form>
-	<?php endif; ?>
 </div>
