@@ -132,7 +132,7 @@ $metismenu:                           true !default;
 $cassiopeia-toolbar-line-height:      1.8rem;
 
 // Typography
-$font-family-base:                    var(--cassiopeia-font-family-body);
+$font-family-base:                    var(--cassiopeia-font-family-body, "Helvetica Neue", Helvetica, Arial, sans-serif);
 
 $font-size-root:                      calc(1em + .16vw);
 $font-size-lg:                        1.25rem;

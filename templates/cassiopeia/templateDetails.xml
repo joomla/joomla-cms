@@ -73,7 +73,7 @@
 					name="useFontScheme"
 					type="groupedlist"
 					label="TPL_CASSIOPEIA_FONT_LABEL"
-					default="fonts-local_roboto"
+					default="0"
 					>
 					<option value="0">JNONE</option>
 					<group label="TPL_CASSIOPEIA_FONT_GROUP_LOCAL">

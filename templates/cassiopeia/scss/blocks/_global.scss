@@ -19,8 +19,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--cassiopeia-font-family-headings);
-  font-weight: var(--cassiopeia-font-weight-headings);
+  font-family: var(--cassiopeia-font-family-headings, "Helvetica Neue", Helvetica, Arial, sans-serif);
+  font-weight: var(--cassiopeia-font-weight-headings, 700);
 }
 
 a {
