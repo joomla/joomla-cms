@@ -300,8 +300,10 @@
 
     a {
       text-decoration: none;
+      
       &:hover {
         text-decoration: underline;
+        
         @at-root .container-header & {
           text-decoration: none;
         }
@@ -310,6 +312,7 @@
 
     &.active > a {
       text-decoration: underline;
+      
       @at-root .container-header & {
         text-decoration: none;
       }
