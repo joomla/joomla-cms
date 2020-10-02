@@ -80,7 +80,7 @@ Text::script('JHIDEPASSWORD');
 						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="input-group-text">
-								<span class="fas fa-question" aria-hidden="true"></span>
+								<span class="fas fa-question fa-fw" aria-hidden="true"></span>
 							</span>
 						</span>
 					</div>
@@ -90,7 +90,7 @@ Text::script('JHIDEPASSWORD');
 						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="input-group-text">
-								<span class="fas fa-question" aria-hidden="true"></span>
+								<span class="fas fa-question fa-fw" aria-hidden="true"></span>
 							</span>
 						</span>
 					</div>
