@@ -294,25 +294,32 @@
   }
 }
 
-:not(.container-header) {
-  .mod-menu.nav {
-    li {
-      padding: ($cassiopeia-grid-gutter/2) 0;
+.mod-menu.nav {
+  li {
+    padding: ($cassiopeia-grid-gutter/2) 0;
 
-      a {
-        text-decoration: none;
-        &:hover {
-          text-decoration: underline;
+    a {
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+        
+        @at-root .container-header & {
+          text-decoration: none;
         }
       }
+    }
 
-      &.active > a {
-        text-decoration: underline;
+    &.active > a {
+      text-decoration: underline;
+      
+      @at-root .container-header & {
+        text-decoration: none;
       }
+    }
 
-      .mod-menu__sub {
-        padding-left: $cassiopeia-grid-gutter;
-      }
+    .mod-menu__sub {
+      padding-left: $cassiopeia-grid-gutter;
     }
   }
 }
