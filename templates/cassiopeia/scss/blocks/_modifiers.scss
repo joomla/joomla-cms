@@ -302,31 +302,21 @@
       text-decoration: none;
       &:hover {
         text-decoration: underline;
+        @at-root .container-header & {
+          text-decoration: none;
+        }
       }
     }
 
     &.active > a {
       text-decoration: underline;
+      @at-root .container-header & {
+        text-decoration: none;
+      }
     }
 
     .mod-menu__sub {
       padding-left: $cassiopeia-grid-gutter;
-    }
-  }
-}
-
-.container-header {
-  .mod-menu.nav {
-    li {
-      a {
-        &:hover {
-          text-decoration: none;
-        }
-      }
-
-      &.active > a {
-        text-decoration: none;
-      }
     }
   }
 }
