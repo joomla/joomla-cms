@@ -234,8 +234,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$typeHint = $param->getType();
 			$paramName = $param->getName();
 
-			// No type hint / type hint class not an event and parameter name is not "event"? It's a legacy listener.
-			if (($typeHint === null || !$this->checkTypeHint($typeHint)) && $paramName !== 'event')
+			// No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
+			if ($paramName !== 'event' || $typeHint === null || !$this->checkTypeHint($typeHint))
 			{
 				$this->registerLegacyListener($method->name);
 

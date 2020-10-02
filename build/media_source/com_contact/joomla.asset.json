@@ -15,6 +15,17 @@
       "attributes": {
         "defer": true
       }
+    },
+    {
+      "name": "com_contact.contacts-list",
+      "type": "script",
+      "uri": "com_contact/contacts-list.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
     }
   ]
 }
