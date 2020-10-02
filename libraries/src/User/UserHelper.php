@@ -41,7 +41,7 @@ abstract class UserHelper
 	/**
 	 * Constant defining the Argon2i password algorithm for use with password hashes
 	 *
-	 * Note: PHP's native `PASSWORD_ARGON2I` but the constant is not used as PHP may not be compiled with this constant
+	 * Note: PHP's native `PASSWORD_ARGON2I` constant is not used as PHP may be compiled without this constant
 	 *
 	 * @var    string|integer
 	 * @since  4.0.0
@@ -51,7 +51,7 @@ abstract class UserHelper
 	/**
 	 * Constant defining the Argon2id password algorithm for use with password hashes
 	 *
-	 * Note: PHP's native `PASSWORD_ARGON2ID` but the constant is not used as PHP may not be compiled with this constant
+	 * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
 	 *
 	 * @var    string|integer
 	 * @since  4.0.0
