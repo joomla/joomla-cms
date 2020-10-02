@@ -66,11 +66,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									$button = 'btn-success';
 									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
 								elseif ($check === false) :
-									$class  = 'icon-remove';
+									$class  = 'text-danger fas fa-times';
 									$button = 'btn-danger';
 									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
 								elseif ($check === null) :
-									$class  = 'text-danger icon-ban-circle';
+									$class  = 'text-danger fas fa-minus-circle';
 									$button = 'btn-warning';
 									$text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
 								else :
@@ -98,7 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div class="legend">
 				<span class="text-danger fas fa-minus-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
 				<span class="text-success fas fa-check" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
-				<span class="fas fa-times" aria-hidden="true">&nbsp;</span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+				<span class="text-danger fas fa-times" aria-hidden="true">&nbsp;</span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			</div>
 
 			<?php // load the pagination. ?>

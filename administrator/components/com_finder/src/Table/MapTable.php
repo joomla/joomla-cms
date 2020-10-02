@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Map table class for the Finder package.
@@ -37,7 +36,7 @@ class MapTable extends Nested
 		parent::__construct('#__finder_taxonomy', 'id', $db);
 
 		$this->setColumnAlias('published', 'state');
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**

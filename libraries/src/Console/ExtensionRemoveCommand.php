@@ -11,15 +11,13 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputArgument;
 
 
 /**
@@ -50,13 +48,13 @@ class ExtensionRemoveCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * Exit Code for extenions remove abort
+	 * Exit Code for extensions remove abort
 	 * @since
 	 */
 	public const REMOVE_ABORT = 3;
 
 	/**
-	 * Exit Code for extenions remove failure
+	 * Exit Code for extensions remove failure
 	 * @since
 	 */
 	public const REMOVE_FAILED = 1;
@@ -74,19 +72,19 @@ class ExtensionRemoveCommand extends AbstractCommand
 	public const REMOVE_INVALID_TYPE = 6;
 
 	/**
-	 * Exit Code for extenions locked remove failure
+	 * Exit Code for extensions locked remove failure
 	 * @since
 	 */
 	public const REMOVE_LOCKED = 4;
 
 	/**
-	 * Exit Code for extenions not found
+	 * Exit Code for extensions not found
 	 * @since
 	 */
 	public const REMOVE_NOT_FOUND = 2;
 
 	/**
-	 * Exit Code for extenions remove success
+	 * Exit Code for extensions remove success
 	 * @since
 	 */
 	public const REMOVE_SUCCESSFUL = 0;
@@ -127,15 +125,13 @@ class ExtensionRemoveCommand extends AbstractCommand
 			InputArgument::REQUIRED,
 			'ID of extension to be removed (run extension:list command to check)'
 		);
-		$this->setDescription('Removes an extension');
 
-		$help = <<<'EOF'
-The <info>%command.name%</info> is used to uninstall extensions.  
-The command requires one argument, the ID of the extension to uninstall.  
-You may find this ID by running the <info>extension:list</info> command.
+		$help = "<info>%command.name%</info> is used to uninstall extensions.
+		\nThe command requires one argument, the ID of the extension to uninstall.
+		\nYou may find this ID by running the <info>extension:list</info> command.
+		\nUsage: <info>php %command.full_name% <extension_id></info>";
 
-<info>php %command.full_name% <extension_id></info>
-EOF;
+		$this->setDescription('Remove an extension');
 		$this->setHelp($help);
 	}
 

@@ -16,9 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\User\User;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
-use Joomla\Component\Content\Administrator\Table\ArticleTable;
 use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
@@ -501,7 +499,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		if (empty($stage_ids) || !$table)
 		{
-			return true;
+			return false;
 		}
 
 		$query = $db->getQuery(true);
@@ -608,12 +606,6 @@ class PlgContentJoomla extends CMSPlugin
 				}
 			}
 
-			return true;
-		}
-
-		// Check if this function is enabled.
-		if ($context != 'com_content.article')
-		{
 			return true;
 		}
 

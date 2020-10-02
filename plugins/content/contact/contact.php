@@ -110,7 +110,8 @@ class PlgContentContact extends CMSPlugin
 	{
 		static $contacts = array();
 
-		if (isset($contacts[$created_by]))
+		// Note: don't use isset() because value could be null.
+		if (array_key_exists($created_by, $contacts))
 		{
 			return $contacts[$created_by];
 		}

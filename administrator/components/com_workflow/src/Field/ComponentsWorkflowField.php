@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**

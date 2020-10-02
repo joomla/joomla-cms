@@ -142,7 +142,7 @@ class CssMenu
 				$uri = clone Uri::getInstance();
 				$uri->setVar('recover_menu', 0);
 
-				$this->root->addChild(new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'url' => $uri->toString()]));
+				$this->root->addChild(new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'link' => $uri->toString()]));
 
 				return $this->root;
 			}
@@ -378,7 +378,7 @@ class CssMenu
 				{
 					$parts = explode('.', $query['extension']);
 
-					$workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled');
+					$workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled') && $user->authorise('core.manage.workflow', $parts[0]);
 				}
 
 				if (!$workflow)

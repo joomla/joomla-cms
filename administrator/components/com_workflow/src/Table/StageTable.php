@@ -11,10 +11,12 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Stage table
@@ -41,8 +43,6 @@ class StageTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_stages', 'id', $db);
-
-		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -58,37 +58,37 @@ class StageTable extends Table
 	 */
 	public function delete($pk = null)
 	{
-		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
-		if (!Factory::getUser()->authorise('core.delete', 'com_workflows'))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
-		}
-
 		$db  = $this->getDbo();
 		$app = Factory::getApplication();
+		$pk  = (int) $pk;
 
-		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'title')))
+			->select($db->quoteName('default'))
 			->from($db->quoteName('#__workflow_stages'))
-			->where($db->quoteName('id') . ' = ' . (int) $pk);
-		$db->setQuery($query);
-		$stage = $db->loadResult();
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $pk, ParameterType::INTEGER);
 
-		if ($stage->default)
+		$isDefault = $db->setQuery($query)->loadResult();
+
+		if ($isDefault)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $stage->title), 'error');
+			$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'), 'error');
 
 			return false;
 		}
 
-		// Delete the update site from all tables.
 		try
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
-				->where($db->quoteName('to_stage_id') . ' = ' . (int) $pk, 'OR')
-				->where($db->quoteName('from_stage_id') . ' = ' . (int) $pk);
+				->where(
+					[
+						$db->quoteName('to_stage_id') . ' = :idTo',
+						$db->quoteName('from_stage_id') . ' = :idFrom',
+					],
+					'OR'
+				)
+				->bind([':idTo', ':idFrom'], $pk, ParameterType::INTEGER);
 
 			$db->setQuery($query)->execute();
 
@@ -96,7 +96,7 @@ class StageTable extends Table
 		}
 		catch (\RuntimeException $e)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $stage->title, $e->getMessage()), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $e->getMessage()), 'error');
 		}
 
 		return false;
@@ -147,15 +147,24 @@ class StageTable extends Table
 			$query
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__workflow_stages'))
-				->where($db->quoteName('workflow_id') . '=' . $this->workflow_id)
-				->where($db->quoteName('default') . '= 1');
+				->where(
+					[
+						$db->quoteName('workflow_id') . ' = :id',
+						$db->quoteName('default') . ' = 1',
+					]
+				)
+				->bind(':id', $this->workflow_id, ParameterType::INTEGER);
 
-			$stage = $db->setQuery($query)->loadObject();
+			$id = $db->setQuery($query)->loadResult();
 
-			if (empty($stage) || $stage->id === $this->id)
+			// If there is no default stage => set the current to default to recover
+			if (empty($id))
 			{
 				$this->default = '1';
-
+			}
+			// This stage is the default, but someone has tried to disable it => not allowed
+			elseif ($id === $this->id)
+			{
 				$this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
 				return false;
@@ -190,6 +199,31 @@ class StageTable extends Table
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Method to bind an associative array or object to the Table instance.
+	 * This method only binds properties that are publicly accessible and optionally
+	 * takes an array of properties to ignore when binding.
+	 *
+	 * @param   array|object  $src     An associative array or object to bind to the Table instance.
+	 * @param   array|string  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   4.0.0
+	 * @throws  \InvalidArgumentException
+	 */
+	public function bind($src, $ignore = array())
+	{
+		// Bind the rules.
+		if (isset($src['rules']) && \is_array($src['rules']))
+		{
+			$rules = new Rules($src['rules']);
+			$this->setRules($rules);
+		}
+
+		return parent::bind($src, $ignore);
 	}
 
 	/**

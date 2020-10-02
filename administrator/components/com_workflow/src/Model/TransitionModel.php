@@ -13,8 +13,8 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -132,22 +132,42 @@ class TransitionModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-		$isNew      = true;
+		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 		$app		= Factory::getApplication();
+		$user       = $app->getIdentity();
 		$input		= $app->input;
-
-		if ($pk > 0)
-		{
-			$isNew = false;
-		}
 
 		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
 		if (empty($data['workflow_id']))
 		{
 			$data['workflow_id'] = $workflowID;
+		}
+
+		$workflow = $this->getTable('Workflow');
+
+		$workflow->load($data['workflow_id']);
+
+		$parts = explode('.', $workflow->extension);
+
+		if (isset($data['rules']) && !$user->authorise('core.admin', $parts[0]))
+		{
+			unset($data['rules']);
+		}
+
+		// Make sure we use the correct workflow_id when editing an existing transition
+		$key = $table->getKeyName();
+		$pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if ($pk > 0)
+		{
+			$table->load($pk);
+
+			if ((int) $table->workflow_id)
+			{
+				$data['workflow_id'] = (int) $table->workflow_id;
+			}
 		}
 
 		if ($input->get('task') == 'save2copy')
@@ -203,10 +223,6 @@ class TransitionModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = Factory::getApplication();
-
-		$context = $this->option . '.' . $this->name;
-
 		// Get the form.
 		$form = $this->loadForm(
 			'com_workflow.transition',
@@ -222,29 +238,34 @@ class TransitionModel extends AdminModel
 			return false;
 		}
 
-		if ($loadData)
+		$id = $data['id'] ?? $form->getValue('id');
+
+		$item = $this->getItem($id);
+
+		$canEditState = $this->canEditState((object) $item);
+
+		// Modify the form based on access controls.
+		if (!$canEditState)
 		{
-			$data = (array) $this->loadFormData();
+			$form->setFieldAttribute('published', 'disabled', 'true');
+			$form->setFieldAttribute('published', 'required', 'false');
+			$form->setFieldAttribute('published', 'filter', 'unset');
+		}
+
+		if (!empty($item->workflow_id))
+		{
+			$data['workflow_id'] = (int) $item->workflow_id;
 		}
 
 		if (empty($data['workflow_id']))
 		{
-			$data['workflow_id'] = (int) $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
-		}
+			$context = $this->option . '.' . $this->name;
 
-		// Disable state when no permission to change
-		$disableFields = [];
-
-		if (!$this->canEditState((object) $data))
-		{
-			$disableFields[] = 'published';
-		}
-
-		foreach ($disableFields as $field)
-		{
-			$form->setFieldAttribute($field, 'disabled', 'true');
-			$form->setFieldAttribute($field, 'required', 'false');
-			$form->setFieldAttribute($field, 'filter', 'unset');
+			$data['workflow_id'] = (int) Factory::getApplication()->getUserStateFromRequest(
+				$context . '.filter.workflow_id', 'workflow_id',
+				0,
+				'int'
+			);
 		}
 
 		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $data['workflow_id'];
@@ -307,8 +328,20 @@ class TransitionModel extends AdminModel
 	 * @since   4.0.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'workflow')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
+		$extension = Factory::getApplication()->input->get('extension');
+
+		$parts = explode('.', $extension);
+
+		$extension = array_shift($parts);
+
+		// Set the access control rules field component value.
+		$form->setFieldAttribute('rules', 'component', $extension);
+
+		// Import the appropriate plugin group.
+		PluginHelper::importPlugin('workflow');
+
 		parent::preprocessForm($form, $data, $group);
 	}
 }

@@ -12,8 +12,8 @@ namespace Joomla\Component\Workflow\Administrator\Field;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 
 /**
  * Fields Contexts

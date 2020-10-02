@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -16,6 +17,9 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
+
+$app   = Factory::getApplication();
+$user  = $app->getIdentity();
 
 $this->ignore_fieldsets = ['params', 'transition', 'permissions'];
 $this->useCoreUI = true;
@@ -56,12 +60,15 @@ $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&
 
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_WORKFLOW_RULES_TAB')); ?>
+		<?php if ($user->authorise('core.admin', $this->extension)) : ?>
+
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_WORKFLOW_RULES_TAB')); ?>
 			<fieldset id="fieldset-rules" class="options-form">
 				<legend><?php echo Text::_('COM_WORKFLOW_RULES_TAB'); ?></legend>
 				<?php echo $this->form->getInput('rules'); ?>
 			</fieldset>
-		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php endif; ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>

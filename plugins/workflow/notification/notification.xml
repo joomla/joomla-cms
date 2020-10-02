@@ -11,6 +11,7 @@
 	<description>PLG_WORKFLOW_NOTIFICATION_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="notification">notification.php</filename>
+		<folder>forms</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">plg_workflow_notification.ini</language>

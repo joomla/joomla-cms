@@ -12,7 +12,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-HTMLHelper::_('script', 'com_fields/admin-fields-default-batch.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_fields.admin-fields-batch');
 
 $context   = $this->escape($this->state->get('filter.context'));
 ?>

@@ -68,23 +68,32 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				</div>
 			<?php endif; ?>
 
-			<?php foreach ($this->extraButtons as $button): ?>
+			<?php foreach ($this->extraButtons as $button):
+				$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+					return substr($key, 0, 5) == 'data-';
+				});
+				?>
 				<div class="com-users-login__submit control-group">
 					<div class="controls">
 						<button type="button"
-						        class="btn btn-secondary <?= $button['class'] ?? '' ?>"
-						        onclick="<?= $button['onclick'] ?>"
-						        title="<?= Text::_($button['label']) ?>"
-						        id="<?= $button['id'] ?>"
+						        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+								<?php foreach ($dataAttributeKeys as $key): ?>
+								<?php echo $key ?>="<?php echo $button[$key] ?>"
+								<?php endforeach; ?>
+								<?php if ($button['onclick']): ?>
+						        onclick="<?php echo $button['onclick'] ?>"
+								<?php endif; ?>
+						        title="<?php echo Text::_($button['label']) ?>"
+						        id="<?php echo $button['id'] ?>"
 						>
 							<?php if (!empty($button['icon'])): ?>
-								<span class="<?= $button['icon'] ?>"></span>
+								<span class="<?php echo $button['icon'] ?>"></span>
 							<?php elseif (!empty($button['image'])): ?>
-								<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+								<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 									'class' => 'icon',
 								], true) ?>
 							<?php endif; ?>
-							<?= Text::_($button['label']) ?>
+							<?php echo Text::_($button['label']) ?>
 						</button>
 					</div>
 				</div>

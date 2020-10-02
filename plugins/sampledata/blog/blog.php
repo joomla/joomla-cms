@@ -127,9 +127,9 @@ class PlgSampledataBlog extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $this->app->set('unicodeslugs', 1);
 			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$this->app->set('unicodeslugs', $unicode);
 		}
 
 		$category      = array(
@@ -174,9 +174,9 @@ class PlgSampledataBlog extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $this->app->set('unicodeslugs', 1);
 			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$this->app->set('unicodeslugs', $unicode);
 		}
 
 		$category      = array(
@@ -266,9 +266,9 @@ class PlgSampledataBlog extends CMSPlugin
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $alias) == ''))
 			{
-				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+				$unicode = $this->app->set('unicodeslugs', 1);
 				$article['alias'] = ApplicationHelper::stringURLSafe($article['title']);
-				Factory::getConfig()->set('unicodeslugs', $unicode);
+				$this->app->set('unicodeslugs', $unicode);
 			}
 
 			$article['language']        = $language;
@@ -377,7 +377,7 @@ class PlgSampledataBlog extends CMSPlugin
 			$menuTypes[] = $menuTable->menutype;
 		}
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.blog.menutypes', $menuTypes);
 
 		// Get previously entered Data from UserStates.
@@ -1003,6 +1003,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$itemIds = array();
 		$access  = (int) $this->app->get('access', 1);
 		$user    = Factory::getUser();
+		$app     = Factory::getApplication();
 
 		// Detect language to be used.
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
@@ -1021,9 +1022,9 @@ class PlgSampledataBlog extends CMSPlugin
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $menuItem['alias']) == ''))
 			{
-				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+				$unicode = $app->set('unicodeslugs', 1);
 				$menuItem['alias'] = ApplicationHelper::stringURLSafe($menuItem['title']);
-				Factory::getConfig()->set('unicodeslugs', $unicode);
+				$app->set('unicodeslugs', $unicode);
 			}
 
 			// Append language suffix to title.

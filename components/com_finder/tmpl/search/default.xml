@@ -203,6 +203,7 @@
 				validate="options"
 				>
 				<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
+				<option value="title">COM_FINDER_CONFIG_SORT_OPTION_TITLE</option>
 				<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
 				<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
 			</field>

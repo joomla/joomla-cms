@@ -45,7 +45,7 @@ trait WorkflowPluginTrait
 		// Load XML file from "parent" plugin
 		$path = dirname((new ReflectionClass(static::class))->getFileName());
 
-		if (file_exists($path . '/forms/action.xml'))
+		if (is_file($path . '/forms/action.xml'))
 		{
 			$form->loadFile($path . '/forms/action.xml');
 		}
@@ -131,7 +131,7 @@ trait WorkflowPluginTrait
 	 * Check if the context is listed in the whitelist or in the blacklist and return the result
 	 *
 	 * @param   string  $context       Context to check
-	 * @param   string  $functionality The funcationality
+	 * @param   string  $functionality The functionality
 	 *
 	 * @return boolean
 	 */

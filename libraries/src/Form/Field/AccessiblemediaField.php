@@ -10,9 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Form\Field\SubformField;
-
 /**
  * The Field to load the form inside current form
  *
@@ -133,24 +130,39 @@ class AccessiblemediaField extends SubformField
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		json_decode($value);
-
-		// Check if value is a valid JSON string.
-		if ($value !== '' && json_last_error() !== JSON_ERROR_NONE)
+		/**
+		 * If the value is not a string, it is
+		 * most likely within a custom field of type subform
+		 * and the value is a stdClass with properties
+		 * imagefile and alt_text. So it is fine.
+		*/
+		if (\is_string($value))
 		{
-			/**
-			* If the value is not empty and is not a valid JSON string,
-			* it is most likely a custom field created in Joomla 3 and
-			* the value is a string that contains the file name.
-			*/
-			if (file_exists(JPATH_ROOT . '/' . $value))
+			json_decode($value);
+
+			// Check if value is a valid JSON string.
+			if ($value !== '' && json_last_error() !== JSON_ERROR_NONE)
 			{
-				$value = '{"imagefile":"' . $value . '","alt_text":""}';
+				/**
+				 * If the value is not empty and is not a valid JSON string,
+				 * it is most likely a custom field created in Joomla 3 and
+				 * the value is a string that contains the file name.
+				*/
+				if (is_file(JPATH_ROOT . '/' . $value))
+				{
+					$value = '{"imagefile":"' . $value . '","alt_text":""}';
+				}
+				else
+				{
+					$value = '';
+				}
 			}
-			else
-			{
-				$value = '';
-			}
+		}
+		elseif (!is_object($value)
+			|| !property_exists($value, 'imagefile')
+			|| !property_exists($value, 'alt_text'))
+		{
+			return false;
 		}
 
 		if (!parent::setup($element, $value, $group))
@@ -166,7 +178,7 @@ class AccessiblemediaField extends SubformField
 		$xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset 
+	<fieldset
 		name="accessiblemedia"
 		label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL"
 	>

@@ -14,15 +14,18 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('bootstrap.tooltip');
 
 // Load user_profile plugin language
 $lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
-HTMLHelper::_('script', 'com_users/two-factor-switcher.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_users.two-factor-switcher');
+
 ?>
 <div class="com-users-profile__edit profile-edit">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -52,19 +55,7 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.js', ['version' => 'auto'
 					<?php endif; ?>
 					<?php // Iterate through the fields in the set and display them. ?>
 					<?php foreach ($fields as $field) : ?>
-					<?php // If the field is hidden, just display the input. ?>
-						<?php if ($field->hidden) : ?>
-							<?php echo $field->input; ?>
-						<?php else : ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $field->label; ?>
-								</div>
-								<div class="controls">
-									<?php echo $field->input; ?>
-								</div>
-							</div>
-						<?php endif; ?>
+						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</fieldset>
 			<?php endif; ?>

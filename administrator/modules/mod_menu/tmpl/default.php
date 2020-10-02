@@ -18,9 +18,10 @@ $class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-col
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $doc->getWebAssetManager();
+$wa->getRegistry()->addExtensionRegistryFile('com_cpanel');
 $wa->useScript('metismenujs')
 	->registerAndUseScript('mod_menu.admin-menu', 'mod_menu/admin-menu.min.js', [], ['defer' => true], ['metismenujs'])
-	->registerAndUseScript('cpanel.system-loader', 'com_cpanel/admin-system-loader.js', [], ['defer' => true]);
+	->useScript('com_cpanel.admin-system-loader');
 
 // Recurse through children of root node if they exist
 if ($root->hasChildren())

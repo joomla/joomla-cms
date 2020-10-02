@@ -13,9 +13,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-// Load tooltips behavior
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('script', 'com_config/config-default.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_config.config');
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
@@ -31,19 +34,9 @@ HTMLHelper::_('script', 'com_config/config-default.js', ['version' => 'auto', 'r
 
 	<hr>
 
-	<div id="page-site" class="tab-pane active">
-		<div class="row">
-			<div class="col-md-12">
-				<?php echo $this->loadTemplate('site'); ?>
-			</div>
-			<div class="col-md-12">
-				<?php echo $this->loadTemplate('seo'); ?>
-			</div>
-			<div class="col-md-12">
-				<?php echo $this->loadTemplate('metadata'); ?>
-			</div>
-		</div>
-	</div>
+	<?php echo $this->loadTemplate('site'); ?>
+	<?php echo $this->loadTemplate('seo'); ?>
+	<?php echo $this->loadTemplate('metadata'); ?>
 
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>

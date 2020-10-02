@@ -16,7 +16,6 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
@@ -24,7 +23,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Base class for a database aware Joomla Model
@@ -151,7 +149,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * Note: Current implementation of this method assumes that getListQuery() returns a set of unique rows,
 	 * thus it uses SELECT COUNT(*) to count the rows. In cases that getListQuery() uses DISTINCT
-	 * then either this method must be overriden by a custom implementation at the derived Model Class
+	 * then either this method must be overridden by a custom implementation at the derived Model Class
 	 * or a GROUP BY clause should be used to make the set unique.
 	 *
 	 * @param   DatabaseQuery|string  $query  The query.

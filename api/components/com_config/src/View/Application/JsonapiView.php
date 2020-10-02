@@ -15,8 +15,8 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Tobscure\JsonApi\Collection;
-USE Joomla\Component\Config\Administrator\Model\ApplicationModel;
 
 /**
  * The application view

@@ -12,7 +12,6 @@ namespace Joomla\CMS\Application;
 
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
@@ -41,7 +40,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * The input.
 	 *
-	 * @var    \Joomla\Input\Input
+	 * @var    Input
 	 * @since  4.0.0
 	 */
 	protected $input = null;
@@ -114,7 +113,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 
 		parent::__construct($input, $output, $config);
 
-		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
 
 		// Register the client name as cli
@@ -399,5 +397,35 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function flushAssets()
 	{
 		(new Version)->refreshMediaVersion();
+	}
+
+	/**
+	 * Get the long version string for the application.
+	 *
+	 * Overrides the parent method due to conflicting use of the getName method between the console application and
+	 * the CMS application interface.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function getLongVersion(): string
+	{
+		return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version)->getShortVersion(), (defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
+	}
+
+	/**
+	 * Set the name of the application.
+	 *
+	 * @param   string  $name  The new application name.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException because the application name cannot be changed
+	 */
+	public function setName(string $name): void
+	{
+		throw new \RuntimeException('The console application name cannot be changed');
 	}
 }
