@@ -10,8 +10,10 @@ namespace Joomla\CMS\Form\Rule;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 /**
@@ -55,6 +57,7 @@ class NumberRule extends FormRule
 
 			if ($min > $float_value)
 			{
+				Factory::getApplication()->enqueueMessage(Text::plural('JFIELD_NUMBER_TOO_SHORT_N', $min), 'error');
 				return false;
 			}
 		}
@@ -65,6 +68,7 @@ class NumberRule extends FormRule
 
 			if ($max < $float_value)
 			{
+				Factory::getApplication()->enqueueMessage(Text::plural('JFIELD_NUMBER_TOO_LONG_N', $max), 'error');
 				return false;
 			}
 		}
