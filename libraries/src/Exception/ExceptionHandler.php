@@ -100,6 +100,7 @@ class ExceptionHandler
 					ob_end_clean();
 				}
 
+				// This is needed to ensure the test suite can still get the output buffer 
 				ob_start();
 
 				$document->setTitle(Text::_('ERROR') . ': ' . $error->getCode());
