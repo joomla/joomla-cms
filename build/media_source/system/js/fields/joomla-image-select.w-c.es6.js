@@ -203,8 +203,6 @@
 
     get alttext() { return this.getAttribute('alt-label'); }
 
-    get confirmtext() { return this.getAttribute('confirm-text'); }
-
     connectedCallback() {
       this.innerHTML = `
 <div class="form-row align-items-center">
