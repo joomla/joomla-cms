@@ -135,7 +135,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->items[$i]->published == 0) : ?>
 						<tr class="system-unpublished featured-list-row<?php echo $i % 2; ?>">
 					<?php else : ?>
-						<tr class="featured-list-row<?php echo $i % 2; ?>" >
+						<tr class="featured-list-row<?php echo $i % 2; ?>" itemscope itemtype="https://schema.org/Person">
 					<?php endif; ?>
 					<th scope="row" class="list-title">
 						<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
