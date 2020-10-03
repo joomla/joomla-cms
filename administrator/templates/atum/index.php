@@ -121,7 +121,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 		</button>
 
 		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-			<div id="sidebarmenu">
+			<div id="sidebarmenu" class="sidebar-sticky">
 				<div class="sidebar-toggle item item-level-1">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
 						<span id="menu-collapse-icon" class="fas fa-toggle-off fa-fw" aria-hidden="true"></span>
