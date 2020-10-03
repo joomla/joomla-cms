@@ -66,7 +66,6 @@ class PlgButtonImage extends CMSPlugin
 
 			Text::script('JFIELD_MEDIA_LAZY_LABEL');
 			Text::script('JFIELD_MEDIA_ALT_LABEL');
-			Text::script('JFIELD_MEDIA_CONFIRM_TEXT');
 
 			$app->getDocument()->getWebAssetManager()->useScript('webcomponent.field-media');
 
