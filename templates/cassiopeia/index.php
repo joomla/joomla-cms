@@ -38,7 +38,7 @@ $wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $para
 $this->getPreloadManager()->preload($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
 
 // Use a font scheme if not "None" is set in the template style options
-$paramsFontScheme = $this->params->get('useFontScheme', 'fonts-local_roboto');
+$paramsFontScheme = $this->params->get('useFontScheme', false);
 
 if ($paramsFontScheme)
 {
