@@ -100,6 +100,8 @@ class ExceptionHandler
 					ob_end_clean();
 				}
 
+				ob_start();
+
 				$document->setTitle(Text::_('ERROR') . ': ' . $error->getCode());
 
 				$data = $document->render(
