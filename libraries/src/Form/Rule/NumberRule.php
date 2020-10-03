@@ -58,6 +58,7 @@ class NumberRule extends FormRule
 			if ($min > $float_value)
 			{
 				Factory::getApplication()->enqueueMessage(Text::plural('JFIELD_NUMBER_TOO_SHORT_N', $min), 'error');
+
 				return false;
 			}
 		}
@@ -69,6 +70,7 @@ class NumberRule extends FormRule
 			if ($max < $float_value)
 			{
 				Factory::getApplication()->enqueueMessage(Text::plural('JFIELD_NUMBER_TOO_LONG_N', $max), 'error');
+
 				return false;
 			}
 		}
