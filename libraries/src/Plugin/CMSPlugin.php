@@ -231,11 +231,10 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 			/** @var \ReflectionParameter $param */
 			$param = array_shift($parameters);
-			$typeHint = $param->getType();
 			$paramName = $param->getName();
 
 			// No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
-			if ($paramName !== 'event' || $typeHint === null || !$this->checkTypeHint($typeHint))
+			if ($paramName !== 'event' || !$this->parameterImplementsEventInterface($param))
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -314,16 +313,25 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	}
 
 	/**
-	 * Used for checking if parameter is typehinted to accept \Joomla\Event\EventInterface, based on reflection type.
+	 * Checks if parameter is typehinted to accept \Joomla\Event\EventInterface.
 	 *
-	 * @param   \ReflectionType  $reflectionType
+	 * @param   \ReflectionParameter  $parameter
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function checkTypeHint(\ReflectionType $reflectionType): bool
+	protected function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
 	{
+		$reflectionType = $parameter->getType();
+
+		// Parameter is not typehinted.
+		if ($reflectionType === null)
+		{
+			return false;
+		}
+
+		// Parameter is nullable.
 		if ($reflectionType->allowsNull())
 		{
 			return false;
