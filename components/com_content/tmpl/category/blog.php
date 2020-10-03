@@ -29,6 +29,19 @@ $beforeDisplayContent = trim(implode("\n", $results));
 $results = $app->triggerEvent('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
 
+$blogClassILeading = '';
+$blogClassILeading .= $this->params->get('blog_class_leading');
+$blogClassILeading .= $this->params->get('blog_class_leading_boxed') ? ' boxed' : '';
+$blogClassILeading .= $this->params->get('blog_class_leading_masonry') ? ' masonry-' : ' columns-';
+$blogClassILeading .= $this->params->get('blog_class-leading_columns');
+$blogClassILeading .= $this->params->get('blog_class_leading_image') == 'none' ? '' : ' image-' . $this->params->get('blog_class_leading_image');
+
+$blogClassIntro = '';
+$blogClassIntro .= $this->params->get('blog_class_intro');
+$blogClassIntro .= $this->params->get('blog_class_intro_boxed') ? ' boxed' : '';
+$blogClassIntro .= $this->params->get('blog_class_intro_masonry') ? ' masonry-' : ' columns-';
+$blogClassIntro .= $this->params->get('blog_class_intro_columns');
+$blogClassIntro .= $this->params->get('blog_class_intro_image') != 'none' ? '' : ' image-' . $this->params->get('blog_class_intro_image');
 ?>
 <div class="com-content-category-blog blog" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -72,7 +85,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
-		<div class="com-content-category-blog__items blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
+		<div class="com-content-category-blog__items blog-items items-leading <?php echo $blogClassILeading; ?>">
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="com-content-category-blog__item blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
@@ -92,7 +105,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 	?>
 
 	<?php if (!empty($this->intro_items)) : ?>
-		<div class="com-content-category-blog__items blog-items <?php echo $this->params->get('blog_class'); ?>">
+		<div class="com-content-category-blog__items blog-items <?php echo $blogClassIntro; ?>">
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<div class="com-content-category-blog__item blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
