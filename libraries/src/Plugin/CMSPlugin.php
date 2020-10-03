@@ -321,7 +321,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
+	private function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
 	{
 		$reflectionType = $parameter->getType();
 
