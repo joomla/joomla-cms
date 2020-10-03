@@ -286,19 +286,13 @@ class CategoryModel extends ListModel
 		// List state information
 		$format = $app->input->getWord('format');
 
-		$numberOfContactsToDisplay = $mergedParams->get('contacts_display_num');
-
 		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}
-		elseif (isset($numberOfContactsToDisplay))
-		{
-			$limit = $numberOfContactsToDisplay;
-		}
 		else
 		{
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
+			$limit = $app->input->get('limit', $app->get('list_limit', 20), 'uint');
 		}
 
 		$this->setState('list.limit', $limit);
