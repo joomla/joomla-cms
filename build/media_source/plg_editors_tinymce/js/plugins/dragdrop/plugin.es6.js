@@ -79,7 +79,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
                 {
                   type: 'input',
                   name: 'altText',
-                  label: 'Alternative desription',
+                  label: 'Alternative description', // @todo translate
                 },
                 {
                   type: 'checkbox',
