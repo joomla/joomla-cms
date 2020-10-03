@@ -129,7 +129,7 @@ $this->document->getWebAssetManager()
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
-				<joomla-alert id="noresultsfound" type="warning" class="hidden"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+				<joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<div class="hidden" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">

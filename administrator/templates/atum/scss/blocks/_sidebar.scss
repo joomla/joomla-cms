@@ -6,6 +6,11 @@
   background-color: var(--atum-sidebar-bg);
   box-shadow: $atum-box-shadow;
 
+  .sidebar-sticky {
+    position: sticky;
+    top: 0;
+  }
+
   .item {
     position: relative;
     display: flex;
