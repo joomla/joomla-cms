@@ -200,7 +200,7 @@ steps:
       repo:
         - joomla/joomla-cms
       branch:
-        - 4.0-dev
+        - 4.1-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
       - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
