@@ -18,7 +18,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 
 <?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| (strtotime($this->item->publish_down) < strtotime(JFactory::getDate()) && $this->item->publish_down !== JFactory::getDbo()->getNullDate())) : ?>
+	|| ($this->item->publish_down !== JFactory::getDbo()->getNullDate() && strtotime($this->item->publish_down) < strtotime(JFactory::getDate()))) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
@@ -160,7 +160,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php endif; ?>
 
 <?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| (strtotime($this->item->publish_down) < strtotime(JFactory::getDate()) && $this->item->publish_down !== JFactory::getDbo()->getNullDate())) : ?>
+	|| ($this->item->publish_down !== JFactory::getDbo()->getNullDate() && strtotime($this->item->publish_down) < strtotime(JFactory::getDate()))) : ?>
 </div>
 <?php endif; ?>
 

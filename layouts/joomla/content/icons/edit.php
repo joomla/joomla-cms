@@ -22,7 +22,7 @@ if ($legacy)
 	$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
 
 	if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-		|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
+		|| ($article->publish_down !== JFactory::getDbo()->getNullDate() && strtotime($article->publish_down) < strtotime(JFactory::getDate())))
 	{
 		$icon = 'edit_unpublished.png';
 	}
@@ -32,7 +32,7 @@ else
 	$icon = $article->state ? 'edit' : 'eye-close';
 
 	if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
-		|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
+		|| ($article->publish_down !== JFactory::getDbo()->getNullDate() && strtotime($article->publish_down) < strtotime(JFactory::getDate())))
 	{
 		$icon = 'eye-close';
 	}

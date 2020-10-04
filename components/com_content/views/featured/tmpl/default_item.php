@@ -19,7 +19,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 ?>
 
 <?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate())) : ?>
+	|| ($this->item->publish_down !== JFactory::getDbo()->getNullDate() && strtotime($this->item->publish_down) < strtotime(JFactory::getDate()))) : ?>
 	<div class="system-unpublished">
 <?php endif; ?>
 
@@ -41,7 +41,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 <?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 	<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 <?php endif; ?>
-<?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate()) : ?>
+<?php if ($this->item->publish_down !== JFactory::getDbo()->getNullDate() && strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) : ?>
 	<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 <?php endif; ?>
 
@@ -97,7 +97,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 <?php endif; ?>
 
 <?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != $this->db->getNullDate() )) : ?>
+	|| ($this->item->publish_down !== $this->db->getNullDate() && strtotime($this->item->publish_down) < strtotime(JFactory::getDate()))) : ?>
 	</div>
 <?php endif; ?>
 

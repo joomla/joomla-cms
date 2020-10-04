@@ -20,9 +20,9 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $langFilter = false;
 
-// Tags filtering based on language filter 
+// Tags filtering based on language filter
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled()))
-{ 
+{
 	$tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
 	switch ($tagfilter)
@@ -218,7 +218,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 								<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 				<?php endif; ?>
-				<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()) : ?>
+				<?php if ($article->publish_down !== JFactory::getDbo()->getNullDate() && strtotime($article->publish_down) < strtotime(JFactory::getDate())) : ?>
 					<span class="list-published label label-warning">
 								<?php echo JText::_('JEXPIRED'); ?>
 							</span>
