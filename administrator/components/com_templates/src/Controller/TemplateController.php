@@ -13,11 +13,13 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Input\Input;
@@ -50,6 +52,7 @@ class TemplateController extends BaseController
 		$this->registerTask('unpublish', 'publish');
 		$this->registerTask('publish',   'publish');
 		$this->registerTask('deleteOverrideHistory', 'publish');
+		$this->registerTask('saveAsset', 'saveAsset');
 	}
 
 	/**
@@ -935,5 +938,73 @@ class TemplateController extends BaseController
 		echo json_encode($result);
 
 		$app->close();
+	}
+
+
+	/**
+	 * Create/overwrite static asset files
+	 * ATM supports ONLY css and woff2
+	 */
+	public function saveAsset() {
+		$this->checkToken();
+
+		$data = $this->input->json->getString('fileData');
+		$fileName = $this->input->json->getString('fileName');
+		$fileType = $this->input->json->get('fileType');
+		$template = $this->input->json->get('template');
+		$client = $this->input->json->get('client');
+		$epoch = $this->input->json->getInt('epoch');
+		$fieldId = $this->input->json->get('fieldId');
+
+		$stateEpoch = Factory::getApplication()->getUserState($fieldId . 'epoch', '');
+
+		if ($epoch !== $stateEpoch || !$this->allowEdit()) {
+			echo new JsonResponse(['success' => false]);
+
+			Factory::getApplication()->close();
+		}
+
+		$filename = JPATH_ROOT .
+			($client === '0' ? '/administrator' : '') . '/templates/' .
+			$template . '/' .
+			str_replace('"', '',  $fileName);
+
+		$path_parts = pathinfo($filename);
+
+		if (!is_dir($path_parts['dirname']) && !mkdir($path_parts['dirname'], 0777, true)) {
+			echo new JsonResponse(['success' => false]);
+
+			Factory::getApplication()->close();
+		}
+
+		$finfo = new \finfo(FILEINFO_MIME_TYPE);
+
+		// Then check if safe
+		if ( !in_array($finfo->buffer($data), ['text/plain', 'application/octet-stream'])) {
+			echo new JsonResponse(['success' => false]);
+
+			Factory::getApplication()->close();
+		}
+
+		// PHP files not allowed
+		if ($finfo->buffer($data) === 'text/plain' && strpos($data, '<php')) {
+			echo new JsonResponse(['success' => false]);
+
+			Factory::getApplication()->close();
+		}
+
+		// WOFF2 Files, extend this for the rest font files
+		if ($finfo->buffer($data) === 'application/octet-stream' && substr($data, 0, 4) !== 'wOF2') {
+			echo new JsonResponse(['success' => false]);
+
+			Factory::getApplication()->close();
+		}
+
+		// Save the file in a temp folder
+		file_put_contents($filename, $data);
+
+		echo new JsonResponse(['success' => true]);
+
+		Factory::getApplication()->close();
 	}
 }

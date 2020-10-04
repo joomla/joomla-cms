@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 extract($displayData);
 
 /**
@@ -47,15 +49,34 @@ extract($displayData);
 
 // Initialize some field attributes.
 $class    = !empty($class) ? ' class="' . $class . '"' : '';
-?>
-<google-font-localizer <?php echo $class; ?> data="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
-	<button type="button" class="btn btn-primary">Select Fonts</button>
 
+$epoch = (new DateTime())->getTimestamp();
+
+// This needs to be specific to the field
+Factory::getApplication()->setUserState($id . 'epoch', $epoch);
+
+Factory::getDocument()->getWebAssetManager()->registerAndUseScript(
+		'blalaasdas',
+		'media/system/js/fields/joomla-field-googlefont.esm.js',
+		[], //'relative' => true
+		['type' => 'module']
+)
+?>
+<google-font-localizer
+		<?php echo $class; ?>
+		id="<?php echo $id; ?>"
+		data="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+		template="atum"
+		client="0"
+		token="<?php echo \Joomla\CMS\Session\Session::getFormToken(); ?>"
+		timestamp="<?php echo $epoch; ?>"
+>
 </google-font-localizer>
 <input
 	type="hidden"
 	name="<?php echo $name; ?>"
 	id="<?php echo $id; ?>"
+
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo $dataAttribute; ?>
 >
