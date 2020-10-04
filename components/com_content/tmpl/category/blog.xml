@@ -235,12 +235,6 @@
 				</field>
 
 				<field
-					name="spacer1"
-					type="spacer"
-					hr="true"
-				/>
-
-				<field
 					name="orderby_pri"
 					type="list"
 					label="JGLOBAL_CATEGORY_ORDER_LABEL"
