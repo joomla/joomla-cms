@@ -76,10 +76,6 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$wa->useScript('tinymce')
 			->useScript('plg_editors_tinymce');
-
-		Text::script('PLG_TINY_DND_ADDITIONALDATA');
-		Text::script('PLG_TINY_DND_ALTTEXT');
-		Text::script('PLG_TINY_DND_LAZYLOADED');
 	}
 
 	/**
@@ -527,6 +523,9 @@ class PlgEditorTinymce extends CMSPlugin
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			Text::script('JERROR');
+			Text::script('PLG_TINY_DND_ADDITIONALDATA');
+			Text::script('PLG_TINY_DND_ALTTEXT');
+			Text::script('PLG_TINY_DND_LAZYLOADED');
 
 			$scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
 			$scriptOptions['csrfToken']          = Session::getFormToken();
