@@ -179,6 +179,13 @@
 		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL">
 
 				<field
+					name="num_leading_articles"
+					type="text"
+					label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
+					useglobal="true"
+					size="3"
+				/>
+				<field
 					name="blog_class_leading"
 					type="text"
 					label="JGLOBAL_BLOG_CLASS_LEADING"
@@ -189,6 +196,7 @@
 					name="blog_class_leading_help"
 					type="list"
 					label="JGLOBAL_BLOG_CLASS_HELP"
+					layout="joomla.form.field.radio.switcher"
 					validate="options"
 					default="0"
 					>
@@ -217,16 +225,16 @@
 					showon="blog_class_leading_help:1"
 				/>
 				<field
-					name="blog_class_leading_masonry"
+					name="blog_class_leading_type"
 					type="list"
-					label="JGLOBAL_BLOG_CLASS_MASONRY"
+					label="JGLOBAL_BLOG_CLASS_TYPE"
 					useglobal="true"
 					validate="options"
-					default="1"
+					default="columns"
 					showon="blog_class_leading_help:1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="columns">JGLOBAL_BLOG_CLASS_TYPE_COLUMNS</option>
+					<option value="masonry">JGLOBAL_BLOG_CLASS_TYPE_MASONRY</option>
 				</field>
 				<field
 					name="blog_class_leading_image"
@@ -242,13 +250,6 @@
 					<option value="right">JGLOBAL_BLOG_IMAGE_RIGHT</option>
 					<option value="alternate">JGLOBAL_BLOG_IMAGE_ALTERNATE</option>
 				</field>
-				<field
-					name="num_leading_articles"
-					type="text"
-					label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
-					useglobal="true"
-					size="3"
-				/>
 
 				<field
 					name="spacer2"
@@ -256,6 +257,13 @@
 					hr="true"
 				/>
 
+				<field
+					name="num_intro_articles"
+					type="text"
+					label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
+					useglobal="true"
+					size="3"
+				/>
 				<field
 					name="blog_class_intro"
 					type="text"
@@ -267,6 +275,7 @@
 					name="blog_class_intro_help"
 					type="list"
 					label="JGLOBAL_BLOG_CLASS_HELP"
+					layout="joomla.form.field.radio.switcher"
 					validate="options"
 					default="0"
 					>
@@ -295,16 +304,16 @@
 					showon="blog_class_intro_help:1"
 				/>
 				<field
-					name="blog_class_intro_masonry"
+					name="blog_class_intro_type"
 					type="list"
-					label="JGLOBAL_BLOG_CLASS_MASONRY"
+					label="JGLOBAL_BLOG_CLASS_TYPE"
 					useglobal="true"
 					validate="options"
-					default="1"
+					default="columns"
 					showon="blog_class_intro_help:1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="columns">JGLOBAL_BLOG_CLASS_TYPE_COLUMNS</option>
+					<option value="masonry">JGLOBAL_BLOG_CLASS_TYPE_MASONRY</option>
 				</field>
 				<field
 					name="blog_class_intro_image"
@@ -320,14 +329,6 @@
 					<option value="right">JGLOBAL_BLOG_IMAGE_RIGHT</option>
 					<option value="alternate">JGLOBAL_BLOG_IMAGE_ALTERNATE</option>
 				</field>
-
-				<field
-					name="num_intro_articles"
-					type="text"
-					label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
-					useglobal="true"
-					size="3"
-				/>
 
 				<field
 					name="link_intro_image"

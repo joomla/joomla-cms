@@ -29,17 +29,17 @@ $beforeDisplayContent = trim(implode("\n", $results));
 $results = $app->triggerEvent('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
 
-$blogClassILeading = '';
-$blogClassILeading .= $this->params->get('blog_class_leading');
-$blogClassILeading .= $this->params->get('blog_class_leading_boxed') ? ' boxed' : '';
-$blogClassILeading .= $this->params->get('blog_class_leading_masonry') ? ' masonry-' : ' columns-';
-$blogClassILeading .= $this->params->get('blog_class-leading_columns');
-$blogClassILeading .= $this->params->get('blog_class_leading_image') == 'none' ? '' : ' image-' . $this->params->get('blog_class_leading_image');
+$blogClassLeading = '';
+$blogClassLeading .= $this->params->get('blog_class_leading');
+$blogClassLeading .= $this->params->get('blog_class_leading_boxed') ? ' boxed' : '';
+$blogClassLeading .= $this->params->get('blog_class_leading_type') ? ' ' . $this->params->get('blog_class_leading_type') . '-' : '';
+$blogClassLeading .= $this->params->get('blog_class-leading_columns');
+$blogClassLeading .= $this->params->get('blog_class_leading_image') == 'none' ? '' : ' image-' . $this->params->get('blog_class_leading_image');
 
 $blogClassIntro = '';
 $blogClassIntro .= $this->params->get('blog_class_intro');
 $blogClassIntro .= $this->params->get('blog_class_intro_boxed') ? ' boxed' : '';
-$blogClassIntro .= $this->params->get('blog_class_intro_masonry') ? ' masonry-' : ' columns-';
+$blogClassIntro .= $this->params->get('blog_class_leading_type') ? ' ' . $this->params->get('blog_class_intro_type') . '-' : '';
 $blogClassIntro .= $this->params->get('blog_class_intro_columns');
 $blogClassIntro .= $this->params->get('blog_class_intro_image') != 'none' ? '' : ' image-' . $this->params->get('blog_class_intro_image');
 ?>
@@ -85,7 +85,7 @@ $blogClassIntro .= $this->params->get('blog_class_intro_image') != 'none' ? '' :
 
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
-		<div class="com-content-category-blog__items blog-items items-leading <?php echo $blogClassILeading; ?>">
+		<div class="com-content-category-blog__items blog-items items-leading <?php echo $blogClassLeading; ?>">
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="com-content-category-blog__item blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
