@@ -76,6 +76,10 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$wa->useScript('tinymce')
 			->useScript('plg_editors_tinymce');
+
+		Text::script('PLG_TINY_DND_ADDITIONALDATA');
+		Text::script('PLG_TINY_DND_ALTTEXT');
+		Text::script('PLG_TINY_DND_LAZYLOADED');
 	}
 
 	/**

@@ -72,19 +72,19 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
           };
 
           editor.windowManager.open({
-            title: 'Additional Data', // @todo translate
+            title: Joomla.Text._('PLG_TINY_DND_ADDITIONALDATA'),
             body: {
               type: 'panel',
               items: [
                 {
                   type: 'input',
                   name: 'altText',
-                  label: 'Alternative description', // @todo translate
+                  label: Joomla.Text._('PLG_TINY_DND_ALTTEXT'),
                 },
                 {
                   type: 'checkbox',
                   name: 'isLazy',
-                  label: 'Image will be lazyloaded', // @todo translate
+                  label: Joomla.Text._('PLG_TINY_DND_LAZYLOADED'),
                 },
               ],
             },
