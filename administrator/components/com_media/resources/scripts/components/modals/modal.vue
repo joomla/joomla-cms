@@ -9,7 +9,6 @@
       @click.stop
     >
       <tab-lock>
-        <slot name="backdrop-close" />
         <div
           class="modal-dialog"
           :class="modalClass"
