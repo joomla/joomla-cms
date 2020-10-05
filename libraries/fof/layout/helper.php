@@ -33,7 +33,7 @@ class FOFLayoutHelper extends JLayoutHelper
 
 		// Make sure we send null to FOFLayoutFile if no path set
 		$basePath = empty($basePath) ? null : $basePath;
-		$layout = new FOFLayoutFile($layoutFile, $basePath);
+		$layout = new FOFLayoutFile($layoutFile, $basePath, $options);
 		$renderedLayout = $layout->render($displayData);
 
 		return $renderedLayout;
