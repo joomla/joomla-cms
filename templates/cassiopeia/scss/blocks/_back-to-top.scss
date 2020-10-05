@@ -1,0 +1,39 @@
+/**
+* Back to Top
+* inspired by https://moderncss.dev/pure-css-smooth-scroll-back-to-top/
+*/
+$scrollLength: 100vh;
+$linkOffset: 5rem;
+
+.back-to-top-wrapper {
+  position: absolute;
+  top: calc(#{$scrollLength} + #{$linkOffset});
+  right: $cassiopeia-grid-gutter;
+  bottom: 0;
+  width: 2.25rem;
+  pointer-events: none;
+
+  @at-root [dir=rtl] & {
+    right: unset;
+    left: $cassiopeia-grid-gutter;
+  }
+}
+
+.back-to-top-link {
+  position: fixed;
+  position: sticky;
+  pointer-events: all;
+  top: calc(#{$scrollLength} - #{$linkOffset});
+  padding: $cassiopeia-grid-gutter/2;
+  color: var(--cassiopeia-color-primary, $standard-color-primary);
+  background-color: var(--white, $white);
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  transition: border-color 200ms ease-in;
+
+  &:hover,
+  &:focus {
+    color: var(--cassiopeia-color-hover);
+    border-color: var(--cassiopeia-color-primary, $standard-color-primary);
+  }
+}
