@@ -14,22 +14,7 @@
     color: currentColor;
   }
 
-  .back-top {
-    align-self: flex-end;
-    height: 40px;
-    padding: $cassiopeia-grid-gutter/2;
-    margin-left: auto;
-    color: var(--cassiopeia-color-primary);
-    background: $white;
-    border-radius: $border-radius;
-  }
-
   [dir=rtl] & {
     background-image: $cassiopeia-header-grad-rtl;
-
-    .back-top {
-      margin-right: auto;
-      margin-left: 0;
-    }
   }
 }
