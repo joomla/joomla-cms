@@ -3,11 +3,10 @@
 * inspired by https://moderncss.dev/pure-css-smooth-scroll-back-to-top/
 */
 $scrollLength: 100vh;
-$linkOffset: 5rem;
 
 .back-to-top-wrapper {
   position: absolute;
-  top: calc(#{$scrollLength} + #{$linkOffset});
+  top: calc(#{$scrollLength} + #{$cassiopeia-grid-gutter * 10});
   right: $cassiopeia-grid-gutter;
   bottom: 0;
   width: 2.25rem;
@@ -23,7 +22,7 @@ $linkOffset: 5rem;
   position: fixed;
   position: sticky;
   pointer-events: all;
-  top: calc(#{$scrollLength} - #{$linkOffset});
+  top: calc(#{$scrollLength} - #{$cassiopeia-grid-gutter * 3});
   padding: $cassiopeia-grid-gutter/2;
   color: var(--cassiopeia-color-primary, $standard-color-primary);
   background-color: var(--white, $white);
