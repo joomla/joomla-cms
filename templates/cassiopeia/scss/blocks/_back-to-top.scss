@@ -13,7 +13,7 @@ $linkOffset: 5rem;
   width: 2.25rem;
   pointer-events: none;
 
-  @at-root [dir=rtl] & {
+  [dir=rtl] & {
     right: unset;
     left: $cassiopeia-grid-gutter;
   }
