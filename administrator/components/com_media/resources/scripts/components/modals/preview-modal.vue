@@ -16,7 +16,7 @@
       </h3>
     </template>
     <template #body>
-      <div>
+      <div class="image-background">
         <img
           v-if="isImage()"
           :src="item.url"
