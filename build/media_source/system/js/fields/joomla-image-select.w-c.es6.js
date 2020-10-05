@@ -183,7 +183,6 @@
    * - parent-id: the id of the parent media field {string}
    * - lazy-label: The text for the checkbox label {string}
    * - alt-label: The text for the alt label {string}
-   * - confirm-text: The text for the confirm button {string}
    * - is-lazy: The value for the lazyloading (calculated, defaults to 'true') {string}
    * - alt-value: The value for the alt text (calculated, defaults to '') {string}
    */
