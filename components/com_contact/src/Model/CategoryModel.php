@@ -292,7 +292,7 @@ class CategoryModel extends ListModel
 		}
 		else
 		{
-			$limit = $app->input->get('limit', $app->get('list_limit', 20), 'uint');
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 		}
 
 		$this->setState('list.limit', $limit);
