@@ -4,6 +4,7 @@
  * @subpackage  database
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  *
  * This file is adapted from the Joomla! Platform. It is used to iterate a database cursor returning FOFTable objects
  * instead of plain stdClass objects
@@ -86,7 +87,7 @@ abstract class FOFDatabaseIterator implements Iterator
 	 *
 	 * @throws  InvalidArgumentException
 	 */
-	public static function &getIterator($dbName, $cursor, $column = null, $class, $config = array())
+	public static function &getIterator($dbName, $cursor, $column, $class, $config = array())
 	{
 		$className = 'FOFDatabaseIterator' . ucfirst($dbName);
 
@@ -105,7 +106,7 @@ abstract class FOFDatabaseIterator implements Iterator
 	 *
 	 * @throws  InvalidArgumentException
 	 */
-	public function __construct($cursor, $column = null, $class, $config = array())
+	public function __construct($cursor, $column, $class, $config = array())
 	{
 		// Figure out the type and prefix of the class by the class name
 		$parts = FOFInflector::explode($class);
