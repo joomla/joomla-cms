@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 $this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'administrator/templates/system/css/error.css');
 
 // Set page title
-$this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
+$this->setTitle(($this->error->getCode() > 0 ? $this->error->getCode() .' - ': '') . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

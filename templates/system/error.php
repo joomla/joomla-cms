@@ -29,7 +29,7 @@ if ($this->direction === 'rtl')
 }
 
 // Set page title
-$this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
+$this->setTitle(($this->error->getCode() > 0 ? $this->error->getCode() .' - ': '') . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
 
 ?>
 <!DOCTYPE html>
