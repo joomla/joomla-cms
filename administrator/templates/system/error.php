@@ -31,7 +31,12 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 	<table class="outline">
 		<tr>
 			<td style="text-align: center;">
-				<h1><?php echo $this->error->getCode() ?> - <?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
+				<h1>
+					<?php if ($this->error->getCode() > 0) : ?>
+						<?php echo $this->error->getCode() . ' - ' ?>
+					<?php endif; ?>
+					<?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?>
+				</h1>
 			</td>
 		</tr>
 		<tr>

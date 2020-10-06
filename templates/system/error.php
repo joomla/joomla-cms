@@ -43,7 +43,11 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 	<div class="error">
 		<div id="outline">
 		<div id="errorboxoutline">
-			<div id="errorboxheader"><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></div>
+			<div id="errorboxheader">
+				<?php if ($this->error->getCode() > 0) : ?>
+					<?php echo $this->error->getCode() . ' - '; ?>
+				<?php endif; ?>
+				<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></div>
 			<div id="errorboxbody">
 			<p><strong><?php echo Text::_('JERROR_LAYOUT_NOT_ABLE_TO_VISIT'); ?></strong></p>
 			<ol>
