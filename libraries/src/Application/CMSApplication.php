@@ -302,6 +302,19 @@ class CMSApplication extends WebApplication
 	 */
 	public function getCfg($varname, $default = null)
 	{
+		try
+		{
+			\JLog::add(
+				sprintf('%s() is deprecated. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->get($varname, $default);
 	}
 
@@ -636,6 +649,19 @@ class CMSApplication extends WebApplication
 	 */
 	public function isAdmin()
 	{
+		try
+		{
+			\JLog::add(
+				sprintf("%s() is deprecated. Use JFactory->getApplication()->isClient('administrator') instead.", __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->isClient('administrator');
 	}
 
@@ -649,6 +675,19 @@ class CMSApplication extends WebApplication
 	 */
 	public function isSite()
 	{
+		try
+		{
+			\JLog::add(
+				sprintf("%s() is deprecated. Use JFactory->getApplication()->isClient('site') instead.", __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->isClient('site');
 	}
 
