@@ -19,7 +19,8 @@ use Joomla\CMS\Versioning\Versioning;
  * Versions helper class, provides methods to perform various tasks relevant
  * versioning of content.
  *
- * @since  3.2
+ * @since       3.2
+ * @deprecated  5.0  Use \Joomla\CMS\Versioning\Versioning instead
  */
 class ContentHistoryHelper extends CMSHelper
 {
@@ -27,7 +28,8 @@ class ContentHistoryHelper extends CMSHelper
 	 * Alias for storing type in versions table
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since       3.2
+	 * @deprecated  5.0  Class is deprecated, use \Joomla\CMS\Versioning\Versioning instead
 	 */
 	public $typeAlias = null;
 
@@ -36,7 +38,8 @@ class ContentHistoryHelper extends CMSHelper
 	 *
 	 * @param   string  $typeAlias  The type of content to be versioned (for example, 'com_content.article').
 	 *
-	 * @since   3.2
+	 * @since       3.2
+	 * @deprecated  5.0  Class is deprecated, use \Joomla\CMS\Versioning\Versioning instead
 	 */
 	public function __construct($typeAlias = null)
 	{
@@ -50,7 +53,8 @@ class ContentHistoryHelper extends CMSHelper
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
-	 * @since   3.2
+	 * @since       3.2
+	 * @deprecated  5.0  Use \Joomla\CMS\Versioning\Versioning::delete() instead
 	 */
 	public function deleteHistory($table)
 	{
@@ -67,7 +71,8 @@ class ContentHistoryHelper extends CMSHelper
 	 *
 	 * @return  mixed   The return value or null if the query failed.
 	 *
-	 * @since   3.2
+	 * @since       3.2
+	 * @deprecated  5.0  Use \Joomla\CMS\Versioning\Versioning::get() instead
 	 */
 	public function getHistory($typeId, $id)
 	{
@@ -88,7 +93,8 @@ class ContentHistoryHelper extends CMSHelper
 	 *
 	 * @return  boolean  True on success, otherwise false.
 	 *
-	 * @since   3.2
+	 * @since       3.2
+	 * @deprecated  5.0  Use \Joomla\CMS\Versioning\Versioning::store() instead
 	 */
 	public function store($table)
 	{
