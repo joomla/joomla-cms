@@ -2,7 +2,6 @@ const Copydir = require('copy-dir');
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
-const { plugin } = require('postcss');
 
 const RootPath = process.cwd();
 const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
