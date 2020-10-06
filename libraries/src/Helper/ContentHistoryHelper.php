@@ -27,7 +27,7 @@ class ContentHistoryHelper extends CMSHelper
 	/**
 	 * Alias for storing type in versions table
 	 *
-	 * @var    string
+	 * @var         string
 	 * @since       3.2
 	 * @deprecated  5.0  Class is deprecated, use \Joomla\CMS\Versioning\Versioning instead
 	 */
