@@ -18,6 +18,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <slot name="header" />
+              <slot name="backdrop-close"></slot>
               <button
                 v-if="showClose"
                 type="button"
