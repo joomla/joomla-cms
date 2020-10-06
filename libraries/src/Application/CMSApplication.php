@@ -305,7 +305,7 @@ class CMSApplication extends WebApplication
 		try
 		{
 			\JLog::add(
-				sprintf('%s() is deprecated. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				sprintf('%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
 				\JLog::WARNING,
 				'deprecated'
 			);
@@ -652,7 +652,7 @@ class CMSApplication extends WebApplication
 		try
 		{
 			\JLog::add(
-				sprintf("%s() is deprecated. Use JFactory->getApplication()->isClient('administrator') instead.", __METHOD__),
+				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('administrator') instead.", __METHOD__),
 				\JLog::WARNING,
 				'deprecated'
 			);
@@ -678,7 +678,7 @@ class CMSApplication extends WebApplication
 		try
 		{
 			\JLog::add(
-				sprintf("%s() is deprecated. Use JFactory->getApplication()->isClient('site') instead.", __METHOD__),
+				sprintf("%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->isClient('site') instead.", __METHOD__),
 				\JLog::WARNING,
 				'deprecated'
 			);
