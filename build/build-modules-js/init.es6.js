@@ -2,6 +2,7 @@ const Copydir = require('copy-dir');
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
+const { plugin } = require('postcss');
 
 const RootPath = process.cwd();
 const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
@@ -232,6 +233,23 @@ const copyFiles = (options) => {
       let tinyWrongMap = Fs.readFileSync(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, { encoding: 'UTF-8' });
       tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
       Fs.writeFileSync(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
+    } else if (packageName === 'tinymce-language-selector') {
+      // const itemvendorPath = Path.join(RootPath, `media/vendor/${packageName}`);
+
+      // if (!FsExtra.existsSync(itemvendorPath)) {
+      //   FsExtra.mkdirSync(itemvendorPath);
+      //   FsExtra.mkdirSync(Path.join(itemvendorPath, 'tinymce-language-selector'));
+      // }
+      // eslint-disable-next-line no-console
+      console.log('################################################################');
+      concatFiles(
+        [
+          'media/vendor/tinymce-language-selector/js/constants.js',
+          'media/vendor/tinymce-language-selector/js/plugin.js',
+
+        ],
+        'media/vendor/tinymce-language-selector/plugin.js',
+      );
     } else {
       ['js', 'css', 'filesExtra'].forEach((type) => {
         if (!vendor[type]) return;
