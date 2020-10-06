@@ -69,7 +69,7 @@ class ContentHistoryHelper extends CMSHelper
 	 * @param   integer  $typeId  Type id for this component item.
 	 * @param   mixed    $id      Primary key of row to get history for.
 	 *
-	 * @return  mixed   The return value or null if the query failed.
+	 * @return  \stdClass[]   The return value or null if the query failed.
 	 *
 	 * @since       3.2
 	 * @deprecated  5.0  Use \Joomla\CMS\Versioning\Versioning::get() instead
