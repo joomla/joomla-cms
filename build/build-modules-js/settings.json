@@ -97,6 +97,27 @@
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
+      "@edx/tinymce-language-selector": {
+        "name": "tinymce-language-selector",
+        "js": {
+          "tinymce-language-selector/constants.js": "js/constants.js",
+          "tinymce-language-selector/plugin.js": "js/plugin.js"
+        },
+        "provideAssets": [
+          {
+            "name": "constants",
+            "type": "script",
+            "uri": "constants.js"
+          },
+          {
+            "name": "plugin",
+            "type": "script",
+            "uri": "plugin.js"
+          }
+        ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
       "cropperjs": {
         "name": "cropperjs",
         "js": {
