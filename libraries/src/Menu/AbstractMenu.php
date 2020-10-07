@@ -25,7 +25,7 @@ class AbstractMenu
 	 * Array to hold the menu items
 	 *
 	 * @var    MenuItem[]
-	 * @since  1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Will convert to $items
 	 */
 	protected $_items = array();
@@ -34,7 +34,7 @@ class AbstractMenu
 	 * Identifier of the default menu item
 	 *
 	 * @var    integer
-	 * @since  1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Will convert to $default
 	 */
 	protected $_default = array();
@@ -43,7 +43,7 @@ class AbstractMenu
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
-	 * @since  1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Will convert to $active
 	 */
 	protected $_active = 0;
@@ -94,8 +94,8 @@ class AbstractMenu
 	/**
 	 * Returns a Menu object
 	 *
-	 * @param string $client The name of the client
-	 * @param array $options An associative array of options
+	 * @param string $client  The name of the client
+	 * @param array  $options An associative array of options
 	 *
 	 * @return  AbstractMenu  A menu object.
 	 *
@@ -163,8 +163,8 @@ class AbstractMenu
 	/**
 	 * Set the default item by id and language code.
 	 *
-	 * @param integer $id The menu item id.
-	 * @param string $language The language code (since 1.6).
+	 * @param integer $id       The menu item id.
+	 * @param string  $language The language code (since 1.6).
 	 *
 	 * @return  boolean  True if a menu item with the given ID exists
 	 *
@@ -247,10 +247,10 @@ class AbstractMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param mixed $attributes The field name(s).
-	 * @param mixed $values The value(s) of the field. If an array, need to match field names
+	 * @param mixed   $attributes     The field name(s).
+	 * @param mixed   $values         The value(s) of the field. If an array, need to match field names
 	 *                                each attribute may have multiple values to lookup for.
-	 * @param boolean $firstonly If true, only returns the first item found
+	 * @param boolean $firstonly      If true, only returns the first item found
 	 *
 	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *

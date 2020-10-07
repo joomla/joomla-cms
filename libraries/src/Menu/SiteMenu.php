@@ -49,7 +49,7 @@ class SiteMenu extends AbstractMenu
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  An array of configuration options.
+	 * @param array $options An array of configuration options.
 	 *
 	 * @since   1.5
 	 */
@@ -75,18 +75,17 @@ class SiteMenu extends AbstractMenu
 		// For PHP 5.3 compat we can't use $this in the lambda function below
 		$db = $this->db;
 
-		$loader = function () use ($db)
-		{
+		$loader = function () use ($db) {
 			$query = $db->getQuery(true)
-				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
-				->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
-				->select('e.element as component')
-				->from('#__menu AS m')
-				->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-				->where('m.published = 1')
-				->where('m.parent_id > 0')
-				->where('m.client_id = 0')
-				->order('m.lft');
+						->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
+						->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
+						->select('e.element as component')
+						->from('#__menu AS m')
+						->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+						->where('m.published = 1')
+						->where('m.parent_id > 0')
+						->where('m.client_id = 0')
+						->order('m.lft');
 
 			// Set the query
 			$db->setQuery($query);
@@ -128,12 +127,12 @@ class SiteMenu extends AbstractMenu
 
 			if (isset($this->_items[$item->parent_id]))
 			{
-				$parent_tree  = $this->_items[$item->parent_id]->tree;
+				$parent_tree = $this->_items[$item->parent_id]->tree;
 			}
 
 			// Create tree.
 			$parent_tree[] = $item->id;
-			$item->tree = $parent_tree;
+			$item->tree    = $parent_tree;
 
 			// Create the query array.
 			$url = str_replace('index.php?', '', $item->link);
@@ -148,9 +147,9 @@ class SiteMenu extends AbstractMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param   string   $attributes  The field name
-	 * @param   string   $values      The value of the field
-	 * @param   boolean  $firstonly   If true, only returns the first item found
+	 * @param string  $attributes The field name
+	 * @param string  $values     The value of the field
+	 * @param boolean $firstonly  If true, only returns the first item found
 	 *
 	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
@@ -158,8 +157,8 @@ class SiteMenu extends AbstractMenu
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$attributes = (array) $attributes;
-		$values     = (array) $values;
+		$attributes = (array)$attributes;
+		$values     = (array)$values;
 
 		if ($this->app->isClient('site'))
 		{
@@ -181,7 +180,7 @@ class SiteMenu extends AbstractMenu
 			if (($key = array_search('access', $attributes)) === false)
 			{
 				$attributes[] = 'access';
-				$values[] = Factory::getUser()->getAuthorisedViewLevels();
+				$values[]     = Factory::getUser()->getAuthorisedViewLevels();
 			}
 			elseif ($values[$key] === null)
 			{
@@ -191,7 +190,7 @@ class SiteMenu extends AbstractMenu
 
 		// Reset arrays or we get a notice if some values were unset
 		$attributes = array_values($attributes);
-		$values = array_values($values);
+		$values     = array_values($values);
 
 		return parent::getItems($attributes, $values, $firstonly);
 	}
@@ -199,7 +198,7 @@ class SiteMenu extends AbstractMenu
 	/**
 	 * Get menu item by id
 	 *
-	 * @param   string  $language  The language code.
+	 * @param string $language The language code.
 	 *
 	 * @return  MenuItem|null  The item object or null when not found for given language
 	 *
