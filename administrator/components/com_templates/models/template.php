@@ -1185,8 +1185,6 @@ class TemplatesModelTemplate extends JModelForm
 			catch (Exception $e)
 			{
 				$app->enqueueMessage($e->getMessage(), 'error');
-
-				return false;
 			}
 		}
 	}
@@ -1236,8 +1234,6 @@ class TemplatesModelTemplate extends JModelForm
 			catch (Exception $e)
 			{
 				$app->enqueueMessage($e->getMessage(), 'error');
-
-				return false;
 			}
 		}
 	}
