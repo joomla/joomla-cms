@@ -225,7 +225,7 @@ class HtmlView extends BaseHtmlView
 				$item->params->set('marker_telephone', Text::_('COM_CONTACT_TELEPHONE') . ': ');
 				$item->params->set('marker_fax',       Text::_('COM_CONTACT_FAX') . ': ');
 				$item->params->set('marker_mobile',    Text::_('COM_CONTACT_MOBILE') . ': ');
-				$item->params->set('marker_webpage',      Text::_('COM_CONTACT_WEBPAGE') . ': ');
+				$item->params->set('marker_webpage',   Text::_('COM_CONTACT_WEBPAGE') . ': ');
 				$item->params->set('marker_misc',      Text::_('COM_CONTACT_OTHER_INFORMATION') . ': ');
 				$item->params->set('marker_class',     'jicons-text');
 				break;
