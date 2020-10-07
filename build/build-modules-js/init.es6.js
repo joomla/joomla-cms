@@ -232,23 +232,25 @@ const copyFiles = (options) => {
       let tinyWrongMap = Fs.readFileSync(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, { encoding: 'UTF-8' });
       tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
       Fs.writeFileSync(`${RootPath}/media/vendor/tinymce/skins/ui/oxide/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
-    } else if (packageName === 'tinymce-language-selector') {
-      // const itemvendorPath = Path.join(RootPath, `media/vendor/${packageName}`);
+    } else if (packageName === '@edx/tinymce-language-selector') {
+      // This whole section actually needs a bundler like rollup
+      let finalPluginCode = '';
+      if (Fs.existsSync(Path.join(modulePathRoot, 'tinymce-language-selector/plugin.js'))) {
+        let constants = '';
+        if (Fs.existsSync(Path.join(modulePathRoot, 'tinymce-language-selector/plugin.js'))) {
+          constants = Fs.readFileSync(Path.join(modulePathRoot, 'tinymce-language-selector/constants.js'), { encoding: 'utf8' });
+        }
+        if (constants) {
+          finalPluginCode = Fs.readFileSync(Path.join(modulePathRoot, 'tinymce-language-selector/plugin.js'), { encoding: 'utf8' });
+          finalPluginCode = finalPluginCode.replace('import { BROWSER_DEFAULT, languages } from \'./constants\';', constants);
 
-      // if (!FsExtra.existsSync(itemvendorPath)) {
-      //   FsExtra.mkdirSync(itemvendorPath);
-      //   FsExtra.mkdirSync(Path.join(itemvendorPath, 'tinymce-language-selector'));
-      // }
-      // eslint-disable-next-line no-console
-      console.log('################################################################');
-      concatFiles(
-        [
-          'media/vendor/tinymce-language-selector/js/constants.js',
-          'media/vendor/tinymce-language-selector/js/plugin.js',
+          FsExtra.mkdirpSync('media/plg_editors_tinymce/js/plugins/tinymce-language-selector');
 
-        ],
-        'media/vendor/tinymce-language-selector/plugin.js',
-      );
+          Fs.writeFileSync('media/plg_editors_tinymce/js/plugins/tinymce-language-selector/plugin.es6.js', finalPluginCode, { encoding: 'utf8' });
+
+          FsExtra.mkdirpSync('media/vendor/tinymce-language-selector/js');
+        }
+      }
     } else {
       ['js', 'css', 'filesExtra'].forEach((type) => {
         if (!vendor[type]) return;

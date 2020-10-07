@@ -533,12 +533,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Language of parts plugin
-		$jlangparts    = $levelParams->get('language', 1);
-
-		if ($jlangparts)
-		{
-			$externalPlugins['language'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/language/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
-		}
+		$externalPlugins['language'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/tinymce-language-selector/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 
 		// Convert pt to px in dropdown
 		$scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
@@ -988,7 +983,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
 			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
 			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
-			'language'       => array('label' => 'Language', 'plugin' => 'language'),
+			'language'      => array('label' => 'Language', 'plugin' => 'tinymce-language-selector'),
 		];
 
 		return $buttons;
