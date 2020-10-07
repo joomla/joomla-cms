@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Factory;
 
 /**
  * Menu class
@@ -180,7 +181,7 @@ class SiteMenu extends AbstractMenu
 			if (($key = array_search('access', $attributes)) === false)
 			{
 				$attributes[] = 'access';
-				$values[] = $this->user->getAuthorisedViewLevels();
+				$values[] = Factory::getUser()->getAuthorisedViewLevels();
 			}
 			elseif ($values[$key] === null)
 			{

@@ -11,6 +11,7 @@ namespace Joomla\CMS\Menu;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 /**
  * Menu class
@@ -66,7 +67,7 @@ class AbstractMenu
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  $options  An array of configuration options.
+	 * @param array $options An array of configuration options.
 	 *
 	 * @since   1.5
 	 */
@@ -83,19 +84,23 @@ class AbstractMenu
 			}
 		}
 
+		// Storing user here breaks menu display if called by a plugin before the Remember Me plugin has been running.
+		// Left in for B/C but within AbstractMenu and SiteMenu, now using \JFactory::getUser() each time user is needed
+		// instead of the memoized value.
+		// See https://github.com/joomla/joomla-cms/issues/11541
 		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : \JFactory::getUser();
 	}
 
 	/**
 	 * Returns a Menu object
 	 *
-	 * @param   string  $client   The name of the client
-	 * @param   array   $options  An associative array of options
+	 * @param string $client The name of the client
+	 * @param array $options An associative array of options
 	 *
 	 * @return  AbstractMenu  A menu object.
 	 *
-	 * @since   1.5
 	 * @throws  \Exception
+	 * @since   1.5
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -137,7 +142,7 @@ class AbstractMenu
 	/**
 	 * Get menu item by id
 	 *
-	 * @param   integer  $id  The item id
+	 * @param integer $id The item id
 	 *
 	 * @return  MenuItem|null  The item object if the ID exists or null if not found
 	 *
@@ -158,8 +163,8 @@ class AbstractMenu
 	/**
 	 * Set the default item by id and language code.
 	 *
-	 * @param   integer  $id        The menu item id.
-	 * @param   string   $language  The language code (since 1.6).
+	 * @param integer $id The menu item id.
+	 * @param string $language The language code (since 1.6).
 	 *
 	 * @return  boolean  True if a menu item with the given ID exists
 	 *
@@ -180,7 +185,7 @@ class AbstractMenu
 	/**
 	 * Get the default item by language code.
 	 *
-	 * @param   string  $language  The language code, default value of * means all.
+	 * @param string $language The language code, default value of * means all.
 	 *
 	 * @return  MenuItem|null  The item object or null when not found for given language
 	 *
@@ -204,7 +209,7 @@ class AbstractMenu
 	/**
 	 * Set the default item by id
 	 *
-	 * @param   integer  $id  The item id
+	 * @param integer $id The item id
 	 *
 	 * @return  MenuItem|null  The menu item representing the given ID if present or null otherwise
 	 *
@@ -242,10 +247,10 @@ class AbstractMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param   mixed    $attributes  The field name(s).
-	 * @param   mixed    $values      The value(s) of the field. If an array, need to match field names
+	 * @param mixed $attributes The field name(s).
+	 * @param mixed $values The value(s) of the field. If an array, need to match field names
 	 *                                each attribute may have multiple values to lookup for.
-	 * @param   boolean  $firstonly   If true, only returns the first item found
+	 * @param boolean $firstonly If true, only returns the first item found
 	 *
 	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
@@ -253,10 +258,10 @@ class AbstractMenu
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items = array();
-		$attributes = (array) $attributes;
-		$values = (array) $values;
-		$count = count($attributes);
+		$items      = array();
+		$attributes = (array)$attributes;
+		$values     = (array)$values;
+		$count      = count($attributes);
 
 		foreach ($this->_items as $item)
 		{
@@ -304,7 +309,7 @@ class AbstractMenu
 	/**
 	 * Gets the parameter object for a certain menu item
 	 *
-	 * @param   integer  $id  The item id
+	 * @param integer $id The item id
 	 *
 	 * @return  Registry
 	 *
@@ -335,7 +340,7 @@ class AbstractMenu
 	/**
 	 * Method to check Menu object authorization against an access control object and optionally an access extension object
 	 *
-	 * @param   integer  $id  The menu id
+	 * @param integer $id The menu id
 	 *
 	 * @return  boolean
 	 *
@@ -347,7 +352,7 @@ class AbstractMenu
 
 		if ($menu)
 		{
-			return in_array((int) $menu->access, $this->user->getAuthorisedViewLevels());
+			return in_array((int)$menu->access, Factory::getUser()->getAuthorisedViewLevels());
 		}
 
 		return true;
