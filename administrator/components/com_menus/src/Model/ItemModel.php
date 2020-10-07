@@ -1177,9 +1177,9 @@ class ItemModel extends AdminModel
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
+					$base . '/tmpl/' . $view,
 					$base . '/views/' . $view . '/tmpl',
 					$base . '/view/' . $view . '/tmpl',
-					$base . '/tmpl/' . $view
 				);
 				$path = Path::find($tplFolders, $layout . '.xml');
 
