@@ -37,7 +37,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					id="filter-search"
 					value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
 					class="inputbox" onchange="document.adminForm.submit();"
-					title="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
 					placeholder="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
 				>
 				<span class="input-group-append">
