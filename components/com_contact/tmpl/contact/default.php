@@ -153,7 +153,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 		<div class="com-contact__miscinfo contact-miscinfo">
 			<dl class="dl-horizontal">
 				<dt>
-					<?php if (empty($this->params->get('marker_misc'))) : ?>
+					<?php if (!$this->params->get('marker_misc')) : ?>
 						<span class="icon-tags" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
 					<?php else : ?>
