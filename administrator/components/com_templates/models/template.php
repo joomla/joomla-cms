@@ -1159,18 +1159,34 @@ class TemplatesModelTemplate extends JModelForm
 			$client   = JApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
-			$JImage   = new JImage($path);
 
 			try
 			{
-				$image = $JImage->crop($w, $h, $x, $y, true);
-				$image->toFile($path);
+				$image      = new \JImage($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->crop($w, $h, $x, $y, false);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}
 			catch (Exception $e)
 			{
 				$app->enqueueMessage($e->getMessage(), 'error');
+
+				return false;
 			}
 		}
 	}
@@ -1195,18 +1211,33 @@ class TemplatesModelTemplate extends JModelForm
 			$relPath = base64_decode($file);
 			$path    = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			$JImage = new JImage($path);
-
 			try
 			{
-				$image = $JImage->resize($width, $height, true, 1);
-				$image->toFile($path);
+				$image      = new \JImage($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->resize($width, $height, false, \JImage::SCALE_FILL);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}
 			catch (Exception $e)
 			{
 				$app->enqueueMessage($e->getMessage(), 'error');
+
+				return false;
 			}
 		}
 	}
