@@ -109,7 +109,7 @@ use Joomla\CMS\String\PunycodeHelper;
 <?php if ($this->item->fax && $this->params->get('show_fax')) : ?>
 	<dt>
 		<?php if (!$this->params->get('marker_fax')) : ?>
-				<span class="icon-fax" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_FAX'); ?></span>
+			<span class="icon-fax" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_FAX'); ?></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_fax'); ?>
