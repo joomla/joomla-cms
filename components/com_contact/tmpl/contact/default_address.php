@@ -125,7 +125,7 @@ use Joomla\CMS\String\PunycodeHelper;
 <?php if ($this->item->mobile && $this->params->get('show_mobile')) : ?>
 	<dt>
 		<?php if (!$this->params->get('marker_mobile')) : ?>
-				<span class="icon-mobile" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_MOBILE'); ?></span>
+			<span class="icon-mobile" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_MOBILE'); ?></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_mobile'); ?>
