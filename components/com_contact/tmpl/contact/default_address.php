@@ -76,12 +76,12 @@ use Joomla\CMS\String\PunycodeHelper;
 <?php if ($this->item->email_to && $this->params->get('show_email')) : ?>
 	<dt>
 		<?php if (empty($this->params->get('marker_email'))) : ?>
-				<span class="icon-envelope" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_EMAIL'); ?>"></span>
-			<?php else : ?>
-				<span class="<?php echo $this->params->get('marker_class'); ?>">
-					<?php echo $this->params->get('marker_email'); ?>
-				</span>
-			<?php endif; ?>
+			<span class="icon-envelope" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_EMAIL'); ?>"></span>
+		<?php else : ?>
+			<span class="<?php echo $this->params->get('marker_class'); ?>">
+				<?php echo $this->params->get('marker_email'); ?>
+			</span>
+		<?php endif; ?>
 	</dt>
 	<dd>
 		<span class="contact-emailto">
@@ -140,13 +140,15 @@ use Joomla\CMS\String\PunycodeHelper;
 	</dd>
 <?php endif; ?>
 <?php if ($this->item->webpage && $this->params->get('show_webpage')) : ?>
-	<?php if (empty($this->params->get('marker_webpage'))) : ?>
+	<dt>
+		<?php if (empty($this->params->get('marker_webpage'))) : ?>
 				<span class="icon-home" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_WEBPAGE'); ?></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_webpage'); ?>
 			</span>
 		<?php endif; ?>
+	</dt>
 	<dd>
 		<span class="contact-webpage">
 			<a href="<?php echo $this->item->webpage; ?>" target="_blank" rel="noopener noreferrer" itemprop="url">

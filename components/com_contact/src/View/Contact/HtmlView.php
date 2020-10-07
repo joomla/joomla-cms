@@ -246,37 +246,58 @@ class HtmlView extends BaseHtmlView
 
 				if ($item->params->get('icon_address'))
 				{
-					$item->params->set('marker_address', HTMLHelper::_('image', $item->params->get('icon_address', ''), Text::_('COM_CONTACT_ADDRESS'), false));
+					$item->params->set(
+						'marker_address',
+						HTMLHelper::_('image', $item->params->get('icon_address', ''), Text::_('COM_CONTACT_ADDRESS'), false)
+					);
 				}
 
 				if ($item->params->get('icon_email'))
 				{
-					$item->params->set('marker_email', HTMLHelper::_('image', $item->params->get('icon_email', ''), Text::_('COM_CONTACT_EMAIL'), false));
+					$item->params->set(
+						'marker_email',
+						HTMLHelper::_('image', $item->params->get('icon_email', ''), Text::_('COM_CONTACT_EMAIL'), false)
+					);
 				}
 
 				if ($item->params->get('icon_telephone'))
 				{
-					$item->params->set('marker_telephone', HTMLHelper::_('image', $item->params->get('icon_telephone', ''), Text::_('COM_CONTACT_TELEPHONE'), false));
+					$item->params->set(
+						'marker_telephone',
+						HTMLHelper::_('image', $item->params->get('icon_telephone', ''), Text::_('COM_CONTACT_TELEPHONE'), false)
+					);
 				}
 
 				if ($item->params->get('icon_fax', ''))
 				{
-					$item->params->set('marker_fax', HTMLHelper::_('image', $item->params->get('icon_fax', ''), Text::_('COM_CONTACT_FAX'), false));
+					$item->params->set(
+						'marker_fax',
+						HTMLHelper::_('image', $item->params->get('icon_fax', ''), Text::_('COM_CONTACT_FAX'), false)
+					);
 				}
 
 				if ($item->params->get('icon_misc'))
 				{
-					$item->params->set('marker_misc', HTMLHelper::_('image', $item->params->get('icon_misc', ''), Text::_('COM_CONTACT_OTHER_INFORMATION'), false));
+					$item->params->set(
+						'marker_misc',
+						HTMLHelper::_('image', $item->params->get('icon_misc', ''), Text::_('COM_CONTACT_OTHER_INFORMATION'), false)
+					);
 				}
 
 				if ($item->params->get('icon_mobile'))
 				{
-					$item->params->set('marker_mobile', HTMLHelper::_('image', $item->params->get('icon_mobile', ''),  Text::_('COM_CONTACT_MOBILE'), false));
+					$item->params->set(
+						'marker_mobile',
+						HTMLHelper::_('image', $item->params->get('icon_mobile', ''),  Text::_('COM_CONTACT_MOBILE'), false)
+					);
 				}
 
 				if ($item->params->get('icon_webpage'))
 				{
-					$item->params->set('marker_webpage', HTMLHelper::_('image', $item->params->get('icon_webpage', ''),  Text::_('COM_CONTACT_WEBPAGE'), false));
+					$item->params->set(
+						'marker_webpage',
+						HTMLHelper::_('image', $item->params->get('icon_webpage', ''),  Text::_('COM_CONTACT_WEBPAGE'), false)
+					);
 				}
 
 				$item->params->set('marker_class',     'jicons-icons');

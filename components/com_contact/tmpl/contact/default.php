@@ -71,7 +71,12 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 	<?php if ($tparams->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
 			<label for="select_contact"><?php echo Text::_('COM_CONTACT_SELECT_CONTACT'); ?></label>
-			<?php echo HTMLHelper::_('select.genericlist', $this->contacts, 'select_contact', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link); ?>
+			<?php echo HTMLHelper::_(
+				'select.genericlist',
+				$this->contacts,
+				'select_contact',
+				'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link);
+			?>
 		</form>
 	<?php endif; ?>
 
@@ -89,7 +94,12 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 
 		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 			<div class="com-contact__thumbnail thumbnail float-right">
-				<?php echo HTMLHelper::_('image', $this->item->image, htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8'), array('itemprop' => 'image')); ?>
+				<?php echo HTMLHelper::_(
+					'image',
+					$this->item->image,
+					htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8'),
+					array('itemprop' => 'image')
+				); ?>
 			</div>
 		<?php endif; ?>
 
