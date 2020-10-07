@@ -142,7 +142,7 @@ use Joomla\CMS\String\PunycodeHelper;
 <?php if ($this->item->webpage && $this->params->get('show_webpage')) : ?>
 	<dt>
 		<?php if (!$this->params->get('marker_webpage')) : ?>
-				<span class="icon-home" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_WEBPAGE'); ?></span>
+			<span class="icon-home" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_CONTACT_WEBPAGE'); ?></span>
 		<?php else : ?>
 			<span class="<?php echo $this->params->get('marker_class'); ?>">
 				<?php echo $this->params->get('marker_webpage'); ?>
