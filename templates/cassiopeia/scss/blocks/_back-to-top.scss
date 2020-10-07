@@ -9,7 +9,7 @@ $scrollLength: 100vh;
   top: calc(#{$scrollLength} + #{$cassiopeia-grid-gutter * 10});
   right: $cassiopeia-grid-gutter;
   bottom: 0;
-  width: 2.25rem;
+  width: 3rem;
   pointer-events: none;
 
   [dir=rtl] & {
