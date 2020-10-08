@@ -65,7 +65,7 @@
           if (respError) {
             Joomla.renderMessages({
               warning: [
-                'The response is corrupted, please try to reload the page.',
+                'Server response is corrupted, please try to reload the page.',
                 respError.message,
               ],
             });
