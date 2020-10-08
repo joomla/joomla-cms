@@ -28,8 +28,9 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+
 ?>
-<form class="login-initial hidden form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
+<form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
 	id="form-login">
 	<fieldset>
 		<div class="form-group">
