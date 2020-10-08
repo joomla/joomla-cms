@@ -396,7 +396,7 @@ class AbstractMenu
 	 *
 	 * @return User
 	 *
-	 * @since 3.24.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function getUser()
 	{
@@ -417,7 +417,7 @@ class AbstractMenu
 	 *
 	 * @return User|null
 	 *
-	 * @since 3.9.23
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function __get($propName)
 	{
