@@ -10,6 +10,8 @@ namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
 /**
@@ -24,7 +26,7 @@ class AbstractMenu
 	 * Array to hold the menu items
 	 *
 	 * @var    MenuItem[]
-	 * @since  1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Will convert to $items
 	 */
 	protected $_items = array();
@@ -33,7 +35,7 @@ class AbstractMenu
 	 * Identifier of the default menu item
 	 *
 	 * @var    integer
-	 * @since  1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Will convert to $default
 	 */
 	protected $_default = array();
@@ -42,7 +44,7 @@ class AbstractMenu
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
-	 * @since  1.5
+	 * @since       1.5
 	 * @deprecated  4.0  Will convert to $active
 	 */
 	protected $_active = 0;
@@ -83,7 +85,14 @@ class AbstractMenu
 			}
 		}
 
-		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : \JFactory::getUser();
+		// It is preferred NOT to inject and store the user when constructing the menu object,
+		// at least for the Menu object used by Joomla.
+		// The menu object can be built very early in the request, from an onAfterInitialise event
+		// but the user can be updated late (by the Remember me plugin for instance). As the stored
+		// user object is not updated, the menu will render incorrectly, not complying with
+		// menu items access levels.
+		// See https://github.com/joomla/joomla-cms/issues/11541
+		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : null;
 	}
 
 	/**
@@ -94,8 +103,8 @@ class AbstractMenu
 	 *
 	 * @return  AbstractMenu  A menu object.
 	 *
-	 * @since   1.5
 	 * @throws  \Exception
+	 * @since   1.5
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -132,6 +141,18 @@ class AbstractMenu
 		}
 
 		return self::$instances[$client];
+	}
+
+	/**
+	 * Setter for the current user used to build menu.
+	 *
+	 * @param   User  $user
+	 *
+	 * @since version
+	 */
+	public function setUser($user)
+	{
+		$this->user = $user;
 	}
 
 	/**
@@ -253,10 +274,10 @@ class AbstractMenu
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-		$items = array();
+		$items      = array();
 		$attributes = (array) $attributes;
-		$values = (array) $values;
-		$count = count($attributes);
+		$values     = (array) $values;
+		$count      = count($attributes);
 
 		foreach ($this->_items as $item)
 		{
@@ -347,7 +368,7 @@ class AbstractMenu
 
 		if ($menu)
 		{
-			return in_array((int) $menu->access, $this->user->getAuthorisedViewLevels());
+			return in_array((int) $menu->access, $this->getUser()->getAuthorisedViewLevels());
 		}
 
 		return true;
@@ -363,5 +384,20 @@ class AbstractMenu
 	public function load()
 	{
 		return array();
+	}
+
+	/**
+	 * Internal getter for the user. Returns the injected
+	 * one if any, or the current one if none.
+	 *
+	 * @return User|\JUser
+	 *
+	 * @since version
+	 */
+	protected function getUser()
+	{
+		return empty($this->user)
+			? Factory::getUser()
+			: $this->user;
 	}
 }

@@ -74,8 +74,7 @@ class SiteMenu extends AbstractMenu
 		// For PHP 5.3 compat we can't use $this in the lambda function below
 		$db = $this->db;
 
-		$loader = function () use ($db)
-		{
+		$loader = function () use ($db) {
 			$query = $db->getQuery(true)
 				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
 				->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
@@ -127,12 +126,12 @@ class SiteMenu extends AbstractMenu
 
 			if (isset($this->_items[$item->parent_id]))
 			{
-				$parent_tree  = $this->_items[$item->parent_id]->tree;
+				$parent_tree = $this->_items[$item->parent_id]->tree;
 			}
 
 			// Create tree.
 			$parent_tree[] = $item->id;
-			$item->tree = $parent_tree;
+			$item->tree    = $parent_tree;
 
 			// Create the query array.
 			$url = str_replace('index.php?', '', $item->link);
@@ -180,7 +179,7 @@ class SiteMenu extends AbstractMenu
 			if (($key = array_search('access', $attributes)) === false)
 			{
 				$attributes[] = 'access';
-				$values[] = $this->user->getAuthorisedViewLevels();
+				$values[]     = $this->getUser()->getAuthorisedViewLevels();
 			}
 			elseif ($values[$key] === null)
 			{
@@ -190,7 +189,7 @@ class SiteMenu extends AbstractMenu
 
 		// Reset arrays or we get a notice if some values were unset
 		$attributes = array_values($attributes);
-		$values = array_values($values);
+		$values     = array_values($values);
 
 		return parent::getItems($attributes, $values, $firstonly);
 	}
