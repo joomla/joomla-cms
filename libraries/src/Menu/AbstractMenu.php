@@ -61,9 +61,9 @@ class AbstractMenu
 	 * User object to check access levels for
 	 *
 	 * @var    \JUser
-	 * @since  3.5
+	 * @since  3.9.24
 	 */
-	protected $user;
+	protected $storedUser;
 
 	/**
 	 * Class constructor
@@ -89,12 +89,12 @@ class AbstractMenu
 		 * It is preferred NOT to inject and store the user when constructing the menu object,
 		 * at least for the Menu object used by Joomla.
 		 * The menu object can be built very early in the request, from an onAfterInitialise event
-		 * but the user can be updated late (by the Remember me plugin for instance). As the stored
+		 * but the user can be updated later (by the Remember me plugin for instance). As the stored
 		 * user object is not updated, the menu will render incorrectly, not complying with
 		 * menu items access levels.
 		 * See https://github.com/joomla/joomla-cms/issues/11541
 		 */
-		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : null;
+		$this->storedUser = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : null;
 	}
 
 	/**
@@ -156,7 +156,7 @@ class AbstractMenu
 	 */
 	public function setUser($user)
 	{
-		$this->user = $user;
+		$this->storedUser = $user;
 	}
 
 	/**
@@ -372,7 +372,7 @@ class AbstractMenu
 
 		if ($menu)
 		{
-			return in_array((int) $menu->access, $this->getUser()->getAuthorisedViewLevels());
+			return in_array((int) $menu->access, $this->user->getAuthorisedViewLevels());
 		}
 
 		return true;
@@ -396,12 +396,36 @@ class AbstractMenu
 	 *
 	 * @return User
 	 *
-	 * @since version
+	 * @since 3.24.0
 	 */
 	protected function getUser()
 	{
-		return empty($this->user)
+		return empty($this->storedUser)
 			? Factory::getUser()
-			: $this->user;
+			: $this->storedUser;
+	}
+
+	/**
+	 * Magic getter for the user object. Returns the injected
+	 * one if any, or the current one if none.
+	 *
+	 * Using a magic getter to preserve B/C when we stopped storing the user object upon construction of the menu object.
+	 * As the user property is not initialized anymore, this getter ensures any class extending
+	 * this one can still use $instance->user and get a proper value.
+	 *
+	 * @param   string  $propName  Name of the missing or protected property.
+	 *
+	 * @return User|null
+	 *
+	 * @since 3.9.24
+	 */
+	public function __get($propName)
+	{
+		if ('user' === $propName)
+		{
+			return empty($this->storedUser)
+				? Factory::getUser()
+				: $this->storedUser;
+		}
 	}
 }

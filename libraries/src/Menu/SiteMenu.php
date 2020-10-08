@@ -179,7 +179,7 @@ class SiteMenu extends AbstractMenu
 			if (($key = array_search('access', $attributes)) === false)
 			{
 				$attributes[] = 'access';
-				$values[]     = $this->getUser()->getAuthorisedViewLevels();
+				$values[]     = $this->user->getAuthorisedViewLevels();
 			}
 			elseif ($values[$key] === null)
 			{
