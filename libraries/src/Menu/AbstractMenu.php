@@ -394,7 +394,7 @@ class AbstractMenu
 	 * Internal getter for the user. Returns the injected
 	 * one if any, or the current one if none.
 	 *
-	 * @return User|\JUser
+	 * @return User
 	 *
 	 * @since version
 	 */
