@@ -85,13 +85,15 @@ class AbstractMenu
 			}
 		}
 
-		// It is preferred NOT to inject and store the user when constructing the menu object,
-		// at least for the Menu object used by Joomla.
-		// The menu object can be built very early in the request, from an onAfterInitialise event
-		// but the user can be updated late (by the Remember me plugin for instance). As the stored
-		// user object is not updated, the menu will render incorrectly, not complying with
-		// menu items access levels.
-		// See https://github.com/joomla/joomla-cms/issues/11541
+		/**
+		 * It is preferred NOT to inject and store the user when constructing the menu object,
+		 * at least for the Menu object used by Joomla.
+		 * The menu object can be built very early in the request, from an onAfterInitialise event
+		 * but the user can be updated late (by the Remember me plugin for instance). As the stored
+		 * user object is not updated, the menu will render incorrectly, not complying with
+		 * menu items access levels.
+		 * See https://github.com/joomla/joomla-cms/issues/11541
+		 */
 		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : null;
 	}
 
@@ -146,7 +148,9 @@ class AbstractMenu
 	/**
 	 * Setter for the current user used to build menu.
 	 *
-	 * @param   User  $user
+	 * @param   User  $user  The new user to set.
+	 *
+	 * @return null
 	 *
 	 * @since version
 	 */
