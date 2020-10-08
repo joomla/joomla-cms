@@ -206,17 +206,17 @@ if (file_exists($rootPath . $versionFile))
 	$fileContents = preg_replace("#MAJOR_VERSION\s*=\s*[^;]*#", "MAJOR_VERSION = " . $version['major'], $fileContents);
 	$fileContents = preg_replace("#MINOR_VERSION\s*=\s*[^;]*#", "MINOR_VERSION = " . $version['minor'], $fileContents);
 	$fileContents = preg_replace("#PATCH_VERSION\s*=\s*[^;]*#", "PATCH_VERSION = " . $version['patch'], $fileContents);
-	$fileContents = preg_replace("#EXTRA_VERSION\s*=\s*'[^\']*'#", "EXTRA_VERSION = '" . $version['extra'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELEASE\s*=\s*'[^\']*'#", "RELEASE = '" . $version['main'] . "'", $fileContents);
-	$fileContents = preg_replace("#DEV_LEVEL\s*=\s*'[^\']*'#", "DEV_LEVEL = '" . $version['dev_devel'] . "'", $fileContents);
-	$fileContents = preg_replace("#DEV_STATUS\s*=\s*'[^\']*'#", "DEV_STATUS = '" . $version['dev_status'] . "'", $fileContents);
-	$fileContents = preg_replace("#BUILD\s*=\s*'[^\']*'#", "BUILD = '" . $version['build'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELDATE\s*=\s*'[^\']*'#", "RELDATE = '" . $version['reldate'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELTIME\s*=\s*'[^\']*'#", "RELTIME = '" . $version['reltime'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELTZ\s*=\s*'[^\']*'#", "RELTZ = '" . $version['reltz'] . "'", $fileContents);
+	$fileContents = preg_replace("#EXTRA_VERSION\s*=\s*'[^']*'#", "EXTRA_VERSION = '" . $version['extra'] . "'", $fileContents);
+	$fileContents = preg_replace("#RELEASE\s*=\s*'[^']*'#", "RELEASE = '" . $version['main'] . "'", $fileContents);
+	$fileContents = preg_replace("#DEV_LEVEL\s*=\s*'[^']*'#", "DEV_LEVEL = '" . $version['dev_devel'] . "'", $fileContents);
+	$fileContents = preg_replace("#DEV_STATUS\s*=\s*'[^']*'#", "DEV_STATUS = '" . $version['dev_status'] . "'", $fileContents);
+	$fileContents = preg_replace("#BUILD\s*=\s*'[^']*'#", "BUILD = '" . $version['build'] . "'", $fileContents);
+	$fileContents = preg_replace("#RELDATE\s*=\s*'[^']*'#", "RELDATE = '" . $version['reldate'] . "'", $fileContents);
+	$fileContents = preg_replace("#RELTIME\s*=\s*'[^']*'#", "RELTIME = '" . $version['reltime'] . "'", $fileContents);
+	$fileContents = preg_replace("#RELTZ\s*=\s*'[^']*'#", "RELTZ = '" . $version['reltz'] . "'", $fileContents);
 	if (!empty($version['codename']))
 	{
-		$fileContents = preg_replace("#CODENAME\s*=\s*'[^\']*'#", "CODENAME = '" . $version['codename'] . "'", $fileContents);
+		$fileContents = preg_replace("#CODENAME\s*=\s*'[^']*'#", "CODENAME = '" . $version['codename'] . "'", $fileContents);
 	}
 	file_put_contents($rootPath . $versionFile, $fileContents);
 }
