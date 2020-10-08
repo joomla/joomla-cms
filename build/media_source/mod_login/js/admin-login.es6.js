@@ -64,14 +64,14 @@
           // In case of a broken response: show a message
           if (respError) {
             Joomla.renderMessages({
-              'warning': [
+              warning: [
                 'The response is corrupted, please try to reload the page.',
-                respError.message
-              ]
+                respError.message,
+              ],
             });
 
             if (sysMessage) {
-              sysMessage.scrollIntoView({behavior: "smooth"});
+              sysMessage.scrollIntoView({ behavior: 'smooth' });
             }
           } else if (response.success) {
             Joomla.Event.dispatch(form, 'joomla:login');
@@ -80,7 +80,7 @@
             Joomla.renderMessages(response.messages);
 
             if (sysMessage) {
-              sysMessage.scrollIntoView({behavior: "smooth"});
+              sysMessage.scrollIntoView({ behavior: 'smooth' });
             }
           }
         },
