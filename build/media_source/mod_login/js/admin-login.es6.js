@@ -12,7 +12,7 @@
     const sysMessage = document.getElementById('system-message-container');
 
     if (!form) {
-      throw new Error('The form element form#form-login is required to proceed')
+      throw new Error('The form element form#form-login is required to proceed');
     }
 
     if (btn) {
@@ -48,10 +48,11 @@
         data: segments.join('&').replace(/%20/g, '+'),
         perform: true,
         onSuccess: (responseStr) => {
-          let response, respError;
+          let response;
+          let respError;
 
           // Reset the form
-          form.reset()
+          form.reset();
 
           // Try to parse response
           try {
@@ -62,17 +63,25 @@
 
           // In case of a broken response: show a message
           if (respError) {
-            Joomla.renderMessages({'warning': [
-              'The response is corrupted, please try to reload the page.',
-              respError.message
-            ]});
-            sysMessage && sysMessage.scrollIntoView({behavior: "smooth"});
+            Joomla.renderMessages({
+              'warning': [
+                'The response is corrupted, please try to reload the page.',
+                respError.message
+              ]
+            });
+
+            if (sysMessage) {
+              sysMessage.scrollIntoView({behavior: "smooth"});
+            }
           } else if (response.success) {
             Joomla.Event.dispatch(form, 'joomla:login');
             window.location.href = response.data.return;
           } else if (typeof response.messages === 'object' && response.messages !== null) {
             Joomla.renderMessages(response.messages);
-            sysMessage && sysMessage.scrollIntoView({behavior: "smooth"});
+
+            if (sysMessage) {
+              sysMessage.scrollIntoView({behavior: "smooth"});
+            }
           }
         },
         onError: (xhr) => {
@@ -80,6 +89,5 @@
         },
       });
     });
-
   });
 })(window.Joomla, document);
