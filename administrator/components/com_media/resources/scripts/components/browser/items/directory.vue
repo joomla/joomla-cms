@@ -149,7 +149,7 @@ export default {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
+      this.$nextTick(() => { this.$refs.actionToggle ? this.$refs.actionToggle.focus() : false });
     },
   },
 };

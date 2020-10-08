@@ -70,7 +70,17 @@
       "attributes": {
         "defer": true
       }
+    },
+    {
+      "name": "com_content.articles-list",
+      "type": "script",
+      "uri": "com_content/articles-list.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
     }
-
   ]
 }
