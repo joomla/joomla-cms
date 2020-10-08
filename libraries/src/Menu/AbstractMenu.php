@@ -61,7 +61,7 @@ class AbstractMenu
 	 * User object to check access levels for
 	 *
 	 * @var    \JUser
-	 * @since  3.9.24
+	 * @since  3.9.23
 	 */
 	protected $storedUser;
 
@@ -417,7 +417,7 @@ class AbstractMenu
 	 *
 	 * @return User|null
 	 *
-	 * @since 3.9.24
+	 * @since 3.9.23
 	 */
 	public function __get($propName)
 	{
