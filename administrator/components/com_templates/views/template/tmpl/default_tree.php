@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-ksort($this->files, SORT_NATURAL);
+ksort($this->files, 4);
 ?>
 
 <ul class='nav nav-list directory-tree'>
