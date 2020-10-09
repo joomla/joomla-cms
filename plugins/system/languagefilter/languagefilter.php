@@ -741,13 +741,15 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @return string
 	 *
-	 * @since 3.9.23
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected function processLoginReturnUrl($fallbackItemid)
 	{
 		$redirect = $this->app->getUserState('users.login.form.return');
 		$uri = new JUri($redirect);
-		if( JUri::isInternal($redirect) ) {
+
+		if (JUri::isInternal($redirect))
+		{
 			$uri->setVar('Itemid', $fallbackItemid);
 		}
 
