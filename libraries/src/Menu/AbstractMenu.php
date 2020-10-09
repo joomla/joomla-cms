@@ -60,8 +60,8 @@ class AbstractMenu
 	/**
 	 * User object to check access levels for
 	 *
-	 * @var    \JUser
-	 * @since  3.9.23
+	 * @var    User
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $storedUser;
 
@@ -152,7 +152,7 @@ class AbstractMenu
 	 *
 	 * @return null
 	 *
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function setUser($user)
 	{
