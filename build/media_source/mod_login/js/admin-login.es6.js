@@ -65,7 +65,7 @@
           if (respError) {
             Joomla.renderMessages({
               warning: [
-                'Server response is corrupted, please try to reload the page.',
+                Joomla.Text._('MOD_LOGIN_AJAX_RESPONSE_CORRUPTED', 'Response is corrupted'),
                 respError.message,
               ],
             });
@@ -85,7 +85,14 @@
           }
         },
         onError: (xhr) => {
+          // Reset the form
+          form.reset();
+
           Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+
+          if (sysMessage) {
+            sysMessage.scrollIntoView({ behavior: 'smooth' });
+          }
         },
       });
     });

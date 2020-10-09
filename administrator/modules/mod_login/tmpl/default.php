@@ -28,7 +28,8 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
-
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
+Text::script('MOD_LOGIN_AJAX_RESPONSE_CORRUPTED');
 ?>
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
 	id="form-login">
