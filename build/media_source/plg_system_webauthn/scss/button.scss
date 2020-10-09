@@ -1,4 +1,6 @@
 button[class*=plg_system_webauthn_login_button] {
+  padding: 0;
+
   span[class*=icon] {
     display: inline-block;
     width: 1em;
