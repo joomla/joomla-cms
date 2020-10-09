@@ -1590,6 +1590,8 @@ class Form
 	 * @return  FormField|boolean  The FormField object for the field or boolean false on error.
 	 *
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
+	 * @throws	\RuntimeException
 	 */
 	protected function loadField($element, $group = null, $value = null)
 	{
@@ -1608,7 +1610,7 @@ class Form
 		// If the object could not be loaded, get a text field object.
 		if ($field === false)
 		{
-			$field = FormHelper::loadFieldType('text');
+			throw new \RuntimeException(sprintf('Class for field type "%s" not found.', $type));
 		}
 
 		/*
