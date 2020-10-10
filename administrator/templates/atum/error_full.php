@@ -180,8 +180,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 						<a href="<?php echo $this->baseurl; ?>" class="btn btn-secondary">
 							<span class="fas fa-dashboard" aria-hidden="true"></span>
 							<?php echo Text::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a>
-							<p> <?php echo $this->baseurl; ?></p>
-							<?php echo Uri::base(true); ?>
 					</p>
 				</div>
 
