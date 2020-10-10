@@ -40,7 +40,7 @@ $jicon-css-prefix: icon !global;
 $jicons-brand: (
   joomla : $fa-var-joomla,
   accessible : $fa-var-accessible-icon
-) !default;;
+) !default;
 
 // Parse brands mapping array
 @each $jicon-brand-key, $jicon-brand-value in $jicons-brand {
