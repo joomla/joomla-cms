@@ -535,7 +535,6 @@ abstract class AdminModel extends FormModel
 					->bind(':oldassetid', $oldAssetId, ParameterType::INTEGER)
 					->bind(':assetid', $this->table->asset_id, ParameterType::INTEGER);
 
-
 				$db->setQuery($query)->execute();
 			}
 
