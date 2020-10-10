@@ -1093,6 +1093,8 @@ class CategoryModel extends AdminModel
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
 
+			$dbType = strtolower($db->getServerType());
+
 			// Copy rules
 			$query->clear()
 				->update($db->quoteName('#__assets', 't'))
@@ -1100,9 +1102,18 @@ class CategoryModel extends AdminModel
 					$db->quoteName('#__assets', 's'),
 					$db->quoteName('s.id') . ' = :oldid'
 				)
-				->bind(':oldid', $oldAssetId, ParameterType::INTEGER)
-				->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
-				->where($db->quoteName('t.id') . ' = :assetid')
+				->bind(':oldid', $oldAssetId, ParameterType::INTEGER);
+
+			if ($dbType === 'mysql')
+			{
+				$query->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'));
+			}
+			else
+			{
+				$query->set($db->quoteName('rules') . ' = ' . $db->quoteName('s.rules'));
+			}
+
+			$query->where($db->quoteName('t.id') . ' = :assetid')
 				->bind(':assetid', $this->table->asset_id, ParameterType::INTEGER);
 			$db->setQuery($query)->execute();
 
