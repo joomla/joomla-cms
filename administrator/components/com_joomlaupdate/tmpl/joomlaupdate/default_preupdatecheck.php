@@ -3,15 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
-/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
+/** @var HtmlView $this */
 ?>
 
 <h2 class="mt-3 mb-3">

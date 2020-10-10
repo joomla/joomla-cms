@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,13 +70,10 @@ class CheckUpdatesCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Check for pending extension updates');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command checks for pending extension updates
+		$help = "<info>%command.name%</info> command checks for pending extension updates
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setDescription('Check for pending extension updates');
+		$this->setHelp($help);
 	}
 }

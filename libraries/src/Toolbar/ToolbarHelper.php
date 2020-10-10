@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,14 @@ abstract class ToolbarHelper
 
 		$app = Factory::getApplication();
 		$app->JComponentTitle = $html;
-		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
+		$title = strip_tags($title) . ' - ' . $app->get('sitename');
+
+		if ($app->isClient('administrator'))
+		{
+			$title .= ' - ' . Text::_('JADMINISTRATION');
+		}
+
+		Factory::getDocument()->setTitle($title);
 	}
 
 	/**
@@ -160,7 +167,8 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a back button.
-		$bar->appendButton('Link', 'back', $alt, $href);
+		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+		$bar->appendButton('Link', $arrow, $alt, $href);
 	}
 
 	/**
@@ -584,7 +592,7 @@ abstract class ToolbarHelper
 	 * @param   integer  $height     The height of the popup. [UNUSED]
 	 * @param   integer  $width      The width of the popup. [UNUSED]
 	 * @param   string   $alt        The name of the button.
-	 * @param   string   $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string   $path       An alternative path for the configuration xml relative to JPATH_SITE.
 	 *
 	 * @return  void
 	 *
@@ -635,9 +643,7 @@ abstract class ToolbarHelper
 		$options['title']     = Text::_($alt);
 		$options['height']    = $height;
 		$options['width']     = $width;
-		$options['itemId']    = $itemId;
-		$options['typeId']    = $typeId;
-		$options['typeAlias'] = $typeAlias;
+		$options['itemId']    = $typeAlias . '.' . $itemId;
 
 		$bar    = Toolbar::getInstance('toolbar');
 		$layout = new FileLayout('joomla.toolbar.versions');

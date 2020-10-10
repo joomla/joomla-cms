@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ abstract class ArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		// Filer by tag
+		// Filter by tag
 		$model->setState('filter.tag', $params->get('tag', array()));
 
 		// Featured switch

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -131,7 +131,7 @@ class ComponentlayoutField extends FormField
 			$component_path = Path::clean($client->path . '/components/' . $extension . '/views/' . $view . '/tmpl');
 
 			// Check if the old layouts folder exists, else use the new one
-			if (!file_exists($component_path))
+			if (!is_dir($component_path))
 			{
 				$component_path = Path::clean($client->path . '/components/' . $extension . '/tmpl/' . $view);
 			}

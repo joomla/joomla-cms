@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ $params = $this->item->params;
 if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
 ?>
 <div class="com-content-article__links content-links">
-	<ul class="nav nav-tabs nav-stacked">
+	<ul class="com-content-article__links content-list">
 		<?php
 			$urlarray = array(
 			array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),

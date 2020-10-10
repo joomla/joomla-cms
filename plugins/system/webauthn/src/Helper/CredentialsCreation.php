@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,7 +75,7 @@ abstract class CredentialsCreation
 		try
 		{
 			$app      = Factory::getApplication();
-			$siteName = $app->getConfig()->get('sitename');
+			$siteName = $app->getConfig()->get('sitename', 'Joomla! Site');
 		}
 		catch (Exception $e)
 		{

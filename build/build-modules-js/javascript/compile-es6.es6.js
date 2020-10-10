@@ -31,7 +31,7 @@ const settings = [
         },
         modules: false,
       }],
-      'minify',
+      ['minify', { builtIns: false }],
     ],
     plugins: [
       ['@babel/plugin-transform-classes'],
@@ -60,7 +60,7 @@ const settings = [
         },
         modules: false,
       }],
-      'minify',
+      ['minify', { builtIns: false }],
     ],
     plugins: [],
     comments: false,

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,8 +26,8 @@ $input = Factory::getApplication()->input;
 $wa->useScript('form.validate')
 	->useScript('keepalive')
 	->useScript('diff')
-	->registerAndUseScript('templates.admin-template-compare', 'com_templates/admin-template-compare.min.js', [], ['defer' => true], ['diff', 'core'])
-	->registerAndUseScript('templates.admin-template-toggle-switch', 'com_templates/admin-template-toggle-switch.min.js', [], ['defer' => true], ['core']);
+	->useScript('com_templates.admin-template-compare')
+	->useScript('com_templates.admin-template-toggle-switch');
 
 // No access if not global SuperUser
 if (!Factory::getUser()->authorise('core.admin'))
@@ -40,8 +40,8 @@ if ($this->type == 'image')
 	$wa->usePreset('cropperjs');
 }
 
-$wa->registerAndUseStyle('templates.admin-templates-default', 'com_templates/admin-templates-default.css')
-	->registerAndUseScript('templates.admin-templates-default', 'com_templates/admin-templates-default.min.js', [], ['defer' => true], ['core']);
+$wa->useStyle('com_templates.admin-templates')
+	->useScript('com_templates.admin-templates');
 
 if ($this->type == 'font')
 {
@@ -84,7 +84,7 @@ if ($this->type == 'font')
 </div>
 <div class="row mt-2">
 	<div id="treeholder" class="col-md-3 tree-holder">
-		<div class="card">
+		<div class="card mt-2 mb-2">
 			<div class="card-body">
 				<?php echo $this->loadTemplate('tree'); ?>
 			</div>
@@ -99,7 +99,7 @@ if ($this->type == 'font')
 				<?php echo HTMLHelper::_('form.token'); ?>
 				<p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
-					<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-lg">
+					<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
 						<?php echo Text::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 					</a>
 				</p>

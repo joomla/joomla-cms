@@ -9,9 +9,9 @@ html {
 }
 
 body {
-  min-height: 100%;
   display: flex;
   flex-direction: column;
+  min-height: 100%;
   padding: 0;
   margin: 0;
   text-align: start;
@@ -125,7 +125,6 @@ body .container-main {
 
 
 .content {
-  padding: 2vw;
   border-radius: $border-radius;
 
   > .row {
@@ -169,6 +168,7 @@ body .container-main {
 
 // extern links with icons
 a[target="_blank"]::before {
+  padding-right: 3px;
   font-family: "Font Awesome 5 Free";
   font-size: 14px;
   font-weight: 900;
@@ -185,7 +185,7 @@ a[target="_blank"]::before {
 
 .text-muted {
   color: var(--atum-text-dark) !important;
-  opacity: 0.7;
+  opacity: .7;
 }
 
 .card-columns {
@@ -221,4 +221,9 @@ details {
 
 summary {
   color: var(--atum-link-color);
+}
+
+// meter element
+meter {
+  width: 100%;
 }

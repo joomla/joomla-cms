@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -230,7 +230,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -415,7 +415,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 	/**
 	 * Get privacy article ID. If the site is a multilingual website and there is associated article for the
-	 * current language, ID of the associlated article will be returned
+	 * current language, ID of the associated article will be returned
 	 *
 	 * @return  integer
 	 *
@@ -712,8 +712,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $client_id)
@@ -723,7 +721,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
 					];
 
 					$cache = Cache::getInstance('callback', $options);

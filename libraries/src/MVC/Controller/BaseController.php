@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -320,11 +320,11 @@ class BaseController implements ControllerInterface
 		if (!class_exists($class))
 		{
 			// If the controller file path exists, include it.
-			if (file_exists($path))
+			if (is_file($path))
 			{
 				require_once $path;
 			}
-			elseif (isset($backuppath) && file_exists($backuppath))
+			elseif (isset($backuppath) && is_file($backuppath))
 			{
 				require_once $backuppath;
 			}

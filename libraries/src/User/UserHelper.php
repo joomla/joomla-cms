@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -127,6 +127,9 @@ abstract class UserHelper
 			// Add the group data to the user object.
 			$user->groups[$groupId] = $groupId;
 
+			// Reindex the array for prepared statements binding
+			$user->groups = array_values($user->groups);
+
 			// Store the user object.
 			$user->save();
 		}
@@ -186,8 +189,8 @@ abstract class UserHelper
 
 		if ($key !== false)
 		{
-			// Remove the user from the group.
 			unset($user->groups[$key]);
+			$user->groups = array_values($user->groups);
 
 			// Store the user object.
 			$user->save();

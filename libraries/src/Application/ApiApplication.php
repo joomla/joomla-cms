@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.API
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -186,6 +186,17 @@ final class ApiApplication extends CMSApplication
 	public function getTemplate($params = false)
 	{
 		// The API application should not need to use a template
+		if ($params)
+		{
+			$template = new \stdClass;
+			$template->template = 'system';
+			$template->params = new Registry;
+			$template->inheritable = 0;
+			$template->parent = '';
+
+			return $template;
+		}
+
 		return 'system';
 	}
 

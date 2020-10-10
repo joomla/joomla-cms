@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,13 +15,14 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Console\Loader\WritableContainerLoader;
-use Joomla\CMS\Console\Loader\WritableLoaderInterface;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
-use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
+use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
+use Joomla\CMS\Console\Loader\WritableContainerLoader;
+use Joomla\CMS\Console\Loader\WritableLoaderInterface;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -157,6 +158,7 @@ class Application implements ServiceProviderInterface
 						ExtensionRemoveCommand::getDefaultName()    => ExtensionRemoveCommand::class,
 						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
 						UpdateCoreCommand::getDefaultName()         => UpdateCoreCommand::class,
+						FinderIndexCommand::getDefaultName()        => FinderIndexCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
@@ -53,7 +54,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
@@ -201,32 +202,23 @@ class PlgUserJoomla extends CMSPlugin
 		// Load plugin language files.
 		$this->loadLanguage();
 
-		// Compute the mail subject.
-		$emailSubject = Text::sprintf(
-			'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
-			$user['name'],
-			$this->app->get('sitename')
-		);
+		// Collect data for mail
+		$data = [
+			'name' => $user['name'],
+			'sitename' => $this->app->get('sitename'),
+			'url' => Uri::root(),
+			'username' => $user['username'],
+			'password' => $user['password_clear'],
+			'email' => $user['email']
+		];
 
-		// Compute the mail body.
-		$emailBody = Text::sprintf(
-			'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
-			$user['name'],
-			$this->app->get('sitename'),
-			Uri::root(),
-			$user['username'],
-			$user['password_clear']
-		);
+		$mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
+		$mailer->addTemplateData($data);
+		$mailer->addRecipient($user['email'], $user['name']);
 
 		try
 		{
-			$res = Factory::getMailer()->sendMail(
-				$this->app->get('mailfrom'),
-				$this->app->get('fromname'),
-				$user['email'],
-				$emailSubject,
-				$emailBody
-			);
+			$res = $mailer->send();
 		}
 		catch (\Exception $exception)
 		{

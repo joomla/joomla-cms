@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -53,7 +53,7 @@ $userId = $user->id;
 			<div id="j-main-container" class="j-main-container">
 				<?php
 					// Search tools bar
-					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'extension')));
 				?>
 				<?php if (empty($this->workflows)) : ?>
 					<div class="alert alert-info">
@@ -73,12 +73,12 @@ $userId = $user->id;
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'w.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'w.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
 								</th>
-								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'w.published', $listDirn, $listOrder); ?>
 								</th>
-								<th class="d-none d-md-table-cell">
+								<th>
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
@@ -101,13 +101,12 @@ $userId = $user->id;
 							$transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
 							$edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id . '&extension=' . $extension);
 
-							$isCore     = !empty($item->core);
 							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
-							$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || $item->checked_out == 0;
+							$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || is_null($item->checked_out);
 							$canEditOwn = $user->authorise('core.edit.own',   $extension . '.workflow.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin;
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="0">
+							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="0">
 								<td class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
@@ -131,13 +130,13 @@ $userId = $user->id;
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange && !$isCore); ?>
+									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange); ?>
 								</td>
 								<th scope="row">
 									<?php if ($item->checked_out) : ?>
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'workflows.', $canCheckin); ?>
 									<?php endif; ?>
-									<?php if (!$isCore && ($canEdit || $canEditOwn)) : ?>
+									<?php if ($canEdit || $canEditOwn) : ?>
 										<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT', true); ?> <?php echo Text::_($item->title, true); ?>">
 											<?php echo $this->escape(Text::_($item->title)); ?>
 										</a>
@@ -170,7 +169,6 @@ $userId = $user->id;
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<input type="hidden" name="extension" value="<?php echo $extension ?>">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,8 @@ extract($displayData);
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true))
@@ -75,7 +77,6 @@ $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->usePreset('minicolors')
 	->useScript('field.color-adv');
-
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $this->escape($color); ?>"<?php
 	echo $hint,
@@ -91,5 +92,6 @@ $wa->usePreset('minicolors')
 		$format,
 		$keywords,
 		$direction,
-		$validate;
+		$validate,
+		$dataAttribute;
 ?>/>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php endif; ?>
 
 	<?php if (!empty($this->link_items)) : ?>
-		<div class="com-content-category-blog__items-more items-more">
+		<div class="items-more">
 			<?php echo $this->loadTemplate('links'); ?>
 		</div>
 	<?php endif; ?>

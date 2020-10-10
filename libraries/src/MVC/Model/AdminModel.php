@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -117,8 +118,7 @@ abstract class AdminModel extends FormModel
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag',
-		'workflowstage_id' => 'batchWorkflowStage',
+		'tag' => 'batchTag'
 	);
 
 	/**
@@ -536,17 +536,17 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
-	 * @param   \JTableInterface  $table  The table object containing the newly created item
-	 * @param   integer           $newId  The id of the new item
-	 * @param   integer           $oldId  The original item id
+	 * @param   TableInterface  $table  The table object containing the newly created item
+	 * @param   integer         $newId  The id of the new item
+	 * @param   integer         $oldId  The original item id
 	 *
 	 * @return  void
 	 *
 	 * @since  3.8.12
 	 */
-	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
+	protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
 	{
 	}
 
@@ -1270,7 +1270,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$key = $table->getKeyName();
-		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+		$pk = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
 		// Include the plugins for the save events.

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,8 +21,8 @@ $input           = Factory::getApplication()->input;
 $field           = $input->getCmd('field');
 $listOrder       = $this->escape($this->state->get('list.ordering'));
 $listDirn        = $this->escape($this->state->get('list.direction'));
-$enabledStates   = array(0 => 'icon-publish', 1 => 'icon-unpublish');
-$activatedStates = array(0 => 'icon-publish', 1 => 'icon-unpublish');
+$enabledStates   = array(0 => 'fas fa-check', 1 => 'fas fa-times');
+$activatedStates = array(0 => 'fas fa-check', 1 => 'fas fa-times');
 $userRequired    = (int) $input->get('required', 0, 'int');
 $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.getCurrent().close()";
 

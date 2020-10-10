@@ -13,12 +13,12 @@
         </div>
         <a href="#" class="media-browser-select"
           @click.stop="toggleSelect()"
-          :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
+          :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')" :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
           @focus="focused(true)" @blur="focused(false)">
         </a>
         <div class="media-browser-actions" :class="{'active': showActions}">
             <button class="action-toggle" type="button" ref="actionToggle"
-              :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')" @keyup.enter="openActions()"
+              :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')" :title="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')" @keyup.enter="openActions()"
                @focus="focused(true)" @blur="focused(false)" @keyup.space="openActions()"
                @keyup.down="openActions()" @keyup.up="openLastActions()">
                 <span class="image-browser-action fas fa-ellipsis-h" aria-hidden="true"
@@ -28,7 +28,7 @@
                 <ul>
                     <li>
                         <button type="button" class="action-rename" ref="actionRename" @keyup.enter="openRenameModal()"
-                          :aria-label="translate('COM_MEDIA_ACTION_RENAME')" @keyup.space="openRenameModal()"
+                          :aria-label="translate('COM_MEDIA_ACTION_RENAME')" :title="translate('COM_MEDIA_ACTION_RENAME')" @keyup.space="openRenameModal()"
                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
                           @keyup.up="$refs.actionDelete.focus()" @keyup.down="$refs.actionDelete.focus()">
                             <span class="image-browser-action fas fa-text-width" aria-hidden="true"
@@ -37,7 +37,7 @@
                     </li>
                     <li>
                         <button type="button" class="action-delete" ref="actionDelete" @keyup.enter="openConfirmDeleteModal()"
-                          :aria-label="translate('COM_MEDIA_ACTION_DELETE')" @keyup.space="openConfirmDeleteModal()"
+                          :aria-label="translate('COM_MEDIA_ACTION_DELETE')" :title="translate('COM_MEDIA_ACTION_DELETE')" @keyup.space="openConfirmDeleteModal()"
                            @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
                            @keyup.up="$refs.actionRename.focus()" @keyup.down="$refs.actionRename.focus()">
                             <span class="image-browser-action fas fa-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>
@@ -94,7 +94,7 @@
            /* Hide actions dropdown */
            hideActions() {
                this.showActions = false;
-               this.$nextTick(() => this.$refs.actionToggle.focus());
+               this.$nextTick(() => { this.$refs.actionToggle ? this.$refs.actionToggle.focus() : false });
            },
         }
     }

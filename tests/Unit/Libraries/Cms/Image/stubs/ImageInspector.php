@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,13 +11,13 @@ use Joomla\CMS\Image\Image as Image;
 /**
  * Inspector for the Image class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ImageInspector extends Image
 {
 	/**
 	 * @var    ImageFilter  A mock image filter to be returned from getFilterInstance().
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $mockFilter;
 
@@ -28,7 +28,7 @@ class ImageInspector extends Image
 	 *
 	 * @return  mixed  The value of the class variable.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getClassProperty($name)
 	{
@@ -50,7 +50,7 @@ class ImageInspector extends Image
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setClassProperty($name, $value)
 	{
@@ -71,7 +71,7 @@ class ImageInspector extends Image
 	 *
 	 * @return  ImageFilter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getFilterInstance($type)
@@ -95,7 +95,7 @@ class ImageInspector extends Image
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function prepareDimensions($width, $height, $scaleMethod)
 	{
@@ -110,7 +110,7 @@ class ImageInspector extends Image
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function sanitizeHeight($height, $width)
 	{
@@ -124,7 +124,7 @@ class ImageInspector extends Image
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function sanitizeOffset($offset)
 	{
@@ -139,7 +139,7 @@ class ImageInspector extends Image
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function sanitizeWidth($width, $height)
 	{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,9 @@ use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -160,6 +160,30 @@ class HtmlDocument extends Document
 
 		$data['scriptOptions'] = $this->scriptOptions;
 
+		// Get Asset manager state
+		$wa      = $this->getWebAssetManager();
+		$waState = $wa->getManagerState();
+
+		// Get asset objects and filter only manually added/enabled assets,
+		// Dependencies will be picked up from registry files
+		$waState['assets'] = [];
+
+		foreach ($waState['activeAssets'] as $assetType => $assetNames)
+		{
+			foreach ($assetNames as $assetName => $assetState)
+			{
+				if ($assetState === WebAssetManager::ASSET_STATE_ACTIVE)
+				{
+					$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
+				}
+			}
+		}
+
+		// We have loaded asset objects, now can remove unused stuff
+		unset($waState['activeAssets']);
+
+		$data['assetManager'] = $waState;
+
 		return $data;
 	}
 
@@ -269,6 +293,30 @@ class HtmlDocument extends Document
 		$this->_custom       = $data['custom'] ?? $this->_custom;
 		$this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
 
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
+		{
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
+			{
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
+			}
+		}
+
 		return $this;
 	}
 
@@ -357,6 +405,30 @@ class HtmlDocument extends Document
 			foreach ($data['scriptOptions'] as $key => $scriptOptions)
 			{
 				$this->addScriptOptions($key, $scriptOptions, true);
+			}
+		}
+
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
+		{
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
+			{
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
 			}
 		}
 
@@ -689,7 +761,7 @@ class HtmlDocument extends Document
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory . '/' . $filename))
+		if (is_file($directory . '/' . $filename))
 		{
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
@@ -701,16 +773,34 @@ class HtmlDocument extends Document
 			ob_end_clean();
 		}
 
+		$app      = CmsFactory::getApplication();
+		$client   = $app->isClient('administrator') === true ? 'administrator/' : 'site/';
+		$template = $app->getTemplate(true);
+
 		// Try to find a favicon by checking the template and root folder
 		$icon = '/favicon.ico';
+		$foldersToCheck = [
+			JPATH_BASE,
+			JPATH_ROOT . '/media/templates/' . $client . $template->template,
+			$directory,
+		];
 
-		foreach (array(JPATH_BASE, $directory) as $dir)
+		foreach ($foldersToCheck as $base => $dir)
 		{
-			if (file_exists($dir . $icon))
+			if ($template->parent !== ''
+				&& $base === 1
+				&& !is_file(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
 			{
-				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(Uri::base(true) . $path . $icon);
+				$dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
+			}
+
+			if (is_file($dir . $icon))
+			{
+				$urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
+				$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
+				$path    = str_replace($base, '', $dir);
+				$path    = str_replace('\\', '/', $path);
+				$this->addFavicon($urlBase . $path . $icon);
 				break;
 			}
 		}
@@ -734,15 +824,25 @@ class HtmlDocument extends Document
 		$filter = InputFilter::getInstance();
 		$template = $filter->clean($params['template'], 'cmd');
 		$file = $filter->clean($params['file'], 'cmd');
+		$inherits = $params['templateInherits'] ?? '';
+		$baseDir = $directory . '/' . $template;
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
+		if (!is_file($directory . '/' . $template . '/' . $file))
 		{
-			$template = 'system';
-		}
+			if ($inherits !== '' && is_file($directory . '/' . $inherits . '/' . $file))
+			{
+				$baseDir = $directory . '/' . $inherits;
+			}
+			else
+			{
+				$baseDir  = $directory . '/system';
+				$template = 'system';
 
-		if (!file_exists($directory . '/' . $template . '/' . $file))
-		{
-			$file = 'index.php';
+				if ($file !== 'index.php' && !is_file($baseDir . '/' . $file))
+				{
+					$file = 'index.php';
+				}
+			}
 		}
 
 		// Load the language file for the template
@@ -750,15 +850,16 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE)
+			|| ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables
-		$this->template = $template;
 		$this->baseurl = Uri::base(true);
 		$this->params = $params['params'] ?? new Registry;
+		$this->template = $template;
 
 		// Load
-		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
+		$this->_template = $this->_loadTemplate($baseDir, $file);
 
 		return $this;
 	}

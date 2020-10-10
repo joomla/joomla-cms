@@ -3,28 +3,38 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageinstaller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var PlgInstallerPackageInstaller $this */
+
 HTMLHelper::_('form.csrf');
 
+Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
-$return  = Factory::getApplication()->input->getBase64('return');
+$this->app->getDocument()->getWebAssetManager()
+	->registerAndUseScript(
+		'plg_installer_packageinstaller.packageinstaller',
+		'plg_installer_packageinstaller/packageinstaller.js',
+		[],
+		['defer' => true],
+		['core']
+	);
+
+$return  = $this->app->input->getBase64('return');
 $maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
 $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
-
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 
 <hr>
@@ -68,7 +78,7 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 				</p>
 				<p>
 					<button id="select-file-button" type="button" class="btn btn-success">
-						<span class="icon-copy" aria-hidden="true"></span>
+						<span class="fas fa-copy" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
 					</button>
 				</p>

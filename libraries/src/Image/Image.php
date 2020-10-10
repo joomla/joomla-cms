@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -124,10 +124,14 @@ class Image
 			static::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
 		}
 
-		// If the source input is a resource, set it as the image handle.
-		if (\is_resource($source) && (get_resource_type($source) == 'gd'))
+		/**
+		 * If the source input is a resource, set it as the image handle.
+		 * TODO: Remove check for resource when we only support PHP 8
+		 */
+		if ($source && (\is_object($source) && get_class($source) == 'GdImage')
+			|| (\is_resource($source) && get_resource_type($source) == 'gd'))
 		{
-			$this->handle = &$source;
+			$this->handle = $source;
 		}
 		elseif (!empty($source) && \is_string($source))
 		{
@@ -171,7 +175,7 @@ class Image
 	public static function getImageFileProperties($path)
 	{
 		// Make sure the file exists.
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			throw new \InvalidArgumentException('The image file does not exist.');
 		}
@@ -533,8 +537,12 @@ class Image
 	 */
 	public function isLoaded()
 	{
-		// Make sure the resource handle is valid.
-		if (!\is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		/**
+		 * Make sure the resource handle is valid.
+		 * TODO: Remove check for resource when we only support PHP 8
+		 */
+		if (!((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
+			|| (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd')))
 		{
 			return false;
 		}
@@ -572,7 +580,7 @@ class Image
 		$this->destroy();
 
 		// Make sure the file exists.
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			throw new \InvalidArgumentException('The image file does not exist.');
 		}
@@ -592,13 +600,8 @@ class Image
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
+				$type = 'GIF';
 
-				if (!\is_resource($handle))
-				{
-					throw new \RuntimeException('Unable to process GIF image.');
-				}
-
-				$this->handle = $handle;
 				break;
 
 			case 'image/jpeg':
@@ -610,13 +613,8 @@ class Image
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
+				$type = 'JPEG';
 
-				if (!\is_resource($handle))
-				{
-					throw new \RuntimeException('Unable to process JPG image.');
-				}
-
-				$this->handle = $handle;
 				break;
 
 			case 'image/png':
@@ -628,19 +626,24 @@ class Image
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
-
-				if (!\is_resource($handle))
-				{
-					throw new \RuntimeException('Unable to process PNG image.');
-				}
-
-				$this->handle = $handle;
+				$type = 'PNG';
 
 				break;
 
 			default:
 				throw new \InvalidArgumentException('Attempting to load an image of unsupported type ' . $properties->mime);
 		}
+
+		/**
+		 * Check if handle has been created successfully
+		 * TODO: Remove check for resource when we only support PHP 8
+		 */
+		if (!(\is_object($handle) || \is_resource($handle)))
+		{
+			throw new \RuntimeException('Unable to process ' . $type . ' image.');
+		}
+
+		$this->handle = $handle;
 
 		// Set the filesystem path to the source image.
 		$this->path = $path;

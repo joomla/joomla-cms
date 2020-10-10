@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -356,7 +356,7 @@ class ApiController extends BaseController
 		$helper       = new MediaHelper;
 		$serverlength = $this->input->server->getInt('CONTENT_LENGTH');
 
-		if ($serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024)
+		if (($params->get('upload_maxsize', 0) > 0 && $serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024))
 			|| $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
 			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
 			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))

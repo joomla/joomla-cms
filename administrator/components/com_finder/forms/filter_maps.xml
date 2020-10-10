@@ -56,6 +56,8 @@
 			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="branch_title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="branch_title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="a.language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="a.language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 		</field>
 
 		<field

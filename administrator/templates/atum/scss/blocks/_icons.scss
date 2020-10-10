@@ -12,30 +12,16 @@
   color: $white;
 }
 
-.icon-publish {
-  color: theme-color("success");
-
-  .dropdown-status-group & {
-    color: inherit;
-  }
-}
-
-.icon-unpublish {
-  color: theme-color("danger");
-
-  .dropdown-status-group & {
-    color: inherit;
-  }
-}
-
 .tbody-icon {
   padding: 0 3px;
   text-align: center;
   background-color: transparent;
   border: 0;
 
-  [class^='icon-'],
-  [class*=' icon-'] {
+  [class^="icon-"],
+  [class*=" icon-"],
+  [class^="fa-"],
+  [class*=" fa-"] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -45,23 +31,26 @@
     border-radius: 50%;
   }
 
-  .icon-publish {
+  .icon-publish,
+  .fa-check {
     color: var(--success);
     border-color: var(--success);
   }
 
-  .icon-featured,
-  .icon-color-featured {
+  .icon-color-featured,
+  .fas.fa-star.featured {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
 
-  .icon-archive {
+  .icon-archive,
+  .fa-folder {
     color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
-  .icon-checkedout {
+  .icon-checkedout,
+  .fa-lock {
     width: auto;
     height: auto;
     font-size: 1.2rem;
@@ -74,11 +63,12 @@
   &.featured-disabled,
   &.color-featured-disabled,
   &.fa-star-disabled {
-    opacity: 1;
     cursor: not-allowed;
+    opacity: 1;
   }
 
-  &.disabled .icon-home {
+  &.disabled .icon-home,
+  &.disabled .fas.fa-home {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
