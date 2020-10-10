@@ -195,21 +195,4 @@ class HelpModel extends BaseDatabaseModel
 
 		return $this->toc;
 	}
-
-	/**
-	 * Method to get the latest version check
-	 *
-	 * @return  string  Latest Version Check URL
-	 */
-	public function &getLatestVersionCheck()
-	{
-		if (!$this->latest_version_check)
-		{
-			$override = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:'
-				. 'Joomla_Version_{major}_{minor}_{maintenance}/{langcode}&amp;lang={langcode}';
-			$this->latest_version_check = Help::createUrl('JVERSION', false, $override);
-		}
-
-		return $this->latest_version_check;
-	}
 }

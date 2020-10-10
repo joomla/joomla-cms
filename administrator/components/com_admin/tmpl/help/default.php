@@ -23,7 +23,6 @@ use Joomla\CMS\Router\Route;
 			<div class="sidebar-nav">
 				<ul class="nav flex-column">
 					<li><?php echo HTMLHelper::_('link', Help::createUrl('JHELP_START_HERE'), Text::_('COM_ADMIN_START_HERE'), ['target' => 'helpFrame']); ?></li>
-					<li><?php echo HTMLHelper::_('link', $this->latestVersionCheck, Text::_('COM_ADMIN_LATEST_VERSION_CHECK'), ['target' => 'helpFrame']); ?></li>
 					<li><?php echo HTMLHelper::_('link', 'https://www.gnu.org/licenses/gpl-2.0.html', Text::_('COM_ADMIN_LICENSE'), ['target' => 'helpFrame']); ?></li>
 					<li><?php echo HTMLHelper::_('link', Help::createUrl('JHELP_GLOSSARY'), Text::_('COM_ADMIN_GLOSSARY'), ['target' => 'helpFrame']); ?></li>
 					<li class="divider"></li>
