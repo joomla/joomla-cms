@@ -27,7 +27,9 @@
 .tree-holder {
 	overflow-x: auto;
 }
-
+.modal-body .tree-holder {
+	max-height: 60vh;
+}
 .treeselect a {
 	display: block;
 }
