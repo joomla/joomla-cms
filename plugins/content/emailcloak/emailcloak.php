@@ -71,9 +71,7 @@ class PlgContentEmailcloak extends CMSPlugin
 	 */
 	protected function _getPattern($link, $text)
 	{
-		$pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
-
-		return $pattern;
+		return '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
 	}
 
 	/**

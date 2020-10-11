@@ -354,9 +354,7 @@ class PlgFinderTags extends Adapter
 	protected function getUpdateQueryByTime($time)
 	{
 		// Build an SQL query based on the modified time.
-		$query = $this->db->getQuery(true)
+		return $this->db->getQuery(true)
 			->where('a.date >= ' . $this->db->quote($time));
-
-		return $query;
 	}
 }

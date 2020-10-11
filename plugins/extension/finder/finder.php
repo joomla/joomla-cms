@@ -117,9 +117,8 @@ class PlgExtensionFinder extends CMSPlugin
 			->bind(':eid', $eid, ParameterType::INTEGER);
 
 		$db->setQuery($query);
-		$extension = $db->loadObject();
 
-		return $extension;
+		return $db->loadObject();
 	}
 
 	/**

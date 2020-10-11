@@ -913,8 +913,7 @@ class PlgEditorTinymce extends CMSPlugin
 	{
 		// See https://www.tinymce.com/docs/demo/full-featured/
 		// And https://www.tinymce.com/docs/plugins/
-		$buttons = [
-
+		return [
 			// General buttons
 			'|'              => array('label' => Text::_('PLG_TINY_TOOLBAR_BUTTON_SEPARATOR'), 'text' => '|'),
 
@@ -981,8 +980,6 @@ class PlgEditorTinymce extends CMSPlugin
 			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
 			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
 		];
-
-		return $buttons;
 	}
 
 	/**

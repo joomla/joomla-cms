@@ -187,15 +187,13 @@ class PlgTwofactorauthYubikey extends CMSPlugin
 		$yubikey      = substr($data['securitycode'], 0, -32);
 
 		// Check succeeded; return an OTP configuration object
-		$otpConfig    = (object) array(
+		return (object) array(
 			'method'  => $this->methodName,
 			'config'  => array(
 				'yubikey' => $yubikey
 			),
 			'otep'    => array()
 		);
-
-		return $otpConfig;
 	}
 
 	/**

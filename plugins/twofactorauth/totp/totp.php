@@ -219,15 +219,13 @@ class PlgTwofactorauthTotp extends CMSPlugin
 		}
 
 		// Check succeeded; return an OTP configuration object
-		$otpConfig = (object) array(
+		return (object) array(
 			'method'   => 'totp',
 			'config'   => array(
 				'code' => $data['key']
 			),
 			'otep'     => array()
 		);
-
-		return $otpConfig;
 	}
 
 	/**
