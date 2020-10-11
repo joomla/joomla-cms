@@ -104,8 +104,7 @@ class PlgContentEmailcloak extends CMSPlugin
 			return;
 		}
 
-		$mode = (int) $this->params->def('mode', 1);
-		$mode = $mode === 1 ? true : false;
+		$mode = (int) $this->params->def('mode', 1) === 1;
 
 		// Example: any@example.org
 		$searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
