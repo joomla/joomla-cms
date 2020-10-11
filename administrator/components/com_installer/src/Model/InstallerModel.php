@@ -182,8 +182,7 @@ class InstallerModel extends ListModel
 				case 'component':
 					$extension = $item->element;
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) ||	$lang->load("$extension.sys", $source);
 				break;
 				case 'file':
 					$extension = 'files_' . $item->element;
@@ -203,25 +202,22 @@ class InstallerModel extends ListModel
 				case 'module':
 					$extension = $item->element;
 					$source = $path . '/modules/' . $extension;
-						$lang->load("$extension.sys", $path)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
 				break;
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
 					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) ||	$lang->load("$extension.sys", $source);
 				break;
 				case 'template':
 					$extension = 'tpl_' . $item->element;
 					$source = $path . '/templates/' . $item->element;
-						$lang->load("$extension.sys", $path)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
 				break;
 				case 'package':
 				default:
 					$extension = $item->element;
-						$lang->load("$extension.sys", JPATH_SITE);
+					$lang->load("$extension.sys", JPATH_SITE);
 				break;
 			}
 

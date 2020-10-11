@@ -84,10 +84,9 @@ class ConsentBoxField extends CheckboxesField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name == 'articleid')
 		{
-			case 'articleid':
-				return $this->$name;
+			return $this->$name;
 		}
 
 		return parent::__get($name);

@@ -218,7 +218,7 @@ class HtmlView extends BaseHtmlView
 		// Manage the display mode for contact detail groups
 		switch ($item->params->get('contact_icons'))
 		{
-			case 1 :
+			case 1:
 				// Text
 				$item->params->set('marker_address',   Text::_('COM_CONTACT_ADDRESS') . ': ');
 				$item->params->set('marker_email',     Text::_('JGLOBAL_EMAIL') . ': ');
@@ -229,7 +229,7 @@ class HtmlView extends BaseHtmlView
 				$item->params->set('marker_class',     'jicons-text');
 				break;
 
-			case 2 :
+			case 2:
 				// None
 				$item->params->set('marker_address',   '');
 				$item->params->set('marker_email',     '');
@@ -240,7 +240,7 @@ class HtmlView extends BaseHtmlView
 				$item->params->set('marker_class',     'jicons-none');
 				break;
 
-			default :
+			default:
 				if ($item->params->get('icon_address'))
 				{
 					$image1 = HTMLHelper::_(
