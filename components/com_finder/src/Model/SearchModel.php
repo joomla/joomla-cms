@@ -470,7 +470,6 @@ class SearchModel extends ListModel
 				break;
 
 			default:
-			case 'desc':
 				$this->setState('list.direction', 'DESC');
 				break;
 		}

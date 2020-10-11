@@ -38,15 +38,15 @@ if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled(
 
 	switch ($tagfilter)
 	{
-		case 'current_language' :
+		case 'current_language':
 			$langFilter = Factory::getApplication()->getLanguage()->getTag();
 			break;
 
-		case 'all' :
+		case 'all':
 			$langFilter = false;
 			break;
 
-		default :
+		default:
 			$langFilter = $tagfilter;
 	}
 }
