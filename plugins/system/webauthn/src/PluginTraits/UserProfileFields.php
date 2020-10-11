@@ -159,7 +159,7 @@ trait UserProfileFields
 		{
 			$id = $data->get('id');
 		}
-		elseif (is_object($data) && !is_null($data))
+		elseif (is_object($data))
 		{
 			$id = isset($data->id) ? $data->id : null;
 		}
