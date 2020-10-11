@@ -152,9 +152,10 @@ class ComponentController extends BaseController
 
 				break;
 
+			default:
 			case 'save':
 				$this->app->enqueueMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
-			default:
+
 				$redirect = 'index.php?option=' . $option;
 
 				if (!empty($returnUri))

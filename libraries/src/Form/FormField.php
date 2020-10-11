@@ -501,7 +501,7 @@ abstract class FormField
 			case 'class':
 				// Removes spaces from left & right and extra spaces from middle
 				$value = preg_replace('/\s+/', ' ', trim((string) $value));
-
+				break;
 			case 'description':
 			case 'hint':
 			case 'value':
@@ -514,6 +514,7 @@ abstract class FormField
 			case 'validationtext':
 			case 'group':
 			case 'showon':
+			case 'autocomplete':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -535,7 +536,7 @@ abstract class FormField
 				// Allow for field classes to force the multiple values option.
 				$value = (string) $value;
 				$value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
-
+				break;
 			case 'required':
 			case 'disabled':
 			case 'readonly':
@@ -543,10 +544,6 @@ abstract class FormField
 			case 'hidden':
 				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
-				break;
-
-			case 'autocomplete':
-				$this->$name = (string) $value;
 				break;
 
 			case 'spellcheck':
