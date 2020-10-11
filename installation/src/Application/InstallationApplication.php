@@ -583,7 +583,7 @@ final class InstallationApplication extends CMSApplication
 	 * Returns the application \JMenu object.
 	 *
 	 * @param   string|null  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * @param   array        $options  An optional associative array of configuration settings.
 	 *
 	 * @return  null
 	 *

@@ -103,7 +103,7 @@ class LanguageField extends ListField
 	 * @param   array  $a  The first value to determine sort
 	 * @param   array  $b  The second value to determine sort
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   3.1
 	 */
