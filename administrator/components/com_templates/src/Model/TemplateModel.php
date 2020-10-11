@@ -303,8 +303,6 @@ class TemplateModel extends FormModel
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
