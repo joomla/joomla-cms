@@ -16,7 +16,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,9 +159,7 @@ $doNotPackage = array(
 	'.editorconfig',
 	'.github',
 	'.gitignore',
-	'.hound.yml',
 	'.php_cs',
-	'.travis.yml',
 	'README.md',
 	'appveyor-phpunit.xml',
 	'build',
@@ -173,7 +171,6 @@ $doNotPackage = array(
 	'phpunit.xml.dist',
 	'stubs.php',
 	'tests',
-	'travisci-phpunit.xml',
 	'codeception.yml',
 	'Jenkinsfile',
 	'jenkins-phpunit.xml',

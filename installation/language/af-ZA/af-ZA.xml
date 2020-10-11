@@ -2,9 +2,9 @@
 <metafile version="3.9" client="installation">
 	<name>Afrikaans (Suid-Afrika)</name>
 	<version>3.9.17</version>
-	<creationDate>March 2020</creationDate>
+	<creationDate>2017-09-05</creationDate>
 	<author>Gerrit Hoekstra en Span</author>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2008 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>af-ZA.ini</filename>

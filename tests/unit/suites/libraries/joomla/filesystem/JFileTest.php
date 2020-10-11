@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class JFileTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.22
 	 */
 	public function getGetExtData()
 	{
@@ -78,7 +78,7 @@ class JFileTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getGetExtData
-	 * @since         __DEPLOY_VERSION__
+	 * @since         3.9.22
 	 */
 	public function testGetExt($file)
 	{

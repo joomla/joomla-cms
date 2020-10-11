@@ -3,7 +3,7 @@
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1056,14 +1056,22 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * Method is called after user update the CMS.
 	 *
+	 * @param   string  $oldVersion  The Joomla version before the update
+	 *
 	 * @return  void
 	 *
 	 * @since   3.9.21
 	 */
-	public function onJoomlaAfterUpdate()
+	public function onJoomlaAfterUpdate($oldVersion = null)
 	{
 		$context = $this->app->input->get('option');
 		$user    = JFactory::getUser();
+		
+		if (empty($oldVersion))
+		{			
+			$oldVersion = JText::_('JLIB_UNKNOWN');	
+		}
+
 		$message = array(
 			'action'      => 'joomlaupdate',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
@@ -1074,6 +1082,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'version'     => JVERSION,
+			'oldversion'  => $oldVersion,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
 	}

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ class Helper
 	 */
 	public static function remotefsize($url)
 	{
-		$sch = parse_url($url, PHP_URL_SCHEME);
+		$sch = parse_url($url, \PHP_URL_SCHEME);
 
 		if (!\in_array($sch, array('http', 'https', 'ftp', 'ftps'), true))
 		{
@@ -40,7 +40,7 @@ class Helper
 		{
 			$headers = @ get_headers($url, 1);
 
-			if (!$headers || (!array_key_exists('Content-Length', $headers)))
+			if (!$headers || (!\array_key_exists('Content-Length', $headers)))
 			{
 				return false;
 			}
@@ -50,11 +50,11 @@ class Helper
 
 		if (\in_array($sch, array('ftp', 'ftps'), true))
 		{
-			$server = parse_url($url, PHP_URL_HOST);
-			$port   = parse_url($url, PHP_URL_PORT);
-			$path   = parse_url($url, PHP_URL_PATH);
-			$user   = parse_url($url, PHP_URL_USER);
-			$pass   = parse_url($url, PHP_URL_PASS);
+			$server = parse_url($url, \PHP_URL_HOST);
+			$port   = parse_url($url, \PHP_URL_PORT);
+			$path   = parse_url($url, \PHP_URL_PATH);
+			$user   = parse_url($url, \PHP_URL_USER);
+			$pass   = parse_url($url, \PHP_URL_PASS);
 
 			if ((!$server) || (!$path))
 			{
@@ -128,18 +128,18 @@ class Helper
 	 */
 	public static function ftpChmod($url, $mode)
 	{
-		$sch = parse_url($url, PHP_URL_SCHEME);
+		$sch = parse_url($url, \PHP_URL_SCHEME);
 
 		if (($sch != 'ftp') && ($sch != 'ftps'))
 		{
 			return false;
 		}
 
-		$server = parse_url($url, PHP_URL_HOST);
-		$port   = parse_url($url, PHP_URL_PORT);
-		$path   = parse_url($url, PHP_URL_PATH);
-		$user   = parse_url($url, PHP_URL_USER);
-		$pass   = parse_url($url, PHP_URL_PASS);
+		$server = parse_url($url, \PHP_URL_HOST);
+		$port   = parse_url($url, \PHP_URL_PORT);
+		$path   = parse_url($url, \PHP_URL_PATH);
+		$user   = parse_url($url, \PHP_URL_USER);
+		$pass   = parse_url($url, \PHP_URL_PASS);
 
 		if ((!$server) || (!$path))
 		{
