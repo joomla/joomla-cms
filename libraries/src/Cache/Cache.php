@@ -60,7 +60,7 @@ class Cache
 			'locking'      => true,
 			'locktime'     => 15,
 			'checkTime'    => true,
-			'caching'      => ($app->get('caching') >= 1) ? true : false,
+			'caching'      => ($app->get('caching') >= 1),
 		);
 
 		// Overwrite default options with given options
