@@ -160,11 +160,6 @@ class ArticlesModel extends ListModel
 
 		$formSubmited = $app->input->post->get('form_submited');
 
-		$access     = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-		$authorId   = $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-		$tag        = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-
 		if ($formSubmited)
 		{
 			$access = $app->input->post->get('access');
@@ -385,7 +380,7 @@ class ArticlesModel extends ListModel
 			{
 				$state = (int) $published;
 				$query->where($db->quoteName('a.state') . ' = :state')
-					->bind(':state', $published, ParameterType::INTEGER);
+					->bind(':state', $state, ParameterType::INTEGER);
 			}
 			elseif (!is_numeric($workflowStage))
 			{
@@ -418,7 +413,6 @@ class ArticlesModel extends ListModel
 			foreach ($categoryId as $key => $filter_catid)
 			{
 				$categoryTable->load($filter_catid);
-				$categoryWhere = '';
 
 				// Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
 				$valuesToBind = [$categoryTable->lft, $categoryTable->rgt];
@@ -659,8 +653,6 @@ class ArticlesModel extends ListModel
 				$query->where('((' . implode(') OR (', $where) . '))');
 
 				$transitions = $db->setQuery($query)->loadAssocList();
-
-				$workflow = new Workflow(['extension' => 'com_content.article']);
 
 				foreach ($transitions as $key => $transition)
 				{
