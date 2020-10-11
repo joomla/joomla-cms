@@ -1,6 +1,6 @@
 button[class*=plg_system_webauthn_login_button] {
-  padding: .25rem;
   max-height: 3rem;
+  padding: .25rem;
 
   span[class*=icon] {
     display: inline-block;
@@ -14,9 +14,9 @@ button[class*=plg_system_webauthn_login_button] {
     display: inline-block;
     font-size: 1.5em;
     text-align: center;
-    vertical-align: middle;
-    padding: 0 .25em 2px .25em;
     height: 2.5rem;
+    padding: 0 .25em 2px;
+    vertical-align: middle;
   }
 
   span[class*=icon]:not(:last-child) {
