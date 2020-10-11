@@ -96,8 +96,6 @@ class LanguageHelper
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
