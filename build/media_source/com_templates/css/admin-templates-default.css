@@ -31,7 +31,7 @@
 	max-height: 60vh;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
 	.modal-body .tree-holder {
 		max-height: 30vh;
 		margin-bottom: 20px;
