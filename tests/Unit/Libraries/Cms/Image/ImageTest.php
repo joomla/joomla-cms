@@ -250,7 +250,7 @@ class ImageTest extends UnitTestCase
 		$this->assertEquals($this->testFilePng, $image->getPath());
 	}
 
-		/**
+	/**
 	 * Test the Joomla\CMS\Image\Image::loadFile method
 	 *
 	 * Makes sure WebP images are loaded correctly
