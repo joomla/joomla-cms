@@ -983,7 +983,6 @@ class PlgEditorTinymce extends CMSPlugin
 			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
 			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
 			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
-			'language'       => array('label' => 'Language', 'plugin' => 'tinymce-language-selector'),
 		];
 
 		return $buttons;
