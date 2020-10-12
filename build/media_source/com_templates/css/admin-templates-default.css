@@ -32,9 +32,22 @@
 }
 
 @media (max-width: 768px) {
+	.modal-title {
+		font-size: 1rem;
+	}
 	.modal-body .tree-holder {
-		max-height: 30vh;
+		max-height: 12vh;
 		margin-bottom: 20px;
+	}
+	.modal-body .card-body {
+		padding: .75rem;
+	}
+	.modal-body .col-md-4, .modal-body .col-md-8 {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.card-body .mt-2 {
+		font-size: 12px;
 	}
 }
 
