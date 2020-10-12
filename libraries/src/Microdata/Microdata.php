@@ -766,7 +766,7 @@ class Microdata
 	{
 		static::loadTypes();
 
-		return (\array_key_exists($type, static::$types));
+		return \array_key_exists($type, static::$types);
 	}
 
 	/**
