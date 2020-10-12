@@ -517,7 +517,7 @@ class Cache
 	/**
 	 * Perform workarounds on retrieved cached data
 	 *
-	 * @param   string  $data     Cached data
+	 * @param   array   $data     Cached data
 	 * @param   array   $options  Array of options
 	 *
 	 * @return  string  Body of cached data
