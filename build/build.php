@@ -155,6 +155,7 @@ $filesArray = array(
  */
 $doNotPackage = array(
 	'.appveyor.yml',
+	'.drone.jsonnet',
 	'.drone.yml',
 	'.editorconfig',
 	'.github',
