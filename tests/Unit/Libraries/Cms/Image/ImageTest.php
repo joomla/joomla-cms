@@ -594,7 +594,7 @@ class ImageTest extends UnitTestCase
 		$this->assertEquals($a->attributes, $b->attributes);
 		$this->assertEquals($a->bits, $b->bits);
 
-		// Assert that the properties that should be different are different.
+		// Assert that properties that should be different are different.
 		$this->assertEquals('image/webp', $b->mime);
 		$this->assertEquals(IMAGETYPE_WEBP, $b->type);
 		$this->assertNull($b->channels);
