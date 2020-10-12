@@ -270,7 +270,7 @@ class Indexer
 
 		// Get the other item information.
 		$linkId = empty($link->link_id) ? null : $link->link_id;
-		$isNew = empty($link->link_id) ? true : false;
+		$isNew = empty($link->link_id);
 
 		// Check the signatures. If they match, the item is up to date.
 		if (!$isNew && $curSig == $oldSig)

@@ -1276,7 +1276,7 @@ class ItemModel extends AdminModel
 
 			$this->helpKey = $helpKey ?: $this->helpKey;
 			$this->helpURL = $helpURL ?: $this->helpURL;
-			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
+			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local'));
 		}
 
 		if (!$form->loadFile($typeFile, true, false))
