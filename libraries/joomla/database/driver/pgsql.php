@@ -157,7 +157,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	 *
 	 * @return  string
 	 *
-	 * @since   3.9.21
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getDefaultSchema()
 	{
