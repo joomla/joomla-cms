@@ -247,7 +247,9 @@
           "build/HTMLCS.css": "css/HTMLCS.css"
         },
         "filesExtra": {
-          "build/Images": "Images"
+          "build/Images": "Images",
+          "Standards": "Standards",
+          "Translations": "Translations"
         },
         "dependencies": [],
         "licenseFilename": "licence.txt"
