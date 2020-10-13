@@ -43,6 +43,7 @@
     "dragula": "3.7.2",
     "file-saver": "^2.0.2",
     "focus-visible": "^5.1.0",
+    "html_codesniffer": "^2.5.1",
     "joomla-ui-custom-elements": "0.0.38",
     "jquery": "^3.5",
     "jquery-migrate": "^3.3.1",
