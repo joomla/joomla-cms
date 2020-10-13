@@ -238,6 +238,20 @@
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
       },
+      "html_codesniffer": {
+        "name": "html_codesniffer",
+        "js": {
+          "build/HTMLCS.js": "js/HTMLCS.js"
+        },
+        "css": {
+          "build/HTMLCS.css": "css/HTMLCS.css"
+        },
+        "filesExtra": {
+          "build/Images": "Images"
+        },
+        "dependencies": [],
+        "licenseFilename": "licence.txt"
+      },
       "roboto-fontface": {
         "name": "roboto-fontface",
         "filesExtra": {
