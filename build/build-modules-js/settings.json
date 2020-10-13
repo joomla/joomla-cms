@@ -253,7 +253,7 @@
         },
         "provideAssets": [
           {
-            "name": "achecker",
+            "name": "html_codesniffer",
             "type": "script",
             "uri": "HTMLCS.js",
             "attributes": {
@@ -261,7 +261,7 @@
             }
           },
           {
-            "name": "achecker",
+            "name": "html_codesniffer",
             "type": "style",
             "uri": "HTMLCS.css"
           }

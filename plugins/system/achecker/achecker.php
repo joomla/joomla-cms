@@ -29,6 +29,14 @@ class PlgSystemAchecker extends CMSPlugin
 	protected $app;
 
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  __deploy_version__
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Add the javascript and css for the accessibility checker
 	 *
 	 * @return  void
@@ -38,7 +46,7 @@ class PlgSystemAchecker extends CMSPlugin
 	public function onBeforeCompileHead()
 	{
 
-		if ($this->app->isClient('site'))
+		if ($this->app->isClient('administrator'))
 		{
 			return;
 		}
@@ -51,14 +59,12 @@ class PlgSystemAchecker extends CMSPlugin
 			return;
 		}
 
-		// Load language file.
-		$this->loadLanguage();
-
 		// Determine if it is an LTR or RTL language
 		$direction = Factory::getLanguage()->isRTL() ? 'right' : 'left';
 
 		$document->getWebAssetManager()
-			->useScript('accessibility')
+			->useScript('html_codesniffer')
+			->useStyle('html_codesniffer')
 			->addInlineScript(
 				'window.addEventListener("load", function() {'
 				. 'new Accessibility(Joomla.getOptions("accessibility-options") || {});'
@@ -66,6 +72,6 @@ class PlgSystemAchecker extends CMSPlugin
 				['name' => 'inline.plg.system.accessibility'],
 				['type' => 'module'],
 				['accessibility']
-			);
+			);;
 	}
 }
