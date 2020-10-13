@@ -182,7 +182,7 @@ class InstallerModel extends ListModel
 				case 'component':
 					$extension = $item->element;
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) ||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
 				break;
 				case 'file':
 					$extension = 'files_' . $item->element;
