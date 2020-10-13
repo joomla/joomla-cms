@@ -40,9 +40,14 @@
       background-color: theme-color("info");
     }
 
-    .btn-group.show .dropdown-menu &:not(.disabled) {
+    .dropdown-status-group .dropdown-menu &:not(.disabled) {
       color: var(--atum-text-light);
       background-color: var(--atum-bg-dark);
+    }
+
+    .dropdown-save-group .dropdown-menu &:not(.disabled) {
+      color: var(--atum-text-light);
+      background-color: theme-color("success");
     }
   }
 
@@ -56,5 +61,19 @@
 
   .dropdown-save-group .dropdown-menu &:not(.disabled) {
     color: theme-color("success");
+  }
+
+  &.first {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &.last {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  &:not(.first):not(.last) {
+    border-radius: 0;
   }
 }

@@ -99,7 +99,7 @@ class PlgSampledataBlog extends CMSPlugin
 		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
-		};
+		}
 
 		if (!ComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content')
 			|| !ComponentHelper::isEnabled('com_workflow') || !Factory::getUser()->authorise('core.create', 'com_workflow'))

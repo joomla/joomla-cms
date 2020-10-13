@@ -116,7 +116,7 @@ class Query
 		}
 
 		// Build the interpreted query.
-		return count($parts) ? Text::sprintf('COM_FINDER_QUERY_TOKEN_INTERPRETED', implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts)) : null;
+		return count($parts) ? implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts) : null;
 	}
 
 	/**
