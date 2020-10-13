@@ -355,8 +355,9 @@ class Image
 			$imgProperties = static::getImageFileProperties($this->getPath());
 
 			// Get image filename and extension.
-			$filename       = pathinfo($this->getPath(), PATHINFO_FILENAME);
-			$fileExtension  = pathinfo($this->getPath(), PATHINFO_EXTENSION);
+			$pathInfo      = pathinfo($this->getPath());
+			$filename      = $pathInfo['filename'];
+			$fileExtension = $pathInfo['extension'] ?? '';
 
 			foreach ($thumbs as $thumb)
 			{
