@@ -123,8 +123,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$workflowTable = new \Joomla\Component\Workflow\Administrator\Table\WorkflowTable($this->db);
 
 		$workflowTable->default = 0;
-		$workflowTable->title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_TITLE');
-		$workflowTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_DESCRIPTION');
+		$workflowTable->title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_TITLE');
+		$workflowTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_DESCRIPTION');
 		$workflowTable->published = 1;
 		$workflowTable->access = $access;
 		$workflowTable->created_user_id = $user->id;
@@ -144,7 +144,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$workflowId = $workflowTable->id;
 
 		// Create Stages.
-		for ($i = 1; $i <= 8; $i++)
+		for ($i = 1; $i <= 9; $i++)
 		{
 			$stageTable = new \Joomla\Component\Workflow\Administrator\Table\StageTable($this->db);
 
@@ -230,7 +230,7 @@ class PlgSampledataBlog extends CMSPlugin
 						'publishing'  => 1,
 						'featuring' => 1,
 						'notification_send_mail' => true,
-						'notification_text' => 'Congratulations!',
+						'notification_text' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
 						'notification_groups' => ["7"]
 					)
 				),
@@ -264,6 +264,32 @@ class PlgSampledataBlog extends CMSPlugin
 				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE7_TITLE')],
 				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE1_TITLE')],
 				'options' => $defaultOptions,
+			),
+			array(
+				// Unpublish a published article
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE9_TITLE')],
+				'options' => $defaultOptions,
+			),
+			array(
+				// Trash a published article
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE8_TITLE')],
+				'options' => $defaultOptions,
+			),
+			array(
+				// From unpublished back to published
+				'from_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE9_TITLE')],
+				'to_stage_id'	=> $stages[Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TITLE')],
+				'options' => json_encode(
+					array(
+						'publishing'  => 1,
+						'featuring' => 0,
+						'notification_send_mail' => true,
+						'notification_text' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_STAGE6_TEXT'),
+						'notification_groups' => ["7"]
+					)
+				),
 			),
 		);
 
