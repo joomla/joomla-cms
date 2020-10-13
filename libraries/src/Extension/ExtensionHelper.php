@@ -194,6 +194,7 @@ class ExtensionHelper
 		array('plugin', 'tinymce', 'editors', 0),
 
 		// Core plugin extensions - editors xtd
+		array('plugin', 'achecker', 'editors-xtd', 0),
 		array('plugin', 'article', 'editors-xtd', 0),
 		array('plugin', 'contact', 'editors-xtd', 0),
 		array('plugin', 'fields', 'editors-xtd', 0),
