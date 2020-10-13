@@ -251,6 +251,21 @@
           "Standards": "Standards",
           "Translations": "Translations"
         },
+        "provideAssets": [
+          {
+            "name": "achecker",
+            "type": "script",
+            "uri": "HTMLCS.js",
+            "attributes": {
+              "defer": true
+            }
+          },
+          {
+            "name": "achecker",
+            "type": "style",
+            "uri": "HTMLCS.css"
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "licence.txt"
       },
