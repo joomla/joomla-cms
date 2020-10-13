@@ -207,7 +207,7 @@ class InstallerModel extends ListModel
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
 					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) ||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
 				break;
 				case 'template':
 					$extension = 'tpl_' . $item->element;
