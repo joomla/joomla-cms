@@ -354,16 +354,18 @@ class Image
 			// Parent image properties
 			$imgProperties = static::getImageFileProperties($this->getPath());
 
+			// Get image filename and extension.
+			$filename       = pathinfo($this->getPath(), PATHINFO_FILENAME);
+			$fileExtension  = pathinfo($this->getPath(), PATHINFO_EXTENSION);
+
 			foreach ($thumbs as $thumb)
 			{
 				// Get thumb properties
-				$thumbWidth     = $thumb->getWidth();
-				$thumbHeight    = $thumb->getHeight();
+				$thumbWidth  = $thumb->getWidth();
+				$thumbHeight = $thumb->getHeight();
 
 				// Generate thumb name
-				$filename       = pathinfo($this->getPath(), PATHINFO_FILENAME);
-				$fileExtension  = pathinfo($this->getPath(), PATHINFO_EXTENSION);
-				$thumbFileName  = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+				$thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
 
 				// Save thumb file to disk
 				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
