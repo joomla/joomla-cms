@@ -29,6 +29,10 @@
   @extend .#{$fa-css-prefix}-joomla:before;
 }
 
+.icon-accessible::before {
+  @extend .#{$fa-css-prefix}-accessible-icon:before;
+}
+
 .icon-chevron-up::before,
 .icon-uparrow::before,
 .icon-arrow-up::before {

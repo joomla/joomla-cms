@@ -79,6 +79,11 @@
   content: "\f1aa";
 }
 
+.icon-accessible::before {
+  font-family: "Font Awesome 5 Brands";
+  content: "\f368";
+}
+
 .icon-shield-alt::before {
   content: "\f3ed";
 }
