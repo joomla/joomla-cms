@@ -121,11 +121,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php echo $this->pagination->getPagesLinks(); ?>
 			</div>
 		<?php endif; ?>
-		<div>
-			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>">
-			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
-			<input type="hidden" name="limitstart" value="">
-			<input type="hidden" name="task" value="">
-		</div>
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>">
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>">
+		<input type="hidden" name="limitstart" value="">
+		<input type="hidden" name="task" value="">
 	</form>
 </div>
