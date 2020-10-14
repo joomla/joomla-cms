@@ -146,7 +146,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<?php if ($canChange) : ?>
 										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', !$self); ?>
 									<?php else : ?>
-										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', false);; ?>
+										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', false); ?>
 									<?php endif; ?>
 								</td>
 								<td class="text-center d-md-table-cell">

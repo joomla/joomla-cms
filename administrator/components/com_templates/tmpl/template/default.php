@@ -84,7 +84,7 @@ if ($this->type == 'font')
 </div>
 <div class="row mt-2">
 	<div id="treeholder" class="col-md-3 tree-holder">
-		<div class="card">
+		<div class="card mt-2 mb-2">
 			<div class="card-body">
 				<?php echo $this->loadTemplate('tree'); ?>
 			</div>
