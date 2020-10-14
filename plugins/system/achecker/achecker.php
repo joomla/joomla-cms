@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * This plugin adds the ability to perform an accessibility check on your site.
+ * This plugin adds the ability to perform an accessibility check on a page of your site.
  *
  * @since  __deploy_version__
  */
