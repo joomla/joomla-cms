@@ -2,11 +2,6 @@
  *  IcoMoon to Fontawesome Conversion
  */
 
-// Import fontawesome so extends work.
-@import "../../../../media/vendor/fontawesome-free/scss/fontawesome";
-@import "../../../../media/vendor/fontawesome-free/scss/solid";
-@import "../../../../media/vendor/fontawesome-free/scss/brands";
-
 // Define global icon prefix
 $jicon-css-prefix: icon !global;
 
