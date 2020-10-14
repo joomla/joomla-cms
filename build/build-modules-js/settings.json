@@ -257,7 +257,7 @@
           "scss": "scss",
           "webfonts": "webfonts",
           "sprites": "sprites",
-          "svgs": "svgs"
+          "svgs": "images"
         },
         "provideAssets": [
           {
