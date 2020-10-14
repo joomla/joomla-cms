@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
 				 <span class="fas fa-align-justify" aria-hidden="true"></span>
 				 <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
-			<div class="sidebar-nav">
+			<div class="sidebar-nav" id="help-index">
 				<ul class="nav flex-column">
 					<li><?php echo HTMLHelper::_('link', Help::createUrl('JHELP_START_HERE'), Text::_('COM_ADMIN_START_HERE'), ['target' => 'helpFrame']); ?></li>
 					<li><?php echo HTMLHelper::_('link', $this->latestVersionCheck, Text::_('COM_ADMIN_LATEST_VERSION_CHECK'), ['target' => 'helpFrame']); ?></li>
@@ -42,7 +42,7 @@ use Joomla\CMS\Router\Route;
 			</div>
 		</div>
 		<div class="col-md-9">
-			<iframe name="helpFrame" title="helpFrame" height="2100px" src="<?php echo $this->page; ?>" class="helpFrame table table-bordered"></iframe>
+			<iframe onLoad="var x = getElementById('help-index'); x.classList.remove('show');" name="helpFrame" title="helpFrame" height="2100px" src="<?php echo $this->page; ?>" class="helpFrame table table-bordered"></iframe>
 		</div>
 	</div>
 	<input class="textarea" type="hidden" name="option" value="com_admin">
