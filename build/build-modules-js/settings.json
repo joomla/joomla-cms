@@ -247,7 +247,7 @@
           "build/HTMLCS.css": "css/HTMLCS.css"
         },
         "filesExtra": {
-          "build/Images": "Images",
+          "build/Images": "css/Images",
           "Standards": "Standards",
           "Translations": "Translations"
         },

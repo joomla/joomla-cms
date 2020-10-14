@@ -45,13 +45,13 @@ class PlgSystemAchecker extends CMSPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
-
-		if ($this->app->isClient('administrator'))
+		// This plugin is for the site only
+		if (!$this->app->isClient('site'))
 		{
 			return;
 		}
 
-		// Get the document object.
+		// Thiis plugin is for html only
 		$document = $this->app->getDocument();
 
 		if ($document->getType() !== 'html')
@@ -59,19 +59,14 @@ class PlgSystemAchecker extends CMSPlugin
 			return;
 		}
 
-		// Determine if it is an LTR or RTL language
-		$direction = Factory::getLanguage()->isRTL() ? 'right' : 'left';
-
 		$document->getWebAssetManager()
 			->useScript('html_codesniffer')
 			->useStyle('html_codesniffer')
 			->addInlineScript(
-				'window.addEventListener("load", function() {'
-				. 'new Accessibility(Joomla.getOptions("accessibility-options") || {});'
-				. '});',
-				['name' => 'inline.plg.system.accessibility'],
+				'window.addEventListener("load", function() {HTMLCSAuditor.run(\'WCAG2AA\', null);});',
+				['name' => 'inline.plg.system.achecker'],
 				['type' => 'module'],
-				['accessibility']
-			);;
+				['html_codesniffer']
+			);
 	}
 }

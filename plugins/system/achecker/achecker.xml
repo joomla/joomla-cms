@@ -16,21 +16,4 @@
 		<language tag="en-GB">language/en-GB/plg_system_achecker.ini</language>
 		<language tag="en-GB">language/en-GB/plg_system_achecker.sys.ini</language>
 	</languages>
-	<config>
-<!--		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="section"
-					type="list"
-					label="PLG_SYSTEM_ACCESSIBILITY_SECTION"
-					default="administrator"
-					validate="options"
-					>
-					<option value="site">PLG_SYSTEM_ACCESSIBILITY_SECTION_SITE</option>
-					<option value="administrator">PLG_SYSTEM_ACCESSIBILITY_SECTION_ADMIN</option>
-					<option value="both">PLG_SYSTEM_ACCESSIBILITY_SECTION_BOTH</option>
-				</field>
-			</fieldset>
-		</fields>
--->	</config>
 </extension>
