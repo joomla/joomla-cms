@@ -137,7 +137,7 @@ class Content extends Table
 		// Search for the {readmore} tag and split the text up accordingly.
 		if (isset($array['articletext']))
 		{
-			$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
+			$pattern = '#(?:<(?<tag>[\w-]+)>\s*)?<hr\s+id=["\']system-readmore["\']\s*\/*>(?:\s*<\/(?P=tag)>)?#i';
 			$tagPos = preg_match($pattern, $array['articletext']);
 
 			if ($tagPos == 0)
