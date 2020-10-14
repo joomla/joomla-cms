@@ -3,10 +3,10 @@
 .sidebar-nav {
 
   // override bootstrap important
-  background: var(--atum-sidebar-bg) !important;
   max-height: 100vh;
+  background: var(--atum-sidebar-bg) !important;
+  overflow-y: scroll;
   box-shadow: $atum-box-shadow;
-  overflow-y:scroll;
 
   ul {
     padding-left: .5rem;
