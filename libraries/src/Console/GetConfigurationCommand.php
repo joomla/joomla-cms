@@ -172,7 +172,7 @@ class GetConfigurationCommand extends AbstractCommand
 				$foundGroup = true;
 				$options = [];
 
-				foreach ($value['options'] as $key => $option)
+				foreach ($value['options'] as $option)
 				{
 					$options[] = [$option, $configs[$option]];
 				}

@@ -260,7 +260,7 @@ class SearchModel extends ListModel
 		 * If there are no optional or required search terms in the query, we
 		 * can get the results in one relatively simple database query.
 		 */
-		if (empty($this->includedTerms) && $this->searchquery->empty)
+		if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
 		{
 			// Return the results.
 			return $query;
@@ -269,8 +269,11 @@ class SearchModel extends ListModel
 		/*
 		 * If there are no optional or required search terms in the query and
 		 * empty searches are not allowed, we return an empty query.
+		 * If the search term is not empty and empty searches are allowed,
+		 * but no terms were found, we return an empty query as well.
 		 */
-		if (empty($this->includedTerms) && !$this->searchquery->empty)
+		if (empty($this->includedTerms)
+			&& (!$this->searchquery->empty || ($this->searchquery->empty && $this->searchquery->input != '')))
 		{
 			// Since we need to return a query, we simplify this one.
 			$query->clear('join')
