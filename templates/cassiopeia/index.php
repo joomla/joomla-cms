@@ -27,7 +27,10 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
-$pageclass = $menu->getParams()->get('pageclass_sfx');
+if ($menu)
+{
+	$pageclass = $menu->getParams()->get('pageclass_sfx');
+}
 
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
