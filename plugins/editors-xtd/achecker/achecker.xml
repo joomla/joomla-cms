@@ -10,7 +10,7 @@
 	<version>4.0.0</version>
 	<description>PLG_EDITORS-XTD_ACHECKER_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="pagebreak">pagebreak.php</filename>
+		<filename plugin="achecker">achecker.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">plg_editors-xtd_achecker.ini</language>
