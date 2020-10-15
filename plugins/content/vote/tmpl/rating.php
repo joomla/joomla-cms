@@ -37,26 +37,20 @@ $stars = $rating;
 
 for ($i = 0; $i < floor($stars); $i++)
 {
-	$text = Text::_('PLG_VOTE_STAR_ACTIVE');
-
-	$img .= '<span class="text-warning fas fa-star" role="img" aria-label="' . $text . '" aria-hidden="true"></span>';
+	$img .= '<span class="text-warning fas fa-star" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE') . '" aria-hidden="true"></span>';
 }
 
 if (($stars - floor($stars)) >= 0.5)
 {
-	$text = Text::_('PLG_VOTE_STAR_ACTIVE_HALF');
-
 	$img .= '<span class="text-muted fas fa-star" aria-hidden="true"></span>';
-	$img .= '<span style="margin-left: -1.2em" class="text-warning fas fa-star-half" role="img" aria-label="' . $text . '"aria-hidden="true"></span>';
+	$img .= '<span style="margin-left: -1.2em" class="text-warning fas fa-star-half" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE_HALF') . '" aria-hidden="true"></span>';
 
 	$stars += 1;
 }
 
 for ($i = $stars; $i < 5; $i++)
 {
-	$text = Text::_('PLG_VOTE_STAR_INACTIVE');
-
-	$img .= '<span class="text-muted fas fa-star" role="img" aria-label="' . $text . '" aria-hidden="true"></span>';
+	$img .= '<span class="text-muted fas fa-star" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_INACTIVE') . '" aria-hidden="true"></span>';
 }
 
 ?>
