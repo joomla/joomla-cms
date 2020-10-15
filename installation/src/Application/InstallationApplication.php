@@ -43,8 +43,8 @@ final class InstallationApplication extends CMSApplication
 	 * Class constructor.
 	 *
 	 * @param   Input|null      $input      An optional argument to provide dependency injection for the application's input
-	 *                                 object.  If the argument is a JInput object that object will become the
-	 *                                 application's input object, otherwise a default input object is created.
+	 *                                      object.  If the argument is a JInput object that object will become the
+	 *                                      application's input object, otherwise a default input object is created.
 	 * @param   Registry|null   $config     An optional argument to provide dependency injection for the application's
 	 *                                      config object.  If the argument is a Registry object that object will become
 	 *                                      the application's config object, otherwise a default config object is created.
