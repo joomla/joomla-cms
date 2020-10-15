@@ -4,8 +4,8 @@
 
   // override bootstrap important
   max-height: 100vh;
-  background: var(--atum-sidebar-bg) !important;
   overflow-y: scroll;
+  background: var(--atum-sidebar-bg) !important;
   box-shadow: $atum-box-shadow;
 
   ul {
