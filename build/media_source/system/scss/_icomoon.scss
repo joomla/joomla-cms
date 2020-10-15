@@ -467,3 +467,11 @@ $jicons: (
     }
   }
 }
+
+// Regular icon global definition
+[class^="#{$jicon-css-prefix}r"],
+[class*=" #{$jicon-css-prefix}r"] {
+  @extend %fa-icon;
+  @extend .far;
+  speak: none;
+}
