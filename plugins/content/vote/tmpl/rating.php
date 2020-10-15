@@ -43,7 +43,7 @@ for ($i = 0; $i < floor($stars); $i++)
 if (($stars - floor($stars)) >= 0.5)
 {
 	$img .= '<span class="text-muted fas fa-star" aria-hidden="true"></span>';
-	$img .= '<span style="margin-left: -1.2em" class="text-warning fas fa-star-half" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE_HALF') . '" aria-hidden="true"></span>';
+	$img .= '<span style="margin-left: -1.15em" class="text-warning fas fa-star-half" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE_HALF') . '" aria-hidden="true"></span>';
 
 	$stars += 1;
 }
