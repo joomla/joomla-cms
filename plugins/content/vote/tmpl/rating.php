@@ -28,27 +28,39 @@ if ($context === 'com_content.categories')
 	return;
 }
 
-$rating = (int) $row->rating;
+$rating = (float) $row->rating;
+$rating = round($rating / 0.5) * 0.5; // round to 0.5
 $rcount = (int) $row->rating_count;
 
-// Look for images in template if available
-$starImageOn  = HTMLHelper::_('image', 'system/rating_star.png', Text::_('PLG_VOTE_STAR_ACTIVE'), null, true);
-$starImageOff = HTMLHelper::_('image', 'system/rating_star_blank.png', Text::_('PLG_VOTE_STAR_INACTIVE'), null, true);
+$img   = '';
+$stars = $rating;
 
-$img = '';
-
-for ($i = 0; $i < $rating; $i++)
+for ($i = 0; $i < floor($stars); $i++)
 {
-	$img .= $starImageOn;
+	$text = Text::_('PLG_VOTE_STAR_ACTIVE');
+
+	$img .= '<span class="text-warning fas fa-star" role="img" aria-label="' . $text . '" aria-hidden="true"></span>';
 }
 
-for ($i = $rating; $i < 5; $i++)
+if (($stars - floor($stars)) >= 0.5)
 {
-	$img .= $starImageOff;
+	$text = Text::_('PLG_VOTE_STAR_ACTIVE_HALF');
+
+	$img .= '<span class="text-muted fas fa-star" aria-hidden="true"></span>';
+	$img .= '<span style="margin-left: -1.2em" class="text-warning fas fa-star-half" role="img" aria-label="' . $text . '"aria-hidden="true"></span>';
+
+	$stars += 1;
+}
+
+for ($i = $stars; $i < 5 ; $i++)
+{
+	$text = Text::_('PLG_VOTE_STAR_INACTIVE');
+
+	$img .= '<span class="text-muted fas fa-star" role="img" aria-label="' . $text . '" aria-hidden="true"></span>';
 }
 
 ?>
-<div class="content_rating">
+<div class="content_rating" role="img" aria-label="<?php echo Text::sprintf('PLG_VOTE_STAR_RATING', $rating); ?>">
 	<?php if ($rcount) : ?>
 		<p class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
 			<?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
