@@ -52,7 +52,7 @@ if (($stars - floor($stars)) >= 0.5)
 	$stars += 1;
 }
 
-for ($i = $stars; $i < 5 ; $i++)
+for ($i = $stars; $i < 5; $i++)
 {
 	$text = Text::_('PLG_VOTE_STAR_INACTIVE');
 
