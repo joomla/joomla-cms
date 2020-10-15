@@ -151,11 +151,12 @@
 				<option value="1">JSHOW</option>
 			</field>
 			<field
-					name="list_limit"
-					type="list"
-					label="JGLOBAL_LIST_LIMIT"
-					default="20"
-			>
+				name="list_limit"
+				type="list"
+				label="JGLOBAL_LIST_LIMIT"
+				default="20"
+				validate="options"
+				>
 				<option value="5">J5</option>
 				<option value="10">J10</option>
 				<option value="15">J15</option>
