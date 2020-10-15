@@ -142,9 +142,7 @@ class OverridesController extends ApiController
 			throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 		}
 
-		$id = $validData['key'];
-
-		return $id;
+		return $validData['key'];
 	}
 
 	/**

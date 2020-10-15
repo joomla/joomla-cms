@@ -10,36 +10,46 @@
 		</message>
 	</layout>
 
-
-
-
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
-			<field
-				name="show_pagination_limit"
-				type="list"
-				label="JGLOBAL_DISPLAY_SELECT_LABEL"
-				useglobal="true"
-				class="custom-select-color-state"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+		<field
+			name="filter_field"
+			type="list"
+			label="JGLOBAL_FILTER_FIELD_LABEL"
+			default=""
+			useglobal="true"
+			class="custom-select-color-state"
+			validate="options"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-			<field
-				name="show_headings"
-				type="list"
-				label="JGLOBAL_SHOW_HEADINGS_LABEL"
-				useglobal="true"
-				class="custom-select-color-state"
-				validate="options"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+		<field
+			name="show_pagination_limit"
+			type="list"
+			label="JGLOBAL_DISPLAY_SELECT_LABEL"
+			useglobal="true"
+			class="custom-select-color-state"
+			validate="options"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_headings"
+			type="list"
+			label="JGLOBAL_SHOW_HEADINGS_LABEL"
+			useglobal="true"
+			class="custom-select-color-state"
+			validate="options"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
 		<field
 			name="show_position_headings"
