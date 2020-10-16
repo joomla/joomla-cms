@@ -42,7 +42,8 @@
 	.modal-body .card-body {
 		padding: .75rem;
 	}
-	.modal-body .col-md-4, .modal-body .col-md-8 {
+	.modal-body .col-md-4,
+	.modal-body .col-md-8 {
 		padding-left: 0;
 		padding-right: 0;
 	}
