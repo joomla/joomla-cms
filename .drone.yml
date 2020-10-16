@@ -129,7 +129,7 @@ steps:
       - npx eslint "**/*.js"
 
   - name: system-tests-mysql
-    depends_on: [ javascript-tests ]
+    depends_on: [ javascript-cs ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -269,6 +269,6 @@ steps:
 
 ---
 kind: signature
-hmac: 9b8e07fc1663e33b675de7f224625b30e5e6a8e112ead49bb72691ea51ad1e24
+hmac: 6997d415510bbbe9a9ac298ef6f6f5a2e4edf72f1d15afb45345a21e6307e995
 
 ...
