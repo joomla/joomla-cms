@@ -659,11 +659,6 @@ class PlgSystemDebug extends CMSPlugin
 						case Log::WARNING:
 							$level = 'warning';
 							break;
-						case Log::NOTICE:
-						case Log::INFO:
-						case Log::DEBUG:
-							$level = 'info';
-							break;
 						default:
 							$level = 'info';
 					}
