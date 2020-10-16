@@ -135,7 +135,7 @@ class ComponentController extends FormController
 		$data = [
 			'params' => $return,
 			'id'     => $id,
-			'option' => $option
+			'option' => $option,
 		];
 
 		try
