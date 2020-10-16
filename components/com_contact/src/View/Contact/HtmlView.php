@@ -242,7 +242,6 @@ class HtmlView extends BaseHtmlView
 				$item->params->set('marker_class',     'jicons-none');
 				break;
 
-
 			default:
 				if ($item->params->get('icon_address'))
 				{
