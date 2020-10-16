@@ -9,7 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getDocument()->getWebAssetManager();
+$wa->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
 
 /**
  * Layout variables
@@ -42,7 +47,15 @@ for ($i = 0; $i < floor($stars); $i++)
 if (($stars - floor($stars)) >= 0.5)
 {
 	$img .= '<span class="text-muted fas fa-star" aria-hidden="true"></span>';
-	$img .= '<span style="margin-left: -1.15em;" class="text-warning fas fa-star-half" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE_HALF') . '" aria-hidden="true"></span>';
+
+	if (Factory::getLanguage()->isRTL())
+	{
+		$img .= '<span class="text-warning fas fa-star-half fa-flip-horizontal language-rtl" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE_HALF') . '" aria-hidden="true"></span>';
+	}
+	else
+	{
+		$img .= '<span class="text-warning fas fa-star-half language-ltr" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE_HALF') . '" aria-hidden="true"></span>';
+	}
 
 	$stars += 1;
 }
