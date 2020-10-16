@@ -331,7 +331,7 @@ class ContactModel extends FormModel
 	protected function buildContactExtendedData($contact)
 	{
 		$db        = $this->getDbo();
-		$nowDate   = $db->quote(Factory::getDate()->toSql());
+		$nowDate   = Factory::getDate()->toSql();
 		$user      = Factory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
 		$published = $this->getState('filter.published');
@@ -377,12 +377,12 @@ class ContactModel extends FormModel
 			{
 				$query->where('a.state IN (1,2)')
 					->where('(' . $db->quoteName('a.publish_up') . ' IS NULL' .
-						' OR ' . $db->quoteName('a.publish_up') . ' <= :now)'
+						' OR ' . $db->quoteName('a.publish_up') . ' <= :now1)'
 					)
 					->where('(' . $db->quoteName('a.publish_down') . ' IS NULL' .
-						' OR ' . $db->quoteName('a.publish_down') . ' >= :now)'
+						' OR ' . $db->quoteName('a.publish_down') . ' >= :now2)'
 					)
-					->bind(':now', $nowDate);
+					->bind([':now1', ':now2'], $nowDate);
 			}
 
 			// Number of articles to display from config/menu params
