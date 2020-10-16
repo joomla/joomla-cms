@@ -150,7 +150,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('newsfeeds.checkin')->listCheck(true);
 			}
 
-			if (!$this->state->get('filter.published') == -2 && $canDo->get('core.edit.state'))
+			if (!$this->state->get('filter.published') == -2)
 			{
 				$childBar->trash('newsfeeds.trash')->listCheck(true);
 			}
