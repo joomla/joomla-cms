@@ -128,18 +128,6 @@ steps:
     commands:
       - npx eslint "**/*.js"
 
-  - name: javascript-tests
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
-      - npm run test
-
   - name: system-tests-mysql
     depends_on: [ javascript-tests ]
     image: joomlaprojects/docker-images:systemtests
@@ -215,15 +203,9 @@ branches:
   exclude: [ l10n_* ]
 
 volumes:
-- name: cache
-  host:
-    path: /tmp/cache
 - name: composer-cache
   host:
     path: /tmp/composer-cache
-- name: reference
-  host:
-    path: /tmp/reference
 
 services:
   - name: mysql
@@ -242,12 +224,6 @@ services:
       MYSQL_PASSWORD: joomla_ut
       MYSQL_ROOT_PASSWORD: joomla_ut
       MYSQL_DATABASE: test_joomla
-
-  - name: memcached
-    image: memcached:alpine
-
-  - name: redis
-    image: redis:alpine
 
   - name: postgres
     image: postgres:11-alpine
@@ -293,6 +269,6 @@ steps:
 
 ---
 kind: signature
-hmac: 400e7cdcd516fbb54ccc3f0f152e39a86346a47b7876a65741fec4898fe80b1f
+hmac: 9b8e07fc1663e33b675de7f224625b30e5e6a8e112ead49bb72691ea51ad1e24
 
 ...
