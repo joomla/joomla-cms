@@ -18,6 +18,7 @@ use Joomla\CMS\Filesystem\Path;
  *
  * @since  1.7.0
  * @note   As of 4.0 this class will be abstract
+ * @mixin Cache Proxy all CacheController absent method calls to Cache
  */
 class CacheController
 {

@@ -20,7 +20,7 @@ $user     = $app->getIdentity();
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
 // Check if the multilangstatus module is present and enabled in the site
-if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled($app, $db))
+if (class_exists(MultilangstatusAdminHelper::class) && (null !== MultilangstatusAdminHelper::isEnabled($app, $db)))
 {
 	// Publish and display the module
 	MultilangstatusAdminHelper::publish($app, $db);

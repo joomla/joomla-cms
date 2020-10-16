@@ -12,6 +12,7 @@ namespace Joomla\Module\Multilangstatus\Administrator\Helper;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Database\DatabaseInterface;
 
@@ -28,7 +29,7 @@ class MultilangstatusAdminHelper
 	 * @param   CMSApplication     $app  The application
 	 * @param   DatabaseInterface  $db   The database
 	 *
-	 * @return  boolean
+	 * @return  boolean|null
 	 *
 	 * @since   4.0.0
 	 */
@@ -43,14 +44,14 @@ class MultilangstatusAdminHelper
 
 		try
 		{
-			$result = (int) $db->loadResult();
+			$result = $db->loadResult();
 		}
 		catch (\RuntimeException $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		return $result;
+		return isset($result) ? (bool) $result : null;
 	}
 
 	/**
@@ -59,7 +60,7 @@ class MultilangstatusAdminHelper
 	 * @param   CMSApplication     $app  The application
 	 * @param   DatabaseInterface  $db   The database
 	 *
-	 * @return  void
+	 * @return  int|null
 	 *
 	 * @since   4.0.0
 	 */
@@ -73,14 +74,14 @@ class MultilangstatusAdminHelper
 
 		try
 		{
-			$result = (int) $db->loadResult();
+			$result = $db->loadResult();
 		}
 		catch (\RuntimeException $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		return $result;
+		return isset($result) ? (int) $result : null;
 	}
 
 	/**
@@ -95,11 +96,29 @@ class MultilangstatusAdminHelper
 	 */
 	public static function publish(CMSApplication $app, DatabaseInterface $db)
 	{
-		// If the module is trashed do not change its status
-		if (self::getState($app, $db) != -2)
+		// Get module
+		$module = ModuleHelper::getModule('mod_multilangstatus');
+
+		// Get module state.
+		if (empty($module->id))
 		{
-			// Publish the module when the languagefilter is enabled
-			if (Multilanguage::isEnabled())
+			$state = self::getState($app, $db);
+		}
+		else
+		{
+			$state = 1;
+		}
+
+		// If the module is trashed or missed do not change its status
+		if ($state == -2 || $state === null)
+		{
+			return;
+		}
+
+		// Publish the module when the languagefilter is enabled
+		if (Multilanguage::isEnabled())
+		{
+			if ($state != 1)
 			{
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__modules'))
@@ -117,24 +136,24 @@ class MultilangstatusAdminHelper
 					return;
 				}
 			}
-			else
+		}
+		elseif ($state != 0)
+		{
+			// Unpublish the module when the languagefilter is disabled
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__modules'))
+				->set($db->quoteName('published') . ' = 0')
+				->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
+
+			try
 			{
-				// Unpublish the module when the languagefilter is disabled
-				$query = $db->getQuery(true)
-					->update($db->quoteName('#__modules'))
-					->set($db->quoteName('published') . ' = 0')
-					->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
+				$db->setQuery($query)->execute();
+			}
+			catch (\Exception $e)
+			{
+				$app->enqueueMessage($e->getMessage(), 'error');
 
-				try
-				{
-					$db->setQuery($query)->execute();
-				}
-				catch (\Exception $e)
-				{
-					$app->enqueueMessage($e->getMessage(), 'error');
-
-					return;
-				}
+				return;
 			}
 		}
 	}
