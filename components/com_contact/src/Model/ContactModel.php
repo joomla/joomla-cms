@@ -333,7 +333,7 @@ class ContactModel extends FormModel
 		$db        = $this->getDbo();
 		$nowDate   = Factory::getDate()->toSql();
 		$user      = Factory::getUser();
-		$groups = $user->getAuthorisedViewLevels();
+		$groups    = $user->getAuthorisedViewLevels();
 		$published = $this->getState('filter.published');
 		$query     = $db->getQuery(true);
 
