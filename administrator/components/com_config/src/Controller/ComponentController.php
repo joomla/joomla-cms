@@ -109,10 +109,6 @@ class ComponentController extends FormController
 		// Check for validation errors.
 		if ($return === false)
 		{
-			/*
-			 * The validate method enqueued all messages for us, so we just need to redirect back.
-			 */
-
 			// Save the data in the session.
 			$this->app->setUserState($context . '.data', $data);
 
