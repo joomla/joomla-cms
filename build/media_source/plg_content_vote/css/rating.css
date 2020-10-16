@@ -1,0 +1,17 @@
+.content_rating .language-ltr {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin-left: -1.15em;
+	content: "";
+	background-size: 100%;
+}
+
+.content_rating .language-rtl {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin-right: -1.05em;
+	content: "";
+	background-size: 100%;
+}
