@@ -17,6 +17,7 @@
 				name="id"
 				type="category"
 				label="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_LABEL"
+				description="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_DESC"
 				extension="com_contact"
 				show_root="true"
 				required="true"
