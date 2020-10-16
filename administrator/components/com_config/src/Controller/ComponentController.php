@@ -60,12 +60,7 @@ class ComponentController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		if (!$this->checkToken())
-		{
-			$this->setRedirect(Route::_('index.php', false), Text::_('JINVALID_TOKEN'), 'error');
-
-			return false;
-		}
+		$this->checkToken();
 
 		// Set FTP credentials, if given.
 		ClientHelper::setCredentialsFromRequest('ftp');
