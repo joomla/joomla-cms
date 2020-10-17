@@ -93,6 +93,8 @@ export default {
                 thumb: this.item.thumb,
                 fileType: this.item.mime_type ? this.item.mime_type : false,
                 extension: this.item.extension ? this.item.extension : false,
+                width: this.item.width ? this.item.width : 0,
+                height: this.item.height ? this.item.height : 0,
               },
             },
           ),
