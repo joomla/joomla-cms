@@ -4549,7 +4549,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 				// End of ZIP file detected. We'll just skip to the end of file...
 				while ($this->nextFile())
 				{
-				};
+				}
 				@fseek($this->fp, 0, SEEK_END); // Go to EOF
 				return false;
 			}
