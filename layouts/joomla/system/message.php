@@ -16,15 +16,15 @@ use Joomla\CMS\Language\Text;
 $msgList = $displayData['msgList'];
 
 $alert = [
-		CMSApplication::MSG_EMERGENCY => 'danger',
-		CMSApplication::MSG_ALERT     => 'danger',
-		CMSApplication::MSG_CRITICAL  => 'danger',
-		CMSApplication::MSG_ERROR     => 'danger',
-		CMSApplication::MSG_WARNING   => 'warning',
-		CMSApplication::MSG_NOTICE    => 'info',
-		CMSApplication::MSG_INFO      => 'info',
-		CMSApplication::MSG_DEBUG     => 'info',
-		'message'                     => 'success'
+	CMSApplication::MSG_EMERGENCY => 'danger',
+	CMSApplication::MSG_ALERT     => 'danger',
+	CMSApplication::MSG_CRITICAL  => 'danger',
+	CMSApplication::MSG_ERROR     => 'danger',
+	CMSApplication::MSG_WARNING   => 'warning',
+	CMSApplication::MSG_NOTICE    => 'info',
+	CMSApplication::MSG_INFO      => 'info',
+	CMSApplication::MSG_DEBUG     => 'info',
+	'message'                     => 'success'
 ];
 
 // Load JavaScript message titles
