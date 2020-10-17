@@ -881,7 +881,6 @@ final class SiteApplication extends CMSApplication
 			if ($styleParams instanceof Registry)
 			{
 				$this->template->params = $styleParams;
-				
 				if (isset($styleParams->inheritable))
 				{
 					$this->template->inheritable = $styleParams->inheritable;
