@@ -1,17 +1,35 @@
-.content_rating .language-ltr {
+.content_rating .vote-star {
 	display: inline-block;
 	width: 1em;
 	height: 1em;
-	margin-left: -1.15em;
 	content: "";
 	background-size: 100%;
 }
 
-.content_rating .language-rtl {
+.content_rating .vote-star-empty {
 	display: inline-block;
 	width: 1em;
 	height: 1em;
-	margin-right: -1.05em;
 	content: "";
+	opacity: 0.3;
+	background-size: 100%;
+}
+
+.content_rating .vote-star-ltr {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin-left: -1em;
+	content: "";
+	background-size: 100%;
+}
+
+.content_rating .vote-star-rtl {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	content: "";
+	margin-right: -1em;
+	transform: scaleX(-1);
 	background-size: 100%;
 }
