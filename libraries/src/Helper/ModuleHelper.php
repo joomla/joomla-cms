@@ -340,17 +340,17 @@ abstract class ModuleHelper
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
 		// If the template has a layout override use it
-		if (file_exists($tPath))
+		if (is_file($tPath))
 		{
 			return $tPath;
 		}
 
-		if (!empty($templateObj->parent) && file_exists($iPath))
+		if (!empty($templateObj->parent) && is_file($iPath))
 		{
 			return $iPath;
 		}
 
-		if (file_exists($bPath))
+		if (is_file($bPath))
 		{
 			return $bPath;
 		}

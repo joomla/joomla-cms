@@ -141,7 +141,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @return  mixed   A value if the property name is valid, null otherwise.
 	 *
 	 * @since       4.0.0
-	 * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
+	 * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
 	 */
 	public function __get($name)
 	{
