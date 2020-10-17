@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -38,23 +39,24 @@ $rcount = (int) $row->rating_count;
 
 $img   = '';
 $stars = $rating;
+$link  = 'media/plg_content_vote/images/';
 
 for ($i = 0; $i < floor($stars); $i++)
 {
-	$img .= '<span class="text-warning fas fa-star" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE') . '" aria-hidden="true"></span>';
+	$img .= HTMLHelper::_('image', $link . 'star.svg', Text::_('PLG_VOTE_STAR_ACTIVE'), array('class' => 'vote-star'));
 }
 
 if (($stars - floor($stars)) >= 0.5)
 {
-	$img .= '<span class="text-muted fas fa-star" aria-hidden="true"></span>';
+	$img .= HTMLHelper::_('image', $link . 'star.svg', '', array('class' => 'vote-star-empty'));
 
 	if (Factory::getLanguage()->isRTL())
 	{
-		$img .= '<span class="text-warning fas fa-star-half fa-flip-horizontal language-rtl" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE_HALF') . '" aria-hidden="true"></span>';
+		$img .= HTMLHelper::_('image', $link . 'star-half.svg', Text::_('PLG_VOTE_STAR_ACTIVE_HALF'), array('class' => 'vote-star-rtl'));
 	}
 	else
 	{
-		$img .= '<span class="text-warning fas fa-star-half language-ltr" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_ACTIVE_HALF') . '" aria-hidden="true"></span>';
+		$img .= HTMLHelper::_('image', $link . 'star-half.svg', Text::_('PLG_VOTE_STAR_ACTIVE_HALF'), array('class' => 'vote-star-ltr'));
 	}
 
 	$stars += 1;
@@ -62,7 +64,7 @@ if (($stars - floor($stars)) >= 0.5)
 
 for ($i = $stars; $i < 5; $i++)
 {
-	$img .= '<span class="text-muted fas fa-star" role="img" aria-label="' . Text::_('PLG_VOTE_STAR_INACTIVE') . '" aria-hidden="true"></span>';
+	$img .= HTMLHelper::_('image', $link . 'star.svg', Text::_('PLG_VOTE_STAR_INACTIVE'), array('class' => 'vote-star-empty'));
 }
 
 ?>
