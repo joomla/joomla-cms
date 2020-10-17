@@ -287,7 +287,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$cspValues                 = $this->comCspParams->get('contentsecuritypolicy_values', []);
 		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
 		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
-		$scriptDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
+		$strictDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
 		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
 		$frameAncestorsSet         = false;
@@ -328,9 +328,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				}
 
 				// Add strict-dynamic to the script-src directive when enabled
-				if ($scriptDynamicEnabled
+				if ($strictDynamicEnabled
 					&& $cspValue->directive === 'script-src'
-					&& strpos($cspValue->value, 'strict-dynamic') === 0)
+					&& strpos($cspValue->value, 'strict-dynamic') === false)
 				{
 					$cspValue->value .= " 'strict-dynamic' ";
 				}
@@ -384,7 +384,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$cspHeaderCollection       = [];
 		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
 		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
-		$scriptDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
+		$strictDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
 		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
 
@@ -459,9 +459,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// Add strict-dynamic to the script-src directive when enabled
-			if ($scriptDynamicEnabled
+			if ($strictDynamicEnabled
 				&& $cspHeaderkey === 'script-src'
-				&& strpos($cspHeaderValue, 'strict-dynamic') === 0)
+				&& strpos($cspHeaderValue, 'strict-dynamic') === false)
 			{
 				$cspHeaderValue .= " 'strict-dynamic' ";
 			}
