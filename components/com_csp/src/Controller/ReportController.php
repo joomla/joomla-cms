@@ -226,7 +226,7 @@ class ReportController extends BaseController
 	/**
 	 * Clean the directive where browsers do append more stuff than we don't need
 	 *
-	 * @param   object  $directive  The directive from the browsers.
+	 * @param   object  $reportedDirective  The directive from the browsers.
 	 *
 	 * @return  mixed
 	 *

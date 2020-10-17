@@ -119,6 +119,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'require-sri-for',
 	];
 
+	/**
+	 * The list of directives without a value
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
 	private $noValueDirectives = [
 		'block-all-mixed-content',
 		'upgrade-insecure-requests',
