@@ -40,8 +40,8 @@ Text::script('JOPEN');
 
 // Alerts progressive enhancement
 Factory::getDocument()->getWebAssetManager()
-		->useStyle('webcomponent.joomla-alert')
-		->useScript('webcomponent.joomla-alert');
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('webcomponent.joomla-alert');
 
 $msgOutput = [];
 
