@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -592,7 +592,7 @@ class User extends CMSObject
 			// Check the password and create the crypted password
 			if (empty($array['password']))
 			{
-				$array['password']  = UserHelper::genRandomPassword();
+				$array['password']  = UserHelper::genRandomPassword(32);
 				$array['password2'] = $array['password'];
 			}
 
@@ -611,15 +611,6 @@ class User extends CMSObject
 
 			// Set the registration timestamp
 			$this->set('registerDate', Factory::getDate()->toSql());
-
-			// Check that username is not greater than 150 characters
-			$username = $this->get('username');
-
-			if (\strlen($username) > 150)
-			{
-				$username = substr($username, 0, 150);
-				$this->set('username', $username);
-			}
 		}
 		else
 		{

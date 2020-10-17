@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -56,17 +56,9 @@ class Helper
 	 */
 	public static function tokenize($input, $lang, $phrase = false)
 	{
-		static $cache, $tuplecount;
+		static $cache = [], $tuplecount;
 		static $multilingual;
 		static $defaultLanguage;
-
-		$store = md5($input . '::' . $lang . '::' . $phrase);
-
-		// Check if the string has been tokenized already.
-		if (isset($cache[$store]))
-		{
-			return $cache[$store];
-		}
 
 		if (!$tuplecount)
 		{
@@ -111,6 +103,11 @@ class Helper
 			$language = Language::getInstance($lang);
 		}
 
+		if (!isset($cache[$lang]))
+		{
+			$cache[$lang] = [];
+		}
+
 		$tokens = array();
 		$terms = $language->tokenise($input);
 
@@ -133,7 +130,16 @@ class Helper
 			// Create tokens from the terms.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
-				$tokens[] = new Token($terms[$i], $language->language);
+				if (isset($cache[$lang][$terms[$i]]))
+				{
+					$tokens[] = $cache[$lang][$terms[$i]];
+				}
+				else
+				{
+					$token = new Token($terms[$i], $language->language);
+					$tokens[] = $token;
+					$cache[$lang][$terms[$i]] = $token;
+				}
 			}
 
 			// Create multi-word phrase tokens from the individual words.
@@ -152,19 +158,37 @@ class Helper
 						}
 
 						$temp[] = $tokens[$i + $j]->term;
-						$token = new Token($temp, $language->language, $language->spacer);
-						$token->derived = true;
+						$key = implode('::', $temp);
 
-						// Add the token to the stack.
-						$tokens[] = $token;
+						if (isset($cache[$lang][$key]))
+						{
+							$tokens[] = $cache[$lang][$key];
+						}
+						else
+						{
+							$token = new Token($temp, $language->language, $language->spacer);
+							$token->derived = true;
+							$tokens[] = $token;
+							$cache[$lang][$key] = $token;
+						}
 					}
 				}
 			}
 		}
 
-		$cache[$store] = $tokens;
+		// Prevent the cache to fill up the memory
+		while (count($cache[$lang]) > 1024)
+		{
+			/**
+			 * We want to cache the most common words/tokens. At the same time
+			 * we don't want to cache too much. The most common words will also
+			 * be early in the text, so we are dropping all terms/tokens which
+			 * have been cached later.
+			 */
+			array_pop($cache[$lang]);
+		}
 
-		return $cache[$store];
+		return $tokens;
 	}
 
 	/**
@@ -390,7 +414,7 @@ class Helper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   Result  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a Result object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *

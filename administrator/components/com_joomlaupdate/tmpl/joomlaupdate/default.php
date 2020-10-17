@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,16 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
-/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
+/** @var HtmlView $this */
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto', 'relative' => true));
+/** @var WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core')
+	->useScript('com_joomlaupdate.default');
+
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 Text::script('JYES');
 Text::script('JNO');

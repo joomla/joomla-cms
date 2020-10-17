@@ -37,7 +37,7 @@
 
   .control-label {
     width: 240px;
-    padding: .3rem 0;
+    padding: .3rem 1rem .3rem 0;
   }
 
   .controls {
@@ -114,7 +114,7 @@ legend {
   display: block;
 }
 
-[aria-grabbed='true'] {
+[aria-grabbed="true"] {
   box-shadow: $input-box-shadow;
 }
 
@@ -127,18 +127,12 @@ legend {
   z-index: $zindex-tooltip;
   display: none;
   max-width: 100%;
-  padding: .25em;
+  padding: .5em;
   margin: .25em;
   color: $white;
+  text-align: start;
   background: $black;
-
-  [dir=ltr] & {
-    text-align: left;
-  }
-
-  [dir=rtl] & {
-    text-align: right;
-  }
+  border-radius: .2rem;
 }
 
 // reveal associated tooltip on focus
@@ -161,4 +155,23 @@ legend {
   margin-bottom: 0;
   font-size: $label-font-size;
   color: var(--atum-special-color);
+}
+
+.input-group-append {
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+
+  [dir=ltr] & {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  [dir=rtl] & {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+}
+
+.input-group > .form-control[readonly] {
+  margin-right: 1px;
 }

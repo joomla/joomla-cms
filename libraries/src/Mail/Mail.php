@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,16 +69,23 @@ class Mail extends PHPMailer
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
 
-		/*
-		 * PHPMailer 5.2 can't validate e-mail addresses with the new regex library used in PHP 7.3+
-		 * Setting $validator to "php" uses the native php function filter_var
+		/**
+		 * Which validator to use by default when validating email addresses.
+		 * Validation patterns supported:
+		 * `auto` Pick best pattern automatically;
+		 * `pcre8` Use the squiloople.com pattern, requires PCRE > 8.0;
+		 * `pcre` Use old PCRE implementation;
+		 * `php` Use PHP built-in FILTER_VALIDATE_EMAIL;
+		 * `html5` Use the pattern given by the HTML5 spec for 'email' type form input elements.
+		 * `noregex` Don't use a regex: super fast, really dumb.
 		 *
-		 * @see https://github.com/joomla/joomla-cms/issues/24707
+		 * The default used by phpmailer is `php` but this does not support dotless domains so instead we use `html5`
+		 *
+		 * @see PHPMailer::validateAddress()
+		 *
+		 * @var string|callable
 		 */
-		if (version_compare(PHP_VERSION, '7.3.0', '>='))
-		{
-			PHPMailer::$validator = 'php';
-		}
+		PHPMailer::$validator = 'html5';
 	}
 
 	/**
@@ -190,7 +197,7 @@ class Mail extends PHPMailer
 	{
 		if (\is_array($from))
 		{
-			// If $from is an array we assume it has an adress and a name
+			// If $from is an array we assume it has an address and a name
 			if (isset($from[2]))
 			{
 				// If it is an array with entries, use them
@@ -407,7 +414,7 @@ class Mail extends PHPMailer
 	 *
 	 * @since   3.0.1
 	 * @throws  \InvalidArgumentException  if the argument array counts do not match
-	 * @throws  phpmailerException 			if setting the attatchment failed and exception throwing is enabled
+	 * @throws  phpmailerException 			if setting the attachment failed and exception throwing is enabled
 	 */
 	public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
 	{
@@ -707,7 +714,7 @@ class Mail extends PHPMailer
 		}
 
 		// Add sender to replyTo only if no replyTo received
-		$autoReplyTo = (empty($this->ReplyTo)) ? true : false;
+		$autoReplyTo = empty($this->ReplyTo);
 
 		if ($this->setSender(array($from, $fromName, $autoReplyTo)) === false)
 		{

@@ -7,17 +7,8 @@ ul {
   padding-right: 0;
 }
 
-body {
-  text-align: right;
-}
-
 .close {
   float: left;
-
-  .notify-alerts & {
-    right: auto;
-    left: -.5rem;
-  }
 }
 
 .dropdown-menu-right {
@@ -33,28 +24,14 @@ body {
   left: auto;
 }
 
-.subhead {
-  .dropdown-toggle.btn-action::after {
-    margin: 0 16px 0 -22px;
-  }
-}
-
 .switcher {
   float: right;
 }
 
-// Alerts
-.notify-alerts {
-  margin-left: 0;
-
-  .closed & {
-    margin-right: 0;
-  }
-}
-
 // Header
 .header {
-  .page-title [class^='icon-'] {
+  .page-title [class^="icon-"],
+  .page-title [class^="fa-"] {
     margin-right: 0;
     margin-left: 15px;
   }
@@ -92,34 +69,8 @@ body {
   }
 }
 
-.sidebar-wrapper[data-hidden='1'] ~ .status {
+.sidebar-wrapper[data-hidden="1"] ~ .status {
   margin-right: 0;
-}
-
-// Toolbar
-.subhead {
-
-  .btn,
-  .btn-sm {
-
-    [class*=' fa-'],
-    [class^='fa-'],
-    [class^='icon-'],
-    [class*=' icon-'],
-    [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'] {
-      margin: 0 -1.625rem 0 1rem;
-    }
-  }
-
-  .btn-toolbar > * {
-    margin-right: .75rem;
-    margin-left: 0;
-
-    &:first-child {
-      margin-right: 0;
-    }
-  }
 }
 
 // com_cpanel
@@ -159,11 +110,6 @@ body {
   }
 }
 
-.js-stools .js-stools-container-filters {
-  right: auto;
-  left: 0;
-}
-
 .ml-auto {
   margin-right: auto !important;
   margin-left: 0 !important;
@@ -184,12 +130,6 @@ body {
   margin-left: .5rem;
 }
 
-#helpsite-refresh {
-  float: right;
-  margin-top: 1px;
-  margin-right: 4px;
-}
-
 .field-calendar {
   float: none;
 }
@@ -200,11 +140,6 @@ body {
 
 .field-user-wrapper {
   float: none;
-}
-
-// Quickicon specific
-.message-alert {
-  text-align: left !important;
 }
 
 // Bootstrap overrides
@@ -228,22 +163,10 @@ body {
   margin-left: -15px;
   border-right: 1px solid var(--border);
   border-left: 0 !important;
-}
 
-// Changelog modal override
-.changelog {
-  text-align: right !important;
-
-  &__tag {
-    text-align: left;
-  }
-
-  &__list {
-
-    ul {
-      padding-right: 15px;
-      padding-left: auto;
-    }
+  span {
+    position: relative;
+    left: 6px;
   }
 }
 
@@ -258,4 +181,50 @@ body {
 #jform_dbprefix {
   text-align: right;
   direction: ltr;
+}
+
+// SearchTools rounded corners
+.input-group > .input-group-prepend > .btn,
+.input-group > .input-group-prepend > .input-group-text,
+.input-group > .input-group-append:not(:last-child) > .btn,
+.input-group > .input-group-append:not(:last-child) > .input-group-text,
+.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
+  @include border-left-radius($border-radius);
+  @include border-right-radius(0);
+}
+
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+  @include border-left-radius($border-radius);
+  @include border-right-radius(0);
+}
+
+.input-group > .form-control:not(:last-child),
+.input-group > .custom-select:not(:last-child) {
+  @include border-left-radius(0);
+  @include border-right-radius($border-radius);
+}
+
+.btn-group > .btn:first-child:not(.dropdown-toggle) {
+  @include border-right-radius($border-radius);
+}
+
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+.btn-group > .btn-group:not(:last-child) > .btn {
+  @include border-left-radius(0);
+  margin-left: -1px;
+}
+
+.btn-group > .btn:last-child:not(.dropdown-toggle) {
+  @include border-left-radius($border-radius);
+}
+
+.btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:first-child) {
+  @include border-right-radius(0);
 }

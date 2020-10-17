@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Site\View\Form;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -106,7 +106,16 @@ class HtmlView extends BaseHtmlView
 
 		if (empty($this->item->id))
 		{
-			$authorised = $user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create'));
+			$catid = $this->state->params->get('catid');
+
+			if ($this->state->params->get('enable_category') == 1 && $catid)
+			{
+				$authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
+			}
+			else
+			{
+				$authorised = $user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create'));
+			}
 		}
 		else
 		{

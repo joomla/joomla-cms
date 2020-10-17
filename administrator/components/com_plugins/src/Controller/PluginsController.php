@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Plugins\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -41,7 +41,7 @@ class PluginsController extends AdminController
 	/**
 	 * Method to get the number of activated plugins
 	 *
-	 * @return  string  The JSON-encoded amount of items
+	 * @return  void
 	 *
 	 * @since   4.0
 	 */

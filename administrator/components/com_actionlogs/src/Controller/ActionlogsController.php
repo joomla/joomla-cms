@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Actionlogs\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use DateTimeZone;
 use Exception;
@@ -40,7 +40,7 @@ class ActionlogsController extends AdminController
 	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                                         'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   3.9.0

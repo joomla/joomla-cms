@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -41,8 +41,12 @@ $resetOptions = array(
 			</div>
 		</div>
 		<div class="form-group">
-			<label><?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
-			<?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
+			<fieldset id="batch-password-reset_id">
+				<legend>
+					<?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?>
+				</legend>
+				<?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
+			</fieldset>
 		</div>
 	</form>
 </div>

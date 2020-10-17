@@ -20,6 +20,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 			default="hide"
+			validate="options"
 			>
 			<option value="hide">JHIDE</option>
 			<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
@@ -295,6 +296,7 @@
 			label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
 			default="10"
 			showon="show_articles:1"
+			validate="options"
 			>
 			<option value="use_contact">COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS</option>
 			<option value="5">J5</option>
@@ -331,6 +333,7 @@
 			multiple="true"
 			context="com_users.user"
 			addfieldprefix="Joomla\Component\Fields\Administrator\Field"
+			layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="-1">JALL</option>
 		</field>
@@ -401,6 +404,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_ICONS_SETTINGS_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">COM_CONTACT_FIELD_VALUE_ICONS</option>
 			<option value="1">COM_CONTACT_FIELD_VALUE_TEXT</option>
@@ -447,6 +451,15 @@
 			name="icon_fax"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
+			hide_none="1"
+			default=""
+			showon="contact_icons:0"
+		/>
+
+		<field
+			name="icon_webpage"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_WEBPAGE_LABEL"
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
@@ -514,6 +527,7 @@
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
+			validate="options"
 			>
 			<option value="-1">JALL</option>
 			<option value="0">JNONE</option>
@@ -591,6 +605,7 @@
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
+			validate="options"
 			>
 			<option value="-1">JALL</option>
 			<option value="0">JNONE</option>
@@ -786,6 +801,7 @@
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
 			default="2"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -803,23 +819,6 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
-		<field
- 			name="contacts_display_num"
- 			type="list"
- 			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
- 			default="10"
- 			>
- 			<option value="5">J5</option>
- 			<option value="10">J10</option>
- 			<option value="15">J15</option>
- 			<option value="20">J20</option>
- 			<option value="25">J25</option>
- 			<option value="30">J30</option>
- 			<option value="50">J50</option>
- 			<option value="100">J100</option>
- 			<option value="0">JALL</option>
- 		</field>
 
 		<field
 			name="initial_sort"

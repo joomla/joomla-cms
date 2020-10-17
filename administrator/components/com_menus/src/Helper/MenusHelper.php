@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Menus\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -134,7 +134,7 @@ class MenusHelper extends ContentHelper
 	 * @param   integer  $mode       An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
 	 * @param   array    $published  An optional array of states
 	 * @param   array    $languages  Optional array of specify which languages we want to filter
-	 * @param   int      $clientId   Optional client id - viz 0 = site, 1 = administrator, can be NULL for all (used only if menutype not givein)
+	 * @param   int      $clientId   Optional client id - viz 0 = site, 1 = administrator, can be NULL for all (used only if menutype not given)
 	 *
 	 * @return  array
 	 *
@@ -498,9 +498,9 @@ class MenusHelper extends ContentHelper
 			$item->alias = $menutype . '-' . $item->title;
 
 			// Temporarily set unicodeslugs if a menu item has an unicode alias
-			$unicode     = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode     = Factory::getApplication()->set('unicodeslugs', 1);
 			$item->alias = ApplicationHelper::stringURLSafe($item->alias);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			Factory::getApplication()->set('unicodeslugs', $unicode);
 
 			if ($item->type == 'separator')
 			{

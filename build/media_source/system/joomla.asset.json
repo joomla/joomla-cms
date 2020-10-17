@@ -18,7 +18,10 @@
       "dependencies": [
         "core"
       ],
-      "uri": "system/keepalive.min.js"
+      "uri": "system/keepalive.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
       "name": "template.active",
@@ -38,7 +41,10 @@
       "dependencies": [
         "core"
       ],
-      "uri": "system/multiselect.min.js"
+      "uri": "system/multiselect.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
       "name": "searchtools",
@@ -46,7 +52,10 @@
       "dependencies": [
         "core"
       ],
-      "uri": "system/searchtools.min.js"
+      "uri": "system/searchtools.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
       "name": "searchtools",
@@ -59,7 +68,10 @@
       "dependencies": [
         "core"
       ],
-      "uri": "system/showon.min.js"
+      "uri": "system/showon.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
       "name": "switcher",
@@ -70,11 +82,118 @@
       "name": "form.validate",
       "type": "script",
       "class": "FormValidateAssetItem",
+      "attributes": {
+        "defer": true
+      },
       "dependencies": [
         "core",
         "punycode"
       ],
       "uri": "system/fields/validate.min.js"
+    },
+    {
+      "name": "field.color-adv",
+      "type": "script",
+      "uri": "system/fields/color-field-adv-init.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "minicolors"
+      ]
+    },
+    {
+      "name": "joomla.draggable",
+      "type": "script",
+      "uri": "system/draggable.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "dragula"
+      ]
+    },
+    {
+      "name": "field.passwordview",
+      "type": "script",
+      "uri": "system/fields/passwordview.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "field.passwordstrength",
+      "type": "script",
+      "uri": "system/fields/passwordstrength.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "core",
+        "form.validate"
+      ]
+    },
+    {
+      "name": "field.calendar",
+      "type": "style",
+      "uri": "system/fields/calendar.css"
+    },
+    {
+      "name": "field.calendar-rtl",
+      "type": "style",
+      "uri": "system/fields/calendar-rtl.css"
+    },
+    {
+      "name": "field.calendar.locale",
+      "type": "script",
+      "uri": ""
+    },
+    {
+      "name": "field.calendar.helper",
+      "type": "script",
+      "uri": ""
+    },
+    {
+      "name": "field.calendar",
+      "type": "script",
+      "uri": "system/fields/calendar.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "field.calendar.locale",
+        "field.calendar.helper"
+      ]
+    },
+    {
+      "name": "field.color-slider",
+      "type": "script",
+      "uri": "system/fields/joomla-field-color-slider.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "field.modal-fields",
+      "type": "script",
+      "uri": "system/fields/modal-fields.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "joomla.batch-language",
+      "type": "script",
+      "uri": "layouts/joomla/html/batch/batch-language.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
       "name": "webcomponent.field-fancy-select",

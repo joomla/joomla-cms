@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
 
@@ -138,7 +138,7 @@ class Token
 		{
 			// Populate the token instance.
 			$this->term = implode($spacer, $term);
-			$this->stem = implode($spacer, array_map(array('FinderIndexerHelper', 'stem'), $term, array($lang)));
+			$this->stem = implode($spacer, array_map(array(Helper::class, 'stem'), $term, array($lang)));
 			$this->numeric = false;
 			$this->common = false;
 			$this->phrase = true;

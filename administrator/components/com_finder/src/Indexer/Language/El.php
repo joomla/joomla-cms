@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * The Greek stemmer was adapted for Joomla! 4 by Nicholas K. Dionysopoulos <nicholas@akeebabackup.com>. This is
@@ -13,7 +13,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer\Language;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Component\Finder\Administrator\Indexer\Language;
 

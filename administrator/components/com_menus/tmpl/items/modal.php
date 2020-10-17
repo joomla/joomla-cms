@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,17 +22,18 @@ $app = Factory::getApplication();
 if ($app->isClient('site'))
 {
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
-	HTMLHelper::_('stylesheet', 'system/adminlist.css', ['version' => 'auto', 'relative' => true]);
 }
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_menus.admin-items-modal');
 
-$function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
+$function  = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');
-$listOrder    = $this->escape($this->state->get('list.ordering'));
-$listDirn     = $this->escape($this->state->get('list.direction'));
-$link         = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$link      = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&' . Session::getFormToken() . '=1';
+$multilang = Multilanguage::isEnabled();
 
 if (!empty($editor))
 {
@@ -43,9 +44,8 @@ if (!empty($editor))
 }
 ?>
 <div class="container-popup">
-	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
-
-		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
@@ -55,11 +55,13 @@ if (!empty($editor))
 		<?php else : ?>
 			<table class="table table-sm">
 				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="text-center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
@@ -68,16 +70,18 @@ if (!empty($editor))
 						<th scope="col" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
+						<th scope="col" class="w-5 text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="d-none d-md-table-cell">
-							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-						</th>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+						<?php if ($multilang) : ?>
+							<th scope="col" class="w-15 d-none d-md-table-cell">
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif; ?>
+						<th scope="col" class="w-1 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -85,7 +89,7 @@ if (!empty($editor))
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php $uselessMenuItem = in_array($item->type, array('separator', 'heading', 'alias', 'url', 'container')); ?>
-					<?php if ($item->language && Multilanguage::isEnabled())
+					<?php if ($item->language && $multilang)
 					{
 						if ($item->language !== '*')
 						{
@@ -96,7 +100,7 @@ if (!empty($editor))
 							$language = '';
 						}
 					}
-					elseif (!Multilanguage::isEnabled())
+					elseif (!$multilang)
 					{
 						$language = '';
 					}
@@ -109,7 +113,7 @@ if (!empty($editor))
 							<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 							<?php echo $prefix; ?>
 							<?php if (!$uselessMenuItem) : ?>
-								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>"  data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
+								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
 									<?php echo $this->escape($item->title); ?>
 								</a>
 							<?php else : ?>
@@ -141,12 +145,12 @@ if (!empty($editor))
 						<td class="text-center d-none d-md-table-cell">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
-									<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>
+									<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && false && !$item->protected, 'cb', null, 'home', 'circle'); ?>
 								<?php else : ?>
 									<?php if ($item->language_image) : ?>
 										<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 									<?php else : ?>
-										<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+										<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
 									<?php endif; ?>
 								<?php endif; ?>
 							<?php endif; ?>
@@ -154,15 +158,17 @@ if (!empty($editor))
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small d-none d-md-table-cell">
-							<?php if ($item->language == '') : ?>
-								<?php echo Text::_('JDEFAULT'); ?>
-							<?php elseif ($item->language == '*') : ?>
-								<?php echo Text::alt('JALL', 'language'); ?>
-							<?php else : ?>
-								<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
-							<?php endif; ?>
-						</td>
+						<?php if ($multilang) : ?>
+							<td class="small d-none d-md-table-cell">
+								<?php if ($item->language == '') : ?>
+									<?php echo Text::_('JDEFAULT'); ?>
+								<?php elseif ($item->language == '*') : ?>
+									<?php echo Text::alt('JALL', 'language'); ?>
+								<?php else : ?>
+									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
 						<td class="d-none d-md-table-cell">
 							<?php echo (int) $item->id; ?>
 						</td>

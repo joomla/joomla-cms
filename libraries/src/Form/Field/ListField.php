@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -132,11 +132,11 @@ class ListField extends FormField
 
 			if ((string) $option['showon'])
 			{
-				$tmp['optionattr'] = " data-showon='" .
-					json_encode(
-						FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
-					)
-					. "'";
+				$encodedConditions = json_encode(
+					FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+				);
+
+				$tmp['optionattr'] = " data-showon='" . $encodedConditions . "'";
 			}
 
 			// Add the option object to the result set.

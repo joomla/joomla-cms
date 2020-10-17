@@ -6,6 +6,7 @@
 		label="JSITEADMIN"
 		filtermode="selector"
 		onchange="Joomla.resetFilters(this)"
+		validate="options"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -23,8 +24,8 @@
 		<field
 			name="state"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
-			filter="*,-2,0,1"
+			label="JSTATUS"
+			optionsFilter="*,-2,0,1"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -32,7 +33,8 @@
 		<field
 			name="position"
 			type="ModulesPosition"
-			label="COM_MODULES_OPTION_SELECT_POSITION"
+			label="COM_MODULES_FIELD_POSITION_LABEL"
+			client="site"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_POSITION</option>
@@ -40,7 +42,8 @@
 		<field
 			name="module"
 			type="ModulesModule"
-			label="COM_MODULES_OPTION_SELECT_MODULE"
+			label="COM_MODULES_HEADING_MODULE"
+			client="site"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
@@ -48,7 +51,7 @@
 		<field
 			name="menuitem"
 			type="menuitem"
-			label="COM_MODULES_OPTION_SELECT_MENU_ITEM"
+			label="JGLOBAL_MENU_SELECTION"
 			disable="separator,alias,heading,url"
 			onchange="this.form.submit();"
 			>
@@ -58,7 +61,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -66,7 +69,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -81,6 +84,7 @@
 			statuses="*,0,1,-2"
 			onchange="this.form.submit();"
 			default="a.position ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

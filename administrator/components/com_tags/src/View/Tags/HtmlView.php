@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Tags\Administrator\View\Tags;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -152,7 +152,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('tags.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state'))
+			if ($canDo->get('core.edit.state') && !$this->state->get('filter.published') == -2)
 			{
 				$childBar->trash('tags.trash')->listCheck(true);
 			}

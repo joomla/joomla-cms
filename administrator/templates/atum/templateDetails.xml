@@ -5,7 +5,7 @@
 	<creationDate>September 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.</copyright>
 	<description>TPL_ATUM_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
@@ -23,9 +23,12 @@
 		<folder>css</folder>
 		<folder>html</folder>
 		<folder>images</folder>
-		<folder>language</folder>
+		<folder>Service</folder>
 		<folder>scss</folder>
 	</files>
+	<media destination="templates/atum" folder="media">
+		<folder>js</folder>
+	</media>
 	<positions>
 		<!-- used directly in the template -->
 		<position>bottom</position>
@@ -43,8 +46,8 @@
 		<position>customtop</position>
 	</positions>
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.tpl_atum.ini</language>
-		<language tag="en-GB">en-GB/en-GB.tpl_atum.sys.ini</language>
+		<language tag="en-GB">en-GB/tpl_atum.ini</language>
+		<language tag="en-GB">en-GB/tpl_atum.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -57,7 +60,7 @@
 					control="slider"
 					preview="true"
 					saveFormat="hsl"
-					default="hsl(207,61%,26%)"
+					default="hsl(214,63%,20%)"
 				/>
 				<field
 					name="bg-light"
@@ -70,7 +73,7 @@
 					name="text-dark"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_TEXT_DARK_LABEL"
-					default="#3b4a5c"
+					default="#495057"
 					filter="color"
 				/>
 				<field
@@ -85,6 +88,13 @@
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
 					default="#2a69b8"
+					filter="color"
+				/>
+				<field
+					name="sidebar-link-color"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_LINK_SIDEBAR_COLOR_LABEL"
+					default="#132f53"
 					filter="color"
 				/>
 				<field
@@ -108,34 +118,34 @@
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
 				<field
-					name="siteLogo"
-					type="media"
-					label="TPL_ATUM_SITE_LOGO_LABEL"
-				/>
-				<field
-					name="altSiteLogo"
-					type="text"
-					label="TPL_ATUM_ALTTEXT_SITE_LOGO_LABEL"
-				/>
-				<field
-					name="smallLogo"
-					type="media"
-					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
-				/>
-				<field
-					name="altSmallLogo"
-					type="text"
-					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
-				/>
-				<field
 					name="loginLogo"
 					type="media"
 					label="TPL_ATUM_LOGIN_LOGO_LABEL"
-				 />
+				/>
 				<field
 					name="altLoginLogo"
 					type="text"
 					label="TPL_ATUM_ALTTEXT_LOGIN_LOGO_LABEL"
+				/>
+				<field
+					name="logoBrandLarge"
+					type="media"
+					label="TPL_ATUM_SITE_LOGO_LABEL"
+				/>
+				<field
+					name="logoBrandLargeAlt"
+					type="text"
+					label="TPL_ATUM_ALTTEXT_SITE_LOGO_LABEL"
+				/>
+				<field
+					name="logoBrandSmall"
+					type="media"
+					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
+				/>
+				<field
+					name="logoBrandSmallAlt"
+					type="text"
+					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
 				/>
 			</fieldset>
 		</fields>

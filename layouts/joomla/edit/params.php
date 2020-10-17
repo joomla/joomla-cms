@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -110,14 +110,24 @@ foreach ($fieldSets as $name => $fieldSet)
 		$label = Text::_($label);
 	}
 
-	$hasChildren = $xml->xpath('//fieldset[@name="' . $name . '"]//fieldset');
-	$hasParent = $xml->xpath('//fieldset//fieldset[@name="' . $name . '"]');
+	$hasChildren  = $xml->xpath('//fieldset[@name="' . $name . '"]//fieldset[not(ancestor::field/form/*)]');
+	$hasParent    = $xml->xpath('//fieldset//fieldset[@name="' . $name . '"]');
 	$isGrandchild = $xml->xpath('//fieldset//fieldset//fieldset[@name="' . $name . '"]');
 
 	if (!$isGrandchild && $hasParent)
 	{
 		echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 		echo '<legend>' . $label . '</legend>';
+
+		// Include the description when available
+		if (!empty($fieldSet->description))
+		{
+			echo '<div class="alert alert-info">';
+			echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+			echo Text::_($fieldSet->description);
+			echo '</div>';
+		}
+
 		echo '<div class="column-count-md-2 column-count-lg-3">';
 	}
 	// Tabs
@@ -145,16 +155,28 @@ foreach ($fieldSets as $name => $fieldSet)
 		{
 			echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 			echo '<legend>' . $label . '</legend>';
+
+			// Include the description when available
+			if (!empty($fieldSet->description))
+			{
+				echo '<div class="alert alert-info">';
+				echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+				echo Text::_($fieldSet->description);
+				echo '</div>';
+			}
+
 			echo '<div class="column-count-md-2 column-count-lg-3">';
 
 			$opentab = 2;
 		}
-	}
-
-	// Include the description when available
-	if (isset($fieldSet->description) && trim($fieldSet->description))
-	{
-		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
+		// Include the description when available
+		elseif (!empty($fieldSet->description))
+		{
+			echo '<div class="alert alert-info alert-parent">';
+			echo '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">' . Text::_('INFO') . '</span> ';
+			echo Text::_($fieldSet->description);
+			echo '</div>';
+		}
 	}
 
 	// We're on the deepest level => output fields

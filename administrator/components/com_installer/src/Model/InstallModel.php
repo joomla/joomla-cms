@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
@@ -127,7 +127,6 @@ class InstallModel extends BaseDatabaseModel
 					$app->setUserState('com_installer.message', Text::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
 
 					return false;
-					break;
 			}
 		}
 

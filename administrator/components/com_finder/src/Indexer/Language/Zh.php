@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Indexer\Language;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Component\Finder\Administrator\Indexer\Language;
 use Joomla\String\StringHelper;
@@ -44,7 +44,7 @@ class Zh extends Language
 	 */
 	public function __construct($locale = null)
 	{
-		// Override parent constructor since we don't need to load an externel stemmer
+		// Override parent constructor since we don't need to load an external stemmer
 	}
 
 	/**

@@ -29,7 +29,6 @@ const handleFile = (file, enableBrotli) => {
     return;
   }
 
-
   if (file.match(/\.min\.js/) && !file.match(/\.min\.js\.gz/) && !file.match(/\.min\.js\.br/) && !file.toLowerCase().match(/json/) && !file.toLowerCase().match(/license/)) {
     // eslint-disable-next-line no-console
     console.log(`Processing: ${file}`);
@@ -119,13 +118,13 @@ const gzipFiles = (brotliParam) => {
   });
 
   if (templatesFiles.length) {
-    templatesFiles.forEach(file => handleFile(file, enableBrotli));
+    templatesFiles.forEach((file) => handleFile(file, enableBrotli));
   }
   if (adminTemplatesFiles.length) {
-    adminTemplatesFiles.forEach(file => handleFile(file, enableBrotli));
+    adminTemplatesFiles.forEach((file) => handleFile(file, enableBrotli));
   }
   if (mediaFiles.length) {
-    mediaFiles.forEach(file => handleFile(file, enableBrotli));
+    mediaFiles.forEach((file) => handleFile(file, enableBrotli));
   }
 };
 

@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Mails\Administrator\View\Template;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -87,6 +87,7 @@ class HtmlView extends BaseHtmlView
 		$fields = array('subject', 'body', 'htmlbody');
 		$this->templateData = array();
 		$language = Factory::getLanguage();
+		$language->load($component, JPATH_SITE, $this->item->language, true);
 		$language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
 
 		foreach ($fields as $field)
@@ -141,6 +142,6 @@ class HtmlView extends BaseHtmlView
 		$toolbar->cancel('template.cancel', 'JTOOLBAR_CLOSE');
 
 		$toolbar->divider();
-		$toolbar->help('JHELP_CONFIG_MAIL_MANAGER_EDIT');
+		$toolbar->help('JHELP_COMPONENTS_MAILS_TEMPLATE_EDIT');
 	}
 }

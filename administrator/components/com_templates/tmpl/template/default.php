@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,15 +16,18 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_templates/admin-template-compare.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', array('version' => 'auto', 'relative' => true));
-
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa    = $this->document->getWebAssetManager();
 $input = Factory::getApplication()->input;
+
+// Enable assets
+$wa->useScript('form.validate')
+	->useScript('keepalive')
+	->useScript('diff')
+	->useScript('com_templates.admin-template-compare')
+	->useScript('com_templates.admin-template-toggle-switch');
 
 // No access if not global SuperUser
 if (!Factory::getUser()->authorise('core.admin'))
@@ -34,16 +37,15 @@ if (!Factory::getUser()->authorise('core.admin'))
 
 if ($this->type == 'image')
 {
-	HTMLHelper::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
-	HTMLHelper::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
+	$wa->usePreset('cropperjs');
 }
 
-HTMLHelper::_('script', 'com_templates/admin-templates-default.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('stylesheet', 'com_templates/admin-templates-default.css', array('version' => 'auto', 'relative' => true));
+$wa->useStyle('com_templates.admin-templates')
+	->useScript('com_templates.admin-templates');
 
 if ($this->type == 'font')
 {
-	$this->document->addStyleDeclaration("
+	$wa->addInlineStyle("
 		@font-face {
 			font-family: previewFont;
 			src: url('" . $this->font['address'] . "')
@@ -82,7 +84,7 @@ if ($this->type == 'font')
 </div>
 <div class="row mt-2">
 	<div id="treeholder" class="col-md-3 tree-holder">
-		<div class="card">
+		<div class="card mt-2 mb-2">
 			<div class="card-body">
 				<?php echo $this->loadTemplate('tree'); ?>
 			</div>
@@ -97,7 +99,7 @@ if ($this->type == 'font')
 				<?php echo HTMLHelper::_('form.token'); ?>
 				<p><?php echo Text::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
-					<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-lg">
+					<a href="https://docs.joomla.org/Special:MyLanguage/J3.x:How_to_use_the_Template_Manager" target="_blank" rel="noopener" class="btn btn-primary btn-lg">
 						<?php echo Text::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 					</a>
 				</p>

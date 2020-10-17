@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Fields\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
 /**
@@ -52,7 +53,7 @@ class FieldController extends FormController
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.7.0
 	 */
@@ -193,7 +194,5 @@ class FieldController extends FormController
 			$registry->loadArray($item->params);
 			$item->params = (string) $registry;
 		}
-
-		return;
 	}
 }

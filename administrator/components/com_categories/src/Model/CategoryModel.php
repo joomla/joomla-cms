@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Categories\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
@@ -27,6 +27,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -40,6 +41,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class CategoryModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *
@@ -67,8 +70,8 @@ class CategoryModel extends AdminModel
 	/**
 	 * Override parent constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   array                     $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2
@@ -751,6 +754,11 @@ class CategoryModel extends AdminModel
 		}
 
 		$this->setState($this->getName() . '.id', $table->id);
+
+		if (Factory::getApplication()->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
+		}
 
 		// Clear the cache
 		$this->cleanCache();

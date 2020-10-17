@@ -3,7 +3,7 @@
 	<name>mod_tags_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -49,6 +49,7 @@
 					type="list"
 					label="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_LABEL"
 					default="alltime"
+					validate="options"
 					>
 					<option value="alltime">MOD_TAGS_POPULAR_FIELD_ALL_TIME</option>
 					<option value="hour">MOD_TAGS_POPULAR_FIELD_LAST_HOUR</option>
@@ -63,6 +64,7 @@
 					type="list"
 					label="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_LABEL"
 					default="count"
+					validate="options"
 					>
 					<option value="title">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_TITLE</option>
 					<option value="count">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_COUNT</option>
@@ -75,6 +77,7 @@
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
@@ -148,6 +151,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

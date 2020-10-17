@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<fieldset addfieldpath="/administrator/components/com_modules/models/fields" />
-
+<form addfieldprefix="Joomla\Component\Modules\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"
@@ -14,8 +12,9 @@
 		/>
 		<field
 			name="position"
-			type="modulesposition"
+			type="ModulesPosition"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
+			client="site"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_POSITION</option>
@@ -24,6 +23,7 @@
 			name="module"
 			type="ModulesModule"
 			label="COM_MODULES_OPTION_SELECT_MODULE"
+			client="site"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
@@ -47,6 +47,7 @@
 			statuses="*,0,1,-2"
 			onchange="this.form.submit();"
 			default="a.position ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

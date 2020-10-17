@@ -18,7 +18,6 @@
 
 .hidden {
   display: none;
-  visibility: hidden;
 }
 
 .table-row {
@@ -27,8 +26,8 @@
 
 // Column Count
 
-[class^='column-'],
-[class*=' column-'] {
+[class^="column-"],
+[class*=" column-"] {
   padding-bottom: 1rem;
   column-gap: 2rem;
 
@@ -37,9 +36,14 @@
     flex-direction: column;
     width: 100%;
     break-inside: avoid;
+    page-break-inside: avoid;
 
     &.hidden {
       display: none;
+    }
+
+    .control-label {
+      width: 100%;
     }
   }
 
@@ -76,4 +80,62 @@
   .column-count-lg-3 {
     column-count: 3;
   }
+}
+
+// Sizing
+
+.w-1 {
+  width: 1%;
+}
+
+.w-3 {
+  width: 3%;
+}
+
+.w-5 {
+  width: 5%;
+}
+
+.w-6 {
+  width: 6%;
+}
+
+.w-7 {
+  width: 7%;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.w-12 {
+  width: 12%;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-35 {
+  width: 35%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-80 {
+  width: 80%;
 }

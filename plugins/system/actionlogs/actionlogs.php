@@ -3,7 +3,7 @@
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -89,6 +92,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		$allowedFormNames = [
 			'com_users.profile',
 			'com_users.user',
+			'com_admin.profile',
 		];
 
 		if (!in_array($formName, $allowedFormNames, true))
@@ -193,9 +197,19 @@ class PlgSystemActionLogs extends CMSPlugin
 			return true;
 		}
 
-		$data->actionlogs                       = new StdClass;
+		$data->actionlogs                       = new stdClass;
 		$data->actionlogs->actionlogsNotify     = $values->notify;
 		$data->actionlogs->actionlogsExtensions = $values->extensions;
+
+		if (!HTMLHelper::isRegistered('users.actionlogsNotify'))
+		{
+			HTMLHelper::register('users.actionlogsNotify', array(__CLASS__, 'renderActionlogsNotify'));
+		}
+
+		if (!HTMLHelper::isRegistered('users.actionlogsExtensions'))
+		{
+			HTMLHelper::register('users.actionlogsExtensions', array(__CLASS__, 'renderActionlogsExtensions'));
+		}
 
 		return true;
 	}
@@ -262,7 +276,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -293,9 +307,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
 			$query->clear()
 				->delete($db->quoteName('#__action_logs'))
-				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd(':now', ':days', 'DAY'))
-				->bind(':now', $now)
-				->bind(':days', $days, ParameterType::INTEGER);
+				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd($db->quote($now), $days, 'DAY'));
 
 			$db->setQuery($query);
 
@@ -323,8 +335,6 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $clientId)
@@ -334,7 +344,7 @@ class PlgSystemActionLogs extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
 					];
 
 					$cache = Cache::getInstance('callback', $options);
@@ -356,15 +366,15 @@ class PlgSystemActionLogs extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterSave($user, $isNew, $success, $msg)
+	public function onUserAfterSave($user, $isNew, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		// Clear access rights in case user groups were changed.
@@ -387,7 +397,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			return;
 		}
 
 		$query->clear();
@@ -443,7 +453,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		else
 		{
-			return false;
+			return;
 		}
 
 		try
@@ -452,10 +462,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			// Do nothing.
 		}
-
-		return true;
 	}
 
 	/**
@@ -467,15 +475,15 @@ class PlgSystemActionLogs extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$db     = $this->db;
@@ -492,9 +500,51 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			// Do nothing.
+		}
+	}
+
+	/**
+	 * Method to render a value.
+	 *
+	 * @param   integer|string  $value  The value (0 or 1).
+	 *
+	 * @return  string  The rendered value.
+	 *
+	 * @since   3.9.16
+	 */
+	public static function renderActionlogsNotify($value)
+	{
+		return Text::_($value ? 'JYES' : 'JNO');
+	}
+
+	/**
+	 * Method to render a list of extensions.
+	 *
+	 * @param   array|string  $extensions  Array of extensions or an empty string if none selected.
+	 *
+	 * @return  string  The rendered value.
+	 *
+	 * @since   3.9.16
+	 */
+	public static function renderActionlogsExtensions($extensions)
+	{
+		// No extensions selected.
+		if (!$extensions)
+		{
+			return Text::_('JNONE');
 		}
 
-		return true;
+		// Load the helper.
+		JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+
+		foreach ($extensions as &$extension)
+		{
+			// Load extension language files and translate extension name.
+			ActionlogsHelper::loadTranslationFiles($extension);
+			$extension = Text::_($extension);
+		}
+
+		return implode(', ', $extensions);
 	}
 }

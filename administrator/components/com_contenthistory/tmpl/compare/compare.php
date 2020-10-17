@@ -3,13 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
@@ -20,8 +19,10 @@ $version1 = $this->items[1];
 $object1  = $version1->data;
 $object2  = $version2->data;
 
-HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_contenthistory.admin-compare-compare');
+
 ?>
 <div role="main">
 	<h1 class="mb-3"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h1>
@@ -32,7 +33,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+				<th scope="col" class="w-25"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
 				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_OLD'); ?></th>
 				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_NEW'); ?></th>
 				<th scope="col"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_DIFF'); ?></th>

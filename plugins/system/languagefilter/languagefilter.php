@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,10 +159,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 		// Attach build rules for language SEF.
 		$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
-		$router->attachBuildRule(array($this, 'buildRule'), Router::PROCESS_BEFORE);
 
 		if ($this->mode_sef)
 		{
+			$router->attachBuildRule(array($this, 'buildRule'), Router::PROCESS_BEFORE);
 			$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), Router::PROCESS_AFTER);
 		}
 		else
@@ -203,13 +203,13 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	public function preprocessBuildRule(&$router, &$uri)
 	{
 		$lang = $uri->getVar('lang', $this->current_lang);
-		$uri->setVar('lang', $lang);
 
 		if (isset($this->sefs[$lang]))
 		{
 			$lang = $this->sefs[$lang]->lang_code;
-			$uri->setVar('lang', $lang);
 		}
+
+		$uri->setVar('lang', $lang);
 	}
 
 	/**
@@ -235,10 +235,9 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$sef = $this->lang_codes[$this->current_lang]->sef;
 		}
 
-		if ($this->mode_sef
-			&& (!$this->params->get('remove_default_prefix', 0)
+		if (!$this->params->get('remove_default_prefix', 0)
 			|| $lang !== $this->default_lang
-			|| $lang !== $this->current_lang))
+			|| $lang !== $this->current_lang)
 		{
 			$uri->setPath($uri->getPath() . '/' . $sef . '/');
 		}
@@ -479,7 +478,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			{
 				$redirectHttpCode = 301;
 
-				// We cannot cache this redirect in browser. 301 is cachable by default so we need to force to not cache it in browsers.
+				// We cannot cache this redirect in browser. 301 is cacheable by default so we need to force to not cache it in browsers.
 				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 				$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
 				$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
@@ -502,7 +501,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 		if ($language->getTag() !== $lang_code)
 		{
-			$language_new = Language::getInstance($lang_code);
+			$language_new = Language::getInstance($lang_code, (bool) $this->app->get('debug_lang'));
 
 			foreach ($language->getPaths() as $extension => $files)
 			{
@@ -591,7 +590,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{

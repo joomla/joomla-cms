@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,8 +20,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
@@ -31,9 +29,9 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @since  2.5.0
  */
-abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
+abstract class WebApplication extends AbstractWebApplication
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware;
+	use EventAware, IdentityAware;
 
 	/**
 	 * The application document object.
@@ -182,9 +180,10 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	{
 		// Setup the document options.
 		$options = array(
-			'template' => $this->get('theme'),
-			'file' => $this->get('themeFile', 'index.php'),
-			'params' => $this->get('themeParams'),
+			'template'         => $this->get('theme'),
+			'file'             => $this->get('themeFile', 'index.php'),
+			'params'           => $this->get('themeParams'),
+			'templateInherits' => $this->get('themeInherits'),
 		);
 
 		if ($this->get('themes.base'))

@@ -4,17 +4,6 @@ label {
   margin-bottom: 0;
 }
 
-.spacer {
-  hr {
-    width: 380px;
-    border: 0;
-  }
-
-  label {
-    width: 440px;
-  }
-}
-
 td .form-control {
   display: inline-block;
   width: auto;
@@ -82,6 +71,11 @@ select.form-control {
 
   .button-clear {
     background-color: darken(theme-color("danger"), 8%);
+  }
+
+  .button-clear > .fa-check,
+  .button-select > .fa-times {
+    color: $gray-100;
   }
 
   @include media-breakpoint-down(md) {

@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Generator;
 use Joomla\CMS\Date\Date;
@@ -37,7 +37,7 @@ class ActionlogsHelper
 	/**
 	 * Method to convert logs objects array to an iterable type for use with a CSV export
 	 *
-	 * @param   array|Traversable  $data  The logs data objects to be exported
+	 * @param   array|\Traversable  $data  The logs data objects to be exported
 	 *
 	 * @return  Generator
 	 *
@@ -215,7 +215,7 @@ class ActionlogsHelper
 			{
 				if (!isset($links[$value]))
 				{
-					$links[$value] = Route::link('administrator', $value, false, $linkMode);
+					$links[$value] = Route::link('administrator', $value, false, $linkMode, true);
 				}
 
 				$value = $links[$value];

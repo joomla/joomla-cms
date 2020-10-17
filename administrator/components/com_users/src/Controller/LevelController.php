@@ -3,16 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -102,7 +102,7 @@ class LevelController extends FormController
 	 *
 	 * Overrides Joomla\CMS\MVC\Controller\FormController::delete to check the core.admin permission.
 	 *
-	 * @return  boolean  Returns true on success, false on failure.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -115,7 +115,7 @@ class LevelController extends FormController
 
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
-			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 		elseif (empty($ids))
 		{

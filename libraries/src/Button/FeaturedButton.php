@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,29 +29,33 @@ class FeaturedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(0, 'articles.featured', 'unfeatured', Text::_('COM_CONTENT_UNFEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]);
-		$this->addState(1, 'articles.unfeatured', 'featured', Text::_('COM_CONTENT_FEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]);
+		$this->addState(0, 'articles.featured', 'icon-color-unfeatured fas fa-star',
+			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('COM_CONTENT_UNFEATURED')]
+		);
+		$this->addState(1, 'articles.unfeatured', 'icon-color-featured fas fa-star',
+			Text::_('JGLOBAL_TOGGLE_FEATURED'), ['tip_title' => Text::_('COM_CONTENT_FEATURED')]
+		);
 	}
 
 	/**
 	 * Render action button by item value.
 	 *
-	 * @param   mixed        $value         Current value of this item.
-	 * @param   string       $row           The row number of this item.
-	 * @param   array        $options       The options to override group options.
-	 * @param   string|Date  $featuredUp    The date which item featured up.
-	 * @param   string|Date  $featuredDown  The date which item featured down.
+	 * @param   integer|null  $value         Current value of this item.
+	 * @param   integer|null  $row           The row number of this item.
+	 * @param   array         $options       The options to override group options.
+	 * @param   string|Date   $featuredUp    The date which item featured up.
+	 * @param   string|Date   $featuredDown  The date which item featured down.
 	 *
 	 * @return  string  Rendered HTML.
 	 *
 	 * @since  4.0.0
 	 */
-	public function render(string $value = null, string $row = null, array $options = [], $featuredUp = null, $featuredDown = null): string
+	public function render(?int $value = null, ?int $row = null, array $options = [], $featuredUp = null, $featuredDown = null): string
 	{
 		if ($featuredUp || $featuredDown)
 		{
 			$bakState = $this->getState($value);
-			$default  = $this->getState($value) ?: $this->getState('_default');
+			$default  = $this->getState($value) ?? $this->unknownState;
 
 			$nowDate  = Factory::getDate()->toUnix();
 
@@ -69,7 +73,7 @@ class FeaturedButton extends ActionButton
 
 			// Add tips and special titles
 			// Create special titles for featured items
-			if ($value === '1')
+			if ($value === 1)
 			{
 				// Create tip text, only we have featured up or down settings
 				$tips = [];

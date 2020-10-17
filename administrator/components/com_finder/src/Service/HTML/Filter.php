@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Registry\Registry;
 
 /**
@@ -212,8 +213,8 @@ class Filter
 	/**
 	 * Method to generate filters using select box dropdown controls.
 	 *
-	 * @param   \FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
-	 * @param   array                $options   An array of options.
+	 * @param   Query  $idxQuery  A Query object.
+	 * @param   array  $options   An array of options.
 	 *
 	 * @return  mixed  A rendered HTML widget on success, null otherwise.
 	 *
@@ -439,8 +440,8 @@ class Filter
 	/**
 	 * Method to generate fields for filtering dates
 	 *
-	 * @param   \FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
-	 * @param   array                $options   An array of options.
+	 * @param   Query  $idxQuery  A Query object.
+	 * @param   array  $options   An array of options.
 	 *
 	 * @return  mixed  A rendered HTML widget on success, null otherwise.
 	 *
@@ -466,7 +467,9 @@ class Filter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				HTMLHelper::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
+				/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+				$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+				$wa->useStyle('com_finder.dates');
 			}
 
 			// Open the widget.

@@ -3,15 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Installer\Administrator\Table;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Downloadkey Table class.
@@ -23,11 +24,11 @@ class UpdatesiteTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   DatabaseDriver  $db  Database connector object
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_installer.downloadkey';
 

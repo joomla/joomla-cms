@@ -3,19 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_sampledata
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('bootstrap.framework');
-HTMLHelper::_('form.csrf');
-HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', ['version' => 'auto', 'relative' => true]);
+$app->getDocument()->getWebAssetManager()
+	->registerAndUseScript('mod_sampledata', 'mod_sampledata/sampledata-process.js', [], ['defer' => true], ['core']);
 
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');

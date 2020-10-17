@@ -3,17 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Registry\Registry;
 
 // Load tooltips behavior
 HTMLHelper::_('behavior.formvalidator');
@@ -26,7 +24,7 @@ Text::script('NOTICE');
 Text::script('MESSAGE');
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate" data-cancel-task="config.cancel.component">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
 	<div class="row">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-3">
@@ -36,16 +34,6 @@ Text::script('MESSAGE');
 			</button>
 			<div class="sidebar-nav bg-light p-2 my-2">
 				<?php echo $this->loadTemplate('navigation'); ?>
-				<?php
-				// Display the submenu position modules
-				$this->submenumodules = ModuleHelper::getModules('submenu');
-				foreach ($this->submenumodules as $submenumodule)
-				{
-					$output = ModuleHelper::renderModule($submenumodule);
-					$params = new Registry($submenumodule->params);
-					echo $output;
-				}
-				?>
 			</div>
 		</div>
 		<!-- End Sidebar -->
@@ -60,7 +48,6 @@ Text::script('MESSAGE');
 				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-system', Text::_('COM_CONFIG_SYSTEM')); ?>
-					<?php echo $this->loadTemplate('system'); ?>
 					<?php echo $this->loadTemplate('debug'); ?>
 					<?php echo $this->loadTemplate('cache'); ?>
 					<?php echo $this->loadTemplate('session'); ?>
@@ -73,6 +60,11 @@ Text::script('MESSAGE');
 					<?php echo $this->loadTemplate('proxy'); ?>
 					<?php echo $this->loadTemplate('database'); ?>
 					<?php echo $this->loadTemplate('mail'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-logging', Text::_('COM_CONFIG_LOGGING')); ?>
+					<?php echo $this->loadTemplate('logging'); ?>
+					<?php echo $this->loadTemplate('logging_custom'); ?>
 				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-filters', Text::_('COM_CONFIG_TEXT_FILTERS')); ?>

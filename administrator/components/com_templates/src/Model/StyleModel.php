@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Templates\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
@@ -437,6 +438,12 @@ class StyleModel extends AdminModel
 			$form->setFieldAttribute('home', 'readonly', 'true');
 		}
 
+		if ($client->name === 'site' && !Multilanguage::isEnabled())
+		{
+			$form->setFieldAttribute('home', 'type', 'radio');
+			$form->setFieldAttribute('home', 'layout', 'joomla.form.field.radio.switcher');
+		}
+
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
@@ -550,7 +557,8 @@ class StyleModel extends AdminModel
 					->set($db->quoteName('template_style_id') . ' = :newtsid')
 					->whereIn($db->quoteName('id'), $data['assigned'])
 					->where($db->quoteName('template_style_id') . ' != :tsid')
-					->whereIn($db->quoteName('checked_out'), [0, $userId])
+					->where('(' . $db->quoteName('checked_out') . ' IS NULL OR ' . $db->quoteName('checked_out') . ' = :userid)')
+					->bind(':userid', $userId, ParameterType::INTEGER)
 					->bind(':newtsid', $tableId, ParameterType::INTEGER)
 					->bind(':tsid', $tableId, ParameterType::INTEGER);
 				$db->setQuery($query);
@@ -570,7 +578,8 @@ class StyleModel extends AdminModel
 			}
 
 			$query->where($db->quoteName('template_style_id') . ' = :templatestyleid')
-				->whereIn($db->quoteName('checked_out'), [0, $userId])
+				->where('(' . $db->quoteName('checked_out') . ' IS NULL OR ' . $db->quoteName('checked_out') . ' = :userid)')
+				->bind(':userid', $userId, ParameterType::INTEGER)
 				->bind(':templatestyleid', $tableId, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();

@@ -3,14 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Extensionupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -61,7 +60,7 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		$options  = array(
 			'url' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
 			'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token
-				. '&cache_timeout=3600&eid=0&skip=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
+				. '&cache_timeout=3600&eid=0&skip=' . ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
 		);
 
 		$this->app->getDocument()->addScriptOptions('js-extensions-update', $options);
@@ -74,8 +73,14 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		Text::script('INFO');
 		Text::script('WARNING');
 
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.min.js', array('version' => 'auto', 'relative' => true));
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript(
+				'plg_quickicon_extensionupdate',
+				'plg_quickicon_extensionupdate/extensionupdatecheck.min.js',
+				[],
+				['defer' => true],
+				['core']
+			);
 
 		return array(
 			array(

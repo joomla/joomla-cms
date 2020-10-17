@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
@@ -218,19 +218,21 @@ class FieldModel extends AdminModel
 
 			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
-				$names = array();
-
-				foreach ($newParams as $param)
-				{
-					$names[] = $db->quote($param['value']);
-				}
+				// Get new values.
+				$names = array_column((array) $newParams, 'value');
 
 				$fieldId = (int) $field->id;
 				$query = $db->getQuery(true);
 				$query->delete($db->quoteName('#__fields_values'))
 					->where($db->quoteName('field_id') . ' = :fieldid')
-					->whereNotIn($db->quoteName('value'), $names, ParameterType::STRING)
 					->bind(':fieldid', $fieldId, ParameterType::INTEGER);
+
+				// If new values are set, delete only old values. Otherwise delete all values.
+				if ($names)
+				{
+					$query->whereNotIn($db->quoteName('value'), $names, ParameterType::STRING);
+				}
+
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -255,7 +257,7 @@ class FieldModel extends AdminModel
 	private function checkDefaultValue($data)
 	{
 		// Empty default values are correct
-		if (empty($data['default_value']))
+		if (empty($data['default_value']) && $data['default_value'] !== '0')
 		{
 			return true;
 		}

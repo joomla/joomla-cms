@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\ParameterType;
 
 /**
  * Extension Helper class.
@@ -24,16 +25,18 @@ class ExtensionHelper
 	/**
 	 * The loaded extensions.
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  4.0.0
 	 */
 	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => [], PluginInterface::class => []];
 
 	/**
 	 * The loaded extensions.
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  4.0.0
 	 */
-	private static $loadedextensions = [];
+	private static $loadedExtensions = [];
 
 	/**
 	 * Array of core extensions
@@ -91,6 +94,9 @@ class ExtensionHelper
 
 		// Core language extensions - site
 		array('language', 'en-GB', '', 0),
+
+		// Core language extensions - API
+		array('language', 'en-GB', '', 3),
 
 		// Core library extensions
 		array('library', 'joomla', '', 0),
@@ -155,6 +161,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - API Authentication
 		array('plugin', 'basic', 'api-authentication', 0),
+		array('plugin', 'token', 'api-authentication', 0),
 
 		// Core plugin extensions - authentication
 		array('plugin', 'cookie', 'authentication', 0),
@@ -211,7 +218,6 @@ class ExtensionHelper
 		array('plugin', 'list', 'fields', 0),
 		array('plugin', 'media', 'fields', 0),
 		array('plugin', 'radio', 'fields', 0),
-		array('plugin', 'repeatable', 'fields', 0),
 		array('plugin', 'sql', 'fields', 0),
 		array('plugin', 'subfields', 'fields', 0),
 		array('plugin', 'text', 'fields', 0),
@@ -263,6 +269,7 @@ class ExtensionHelper
 		array('plugin', 'multilang', 'sampledata', 0),
 
 		// Core plugin extensions - system
+		array('plugin', 'accessibility', 'system', 0),
 		array('plugin', 'actionlogs', 'system', 0),
 		array('plugin', 'cache', 'system', 0),
 		array('plugin', 'debug', 'system', 0),
@@ -282,6 +289,7 @@ class ExtensionHelper
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
+		array('plugin', 'webauthn', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
@@ -292,12 +300,14 @@ class ExtensionHelper
 		array('plugin', 'joomla', 'user', 0),
 		array('plugin', 'profile', 'user', 0),
 		array('plugin', 'terms', 'user', 0),
+		array('plugin', 'token', 'user', 0),
 
 		// Core plugin extensions - webservices
 		array('plugin', 'banners', 'webservices', 0),
 		array('plugin', 'config', 'webservices', 0),
 		array('plugin', 'contact', 'webservices', 0),
 		array('plugin', 'content', 'webservices', 0),
+		array('plugin', 'installer', 'webservices', 0),
 		array('plugin', 'languages', 'webservices', 0),
 		array('plugin', 'menus', 'webservices', 0),
 		array('plugin', 'messages', 'webservices', 0),
@@ -310,6 +320,10 @@ class ExtensionHelper
 		array('plugin', 'templates', 'webservices', 0),
 		array('plugin', 'users', 'webservices', 0),
 
+		// Core plugin extensions - workflow
+		array('plugin', 'featuring', 'workflow', 0),
+		array('plugin', 'notification', 'workflow', 0),
+		array('plugin', 'publishing', 'workflow', 0),
 
 		// Core template extensions - administrator
 		array('template', 'atum', '', 1),
@@ -317,6 +331,14 @@ class ExtensionHelper
 		// Core template extensions - site
 		array('template', 'cassiopeia', '', 0),
 	);
+
+	/**
+	 * Array of core extension IDs.
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected static $coreExtensionIds;
 
 	/**
 	 * Gets the core extensions.
@@ -330,6 +352,42 @@ class ExtensionHelper
 	public static function getCoreExtensions()
 	{
 		return self::$coreExtensions;
+	}
+
+	/**
+	 * Returns an array of core extension IDs.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 * @throws  \RuntimeException
+	 */
+	public static function getCoreExtensionIds()
+	{
+		if (self::$coreExtensionIds !== null)
+		{
+			return self::$coreExtensionIds;
+		}
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'));
+
+		foreach (self::$coreExtensions as $extension)
+		{
+			$values = $query->bindArray($extension, [ParameterType::STRING, ParameterType::STRING, ParameterType::STRING, ParameterType::INTEGER]);
+			$query->where(
+				'(' . $db->quoteName('type') . ' = ' . $values[0] . ' AND ' . $db->quoteName('element') . ' = ' . $values[1]
+				. ' AND ' . $db->quoteName('folder') . ' = ' . $values[2] . ' AND ' . $db->quoteName('client_id') . ' = ' . $values[3] . ')',
+				'OR'
+			);
+		}
+
+		$db->setQuery($query);
+		self::$coreExtensionIds = $db->loadColumn();
+
+		return self::$coreExtensionIds;
 	}
 
 	/**
@@ -352,27 +410,65 @@ class ExtensionHelper
 	/**
 	 * Returns an extension record for the given name.
 	 *
-	 * @param   string  $name  The extension name
+	 * @param   string        $element   The extension element
+	 * @param   string        $type      The extension type
+	 * @param   integer|null  $clientId  The client ID
+	 * @param   string|null   $folder    Plugin folder
 	 *
-	 * @return  \stdClass  The object
+	 * @return  \stdClass|null  The object or null if not found.
 	 *
 	 * @since   4.0.0
+	 * @throws  \InvalidArgumentException
 	 */
-	public static function getExtensionRecord($name)
+	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\stdClass
 	{
-		if (!\array_key_exists($name, self::$loadedextensions))
+		if ($type === 'plugin' && $folder === null)
+		{
+			throw new \InvalidArgumentException(sprintf('`$folder` is required when `$type` is `plugin` in %s()', __METHOD__));
+		}
+
+		if (\in_array($type, ['module', 'language', 'template'], true) && $clientId === null)
+		{
+			throw new \InvalidArgumentException(
+				sprintf('`$clientId` is required when `$type` is `module`, `language` or `template` in %s()', __METHOD__)
+			);
+		}
+
+		$key = $element . '.' . $type . '.' . $clientId . '.' . $folder;
+
+		if (!\array_key_exists($key, self::$loadedExtensions))
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('name') . ' = :name')
-				->bind(':name', $name);
+				->where(
+					[
+						$db->quoteName('element') . ' = :element',
+						$db->quoteName('type') . ' = :type',
+					]
+				)
+				->bind(':element', $element)
+				->bind(':type', $type);
+
+			if ($clientId !== null)
+			{
+				$query->where($db->quoteName('client_id') . ' = :clientId')
+					->bind(':clientId', $clientId, ParameterType::INTEGER);
+			}
+
+			if ($folder !== null)
+			{
+				$query->where($db->quoteName('folder') . ' = :folder')
+					->bind(':folder', $folder);
+			}
+
+			$query->setLimit(1);
 			$db->setQuery($query);
 
-			self::$loadedextensions[$name] = $db->loadObject();
+			self::$loadedExtensions[$key] = $db->loadObject();
 		}
 
-		return self::$loadedextensions[$name];
+		return self::$loadedExtensions[$key];
 	}
 }

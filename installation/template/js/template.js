@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 (function() {
@@ -57,7 +57,7 @@
 
     Joomla.request({
       type     : "POST",
-      url      : Jooomla.baseUrl,
+      url      : Joomla.baseUrl,
       data     : data,
       dataType : 'json',
       onSuccess: function (response, xhr) {

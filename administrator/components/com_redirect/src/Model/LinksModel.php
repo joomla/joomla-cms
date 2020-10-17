@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Redirect\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -227,9 +227,33 @@ class LinksModel extends ListModel
 			'hits',
 			'published',
 			'created_date',
+			'modified_date',
 		];
 
-		foreach ($batch_urls as $i => $batch_url)
+		$values = [
+			':oldurl',
+			':newurl',
+			$db->quote(''),
+			$db->quote(''),
+			0,
+			':state',
+			':created',
+			':modified',
+		];
+
+		$query
+			->insert($db->quoteName('#__redirect_links'), false)
+			->columns($db->quoteName($columns))
+			->values(implode(', ', $values))
+			->bind(':oldurl', $old_url)
+			->bind(':newurl', $new_url)
+			->bind(':state', $state, ParameterType::INTEGER)
+			->bind(':created', $created)
+			->bind(':modified', $created);
+
+		$db->setQuery($query);
+
+		foreach ($batch_urls as $batch_url)
 		{
 			$old_url = $batch_url[0];
 
@@ -243,26 +267,6 @@ class LinksModel extends ListModel
 				$new_url = '';
 			}
 
-			$values = [
-				':oldurl' . $i,
-				':newurl' . $i,
-				$db->quote(''),
-				$db->quote(''),
-				0,
-				':state' . $i,
-				':created' . $i,
-			];
-
-			$query->clear()
-				->insert($db->quoteName('#__redirect_links'), false)
-				->columns($db->quoteName($columns))
-				->values(implode(', ', $values))
-				->bind(':oldurl' . $i, $old_url)
-				->bind(':newurl' . $i, $new_url)
-				->bind(':state' . $i, $state, ParameterType::INTEGER)
-				->bind(':created' . $i, $created);
-
-			$db->setQuery($query);
 			$db->execute();
 		}
 

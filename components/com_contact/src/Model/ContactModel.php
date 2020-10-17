@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
@@ -300,8 +300,16 @@ class ContactModel extends FormModel
 			}
 			catch (\Exception $e)
 			{
-				$this->setError($e);
-				$this->_item[$pk] = false;
+				if ($e->getCode() == 404)
+				{
+					// Need to go through the error handler to allow Redirect to work.
+					throw $e;
+				}
+				else
+				{
+					$this->setError($e);
+					$this->_item[$pk] = false;
+				}
 			}
 		}
 
@@ -323,9 +331,9 @@ class ContactModel extends FormModel
 	protected function buildContactExtendedData($contact)
 	{
 		$db        = $this->getDbo();
-		$nowDate   = $db->quote(Factory::getDate()->toSql());
+		$nowDate   = Factory::getDate()->toSql();
 		$user      = Factory::getUser();
-		$groups = $user->getAuthorisedViewLevels();
+		$groups    = $user->getAuthorisedViewLevels();
 		$published = $this->getState('filter.published');
 		$query     = $db->getQuery(true);
 
@@ -369,12 +377,12 @@ class ContactModel extends FormModel
 			{
 				$query->where('a.state IN (1,2)')
 					->where('(' . $db->quoteName('a.publish_up') . ' IS NULL' .
-						' OR ' . $db->quoteName('a.publish_up') . ' <= :now)'
+						' OR ' . $db->quoteName('a.publish_up') . ' <= :now1)'
 					)
 					->where('(' . $db->quoteName('a.publish_down') . ' IS NULL' .
-						' OR ' . $db->quoteName('a.publish_down') . ' >= :now)'
+						' OR ' . $db->quoteName('a.publish_down') . ' >= :now2)'
 					)
-					->bind(':now', $nowDate);
+					->bind([':now1', ':now2'], $nowDate);
 			}
 
 			// Number of articles to display from config/menu params
@@ -464,7 +472,6 @@ class ContactModel extends FormModel
 			$pk = $pk ?: (int) $this->getState('contact.id');
 
 			$table = $this->getTable('Contact');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

@@ -3,13 +3,13 @@
  * @package     Joomla.API
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Templates\Api\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\String\Inflector;
@@ -75,7 +75,7 @@ class StylesController extends ApiController
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  InvalidParameterException
 	 */
 	protected function preprocessSaveData(array $data): array

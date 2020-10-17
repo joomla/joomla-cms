@@ -3,14 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Tags\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 
 /**
  * The Tag Controller
@@ -19,6 +20,8 @@ use Joomla\CMS\MVC\Controller\FormController;
  */
 class TagController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * Method to check if you can add a new record.
 	 *

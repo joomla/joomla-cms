@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,8 +14,8 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   JForm        $form    Form with extra options for the set
- * @var   JLayoutFile  $this    Context
+ * @var   JForm        $form  Form with extra options for the set
+ * @var   JLayoutFile  $this  Context
  */
 
 ?>

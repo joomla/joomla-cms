@@ -3,13 +3,13 @@
  * @package     Joomla.API
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Categories\Api\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
 
@@ -43,11 +43,16 @@ class CategoriesController extends ApiController
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function preprocessSaveData(array $data): array
 	{
-		$data['extension'] = $this->getExtensionFromInput();
+		$extension = $this->getExtensionFromInput();
+		$data['extension'] = $extension;
+
+		// TODO: This is a hack to drop the extension into the global input object - to satisfy how state is built
+		//       we should be able to improve this in the future
+		$this->input->set('extension', $extension);
 
 		return $data;
 	}

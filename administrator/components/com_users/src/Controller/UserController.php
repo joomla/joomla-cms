@@ -3,12 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -110,6 +110,5 @@ class UserController extends FormController
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
-		return;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,8 +84,7 @@ abstract class TagsPopularHelper
 
 		if ($timeframe !== 'alltime')
 		{
-			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd(':nowDate1', '-1', strtoupper($timeframe)))
-				->bind(':nowDate1', $nowDate);
+			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($db->quote($nowDate), '-1', strtoupper($timeframe)));
 		}
 
 		$query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
@@ -97,12 +96,17 @@ abstract class TagsPopularHelper
 
 		// Only return tags connected to published and authorised items
 		$query->where($db->quoteName('c.core_state') . ' = 1')
-			->whereIn($db->quoteName('c.core_access'), $groups)
-			->where('(' . $db->quoteName('c.core_publish_up') . ' IS NULL'
+			->where(
+				'(' . $db->quoteName('c.core_access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')'
+				. ' OR ' . $db->quoteName('c.core_access') . ' = 0)'
+			)
+			->where(
+				'(' . $db->quoteName('c.core_publish_up') . ' IS NULL'
 				. ' OR ' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
 				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= :nowDate2)'
 			)
-			->where('(' . $db->quoteName('c.core_publish_down') . ' IS NULL'
+			->where(
+				'(' . $db->quoteName('c.core_publish_down') . ' IS NULL'
 				. ' OR ' . $db->quoteName('c.core_publish_down') . ' = :nullDate3'
 				. ' OR ' . $db->quoteName('c.core_publish_down') . ' >= :nowDate3)'
 			)

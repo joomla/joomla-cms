@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,9 +106,18 @@ abstract class FormField
 	 * If you use this flag you should ensure you display the label in your form (for a11y etc.)
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $hiddenLabel = false;
+
+	/**
+	 * Should the description be hidden when rendering the form field? This may be useful if you have the
+	 * description rendering in your form field itself for e.g. note fields.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $hiddenDescription = false;
 
 	/**
 	 * True to translate the field label string.
@@ -361,6 +370,16 @@ abstract class FormField
 	protected $renderLabelLayout = 'joomla.form.renderlabel';
 
 	/**
+	 * The data-attribute name and values of the form field.
+	 * For example, data-action-type="click" data-action-type="change"
+	 *
+	 * @var  array
+	 *
+	 * @since 4.0.0
+	 */
+	protected $dataAttributes = array();
+
+	/**
 	 * Method to instantiate the form field object.
 	 *
 	 * @param   Form  $form  The form to attach to the form field object.
@@ -453,6 +472,13 @@ abstract class FormField
 
 			case 'title':
 				return $this->getTitle();
+
+			default:
+				// Check for data attribute
+				if (strpos($name, 'data-') === 0 && array_key_exists($name, $this->dataAttributes))
+				{
+					return $this->dataAttributes[$name];
+				}
 		}
 
 		return;
@@ -546,13 +572,21 @@ abstract class FormField
 				break;
 
 			default:
-				if (property_exists(__CLASS__, $name))
+				// Detect data attribute(s)
+				if (strpos($name, 'data-') === 0)
 				{
-					Log::add("Cannot access protected / private property $name of " . __CLASS__);
+					$this->dataAttributes[$name] = $value;
 				}
 				else
 				{
-					$this->$name = $value;
+					if (property_exists(__CLASS__, $name))
+					{
+						Log::add("Cannot access protected / private property $name of " . __CLASS__);
+					}
+					else
+					{
+						$this->$name = $value;
+					}
 				}
 		}
 	}
@@ -620,6 +654,16 @@ abstract class FormField
 		else
 		{
 			$this->value = $value;
+		}
+
+		// Lets detect miscellaneous data attribute. For eg, data-*
+		foreach ($this->element->attributes() as $key => $value)
+		{
+			if (strpos($key, 'data-') === 0)
+			{
+				// Data attribute key value pair
+				$this->dataAttributes[$key] = $value;
+			}
 		}
 
 		foreach ($attributes as $attributeName)
@@ -918,6 +962,41 @@ abstract class FormField
 	}
 
 	/**
+	 * Method to get data attributes. For example, data-user-type
+	 *
+	 * @return  array list of data attribute(s)
+	 *
+	 * @since  4.0.0
+	 */
+	public function getDataAttributes()
+	{
+		return $this->dataAttributes;
+	}
+
+	/**
+	 * Method to render data attributes to html.
+	 *
+	 * @return  string  A HTML Tag Attribute string of data attribute(s)
+	 *
+	 * @since  4.0.0
+	 */
+	public function renderDataAttributes()
+	{
+		$dataAttribute  = '';
+		$dataAttributes = $this->getDataAttributes();
+
+		if (!empty($dataAttributes))
+		{
+			foreach ($dataAttributes as $key => $attrValue)
+			{
+				$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+			}
+		}
+
+		return $dataAttribute;
+	}
+
+	/**
 	 * Render a layout of this field
 	 *
 	 * @param   string  $layoutId  Layout identifier
@@ -957,9 +1036,28 @@ abstract class FormField
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->hiddenLabel)
+		if (empty($options['hiddenLabel']))
 		{
-			$options['hiddenLabel'] = true;
+			if ($this->getAttribute('hiddenLabel'))
+			{
+				$options['hiddenLabel'] = $this->getAttribute('hiddenLabel') == 'true';
+			}
+			else
+			{
+				$options['hiddenLabel'] = $this->hiddenLabel;
+			}
+		}
+
+		if (empty($options['hiddenDescription']))
+		{
+			if ($this->getAttribute('hiddenDescription'))
+			{
+				$options['hiddenDescription'] = $this->getAttribute('hiddenDescription') == 'true';
+			}
+			else
+			{
+				$options['hiddenDescription'] = $this->hiddenDescription;
+			}
 		}
 
 		if ($this->showon)
@@ -1032,6 +1130,30 @@ abstract class FormField
 			{
 				return \call_user_func($filter, $value);
 			}
+
+			if ($this instanceof SubformField)
+			{
+				$subForm = $this->loadSubForm();
+
+				if ($this->multiple)
+				{
+					$return = array();
+
+					if ($value)
+					{
+						foreach ($value as $key => $val)
+						{
+							$return[$key] = $subForm->filter($val);
+						}
+					}
+				}
+				else
+				{
+					$return = $subForm->filter($value);
+				}
+
+				return $return;
+			}
 		}
 
 		return InputFilter::getInstance()->clean($value, $filter);
@@ -1051,7 +1173,7 @@ abstract class FormField
 	 * @throws  \InvalidArgumentException
 	 * @throws  \UnexpectedValueException
 	 */
-	public function validate($value, $group = null, \Joomla\Registry\Registry $input = null)
+	public function validate($value, $group = null, Registry $input = null)
 	{
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
@@ -1106,37 +1228,17 @@ abstract class FormField
 
 		if ($valid !== false && $this instanceof SubformField)
 		{
-			$subForm = $this->loadSubForm();
+			// Load the subform validation rule.
+			$rule = FormHelper::loadRuleType('SubForm');
 
-			if ($this->multiple)
+			try
 			{
-				if ($value)
-				{
-					foreach ($value as $key => $val)
-					{
-						$val = (array) $val;
-						$valid = $subForm->validate($val);
-
-						if ($valid === false)
-						{
-							break;
-						}
-					}
-				}
+				// Run the field validation rule test.
+				$valid = $rule->test($this->element, $value, $group, $input, $this->form);
 			}
-			else
+			catch (\Exception $e)
 			{
-				$valid = $subForm->validate($value);
-			}
-
-			if ($valid === false)
-			{
-				$errors = $subForm->getErrors();
-
-				foreach ($errors as $error)
-				{
-					return $error;
-				}
+				return $e;
 			}
 		}
 
@@ -1197,7 +1299,7 @@ abstract class FormField
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
-		return array(
+		return [
 			'autocomplete'   => $this->autocomplete,
 			'autofocus'      => $this->autofocus,
 			'class'          => $this->class,
@@ -1223,7 +1325,9 @@ abstract class FormField
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
 			'value'          => $this->value,
-		);
+			'dataAttribute'  => $this->renderDataAttributes(),
+			'dataAttributes' => $this->dataAttributes,
+		];
 	}
 
 	/**

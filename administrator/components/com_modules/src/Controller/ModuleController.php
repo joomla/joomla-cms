@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Modules\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -31,7 +31,7 @@ class ModuleController extends FormController
 	/**
 	 * Override parent add method.
 	 *
-	 * @return  mixed  True if the record can be added, a \Exception object if not.
+	 * @return  \Exception|void  True if the record can be added, a \Exception object if not.
 	 *
 	 * @since   1.6
 	 */

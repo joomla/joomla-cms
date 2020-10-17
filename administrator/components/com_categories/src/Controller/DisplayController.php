@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Categories\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
@@ -44,10 +44,10 @@ class DisplayController extends BaseController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   Input                $input    Input
+	 * @param   array                     $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
+	 * @param   CMSApplication|null       $app      The JApplication for the dispatcher
+	 * @param   Input|null                $input    Input
 	 *
 	 * @since   3.0
 	 */
@@ -68,7 +68,7 @@ class DisplayController extends BaseController
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  static  This object to support chaining.
+	 * @return  static|boolean  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */

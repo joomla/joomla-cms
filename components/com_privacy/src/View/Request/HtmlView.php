@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Site\View\Request;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 		$this->form            = $this->get('Form');
 		$this->state           = $this->get('State');
 		$this->params          = $this->state->params;
-		$this->sendMailEnabled = (bool) Factory::getConfig()->get('mailonline', 1);
+		$this->sendMailEnabled = (bool) Factory::getApplication()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

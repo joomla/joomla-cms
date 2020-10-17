@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Postinstall\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
@@ -18,6 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Model class to manage postinstall messages
@@ -26,6 +27,30 @@ use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
  */
 class MessagesModel extends BaseDatabaseModel
 {
+	/**
+	 * Method to auto-populate the state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 * @since   4.0.0
+	 */
+	protected function populateState()
+	{
+		parent::populateState();
+
+		$eid = (int) Factory::getApplication()->input->getInt('eid');
+
+		if ($eid)
+		{
+			$this->setState('eid', $eid);
+		}
+	}
+
 	/**
 	 * Gets an item with the given id from the database
 	 *
@@ -38,27 +63,30 @@ class MessagesModel extends BaseDatabaseModel
 	public function getItem($id)
 	{
 		$db = $this->getDbo();
+		$id = (int) $id;
 
 		$query = $db->getQuery(true);
 		$query->select(
-			$db->quoteName(
-				array
-				('postinstall_message_id',
-					'extension_id',
-					'title_key',
-					'description_key',
-					'action_key',
-					'language_extension',
-					'language_client_id',
-					'type',
-					'action_file',
-					'action',
-					'condition_file',
-					'condition_method',
-					'version_introduced',
-					'enabled')
-			)
-		)->from($db->quoteName('#__postinstall_messages'))->where($db->quoteName('postinstall_message_id') . ' = ' . $db->quote($id));
+			[
+				$db->quoteName('postinstall_message_id'),
+				$db->quoteName('extension_id'),
+				$db->quoteName('title_key'),
+				$db->quoteName('description_key'),
+				$db->quoteName('action_key'),
+				$db->quoteName('language_extension'),
+				$db->quoteName('language_client_id'),
+				$db->quoteName('type'),
+				$db->quoteName('action_file'),
+				$db->quoteName('action'),
+				$db->quoteName('condition_file'),
+				$db->quoteName('condition_method'),
+				$db->quoteName('version_introduced'),
+				$db->quoteName('enabled'),
+			]
+		)
+			->from($db->quoteName('#__postinstall_messages'))
+			->where($db->quoteName('postinstall_message_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -77,10 +105,14 @@ class MessagesModel extends BaseDatabaseModel
 	public function unpublishMessage($id)
 	{
 		$db = $this->getDbo();
+		$id = (int) $id;
 
 		$query = $db->getQuery(true);
-		$query->update($db->quoteName('#__postinstall_messages'))
-			->set($db->quoteName('enabled') . ' = ' . $db->quote(0))->where($db->quoteName('postinstall_message_id') . ' = ' . $db->quote($id));
+		$query
+			->update($db->quoteName('#__postinstall_messages'))
+			->set($db->quoteName('enabled') . ' = 0')
+			->where($db->quoteName('postinstall_message_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -99,34 +131,34 @@ class MessagesModel extends BaseDatabaseModel
 		$query = $db->getQuery(true);
 
 		$query->select(
-			$db->quoteName(
-				array
-				('postinstall_message_id',
-											'extension_id',
-											'title_key',
-											'description_key',
-											'action_key',
-											'language_extension',
-											'language_client_id',
-											'type',
-											'action_file',
-											'action',
-											'condition_file',
-											'condition_method',
-											'version_introduced',
-											'enabled')
-			)
-		);
+			[
+				$db->quoteName('postinstall_message_id'),
+				$db->quoteName('extension_id'),
+				$db->quoteName('title_key'),
+				$db->quoteName('description_key'),
+				$db->quoteName('action_key'),
+				$db->quoteName('language_extension'),
+				$db->quoteName('language_client_id'),
+				$db->quoteName('type'),
+				$db->quoteName('action_file'),
+				$db->quoteName('action'),
+				$db->quoteName('condition_file'),
+				$db->quoteName('condition_method'),
+				$db->quoteName('version_introduced'),
+				$db->quoteName('enabled'),
+			]
+		)
+			->from($db->quoteName('#__postinstall_messages'));
 
 		// Add a forced extension filtering to the list
-		$eid = $this->getState('eid', $this->getJoomlaFilesExtensionId());
-		$query->where($db->quoteName('extension_id') . ' = ' . $db->quote($eid));
+		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
+		$query->where($db->quoteName('extension_id') . ' = :eid')
+			->bind(':eid', $eid, ParameterType::INTEGER);
 
 		// Force filter only enabled messages
-		$published = $this->getState('published', 1);
-		$query->where($db->quoteName('enabled') . ' = ' . (int) $published);
-
-		$query->from($db->quoteName('#__postinstall_messages'));
+		$published = (int) $this->getState('published', 1);
+		$query->where($db->quoteName('enabled') . ' = :published')
+			->bind(':published', $published, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -149,14 +181,22 @@ class MessagesModel extends BaseDatabaseModel
 	public function getExtensionName($eid)
 	{
 		// Load the extension's information from the database
-		$db = $this->getDbo();
+		$db  = $this->getDbo();
+		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
-			->select(array('name', 'element', 'client_id'))
+			->select(
+				[
+					$db->quoteName('name'),
+					$db->quoteName('element'),
+					$db->quoteName('client_id'),
+				]
+			)
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
+			->where($db->quoteName('extension_id') . ' = :eid')
+			->bind(':eid', $eid, ParameterType::INTEGER)
+			->setLimit(1);
 
-		$query->setLimit(1);
 		$db->setQuery($query);
 
 		$extension = $db->loadObject();
@@ -192,12 +232,14 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function resetMessages($eid)
 	{
-		$db = $this->getDbo();
+		$db  = $this->getDbo();
+		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__postinstall_messages'))
 			->set($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
+			->where($db->quoteName('extension_id') . ' = :eid')
+			->bind(':eid', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -214,12 +256,14 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function hideMessages($eid)
 	{
-		$db = $this->getDbo();
+		$db  = $this->getDbo();
+		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__postinstall_messages'))
 			->set($db->quoteName('enabled') . ' = 0')
-			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
+			->where($db->quoteName('extension_id') . ' = :eid')
+			->bind(':eid', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -302,9 +346,9 @@ class MessagesModel extends BaseDatabaseModel
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
-			->select('extension_id')
+			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__postinstall_messages'))
-			->group(array($db->quoteName('extension_id')));
+			->group($db->quoteName('extension_id'));
 		$db->setQuery($query);
 		$extension_ids = $db->loadColumn();
 
@@ -532,16 +576,24 @@ class MessagesModel extends BaseDatabaseModel
 		}
 
 		// Check if the definition exists
-		$table     = $this->getTable();
-		$tableName = $table->getTableName();
+		$table       = $this->getTable();
+		$tableName   = $table->getTableName();
+		$extensionId = (int) $options['extension_id'];
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName($tableName))
-			->where($db->quoteName('extension_id') . ' = ' . (int) $options['extension_id'])
-			->where($db->quoteName('type') . ' = ' . $db->quote($options['type']))
-			->where($db->quoteName('title_key') . ' = ' . $db->quote($options['title_key']));
+			->where(
+				[
+					$db->quoteName('extension_id') . ' = :extensionId',
+					$db->quoteName('type') . ' = :type',
+					$db->quoteName('title_key') . ' = :titleKey',
+				]
+			)
+			->bind(':extensionId', $extensionId, ParameterType::INTEGER)
+			->bind(':type', $options['type'])
+			->bind(':titleKey', $options['title_key']);
 
 		$existingRow = $db->setQuery($query)->loadAssoc();
 
@@ -568,9 +620,16 @@ class MessagesModel extends BaseDatabaseModel
 			// Otherwise it's not the same row. Remove the old row before insert a new one.
 			$query = $db->getQuery(true)
 				->delete($db->quoteName($tableName))
-				->where($db->quote('extension_id') . ' = ' . (int) $options['extension_id'])
-				->where($db->quote('type') . ' = ' . $db->quote($options['type']))
-				->where($db->quote('title_key') . ' = ' . $db->quote($options['title_key']));
+				->where(
+					[
+						$db->quoteName('extension_id') . ' = :extensionId',
+						$db->quoteName('type') . ' = :type',
+						$db->quoteName('title_key') . ' = :titleKey',
+					]
+				)
+				->bind(':extensionId', $extensionId, ParameterType::INTEGER)
+				->bind(':type', $options['type'])
+				->bind(':titleKey', $options['title_key']);
 
 			$db->setQuery($query)->execute();
 		}
@@ -591,6 +650,6 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getJoomlaFilesExtensionId()
 	{
-		return ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		return ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 	}
 }

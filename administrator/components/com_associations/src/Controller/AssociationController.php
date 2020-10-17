@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Associations\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -30,7 +30,7 @@ class AssociationController extends FormController
 	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
 	 *                           (sometimes required to avoid router collisions).
 	 *
-	 * @return  boolean  True if access level check and checkout passes, false otherwise.
+	 * @return  FormController|boolean  True if access level check and checkout passes, false otherwise.
 	 *
 	 * @since  3.7.0
 	 */

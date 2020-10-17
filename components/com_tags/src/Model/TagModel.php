@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Tags\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -121,7 +121,6 @@ class TagModel extends ListModel
 						break;
 
 					default:
-					case 'published':
 						$item->displayDate = ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up;
 						break;
 				}
@@ -353,8 +352,10 @@ class TagModel extends ListModel
 
 			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 			$table = $this->getTable();
-			$table->load($pk);
 			$table->hit($pk);
+
+			// Load the table data for later
+			$table->load($pk);
 
 			if (!$table->hasPrimaryKey())
 			{

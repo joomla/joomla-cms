@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
@@ -101,6 +101,26 @@ class ComponentModel extends FormModel
 		|| $lang->load($option, JPATH_BASE . "/components/$option");
 
 		return $form;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array  The default data is an empty array.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = Factory::getApplication()->getUserState('com_config.edit.component.data', []);
+
+		if (empty($data))
+		{
+			return $this->getComponent()->getParams()->toArray();
+		}
+
+		return $data;
 	}
 
 	/**

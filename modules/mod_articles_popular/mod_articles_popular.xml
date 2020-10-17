@@ -3,7 +3,7 @@
 	<name>mod_articles_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -30,6 +30,7 @@
 					extension="com_content"
 					multiple="true"
 					filter="intarray"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field
@@ -63,6 +64,7 @@
 					type="list"
 					label="MOD_POPULAR_FIELD_DATEFILTERING_LABEL"
 					default="off"
+					validate="options"
 					>
 					<option value="off">MOD_POPULAR_OPTION_OFF_VALUE</option>
 					<option value="range">MOD_POPULAR_OPTION_DATERANGE_VALUE</option>
@@ -75,6 +77,7 @@
 					label="MOD_POPULAR_FIELD_DATEFIELD_LABEL"
 					default="a.created"
 					showon="date_filtering:range,relative"
+					validate="options"
 					>
 					<option value="a.created">MOD_POPULAR_OPTION_CREATED_VALUE</option>
 					<option value="a.modified">MOD_POPULAR_OPTION_MODIFIED_VALUE</option>
@@ -134,6 +137,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

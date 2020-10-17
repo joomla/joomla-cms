@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
@@ -26,6 +27,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ArticleController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * Constructor.
 	 *
@@ -60,7 +63,7 @@ class ArticleController extends FormController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
@@ -101,21 +104,15 @@ class ArticleController extends FormController
 	protected function allowAdd($data = array())
 	{
 		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
-		$allow = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the data or URL check it.
-			$allow = $this->app->getIdentity()->authorise('core.create', 'com_content.category.' . $categoryId);
+			return $this->app->getIdentity()->authorise('core.create', 'com_content.category.' . $categoryId);
 		}
 
-		if ($allow === null)
-		{
-			// In the absense of better information, revert to the component permissions.
-			return parent::allowAdd();
-		}
-
-		return $allow;
+		// In the absence of better information, revert to the component permissions.
+		return parent::allowAdd();
 	}
 
 	/**

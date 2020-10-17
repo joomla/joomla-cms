@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Fields\Administrator\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
@@ -77,12 +77,10 @@ class TypeField extends ListField
 			}
 		);
 
-		// Load the Joomla spinner
-		Factory::getDocument()->getWebAssetManager()
+		// Load scripts
+		Factory::getApplication()->getDocument()->getWebAssetManager()
+			->useScript('com_fields.admin-field-typehaschanged')
 			->useScript('webcomponent.core-loader');
-
-		// Load the field interactivity script
-		HTMLHelper::_('script', 'com_fields/admin-field-typehaschanged.min.js', ['relative' => true, 'version' => 'auto']);
 
 		return $options;
 	}

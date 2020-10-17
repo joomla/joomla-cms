@@ -3,12 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
@@ -38,6 +38,14 @@ class TransitionsController extends AdminController
 	 * @since  4.0.0
 	 */
 	protected $extension;
+
+	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
 
 	/**
 	 * The prefix to use with controller messages.
@@ -76,7 +84,16 @@ class TransitionsController extends AdminController
 		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
+			$extension = $this->input->getCmd('extension');
+
+			$parts = explode('.', $extension);
+
+			$this->extension = array_shift($parts);
+
+			if (!empty($parts))
+			{
+				$this->section = array_shift($parts);
+			}
 
 			if (empty($this->extension))
 			{
@@ -110,7 +127,11 @@ class TransitionsController extends AdminController
 	 */
 	protected function getRedirectToListAppend()
 	{
-		return '&extension=' . $this->extension
+		$append = parent::getRedirectToListAppend();
+
+		$append .= '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '')
 			. '&workflow_id=' . $this->workflowId;
+
+		return $append;
 	}
 }

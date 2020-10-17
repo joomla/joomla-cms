@@ -3,18 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Categories\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
@@ -25,6 +26,8 @@ use Joomla\Registry\Registry;
  */
 class CategoryController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The extension for which the categories apply.
 	 *
@@ -36,15 +39,16 @@ class CategoryController extends FormController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   Input                $input    Input
+	 * @param   array                     $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
+	 * @param   CMSApplication|null       $app      The JApplication for the dispatcher
+	 * @param   Input|null                $input    Input
 	 *
 	 * @since  1.6
 	 * @see    \JControllerLegacy
+	 * @throws \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -117,7 +121,7 @@ class CategoryController extends FormController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object  $model  The model.
+	 * @param   object|null  $model  The model.
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
@@ -127,7 +131,6 @@ class CategoryController extends FormController
 	{
 		$this->checkToken();
 
-		// Set the model
 		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
 		$model = $this->getModel('Category');
 
@@ -140,8 +143,8 @@ class CategoryController extends FormController
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param   integer  $recordId  The primary key id for the item.
-	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 * @param   integer|null  $recordId  The primary key id for the item.
+	 * @param   string        $urlVar    The name of the URL variable for the id.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *

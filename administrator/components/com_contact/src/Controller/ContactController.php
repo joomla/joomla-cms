@@ -3,16 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -22,6 +23,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ContactController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * Method override to check if you can add a new record.
 	 *
@@ -34,21 +37,15 @@ class ContactController extends FormController
 	protected function allowAdd($data = array())
 	{
 		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
-		$allow = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
+			return $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
-		if ($allow === null)
-		{
-			// In the absense of better information, revert to the component permissions.
-			return parent::allowAdd($data);
-		}
-
-		return $allow;
+		// In the absence of better information, revert to the component permissions.
+		return parent::allowAdd($data);
 	}
 
 	/**

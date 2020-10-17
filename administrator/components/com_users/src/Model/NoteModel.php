@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 
 /**
  * User note model.
@@ -22,6 +23,8 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class NoteModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The type alias for this content type.
 	 *

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ class Cache
 			'locking'      => true,
 			'locktime'     => 15,
 			'checkTime'    => true,
-			'caching'      => ($app->get('caching') >= 1) ? true : false,
+			'caching'      => ($app->get('caching') >= 1),
 		);
 
 		// Overwrite default options with given options
@@ -517,7 +517,7 @@ class Cache
 	/**
 	 * Perform workarounds on retrieved cached data
 	 *
-	 * @param   string  $data     Cached data
+	 * @param   array   $data     Cached data
 	 * @param   array   $options  Array of options
 	 *
 	 * @return  string  Body of cached data

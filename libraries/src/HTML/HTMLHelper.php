@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -436,8 +436,15 @@ abstract class HTMLHelper
 			// If relative search in template directory or media directory
 			if ($relative)
 			{
-				// Get the template
-				$template = Factory::getApplication()->getTemplate();
+				$app        = Factory::getApplication();
+				$template   = $app->getTemplate(true);
+				$templaPath = JPATH_THEMES;
+
+				if ($template->inheritable || !empty($template->parent))
+				{
+					$client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
+					$templaPath = JPATH_ROOT . "/media/templates/$client";
+				}
 
 				// For each potential files
 				foreach ($potential as $strip)
@@ -452,7 +459,19 @@ abstract class HTMLHelper
 					 */
 					foreach ($files as $file)
 					{
-						$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/$file", $ext, $debugMode);
+						if (!empty($template->parent))
+						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+
+							if (empty($found))
+							{
+								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/$file", $ext, $debugMode);
+							}
+						}
+						else
+						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+						}
 
 						if (!empty($found))
 						{
@@ -495,23 +514,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (!empty($template->parent))
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
-
-									// Try to deal with system files in the media folder
-									$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									else
 									{
-										$includes[] = $found;
+										// Try to deal with system files in the media folder
+										$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 								}
 								else
@@ -527,13 +560,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (!empty($template->parent))
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+									}
+									else
+									{
+										// Try to deal with system files in the template folder
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 
 									// Try to deal with system files in the media folder
@@ -628,6 +685,12 @@ abstract class HTMLHelper
 		if ($returnPath === 1)
 		{
 			return $file;
+		}
+
+		// Default to lazy you can disable lazyloading by passing $attribs['loading'] = 'eager';
+		if (!isset($attribs['loading']))
+		{
+			$attribs['loading'] = 'lazy';
 		}
 
 		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
@@ -1053,31 +1116,33 @@ abstract class HTMLHelper
 		}
 
 		$data = array(
-			'id'           => $id,
-			'name'         => $name,
-			'class'        => $class,
-			'value'        => $inputvalue,
-			'format'       => $format,
-			'filter'       => $filter,
-			'required'     => $required,
-			'readonly'     => $readonly,
-			'disabled'     => $disabled,
-			'hint'         => $hint,
-			'autofocus'    => $autofocus,
-			'autocomplete' => $autocomplete,
-			'todaybutton'  => $todayBtn,
-			'weeknumbers'  => $weekNumbers,
-			'showtime'     => $showTime,
-			'filltable'    => $fillTable,
-			'timeformat'   => $timeFormat,
-			'singleheader' => $singleHeader,
-			'tag'          => $tag,
-			'helperPath'   => $helperPath,
-			'localesPath'  => $localesPath,
-			'direction'    => $direction,
-			'onchange'     => $onchange,
-			'minYear'      => $minYear,
-			'maxYear'      => $maxYear,
+			'id'             => $id,
+			'name'           => $name,
+			'class'          => $class,
+			'value'          => $inputvalue,
+			'format'         => $format,
+			'filter'         => $filter,
+			'required'       => $required,
+			'readonly'       => $readonly,
+			'disabled'       => $disabled,
+			'hint'           => $hint,
+			'autofocus'      => $autofocus,
+			'autocomplete'   => $autocomplete,
+			'todaybutton'    => $todayBtn,
+			'weeknumbers'    => $weekNumbers,
+			'showtime'       => $showTime,
+			'filltable'      => $fillTable,
+			'timeformat'     => $timeFormat,
+			'singleheader'   => $singleHeader,
+			'tag'            => $tag,
+			'helperPath'     => $helperPath,
+			'localesPath'    => $localesPath,
+			'direction'      => $direction,
+			'onchange'       => $onchange,
+			'minYear'        => $minYear,
+			'maxYear'        => $maxYear,
+			'dataAttribute'  => '',
+			'dataAttributes' => '',
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
@@ -1208,4 +1273,3 @@ abstract class HTMLHelper
 		return '';
 	}
 }
-

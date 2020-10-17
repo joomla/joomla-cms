@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ use Joomla\Registry\Registry;
 class ComponentAdapter extends InstallerAdapter
 {
 	/**
-	 * The list of current files fo the Joomla! CMS administrator that are installed and is read
+	 * The list of current files for the Joomla! CMS administrator that are installed and is read
 	 * from the manifest on disk in the update area to handle doing a diff
 	 * and deleting files that are in the old files list and not in the new
 	 * files list.
@@ -44,7 +44,7 @@ class ComponentAdapter extends InstallerAdapter
 	protected $oldAdminFiles = null;
 
 	/**
-	 * The list of current files fo the Joomla! CMS API that are installed and is read
+	 * The list of current files for the Joomla! CMS API that are installed and is read
 	 * from the manifest on disk in the update area to handle doing a diff
 	 * and deleting files that are in the old files list and not in the new
 	 * files list.
@@ -852,7 +852,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		// Attempt to load the admin language file; might have uninstall strings
-		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $this->element);
+		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $this->extension->element);
 	}
 
 	/**

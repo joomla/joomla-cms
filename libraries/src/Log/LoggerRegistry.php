@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,6 +31,7 @@ final class LoggerRegistry
 		'messagequeue'  => Logger\MessagequeueLogger::class,
 		'syslog'        => Logger\SyslogLogger::class,
 		'w3c'           => Logger\W3cLogger::class,
+		'inmemory'      => Logger\InMemoryLogger::class,
 	];
 
 	/**

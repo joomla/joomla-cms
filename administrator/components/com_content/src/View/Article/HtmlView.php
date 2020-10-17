@@ -3,25 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Administrator\View\Article;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
@@ -129,7 +126,7 @@ class HtmlView extends BaseHtmlView
 		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
 
 		// Built the actions for new and existing records.
 		$canDo = $this->canDo;
@@ -138,7 +135,7 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(
 			Text::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
-			'pencil-2 article-add'
+			'pencil-alt article-add'
 		);
 
 		// For new records, check the create permission.
@@ -155,7 +152,7 @@ class HtmlView extends BaseHtmlView
 
 					if ($user->authorise('core.create', 'com_menus.menu'))
 					{
-						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+						$childBar->save('article.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
 					}
 
 					$childBar->save2new('article.save2new');
@@ -194,7 +191,7 @@ class HtmlView extends BaseHtmlView
 					// If checked out, we can still save2menu
 					if ($user->authorise('core.create', 'com_menus.menu'))
 					{
-						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+						$childBar->save('article.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
 					}
 
 					// If checked out, we can still save
@@ -223,14 +220,14 @@ class HtmlView extends BaseHtmlView
 				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
-			}
-		}
 
-		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
-		{
-			$toolbar->standardButton('contract')
-				->text('JTOOLBAR_ASSOCIATIONS')
-				->task('article.editAssociations');
+				if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+				{
+					$toolbar->standardButton('contract')
+						->text('JTOOLBAR_ASSOCIATIONS')
+						->task('article.editAssociations');
+				}
+			}
 		}
 
 		$toolbar->divider();

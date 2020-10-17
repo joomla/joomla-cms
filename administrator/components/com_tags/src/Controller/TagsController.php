@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Tags\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -52,7 +52,6 @@ class TagsController extends AdminController
 		$this->setRedirect(Route::_('index.php?option=com_tags&view=tags', false));
 
 		/** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
-
 		$model = $this->getModel();
 
 		if ($model->rebuild())

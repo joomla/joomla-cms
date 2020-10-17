@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,25 +25,27 @@ $function       = 'jSelectContenthistory_' . $field;
 $listOrder      = $this->escape($this->state->get('list.ordering'));
 $listDirn       = $this->escape($this->state->get('list.direction'));
 $deleteMessage  = "alert(Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
-$aliasArray     = explode('.', $this->state->type_alias);
-$option         = (end($aliasArray) == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
+$aliasArray     = explode('.', $this->state->item_id);
+$option         = ($aliasArray[1] == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 2)) : $aliasArray[0];
 $filter         = JFilterInput::getInstance();
-$task           = $filter->clean(end($aliasArray)) . '.loadhistory';
+$task           = $filter->clean($aliasArray[1]) . '.loadhistory';
 $loadUrl        = Route::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
 $deleteUrl      = Route::_('index.php?option=com_contenthistory&task=history.delete');
 $hash           = $this->state->get('sha1_hash');
-$formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
-					. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . Session::getFormToken() . '=1';
+$formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&' . Session::getFormToken() . '=1';
 
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);
 Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
-HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_contenthistory.admin-history-modal');
+
 ?>
 <div class="container-popup">
 	<nav aria-label="toolbar">
-		<div class="btn-group float-right mb-3">
+		<div class="float-right mb-3">
 			<button id="toolbar-load" type="submit" class="btn btn-secondary" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo Route::_($loadUrl); ?>">
 				<span class="fas fa-upload" aria-hidden="true"></span>
 				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>
@@ -74,22 +76,22 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 			</caption>
 			<thead>
 				<tr>
-					<td style="width:1%" class="text-center">
+					<td class="w-1 text-center">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
 					</td>
-					<th scope="col" style="width:15%">
+					<th scope="col" class="w-15">
 						<?php echo Text::_('JDATE'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
-					<th scope="col" style="width:10%">
+					<th scope="col" class="w-10">
 						<?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="text-right">
+					<th scope="col" class="w-10 text-right">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>

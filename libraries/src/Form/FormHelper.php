@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,7 +96,7 @@ class FormHelper
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  FormFilter|boolean  FormRule object on success, false otherwise.
+	 * @return  FormFilterInterface|boolean  FormRule object on success, false otherwise.
 	 *
 	 * @since   4.0.0
 	 */
@@ -372,14 +372,11 @@ class FormHelper
 		// Add the new paths to the stack if not already there.
 		foreach ($new as $path)
 		{
+			$path = \trim($path);
+
 			if (!\in_array($path, $paths))
 			{
-				array_unshift($paths, trim($path));
-			}
-
-			if (!is_dir($path))
-			{
-				array_unshift($paths, trim($path));
+				\array_unshift($paths, $path);
 			}
 		}
 

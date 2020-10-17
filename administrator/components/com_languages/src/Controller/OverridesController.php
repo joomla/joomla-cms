@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Languages\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -35,14 +35,14 @@ class OverridesController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function delete()
 	{
 		// Check for request forgeries.
 		$this->checkToken();
 
-		// Get items to dlete from the request.
+		// Get items to delete from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -77,6 +77,9 @@ class OverridesController extends AdminController
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		/** @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
 		$model = $this->getModel('overrides');
 		$model->purge();

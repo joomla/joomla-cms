@@ -3,11 +3,10 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Page\Acceptance\Administrator\ContentFormPage;
 use Page\Acceptance\Administrator\ContentListPage;
 use Step\Acceptance\Administrator\Content;
 

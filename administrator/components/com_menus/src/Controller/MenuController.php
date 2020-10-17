@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filter\InputFilter;
@@ -31,7 +31,7 @@ class MenuController extends FormController
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  \JController		This object to support chaining.
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
@@ -67,7 +67,7 @@ class MenuController extends FormController
 			$this->setMessage(Text::_('COM_MENUS_ERROR_MENUTYPE'), 'error');
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
 
 			return false;
 		}
@@ -85,8 +85,6 @@ class MenuController extends FormController
 		if (!$form)
 		{
 			throw new \Exception($model->getError(), 500);
-
-			return false;
 		}
 
 		$validData = $model->validate($form, $data);
@@ -114,7 +112,7 @@ class MenuController extends FormController
 			$app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
 
 			return false;
 		}
@@ -134,7 +132,7 @@ class MenuController extends FormController
 
 			// Redirect back to the edit screen.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
-			$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit', false));
+			$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
 
 			return false;
 		}
@@ -169,6 +167,7 @@ class MenuController extends FormController
 				// Set the record data in the session.
 				$recordId = $model->getState($this->context . '.id');
 				$this->holdEditId($context, $recordId);
+				$app->setUserState($context . '.data', null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(Route::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));

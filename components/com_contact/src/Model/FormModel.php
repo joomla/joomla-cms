@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Contact Component Contact Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactModel
 {
@@ -30,7 +30,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 * Model typeAlias string. Used for version history.
 	 *
 	 * @var  string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $typeAlias = 'com_contact.contact';
 
@@ -38,7 +38,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 * Name of the form
 	 *
 	 * @var string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $formName = 'form';
 
@@ -50,7 +50,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  \JForm|boolean  A \JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -81,7 +81,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getItem($itemId = null)
 	{
@@ -130,7 +130,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  string  The return URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getReturnPage()
 	{
@@ -145,7 +145,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 * @return  boolean  True on success.
 	 *
 	 * @throws Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function save($data)
 	{
@@ -173,7 +173,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function populateState()
 	{
@@ -204,7 +204,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'contact')
 	{
@@ -226,7 +226,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @return  Table  A Table object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Contact', $prefix = 'Administrator', $options = array())

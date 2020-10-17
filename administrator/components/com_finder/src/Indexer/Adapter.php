@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -155,7 +155,7 @@ abstract class Adapter extends CMSPlugin
 		}
 
 		// Get the indexer object
-		$this->indexer = Indexer::getInstance();
+		$this->indexer = new Indexer;
 	}
 
 	/**
@@ -299,7 +299,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to index an item.
 	 *
-	 * @param   Result  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a Result object.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -542,7 +542,7 @@ abstract class Adapter extends CMSPlugin
 	 *
 	 * @param   integer  $id  The id of the content item.
 	 *
-	 * @return  Result  A FinderIndexerResult object.
+	 * @return  Result  A Result object.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -904,13 +904,12 @@ abstract class Adapter extends CMSPlugin
 		switch ($item)
 		{
 			// Published and archived items only should return a published state
-			case 1;
+			case 1:
 			case 2:
 				return 1;
 
 			// All other states should return an unpublished state
 			default:
-			case 0:
 				return 0;
 		}
 	}

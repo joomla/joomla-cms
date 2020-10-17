@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Associations\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
@@ -331,7 +331,7 @@ class AssociationsHelper extends ContentHelper
 
 			$url     = Route::_('index.php?' . http_build_query($options));
 			$url     = $allow && $addLink ? $url : '';
-			$text    = strtoupper($language->sef);
+			$text    = $language->lang_code;
 
 			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;

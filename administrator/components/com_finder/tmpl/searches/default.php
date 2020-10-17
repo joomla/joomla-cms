@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,17 +33,19 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				<?php else : ?>
 				<table class="table">
 					<caption id="captionTable" class="sr-only">
-						<?php echo Text::_('COM_FINDER_SEARCHES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						<?php echo Text::_('COM_FINDER_SEARCHES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 					</caption>
 					<thead>
 						<tr>
 							<th scope="col">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_PHRASE', 'a.searchterm', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:15%">
+							<th scope="col" class="w-15">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:1%" class="text-center">
+							<th scope="col" class="w-1 text-center">
 								<?php echo Text::_('COM_FINDER_HEADING_RESULTS'); ?>
 							</th>
 						</tr>

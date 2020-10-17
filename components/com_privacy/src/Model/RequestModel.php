@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -46,8 +46,10 @@ class RequestModel extends AdminModel
 	 */
 	public function createRequest($data)
 	{
+		$app = Factory::getApplication();
+
 		// Creating requests requires the site's email sending be enabled
-		if (!Factory::getConfig()->get('mailonline', 1))
+		if (!$app->get('mailonline', 1))
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 
@@ -131,7 +133,7 @@ class RequestModel extends AdminModel
 
 		// Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
 		/** @var MessageModel $messageModel */
-		$messageModel = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
+		$messageModel = $app->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
 
 		$messageModel->notifySuperUsers(
 			Text::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_SUBJECT'),
@@ -141,8 +143,6 @@ class RequestModel extends AdminModel
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try
 		{
-			$app = Factory::getApplication();
-
 			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			$substitutions = [
@@ -285,7 +285,7 @@ class RequestModel extends AdminModel
 	 */
 	private function getActionlogModel(): ActionlogModel
 	{
-		return Factory::getApplication()->bootComponent('Actionlogs')
+		return Factory::getApplication()->bootComponent('com_actionlogs')
 			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }

@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -18,6 +18,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 
@@ -28,6 +29,8 @@ use Joomla\Registry\Registry;
  */
 class NewsfeedModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The type alias for this content type.
 	 *
@@ -187,17 +190,29 @@ class NewsfeedModel extends AdminModel
 		// Save New Category
 		if ($createCategory && $this->canCreateCategory())
 		{
-			$table = array();
+			$category = [
+				// Remove #new# prefix, if exists.
+				'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+				'parent_id' => 1,
+				'extension' => 'com_newsfeeds',
+				'language'  => $data['language'],
+				'published' => 1,
+			];
 
-			// Remove #new# prefix, if exists.
-			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
-			$table['parent_id'] = 1;
-			$table['extension'] = 'com_newsfeeds';
-			$table['language'] = $data['language'];
-			$table['published'] = 1;
+			/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+			$categoryModel = Factory::getApplication()->bootComponent('com_categories')
+				->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
-			// Create new category and get catid back
-			$data['catid'] = CategoriesHelper::createCategory($table);
+			// Create new category.
+			if (!$categoryModel->save($category))
+			{
+				$this->setError($categoryModel->getError());
+
+				return false;
+			}
+
+			// Get the Category ID.
+			$data['catid'] = $categoryModel->getState('category.id');
 		}
 
 		// Alter the name for save as copy

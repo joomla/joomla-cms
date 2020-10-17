@@ -3,20 +3,20 @@
  * @package     Joomla.API
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Api\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\Component\Config\Api\View\Application\JsonapiView;
 use Joomla\Component\Config\Administrator\Model\ApplicationModel;
+use Joomla\Component\Config\Api\View\Application\JsonapiView;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**

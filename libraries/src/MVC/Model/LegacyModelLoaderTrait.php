@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,9 +10,12 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Extension\LegacyComponent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -23,56 +26,6 @@ use Joomla\CMS\Table\Table;
  */
 trait LegacyModelLoaderTrait
 {
-	/**
-	 * Add a directory where \JModelLegacy should search for models. You may
-	 * either pass a string or an array of directories.
-	 *
-	 * @param   mixed   $path    A path or array[sting] of paths to search.
-	 * @param   string  $prefix  A prefix for models.
-	 *
-	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
-	 *
-	 * @since       3.0
-	 * @deprecated  5.0 See getInstance
-	 */
-	public static function addIncludePath($path = '', $prefix = '')
-	{
-		static $paths;
-
-		if (!isset($paths))
-		{
-			$paths = array();
-		}
-
-		if (!isset($paths[$prefix]))
-		{
-			$paths[$prefix] = array();
-		}
-
-		if (!isset($paths['']))
-		{
-			$paths[''] = array();
-		}
-
-		if (!empty($path))
-		{
-			foreach ((array) $path as $includePath)
-			{
-				if (!\in_array($includePath, $paths[$prefix]))
-				{
-					array_unshift($paths[$prefix], Path::clean($includePath));
-				}
-
-				if (!\in_array($includePath, $paths['']))
-				{
-					array_unshift($paths[''], Path::clean($includePath));
-				}
-			}
-		}
-
-		return $paths[$prefix];
-	}
-
 
 	/**
 	 * Create the filename for a resource
@@ -122,6 +75,12 @@ trait LegacyModelLoaderTrait
 		);
 
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+
+		if ($model = self::createModelFromComponent($type, $prefix, $config))
+		{
+			return $model;
+		}
+
 		$modelClass = $prefix . ucfirst($type);
 
 		if (!class_exists($modelClass))
@@ -164,5 +123,70 @@ trait LegacyModelLoaderTrait
 	public static function addTablePath($path)
 	{
 		Table::addIncludePath($path);
+	}
+
+	/**
+	 * Returns a Model object by loading the component from the prefix.
+	 *
+	 * @param   string  $type    The model type to instantiate
+	 * @param   string  $prefix  Prefix for the model class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  ModelInterface|null   A ModelInterface instance or null on failure
+	 *
+	 * @since       4.0.0
+	 * @deprecated  5.0 See getInstance
+	 */
+	private static function createModelFromComponent($type, $prefix = '', $config = []) : ?ModelInterface
+	{
+		// Do nothing when prefix is not given
+		if (!$prefix)
+		{
+			return null;
+		}
+
+		// Boot the component
+		$componentName = 'com_' . str_replace('model', '', strtolower($prefix));
+		$component     = Factory::getApplication()->bootComponent($componentName);
+
+		// When it is a legacy component or not a MVCFactoryService then ignore
+		if ($component instanceof LegacyComponent || !$component instanceof MVCFactoryServiceInterface)
+		{
+			return null;
+		}
+
+		// Setup the client
+		$client = Factory::getApplication()->getName();
+
+		// Detect the client based on the include paths
+		$adminPath = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $componentName);
+		$sitePath  = Path::clean(JPATH_SITE . '/components/' . $componentName);
+
+		foreach (self::addIncludePath() as $path)
+		{
+			if (strpos($path, $adminPath) !== false)
+			{
+				$client = 'Administrator';
+				break;
+			}
+
+			if (strpos($path, $sitePath) !== false)
+			{
+				$client = 'Site';
+				break;
+			}
+		}
+
+		// Create the model
+		$model = $component->getMVCFactory()->createModel($type, $client, $config);
+
+		// When the model can't be loaded, then return null
+		if (!$model)
+		{
+			return null;
+		}
+
+		// Return the model instance
+		return $model;
 	}
 }

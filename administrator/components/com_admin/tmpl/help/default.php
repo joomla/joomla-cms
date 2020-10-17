@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
-	<div class="row">
+	<div class="row mt-sm-3">
 		<div id="sidebar" class="col-md-3">
 			<div class="sidebar-nav">
 				<ul class="nav flex-column">

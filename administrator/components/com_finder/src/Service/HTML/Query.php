@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,9 @@ namespace Joomla\Component\Finder\Administrator\Service\HTML;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Query as IndexerQuery;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Query HTML behavior class for Finder.
@@ -25,13 +26,13 @@ class Query
 	/**
 	 * Method to get the explained (human-readable) search query.
 	 *
-	 * @param   \FinderIndexerQuery  $query  A FinderIndexerQuery object to explain.
+	 * @param   IndexerQuery  $query  A IndexerQuery object to explain.
 	 *
 	 * @return  mixed  String if there is data to explain, null otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public static function explained(\FinderIndexerQuery $query)
+	public static function explained(IndexerQuery $query)
 	{
 		$parts = array();
 
@@ -115,19 +116,19 @@ class Query
 		}
 
 		// Build the interpreted query.
-		return count($parts) ? Text::sprintf('COM_FINDER_QUERY_TOKEN_INTERPRETED', implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts)) : null;
+		return count($parts) ? implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts) : null;
 	}
 
 	/**
 	 * Method to get the suggested search query.
 	 *
-	 * @param   \FinderIndexerQuery  $query  A FinderIndexerQuery object.
+	 * @param   IndexerQuery  $query  A IndexerQuery object.
 	 *
 	 * @return  mixed  String if there is a suggestion, false otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public static function suggested(\FinderIndexerQuery $query)
+	public static function suggested(IndexerQuery $query)
 	{
 		$suggested = false;
 

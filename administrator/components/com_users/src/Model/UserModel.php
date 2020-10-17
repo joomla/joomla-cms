@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
@@ -26,7 +26,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -123,29 +122,12 @@ class UserModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$pluginParams = new Registry;
-
-		if (PluginHelper::isEnabled('user', 'joomla'))
-		{
-			$plugin = PluginHelper::getPlugin('user', 'joomla');
-			$pluginParams->loadString($plugin->params);
-		}
-
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
 			return false;
-		}
-
-		$userId = $form->getValue('id');
-
-		// Passwords fields are required when mail to user is set to No in the joomla user plugin
-		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
-		{
-			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		// If the user needs to change their password, mark the password fields as required
@@ -160,6 +142,8 @@ class UserModel extends AdminModel
 		{
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
+
+		$userId = $form->getValue('id');
 
 		// The user should not be able to set the requireReset value on their own account
 		if ((int) $userId === (int) Factory::getUser()->id)
@@ -511,7 +495,7 @@ class UserModel extends AdminModel
 						}
 
 						// Trigger the after save event
-						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
 					}
 					catch (\Exception $e)
 					{
@@ -608,7 +592,7 @@ class UserModel extends AdminModel
 						}
 
 						// Fire the after save event
-						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
 					}
 					catch (\Exception $e)
 					{

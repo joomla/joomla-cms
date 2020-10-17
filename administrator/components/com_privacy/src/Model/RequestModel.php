@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -266,7 +266,7 @@ class RequestModel extends AdminModel
 			$db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = :email')
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
 				->bind(':email', $table->email)
 				->setLimit(1)
 		)->loadResult();
@@ -391,7 +391,7 @@ class RequestModel extends AdminModel
 		$key   = $table->getKeyName();
 		$pk    = !empty($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 
-		if (!$pk && !Factory::getConfig()->get('mailonline', 1))
+		if (!$pk && !Factory::getApplication()->get('mailonline', 1))
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 
@@ -465,7 +465,7 @@ class RequestModel extends AdminModel
 	 */
 	private function getActionlogModel(): ActionlogModel
 	{
-		return Factory::getApplication()->bootComponent('Actionlogs')
+		return Factory::getApplication()->bootComponent('com_actionlogs')
 			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }

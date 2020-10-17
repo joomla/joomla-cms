@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -36,6 +36,7 @@ extract($displayData);
  * @var   boolean  $readonly        Is this field read only?
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
  * @var   boolean  $required        Is this field required?
+ * @var   boolean  $rules           Are the rules to be displayed?
  * @var   integer  $size            Size attribute of the input.
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
@@ -45,12 +46,16 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 if ($meter)
 {
-	HTMLHelper::_('behavior.formvalidator');
-	HTMLHelper::_('script', 'system/fields/passwordstrength.min.js', array('version' => 'auto', 'relative' => true));
+	$wa->useScript('field.passwordstrength');
 
 	$class = 'js-password-strength ' . $class;
 
@@ -60,7 +65,7 @@ if ($meter)
 	}
 }
 
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+$wa->useScript('field.passwordview');
 
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
@@ -71,6 +76,7 @@ $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
@@ -83,9 +89,49 @@ $attributes = array(
 	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
 	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
 	!empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
+	$dataAttribute,
 );
 
+if ($rules && !empty($description))
+{
+	$requirements = [];
+
+	if ($minLength)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_CHARACTERS', $minLength);
+	}
+
+	if ($minIntegers)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_DIGITS', $minIntegers);
+	}
+
+	if ($minSymbols)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_SYMBOLS', $minSymbols);
+	}
+
+	if ($minUppercase)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_UPPERCASE', $minUppercase);
+	}
+
+	if ($minLowercase)
+	{
+		$requirements[] = Text::sprintf('JFIELD_PASSWORD_RULES_LOWERCASE', $minLowercase);
+	}
+}
 ?>
+<?php if (!empty($description)) : ?>
+	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
+		<?php if ($rules) : ?>
+			<?php echo Text::sprintf($description, implode(', ', $requirements)); ?>
+		<?php else : ?>
+			<?php echo Text::_($description); ?>
+		<?php endif; ?>
+	</div>
+<?php endif; ?>
+
 <div class="password-group">
 	<div class="input-group">
 		<input
@@ -96,7 +142,7 @@ $attributes = array(
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
 			<button type="button" class="btn btn-secondary input-password-toggle">
-				<span class="fas fa-eye" aria-hidden="true"></span>
+				<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 			</button>
 		</span>

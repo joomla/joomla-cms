@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Registry\Registry;
 
 /**
@@ -88,16 +89,16 @@ class PlgSystemFields extends CMSPlugin
 	 * @param   boolean  $isNew    Is new item
 	 * @param   array    $data     The validated data
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew, $data = array())
+	public function onContentAfterSave($context, $item, $isNew, $data = array()): void
 	{
 		// Check if data is an array and the item has an id
 		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
 		{
-			return true;
+			return;
 		}
 
 		// Create correct context for category
@@ -114,7 +115,7 @@ class PlgSystemFields extends CMSPlugin
 
 		if (!$parts)
 		{
-			return true;
+			return;
 		}
 
 		// Compile the right context for the fields
@@ -125,7 +126,7 @@ class PlgSystemFields extends CMSPlugin
 
 		if (!$fields)
 		{
-			return true;
+			return;
 		}
 
 		// Loading the model
@@ -160,8 +161,6 @@ class PlgSystemFields extends CMSPlugin
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->id, $value);
 		}
-
-		return true;
 	}
 
 	/**
@@ -172,17 +171,17 @@ class PlgSystemFields extends CMSPlugin
 	 * @param   boolean  $success   Is success
 	 * @param   string   $msg       The message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onUserAfterSave($userData, $isNew, $success, $msg)
+	public function onUserAfterSave($userData, $isNew, $success, $msg): void
 	{
 		// It is not possible to manipulate the user during save events
 		// Check if data is valid or we are in a recursion
 		if (!$userData['id'] || !$success)
 		{
-			return true;
+			return;
 		}
 
 		$user = Factory::getUser($userData['id']);
@@ -192,13 +191,11 @@ class PlgSystemFields extends CMSPlugin
 		// Skip fields save when we activate a user, because we will lose the saved data
 		if (in_array($task, array('activate', 'block', 'unblock')))
 		{
-			return true;
+			return;
 		}
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
-
-		return true;
 	}
 
 	/**
@@ -207,25 +204,23 @@ class PlgSystemFields extends CMSPlugin
 	 * @param   string    $context  The context
 	 * @param   stdClass  $item     The item
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterDelete($context, $item)
+	public function onContentAfterDelete($context, $item): void
 	{
 		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts || empty($item->id))
 		{
-			return true;
+			return;
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
 
 		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 		$model->cleanupValues($context, $item->id);
-
-		return true;
 	}
 
 	/**
@@ -235,16 +230,16 @@ class PlgSystemFields extends CMSPlugin
 	 * @param   boolean   $succes  Is success
 	 * @param   string    $msg     The message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onUserAfterDelete($user, $succes, $msg)
+	public function onUserAfterDelete($user, $succes, $msg): void
 	{
 		$item     = new stdClass;
 		$item->id = $user['id'];
 
-		return $this->onContentAfterDelete('com_users.user', $item);
+		$this->onContentAfterDelete('com_users.user', $item);
 	}
 
 	/**
@@ -276,6 +271,11 @@ class PlgSystemFields extends CMSPlugin
 			{
 				$data->catid = $data->id;
 			}
+		}
+
+		if ($context === 'com_admin.profile')
+		{
+			$context = 'com_users.user';
 		}
 
 		$parts = FieldsHelper::extract($context, $form);
@@ -550,7 +550,7 @@ class PlgSystemFields extends CMSPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->name);
+						$item->addInstruction(Indexer::TEXT_CONTEXT, $field->name);
 
 						// Adding the field value as a field
 						$item->{$field->name} = $field->value;

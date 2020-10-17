@@ -15,7 +15,6 @@
   &.input-full {
     max-width: 100%;
   }
-
 }
 
 .spacer hr {
@@ -30,6 +29,12 @@
   width: auto;
 }
 
+@include media-breakpoint-down(sm) {
+  .form-inline .custom-select {
+    width: 100%;
+  }
+}
+
 td .form-control {
   display: inline-block;
   width: auto;
@@ -42,7 +47,6 @@ td .form-control {
     position: static;
     margin-left: 0;
   }
-
 }
 
 .modal label {
@@ -61,4 +65,50 @@ td .form-control {
 
 .form-control-feedback {
   display: block;
+}
+
+// set up hidden tooltip
+[role="tooltip"]:not(.show) {
+  z-index: $zindex-tooltip;
+  display: none;
+  max-width: 100%;
+  padding: .5em;
+  margin: .5em;
+  color: $black;
+  background: $white-offset;
+  border: 1px solid $gray-600;
+  border-radius: $border-radius;
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, .8);
+
+  &[id^=editarticle-] {
+    margin-inline-start: -10em;
+  }
+
+  &[id^=editcontact-] {
+    margin-inline-start: -10em;
+  }
+
+  [dir=ltr] & {
+    text-align: left;
+  }
+
+  [dir=rtl] & {
+    text-align: right;
+  }
+}
+
+// reveal associated tooltip on focus
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
+  position: absolute;
+  display: block;
+}
+
+[id="filter[search]-desc"] {
+  bottom: 100%;
+}
+
+.container-popup [id="filter[search]-desc"] {
+  top: 100%;
+  bottom: auto;
 }

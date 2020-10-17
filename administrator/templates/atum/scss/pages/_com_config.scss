@@ -16,18 +16,12 @@
 
   .rule-notes,
   .filter-notes {
-    padding: 1em;
-    margin-bottom: 1em;
     background-color: $white;
   }
 
   .options-menu {
     .revert-controls .controls {
-      margin-left: 0;
-
-      [dir=rtl] & {
-        margin-right: 0;
-      }
+      margin-inline-start: 0;
     }
   }
 }

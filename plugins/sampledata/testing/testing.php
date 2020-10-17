@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Testing
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,11 +13,8 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Banners\Administrator\Model\BannerModel;
-use Joomla\Component\Banners\Administrator\Model\ClientModel;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\DatabaseDriver;
 
@@ -190,7 +187,7 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$tagIds[] = $model->getState('tag.id');
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.testing.tags', $tagIds);
 
 		$response            = array();
@@ -315,6 +312,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$banners[] = array(
 			'cid'         => $clientIds[2],
 			'name'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_NAME'),
+			// TODO: Link invalid now
 			'clickurl'    => 'http://shop.joomla.org/amazoncom-bookstores.html',
 			'catid'       => $catIds[0],
 			'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_1_DESC'),
@@ -324,7 +322,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$banners[] = array(
 			'cid'         => $clientIds[1],
 			'name'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_2_NAME'),
-			'clickurl'    => 'http://shop.joomla.org',
+			'clickurl'    => 'https://shop.joomla.org',
 			'catid'       => $catIds[0],
 			'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_2_DESC'),
 			'ordering'    => 2,
@@ -333,7 +331,7 @@ class PlgSampledataTesting extends CMSPlugin
 		$banners[] = array(
 			'cid'         => $clientIds[0],
 			'name'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_3_NAME'),
-			'clickurl'    => 'http://contribute.joomla.org',
+			'clickurl'    => 'https://www.joomla.org/sponsor.html',
 			'catid'       => $catIds[0],
 			'description' => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_BANNERS_BANNER_3_DESC'),
 			'ordering'    => 3,
@@ -638,6 +636,8 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
+		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
+
 		$catIdsLevel1 = $this->app->getUserState('sampledata.testing.articles.catids1');
 		$catIdsLevel2 = $this->app->getUserState('sampledata.testing.articles.catids2');
 		$catIdsLevel3 = $this->app->getUserState('sampledata.testing.articles.catids3');
@@ -696,7 +696,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_intro_alt'        => 'Cradle Mountain',
 					'image_fulltext'         => 'images/sampledata/parks/landscape/250px_cradle_mountain_seen_from_barn_bluff.jpg',
 					'image_fulltext_alt'     => 'Cradle Mountain',
-					'image_fulltext_caption' => 'Source: http://commons.wikimedia.org/wiki/File:Rainforest,bluemountainsNSW.jpg'
+					'image_fulltext_caption' => 'Source: https://commons.wikimedia.org/wiki/File:Rainforest,bluemountainsNSW.jpg'
 						. ' Author: Alan J.W.C. License: GNU Free Documentation License v. 1.2 or later'
 				),
 				'ordering' => 1,
@@ -763,7 +763,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_intro_alt'        => 'Koala Thumbnail',
 					'image_fulltext'         => 'images/sampledata/parks/animals/800px_koala_ag1.jpg',
 					'image_fulltext_alt'     => 'Koala Climbing Tree',
-					'image_fulltext_caption' => 'Source: http://en.wikipedia.org/wiki/File:Koala-ag1.jpg'
+					'image_fulltext_caption' => 'Source: https://en.wikipedia.org/wiki/File:Koala-ag1.jpg'
 						. ' Author: Arnaud Gaillard License: Creative Commons Share Alike Attribution Generic 1.0'
 				),
 				'ordering' => 2,
@@ -804,7 +804,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_intro_alt'        => 'Phyllopteryx',
 					'image_fulltext'         => 'images/sampledata/parks/animals/800px_phyllopteryx_taeniolatus1.jpg',
 					'image_fulltext_alt'     => 'Phyllopteryx',
-					'image_fulltext_caption' => 'Source: http://en.wikipedia.org/wiki/File:Phyllopteryx_taeniolatus1.jpg'
+					'image_fulltext_caption' => 'Source: https://en.wikipedia.org/wiki/File:Phyllopteryx_taeniolatus1.jpg'
 						. ' Author: Richard Ling License: GNU Free Documentation License v 1.2 or later'
 				),
 				'ordering' => 3,
@@ -816,7 +816,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_intro_alt'        => 'Kings Canyon',
 					'image_fulltext'         => 'images/sampledata/parks/landscape/800px_pinnacles_western_australia.jpg',
 					'image_fulltext_alt'     => 'Kings Canyon',
-					'image_fulltext_caption' => 'Source: http://commons.wikimedia.org/wiki/File:Pinnacles_Western_Australia.jpg'
+					'image_fulltext_caption' => 'Source: https://commons.wikimedia.org/wiki/File:Pinnacles_Western_Australia.jpg'
 						. ' Author: Martin Gloss License: GNU Free Documentation license v 1.2 or later.'
 				),
 				'ordering' => 4,
@@ -862,7 +862,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_intro_alt'        => 'Spotted Quoll',
 					'image_fulltext'         => 'images/sampledata/parks/animals/789px_spottedquoll_2005_seanmcclean.jpg',
 					'image_fulltext_alt'     => 'Spotted Quoll',
-					'image_fulltext_caption' => 'Source: http://en.wikipedia.org/wiki/File:SpottedQuoll_2005_SeanMcClean.jpg'
+					'image_fulltext_caption' => 'Source: https://en.wikipedia.org/wiki/File:SpottedQuoll_2005_SeanMcClean.jpg'
 						. ' Author: Sean McClean License: GNU Free Documentation License v 1.2 or later'
 				),
 				'ordering' => 4,
@@ -920,7 +920,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_intro_alt'        => 'Wobbegon',
 					'image_fulltext'         => 'images/sampledata/parks/animals/800px_wobbegong.jpg',
 					'image_fulltext_alt'     => 'Wobbegon',
-					'image_fulltext_caption' => 'Source: http://en.wikipedia.org/wiki/File:Wobbegong.jpg'
+					'image_fulltext_caption' => 'Source: https://en.wikipedia.org/wiki/File:Wobbegong.jpg'
 						. ' Author: Richard Ling License: GNU Free Documentation License v 1.2 or later'
 				),
 				'ordering' => 1,
@@ -954,7 +954,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_intro_alt'        => 'Rain Forest Blue Mountains',
 					'image_fulltext'         => 'images/sampledata/parks/landscape/727px_rainforest_bluemountainsnsw.jpg',
 					'image_fulltext_alt'     => 'Rain Forest Blue Mountains',
-					'image_fulltext_caption' => 'Source: http://commons.wikimedia.org/wiki/File:Rainforest,bluemountainsNSW.jpg'
+					'image_fulltext_caption' => 'Source: https://commons.wikimedia.org/wiki/File:Rainforest,bluemountainsNSW.jpg'
 						. ' Author: Adam J.W.C. License: GNU Free Public Documentation License'
 				),
 				'ordering' => 2,
@@ -967,7 +967,7 @@ class PlgSampledataTesting extends CMSPlugin
 					'image_intro_alt'        => 'Ormiston Pound',
 					'image_fulltext'         => 'images/sampledata/parks/landscape/800px_ormiston_pound.jpg',
 					'image_fulltext_alt'     => 'Ormiston Pound',
-					'image_fulltext_caption' => 'Source: http://commons.wikimedia.org/wiki/File:Ormiston_Pound.JPG'
+					'image_fulltext_caption' => 'Source: https://commons.wikimedia.org/wiki/File:Ormiston_Pound.JPG'
 						. ' Author: License: GNU Free Public Documentation License'
 				),
 				'ordering' => 3,
@@ -978,7 +978,7 @@ class PlgSampledataTesting extends CMSPlugin
 			),
 			array(
 				'catid'      => $catIdsLevel2[0],
-				'transition' => 4,
+				'state'  => 2,
 				'ordering'   => 0,
 			),
 			array(
@@ -1172,15 +1172,15 @@ class PlgSampledataTesting extends CMSPlugin
 				'params'       => array(
 					'show_links' => 1,
 					'linka_name' => 'Twitter',
-					'linka'      => 'http://twitter.com/joomla',
+					'linka'      => 'https://twitter.com/joomla',
 					'linkb_name' => 'YouTube',
-					'linkb'      => 'http://www.youtube.com/user/joomla',
+					'linkb'      => 'https://www.youtube.com/user/joomla',
 					'linkc_name' => 'Facebook',
-					'linkc'      => 'http://www.facebook.com/joomla',
-					'linkd_name' => 'FriendFeed',
-					'linkd'      => 'http://friendfeed.com/joomla',
+					'linkc'      => 'https://www.facebook.com/joomla',
+					'linkd_name' => 'LinkedIn',
+					'linkd'      => 'https://www.linkedin.com/company/joomla',
 					'linke_name' => 'Scribed',
-					'linke'      => 'http://www.scribd.com/people/view/504592-joomla',
+					'linke'      => 'https://www.scribd.com/people/view/504592-joomla',
 				),
 			),
 			array(
@@ -1243,9 +1243,9 @@ class PlgSampledataTesting extends CMSPlugin
 					'linkb_name'         => 'Wikipedia: Manzana Español',
 					'linkb'              => 'https://es.wikipedia.org/wiki/Manzana',
 					'linkc_name'         => 'Wikipedia: 苹果 中文',
-					'linkc'              => 'http://zh.wikipedia.org/zh/苹果',
+					'linkc'              => 'https://zh.wikipedia.org/zh/苹果',
 					'linkd_name'         => 'Wikipedia: Tofaa Kiswahili',
-					'linkd'              => 'http://sw.wikipedia.org/wiki/Tofaa',
+					'linkd'              => 'https://sw.wikipedia.org/wiki/Tofaa',
 					'linke_name'         => '',
 					'linke'              => '',
 					'contact_layout'     => 'beez5:encyclopedia',
@@ -1265,11 +1265,11 @@ class PlgSampledataTesting extends CMSPlugin
 					'linka_name'         => 'Wikipedia: Tamarind English',
 					'linka'              => 'https://en.wikipedia.org/wiki/Tamarind',
 					'linkb_name'         => 'Wikipedia: তেঁতুল  বাংলা',
-					'linkb'              => 'http://bn.wikipedia.org/wiki/তেঁতুল',
+					'linkb'              => 'https://bn.wikipedia.org/wiki/তেঁতুল',
 					'linkc_name'         => 'Wikipedia: Tamarinier Français',
 					'linkc'              => 'https://fr.wikipedia.org/wiki/Tamarinier',
 					'linkd_name'         => 'Wikipedia:Tamaline lea faka-Tonga',
-					'linkd'              => 'http://to.wikipedia.org/wiki/Tamaline',
+					'linkd'              => 'https://to.wikipedia.org/wiki/Tamaline',
 					'linke_name'         => '',
 					'linke'              => '',
 					'contact_layout'     => 'beez5:encyclopedia',
@@ -1365,7 +1365,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$contactIds[] = $model->getItem()->id;
 		}
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.testing.contacts', $contactIds);
 		$this->app->setUserState('sampledata.testing.contacts.catids1', $catIdsLevel1);
 		$this->app->setUserState('sampledata.testing.contacts.catids2', $catIdsLevel2);
@@ -1496,7 +1496,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$newsfeedsIds[] = $model->getState('newsfeed.id');
 		}
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.testing.newsfeeds', $newsfeedsIds);
 		$this->app->setUserState('sampledata.testing.newsfeeds.catids', $catIdsLevel1);
 
@@ -1564,7 +1564,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$menuTypes[] = $menu['menutype'];
 		}
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.testing.menutypes', $menuTypes);
 
 		// Get previously entered Data from UserStates
@@ -1609,7 +1609,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
-				'link'         => 'http://joomla.org',
+				'link'         => 'https://joomla.org',
 				'type'         => 'url',
 				'component_id' => 0,
 			),
@@ -3523,7 +3523,7 @@ class PlgSampledataTesting extends CMSPlugin
 					$menuIdsLevel1[50],
 				),
 				'params'     => array(
-					'rssurl'      => 'http://community.joomla.org/blogs/community.feed?type=rss',
+					'rssurl'      => 'https://community.joomla.org/blogs/community.feed?type=rss',
 					'rssrtl'      => 0,
 					'rsstitle'    => 1,
 					'rssdesc'     => 1,
@@ -3683,7 +3683,7 @@ class PlgSampledataTesting extends CMSPlugin
 					$menuIdsLevel1[40],
 				),
 				'params'     => array(
-					'url'         => 'http://www.youtube.com/embed/vb2eObvmvdI',
+					'url'         => 'https://www.youtube.com/embed/vb2eObvmvdI',
 					'add'         => 1,
 					'scrolling'   => 'auto',
 					'width'       => '100%',
@@ -4458,8 +4458,6 @@ class PlgSampledataTesting extends CMSPlugin
 			*/
 		);
 
-		$modulesIds = array();
-
 		foreach ($modules as $module)
 		{
 			// Set values which are always the same.
@@ -4517,9 +4515,6 @@ class PlgSampledataTesting extends CMSPlugin
 
 				return $response;
 			}
-
-			// Get ID from category we just added
-			$modulesIds[] = $model->getItem()->id;
 		}
 
 		$response            = array();
@@ -4647,10 +4642,10 @@ class PlgSampledataTesting extends CMSPlugin
 			$article['metadesc']        = '';
 			$article['xreference']      = '';
 
-			// Set transition to published if not set.
-			if (!isset($article['transition']))
+			// Set article to published if not set.
+			if (!isset($article['state']))
 			{
-				$article['transition'] = 2;
+				$article['state'] = 1;
 			}
 
 			// Set article to not featured if not set.

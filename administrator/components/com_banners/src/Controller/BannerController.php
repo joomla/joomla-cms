@@ -3,16 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Banners\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -22,6 +23,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class BannerController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *
@@ -43,17 +46,11 @@ class BannerController extends FormController
 	{
 		$filter     = $this->input->getInt('filter_category_id');
 		$categoryId = ArrayHelper::getValue($data, 'catid', $filter, 'int');
-		$allow      = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
-		}
-
-		if ($allow !== null)
-		{
-			return $allow;
+			return $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		// In the absence of better information, revert to the component permissions.

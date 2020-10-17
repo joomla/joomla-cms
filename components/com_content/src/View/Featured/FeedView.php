@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Site\View\Featured;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
@@ -107,7 +107,7 @@ class FeedView extends AbstractView
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
 			{
-				$description .= '<p class="feed-readmore"><a target="_blank" href ="' . $item->link . '">'
+				$description .= '<p class="feed-readmore"><a target="_blank" href="' . $item->link . '" rel="noopener">'
 					. Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 			}
 

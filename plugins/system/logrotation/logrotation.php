@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logrotation
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,7 @@ class PlgSystemLogrotation extends CMSPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -252,8 +252,6 @@ class PlgSystemLogrotation extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $client_id)
@@ -263,7 +261,7 @@ class PlgSystemLogrotation extends CMSPlugin
 					$options = array(
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
 					);
 
 					$cache = Cache::getInstance('callback', $options);

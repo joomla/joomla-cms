@@ -2,7 +2,6 @@
 
 .table {
 
-
   thead {
 
     th {
@@ -11,12 +10,11 @@
 
     th,
     td {
-      padding: 1rem;
       font-weight: $font-weight-normal;
       color: var(--atum-link-color);
       white-space: nowrap;
       border-top: 0;
-      border-bottom: 3px solid var(--atum-bg-light);
+      border-bottom: 0;
 
       @include media-breakpoint-down(xs) {
         white-space: normal;
@@ -28,7 +26,7 @@
       color: var(--atum-link-color);
 
       &#sorted {
-        font-weight: 500;
+        font-weight: $medium-weight;
         color: $gray-800;
       }
     }
@@ -60,16 +58,12 @@
     }
 
     th {
-      font-weight: 500;
+      font-weight: $medium-weight;
     }
   }
 
   th,
   td {
-    padding: 1rem;
-    border-top: 0;
-    border-bottom: 3px solid var(--atum-bg-light);
-
     label {
       margin-bottom: 0;
     }

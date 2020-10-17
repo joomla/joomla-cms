@@ -2,13 +2,13 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
@@ -127,6 +127,14 @@ class LanguagesModel extends ListModel
 	{
 		$updateSite = $this->getUpdateSite();
 
+		// Check whether the updateserver is found
+		if (empty($updateSite))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+
+			return;
+		}
+
 		try
 		{
 			$response = HttpFactory::getHttp()->get($updateSite);
@@ -138,7 +146,7 @@ class LanguagesModel extends ListModel
 
 		if ($response === null || $response->code !== 200)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_CONNECT_TO_UPDATESERVER', $updateSite), 'error');
 
 			return;
 		}

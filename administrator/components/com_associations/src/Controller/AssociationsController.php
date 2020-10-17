@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Associations\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -57,6 +57,8 @@ class AssociationsController extends AdminController
 	 */
 	public function purge()
 	{
+		$this->checkToken();
+
 		$this->getModel('associations')->purge();
 		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
@@ -70,6 +72,8 @@ class AssociationsController extends AdminController
 	 */
 	public function clean()
 	{
+		$this->checkToken();
+
 		$this->getModel('associations')->clean();
 		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
@@ -129,7 +133,5 @@ class AssociationsController extends AdminController
 			Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list),
 			Text::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
 		);
-
-		return;
 	}
 }

@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Postinstall\Administrator\View\Messages;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 
@@ -67,16 +68,18 @@ class HtmlView extends BaseHtmlView
 	 */
 	private function toolbar()
 	{
-		// Options button.
-		if (Factory::getUser()->authorise('core.admin', 'com_postinstall'))
-		{
-			ToolbarHelper::preferences('com_postinstall', 550, 875);
-			ToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
-		}
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		if (!empty($this->items))
 		{
-			ToolbarHelper::custom('message.hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
+			$toolbar->unpublish('message.hideAll', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES');
+		}
+
+		// Options button.
+		if (Factory::getUser()->authorise('core.admin', 'com_postinstall'))
+		{
+			$toolbar->preferences('com_postinstall');
+			$toolbar->help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
 		}
 	}
 }

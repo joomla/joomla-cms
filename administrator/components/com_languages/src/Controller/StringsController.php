@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Languages Strings JSON Controller
@@ -26,7 +26,7 @@ class StringsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function refresh()
 	{
@@ -38,7 +38,7 @@ class StringsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function search()
 	{

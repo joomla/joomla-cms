@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Cache\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -54,7 +54,7 @@ class DisplayController extends BaseController
 
 		// Number bytes are returned in format xxx.xx MB
 		$bytes = HTMLHelper::_('number.bytes', $size, 'MB', 1);
-		
+
 		if (!empty($bytes))
 		{
 			$result['amount'] = $bytes;
@@ -114,7 +114,7 @@ class DisplayController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$app        = $this->app;
+		/** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
 		$model      = $this->getModel('cache');
 		$allCleared = true;
 
@@ -124,7 +124,7 @@ class DisplayController extends BaseController
 		{
 			if ($mCache->clean($cache->group) === false)
 			{
-				$app->enqueueMessage(
+				$this->app->enqueueMessage(
 					Text::sprintf(
 						'COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', Text::_('JADMINISTRATOR') . ' > ' . $cache->group
 					), 'error'
@@ -135,14 +135,14 @@ class DisplayController extends BaseController
 
 		if ($allCleared)
 		{
-			$app->enqueueMessage(Text::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
+			$this->app->enqueueMessage(Text::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
 		}
 		else
 		{
-			$app->enqueueMessage(Text::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
+			$this->app->enqueueMessage(Text::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
 		}
 
-		$app->triggerEvent('onAfterPurge', array());
+		$this->app->triggerEvent('onAfterPurge', array());
 		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 

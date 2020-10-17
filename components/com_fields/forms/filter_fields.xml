@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="group"
-		addfieldpath="/administrator/components/com_fields/models/fields">
+	<fieldset
+		name="group"
+		addfieldprefix="Joomla\Component\Fields\Administrator\Field"
+		>
 		<field
 			name="context"
 			type="fieldcontexts"
@@ -69,6 +71,7 @@
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.ordering ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

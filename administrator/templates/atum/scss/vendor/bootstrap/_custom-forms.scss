@@ -6,7 +6,6 @@
   background: $custom-select-background;
   background-color: $custom-select-bg;
   border: $input-border;
-  border-radius: $border-radius;
   // var needed
   box-shadow: $input-box-shadow;
 
@@ -29,9 +28,6 @@
         background-color: var(--atum-bg-dark) !important;
       }
     }
-
-
-
   }
 
   &.custom-select-color-state {
@@ -62,6 +58,10 @@
   &:focus {
     border-color: $focuscolor;
     box-shadow: $focusshadow;
+  }
+
+  &:disabled {
+    cursor: default;
   }
 
   optgroup,

@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Administrator\View\Component;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -82,12 +82,6 @@ class HtmlView extends BaseHtmlView
 			return false;
 		}
 
-		// Bind the form to the data.
-		if ($form)
-		{
-			$form->bind($component->getParams());
-		}
-
 		$this->fieldsets   = $form ? $form->getFieldsets() : null;
 		$this->formControl = $form ? $form->getFormControl() : null;
 
@@ -120,13 +114,17 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'equalizer config');
+		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'sliders-h config');
 		ToolbarHelper::apply('component.apply');
 		ToolbarHelper::divider();
 		ToolbarHelper::save('component.save');
 		ToolbarHelper::divider();
 		ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
+
+		$helpUrl = $this->form->getData()->get('helpURL');
+		$helpKey = (string) $this->form->getXml()->config->help['key'];
+		$helpKey = $helpKey ?: 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+		ToolbarHelper::help($helpKey, (boolean) $helpUrl, null, $this->currentComponent);
 	}
 }

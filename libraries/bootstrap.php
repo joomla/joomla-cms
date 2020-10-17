@@ -3,7 +3,7 @@
  * Bootstrap file for the Joomla! CMS [with legacy libraries].
  * Including this file into your application will make Joomla libraries available for use.
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,8 +15,8 @@ defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
-defined('IS_WIN') or define('IS_WIN', ($os === 'WIN') ? true : false);
-defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
+defined('IS_WIN') or define('IS_WIN', ($os === 'WIN'));
+defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')));
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
@@ -32,9 +32,6 @@ if (!class_exists('JLoader'))
 
 // Setup the autoloaders.
 JLoader::setup();
-
-// Register the library base path for CMS libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
@@ -52,14 +49,11 @@ spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 /**
- * Register the global exception handler. We will try and set a better Joomla Application Handler
- * once we know the request type (JSON, HTML, Cli etc) as we execute the application so it's
- * fine for this to be HTML Specific.
+ * Register the global exception handler. And set error level to server default error level.
+ * The error level may be changed later in boot up process, after application config will be loaded.
+ * Do not remove the variable, to allow to use it further, after including this file.
  */
-\Symfony\Component\ErrorHandler\ErrorHandler::register(
-	(new \Symfony\Component\ErrorHandler\ErrorHandler)
-		->setExceptionHandler([new \Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer(false), 'render'])
-);
+$errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);

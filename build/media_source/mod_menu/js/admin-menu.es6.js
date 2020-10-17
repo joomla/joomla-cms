@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla, document) => {
@@ -26,32 +26,6 @@
     // eslint-disable-next-line no-new, no-undef
     new MetisMenu(menu);
   });
-
-  const closest = (element, selector) => {
-    let matchesFn;
-    let parent;
-
-    // find vendor prefix
-    ['matches', 'msMatchesSelector'].some((fn) => {
-      if (typeof document.body[fn] === 'function') {
-        matchesFn = fn;
-        return true;
-      }
-      return false;
-    });
-
-    // Traverse parents
-    while (element) {
-      parent = element.parentElement;
-      if (parent && parent[matchesFn](selector)) {
-        return parent;
-      }
-      // eslint-disable-next-line no-param-reassign
-      element = parent;
-    }
-
-    return null;
-  };
 
   const wrapper = document.getElementById('wrapper');
   const sidebar = document.getElementById('sidebar-wrapper');
@@ -131,12 +105,11 @@
       }
     });
 
-
     /**
      * Sidebar Nav
      */
     const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
-    const currentUrl = window.location.href.toLowerCase();
+    const currentUrl = window.location.href;
     const mainNav = document.querySelector('ul.main-nav');
     const menuParents = [].slice.call(mainNav.querySelectorAll('li.parent > a'));
     const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close'));
@@ -149,8 +122,8 @@
 
         // Auto Expand Levels
         if (!link.parentNode.classList.contains('parent')) {
-          const firstLevel = closest(link, '.collapse-level-1');
-          const secondLevel = closest(link, '.collapse-level-2');
+          const firstLevel = link.closest('.collapse-level-1');
+          const secondLevel = link.closest('.collapse-level-2');
           if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
           if (firstLevel) firstLevel.classList.add('mm-show');
           if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
@@ -160,11 +133,11 @@
     });
 
     // Child open toggle
-    const openToggle = (event) => {
-      let menuItem = event.currentTarget.parentNode;
+    const openToggle = ({ currentTarget }) => {
+      let menuItem = currentTarget.parentNode;
 
       if (menuItem.tagName.toLowerCase() === 'span') {
-        menuItem = event.currentTarget.parentNode.parentNode;
+        menuItem = currentTarget.parentNode.parentNode;
       }
 
       if (menuItem.classList.contains('open')) {

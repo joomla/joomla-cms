@@ -3,27 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Response\Response;
-
-// Register dependent classes.
-\JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 /**
  * Indexer controller class for Finder.
@@ -41,6 +37,14 @@ class IndexerController extends BaseController
 	 */
 	public function start()
 	{
+		// Check for a valid token. If invalid, send a 403 with the error message.
+		if (!Session::checkToken('request'))
+		{
+			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			return;
+		}
+
 		$params = ComponentHelper::getParams('com_finder');
 
 		if ($params->get('enable_logging', '0'))
@@ -63,14 +67,11 @@ class IndexerController extends BaseController
 		// We don't want this form to be cached.
 		$this->app->allowCache(false);
 
-		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
-
 		// Put in a buffer to silence noise.
 		ob_start();
 
 		// Reset the indexer state.
-		\FinderIndexer::resetState();
+		Indexer::resetState();
 
 		// Import the finder plugins.
 		PluginHelper::importPlugin('finder');
@@ -86,7 +87,7 @@ class IndexerController extends BaseController
 			$this->app->triggerEvent('onStartIndex');
 
 			// Get the indexer state.
-			$state = \FinderIndexer::getState();
+			$state = Indexer::getState();
 			$state->start = 1;
 
 			// Send the response.
@@ -109,6 +110,14 @@ class IndexerController extends BaseController
 	 */
 	public function batch()
 	{
+		// Check for a valid token. If invalid, send a 403 with the error message.
+		if (!Session::checkToken('request'))
+		{
+			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			return;
+		}
+
 		$params = ComponentHelper::getParams('com_finder');
 
 		if ($params->get('enable_logging', '0'))
@@ -131,9 +140,6 @@ class IndexerController extends BaseController
 		// We don't want this form to be cached.
 		$this->app->allowCache(false);
 
-		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
-
 		// Put in a buffer to silence noise.
 		ob_start();
 
@@ -141,13 +147,13 @@ class IndexerController extends BaseController
 		@set_time_limit(0);
 
 		// Get the indexer state.
-		$state = \FinderIndexer::getState();
+		$state = Indexer::getState();
 
 		// Reset the batch offset.
 		$state->batchOffset = 0;
 
 		// Update the indexer state.
-		\FinderIndexer::setState($state);
+		Indexer::setState($state);
 
 		// Import the finder plugins.
 		PluginHelper::importPlugin('finder');
@@ -157,7 +163,6 @@ class IndexerController extends BaseController
 		 * in order to work around some plugins that don't do proper environment
 		 * checks before trying to use HTML document functions.
 		 */
-		$raw = clone Factory::getDocument();
 		$lang = Factory::getLanguage();
 
 		// Get the document properties.
@@ -169,27 +174,6 @@ class IndexerController extends BaseController
 			'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
 		);
 
-		// Get the HTML document.
-		$html = Factory::getContainer()->get(FactoryInterface::class)->createDocument('html', $attributes);
-
-		// TODO: Why is this document fetched and immediately overwritten?
-		$doc  = Factory::getDocument();
-
-		// Swap the documents.
-		$doc = $html;
-
-		// Get the admin application.
-		$admin = clone Factory::getApplication();
-
-		// Get the site app.
-		$site = Factory::getContainer()->get(SiteApplication::class);
-
-		// Swap the app.
-		$app = Factory::getApplication();
-
-		// TODO: Why is the app fetched and immediately overwritten?
-		$app = $site;
-
 		// Start the indexer.
 		try
 		{
@@ -200,15 +184,9 @@ class IndexerController extends BaseController
 			Factory::getApplication()->triggerEvent('onBuildIndex');
 
 			// Get the indexer state.
-			$state = \FinderIndexer::getState();
+			$state = Indexer::getState();
 			$state->start = 0;
 			$state->complete = 0;
-
-			// Swap the documents back.
-			$doc = $raw;
-
-			// Swap the applications back.
-			$app = $admin;
 
 			// Log batch completion and memory high-water mark.
 			try
@@ -227,9 +205,6 @@ class IndexerController extends BaseController
 		// Catch an exception and return the response.
 		catch (\Exception $e)
 		{
-			// Swap the documents back.
-			$doc = $raw;
-
 			// Send the response.
 			static::sendResponse($e);
 		}
@@ -244,11 +219,16 @@ class IndexerController extends BaseController
 	 */
 	public function optimize()
 	{
+		// Check for a valid token. If invalid, send a 403 with the error message.
+		if (!Session::checkToken('request'))
+		{
+			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			return;
+		}
+
 		// We don't want this form to be cached.
 		$this->app->allowCache(false);
-
-		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -259,10 +239,11 @@ class IndexerController extends BaseController
 		try
 		{
 			// Optimize the index
-			\FinderIndexer::getInstance()->optimize();
+			$indexer = new Indexer;
+			$indexer->optimize();
 
 			// Get the indexer state.
-			$state = \FinderIndexer::getState();
+			$state = Indexer::getState();
 			$state->start = 0;
 			$state->complete = 1;
 
@@ -319,8 +300,12 @@ class IndexerController extends BaseController
 		// Create the response object.
 		$response = new Response($data);
 
-		// Add the buffer.
-		$response->buffer = \JDEBUG ? ob_get_contents() : ob_end_clean();
+		if (\JDEBUG)
+		{
+			// Add the buffer and memory usage
+			$response->buffer = ob_get_contents();
+			$response->memory = memory_get_usage(true);
+		}
 
 		// Send the JSON response.
 		echo json_encode($response);

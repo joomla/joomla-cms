@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Site\View\Search;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -22,6 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Component\Finder\Site\Helper\FinderHelper;
 
 /**
@@ -34,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The query indexer object
 	 *
-	 * @var    \FinderIndexerQuery
+	 * @var    Query
 	 * @since  4.0.0
 	 */
 	protected $query;

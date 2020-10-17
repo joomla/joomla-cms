@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -156,7 +156,7 @@ Joomla = window.Joomla || {};
 
     // When changing the language
     if (formControlLanguage) {
-      formControlLanguage.addEventListener('change', (event) => {
+      formControlLanguage.addEventListener('change', ({ target }) => {
         // Remove message if any
         Joomla.removeMessages();
 
@@ -195,7 +195,7 @@ Joomla = window.Joomla || {};
         }
 
         // If the selected language is All hide the fields and add a message
-        const selectedLanguage = event.target.value;
+        const selectedLanguage = target.value;
 
         if (selectedLanguage === '*') {
           Joomla.showAssociationMessage();

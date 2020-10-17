@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\View\Filter;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->filter_id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == Factory::getUser()->id);
+		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == Factory::getUser()->id);
 		$canDo = ContentHelper::getActions('com_finder');
 
 		// Configure the toolbar.

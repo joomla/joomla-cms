@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -60,17 +60,19 @@ if ($saveOrder && !empty($this->items))
 				<?php else : ?>
 					<table class="table" id="fieldList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
 								</th>
-								<th scope="col" style="width:1%" class="text-center">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
@@ -82,15 +84,15 @@ if ($saveOrder && !empty($this->items))
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'g.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<th scope="col" class="w-10 d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -99,10 +101,10 @@ if ($saveOrder && !empty($this->items))
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php $ordering   = ($listOrder == 'a.ordering'); ?>
 								<?php $canEdit    = $user->authorise('core.edit', $component . '.field.' . $item->id); ?>
-								<?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0; ?>
+								<?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out); ?>
 								<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.field.' . $item->id) && $item->created_user_id == $userId; ?>
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.field.' . $item->id) && $canCheckin; ?>
-								<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
+								<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->group_id; ?>" item-id="<?php echo $item->id; ?>">
 									<td class="text-center">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
@@ -129,7 +131,7 @@ if ($saveOrder && !empty($this->items))
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'fields.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit || $canEditOwn) : ?>
-												<a href="<?php echo Route::_('index.php?option=com_fields&task=field.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+												<a href="<?php echo Route::_('index.php?option=com_fields&task=field.edit&id=' . $item->id . '&context=' . $context); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>">
 													<?php echo $this->escape($item->title); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->title); ?>

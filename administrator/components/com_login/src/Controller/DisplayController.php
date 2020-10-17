@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Login\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -32,6 +32,7 @@ class DisplayController extends BaseController
 	 * @return  static	 This object to support chaining.
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -58,7 +59,7 @@ class DisplayController extends BaseController
 		 */
 		$this->app->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
-		parent::display();
+		return parent::display();
 	}
 
 	/**
@@ -110,8 +111,6 @@ class DisplayController extends BaseController
 			}
 
 			echo $response;
-
-			return;
 		}
 		else
 		{

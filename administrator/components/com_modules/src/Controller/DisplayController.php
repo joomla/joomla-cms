@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Modules\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -40,7 +40,7 @@ class DisplayController extends BaseController
 	 * @param   boolean        $cachable   If true, the view output will be cached
 	 * @param   array|boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
 	 *
-	 * @return  static   This object to support chaining.
+	 * @return  static|boolean   This object to support chaining or false on failure.
 	 *
 	 * @since   1.5
 	 */

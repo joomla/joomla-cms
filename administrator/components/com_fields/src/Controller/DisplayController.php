@@ -3,15 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Fields\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -19,7 +20,7 @@ use Joomla\CMS\Router\Route;
  *
  * @since  3.7.0
  */
-class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
+class DisplayController extends BaseController
 {
 	/**
 	 * The default view.
@@ -39,7 +40,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 	 * @param   boolean     $cachable   If true, the view output will be cached
 	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
 	 *
-	 * @return Controller|boolean  A Controller object to support chaining.
+	 * @return  BaseController|boolean  A Controller object to support chaining.
 	 *
 	 * @since   3.7.0
 	 */
