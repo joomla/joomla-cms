@@ -170,7 +170,8 @@ class HeadRenderer extends DocumentRenderer
 				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
 
-			$buffer .= '<link href="' . $src . '" rel="stylesheet"';
+			$relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
+			$buffer .= '<link href="' . $src . '" rel="' . $relation . '"';
 
 			// Add script tag attributes.
 			foreach ($attribs as $attrib => $value)
