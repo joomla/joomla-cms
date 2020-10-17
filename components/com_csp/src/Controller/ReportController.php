@@ -41,6 +41,9 @@ class ReportController extends BaseController
 		'script-src',
 		'script-src-elem',
 		'script-src-attr',
+		'style-src',
+		'style-src-elem',
+		'style-src-attr',
 		'worker-src',
 		'base-uri',
 		'plugin-types',
@@ -154,8 +157,14 @@ class ReportController extends BaseController
 		$report->created  = $now;
 		$report->modified = $now;
 
+		$db = Factory::getDbo();
+
+		$db->lockTable('#__csp');
+
 		if ($this->isEntryExisting($report))
 		{
+			$db->unlockTables();
+
 			$this->app->close();
 		}
 
@@ -163,6 +172,8 @@ class ReportController extends BaseController
 
 		$table->bind($report);
 		$table->store();
+
+		$db->unlockTables();
 
 		$this->app->close();
 	}
