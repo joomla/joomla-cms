@@ -36,47 +36,47 @@ function usage($command)
 const PHP_TAB = "\t";
 
 // File paths.
-$versionFile      = '/libraries/src/Version.php';
+$versionFile = '/libraries/src/Version.php';
 
-$coreXmlFiles     = array(
-			'/administrator/manifests/files/joomla.xml',
-			);
+$coreXmlFiles = [
+	'/administrator/manifests/files/joomla.xml',
+];
 
-$languageXmlFiles = array(
-			'/language/en-GB/langmetadata.xml',
-			'/language/en-GB/install.xml',
-			'/administrator/language/en-GB/langmetadata.xml',
-			'/administrator/language/en-GB/install.xml',
-			'/installation/language/en-GB/en-GB.xml',
-			'/api/language/en-GB/langmetadata.xml'
-			);
+$languageXmlFiles = [
+	'/language/en-GB/langmetadata.xml',
+	'/language/en-GB/install.xml',
+	'/administrator/language/en-GB/langmetadata.xml',
+	'/administrator/language/en-GB/install.xml',
+	'/installation/language/en-GB/en-GB.xml',
+	'/api/language/en-GB/langmetadata.xml'
+];
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
-$readMeFiles = array(
-			'/README.md',
-			'/README.txt',
-			);
+$readMeFiles = [
+	'/README.md',
+	'/README.txt',
+];
 
 /*
  * Change copyright date exclusions.
  * Some systems may try to scan the .git directory, exclude it.
  * Also exclude build resources such as the packaging space or the API documentation build.
  */
-$directoryLoopExcludeDirectories = array(
-			'/.git',
-			'/build/api/',
-			'/build/coverage/',
-			'/build/tmp/',
-			'/libraries/vendor/',
-			'/libraries/php-encryption/',
-			'/libraries/phpass/',
-			);
+$directoryLoopExcludeDirectories = [
+	'/.git',
+	'/build/api/',
+	'/build/coverage/',
+	'/build/tmp/',
+	'/libraries/vendor/',
+	'/libraries/php-encryption/',
+	'/libraries/phpass/',
+];
 
-$directoryLoopExcludeFiles = array(
-			);
+$directoryLoopExcludeFiles = [
+];
 
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
@@ -90,22 +90,46 @@ if (empty($opts['v']))
 // Check version string (exit if not correct).
 $versionParts = explode('-', $opts['v']);
 
-if (!preg_match('#^[0-9]+\.[0-9]+\.[0-9]+$#', $versionParts[0]))
+if (!preg_match('#^\d+(?:\.\d+){2}$#', $versionParts[0]))
 {
 	usage($argv[0]);
 	die();
 }
 
-if (isset($versionParts[1]) && !preg_match('#(dev|alpha|beta|rc)[0-9]*#', $versionParts[1]))
+// Get version dev status.
+if (isset($versionParts[1]))
 {
-	usage($argv[0]);
-	die();
+	if (!preg_match('#(dev|alpha|beta|rc)[0-9]*#', $versionParts[1], $stageMatch))
+	{
+		usage($argv[0]);
+		die();
+	}
 }
-
-if (isset($versionParts[2]) && $versionParts[2] !== 'dev')
+else
 {
-	usage($argv[0]);
-	die();
+	$versionParts[1] = '';
+}
+$stageTranslations = [
+	''      => 'Stable',
+	'dev'   => 'Development',
+	'alpha' => 'Alpha',
+	'beta'  => 'Beta',
+	'rc'    => 'Release Candidate',
+];
+$dev_status = $stageTranslations[$stageMatch[1] ?? $versionParts[1]] ?? 'Stable';
+
+if (isset($versionParts[2]))
+{
+	if ($versionParts[2] !== 'dev')
+	{
+		usage($argv[0]);
+		die();
+	}
+	$dev_status = 'Development';
+}
+else
+{
+	$versionParts[2] = '';
 }
 
 // Make sure we use the correct language and timezone.
@@ -115,60 +139,24 @@ date_default_timezone_set('Europe/London');
 // Make sure file and folder permissions are set correctly.
 umask(022);
 
-// Get version dev status.
-$dev_status = 'Stable';
-
-if (!isset($versionParts[1]))
-{
-	$versionParts[1] = '';
-}
-else
-{
-	if (preg_match('#^dev#', $versionParts[1]))
-	{
-		$dev_status = 'Development';
-	}
-	elseif (preg_match('#^alpha#', $versionParts[1]))
-	{
-		$dev_status = 'Alpha';
-	}
-	elseif (preg_match('#^beta#', $versionParts[1]))
-	{
-		$dev_status = 'Beta';
-	}
-	elseif (preg_match('#^rc#', $versionParts[1]))
-	{
-		$dev_status = 'Release Candidate';
-	}
-}
-
-if (!isset($versionParts[2]))
-{
-	$versionParts[2] = '';
-}
-else
-{
-	$dev_status = 'Development';
-}
-
 // Set version properties.
 $versionSubParts = explode('.', $versionParts[0]);
 
-$version = array(
-		'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
-		'major'      => $versionSubParts[0],
-		'minor'      => $versionSubParts[1],
-		'patch'      => $versionSubParts[2],
-		'extra'      => (!empty($versionParts[1]) ? $versionParts[1] : '') . (!empty($versionParts[2]) ? (!empty($versionParts[1]) ? '-' : '') . $versionParts[2] : ''),
-		'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
-		'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
-		'dev_status' => $dev_status,
-		'build'      => '',
-		'reldate'    => date('j-F-Y'),
-		'reltime'    => date('H:i'),
-		'reltz'      => 'GMT',
-		'credate'    => date('F Y'),
-		);
+$version = [
+	'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
+	'major'      => $versionSubParts[0],
+	'minor'      => $versionSubParts[1],
+	'patch'      => $versionSubParts[2],
+	'extra'      => ($versionParts[1] ?: '') . ($versionParts[1] && $versionParts[2] ? '-' : '') . ($versionParts[2] ?: ''),
+	'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
+	'dev_devel'  => $versionSubParts[2] . ($versionParts[1] ? '-' . $versionParts[1] : '') . ($versionParts[2] ? '-' . $versionParts[2] : ''),
+	'dev_status' => $dev_status,
+	'build'      => '',
+	'reldate'    => date('j-F-Y'),
+	'reltime'    => date('H:i'),
+	'reltz'      => 'GMT',
+	'credate'    => date('F Y'),
+];
 
 // Version Codename.
 if (!empty($opts['c']))
@@ -200,21 +188,39 @@ $rootPath = dirname(__DIR__);
 // Updates the version in version class.
 if (file_exists($rootPath . $versionFile))
 {
-	$fileContents = file_get_contents($rootPath . $versionFile);
-	$fileContents = preg_replace("#MAJOR_VERSION\s*=\s*[^;]*#", "MAJOR_VERSION = " . $version['major'], $fileContents);
-	$fileContents = preg_replace("#MINOR_VERSION\s*=\s*[^;]*#", "MINOR_VERSION = " . $version['minor'], $fileContents);
-	$fileContents = preg_replace("#PATCH_VERSION\s*=\s*[^;]*#", "PATCH_VERSION = " . $version['patch'], $fileContents);
-	$fileContents = preg_replace("#EXTRA_VERSION\s*=\s*'[^\']*'#", "EXTRA_VERSION = '" . $version['extra'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELEASE\s*=\s*'[^\']*'#", "RELEASE = '" . $version['main'] . "'", $fileContents);
-	$fileContents = preg_replace("#DEV_LEVEL\s*=\s*'[^\']*'#", "DEV_LEVEL = '" . $version['dev_devel'] . "'", $fileContents);
-	$fileContents = preg_replace("#DEV_STATUS\s*=\s*'[^\']*'#", "DEV_STATUS = '" . $version['dev_status'] . "'", $fileContents);
-	$fileContents = preg_replace("#BUILD\s*=\s*'[^\']*'#", "BUILD = '" . $version['build'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELDATE\s*=\s*'[^\']*'#", "RELDATE = '" . $version['reldate'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELTIME\s*=\s*'[^\']*'#", "RELTIME = '" . $version['reltime'] . "'", $fileContents);
-	$fileContents = preg_replace("#RELTZ\s*=\s*'[^\']*'#", "RELTZ = '" . $version['reltz'] . "'", $fileContents);
+	$fileContents = preg_replace(
+		[
+			"#MAJOR_VERSION\s*=\s*\K[^;]*#",
+			"#MINOR_VERSION\s*=\s*\K[^;]*#",
+			"#PATCH_VERSION\s*=\s*\K[^;]*#",
+			"#EXTRA_VERSION\s*=\s*'\K[^\']*#",
+			"#RELEASE\s*=\s*'\K[^\']*#",
+			"#DEV_LEVEL\s*=\s*'\K[^\']*#",
+			"#DEV_STATUS\s*=\s*'\K[^\']*#",
+			"#BUILD\s*=\s*'\K[^\']*#",
+			"#RELDATE\s*=\s*'\K[^\']*#",
+			"#RELTIME\s*=\s*'\K[^\']*#",
+			"#RELTZ\s*=\s*'\K[^\']*#",
+		],
+		[
+			$version['major'],
+			$version['minor'],
+			$version['patch'],
+			$version['extra'],
+			$version['main'],
+			$version['dev_devel'],
+			$version['dev_status'],
+			$version['build'],
+			$version['reldate'],
+			$version['reltime'],
+			$version['reltz'],
+		],
+		file_get_contents($rootPath . $versionFile)
+	);
+
 	if (!empty($version['codename']))
 	{
-		$fileContents = preg_replace("#CODENAME\s*=\s*'[^\']*'#", "CODENAME = '" . $version['codename'] . "'", $fileContents);
+		$fileContents = preg_replace("#CODENAME\s*=\s*'\K[^\']*#", $version['codename'], $fileContents);
 	}
 	file_put_contents($rootPath . $versionFile, $fileContents);
 }
@@ -256,7 +262,7 @@ if (file_exists($rootPath . $languagePackXmlFile))
 if (file_exists($rootPath . $antJobFile))
 {
 	$fileContents = file_get_contents($rootPath . $antJobFile);
-	$fileContents = preg_replace('#<arg value="Joomla! CMS [^ ]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
+	$fileContents = preg_replace('#<arg value="Joomla! CMS \S* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
 	file_put_contents($rootPath . $antJobFile, $fileContents);
 }
 
@@ -265,10 +271,17 @@ foreach ($readMeFiles as $readMeFile)
 {
 	if (file_exists($rootPath . $readMeFile))
 	{
-		$fileContents = file_get_contents($rootPath . $readMeFile);
-		$fileContents = preg_replace('#Joomla! [0-9]+\.[0-9]+ (|\[)version#', 'Joomla! ' . $version['main'] . ' $1version', $fileContents);
-		$fileContents = preg_replace('#Joomla_[0-9]+\.[0-9]+_version#', 'Joomla_' . $version['main'] . '_version', $fileContents);
-		file_put_contents($rootPath . $readMeFile, $fileContents);
+		file_put_contents(
+			$rootPath . $readMeFile,
+			preg_replace(
+				[
+					'#Joomla! \K\d+\.\d+(?= \[?version)#',
+					'#Joomla_\K\d+\.\d+(?=_version)#',
+				],
+				$version['main'],
+				file_get_contents($rootPath . $readMeFile)
+			)
+		);
 	}
 }
 
@@ -299,46 +312,40 @@ foreach ($iterator as $file)
 		}
 
 		// Exclude certain directories.
-		$continue = true;
-
 		foreach ($directoryLoopExcludeDirectories as $excludeDirectory)
 		{
-			if (preg_match('#^' . preg_quote($excludeDirectory) . '#', $relativePath))
+			if (strpos($relativePath, $excludeDirectory) === 0)
 			{
-				$continue = false;
-				break;
+				continue 2;
 			}
 		}
 
-		if ($continue)
+		// Load the file.
+		$fileContents = file_get_contents($filePath);
+
+		// Change the copyright date if string qualifies.
+		$fileContents = preg_replace(
+			'#2005\s+-\s+(?!' . $year . ')\K\d{4}(?=\s+Open\s+Source\s+Matters)#',
+			$year,
+			$fileContents,
+			1,
+			$count
+		);
+		$isFileContentChanged = (bool)$count;
+		$changedFilesCopyrightDate += $count;
+
+		// Check if need to change the since version.
+		if ($relativePath !== '/build/bump.php' && (strpos($fileContents, '#__DEPLOY_VERSION__#') !== false))
 		{
-			$changeSinceVersion  = false;
-			$changeCopyrightDate = false;
+			$fileContents = str_replace('__DEPLOY_VERSION__', $version['release'], $fileContents);
+			$isFileContentChanged = true;
+			++$changedFilesSinceVersion;
+		}
 
-			// Load the file.
-			$fileContents = file_get_contents($filePath);
-
-			// Check if need to change the copyright date.
-			if (preg_match('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', $fileContents) && !preg_match('#2005\s+-\s+' . $year. '\s+Open\s+Source\s+Matters#', $fileContents))
-			{
-				$changeCopyrightDate = true;
-				$fileContents = preg_replace('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', '2005 - ' . $year. ' Open Source Matters', $fileContents);
-				$changedFilesCopyrightDate++;
-			}
-
-			// Check if need to change the since version.
-			if ($relativePath !== '/build/bump.php' && preg_match('#__DEPLOY_VERSION__#', $fileContents))
-			{
-				$changeSinceVersion = true;
-				$fileContents = preg_replace('#__DEPLOY_VERSION__#', $version['release'], $fileContents);
-				$changedFilesSinceVersion++;
-			}
-
-			// Save the file.
-			if ($changeCopyrightDate || $changeSinceVersion)
-			{
-				file_put_contents($filePath, $fileContents);
-			}
+		// Save the file.
+		if ($isFileContentChanged)
+		{
+			file_put_contents($filePath, $fileContents);
 		}
 	}
 }
