@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
+
 /**
  * View class to allow users edit their own profile.
  *
@@ -51,9 +53,15 @@ class AdminViewProfile extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+		$this->form             = $this->get('Form');
+		$this->item             = $this->get('Item');
+		$this->state            = $this->get('State');
+		$this->twofactorform    = $this->get('Twofactorform');
+		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
+		$this->otpConfig        = $this->get('OtpConfig');
+
+		// Load the language strings for the 2FA
+		JFactory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
