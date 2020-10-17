@@ -99,12 +99,6 @@ trait UserProfileFields
 			return true;
 		}
 
-		// Check we are manipulating a valid form.
-		if (!($form instanceof Form))
-		{
-			return true;
-		}
-
 		$name = $form->getName();
 
 		$allowedForms = [
@@ -161,11 +155,11 @@ trait UserProfileFields
 		{
 			$id = isset($data['id']) ? $data['id'] : null;
 		}
-		elseif (is_object($data) && is_null($data) && ($data instanceof Registry))
+		elseif (is_object($data) && ($data instanceof Registry))
 		{
 			$id = $data->get('id');
 		}
-		elseif (is_object($data) && !is_null($data))
+		elseif (is_object($data))
 		{
 			$id = isset($data->id) ? $data->id : null;
 		}

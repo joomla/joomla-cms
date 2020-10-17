@@ -36,7 +36,7 @@ class MapTable extends Nested
 		parent::__construct('#__finder_taxonomy', 'id', $db);
 
 		$this->setColumnAlias('published', 'state');
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**

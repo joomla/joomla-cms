@@ -94,11 +94,12 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('privacyconsent');
 
-		$privacyArticleId = $this->getPrivacyArticleId();
-		$privacynote      = $this->params->get('privacy_note');
+		$privacyType = $this->params->get('privacy_type', 'article');
+		$privacyId   = ($privacyType == 'menu_item') ? $this->getPrivacyItemId() : $this->getPrivacyArticleId();
+		$privacynote = $this->params->get('privacy_note');
 
 		// Push the privacy article ID into the privacy field.
-		$form->setFieldAttribute('privacy', 'article', $privacyArticleId, 'privacyconsent');
+		$form->setFieldAttribute('privacy', $privacyType, $privacyId, 'privacyconsent');
 		$form->setFieldAttribute('privacy', 'note', $privacynote, 'privacyconsent');
 	}
 
@@ -440,6 +441,32 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	}
 
 	/**
+	 * Get privacy menu item ID. If the site is a multilingual website and there is associated menu item for the
+	 * current language, ID of the associated menu item will be returned.
+	 *
+	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getPrivacyItemId()
+	{
+		$itemId = $this->params->get('privacy_menu_item');
+
+		if ($itemId > 0 && Associations::isEnabled())
+		{
+			$privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
+			$currentLang = Factory::getLanguage()->getTag();
+
+			if (isset($privacyAssociated[$currentLang]))
+			{
+				$itemId = $privacyAssociated[$currentLang]->id;
+			}
+		}
+
+		return $itemId;
+	}
+
+	/**
 	 * The privacy consent expiration check code is triggered after the page has fully rendered.
 	 *
 	 * @return  void
@@ -712,8 +739,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $client_id)
@@ -723,7 +748,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
 					];
 
 					$cache = Cache::getInstance('callback', $options);

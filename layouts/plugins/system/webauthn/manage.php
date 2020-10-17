@@ -57,6 +57,13 @@ $defaultDisplayData = [
 ];
 extract(array_merge($defaultDisplayData, $displayData));
 
+// Ensure the GMP or BCmath extension is loaded in PHP - as this is required by third party library
+if ((function_exists('gmp_intval') === false) && (function_exists('bccomp') === false))
+{
+	$error = Text::_('PLG_SYSTEM_WEBAUTHN_REQUIRES_GMP');
+	$allow_add = false;
+}
+
 /**
  * Why not push these configuration variables directly to JavaScript?
  *
