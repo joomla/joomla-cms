@@ -22,7 +22,7 @@ if (empty($images->image_intro))
 	return;
 }
 
-$imgfloat  = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
+$imgclass  = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
 $extraAttr = '';
 $img       = HTMLHelper::cleanImageURL($images->image_intro);
 
@@ -33,7 +33,7 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 	$extraAttr = ArrayHelper::toString($img->attributes) . ' loading="lazy"';
 }
 ?>
-<figure class="float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
+<figure class="<?php echo htmlspecialchars($imgclass, ENT_COMPAT, 'UTF-8'); ?> item-image">
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 		<a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>">
 			<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
