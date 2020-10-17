@@ -118,7 +118,7 @@ class BannerModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || !Factory::getApplication()->isClient('api')))
+		if (empty($record->id) || ($record->state != -2 && !Factory::getApplication()->isClient('api')))
 		{
 			return false;
 		}
