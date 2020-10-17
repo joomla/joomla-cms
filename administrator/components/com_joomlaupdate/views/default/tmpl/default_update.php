@@ -114,12 +114,65 @@ defined('_JEXEC') or die;
 		</tr>
 		</tbody>
 		<tfoot>
+		<tr id="preupdateCheckWarning">
+			<td colspan="2">
+				<div class="alert ">
+					<h4 class="alert-heading"><?php echo JText::_('WARNING'); ?></h4>
+					<div class="alert-message">
+						<div class="preupdateCheckIncomplete"><?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_NOT_COMPLETE'); ?></div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr id="preupdateCheckCompleteProblems" class="hidden">
+			<td colspan="2">
+				<div class="alert ">
+					<h4 class="alert-heading"><?php echo JText::_('WARNING'); ?></h4>
+					<div class="alert-message">
+						<div class="preupdateCheckComplete"><?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_COMPLETED_YOU_HAVE_DANGEROUS_PLUGINS'); ?></div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr id="preupdateconfirmation" >
+			<td>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_BEING_CHECKED'); ?>
+			</td>
+			<td>
+				<?php
+				foreach ($this->nonCoreCriticalPlugins as $nonCoreCriticalPlugin)
+				{
+					echo "<div id='plg_" . $nonCoreCriticalPlugin->extension_id . "'>" .  JText::_($nonCoreCriticalPlugin->name) ;
+					if ($nonCoreCriticalPlugin->package_id > 0)
+					{
+						foreach ($this->nonCoreExtensions as $nonCoreExtension)
+						{
+							if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id)
+							{
+								echo " ( " . $nonCoreExtension->name . " )";
+							}
+						}
+					}
+					echo "</div>";
+				}
+				?>
+			</td>
+		</tr>
+		<tr id="preupdateconfirmation" >
+			<td>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
+			</td>
+			<td>
+				<input type="checkbox" name="noncoreplugins" value="1" required aria-required="true" />
+			</td>
+		</tr>
+
 		<tr>
 			<td>
 				&nbsp;
 			</td>
 			<td>
-				<button class="btn btn-primary" type="submit">
+				<button class="btn btn-primary disabled submitupdate" type="submit" disabled>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 				</button>
 			</td>

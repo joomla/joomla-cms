@@ -55,6 +55,23 @@ function extractionMethodHandler(target, prefix)
      * Called by document ready, setup below.
      */
     PreUpdateChecker.run = function () {
+
+		$('#preupdateconfirmation input[type="checkbox"]').on('change', function ()
+		{
+			if ($('#preupdateconfirmation input[type="checkbox"]').is(':checked'))
+			{
+				$('button.submitupdate').removeClass('disabled');
+				$('button.submitupdate').prop('disabled', false);
+			}
+			else
+			{
+				$('button.submitupdate').addClass('disabled');
+				$('button.submitupdate').prop('disabled', true);
+			}
+		});
+
+		PreUpdateChecker.nonCoreCriticalPlugins = Object.values(JSON.parse(nonCoreCriticalPlugins));
+
         // Get version of the available joomla update
         PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
         PreUpdateChecker.joomlaCurrentVersion = window.joomlaCurrentVersion;
@@ -221,9 +238,45 @@ function extractionMethodHandler(target, prefix)
 
 		document.getElementById('compatibilitytype0').style.display = 'block';
 
+		// Process the nonCoreCriticalPlugin list
+		if (extensionData.compatibilityData.resultGroup === 3)
+		{
+			for (var cpi in PreUpdateChecker.nonCoreCriticalPlugins)
+			{
+				if(PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id == extensionId || PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id == extensionId)
+				{
+					$('#plg_' + PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id).remove();
+					PreUpdateChecker.nonCoreCriticalPlugins.splice(cpi,1);
+				}
+			}
+		}
+
 		// Have we finished?
 		if ($('#compatibilitytype0 tbody td').length == 0) {
 			$('#compatibilitytype0').css('display', 'none');
+			for (var cpi in PreUpdateChecker.nonCoreCriticalPlugins)
+			{
+				var problemPluginRow = $('td[data-extension-id=' + PreUpdateChecker.nonCoreCriticalPlugins[cpi].extension_id +']');
+				if (!problemPluginRow.length)
+				{
+					problemPluginRow = $('td[data-extension-id=' + PreUpdateChecker.nonCoreCriticalPlugins[cpi].package_id +']');
+				}
+				if (problemPluginRow.length)
+				{
+					problemPluginRow.closest('tr').addClass('error');
+				}
+			}
+			if (PreUpdateChecker.nonCoreCriticalPlugins.length == 0)
+			{
+				$('#preupdateCheckWarning, #preupdateconfirmation').css('display', 'none');
+				$('#preupdateconfirmation input[type="checkbox"]').prop('checked', true);
+				$('button.submitupdate').removeClass('disabled');
+				$('button.submitupdate').prop('disabled', false);
+			}
+			else {
+				$('#preupdateCheckWarning').addClass('hidden');
+				$('#preupdateCheckCompleteProblems').removeClass('hidden');
+			}
 		}
     }
 

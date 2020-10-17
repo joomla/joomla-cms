@@ -1447,6 +1447,62 @@ ENDDATA;
 	}
 
 	/**
+	 * Gets an array containing all installed and enabled plugins, that are not core plugins.
+	 *
+	 * @param   array  $folderFilter  Limit the list of plugins to a specific set of folder values
+	 *
+	 * @return  array  name,version,updateserver
+	 *
+	 * @since   3.10.0
+	 */
+	public function getNonCorePlugins($folderFilter = array())
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn('ex.name') . ', ' .
+			$db->qn('ex.extension_id') . ', ' .
+			$db->qn('ex.manifest_cache') . ', ' .
+			$db->qn('ex.type') . ', ' .
+			$db->qn('ex.folder') . ', ' .
+			$db->qn('ex.element') . ', ' .
+			$db->qn('ex.client_id') . ', ' .
+			$db->qn('ex.package_id')
+		)->from(
+			$db->qn('#__extensions', 'ex')
+		)->where(
+			$db->qn('ex.type') . ' = ' . $db->quote('plugin')
+		)->where(
+			$db->qn('ex.enabled') . ' = 1'
+		);
+
+		if (count($folderFilter) > 0)
+		{
+			$folderFilter = array_map(array($db, 'quote'), $folderFilter);
+
+			$query->where($db->qn('folder') . ' IN (' . implode(',', $folderFilter) . ')');
+		}
+
+		$db->setQuery($query);
+		$rows = $db->loadObjectList();
+		$rows = array_filter($rows, 'JoomlaupdateModelDefault::isNonCoreExtension');
+
+		foreach ($rows as $plugin)
+		{
+			$decode = json_decode($plugin->manifest_cache);
+			$this->translateExtensionName($plugin);
+			$plugin->version = isset($decode->version)
+				? $decode->version
+				: JText::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
+			unset($plugin->manifest_cache);
+		}
+
+		return $rows;
+	}
+
+
+	/**
 	 * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
 	 *
 	 * @param   string  $extensionID          The ID of the checked extension
