@@ -380,7 +380,7 @@ class PlgUserProfile extends JPlugin
 
 			if (Date::getInstance('now') < $date)
 			{
-				// Throw an exception if dob is greather than now.
+				// Throw an exception if dob is greater than now.
 				throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB_FUTURE_DATE'));
 			}
 		}
@@ -481,7 +481,7 @@ class PlgUserProfile extends JPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean

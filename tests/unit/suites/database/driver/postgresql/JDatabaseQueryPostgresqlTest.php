@@ -692,7 +692,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 				$q->$type
 			);
 
-			// Now check the claues have not been affected.
+			// Now check the clauses have not been affected.
 			foreach ($clauses as $clause)
 			{
 				$this->assertEquals(

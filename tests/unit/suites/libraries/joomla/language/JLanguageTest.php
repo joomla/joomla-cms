@@ -74,7 +74,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	public function testConstruct()
 	{
 		// @codingStandardsIgnoreStart
-		// @todo check the instanciating new classes without brackets sniff
+		// @todo check the instantiating new classes without brackets sniff
 		$instance = new JLanguage(null, true);
 		// @codingStandardsIgnoreEnd
 
@@ -82,7 +82,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		$this->assertTrue($instance->getDebug());
 
 		// @codingStandardsIgnoreStart
-		// @todo check the instanciating new classes without brackets sniff
+		// @todo check the instantiating new classes without brackets sniff
 		$instance = new JLanguage(null, false);
 		// @codingStandardsIgnoreEnd
 		$this->assertInstanceOf('JLanguage', $instance);
@@ -240,7 +240,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setTransliterator($function2);
 		$this->assertEquals(
 			$function1,
@@ -281,7 +281,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		);
 
 		$this->assertEquals(
-			array('1'),
+			array('ONE', '1'),
 			$this->object->getPluralSuffixes(1),
 			'Line: ' . __LINE__
 		);
@@ -333,7 +333,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setPluralSuffixesCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -423,7 +423,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setIgnoredSearchWordsCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -513,7 +513,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setLowerLimitSearchWordCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -603,7 +603,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setUpperLimitSearchWordCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -693,7 +693,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		// Note: set -> $function2: set returns $function1 and get retuns $function2
+		// Note: set -> $function2: set returns $function1 and get returns $function2
 		$set = $lang->setSearchDisplayedCharactersNumberCallback($function2);
 		$this->assertEquals(
 			$function1,
@@ -857,7 +857,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetPaths()
 	{
-		// Without extension, retuns NULL
+		// Without extension, returns NULL
 		$this->assertNull(
 			$this->object->getPaths('')
 		);
@@ -1023,7 +1023,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetMetadata()
 	{
-		// Language doesn't exist, retun NULL
+		// Language doesn't exist, return NULL
 		$this->assertNull(
 			$this->inspector->getMetadata('es-ES')
 		);

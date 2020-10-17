@@ -22,6 +22,9 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $app->allowCache(false);
 
+// Prevent the api url from being indexed
+$app->setHeader('X-Robots-Tag', 'noindex, nofollow');
+
 // JInput object
 $input = $app->input;
 
@@ -236,6 +239,7 @@ switch ($format)
 {
 	// JSONinzed
 	case 'json' :
+
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 
 		break;

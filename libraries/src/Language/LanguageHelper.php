@@ -413,7 +413,7 @@ class LanguageHelper
 	 * @param   string   $fileName  The language ini file path.
 	 * @param   boolean  $debug     If set to true debug language ini file.
 	 *
-	 * @return  boolean  True if saved, false otherwise.
+	 * @return  array
 	 *
 	 * @since   3.9.0
 	 */

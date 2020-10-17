@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
+use Joomla\CMS\Version;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ActionLogPlugin', JPATH_ADMINISTRATOR . '/components/com_actionlogs/libraries/actionlogplugin.php');
@@ -578,7 +579,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
@@ -615,6 +616,13 @@ class PlgActionlogJoomla extends ActionLogPlugin
 				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE';
 				$action             = 'resetcomplete';
 			}
+
+			// Registration Activation
+			if ($task === 'registration.activate')
+			{
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTRATION_ACTIVATE';
+				$action             = 'activaterequest';
+			}
 		}
 		elseif ($isnew)
 		{
@@ -650,7 +658,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -728,7 +736,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $group    Holds the group data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  void
@@ -1041,5 +1049,41 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'group'       => $group,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CACHE', $context, $user->id);
+	}
+
+	/**
+	 * On after CMS Update
+	 *
+	 * Method is called after user update the CMS.
+	 *
+	 * @param   string  $oldVersion  The Joomla version before the update
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.21
+	 */
+	public function onJoomlaAfterUpdate($oldVersion = null)
+	{
+		$context = $this->app->input->get('option');
+		$user    = JFactory::getUser();
+		
+		if (empty($oldVersion))
+		{			
+			$oldVersion = JText::_('JLIB_UNKNOWN');	
+		}
+
+		$message = array(
+			'action'      => 'joomlaupdate',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'version'     => JVERSION,
+			'oldversion'  => $oldVersion,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
 	}
 }

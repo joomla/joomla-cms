@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -361,7 +362,7 @@ class ModulesModelModules extends JModelList
 			{
 				$query->having('MIN(' . $db->quoteName('mm.menuid') . ') IS NULL');
 			}
-			// If user selected the modules assigned to some particlar page (menu item).
+			// If user selected the modules assigned to some particular page (menu item).
 			else
 			{
 				// Modules in "All" pages.
@@ -403,7 +404,7 @@ class ModulesModelModules extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . strtolower($search) . '%');
+				$search = $db->quote('%' . StringHelper::strtolower($search) . '%');
 				$query->where('(LOWER(a.title) LIKE ' . $search . ' OR LOWER(a.note) LIKE ' . $search . ')');
 			}
 		}

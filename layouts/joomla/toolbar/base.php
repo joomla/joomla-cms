@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
+
 ?>
 <div class="btn-wrapper" <?php echo $displayData['id']; ?>>
 	<?php echo $displayData['action']; ?>

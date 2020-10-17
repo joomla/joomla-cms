@@ -292,6 +292,10 @@ class InstallerModelUpdate extends JModelList
 			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 		$db->setQuery($query);
 		$db->execute();
+
+		// Clear the administrator cache
+		$this->cleanCache('_system', 1);
+
 		$this->_message = JText::_('JLIB_INSTALLER_PURGED_UPDATES');
 
 		return true;

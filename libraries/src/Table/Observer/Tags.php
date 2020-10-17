@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Abstract class defining methods that can be
  * implemented by an Observer class of a Table class (which is an Observable).
  * Attaches $this Observer to the $table in the constructor.
- * The classes extending this class should not be instanciated directly, as they
+ * The classes extending this class should not be instantiated directly, as they
  * are automatically instanciated by the \JObserverMapper
  *
  * @since  3.1.2

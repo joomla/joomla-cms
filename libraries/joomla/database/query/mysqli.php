@@ -213,7 +213,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @param   string  $value  The value to cast as a char.
 	 *
-	 * @param   string  $len    The lenght of the char.
+	 * @param   string  $len    The length of the char.
 	 *
 	 * @return  string  Returns the cast value.
 	 *

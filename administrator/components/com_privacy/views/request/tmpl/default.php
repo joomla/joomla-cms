@@ -30,7 +30,7 @@ JFactory::getDocument()->addScriptDeclaration($js);
 
 <form action="<?php echo JRoute::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="row-fluid">
-		<div class="span6">
+		<div class="span4">
 			<h3><?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_INFORMATION'); ?></h3>
 			<dl class="dl-horizontal">
 				<dt><?php echo JText::_('JGLOBAL_EMAIL'); ?>:</dt>
@@ -46,7 +46,7 @@ JFactory::getDocument()->addScriptDeclaration($js);
 				<dd><?php echo JHtml::_('date', $this->item->requested_at, JText::_('DATE_FORMAT_LC6')); ?></dd>
 			</dl>
 		</div>
-		<div class="span6">
+		<div class="span8">
 			<h3><?php echo JText::_('COM_PRIVACY_HEADING_ACTION_LOG'); ?></h3>
 			<?php if (empty($this->actionlogs)) : ?>
 				<div class="alert alert-no-items">

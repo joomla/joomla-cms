@@ -7,12 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
 $article = $displayData['article'];
 $overlib = $displayData['overlib'];
+
+// @deprecated  4.0  The legacy icon flag will be removed from this layout in 4.0
 $legacy  = $displayData['legacy'];
 
 if ($legacy)

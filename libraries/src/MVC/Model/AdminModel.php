@@ -523,7 +523,7 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
 	 * @param   \JTableInterface  $table  The table object containing the newly created item
 	 * @param   integer           $newId  The id of the new item
@@ -1632,7 +1632,7 @@ abstract class AdminModel extends FormModel
 	 * @return  boolean  True if successful, false otherwise.
 	 *
 	 * @throws \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.17
 	 */
 	protected function redirectToAssociations($data)
 	{

@@ -191,7 +191,7 @@ class ComponentHelper
 				}
 
 				// Collect the blacklist or whitelist tags and attributes.
-				// Each list is cummulative.
+				// Each list is cumulative.
 				if ($filterType === 'BL')
 				{
 					$blackList           = true;

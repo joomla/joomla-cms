@@ -79,7 +79,7 @@ class JFormFieldTextareaTest extends TestCase
 	}
 
 	/**
-	 * Tests rows and columns attribute setup by JFormFieldTextare::setup method
+	 * Tests rows and columns attribute setup by JFormFieldTextarea::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
@@ -126,6 +126,8 @@ class JFormFieldTextareaTest extends TestCase
 	public function testGetInput($data, $expected)
 	{
 		$formField = new JFormFieldTextarea;
+
+		TestReflection::setValue($formField, 'element', new SimpleXMLElement('<field />'));
 
 		foreach ($data as $attr => $value)
 		{

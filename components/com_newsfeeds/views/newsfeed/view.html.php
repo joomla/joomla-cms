@@ -57,18 +57,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$state = $this->get('State');
 		$item  = $this->get('Item');
 
-		if ($item)
-		{
-			// Get Category Model data
-			$categoryModel = JModelLegacy::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
-			$categoryModel->setState('category.id', $item->catid);
-			$categoryModel->setState('list.ordering', 'a.name');
-			$categoryModel->setState('list.direction', 'asc');
-
-			// @TODO: $items is not used. Remove this line?
-			$items = $categoryModel->getItems();
-		}
-
 		// Check for errors.
 		// @TODO: Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors')))

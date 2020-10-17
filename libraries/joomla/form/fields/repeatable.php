@@ -88,7 +88,7 @@ class JFormFieldRepeatable extends JFormField
 					. '<tbody><tr>' . implode("\n", $body_row_str) . '</tr></tbody>'
 				. '</table>';
 
-		// And finaly build a main container
+		// And finally build a main container
 		$str = array();
 		$str[] = '<div id="' . $this->id . '_container">';
 

@@ -15,7 +15,7 @@ jimport('joomla.filesystem.path');
  * Joomla Platform HTML View Class
  *
  * @since       3.0.0
- * @deprecated  5.0 Use the default MVC library
+ * @deprecated  4.0 Use the default MVC library
  */
 abstract class JViewHtml extends JViewBase
 {

@@ -96,12 +96,13 @@ class ChangeSet
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
 		if ($this->db->getServerType() === 'mysql')
 		{
-			// Let the update query be something harmless which should always succeed
+			// Let the update query do nothing when being executed
 			$tmpSchemaChangeItem = ChangeItem::getInstance(
 				$db,
 				'database.php',
 				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+				. ' SET ' . $this->db->quoteName('converted') . ' = '
+				. $this->db->quoteName('converted') . ';');
 
 			// Set to not skipped
 			$tmpSchemaChangeItem->checkStatus = 0;
@@ -109,12 +110,12 @@ class ChangeSet
 			// Set the check query
 			if ($this->db->hasUTF8mb4Support())
 			{
-				$converted = 2;
+				$converted = 5;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
 			}
 			else
 			{
-				$converted = 1;
+				$converted = 3;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
 			}
 

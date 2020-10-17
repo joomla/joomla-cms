@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Archive\Archive;
+use Joomla\String\StringHelper;
 
 JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
@@ -167,7 +168,7 @@ class BannersModelTracks extends JModelList
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . strtolower($search) . '%');
+			$search = $db->quote('%' . StringHelper::strtolower($search) . '%');
 			$query->where('(LOWER(b.name) LIKE ' . $search . ' OR LOWER(cl.name) LIKE ' . $search . ')');
 		}
 

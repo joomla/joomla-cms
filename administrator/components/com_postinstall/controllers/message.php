@@ -25,6 +25,9 @@ class PostinstallControllerMessage extends FOFController
 	 */
 	public function reset()
 	{
+		// CSRF prevention.
+		$this->_csrfProtection();
+
 		/** @var PostinstallModelMessages $model */
 		$model = $this->getThisModel();
 
@@ -49,6 +52,9 @@ class PostinstallControllerMessage extends FOFController
 	 */
 	public function hideAll()
 	{
+		// CSRF prevention.
+		$this->_csrfProtection();
+
 		/** @var PostinstallModelMessages $model */
 		$model = $this->getThisModel();
 
@@ -74,10 +80,7 @@ class PostinstallControllerMessage extends FOFController
 	public function action()
 	{
 		// CSRF prevention.
-		if ($this->csrfProtection)
-		{
-			$this->_csrfProtection();
-		}
+		$this->_csrfProtection();
 
 		$model = $this->getThisModel();
 

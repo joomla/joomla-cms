@@ -35,7 +35,7 @@ $userFieldGroups    = array();
 		echo JHtml::_('sliders.panel', $groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') === 'tabs') : ?>
-		<?php echo JHtmlTabs::panel($groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
+		<?php echo JHtml::_('tabs.panel', $groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') === 'plain'):?>
 		<?php echo '<h3>' . ($groupTitle ?: JText::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>

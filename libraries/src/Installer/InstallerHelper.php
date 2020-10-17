@@ -86,7 +86,7 @@ abstract class InstallerHelper
 			return false;
 		}
 
-		// Convert keys of headers to lowercase, to accomodate for case variations
+		// Convert keys of headers to lowercase, to accommodate for case variations
 		$headers = array_change_key_case($response->headers);
 
 		if (302 == $response->code && !empty($headers['location']))
