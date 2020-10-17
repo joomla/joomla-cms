@@ -279,8 +279,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 					unset($arguments['result']);
 				}
 
-				// Map the associative argument array to a numeric indexed array for efficiency (see the switch statement below).
-				$arguments = array_values($arguments);
+				// Convert to indexed array for unpacking.
+				$arguments = \array_values($arguments);
 
 				$result = $this->{$methodName}(...$arguments);
 
