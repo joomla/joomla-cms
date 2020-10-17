@@ -31,6 +31,7 @@ final class LoggerRegistry
 		'messagequeue'  => Logger\MessagequeueLogger::class,
 		'syslog'        => Logger\SyslogLogger::class,
 		'w3c'           => Logger\W3cLogger::class,
+		'inmemory'      => Logger\InMemoryLogger::class,
 	];
 
 	/**

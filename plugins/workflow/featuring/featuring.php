@@ -103,8 +103,6 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 		}
 
 		$this->enhanceItemForm($form, $data);
-
-		return;
 	}
 
 	/**

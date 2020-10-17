@@ -157,8 +157,15 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         Joomla.MediaManager.Edit.Reset(true);
         break;
       case 'save':
-        Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-        window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}`;
+        Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
+          if (this.readyState === XMLHttpRequest.DONE) {
+            if (window.self !== window.top) {
+              window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}&tmpl=component`;
+            } else {
+              window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}`;
+            }
+          }
+        });
         break;
       case 'cancel':
         if (window.self !== window.top) {
@@ -190,12 +197,16 @@ Joomla.MediaManager = Joomla.MediaManager || {};
   /**
    * @TODO Extend Joomla.request and drop this code!!!!
    */
-  Joomla.UploadFile.exec = (name, data, uploadPath, url, type) => {
+  Joomla.UploadFile.exec = (name, data, uploadPath, url, type, stateChangeCallback) => {
     const xhr = new XMLHttpRequest();
 
     xhr.upload.onprogress = (e) => {
       Joomla.MediaManager.Edit.updateProgressBar((e.loaded / e.total) * 100);
     };
+
+    if (typeof stateChangeCallback === 'function') {
+      xhr.onreadystatechange = stateChangeCallback;
+    }
 
     xhr.onload = () => {
       let resp;
