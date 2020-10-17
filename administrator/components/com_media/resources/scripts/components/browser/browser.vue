@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <div
+  <div
       ref="browserItems"
       class="media-browser"
       :style="mediaBrowserStyles"
@@ -84,7 +83,6 @@
       </div>
     </div>
     <media-infobar ref="infobar" />
-  </div>
 </template>
 
 <script>
