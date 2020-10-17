@@ -136,8 +136,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			{
 				if (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0)))
 				{
-					unset($this->lang_codes[$language->lang_code]);
-					unset($this->sefs[$language->sef]);
+					unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
 				}
 			}
 		}
@@ -158,20 +157,20 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		$router = CMSApplication::getInstance('site')->getRouter('site');
 
 		// Attach build rules for language SEF.
-		$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
+		$router->attachBuildRule([$this, 'preprocessBuildRule'], Router::PROCESS_BEFORE);
 
 		if ($this->mode_sef)
 		{
-			$router->attachBuildRule(array($this, 'buildRule'), Router::PROCESS_BEFORE);
-			$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), Router::PROCESS_AFTER);
+			$router->attachBuildRule([$this, 'buildRule'], Router::PROCESS_BEFORE);
+			$router->attachBuildRule([$this, 'postprocessSEFBuildRule'], Router::PROCESS_AFTER);
 		}
 		else
 		{
-			$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), Router::PROCESS_AFTER);
+			$router->attachBuildRule([$this, 'postprocessNonSEFBuildRule'], Router::PROCESS_AFTER);
 		}
 
 		// Attach parse rule.
-		$router->attachParseRule(array($this, 'parseRule'), Router::PROCESS_BEFORE);
+		$router->attachParseRule([$this, 'parseRule'], Router::PROCESS_BEFORE);
 	}
 
 	/**
@@ -284,7 +283,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 * @param   Router  &$router  Router object.
 	 * @param   Uri     &$uri     Uri object.
 	 *
-	 * @return  void
+	 * @return  array
 	 *
 	 * @since   1.6
 	 */
@@ -365,7 +364,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					// Empty parts array when "index.php" is the only part left.
 					if (count($parts) === 1 && $parts[0] === 'index.php')
 					{
-						$parts = array();
+						$parts = [];
 					}
 
 					$uri->setPath(implode('/', $parts));
@@ -462,7 +461,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$uri->setPath('index.php/' . $uri->getPath());
 				}
 
-				$redirectUri = $uri->base() . $uri->toString(array('path', 'query', 'fragment'));
+				$redirectUri = $uri->base() . $uri->toString(['path', 'query', 'fragment']);
 			}
 			else
 			{
@@ -491,7 +490,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		}
 
 		// We have found our language and now need to set the cookie and the language value in our system
-		$array = array('lang' => $lang_code);
+		$array = ['lang' => $lang_code];
 		$this->current_lang = $lang_code;
 
 		// Set the request var.
@@ -542,11 +541,11 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	{
 		$this->loadLanguage();
 
-		return array(
-			Text::_('PLG_SYSTEM_LANGUAGEFILTER') => array(
+		return [
+			Text::_('PLG_SYSTEM_LANGUAGEFILTER') => [
 				Text::_('PLG_SYSTEM_LANGUAGEFILTER_PRIVACY_CAPABILITY_LANGUAGE_COOKIE'),
-			)
-		);
+			]
+		];
 	}
 
 	/**
@@ -634,7 +633,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function onUserLogin($user, $options = array())
+	public function onUserLogin($user, $options = [])
 	{
 		if ($this->app->isClient('site'))
 		{
@@ -714,7 +713,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 						// We are on a Home page, we redirect to the user preferred site language Home page.
 						$item = $menu->getDefault($lang_code);
 
-						if ($item && $item->language !== $active->language && $item->language !== '*')
+						if ($item && !in_array($item->language, [$active->language, '*'], true))
 						{
 							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
 							$foundAssociation = true;
@@ -763,7 +762,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$active                = $menu->getActive();
 			$levels                = $this->app->getIdentity()->getAuthorisedViewLevels();
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
-			$server                = Uri::getInstance()->toString(array('scheme', 'host', 'port'));
+			$server                = Uri::getInstance()->toString(['scheme', 'host', 'port']);
 			$is_home               = false;
 			$currentInternalUrl    = 'index.php?' . http_build_query($this->app->getRouter()->getVars());
 
@@ -797,49 +796,51 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
 				JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
-				if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+				if (class_exists($cName) && is_callable([$cName, 'getAssociations']))
 				{
-					$cassociations = call_user_func(array($cName, 'getAssociations'));
+					$cassociations = call_user_func([$cName, 'getAssociations']);
 				}
 			}
 
 			// For each language...
 			foreach ($languages as $i => &$language)
 			{
-				switch (true)
+				// Language without frontend UI || Language without specific home menu || Language without authorized access level
+				if (!array_key_exists($i, LanguageHelper::getInstalledLanguages(0))
+					|| !isset($homes[$i])
+					|| (!empty($language->access) && !in_array($language->access, $levels)))
 				{
-					// Language without frontend UI || Language without specific home menu || Language without authorized access level
-					case (!array_key_exists($i, LanguageHelper::getInstalledLanguages(0))):
-					case (!isset($homes[$i])):
-					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
-						unset($languages[$i]);
-						break;
+					unset($languages[$i]);
+				}
 
-					// Home page
-					case ($is_home):
-						$language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
-						break;
+				// Home page
+				elseif ($is_home)
+				{
+					$language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
+				}
 
-					// Current language link
-					case ($i === $this->current_lang):
-						$language->link = Route::_($currentInternalUrl);
-						break;
+				// Current language link
+				elseif ($i === $this->current_lang)
+				{
+					$language->link = Route::_($currentInternalUrl);
+				}
 
-					// Component association
-					case (isset($cassociations[$i])):
-						$language->link = Route::_($cassociations[$i]);
-						break;
+				// Component association
+				elseif (isset($cassociations[$i]))
+				{
+					$language->link = Route::_($cassociations[$i]);
+				}
 
-					// Menu items association
-					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
-					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
+				// Menu items association
+				// "$item = $menu..." in following condition is an assignment *AND* a truthy check
+				elseif (isset($associations[$i]) && ($item = $menu->getItem($associations[$i])))
+				{
+					$language->link = Route::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
+				}
 
-						$language->link = Route::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
-						break;
-
-					// Too bad...
-					default:
-						unset($languages[$i]);
+				// Too bad...
+				else {
+					unset($languages[$i]);
 				}
 			}
 
@@ -850,12 +851,12 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				if ($remove_default_prefix && isset($languages[$this->default_lang]))
 				{
 					$languages[$this->default_lang]->link
-									= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
+						= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
 				}
 
 				foreach ($languages as $i => &$language)
 				{
-					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
+					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', ['hreflang' => $i]);
 				}
 
 				// Add x-default language tag
