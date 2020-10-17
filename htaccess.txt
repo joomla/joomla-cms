@@ -17,7 +17,7 @@
 ##
 
 ## No directory listings
-<IfModule autoindex>
+<IfModule mod_autoindex.c>
   IndexIgnore *
 </IfModule>
 
