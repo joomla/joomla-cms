@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,7 @@ extract($displayData);
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
@@ -71,16 +72,6 @@ $autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' :
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
-
-$dataAttribute = '';
-
-if (!empty($dataAttributes))
-{
-	foreach ($dataAttributes as $key => $value)
-	{
-		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
-	}
-}
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();

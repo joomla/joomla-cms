@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1297,11 +1297,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		$nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+		$nullID   = $this->_supportNullValue ? 'NULL' : '0';
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($checkedOutField) . ' = 0')
+			->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
 			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
@@ -1310,8 +1311,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = $nullDate === 'NULL' ? null : '';
+		$this->$checkedOutField     = $this->_supportNullValue ? null : 0;
+		$this->$checkedOutTimeField = $this->_supportNullValue ? null : '';
 
 		// Post-processing by observers
 		$event = AbstractEvent::create(
@@ -1974,7 +1975,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function setColumnAlias($column, $columnAlias)
 	{
-		// Santize the column name alias
+		// Sanitize the column name alias
 		$column = strtolower($column);
 		$column = preg_replace('#[^A-Z0-9_]#i', '', $column);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class UserListCest
 	public function __construct()
 	{
 		$this->username = "testUser";
-		$this->password = "test";
+		$this->password = "joomla17082005";
 		$this->name     = "Test Bot";
 		$this->email    = "Testbot@example.com";
 	}

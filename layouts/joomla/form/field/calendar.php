@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,6 +47,7 @@ $document = Factory::getApplication()->getDocument();
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  *
  * Calendar Specific
@@ -64,7 +65,6 @@ $document = Factory::getApplication()->getDocument();
  */
 
 $inputvalue = '';
-$dataAttribute = '';
 
 // Build the attributes array.
 $attributes = array();
@@ -79,14 +79,6 @@ empty($onchange)  ? null : $attributes['onchange'] = $onchange;
 if ($required)
 {
 	$attributes['required'] = '';
-}
-
-if (!empty($dataAttributes))
-{
-	foreach ($dataAttributes as $key => $attrValue)
-	{
-		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
-	}
 }
 
 // Handle the special case for "now".
@@ -122,7 +114,7 @@ $document->getWebAssetManager()
 			value="<?php echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo !empty($description) ? ' aria-describedby="' . $name . '-desc"' : ''; ?>
 			<?php echo $attributes; ?>
-			<?php echo $dataAttribute; ?>
+			<?php echo $dataAttribute ?? ''; ?>
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
 		<span class="input-group-append">
@@ -142,7 +134,9 @@ $document->getWebAssetManager()
 				<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 				<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
 				title="<?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
-			><span class="fas fa-calendar" aria-hidden="true"></span></button>
+			><span class="fas fa-calendar" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?></span>
+			</button>
 		</span>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>

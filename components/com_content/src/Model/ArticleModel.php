@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -138,7 +138,6 @@ class ArticleModel extends ItemModel
 						[
 							$db->quoteName('fp.featured_up'),
 							$db->quoteName('fp.featured_down'),
-							$db->quoteName('ws.condition'),
 							$db->quoteName('c.title', 'category_title'),
 							$db->quoteName('c.alias', 'category_alias'),
 							$db->quoteName('c.access', 'category_access'),
@@ -158,16 +157,6 @@ class ArticleModel extends ItemModel
 					->from($db->quoteName('#__content', 'a'))
 					->join(
 						'INNER',
-						$db->quoteName('#__workflow_associations', 'wa'),
-						$db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id')
-					)
-					->join(
-						'INNER',
-						$db->quoteName('#__workflow_stages', 'ws'),
-						$db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id')
-					)
-					->join(
-						'INNER',
 						$db->quoteName('#__categories', 'c'),
 						$db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
 					)
@@ -178,7 +167,6 @@ class ArticleModel extends ItemModel
 					->where(
 						[
 							$db->quoteName('a.id') . ' = :pk',
-							$db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'),
 							$db->quoteName('c.published') . ' > 0',
 						]
 					)
@@ -222,7 +210,7 @@ class ArticleModel extends ItemModel
 
 				if (is_numeric($published))
 				{
-					$query->whereIn($db->quoteName('ws.condition'), [(int) $published, (int) $archived]);
+					$query->whereIn($db->quoteName('a.state'), [(int) $published, (int) $archived]);
 				}
 
 				$db->setQuery($query);
@@ -235,7 +223,7 @@ class ArticleModel extends ItemModel
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && ($data->condition != $published && $data->condition != $archived))
+				if ((is_numeric($published) || is_numeric($archived)) && ($data->state != $published && $data->state != $archived))
 				{
 					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
@@ -300,7 +288,7 @@ class ArticleModel extends ItemModel
 				if ($e->getCode() == 404)
 				{
 					// Need to go through the error handler to allow Redirect to work.
-					throw new \Exception($e->getMessage(), 404);
+					throw $e;
 				}
 				else
 				{

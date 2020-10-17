@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -146,7 +146,7 @@ class HtmlView extends BaseHtmlView
 		$title = Text::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', Text::_(strtoupper($component)));
 
 		// Prepare the toolbar.
-		ToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . '-groups');
+		ToolbarHelper::title($title, 'puzzle-piece fields ' . substr($component, 4) . '-groups');
 
 		if ($canDo->get('core.create'))
 		{
@@ -178,7 +178,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('groups.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state'))
+			if ($canDo->get('core.edit.state') && !$this->state->get('filter.state') == -2)
 			{
 				$childBar->trash('groups.trash')->listCheck(true);
 			}

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -220,9 +220,9 @@ HTMLHelper::_('behavior.formvalidator');
 				<caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
 					<thead>
 					<tr>
-						<td>
-							&nbsp;
-						</td>
+						<th scope="col">
+							<span class="sr-only"><?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_SELECT'); ?></span>
+						</th>
 						<th scope="col">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
 						</th>

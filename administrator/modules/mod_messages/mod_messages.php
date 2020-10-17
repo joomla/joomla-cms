@@ -3,13 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_messages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+
+// Check permissions.
+if (!$app->getIdentity()->authorise('core.login.admin') || !$app->getIdentity()->authorise('core.manage', 'com_messages'))
+{
+	return;
+}
 
 // Try to get the items from the messages model
 try

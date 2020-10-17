@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -141,7 +141,12 @@ class PlgEditorTinymce extends CMSPlugin
 		// Render Editor markup
 		$editor = '<div class="js-editor-tinymce">';
 		$editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
-		$editor .= $this->_toogleButton($id);
+
+		if (!$this->app->client->mobile)
+		{
+			$editor .= LayoutHelper::render('joomla.tinymce.togglebutton');
+		}
+
 		$editor .= '</div>';
 
 		// Prepare the instance specific options, actually the ext-buttons
@@ -321,16 +326,16 @@ class PlgEditorTinymce extends CMSPlugin
 
 			$ignore_filter = $filter === false;
 
-			$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
-			$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
-			$tagArray      = !empty($filter->tagArray) ? $filter->tagArray : array();
-			$attrArray     = !empty($filter->attrArray) ? $filter->attrArray : array();
+			$blockedTags       = !empty($filter->blockedTags) ? $filter->blockedTags : array();
+			$blockedAttributes = !empty($filter->blockedAttributes) ? $filter->blockedAttributes : array();
+			$tagArray          = !empty($filter->tagsArray) ? $filter->tagsArray : array();
+			$attrArray         = !empty($filter->attrArray) ? $filter->attrArray : array();
 
-			$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
+			$invalid_elements  = implode(',', array_merge($blockedTags, $blockedAttributes, $tagArray, $attrArray));
 
-			// Valid elements are all whitelist entries in com_config, which are now missing in the tagBlacklist
+			// Valid elements are all whitelist entries in com_config, which are now missing in the filter blocked properties
 			$default_filter = InputFilter::getInstance();
-			$valid_elements = implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
+			$valid_elements = implode(',', array_diff($default_filter->blockedTags, $blockedTags));
 
 			$extended_elements = '';
 		}
@@ -622,21 +627,6 @@ class PlgEditorTinymce extends CMSPlugin
 	}
 
 	/**
-	 * Get the toggle editor button
-	 *
-	 * @param   string  $name  Editor name
-	 *
-	 * @return  string
-	 */
-	private function _toogleButton($name)
-	{
-		if (!$this->app->client->mobile)
-		{
-			return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
-		}
-	}
-
-	/**
 	 * Get the XTD buttons and render them inside tinyMCE
 	 *
 	 * @param   string  $name      the id of the editor field
@@ -842,12 +832,12 @@ class PlgEditorTinymce extends CMSPlugin
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags)
 				{
-					$filter->tagBlacklist = $customListTags;
+					$filter->blockedTags = $customListTags;
 				}
 
 				if ($customListAttributes)
 				{
-					$filter->attrBlacklist = $customListAttributes;
+					$filter->blockedAttributes = $customListAttributes;
 				}
 			}
 			// Blacklists take second precedence.
@@ -862,13 +852,13 @@ class PlgEditorTinymce extends CMSPlugin
 				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
 				{
-					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
+					$filter->blockedTags = array_diff($filter->blockedTags, $whiteListTags);
 				}
 
 				// Remove whitelisted attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
-					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
+					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $whiteListAttributes);
 				}
 			}
 			// Whitelists take third precedence.
@@ -889,6 +879,8 @@ class PlgEditorTinymce extends CMSPlugin
 
 	/**
 	 * Return list of known TinyMCE buttons
+	 * @see https://www.tiny.cloud/docs/demo/full-featured/
+	 * @see https://www.tiny.cloud/apps/#core-plugins
 	 *
 	 * @return array
 	 *
@@ -896,8 +888,6 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	public static function getKnownButtons()
 	{
-		// See https://www.tinymce.com/docs/demo/full-featured/
-		// And https://www.tinymce.com/docs/plugins/
 		$buttons = [
 
 			// General buttons
@@ -983,7 +973,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$preset['simple'] = [
 			'menu' => [],
-			'toolbar' => [
+			'toolbar1' => [
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
@@ -1060,7 +1050,7 @@ class PlgEditorTinymce extends CMSPlugin
 	}
 
 	/**
-	 * Array helper funtion to remove specific arrays by key-value
+	 * Array helper function to remove specific arrays by key-value
 	 *
 	 * @param   array   $array  the parent array
 	 * @param   string  $key    the key

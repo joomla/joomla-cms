@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -194,7 +194,7 @@
         this.containerWithRows.append(row);
       }
 
-      // Add dragable attributes
+      // Add draggable attributes
       if (this.buttonMove) {
         row.setAttribute('draggable', 'false');
         row.setAttribute('aria-grabbed', 'false');
@@ -355,7 +355,7 @@
       let item = null; // Storing the selected item
       let touched = false; // We have a touch events
 
-      // Find all existing rows and add dragable attributes
+      // Find all existing rows and add draggable attributes
       const rows = this.getRows();
       for (let ir = 0, lr = rows.length; ir < lr; ir++) {
         const childRow = rows[ir];
@@ -391,7 +391,7 @@
       }
 
       // Touch interaction:
-      // - a touch of "move button" mark a row dragable / "selected", or deselect previous selected
+      // - a touch of "move button" mark a row draggable / "selected", or deselect previous selected
       // - a touch of "move button" in the destination row will move a selected row to a new position
       this.addEventListener('touchstart', (event) => {
         touched = true;

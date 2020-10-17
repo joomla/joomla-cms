@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class TemplateModel extends FormModel
 	 * @param   string    $name      The file name.
 	 * @param   stdClass  $template  The std class object of template.
 	 *
-	 * @return  object  StdClass object.
+	 * @return  object  stdClass object.
 	 *
 	 * @since   4.0.0
 	 */
@@ -245,12 +245,6 @@ class TemplateModel extends FormModel
 			{
 				$this->prepareCoreFiles($path, $element, $template);
 			}
-			else
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
-
-				return false;
-			}
 		}
 
 		// Sort list of stdClass array.
@@ -309,8 +303,6 @@ class TemplateModel extends FormModel
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -1413,7 +1405,7 @@ class TemplateModel extends FormModel
 	/**
 	 * Upload new file.
 	 *
-	 * @param   string  $file      The name of the file.
+	 * @param   array   $file      The uploaded file array.
 	 * @param   string  $location  Location for the new file.
 	 *
 	 * @return   boolean  True if file uploaded successfully, false otherwise

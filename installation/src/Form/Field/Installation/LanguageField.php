@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -100,10 +100,10 @@ class LanguageField extends ListField
 	/**
 	 * Method to sort languages by name.
 	 *
-	 * @param   string  $a  The first value to determine sort
-	 * @param   string  $b  The second value to determine sort
+	 * @param   array  $a  The first value to determine sort
+	 * @param   array  $b  The second value to determine sort
 	 *
-	 * @return  string
+	 * @return  integer
 	 *
 	 * @since   3.1
 	 */

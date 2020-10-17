@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Blog
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ class PlgSampledataBlog extends CMSPlugin
 		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
-		};
+		}
 
 		if (!ComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content'))
 		{
@@ -117,8 +117,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
-		$workflow_id = 1;
-
 		// Create "blog" category.
 		$categoryModel = $this->app->bootComponent('com_categories')
 			->getMVCFactory()->createModel('Category', 'Administrator');
@@ -129,9 +127,9 @@ class PlgSampledataBlog extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $this->app->set('unicodeslugs', 1);
 			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$this->app->set('unicodeslugs', $unicode);
 		}
 
 		$category      = array(
@@ -147,7 +145,7 @@ class PlgSampledataBlog extends CMSPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '{"workflow_id": "' . $workflow_id . '"}',
+			'params'          => '{}',
 		);
 
 		try
@@ -176,9 +174,9 @@ class PlgSampledataBlog extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $this->app->set('unicodeslugs', 1);
 			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$this->app->set('unicodeslugs', $unicode);
 		}
 
 		$category      = array(
@@ -194,7 +192,7 @@ class PlgSampledataBlog extends CMSPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '{"workflow_id": "' . $workflow_id . '"}',
+			'params'          => '{}',
 		);
 
 		try
@@ -217,7 +215,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create Articles.
-		$articleModel = new \Joomla\Component\Content\Administrator\Model\ArticleModel;
 		$articles     = array(
 			array(
 				'catid'    => $catIds[1],
@@ -246,8 +243,14 @@ class PlgSampledataBlog extends CMSPlugin
 			),
 		);
 
+		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
+
+		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
+
 		foreach ($articles as $i => $article)
 		{
+			$articleModel = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
+
 			// Set values from language strings.
 			$title                = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
 			$alias                = ApplicationHelper::stringURLSafe($title);
@@ -263,13 +266,14 @@ class PlgSampledataBlog extends CMSPlugin
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $alias) == ''))
 			{
-				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+				$unicode = $this->app->set('unicodeslugs', 1);
 				$article['alias'] = ApplicationHelper::stringURLSafe($article['title']);
-				Factory::getConfig()->set('unicodeslugs', $unicode);
+				$this->app->set('unicodeslugs', $unicode);
 			}
 
 			$article['language']        = $language;
 			$article['associations']    = array();
+			$article['state']           = 1;
 			$article['featured']        = 0;
 			$article['images']          = '';
 			$article['metakey']         = '';
@@ -279,9 +283,6 @@ class PlgSampledataBlog extends CMSPlugin
 			{
 				$article['access'] = $access;
 			}
-
-			// Publish
-			$article['transition'] = 2;
 
 			if (!$articleModel->save($article))
 			{
@@ -376,7 +377,7 @@ class PlgSampledataBlog extends CMSPlugin
 			$menuTypes[] = $menuTable->menutype;
 		}
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.blog.menutypes', $menuTypes);
 
 		// Get previously entered Data from UserStates.
@@ -1002,6 +1003,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$itemIds = array();
 		$access  = (int) $this->app->get('access', 1);
 		$user    = Factory::getUser();
+		$app     = Factory::getApplication();
 
 		// Detect language to be used.
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
@@ -1020,9 +1022,9 @@ class PlgSampledataBlog extends CMSPlugin
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $menuItem['alias']) == ''))
 			{
-				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+				$unicode = $app->set('unicodeslugs', 1);
 				$menuItem['alias'] = ApplicationHelper::stringURLSafe($menuItem['title']);
-				Factory::getConfig()->set('unicodeslugs', $unicode);
+				$app->set('unicodeslugs', $unicode);
 			}
 
 			// Append language suffix to title.

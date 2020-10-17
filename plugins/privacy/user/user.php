@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,7 +143,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 			return;
 		}
 
-		$storeName = Factory::getConfig()->get('session_handler', 'none');
+		$storeName = Factory::getApplication()->get('session_handler', 'none');
 		$store     = JSessionStorage::getInstance($storeName);
 
 		// Destroy the sessions and quote the IDs to purge the session table

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -155,7 +155,7 @@ abstract class Adapter extends CMSPlugin
 		}
 
 		// Get the indexer object
-		$this->indexer = Indexer::getInstance();
+		$this->indexer = new Indexer;
 	}
 
 	/**
@@ -904,13 +904,12 @@ abstract class Adapter extends CMSPlugin
 		switch ($item)
 		{
 			// Published and archived items only should return a published state
-			case 1;
+			case 1:
 			case 2:
 				return 1;
 
 			// All other states should return an unpublished state
 			default:
-			case 0:
 				return 0;
 		}
 	}

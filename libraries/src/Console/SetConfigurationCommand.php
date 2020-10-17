@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,10 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -224,7 +221,7 @@ class SetConfigurationCommand extends AbstractCommand
 	{
 		$app = $this->getApplication();
 
-		// Check db connection encription properties
+		// Check db connection encryption properties
 		$model = $app->bootComponent('com_config')->getMVCFactory($app)->createModel('Application', 'Administrator');
 
 		if (!$model->save($options))
@@ -246,18 +243,16 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Sets a value for a configuration option');
-
 		$this->addArgument(
 			'options',
 			InputArgument::REQUIRED | InputArgument::IS_ARRAY,
 			'All options you want to set'
 		);
 
-		$help = "The <info>%command.name%</info> 
-				Sets a value for a configuration option
+		$help = "<info>%command.name%</info> sets the value for a configuration option
 				\nUsage: <info>php %command.full_name%</info> <option>=<value>";
 
+		$this->setDescription('Set a value for a configuration option');
 		$this->setHelp($help);
 	}
 
@@ -341,7 +336,7 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$app = $this->getApplication();
 
-		// Check db connection encription properties
+		// Check db connection encryption properties
 		$model = $app->bootComponent('com_config')->getMVCFactory($app)->createModel('Application', 'Administrator');
 
 		if (!$model->validateDbConnection($options))
@@ -422,7 +417,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Exception
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int

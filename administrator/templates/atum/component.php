@@ -3,18 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-
 /** @var JDocumentHtml $this */
 
-$lang = Factory::getLanguage();
-$wa   = $this->getWebAssetManager();
+$wa = $this->getWebAssetManager();
 
 // Enable assets
 $wa->useStyle('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))

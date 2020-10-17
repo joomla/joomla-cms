@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -133,13 +133,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       content: Joomla.MediaManager.Edit.current.contents.replace(`data:image/${format};base64,`, ''),
     };
 
-
     // eslint-disable-next-line prefer-destructuring
     const uploadPath = options.uploadPath;
 
-
     const url = `${options.apiBaseUrl}&task=api.files&path=${uploadPath}`;
-
 
     const type = 'application/json';
 
@@ -160,14 +157,21 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         Joomla.MediaManager.Edit.Reset(true);
         break;
       case 'save':
-        Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type);
-        window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+        Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
+          if (this.readyState === XMLHttpRequest.DONE) {
+            if (window.self !== window.top) {
+              window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}&tmpl=component`;
+            } else {
+              window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}`;
+            }
+          }
+        });
         break;
       case 'cancel':
         if (window.self !== window.top) {
-          window.location = `${pathName}?option=com_media&path=${fileDirectory}&tmpl=component`;
+          window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}&tmpl=component`;
         } else {
-          window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+          window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}`;
         }
         break;
       case 'reset':
@@ -193,12 +197,16 @@ Joomla.MediaManager = Joomla.MediaManager || {};
   /**
    * @TODO Extend Joomla.request and drop this code!!!!
    */
-  Joomla.UploadFile.exec = (name, data, uploadPath, url, type) => {
+  Joomla.UploadFile.exec = (name, data, uploadPath, url, type, stateChangeCallback) => {
     const xhr = new XMLHttpRequest();
 
     xhr.upload.onprogress = (e) => {
       Joomla.MediaManager.Edit.updateProgressBar((e.loaded / e.total) * 100);
     };
+
+    if (typeof stateChangeCallback === 'function') {
+      xhr.onreadystatechange = stateChangeCallback;
+    }
 
     xhr.onload = () => {
       let resp;
@@ -266,7 +274,6 @@ Joomla.MediaManager = Joomla.MediaManager || {};
           if (!('contents' in Joomla.MediaManager.Edit.current)) {
             data = Joomla.MediaManager.Edit.original;
           }
-
 
           // Move the container to the correct tab
           const tab = document.getElementById(target.id.replace('tab-', ''));

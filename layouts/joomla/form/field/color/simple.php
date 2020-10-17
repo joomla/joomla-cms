@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-extract($displayData, null);
+extract($displayData);
 
 /**
  * Layout variables
@@ -47,21 +47,13 @@ extract($displayData, null);
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
  * @var   array    $colors          The specified colors
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 $class    = ' class="custom-select ' . trim($class) . '"';
 $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
-$dataAttribute = '';
-
-if (!empty($dataAttributes))
-{
-	foreach ($dataAttributes as $key => $value)
-	{
-		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
-	}
-}
 
 Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.field-simple-color')

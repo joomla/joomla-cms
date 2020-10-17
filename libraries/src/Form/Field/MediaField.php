@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -242,14 +242,14 @@ class MediaField extends FormField
 			$asset = Factory::getApplication()->input->get('option');
 		}
 
-		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
+		if ($this->value && is_file(JPATH_ROOT . '/' . $this->value))
 		{
 			$this->folder = explode('/', $this->value);
 			$this->folder = array_diff_assoc($this->folder, explode('/', ComponentHelper::getParams('com_media')->get('image_path', 'images')));
 			array_pop($this->folder);
 			$this->folder = implode('/', $this->folder);
 		}
-		elseif (file_exists(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
+		elseif (is_dir(JPATH_ROOT . '/' . ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory))
 		{
 			$this->folder = $this->directory;
 		}

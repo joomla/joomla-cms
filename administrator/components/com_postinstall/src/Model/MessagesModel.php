@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,30 @@ use Joomla\Database\ParameterType;
  */
 class MessagesModel extends BaseDatabaseModel
 {
+	/**
+	 * Method to auto-populate the state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 * @since   4.0.0
+	 */
+	protected function populateState()
+	{
+		parent::populateState();
+
+		$eid = (int) Factory::getApplication()->input->getInt('eid');
+
+		if ($eid)
+		{
+			$this->setState('eid', $eid);
+		}
+	}
+
 	/**
 	 * Gets an item with the given id from the database
 	 *

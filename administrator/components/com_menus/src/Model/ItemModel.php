@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1177,9 +1177,9 @@ class ItemModel extends AdminModel
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
+					$base . '/tmpl/' . $view,
 					$base . '/views/' . $view . '/tmpl',
 					$base . '/view/' . $view . '/tmpl',
-					$base . '/tmpl/' . $view
 				);
 				$path = Path::find($tplFolders, $layout . '.xml');
 
@@ -1276,7 +1276,7 @@ class ItemModel extends AdminModel
 
 			$this->helpKey = $helpKey ?: $this->helpKey;
 			$this->helpURL = $helpURL ?: $this->helpURL;
-			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
+			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local'));
 		}
 
 		if (!$form->loadFile($typeFile, true, false))
@@ -1726,7 +1726,7 @@ class ItemModel extends AdminModel
 	 * @param   array  $idArray    Rows identifiers to be reordered
 	 * @param   array  $lft_array  lft values of rows to be reordered
 	 *
-	 * @return  boolean false on failuer or error, true otherwise.
+	 * @return  boolean false on failure or error, true otherwise.
 	 *
 	 * @since   1.6
 	 */

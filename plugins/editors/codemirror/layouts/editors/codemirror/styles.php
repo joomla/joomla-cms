@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,6 +40,9 @@ $wa->addInlineStyle(
 			font-family: $fontFamily;
 			font-size: $fontSize;
 			line-height: $lineHeight;
+			height: calc(100vh - 600px);
+			min-height: 400px;
+			max-height: 800px;
 		}
 		.CodeMirror-activeline-background { background: $activeLineColor; }
 		.CodeMirror-matchingtag { background: $highlightMatchColor; }

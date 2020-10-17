@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,15 +43,10 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 
 	<?php if ($canEdit) : ?>
 		<div class="icons">
-			<div class="btn-group float-right">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $this->item->id; ?>"
-					aria-label="<?php echo Text::_('JUSER_TOOLS'); ?>"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="fas fa-cog" aria-hidden="true"></span>
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $this->item->id; ?>">
-					<li class="edit-icon"> <?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?> </li>
-				</ul>
+			<div class="float-right">
+				<div>
+					<?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?>
+				</div>
 			</div>
 		</div>
 	<?php endif; ?>
@@ -76,7 +71,12 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 	<?php if ($tparams->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
 			<label for="select_contact"><?php echo Text::_('COM_CONTACT_SELECT_CONTACT'); ?></label>
-			<?php echo HTMLHelper::_('select.genericlist', $this->contacts, 'select_contact', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link); ?>
+			<?php echo HTMLHelper::_(
+				'select.genericlist',
+				$this->contacts,
+				'select_contact',
+				'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->item->link);
+			?>
 		</form>
 	<?php endif; ?>
 
@@ -94,7 +94,12 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 
 		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 			<div class="com-contact__thumbnail thumbnail float-right">
-				<?php echo HTMLHelper::_('image', $this->item->image, htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8'), array('itemprop' => 'image')); ?>
+				<?php echo HTMLHelper::_(
+					'image',
+					$this->item->image,
+					htmlspecialchars($this->item->name,  ENT_QUOTES, 'UTF-8'),
+					array('itemprop' => 'image')
+				); ?>
 			</div>
 		<?php endif; ?>
 
@@ -148,9 +153,14 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 		<div class="com-contact__miscinfo contact-miscinfo">
 			<dl class="dl-horizontal">
 				<dt>
-					<span class="<?php echo $tparams->get('marker_class'); ?>">
-					<?php echo $tparams->get('marker_misc'); ?>
-					</span>
+					<?php if (!$this->params->get('marker_misc')) : ?>
+						<span class="icon-tags" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
+					<?php else : ?>
+						<span class="<?php echo $this->params->get('marker_class'); ?>">
+							<?php echo $this->params->get('marker_misc'); ?>
+						</span>
+					<?php endif; ?>
 				</dt>
 				<dd>
 					<span class="contact-misc">

@@ -24,7 +24,7 @@
 
     sendTestMail() {
       const email_data = {
-        smtpauth: document.getElementById("jform_smtpauth1").checked ? 1 : 0,
+        smtpauth: document.getElementById('jform_smtpauth1').checked ? 1 : 0,
         smtpuser: this.querySelector('[name="jform[smtpuser]"]').value,
         smtppass: this.querySelector('[name="jform[smtppass]"]').value,
         smtphost: this.querySelector('[name="jform[smtphost]"]').value,
@@ -33,7 +33,7 @@
         mailfrom: this.querySelector('[name="jform[mailfrom]"]').value,
         fromname: this.querySelector('[name="jform[fromname]"]').value,
         mailer: this.querySelector('[name="jform[mailer]"]').value,
-        mailonline: document.getElementById("jform_mailonline1").checked ? 1 : 0,
+        mailonline: document.getElementById('jform_mailonline1').checked ? 1 : 0,
       };
 
       // Remove js messages, if they exist.
@@ -45,7 +45,7 @@
         data: JSON.stringify(email_data),
         perform: true,
         headers: { 'Content-Type': 'application/json' },
-        onSuccess: (response, xhr) => {
+        onSuccess: (response) => {
           response = JSON.parse(response);
           if (typeof response.messages === 'object' && response.messages !== null) {
             Joomla.renderMessages(response.messages);

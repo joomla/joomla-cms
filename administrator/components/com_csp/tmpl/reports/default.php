@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,6 +56,12 @@ $saveOrder = $listOrder == 'a.id';
 				<?php endif; ?>
 				<?php if (isset($this->trashWarningMessage)) : ?>
 					<?php Factory::getApplication()->enqueueMessage($this->trashWarningMessage, 'warning'); ?>
+				<?php endif; ?>
+				<?php if (isset($this->unsafeInlineWarningMessage)) : ?>
+					<?php Factory::getApplication()->enqueueMessage($this->unsafeInlineWarningMessage, 'warning'); ?>
+				<?php endif; ?>
+				<?php if (isset($this->unsafeEvalWarningMessage)) : ?>
+					<?php Factory::getApplication()->enqueueMessage($this->unsafeEvalWarningMessage, 'warning'); ?>
 				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">

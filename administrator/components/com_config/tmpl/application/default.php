@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,6 @@ Text::script('MESSAGE');
 				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-system', Text::_('COM_CONFIG_SYSTEM')); ?>
-					<?php echo $this->loadTemplate('system'); ?>
 					<?php echo $this->loadTemplate('debug'); ?>
 					<?php echo $this->loadTemplate('cache'); ?>
 					<?php echo $this->loadTemplate('session'); ?>
@@ -61,6 +60,11 @@ Text::script('MESSAGE');
 					<?php echo $this->loadTemplate('proxy'); ?>
 					<?php echo $this->loadTemplate('database'); ?>
 					<?php echo $this->loadTemplate('mail'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-logging', Text::_('COM_CONFIG_LOGGING')); ?>
+					<?php echo $this->loadTemplate('logging'); ?>
+					<?php echo $this->loadTemplate('logging_custom'); ?>
 				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-filters', Text::_('COM_CONFIG_TEXT_FILTERS')); ?>

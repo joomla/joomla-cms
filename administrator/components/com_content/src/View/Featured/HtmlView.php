@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\View\Featured;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -65,6 +66,13 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * All transition, which can be executed of one if the items
+	 *
+	 * @var  array
+	 */
+	protected $transitions = [];
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -78,8 +86,14 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->transitions   = $this->get('Transitions');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
+
+		if (ComponentHelper::getParams('com_content')->get('workflow_enabled'))
+		{
+			PluginHelper::importPlugin('workflow');
+
+			$this->transitions = $this->get('Transitions');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -95,51 +109,6 @@ class HtmlView extends BaseHtmlView
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');
 		}
-
-		$transitions = [
-			'publish' => [],
-			'unpublish' => [],
-			'archive' => [],
-			'trash' => []
-		];
-
-		foreach ($this->transitions as $transition)
-		{
-			switch ($transition['stage_condition'])
-			{
-				case ContentComponent::CONDITION_PUBLISHED:
-					$transitions['publish'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
-					break;
-
-				case ContentComponent::CONDITION_UNPUBLISHED:
-					$transitions['unpublish'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
-					break;
-
-				case ContentComponent::CONDITION_ARCHIVED:
-					$transitions['archive'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
-					break;
-
-				case ContentComponent::CONDITION_TRASHED:
-					$transitions['trash'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
-					break;
-			}
-		}
-
-		$this->document->addScriptOptions('articles.transitions', $transitions);
-
-		$articles = [];
-
-		foreach ($this->items as $item)
-		{
-			$articles['article-' . (int) $item->id] = Text::sprintf('COM_CONTENT_STAGE_ARTICLE_TITLE', $this->escape($item->title), (int) $item->id);
-		}
-
-		$this->document->addScriptOptions('articles.items', $articles);
-
-		Text::script('COM_CONTENT_ERROR_CANNOT_PUBLISH');
-		Text::script('COM_CONTENT_ERROR_CANNOT_UNPUBLISH');
-		Text::script('COM_CONTENT_ERROR_CANNOT_TRASH');
-		Text::script('COM_CONTENT_ERROR_CANNOT_ARCHIVE');
 
 		return parent::display($tpl);
 	}
@@ -166,7 +135,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('article.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $canDo->get('core.execute.transition'))
+		if ($canDo->get('core.edit.state') || count($this->transitions))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -177,38 +146,52 @@ class HtmlView extends BaseHtmlView
 
 			$childBar = $dropdown->getChildToolbar();
 
-			if ($canDo->get('core.execute.transition'))
+			if (count($this->transitions))
+			{
+				$childBar->separatorButton('transition-headline')
+					->text('COM_CONTENT_RUN_TRANSITIONS')
+					->buttonClass('text-center py-2 h3');
+
+				$cmd = "Joomla.submitbutton('articles.runTransition');";
+				$messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+				$alert = 'Joomla.renderMessages(' . $messages . ')';
+				$cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
+
+				foreach ($this->transitions as $transition)
+				{
+					$childBar->standardButton('transition')
+						->text($transition['text'])
+						->buttonClass('transition-' . (int) $transition['value'])
+						->icon('fas fa-project-diagram')
+						->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
+				}
+
+				$childBar->separatorButton('transition-separator');
+			}
+
+			if ($canDo->get('core.edit.state'))
 			{
 				$childBar->publish('articles.publish')->listCheck(true);
 
 				$childBar->unpublish('articles.unpublish')->listCheck(true);
-			}
 
-			if ($canDo->get('core.edit.state'))
-			{
 				$childBar->standardButton('unfeatured')
 					->text('JUNFEATURE')
 					->task('articles.unfeatured')
 					->listCheck(true);
-			}
 
-			if ($canDo->get('core.execute.transition'))
-			{
 				$childBar->archive('articles.archive')->listCheck(true);
-			}
 
-			if ($canDo->get('core.edit.state'))
-			{
 				$childBar->checkin('articles.checkin')->listCheck(true);
-			}
 
-			if ($canDo->get('core.execute.transition'))
-			{
-				$childBar->trash('articles.trash')->listCheck(true);
+				if (!$this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED)
+				{
+					$childBar->trash('articles.trash')->listCheck(true);
+				}
 			}
 		}
 
-		if ($this->state->get('filter.condition') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('articles.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')

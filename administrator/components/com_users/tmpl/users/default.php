@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -146,7 +146,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<?php if ($canChange) : ?>
 										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', !$self); ?>
 									<?php else : ?>
-										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', false);; ?>
+										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', false); ?>
 									<?php endif; ?>
 								</td>
 								<td class="text-center d-md-table-cell">
@@ -156,7 +156,8 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									?>
 								</td>
 								<?php if ($tfa) : ?>
-								<td class="text-center d-none d-md-table-cell tbody-icon">
+								<td class="text-center d-none d-md-table-cell">
+									<span class="tbody-icon">
 									<?php if (!empty($item->otpKey)) : ?>
 										<span class="fas fa-check" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
@@ -164,6 +165,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<span class="fas fa-times" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
 									<?php endif; ?>
+									</span>
 								</td>
 								<?php endif; ?>
 								<td class="d-none d-md-table-cell">

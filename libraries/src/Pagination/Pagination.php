@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -336,7 +336,7 @@ class Pagination
 
 		$chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
 
-		if (file_exists($chromePath))
+		if (is_file($chromePath))
 		{
 			include_once $chromePath;
 		}
@@ -512,7 +512,7 @@ class Pagination
 		// Keep B/C for overrides done with chromes
 		$chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
 
-		if (file_exists($chromePath))
+		if (is_file($chromePath))
 		{
 			include_once $chromePath;
 

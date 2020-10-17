@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -286,15 +286,9 @@ class CategoryModel extends ListModel
 		// List state information
 		$format = $app->input->getWord('format');
 
-		$numberOfContactsToDisplay = $mergedParams->get('contacts_display_num');
-
 		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
-		}
-		elseif (isset($numberOfContactsToDisplay))
-		{
-			$limit = $numberOfContactsToDisplay;
 		}
 		else
 		{
