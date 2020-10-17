@@ -6,7 +6,7 @@
     <div class="media-browser-item-preview">
       <div class="file-background">
         <div class="file-icon">
-          <span class="fas fa-file-alt" />
+          <span class="icon-file-alt" />
         </div>
       </div>
     </div>
@@ -41,7 +41,7 @@
         @keyup.up="openLastActions()"
       >
         <span
-          class="image-browser-action fas fa-ellipsis-h"
+          class="image-browser-action icon-ellipsis-h"
           aria-hidden="true"
           @click.stop="openActions()"
         />
@@ -64,7 +64,7 @@
               @keyup.down="$refs.actionRename.focus()"
             >
               <span
-                class="image-browser-action fas fa-download"
+                class="image-browser-action icon-download"
                 aria-hidden="true"
                 @click.stop="download()"
               />
@@ -86,7 +86,7 @@
               @keyup.down="$refs.actionUrl.focus()"
             >
               <span
-                class="image-browser-action fas fa-text-width"
+                class="image-browser-action icon-text-width"
                 aria-hidden="true"
                 @click.stop="openRenameModal()"
               />
@@ -108,7 +108,7 @@
               @keyup.down="$refs.actionDelete.focus()"
             >
               <span
-                class="image-browser-action fas fa-link"
+                class="image-browser-action icon-link"
                 aria-hidden="true"
                 @click.stop="openShareUrlModal()"
               />
@@ -130,7 +130,7 @@
               @keyup.down="$refs.actionDownload.focus()"
             >
               <span
-                class="image-browser-action fas fa-trash"
+                class="image-browser-action icon-trash"
                 aria-hidden="true"
                 @click.stop="openConfirmDeleteModal()"
               />

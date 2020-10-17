@@ -13,7 +13,7 @@
         v-if="item.path === '/'"
         class="text-center"
       >
-        <span class="fas fa-file placeholder-icon" />
+        <span class="icon-file placeholder-icon" />
         Select file or folder to view its details.
       </div>
       <dl v-else>

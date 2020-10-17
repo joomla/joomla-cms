@@ -39,7 +39,7 @@
         class="media-preview-close"
         @click="close()"
       >
-        <span class="fas fa-times" />
+        <span class="icon-times" />
       </button>
     </template>
   </media-modal>

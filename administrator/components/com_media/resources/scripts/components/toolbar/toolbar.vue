@@ -47,7 +47,7 @@
         @click.stop.prevent="decreaseGridSize()"
       >
         <span
-          class="fas fa-search-minus"
+          class="icon-search-minus"
           aria-hidden="true"
         />
       </button>
@@ -60,7 +60,7 @@
         @click.stop.prevent="increaseGridSize()"
       >
         <span
-          class="fas fa-search-plus"
+          class="icon-search-plus"
           aria-hidden="true"
         />
       </button>
@@ -84,7 +84,7 @@
         @click.stop.prevent="toggleInfoBar"
       >
         <span
-          class="fas fa-info"
+          class="icon-info"
           aria-hidden="true"
         />
       </button>
@@ -99,10 +99,10 @@ export default {
   name: 'MediaToolbar',
   computed: {
     toggleListViewBtnIcon() {
-      return (this.isGridView) ? 'fas fa-list' : 'fas fa-th';
+      return (this.isGridView) ? 'icon-list' : 'icon-th';
     },
     toggleSelectAllBtnIcon() {
-      return (this.allItemsSelected) ? 'fas fa-check-square' : 'fas fa-square';
+      return (this.allItemsSelected) ? 'icon-check-square' : 'icon-square';
     },
     isLoading() {
       return this.$store.state.isLoading;
