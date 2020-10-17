@@ -22,6 +22,40 @@ use Joomla\CMS\MVC\Controller\BaseController;
 class ReportController extends BaseController
 {
 	/**
+	 * The list of valid directives based on: https://www.w3.org/TR/CSP3/#csp-directives
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $validDirectives = [
+		'child-src',
+		'connect-src',
+		'default-src',
+		'font-src',
+		'frame-src',
+		'img-src',
+		'manifest-src',
+		'media-src',
+		'prefetch-src',
+		'object-src',
+		'script-src',
+		'script-src-elem',
+		'script-src-attr',
+		'worker-src',
+		'base-uri',
+		'plugin-types',
+		'sandbox',
+		'form-action',
+		'frame-ancestors',
+		'navigate-to',
+		'report-uri',
+		'report-to',
+		'block-all-mixed-content',
+		'upgrade-insecure-requests',
+		'require-sri-for',
+	];
+
+	/**
 	 * Log the CSP request
 	 *
 	 * @return  void
@@ -30,44 +64,87 @@ class ReportController extends BaseController
 	 */
 	public function log()
 	{
-		// When we are not in detect mode do nothing here
-		if (Factory::getApplication()->getParams()->get('contentsecuritypolicy_mode', 'custom') != 'detect')
+		// Make sure we we are in detect mode and csp is active
+		if (Factory::getApplication()->getParams()->get('contentsecuritypolicy_mode', 'custom') !== 'detect'
+			&& Factory::getApplication()->getParams()->get('contentsecuritypolicy', '0') === '1')
 		{
 			$this->app->close();
 		}
 
-		$data = $this->input->json->get('csp-report', array(), 'Array');
+		$data = $this->input->json->get('csp-report', [], 'Array');
 
+		// No data has been passed
 		if (empty($data))
 		{
 			$this->app->close();
 		}
 
 		$report = new \stdClass;
-		$report->document_uri = $data['document-uri'];
-		$report->blocked_uri  = $data['blocked-uri'];
 
-		if (filter_var($report->blocked_uri, FILTER_VALIDATE_URL) !== false)
+		// Make sure the client reported is enabled to get reports.
+		$report->client = $this->app->input->get('client', false);
+
+		// Make sure the client is passed and has an valid value
+		if ($report->client === false || !in_array($report->client, ['site', 'administrator']))
 		{
-			$parsedUrl = parse_url($report->blocked_uri);
-			$report->blocked_uri = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+			$this->app->close();
 		}
 
-		// Eval or inline lets make sure they get reported in the correct way
-		if (in_array($report->blocked_uri, ['eval', 'inline']))
+		// Make sure the client reported is enabled to get reports.
+		$configuredCspClient = Factory::getApplication()->getParams()->get('contentsecuritypolicy_client', 'site');
+
+		if ($report->client !== $configuredCspClient && $configuredCspClient !== 'both')
 		{
-			$report->blocked_uri = "'unsafe-" . $report->blocked_uri . "'";
+			$this->app->close();
 		}
 
-		$report->directive = $data['violated-directive'];
+		// Check the document-uri field
+		$documentUri = (string) $data['document-uri'];
 
-		if (empty($data['violated-directive']) && !empty($data['effective-directive']))
+		// Make sure the document-uri is a valid url
+		if (filter_var($documentUri, FILTER_VALIDATE_URL) === false)
 		{
-			$report->directive = $data['effective-directive'];
+			$this->app->close();
 		}
 
-		// Empty report
-		if (empty($report->blocked_uri) && empty($report->directive))
+		$parsedDocumentUri = parse_url($documentUri);
+		$report->document_uri = $parsedDocumentUri['scheme'] . '://' . $parsedDocumentUri['host'];
+
+		// Check the blocked-uri field
+		$blockedUri = (string) $data['blocked-uri'];
+		$report->blocked_uri = false;
+
+		// Check for "eval" or "inline" lets make sure they get reported in the correct way
+		if (in_array($blockedUri, ['eval', 'inline']))
+		{
+			$report->blocked_uri = "'unsafe-" . $blockedUri . "'";
+		}
+
+		// The blocked-uri is not a special keyword but an valid URL.
+		if ($report->blocked_uri === false && filter_var($blockedUri, FILTER_VALIDATE_URL) !== false)
+		{
+			$parsedBlockedUri = parse_url($blockedUri);
+			$report->blocked_uri = $parsedBlockedUri['scheme'] . '://' . $parsedBlockedUri['host'];
+		}
+
+		// The blocked-uri is not a valid URL an not an special keyword
+		if ($report->blocked_uri === false)
+		{
+			$this->app->close();
+		}
+
+		// Check the violated-directive && effective-directive fields
+		$report->directive = $this->cleanReportDirective((string) $data['violated-directive']);
+		$effectiveDirective = $this->cleanReportDirective((string) $data['effective-directive']);
+
+		// Fallback to the effective-directive when the violated-directive is not set.
+		if ($report->directive === false && $effectiveDirective !== false)
+		{
+			$report->directive = $effectiveDirective;
+		}
+
+		// We have an unknown or invalid directive
+		if ($report->directive === false)
 		{
 			$this->app->close();
 		}
@@ -76,7 +153,6 @@ class ReportController extends BaseController
 
 		$report->created  = $now;
 		$report->modified = $now;
-		$report->client   = (string) $this->app->input->get('client', 'site', 'string');
 
 		if ($this->isEntryExisting($report))
 		{
@@ -128,5 +204,32 @@ class ReportController extends BaseController
 		}
 
 		return $result > 0;
+	}
+
+	/**
+	 * Clean the directive where browsers do append more stuff than we don't need
+	 *
+	 * @param   object  $directive  The directive from the browsers.
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function cleanReportDirective($reportedDirective)
+	{
+		// Explode the reported directive (e.g. "default-src 'self'") by space.
+		$explodeDirective = explode(' ', $reportedDirective);
+
+		// Note: Directive names are case-insensitive, that is: script-SRC 'none' and ScRiPt-sRc 'none' are equivalent.
+		$cleandedDirective = strtolower($explodeDirective[0]);
+
+		// Make sure this is a valid directive.
+		if (!in_array($cleandedDirective, $this->validDirectives))
+		{
+			return false;
+		}
+
+		// Return the validated directive
+		return $cleandedDirective;
 	}
 }
