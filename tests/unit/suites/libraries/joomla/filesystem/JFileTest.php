@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,6 +47,44 @@ class JFileTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals(
 			'nopath.csv',
 			JFile::getName('nopath.csv')
+		);
+	}
+
+	/**
+	 * Data provider for testGetExt() method.
+	 *
+	 * @return  array
+	 *
+	 * @since  3.9.22
+	 */
+	public function getGetExtData()
+	{
+		return array(
+			array(__FILE__),
+			array('C:\\server\\joomla\\.drone.yml'),
+			array('/home/joomla/.php_cs'),
+			array('joomla-cms/LICENSE'),
+			array('/joomla.git/tmpfile'),
+			array('\\joomla.git\\tmpfile'),
+			array('filewith.extentionand\behindit'),
+		);
+	}
+
+	/**
+	 * Test getExt() method.
+	 *
+	 * @param   string  $file  The file name
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  getGetExtData
+	 * @since         3.9.22
+	 */
+	public function testGetExt($file)
+	{
+		$this->assertEquals(
+			pathinfo($file, PATHINFO_EXTENSION),
+			JFile::getExt($file)
 		);
 	}
 }
