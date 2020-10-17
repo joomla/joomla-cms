@@ -141,6 +141,7 @@
 					type="text"
 					label="COM_CSP_CONTENTSECURITYPOLICY_VALUES_VALUE"
 					class="col-md-10"
+					showon="directive!:block-all-mixed-content[AND]directive!:upgrade-insecure-requests"
 				/>
 				<field
 					name="client"
