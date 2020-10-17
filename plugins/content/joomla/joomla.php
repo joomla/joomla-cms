@@ -221,14 +221,14 @@ class PlgContentJoomla extends CMSPlugin
 			switch ($context)
 			{
 				case 'com_workflow.workflow':
-					return $result && $this->_canDeleteWorkflow($id);
+					$result = $result && $this->_canDeleteWorkflow($id);
 
 				case 'com_workflow.stage':
 					$result = $result && $this->_canDeleteStage($id);
 			}
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
