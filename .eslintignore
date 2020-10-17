@@ -3,7 +3,6 @@
 !*.es6.js
 administrator/components/com_media/node_modules/uri-js/node_modules/punycode/punycode.es6.js
 media
-*.vue
 # Don't validate temporary build files
 build/tmp
 # TODO: Fix the webcomponents codestyle then also allow linting on them
