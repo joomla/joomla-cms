@@ -67,8 +67,6 @@ class PlgContentConfirmConsent extends CMSPlugin
 		// Get the consent box Text & the selected privacyarticle
 		$consentboxText  = (string) $this->params->get('consentbox_text', Text::_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT'));
 		$privacyArticle  = $this->params->get('privacy_article', false);
-		$privacyType     = $this->params->get('privacy_type', 'article');
-		$privacyMenuItem = $this->params->get('privacy_menu_item', false);
 
 		$form->load('
 			<form>
@@ -77,8 +75,6 @@ class PlgContentConfirmConsent extends CMSPlugin
 						name="consentbox"
 						type="ConsentBox"
 						articleid="' . $privacyArticle . '"
-						menu_item_id="' . $privacyMenuItem . '"
-						privacy_type="' . $privacyType . '"
 						label="PLG_CONTENT_CONFIRMCONSENT_CONSENTBOX_LABEL"
 						required="true"
 						>

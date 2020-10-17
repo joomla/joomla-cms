@@ -233,7 +233,7 @@ class LegacyComponent
 			$path = JPATH_SITE . '/components/com_' . $this->component . '/router.php';
 
 			// Use the custom routing handler if it exists
-			if (is_file($path))
+			if (file_exists($path))
 			{
 				require_once $path;
 			}
@@ -270,7 +270,7 @@ class LegacyComponent
 
 		$file = Path::clean(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/helpers/' . $this->component . '.php');
 
-		if (!is_file($file))
+		if (!file_exists($file))
 		{
 			return false;
 		}

@@ -69,7 +69,7 @@ abstract class ArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		// Filter by tag
+		// Filer by tag
 		$model->setState('filter.tag', $params->get('tag', array()));
 
 		// Featured switch

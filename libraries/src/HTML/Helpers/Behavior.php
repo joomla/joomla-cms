@@ -123,6 +123,8 @@ abstract class Behavior
 	public static function keepalive()
 	{
 		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('keepalive');
+
+		return;
 	}
 
 	/**
@@ -192,6 +194,8 @@ abstract class Behavior
 		);
 
 		static::$loaded[__METHOD__][$sig] = true;
+
+		return;
 	}
 
 	/**

@@ -87,7 +87,7 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Method to get the form.
 	 *
-	 * @param   string|null  $view  The view being processed.
+	 * @param   string  $view  The view being processed.
 	 *
 	 * @return  Form|boolean  JForm object on success, false on failure.
 	 *
@@ -160,7 +160,7 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Generate a panel of language choices for the user to select their language.
 	 *
-	 * @return  array
+	 * @return  boolean True if successful.
 	 *
 	 * @since   3.1
 	 */
@@ -196,8 +196,8 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   array        $data  The form data.
-	 * @param   string|null  $view  The view.
+	 * @param   array   $data  The form data.
+	 * @param   string  $view  The view.
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *

@@ -521,7 +521,7 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Get the model form.
 	 *
-	 * @param   string|null $view  The view being processed.
+	 * @param   string  $view  The view being processed.
 	 *
 	 * @return  mixed  JForm object on success, false on failure.
 	 *

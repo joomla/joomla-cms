@@ -105,7 +105,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		}
 
 		$mode = (int) $this->params->def('mode', 1);
-		$mode = $mode === 1;
+		$mode = $mode === 1 ? true : false;
 
 		// Example: any@example.org
 		$searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';
@@ -440,5 +440,7 @@ class PlgContentEmailcloak extends CMSPlugin
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
 		}
+
+		return;
 	}
 }

@@ -148,7 +148,7 @@ class AccessiblemediaField extends SubformField
 				 * it is most likely a custom field created in Joomla 3 and
 				 * the value is a string that contains the file name.
 				*/
-				if (is_file(JPATH_ROOT . '/' . $value))
+				if (file_exists(JPATH_ROOT . '/' . $value))
 				{
 					$value = '{"imagefile":"' . $value . '","alt_text":""}';
 				}

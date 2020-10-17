@@ -60,9 +60,10 @@
 
 .media-preview-close {
   position: absolute;
-  bottom: 100%;
-  left: 100%;
-  font-size: 2rem;
+  top: 0;
+  right: 0;
+  margin: 5px 20px;
+  font-size: 3rem;
   color: inherit;
   background: none;
   border: 0;

@@ -15,11 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\ParameterType;
 
 /**
  * Consentbox Field class for the Confirm Consent Plugin.
@@ -51,22 +49,6 @@ class ConsentBoxField extends CheckboxesField
 	 * @since  3.9.1
 	 */
 	protected $articleid;
-
-	/**
-	 * The menu item ID.
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $menuItemId;
-
-	/**
-	 * Type of the privacy policy.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $privacyType;
 
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
@@ -102,9 +84,10 @@ class ConsentBoxField extends CheckboxesField
 	 */
 	public function __get($name)
 	{
-		if ($name == 'articleid')
+		switch ($name)
 		{
-			return $this->$name;
+			case 'articleid':
+				return $this->$name;
 		}
 
 		return parent::__get($name);
@@ -131,8 +114,6 @@ class ConsentBoxField extends CheckboxesField
 		if ($return)
 		{
 			$this->articleid = (int) $this->element['articleid'];
-			$this->menuItemId = (int) $this->element['menu_item_id'];
-			$this->privacyType = (string) $this->element['privacy_type'];
 		}
 
 		return $return;
@@ -158,10 +139,7 @@ class ConsentBoxField extends CheckboxesField
 		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
 		// When we have an article let's add the modal and make the title clickable
-		$hasLink = ($data['privacyType'] === 'article' && $data['articleid'])
-			|| ($data['privacyType'] === 'menu_item' && $data['menuItemId']);
-
-		if ($hasLink)
+		if ($data['articleid'])
 		{
 			$attribs['data-toggle'] = 'modal';
 
@@ -196,13 +174,10 @@ class ConsentBoxField extends CheckboxesField
 		$modalHtml  = '';
 		$layoutData = $this->getLayoutData();
 
-		$hasLink = ($this->privacyType === 'article' && $this->articleid)
-			|| ($this->privacyType === 'menu_item' && $this->menuItemId);
-
-		if ($hasLink)
+		if ($this->articleid)
 		{
 			$modalParams['title']  = $layoutData['label'];
-			$modalParams['url']    = ($this->privacyType === 'menu_item') ? $this->getAssignedMenuItemUrl() : $this->getAssignedArticleUrl();
+			$modalParams['url']    = $this->getAssignedArticleUrl();
 			$modalParams['height'] = 800;
 			$modalParams['width']  = '100%';
 			$modalHtml = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $this->id, $modalParams);
@@ -224,8 +199,6 @@ class ConsentBoxField extends CheckboxesField
 
 		$extraData = array(
 			'articleid' => (integer) $this->articleid,
-			'menuItemId' => (integer) $this->menuItemId,
-			'privacyType' => (string) $this->privacyType,
 		);
 
 		return array_merge($data, $extraData);
@@ -301,49 +274,6 @@ class ConsentBoxField extends CheckboxesField
 			'index.php?option=com_content&view=article&id='
 				. $article->id . '&catid=' . $article->catid
 				. '&tmpl=component&lang=' . $article->language
-		);
-	}
-
-	/**
-	 * Get privacy menu item URL. If the site is a multilingual website and there is associated menu item for the
-	 * current language, the URL of the associated menu item will be returned.
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getAssignedMenuItemUrl()
-	{
-		$itemId = $this->menuItemId;
-		$languageSuffix = '';
-
-		if ($itemId > 0 && Associations::isEnabled())
-		{
-			$privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
-			$currentLang = Factory::getLanguage()->getTag();
-
-			if (isset($privacyAssociated[$currentLang]))
-			{
-				$itemId = $privacyAssociated[$currentLang]->id;
-			}
-
-			if (Multilanguage::isEnabled())
-			{
-				$db    = Factory::getDbo();
-				$query = $db->getQuery(true)
-					->select($db->quoteName(['id', 'language']))
-					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('id') . ' = :id')
-					->bind(':id', $itemId, ParameterType::INTEGER);
-				$db->setQuery($query);
-				$menuItem = $db->loadObject();
-
-				$languageSuffix = '&lang=' . $menuItem->language;
-			}
-		}
-
-		return Route::_(
-			'index.php?Itemid=' . (int) $itemId . '&tmpl=component' . $languageSuffix
 		);
 	}
 }

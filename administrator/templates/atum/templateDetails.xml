@@ -73,7 +73,7 @@
 					name="text-dark"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_TEXT_DARK_LABEL"
-					default="#495057"
+					default="#3b4a5c"
 					filter="color"
 				/>
 				<field
@@ -94,7 +94,7 @@
 					name="sidebar-link-color"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_SIDEBAR_COLOR_LABEL"
-					default="#132f53"
+					default="#3b4a5c"
 					filter="color"
 				/>
 				<field

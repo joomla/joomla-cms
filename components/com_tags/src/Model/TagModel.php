@@ -121,6 +121,7 @@ class TagModel extends ListModel
 						break;
 
 					default:
+					case 'published':
 						$item->displayDate = ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up;
 						break;
 				}

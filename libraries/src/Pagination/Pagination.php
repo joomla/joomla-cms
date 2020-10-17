@@ -336,7 +336,7 @@ class Pagination
 
 		$chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
 
-		if (is_file($chromePath))
+		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
 		}
@@ -512,7 +512,7 @@ class Pagination
 		// Keep B/C for overrides done with chromes
 		$chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
 
-		if (is_file($chromePath))
+		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
 

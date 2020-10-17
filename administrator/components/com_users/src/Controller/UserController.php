@@ -110,5 +110,6 @@ class UserController extends FormController
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
+		return;
 	}
 }

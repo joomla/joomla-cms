@@ -176,7 +176,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('fields.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state') && !$this->state->get('filter.state') == -2)
+			if ($canDo->get('core.edit.state'))
 			{
 				$childBar->trash('fields.trash')->listCheck(true);
 			}

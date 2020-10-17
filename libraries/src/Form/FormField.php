@@ -1040,7 +1040,7 @@ abstract class FormField
 		{
 			if ($this->getAttribute('hiddenLabel'))
 			{
-				$options['hiddenLabel'] = $this->getAttribute('hiddenLabel') == 'true';
+				$options['hiddenLabel'] = $this->getAttribute('hiddenLabel') == 'true' ? true : false;
 			}
 			else
 			{
@@ -1052,7 +1052,7 @@ abstract class FormField
 		{
 			if ($this->getAttribute('hiddenDescription'))
 			{
-				$options['hiddenDescription'] = $this->getAttribute('hiddenDescription') == 'true';
+				$options['hiddenDescription'] = $this->getAttribute('hiddenDescription') == 'true' ? true : false;
 			}
 			else
 			{

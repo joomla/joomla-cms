@@ -77,6 +77,8 @@ abstract class Dropdown
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
+
+		return;
 	}
 
 	/**
@@ -101,6 +103,8 @@ abstract class Dropdown
 							<ul class="dropdown-menu">';
 		static::$dropDownList = $dropDownList;
 		static::$loaded[__METHOD__] = true;
+
+		return;
 	}
 
 	/**
@@ -150,6 +154,8 @@ abstract class Dropdown
 		$link = Route::_($link);
 
 		static::addCustomItem(Text::_('JACTION_EDIT'), $link);
+
+		return;
 	}
 
 	/**
@@ -166,6 +172,8 @@ abstract class Dropdown
 	{
 		$task = $prefix . 'publish';
 		static::addCustomItem(Text::_('JTOOLBAR_PUBLISH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
+		return;
 	}
 
 	/**
@@ -182,6 +190,8 @@ abstract class Dropdown
 	{
 		$task = $prefix . 'unpublish';
 		static::addCustomItem(Text::_('JTOOLBAR_UNPUBLISH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
+		return;
 	}
 
 	/**
@@ -198,6 +208,8 @@ abstract class Dropdown
 	{
 		$task = $prefix . 'featured';
 		static::addCustomItem(Text::_('JFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
+		return;
 	}
 
 	/**
@@ -214,6 +226,8 @@ abstract class Dropdown
 	{
 		$task = $prefix . 'unfeatured';
 		static::addCustomItem(Text::_('JUNFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
+		return;
 	}
 
 	/**
@@ -230,6 +244,8 @@ abstract class Dropdown
 	{
 		$task = $prefix . 'archive';
 		static::addCustomItem(Text::_('JTOOLBAR_ARCHIVE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
+		return;
 	}
 
 	/**
@@ -246,6 +262,8 @@ abstract class Dropdown
 	{
 		$task = $prefix . 'unpublish';
 		static::addCustomItem(Text::_('JTOOLBAR_UNARCHIVE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
+		return;
 	}
 
 	/**
@@ -262,6 +280,8 @@ abstract class Dropdown
 	{
 		$task = $prefix . 'trash';
 		static::addCustomItem(Text::_('JTOOLBAR_TRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
+		return;
 	}
 
 	/**
@@ -278,6 +298,8 @@ abstract class Dropdown
 	{
 		$task = $prefix . 'publish';
 		static::addCustomItem(Text::_('JTOOLBAR_UNTRASH'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
+		return;
 	}
 
 	/**
@@ -294,6 +316,8 @@ abstract class Dropdown
 	{
 		$task = $prefix . 'checkin';
 		static::addCustomItem(Text::_('JTOOLBAR_CHECKIN'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+
+		return;
 	}
 
 	/**
@@ -306,6 +330,8 @@ abstract class Dropdown
 	public static function divider()
 	{
 		static::$dropDownList .= '<li class="divider"></li>';
+
+		return;
 	}
 
 	/**
@@ -342,5 +368,7 @@ abstract class Dropdown
 		$dropDownList .= $label;
 		$dropDownList .= '</a></li>';
 		static::$dropDownList = $dropDownList;
+
+		return;
 	}
 }

@@ -116,13 +116,12 @@ class Image
 		}
 
 		// Determine which image types are supported by GD, but only once.
-		if (empty(static::$formats))
+		if (!isset(static::$formats[IMAGETYPE_JPEG]))
 		{
 			$info = gd_info();
-			static::$formats[IMAGETYPE_JPEG] = $info['JPEG Support'];
-			static::$formats[IMAGETYPE_PNG]  = $info['PNG Support'];
-			static::$formats[IMAGETYPE_GIF]  = $info['GIF Read Support'];
-			static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
+			static::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
+			static::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
+			static::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
 		}
 
 		/**
@@ -176,7 +175,7 @@ class Image
 	public static function getImageFileProperties($path)
 	{
 		// Make sure the file exists.
-		if (!is_file($path))
+		if (!file_exists($path))
 		{
 			throw new \InvalidArgumentException('The image file does not exist.');
 		}
@@ -355,19 +354,16 @@ class Image
 			// Parent image properties
 			$imgProperties = static::getImageFileProperties($this->getPath());
 
-			// Get image filename and extension.
-			$pathInfo      = pathinfo($this->getPath());
-			$filename      = $pathInfo['filename'];
-			$fileExtension = $pathInfo['extension'] ?? '';
-
 			foreach ($thumbs as $thumb)
 			{
 				// Get thumb properties
-				$thumbWidth  = $thumb->getWidth();
-				$thumbHeight = $thumb->getHeight();
+				$thumbWidth     = $thumb->getWidth();
+				$thumbHeight    = $thumb->getHeight();
 
 				// Generate thumb name
-				$thumbFileName = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+				$filename       = pathinfo($this->getPath(), PATHINFO_FILENAME);
+				$fileExtension  = pathinfo($this->getPath(), PATHINFO_EXTENSION);
+				$thumbFileName  = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
 
 				// Save thumb file to disk
 				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
@@ -584,7 +580,7 @@ class Image
 		$this->destroy();
 
 		// Make sure the file exists.
-		if (!is_file($path))
+		if (!file_exists($path))
 		{
 			throw new \InvalidArgumentException('The image file does not exist.');
 		}
@@ -631,19 +627,6 @@ class Image
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
 				$type = 'PNG';
-
-				break;
-
-			case 'image/webp':
-				// Make sure the image type is supported.
-				if (empty(static::$formats[IMAGETYPE_WEBP]))
-				{
-					throw new \RuntimeException('Attempting to load an image of unsupported type WebP.');
-				}
-
-				// Attempt to create the image handle.
-				$handle = imagecreatefromwebp($path);
-				$type = 'WebP';
 
 				break;
 
@@ -959,10 +942,6 @@ class Image
 
 			case IMAGETYPE_PNG:
 				return imagepng($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 0);
-				break;
-
-			case IMAGETYPE_WEBP:
-				return imagewebp($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
 				break;
 		}
 

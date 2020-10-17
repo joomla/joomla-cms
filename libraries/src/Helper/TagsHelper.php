@@ -563,7 +563,7 @@ class TagsHelper extends CMSHelper
 		$groups[] = 0;
 		$query->whereIn($db->quoteName('c.core_access'), $groups);
 
-		if (!\in_array(0, $stateFilters, true))
+		if (\in_array('0', $stateFilters))
 		{
 			$query->extendWhere(
 				'AND',

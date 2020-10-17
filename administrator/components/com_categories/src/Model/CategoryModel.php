@@ -70,8 +70,8 @@ class CategoryModel extends AdminModel
 	/**
 	 * Override parent constructor.
 	 *
-	 * @param   array                     $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface|null  $factory  The factory.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
 	 * @since   3.2

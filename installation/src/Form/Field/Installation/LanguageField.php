@@ -100,10 +100,10 @@ class LanguageField extends ListField
 	/**
 	 * Method to sort languages by name.
 	 *
-	 * @param   array  $a  The first value to determine sort
-	 * @param   array  $b  The second value to determine sort
+	 * @param   string  $a  The first value to determine sort
+	 * @param   string  $b  The second value to determine sort
 	 *
-	 * @return  integer
+	 * @return  string
 	 *
 	 * @since   3.1
 	 */

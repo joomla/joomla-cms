@@ -170,6 +170,8 @@ class Rules
 		{
 			return $this->data[$action]->allow($identity);
 		}
+
+		return;
 	}
 
 	/**

@@ -34,18 +34,7 @@ class Dispatcher extends ComponentDispatcher
 	{
 		parent::checkAccess();
 
-		$task = $this->input->getCmd('task', 'display');
-		$view = $this->input->get('view');
-		$user = $this->app->getIdentity();
-
-		if (substr($task, 0, 8) === 'modules.' || $view === 'modules')
-		{
-			if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id')))
-			{
-				throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-			}
-		}
-		elseif (!$user->authorise('core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}

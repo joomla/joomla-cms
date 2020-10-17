@@ -59,6 +59,8 @@ abstract class Jquery
 		{
 			$wa->useScript('jquery-migrate');
 		}
+
+		return;
 	}
 
 	/**

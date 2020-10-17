@@ -54,8 +54,6 @@ class ImageTest extends UnitTestCase
 		$this->testFilePng = __DIR__ . '/stubs/koala.png';
 
 		$this->testFileBmp = __DIR__ . '/stubs/koala.bmp';
-
-		$this->testFileWebp = __DIR__ . '/stubs/koala.webp';
 	}
 
 	/**
@@ -248,33 +246,6 @@ class ImageTest extends UnitTestCase
 		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
 
 		$this->assertEquals($this->testFilePng, $image->getPath());
-	}
-
-	/**
-	 * Test the Joomla\CMS\Image\Image::loadFile method
-	 *
-	 * Makes sure WebP images are loaded correctly
-	 *
-	 * In this case we are taking the simple approach of loading an image file
-	 * and asserting that the dimensions are correct.
-	 *
-	 * @return  void
-	 *
-	 * @covers  Joomla\CMS\Image\Image::loadFile
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function testloadFileWebp()
-	{
-		// Get a new Image inspector.
-		$image = new ImageInspector;
-		$image->loadFile($this->testFileWebp);
-
-		// Verify that the cropped image is the correct size.
-		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
-		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
-
-		$this->assertEquals($this->testFileWebp, $image->getPath());
 	}
 
 	/**
@@ -561,46 +532,6 @@ class ImageTest extends UnitTestCase
 
 		// Clean up after ourselves.
 		unlink($outFileJpg);
-	}
-
-	/**
-	 * Test the Joomla\CMS\Image\Image::toFile method
-	 *
-	 * Make sure that a new image is properly written to file.
-	 *
-	 * When performing this test using a lossy compression we are not able
-	 * to open and save the same image and then compare the checksums as the checksums
-	 * may have changed. Therefore we are limited to comparing the image properties.
-	 *
-	 * @return  void
-	 *
-	 * @covers  Joomla\CMS\Image\Image::toFile
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function testToFileWebp()
-	{
-		$outFileWebp = __DIR__ . '/tmp/out.webp';
-
-		$image = new ImageInspector($this->testFile);
-		$image->toFile($outFileWebp, IMAGETYPE_WEBP);
-
-		$a = Image::getImageFileProperties($this->testFile);
-		$b = Image::getImageFileProperties($outFileWebp);
-
-		// Assert that properties that should be equal are equal.
-		$this->assertEquals($a->width, $b->width);
-		$this->assertEquals($a->height, $b->height);
-		$this->assertEquals($a->attributes, $b->attributes);
-		$this->assertEquals($a->bits, $b->bits);
-
-		// Assert that properties that should be different are different.
-		$this->assertEquals('image/webp', $b->mime);
-		$this->assertEquals(IMAGETYPE_WEBP, $b->type);
-		$this->assertNull($b->channels);
-
-		// Clean up after ourselves.
-		unlink($outFileWebp);
 	}
 
 	/**

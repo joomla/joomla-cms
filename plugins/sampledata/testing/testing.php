@@ -4458,6 +4458,8 @@ class PlgSampledataTesting extends CMSPlugin
 			*/
 		);
 
+		$modulesIds = array();
+
 		foreach ($modules as $module)
 		{
 			// Set values which are always the same.
@@ -4515,6 +4517,9 @@ class PlgSampledataTesting extends CMSPlugin
 
 				return $response;
 			}
+
+			// Get ID from category we just added
+			$modulesIds[] = $model->getItem()->id;
 		}
 
 		$response            = array();

@@ -46,7 +46,7 @@ class MessageRenderer extends DocumentRenderer
 		$app        = Factory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 
-		if (is_file($chromePath))
+		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
 		}

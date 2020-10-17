@@ -49,7 +49,7 @@ class RulesFilter implements FormFilterInterface
 			{
 				if ($p !== '')
 				{
-					$return[$action][$id] = ($p == '1' || $p === 'true');
+					$return[$action][$id] = ($p == '1' || $p === 'true') ? true : false;
 				}
 			}
 		}

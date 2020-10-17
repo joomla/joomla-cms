@@ -13,7 +13,6 @@ namespace Joomla\Plugin\System\PrivacyConsent\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
@@ -78,7 +77,6 @@ class PrivacyField extends RadioField
 		$data = parent::getLayoutData();
 
 		$article = false;
-		$link = false;
 		$privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
 		if ($privacyArticle && Factory::getApplication()->isClient('site'))
@@ -94,28 +92,6 @@ class PrivacyField extends RadioField
 
 			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
 			$article->link  = RouteHelper::getArticleRoute($slug, $article->catid, $article->language);
-			$link = $article->link;
-		}
-
-		$privacyMenuItem = $this->element['menu_item'] > 0 ? (int) $this->element['menu_item'] : 0;
-
-		if ($privacyMenuItem && Factory::getApplication()->isClient('site'))
-		{
-			$link = 'index.php?Itemid=' . $privacyMenuItem;
-
-			if (Multilanguage::isEnabled())
-			{
-				$db    = Factory::getDbo();
-				$query = $db->getQuery(true)
-					->select($db->quoteName(['id', 'language']))
-					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('id') . ' = :id')
-					->bind(':id', $privacyMenuItem, ParameterType::INTEGER);
-				$db->setQuery($query);
-				$menuItem = $db->loadObject();
-
-				$link .= '&lang=' . $menuItem->language;
-			}
 		}
 
 		$extraData = [
@@ -127,7 +103,6 @@ class PrivacyField extends RadioField
 			'translateHint' => $this->translateHint,
 			'privacyArticle' => $privacyArticle,
 			'article' => $article,
-			'privacyLink' => $link,
 		];
 
 		return array_merge($data, $extraData);

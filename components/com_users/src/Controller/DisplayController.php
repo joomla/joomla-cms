@@ -97,8 +97,22 @@ class DisplayController extends BaseController
 					$model = $this->getModel($vName);
 					break;
 
-				case 'remind':
 				case 'reset':
+					// If the user is already logged in, redirect to the profile page.
+					$user = Factory::getUser();
+
+					if ($user->get('guest') != 1)
+					{
+						// Redirect to profile page.
+						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
+
+						return;
+					}
+
+					$model = $this->getModel($vName);
+					break;
+
+				case 'remind':
 					// If the user is already logged in, redirect to the profile page.
 					$user = Factory::getUser();
 

@@ -184,10 +184,7 @@ class HtmlView extends BaseHtmlView
 
 				$childBar->checkin('articles.checkin')->listCheck(true);
 
-				if (!$this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED)
-				{
-					$childBar->trash('articles.trash')->listCheck(true);
-				}
+				$childBar->trash('articles.trash')->listCheck(true);
 			}
 		}
 

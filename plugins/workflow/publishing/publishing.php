@@ -101,6 +101,8 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 		}
 
 		$this->enhanceItemForm($form, $data);
+
+		return;
 	}
 
 	/**
@@ -307,8 +309,6 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
 		if (\in_array(false, $result, true))
 		{
-			$event->setStopTransition();
-
 			return false;
 		}
 

@@ -178,7 +178,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('groups.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state') && !$this->state->get('filter.state') == -2)
+			if ($canDo->get('core.edit.state'))
 			{
 				$childBar->trash('groups.trash')->listCheck(true);
 			}

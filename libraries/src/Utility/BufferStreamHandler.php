@@ -70,6 +70,8 @@ class BufferStreamHandler
 
 			self::$registered = true;
 		}
+
+		return;
 	}
 
 	/**

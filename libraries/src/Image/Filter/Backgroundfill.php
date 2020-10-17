@@ -76,6 +76,8 @@ class Backgroundfill extends ImageFilter
 
 		// Free up memory
 		imagedestroy($bg);
+
+		return;
 	}
 
 	/**

@@ -63,15 +63,15 @@ abstract class PluginHelper
 		$dPath = JPATH_PLUGINS . '/' . $type . '/' . $name . '/tmpl/default.php';
 
 		// If the template has a layout override use it
-		if (is_file($tPath))
+		if (file_exists($tPath))
 		{
 			return $tPath;
 		}
-		elseif (!empty($templateObj->parent) && is_file($iPath))
+		elseif (!empty($templateObj->parent) && file_exists($iPath))
 		{
 			return $iPath;
 		}
-		elseif (is_file($bPath))
+		elseif (file_exists($bPath))
 		{
 			return $bPath;
 		}

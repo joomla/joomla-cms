@@ -25,9 +25,9 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 	/**
 	 * Renders the error stack and returns the results as a string
 	 *
-	 * @param   string       $name     Not used.
-	 * @param   array        $params   Associative array of values
-	 * @param   string|null  $content  Not used.
+	 * @param   string  $name     Not used.
+	 * @param   array   $params   Associative array of values
+	 * @param   string  $content  Not used.
 	 *
 	 * @return  string  The output of the script
 	 *

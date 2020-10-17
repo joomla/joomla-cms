@@ -904,12 +904,13 @@ abstract class Adapter extends CMSPlugin
 		switch ($item)
 		{
 			// Published and archived items only should return a published state
-			case 1:
+			case 1;
 			case 2:
 				return 1;
 
 			// All other states should return an unpublished state
 			default:
+			case 0:
 				return 0;
 		}
 	}

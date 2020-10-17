@@ -320,11 +320,11 @@ class BaseController implements ControllerInterface
 		if (!class_exists($class))
 		{
 			// If the controller file path exists, include it.
-			if (is_file($path))
+			if (file_exists($path))
 			{
 				require_once $path;
 			}
-			elseif (isset($backuppath) && is_file($backuppath))
+			elseif (isset($backuppath) && file_exists($backuppath))
 			{
 				require_once $backuppath;
 			}

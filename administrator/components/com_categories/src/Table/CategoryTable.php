@@ -21,8 +21,8 @@ class CategoryTable extends \JTableCategory
 	/**
 	 * Method to delete a node and, optionally, its child nodes from the table.
 	 *
-	 * @param   integer|null  $pk        The primary key of the node to delete.
-	 * @param   boolean       $children  True to delete child nodes, false to move them up a level.
+	 * @param   integer  $pk        The primary key of the node to delete.
+	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
 	 *
 	 * @return  boolean  True on success.
 	 *

@@ -94,12 +94,11 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('privacyconsent');
 
-		$privacyType = $this->params->get('privacy_type', 'article');
-		$privacyId   = ($privacyType == 'menu_item') ? $this->getPrivacyItemId() : $this->getPrivacyArticleId();
-		$privacynote = $this->params->get('privacy_note');
+		$privacyArticleId = $this->getPrivacyArticleId();
+		$privacynote      = $this->params->get('privacy_note');
 
 		// Push the privacy article ID into the privacy field.
-		$form->setFieldAttribute('privacy', $privacyType, $privacyId, 'privacyconsent');
+		$form->setFieldAttribute('privacy', 'article', $privacyArticleId, 'privacyconsent');
 		$form->setFieldAttribute('privacy', 'note', $privacynote, 'privacyconsent');
 	}
 
@@ -438,32 +437,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		}
 
 		return $privacyArticleId;
-	}
-
-	/**
-	 * Get privacy menu item ID. If the site is a multilingual website and there is associated menu item for the
-	 * current language, ID of the associated menu item will be returned.
-	 *
-	 * @return  integer
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getPrivacyItemId()
-	{
-		$itemId = $this->params->get('privacy_menu_item');
-
-		if ($itemId > 0 && Associations::isEnabled())
-		{
-			$privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
-			$currentLang = Factory::getLanguage()->getTag();
-
-			if (isset($privacyAssociated[$currentLang]))
-			{
-				$itemId = $privacyAssociated[$currentLang]->id;
-			}
-		}
-
-		return $itemId;
 	}
 
 	/**

@@ -34,6 +34,7 @@ class ItunesRssParser implements NamespaceParserInterface
 	 */
 	public function processElementForFeed(Feed $feed, \SimpleXMLElement $el)
 	{
+		return;
 	}
 
 	/**
@@ -48,5 +49,6 @@ class ItunesRssParser implements NamespaceParserInterface
 	 */
 	public function processElementForFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
 	{
+		return;
 	}
 }

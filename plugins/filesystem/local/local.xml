@@ -41,7 +41,6 @@
 							folderFilter=""
 							exclude=""
 							stripext=""
-							hide_none="true"
 						/>
 					</form>
 				</field>

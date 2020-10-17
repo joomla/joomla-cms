@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
-	<div class="row mt-sm-3">
+	<div class="row">
 		<div id="sidebar" class="col-md-3">
 			<div class="sidebar-nav">
 				<ul class="nav flex-column">

@@ -40,9 +40,6 @@ $wa->addInlineStyle(
 			font-family: $fontFamily;
 			font-size: $fontSize;
 			line-height: $lineHeight;
-			height: calc(100vh - 600px);
-			min-height: 400px;
-			max-height: 800px;
 		}
 		.CodeMirror-activeline-background { background: $activeLineColor; }
 		.CodeMirror-matchingtag { background: $highlightMatchColor; }

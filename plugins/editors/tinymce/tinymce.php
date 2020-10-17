@@ -904,8 +904,6 @@ class PlgEditorTinymce extends CMSPlugin
 
 	/**
 	 * Return list of known TinyMCE buttons
-	 * @see https://www.tiny.cloud/docs/demo/full-featured/
-	 * @see https://www.tiny.cloud/apps/#core-plugins
 	 *
 	 * @return array
 	 *
@@ -913,6 +911,8 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	public static function getKnownButtons()
 	{
+		// See https://www.tinymce.com/docs/demo/full-featured/
+		// And https://www.tinymce.com/docs/plugins/
 		$buttons = [
 
 			// General buttons

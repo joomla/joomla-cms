@@ -231,10 +231,11 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 			/** @var \ReflectionParameter $param */
 			$param = array_shift($parameters);
+			$typeHint = $param->getType();
 			$paramName = $param->getName();
 
-			// No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
-			if ($paramName !== 'event' || !$this->parameterImplementsEventInterface($param))
+			// No type hint / type hint class not an event and parameter name is not "event"? It's a legacy listener.
+			if (($typeHint === null || !$this->checkTypeHint($typeHint)) && $paramName !== 'event')
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -279,8 +280,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 					unset($arguments['result']);
 				}
 
-				// Convert to indexed array for unpacking.
-				$arguments = \array_values($arguments);
+				// Map the associative argument array to a numeric indexed array for efficiency (see the switch statement below).
+				$arguments = array_values($arguments);
 
 				$result = $this->{$methodName}(...$arguments);
 
@@ -313,25 +314,16 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	}
 
 	/**
-	 * Checks if parameter is typehinted to accept \Joomla\Event\EventInterface.
+	 * Used for checking if parameter is typehinted to accept \Joomla\Event\EventInterface, based on reflection type.
 	 *
-	 * @param   \ReflectionParameter  $parameter
+	 * @param   \ReflectionType  $reflectionType
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
+	protected function checkTypeHint(\ReflectionType $reflectionType): bool
 	{
-		$reflectionType = $parameter->getType();
-
-		// Parameter is not typehinted.
-		if ($reflectionType === null)
-		{
-			return false;
-		}
-
-		// Parameter is nullable.
 		if ($reflectionType->allowsNull())
 		{
 			return false;

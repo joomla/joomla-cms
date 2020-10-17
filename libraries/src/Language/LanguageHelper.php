@@ -102,6 +102,8 @@ class LanguageHelper
 				}
 			}
 		}
+
+		return;
 	}
 
 	/**
@@ -448,7 +450,7 @@ class LanguageHelper
 	public static function parseIniFile($fileName, $debug = false)
 	{
 		// Check if file exists.
-		if (!is_file($fileName))
+		if (!file_exists($fileName))
 		{
 			return array();
 		}

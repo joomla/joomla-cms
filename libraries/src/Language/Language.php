@@ -220,7 +220,7 @@ class Language
 
 		while (!class_exists($class) && $path)
 		{
-			if (is_file($path))
+			if (file_exists($path))
 			{
 				require_once $path;
 			}
@@ -792,7 +792,7 @@ class Language
 		$strings = LanguageHelper::parseIniFile($fileName, $this->debug);
 
 		// Debug the ini file if needed.
-		if ($this->debug === true && is_file($fileName))
+		if ($this->debug === true && file_exists($fileName))
 		{
 			$this->debugFile($fileName);
 		}
@@ -813,7 +813,7 @@ class Language
 	public function debugFile($filename)
 	{
 		// Make sure our file actually exists
-		if (!is_file($filename))
+		if (!file_exists($filename))
 		{
 			throw new \InvalidArgumentException(
 				sprintf('Unable to locate file "%s" for debugging', $filename)

@@ -1975,7 +1975,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function setColumnAlias($column, $columnAlias)
 	{
-		// Sanitize the column name alias
+		// Santize the column name alias
 		$column = strtolower($column);
 		$column = preg_replace('#[^A-Z0-9_]#i', '', $column);
 

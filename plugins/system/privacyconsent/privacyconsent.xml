@@ -33,16 +33,6 @@
 					filter="html"
 				/>
 				<field
-					name="privacy_type"
-					type="list"
-					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_LABEL"
-					default="article"
-					validate="options"
-					>
-					<option value="article">PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_ARTICLE</option>
-					<option value="menu_item">PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_MENU_ITEM</option>
-				</field>
-				<field
 					name="privacy_article"
 					type="modal_article"
 					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ARTICLE_LABEL"
@@ -52,19 +42,6 @@
 					edit="true"
 					clear="true"
 					filter="integer"
-					showon="privacy_type:article"
-				/>
-				<field
-					addfieldprefix="Joomla\Component\Menus\Administrator\Field"
-					name="privacy_menu_item"
-					type="modal_menu"
-					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_MENU_ITEM_LABEL"
-					select="true"
-					new="true"
-					edit="true"
-					clear="true"
-					filter="integer"
-					showon="privacy_type:menu_item"
 				/>
 				<field
 					name="messageOnRedirect"
