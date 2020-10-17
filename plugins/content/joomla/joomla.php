@@ -222,9 +222,11 @@ class PlgContentJoomla extends CMSPlugin
 			{
 				case 'com_workflow.workflow':
 					$result = $result && $this->_canDeleteWorkflow($id);
+					break;
 
 				case 'com_workflow.stage':
 					$result = $result && $this->_canDeleteStage($id);
+					break;
 			}
 		}
 
