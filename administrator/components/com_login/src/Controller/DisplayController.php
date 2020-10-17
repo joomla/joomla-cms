@@ -111,8 +111,6 @@ class DisplayController extends BaseController
 			}
 
 			echo $response;
-
-			return;
 		}
 		else
 		{

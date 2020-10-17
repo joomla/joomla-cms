@@ -133,7 +133,5 @@ class AssociationsController extends AdminController
 			Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list),
 			Text::_('COM_ASSOCIATIONS_YOU_ARE_NOT_ALLOWED_TO_CHECKIN_THIS_ITEM')
 		);
-
-		return;
 	}
 }

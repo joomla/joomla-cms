@@ -62,6 +62,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 // Add cookie alert message
 Text::script('JGLOBAL_WARNCOOKIES');
+// Add generic AJAX error message
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
