@@ -139,9 +139,6 @@
 
       removeElement('progress');
 
-      if (data) {
-        data = data.responseText !== null ? data.evaluate(data.responseText, true) : data;
-      }
       const header = data ? data.header : Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
       const message = data ? data.message : `${Joomla.JText._('COM_FINDER_MESSAGE_RETURNED')}<br>${data}`;
 

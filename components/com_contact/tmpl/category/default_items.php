@@ -17,6 +17,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_contact.contacts-list');
+
 HTMLHelper::_('behavior.core');
 $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
@@ -27,38 +31,35 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 ?>
 <div class="com-contact-category__items">
 	<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-		<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-		<fieldset class="com-contact-category__filters filters btn-toolbar">
-			<?php if ($this->params->get('filter_field')) : ?>
-				<div class="com-contact-category__filter btn-group">
-					<label class="filter-search-lbl sr-only" for="filter-search">
-						<span class="badge badge-warning">
-							<?php echo Text::_('JUNPUBLISHED'); ?>
-						</span>
-						<?php echo Text::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?>
-					</label>
-					<input
-						type="text"
-						name="filter-search"
-						id="filter-search"
-						value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
-						class="inputbox" onchange="document.adminForm.submit();"
-						title="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
-						placeholder="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
-					>
-				</div>
-			<?php endif; ?>
-
-			<?php if ($this->params->get('show_pagination_limit')) : ?>
-				<div class="com-contact-category__pagination btn-group float-right">
-					<label for="limit" class="sr-only">
-						<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
-					</label>
-					<?php echo $this->pagination->getLimitBox(); ?>
-				</div>
-			<?php endif; ?>
-		</fieldset>
+		<?php if ($this->params->get('filter_field')) : ?>
+			<div class="com-contact-category__filter btn-group">
+				<label class="filter-search-lbl sr-only" for="filter-search">
+					<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>
+				</label>
+				<input
+					type="text"
+					name="filter-search"
+					id="filter-search"
+					value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
+					class="inputbox" onchange="document.adminForm.submit();"
+					placeholder="<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
+				>
+				<span class="input-group-append">
+					<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+					<button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
+				</span>
+			</div>
 		<?php endif; ?>
+
+		<?php if ($this->params->get('show_pagination_limit')) : ?>
+			<div class="com-contact-category__pagination btn-group float-right">
+				<label for="limit" class="sr-only">
+					<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
+				</label>
+				<?php echo $this->pagination->getLimitBox(); ?>
+			</div>
+		<?php endif; ?>
+
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
 				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>

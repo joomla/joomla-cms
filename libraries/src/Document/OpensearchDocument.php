@@ -83,7 +83,7 @@ class OpensearchDocument extends Document
 
 		foreach ($dirs as $dir)
 		{
-			if (file_exists($dir . '/favicon.ico'))
+			if (is_file($dir . '/favicon.ico'))
 			{
 				$path = str_replace(JPATH_BASE, '', $dir);
 				$path = str_replace('\\', '/', $path);

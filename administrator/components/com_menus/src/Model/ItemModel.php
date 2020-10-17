@@ -1177,9 +1177,9 @@ class ItemModel extends AdminModel
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
+					$base . '/tmpl/' . $view,
 					$base . '/views/' . $view . '/tmpl',
 					$base . '/view/' . $view . '/tmpl',
-					$base . '/tmpl/' . $view
 				);
 				$path = Path::find($tplFolders, $layout . '.xml');
 
@@ -1276,7 +1276,7 @@ class ItemModel extends AdminModel
 
 			$this->helpKey = $helpKey ?: $this->helpKey;
 			$this->helpURL = $helpURL ?: $this->helpURL;
-			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
+			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local'));
 		}
 
 		if (!$form->loadFile($typeFile, true, false))

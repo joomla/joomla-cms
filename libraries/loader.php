@@ -351,7 +351,7 @@ abstract class JLoader
 	public static function registerPrefix($prefix, $path, $reset = false, $prepend = false)
 	{
 		// Verify the library path exists.
-		if (!file_exists($path))
+		if (!is_dir($path))
 		{
 			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
 
@@ -444,7 +444,7 @@ abstract class JLoader
 		}
 
 		// Verify the library path exists.
-		if (!file_exists($path))
+		if (!is_dir($path))
 		{
 			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
 
@@ -561,7 +561,7 @@ abstract class JLoader
 					}
 
 					// We check for class_exists to handle case-sensitive file systems
-					if (file_exists($classFilePath) && !class_exists($class, false))
+					if (is_file($classFilePath) && !class_exists($class, false))
 					{
 						$found = (bool) include_once $classFilePath;
 
@@ -674,7 +674,7 @@ abstract class JLoader
 			$path = realpath($base . '/' . implode('/', array_map('strtolower', $parts)) . '.php');
 
 			// Load the file if it exists and is in the lookup path.
-			if (strpos($path, realpath($base)) === 0 && file_exists($path))
+			if (strpos($path, realpath($base)) === 0 && is_file($path))
 			{
 				$found = (bool) include_once $path;
 
@@ -695,7 +695,7 @@ abstract class JLoader
 				$path = realpath($base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php');
 
 				// Load the file if it exists and is in the lookup path.
-				if (strpos($path, realpath($base)) === 0 && file_exists($path))
+				if (strpos($path, realpath($base)) === 0 && is_file($path))
 				{
 					$found = (bool) include_once $path;
 
