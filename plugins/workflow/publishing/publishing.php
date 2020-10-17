@@ -307,6 +307,8 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
 		if (\in_array(false, $result, true))
 		{
+			$event->setStopTransition();
+
 			return false;
 		}
 
