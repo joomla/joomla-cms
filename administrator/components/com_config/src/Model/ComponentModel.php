@@ -104,6 +104,26 @@ class ComponentModel extends FormModel
 	}
 
 	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array  The default data is an empty array.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = Factory::getApplication()->getUserState('com_config.edit.component.data', []);
+
+		if (empty($data))
+		{
+			return $this->getComponent()->getParams()->toArray();
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Get the component information.
 	 *
 	 * @return	object
