@@ -85,7 +85,7 @@ class ReportController extends BaseController
 		$report = new \stdClass;
 
 		// Make sure the client reported is enabled to get reports.
-		$report->client = $this->app->input->get('client', false);
+		$report->client = $this->app->getInput()->get('client', false);
 
 		// Make sure the client is passed and has an valid value
 		if ($report->client === false || !in_array($report->client, ['site', 'administrator']))
@@ -121,6 +121,12 @@ class ReportController extends BaseController
 		if (in_array($blockedUri, ['eval', 'inline']))
 		{
 			$report->blocked_uri = "'unsafe-" . $blockedUri . "'";
+		}
+
+		// Handle data reports correctly
+		if ($blockedUri === 'data')
+		{
+			$report->blocked_uri = 'data:';
 		}
 
 		// The blocked-uri is not a special keyword but an valid URL.
