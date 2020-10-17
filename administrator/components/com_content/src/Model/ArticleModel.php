@@ -509,7 +509,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
 				{
 					$form->setFieldAttribute('catid', 'readonly', 'true');
-					$form->setFieldAttribute('catid', 'filter', 'unset');
+					$form->setFieldAttribute('catid', 'filter', 'int');
 				}
 			}
 		}
