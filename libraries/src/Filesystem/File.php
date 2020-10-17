@@ -37,6 +37,7 @@ class File
 	 */
 	public static function getExt($file)
 	{
+		// String manipulation should be faster than pathinfo() on newer PHP versions.
 		$dot = strrpos($file, '.');
 
 		if ($dot === false)
@@ -44,7 +45,15 @@ class File
 			return '';
 		}
 
-		return (string) substr($file, $dot + 1);
+		$ext = substr($file, $dot + 1);
+
+		// Extension cannot contain slashes.
+		if (strpos($ext, '/') !== false || (DIRECTORY_SEPARATOR === '\\' && strpos($ext, '\\') !== false))
+		{
+			return '';
+		}
+
+		return $ext;
 	}
 
 	/**
