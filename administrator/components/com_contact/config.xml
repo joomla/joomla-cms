@@ -457,6 +457,15 @@
 		/>
 
 		<field
+			name="icon_webpage"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_WEBPAGE_LABEL"
+			hide_none="1"
+			default=""
+			showon="contact_icons:0"
+		/>
+
+		<field
 			name="icon_misc"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"

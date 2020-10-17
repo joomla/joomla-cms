@@ -26,7 +26,7 @@ $option     = $input->get('option', '');
 $view       = $input->get('view', '');
 $layout     = $input->get('layout', 'default');
 $task       = $input->get('task', 'display');
-$cpanel     = $option === 'com_cpanel';
+$cpanel     = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
 $hiddenMenu = $app->input->get('hidemainmenu');
 
 // Getting user accessibility settings

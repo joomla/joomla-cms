@@ -751,16 +751,16 @@
         },
         {
             "name": "joomla/console",
-            "version": "2.0.0-beta",
+            "version": "2.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "3e6ff701b2d3ab1067e10da601d6a720c98f01a8"
+                "reference": "355fb82d414e58e30ea9fd870fc211c29f3f6338"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/3e6ff701b2d3ab1067e10da601d6a720c98f01a8",
-                "reference": "3e6ff701b2d3ab1067e10da601d6a720c98f01a8",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/355fb82d414e58e30ea9fd870fc211c29f3f6338",
+                "reference": "355fb82d414e58e30ea9fd870fc211c29f3f6338",
                 "shasum": ""
             },
             "require": {
@@ -801,7 +801,17 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-06-05T11:12:12+00:00"
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-06-28T19:54:55+00:00"
         },
         {
             "name": "joomla/crypt",
@@ -5467,6 +5477,7 @@
                 }
             ],
             "description": "JSONPath implementation for parsing, searching and flattening arrays",
+            "abandoned": "softcreatr/jsonpath",
             "time": "2019-07-15T17:23:22+00:00"
         },
         {
@@ -8349,5 +8360,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
-    }
+    },
+    "plugin-api-version": "1.1.0"
 }

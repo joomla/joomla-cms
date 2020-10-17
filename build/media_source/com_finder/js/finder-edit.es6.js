@@ -36,25 +36,18 @@ Joomla = window.Joomla || {};
         if (event.target.innerText === Joomla.JText._('COM_FINDER_FILTER_SHOW_ALL')) {
           event.target.innerText = Joomla.JText._('COM_FINDER_FILTER_HIDE_ALL');
 
-          elements = [].slice.call(document.querySelectorAll('.collapse:not(.in)'));
-
-          if (elements) {
-            elements.forEach((element) => {
-              // @todo Remove jQuery!!
-              window.jQuery(element).collapse('toggle');
-            });
-          }
+          elements = [].slice.call(document.querySelectorAll('.collapse:not(.show)'));
         } else {
           event.target.innerText = Joomla.JText._('COM_FINDER_FILTER_SHOW_ALL');
 
-          elements = [].slice.call(document.querySelectorAll('.collapse.in'));
+          elements = [].slice.call(document.querySelectorAll('.collapse.show'));
+        }
 
-          if (elements) {
-            elements.forEach((element) => {
-              // @todo Remove jQuery!!
-              window.jQuery(element).collapse('toggle');
-            });
-          }
+        if (elements) {
+          elements.forEach((element) => {
+            // @todo Remove jQuery!!
+            window.jQuery(element).collapse('toggle');
+          });
         }
       });
     }

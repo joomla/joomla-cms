@@ -86,9 +86,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<tr class="cat-list-row<?php echo $i % 2; ?>" >
 						<?php endif; ?>
 							<th scope="row" class="list-title">
-								<a href="<?php echo Route::_($item->link); ?>">
+								<?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
 									<?php echo $this->escape($item->core_title); ?>
-								</a>
+								<?php else : ?>
+									<a href="<?php echo Route::_($item->link); ?>">
+										<?php echo $this->escape($item->core_title); ?>
+									</a>
+								<?php endif; ?>
 								<?php if ($item->core_state == 0) : ?>
 									<span class="list-published badge badge-warning">
 										<?php echo Text::_('JUNPUBLISHED'); ?>
