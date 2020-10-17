@@ -716,7 +716,7 @@ abstract class HTMLHelper
 			unset($urlParams['joomla_image_width']);
 		}
 
-		$obj->url  = $pieces[0] . ($urlParams !== '' ? '?' . http_build_query($urlParams) : '');
+		$obj->url  = $pieces[0] . (count($urlParams) ? '?' . http_build_query($urlParams) : '');
 
 		return $obj;
 	}
