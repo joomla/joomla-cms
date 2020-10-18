@@ -118,7 +118,7 @@ class MultilangstatusAdminHelper
 		// Publish the module when the languagefilter is enabled
 		if (Multilanguage::isEnabled())
 		{
-			if ($state != 1)
+			if ($state !== 1)
 			{
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__modules'))
