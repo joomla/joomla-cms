@@ -40,6 +40,11 @@
   border: 1px solid $border-color;
   border-radius: $border-radius;
   box-shadow: $col-box-shadow;
+
+  /* Small devices (Portrait and Landscape, < 576px) */
+  @media (max-width: 576px) {
+    margin-top: 4.5vh;
+  }
 }
 
 .media-sidebar {
