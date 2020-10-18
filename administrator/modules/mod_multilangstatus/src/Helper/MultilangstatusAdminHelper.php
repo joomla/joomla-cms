@@ -110,7 +110,7 @@ class MultilangstatusAdminHelper
 		}
 
 		// If the module is trashed or missed do not change its status
-		if ($state == -2 || $state === null)
+		if ($state === -2 || $state === null)
 		{
 			return;
 		}
