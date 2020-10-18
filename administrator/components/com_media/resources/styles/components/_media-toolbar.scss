@@ -5,7 +5,11 @@
   background-color: $toolbar-bg;
   border-bottom: 1px solid $border-color;
   border-radius: $border-radius $border-radius 0 0;
-  flex-wrap: wrap;
+
+  @media only screen and (min-device-width: 320px)  {
+    flex-wrap: wrap;
+  }
+
   input {
     padding: .375rem .75rem;
     color: #495057;
