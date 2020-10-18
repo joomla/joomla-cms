@@ -120,14 +120,14 @@
           const currentModal = fieldClass.closest('.modal-content');
           const attribs = currentModal.querySelector('joomla-field-mediamore');
           if (attribs) {
-            alt = attribs.getAttribute('alt-value') ? `alt="${attribs.getAttribute('alt-value')}"` : 'alt=""';
+            alt = attribs.getAttribute('alt-value') ? ` alt="${attribs.getAttribute('alt-value')}"` : '';
             if (attribs.getAttribute('is-lazy') === 'true') {
-              isLasy = `loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
+              isLasy = ` loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
             }
             attribs.parentNode.removeChild(attribs);
           }
 
-          Joomla.editors.instances[editor].replaceSelection(`<img src="${Joomla.selectedMediaFile.url}" ${isLasy} ${alt}/>`);
+          Joomla.editors.instances[editor].replaceSelection(`<img src="${Joomla.selectedMediaFile.url}"${isLasy}${alt}/>`);
         } else {
           const val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width);
           editor.value = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);

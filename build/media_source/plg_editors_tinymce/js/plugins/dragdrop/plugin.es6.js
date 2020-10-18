@@ -64,11 +64,11 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
 
           const dialogClose = (api) => {
             const dialogData = api.getData();
-            const altValue = `alt="${dialogData.altText || ''}"`;
-            const lazyValue = dialogData.isLazy ? 'loading="lazy"' : '';
-            const width = dialogData.isLazy ? `width="${responseData.width}"` : '';
-            const height = dialogData.isLazy ? `height="${responseData.height}"` : '';
-            editor.execCommand('mceInsertContent', false, `<img src="${urlPath}" ${altValue} ${lazyValue} ${width} ${height}/>`);
+            const altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : '';
+            const lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
+            const width = dialogData.isLazy ? ` width="${responseData.width}"` : '';
+            const height = dialogData.isLazy ? ` height="${responseData.height}"` : '';
+            editor.execCommand('mceInsertContent', false, `<img src="${urlPath}"${altValue}${lazyValue}${width}${height}/>`);
           };
 
           editor.windowManager.open({
