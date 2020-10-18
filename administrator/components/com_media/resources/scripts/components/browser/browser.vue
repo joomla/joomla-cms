@@ -1,4 +1,5 @@
 <template>
+<div>
   <div
       ref="browserItems"
       class="media-browser"
@@ -83,6 +84,7 @@
       </div>
     </div>
     <media-infobar ref="infobar" />
+</div>
 </template>
 
 <script>
