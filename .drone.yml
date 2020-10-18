@@ -120,13 +120,13 @@ steps:
     depends_on: [ npm ]
     image: node:current-alpine
     commands:
-      - npx stylelint -s scss "administrator/components/com_media/resources/**/*.scss" "administrator/templates/**/*.scss" "build/media_source/**/*.scss" "templates/**/*.scss" "installation/template/**/*.scss"
+      - npm run lint:css
 
   - name: javascript-cs
     depends_on: [ npm ]
     image: node:current-alpine
     commands:
-      - npx eslint "**/*.js"
+      - npm run lint:js
 
   - name: javascript-tests
     depends_on: [ npm ]
