@@ -137,7 +137,7 @@ class MultilangstatusAdminHelper
 				}
 			}
 		}
-		elseif ($state != 0)
+		elseif ($state !== 0)
 		{
 			// Unpublish the module when the languagefilter is disabled
 			$query = $db->getQuery(true)
