@@ -443,7 +443,7 @@ class Log
 
 		try
 		{
-			self::add($entry, Log::WARNING, 'deprecated');
+			self::add($entry, self::WARNING, 'deprecated');
 		}
 		catch (\Exception $e)
 		{
