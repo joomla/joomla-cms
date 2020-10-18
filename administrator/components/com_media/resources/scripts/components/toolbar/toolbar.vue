@@ -21,7 +21,6 @@
         />
       </a>
     </div>
-  </div>
     <media-breadcrumb />
     <div
       class="media-view-search-input"
@@ -90,6 +89,7 @@
         />
       </button>
     </div>
+  </div>
 </template>
 
 <script>
