@@ -1,35 +1,43 @@
-.content_rating .vote-star {
+.content_rating ul {
+	margin-left: -2.8em;
+}
+
+[dir=rtl] .content_rating ul {
+	margin-left: auto;
+	margin-right: -2.8em;
+}
+
+.content_rating ul li {
 	display: inline-block;
+}
+
+.content_rating .vote-star {
+	position: relative;
 	width: 1em;
 	height: 1em;
-	content: "";
-	background-size: 100%;
 }
 
 .content_rating .vote-star-empty {
-	display: inline-block;
+	position: relative;
+	z-index: 1;
 	width: 1em;
 	height: 1em;
-	content: "";
 	opacity: 0.3;
-	background-size: 100%;
 }
 
 .content_rating .vote-star-ltr {
-	display: inline-block;
+	position: absolute;
+	z-index: 2;
+	margin-left: -1em;
 	width: 1em;
 	height: 1em;
-	margin-left: -1em;
-	content: "";
-	background-size: 100%;
 }
 
 .content_rating .vote-star-rtl {
-	display: inline-block;
+	position: absolute;
+	z-index: 2;
+	transform: scaleX(-1);
+	margin-right: -1em;
 	width: 1em;
 	height: 1em;
-	content: "";
-	margin-right: -1em;
-	transform: scaleX(-1);
-	background-size: 100%;
 }
