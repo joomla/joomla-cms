@@ -416,8 +416,8 @@ $fileModalData = array(
 		'footer'     => $this->loadTemplate('modal_file_footer'),
 		'height'     => '400px',
 		'width'      => '800px',
-		'bodyHeight' => 50,
-		'modalWidth' => 60,
+		'bodyHeight' => 70,
+		'modalWidth' => 80,
 	),
 	'body' => $this->loadTemplate('modal_file_body')
 );
@@ -431,8 +431,8 @@ $folderModalData = array(
 		'footer'     => $this->loadTemplate('modal_folder_footer'),
 		'height'     => '400px',
 		'width'      => '800px',
-		'bodyHeight' => 50,
-		'modalWidth' => 60,
+		'bodyHeight' => 70,
+		'modalWidth' => 80,
 	),
 	'body' => $this->loadTemplate('modal_folder_body')
 );
