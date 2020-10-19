@@ -40,9 +40,9 @@ $rcount = (int) $row->rating_count;
 $img   = '';
 $stars = $rating;
 
-$fullstar  = Uri::root() . '/media/plg_content_vote/images/star-full.svg';
-$halfstar  = Uri::root() . '/media/plg_content_vote/images/star-half-dir.svg';
-$emptystar = Uri::root() . '/media/plg_content_vote/images/star-empty.svg';
+$fullstar  = Uri::root() . 'media/plg_content_vote/images/star-full.svg';
+$halfstar  = Uri::root() . 'media/plg_content_vote/images/star-half-dir.svg';
+$emptystar = Uri::root() . 'media/plg_content_vote/images/star-empty.svg';
 
 for ($i = 0; $i < floor($stars); $i++)
 {
