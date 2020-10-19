@@ -253,15 +253,15 @@ final class Version
 	/**
 	 * Returns the user agent.
 	 *
-	 * @param   string  $suffix         String to append to resulting user agent.
-	 * @param   bool    $maskUserAgent  Mask as Mozilla/5.0 or not.
-	 * @param   bool    $addVersion     Add version afterwards to component.
+	 * @param   string  $suffix      String to append to resulting user agent.
+	 * @param   bool    $mask        Mask as Mozilla/5.0 or not.
+	 * @param   bool    $addVersion  Add version afterwards to component.
 	 *
 	 * @return  string  User Agent.
 	 *
 	 * @since   1.0
 	 */
-	public function getUserAgent($suffix = null, $maskUserAgent = false, $addVersion = true)
+	public function getUserAgent($suffix = null, $mask = false, $addVersion = true)
 	{
 		if ($suffix === null)
 		{
@@ -274,7 +274,7 @@ final class Version
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		if ($maskUserAgent)
+		if ($mask)
 		{
 			return 'Mozilla/5.0 ' . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($suffix ? ' ' . $suffix : '');
 		}
