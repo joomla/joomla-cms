@@ -77,6 +77,20 @@ th dd {
 
 figure {
   margin: 0 0 ($cassiopeia-grid-gutter*2);
+  &.float-left {
+    margin-right: $cassiopeia-grid-gutter;
+  }
+  &.float-right {
+    margin-left: $cassiopeia-grid-gutter;
+  }
+  [dir="rtl"] &.float-left {
+    margin-right: 0;
+    margin-left: $cassiopeia-grid-gutter;
+  }
+  [dir="rtl"] &.float-right {
+    margin-right: $cassiopeia-grid-gutter;
+    margin-left: 0;
+  }
 }
 
 figcaption {
@@ -94,11 +108,19 @@ meter {
 }
 
 .pagenavigation {
+  clear: both;
   .pagination {
     justify-content: space-between;
+    padding: 0;
+    margin: $cassiopeia-grid-gutter 0;
 
     li.next:only-child {
       margin-left: auto;
+    }
+
+    [dir="rtl"] &>li.next:only-child {
+      margin-right: auto;
+      margin-left: $cassiopeia-grid-gutter;
     }
   }
 }
@@ -108,4 +130,18 @@ meter {
   &:hover {
     color: var(--cassiopeia-color-link);
   }
+}
+
+[dir="rtl"] li.next .page-link {
+  border-top-left-radius: .25rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: .25rem;
+}
+
+[dir="rtl"] li.previous .page-link {
+  border-top-left-radius: 0;
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+  border-bottom-left-radius: 0;
 }
