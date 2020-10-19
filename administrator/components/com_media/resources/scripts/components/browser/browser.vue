@@ -1,6 +1,6 @@
 <template>
-<div>
-  <div
+  <div>
+    <div
       ref="browserItems"
       class="media-browser"
       :style="mediaBrowserStyles"
