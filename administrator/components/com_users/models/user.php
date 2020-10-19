@@ -1211,14 +1211,14 @@ class UsersModelUser extends JModelAdmin
 	 * warn_irq_msg		The string to use for the warn_if_not_req warning
 	 *
 	 * @param   integer  $userId     The user's numeric ID
-	 * @param   string   $secretkey  The secret key you want to check
+	 * @param   string   $secretKey  The secret key you want to check
 	 * @param   array    $options    Options; see above
 	 *
 	 * @return  boolean  True if it's a valid secret key for this user.
 	 *
 	 * @since   3.2
 	 */
-	public function isValidSecretKey($userId, $secretkey, $options = array())
+	public function isValidSecretKey($userId, $secretKey, $options = array())
 	{
 		// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 		if (!array_key_exists('otp_config', $options))
@@ -1257,7 +1257,7 @@ class UsersModelUser extends JModelAdmin
 
 			// Warn the user if they are using a secret code but they have not
 			// enabled two factor auth in their account.
-			if (!empty($secretkey) && $warn)
+			if (!empty($secretKey) && $warn)
 			{
 				try
 				{
@@ -1276,7 +1276,7 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		$credentials = array(
-			'secretkey' => $secretkey,
+			'secretkey' => $secretKey,
 		);
 
 		// Try to validate the OTP
@@ -1302,7 +1302,7 @@ class UsersModelUser extends JModelAdmin
 		// Fall back to one time emergency passwords
 		if (!$check)
 		{
-			$check = $this->isValidOtep($userId, $secretkey, $otpConfig);
+			$check = $this->isValidOtep($userId, $secretKey, $otpConfig);
 		}
 
 		return $check;
