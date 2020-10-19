@@ -84,7 +84,7 @@
       </div>
     </div>
     <media-infobar ref="infobar" />
-</div>
+  </div>
 </template>
 
 <script>
