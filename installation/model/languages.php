@@ -295,17 +295,17 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Get Languages item data.
 	 *
-	 * @param   string  $cmsClient  Name of the cms client.
+	 * @param   string  $clientName  Name of the cms client.
 	 *
 	 * @return  array
 	 *
 	 * @since   3.1
 	 */
-	protected function getInstalledlangs($cmsClient = 'administrator')
+	protected function getInstalledlangs($clientName = 'administrator')
 	{
 		// Get information.
 		$path     = $this->getPath();
-		$client   = $this->getClient($cmsClient);
+		$client   = $this->getClient($clientName);
 		$langlist = $this->getLanguageList($client->id);
 
 		// Compute all the languages.
@@ -432,15 +432,15 @@ class InstallationModelLanguages extends JModelBase
 	 * Set the default language.
 	 *
 	 * @param   string  $language   The language to be set as default.
-	 * @param   string  $cmsClient  The name of the CMS client.
+	 * @param   string  $clientName  The name of the CMS client.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function setDefault($language, $cmsClient = 'administrator')
+	public function setDefault($language, $clientName = 'administrator')
 	{
-		$client = $this->getClient($cmsClient);
+		$client = $this->getClient($clientName);
 
 		$params = JComponentHelper::getParams('com_languages');
 		$params->set($client->name, $language);
