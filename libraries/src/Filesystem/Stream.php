@@ -175,7 +175,7 @@ class Stream extends CMSObject
 	 * @param   string    $mode                  Mode string to use
 	 * @param   boolean   $useIncludePath        Use the PHP include path
 	 * @param   resource  $context               Context to use when opening
-	 * @param   boolean   $usePrefix            Use a prefix to open the file
+	 * @param   boolean   $usePrefix             Use a prefix to open the file
 	 * @param   boolean   $relative              Filename is a relative path (if false, strips JPATH_ROOT to make it relative)
 	 * @param   boolean   $detectProcessingMode  Detect the processing method for the file and use the appropriate function
 	 *                                           to handle output automatically

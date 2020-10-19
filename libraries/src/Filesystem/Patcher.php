@@ -324,7 +324,7 @@ class Patcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines     The udiff array of lines
+	 * @param   array   &$lines    The udiff array of lines
 	 * @param   string  &$srcLine  The beginning of the patch for the source file
 	 * @param   string  &$srcSize  The size of the patch for the source file
 	 * @param   string  &$dstLine  The beginning of the patch for the destination file
