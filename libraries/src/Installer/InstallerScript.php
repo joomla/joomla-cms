@@ -221,15 +221,15 @@ class InstallerScript
 	 * this must be called separately for deleting and editing. Note if edit is called as a
 	 * type then if the param doesn't exist it will be created
 	 *
-	 * @param   array    $param_array  The array of parameters to be added/edited/removed
-	 * @param   string   $type         The type of change to be made to the param (edit/remove)
-	 * @param   integer  $id           The id of the item in the relevant table
+	 * @param   array    $paramArray  The array of parameters to be added/edited/removed
+	 * @param   string   $type        The type of change to be made to the param (edit/remove)
+	 * @param   integer  $id          The id of the item in the relevant table
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.6
 	 */
-	public function setParams($param_array = null, $type = 'edit', $id = 0)
+	public function setParams($paramArray = null, $type = 'edit', $id = 0)
 	{
 		if (!is_int($id) || $id == 0)
 		{
@@ -239,9 +239,9 @@ class InstallerScript
 
 		$params = $this->getItemArray('params', $this->paramTable, 'id', $id);
 
-		if ($param_array)
+		if ($paramArray)
 		{
-			foreach ($param_array as $name => $value)
+			foreach ($paramArray as $name => $value)
 			{
 				if ($type === 'edit')
 				{

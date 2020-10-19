@@ -2082,14 +2082,14 @@ class Installer extends \JAdapter
 	/**
 	 * Compares two "files" entries to find deleted files/folders
 	 *
-	 * @param   array  $old_files  An array of \SimpleXMLElement objects that are the old files
-	 * @param   array  $new_files  An array of \SimpleXMLElement objects that are the new files
+	 * @param   array  $oldFiles  An array of \SimpleXMLElement objects that are the old files
+	 * @param   array  $newFiles  An array of \SimpleXMLElement objects that are the new files
 	 *
 	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
 	 * @since   3.1
 	 */
-	public function findDeletedFiles($old_files, $new_files)
+	public function findDeletedFiles($oldFiles, $newFiles)
 	{
 		// The magic find deleted files function!
 		// The files that are new
@@ -2107,7 +2107,7 @@ class Installer extends \JAdapter
 		// A list of folders to delete
 		$folders_deleted = array();
 
-		foreach ($new_files as $file)
+		foreach ($newFiles as $file)
 		{
 			switch ($file->getName())
 			{
@@ -2150,7 +2150,7 @@ class Installer extends \JAdapter
 			}
 		}
 
-		foreach ($old_files as $file)
+		foreach ($oldFiles as $file)
 		{
 			switch ($file->getName())
 			{

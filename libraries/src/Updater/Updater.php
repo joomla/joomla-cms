@@ -108,19 +108,19 @@ class Updater extends \JAdapter
 	/**
 	 * Finds the update for an extension. Any discovered updates are stored in the #__updates table.
 	 *
-	 * @param   int|array  $eid                Extension Identifier or list of Extension Identifiers; if zero use all
-	 *                                         sites
-	 * @param   integer    $cacheTimeout       How many seconds to cache update information; if zero, force reload the
-	 *                                         update information
-	 * @param   integer    $minimum_stability  Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc,
-	 *                                         4=stable
-	 * @param   boolean    $includeCurrent     Should I include the current version in the results?
+	 * @param   int|array  $eid               Extension Identifier or list of Extension Identifiers; if zero use all
+	 *                                        sites
+	 * @param   integer    $cacheTimeout      How many seconds to cache update information; if zero, force reload the
+	 *                                        update information
+	 * @param   integer    $minimumStability  Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc,
+	 *                                        4=stable
+	 * @param   boolean    $includeCurrent    Should I include the current version in the results?
 	 *
 	 * @return  boolean True if there are updates
 	 *
 	 * @since   1.7.0
 	 */
-	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
+	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
 	{
 		$retval = false;
 
@@ -164,7 +164,7 @@ class Updater extends \JAdapter
 			$db->setQuery($query);
 			$db->execute();
 
-			$updateObjects = $this->getUpdateObjectsForSite($result, $minimum_stability, $includeCurrent);
+			$updateObjects = $this->getUpdateObjectsForSite($result, $minimumStability, $includeCurrent);
 
 			if (!empty($updateObjects))
 			{
@@ -258,15 +258,15 @@ class Updater extends \JAdapter
 	/**
 	 * Loads the contents of an update site record $updateSite and returns the update objects
 	 *
-	 * @param   array  $updateSite         The update site record to process
-	 * @param   int    $minimum_stability  Minimum stability for the returned update records
-	 * @param   bool   $includeCurrent     Should I also include the current version?
+	 * @param   array  $updateSite        The update site record to process
+	 * @param   int    $minimumStability  Minimum stability for the returned update records
+	 * @param   bool   $includeCurrent    Should I also include the current version?
 	 *
 	 * @return  array  The update records. Empty array if no updates are found.
 	 *
 	 * @since   3.6.0
 	 */
-	private function getUpdateObjectsForSite($updateSite, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
+	private function getUpdateObjectsForSite($updateSite, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
 	{
 		$retVal = array();
 
@@ -278,7 +278,7 @@ class Updater extends \JAdapter
 			return $retVal;
 		}
 
-		$updateSite['minimum_stability'] = $minimum_stability;
+		$updateSite['minimum_stability'] = $minimumStability;
 
 		// Get the update information from the remote update XML document
 		/** @var UpdateAdapter $adapter */
@@ -307,7 +307,7 @@ class Updater extends \JAdapter
 						continue;
 					}
 
-					$extraUpdates = $this->getUpdateObjectsForSite($extraUpdateSite, $minimum_stability);
+					$extraUpdates = $this->getUpdateObjectsForSite($extraUpdateSite, $minimumStability);
 
 					if (count($extraUpdates))
 					{
