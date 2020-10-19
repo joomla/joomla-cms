@@ -19,14 +19,12 @@ class ModSearchHelper
 	/**
 	 * Display the search button as an image.
 	 *
-	 * @param   string  $buttonText  The alt text for the button.
-	 *
 	 * @return  string  The HTML for the image.
 	 *
 	 * @since   1.5
 	 */
-	public static function getSearchImage($buttonText)
+	public static function getSearchImage()
 	{
-		return JHtml::_('image', 'searchButton.gif', $buttonText, null, true, true);
+		return JHtml::_('image', 'searchButton.gif', '', null, true, true);
 	}
 }
