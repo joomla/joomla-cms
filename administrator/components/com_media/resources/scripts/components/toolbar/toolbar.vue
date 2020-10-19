@@ -8,6 +8,8 @@
       v-if="isLoading"
       class="media-loader"
     />
+    <media-breadcrumb class="d-md-none"/>
+
     <div class="media-view-icons">
       <a
         href="#"
@@ -21,7 +23,6 @@
         />
       </a>
     </div>
-    <media-breadcrumb />
     <div
       class="media-view-search-input"
       role="search"
@@ -37,7 +38,7 @@
         @input="changeSearch"
       >
     </div>
-    <div class="media-view-icons">
+    <div class="media-view-icons media-view-icons-right">
       <button
         v-if="isGridView"
         type="button"

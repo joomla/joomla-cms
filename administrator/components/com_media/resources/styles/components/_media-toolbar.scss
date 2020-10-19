@@ -1,15 +1,13 @@
 .media-toolbar {
   position: relative;
-  display: flex;
+  display: grid;
   padding: 0;
   background-color: $toolbar-bg;
   border-bottom: 1px solid $border-color;
   border-radius: $border-radius $border-radius 0 0;
-
-  @media only screen and (min-device-width: 320px) {
-    flex-wrap: wrap;
-  }
-
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  justify-content: space-between;
   input {
     padding: .375rem .75rem;
     color: #495057;
@@ -35,7 +33,7 @@
 }
 
 .media-view-icons {
-  display: flex;
+  grid-row: 2;
   .disabled {
     span {
       opacity: .3;
@@ -44,12 +42,23 @@
       cursor: default;
     }
   }
+  &:last-child {
+    padding-right: 0;
+  }
+  &.media-view-icons-right {
+    text-align: right;
+  }
 }
 
 .media-view-search-input {
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
+  grid-row: 2;
+  align-self: center;
+  padding: 0;
+
+  @media only screen and (max-width: 600px) {
+    grid-row: 3;
+    grid-column: 2;
+  }
 }
 
 .media-loader {
