@@ -32,7 +32,7 @@ abstract class JHtmlJGrid
 	 * @param   string        $inactiveClass  An optional inactive HTML class
 	 * @param   boolean       $enabled        An optional setting for access control on the action.
 	 * @param   boolean       $translate      An optional setting for translation.
-	 * @param   string        $checkbox	      An optional prefix for checkboxes.
+	 * @param   string        $checkbox	  An optional prefix for checkboxes.
 	 *
 	 * @return  string  The HTML markup
 	 *
