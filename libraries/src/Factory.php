@@ -784,17 +784,17 @@ abstract class Factory
 	/**
 	 * Creates a new stream object with appropriate prefix
 	 *
-	 * @param   boolean  $usePrefix   Prefix the connections for writing
-	 * @param   boolean  $useNetwork  Use network if available for writing; use false to disable (e.g. FTP, SCP)
-	 * @param   string   $ua          UA User agent to use
-	 * @param   boolean  $uamask      User agent masking (prefix Mozilla)
+	 * @param   boolean  $usePrefix        Prefix the connections for writing
+	 * @param   boolean  $useNetwork       Use network if available for writing; use false to disable (e.g. FTP, SCP)
+	 * @param   string   $userAgentSuffix  String to append to user agent
+	 * @param   boolean  $maskUserAgent    User agent masking (prefix Mozilla)
 	 *
 	 * @return  \JStream
 	 *
 	 * @see     \JStream
 	 * @since   1.7.0
 	 */
-	public static function getStream($usePrefix = true, $useNetwork = true, $ua = null, $uamask = false)
+	public static function getStream($usePrefix = true, $useNetwork = true, $userAgentSuffix = null, $maskUserAgent = false)
 	{
 		\JLoader::import('joomla.filesystem.stream');
 
@@ -803,7 +803,7 @@ abstract class Factory
 		$version = new Version;
 
 		// Set the UA for HTTP and overwrite for FTP
-		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
+		$context['http']['user_agent'] = $version->getUserAgent($userAgentSuffix, $maskUserAgent);
 		$context['ftp']['overwrite'] = true;
 
 		if ($usePrefix)
