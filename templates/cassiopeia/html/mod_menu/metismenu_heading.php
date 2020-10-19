@@ -15,7 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 $attributes          = [];
 $attributes['title'] = $item->anchor_title ? $item->anchor_title : null;
 $attributes['class'] = 'mod-menu__heading nav-header';
-$attributes['class'] .= $item->anchor_css ? $item->anchor_css : null;
+$attributes['class'] .= $item->anchor_css ? ' ' . $item->anchor_css : null;
 
 if ($item->deeper)
 {
