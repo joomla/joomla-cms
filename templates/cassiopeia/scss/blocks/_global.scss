@@ -62,6 +62,13 @@ small,
 
 dd {
   margin-bottom: 0;
+  padding: 0 0 0 ($cassiopeia-grid-gutter*2);
+}
+
+[dir="rtl"] dd {
+  padding: 0 ($cassiopeia-grid-gutter*2) 0 0;
+  margin-right: 0;
+  margin-left: auto;
 }
 
 th dd {
