@@ -431,7 +431,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Set the default language.
 	 *
-	 * @param   string  $language   The language to be set as default.
+	 * @param   string  $language    The language to be set as default.
 	 * @param   string  $clientName  The name of the CMS client.
 	 *
 	 * @return  boolean
