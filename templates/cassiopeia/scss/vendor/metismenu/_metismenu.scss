@@ -59,6 +59,23 @@
         &:not(.mm-show) {
           display: none;
         }
+
+        > li.parent {
+          display: block;
+          .mm-toggler {
+            display: inline-flex;
+          }
+          > ul {
+            position: relative;
+            top: 0;
+            padding: 0 0 0 1em;
+            background-color: rgba(0,0,0,.03);
+            box-shadow: none;
+          }
+          [dir="rtl"] & > ul {
+            padding: 0 1em 0 0;
+          }
+        }
       }
 
       .mm-toggler {
@@ -92,6 +109,31 @@
 
         &[aria-expanded="true"]:after {
           transform: rotate(-180deg);
+        }
+      }
+    }
+  }
+
+  .sidebar-right,
+  .sidebar-left {
+    .metismenu {
+      .mm-collapse {
+        position: relative;
+        background-color: rgba(0,0,0,.03);
+      }
+      li.parent {
+        display: block;
+        .mm-toggler {
+          display: inline-flex;
+        }
+        > ul {
+          position: relative;
+          top: 0;
+          padding: 0 0 0 1em;
+          box-shadow: none;
+        }
+        [dir="rtl"] & > ul {
+          padding: 0 1em 0 0;
         }
       }
     }
