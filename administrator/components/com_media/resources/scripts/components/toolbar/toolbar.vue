@@ -24,7 +24,7 @@
       </a>
     </div>
     <div
-      class="media-view-search-input"
+      class="media-view-search-input d-none d-md-block"
       role="search"
     >
       <label

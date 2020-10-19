@@ -54,11 +54,6 @@
   grid-row: 2;
   align-self: center;
   padding: 0;
-
-  @media only screen and (max-width: 600px) {
-    grid-row: 3;
-    grid-column: 2;
-  }
 }
 
 .media-loader {
