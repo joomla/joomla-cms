@@ -1,43 +1,49 @@
+.content_rating .vote-star {
+	display: inline-block;
+}
+
+.content_rating .vote-star svg {
+	width: 1em;
+	height: 1em;
+	fill: #fd7e14;
+}
+
 .content_rating ul {
 	margin-left: -2.8em;
+	margin-bottom: .5em;
 }
 
 [dir=rtl] .content_rating ul {
 	margin-left: auto;
 	margin-right: -2.8em;
-}
-
-.content_rating ul li {
-	display: inline-block;
-}
-
-.content_rating .vote-star {
-	position: relative;
-	width: 1em;
-	height: 1em;
+	margin-bottom: .5em;
 }
 
 .content_rating .vote-star-empty {
-	position: relative;
-	z-index: 1;
-	width: 1em;
-	height: 1em;
-	opacity: 0.3;
+	display: inline-block;
 }
 
-.content_rating .vote-star-ltr {
-	position: absolute;
-	z-index: 2;
+.content_rating .vote-star-empty svg
+{
+	width: 1em;
+	height: 1em;
+	fill: #6c757d;
+}
+
+.content_rating .vote-star-dir {
+	display: inline-block;
 	margin-left: -1em;
-	width: 1em;
-	height: 1em;
 }
 
-.content_rating .vote-star-rtl {
-	position: absolute;
-	z-index: 2;
+[dir=rtl] .content_rating .vote-star-dir {
+	display: inline-block;
 	transform: scaleX(-1);
 	margin-right: -1em;
+}
+
+.content_rating .vote-star-dir svg
+{
 	width: 1em;
 	height: 1em;
+	fill: #fd7e14;
 }
