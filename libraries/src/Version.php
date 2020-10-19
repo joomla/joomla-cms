@@ -253,22 +253,22 @@ final class Version
 	/**
 	 * Returns the user agent.
 	 *
-	 * @param   string  $component    Name of the component.
-	 * @param   bool    $mask         Mask as Mozilla/5.0 or not.
-	 * @param   bool    $add_version  Add version afterwards to component.
+	 * @param   string  $component   Name of the component.
+	 * @param   bool    $mask        Mask as Mozilla/5.0 or not.
+	 * @param   bool    $addVersion  Add version afterwards to component.
 	 *
 	 * @return  string  User Agent.
 	 *
 	 * @since   1.0
 	 */
-	public function getUserAgent($component = null, $mask = false, $add_version = true)
+	public function getUserAgent($component = null, $mask = false, $addVersion = true)
 	{
 		if ($component === null)
 		{
 			$component = 'Framework';
 		}
 
-		if ($add_version)
+		if ($addVersion)
 		{
 			$component .= '/' . self::RELEASE;
 		}

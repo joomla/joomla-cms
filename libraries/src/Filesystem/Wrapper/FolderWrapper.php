@@ -23,11 +23,11 @@ class FolderWrapper
 	/**
 	 * Helper wrapper method for copy
 	 *
-	 * @param   string   $src          The path to the source folder.
-	 * @param   string   $dest         The path to the destination folder.
-	 * @param   string   $path         An optional base path to prefix to the file names.
-	 * @param   boolean  $force        Force copy.
-	 * @param   boolean  $use_streams  Optionally force folder/file overwrites.
+	 * @param   string   $src         The path to the source folder.
+	 * @param   string   $dest        The path to the destination folder.
+	 * @param   string   $path        An optional base path to prefix to the file names.
+	 * @param   boolean  $force       Force copy.
+	 * @param   boolean  $useStreams  Optionally force folder/file overwrites.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -36,9 +36,9 @@ class FolderWrapper
 	 * @throws      RuntimeException
 	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
-	public function copy($src, $dest, $path = '', $force = false, $use_streams = false)
+	public function copy($src, $dest, $path = '', $force = false, $useStreams = false)
 	{
-		return Folder::copy($src, $dest, $path, $force, $use_streams);
+		return Folder::copy($src, $dest, $path, $force, $useStreams);
 	}
 
 	/**
@@ -78,10 +78,10 @@ class FolderWrapper
 	/**
 	 * Helper wrapper method for move
 	 *
-	 * @param   string   $src          The path to the source folder.
-	 * @param   string   $dest         The path to the destination folder.
-	 * @param   string   $path         An optional base path to prefix to the file names.
-	 * @param   boolean  $use_streams  Optionally use streams.
+	 * @param   string   $src         The path to the source folder.
+	 * @param   string   $dest        The path to the destination folder.
+	 * @param   string   $path        An optional base path to prefix to the file names.
+	 * @param   boolean  $useStreams  Optionally use streams.
 	 *
 	 * @return  mixed  Error message on false or boolean true on success.
 	 *
@@ -89,9 +89,9 @@ class FolderWrapper
 	 * @since       3.4
 	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
 	 */
-	public function move($src, $dest, $path = '', $use_streams = false)
+	public function move($src, $dest, $path = '', $useStreams = false)
 	{
-		return Folder::move($src, $dest, $path, $use_streams);
+		return Folder::move($src, $dest, $path, $useStreams);
 	}
 
 	/**

@@ -285,17 +285,17 @@ class ExtensionHelper
 	/**
 	 * Check if an extension is core or not
 	 *
-	 * @param   string   $type       The extension's type.
-	 * @param   string   $element    The extension's element name.
-	 * @param   integer  $client_id  The extension's client ID. Default 0.
-	 * @param   string   $folder     The extension's folder. Default ''.
+	 * @param   string   $type      The extension's type.
+	 * @param   string   $element   The extension's element name.
+	 * @param   integer  $clientId  The extension's client ID. Default 0.
+	 * @param   string   $folder    The extension's folder. Default ''.
 	 *
 	 * @return  boolean  True if core, false if not.
 	 *
 	 * @since   3.7.4
 	 */
-	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
+	public static function checkIfCoreExtension($type, $element, $clientId = 0, $folder = '')
 	{
-		return in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
+		return in_array(array($type, $element, $folder, $clientId), self::$coreExtensions);
 	}
 }
