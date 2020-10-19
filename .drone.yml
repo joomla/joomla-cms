@@ -120,13 +120,13 @@ steps:
     depends_on: [ npm ]
     image: node:current-alpine
     commands:
-      - npx stylelint -s scss "administrator/components/com_media/resources/**/*.scss" "administrator/templates/**/*.scss" "build/media_source/**/*.scss" "templates/**/*.scss" "installation/template/**/*.scss"
+      - npm run lint:css
 
   - name: javascript-cs
     depends_on: [ npm ]
     image: node:current-alpine
     commands:
-      - npx eslint "**/*.js"
+      - npm run lint:js
 
   - name: javascript-tests
     depends_on: [ npm ]
@@ -293,6 +293,6 @@ steps:
 
 ---
 kind: signature
-hmac: 400e7cdcd516fbb54ccc3f0f152e39a86346a47b7876a65741fec4898fe80b1f
+hmac: 4f58d8f61573498094e990f8f9ca8dec5324e727cfaa277c8fcb2392c17e33fe
 
 ...

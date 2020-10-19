@@ -673,7 +673,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	 *
 	 * @since  4.0.0
 	 */
-	public function addInline(string $type, string $content, array $options = [], array $attributes = [], array $dependencies = []): self
+	public function addInline(string $type, $content, array $options = [], array $attributes = [], array $dependencies = []): self
 	{
 		if ($content instanceof WebAssetItemInterface)
 		{
@@ -683,6 +683,7 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			$name          = $options['name'] ?? ('inline.' . md5($content));
 			$assetInstance = $this->registry->createAsset($name, '', $options, $attributes, $dependencies);
+			$assetInstance->setOption('content', $content);
 		}
 		else
 		{
@@ -695,7 +696,6 @@ class WebAssetManager implements WebAssetManagerInterface
 		// Set required options
 		$assetInstance->setOption('type', $type);
 		$assetInstance->setOption('inline', true);
-		$assetInstance->setOption('content', $content);
 
 		// Add to registry
 		$this->registry->add($type, $assetInstance);
