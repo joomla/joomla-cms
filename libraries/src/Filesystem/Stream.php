@@ -1040,7 +1040,7 @@ class Stream extends CMSObject
 	 * Stream filters
 	 * Append a filter to the chain
 	 *
-	 * @param   string   $filtername  The key name of the filter.
+	 * @param   string   $filterName  The key name of the filter.
 	 * @param   integer  $readWrite   Optional. Defaults to STREAM_FILTER_READ.
 	 * @param   array    $params      An array of params for the stream_filter_append call.
 	 *
@@ -1049,7 +1049,7 @@ class Stream extends CMSObject
 	 * @link    https://www.php.net/manual/en/function.stream-filter-append.php
 	 * @since   1.7.0
 	 */
-	public function appendFilter($filtername, $readWrite = STREAM_FILTER_READ, $params = array())
+	public function appendFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
 	{
 		$res = false;
 
@@ -1060,7 +1060,7 @@ class Stream extends CMSObject
 			$track_errors = ini_get('track_errors');
 			ini_set('track_errors', true);
 
-			$res = @stream_filter_append($this->fh, $filtername, $readWrite, $params);
+			$res = @stream_filter_append($this->fh, $filterName, $readWrite, $params);
 
 			if (!$res && $php_errormsg)
 			{
@@ -1081,7 +1081,7 @@ class Stream extends CMSObject
 	/**
 	 * Prepend a filter to the chain
 	 *
-	 * @param   string   $filtername  The key name of the filter.
+	 * @param   string   $filterName  The key name of the filter.
 	 * @param   integer  $readWrite   Optional. Defaults to STREAM_FILTER_READ.
 	 * @param   array    $params      An array of params for the stream_filter_prepend call.
 	 *
@@ -1090,7 +1090,7 @@ class Stream extends CMSObject
 	 * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
 	 * @since   1.7.0
 	 */
-	public function prependFilter($filtername, $readWrite = STREAM_FILTER_READ, $params = array())
+	public function prependFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
 	{
 		$res = false;
 
@@ -1100,7 +1100,7 @@ class Stream extends CMSObject
 			$php_errormsg = '';
 			$track_errors = ini_get('track_errors');
 			ini_set('track_errors', true);
-			$res = @stream_filter_prepend($this->fh, $filtername, $readWrite, $params);
+			$res = @stream_filter_prepend($this->fh, $filterName, $readWrite, $params);
 
 			if (!$res && $php_errormsg)
 			{
