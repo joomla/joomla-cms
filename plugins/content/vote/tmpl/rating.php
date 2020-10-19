@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getDocument()->getWebAssetManager();
@@ -39,24 +39,27 @@ $rcount = (int) $row->rating_count;
 
 $img   = '';
 $stars = $rating;
-$link  = 'media/plg_content_vote/images/';
+
+$fullstar  = Uri::root() . '/media/plg_content_vote/images/star-full.svg';
+$halfstar  = Uri::root() . '/media/plg_content_vote/images/star-half-dir.svg';
+$emptystar = Uri::root() . '/media/plg_content_vote/images/star-empty.svg';
 
 for ($i = 0; $i < floor($stars); $i++)
 {
-	$img .= HTMLHelper::_('image', $link . 'star.svg', Text::_('PLG_VOTE_STAR_ACTIVE'), array('class' => 'vote-star'));
+	$img .= '<li class="vote-star">' . file_get_contents($fullstar) . '</li>';
 }
 
 if (($stars - floor($stars)) >= 0.5)
 {
-	$img .= HTMLHelper::_('image', $link . 'star.svg', '', array('class' => 'vote-star-empty'));
+	$img .= '<li class="vote-star-empty">' . file_get_contents($emptystar) . '</li>';
 
 	if (Factory::getLanguage()->isRTL())
 	{
-		$img .= HTMLHelper::_('image', $link . 'star-half.svg', Text::_('PLG_VOTE_STAR_ACTIVE_HALF'), array('class' => 'vote-star-rtl'));
+		$img .= '<li class="vote-star-rtl">' . file_get_contents($halfstar) . '</li>';
 	}
 	else
 	{
-		$img .= HTMLHelper::_('image', $link . 'star-half.svg', Text::_('PLG_VOTE_STAR_ACTIVE_HALF'), array('class' => 'vote-star-ltr'));
+		$img .= '<li class="vote-star-ltr">' . file_get_contents($halfstar) . '</li>';
 	}
 
 	$stars += 1;
@@ -64,7 +67,7 @@ if (($stars - floor($stars)) >= 0.5)
 
 for ($i = $stars; $i < 5; $i++)
 {
-	$img .= HTMLHelper::_('image', $link . 'star.svg', Text::_('PLG_VOTE_STAR_INACTIVE'), array('class' => 'vote-star-empty'));
+	$img .= '<li class="vote-star-empty">' . file_get_contents($emptystar) . '</li>';
 }
 
 ?>
@@ -76,5 +79,9 @@ for ($i = $stars; $i < 5; $i++)
 			<meta itemprop="worstRating" content="1">
 		</p>
 	<?php endif; ?>
-<?php echo $img; ?>
+	<?php if ($img) : ?>
+	<ul>
+		<?php echo $img; ?>
+	</ul>
+	<?php endif; ?>
 </div>
