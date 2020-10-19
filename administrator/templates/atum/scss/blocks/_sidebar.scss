@@ -6,6 +6,11 @@
   background-color: var(--atum-sidebar-bg);
   box-shadow: $atum-box-shadow;
 
+  .sidebar-sticky {
+    position: sticky;
+    top: 0;
+  }
+
   .item {
     position: relative;
     display: flex;
@@ -16,6 +21,7 @@
     .menu-dashboard,
     .menu-quicktask {
       color: var(--atum-sidebar-link-color);
+      text-decoration: none;
 
       &:hover {
         color: var(--atum-text-light);
@@ -93,7 +99,7 @@
 
     .menu-dashboard,
     .menu-quicktask {
-      > a > .fas {
+      > a {
         display: inline-flex;
         align-items: center;
         padding: .9rem;

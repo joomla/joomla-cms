@@ -5,23 +5,15 @@ name: default
 clone:
 
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    settings:
-      restore: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
-
   - name: composer
-    image: joomlaprojects/docker-images:php7.3-composer
-    depends_on: [ restore-cache ]
+    image: joomlaprojects/docker-images:php7.3
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
+      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -36,18 +28,6 @@ steps:
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    depends_on: [ npm ]
-    settings:
-      rebuild: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
 
   - name: php72-unit
     depends_on: [ phpcs ]
@@ -140,13 +120,13 @@ steps:
     depends_on: [ npm ]
     image: node:current-alpine
     commands:
-      - npx stylelint -s scss "administrator/components/com_media/resources/**/*.scss" "administrator/templates/**/*.scss" "build/media_source/**/*.scss" "templates/**/*.scss" "installation/template/**/*.scss"
+      - npm run lint:css
 
   - name: javascript-cs
     depends_on: [ npm ]
     image: node:current-alpine
     commands:
-      - npx eslint "**/*.js"
+      - npm run lint:js
 
   - name: javascript-tests
     depends_on: [ npm ]
@@ -238,6 +218,9 @@ volumes:
 - name: cache
   host:
     path: /tmp/cache
+- name: composer-cache
+  host:
+    path: /tmp/composer-cache
 - name: reference
   host:
     path: /tmp/reference
@@ -310,6 +293,6 @@ steps:
 
 ---
 kind: signature
-hmac: 37718821f191b74969e24a3b288dfa131d01daa57d83a10246de58269a587473
+hmac: 4f58d8f61573498094e990f8f9ca8dec5324e727cfaa277c8fcb2392c17e33fe
 
 ...

@@ -79,6 +79,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'expect-ct',
 		'feature-policy',
 		'cross-origin-opener-policy',
+		'permissions-policy',
 	];
 
 	/**
@@ -174,9 +175,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Generate the hashes for the style-src
 			$inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
 
-			foreach ($inlineStyles as $type => $styleContent)
+			foreach ($inlineStyles as $type => $styles)
 			{
-				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+				foreach ($styles as $hash => $styleContent)
+				{
+					$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+				}
 			}
 		}
 
@@ -251,11 +255,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// In detecting mode we set this default rule so any report gets collected by com_csp
 		if ($cspMode === 'detect')
 		{
-			$frontendUrl = str_replace('/administrator', '', Uri::base());
-
 			$this->app->setHeader(
 				'content-security-policy-report-only',
-				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
+				"default-src 'self'; report-uri " . Uri::root() . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
 			);
 
 			return;
@@ -413,12 +415,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['script-src']) && $nonceEnabled)
+			if (!isset($cspHeaderCollection['script-src']) && ($scriptHashesEnabled || $nonceEnabled))
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['script-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['style-src']) && $nonceEnabled)
+			if (!isset($cspHeaderCollection['style-src']) && ($scriptHashesEnabled || $nonceEnabled))
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
 			}
@@ -471,7 +473,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Referrer-policy
-		$referrerPolicy = (string) $this->params->get('referrerpolicy', 'no-referrer-when-downgrade');
+		$referrerPolicy = (string) $this->params->get('referrerpolicy', 'strict-origin-when-cross-origin');
 
 		if ($referrerPolicy !== 'disabled')
 		{
@@ -486,8 +488,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$staticHeaderConfiguration['cross-origin-opener-policy#both'] = $coop;
 		}
 
-		// Generate the strict-transport-security header
-		if ($this->params->get('hsts', 0) === 1)
+		// Generate the strict-transport-security header and make sure the site is SSL
+		if ($this->params->get('hsts', 0) === 1 && Uri::getInstance()->isSsl() === true)
 		{
 			$hstsOptions   = [];
 			$hstsOptions[] = 'max-age=' . (int) $this->params->get('hsts_maxage', 31536000);

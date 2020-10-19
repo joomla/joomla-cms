@@ -127,7 +127,6 @@ class InstallModel extends BaseDatabaseModel
 					$app->setUserState('com_installer.message', Text::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
 
 					return false;
-					break;
 			}
 		}
 

@@ -84,7 +84,7 @@ if ($this->type == 'font')
 </div>
 <div class="row mt-2">
 	<div id="treeholder" class="col-md-3 tree-holder">
-		<div class="card">
+		<div class="card mt-2 mb-2">
 			<div class="card-body">
 				<?php echo $this->loadTemplate('tree'); ?>
 			</div>
@@ -416,8 +416,8 @@ $fileModalData = array(
 		'footer'     => $this->loadTemplate('modal_file_footer'),
 		'height'     => '400px',
 		'width'      => '800px',
-		'bodyHeight' => 50,
-		'modalWidth' => 60,
+		'bodyHeight' => 70,
+		'modalWidth' => 80,
 	),
 	'body' => $this->loadTemplate('modal_file_body')
 );
@@ -431,8 +431,8 @@ $folderModalData = array(
 		'footer'     => $this->loadTemplate('modal_folder_footer'),
 		'height'     => '400px',
 		'width'      => '800px',
-		'bodyHeight' => 50,
-		'modalWidth' => 60,
+		'bodyHeight' => 70,
+		'modalWidth' => 80,
 	),
 	'body' => $this->loadTemplate('modal_folder_body')
 );

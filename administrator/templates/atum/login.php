@@ -62,6 +62,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 // Add cookie alert message
 Text::script('JGLOBAL_WARNCOOKIES');
+// Add generic AJAX error message
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -103,7 +105,9 @@ Text::script('JGLOBAL_WARNCOOKIES');
 
 	<div class="container-fluid container-main order-1">
 		<section id="content" class="content h-100">
-			<jdoc:include type="message" />
+			<div class="login_message">
+				<jdoc:include type="message" />
+			</div>
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
 					<div class="main-brand logo text-center">

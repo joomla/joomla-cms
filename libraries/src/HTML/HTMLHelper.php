@@ -436,8 +436,15 @@ abstract class HTMLHelper
 			// If relative search in template directory or media directory
 			if ($relative)
 			{
-				// Get the template
-				$template = Factory::getApplication()->getTemplate();
+				$app        = Factory::getApplication();
+				$template   = $app->getTemplate(true);
+				$templaPath = JPATH_THEMES;
+
+				if ($template->inheritable || !empty($template->parent))
+				{
+					$client     = $app->isClient('administrator') === true ? 'administrator' : 'site';
+					$templaPath = JPATH_ROOT . "/media/templates/$client";
+				}
 
 				// For each potential files
 				foreach ($potential as $strip)
@@ -452,7 +459,19 @@ abstract class HTMLHelper
 					 */
 					foreach ($files as $file)
 					{
-						$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/$file", $ext, $debugMode);
+						if (!empty($template->parent))
+						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+
+							if (empty($found))
+							{
+								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/$file", $ext, $debugMode);
+							}
+						}
+						else
+						{
+							$found = static::addFileToBuffer("$templaPath/$template->template/$folder/$file", $ext, $debugMode);
+						}
 
 						if (!empty($found))
 						{
@@ -495,23 +514,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (!empty($template->parent))
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$element/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
-
-									// Try to deal with system files in the media folder
-									$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									else
 									{
-										$includes[] = $found;
+										// Try to deal with system files in the media folder
+										$found = static::addFileToBuffer(JPATH_ROOT . "/media/system/$folder/$element/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 								}
 								else
@@ -527,13 +560,37 @@ abstract class HTMLHelper
 									}
 
 									// Try to deal with system files in the template folder
-									$found = static::addFileToBuffer(JPATH_THEMES . "/$template/$folder/system/$file", $ext, $debugMode);
-
-									if (!empty($found))
+									if (!empty($template->parent))
 									{
-										$includes[] = $found;
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
 
-										break;
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+
+										$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
+									}
+									else
+									{
+										// Try to deal with system files in the template folder
+										$found = static::addFileToBuffer("$templaPath/$template->template/$folder/system/$file", $ext, $debugMode);
+
+										if (!empty($found))
+										{
+											$includes[] = $found;
+
+											break;
+										}
 									}
 
 									// Try to deal with system files in the media folder
@@ -1216,4 +1273,3 @@ abstract class HTMLHelper
 		return '';
 	}
 }
-

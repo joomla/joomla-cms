@@ -26,7 +26,7 @@ $option     = $input->get('option', '');
 $view       = $input->get('view', '');
 $layout     = $input->get('layout', 'default');
 $task       = $input->get('task', 'display');
-$cpanel     = $option === 'com_cpanel';
+$cpanel     = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
 $hiddenMenu = $app->input->get('hidemainmenu');
 
 // Getting user accessibility settings
@@ -65,6 +65,8 @@ $monochrome = (bool) $this->params->get('monochrome');
 
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
+
+Text::script('TPL_ATUM_MORE_ELEMENTS');
 
 ?>
 <!DOCTYPE html>
@@ -119,7 +121,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		</button>
 
 		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-			<div id="sidebarmenu">
+			<div id="sidebarmenu" class="sidebar-sticky">
 				<div class="sidebar-toggle item item-level-1">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
 						<span id="menu-collapse-icon" class="fas fa-toggle-off fa-fw" aria-hidden="true"></span>
