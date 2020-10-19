@@ -1,13 +1,3 @@
-.content_rating .vote-star {
-	display: inline-block;
-}
-
-.content_rating .vote-star svg {
-	width: 1em;
-	height: 1em;
-	fill: #fd7e14;
-}
-
 .content_rating ul {
 	margin-left: -2.8em;
 	margin-bottom: 0.5em;
@@ -17,6 +7,16 @@
 	margin-left: auto;
 	margin-right: -2.8em;
 	margin-bottom: 0.5em;
+}
+
+.content_rating .vote-star {
+	display: inline-block;
+}
+
+.content_rating .vote-star svg {
+	width: 1em;
+	height: 1em;
+	fill: #fd7e14;
 }
 
 .content_rating .vote-star-empty {
