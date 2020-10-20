@@ -982,6 +982,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'template'       => array('label' => 'Insert template', 'plugin' => 'template'),
 			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
 			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
+			'Language'       => array('label' => 'Language', 'plugin' => 'language'),
 			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
 		];
 
@@ -1044,7 +1045,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'fullscreen', '|',
 				'table', '|',
 				'subscript', 'superscript', '|',
-				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', 'language', '|',
+				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', 'Language', '|',
 				'cut', 'copy', 'paste', 'pastetext', '|',
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
 				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat', 'jxtdbuttons'
