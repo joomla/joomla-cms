@@ -160,21 +160,21 @@ abstract class JFacebookObject
 	/**
 	 * Method to get object's connection.
 	 *
-	 * @param   string   $object        The object id.
-	 * @param   string   $connection    The object's connection name.
-	 * @param   string   $extra_fields  URL fields.
-	 * @param   integer  $limit         The number of objects per page.
-	 * @param   integer  $offset        The object's number on the page.
-	 * @param   string   $until         A unix timestamp or any date accepted by strtotime.
-	 * @param   string   $since         A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $object       The object id.
+	 * @param   string   $connection   The object's connection name.
+	 * @param   string   $extraFields  URL fields.
+	 * @param   integer  $limit        The number of objects per page.
+	 * @param   integer  $offset       The object's number on the page.
+	 * @param   string   $until        A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $since        A unix timestamp or any date accepted by strtotime.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
 	 * @since   3.2.0
 	 */
-	public function getConnection($object, $connection = null, $extra_fields = '', $limit = 0, $offset = 0, $until = null, $since = null)
+	public function getConnection($object, $connection = null, $extraFields = '', $limit = 0, $offset = 0, $until = null, $since = null)
 	{
-		$path = $object . '/' . $connection . $extra_fields;
+		$path = $object . '/' . $connection . $extraFields;
 
 		if ($this->oauth != null)
 		{
@@ -241,26 +241,26 @@ abstract class JFacebookObject
 	/**
 	 * Method to delete a connection.
 	 *
-	 * @param   string  $object        The object id.
-	 * @param   string  $connection    The object's connection name.
-	 * @param   string  $extra_fields  URL fields.
+	 * @param   string  $object       The object id.
+	 * @param   string  $connection   The object's connection name.
+	 * @param   string  $extraFields  URL fields.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
 	 * @since   3.2.0
 	 */
-	public function deleteConnection($object, $connection = null, $extra_fields = '')
+	public function deleteConnection($object, $connection = null, $extraFields = '')
 	{
 		if ($this->oauth->isAuthenticated())
 		{
 			// Build the request path.
 			if ($connection != null)
 			{
-				$path = $object . '/' . $connection . $extra_fields;
+				$path = $object . '/' . $connection . $extraFields;
 			}
 			else
 			{
-				$path = $object . $extra_fields;
+				$path = $object . $extraFields;
 			}
 
 			// Send the delete request.
