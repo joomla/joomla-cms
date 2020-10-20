@@ -1,12 +1,12 @@
 .media-toolbar {
   position: relative;
-  display: grid;
+  display: flex;
   padding: 0;
   background-color: $toolbar-bg;
   border-bottom: 1px solid $border-color;
   border-radius: $border-radius $border-radius 0 0;
-  grid-auto-flow: column;
-  grid-auto-columns: max-content;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   input {
     padding: .375rem .75rem;

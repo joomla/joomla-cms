@@ -4,11 +4,12 @@
     role="navigation"
     :aria-label="translate('COM_MEDIA_BREADCRUMB_LABEL')"
   >
-    <ol>
+    <ol
+      class="breadcrumb">
       <li
         v-for="(val,index) in crumbs"
         :key="index"
-        class="media-breadcrumb-item"
+        class="media-breadcrumb-item breadcrumb-item"
       >
         <a
           href="#"
