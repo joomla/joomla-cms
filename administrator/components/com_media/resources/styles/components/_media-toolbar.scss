@@ -2,12 +2,12 @@
   position: relative;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   padding: 0;
   background-color: $toolbar-bg;
-  flex-wrap: wrap;
+  justify-content: space-between;
   border-bottom: 1px solid $border-color;
   border-radius: $border-radius $border-radius 0 0;
-  justify-content: space-between;
   input {
     padding: .375rem .75rem;
     color: #495057;
