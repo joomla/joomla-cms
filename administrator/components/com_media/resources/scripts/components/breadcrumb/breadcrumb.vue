@@ -10,6 +10,7 @@
         v-for="(val,index) in crumbs"
         :key="index"
         class="media-breadcrumb-item breadcrumb-item"
+        :class="[(index === Object.keys(crumbs).length - 1) ? ' active' : '']"
       >
         <a
           href="#"
