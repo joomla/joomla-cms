@@ -73,8 +73,8 @@ for ($i = $stars; $i < 5; $i++)
 		</p>
 	<?php endif; ?>
 	<?php if ($img) : ?>
-	<ul>
-		<?php echo $img; ?>
-	</ul>
+		<ul>
+			<?php echo $img; ?>
+		</ul>
 	<?php endif; ?>
 </div>
