@@ -2,10 +2,10 @@
   position: relative;
   display: flex;
   padding: 0;
+  flex-direction: row;
   background-color: $toolbar-bg;
   border-bottom: 1px solid $border-color;
   border-radius: $border-radius $border-radius 0 0;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   input {
