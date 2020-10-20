@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+
 ?>
 <div class="header-item-content">
 	<a class="d-flex" href="<?php echo Uri::root(); ?>"

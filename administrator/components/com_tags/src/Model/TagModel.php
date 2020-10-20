@@ -226,7 +226,7 @@ class TagModel extends AdminModel
 	 *
 	 * @since   3.1
 	 */
-	public function save2($data)
+	public function save($data)
 	{
 		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 		$table      = $this->getTable();

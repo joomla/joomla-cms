@@ -29,6 +29,16 @@ if ($item->anchor_rel)
 	$attributes['rel'] = $item->anchor_rel;
 }
 
+if ($item->id == $active_id)
+{
+	$attributes['aria-current'] = 'location';
+
+	if ($item->current)
+	{
+		$attributes['aria-current'] = 'page';
+	}
+}
+
 $linktype = $item->title;
 
 if ($item->menu_image)

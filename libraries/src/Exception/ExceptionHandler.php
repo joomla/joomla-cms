@@ -171,8 +171,7 @@ class ExceptionHandler
 			 * $errorRendererError  - the error caused by error renderer
 			 * $error               - the main error
 			 *
-			 * Both we need to show without loosing of a trace information
-			 * So use a bit of magic to merge them.
+			 * We need to show both exceptions, without loss of trace information, so use a bit of magic to merge them.
 			 *
 			 * Use exception nesting feature: rethrow the exceptions, an exception thrown in a finally block
 			 * will take unhandled exception as previous.

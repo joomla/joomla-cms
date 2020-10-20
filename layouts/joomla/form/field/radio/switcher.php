@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
-extract($displayData, null);
+extract($displayData);
 
 /**
  * Layout variables
@@ -66,10 +66,6 @@ $attr = 'id="' . $id . '"';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 $attr .= $dataAttribute;
 
-if (!empty($disabled) || !empty($readonly))
-{
-	$disabled = 'disabled="disabled"';
-}
 ?>
 <fieldset <?php echo $attr; ?>>
 	<legend class="switcher__legend sr-only">
@@ -85,15 +81,13 @@ if (!empty($disabled) || !empty($readonly))
 		}
 
 		// Initialize some option attributes.
-		$checked	= ((string) $option->value == $value) ? 'checked="checked"' : '';
-		$active		= ((string) $option->value == $value) ? 'class="active"' : '';
-		$oid		= $id . $i;
-		$ovalue		= htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes	= array_filter([$checked, $active, $disabled]);
-		$text		= $options[$i]->text;
+		$optionValue = (string) $option->value;
+		$optionId    = $id . $i;
+		$attributes  = $optionValue == $value ? 'checked class="active"' : '';
+		$attributes  .= $optionValue != $value && $readonly || $disabled ? ' disabled' : '';
 		?>
-		<?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-		<?php echo '<label for="' . $oid . '">' . $text . '</label>'; ?>
+		<?php echo sprintf($input, $optionId, $name, $this->escape($optionValue), $attributes); ?>
+		<?php echo '<label for="' . $optionId . '">' . $option->text . '</label>'; ?>
 	<?php endforeach; ?>
 	<span class="toggle-outside"><span class="toggle-inside"></span></span>
 	</div>

@@ -11,6 +11,7 @@
 	<description>PLG_WORKFLOW_PUBLISHING_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="publishing">publishing.php</filename>
+		<folder>forms</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">plg_workflow_publishing.ini</language>

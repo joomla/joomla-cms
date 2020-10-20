@@ -27,8 +27,8 @@
     buttons.forEach((button) => {
       button.addEventListener('click', (e) => {
         e.preventDefault();
-        const task = e.target.getAttribute(buttonDataSelector);
-        submitTask(task, e.target.form);
+        const task = e.currentTarget.getAttribute(buttonDataSelector);
+        submitTask(task, e.currentTarget.form);
       });
     });
   };

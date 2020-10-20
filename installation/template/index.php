@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Version;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 
 /** @var JDocumentHtml $this */
 

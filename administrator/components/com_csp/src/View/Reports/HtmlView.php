@@ -103,11 +103,25 @@ class HtmlView extends BaseHtmlView
 			$this->httpHeadersId = ReporterHelper::getHttpHeadersPluginId();
 		}
 
-		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'custom') === 'detect'
+		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'detect') === 'detect'
 			&& ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy', 0)
 			&& ReporterHelper::getCspTrashStatus())
 		{
 			$this->trashWarningMessage = Text::_('COM_CSP_COLLECTING_TRASH_WARNING');
+		}
+
+		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'detect') === 'auto'
+			&& ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy', 0)
+			&& ReporterHelper::getCspUnsafeInlineStatus())
+		{
+			$this->unsafeInlineWarningMessage = Text::_('COM_CSP_AUTO_UNSAFE_INLINE_WARNING');
+		}
+
+		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'detect') === 'auto'
+			&& ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy', 0)
+			&& ReporterHelper::getCspUnsafeEvalStatus())
+		{
+			$this->unsafeEvalWarningMessage = Text::_('COM_CSP_AUTO_UNSAFE_EVAL_WARNING');
 		}
 
 		$this->addToolbar();

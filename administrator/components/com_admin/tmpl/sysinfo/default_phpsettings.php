@@ -33,6 +33,30 @@ use Joomla\CMS\Language\Text;
 		<tbody>
 			<tr>
 				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_UPLOAD_MAX_FILESIZE'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['upload_max_filesize']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_POST_MAX_SIZE'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['post_max_size']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_MEMORY_LIMIT'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.string', $this->phpSettings['memory_limit']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_OPEN_BASEDIR'); ?>
 				</th>
 				<td>

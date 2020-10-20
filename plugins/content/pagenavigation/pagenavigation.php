@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
@@ -89,19 +88,18 @@ class PlgContentPagenavigation extends CMSPlugin
 				switch ($orderDate)
 				{
 					// Use created if modified is not set
-					case 'modified' :
+					case 'modified':
 						$orderby = $db->quoteName('a.modified') . ' IS NULL THEN ' .
 						$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
 						break;
 
 					// Use created if publish_up is not set
-					case 'published' :
+					case 'published':
 						$orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' .
 							$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
 						break;
 
 					// Use created as default
-					case 'created' :
 					default :
 						$orderby = $db->quoteName('a.created');
 						break;
@@ -117,30 +115,29 @@ class PlgContentPagenavigation extends CMSPlugin
 				// Determine sort order.
 				switch ($order_method)
 				{
-					case 'alpha' :
+					case 'alpha':
 						$orderby = $db->quoteName('a.title');
 						break;
-					case 'ralpha' :
+					case 'ralpha':
 						$orderby = $db->quoteName('a.title') . ' DESC';
 						break;
-					case 'hits' :
+					case 'hits':
 						$orderby = $db->quoteName('a.hits');
 						break;
-					case 'rhits' :
+					case 'rhits':
 						$orderby = $db->quoteName('a.hits') . ' DESC';
 						break;
-					case 'author' :
+					case 'author':
 						$orderby = $db->quoteName(['a.created_by_alias', 'u.name']);
 						break;
-					case 'rauthor' :
+					case 'rauthor':
 						$orderby = $db->quoteName('a.created_by_alias') . ' DESC, ' .
 							$db->quoteName('u.name') . ' DESC';
 						break;
-					case 'front' :
+					case 'front':
 						$orderby = $db->quoteName('f.ordering');
 						break;
-					case 'order' :
-					default :
+					default:
 						$orderby = $db->quoteName('a.ordering');
 						break;
 				}

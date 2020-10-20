@@ -144,7 +144,7 @@ class HtmlView extends BaseHtmlView
 		$title = Text::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', Text::_(strtoupper($component)));
 
 		// Prepare the toolbar.
-		ToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
+		ToolbarHelper::title($title, 'puzzle-piece fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
 
 		if ($canDo->get('core.create'))
 		{
@@ -176,7 +176,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('fields.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state'))
+			if ($canDo->get('core.edit.state') && !$this->state->get('filter.state') == -2)
 			{
 				$childBar->trash('fields.trash')->listCheck(true);
 			}

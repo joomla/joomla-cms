@@ -149,7 +149,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
+		ToolbarHelper::title(Text::_('COM_CONTENT_ARTICLES_TITLE'), 'copy article');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
 		{
@@ -210,7 +210,10 @@ class HtmlView extends BaseHtmlView
 
 				$childBar->checkin('articles.checkin')->listCheck(true);
 
-				$childBar->trash('articles.trash')->listCheck(true);
+				if (!$this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED)
+				{
+					$childBar->trash('articles.trash')->listCheck(true);
+				}
 			}
 
 			// Add a batch button

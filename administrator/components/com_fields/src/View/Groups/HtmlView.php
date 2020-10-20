@@ -146,7 +146,7 @@ class HtmlView extends BaseHtmlView
 		$title = Text::sprintf('COM_FIELDS_VIEW_GROUPS_TITLE', Text::_(strtoupper($component)));
 
 		// Prepare the toolbar.
-		ToolbarHelper::title($title, 'puzzle fields ' . substr($component, 4) . '-groups');
+		ToolbarHelper::title($title, 'puzzle-piece fields ' . substr($component, 4) . '-groups');
 
 		if ($canDo->get('core.create'))
 		{
@@ -178,7 +178,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('groups.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state'))
+			if ($canDo->get('core.edit.state') && !$this->state->get('filter.state') == -2)
 			{
 				$childBar->trash('groups.trash')->listCheck(true);
 			}

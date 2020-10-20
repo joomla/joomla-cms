@@ -156,7 +156,7 @@ class LevelsModel extends ListModel
 		$user = Factory::getUser();
 
 		// Get an instance of the record's table.
-		$table = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
+		$table = Table::getInstance('ViewLevel', 'Joomla\\CMS\Table\\');
 
 		// Load the row.
 		if (!$table->load($pk))

@@ -33,3 +33,14 @@ if (file_exists(JPATH_CONFIGURATION . '/configuration.php')
 
 // Import the Joomla Platform.
 require_once JPATH_LIBRARIES . '/bootstrap.php';
+
+if (JDEBUG)
+{
+	// Set new Exception handler with debug enabled
+	$errorHandler->setExceptionHandler(
+		[
+			new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+			'renderException'
+		]
+	);
+}

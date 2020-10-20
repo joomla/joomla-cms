@@ -11,7 +11,7 @@ namespace Joomla\Component\Cpanel\Administrator\Dispatcher;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
@@ -28,7 +28,7 @@ class Dispatcher extends ComponentDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception|Notallowed
+	 * @throws  \Exception|NotAllowed
 	 */
 	protected function checkAccess()
 	{

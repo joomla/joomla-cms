@@ -236,8 +236,6 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 			}
 
 			$event->setError(new RuntimeException($event->getError()->getMessage(), $redirect->header, $event->getError()));
-
-			return;
 		}
 		// No redirect object was found so we create an entry in the redirect table
 		elseif ($redirect === null)

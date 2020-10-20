@@ -85,10 +85,10 @@ class PlgTwofactorauthYubikey extends CMSPlugin
 	/**
 	 * Shows the configuration page for this two factor authentication method.
 	 *
-	 * @param   object   $otpConfig  The two factor auth configuration object
-	 * @param   integer  $user_id    The numeric user ID of the user whose form we'll display
+	 * @param   object        $otpConfig  The two factor auth configuration object
+	 * @param   integer|null  $user_id    The numeric user ID of the user whose form we'll display
 	 *
-	 * @return  boolean|string  False if the method is not ours, the HTML of the configuration page otherwise
+	 * @return  array
 	 *
 	 * @see     UsersModelUser::getOtpConfig
 	 * @since   3.2
@@ -186,7 +186,7 @@ class PlgTwofactorauthYubikey extends CMSPlugin
 		// Remove the last 32 digits and store the rest in the user configuration parameters
 		$yubikey      = substr($data['securitycode'], 0, -32);
 
-		// Check succeedeed; return an OTP configuration object
+		// Check succeeded; return an OTP configuration object
 		$otpConfig    = (object) array(
 			'method'  => $this->methodName,
 			'config'  => array(
@@ -292,7 +292,7 @@ class PlgTwofactorauthYubikey extends CMSPlugin
 			// servers must reply positively for the OTP to validate)
 			$uri->setVar('sl', 50);
 
-			// Timeou waiting for YubiCloud servers to reply: 5 seconds.
+			// Timeout waiting for YubiCloud servers to reply: 5 seconds.
 			$uri->setVar('timeout', 5);
 
 			try

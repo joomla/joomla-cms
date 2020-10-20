@@ -18,8 +18,10 @@ use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 // Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
 
-HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array('version' => 'auto', 'relative' => true));
+$this->document->getWebAssetManager()
+	->useScript('joomla.treeselectmenu')
+	->useScript('com_modules.admin-module-edit-assignment');
+
 ?>
 <div class="control-group">
 	<label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
@@ -127,7 +129,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
-				<joomla-alert id="noresultsfound" type="warning" class="hidden"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+				<joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<div class="hidden" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">

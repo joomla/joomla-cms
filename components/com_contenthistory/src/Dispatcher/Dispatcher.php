@@ -43,14 +43,14 @@ class Dispatcher extends ComponentDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception|Notallowed
+	 * @throws  \Exception|NotAllowed
 	 */
 	protected function checkAccess()
 	{
 		// Check the user has permission to access this component if in the backend
 		if ($this->app->getIdentity()->guest)
 		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 

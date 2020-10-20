@@ -52,6 +52,12 @@
       // Bind events
       this.modalClose = this.modalClose.bind(this);
       this.setValue = this.setValue.bind(this);
+
+      // Bootstrap modal init
+      if (Joomla.Bootstrap && Joomla.Bootstrap.initModal && typeof Joomla.Bootstrap.initModal === 'function') {
+        Joomla.Bootstrap.initModal(this.modal);
+      }
+
       if (this.buttonSelect) {
         this.buttonSelect.addEventListener('click', this.modalOpen.bind(this));
         this.modal.addEventListener('hide', this.removeIframe.bind(this));
@@ -130,6 +136,8 @@
     setValue(value, name) {
       this.input.setAttribute('value', value);
       this.inputName.setAttribute('value', name || value);
+      // trigger change event
+      this.input.dispatchEvent(new Event('change'));
     }
   }
 

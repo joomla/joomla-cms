@@ -15,12 +15,12 @@ extract($displayData);
 
 /**
  * Layout variables
- * ---------------------
- * 	$options      : (array)  Optional parameters
- * 	$name         : (string) The id of the input this label is for
- * 	$label        : (string) The html code for the label
- * 	$input        : (string) The input field html code
- * 	$description  : (string) An optional description to use in a tooltip
+ * -----------------
+ * @var   array   $options      Optional parameters
+ * @var   string  $name         The id of the input this label is for
+ * @var   string  $label        The html code for the label
+ * @var   string  $input        The input field html code
+ * @var   string  $description  An optional description to use in a tooltip
  */
 
 if (!empty($options['showonEnabled']))
@@ -29,17 +29,18 @@ if (!empty($options['showonEnabled']))
 	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 	$wa->useScript('showon');
 }
-$class = empty($options['class']) ? '' : ' ' . $options['class'];
-$rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
-$id    = $name . '-desc';
-$hide  = empty($options['hiddenLabel']) ? '' : ' sr-only';
 
+$class           = empty($options['class']) ? '' : ' ' . $options['class'];
+$rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
+$id              = $name . '-desc';
+$hide            = empty($options['hiddenLabel']) ? '' : ' sr-only';
+$hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>
 	<div class="controls">
 		<?php echo $input; ?>
-		<?php if (!empty($description)) : ?>
+		<?php if (!$hideDescription && !empty($description)) : ?>
 			<div id="<?php echo $id; ?>">
 				<small class="form-text text-muted">
 					<?php echo $description; ?>

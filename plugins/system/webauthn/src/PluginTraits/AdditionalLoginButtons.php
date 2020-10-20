@@ -148,10 +148,11 @@ trait AdditionalLoginButtons
 		return [
 			[
 				'label'              => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
+				'tooltip'            => 'PLG_SYSTEM_WEBAUTHN_LOGIN_DESC',
 				'id'                 => $randomId,
 				'data-webauthn-form' => $form,
 				'data-webauthn-url'  => $url,
-				'image'              => 'plg_system_webauthn/webauthn-black.png',
+				'image'              => 'plg_system_webauthn/webauthn-white.svg',
 				'class'              => 'plg_system_webauthn_login_button',
 			],
 		];
