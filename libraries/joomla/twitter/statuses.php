@@ -401,11 +401,11 @@ class JTwitterStatuses extends JTwitterObject
 	/**
 	 * Method to get up to 100 of the first retweets of a given tweet.
 	 *
-	 * @param   integer  $id         The numerical ID of the desired status.
-	 * @param   integer  $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
-	 *                               in the count, so it is always suggested to set $includeRts to true
+	 * @param   integer  $id        The numerical ID of the desired status.
+	 * @param   integer  $count     Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
+	 *                              in the count, so it is always suggested to set $includeRts to true
 	 * @param   boolean  $trimUser  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                               the status author's numerical ID.
+	 *                              the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -435,9 +435,9 @@ class JTwitterStatuses extends JTwitterObject
 	/**
 	 * Method to delete the status specified by the required ID parameter.
 	 *
-	 * @param   integer  $id         The numerical ID of the desired status.
+	 * @param   integer  $id        The numerical ID of the desired status.
 	 * @param   boolean  $trimUser  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                               the status author's numerical ID.
+	 *                              the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -463,9 +463,9 @@ class JTwitterStatuses extends JTwitterObject
 	/**
 	 * Method to retweet a tweet.
 	 *
-	 * @param   integer  $id         The numerical ID of the desired status.
+	 * @param   integer  $id        The numerical ID of the desired status.
 	 * @param   boolean  $trimUser  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                               the status author's numerical ID.
+	 *                              the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -491,14 +491,14 @@ class JTwitterStatuses extends JTwitterObject
 	/**
 	 * Method to post a tweet with media.
 	 *
-	 * @param   string   $status                 The text of the tweet.
-	 * @param   string   $media                  File to upload
-	 * @param   integer  $inReplyToStatusId  The ID of an existing status that the update is in reply to.
-	 * @param   float    $lat                    The latitude of the location this tweet refers to.
-	 * @param   float    $long                   The longitude of the location this tweet refers to.
-	 * @param   string   $placeId               A place in the world.
-	 * @param   boolean  $displayCoordinates    Whether or not to put a pin on the exact coordinates a tweet has been sent from.
-	 * @param   boolean  $sensitive              Set to true for content which may not be suitable for every audience.
+	 * @param   string   $status              The text of the tweet.
+	 * @param   string   $media               File to upload
+	 * @param   integer  $inReplyToStatusId   The ID of an existing status that the update is in reply to.
+	 * @param   float    $lat                 The latitude of the location this tweet refers to.
+	 * @param   float    $long                The longitude of the location this tweet refers to.
+	 * @param   string   $placeId             A place in the world.
+	 * @param   boolean  $displayCoordinates  Whether or not to put a pin on the exact coordinates a tweet has been sent from.
+	 * @param   boolean  $sensitive           Set to true for content which may not be suitable for every audience.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -563,22 +563,22 @@ class JTwitterStatuses extends JTwitterObject
 	 * Method to get information allowing the creation of an embedded representation of a Tweet on third party sites.
 	 * Note: either the id or url parameters must be specified in a request. It is not necessary to include both.
 	 *
-	 * @param   integer  $id           The Tweet/status ID to return embed code for.
-	 * @param   string   $url          The URL of the Tweet/status to be embedded.
-	 * @param   integer  $maxwidth     The maximum width in pixels that the embed should be rendered at. This value is constrained to be
-	 *                                 between 250 and 550 pixels.
+	 * @param   integer  $id          The Tweet/status ID to return embed code for.
+	 * @param   string   $url         The URL of the Tweet/status to be embedded.
+	 * @param   integer  $maxwidth    The maximum width in pixels that the embed should be rendered at. This value is constrained to be
+	 *                                between 250 and 550 pixels.
 	 * @param   boolean  $hideMedia   Specifies whether the embedded Tweet should automatically expand images which were uploaded via
-	 *                                 POST statuses/update_with_media.
+	 *                                POST statuses/update_with_media.
 	 * @param   boolean  $hideThread  Specifies whether the embedded Tweet should automatically show the original message in the case that
-	 *                                 the embedded Tweet is a reply.
+	 *                                the embedded Tweet is a reply.
 	 * @param   boolean  $omitScript  Specifies whether the embedded Tweet HTML should include a `<script>` element pointing to widgets.js.
-	 *                                 In cases where a page already includes widgets.js, setting this value to true will prevent a redundant
-	 *                                 script element from being included.
-	 * @param   string   $align        Specifies whether the embedded Tweet should be left aligned, right aligned, or centered in the page.
-	 *                                 Valid values are left, right, center, and none.
-	 * @param   string   $related      A value for the TWT related parameter, as described in Web Intents. This value will be forwarded to all
-	 *                                 Web Intents calls.
-	 * @param   string   $lang         Language code for the rendered embed. This will affect the text and localization of the rendered HTML.
+	 *                                In cases where a page already includes widgets.js, setting this value to true will prevent a redundant
+	 *                                script element from being included.
+	 * @param   string   $align       Specifies whether the embedded Tweet should be left aligned, right aligned, or centered in the page.
+	 *                                Valid values are left, right, center, and none.
+	 * @param   string   $related     A value for the TWT related parameter, as described in Web Intents. This value will be forwarded to all
+	 *                                Web Intents calls.
+	 * @param   string   $lang        Language code for the rendered embed. This will affect the text and localization of the rendered HTML.
 	 *
 	 * @return  array  The decoded JSON response
 	 *

@@ -47,7 +47,7 @@ class JTwitterPlaces extends JTwitterObject
 	 * 								   but it can also take a string that is suffixed with ft to specify feet.
 	 * @param   string   $granularity  This is the minimal granularity of place types to return and must be one of: poi, neighborhood,
 	 * 								   city, admin or country.
-	 * @param   integer  $maxResults  A hint as to the number of results to return.
+	 * @param   integer  $maxResults   A hint as to the number of results to return.
 	 * @param   string   $callback     If supplied, the response will use the JSONP format with a callback of the given name.
 	 *
 	 * @return  array  The decoded JSON response
@@ -106,7 +106,7 @@ class JTwitterPlaces extends JTwitterObject
 	 * 								   admin or country.
 	 * @param   string   $accuracy     A hint on the "region" in which to search. If a number, then this is a radius in meters, but it can
 	 * 								   also take a string that is suffixed with ft to specify feet.
-	 * @param   integer  $maxResults  A hint as to the number of results to return.
+	 * @param   integer  $maxResults   A hint as to the number of results to return.
 	 * @param   string   $within       This is the place_id which you would like to restrict the search results to.
 	 * @param   string   $attribute    This parameter searches for places which have this given street address.
 	 * @param   string   $callback     If supplied, the response will use the JSONP format with a callback of the given name.
@@ -249,7 +249,7 @@ class JTwitterPlaces extends JTwitterObject
 	 * @param   float   $lat        The latitude to search around.
 	 * @param   float   $long       The longitude to search around.
 	 * @param   string  $name       The name a place is known as.
-	 * @param   string  $geoToken  The token found in the response from geo/similar_places.
+	 * @param   string  $geoToken   The token found in the response from geo/similar_places.
 	 * @param   string  $within     This is the place_id which you would like to restrict the search results to.
 	 * @param   string  $attribute  This parameter searches for places which have this given street address.
 	 * @param   string  $callback   If supplied, the response will use the JSONP format with a callback of the given name.
