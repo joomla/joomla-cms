@@ -30,18 +30,18 @@
 	fill: #d3d3d3;
 }
 
-[dir=ltr] .content_rating .vote-star-dir {
+[dir=ltr] .content_rating .vote-star-half {
 	display: inline-block;
 	margin-left: -1em;
 }
 
-[dir=rtl] .content_rating .vote-star-dir {
+[dir=rtl] .content_rating .vote-star-half {
 	display: inline-block;
 	margin-right: -1em;
 	transform: scaleX(-1);
 }
 
-.content_rating .vote-star-dir svg
+.content_rating .vote-star-half svg
 {
 	width: 1em;
 	height: 1em;
