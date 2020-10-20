@@ -23,10 +23,6 @@
 	display: inline-block;
 }
 
-[dir=rtl] .content_rating .vote-star-empty {
-	display: inline-block;
-}
-
 .content_rating .vote-star-empty svg
 {
 	width: 1em;
@@ -34,7 +30,7 @@
 	fill: #d3d3d3;
 }
 
-.content_rating .vote-star-dir {
+[dir=ltr] .content_rating .vote-star-dir {
 	display: inline-block;
 	margin-left: -1em;
 }
