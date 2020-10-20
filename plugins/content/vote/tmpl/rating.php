@@ -40,33 +40,27 @@ $rcount = (int) $row->rating_count;
 $img   = '';
 $stars = $rating;
 
-$simplestar = Uri::base() . 'media/plg_content_vote/images/star.svg';
-$halfstar   = Uri::base() . 'media/plg_content_vote/images/star-half.svg';
+$star     = Uri::base() . 'media/plg_content_vote/images/star.svg';
+$halfstar = Uri::base() . 'media/plg_content_vote/images/star-half.svg';
+
+$simplestar = file_get_contents($star);
 
 for ($i = 0; $i < floor($stars); $i++)
 {
-	$img .= '<li class="vote-star">' . file_get_contents($simplestar) . '</li>';
+	$img .= '<li class="vote-star">' . $simplestar . '</li>';
 }
 
 if (($stars - floor($stars)) >= 0.5)
 {
-	$img .= '<li class="vote-star-empty">' . file_get_contents($simplestar) . '</li>';
-
-	if (Factory::getLanguage()->isRTL())
-	{
-		$img .= '<li class="vote-star-dir">' . file_get_contents($halfstar) . '</li>';
-	}
-	else
-	{
-		$img .= '<li class="vote-star-dir">' . file_get_contents($halfstar) . '</li>';
-	}
+	$img .= '<li class="vote-star-empty">' . $simplestar . '</li>';
+	$img .= '<li class="vote-star-dir">' . file_get_contents($halfstar) . '</li>';
 
 	$stars += 1;
 }
 
 for ($i = $stars; $i < 5; $i++)
 {
-	$img .= '<li class="vote-star-empty">' . file_get_contents($simplestar) . '</li>';
+	$img .= '<li class="vote-star-empty">' . $simplestar . '</li>';
 }
 
 ?>
