@@ -53,7 +53,7 @@ for ($i = 0; $i < floor($stars); $i++)
 if (($stars - floor($stars)) >= 0.5)
 {
 	$img .= '<li class="vote-star-empty">' . $simplestar . '</li>';
-	$img .= '<li class="vote-star-dir">' . file_get_contents($halfstar) . '</li>';
+	$img .= '<li class="vote-star-half">' . file_get_contents($halfstar) . '</li>';
 
 	$stars += 1;
 }
