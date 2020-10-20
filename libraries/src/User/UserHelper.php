@@ -41,10 +41,9 @@ abstract class UserHelper
 	/**
 	 * Constant defining the Argon2i password algorithm for use with password hashes
 	 *
-	 * Note: The value of the hash is the same as PHP's native `PASSWORD_ARGON2I` but the constant is not used
-	 * as PHP may not be compiled with this constant
+	 * Note: PHP's native `PASSWORD_ARGON2I` constant is not used as PHP may be compiled without this constant
 	 *
-	 * @var    integer
+	 * @var    string|integer
 	 * @since  4.0.0
 	 */
 	const HASH_ARGON2I = 2;
@@ -52,10 +51,9 @@ abstract class UserHelper
 	/**
 	 * Constant defining the Argon2id password algorithm for use with password hashes
 	 *
-	 * Note: The value of the hash is the same as PHP's native `PASSWORD_ARGON2ID` but the constant is not used
-	 * as PHP may not be compiled with this constant
+	 * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
 	 *
-	 * @var    integer
+	 * @var    string|integer
 	 * @since  4.0.0
 	 */
 	const HASH_ARGON2ID = 3;
@@ -63,7 +61,7 @@ abstract class UserHelper
 	/**
 	 * Constant defining the BCrypt password algorithm for use with password hashes
 	 *
-	 * @var    integer
+	 * @var    string|integer
 	 * @since  4.0.0
 	 */
 	const HASH_BCRYPT = PASSWORD_BCRYPT;
@@ -429,7 +427,7 @@ abstract class UserHelper
 	 */
 	public static function verifyPassword($password, $hash, $user_id = 0)
 	{
-		$passwordAlgorithm = PASSWORD_BCRYPT;
+		$passwordAlgorithm = self::HASH_BCRYPT;
 		$container         = Factory::getContainer();
 
 		// Cheaply try to determine the algorithm in use otherwise fall back to the chained handler
@@ -444,7 +442,7 @@ abstract class UserHelper
 			/** @var Argon2idHandler $handler */
 			$handler = $container->get(Argon2idHandler::class);
 
-			$passwordAlgorithm = PASSWORD_ARGON2ID;
+			$passwordAlgorithm = self::HASH_ARGON2ID;
 		}
 		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
@@ -452,7 +450,7 @@ abstract class UserHelper
 			/** @var Argon2iHandler $handler */
 			$handler = $container->get(Argon2iHandler::class);
 
-			$passwordAlgorithm = PASSWORD_ARGON2I;
+			$passwordAlgorithm = self::HASH_ARGON2I;
 		}
 		// Check for bcrypt hashes
 		elseif (strpos($hash, '$2') === 0)

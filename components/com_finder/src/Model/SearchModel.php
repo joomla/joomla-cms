@@ -420,7 +420,7 @@ class SearchModel extends ListModel
 
 		// Load the list state.
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
-		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
+		$this->setState('list.limit', $input->get('limit', $params->get('list_limit', $app->get('list_limit', 20)), 'uint'));
 
 		/*
 		 * Load the sort ordering.

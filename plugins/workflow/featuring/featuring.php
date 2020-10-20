@@ -296,6 +296,8 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 		if ($eventResult->getArgument('abort'))
 		{
+			$event->setStopTransition();
+
 			return false;
 		}
 
