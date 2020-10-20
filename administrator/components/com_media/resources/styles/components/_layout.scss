@@ -40,8 +40,8 @@
   background-color: #fff;
   border: 1px solid $border-color;
   border-radius: $border-radius;
-  box-shadow: $col-box-shadow;
   margin-left: 1rem;
+  box-shadow: $col-box-shadow;
 
   /* Small devices (Portrait and Landscape, < 576px) */
   @media (max-width: 576px) {
