@@ -77,7 +77,7 @@ Text::script('MESSAGE');
 			<div class="form-group">
 				<label for="mod-login-secretkey">
 					<span class="label"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></span>
-					<span class="text-right">
+					<span class="form-control-hint">
 						<?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
 					</span>
 				</label>
