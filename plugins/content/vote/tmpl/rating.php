@@ -59,9 +59,9 @@ if (($stars - floor($stars)) >= 0.5)
 	else
 	{
 		$img .= '<li class="vote-star-dir">' . file_get_contents($halfstar) . '</li>';
-
-		$stars += 1;
 	}
+
+	$stars += 1;
 }
 
 for ($i = $stars; $i < 5; $i++)
