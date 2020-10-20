@@ -1,9 +1,11 @@
 // General layout
 .media-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   flex-wrap: wrap;
   margin-right: -($col-gutter-width / 2);
   margin-left: -($col-gutter-width / 2);
+
 }
 
 .media-col-main-panel {
@@ -39,10 +41,12 @@
   border: 1px solid $border-color;
   border-radius: $border-radius;
   box-shadow: $col-box-shadow;
+  margin-left: 1rem;
 
   /* Small devices (Portrait and Landscape, < 576px) */
   @media (max-width: 576px) {
     margin-top: 4.5vh;
+    margin-left: 0;
   }
 }
 
