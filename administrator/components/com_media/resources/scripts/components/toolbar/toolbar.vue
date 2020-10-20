@@ -103,7 +103,7 @@ export default {
       return (this.isGridView) ? 'fas fa-list' : 'fas fa-th';
     },
     toggleSelectAllBtnIcon() {
-      return (this.allItemsSelected) ? 'fas fa-check-square' : 'fas fa-square';
+      return (this.allItemsSelected) ? 'fas fa-check-square' : 'far fa-square';
     },
     isLoading() {
       return this.$store.state.isLoading;
