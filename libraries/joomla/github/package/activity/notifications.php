@@ -119,12 +119,12 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 	 *
 	 * Marking all notifications in a repository as “read” removes them from the default view on GitHub.com.
 	 *
-	 * @param   string   $owner         Repository owner.
-	 * @param   string   $repo          Repository name.
-	 * @param   boolean  $unread        Changes the unread status of the threads.
-	 * @param   boolean  $read          Inverse of “unread”.
+	 * @param   string   $owner       Repository owner.
+	 * @param   string   $repo        Repository name.
+	 * @param   boolean  $unread      Changes the unread status of the threads.
+	 * @param   boolean  $read        Inverse of “unread”.
 	 * @param   JDate    $lastReadAt  Describes the last point that notifications were checked.
-	 *                                  Anything updated since this time will not be updated. Default: Now. Expected in ISO 8601 format.
+	 *                                Anything updated since this time will not be updated. Default: Now. Expected in ISO 8601 format.
 	 *
 	 * @since 3.3 (CMS)
 	 *

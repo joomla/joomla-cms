@@ -100,8 +100,8 @@ abstract class JArrayHelper
 	 * Utility function to map an array to a string.
 	 *
 	 * @param   array    $array         The array to map.
-	 * @param   string   $innerGlue    The glue (optional, defaults to '=') between the key and the value.
-	 * @param   string   $outerGlue    The glue (optional, defaults to ' ') between array elements.
+	 * @param   string   $innerGlue     The glue (optional, defaults to '=') between the key and the value.
+	 * @param   string   $outerGlue     The glue (optional, defaults to ' ') between array elements.
 	 * @param   boolean  $keepOuterKey  True if final key should be kept.
 	 *
 	 * @return  string   The string mapped from the given array

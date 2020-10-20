@@ -228,7 +228,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 * @param   string   $countryCode  Matches members with a location in a specific country. Values are defined in by ISO 3166 standard.
 	 * 	                               Country codes must be in all lower case.
 	 * @param   integer  $postalCode   Matches members centered around a Postal Code. Must be combined with the country-code parameter.
-	 * 	                               Not supported for all countries.
+	 *                                 Not supported for all countries.
 	 * @param   integer  $distance     Matches members within a distance from a central point. This is measured in miles.
 	 * @param   string   $facets       Facet buckets to return, e.g. location.
 	 * @param   array    $facet        Array of facet values to search over. Contains values for company, date-posted, location, job-function,
