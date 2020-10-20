@@ -21,9 +21,9 @@ class JTwitterBlock extends JTwitterObject
 	 * Method to get the user ids the authenticating user is blocking.
 	 *
 	 * @param   boolean  $stringifyIds  Provide this option to have ids returned as strings instead.
-	 * @param   integer  $cursor         Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
-	 * 									 is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
-	 * 									 is provided, a value of -1 will be assumed, which is the first "page."
+	 * @param   integer  $cursor        Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
+	 *                                  is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
+	 *                                  is provided, a value of -1 will be assumed, which is the first "page."
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -58,9 +58,9 @@ class JTwitterBlock extends JTwitterObject
 	/**
 	 * Method to block the specified user from following the authenticating user.
 	 *
-	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 *                                variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
@@ -110,9 +110,9 @@ class JTwitterBlock extends JTwitterObject
 	/**
 	 * Method to unblock the specified user from following the authenticating user.
 	 *
-	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
-	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
+	 *                                variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response

@@ -245,8 +245,8 @@ class JTwitterUsers extends JTwitterObject
 	/**
 	 * Method to get an array of users who can contribute to the specified account.
 	 *
-	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $entities     Set to true to return IDs as strings, false to return as integers.
+	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities    Set to true to return IDs as strings, false to return as integers.
 	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response

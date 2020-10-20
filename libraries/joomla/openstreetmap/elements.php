@@ -510,9 +510,9 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	/**
 	 * Method used by the DWG to hide old versions of elements containing data privacy or copyright infringements
 	 *
-	 * @param   string   $element       [node|way|relation]
-	 * @param   integer  $id            Element identifier
-	 * @param   integer  $version       Element version
+	 * @param   string   $element      [node|way|relation]
+	 * @param   integer  $id           Element identifier
+	 * @param   integer  $version      Element version
 	 * @param   integer  $redactionId  Redaction id
 	 *
 	 * @return  array   The xml response

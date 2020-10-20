@@ -74,7 +74,7 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   boolean  $noReplies    This parameter will prevent replies from appearing in the returned timeline. This parameter is only supported
 	 *                                 for JSON and XML responses.
 	 * @param   integer  $sinceId      Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer  $maxId       Returns results with an ID less than (that is, older than) the specified ID.
+	 * @param   integer  $maxId        Returns results with an ID less than (that is, older than) the specified ID.
 	 * @param   boolean  $trimUser     When set to true, each tweet returned in a timeline will include a user object including only
 	 *                                 the status author's numerical ID.
 	 * @param   boolean  $contributor  This parameter enhances the contributors element of the status response to include the screen_name of the
@@ -224,12 +224,12 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @param   integer  $count        Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
 	 *                                 in the count, so it is always suggested to set $includeRts to true
-	 * @param   boolean  $includeRts  When set to true, the timeline will contain native retweets in addition to the standard stream of tweets.
+	 * @param   boolean  $includeRts   When set to true, the timeline will contain native retweets in addition to the standard stream of tweets.
 	 * @param   boolean  $entities     When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
 	 *                                 about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   integer  $sinceId     Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer  $maxId       Returns results with an ID less than (that is, older than) the specified ID.
-	 * @param   boolean  $trimUser    When set to true, each tweet returned in a timeline will include a user object including only
+	 * @param   integer  $sinceId      Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   integer  $maxId        Returns results with an ID less than (that is, older than) the specified ID.
+	 * @param   boolean  $trimUser     When set to true, each tweet returned in a timeline will include a user object including only
 	 *                                 the status author's numerical ID.
 	 * @param   string   $contributor  This parameter enhances the contributors element of the status response to include the screen_name
 	 *                                 of the contributor.
@@ -294,15 +294,15 @@ class JTwitterStatuses extends JTwitterObject
 	/**
 	 * Method to get the most recent tweets of the authenticated user that have been retweeted by others.
 	 *
-	 * @param   integer  $count          Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
-	 *                                   in the count, so it is always suggested to set $includeRts to true
+	 * @param   integer  $count         Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
+	 *                                  in the count, so it is always suggested to set $includeRts to true
 	 * @param   integer  $sinceId       Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   boolean  $entities       When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                   about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $entities      When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                                  about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $userEntities  The user entities node will be disincluded when set to false.
 	 * @param   integer  $maxId         Returns results with an ID less than (that is, older than) the specified ID.
 	 * @param   boolean  $trimUser      When set to true, each tweet returned in a timeline will include a user object including only
-	 *                                   the status author's numerical ID.
+	 *                                  the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *

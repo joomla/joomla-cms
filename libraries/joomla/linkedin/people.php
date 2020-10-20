@@ -175,7 +175,8 @@ class JLinkedinPeople extends JLinkedinObject
 	 * @param   integer  $distance        Matches members within a distance from a central point. This is measured in miles.
 	 * @param   string   $facets          Facet buckets to return, e.g. location.
 	 * @param   array    $facet           Array of facet values to search over. Contains values for location, industry, network, language,
-	 *                                    current-company, past-company and school, in exactly this order, null must be specified for an element if no value.
+	 *                                    current-company, past-company and school, in exactly this order,
+	 *                                    null must be specified for an element if no value.
 	 * @param   integer  $start           Starting location within the result set for paginated returns.
 	 * @param   integer  $count           The number of results returned.
 	 * @param   string   $sort            Controls the search result order. There are four options: connections, recommenders,

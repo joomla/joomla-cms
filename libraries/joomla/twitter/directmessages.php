@@ -22,9 +22,9 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @param   integer  $sinceId     Returns results with an ID greater than (that is, more recent than) the specified ID.
 	 * @param   integer  $maxId       Returns results with an ID less than (that is, older than) or equal to the specified ID.
-	 * @param   integer  $count        Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
-	 * @param   boolean  $entities     When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                 about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   integer  $count       Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
+	 * @param   boolean  $entities    When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                                about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
