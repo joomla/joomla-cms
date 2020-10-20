@@ -37,8 +37,8 @@
 
 [dir=rtl] .content_rating .vote-star-dir {
 	display: inline-block;
-	transform: scaleX(-1);
 	margin-right: -1em;
+	transform: scaleX(-1);
 }
 
 .content_rating .vote-star-dir svg
