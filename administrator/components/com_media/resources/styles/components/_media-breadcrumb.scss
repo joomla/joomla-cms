@@ -3,14 +3,15 @@
   padding: 0;
   margin: 0 auto 0 0;
   font-size: .9rem;
-  line-height: $toolbar-height;
   background: transparent;
-  min-width: 100vw;
+  max-width: 100vw;
   border-left: 1px solid $border-color;
-
+  @media (min-width: 576px) {
+  line-height: $toolbar-height;
+  }
   ol {
     //display: flex;
-    padding: 0;
+    padding: 4px 0;
     margin: 0;
     list-style: outside none none;
 
