@@ -239,7 +239,7 @@ const copyFiles = (options) => {
         let constants = '';
         if (Fs.existsSync(Path.join(modulePathRoot, 'tinymce-language-selector/plugin.js'))) {
           constants = Fs.readFileSync(Path.join(modulePathRoot, 'tinymce-language-selector/constants.js'), { encoding: 'utf8' });
-          constants = constants.replace('export { BROWSER_DEFAULT, languages }', '');
+          constants = constants.replace('export {\n  BROWSER_DEFAULT,\n  languages\n}', '');
         }
         if (constants) {
           finalPluginCode = Fs.readFileSync(Path.join(modulePathRoot, 'tinymce-language-selector/plugin.js'), { encoding: 'utf8' });
