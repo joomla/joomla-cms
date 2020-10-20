@@ -23,6 +23,10 @@
 	display: inline-block;
 }
 
+[dir=rtl] .content_rating .vote-star-empty {
+	display: inline-block;
+}
+
 .content_rating .vote-star-empty svg
 {
 	width: 1em;
