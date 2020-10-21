@@ -43,27 +43,24 @@ Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
 	->useScript('webcomponent.joomla-alert');
 
-$msgOutput = [];
-
-$msgOutput   = [];
-$msgOutput[] = '<div id="system-message">';
+$msgOutput = '<div id="system-message">';
 if (is_array($msgList) && !empty($msgList)) :
 	foreach ($msgList as $type => $msgs) :
-		$msgOutput[] = '<joomla-alert type="' . ($alert[$type] ?? $type) . '" dismiss="true">';
+		$msgOutput .= '<joomla-alert type="' . ($alert[$type] ?? $type) . '" dismiss="true">';
 		if (!empty($msgs)) :
-			$msgOutput[] = '<div class="alert-heading">';
-			$msgOutput[] = '<span class="' . $type . '"></span>';
-			$msgOutput[] = '<span class="sr-only">' . Text::_($type) . '</span>';
-			$msgOutput[] = '</div>';
-			$msgOutput[] = '<div class="alert-wrapper">';
+			$msgOutput .= '<div class="alert-heading">';
+			$msgOutput .= '<span class="' . $type . '"></span>';
+			$msgOutput .= '<span class="sr-only">' . Text::_($type) . '</span>';
+			$msgOutput .= '</div>';
+			$msgOutput .= '<div class="alert-wrapper">';
 			foreach ($msgs as $msg) :
-				$msgOutput[] = '<div class="alert-message">' . $msg . '</div>';
+				$msgOutput .= '<div class="alert-message">' . $msg . '</div>';
 			endforeach;
-			$msgOutput[] = '</div>';
+			$msgOutput .= '</div>';
 		endif;
-		$msgOutput[] = '</joomla-alert>';
+		$msgOutput .= '</joomla-alert>';
 	endforeach;
 endif;
-$msgOutput[] = '</div>';
+$msgOutput .= '</div>';
 ?>
-<div id="system-message-container" aria-live="polite"><?php echo implode('', $msgOutput); ?></div>
+<div id="system-message-container" aria-live="polite"><?php echo $msgOutput; ?></div>
