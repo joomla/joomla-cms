@@ -74,7 +74,7 @@ $customOptions = array(
 	'selectorFieldName'   => $selectorFieldName,
 	'showSelector'        => $showSelector,
 	'orderFieldSelector'  => '#list_fullordering',
-	'showNoResults'       => !empty($noResultsText) ? true : false,
+	'showNoResults'       => !empty($noResultsText),
 	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
 	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
 );

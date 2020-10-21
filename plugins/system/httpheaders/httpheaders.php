@@ -488,8 +488,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$staticHeaderConfiguration['cross-origin-opener-policy#both'] = $coop;
 		}
 
-		// Generate the strict-transport-security header
-		if ($this->params->get('hsts', 0) === 1)
+		// Generate the strict-transport-security header and make sure the site is SSL
+		if ($this->params->get('hsts', 0) === 1 && Uri::getInstance()->isSsl() === true)
 		{
 			$hstsOptions   = [];
 			$hstsOptions[] = 'max-age=' . (int) $this->params->get('hsts_maxage', 31536000);

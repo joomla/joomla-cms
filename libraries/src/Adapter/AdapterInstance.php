@@ -11,6 +11,7 @@ namespace Joomla\CMS\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Adapter Instance Class
@@ -31,7 +32,7 @@ class AdapterInstance extends CMSObject
 	/**
 	 * Database
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  1.6
 	 */
 	protected $db = null;
@@ -39,13 +40,13 @@ class AdapterInstance extends CMSObject
 	/**
 	 * Constructor
 	 *
-	 * @param   Adapter           $parent   Parent object
-	 * @param   \JDatabaseDriver  $db       Database object
-	 * @param   array             $options  Configuration Options
+	 * @param   Adapter         $parent   Parent object
+	 * @param   DatabaseDriver  $db       Database object
+	 * @param   array           $options  Configuration Options
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(Adapter $parent, \JDatabaseDriver $db, array $options = array())
+	public function __construct(Adapter $parent, DatabaseDriver $db, array $options = array())
 	{
 		// Set the properties from the options array that is passed in
 		$this->setProperties($options);
