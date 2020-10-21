@@ -13,7 +13,8 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$msgList = $displayData['msgList'];
+$msgList   = $displayData['msgList'];
+$msgOutput = '';
 
 $alert = [
 	CMSApplication::MSG_EMERGENCY => 'danger',
@@ -43,7 +44,6 @@ Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
 	->useScript('webcomponent.joomla-alert');
 
-$msgOutput = '<div id="system-message">';
 if (is_array($msgList) && !empty($msgList)) :
 	foreach ($msgList as $type => $msgs) :
 		$msgOutput .= '<joomla-alert type="' . ($alert[$type] ?? $type) . '" dismiss="true">';
@@ -61,6 +61,5 @@ if (is_array($msgList) && !empty($msgList)) :
 		$msgOutput .= '</joomla-alert>';
 	endforeach;
 endif;
-$msgOutput .= '</div>';
 ?>
-<div id="system-message-container" aria-live="polite"><?php echo $msgOutput; ?></div>
+<div id="system-message-container" aria-live="polite"><div id="system-message"><?php echo $msgOutput; ?></div></div>
