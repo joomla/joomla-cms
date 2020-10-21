@@ -58,6 +58,15 @@ module.exports.compile = (options, path) => {
           `${RootPath}/administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome.scss`,
           `${RootPath}/installation/template/scss/template.scss`,
           `${RootPath}/installation/template/scss/template-rtl.scss`,
+          `${RootPath}/media/system/scss/joomla-core-loader.scss`,
+          `${RootPath}/media/system/scss/joomla-toolbar-button.scss`,
+          `${RootPath}/media/system/scss/fields/joomla-field-media.scss`,
+          `${RootPath}/media/system/scss/fields/joomla-field-permissions.scss`,
+          `${RootPath}/media/system/scss/fields/joomla-field-simple-color.scss`,
+          `${RootPath}/media/system/scss/fields/switcher.scss`,
+          `${RootPath}/media/plg_editors_tinymce/scss/tinymce-builder.scss`,
+          `${RootPath}/media/plg_installer_webinstaller/scss/client.scss`,
+          `${RootPath}/media/plg_system_webauthn/scss/button.scss`,
         ];
 
         folders = [
