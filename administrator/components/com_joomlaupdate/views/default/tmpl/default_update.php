@@ -135,35 +135,50 @@ defined('_JEXEC') or die;
 			</td>
 		</tr>
 		<tr id="preupdateconfirmation" >
-			<td>
+			<td class="preupdateconfirmation_label">
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_BEING_CHECKED'); ?>
 			</td>
 			<td>
+				<table>
+					<thead>
+					<th>
+						<?php echo JText::_('COM_INSTALLER_TYPE_PLUGIN'); ?>
+					</th>
+					<th>
+						<?php echo JText::_('COM_INSTALLER_TYPE_PACKAGE'); ?>
+					</th>
+					</thead>
 				<?php
 				foreach ($this->nonCoreCriticalPlugins as $nonCoreCriticalPlugin)
 				{
-					echo "<div id='plg_" . $nonCoreCriticalPlugin->extension_id . "'>" .  JText::_($nonCoreCriticalPlugin->name) ;
+					echo "<tr id='plg_" . $nonCoreCriticalPlugin->extension_id . "'>";
+					echo '<td>' . JText::_($nonCoreCriticalPlugin->name) . '</td>';
 					if ($nonCoreCriticalPlugin->package_id > 0)
 					{
 						foreach ($this->nonCoreExtensions as $nonCoreExtension)
 						{
 							if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id)
 							{
-								echo " ( " . $nonCoreExtension->name . " )";
+								echo '<td>' . $nonCoreExtension->name . '</td>';
 							}
 						}
 					}
-					echo "</div>";
+					else
+					{
+						echo '<td/>';
+					}
+					echo "</tr>";
 				}
 				?>
+				</table>
 			</td>
 		</tr>
-		<tr id="preupdateconfirmation" >
+		<tr id="preupdatecheckbox" >
 			<td>
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
 			</td>
 			<td>
-				<input type="checkbox" name="noncoreplugins" value="1" required aria-required="true" />
+				<input type="checkbox" id="noncoreplugins" name="noncoreplugins" value="1" required aria-required="true" />
 			</td>
 		</tr>
 

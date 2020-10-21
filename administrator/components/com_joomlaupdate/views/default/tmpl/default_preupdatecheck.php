@@ -20,20 +20,29 @@ JFactory::getDocument()->addScriptDeclaration("var nonCoreCriticalPlugins = '" .
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
 		'class' => 'label-default',
-		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES'
+		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES',
+		'group' => 0
+	),
+	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED' => array(
+		'class' => 'label-important',
+		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED_NOTES',
+		'group' => 4
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION' => array(
 		'class' => 'label-important',
-		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION_NOTES'
+		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION_NOTES',
+		'group' => 1
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE' => array(
 		'class' => 'label-warning',
-		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE_NOTES'
+		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE_NOTES',
+		'group' => 2
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE' => array(
 		'class' => 'label-success',
-		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE_NOTES'
-	),
+		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE_NOTES',
+		'group' => 3
+	)
 );
 
 ?>
@@ -124,11 +133,11 @@ $compatibilityTypes = array(
 		<h3>
 			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 		</h3>
-		<?php $compatibilityTypeCount = 0; ?>
 		<?php foreach ($compatibilityTypes as $compatibilityType => $compatibilityData) : ?>
 			<?php $compatibilityDisplayClass = $compatibilityData['class']; ?>
 			<?php $compatibilityDisplayNotes = $compatibilityData['notes']; ?>
-			<fieldset id="compatibilitytype<?php echo $compatibilityTypeCount;?>" class="span12 compatibilitytypes">
+			<?php $compatibilityTypeGroup    = $compatibilityData['group']; ?>
+			<fieldset id="compatibilitytype<?php echo $compatibilityTypeGroup;?>" class="span12 compatibilitytypes">
 				<legend class="label <?php echo $compatibilityDisplayClass;?>">
 					<h3>
 						<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
@@ -188,7 +197,6 @@ $compatibilityTypes = array(
 					</tbody>
 				</table>
 			</fieldset>
-			<?php $compatibilityTypeCount ++;?>
 		<?php endforeach; ?>
 	</div>
 <?php else: ?>
