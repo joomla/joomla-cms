@@ -29,10 +29,9 @@ abstract class Icons
 	 * @param   string        $srOnly      Screen Reader text if no visible text is placed
 	 * @param   array         $attribs     Attributes to be added to the wrapping element
 	 *
-	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function icon($icon = 'default', $srOnly = null, $attribs = [])
 	{
