@@ -15,10 +15,17 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.keepalive');
-
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core')
+	->useScript('form.validate')
+	->useScript('keepalive')
+	->useScript('field.passwordview');
+
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 ?>
 
 <div class="alert alert-warning">
@@ -41,7 +48,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 					<input name="username" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
 					<span class="input-group-append">
 						<span class="input-group-text">
-							<span class="fas fa-user" aria-hidden="true"></span>
+							<span class="fas fa-user fa-fw" aria-hidden="true"></span>
 							<label for="mod-login-username" class="sr-only">
 								<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 							</label>
@@ -55,12 +62,10 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 				<div class="input-group">
 					<input name="passwd" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
 					<span class="input-group-append">
-						<span class="input-group-text">
-							<span class="fas fa-lock" aria-hidden="true"></span>
-							<label for="mod-login-password" class="sr-only">
-								<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
-							</label>
-						</span>
+						<button type="button" class="btn btn-secondary input-password-toggle">
+							<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+						</button>
 					</span>
 				</div>
 			</div>
