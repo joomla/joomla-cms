@@ -28,29 +28,25 @@ abstract class Icons
 	 * @param   string        $icon        The funcitonal name for an icon.
 	 * @param   string        $srOnly      Screen Reader text if no visible text is placed
 	 * @param   array         $attribs     Attributes to be added to the wrapping element
-	 * @param   string        $iconPrefix  String prepend to icon className
-	 * @param   string        $iconSuffix  String append to icon className
 	 *
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0
 	 */
-	public static function icon($icon = 'default', $srOnly = null, $attribs = [], $iconPrefix = 'icon-', $iconSuffix = null)
+	public static function icon($icon = 'default', $srOnly = null, $attribs = [])
 	{
-		$icon = $iconPrefix . $icon;
-
-		if (isset($iconSuffix))
+		if (isset($attribs['class']))
 		{
-			$icon = $icon . $iconSuffix;
+			$icon = $icon . ' ' . $attribs['class'];
 		}
+
+		$attribs['class'] = $icon;
 
 		if (!isset($attribs['aria-hidden']))
 		{
 			$attribs['aria-hidden'] = 'true';
 		}
-
-		$attribs['class'] = $iconPrefix . $icon;
 
 		if (isset($srOnly))
 		{
