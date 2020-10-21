@@ -33,7 +33,7 @@ abstract class Icons
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function icon($icon = 'default', $srOnly = null, $attribs = [])
+	public static function icon($icon = 'default', $srOnly = '', $attribs = [])
 	{
 		if (isset($attribs['class']))
 		{
