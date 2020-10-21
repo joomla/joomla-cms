@@ -49,7 +49,7 @@ $msgOutput   = [];
 $msgOutput[] = '<div id="system-message">';
 if (is_array($msgList) && !empty($msgList)) :
 	foreach ($msgList as $type => $msgs) :
-		$msgOutput[] = '<joomla-alert type="' . $alert[$type] ?? $type . '" dismiss="true">';
+		$msgOutput[] = '<joomla-alert type="' . ($alert[$type] ?? $type) . '" dismiss="true">';
 		if (!empty($msgs)) :
 			$msgOutput[] = '<div class="alert-heading">';
 			$msgOutput[] = '<span class="' . $type . '"></span>';
