@@ -254,6 +254,7 @@ class MediaListCest
 	{
 		$I->wantToTest('that it is possible to navigate to a subfolder using breadcrumb.');
 		$I->amOnPage(MediaListPage::$url . 'banners');
+		$I->resizeWindow(320, 480);
 		$I->waitForMediaLoaded();
 		$I->clickOnLinkInBreadcrumb('images');
 		$I->waitForMediaLoaded();
