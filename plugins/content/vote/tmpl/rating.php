@@ -50,18 +50,21 @@ for ($i = 0; $i < floor($stars); $i++)
 {
 	$title      = Text::_('PLG_VOTE_STAR_ACTIVE');
 	$staractive = str_replace('{{description}}', $title, $simplestar);
-	$img       .= '<li class="vote-star">' . $staractive . '</li>';
+
+	$img .= '<li class="vote-star">' . $staractive . '</li>';
 }
 
 if (($stars - floor($stars)) >= 0.5)
 {
 	$title        = Text::_('PLG_VOTE_STAR_INACTIVE');
 	$starinactive = str_replace('{{description}}', $title, $simplestar);
-	$img         .= '<li class="vote-star-empty">' . $starinactive . '</li>';
+
+	$img .= '<li class="vote-star-empty">' . $starinactive . '</li>';
 
 	$title          = Text::_('PLG_VOTE_STAR_ACTIVE_HALF');
 	$halfstaractive = str_replace('{{description}}', $title, $simplehalfstar);
-	$img           .= '<li class="vote-star-half">' . $halfstaractive . '</li>';
+
+	$img .= '<li class="vote-star-half">' . $halfstaractive . '</li>';
 
 	$stars += 1;
 }
@@ -70,7 +73,8 @@ for ($i = $stars; $i < 5; $i++)
 {
 	$title        = Text::_('PLG_VOTE_STAR_INACTIVE');
 	$starinactive = str_replace('{{description}}', $title, $simplestar);
-	$img         .= '<li class="vote-star-empty">' . $starinactive . '</li>';
+
+	$img .= '<li class="vote-star-empty">' . $starinactive . '</li>';
 }
 
 ?>
