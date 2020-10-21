@@ -47,7 +47,7 @@ abstract class Icons
 			$attribs['aria-hidden'] = 'true';
 		}
 
-		if (isset($srOnly) && !empty($srOnly))
+		if (!empty($srOnly))
 		{
 			$text   = htmlspecialchars($srOnly, ENT_COMPAT, 'UTF-8');
 			$srOnly = '<span class="sr-only">' . $text . '</span>';
