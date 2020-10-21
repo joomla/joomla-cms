@@ -112,7 +112,7 @@ Text::script('JHIDEPASSWORD');
 			?>
 			<div class="mod-login__submit form-group">
 				<button type="button"
-				        class="btn btn-primary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
+				        class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
 						<?php foreach ($dataAttributeKeys as $key): ?>
 						<?php echo $key ?>="<?php echo $button[$key] ?>"
 						<?php endforeach; ?>
