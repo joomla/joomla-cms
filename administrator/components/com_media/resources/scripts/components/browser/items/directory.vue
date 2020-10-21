@@ -149,7 +149,8 @@ export default {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => { this.$refs.actionToggle ? this.$refs.actionToggle.focus() : false });
+      // eslint-disable-next-line no-unused-expressions
+      this.$nextTick(() => { this.$refs.actionToggle ? this.$refs.actionToggle.focus() : false; });
     },
   },
 };

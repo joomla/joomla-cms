@@ -15,22 +15,14 @@ use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
-$wa->useScript('core')
-	->useScript('form.validate')
-	->useScript('keepalive')
+$wa->useScript('keepalive')
 	->useScript('field.passwordview')
 	->registerAndUseScript('mod_login.admin', 'mod_login/admin-login.min.js', [], ['defer' => true], ['core', 'form.validate']);
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
-// Load JS message titles
-Text::script('ERROR');
-Text::script('WARNING');
-Text::script('NOTICE');
-Text::script('MESSAGE');
 ?>
-<form class="login-initial hidden form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
-	id="form-login">
+<form class="form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
 		<div class="form-group">
 			<label for="mod-login-username">
@@ -130,8 +122,7 @@ Text::script('MESSAGE');
 		</div>
 		<?php endforeach; ?>
 		<div class="form-group">
-			<button class="btn btn-primary btn-block btn-lg mt-4"
-				id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
+			<button type="submit" id="btn-login-submit" class="btn btn-primary btn-block btn-lg mt-4"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">
