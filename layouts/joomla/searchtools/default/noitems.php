@@ -15,6 +15,6 @@ use Joomla\CMS\Language\Text;
 $data = $displayData;
 ?>
 <div class="alert alert-info">
-	<?php echo HTMLHelper::_('icons.icon', 'fas fa-circle', Text::_('INFO')); ?>
+	<?php echo HTMLHelper::_('icons.icon', 'fas fa-info-circle', Text::_('INFO')); ?>
 	<?php echo $data['options']['noResultsText']; ?>
 </div>
