@@ -1234,17 +1234,17 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Get Installed Languages.
 	 *
-	 * @param   string  $cms_client  Name of the cms client.
+	 * @param   string  $clientName  Name of the cms client.
 	 *
 	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getInstalledlangs($cms_client = 'administrator')
+	protected function getInstalledlangs($clientName = 'administrator')
 	{
 		// Get information.
 		$path     = $this->getPath();
-		$client   = $this->getClient($cms_client);
+		$client   = $this->getClient($clientName);
 		$langlist = $this->getLanguageList($client->id);
 
 		// Compute all the languages.
@@ -1297,13 +1297,13 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Get installed languages data.
 	 *
-	 * @param   integer  $client_id  The client ID to retrieve data for.
+	 * @param   integer  $clientId  The client ID to retrieve data for.
 	 *
 	 * @return  object  The language data.
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getLanguageList($client_id = 1)
+	protected function getLanguageList($clientId = 1)
 	{
 		// Create a new db object.
 		$db    = $this->db;
@@ -1320,7 +1320,7 @@ class PlgSampledataMultilang extends CMSPlugin
 					$db->quoteName('client_id') . ' = :clientid',
 				]
 			)
-			->bind(':clientid', $client_id, ParameterType::INTEGER);
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 

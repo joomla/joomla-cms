@@ -56,17 +56,17 @@ trait WorkflowPluginTrait
 	/**
 	 * Get the workflow for a given ID
 	 *
-	 * @param   int|null $workflow_id ID of the workflow
+	 * @param   int|null $workflowId ID of the workflow
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getWorkflow(int $workflow_id = null)
+	protected function getWorkflow(int $workflowId = null)
 	{
-		$workflow_id = !empty($workflow_id) ? $workflow_id : $this->app->input->getInt('workflow_id');
+		$workflowId = !empty($workflowId) ? $workflowId : $this->app->input->getInt('workflow_id');
 
-		if (is_array($workflow_id))
+		if (is_array($workflowId))
 		{
 			return false;
 		}
@@ -74,7 +74,7 @@ trait WorkflowPluginTrait
 		return $this->app->bootComponent('com_workflow')
 			->getMVCFactory()
 			->createModel('Workflow', 'Administrator', ['ignore_request' => true])
-			->getItem($workflow_id);
+			->getItem($workflowId);
 	}
 
 	/**

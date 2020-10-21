@@ -252,21 +252,21 @@ class PlgFieldsSubfields extends FieldsPlugin
 	}
 
 	/**
-	 * Returns a DOMElement which is the child of $orig_parent and represents
+	 * Returns a DOMElement which is the child of $parent and represents
 	 * the form XML definition for this field.
 	 *
-	 * @param   \stdClass   $field        The field
-	 * @param   DOMElement  $orig_parent  The original parent element
-	 * @param   JForm       $form         The form
+	 * @param   \stdClass   $field   The field
+	 * @param   DOMElement  $parent  The original parent element
+	 * @param   JForm       $form    The form
 	 *
 	 * @return  \DOMElement
 	 *
 	 * @since 4.0.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $orig_parent, Form $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
 		// Call the onCustomFieldsPrepareDom method on FieldsPlugin
-		$parent_field = parent::onCustomFieldsPrepareDom($field, $orig_parent, $form);
+		$parent_field = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
 		if (!$parent_field)
 		{
