@@ -116,12 +116,13 @@ class Image
 		}
 
 		// Determine which image types are supported by GD, but only once.
-		if (!isset(static::$formats[IMAGETYPE_JPEG]))
+		if (empty(static::$formats))
 		{
 			$info = gd_info();
-			static::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) ? true : false;
-			static::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
-			static::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
+			static::$formats[IMAGETYPE_JPEG] = $info['JPEG Support'];
+			static::$formats[IMAGETYPE_PNG]  = $info['PNG Support'];
+			static::$formats[IMAGETYPE_GIF]  = $info['GIF Read Support'];
+			static::$formats[IMAGETYPE_WEBP] = $info['WebP Support'];
 		}
 
 		/**
@@ -633,6 +634,19 @@ class Image
 
 				break;
 
+			case 'image/webp':
+				// Make sure the image type is supported.
+				if (empty(static::$formats[IMAGETYPE_WEBP]))
+				{
+					throw new \RuntimeException('Attempting to load an image of unsupported type WebP.');
+				}
+
+				// Attempt to create the image handle.
+				$handle = imagecreatefromwebp($path);
+				$type = 'WebP';
+
+				break;
+
 			default:
 				throw new \InvalidArgumentException('Attempting to load an image of unsupported type ' . $properties->mime);
 		}
@@ -945,6 +959,10 @@ class Image
 
 			case IMAGETYPE_PNG:
 				return imagepng($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 0);
+				break;
+
+			case IMAGETYPE_WEBP:
+				return imagewebp($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
 				break;
 		}
 
