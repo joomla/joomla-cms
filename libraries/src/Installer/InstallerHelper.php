@@ -395,7 +395,7 @@ abstract class InstallerHelper
 				$hashRemote  = $updateObject->$hash->_data;
 				$hashOnFile  = true;
 
-				if ($hashPackage !== $hashRemote)
+				if (strtolower($hashPackage) !== strtolower($hashRemote))	
 				{
 					return self::HASH_NOT_VALIDATED;
 				}
