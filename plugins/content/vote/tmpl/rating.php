@@ -43,24 +43,34 @@ $stars = $rating;
 $star     = Uri::base() . 'media/plg_content_vote/images/star.svg';
 $halfstar = Uri::base() . 'media/plg_content_vote/images/star-half.svg';
 
-$simplestar = file_get_contents($star);
+$simplestar     = file_get_contents($star);
+$simplehalfstar = file_get_contents($halfstar);
 
 for ($i = 0; $i < floor($stars); $i++)
 {
-	$img .= '<li class="vote-star">' . $simplestar . '</li>';
+	$title      = Text::_('PLG_VOTE_STAR_ACTIVE');
+	$staractive = str_replace('{{description}}', $title, $simplestar);
+	$img       .= '<li class="vote-star">' . $staractive . '</li>';
 }
 
 if (($stars - floor($stars)) >= 0.5)
 {
-	$img .= '<li class="vote-star-empty">' . $simplestar . '</li>';
-	$img .= '<li class="vote-star-half">' . file_get_contents($halfstar) . '</li>';
+	$title        = Text::_('PLG_VOTE_STAR_INACTIVE');
+	$starinactive = str_replace('{{description}}', $title, $simplestar);
+	$img         .= '<li class="vote-star-empty">' . $starinactive . '</li>';
+
+	$title          = Text::_('PLG_VOTE_STAR_ACTIVE_HALF');
+	$halfstaractive = str_replace('{{description}}', $title, $simplehalfstar);
+	$img           .= '<li class="vote-star-half">' . $halfstaractive . '</li>';
 
 	$stars += 1;
 }
 
 for ($i = $stars; $i < 5; $i++)
 {
-	$img .= '<li class="vote-star-empty">' . $simplestar . '</li>';
+	$title        = Text::_('PLG_VOTE_STAR_INACTIVE');
+	$starinactive = str_replace('{{description}}', $title, $simplestar);
+	$img         .= '<li class="vote-star-empty">' . $starinactive . '</li>';
 }
 
 ?>
