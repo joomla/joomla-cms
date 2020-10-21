@@ -25,9 +25,9 @@ abstract class Icons
 	/**
 	 * Method to write a `<span>` element for an icon
 	 *
-	 * @param   string        $icon        The funcitonal name for an icon.
-	 * @param   string        $srOnly      Screen Reader text if no visible text is placed
-	 * @param   array         $attribs     Attributes to be added to the wrapping element
+	 * @param   string  $icon     The functional name for an icon.
+	 * @param   string  $srOnly   Screen Reader text if no visible text is placed
+	 * @param   array   $attribs  Attributes to be added to the wrapping element
 	 *
 	 * @return  string
 	 *
