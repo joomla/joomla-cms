@@ -839,7 +839,7 @@ class El extends Language
 	 * Converts the token to uppercase, suppressing accents and diaeresis. The array $wCase contains a special map of
 	 * the uppercase rule used to convert each character at each position.
 	 *
-	 * @param   string  $token    Token to process
+	 * @param   string  $token   Token to process
 	 * @param   array   &$wCase  Map of uppercase rules
 	 *
 	 * @return  string
@@ -930,7 +930,7 @@ class El extends Language
 	 * diaeresis and handle the special case of final sigma (different lowercase glyph than the regular sigma, only
 	 * used at the end of words).
 	 *
-	 * @param   string  $token   Token to process
+	 * @param   string  $token  Token to process
 	 * @param   array   $wCase  Map of lowercase rules
 	 *
 	 * @return  string
