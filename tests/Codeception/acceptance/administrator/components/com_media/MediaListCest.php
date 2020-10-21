@@ -260,6 +260,7 @@ class MediaListCest
 		$I->waitForMediaLoaded();
 		$I->seeInCurrentUrl(MediaListPage::$url);
 		$I->seeContents($this->contents['root']);
+		$I->resizeWindow(maximize);
 	}
 
 	/**
