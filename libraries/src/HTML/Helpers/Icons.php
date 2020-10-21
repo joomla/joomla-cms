@@ -37,7 +37,7 @@ abstract class Icons
 	{
 		if (isset($attribs['class']))
 		{
-			$icon = $icon . ' ' . $attribs['class'];
+			$icon .= ' ' . $attribs['class'];
 		}
 
 		$attribs['class'] = $icon;
