@@ -45,30 +45,25 @@ Factory::getDocument()->getWebAssetManager()
 
 $msgOutput = [];
 
+$msgOutput   = [];
+$msgOutput[] = '<div id="system-message">';
 if (is_array($msgList) && !empty($msgList)) :
-	$msgOutput[] = '<div id="system-message">';
-
 	foreach ($msgList as $type => $msgs) :
 		$msgOutput[] = '<joomla-alert type="' . $alert[$type] ?? $type . '" dismiss="true">';
-
 		if (!empty($msgs)) :
 			$msgOutput[] = '<div class="alert-heading">';
 			$msgOutput[] = '<span class="' . $type . '"></span>';
 			$msgOutput[] = '<span class="sr-only">' . Text::_($type) . '</span>';
 			$msgOutput[] = '</div>';
 			$msgOutput[] = '<div class="alert-wrapper">';
-
 			foreach ($msgs as $msg) :
 				$msgOutput[] = '<div class="alert-message">' . $msg . '</div>';
 			endforeach;
-
 			$msgOutput[] = '</div>';
 		endif;
-
 		$msgOutput[] = '</joomla-alert>';
 	endforeach;
-
-	$msgOutput[] = '</div>';
 endif;
+$msgOutput[] = '</div>';
 ?>
 <div id="system-message-container" aria-live="polite"><?php echo implode('', $msgOutput); ?></div>
