@@ -8,9 +8,11 @@
  */
 
 defined('_JEXEC') or die;
-ksort($this->files, SORT_NATURAL);
-?>
 
+// use ksort() with SORT_NATURAL flag when minimum PHP is 5.4.
+uksort($this->files, 'strnatcmp');
+
+?>
 <ul class='nav nav-list directory-tree'>
 	<?php foreach ($this->files as $key => $value) : ?>
 		<?php if (is_array($value)) : ?>
