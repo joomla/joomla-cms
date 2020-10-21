@@ -243,6 +243,7 @@ class MediaListCest
 
 	/**
 	 * Test that it's possible to navigate to a subfolder using breadcrumb.
+	 * requires mobile window size to view breadcrumbs
 	 *
 	 * @param   Media  $I
 	 *
