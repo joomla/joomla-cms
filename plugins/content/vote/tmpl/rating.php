@@ -40,8 +40,8 @@ $rcount = (int) $row->rating_count;
 $img   = '';
 $stars = $rating;
 
-$star     = Uri::base() . 'media/plg_content_vote/images/star.svg';
-$halfstar = Uri::base() . 'media/plg_content_vote/images/star-half.svg';
+$star     = Uri::base() . 'media/plg_content_vote/images/vote-star.svg';
+$halfstar = Uri::base() . 'media/plg_content_vote/images/vote-star-half.svg';
 
 $simplestar     = file_get_contents($star);
 $simplehalfstar = file_get_contents($halfstar);
