@@ -17,6 +17,7 @@
 
   nav {
     padding: 0;
+    margin-top: $cassiopeia-grid-gutter / 2;
   }
 
   .site-description {
@@ -129,11 +130,10 @@
         background: $white;
       }
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(sm) {
         &.active > a,
         &.active > span,
-        > a:hover,
-        > span:hover {
+        > a:hover {
           text-decoration: underline;
         }
       }
@@ -155,6 +155,10 @@
     .fas {
       font-size: 24px;
     }
+  }
+
+  .container-search {
+    margin-top: $cassiopeia-grid-gutter / 2;
   }
 
   .mod-finder {
