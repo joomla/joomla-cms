@@ -69,7 +69,7 @@ Text::script('JHIDEPASSWORD');
 			<div class="form-group">
 				<label for="mod-login-secretkey">
 					<span class="label"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></span>
-					<span class="form-control-hint">
+					<span class="text-right">
 						<?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
 					</span>
 				</label>
