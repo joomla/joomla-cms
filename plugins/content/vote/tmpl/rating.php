@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getDocument()->getWebAssetManager();
@@ -40,8 +39,8 @@ $rcount = (int) $row->rating_count;
 $img   = '';
 $stars = $rating;
 
-$star     = Uri::base() . 'media/plg_content_vote/images/vote-star.svg';
-$halfstar = Uri::base() . 'media/plg_content_vote/images/vote-star-half.svg';
+$star     = JPATH_ROOT . '/media/plg_content_vote/images/vote-star.svg';
+$halfstar = JPATH_ROOT . '/media/plg_content_vote/images/vote-star-half.svg';
 
 $simplestar     = file_get_contents($star);
 $simplehalfstar = file_get_contents($halfstar);
