@@ -53,7 +53,7 @@ abstract class Icons
 			$srOnly = '<span class="sr-only">' . $text . '</span>';
 		}
 
-		return '<span ' . trim(ArrayHelper::toString($attribs)) . '></span>' . $srOnly;
+		return '<span ' . ArrayHelper::toString($attribs) . '></span>' . $srOnly;
 	}
 
 	/**
