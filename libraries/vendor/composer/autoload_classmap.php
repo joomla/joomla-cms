@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => $vendorDir . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
     'Brumann\\Polyfill\\Unserialize' => $vendorDir . '/brumann/polyfill-unserialize/src/Unserialize.php',
     'CallbackFilterIterator' => $vendorDir . '/joomla/compat/src/CallbackFilterIterator.php',
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
@@ -127,6 +128,9 @@ return array(
     'Psr\\Log\\LoggerInterface' => $vendorDir . '/psr/log/Psr/Log/LoggerInterface.php',
     'Psr\\Log\\LoggerTrait' => $vendorDir . '/psr/log/Psr/Log/LoggerTrait.php',
     'Psr\\Log\\NullLogger' => $vendorDir . '/psr/log/Psr/Log/NullLogger.php',
+    'Psr\\Log\\Test\\DummyTest' => $vendorDir . '/psr/log/Psr/Log/Test/DummyTest.php',
+    'Psr\\Log\\Test\\LoggerInterfaceTest' => $vendorDir . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
+    'Psr\\Log\\Test\\TestLogger' => $vendorDir . '/psr/log/Psr/Log/Test/TestLogger.php',
     'ReCaptcha\\ReCaptcha' => $vendorDir . '/google/recaptcha/src/ReCaptcha/ReCaptcha.php',
     'ReCaptcha\\RequestMethod' => $vendorDir . '/google/recaptcha/src/ReCaptcha/RequestMethod.php',
     'ReCaptcha\\RequestMethod\\Curl' => $vendorDir . '/google/recaptcha/src/ReCaptcha/RequestMethod/Curl.php',
@@ -189,6 +193,11 @@ return array(
     'Symfony\\Polyfill\\Util\\Binary' => $vendorDir . '/symfony/polyfill-util/Binary.php',
     'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => $vendorDir . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
     'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => $vendorDir . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
+    'Symfony\\Polyfill\\Util\\TestListener' => $vendorDir . '/symfony/polyfill-util/TestListener.php',
+    'Symfony\\Polyfill\\Util\\TestListenerForV5' => $vendorDir . '/symfony/polyfill-util/TestListenerForV5.php',
+    'Symfony\\Polyfill\\Util\\TestListenerForV6' => $vendorDir . '/symfony/polyfill-util/TestListenerForV6.php',
+    'Symfony\\Polyfill\\Util\\TestListenerForV7' => $vendorDir . '/symfony/polyfill-util/TestListenerForV7.php',
+    'Symfony\\Polyfill\\Util\\TestListenerTrait' => $vendorDir . '/symfony/polyfill-util/TestListenerTrait.php',
     'TYPO3\\PharStreamWrapper\\Assertable' => $vendorDir . '/typo3/phar-stream-wrapper/src/Assertable.php',
     'TYPO3\\PharStreamWrapper\\Behavior' => $vendorDir . '/typo3/phar-stream-wrapper/src/Behavior.php',
     'TYPO3\\PharStreamWrapper\\Collectable' => $vendorDir . '/typo3/phar-stream-wrapper/src/Collectable.php',
