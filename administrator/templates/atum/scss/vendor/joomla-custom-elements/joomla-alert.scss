@@ -131,7 +131,7 @@
   }
 
   div {
-    font-size: 1rem;
+    font-size: ($font-size-base * 1);
     .alert-message {
       padding: .3rem 2rem .3rem .3rem;
       margin: .5rem;

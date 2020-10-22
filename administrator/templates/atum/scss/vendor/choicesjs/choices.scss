@@ -28,7 +28,7 @@
 .choices__inner {
   padding: .4rem 1rem;
   margin-bottom: 0;
-  font-size: 1rem;
+  font-size: ($font-size-base * 1);
   border: $input-border;
   border-radius: $border-radius;
   box-shadow: $input-box-shadow;
@@ -41,7 +41,7 @@
 .choices__input {
   padding: 0;
   margin-bottom: 0;
-  font-size: 1rem;
+  font-size: ($font-size-base * 1);
   background-color: transparent;
 
   &::-moz-placeholder {
@@ -179,5 +179,5 @@
 }
 
 .choices__heading {
-  font-size: 1.2rem;
+  font-size: ($font-size-base * 1.2);
 }

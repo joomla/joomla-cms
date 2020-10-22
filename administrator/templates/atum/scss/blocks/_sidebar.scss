@@ -36,7 +36,7 @@
       flex-grow: 1;
       align-items: center;
       min-height: 44px;
-      font-size: .9rem;
+      font-size: ($font-size-base * .9);
 
       .fas {
         margin: 0 .85rem;
@@ -45,7 +45,7 @@
     }
 
     &-level-1 > a {
-      font-size: 1rem;
+      font-size: ($font-size-base * 1);
 
       &:hover {
         background-color: var(--atum-sidebar-link-color);
@@ -122,7 +122,7 @@
 
   .menuitem-group {
     margin-top: .65rem;
-    font-size: .75rem;
+    font-size: ($font-size-base * .75);
     padding-inline-start: 3rem;
   }
 
@@ -209,7 +209,7 @@
     left: 3.5rem;
     display: inline-block;
     padding: .2rem;
-    font-size: .875rem;
+    font-size: ($font-size-base * .875);
     white-space: pre;
     pointer-events: none;
     background-color: var(--atum-sidebar-link-color);

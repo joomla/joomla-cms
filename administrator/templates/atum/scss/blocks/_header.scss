@@ -82,7 +82,7 @@
     width: 100%;
     margin: 0;
     overflow: hidden;
-    font-size: 1.2rem;
+    font-size: ($font-size-base * 1.2);
     color: $white;
     text-overflow: ellipsis;
     white-space: nowrap;
