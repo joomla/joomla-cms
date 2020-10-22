@@ -22,8 +22,7 @@
 	display: inline-block;
 }
 
-.content_rating .vote-star-empty svg
-{
+.content_rating .vote-star-empty svg {
 	width: 1em;
 	height: 1em;
 	fill: #d3d3d3;
@@ -40,8 +39,7 @@
 	transform: scaleX(-1);
 }
 
-.content_rating .vote-star-half svg
-{
+.content_rating .vote-star-half svg {
 	width: 1em;
 	height: 1em;
 	fill: #fd7e14;
