@@ -41,7 +41,7 @@ module.exports.compileJS = (options, path) => {
 
       // Loop to get some text for the packgage.json
       folders.forEach((folder) => {
-        Recurs(folder, ['*.min.js', '*.map', '*.scss', '*.css', '*.svg', '*.png', '*.swf', '*.gif', '*.json']).then(
+        Recurs(folder, ['*.min.js', '*.es6', '*.map', '*.scss', '*.css', '*.svg', '*.png', '*.swf', '*.gif', '*.json']).then(
           (files) => {
             files.forEach(
               (file) => {
