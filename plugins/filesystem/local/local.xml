@@ -42,6 +42,7 @@
 							exclude="administrator|api|cache|cli|components|includes|language|layouts|libraries|modules|plugins|templates|tmp"
 							recursive="true"
 							stripext=""
+							hide_none="true"
 						/>
 					</form>
 				</field>
