@@ -80,10 +80,6 @@ module.exports.compile = (options, path) => {
           (filesRc) => {
             filesRc.forEach(
               (file) => {
-                // Don't take files with "_" but "file" has the full path, so check via match
-                if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
-                  files.push(file);
-                }
                 if (file.match(/\.css/)) {
                   // CSS file, we will copy the file and then minify it in place
                   // Ensure that the directories exist or create them
