@@ -122,8 +122,7 @@ Text::script('JHIDEPASSWORD');
 		</div>
 		<?php endforeach; ?>
 		<div class="form-group">
-			<button class="btn btn-primary btn-block btn-lg mt-4"
-				id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
+			<button type="submit" id="btn-login-submit" class="btn btn-primary btn-block btn-lg mt-4"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">
