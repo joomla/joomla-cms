@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+    <test></test>
+    <image onload="alert(1)"></image>
+    <svg onload="alert(2)"></svg>
+    <script>alert(3)</script>
+    <defs onload="alert(4)"></defs>
+    <g onload="alert(5)">
+        <circle onload="alert(6)" />
+        <text onload="alert(7)"></text>
+    </g>
+    <ø:script src="//0x.lv/" />
+</svg>

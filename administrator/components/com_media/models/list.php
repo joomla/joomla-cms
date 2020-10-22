@@ -7,6 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use \Joomla\CMS\Helper\MediaHelper;
+
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.folder');
@@ -35,7 +40,7 @@ class MediaModelList extends JModelLegacy
 
 		if (!$set)
 		{
-			$input  = JFactory::getApplication()->input;
+			$input  = Factory::getApplication()->input;
 			$folder = $input->get('folder', '', 'path');
 			$this->setState('folder', $folder);
 
@@ -130,9 +135,11 @@ class MediaModelList extends JModelLegacy
 		if (file_exists($basePath))
 		{
 			// Get the list of files and folders from the given folder
-			$fileList   = JFolder::files($basePath);
-			$folderList = JFolder::folders($basePath);
+			$fileList   = Folder::files($basePath);
+			$folderList = Folder::folders($basePath);
 		}
+
+		$mediaHelper = new MediaHelper;
 
 		// Iterate over the files if they exist
 		if ($fileList !== false)
@@ -150,65 +157,72 @@ class MediaModelList extends JModelLegacy
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
-					$ext = strtolower(JFile::getExt($file));
+					$ext = strtolower(File::getExt($file));
 
-					switch ($ext)
+					// TODO THe .xcf extension comes from Joomla 1.0 but it's no longer valid in modern browsers...
+					$imageExtensions = array_merge(
+						$mediaHelper->getImageExtensions(),
+						array('jpg', 'png', 'gif', 'xcf', 'odg', 'bmp', 'jpeg', 'ico')
+					);
+
+					// Image extension?
+					if (in_array($ext, $imageExtensions))
 					{
-						// Image
-						case 'jpg':
-						case 'png':
-						case 'gif':
-						case 'xcf':
-						case 'odg':
-						case 'bmp':
-						case 'jpeg':
-						case 'ico':
+						if ($ext === 'svg')
+						{
+							// SVG images are not supported by getimagesize() so we have to fake it.
+							$info = array(60, 60, 'svg', 'image/svg+xml');
+						}
+						else
+						{
+							// Everything else should be supported by getimagesize() – or you'll  get a file type icon.
 							$info = @getimagesize($tmp->path);
-							$tmp->width  = @$info[0];
-							$tmp->height = @$info[1];
-							$tmp->type   = @$info[2];
-							$tmp->mime   = @$info['mime'];
+						}
 
-							if (($info[0] > 60) || ($info[1] > 60))
-							{
-								$dimensions = MediaHelper::imageResize($info[0], $info[1], 60);
-								$tmp->width_60 = $dimensions[0];
-								$tmp->height_60 = $dimensions[1];
-							}
-							else
-							{
-								$tmp->width_60 = $tmp->width;
-								$tmp->height_60 = $tmp->height;
-							}
+						$tmp->width  = @$info[0];
+						$tmp->height = @$info[1];
+						$tmp->type   = @$info[2];
+						$tmp->mime   = @$info['mime'];
 
-							if (($info[0] > 16) || ($info[1] > 16))
-							{
-								$dimensions = MediaHelper::imageResize($info[0], $info[1], 16);
-								$tmp->width_16 = $dimensions[0];
-								$tmp->height_16 = $dimensions[1];
-							}
-							else
-							{
-								$tmp->width_16 = $tmp->width;
-								$tmp->height_16 = $tmp->height;
-							}
+						if (($info[0] > 60) || ($info[1] > 60))
+						{
+							$dimensions = MediaHelper::imageResize($info[0], $info[1], 60);
+							$tmp->width_60 = $dimensions[0];
+							$tmp->height_60 = $dimensions[1];
+						}
+						else
+						{
+							$tmp->width_60 = $tmp->width;
+							$tmp->height_60 = $tmp->height;
+						}
 
-							$images[] = $tmp;
-							break;
+						if (($info[0] > 16) || ($info[1] > 16))
+						{
+							$dimensions = MediaHelper::imageResize($info[0], $info[1], 16);
+							$tmp->width_16 = $dimensions[0];
+							$tmp->height_16 = $dimensions[1];
+						}
+						else
+						{
+							$tmp->width_16 = $tmp->width;
+							$tmp->height_16 = $tmp->height;
+						}
 
-						// Video
-						case 'mp4':
-							$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
-							$tmp->icon_16 = 'media/mime-icon-16/' . $ext . '.png';
-							$videos[] = $tmp;
-							break;
-
-						// Non-image document
-						default:
-							$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
-							$tmp->icon_16 = 'media/mime-icon-16/' . $ext . '.png';
-							$docs[] = $tmp;
-							break;
+						$images[] = $tmp;
+					}
+					// Video extension?
+					elseif ($ext == 'mp4')
+					{
+						$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
+						$tmp->icon_16 = 'media/mime-icon-16/' . $ext . '.png';
+						$videos[] = $tmp;
+					}
+					// Non-image extension?
+					else
+					{
+						$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
+						$tmp->icon_16 = 'media/mime-icon-16/' . $ext . '.png';
+						$docs[] = $tmp;
 					}
 				}
 			}
@@ -225,7 +239,7 @@ class MediaModelList extends JModelLegacy
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-				$count = MediaHelper::countFiles($tmp->path);
+				$count = $mediaHelper->countFiles($tmp->path);
 				$tmp->files = $count[0];
 				$tmp->folders = $count[1];
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="600px" id="Layer_1" width="600px" x="0px" y="0px" xml:space="preserve">
+    <a href="javascript:alert(2)">test 1</a>
+    <a xlink:href="javascript:alert(2)">test 2</a>
+    <a href="#test3">test 3</a>
+    <a xlink:href="#test">test 4</a>
+
+    <a href="data:data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' onload='alert(88)'%3E%3C/svg%3E">test 5</a>
+    <a xlink:href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' onload='alert(88)'%3E%3C/svg%3E">test 6</a>
+
+    <a href="javascript&#9;:alert(document.domain)">test 7</a>
+    <a href="javascrip&#9;t:alert('0xd0ff9')">test 8</a>
+</svg>

@@ -46,8 +46,9 @@
         "symfony/yaml": "2.*",
         "simplepie/simplepie": "1.3.1",
         "google/recaptcha": "^1.1",
-        "typo3/phar-stream-wrapper": "^2.1"
-    },
+        "typo3/phar-stream-wrapper": "^2.1",
+		"enshrined/svg-sanitize": "^0.13.3"
+	},
     "require-dev": {
         "phpunit/phpunit": "^4.8.35",
         "phpunit/dbunit": "~1.3",

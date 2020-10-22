@@ -10,7 +10,13 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use enshrined\svgSanitize\Sanitizer;
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Language\Text;
+use RuntimeException;
 
 /**
  * Media helper class
@@ -19,6 +25,13 @@ use Joomla\CMS\Component\ComponentHelper;
  */
 class MediaHelper
 {
+	/**
+	 * Image extensions in regular expression format, e.g. "bmp|gif|jpg|png"
+	 *
+	 * @var  string
+	 */
+	private static $imageTypes;
+
 	/**
 	 * Checks if the file is an image
 	 *
@@ -30,9 +43,37 @@ class MediaHelper
 	 */
 	public function isImage($fileName)
 	{
-		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+		// Retrieve the image types from the com_media configuration
+		if (empty(self::$imageTypes))
+		{
+			self::$imageTypes = implode('|', $this->getImageExtensions());
+		}
+
+		$imageTypes = self::$imageTypes;
 
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
+	}
+
+	/**
+	 * Returns the configured image extensions in com_media Options
+	 *
+	 * @return  string[]
+	 */
+	public function getImageExtensions()
+	{
+		$params          = ComponentHelper::getParams('com_media');
+		$configuredExts  = $params->get('image_extensions', 'bmp,gif,jpg,png');
+		$configuredExts  = empty($configuredExts) ? 'bmp,gif,jpg,png' : $configuredExts;
+		$imageExtensions = explode(',', $configuredExts);
+		$imageExtensions = array_map('trim', $imageExtensions);
+		$imageExtensions = array_map('strtolower', $imageExtensions);
+		$filterClosure   = function ($extension) {
+			return !empty($extension);
+		};
+		$imageExtensions = array_filter($imageExtensions, $filterClosure);
+		$imageExtensions = array_unique($imageExtensions);
+
+		return $imageExtensions;
 	}
 
 	/**
@@ -88,7 +129,7 @@ class MediaHelper
 				finfo_close($finfo);
 			}
 		}
-		catch (\Exception $e)
+		catch (Exception $e)
 		{
 			// If we have any kind of error here => false;
 			return false;
@@ -139,25 +180,26 @@ class MediaHelper
 	 *
 	 * @return  boolean
 	 *
+	 * @throws  Exception
 	 * @since   3.2
 	 */
 	public function canUpload($file, $component = 'com_media')
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$params = ComponentHelper::getParams($component);
 
 		if (empty($file['name']))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
 
 			return false;
 		}
 
 		jimport('joomla.filesystem.file');
 
-		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== \JFile::makeSafe($file['name']))
+		if (str_replace(' ', '', $file['name']) !== $file['name'] || $file['name'] !== File::makeSafe($file['name']))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
 			return false;
 		}
@@ -167,7 +209,7 @@ class MediaHelper
 		if (count($filetypes) < 2)
 		{
 			// There seems to be no extension
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -176,15 +218,16 @@ class MediaHelper
 
 		// Media file names should never have executable extensions buried in them.
 		$executable = array(
-			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
-			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
+			'php', 'js', 'exe', 'phtml', 'java', 'perl', 'py', 'asp', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd',
+			'com', 'cpl', 'hta', 'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
+			'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh',
 		);
 
 		$check = array_intersect($filetypes, $executable);
 
 		if (!empty($check))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -195,7 +238,7 @@ class MediaHelper
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -204,7 +247,7 @@ class MediaHelper
 
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 			return false;
 		}
@@ -229,7 +272,7 @@ class MediaHelper
 						// If the mime type is not allowed we don't upload it and show the mime code error to the user
 						if ($result === false)
 						{
-							$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+							$app->enqueueMessage(Text::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 							return false;
 						}
@@ -237,16 +280,32 @@ class MediaHelper
 					// We can't detect the mime type so it looks like an invalid image
 					else
 					{
-						$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
+						$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
 
 						return false;
 					}
 				}
 				else
 				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 					return false;
+				}
+
+				// If this is an SVG file (by name or MIME type) we need to sanitize it
+				if ((strtolower(substr($file['name'], -4)) === '.svg')
+					|| in_array($mime, array('image/svg+xml', 'application/svg+xml')))
+				{
+					try
+					{
+						$this->sanitizeSVG($file['tmp_name']);
+					}
+					catch (RuntimeException $e)
+					{
+						$app->enqueueMessage($e->getMessage(), 'error');
+
+						return false;
+					}
 				}
 			}
 			elseif (!in_array($filetype, $ignored))
@@ -262,7 +321,7 @@ class MediaHelper
 					// If the mime type is not allowed we don't upload it and show the mime code error to the user
 					if ($result === false)
 					{
-						$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+						$app->enqueueMessage(Text::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 						return false;
 					}
@@ -270,39 +329,41 @@ class MediaHelper
 				// We can't detect the mime type so it looks like an invalid file
 				else
 				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
 					return false;
 				}
 
-				if (!\JFactory::getUser()->authorise('core.manage', $component))
+				if (!Factory::getUser()->authorise('core.manage', $component))
 				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
 
 					return false;
 				}
 			}
 		}
 
-		$xss_check = file_get_contents($file['tmp_name'], false, null, -1, 256);
+		$xssCheck = file_get_contents($file['tmp_name'], false, null, -1, 256);
 
-		$html_tags = array(
-			'abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink',
-			'blockquote', 'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del',
-			'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-			'head', 'hr', 'html', 'iframe', 'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext',
-			'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object',
-			'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar',
-			'small', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title',
-			'tr', 'tt', 'ul', 'var', 'wbr', 'xml', 'xmp', '!DOCTYPE', '!--',
+		$htmlTags = array(
+			'abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big',
+			'blackface', 'blink', 'blockquote', 'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col',
+			'colgroup', 'comment', 'custom', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset',
+			'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'hr', 'html', 'iframe',
+			'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext',
+			'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript',
+			'nosmartquotes', 'object', 'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp',
+			'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike', 'strong', 'style',
+			'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title',  'tr', 'tt', 'ul', 'var',
+			'wbr', 'xml', 'xmp', '!DOCTYPE', '!--',
 		);
 
-		foreach ($html_tags as $tag)
+		foreach ($htmlTags as $tag)
 		{
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (stripos($xss_check, '<' . $tag . ' ') !== false || stripos($xss_check, '<' . $tag . '>') !== false)
+			if (stripos($xssCheck, '<' . $tag . ' ') !== false || stripos($xssCheck, '<' . $tag . '>') !== false)
 			{
-				$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+				$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 
 				return false;
 			}
@@ -356,8 +417,8 @@ class MediaHelper
 	 */
 	public function countFiles($dir)
 	{
-		$total_file = 0;
-		$total_dir  = 0;
+		$totalFile = 0;
+		$totalDir  = 0;
 
 		if (is_dir($dir))
 		{
@@ -365,21 +426,24 @@ class MediaHelper
 
 			while (($entry = $d->read()) !== false)
 			{
-				if ($entry[0] !== '.' && strpos($entry, '.html') === false && strpos($entry, '.php') === false && is_file($dir . DIRECTORY_SEPARATOR . $entry))
+				if (($entry[0] !== '.')
+					&& (strpos($entry, '.html') === false)
+					&& (strpos($entry, '.php') === false)
+					&& is_file($dir . DIRECTORY_SEPARATOR . $entry))
 				{
-					$total_file++;
+					$totalFile++;
 				}
 
 				if ($entry[0] !== '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
 				{
-					$total_dir++;
+					$totalDir++;
 				}
 			}
 
 			$d->close();
 		}
 
-		return array($total_file, $total_dir);
+		return array($totalFile, $totalDir);
 	}
 
 	/**
@@ -407,6 +471,46 @@ class MediaHelper
 				return (int) $val * 1073741824;
 			default:
 				return $val;
+		}
+	}
+
+	/**
+	 * Tries to sanitize an uploaded file if it's an SVG file (by extension or MIME type)
+	 *
+	 * @param   string  $tempName  The temporary uploaded file to sanitize
+	 *
+	 * @return  void
+	 *
+	 * @throws  RuntimeException  In case of an error
+	 * @since   3.10.0
+	 *
+	 */
+	public function sanitizeSVG($tempName)
+	{
+		$sanitizer = new Sanitizer;
+		$sanitizer->removeRemoteReferences(true);
+		$sanitizer->minify(true);
+
+		// Load the dirty svg
+		$dirtySVG = @file_get_contents($tempName);
+
+		if ($dirtySVG === false)
+		{
+			throw new RuntimeException(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
+		}
+
+		// Pass it to the sanitizer and get it back clean
+		$cleanSVG = $sanitizer->sanitize($dirtySVG);
+
+		if ($cleanSVG === false)
+		{
+			throw new RuntimeException(Text::_('JLIB_MEDIA_ERROR_INVALID_SVG'));
+		}
+
+		// Save the sanitized file
+		if (@file_put_contents($tempName, $cleanSVG) === false)
+		{
+			throw new RuntimeException(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'));
 		}
 	}
 }

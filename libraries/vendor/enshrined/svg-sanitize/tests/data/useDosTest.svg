@@ -1,0 +1,129 @@
+<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+
+
+    <defs>
+
+        <g id="thing">
+
+
+            <g id="t0a"><use xlink:href="#t1a"/><use xlink:href="#t1b"/></g>
+            <g id="t0b"><use xlink:href="#t1a"/><use xlink:href="#t1b"/></g>
+            <g id="t1a"><use xlink:href="#t2a"/><use xlink:href="#t2b"/></g>
+            <g id="t1b"><use xlink:href="#t2a"/><use xlink:href="#t2b"/></g>
+            <g id="t2a"><use xlink:href="#t3a"/><use xlink:href="#t3b"/></g>
+            <g id="t2b"><use xlink:href="#t3a"/><use xlink:href="#t3b"/></g>
+            <g id="t3a"><use xlink:href="#t4a"/><use xlink:href="#t4b"/></g>
+            <g id="t3b"><use xlink:href="#t4a"/><use xlink:href="#t4b"/></g>
+            <g id="t4a"><use xlink:href="#t5a"/><use xlink:href="#t5b"/></g>
+            <g id="t4b"><use xlink:href="#t5a"/><use xlink:href="#t5b"/></g>
+            <g id="t5a"><use xlink:href="#t6a"/><use xlink:href="#t6b"/></g>
+            <g id="t5b"><use xlink:href="#t6a"/><use xlink:href="#t6b"/></g>
+            <g id="t6a"><use xlink:href="#t7a"/><use xlink:href="#t7b"/></g>
+            <g id="t6b"><use xlink:href="#t7a"/><use xlink:href="#t7b"/></g>
+            <g id="t7a"><use xlink:href="#t8a"/><use xlink:href="#t8b"/></g>
+            <g id="t7b"><use xlink:href="#t8a"/><use xlink:href="#t8b"/></g>
+            <g id="t8a"><use xlink:href="#t9a"/><use xlink:href="#t9b"/></g>
+            <g id="t8b"><use xlink:href="#t9a"/><use xlink:href="#t9b"/></g>
+            <g id="t9a"><use xlink:href="#t10a"/><use xlink:href="#t10b"/></g>
+            <g id="t9b"><use xlink:href="#t10a"/><use xlink:href="#t10b"/></g>
+            <g id="t10a"><use xlink:href="#t11a"/><use xlink:href="#t11b"/></g>
+            <g id="t10b"><use xlink:href="#t11a"/><use xlink:href="#t11b"/></g>
+            <g id="t11a"><use xlink:href="#t12a"/><use xlink:href="#t12b"/></g>
+            <g id="t11b"><use xlink:href="#t12a"/><use xlink:href="#t12b"/></g>
+            <g id="t12a"><use xlink:href="#t13a"/><use xlink:href="#t13b"/></g>
+            <g id="t12b"><use xlink:href="#t13a"/><use xlink:href="#t13b"/></g>
+            <g id="t13a"><use xlink:href="#t14a"/><use xlink:href="#t14b"/></g>
+            <g id="t13b"><use xlink:href="#t14a"/><use xlink:href="#t14b"/></g>
+            <g id="t14a"><use xlink:href="#t15a"/><use xlink:href="#t15b"/></g>
+            <g id="t14b"><use xlink:href="#t15a"/><use xlink:href="#t15b"/></g>
+            <g id="t15a"><use xlink:href="#t16a"/><use xlink:href="#t16b"/></g>
+            <g id="t15b"><use xlink:href="#t16a"/><use xlink:href="#t16b"/></g>
+            <g id="t16a"><use xlink:href="#t17a"/><use xlink:href="#t17b"/></g>
+            <g id="t16b"><use xlink:href="#t17a"/><use xlink:href="#t17b"/></g>
+            <g id="t17a"><use xlink:href="#t18a"/><use xlink:href="#t18b"/></g>
+            <g id="t17b"><use xlink:href="#t18a"/><use xlink:href="#t18b"/></g>
+            <g id="t18a"><use xlink:href="#t19a"/><use xlink:href="#t19b"/></g>
+            <g id="t18b"><use xlink:href="#t19a"/><use xlink:href="#t19b"/></g>
+            <g id="t19a"><use xlink:href="#t20a"/><use xlink:href="#t20b"/></g>
+            <g id="t19b"><use xlink:href="#t20a"/><use xlink:href="#t20b"/></g>
+            <g id="t20a"><use xlink:href="#t21a"/><use xlink:href="#t21b"/></g>
+            <g id="t20b"><use xlink:href="#t21a"/><use xlink:href="#t21b"/></g>
+            <g id="t21a"><use xlink:href="#t22a"/><use xlink:href="#t22b"/></g>
+            <g id="t21b"><use xlink:href="#t22a"/><use xlink:href="#t22b"/></g>
+            <g id="t22a"><use xlink:href="#t23a"/><use xlink:href="#t23b"/></g>
+            <g id="t22b"><use xlink:href="#t23a"/><use xlink:href="#t23b"/></g>
+            <g id="t23a"><use xlink:href="#t24a"/><use xlink:href="#t24b"/></g>
+            <g id="t23b"><use xlink:href="#t24a"/><use xlink:href="#t24b"/></g>
+            <g id="t24a"><use xlink:href="#t25a"/><use xlink:href="#t25b"/></g>
+            <g id="t24b"><use xlink:href="#t25a"/><use xlink:href="#t25b"/></g>
+            <g id="t25a"><use xlink:href="#t26a"/><use xlink:href="#t26b"/></g>
+            <g id="t25b"><use xlink:href="#t26a"/><use xlink:href="#t26b"/></g>
+            <g id="t26a"><use xlink:href="#t27a"/><use xlink:href="#t27b"/></g>
+            <g id="t26b"><use xlink:href="#t27a"/><use xlink:href="#t27b"/></g>
+            <g id="t27a"><use xlink:href="#t28a"/><use xlink:href="#t28b"/></g>
+            <g id="t27b"><use xlink:href="#t28a"/><use xlink:href="#t28b"/></g>
+            <g id="t28a"><use xlink:href="#t29a"/><use xlink:href="#t29b"/></g>
+            <g id="t28b"><use xlink:href="#t29a"/><use xlink:href="#t29b"/></g>
+            <g id="t29a"><use xlink:href="#t30a"/><use xlink:href="#t30b"/></g>
+            <g id="t29b"><use xlink:href="#t30a"/><use xlink:href="#t30b"/></g>
+            <g id="t30a"><use xlink:href="#t31a"/><use xlink:href="#t31b"/></g>
+            <g id="t30b"><use xlink:href="#t31a"/><use xlink:href="#t31b"/></g>
+            <g id="t31a"><use xlink:href="#t32a"/><use xlink:href="#t32b"/></g>
+            <g id="t31b"><use xlink:href="#t32a"/><use xlink:href="#t32b"/></g>
+            <g id="t32a"><use xlink:href="#t33a"/><use xlink:href="#t33b"/></g>
+            <g id="t32b"><use xlink:href="#t33a"/><use xlink:href="#t33b"/></g>
+            <g id="t33a"><use xlink:href="#t34a"/><use xlink:href="#t34b"/></g>
+            <g id="t33b"><use xlink:href="#t34a"/><use xlink:href="#t34b"/></g>
+            <g id="t34a"><use xlink:href="#t35a"/><use xlink:href="#t35b"/></g>
+            <g id="t34b"><use xlink:href="#t35a"/><use xlink:href="#t35b"/></g>
+            <g id="t35a"><use xlink:href="#t36a"/><use xlink:href="#t36b"/></g>
+            <g id="t35b"><use xlink:href="#t36a"/><use xlink:href="#t36b"/></g>
+            <g id="t36a"><use xlink:href="#t37a"/><use xlink:href="#t37b"/></g>
+            <g id="t36b"><use xlink:href="#t37a"/><use xlink:href="#t37b"/></g>
+            <g id="t37a"><use xlink:href="#t38a"/><use xlink:href="#t38b"/></g>
+            <g id="t37b"><use xlink:href="#t38a"/><use xlink:href="#t38b"/></g>
+            <g id="t38a"><use xlink:href="#t39a"/><use xlink:href="#t39b"/></g>
+            <g id="t38b"><use xlink:href="#t39a"/><use xlink:href="#t39b"/></g>
+            <g id="t39a"><use xlink:href="#t40a"/><use xlink:href="#t40b"/></g>
+            <g id="t39b"><use xlink:href="#t40a"/><use xlink:href="#t40b"/></g>
+            <g id="t40a"><use xlink:href="#t41a"/><use xlink:href="#t41b"/></g>
+            <g id="t40b"><use xlink:href="#t41a"/><use xlink:href="#t41b"/></g>
+            <g id="t41a"><use xlink:href="#t42a"/><use xlink:href="#t42b"/></g>
+            <g id="t41b"><use xlink:href="#t42a"/><use xlink:href="#t42b"/></g>
+            <g id="t42a"><use xlink:href="#t43a"/><use xlink:href="#t43b"/></g>
+            <g id="t42b"><use xlink:href="#t43a"/><use xlink:href="#t43b"/></g>
+            <g id="t43a"><use xlink:href="#t44a"/><use xlink:href="#t44b"/></g>
+            <g id="t43b"><use xlink:href="#t44a"/><use xlink:href="#t44b"/></g>
+            <g id="t44a"><use xlink:href="#t45a"/><use xlink:href="#t45b"/></g>
+            <g id="t44b"><use xlink:href="#t45a"/><use xlink:href="#t45b"/></g>
+            <g id="t45a"><use xlink:href="#t46a"/><use xlink:href="#t46b"/></g>
+            <g id="t45b"><use xlink:href="#t46a"/><use xlink:href="#t46b"/></g>
+            <g id="t46a"><use xlink:href="#t47a"/><use xlink:href="#t47b"/></g>
+            <g id="t46b"><use xlink:href="#t47a"/><use xlink:href="#t47b"/></g>
+            <g id="t47a"><use xlink:href="#t48a"/><use xlink:href="#t48b"/></g>
+            <g id="t47b"><use xlink:href="#t48a"/><use xlink:href="#t48b"/></g>
+            <g id="t48a"><use xlink:href="#t49a"/><use xlink:href="#t49b"/></g>
+            <g id="t48b"><use xlink:href="#t49a"/><use xlink:href="#t49b"/></g>
+            <g id="t49a"><use xlink:href="#t50a"/><use xlink:href="#t50b"/></g>
+            <g id="t49b"><use xlink:href="#t50a"/><use xlink:href="#t50b"/></g>
+
+
+
+            <g id="t50a">
+                <circle  cx="0" cy="0" r="5" />
+            </g>
+
+            <g id="t50b">
+                <circle cx="0" cy="0" r="5" />
+            </g>
+
+
+        </g>
+
+    </defs>
+
+    <use x="5" y="5" xlink:href="#thing"/>
+
+
+</svg>

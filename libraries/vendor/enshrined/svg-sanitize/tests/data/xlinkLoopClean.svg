@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- ping:pong section to be removed -->
+  <g id="ping">
+    <text style="font-weight: 700;" x="50" y="50">Ping</text>
+  </g>
+  <g id="pong">
+    <text x="50" y="100" style="font-weight: 700">Pong</text>
+  </g>
+  <!-- nested loop -->
+  <g id="first">
+    <text style="font-weight: 700;" x="50" y="50">1st</text>
+  </g>
+  <g id="second">
+    <text style="font-weight: 700;" x="50" y="50">2nd</text>
+  </g>
+  <g id="third">
+    <text style="font-weight: 700;" x="50" y="50">3rd</text>
+  </g>
+  <g id="fourth">
+    <text style="font-weight: 700;" x="50" y="50">4th</text>
+  </g>
+  <!-- self reference to be removed -->
+</svg>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\MediaHelper;
+
 /**
  * Banner Helper Class
  *
@@ -27,7 +29,9 @@ abstract class BannerHelper
 	 */
 	public static function isImage($url)
 	{
-		return preg_match('#\.(?:bmp|gif|jpe?g|png)$#i', $url);
+		$mediaHelper = new MediaHelper;
+
+		return $mediaHelper->isImage($url);
 	}
 
 	/**
