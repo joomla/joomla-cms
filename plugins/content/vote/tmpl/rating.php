@@ -54,12 +54,10 @@ for ($i = 0; $i < floor($stars); $i++)
 
 if (($stars - floor($stars)) >= 0.5)
 {
-	$starinactive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_INACTIVE'), $simplestar);
-
-	$img .= '<li class="vote-star-empty">' . $starinactive . '</li>';
-
+	$starinactive   = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_INACTIVE'), $simplestar);
 	$halfstaractive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_ACTIVE_HALF'), $simplehalfstar);
 
+	$img .= '<li class="vote-star-empty">' . $starinactive . '</li>';
 	$img .= '<li class="vote-star-half">' . $halfstaractive . '</li>';
 
 	$stars += 1;
