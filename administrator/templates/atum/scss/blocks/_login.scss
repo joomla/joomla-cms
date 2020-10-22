@@ -61,6 +61,14 @@
           font-size: .75rem;
           text-align: right;
         }
+		  
+		.form-control-hint {
+          position: absolute;
+          right: 0;
+          top: 0.3rem;
+          font-size: .75rem;
+          text-align: right;
+        }
       }
     }
   }
