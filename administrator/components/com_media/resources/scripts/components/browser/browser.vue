@@ -11,7 +11,7 @@
     >
       <div class="media-dragoutline">
         <span
-          class="fas fa-cloud-upload upload-icon"
+          class="icon-cloud-upload upload-icon"
           aria-hidden="true"
         />
         <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
