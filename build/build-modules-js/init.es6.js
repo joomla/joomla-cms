@@ -318,7 +318,7 @@ const copyFiles = (options) => {
  * Method to recreate the basic media folder structure
  * After execution the media folder is populated with empty js and css subdirectories
  * images subfolders with the relative files
- * any other files except .js, .css, .scss
+ * any other files except .js, .css
  *
  * @returns { void }
  */
