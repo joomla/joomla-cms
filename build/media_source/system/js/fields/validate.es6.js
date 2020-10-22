@@ -166,7 +166,7 @@
     }
 
     handleResponse(state, element, empty) {
-      let tagName = element.tagName.toLowerCase();
+      const tagName = element.tagName.toLowerCase();
 
       // Set the element and its label (if exists) invalid state
       if ((tagName !== 'button' && element.value !== undefined) || tagName === 'fieldset') {
