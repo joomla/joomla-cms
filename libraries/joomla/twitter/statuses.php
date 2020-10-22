@@ -565,7 +565,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @param   integer  $id          The Tweet/status ID to return embed code for.
 	 * @param   string   $url         The URL of the Tweet/status to be embedded.
-	 * @param   integer  $maxwidth    The maximum width in pixels that the embed should be rendered at. This value is constrained to be
+	 * @param   integer  $maxWidth    The maximum width in pixels that the embed should be rendered at. This value is constrained to be
 	 *                                between 250 and 550 pixels.
 	 * @param   boolean  $hideMedia   Specifies whether the embedded Tweet should automatically expand images which were uploaded via
 	 *                                POST statuses/update_with_media.
@@ -585,7 +585,7 @@ class JTwitterStatuses extends JTwitterObject
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getOembed($id = null, $url = null, $maxwidth = null, $hideMedia = null, $hideThread = null, $omitScript = null,
+	public function getOembed($id = null, $url = null, $maxWidth = null, $hideMedia = null, $hideThread = null, $omitScript = null,
 		$align = null, $related = null, $lang = null)
 	{
 		// Check the rate limit for remaining hits.
@@ -610,9 +610,9 @@ class JTwitterStatuses extends JTwitterObject
 		}
 
 		// Check if maxwidth is specified.
-		if ($maxwidth)
+		if ($maxWidth)
 		{
-			$data['maxwidth'] = $maxwidth;
+			$data['maxwidth'] = $maxWidth;
 		}
 
 		// Check if hide_media is specified.
