@@ -67,8 +67,8 @@ class HtmlView extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page.
 		 */
-		ToolbarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true);
-		ToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
+		ToolbarHelper::custom('discover.install', 'upload', '', 'JTOOLBAR_INSTALL', true);
+		ToolbarHelper::custom('discover.refresh', 'refresh', '', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
 		ToolbarHelper::divider();
 
 		parent::addToolbar();

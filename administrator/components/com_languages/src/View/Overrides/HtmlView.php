@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 
 		if (Factory::getUser()->authorise('core.admin'))
 		{
-			ToolbarHelper::custom('overrides.purge', 'refresh.png', 'refresh_f2.png', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
+			ToolbarHelper::custom('overrides.purge', 'refresh.png', '', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
 		}
 
 		if ($canDo->get('core.admin'))

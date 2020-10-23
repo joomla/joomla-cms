@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::custom('searches.reset', 'refresh.png', 'refresh_f2.png', 'JSEARCH_RESET', false);
+			ToolbarHelper::custom('searches.reset', 'refresh.png', '', 'JSEARCH_RESET', false);
 		}
 
 		ToolbarHelper::divider();

@@ -132,7 +132,7 @@ class HtmlView extends InstallerViewDefault
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::custom('updatesites.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+			ToolbarHelper::custom('updatesites.rebuild', 'refresh.png', '', 'JTOOLBAR_REBUILD', false);
 		}
 
 		parent::addToolbar();

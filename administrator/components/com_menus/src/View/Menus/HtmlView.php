@@ -125,11 +125,11 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::deleteList('COM_MENUS_MENU_CONFIRM_DELETE', 'menus.delete', 'JTOOLBAR_DELETE');
 		}
 
-		ToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+		ToolbarHelper::custom('menus.rebuild', 'refresh.png', '', 'JTOOLBAR_REBUILD', false);
 
 		if ($canDo->get('core.admin') && $this->state->get('client_id') == 1)
 		{
-			ToolbarHelper::custom('menu.exportXml', 'download', 'download', 'COM_MENUS_MENU_EXPORT_BUTTON', true);
+			ToolbarHelper::custom('menu.exportXml', 'download', '', 'COM_MENUS_MENU_EXPORT_BUTTON', true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

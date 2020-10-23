@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 		{
-			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}
 
 		ToolbarHelper::divider();

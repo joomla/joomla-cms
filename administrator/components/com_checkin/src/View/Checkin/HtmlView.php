@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
 	{
 		ToolbarHelper::title(Text::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'check-square');
 
-		ToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+		ToolbarHelper::custom('checkin', 'checkin.png', '', 'JTOOLBAR_CHECKIN', true);
 
 		if (Factory::getUser()->authorise('core.admin', 'com_checkin'))
 		{

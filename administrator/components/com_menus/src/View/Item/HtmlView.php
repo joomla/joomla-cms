@@ -175,7 +175,7 @@ class HtmlView extends BaseHtmlView
 
 		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations') && $clientId != 1)
 		{
-			ToolbarHelper::custom('item.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+			ToolbarHelper::custom('item.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}
 
 		if ($isNew)

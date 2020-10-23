@@ -90,6 +90,7 @@ abstract class ToolbarHelper
 	 *
 	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
 	 * @param   string  $icon        The image to display.
+	 * @param   string  $iconOver    @deprecated 5.0
 	 * @param   string  $alt         The alt text for the icon image.
 	 * @param   bool    $listSelect  True if required to check that a standard list item is checked.
 	 * @param   string  $formId      The id of action form.
@@ -98,7 +99,7 @@ abstract class ToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function custom($task = '', $icon = '', $alt = '', $listSelect = true, $formId = null)
+	public static function custom($task = '', $icon = '', string $iconOver = '', $alt = '', $listSelect = true, $formId = null)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 

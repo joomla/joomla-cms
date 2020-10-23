@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 		{
 			Factory::getApplication()->input->set('hidemainmenu', true);
 			ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-open-text new-privatemessage');
-			ToolbarHelper::custom('message.save', 'envelope.png', 'send_f2.png', 'COM_MESSAGES_TOOLBAR_SEND', false);
+			ToolbarHelper::custom('message.save', 'envelope.png', '', 'COM_MESSAGES_TOOLBAR_SEND', false);
 			ToolbarHelper::cancel('message.cancel', 'JTOOLBAR_CLOSE');
 			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
 		}
@@ -95,7 +95,7 @@ class HtmlView extends BaseHtmlView
 
 			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
 			{
-				ToolbarHelper::custom('message.reply', 'redo', null, 'COM_MESSAGES_TOOLBAR_REPLY', false);
+				ToolbarHelper::custom('message.reply', 'redo', '', 'COM_MESSAGES_TOOLBAR_REPLY', false);
 			}
 
 			ToolbarHelper::cancel('message.cancel');
