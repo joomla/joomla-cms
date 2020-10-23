@@ -522,7 +522,7 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
-					'%s: Argument #2 ($asset) must be a string or an instance of %s, %s given',
+					'%s: Argument #2 ($asset) must be a string or an instance of %s, %s given.',
 					__METHOD__,
 					WebAssetItemInterface::class,
 					\is_object($asset) ? \get_class($asset) : \gettype($asset)
@@ -700,7 +700,7 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
-					'%s: Argument #2 ($content) must be a string or an instance of %s, %s given',
+					'%s: Argument #2 ($content) must be a string or an instance of %s, %s given.',
 					__METHOD__,
 					WebAssetItemInterface::class,
 					\is_object($content) ? \get_class($content) : \gettype($content)
