@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Filesystem\File;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
@@ -116,6 +117,8 @@ Text::script('JHIDEPASSWORD');
 					<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 						'class' => 'icon',
 					], true) ?>
+				<?php elseif (!empty($button['svg'])): ?>
+					<?php echo file_get_contents($button['svg'], true); ?>
 				<?php endif; ?>
 				<?php echo Text::_($button['label']) ?>
 			</button>

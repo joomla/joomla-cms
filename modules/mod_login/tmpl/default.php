@@ -128,6 +128,8 @@ Text::script('JHIDEPASSWORD');
 						<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 							'class' => 'icon',
 						], true) ?>
+					<?php elseif (!empty($button['svg'])): ?>
+						<?php echo file_get_contents($button['svg'], true); ?>
 					<?php endif; ?>
 					<?php echo Text::_($button['label']) ?>
 				</button>
