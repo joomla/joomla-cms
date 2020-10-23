@@ -33,8 +33,13 @@ abstract class Icons
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function icon(string $icon = 'fas fa-default', string $srOnly = '', array $attribs = [])
+	public static function icon(string $icon = '', string $srOnly = '', array $attribs = [])
 	{
+		if ($icon === '')
+		{
+			return '';
+		}
+
 		if (isset($attribs['class']))
 		{
 			$icon .= ' ' . $attribs['class'];
