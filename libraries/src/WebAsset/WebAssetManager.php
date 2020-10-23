@@ -503,6 +503,8 @@ class WebAssetManager implements WebAssetManagerInterface
 	 * @return  self
 	 *
 	 * @since  4.0.0
+	 *
+	 * @throws  \InvalidArgumentException
 	 */
 	public function registerAsset(string $type, $asset, string $uri = '', array $options = [], array $attributes = [], array $dependencies = [])
 	{
@@ -518,7 +520,14 @@ class WebAssetManager implements WebAssetManagerInterface
 		}
 		else
 		{
-			throw new \BadMethodCallException('The $asset variable should be either WebAssetItemInterface or a string of the asset name');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%s: Argument #2 ($asset) must be a string or an instance of %s, %s given',
+					__METHOD__,
+					WebAssetItemInterface::class,
+					\is_object($asset) ? \get_class($asset) : \gettype($asset)
+				)
+			);
 		}
 
 		return $this;
@@ -672,6 +681,8 @@ class WebAssetManager implements WebAssetManagerInterface
 	 * @return  self
 	 *
 	 * @since  4.0.0
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	public function addInline(string $type, $content, array $options = [], array $attributes = [], array $dependencies = []): self
 	{
@@ -687,7 +698,14 @@ class WebAssetManager implements WebAssetManagerInterface
 		}
 		else
 		{
-			throw new \BadMethodCallException('The $content variable should be either WebAssetItemInterface or a string');
+			throw new \InvalidArgumentException(
+				sprintf(
+					'%s: Argument #2 ($content) must be a string or an instance of %s, %s given',
+					__METHOD__,
+					WebAssetItemInterface::class,
+					\is_object($content) ? \get_class($content) : \gettype($content)
+				)
+			);
 		}
 
 		// Get the name
