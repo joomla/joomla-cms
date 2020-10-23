@@ -24,7 +24,7 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: node:current-alpine
+    image: node:14-alpine
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
@@ -269,6 +269,6 @@ steps:
 
 ---
 kind: signature
-hmac: cfdb2bd3be5ac7f9523940a58559718e9702f7aa12c4de32b2d3fe6773fc94f0
+hmac: f99784b6fd6bf3707a600f262bb9e59aa7b5f97e54df8976e459096de4344ef3
 
 ...
