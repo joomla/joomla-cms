@@ -1,10 +1,12 @@
 [dir=ltr] .content_rating ul {
-	margin-left: -2.8em;
+	list-style: none;
+	padding-left: 0;
 	margin-bottom: 0.5em;
 }
 
 [dir=rtl] .content_rating ul {
-	margin-right: -2.8em;
+	list-style: none;
+	padding-right: 0;
 	margin-bottom: 0.5em;
 }
 
