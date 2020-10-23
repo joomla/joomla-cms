@@ -123,7 +123,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$workflowTable = new \Joomla\Component\Workflow\Administrator\Table\WorkflowTable($this->db);
 
 		$workflowTable->default = 0;
-		$workflowTable->title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_TITLE');
+		$workflowTable->title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_TITLE') . $langSuffix;
 		$workflowTable->description = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_SAMPLE_DESCRIPTION');
 		$workflowTable->published = 1;
 		$workflowTable->access = $access;
@@ -156,7 +156,7 @@ class PlgSampledataBlog extends CMSPlugin
 			$stageTable->id = 0;
 			$stageTable->published = 1;
 			$stageTable->ordering = 0;
-			$stageTable->default = $i == 1 ? 1 : 0;
+			$stageTable->default = $i == 6 ? 1 : 0;
 			$stageTable->workflow_id = $workflowId;
 
 			if (!$stageTable->store())
@@ -474,23 +474,18 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Article 0 - About
 				'catid'    => $catIds[1],
-				'ordering' => 2,
-				'state'    => 1,
 			),
 			array(
 				// Article 1 - Working on Your Site
 				'catid'    => $catIds[1],
-				'ordering' => 1,
 				'access'   => 3,
-				'state'    => 1,
 			),
 
 			// Category 0 = Blog
 			array(
 				// Article 2 - Welcome to your blog
 				'catid'    => $catIds[0],
-				'ordering' => 2,
-				'state'    => 0,
+				'featured' => 1,
 				'images'   => array(
 					'image_intro'            =>  'images/banners/banner.jpg',
 					'float_intro'            => 'left',
@@ -505,11 +500,9 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Article 3 - About your home page
 				'catid'    => $catIds[0],
-				'ordering' => 1,
-				'state'    => 0,
+				'featured' => 1,
 				'images'   => array(
 					'image_intro'            =>  'images/banners/banner.jpg',
-					'float_intro'            => 'right',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
 					'image_fulltext'         => '',
@@ -521,15 +514,12 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Article 4 - Your Modules
 				'catid'    => $catIds[0],
-				'ordering' => 0,
-				'state'    => 0,
+				'featured' => 1,
 				'images'   => array(
 					'image_intro'            =>  'images/banners/banner.jpg',
-					'float_intro'            => 'left',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
 					'image_fulltext'         => '',
-					'float_fulltext'         => '',
 					'image_fulltext_alt'     => '',
 					'image_fulltext_caption' => ''
 				)
@@ -537,19 +527,23 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Article 5 - Your Template
 				'catid'    => $catIds[0],
-				'ordering' => 0,
-				'state'    => 0,
+				'featured' => 1,
+				'images'   => array(
+					'image_intro'            =>  'images/banners/banner.jpg',
+					'image_intro_alt'        => '',
+					'image_intro_caption'    => '',
+					'image_fulltext'         => '',
+					'image_fulltext_alt'     => '',
+					'image_fulltext_caption' => ''
+				)
 			),
 
 			// Category 2 = Joomla - marketing texts
 			array(
 				// Article 6 - Millions
 				'catid'    => $catIds[2],
-				'ordering' => 0,
-				'state'    => 1,
 				'images'   => array(
 					'image_intro'            =>  'images/banners/banner.jpg',
-					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
 					'image_fulltext'         => '',
@@ -561,8 +555,6 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Article 7 - Love
 				'catid'    => $catIds[2],
-				'ordering' => 0,
-				'state'    => 1,
 				'images'   => array(
 					'image_intro'            =>  'images/banners/banner.jpg',
 					'float_intro'            => '',
@@ -577,8 +569,6 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Article 8 - Joomla
 				'catid'    => $catIds[2],
-				'ordering' => 0,
-				'state'    => 1,
 				'images'   => array(
 					'image_intro'            =>  'images/banners/banner.jpg',
 					'float_intro'            => '',
@@ -589,6 +579,10 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_fulltext_alt'     => '',
 					'image_fulltext_caption' => ''
 				)
+			),
+			array(
+				// Article 9 - Workflows
+				'catid'    => $catIds[1],
 			),
 		);
 
@@ -618,10 +612,13 @@ class PlgSampledataBlog extends CMSPlugin
 			$article['introtext'] = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_INTROTEXT');
 			$article['fulltext']  = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_FULLTEXT');
 
+
 			// Set values which are always the same.
-			$article['id']              = 0;
-			$article['created_user_id'] = $user->id;
-			$article['alias']           = ApplicationHelper::stringURLSafe($article['title']);
+			$article['id']               = 0;
+			$article['ordering']         = 0;
+			$article['created_user_id']  = $user->id;
+			$article['created_by_alias'] = 'Joomla';
+			$article['alias']            = ApplicationHelper::stringURLSafe($article['title']);
 
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $alias) == ''))
@@ -636,14 +633,14 @@ class PlgSampledataBlog extends CMSPlugin
 			$article['metakey']         = '';
 			$article['metadesc']        = '';
 
-			if (!isset($article['state']))
-			{
-				$article['state']  = 1;
-			}
-
 			if (!isset($article['featured']))
 			{
 				$article['featured']  = 0;
+			}
+
+			if (!isset($article['state']))
+			{
+				$article['state']  = 1;
 			}
 
 			if (!isset($article['images']))
@@ -668,6 +665,21 @@ class PlgSampledataBlog extends CMSPlugin
 
 			// Get ID from article we just added
 			$ids[] = $articleModel->getItem()->id;
+
+			if ($article['featured'])
+			{
+				// Set the article featured in #__content_frontpage
+				$query = $this->db->getQuery(true);
+
+				$featuredItem = (object) [
+					'content_id'      => $articleModel->getItem()->id,
+					'ordering'        => 0,
+					'featured_up'     => null,
+					'featured_down'   => null
+				];
+
+				$this->db->insertObject('#__content_frontpage', $featuredItem);
+			}
 		}
 
 		$this->app->setUserState('sampledata.blog.articles', $ids);
@@ -773,40 +785,47 @@ class PlgSampledataBlog extends CMSPlugin
 					'layout_type'             => 'blog',
 					'show_category_title'     => 0,
 					'num_leading_articles'    => 4,
-					'num_intro_articles'      => 0,
-					'num_links'               => 2,
+					'num_intro_articles'      => 4,
+					'num_links'               => 0,
 					'orderby_sec'             => 'rdate',
 					'order_date'              => 'published',
-					'blog_class_leading'      => 'boxed columns-1',
+					'blog_class_leading'      => 'boxed columns-2',
 					'show_pagination'         => 2,
-					'show_pagination_results' => 1,
-					'show_category'           => 0,
-					'info_bloc_position'      => 0,
-					'show_publish_date'       => 0,
-					'show_hits'               => 0,
-					'show_feed_link'          => 1,
-					'menu_text'               => 1,
-					'show_page_heading'       => 0,
 					'secure'                  => 0,
 				),
 			),
 			array(
 				// About
 				'menutype'     => $menuTypes[0],
-				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE'),
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[1],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
-					'info_block_position' => 0,
-					'show_category'       => 0,
-					'link_category'       => 0,
-					'show_author'         => 0,
-					'show_create_date'    => 0,
-					'show_publish_date'   => 0,
-					'show_hits'           => 0,
-					'menu_text'           => 1,
-					'show_page_heading'   => 0,
-					'secure'              => 0,
+					'blog_class_leading'      => '',
+					'blog_class'              => 'boxed',
+					'num_leading_articles'    => 0,
+					'num_intro_articles'      => '4',
+					'num_links'               => 0,
+					'orderby_sec'             => 'rdate',
+					'order_date'              => 'published',
+					'show_pagination'         => '2',
+					'show_pagination_results' => '1',
+					'article_layout'          => '_:default',
+					'link_titles'             => 0,
+					'info_block_show_title'   => '',
+					'show_category'           => 0,
+					'link_category'           => '',
+					'show_parent_category'    => '',
+					'link_parent_category'    => '',
+					'show_author'             => 0,
+					'link_author'             => '',
+					'show_create_date'        => 0,
+					'show_modify_date'        => '',
+					'show_publish_date'       => 0,
+					'show_hits'               => 0,
+					'menu_text'               => 1,
+					'menu_show'               => 1,
+					'show_page_heading'       => '1',
 				),
 			),
 			array(
