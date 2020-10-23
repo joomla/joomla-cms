@@ -23,14 +23,6 @@ $jicon-css-prefix: icon !global;
   }
 }
 
-// Brand icon global definition
-[class^="#{$jicon-css-prefix}b"],
-[class*=" #{$jicon-css-prefix}b"] {
-  @extend %fa-icon;
-  @extend .fab;
-  speak: none;
-}
-
 // Create brand icons mapping array
 $jicons-brand: (
   joomla : $fa-var-joomla,
@@ -470,12 +462,4 @@ $jicons: (
       content: fa-content($jicon-value);
     }
   }
-}
-
-// Regular icon global definition
-[class^="#{$jicon-css-prefix}r"],
-[class*=" #{$jicon-css-prefix}r"] {
-  @extend %fa-icon;
-  @extend .far;
-  speak: none;
 }
