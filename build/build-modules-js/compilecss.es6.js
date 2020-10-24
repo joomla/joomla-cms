@@ -24,7 +24,7 @@ module.exports.compile = (options, path) => {
   Promise.resolve()
   // Compile the scss files
     .then(() => {
-      let files = [];
+      const files = [];
       let folders = [];
 
       if (path) {
@@ -40,28 +40,11 @@ module.exports.compile = (options, path) => {
           process.exit(1);
         }
       } else {
-        files = [
-          `${RootPath}/templates/cassiopeia/scss/offline.scss`,
-          `${RootPath}/templates/cassiopeia/scss/template.scss`,
-          `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
-          `${RootPath}/templates/cassiopeia/scss/system/searchtools/searchtools.scss`,
-          `${RootPath}/templates/cassiopeia/scss/vendor/choicesjs/choices.scss`,
-          `${RootPath}/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
-          `${RootPath}/administrator/templates/atum/scss/template.scss`,
-          `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
-          `${RootPath}/administrator/templates/atum/scss/system/searchtools/searchtools.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/awesomplete/awesomplete.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/choicesjs/choices.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-tab.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome.scss`,
-          `${RootPath}/installation/template/scss/template.scss`,
-          `${RootPath}/installation/template/scss/template-rtl.scss`,
-        ];
-
         folders = [
           `${RootPath}/build/media_source`,
+          `${RootPath}/templates`,
+          `${RootPath}/installation/template`,
+          `${RootPath}/administrator/templates`,
         ];
       }
 
