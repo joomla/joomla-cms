@@ -122,7 +122,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.10.0
 	 */
 	protected $_supportNullValue = false;
 
