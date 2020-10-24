@@ -323,149 +323,63 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 		}
 
-		// Create "blog" category.
-		$categoryModel = $this->app->bootComponent('com_categories')
-			->getMVCFactory()->createModel('Category', 'Administrator');
+		// Store the categories
 		$catIds        = array();
-		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
-		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
 
-		// Set unicodeslugs if alias is empty
-		if (trim(str_replace('-', '', $alias) == ''))
+		for ($i = 0; $i <= 2; $i++)
 		{
-			$unicode = $this->app->set('unicodeslugs', 1);
-			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
-			$this->app->set('unicodeslugs', $unicode);
-		}
+			$categoryModel = $this->app->bootComponent('com_categories')
+				->getMVCFactory()->createModel('Category', 'Administrator');
 
-		$category      = array(
-			'title'           => $categoryTitle . $langSuffix,
-			'parent_id'       => 1,
-			'id'              => 0,
-			'published'       => 1,
-			'access'          => $access,
-			'created_user_id' => $user->id,
-			'extension'       => 'com_content',
-			'level'           => 1,
-			'alias'           => $alias . $langSuffix,
-			'associations'    => array(),
-			'description'     => '',
-			'language'        => $language,
-			'params'          => '{"workflow_id":"' . $workflowId . '"}',
-		);
+			$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_' . $i . '_TITLE');
+			$categoryAlias = ApplicationHelper::stringURLSafe($categoryTitle);
 
-		try
-		{
-			if (!$categoryModel->save($category))
+			// Set unicodeslugs if alias is empty
+			if (trim(str_replace('-', '', $categoryAlias) == ''))
 			{
-				throw new Exception($categoryModel->getError());
+				$unicode = $this->app->set('unicodeslugs', 1);
+				$categoryAlias = ApplicationHelper::stringURLSafe($categoryTitle);
+				$this->app->set('unicodeslugs', $unicode);
 			}
-		}
-		catch (Exception $e)
-		{
-			$response            = array();
-			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-			return $response;
-		}
+			// Category 0 gets the workflow from above
+			$params = $i == 0 ? '{"workflow_id":"' . $workflowId . '"}' : '{}';
 
-		// Get ID from category we just added
-		$catIds[] = $categoryModel->getItem()->id;
+			$category = [
+				'title'           => $categoryTitle . $langSuffix,
+				'parent_id'       => 1,
+				'id'              => 0,
+				'published'       => 1,
+				'access'          => $access,
+				'created_user_id' => $user->id,
+				'extension'       => 'com_content',
+				'level'           => 1,
+				'alias'           => $categoryAlias . $langSuffix,
+				'associations'    => array(),
+				'description'     => '',
+				'language'        => $language,
+				'params'          => $params
+			];
 
-		// Create "help" category.
-		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE');
-		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
-
-		// Set unicodeslugs if alias is empty
-		if (trim(str_replace('-', '', $alias) == ''))
-		{
-			$unicode = $this->app->set('unicodeslugs', 1);
-			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
-			$this->app->set('unicodeslugs', $unicode);
-		}
-
-		$category      = array(
-			'title'           => $categoryTitle . $langSuffix,
-			'parent_id'       => 1,
-			'id'              => 0,
-			'published'       => 1,
-			'access'          => $access,
-			'created_user_id' => $user->id,
-			'extension'       => 'com_content',
-			'level'           => 1,
-			'alias'           => $alias . $langSuffix,
-			'associations'    => array(),
-			'description'     => '',
-			'language'        => $language,
-			'params'          => '{}',
-		);
-
-		try
-		{
-			if (!$categoryModel->save($category))
+			try
 			{
-				throw new Exception($categoryModel->getError());
+				if (!$categoryModel->save($category))
+				{
+					throw new Exception($categoryModel->getError());
+				}
 			}
-		}
-		catch (Exception $e)
-		{
-			$response            = array();
-			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
-
-			return $response;
-		}
-
-		// Get ID from category we just added
-		$catIds[] = $categoryModel->getItem()->id;
-
-		// Create "template" category.
-		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_2_TITLE');
-		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
-
-		// Set unicodeslugs if alias is empty
-		if (trim(str_replace('-', '', $alias) == ''))
-		{
-			$unicode = $this->app->set('unicodeslugs', 1);
-			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
-			$this->app->set('unicodeslugs', $unicode);
-		}
-
-		$category      = array(
-			'title'           => $categoryTitle . $langSuffix,
-			'parent_id'       => 1,
-			'id'              => 0,
-			'published'       => 1,
-			'access'          => $access,
-			'created_user_id' => $user->id,
-			'extension'       => 'com_content',
-			'level'           => 1,
-			'alias'           => $alias . $langSuffix,
-			'associations'    => array(),
-			'description'     => '',
-			'language'        => $language,
-			'params'          => '{}',
-		);
-
-		try
-		{
-			if (!$categoryModel->save($category))
+			catch (Exception $e)
 			{
-				throw new Exception($categoryModel->getError());
+				$response            = array();
+				$response['success'] = false;
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
+
+				return $response;
 			}
-		}
-		catch (Exception $e)
-		{
-			$response            = array();
-			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
-			return $response;
+			// Get ID from category we just added
+			$catIds[] = $categoryModel->getItem()->id;
 		}
-
-		// Get ID from category we just added
-		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create Articles.
 		$articles     = array(
@@ -792,6 +706,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'blog_class_leading'      => 'boxed columns-2',
 					'show_pagination'         => 2,
 					'secure'                  => 0,
+					'show_page_heading'       => 1,
 				),
 			),
 			array(
@@ -804,12 +719,12 @@ class PlgSampledataBlog extends CMSPlugin
 					'blog_class_leading'      => '',
 					'blog_class'              => 'boxed',
 					'num_leading_articles'    => 0,
-					'num_intro_articles'      => '4',
+					'num_intro_articles'      => 4,
 					'num_links'               => 0,
 					'orderby_sec'             => 'rdate',
 					'order_date'              => 'published',
-					'show_pagination'         => '2',
-					'show_pagination_results' => '1',
+					'show_pagination'         => 4,
+					'show_pagination_results' => 1,
 					'article_layout'          => '_:default',
 					'link_titles'             => 0,
 					'info_block_show_title'   => '',
@@ -825,7 +740,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'show_hits'               => 0,
 					'menu_text'               => 1,
 					'menu_show'               => 1,
-					'show_page_heading'       => '1',
+					'show_page_heading'       => 1,
 				),
 			),
 			array(
