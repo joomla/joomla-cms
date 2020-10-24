@@ -330,7 +330,7 @@ const recreateMediaFolder = () => {
     if (stat === 'file' && (filepath.match(/\.es6\.js/) || filepath.match(/\.scss/) || filepath.match(/\.es5\.js/))) {
       return false;
     }
-    if (stat === 'directory' && (filename.match(/webcomponent/) || filename.match(/scss/))) {
+    if (stat === 'directory' && (filename.match(/webcomponent/) || filename.match(/core.es6/) || filename.match(/scss/))) {
       return false;
     }
     return true;
