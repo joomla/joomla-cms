@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -34,28 +35,35 @@ if ($context === 'com_content.categories')
 
 $rating = (float) $row->rating;
 $rating = round($rating / 0.5) * 0.5; // round to 0.5
+$stars  = $rating;
+
 $rcount = (int) $row->rating_count;
 
-$img   = '';
-$stars = $rating;
+$star     = '';
+$halfstar = '';
+$img      = '';
 
-$star     = JPATH_ROOT . '/media/plg_content_vote/images/vote-star.svg';
-$halfstar = JPATH_ROOT . '/media/plg_content_vote/images/vote-star-half.svg';
+if (File::exists(JPATH_ROOT . '/media/plg_content_vote/images/vote-star.svg'))
+{
+	$star = file_get_contents(JPATH_ROOT . '/media/plg_content_vote/images/vote-star.svg');
+}
 
-$simplestar     = file_get_contents($star);
-$simplehalfstar = file_get_contents($halfstar);
+if (File::exists(JPATH_ROOT . '/media/plg_content_vote/images/vote-star-half.svg'))
+{
+	$halfstar = file_get_contents(JPATH_ROOT . '/media/plg_content_vote/images/vote-star-half.svg');
+}
 
 for ($i = 0; $i < floor($stars); $i++)
 {
-	$staractive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_ACTIVE'), $simplestar);
+	$staractive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_ACTIVE'), $star);
 
 	$img .= '<li class="vote-star">' . $staractive . '</li>';
 }
 
 if (($stars - floor($stars)) >= 0.5)
 {
-	$starinactive   = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_INACTIVE'), $simplestar);
-	$halfstaractive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_ACTIVE_HALF'), $simplehalfstar);
+	$starinactive   = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_INACTIVE'), $star);
+	$halfstaractive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_ACTIVE_HALF'), $halfstar);
 
 	$img .= '<li class="vote-star-empty">' . $starinactive . '</li>';
 	$img .= '<li class="vote-star-half">' . $halfstaractive . '</li>';
@@ -65,7 +73,7 @@ if (($stars - floor($stars)) >= 0.5)
 
 for ($i = $stars; $i < 5; $i++)
 {
-	$starinactive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_INACTIVE'), $simplestar);
+	$starinactive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_INACTIVE'), $star);
 
 	$img .= '<li class="vote-star-empty">' . $starinactive . '</li>';
 }
