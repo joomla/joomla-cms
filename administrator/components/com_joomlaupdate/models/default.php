@@ -1432,18 +1432,7 @@ ENDDATA;
 	 */
 	private static function isNonCoreExtension($extension)
 	{
-		$coreExtensions = JExtensionHelper::getCoreExtensions();
-
-		foreach ($coreExtensions as $coreExtension)
-		{
-			if ($coreExtension[1] == $extension->element)
-			{
-				return false;
-			}
-		}
-
-		return true;
-
+		return !\JExtensionHelper::checkIfCoreExtension($extension->type, $extension->element, $extension->client_id, $extension->folder);
 	}
 
 	/**
