@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa = $this->app->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('plg_content_vote', 'plg_content_vote/rating.css');
 
 /**
