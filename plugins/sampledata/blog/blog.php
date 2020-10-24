@@ -1187,7 +1187,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'menutype'        => $menuTypes[0],
 					'layout'          => 'cassiopeia:metismenu',
 					'startLevel'      => 1,
-					'endLevel'        => 3,
+					'endLevel'        => 0,
 					'showAllChildren' => 1,
 					'class_sfx'       => '',
 					'cache'           => 1,
