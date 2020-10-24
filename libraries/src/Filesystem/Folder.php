@@ -496,7 +496,7 @@ abstract class Folder
 	 * @param   mixed    $recurse        True to recursively search into sub-folders, or an integer to specify the maximum depth.
 	 * @param   boolean  $full           True to return the full path to the file.
 	 * @param   array    $exclude        Array with names of files which should not be shown in the result.
-	 * @param   array    $excludefilter  Array of filter to exclude
+	 * @param   array    $excludeFilter  Array of filter to exclude
 	 * @param   boolean  $naturalSort    False for asort, true for natsort
 	 *
 	 * @return  array  Files in the given folder.
@@ -504,7 +504,7 @@ abstract class Folder
 	 * @since   1.7.0
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
+		$excludeFilter = array('^\..*', '.*~'), $naturalSort = false)
 	{
 		// Check to make sure the path valid and clean
 		$pathObject = new PathWrapper;
@@ -519,9 +519,9 @@ abstract class Folder
 		}
 
 		// Compute the excludefilter string
-		if (count($excludefilter))
+		if (count($excludeFilter))
 		{
-			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
+			$excludefilter_string = '/(' . implode('|', $excludeFilter) . ')/';
 		}
 		else
 		{
@@ -552,14 +552,14 @@ abstract class Folder
 	 * @param   mixed    $recurse        True to recursively search into sub-folders, or an integer to specify the maximum depth.
 	 * @param   boolean  $full           True to return the full path to the folders.
 	 * @param   array    $exclude        Array with names of folders which should not be shown in the result.
-	 * @param   array    $excludefilter  Array with regular expressions matching folders which should not be shown in the result.
+	 * @param   array    $excludeFilter  Array with regular expressions matching folders which should not be shown in the result.
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
 	 * @since   1.7.0
 	 */
 	public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*'))
+		$excludeFilter = array('^\..*'))
 	{
 		// Check to make sure the path valid and clean
 		$pathObject = new PathWrapper;
@@ -574,9 +574,9 @@ abstract class Folder
 		}
 
 		// Compute the excludefilter string
-		if (count($excludefilter))
+		if (count($excludeFilter))
 		{
-			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
+			$excludefilter_string = '/(' . implode('|', $excludeFilter) . ')/';
 		}
 		else
 		{
@@ -600,14 +600,14 @@ abstract class Folder
 	 * @param   mixed    $recurse              True to recursively search into sub-folders, or an integer to specify the maximum depth.
 	 * @param   boolean  $full                 True to return the full path to the file.
 	 * @param   array    $exclude              Array with names of files which should not be shown in the result.
-	 * @param   string   $excludefilterString  Regexp of files to exclude
-	 * @param   boolean  $findfiles            True to read the files, false to read the folders
+	 * @param   string   $excludeFilterString  Regexp of files to exclude
+	 * @param   boolean  $findFiles            True to read the files, false to read the folders
 	 *
 	 * @return  array  Files.
 	 *
 	 * @since   1.7.0
 	 */
-	protected static function _items($path, $filter, $recurse, $full, $exclude, $excludefilterString, $findfiles)
+	protected static function _items($path, $filter, $recurse, $full, $exclude, $excludeFilterString, $findFiles)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
@@ -622,7 +622,7 @@ abstract class Folder
 		while (($file = readdir($handle)) !== false)
 		{
 			if ($file != '.' && $file != '..' && !in_array($file, $exclude)
-				&& (empty($excludefilterString) || !preg_match($excludefilterString, $file)))
+				&& (empty($excludeFilterString) || !preg_match($excludeFilterString, $file)))
 			{
 				// Compute the fullpath
 				$fullpath = $path . '/' . $file;
@@ -630,7 +630,7 @@ abstract class Folder
 				// Compute the isDir flag
 				$isDir = is_dir($fullpath);
 
-				if (($isDir xor $findfiles) && preg_match("/$filter/", $file))
+				if (($isDir xor $findFiles) && preg_match("/$filter/", $file))
 				{
 					// (fullpath is dir and folders are searched or fullpath is not dir and files are searched) and file matches the filter
 					if ($full)
@@ -651,11 +651,11 @@ abstract class Folder
 					if (is_int($recurse))
 					{
 						// Until depth 0 is reached
-						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludefilterString, $findfiles));
+						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludeFilterString, $findFiles));
 					}
 					else
 					{
-						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse, $full, $exclude, $excludefilterString, $findfiles));
+						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse, $full, $exclude, $excludeFilterString, $findFiles));
 					}
 				}
 			}
