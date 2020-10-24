@@ -102,6 +102,7 @@ class RedisStorage extends CacheStorage
 		}
 		catch (\RedisException $e)
 		{
+			$connection = false;
 			Log::add($e->getMessage(), Log::DEBUG);
 		}
 

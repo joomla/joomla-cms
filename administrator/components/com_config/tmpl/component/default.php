@@ -43,7 +43,7 @@ $xml = $this->form->getXml();
 
 		<?php // Begin Sidebar ?>
 		<div class="col-md-3" id="sidebar">
-			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false">
 				 <span class="fas fa-align-justify" aria-hidden="true"></span>
 				 <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
