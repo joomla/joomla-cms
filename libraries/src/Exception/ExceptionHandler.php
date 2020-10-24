@@ -39,7 +39,14 @@ class ExceptionHandler
 		// We only want to handle user deprecation messages, these will be triggered in code
 		if ($errorNumber === E_USER_DEPRECATED)
 		{
-			Log::deprecated($errorMessage);
+			try
+			{
+				Log::add($errorMessage, Log::WARNING, 'deprecated');
+			}
+			catch (\Exception $e)
+			{
+				// Silence
+			}
 
 			// If debug mode is enabled, we want to let PHP continue to handle the error; otherwise, we can bail early
 			if (\defined('JDEBUG') && JDEBUG)

@@ -415,39 +415,4 @@ class Log
 
 		return $loggers;
 	}
-
-	/**
-	 * Helper method to log deprecated features, only when it enabled.
-	 *
-	 * @param   mixed  $entry  The LogEntry object to add to the log or the message for a new LogEntry object.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function deprecated($entry)
-	{
-		static $logDeprecated = null;
-
-		// Initialise static variable, but only when application exists
-		if ($logDeprecated === null && Factory::$application)
-		{
-			$logDeprecated = Factory::getApplication()->get('log_deprecated');
-		}
-
-		// Do not log if log_deprecated set to Off, or log_deprecated state is unknown
-		if (!$logDeprecated || !Factory::$application)
-		{
-			return;
-		}
-
-		try
-		{
-			self::add($entry, self::WARNING, 'deprecated');
-		}
-		catch (\Exception $e)
-		{
-			// Silence
-		}
-	}
 }
