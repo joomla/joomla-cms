@@ -112,7 +112,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<header class="header container-header full-width <?php echo $stickyHeader; ?>">
 		<div class="grid-child">
 			<div class="navbar-brand">
-				<a href="<?php echo $this->baseurl; ?>/">
+				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
 					<?php echo $logo; ?>
 				</a>
 				<?php if ($this->params->get('siteDescription')) : ?>
