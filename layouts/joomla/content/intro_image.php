@@ -16,10 +16,12 @@ $params  = $displayData->params;
 $images  = json_decode($displayData->images);
 ?>
 <?php if (!empty($images->image_intro)) : ?>
-	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
-	<figure class="float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
-		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-			<a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>">
+	<?php $imgclass = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
+	<figure class="<?php echo htmlspecialchars($imgclass, ENT_COMPAT, 'UTF-8'); ?> item-image">
+		<?php if ($params->get('link_intro_image') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
+			<a href="<?php echo Route::_(
+				RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)
+				); ?>" itemprop="url" title="<?php echo $this->escape($displayData->title); ?>">
 				<img loading="lazy" src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>"
 					 alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"
 					 itemprop="thumbnailUrl"
