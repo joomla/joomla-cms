@@ -98,12 +98,13 @@ class Toolbar
 		// At 5.0, require the factory to be injected
 		if (!$factory)
 		{
-			Log::deprecated(
+			@trigger_error(
 				sprintf(
 					'As of Joomla! 5.0, a %1$s must be provided to a %2$s object when creating it.',
 					ToolbarFactoryInterface::class,
 					\get_class($this)
-				)
+				),
+				E_USER_DEPRECATED
 			);
 
 			$factory = new ContainerAwareToolbarFactory;
@@ -180,12 +181,13 @@ class Toolbar
 		array_unshift($args, $button);
 		$this->_bar[] = $args;
 
-		Log::deprecated(
+		@trigger_error(
 			sprintf(
 				'%s::appendButton() should only accept %s instance in Joomla 5.0.',
 				static::class,
 				ToolbarButton::class
-			)
+			),
+			E_USER_DEPRECATED
 		);
 
 		return true;
@@ -257,12 +259,13 @@ class Toolbar
 		array_unshift($args, $button);
 		array_unshift($this->_bar, $args);
 
-		Log::deprecated(
+		@trigger_error(
 			sprintf(
 				'%s::prependButton() should only accept %s instance in Joomla 5.0.',
 				static::class,
 				ToolbarButton::class
-			)
+			),
+			E_USER_DEPRECATED
 		);
 
 		return true;
@@ -394,13 +397,14 @@ class Toolbar
 	 */
 	public function addButtonPath($path)
 	{
-		Log::deprecated(
+		@trigger_error(
 			sprintf(
 				'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 5.0.'
 				. ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
 				ToolbarButton::class,
 				ToolbarFactoryInterface::class
-			)
+			),
+			E_USER_DEPRECATED
 		);
 
 		// Loop through the path directories.
@@ -431,11 +435,12 @@ class Toolbar
 	 */
 	public function getButtonPath(): array
 	{
-		Log::deprecated(
+		@trigger_error(
 			sprintf(
 				'Lookup paths for %s objects is deprecated and will be removed in Joomla 5.0.',
 				ToolbarButton::class
-			)
+			),
+			E_USER_DEPRECATED
 		);
 
 		return $this->_buttonPath;

@@ -134,8 +134,9 @@ class Session extends BaseSession
 	 */
 	public static function getInstance()
 	{
-		Log::deprecated(
-			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via Factory::getApplication()->getSession().'
+		@trigger_error(
+			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via Factory::getApplication()->getSession().',
+			E_USER_DEPRECATED
 		);
 
 		return Factory::getApplication()->getSession();
@@ -160,9 +161,10 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				Log::deprecated(
+				@trigger_error(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-					. 'The namespace should be prepended to the name instead.'
+					. 'The namespace should be prepended to the name instead.',
+					E_USER_DEPRECATED
 				);
 
 				$name = $args[2] . '.' . $name;
@@ -191,9 +193,10 @@ class Session extends BaseSession
 
 			if (!empty($args[2]))
 			{
-				Log::deprecated(
+				@trigger_error(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-					. 'The namespace should be prepended to the name instead.'
+					. 'The namespace should be prepended to the name instead.',
+					E_USER_DEPRECATED
 				);
 
 				$name = $args[2] . '.' . $name;
@@ -221,9 +224,10 @@ class Session extends BaseSession
 
 			if (!empty($args[1]))
 			{
-				Log::deprecated(
+				@trigger_error(
 					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-					. 'The namespace should be prepended to the name instead.'
+					. 'The namespace should be prepended to the name instead.',
+					E_USER_DEPRECATED
 				);
 
 				$name = $args[1] . '.' . $name;
@@ -249,8 +253,9 @@ class Session extends BaseSession
 
 			if (!empty($args[0]))
 			{
-				Log::deprecated(
-					'Using ' . __METHOD__ . '() to remove a single element from the session is deprecated.  Use ' . __CLASS__ . '::remove() instead.'
+				@trigger_error(
+					'Using ' . __METHOD__ . '() to remove a single element from the session is deprecated.  Use ' . __CLASS__ . '::remove() instead.',
+					E_USER_DEPRECATED
 				);
 
 				$name = $args[0];
@@ -258,9 +263,10 @@ class Session extends BaseSession
 				// Also check for a namespace
 				if (\func_num_args() > 1 && !empty($args[1]))
 				{
-					Log::deprecated(
+					@trigger_error(
 						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
-						 . 'The namespace should be prepended to the name instead.'
+						 . 'The namespace should be prepended to the name instead.',
+						E_USER_DEPRECATED
 					);
 
 					$name = $args[1] . '.' . $name;

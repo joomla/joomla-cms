@@ -73,8 +73,9 @@ class Route
 			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
 			if (!is_int($tls))
 			{
-				Log::deprecated(
-					__METHOD__ . '() called with incompatible variable type on parameter $tls.'
+				@trigger_error(
+					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
+					E_USER_DEPRECATED
 				);
 
 				$tls = (int) $tls;
