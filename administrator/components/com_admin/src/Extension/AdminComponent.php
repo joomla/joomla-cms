@@ -14,6 +14,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\Component\Admin\Administrator\Service\HTML\Configuration;
 use Joomla\Component\Admin\Administrator\Service\HTML\Directory;
 use Joomla\Component\Admin\Administrator\Service\HTML\PhpSetting;
 use Joomla\Component\Admin\Administrator\Service\HTML\System;
@@ -46,5 +47,6 @@ class AdminComponent extends MVCComponent implements BootableExtensionInterface
 		$this->getRegistry()->register('system', new System);
 		$this->getRegistry()->register('phpsetting', new PhpSetting);
 		$this->getRegistry()->register('directory', new Directory);
+		$this->getRegistry()->register('configuration', new Configuration);
 	}
 }

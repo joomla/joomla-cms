@@ -15,7 +15,7 @@
     "build:js": "node build/build.js --compile-js",
     "build:css": "node build/build.js --compile-css",
     "watch": "node build/build.js --watch",
-    "lint:js": "node ./node_modules/eslint/bin/eslint.js --config build/.eslintrc --ext .js,.vue .",
+    "lint:js": "node ./node_modules/eslint/bin/eslint.js --config build/.eslintrc --ignore-pattern '/media/' --ext .es6.js,.es6,.vue .",
     "lint:css": "node ./node_modules/stylelint/bin/stylelint.js --config build/.stylelintrc.json -s scss \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
     "test": "npx karma start tests/javascript/karma.conf.js --single-run",
     "install": "node build/build.js --copy-assets && node build/build.js --build-pages",
