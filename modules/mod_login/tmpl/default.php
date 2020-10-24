@@ -143,20 +143,20 @@ Text::script('JHIDEPASSWORD');
 		<?php
 			$usersConfig = ComponentHelper::getParams('com_users'); ?>
 			<ul class="mod-login__options list-unstyled">
-			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
-				<li>
-					<a href="<?php echo Route::_($registerLink); ?>">
-					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="fas fa-arrow-alt-circle-right"></span></a>
-				</li>
-			<?php endif; ?>
-				<li>
-					<a href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
-					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
-				</li>
 				<li>
 					<a href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
 					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
+				<li>
+					<a href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
+					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
+				</li>
+				<?php if ($usersConfig->get('allowUserRegistration')) : ?>
+				<li>
+					<a href="<?php echo Route::_($registerLink); ?>">
+					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="fas fa-arrow-alt-circle-right"></span></a>
+				</li>
+				<?php endif; ?>
 			</ul>
 		<input type="hidden" name="option" value="com_users">
 		<input type="hidden" name="task" value="user.login">

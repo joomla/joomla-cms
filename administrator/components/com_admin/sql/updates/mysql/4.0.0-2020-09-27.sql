@@ -4,9 +4,11 @@ DELETE FROM `#__extensions` WHERE `name` = 'plg_authentication_gmail' AND `type`
 --
 -- Delete possibly duplicate record for plg_sampledata_multilang
 --
-DELETE FROM `#__extensions`
- WHERE `name` = 'plg_sampledata_multilang' AND `type` = 'plugin' AND `element` = 'multilang' AND `folder` = 'sampledata' AND `client_id` = 0
-   AND `extension_id` < (SELECT MAX(`extension_id`) FROM `#__extensions` WHERE `name` = 'plg_sampledata_multilang' AND `type` = 'plugin' AND `element` = 'multilang' AND `folder` = 'sampledata' AND `client_id` = 0);
+DELETE `e1`.*
+  FROM `#__extensions` AS `e1`
+  LEFT JOIN (SELECT MAX(extension_id) AS last_id FROM `#__extensions` GROUP BY `name`,`type`,`element`,`folder`,`client_id`) AS `e2`
+    ON `e2`.`last_id` = `e1`.`extension_id`
+ WHERE `last_id` IS NULL;
 
 --
 -- Enable the remaining plg_sampledata_multilang record in case it has been disabled before
