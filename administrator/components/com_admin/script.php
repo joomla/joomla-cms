@@ -2036,6 +2036,9 @@ class JoomlaInstallerScript
 
 			// Joomla! 3.9.21
 			'/.github/SECURITY.md',
+
+			// Joomla! 3.9.23
+			'/.drone.jsonnet',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
