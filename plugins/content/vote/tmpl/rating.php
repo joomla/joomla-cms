@@ -39,19 +39,9 @@ $stars  = $rating;
 
 $rcount = (int) $row->rating_count;
 
-$star     = '';
-$halfstar = '';
 $img      = '';
-
-if (File::exists(JPATH_ROOT . '/media/plg_content_vote/images/vote-star.svg'))
-{
-	$star = file_get_contents(JPATH_ROOT . '/media/plg_content_vote/images/vote-star.svg');
-}
-
-if (File::exists(JPATH_ROOT . '/media/plg_content_vote/images/vote-star-half.svg'))
-{
-	$halfstar = file_get_contents(JPATH_ROOT . '/media/plg_content_vote/images/vote-star-half.svg');
-}
+$star     = file_get_contents(JPATH_ROOT . '/media/plg_content_vote/images/vote-star.svg');
+$halfstar = file_get_contents(JPATH_ROOT . '/media/plg_content_vote/images/vote-star-half.svg');
 
 for ($i = 0; $i < floor($stars); $i++)
 {
