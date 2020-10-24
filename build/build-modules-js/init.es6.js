@@ -327,10 +327,10 @@ const recreateMediaFolder = () => {
   console.log('Recreating the media folder...');
 
   Copydir.sync(Path.join(RootPath, 'build/media_source'), Path.join(RootPath, 'media'), (stat, filepath, filename) => {
-    if (stat === 'file' && filename.match(/\.(es6\.js|es5\.js|scss)/)) {
+    if (stat === 'file' && filename.match(/\.(es6\.js|es5\.js|scss)$/)) {
       return false;
     }
-    if (stat === 'directory' && filename.match(/(webcomponent|core.es6|scss)/)) {
+    if (stat === 'directory' && filename.match(/^(core.es6|scss)$/)) {
       return false;
     }
     return true;
