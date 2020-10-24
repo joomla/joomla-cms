@@ -35,6 +35,11 @@ $a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
 $a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
 $a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
 
+// Set the base font size (1rem = 16px)
+$baseFontSize = '0.875rem';
+
+$this->getWebAssetManager()->addInlineStyle("html {--font-size-base: {$baseFontSize};}");
+
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params

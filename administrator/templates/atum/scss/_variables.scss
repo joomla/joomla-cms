@@ -110,22 +110,22 @@ $sidebar-width-closed:             3rem;
 $main-brand-height:                3rem;
 
 // Fonts
-$font-size-base:                   .875rem; // Instead of default 1rem
+$font-size-base:                   1rem;
 $font-family-sans-serif:           "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$h1-font-size:                     ($font-size-base * 1.65);
-$h2-font-size:                     ($font-size-base * 1.5);
-$h3-font-size:                     ($font-size-base * 1.25);
-$h4-font-size:                     ($font-size-base * 1);
-$h5-font-size:                     ($font-size-base * .9286);
-$h6-font-size:                     ($font-size-base * .8571);
-$font-size-sm:                     ($font-size-base * .8);
-$font-size-vsm:                    ($font-size-base * .6);
-$display1-size:                    ($font-size-base * 1);
-$display2-size:                    ($font-size-base * .875);
-$content-font-size:                ($font-size-base * .875);
-$label-font-size:                  ($font-size-base * 1);
+$h1-font-size:                     calc(var(--font-size-base) * 1.65);
+$h2-font-size:                     calc(var(--font-size-base) * 1.5);
+$h3-font-size:                     calc(var(--font-size-base) * 1.25);
+$h4-font-size:                     calc(var(--font-size-base) * 1);
+$h5-font-size:                     calc(var(--font-size-base) * .9286);
+$h6-font-size:                     calc(var(--font-size-base) * .8571);
+$font-size-sm:                     calc(var(--font-size-base) * .8);
+$font-size-vsm:                    calc(var(--font-size-base) * .6);
+$display1-size:                    calc(var(--font-size-base) * 1);
+$display2-size:                    calc(var(--font-size-base) * .875);
+$content-font-size:                calc(var(--font-size-base) * .875);
+$label-font-size:                  calc(var(--font-size-base) * 1);
 $danger-bg:                        #900;
-$badge-font-size:                  ($font-size-base * .75);
+$badge-font-size:                  calc(var(--font-size-base) * .75);
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
