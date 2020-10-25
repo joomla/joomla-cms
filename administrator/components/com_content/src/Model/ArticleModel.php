@@ -509,6 +509,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
 				{
 					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'required', 'false');
 					$form->setFieldAttribute('catid', 'filter', 'unset');
 				}
 			}
@@ -710,6 +711,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Create new category, if needed.
 		$createCategory = true;
+
+		if (is_null($data['catid']))
+		{
+			// When there is no catid passed don't try to crate one
+			$createCategory = false;
+		}
 
 		// If category ID is provided, check if it's valid.
 		if (is_numeric($data['catid']) && $data['catid'])
@@ -1129,6 +1136,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function hit()
 	{
+		return;
 	}
 
 	/**
