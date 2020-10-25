@@ -69,7 +69,7 @@ class DisplayController extends BaseController
 	public function login()
 	{
 		// Check for request forgeries.
-		$this->checkToken('request');
+		$this->checkToken('post');
 
 		$app = $this->app;
 
