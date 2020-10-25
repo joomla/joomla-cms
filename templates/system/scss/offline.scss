@@ -4,133 +4,133 @@
  */
 
 body {
-	margin: 0;
   padding: 0;
-	font-family: arial, helvetica, sans-serif;
-	font-size: 14px;
-	color: #333333;
-	text-align: center;
+  margin: 0;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
 }
 
-img  {
-	border: 0 none;
-	margin-left: auto;
-	margin-right: auto;
+img {
+  margin-right: auto;
+  margin-left: auto;
+  border: 0 none;
 }
 
 /* -- id styles ------------------------------------- */
 
 #frame {
-	margin: 20px auto;
-	max-width: 400px;
-	padding: 20px;
+  max-width: 400px;
+  padding: 20px;
+  margin: 20px auto;
 }
 
 #frame img {
-	max-width: 100%;
-	height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 #frame form {
-	text-align: left;
+  text-align: left;
 }
 
 /* -- class styles ---------------------------------- */
 
 .outline {
-	border: 1px solid #cccccc;
-	background: #ffffff;
-	padding: 2px;
+  padding: 2px;
+  background: #fff;
+  border: 1px solid #ccc;
 }
 
 /* -- form styles ----------------------------------- */
 
 form {
-	margin: auto;
+  margin: auto;
 }
 
 form br {
-	display: none;
+  display: none;
 }
 
 form p {
-	margin: 0;
-	padding: 0.5em 0 0.5em 0;
+  padding: .5em 0;
+  margin: 0;
 }
 
 form fieldset {
-	border: 0 none;
-	margin: 0em;
-	padding: 0.2em;
+  padding: .2em;
+  margin: 0;
+  border: 0 none;
 }
 
 label {
-	display: block;
-	margin: 5px 0 2px 0;
+  display: block;
+  margin: 5px 0 2px;
 }
 
 input {
-	box-sizing: border-box;
-	width: 100%;
-	padding: 5px 10px;
-	border: 1px solid #0E67A1;
-	font-size: inherit;
-	font-family: inherit;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px 10px;
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid #0e67a1;
 }
 
 input.button {
-	width: auto;
-	cursor: pointer;
-	background-color: #006dcc;
-	border-color: #04c;
-	color: #fff;
-	-webkit-appearance: none;
+  width: auto;
+  color: #fff;
+  cursor: pointer;
+  background-color: #006dcc;
+  border-color: #04c;
+  appearance: none;
 }
 
 input.button:hover {
-	background-color: #04c;
+  background-color: #04c;
 }
 
 fieldset.input p {
-	clear: left;
+  clear: left;
 }
 
 #frmlogin {
-	margin: 0 10px 0 10px;
+  margin: 0 10px;
 }
 
 #frmlogin fieldset.button {
-	text-align: right;
+  text-align: right;
 }
 
 /* -- message styles ----------------------------------- */
 
 .alert {
-	background: none repeat scroll 0 0 #FFFFFF;
-	border: 1px solid #CCCCCC;
-	padding: 8px 25px 8px 14px;
-	text-align: left;
+  padding: 8px 25px 8px 14px;
+  text-align: left;
+  background: none repeat scroll 0 0 #fff;
+  border: 1px solid #ccc;
 }
 
 .alert h4 {
-	color: red;
-	margin: 5px 0;
+  margin: 5px 0;
+  color: #f00;
 }
 
 .alert p {
-	padding: 0;
-	margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .alert .close {
-	float: right;
-	font-size: 24px;
-	line-height: 18px;
-	position: relative;
-	right: -20px;
-	top: -2px;
-	cursor: pointer;
+  position: relative;
+  top: -2px;
+  right: -20px;
+  float: right;
+  font-size: 24px;
+  line-height: 18px;
+  cursor: pointer;
 }
 .login {
-	margin-top: 5px;
+  margin-top: 5px;
 }

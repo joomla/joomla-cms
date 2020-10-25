@@ -3,7 +3,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- /**
+/**
  * Joomla! 4.0 Offline RTL css file
  *
  * @package	Joomla
@@ -11,17 +11,17 @@
  * @version	1.0
  */
 
-#frame form{ text-align: right; }
-label { float:right; }
+#frame form { text-align: right; }
+label { float: right; }
 fieldset.input p {clear: right;}
 
 /* -- message styles ----------------------------------- */
 .alert {
-	padding: 8px 8px 25px 14px;
-	text-align: right;
+  padding: 8px 8px 25px 14px;
+  text-align: right;
 }
 .alert .close {
-	float: left;
-	left: -20px;
-	right: 0;
+  right: 0;
+  left: -20px;
+  float: left;
 }

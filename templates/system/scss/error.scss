@@ -5,76 +5,76 @@
 
 /* Start Common Styles */
 * {
-	font-family: helvetica, arial, sans-serif;
-	font-size: 11px;
-	color: #5F6565;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 11px;
+  color: #5f6565;
 }
 
 html {
-	height: 100%;
-	margin-bottom: 1px;
+  height: 100%;
+  margin-bottom: 1px;
 }
 
 body {
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	margin-bottom: 1px;
-	background: #FFFFFF;
-	font-family: helvetica, arial, sans-serif;
-	font-weight: normal;
-	padding-top: 0;
-	margin-top: 0;
+  height: 100%;
+  padding: 0;
+  padding-top: 0;
+  margin: 0;
+  margin-top: 0;
+  margin-bottom: 1px;
+  font-family: helvetica, arial, sans-serif;
+  font-weight: normal;
+  background: #fff;
 }
 
 .error {
-	margin-left: auto;
-	margin-right: auto;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 table, td, th, div, pre, blockquote, ul, ol, dl, address,.componentheading,.contentheading,.contentpagetitle,.sectiontableheader,.newsfeedheading {
-	font-family: helvetica, arial, sans-serif;
-	font-weight: normal;
+  font-family: helvetica, arial, sans-serif;
+  font-weight: normal;
 }
 
 #outline {
-	width: 900px;
-	margin: 0 auto;
-	padding: 0;
-	padding-top: 60px;
-	padding-bottom: 60px;
-	background: #FFFFFF;
+  width: 900px;
+  padding: 0;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  margin: 0 auto;
+  background: #fff;
 }
 #errorboxoutline {
-	width: 900px;
-	margin: 0;
-	padding: 0;
-	border: 1px solid #000000;
+  width: 900px;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #000;
 }
 #errorboxheader {
-	width: 900px;
-	margin: 0;
-	padding: 0;
-	background: #E44249;
-	color: #FFFFFF;
-	font-weight: bold;
-	font-size: 12px;
-	line-height: 22px;
-	text-align: center;
-	border-bottom: 1px solid #000000;
+  width: 900px;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 22px;
+  color: #fff;
+  text-align: center;
+  background: #e44249;
+  border-bottom: 1px solid #000;
 }
 #errorboxbody {
-	margin: 0;
-	padding: 10px;
-	text-align: left;
+  padding: 10px;
+  margin: 0;
+  text-align: left;
 }
 #techinfo {
-	margin: 10px;
-	padding: 10px;
-	text-align: left;
-	border: 1px solid #CCCCCC;
-	color: #CCCCCC;
+  padding: 10px;
+  margin: 10px;
+  color: #ccc;
+  text-align: left;
+  border: 1px solid #ccc;
 }
 #techinfo p {
-	color: #CCCCCC;
+  color: #ccc;
 }

@@ -4,56 +4,56 @@
  */
 
 body {
-	background: #fff;
-	font-family: Tahoma, Helvetica, Arial, sans-serif;
-	line-height: 1.3em;
-	font-size: 12px;
-	color: #333;
+  font-family: Tahoma, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.3em;
+  color: #333;
+  background: #fff;
 }
 
 h1 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 16px;
-	font-weight: bold;
-	color: #666;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
 }
 
 h2 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	font-weight: normal;
-	color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  color: #333;
 }
 
 h3 {
-  font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 13px;
+  font-weight: bold;
   color: #135cae;
 }
 
 h4 {
-	font-weight: bold;
-	font-family: Arial, Helvetica, sans-serif;
-	color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: #333;
 }
 
 a:link, a:visited {
-	color: #1B57B1;
-	text-decoration: none;
-	font-weight: normal;
+  font-weight: normal;
+  color: #1b57b1;
+  text-decoration: none;
 }
 
 a:hover {
-	color: #00c;
-	text-decoration: underline;
-	font-weight: normal;
+  font-weight: normal;
+  color: #00c;
+  text-decoration: underline;
 }
 
-div.caption       { padding: 0 10px 0 10px; }
-div.caption img   { border: 1px solid #CCC; }
-div.caption p     { font-size: .90em; color: #666; text-align: center; }
+div.caption { padding: 0 10px; }
+div.caption img { border: 1px solid #ccc; }
+div.caption p { font-size: .9em; color: #666; text-align: center; }
 
 /* STYLES FOR JOOMLA! EDITOR */
-hr#system-readmore  { border: red dashed 1px; color: red; }
-hr.system-pagebreak { border: gray dashed 1px; color: gray; }
+hr#system-readmore { color: #f00; border: #f00 dashed 1px; }
+hr.system-pagebreak { color: #808080; border: #808080 dashed 1px; }

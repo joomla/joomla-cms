@@ -4,50 +4,50 @@
  */
 
 .outline {
-	margin: 0 auto;
-	width: 550px;
-	border: 1px solid #cccccc;
-	background: #ffffff;
-	padding: 2px;
+  width: 550px;
+  padding: 2px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #ccc;
 }
 
 body {
-	margin: 15px;
-	height: 100%;
-	padding: 0;
-	font-family: Arial, Helvetica, Sans Serif;
-	font-size: 11px;
-	color: #333333;
-	background: #ffffff;
+  height: 100%;
+  padding: 0;
+  margin: 15px;
+  font-family: Arial, Helvetica, Sans Serif;
+  font-size: 11px;
+  color: #333;
+  background: #fff;
 }
 
 .frame {
-	background-color: #FEFCF3;
-	padding: 8px;
-	border: solid 1px #000000;
-	margin-top: 13px;
-	margin-bottom: 25px;
+  padding: 8px;
+  margin-top: 13px;
+  margin-bottom: 25px;
+  background-color: #fefcf3;
+  border: solid 1px #000;
 }
 
 h1 {
-	color: #cc3333;
-	font-size: 18px;
+  font-size: 18px;
+  color: #c33;
 }
 
 .table {
-	border-collapse: collapse;
-	margin-top: 13px;
+  margin-top: 13px;
+  border-collapse: collapse;
 }
 
 td {
-	padding: 3px 5px;
-	border: solid 1px #bbbbbb;
-	font-size: 10px;
+  padding: 3px 5px;
+  font-size: 10px;
+  border: solid 1px #bbb;
 }
 
 .type {
-	background-color: #cc0000;
-	color: #ffffff;
-	font-weight: bold;
-	padding: 3px;
+  padding: 3px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #c00;
 }
