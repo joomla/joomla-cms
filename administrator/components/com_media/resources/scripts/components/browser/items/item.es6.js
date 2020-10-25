@@ -3,6 +3,7 @@ import File from './file.vue';
 import Image from './image.vue';
 import Video from './video.vue';
 import * as types from '../../../store/mutation-types.es6';
+import { api }  from '../../../app/Api.es6'
 
 export default {
   props: ['item'],
@@ -16,7 +17,7 @@ export default {
          * Return the correct item type component
          */
     itemType() {
-      const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+      const imageExtensions = api.imagesExtensions;
       const videoExtensions = ['mp4'];
 
       // Render directory items
