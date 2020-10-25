@@ -103,7 +103,7 @@ $wa->useScript('joomla.treeselectmenu')
 					</li>
 				</ul>
 			<?php endif; ?>
-		<joomla-alert id="noresultsfound" type="warning" class="hidden"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+		<joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php endif; ?>
 	</div>
 </div>

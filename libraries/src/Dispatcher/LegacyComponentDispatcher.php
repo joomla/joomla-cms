@@ -54,7 +54,7 @@ class LegacyComponentDispatcher implements DispatcherInterface
 		$path = JPATH_COMPONENT . '/' . substr($this->app->scope, 4) . '.php';
 
 		// If component file doesn't exist throw error
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}

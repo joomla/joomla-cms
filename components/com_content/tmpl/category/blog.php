@@ -106,7 +106,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php endif; ?>
 
 	<?php if (!empty($this->link_items)) : ?>
-		<div class="com-content-category-blog__items-more items-more">
+		<div class="items-more">
 			<?php echo $this->loadTemplate('links'); ?>
 		</div>
 	<?php endif; ?>

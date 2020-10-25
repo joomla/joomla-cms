@@ -60,7 +60,7 @@ class Cache
 			'locking'      => true,
 			'locktime'     => 15,
 			'checkTime'    => true,
-			'caching'      => ($app->get('caching') >= 1) ? true : false,
+			'caching'      => ($app->get('caching') >= 1),
 		);
 
 		// Overwrite default options with given options
@@ -517,7 +517,7 @@ class Cache
 	/**
 	 * Perform workarounds on retrieved cached data
 	 *
-	 * @param   string  $data     Cached data
+	 * @param   array   $data     Cached data
 	 * @param   array   $options  Array of options
 	 *
 	 * @return  string  Body of cached data

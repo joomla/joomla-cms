@@ -38,12 +38,12 @@
 @import "blocks/modals";
 @import "blocks/modifiers";
 @import "blocks/utilities";
+@import "blocks/legacy";
 @import "blocks/css-grid"; // Last to allow fallback
 
 // Vendor overrides
 @import "vendor/awesomplete";
 @import "vendor/bootstrap/buttons";
-@import "vendor/bootstrap/card";
 @import "vendor/bootstrap/custom-forms";
 @import "vendor/bootstrap/collapse";
 @import "vendor/bootstrap/dropdown";

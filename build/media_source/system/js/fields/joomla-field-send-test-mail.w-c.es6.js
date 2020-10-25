@@ -23,7 +23,7 @@
     }
 
     sendTestMail() {
-      const email_data = {
+      const emailData = {
         smtpauth: document.getElementById('jform_smtpauth1').checked ? 1 : 0,
         smtpuser: this.querySelector('[name="jform[smtpuser]"]').value,
         smtppass: this.querySelector('[name="jform[smtppass]"]').value,
@@ -42,11 +42,18 @@
       Joomla.request({
         url: this.getAttribute('uri'),
         method: 'POST',
-        data: JSON.stringify(email_data),
+        data: JSON.stringify(emailData),
         perform: true,
         headers: { 'Content-Type': 'application/json' },
-        onSuccess: (response) => {
-          response = JSON.parse(response);
+        onSuccess: (resp) => {
+          let response;
+          try {
+            response = JSON.parse(resp);
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error(e);
+          }
+
           if (typeof response.messages === 'object' && response.messages !== null) {
             Joomla.renderMessages(response.messages);
           }

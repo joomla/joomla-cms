@@ -15,7 +15,7 @@ $params = $displayData['params'];
 
 ?>
 <?php if ($params->get('show_icons')) : ?>
-	<span class="fas fa-plus" aria-hidden="true"></span>
+	<span class="fas fa-plus fa-fw" aria-hidden="true"></span>
 	<?php echo Text::_('JNEW'); ?>
 <?php else : ?>
 	<?php echo Text::_('JNEW') . '&#160;'; ?>
