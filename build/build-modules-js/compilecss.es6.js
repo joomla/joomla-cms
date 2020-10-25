@@ -55,10 +55,18 @@ module.exports.compile = (options, path) => {
             filesRc.forEach(
               (file) => {
                 // Don't take files with "_" but "file" has the full path, so check via match
-                if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
-                  files.push(file);
+                if (file.match(/\.scss$/)) {
+                  if (!file.match(/(\/|\\)_[^/\\]+$/)) {
+                    files.push(file);
+                  }
+
+                  // Update the scss in media folder
+                  if (file.match(/build\/media_source\//)) {
+                    FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
+                    Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
+                  }
                 }
-                if (file.match(/\.css/)) {
+                if (file.match(/\.css/) && !file.match(/\/template(s)?\//)) {
                   // CSS file, we will copy the file and then minify it in place
                   // Ensure that the directories exist or create them
                   FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
