@@ -714,7 +714,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if (is_null($data['catid']))
 		{
-			// When there is no catid passed don't try to crate one
+			// When there is no catid passed don't try to create one
 			$createCategory = false;
 		}
 
