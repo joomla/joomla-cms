@@ -1136,7 +1136,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function hit()
 	{
-		return;
 	}
 
 	/**
