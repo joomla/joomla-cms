@@ -213,7 +213,7 @@
     "selector-pseudo-class-parentheses-space-inside": "never",
     "shorthand-property-no-redundant-values": true,
     "string-quotes": "double",
-    "unit-allowed-list": [
+    "unit-whitelist": [
       "ch",
       "em",
       "ex",
