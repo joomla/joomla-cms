@@ -62,4 +62,4 @@ if (is_array($msgList) && !empty($msgList)) :
 	endforeach;
 endif;
 ?>
-<div id="system-message-container" aria-live="polite"><div id="system-message"><?php echo $msgOutput; ?></div></div>
+<div id="system-message-container" aria-live="polite"><?php echo $msgOutput; ?></div>
