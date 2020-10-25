@@ -60,7 +60,7 @@ module.exports.compile = (options, path) => {
                     files.push(file);
                   }
 
-                  // Update the scss in media folder
+                  // Update the scss in the media folder
                   if (file.match(/build\/media_source\//)) {
                     FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
                     Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
