@@ -1,18 +1,33 @@
-### Steps to reproduce the issue
+JSST Ticket Link:
+Reporter:
+
+## CVE / Issue details
+Project: Joomla!
+SubProject: CMS
+Impact:
+Severity:
+Versions:
+Exploit type:
+Reported Date: YYYY-MM-DD
+Fixed Date: YYYY-MM-DD
+CVE Number: CVE-20XX-XXX
+
+## Description
 
 
 
-### Expected result
+## Affected Installs
+
+Joomla! CMS versions X.X.X - X.X.XX
+
+## Solution
+
+Upgrade to version X.X.XX
+
+## Report Details
 
 
 
-### Actual result
+## Potenial solution
 
-
-
-### System information (as much as possible)
-
-
-
-### Additional comments
 
