@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\Utilities\ArrayHelper;
 
@@ -31,13 +32,15 @@ abstract class Icons
 	 *
 	 * @return  string
 	 *
+	 * @throws  \InvalidArgumentException
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function icon(string $icon = '', string $srOnly = '', array $attribs = [])
 	{
 		if ($icon === '')
 		{
-			return '';
+			throw new \InvalidArgumentException(Text::_('JLIB_HTML_ICONS_NO_ICON'));
 		}
 
 		if (isset($attribs['class']))
