@@ -36,7 +36,7 @@ abstract class Icons
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function icon(string $icon = '', string $srOnly = '', array $attribs = [])
+	public static function icon(string $icon, string $srOnly = '', array $attribs = [])
 	{
 		if ($icon === '')
 		{
