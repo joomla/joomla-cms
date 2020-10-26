@@ -91,10 +91,10 @@ abstract class Icons
 	}
 
 	/**
-	 * Writes a inline '<svg>' element
+	 * Writes an inline '<svg>' element
 	 *
-	 * @param   string  $file       The relative or absolute PATH to use for the src attribute.
-	 * @param   boolean $relative   Flag if the path to the file is relative to the /media folder (and searches in template).
+	 * @param   string   $file      The relative or absolute PATH to use for the src attribute.
+	 * @param   boolean  $relative  Flag if the path to the file is relative to the /media folder (and searches in template).
 	 *
 	 * @return  string
 	 *
