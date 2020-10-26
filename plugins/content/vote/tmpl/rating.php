@@ -75,9 +75,7 @@ for ($i = $stars; $i < 5; $i++)
 			<meta itemprop="worstRating" content="1">
 		</p>
 	<?php endif; ?>
-	<?php if ($img) : ?>
-		<ul>
-			<?php echo $img; ?>
-		</ul>
-	<?php endif; ?>
+	<ul>
+		<?php echo $img; ?>
+	</ul>
 </div>
