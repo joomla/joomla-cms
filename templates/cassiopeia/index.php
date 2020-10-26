@@ -26,8 +26,7 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
-$pageclass = $menu->getParams()->get('pageclass_sfx');
-
+$pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
@@ -129,7 +128,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
-		<jdoc:include type="modules" name="top-a" style="cardGrey" />
+		<jdoc:include type="modules" name="top-a" style="card" />
 	</div>
 	<?php endif; ?>
 
@@ -141,29 +140,29 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 
 	<?php if ($this->countModules('sidebar-left')) : ?>
 	<div class="grid-child container-sidebar-left">
-		<jdoc:include type="modules" name="sidebar-left" style="default" />
+		<jdoc:include type="modules" name="sidebar-left" style="card" />
 	</div>
 	<?php endif; ?>
 
 	<div class="grid-child container-component">
-		<jdoc:include type="modules" name="main-top" style="cardGrey" />
+		<jdoc:include type="modules" name="main-top" style="card" />
 		<jdoc:include type="message" />
 		<jdoc:include type="modules" name="breadcrumbs" style="none" />
 		<main>
 		<jdoc:include type="component" />
 		</main>
-		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
+		<jdoc:include type="modules" name="main-bottom" style="card" />
 	</div>
 
 	<?php if ($this->countModules('sidebar-right')) : ?>
 	<div class="grid-child container-sidebar-right">
-		<jdoc:include type="modules" name="sidebar-right" style="default" />
+		<jdoc:include type="modules" name="sidebar-right" style="card" />
 	</div>
 	<?php endif; ?>
 
 	<?php if ($this->countModules('bottom-a')) : ?>
 	<div class="grid-child container-bottom-a">
-		<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
+		<jdoc:include type="modules" name="bottom-a" style="card" />
 	</div>
 	<?php endif; ?>
 

@@ -129,6 +129,17 @@ class FeaturedModel extends ListModel
 				->bind(':publish_down', $nowDate);
 		}
 
+		// Filter by search in title
+		$search = $this->getState('list.filter');
+
+		// Filter by search in title
+		if (!empty($search))
+		{
+			$search = '%' . trim($search) . '%';
+			$query->where($db->quoteName('a.name') . ' LIKE :name ');
+			$query->bind(':name', $search);
+		}
+
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
@@ -165,6 +176,9 @@ class FeaturedModel extends ListModel
 
 		$limitstart = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $limitstart);
+
+		// Optional filter text
+		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		$orderCol = $app->input->get('filter_order', 'ordering');
 

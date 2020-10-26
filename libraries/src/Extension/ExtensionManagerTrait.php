@@ -131,7 +131,7 @@ trait ExtensionManagerTrait
 		// The path of the loader file
 		$path = $extensionPath . '/services/provider.php';
 
-		if (file_exists($path))
+		if (is_file($path))
 		{
 			// Load the file
 			$provider = require_once $path;
@@ -209,7 +209,7 @@ trait ExtensionManagerTrait
 		$path = JPATH_PLUGINS . '/' . $type . '/' . $plugin . '/' . $plugin . '.php';
 
 		// Return an empty class when the file doesn't exist
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			return new DummyPlugin($dispatcher);
 		}
