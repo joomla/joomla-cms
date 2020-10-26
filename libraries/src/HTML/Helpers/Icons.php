@@ -102,10 +102,9 @@ abstract class Icons
 	 */
 	public static function svg(string $file, $relative = false)
 	{
-
-		if ($relative == true)
+		if ($relative === true)
 		{
-			$file = HTMLHelper::_('image', $file,  "", "", $relative, true);
+			$file = HTMLHelper::_('image', $file,  '', '', $relative, true);
 		}
 
 		$file = substr($file, \strlen(Uri::root(true)));
