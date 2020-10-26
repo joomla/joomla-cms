@@ -14,7 +14,6 @@ defined('_JEXEC') or die();
 
 use Exception;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -154,7 +153,7 @@ trait AdditionalLoginButtons
 				'id'                 => $randomId,
 				'data-webauthn-form' => $form,
 				'data-webauthn-url'  => $url,
-				'svg'                => JPATH_ROOT . HTMLHelper::_('image', "plg_system_webauthn/webauthn-black.svg",  "", "", true, true),
+				'svg'                => HTMLHelper::_('icons.svg', "plg_system_webauthn/webauthn-black.svg", true),
 				'class'              => 'plg_system_webauthn_login_button',
 			],
 		];

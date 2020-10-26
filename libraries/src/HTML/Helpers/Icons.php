@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Utility class for icons.
@@ -87,5 +88,28 @@ abstract class Icons
 		$layout = new FileLayout('joomla.quickicons.icon');
 
 		return $layout->render($button);
+	}
+
+	/**
+	 * Writes a inline '<svg>' element
+	 *
+	 * @param   string  $file       The relative or absolute PATH to use for the src attribute.
+	 * @param   boolean $relative   Flag if the path to the file is relative to the /media folder (and searches in template).
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0
+	 */
+	public static function svg(string $file, $relative = false)
+	{
+
+		if ($relative == true)
+		{
+			$file = HTMLHelper::_('image', "plg_system_webauthn/webauthn-black.svg",  "", "", true, true);
+		}
+
+		$file = substr($file, \strlen(Uri::root(true)));
+
+		return file_get_contents(JPATH_ROOT . $file);
 	}
 }
