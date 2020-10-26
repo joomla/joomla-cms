@@ -81,6 +81,23 @@
 			/>
 
 			<field
+				name="link_intro_image"
+				type="list"
+				label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="spacer2"
+				type="spacer"
+				hr="true"
+			/>
+
+			<field
 				name="orderby_pri"
 				type="list"
 				label="JGLOBAL_CATEGORY_ORDER_LABEL"

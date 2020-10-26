@@ -91,12 +91,12 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		if (empty($authHeader) && \PHP_SAPI === 'apache2handler'
 			&& function_exists('apache_request_headers') && apache_request_headers() !== false)
 		{
-			$apacheHeaders = \apache_request_headers();
+			$apacheHeaders = array_change_key_case(\apache_request_headers(), CASE_LOWER);
 
-			if (array_key_exists('Authorization', $apacheHeaders))
+			if (array_key_exists('authorization', $apacheHeaders))
 			{
 				$filter = \Joomla\CMS\Filter\InputFilter::getInstance();
-				$authHeader = $filter->clean($apacheHeaders['Authorization'], 'STRING');
+				$authHeader = $filter->clean($apacheHeaders['authorization'], 'STRING');
 			}
 		}
 
