@@ -154,7 +154,7 @@ trait AdditionalLoginButtons
 				'id'                 => $randomId,
 				'data-webauthn-form' => $form,
 				'data-webauthn-url'  => $url,
-				'svg'                => Path::check(JPATH_ROOT . HTMLHelper::_('image', "plg_system_webauthn/webauthn-black.svg",  "", "", true, true)),
+				'svg'                => JPATH_ROOT . HTMLHelper::_('image', "plg_system_webauthn/webauthn-black.svg",  "", "", true, true),
 				'class'              => 'plg_system_webauthn_login_button',
 			],
 		];
