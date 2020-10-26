@@ -105,7 +105,7 @@ abstract class Icons
 
 		if ($relative == true)
 		{
-			$file = HTMLHelper::_('image', "plg_system_webauthn/webauthn-black.svg",  "", "", true, true);
+			$file = HTMLHelper::_('image', $file,  "", "", true, true);
 		}
 
 		$file = substr($file, \strlen(Uri::root(true)));
