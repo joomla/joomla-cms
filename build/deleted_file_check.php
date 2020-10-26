@@ -167,6 +167,10 @@ $filesToRemove = [
 	"'/administrator/language/en-GB/en-GB.plg_search_tags.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_weblinks.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_system_weblinks.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini',",
 ];
 
 foreach ($filesToRemove as $file)
