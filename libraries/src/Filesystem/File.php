@@ -372,7 +372,7 @@ class File
 			else
 			{
 				$file = Path::clean($file);
-				$ret = \is_int(file_put_contents($file, $buffer)) ? true : false;
+				$ret = \is_int(file_put_contents($file, $buffer));
 			}
 
 			return $ret;

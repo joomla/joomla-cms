@@ -10,7 +10,6 @@
 
   const mobile = window.matchMedia('(max-width: 992px)');
   const small = window.matchMedia('(max-width: 575.98px)');
-  const smallLandscape = window.matchMedia('(max-width: 767.98px)');
   const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
 
   /**
@@ -135,7 +134,7 @@
         const headerMoreBtn = document.createElement('button');
         headerMoreBtn.className = 'header-more-btn d-flex flex-column align-items-stretch';
         headerMoreBtn.setAttribute('type', 'button');
-        headerMoreBtn.setAttribute('title', 'More Elements');
+        headerMoreBtn.setAttribute('title', Joomla.Text._('TPL_ATUM_MORE_ELEMENTS'));
         const spanFa = document.createElement('span');
         spanFa.className = 'fas fa-ellipsis-h';
         spanFa.setAttribute('aria-hidden', 'true');
@@ -193,6 +192,7 @@
     const sidebarNav = doc.querySelector('.sidebar-nav');
     const subhead = doc.querySelector('.subhead');
     const wrapper = doc.querySelector('.wrapper');
+    const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
 
     changeLogo('closed');
 
@@ -210,12 +210,14 @@
       wrapper.classList.add('closed');
     }
 
-    if (smallLandscape.matches) {
-      if (sidebarNav) sidebarNav.classList.add('mm-collapse');
-      if (subhead) subhead.classList.add('mm-collapse');
+    if (small.matches) {
+      if (sidebarNav) sidebarNav.classList.add('collapse');
+      if (subhead) subhead.classList.add('collapse');
+      if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
     } else {
-      if (sidebarNav) sidebarNav.classList.remove('mm-collapse');
-      if (subhead) subhead.classList.remove('mm-collapse');
+      if (sidebarNav) sidebarNav.classList.remove('collapse');
+      if (subhead) subhead.classList.remove('collapse');
+      if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
     }
   }
 
@@ -232,6 +234,7 @@
       changeLogo('closed');
     } else {
       changeLogo();
+      sidebarWrapper.classList.remove('collapse');
     }
 
     if (sidebarNav) sidebarNav.classList.remove('collapse');

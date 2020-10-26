@@ -375,8 +375,6 @@ class ConfigurationModel extends BaseInstallationModel
 				'error'
 			);
 		}
-
-		return true;
 	}
 
 	/**
