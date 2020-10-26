@@ -75,7 +75,7 @@
   .form-group {
     label {
       span {
-        font-size:  ($font-size-base * .9);
+        font-size: ($font-size-base * .9);
 
         @include media-breakpoint-down(xs) {
           width: 100%;
@@ -134,19 +134,19 @@
       margin-bottom: auto;
 
       a {
-        font-size:  ($font-size-base * .875);
+        font-size: ($font-size-base * .875);
       }
     }
 
     .card-header {
-      font-size:  ($font-size-base * 1.125);
+      font-size: ($font-size-base * 1.125);
     }
   }
 
   #sidebar {
     align-self: flex-end;
     width: 100%;
-    font-size:  ($font-size-base * .875);
+    font-size: ($font-size-base * .875);
     color: var(--atum-text-light);
     text-align: center;
 
