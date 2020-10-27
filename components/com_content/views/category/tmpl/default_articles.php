@@ -63,6 +63,10 @@ JFactory::getDocument()->addStyleDeclaration('
 ');
 
 $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
+
+$nullDate    = JFactory::getDbo()->getNullDate();
+$currentDate = JFactory::getDate()->format('Y-m-d H:i:s');
+
 ?>
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 <?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
@@ -213,12 +217,12 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 								<?php echo JText::_('JUNPUBLISHED'); ?>
 							</span>
 				<?php endif; ?>
-				<?php if (strtotime($article->publish_up) > strtotime(JFactory::getDate())) : ?>
+				<?php if ($article->publish_up > $currentDate) : ?>
 					<span class="list-published label label-warning">
 								<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 				<?php endif; ?>
-				<?php if ($article->publish_down !== JFactory::getDbo()->getNullDate() && strtotime($article->publish_down) < strtotime(JFactory::getDate())) : ?>
+				<?php if ($article->publish_down !== $nullDate && $article->publish_down < $currentDate) : ?>
 					<span class="list-published label label-warning">
 								<?php echo JText::_('JEXPIRED'); ?>
 							</span>
