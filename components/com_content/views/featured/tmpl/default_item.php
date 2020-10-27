@@ -20,7 +20,7 @@ $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associat
 $currentDate       = JFactory::getDate()->format('Y-m-d H:i:s');
 $isExpired         = $this->item->publish_down < $currentDate && $this->item->publish_down !== JFactory::getDbo()->getNullDate();
 $isNotPublishedYet = $this->item->publish_up > $currentDate;
-$isUnpublished     = ($this->item->state == 0 || $isNotPublishedYet || $isExpired);
+$isUnpublished     = $this->item->state == 0 || $isNotPublishedYet || $isExpired;
 
 ?>
 <?php if ($isUnpublished) : ?>
