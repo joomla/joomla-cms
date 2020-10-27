@@ -290,7 +290,7 @@ class JArchiveZip implements JArchiveExtractable
 		}
 
 		// Make sure the destination folder exists
-		if (!Folder::create($destination))
+		if (!JFolder::create($destination))
 		{
 			return $this->raiseWarning(100, 'Unable to create destination');
 		}
@@ -315,7 +315,7 @@ class JArchiveZip implements JArchiveExtractable
 			$buffer = stream_get_contents($stream);
 			fclose($stream);
 
-			if (File::write($destination . '/' . $file, $buffer) === false)
+			if (JFile::write($destination . '/' . $file, $buffer) === false)
 			{
 				return $this->raiseWarning(100, 'Unable to write entry');
 			}
