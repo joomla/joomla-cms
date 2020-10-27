@@ -204,7 +204,13 @@ class UsersModelUser extends JModelAdmin
 
 			// Set the link to activate the user account.
 			$linkMode = (int) $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
-			$data['activate'] = Route::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode, true);
+			$data['activate'] = Route::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
