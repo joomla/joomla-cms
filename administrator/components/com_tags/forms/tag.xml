@@ -241,6 +241,7 @@
 					type="text"
 					label="COM_TAGS_FIELD_TAG_LINK_CLASS"
 					size="20"
+					validate="CssIdentifier"
 				/>
 
 			</fields>

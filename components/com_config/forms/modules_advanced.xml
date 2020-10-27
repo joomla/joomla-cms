@@ -34,6 +34,7 @@
 				type="textarea"
 				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
 				rows="3"
+				validate="CssIdentifier"
 			/>
 
 			<field

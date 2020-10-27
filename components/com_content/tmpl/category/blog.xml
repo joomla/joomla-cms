@@ -192,6 +192,7 @@
 					label="JGLOBAL_BLOG_CLASS"
 					useglobal="true"
 					size="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
