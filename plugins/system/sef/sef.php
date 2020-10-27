@@ -119,7 +119,7 @@ class PlgSystemSef extends CMSPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Check for all unknown protocols (a protocol must contain at least one alpahnumeric character followed by a ":").
+		// Check for all unknown protocols (a protocol must contain at least one alphanumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
 		$attributes = array('href=', 'src=', 'poster=');
 
