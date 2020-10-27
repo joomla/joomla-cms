@@ -476,7 +476,7 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
-			// Joomla 4.0
+			// Joomla 4.0 Beta 1
 			'/administrator/components/com_actionlogs/actionlogs.php',
 			'/administrator/components/com_actionlogs/controller.php',
 			'/administrator/components/com_actionlogs/controllers/actionlogs.php',
@@ -2685,7 +2685,6 @@ class JoomlaInstallerScript
 			'/bin/index.html',
 			'/bin/keychain.php',
 			'/cli/deletefiles.php',
-			'/cli/finder_indexer.php',
 			'/cli/garbagecron.php',
 			'/cli/sessionGc.php',
 			'/cli/sessionMetadataGc.php',
@@ -2931,7 +2930,6 @@ class JoomlaInstallerScript
 			'/components/com_users/helpers/html/users.php',
 			'/components/com_users/helpers/legacyrouter.php',
 			'/components/com_users/helpers/route.php',
-			'/components/com_users/layouts/joomla/form/renderfield.php',
 			'/components/com_users/models/forms/frontend.xml',
 			'/components/com_users/models/forms/frontend_admin.xml',
 			'/components/com_users/models/forms/login.xml',
@@ -3836,12 +3834,6 @@ class JoomlaInstallerScript
 			'/media/com_finder/js/autocompleter.js',
 			'/media/com_joomlaupdate/js/json2.js',
 			'/media/com_joomlaupdate/js/json2.min.js',
-			'/media/contacts/images/con_address.png',
-			'/media/contacts/images/con_fax.png',
-			'/media/contacts/images/con_info.png',
-			'/media/contacts/images/con_mobile.png',
-			'/media/contacts/images/con_tel.png',
-			'/media/contacts/images/emailButton.png',
 			'/media/editors/codemirror/LICENSE',
 			'/media/editors/codemirror/addon/comment/comment.js',
 			'/media/editors/codemirror/addon/comment/comment.min.js',
@@ -5002,11 +4994,70 @@ class JoomlaInstallerScript
 			'/templates/system/images/j_button2_readmore.png',
 			'/templates/system/images/j_button2_right.png',
 			'/templates/system/images/selector-arrow.png',
+			// Joomla 4.0 Beta 2
+			'/administrator/components/com_finder/src/Indexer/Driver/Mysql.php',
+			'/administrator/components/com_finder/src/Indexer/Driver/Postgresql.php',
+			'/administrator/components/com_finder/src/Indexer/Driver/Mysql.php',
+			'/administrator/components/com_finder/src/Indexer/Driver/Postgresql.php',
+			'/administrator/components/com_workflow/access.xml',
+			'/api/components/com_installer/src/Controller/LanguagesController.php',
+			'/api/components/com_installer/src/View/Languages/JsonapiView.php',
+			'/libraries/vendor/joomla/controller/src/AbstractController.php',
+			'/libraries/vendor/joomla/controller/src/ControllerInterface.php',
+			'/libraries/vendor/joomla/controller/LICENSE',
+			'/media/com_users/js/admin-users-user.es6.js',
+			'/media/com_users/js/admin-users-user.es6.min.js',
+			'/media/com_users/js/admin-users-user.es6.min.js.gz',
+			'/media/com_users/js/admin-users-user.js',
+			'/media/com_users/js/admin-users-user.min.js',
+			'/media/com_users/js/admin-users-user.min.js.gz',
+			// Joomla 4.0 Beta 3
+			'/administrator/templates/atum/images/logo.svg',
+			'/administrator/templates/atum/images/logo-blue.svg',
+			'/administrator/templates/atum/images/logo-joomla-blue.svg',
+			'/administrator/templates/atum/images/logo-joomla-white.svg',
+			// Joomla 4.0 Beta 4
+			'/components/com_config/src/Model/CmsModel.php',
+			// Joomla 4.0 Beta 5
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-06-11.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-04-18.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.9.15-2020-01-08.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-06-11.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-04-18.sql',
+			'/administrator/components/com_config/tmpl/application/default_system.php',
+			'/administrator/language/en-GB/plg_content_imagelazyload.sys.ini',
+			'/administrator/language/en-GB/plg_fields_image.ini',
+			'/administrator/language/en-GB/plg_fields_image.sys.ini',
+			'/administrator/templates/atum/scss/vendor/bootstrap/_nav.scss',
+			'/cli/finder_indexer.php',
+			'/components/com_users/layouts/joomla/form/renderfield.php',
+			'/libraries/vendor/spomky-labs/base64url/phpstan.neon',
+			'/media/contacts/images/con_address.png',
+			'/media/contacts/images/con_fax.png',
+			'/media/contacts/images/con_info.png',
+			'/media/contacts/images/con_mobile.png',
+			'/media/contacts/images/con_tel.png',
+			'/media/contacts/images/emailButton.png',
+			'/media/plg_system_webauthn/images/webauthn-black.png',
+			'/media/plg_system_webauthn/images/webauthn-color.png',
+			'/media/plg_system_webauthn/images/webauthn-white.png',
+			'/media/system/css/system.css',
+			'/media/system/css/system.min.css',
+			'/media/system/css/system.min.css.gz',
+			'/media/system/images/notice-alert.png',
+			'/media/system/images/notice-download.png',
+			'/media/system/images/notice-info.png',
+			'/media/system/images/notice-note.png',
+			'/plugins/content/imagelazyload/imagelazyload.php',
+			'/plugins/content/imagelazyload/imagelazyload.xml',
+			'/templates/cassiopeia/html/layouts/chromes/cardGrey.php',
+			'/templates/cassiopeia/html/layouts/chromes/default.php',
+			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
-			// Joomla! 4.0
+			// Joomla 4.0 Beta 1
 			'/templates/system/images',
 			'/templates/system/html',
 			'/templates/protostar/less',
@@ -5303,8 +5354,6 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/addon',
 			'/media/editors/codemirror',
 			'/media/editors',
-			'/media/contacts/images',
-			'/media/contacts',
 			'/media/com_contenthistory/css',
 			'/media/cms/css',
 			'/media/cms',
@@ -6186,6 +6235,19 @@ class JoomlaInstallerScript
 			'/administrator/components/com_actionlogs/libraries',
 			'/administrator/components/com_actionlogs/helpers',
 			'/administrator/components/com_actionlogs/controllers',
+			// Joomla 4.0 Beta 2
+			'/administrator/components/com_finder/src/Indexer/Driver',
+			'/api/components/com_installer/src/View/Languages',
+			'/libraries/vendor/joomla/controller',
+			// Joomla 4.0 Beta 3
+			// Joomla 4.0 Beta 4
+			// Joomla 4.0 Beta 5
+			'/components/com_users/layouts/joomla/form',
+			'/components/com_users/layouts/joomla',
+			'/components/com_users/layouts',
+			'/media/contacts/images',
+			'/media/contacts',
+			'/plugins/content/imagelazyload',
 		);
 
 		foreach ($files as $file)
