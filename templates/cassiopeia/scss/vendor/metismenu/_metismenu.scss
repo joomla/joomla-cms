@@ -1,9 +1,43 @@
 @if $metismenu==true {
   .metismenu {
     &.mod-menu {
+      > li {
+        > a::after,
+        > button::before {
+
+          @include media-breakpoint-up(md) {
+            position: absolute;
+            right: 50%;
+            bottom: 0;
+            left: 50%;
+            display: block;
+            height: 2px;
+            margin: auto;
+            content: "";
+            background: transparent;
+            opacity: .2;
+            transition: all .2s ease, background-color .2s ease;
+          }
+        }
+
+        @include media-breakpoint-down(md) {
+          &.active > button,
+          > button:hover {
+            text-decoration: underline;
+          }
+        }
+
+        > a:hover::after,
+        > button:hover::before,
+        &.active > a::after,
+        &.active > button::before {
+          right: 2px;
+          left: 0;
+          background: $white;
+        }
+      }
       .metismenu-item {
         display: flex;
-        padding: $cassiopeia-grid-gutter/2 0;
         font-size: 1.1rem;
         line-height: 1.5;
 
@@ -23,7 +57,8 @@
           @include media-breakpoint-down(md) {
             width: 100%;
           }
-          .active > a {
+          .active > a,
+          .active > button {
             text-decoration: underline;
           }
 
@@ -33,11 +68,21 @@
         }
         > span,
         > a {
-          flex: 1 0 0%;
+          padding: $cassiopeia-grid-gutter/2 0;
           overflow: hidden;
           text-decoration: none;
           text-overflow: ellipsis;
           white-space: nowrap;
+        }
+
+        > a:focus,
+        > button:focus {
+          outline: 1px dotted $gray-400;
+          outline-offset: 2px;
+        }
+
+        &::after {
+          content: none;
         }
       }
 
@@ -58,9 +103,16 @@
         &:not(.mm-show) {
           display: none;
         }
-
-        > li.parent {
+        > li {
           display: block;
+          > a {
+            display: inline-flex;
+          }
+          > button:hover {
+            text-decoration: underline;
+          }
+        }
+        > li.parent {
           .mm-toggler {
             display: inline-flex;
           }
@@ -79,10 +131,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 1.5em;
-        height: 1.5em;
-        padding: 0;
-        margin-left: .5em;
+        padding: ($cassiopeia-grid-gutter/2) 0;
         color: currentColor;
         user-select: none;
         background: none;
@@ -92,6 +141,7 @@
         &:after {
           width: 0;
           height: 0;
+          margin: 0 .5em;
           content: "";
           border-top: 10px solid currentColor;
           border-right: 10px solid transparent;
@@ -113,6 +163,12 @@
   .sidebar-right,
   .sidebar-left {
     .metismenu {
+      li.active > a,
+      li.active > button,
+      li > a:hover,
+      li > button:hover {
+        text-decoration: underline;
+      }
       .mm-collapse {
         position: relative;
         background-color: rgba(0,0,0,.03);
@@ -121,6 +177,11 @@
         display: block;
         .mm-toggler {
           display: inline-flex;
+          text-align: left;
+
+          [dir="rtl"] & {
+            text-align: right;
+          }
         }
         > ul {
           position: relative;

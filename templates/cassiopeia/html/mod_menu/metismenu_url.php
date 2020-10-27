@@ -29,12 +29,6 @@ if ($item->anchor_rel)
 	$attributes['rel'] = $item->anchor_rel;
 }
 
-if ($item->deeper)
-{
-	$attributes['aria-haspopup'] = 'true';
-	$attributes['aria-expanded'] = 'false';
-}
-
 $linktype = $item->title;
 
 if ($item->menu_image)
@@ -71,3 +65,8 @@ elseif ($item->browserNav == 2)
 }
 
 echo HTMLHelper::link(OutputFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
+
+if ($showAll && $item->deeper)
+{
+	echo '<button class="mm-collapsed mm-toggler" aria-haspopup="true" aria-expanded="false" aria-label="' . $item->title . '"></button>';
+}
