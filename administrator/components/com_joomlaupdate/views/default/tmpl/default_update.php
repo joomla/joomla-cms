@@ -133,7 +133,9 @@ defined('_JEXEC') or die;
 						<?php echo JText::_('WARNING'); ?>
 					</h4>
 					<div class="alert-message">
-						<div class="preupdateCheckComplete"><?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_COMPLETED_YOU_HAVE_DANGEROUS_PLUGINS'); ?></div>
+						<div class="preupdateCheckComplete">
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_COMPLETED_YOU_HAVE_DANGEROUS_PLUGINS'); ?>
+						</div>
 					</div>
 				</div>
 			</td>
