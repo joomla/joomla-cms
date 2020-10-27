@@ -23,9 +23,9 @@ class OutputFilterWrapper
 	/**
 	 * Helper wrapper method for objectHTMLSafe
 	 *
-	 * @param   object   &$mixed        An object to be parsed.
-	 * @param   integer  $quote_style   The optional quote style for the htmlspecialchars function.
-	 * @param   mixed    $exclude_keys  An optional string single field name or array of field names not.
+	 * @param   object   &$mixed       An object to be parsed.
+	 * @param   integer  $quoteStyle   The optional quote style for the htmlspecialchars function.
+	 * @param   mixed    $excludeKeys  An optional string single field name or array of field names not.
 	 *
 	 * @return  void
 	 *
@@ -33,9 +33,9 @@ class OutputFilterWrapper
 	 * @since   3.4
 	 * @deprecated  4.0  Use `Joomla\CMS\Filter\OutputFilter` directly
 	 */
-	public function objectHTMLSafe(&$mixed, $quote_style = 3, $exclude_keys = '')
+	public function objectHTMLSafe(&$mixed, $quoteStyle = 3, $excludeKeys = '')
 	{
-		return OutputFilter::objectHTMLSafe($mixed, $quote_style, $exclude_keys);
+		return OutputFilter::objectHTMLSafe($mixed, $quoteStyle, $excludeKeys);
 	}
 
 	/**

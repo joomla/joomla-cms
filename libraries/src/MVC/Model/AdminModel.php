@@ -925,15 +925,15 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
 	 * @since	1.7
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table      = $this->getTable();
@@ -941,7 +941,7 @@ abstract class AdminModel extends FormModel
 		$catidField = $table->getColumnAlias('catid');
 		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $categoryId)))
 		{
 			if ($title === $table->$titleField)
 			{
