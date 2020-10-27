@@ -15,6 +15,7 @@
     transition: all .25s ease;
 
 
+    .far,
     .fas,
     .fab {
       margin: 0 auto;
@@ -34,6 +35,7 @@
       text-decoration: none;
       background: var(--atum-link-color);
 
+      .far,
       .fas,
       .fab {
         color: transparent;
@@ -141,6 +143,7 @@
       &.quickicon-icon {
         margin: .8rem auto 0;
 
+        &.big .far,
         &.big .fas,
         &.big .fab {
           font-size: $quickicon-icon-size-big;
@@ -185,6 +188,7 @@
         color: var(--white);
         background: var(--danger);
 
+        .far::before,
         .fas::before,
         .fab::before {
           color: var(--white);
@@ -196,6 +200,7 @@
       color: var(--success);
       border: 1px solid lighten($success-txt, 20%);
 
+      .far,
       .fas,
       .fab {
         color: transparent;
@@ -207,6 +212,7 @@
         color: var(--white);
         background: var(--success);
 
+        .far::before,
         .fas::before,
         .fab::before {
           color: transparent;

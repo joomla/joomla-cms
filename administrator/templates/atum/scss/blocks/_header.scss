@@ -1,5 +1,4 @@
 // Header
-
 .header {
   position: relative;
   z-index: $zindex-header;
@@ -176,6 +175,7 @@
     }
   }
 
+  .far,
   .fas,
   .fab {
     font-size: 1.5rem;
