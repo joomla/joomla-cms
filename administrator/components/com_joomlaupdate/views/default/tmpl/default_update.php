@@ -119,7 +119,9 @@ defined('_JEXEC') or die;
 				<div class="alert ">
 					<h4 class="alert-heading"><?php echo JText::_('WARNING'); ?></h4>
 					<div class="alert-message">
-						<div class="preupdateCheckIncomplete"><?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_NOT_COMPLETE'); ?></div>
+						<div class="preupdateCheckIncomplete">
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_NOT_COMPLETE'); ?>
+						</div>
 					</div>
 				</div>
 			</td>
