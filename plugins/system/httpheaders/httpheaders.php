@@ -526,7 +526,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 			// Make sure we do not add one header twice but we support to set a different header per client.
 			if (isset($staticHeaderConfiguration[$additionalHttpHeader->key . '#' . $additionalHttpHeader->client])
-				|| isset($staticHeaderConfiguration[$additionalHttpHeader->key . '#both']) )
+				|| isset($staticHeaderConfiguration[$additionalHttpHeader->key . '#both']))
 			{
 				continue;
 			}
