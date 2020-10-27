@@ -19,7 +19,7 @@ $legacy  = $displayData['legacy'];
 
 $currentDate   = JFactory::getDate()->format('Y-m-d H:i:s');
 $isUnpublished = ($article->publish_up > $currentDate)
-	|| ($article->publish_down !== JFactory::getDbo()->getNullDate() && $article->publish_down < $currentDate);
+	|| ($article->publish_down < $currentDate && $article->publish_down !== JFactory::getDbo()->getNullDate());
 
 if ($legacy)
 {

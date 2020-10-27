@@ -222,7 +222,7 @@ $currentDate = JFactory::getDate()->format('Y-m-d H:i:s');
 								<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 				<?php endif; ?>
-				<?php if ($article->publish_down !== $nullDate && $article->publish_down < $currentDate) : ?>
+				<?php if ($article->publish_down < $currentDate && $article->publish_down !== $nullDate) : ?>
 					<span class="list-published label label-warning">
 								<?php echo JText::_('JEXPIRED'); ?>
 							</span>

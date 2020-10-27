@@ -41,7 +41,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 			<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 
-		<?php if ($displayData->publish_down !== JFactory::getDbo()->getNullDate() && $displayData->publish_down < $currentDate) : ?>
+		<?php if ($displayData->publish_down < $currentDate && $displayData->publish_down !== JFactory::getDbo()->getNullDate()) : ?>
 			<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>

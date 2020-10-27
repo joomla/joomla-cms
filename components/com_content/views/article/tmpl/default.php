@@ -24,7 +24,7 @@ JHtml::_('behavior.caption');
 
 $currentDate       = JFactory::getDate()->format('Y-m-d H:i:s');
 $isNotPublishedYet = $this->item->publish_up > $currentDate;
-$isExpired         = $this->item->publish_down !== JFactory::getDbo()->getNullDate() && $this->item->publish_down < $currentDate;
+$isExpired         = $this->item->publish_down < $currentDate && $this->item->publish_down !== JFactory::getDbo()->getNullDate();
 
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">

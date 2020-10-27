@@ -21,7 +21,7 @@ $currentDate       = JFactory::getDate()->toSql('Y-m-d H:i:s');
 $isUnpublished     = ($this->item->state == 0 || $this->item->publish_up > $currentDate)
 	|| ($this->item->publish_down !== JFactory::getDbo()->getNullDate() && $this->item->publish_down < $currentDate);
 $isNotPublishedYet = $this->item->publish_up > $currentDate;
-$isExpired         = $this->item->publish_down !== JFactory::getDbo()->getNullDate() && $this->item->publish_down < $currentDate;
+$isExpired         = $this->item->publish_down < $currentDate && $this->item->publish_down !== JFactory::getDbo()->getNullDate();
 
 ?>
 <?php if ($isUnpublished) : ?>

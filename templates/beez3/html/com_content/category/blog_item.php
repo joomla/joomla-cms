@@ -17,7 +17,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 $currentDate   = JFactory::getDate()->format('Y-m-d H:i:s');
 $isUnpublished = ($this->item->state == 0 || $this->item->publish_up > $currentDate)
-	|| ($this->item->publish_down !== JFactory::getDbo()->getNullDate() && $this->item->publish_down < $currentDate);
+	|| ($this->item->publish_down < $currentDate && $this->item->publish_down !== JFactory::getDbo()->getNullDate());
 
 ?>
 <?php if ($isUnpublished) : ?>
