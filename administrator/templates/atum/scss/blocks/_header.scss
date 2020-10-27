@@ -1,5 +1,4 @@
 // Header
-
 .header {
   position: relative;
   z-index: $zindex-header;
@@ -87,11 +86,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 
-    [class^="#{$jicon-css-prefix}-"],
-    [class*=" #{$jicon-css-prefix}-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
+    [class^="icon-"],
+    [class^="fa-"] {
       margin-inline-end: .625rem;
+      font-size: 1rem;
     }
   }
 
@@ -177,10 +175,9 @@
     }
   }
 
-  [class^="#{$jicon-css-prefix}-"],
-  [class*=" #{$jicon-css-prefix}-"],
-  [class^="#{$fa-css-prefix}-"],
-  [class*=" #{$fa-css-prefix}-"] {
+  .far,
+  .fas,
+  .fab {
     font-size: 1.5rem;
     vertical-align: middle;
     transition: all .2s ease-in-out;
@@ -201,8 +198,7 @@
     }
   }
 
-  .#{$jicon-css-prefix}-angle-down,
-  .#{$fa-css-prefix}-angle-down {
+  .fa-angle-down {
     position: absolute;
     top: .9rem;
 
@@ -242,10 +238,7 @@
         text-align: right;
       }
 
-      [class^="#{$jicon-css-prefix}-"],
-      [class*=" #{$jicon-css-prefix}-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
+      .fas {
         [dir=ltr] & {
           margin-right: $dropdown-item-padding-x;
         }
@@ -265,10 +258,7 @@
       text-align: right;
     }
 
-    [class^="#{$jicon-css-prefix}-"],
-    [class*=" #{$jicon-css-prefix}-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
+    .fas {
       [dir=ltr] & {
         margin-right: $dropdown-item-padding-x;
       }
@@ -337,10 +327,7 @@
       background-color: var(--atum-bg-dark);
       border: 0;
 
-      [class^="#{$jicon-css-prefix}-"],
-      [class*=" #{$jicon-css-prefix}-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
+      .fas {
         margin: auto;
       }
 
@@ -418,8 +405,7 @@
       }
     }
 
-    .#{$jicon-css-prefix}-angle-down,
-    .#{$fa-css-prefix}-angle-down {
+    .fa-angle-down {
       transform: rotate(180deg);
     }
   }

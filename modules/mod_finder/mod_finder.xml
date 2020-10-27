@@ -127,7 +127,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
-					default=""
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>
