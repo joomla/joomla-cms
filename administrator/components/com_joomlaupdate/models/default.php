@@ -1453,7 +1453,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   3.10.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getNonCorePlugins($folderFilter = array())
 	{
@@ -1500,7 +1500,6 @@ ENDDATA;
 
 		return $rows;
 	}
-
 
 	/**
 	 * Called by controller's fetchExtensionCompatibility, which is called via AJAX.

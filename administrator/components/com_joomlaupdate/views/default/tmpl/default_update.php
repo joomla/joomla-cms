@@ -117,9 +117,13 @@ defined('_JEXEC') or die;
 		<tr id="preupdateCheckWarning">
 			<td colspan="2">
 				<div class="alert ">
-					<h4 class="alert-heading"><?php echo JText::_('WARNING'); ?></h4>
+					<h4 class="alert-heading">
+						<?php echo JText::_('WARNING'); ?>
+					</h4>
 					<div class="alert-message">
-						<div class="preupdateCheckIncomplete"><?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_NOT_COMPLETE'); ?></div>
+						<div class="preupdateCheckIncomplete">
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_NOT_COMPLETE'); ?>
+						</div>
 					</div>
 				</div>
 			</td>
@@ -127,9 +131,13 @@ defined('_JEXEC') or die;
 		<tr id="preupdateCheckCompleteProblems" class="hidden">
 			<td colspan="2">
 				<div class="alert ">
-					<h4 class="alert-heading"><?php echo JText::_('WARNING'); ?></h4>
+					<h4 class="alert-heading">
+						<?php echo JText::_('WARNING'); ?>
+					</h4>
 					<div class="alert-message">
-						<div class="preupdateCheckComplete"><?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_COMPLETED_YOU_HAVE_DANGEROUS_PLUGINS'); ?></div>
+						<div class="preupdateCheckComplete">
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_COMPLETED_YOU_HAVE_DANGEROUS_PLUGINS'); ?>
+						</div>
 					</div>
 				</div>
 			</td>
