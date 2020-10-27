@@ -20,19 +20,19 @@ class JTwitterFriends extends JTwitterObject
 	/**
 	 * Method to get an array of user IDs the specified user follows.
 	 *
-	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
-	 * @param   integer  $cursor      Causes the list of connections to be broken into pages of no more than 5000 IDs at a time.
-	 * 								  The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out
-	 * 								  after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first "page."
-	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
-	 * @param   integer  $count       Specifies the number of IDs attempt retrieval of, up to a maximum of 5,000 per distinct request.
+	 * @param   mixed    $user       Either an integer containing the user ID or a string containing the screen name.
+	 * @param   integer  $cursor     Causes the list of connections to be broken into pages of no more than 5000 IDs at a time.
+	 * 							     The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out
+	 * 								 after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first "page."
+	 * @param   boolean  $stringIds  Set to true to return IDs as strings, false to return as integers.
+	 * @param   integer  $count      Specifies the number of IDs attempt retrieval of, up to a maximum of 5,000 per distinct request.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getFriendIds($user, $cursor = null, $string_ids = null, $count = 0)
+	public function getFriendIds($user, $cursor = null, $stringIds = null, $count = 0)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('friends', 'ids');
@@ -59,9 +59,9 @@ class JTwitterFriends extends JTwitterObject
 		}
 
 		// Check if string_ids is true
-		if ($string_ids)
+		if ($stringIds)
 		{
-			$data['stringify_ids'] = $string_ids;
+			$data['stringify_ids'] = $stringIds;
 		}
 
 		// Check if count is specified
@@ -80,27 +80,27 @@ class JTwitterFriends extends JTwitterObject
 	/**
 	 * Method to display detailed friend information between two users.
 	 *
-	 * @param   mixed  $user_a  Either an integer containing the user ID or a string containing the screen name of the first user.
-	 * @param   mixed  $user_b  Either an integer containing the user ID or a string containing the screen name of the second user.
+	 * @param   mixed  $userA  Either an integer containing the user ID or a string containing the screen name of the first user.
+	 * @param   mixed  $userB  Either an integer containing the user ID or a string containing the screen name of the second user.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getFriendshipDetails($user_a, $user_b)
+	public function getFriendshipDetails($userA, $userB)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('friendships', 'show');
 
-		// Determine which type of data was passed for $user_a
-		if (is_numeric($user_a))
+		// Determine which type of data was passed for $userA
+		if (is_numeric($userA))
 		{
-			$data['source_id'] = $user_a;
+			$data['source_id'] = $userA;
 		}
-		elseif (is_string($user_a))
+		elseif (is_string($userA))
 		{
-			$data['source_screen_name'] = $user_a;
+			$data['source_screen_name'] = $userA;
 		}
 		else
 		{
@@ -108,14 +108,14 @@ class JTwitterFriends extends JTwitterObject
 			throw new RuntimeException('The first specified username is not in the correct format; must use integer or string');
 		}
 
-		// Determine which type of data was passed for $user_b
-		if (is_numeric($user_b))
+		// Determine which type of data was passed for $userB
+		if (is_numeric($userB))
 		{
-			$data['target_id'] = $user_b;
+			$data['target_id'] = $userB;
 		}
-		elseif (is_string($user_b))
+		elseif (is_string($userB))
 		{
-			$data['target_screen_name'] = $user_b;
+			$data['target_screen_name'] = $userB;
 		}
 		else
 		{
@@ -133,19 +133,19 @@ class JTwitterFriends extends JTwitterObject
 	/**
 	 * Method to get an array of user IDs the specified user is followed by.
 	 *
-	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
-	 * @param   integer  $cursor      Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
-	 * 								  is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
-	 * 								  is provided, a value of -1 will be assumed, which is the first "page."
-	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
-	 * @param   integer  $count       Specifies the number of IDs attempt retrieval of, up to a maximum of 5,000 per distinct request.
+	 * @param   mixed    $user       Either an integer containing the user ID or a string containing the screen name.
+	 * @param   integer  $cursor     Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
+	 *                               is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
+	 * 								 is provided, a value of -1 will be assumed, which is the first "page."
+	 * @param   boolean  $stringIds  Set to true to return IDs as strings, false to return as integers.
+	 * @param   integer  $count      Specifies the number of IDs attempt retrieval of, up to a maximum of 5,000 per distinct request.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getFollowerIds($user, $cursor = null, $string_ids = null, $count = 0)
+	public function getFollowerIds($user, $cursor = null, $stringIds = null, $count = 0)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('followers', 'ids');
@@ -175,9 +175,9 @@ class JTwitterFriends extends JTwitterObject
 		}
 
 		// Check if string_ids is specified
-		if (!is_null($string_ids))
+		if (!is_null($stringIds))
 		{
-			$data['stringify_ids'] = $string_ids;
+			$data['stringify_ids'] = $stringIds;
 		}
 
 		// Check if count is specified
@@ -193,16 +193,16 @@ class JTwitterFriends extends JTwitterObject
 	/**
 	 * Method to determine pending requests to follow the authenticating user.
 	 *
-	 * @param   integer  $cursor      Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
-	 * 								  is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
-	 * 								  is provided, a value of -1 will be assumed, which is the first "page."
-	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
+	 * @param   integer  $cursor     Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
+	 * 								 is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
+	 * 								 is provided, a value of -1 will be assumed, which is the first "page."
+	 * @param   boolean  $stringIds  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function getFriendshipsIncoming($cursor = null, $string_ids = null)
+	public function getFriendshipsIncoming($cursor = null, $stringIds = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('friendships', 'incoming');
@@ -216,9 +216,9 @@ class JTwitterFriends extends JTwitterObject
 		}
 
 		// Check if string_ids is specified
-		if (!is_null($string_ids))
+		if (!is_null($stringIds))
 		{
-			$data['stringify_ids'] = $string_ids;
+			$data['stringify_ids'] = $stringIds;
 		}
 
 		// Set the API path
@@ -231,16 +231,16 @@ class JTwitterFriends extends JTwitterObject
 	/**
 	 * Method to determine every protected user for whom the authenticating user has a pending follow request.
 	 *
-	 * @param   integer  $cursor      Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
-	 * 								  is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
-	 * 								  is provided, a value of -1 will be assumed, which is the first "page."
-	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
+	 * @param   integer  $cursor     Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
+	 * 								 is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
+	 *                               is provided, a value of -1 will be assumed, which is the first "page."
+	 * @param   boolean  $stringIds  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function getFriendshipsOutgoing($cursor = null, $string_ids = null)
+	public function getFriendshipsOutgoing($cursor = null, $stringIds = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('friendships', 'outgoing');
@@ -254,9 +254,9 @@ class JTwitterFriends extends JTwitterObject
 		}
 
 		// Check if string_ids is specified
-		if (!is_null($string_ids))
+		if (!is_null($stringIds))
 		{
-			$data['stringify_ids'] = $string_ids;
+			$data['stringify_ids'] = $stringIds;
 		}
 
 		// Set the API path
@@ -344,15 +344,15 @@ class JTwitterFriends extends JTwitterObject
 	/**
 	 * Method to get the relationship of the authenticating user to the comma separated list of up to 100 screen_names or user_ids provided.
 	 *
-	 * @param   string  $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
-	 * @param   string  $id           A comma separated list of user IDs, up to 100 are allowed in a single request.
+	 * @param   string  $screenName  A comma separated list of screen names, up to 100 are allowed in a single request.
+	 * @param   string  $id          A comma separated list of user IDs, up to 100 are allowed in a single request.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getFriendshipsLookup($screen_name = null, $id = null)
+	public function getFriendshipsLookup($screenName = null, $id = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('friendships', 'lookup');
@@ -363,12 +363,12 @@ class JTwitterFriends extends JTwitterObject
 			$data['user_id'] = $id;
 		}
 
-		if ($screen_name)
+		if ($screenName)
 		{
-			$data['screen_name'] = $screen_name;
+			$data['screen_name'] = $screenName;
 		}
 
-		if ($id == null && $screen_name == null)
+		if ($id == null && $screenName == null)
 		{
 			// We don't have a valid entry
 			throw new RuntimeException('You must specify either a comma separated list of screen names, user IDs, or a combination of the two');
@@ -432,13 +432,13 @@ class JTwitterFriends extends JTwitterObject
 	/**
 	 * Method to get the user ids that currently authenticated user does not want to see retweets from.
 	 *
-	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
+	 * @param   boolean  $stringIds  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function getFriendshipNoRetweetIds($string_ids = null)
+	public function getFriendshipNoRetweetIds($stringIds = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('friendships', 'no_retweets/ids');
@@ -446,9 +446,9 @@ class JTwitterFriends extends JTwitterObject
 		$data = array();
 
 		// Check if string_ids is specified
-		if (!is_null($string_ids))
+		if (!is_null($stringIds))
 		{
-			$data['stringify_ids'] = $string_ids;
+			$data['stringify_ids'] = $stringIds;
 		}
 
 		// Set the API path

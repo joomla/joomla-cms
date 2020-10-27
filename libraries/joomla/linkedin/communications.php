@@ -20,8 +20,8 @@ class JLinkedinCommunications extends JLinkedinObject
 	 * Method used to invite people.
 	 *
 	 * @param   string  $email       A string containing email of the recipient.
-	 * @param   string  $first_name  A string containing first name of the recipient.
-	 * @param   string  $last_name   A string containing last name of the recipient.
+	 * @param   string  $firstName   A string containing first name of the recipient.
+	 * @param   string  $lastName    A string containing last name of the recipient.
 	 * @param   string  $subject     The subject of the message that will be sent to the recipient
 	 * @param   string  $body        A text of the message.
 	 * @param   string  $connection  Only connecting as a 'friend' is supported presently.
@@ -30,7 +30,7 @@ class JLinkedinCommunications extends JLinkedinObject
 	 *
 	 * @since   3.2.0
 	 */
-	public function inviteByEmail($email, $first_name, $last_name, $subject, $body, $connection = 'friend')
+	public function inviteByEmail($email, $firstName, $lastName, $subject, $body, $connection = 'friend')
 	{
 		$token = $this->oauth->getToken();
 
@@ -50,8 +50,8 @@ class JLinkedinCommunications extends JLinkedinObject
 				  <recipients>
 				  	<recipient>
 						<person path="/people/email=' . $email . '">
-							<first-name>' . $first_name . '</first-name>
-							<last-name>' . $last_name . '</last-name>
+							<first-name>' . $firstName . '</first-name>
+							<last-name>' . $lastName . '</last-name>
 						</person>
 					</recipient>
 				</recipients>
@@ -79,8 +79,8 @@ class JLinkedinCommunications extends JLinkedinObject
 	 * Method used to invite people.
 	 *
 	 * @param   string  $id          Member id.
-	 * @param   string  $first_name  A string containing first name of the recipient.
-	 * @param   string  $last_name   A string containing last name of the recipient.
+	 * @param   string  $firstName   A string containing first name of the recipient.
+	 * @param   string  $lastName    A string containing last name of the recipient.
 	 * @param   string  $subject     The subject of the message that will be sent to the recipient
 	 * @param   string  $body        A text of the message.
 	 * @param   string  $connection  Only connecting as a 'friend' is supported presently.
@@ -89,7 +89,7 @@ class JLinkedinCommunications extends JLinkedinObject
 	 *
 	 * @since   3.2.0
 	 */
-	public function inviteById($id, $first_name, $last_name, $subject, $body, $connection = 'friend')
+	public function inviteById($id, $firstName, $lastName, $subject, $body, $connection = 'friend')
 	{
 		$token = $this->oauth->getToken();
 
@@ -102,8 +102,8 @@ class JLinkedinCommunications extends JLinkedinObject
 		$base = '/v1/people-search:(people:(api-standard-profile-request))';
 
 		$data['format'] = 'json';
-		$data['first-name'] = $first_name;
-		$data['last-name'] = $last_name;
+		$data['first-name'] = $firstName;
+		$data['last-name'] = $lastName;
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;

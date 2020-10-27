@@ -100,8 +100,8 @@ abstract class JArrayHelper
 	 * Utility function to map an array to a string.
 	 *
 	 * @param   array    $array         The array to map.
-	 * @param   string   $inner_glue    The glue (optional, defaults to '=') between the key and the value.
-	 * @param   string   $outer_glue    The glue (optional, defaults to ' ') between array elements.
+	 * @param   string   $innerGlue     The glue (optional, defaults to '=') between the key and the value.
+	 * @param   string   $outerGlue     The glue (optional, defaults to ' ') between array elements.
 	 * @param   boolean  $keepOuterKey  True if final key should be kept.
 	 *
 	 * @return  string   The string mapped from the given array
@@ -109,26 +109,26 @@ abstract class JArrayHelper
 	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toString instead
 	 */
-	public static function toString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
+	public static function toString($array = null, $innerGlue = '=', $outerGlue = ' ', $keepOuterKey = false)
 	{
 		$output = array();
 
 		if (is_array($array))
 		{
-			$output[] = ArrayHelper::toString($array, $inner_glue, $outer_glue, $keepOuterKey);
+			$output[] = ArrayHelper::toString($array, $innerGlue, $outerGlue, $keepOuterKey);
 		}
 		else
 		{
 			JLog::add('This method is typehinted to be an array in \Joomla\Utilities\ArrayHelper::toString.', JLog::WARNING, 'deprecated');
 		}
 
-		return implode($outer_glue, $output);
+		return implode($outerGlue, $output);
 	}
 
 	/**
 	 * Utility function to map an object to an array
 	 *
-	 * @param   object   $p_obj    The source object
+	 * @param   object   $object   The source object
 	 * @param   boolean  $recurse  True to recurse through multi-level objects
 	 * @param   string   $regex    An optional regular expression to match on field names
 	 *
@@ -137,11 +137,11 @@ abstract class JArrayHelper
 	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::fromObject instead
 	 */
-	public static function fromObject($p_obj, $recurse = true, $regex = null)
+	public static function fromObject($object, $recurse = true, $regex = null)
 	{
-		if (is_object($p_obj))
+		if (is_object($object))
 		{
-			return self::_fromObject($p_obj, $recurse, $regex);
+			return self::_fromObject($object, $recurse, $regex);
 		}
 		else
 		{

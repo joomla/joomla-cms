@@ -137,33 +137,33 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to see if a user is a friend of the current user. Requires authentication.
 	 *
-	 * @param   mixed  $current_user  Either an integer containing the user ID or a string containing the username for the current user.
-	 * @param   mixed  $user          Either an integer containing the user ID or a string containing the username for the user.
+	 * @param   mixed  $currentUser  Either an integer containing the user ID or a string containing the username for the current user.
+	 * @param   mixed  $user         Either an integer containing the user ID or a string containing the username for the user.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
 	 * @since   3.2.0
 	 */
-	public function hasFriend($current_user, $user)
+	public function hasFriend($currentUser, $user)
 	{
-		return $this->getConnection($current_user, 'friends/' . $user);
+		return $this->getConnection($currentUser, 'friends/' . $user);
 	}
 
 	/**
 	 * Method to get mutual friends of one user and the current user. Requires authentication.
 	 *
-	 * @param   mixed    $current_user  Either an integer containing the user ID or a string containing the username for the current user.
-	 * @param   mixed    $user          Either an integer containing the user ID or a string containing the username for the user.
-	 * @param   integer  $limit         The number of objects per page.
-	 * @param   integer  $offset        The object's number on the page.
+	 * @param   mixed    $currentUser  Either an integer containing the user ID or a string containing the username for the current user.
+	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the username for the user.
+	 * @param   integer  $limit        The number of objects per page.
+	 * @param   integer  $offset       The object's number on the page.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
 	 * @since   3.2.0
 	 */
-	public function getMutualFriends($current_user, $user, $limit = 0, $offset = 0)
+	public function getMutualFriends($currentUser, $user, $limit = 0, $offset = 0)
 	{
-		return $this->getConnection($current_user, 'mutualfriends/' . $user, '', $limit, $offset);
+		return $this->getConnection($currentUser, 'mutualfriends/' . $user, '', $limit, $offset);
 	}
 
 	/**
@@ -424,31 +424,31 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to create an event for a user. Requires authentication create_event permission.
 	 *
-	 * @param   mixed   $user          Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $name          Event name.
-	 * @param   string  $start_time    Event start time as UNIX timestamp.
-	 * @param   string  $end_time      Event end time as UNIX timestamp.
-	 * @param   string  $description   Event description.
-	 * @param   string  $location      Event location.
-	 * @param   string  $location_id   Facebook Place ID of the place the Event is taking place.
-	 * @param   string  $privacy_type  Event privacy setting, a string containing 'OPEN' (default), 'CLOSED', or 'SECRET'.
+	 * @param   mixed   $user         Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $name         Event name.
+	 * @param   string  $startTime    Event start time as UNIX timestamp.
+	 * @param   string  $endTime      Event end time as UNIX timestamp.
+	 * @param   string  $description  Event description.
+	 * @param   string  $location     Event location.
+	 * @param   string  $locationId   Facebook Place ID of the place the Event is taking place.
+	 * @param   string  $privacyType  Event privacy setting, a string containing 'OPEN' (default), 'CLOSED', or 'SECRET'.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
 	 * @since   3.2.0
 	 */
-	public function createEvent($user, $name, $start_time, $end_time = null, $description = null,
-		$location = null, $location_id = null, $privacy_type = null)
+	public function createEvent($user, $name, $startTime, $endTime = null, $description = null,
+		$location = null, $locationId = null, $privacyType = null)
 	{
 		// Set POST request parameters.
 		$data = array();
-		$data['start_time'] = $start_time;
+		$data['start_time'] = $startTime;
 		$data['name'] = $name;
-		$data['end_time'] = $end_time;
+		$data['end_time'] = $endTime;
 		$data['description'] = $description;
 		$data['location'] = $location;
-		$data['location_id'] = $location_id;
-		$data['privacy_type'] = $privacy_type;
+		$data['location_id'] = $locationId;
+		$data['privacy_type'] = $privacyType;
 
 		return $this->createConnection($user, 'events', $data);
 	}
@@ -456,31 +456,31 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to edit an event. Requires authentication create_event permission.
 	 *
-	 * @param   mixed   $event         Event ID.
-	 * @param   string  $name          Event name.
-	 * @param   string  $start_time    Event start time as UNIX timestamp.
-	 * @param   string  $end_time      Event end time as UNIX timestamp.
-	 * @param   string  $description   Event description.
-	 * @param   string  $location      Event location.
-	 * @param   string  $location_id   Facebook Place ID of the place the Event is taking place.
-	 * @param   string  $privacy_type  Event privacy setting, a string containing 'OPEN' (default), 'CLOSED', or 'SECRET'.
+	 * @param   mixed   $event        Event ID.
+	 * @param   string  $name         Event name.
+	 * @param   string  $startTime    Event start time as UNIX timestamp.
+	 * @param   string  $endTime      Event end time as UNIX timestamp.
+	 * @param   string  $description  Event description.
+	 * @param   string  $location     Event location.
+	 * @param   string  $locationId   Facebook Place ID of the place the Event is taking place.
+	 * @param   string  $privacyType  Event privacy setting, a string containing 'OPEN' (default), 'CLOSED', or 'SECRET'.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
 	 * @since   3.2.0
 	 */
-	public function editEvent($event, $name = null, $start_time = null, $end_time = null, $description = null,
-		$location = null, $location_id = null, $privacy_type = null)
+	public function editEvent($event, $name = null, $startTime = null, $endTime = null, $description = null,
+		$location = null, $locationId = null, $privacyType = null)
 	{
 		// Set POST request parameters.
 		$data = array();
-		$data['start_time'] = $start_time;
+		$data['start_time'] = $startTime;
 		$data['name'] = $name;
-		$data['end_time'] = $end_time;
+		$data['end_time'] = $endTime;
 		$data['description'] = $description;
 		$data['location'] = $location;
-		$data['location_id'] = $location_id;
-		$data['privacy_type'] = $privacy_type;
+		$data['location_id'] = $locationId;
+		$data['privacy_type'] = $privacyType;
 
 		return $this->createConnection($event, null, $data);
 	}
@@ -629,25 +629,25 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to post a photo on user's wall. Requires authentication and publish_stream permission, user_groups or friends_groups permission.
 	 *
-	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the username.
-	 * @param   string   $source    Path to photo.
-	 * @param   string   $message   Photo description.
-	 * @param   string   $place     Facebook ID of the place associated with the photo.
-	 * @param   boolean  $no_story  If set to 1, optionally suppresses the feed story that is automatically
-	 * 								generated on a user’s profile when they upload a photo using your application.
+	 * @param   mixed    $user     Either an integer containing the user ID or a string containing the username.
+	 * @param   string   $source   Path to photo.
+	 * @param   string   $message  Photo description.
+	 * @param   string   $place    Facebook ID of the place associated with the photo.
+	 * @param   boolean  $noStory  If set to 1, optionally suppresses the feed story that is automatically
+	 *                             generated on a user’s profile when they upload a photo using your application.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
 	 * @since   3.2.0
 	 */
-	public function createPhoto($user, $source, $message = null, $place = null, $no_story = null)
+	public function createPhoto($user, $source, $message = null, $place = null, $noStory = null)
 	{
 		// Set POST request parameters.
 		$data = array();
 		$data[basename($source)] = '@' . realpath($source);
 		$data['message'] = $message;
 		$data['place'] = $place;
-		$data['no_story'] = $no_story;
+		$data['no_story'] = $noStory;
 
 		return $this->createConnection($user, 'photos', $data, array('Content-Type' => 'multipart/form-data'));
 	}
@@ -680,28 +680,28 @@ class JFacebookUser extends JFacebookObject
 	/**
 	 * Method to post on a user's wall. Message or link parameter is required. Requires authentication and publish_stream permission.
 	 *
-	 * @param   mixed   $user               Either an integer containing the user ID or a string containing the username.
-	 * @param   string  $message            Post message.
-	 * @param   string  $link               Post URL.
-	 * @param   string  $picture            Post thumbnail image (can only be used if link is specified)
-	 * @param   string  $name               Post name (can only be used if link is specified).
-	 * @param   string  $caption            Post caption (can only be used if link is specified).
-	 * @param   string  $description        Post description (can only be used if link is specified).
-	 * @param   array   $actions            Post actions array of objects containing name and link.
-	 * @param   string  $place              Facebook Page ID of the location associated with this Post.
-	 * @param   string  $tags               Comma-separated list of Facebook IDs of people tagged in this Post.
-	 * 										For example: 1207059,701732. You cannot specify this field without also specifying a place.
-	 * @param   string  $privacy            Post privacy settings (can only be specified if the Timeline being posted
-	 * 										on belongs to the User creating the Post).
-	 * @param   string  $object_attachment  Facebook ID for an existing picture in the User's photo albums to use as the thumbnail image.
-	 *                                      The User must be the owner of the photo, and the photo cannot be part of a message attachment.
+	 * @param   mixed   $user              Either an integer containing the user ID or a string containing the username.
+	 * @param   string  $message           Post message.
+	 * @param   string  $link              Post URL.
+	 * @param   string  $picture           Post thumbnail image (can only be used if link is specified)
+	 * @param   string  $name              Post name (can only be used if link is specified).
+	 * @param   string  $caption           Post caption (can only be used if link is specified).
+	 * @param   string  $description       Post description (can only be used if link is specified).
+	 * @param   array   $actions           Post actions array of objects containing name and link.
+	 * @param   string  $place             Facebook Page ID of the location associated with this Post.
+	 * @param   string  $tags              Comma-separated list of Facebook IDs of people tagged in this Post.
+	 *                                     For example: 1207059,701732. You cannot specify this field without also specifying a place.
+	 * @param   string  $privacy           Post privacy settings (can only be specified if the Timeline being posted
+	 *                                     on belongs to the User creating the Post).
+	 * @param   string  $objectAttachment  Facebook ID for an existing picture in the User's photo albums to use as the thumbnail image.
+	 *                                     The User must be the owner of the photo, and the photo cannot be part of a message attachment.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
 	 * @since   3.2.0
 	 */
 	public function createPost($user, $message = null, $link = null, $picture = null, $name = null, $caption = null,
-		$description = null, $actions = null, $place = null, $tags = null, $privacy = null, $object_attachment = null)
+		$description = null, $actions = null, $place = null, $tags = null, $privacy = null, $objectAttachment = null)
 	{
 		// Set POST request parameters.
 		$data = array();
@@ -714,7 +714,7 @@ class JFacebookUser extends JFacebookObject
 		$data['place'] = $place;
 		$data['tags'] = $tags;
 		$data['privacy'] = $privacy;
-		$data['object_attachment'] = $object_attachment;
+		$data['object_attachment'] = $objectAttachment;
 		$data['picture'] = $picture;
 
 		return $this->createConnection($user, 'feed', $data);

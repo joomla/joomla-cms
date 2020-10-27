@@ -147,20 +147,20 @@ class JFacebookPhoto extends JFacebookObject
 	}
 
 	/**
-	 * Method to tag one or more Users in a photo. $to or $tag_text required.
+	 * Method to tag one or more Users in a photo. $to or $tagText required.
 	 * Requires authentication and publish_stream permission, user_photos permission for private photos.
 	 *
-	 * @param   string   $photo     The photo id.
-	 * @param   mixed    $to        ID of the User or an array of Users to tag in the photo: [{"id":"1234"}, {"id":"12345"}].
-	 * @param   string   $tag_text  A text string to tag.
-	 * @param   integer  $x         x coordinate of tag, as a percentage offset from the left edge of the picture.
-	 * @param   integer  $y         y coordinate of tag, as a percentage offset from the top edge of the picture.
+	 * @param   string   $photo    The photo id.
+	 * @param   mixed    $to       ID of the User or an array of Users to tag in the photo: [{"id":"1234"}, {"id":"12345"}].
+	 * @param   string   $tagText  A text string to tag.
+	 * @param   integer  $x        x coordinate of tag, as a percentage offset from the left edge of the picture.
+	 * @param   integer  $y        y coordinate of tag, as a percentage offset from the top edge of the picture.
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
 	 * @since   3.2.0
 	 */
-	public function createTag($photo, $to = null, $tag_text = null, $x = null, $y = null)
+	public function createTag($photo, $to = null, $tagText = null, $x = null, $y = null)
 	{
 		// Set POST request parameters.
 		if (is_array($to))
@@ -172,9 +172,9 @@ class JFacebookPhoto extends JFacebookObject
 			$data['to'] = $to;
 		}
 
-		if ($tag_text)
+		if ($tagText)
 		{
-			$data['tag_text'] = $tag_text;
+			$data['tag_text'] = $tagText;
 		}
 
 		if ($x)

@@ -111,14 +111,14 @@ abstract class JSessionStorage
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @param   string  $save_path     The path to the session object.
-	 * @param   string  $session_name  The name of the session.
+	 * @param   string  $savePath     The path to the session object.
+	 * @param   string  $sessionName  The name of the session.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.7.0
 	 */
-	public function open($save_path, $session_name)
+	public function open($savePath, $sessionName)
 	{
 		return true;
 	}
@@ -153,14 +153,14 @@ abstract class JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string  $id            The session identifier.
-	 * @param   string  $session_data  The session data.
+	 * @param   string  $id           The session identifier.
+	 * @param   string  $sessionData  The session data.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.7.0
 	 */
-	public function write($id, $session_data)
+	public function write($id, $sessionData)
 	{
 		return true;
 	}

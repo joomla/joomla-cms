@@ -56,18 +56,18 @@ class JSessionStorageApcu extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string  $id            The session identifier.
-	 * @param   string  $session_data  The session data.
+	 * @param   string  $id           The session identifier.
+	 * @param   string  $sessionData  The session data.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   3.9
 	 */
-	public function write($id, $session_data)
+	public function write($id, $sessionData)
 	{
 		$sess_id = 'sess_' . $id;
 
-		return apcu_store($sess_id, $session_data, ini_get('session.gc_maxlifetime'));
+		return apcu_store($sess_id, $sessionData, ini_get('session.gc_maxlifetime'));
 	}
 
 	/**

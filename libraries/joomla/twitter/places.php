@@ -47,14 +47,14 @@ class JTwitterPlaces extends JTwitterObject
 	 * 								   but it can also take a string that is suffixed with ft to specify feet.
 	 * @param   string   $granularity  This is the minimal granularity of place types to return and must be one of: poi, neighborhood,
 	 * 								   city, admin or country.
-	 * @param   integer  $max_results  A hint as to the number of results to return.
+	 * @param   integer  $maxResults   A hint as to the number of results to return.
 	 * @param   string   $callback     If supplied, the response will use the JSONP format with a callback of the given name.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 */
-	public function getGeocode($lat, $long, $accuracy = null, $granularity = null, $max_results = 0, $callback = null)
+	public function getGeocode($lat, $long, $accuracy = null, $granularity = null, $maxResults = 0, $callback = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('geo', 'reverse_geocode');
@@ -79,9 +79,9 @@ class JTwitterPlaces extends JTwitterObject
 		}
 
 		// Check if max_results is specified
-		if ($max_results)
+		if ($maxResults)
 		{
-			$data['max_results'] = $max_results;
+			$data['max_results'] = $maxResults;
 		}
 
 		// Check if callback is specified
@@ -106,7 +106,7 @@ class JTwitterPlaces extends JTwitterObject
 	 * 								   admin or country.
 	 * @param   string   $accuracy     A hint on the "region" in which to search. If a number, then this is a radius in meters, but it can
 	 * 								   also take a string that is suffixed with ft to specify feet.
-	 * @param   integer  $max_results  A hint as to the number of results to return.
+	 * @param   integer  $maxResults   A hint as to the number of results to return.
 	 * @param   string   $within       This is the place_id which you would like to restrict the search results to.
 	 * @param   string   $attribute    This parameter searches for places which have this given street address.
 	 * @param   string   $callback     If supplied, the response will use the JSONP format with a callback of the given name.
@@ -116,7 +116,7 @@ class JTwitterPlaces extends JTwitterObject
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function search($lat = null, $long = null, $query = null, $ip = null, $granularity = null, $accuracy = null, $max_results = 0,
+	public function search($lat = null, $long = null, $query = null, $ip = null, $granularity = null, $accuracy = null, $maxResults = 0,
 		$within = null, $attribute = null, $callback = null)
 	{
 		// Check the rate limit for remaining hits
@@ -168,9 +168,9 @@ class JTwitterPlaces extends JTwitterObject
 		}
 
 		// Check if max_results is specified
-		if ($max_results)
+		if ($maxResults)
 		{
-			$data['max_results'] = $max_results;
+			$data['max_results'] = $maxResults;
 		}
 
 		// Check if within is specified
@@ -249,7 +249,7 @@ class JTwitterPlaces extends JTwitterObject
 	 * @param   float   $lat        The latitude to search around.
 	 * @param   float   $long       The longitude to search around.
 	 * @param   string  $name       The name a place is known as.
-	 * @param   string  $geo_token  The token found in the response from geo/similar_places.
+	 * @param   string  $geoToken   The token found in the response from geo/similar_places.
 	 * @param   string  $within     This is the place_id which you would like to restrict the search results to.
 	 * @param   string  $attribute  This parameter searches for places which have this given street address.
 	 * @param   string  $callback   If supplied, the response will use the JSONP format with a callback of the given name.
@@ -258,7 +258,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @since   3.1.4
 	 */
-	public function createPlace($lat, $long, $name, $geo_token, $within, $attribute = null, $callback = null)
+	public function createPlace($lat, $long, $name, $geoToken, $within, $attribute = null, $callback = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('geo', 'place');
@@ -266,7 +266,7 @@ class JTwitterPlaces extends JTwitterObject
 		$data['lat'] = $lat;
 		$data['long'] = $long;
 		$data['name'] = rawurlencode($name);
-		$data['token'] = $geo_token;
+		$data['token'] = $geoToken;
 		$data['contained_within'] = $within;
 
 		// Check if attribute is specified
