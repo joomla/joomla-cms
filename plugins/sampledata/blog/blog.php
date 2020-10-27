@@ -401,7 +401,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'images'   => array(
-					'image_intro'            =>  'images/banners/banner.jpg',
+					'image_intro'            => 'images/banners/banner.jpg',
 					'float_intro'            => 'left',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
@@ -416,7 +416,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'images'   => array(
-					'image_intro'            =>  'images/banners/banner.jpg',
+					'image_intro'            => 'images/banners/banner.jpg',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
 					'image_fulltext'         => '',
@@ -430,7 +430,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'images'   => array(
-					'image_intro'            =>  'images/banners/banner.jpg',
+					'image_intro'            => 'images/banners/banner.jpg',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
 					'image_fulltext'         => '',
@@ -443,7 +443,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'images'   => array(
-					'image_intro'            =>  'images/banners/banner.jpg',
+					'image_intro'            => 'images/banners/banner.jpg',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
 					'image_fulltext'         => '',
@@ -457,7 +457,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 6 - Millions
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            =>  'images/banners/banner.jpg',
+					'image_intro'            => 'images/banners/banner.jpg',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
 					'image_fulltext'         => '',
@@ -470,7 +470,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 7 - Love
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            =>  'images/banners/banner.jpg',
+					'image_intro'            => 'images/banners/banner.jpg',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
@@ -484,7 +484,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 8 - Joomla
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            =>  'images/banners/banner.jpg',
+					'image_intro'            => 'images/banners/banner.jpg',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_caption'    => '',
@@ -525,7 +525,6 @@ class PlgSampledataBlog extends CMSPlugin
 			$article['title']     = $title . $langSuffix;
 			$article['introtext'] = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_INTROTEXT');
 			$article['fulltext']  = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_FULLTEXT');
-
 
 			// Set values which are always the same.
 			$article['id']               = 0;
@@ -1045,6 +1044,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 			return $response;
 		}
+
 		$response            = array();
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP2_SUCCESS');
