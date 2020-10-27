@@ -383,15 +383,15 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Method to change the title & name.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $name         The name.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $name        The name.
+	 * @param   string   $title       The title.
 	 *
 	 * @return  array  Contains the modified title and name.
 	 *
 	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $name, $title)
+	protected function generateNewTitle($categoryId, $name, $title)
 	{
 		// Alter the title & name
 		$table = $this->getTable();
@@ -976,14 +976,14 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$context = JFactory::getApplication()->input->get('context');
 

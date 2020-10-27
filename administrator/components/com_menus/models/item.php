@@ -1567,19 +1567,19 @@ class MenusModelItem extends JModelAdmin
 	 * First we save the new order values in the lft values of the changed ids.
 	 * Then we invoke the table rebuild to implement the new ordering.
 	 *
-	 * @param   array  $idArray    Rows identifiers to be reordered
-	 * @param   array  $lft_array  lft values of rows to be reordered
+	 * @param   array  $idArray   Rows identifiers to be reordered
+	 * @param   array  $lftArray  lft values of rows to be reordered
 	 *
 	 * @return  boolean false on failure or error, true otherwise.
 	 *
 	 * @since   1.6
 	 */
-	public function saveorder($idArray = null, $lft_array = null)
+	public function saveorder($idArray = null, $lftArray = null)
 	{
 		// Get an instance of the table object.
 		$table = $this->getTable();
 
-		if (!$table->saveorder($idArray, $lft_array))
+		if (!$table->saveorder($idArray, $lftArray))
 		{
 			$this->setError($table->getError());
 
@@ -1724,20 +1724,20 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $parent_id  The id of the parent.
-	 * @param   string   $alias      The alias.
-	 * @param   string   $title      The title.
+	 * @param   integer  $parentId  The id of the parent.
+	 * @param   string   $alias     The alias.
+	 * @param   string   $title     The title.
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
 	 * @since   1.6
 	 */
-	protected function generateNewTitle($parent_id, $alias, $title)
+	protected function generateNewTitle($parentId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parentId)))
 		{
 			if ($title == $table->title)
 			{
@@ -1753,14 +1753,14 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Custom clean the cache
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  Application client id.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');

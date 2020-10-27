@@ -103,7 +103,7 @@ class LanguagesModelOverride extends JModelAdmin
 			$result->override = $strings[$pk];
 		}
 
-		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
+		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site'))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
 		$oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
 		$result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
@@ -114,14 +114,14 @@ class LanguagesModelOverride extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array    $data             The form data.
-	 * @param   boolean  $opposite_client  Indicates whether the override should not be created for the current client.
+	 * @param   array    $data            The form data.
+	 * @param   boolean  $oppositeClient  Indicates whether the override should not be created for the current client.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public function save($data, $opposite_client = false)
+	public function save($data, $oppositeClient = false)
 	{
 		jimport('joomla.filesystem.file');
 
@@ -131,7 +131,7 @@ class LanguagesModelOverride extends JModelAdmin
 		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
 		// If the override should be created for both.
-		if ($opposite_client)
+		if ($oppositeClient)
 		{
 			$client = 1 - $client;
 		}
@@ -182,7 +182,7 @@ class LanguagesModelOverride extends JModelAdmin
 
 		// If the override should be stored for both clients save
 		// it also for the other one and prevent endless recursion.
-		if (isset($data['both']) && $data['both'] && !$opposite_client)
+		if (isset($data['both']) && $data['both'] && !$oppositeClient)
 		{
 			return $this->save($data, true);
 		}
