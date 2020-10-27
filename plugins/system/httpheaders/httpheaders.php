@@ -83,6 +83,54 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	];
 
 	/**
+	 * The list of valid directives based on: https://www.w3.org/TR/CSP3/#csp-directives
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $validDirectives = [
+		'child-src',
+		'connect-src',
+		'default-src',
+		'font-src',
+		'frame-src',
+		'img-src',
+		'manifest-src',
+		'media-src',
+		'prefetch-src',
+		'object-src',
+		'script-src',
+		'script-src-elem',
+		'script-src-attr',
+		'style-src',
+		'style-src-elem',
+		'style-src-attr',
+		'worker-src',
+		'base-uri',
+		'plugin-types',
+		'sandbox',
+		'form-action',
+		'frame-ancestors',
+		'navigate-to',
+		'report-uri',
+		'report-to',
+		'block-all-mixed-content',
+		'upgrade-insecure-requests',
+		'require-sri-for',
+	];
+
+	/**
+	 * The list of directives without a value
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $noValueDirectives = [
+		'block-all-mixed-content',
+		'upgrade-insecure-requests',
+	];
+
+	/**
 	 * The list of directives supporting nonce
 	 *
 	 * @var    array
@@ -298,9 +346,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
+			// Handle non value directives
+			if (in_array($cspValue->directive, $this->noValueDirectives))
+			{
+				$newCspValues[] = trim($cspValue->directive);
+
+				continue;
+			}
+
 			// We can only use this if this is a valid entry
-			if (isset($cspValue->directive) && isset($cspValue->value)
-				&& !empty($cspValue->directive) && !empty($cspValue->value))
+			if (in_array($cspValue->directive, $this->validDirectives)
+				&& !empty($cspValue->value))
 			{
 				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
@@ -331,7 +387,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		if ($frameAncestorsSelfEnabled && !$frameAncestorsSet)
 		{
-			$newCspValues[] = 'frame-ancestors \'self\'';
+			$newCspValues[] = "frame-ancestors 'self'";
 		}
 
 		if (empty($newCspValues))
@@ -428,6 +484,20 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
 		{
+			// Handle non value directives
+			if (in_array($cspHeaderkey, $this->noValueDirectives))
+			{
+				$automaticCspHeader[] = $cspHeaderkey;
+
+				continue;
+			}
+
+			// Make sure this is a valid directive
+			if (!in_array($cspHeaderkey, $this->validDirectives))
+			{
+				continue;
+			}
+
 			// Append the random $nonce for the script and style tags if enabled
 			if (in_array($cspHeaderkey, $this->nonceDirectives) && $nonceEnabled)
 			{
