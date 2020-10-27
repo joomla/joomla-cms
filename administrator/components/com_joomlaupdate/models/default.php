@@ -1501,7 +1501,6 @@ ENDDATA;
 		return $rows;
 	}
 
-
 	/**
 	 * Called by controller's fetchExtensionCompatibility, which is called via AJAX.
 	 *
