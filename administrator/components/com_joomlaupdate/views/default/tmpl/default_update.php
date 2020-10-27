@@ -148,28 +148,24 @@ defined('_JEXEC') or die;
 						<?php echo JText::_('COM_INSTALLER_TYPE_PACKAGE'); ?>
 					</th>
 					</thead>
-				<?php
-				foreach ($this->nonCoreCriticalPlugins as $nonCoreCriticalPlugin)
-				{
-					echo "<tr id='plg_" . $nonCoreCriticalPlugin->extension_id . "'>";
-					echo '<td>' . JText::_($nonCoreCriticalPlugin->name) . '</td>';
-					if ($nonCoreCriticalPlugin->package_id > 0)
-					{
-						foreach ($this->nonCoreExtensions as $nonCoreExtension)
-						{
-							if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id)
-							{
-								echo '<td>' . $nonCoreExtension->name . '</td>';
-							}
-						}
-					}
-					else
-					{
-						echo '<td/>';
-					}
-					echo "</tr>";
-				}
-				?>
+					<?php foreach ($this->nonCoreCriticalPlugins as $nonCoreCriticalPlugin) : ?>
+						<tr id='plg_<?php echo $nonCoreCriticalPlugin->extension_id ?>'>
+							<td>
+								<?php echo JText::_($nonCoreCriticalPlugin->name); ?>
+							</td>
+							<?php if ($nonCoreCriticalPlugin->package_id > 0) : ?>
+								<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
+									<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
+										<td>
+											<?php echo $nonCoreExtension->name; ?>
+										</td>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php else : ?>
+								<td/>
+							<?php endif; ?>
+						</tr>
+					<?php endforeach; ?>
 				</table>
 			</td>
 		</tr>

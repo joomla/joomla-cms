@@ -172,17 +172,6 @@ function extractionMethodHandler(target, prefix)
     PreUpdateChecker.setResultView = function (extensionData) {
         var html = '';
 
-        // simulate failure or timeout
-		/*
-		if(extensionData.$element.data('extensionId') == '10266')
-		{
-			extensionData.serverError = true;
-			extensionData.compatibilityData = {
-				'resultGroup' : 4
-			}
-		}
-		 */
-
         // Process Target Version Extension Compatibility
         if (extensionData.serverError) {
 			// An error occurred -> show unknown error note
