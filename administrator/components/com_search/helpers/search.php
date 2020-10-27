@@ -310,7 +310,39 @@ class SearchHelper
 
 		if ($wordfound !== false)
 		{
-			return (($pos > 0) ? '...&#160;' : '') . StringHelper::substr($text, $pos, $chunk_size) . '&#160;...';
+			// Check if original text is different length than searched text (changed by function self::remove_accents)
+			// Displayed text only, adjust $chunk_size
+			if ($pos === 0)
+			{
+				$iOriLen = StringHelper::strlen(StringHelper::substr($text, 0, $pos + $chunk_size));
+				$iModLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, 0, $pos + $chunk_size)));
+				
+				$chunk_size += $iOriLen - $iModLen;
+			}
+			else
+			{
+				$iOriSkippedLen = StringHelper::strlen(StringHelper::substr($text, 0, $pos));
+				$iModSkippedLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, 0, $pos)));
+				
+				// Adjust starting position $pos
+				if ($iOriSkippedLen !== $iModSkippedLen)
+				{
+					$pos += $iOriSkippedLen - $iModSkippedLen;
+				}
+				
+				$iOriReturnLen = StringHelper::strlen(StringHelper::substr($text, $pos, $chunk_size));
+				$iModReturnLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, $pos, $chunk_size)));
+				
+				if ($iOriReturnLen !== $iModReturnLen)
+				{
+					$chunk_size += $iOriReturnLen - $iModReturnLen;
+				}
+			}
+			
+			$sPre = $pos > 0 ? '...&#160;' : '';
+			$sPost = ($pos + $chunk_size) >= StringHelper::strlen($text) ? '' : '&#160;...';
+
+			return $sPre . StringHelper::substr($text, $pos, $chunk_size) . $sPost;
 		}
 		else
 		{
