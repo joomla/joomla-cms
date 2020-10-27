@@ -49,7 +49,7 @@ class Route
 	 * @var    Router[]
 	 * @since  3.0.1
 	 */
-	private static $_router = array();
+	protected static $_router = array();
 
 	/**
 	 * Translates an internal Joomla URL to a humanly readable URL. This method builds links for the current active client.
