@@ -87,7 +87,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * The list of valid directives based on: https://www.w3.org/TR/CSP3/#csp-directives
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $validDirectives = [
 		'child-src',
@@ -124,7 +124,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 * The list of directives without a value
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $noValueDirectives = [
 		'block-all-mixed-content',

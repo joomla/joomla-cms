@@ -25,7 +25,7 @@ class ReportController extends BaseController
 	 * The list of valid directives based on: https://www.w3.org/TR/CSP3/#csp-directives
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $validDirectives = [
 		'child-src',
@@ -230,7 +230,7 @@ class ReportController extends BaseController
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function cleanReportDirective($reportedDirective)
 	{
