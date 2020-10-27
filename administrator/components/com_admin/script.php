@@ -6239,8 +6239,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_finder/src/Indexer/Driver',
 			'/api/components/com_installer/src/View/Languages',
 			'/libraries/vendor/joomla/controller',
-			// Joomla 4.0 Beta 3
-			// Joomla 4.0 Beta 4
 			// Joomla 4.0 Beta 5
 			'/components/com_users/layouts/joomla/form',
 			'/components/com_users/layouts/joomla',
