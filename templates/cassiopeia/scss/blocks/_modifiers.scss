@@ -128,6 +128,9 @@
   .image-left &,
   .image-right & {
     flex-direction: row;
+    .item-image {
+      flex: 1 0 40%;
+    }
   }
 
   .item-image {
@@ -163,7 +166,7 @@
   .image-right & {
     flex-direction: column;
 
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       flex-direction: row;
     }
   }
@@ -301,10 +304,10 @@
 
     a {
       text-decoration: none;
-      
+
       &:hover {
         text-decoration: underline;
-        
+
         @at-root .container-header & {
           text-decoration: none;
         }
@@ -313,7 +316,7 @@
 
     &.active > a {
       text-decoration: underline;
-      
+
       @at-root .container-header & {
         text-decoration: none;
       }
