@@ -1193,7 +1193,7 @@ abstract class HTMLHelper
 	 */
 	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
 	{
-		$position = strrpos($path, '.min.', -5);
+		$position = strrpos($path, '.min.');
 
 		// We are handling a name.min.ext file:
 		if ($position !== false)
