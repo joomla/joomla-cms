@@ -1201,8 +1201,6 @@ abstract class HTMLHelper
 			$minifiedPath    = $path;
 			$nonMinifiedPath = substr_replace($path, '', $position, 4);
 
-			echo $nonMinifiedPath;
-
 			if ($debugMode)
 			{
 				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
