@@ -21,8 +21,8 @@
     const icon = button.querySelector('span');
 
     // Toggle icon class
-    icon.classList.toggle('fa-plus');
-    icon.classList.toggle('fa-minus');
+    icon.classList.toggle('icon-plus');
+    icon.classList.toggle('icon-minus');
 
     // Toggle aria label
     const ariaLabel = button.getAttribute('aria-label');

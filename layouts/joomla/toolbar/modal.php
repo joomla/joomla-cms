@@ -29,7 +29,7 @@ Factory::getDocument()->getWebAssetManager()
 $selector = $displayData['selector'];
 $id       = isset($displayData['id']) ? $displayData['id'] : '';
 $class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-primary';
-$icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fas fa-download';
+$icon     = isset($displayData['icon']) ? $displayData['icon'] : 'icon-download';
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
 ?>
 
