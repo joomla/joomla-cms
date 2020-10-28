@@ -104,7 +104,7 @@ abstract class Icons
 	{
 		if ($relative === true)
 		{
-			$file = HTMLHelper::_('image', $file,  '', '', $relative, true);
+			$file = HTMLHelper::_('image', $file,  '', '', true, true);
 		}
 
 		$file = substr($file, \strlen(Uri::root(true)));
