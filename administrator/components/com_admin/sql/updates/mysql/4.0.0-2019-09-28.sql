@@ -6,12 +6,17 @@ ALTER TABLE `#__user_notes` MODIFY `publish_up` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__user_notes` MODIFY `publish_down` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__user_notes` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 
+UPDATE `#__user_notes` SET `created_time` = '1980-01-01 00:00:00' WHERE `created_time` = '0000-00-00 00:00:00';
 UPDATE `#__user_notes` SET `modified_time` = `created_time`, `modified_user_id` = `created_user_id` WHERE `modified_time` = '0000-00-00 00:00:00';
 
 UPDATE `#__user_notes` SET `review_time` = NULL WHERE `review_time` = '0000-00-00 00:00:00';
 UPDATE `#__user_notes` SET `publish_up` = NULL WHERE `publish_up` = '0000-00-00 00:00:00';
 UPDATE `#__user_notes` SET `publish_down` = NULL WHERE `publish_down` = '0000-00-00 00:00:00';
 UPDATE `#__user_notes` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+
+UPDATE `#__ucm_content` SET `core_created_time` = '1980-01-01 00:00:00'
+ WHERE `core_type_alias` = 'com_users.note'
+   AND `core_created_time` = '0000-00-00 00:00:00';
 
 UPDATE `#__ucm_content` SET `core_modified_time` = `core_created_time`
  WHERE `core_type_alias` = 'com_users.note'
