@@ -21,7 +21,7 @@ $app->getDocument()->getWebAssetManager()
 <div class="header-item-content multilanguage">
 	<a class="d-flex align-items-stretch" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
 		<div class="d-flex align-items-end mx-auto">
-			<span class="fas fa-language" aria-hidden="true"></span>
+			<span class="icon-language" aria-hidden="true"></span>
 		</div>
 		<div class="tiny">
 			<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>

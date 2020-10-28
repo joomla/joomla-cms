@@ -63,7 +63,7 @@ class ContentListPage extends AdminListPage
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	public static $seeFeatured = ['xpath' => "//table[@id='articleList']//*//span[@class='fas fa-star']"];
+	public static $seeFeatured = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-star']"];
 
 	/**
 	 * Locator for article's name field.
