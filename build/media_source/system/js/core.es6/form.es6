@@ -91,7 +91,6 @@
     }
   };
 
-
   /**
    * USED IN: all list forms.
    *
@@ -222,7 +221,6 @@
     const cb = newForm[id];
     let i = 0;
     let cbx;
-
 
     if (!cb) {
       return false;

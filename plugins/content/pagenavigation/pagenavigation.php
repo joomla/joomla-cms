@@ -173,7 +173,7 @@ class PlgContentPagenavigation extends CMSPlugin
 				->bind(':catid', $row->catid, ParameterType::INTEGER)
 				->bind(':state', $row->state, ParameterType::INTEGER);
 
-			if ($canPublish)
+			if (!$canPublish)
 			{
 				$query->whereIn($db->quoteName('a.access'), Access::getAuthorisedViewLevels($user->id));
 			}
