@@ -136,7 +136,7 @@
      * @returns {HTMLElement[]}
      */
     getRows() {
-      const rows = this.containerWithRows.children;
+      const rows = Array.from(this.containerWithRows.children);
       const result = [];
 
       // Filter out the rows
@@ -352,7 +352,7 @@
       let touched = false; // We have a touch events
 
       // Find all existing rows and add draggable attributes
-      const rows = this.getRows();
+      const rows = Array.from(this.getRows());
 
       rows.forEach((row) => {
         row.setAttribute('draggable', 'false');
