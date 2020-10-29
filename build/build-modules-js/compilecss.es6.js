@@ -52,6 +52,7 @@ module.exports.compile = (options, path) => {
           `${RootPath}/templates/cassiopeia/scss/system/searchtools/searchtools.scss`,
           `${RootPath}/templates/cassiopeia/scss/vendor/choicesjs/choices.scss`,
           `${RootPath}/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
+          `${RootPath}/templates/cassiopeia/scss/vendor/fontawesome-free/fontawesome.scss`,
           `${RootPath}/administrator/templates/atum/scss/template.scss`,
           `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
           `${RootPath}/administrator/templates/atum/scss/system/searchtools/searchtools.scss`,
