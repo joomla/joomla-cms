@@ -42,7 +42,7 @@
         @keyup.up="openLastActions()"
       >
         <span
-          class="image-browser-action fas fa-ellipsis-h"
+          class="image-browser-action icon-ellipsis-h"
           aria-hidden="true"
           @click.stop="openActions()"
         />
@@ -68,7 +68,7 @@
               @keyup.down="$refs.actionDownload.focus()"
             >
               <span
-                class="image-browser-action fas fa-search-plus"
+                class="image-browser-action icon-search-plus"
                 aria-hidden="true"
                 @click.stop="openPreview()"
               />
@@ -90,7 +90,7 @@
               @keyup.down="$refs.actionRename.focus()"
             >
               <span
-                class="image-browser-action fas fa-download"
+                class="image-browser-action icon-download"
                 aria-hidden="true"
                 @click.stop="download()"
               />
@@ -112,7 +112,7 @@
               @keyup.down="canEdit ? $refs.actionEdit.focus() : $refs.actionShare.focus()"
             >
               <span
-                class="image-browser-action fas fa-text-width"
+                class="image-browser-action icon-text-width"
                 aria-hidden="true"
                 @click.stop="openRenameModal()"
               />
@@ -134,7 +134,7 @@
               @keyup.down="$refs.actionShare.focus()"
             >
               <span
-                class="image-browser-action fas fa-pencil-alt"
+                class="image-browser-action icon-pencil-alt"
                 aria-hidden="true"
                 @click.stop="editItem()"
               />
@@ -156,7 +156,7 @@
               @keyup.down="$refs.actionDelete.focus()"
             >
               <span
-                class="image-browser-action fas fa-link"
+                class="image-browser-action icon-link"
                 aria-hidden="true"
                 @click.stop="openShareUrlModal()"
               />
@@ -178,7 +178,7 @@
               @keyup.down="$refs.actionPreview.focus()"
             >
               <span
-                class="image-browser-action fas fa-trash"
+                class="image-browser-action icon-trash"
                 aria-hidden="true"
                 @click.stop="openConfirmDeleteModal()"
               />

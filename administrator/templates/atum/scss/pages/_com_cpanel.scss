@@ -135,7 +135,8 @@
 
       .cpanel-add-module-icon {
 
-        .fas {
+        [class^="#{$fa-css-prefix}-"],
+        [class*=" #{$fa-css-prefix}-"] {
           opacity: .3;
         }
       }
@@ -152,7 +153,10 @@
       bottom: 0;
       left: 12rem;
 
-      .fas {
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         font-size: 7rem;
         transition: all .3s ease-in;
         transform: translateX(-100%);
@@ -166,25 +170,35 @@
     background: var(--toolbar-bg);
   }
 
-  .list-group-item a > span.fas {
-    display: block;
-    padding: .5rem;
-    color: rgba(255, 255, 255, .9);
-    background: var(--atum-link-color);
-    box-shadow: $atum-box-shadow;
+  .list-group-item a > span {
+    &[class^="#{$jicon-css-prefix}-"],
+    &[class*=" #{$jicon-css-prefix}-"],
+    &[class^="#{$fa-css-prefix}-"],
+    &[class*=" #{$fa-css-prefix}-"] {
+      display: block;
+      padding: .5rem;
+      color: rgba(255, 255, 255, .9);
+      background: var(--atum-link-color);
+      box-shadow: $atum-box-shadow;
 
-    &:hover {
-      background: var(--atum-link-hover-color);
+      &:hover {
+        background: var(--atum-link-hover-color);
+      }
     }
   }
 
-  .list-group-item a > span.home-image.fas {
-    display: inline-block;
-    padding: 0;
-    font-size: .9rem;
-    color: rgba(1, 1, 1, 1);
-    background: var(--white-offset);
-    box-shadow: none;
+  .list-group-item a > span.home-image {
+    &[class^="#{$jicon-css-prefix}-"],
+    &[class*=" #{$jicon-css-prefix}-"],
+    &[class^="#{$fa-css-prefix}-"],
+    &[class*=" #{$fa-css-prefix}-"] {
+      display: inline-block;
+      padding: 0;
+      font-size: .9rem;
+      color: rgba(1, 1, 1, 1);
+      background: var(--white-offset);
+      box-shadow: none;
+    }
   }
 
   h2 {

@@ -108,7 +108,7 @@ class ComponentModel extends FormModel
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadFormData()
 	{

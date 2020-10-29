@@ -64,7 +64,7 @@ class PopupButton extends ToolbarButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		$options['icon'] = $options['icon'] ?? 'fas fa-square';
+		$options['icon'] = $options['icon'] ?? 'icon-square';
 
 		parent::prepareOptions($options);
 
@@ -100,7 +100,7 @@ class PopupButton extends ToolbarButton
 			->text($text)
 			->task($this->_getCommand($url))
 			->url($url)
-			->icon('fas fa-' . $name)
+			->icon('icon-' . $name)
 			->iframeWidth($iframeWidth)
 			->iframeHeight($iframeHeight)
 			->bodyHeight($bodyHeight)
