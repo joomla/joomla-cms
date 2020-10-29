@@ -160,7 +160,7 @@ class Icon
 
 		$aria_described = 'editcontact-' . (int) $contact->id;
 
-		$text = '<span class="fas fa-' . $icon . '" aria-hidden="true"></span>';
+		$text = '<span class="icon-' . $icon . '" aria-hidden="true"></span>';
 		$text .= Text::_('JGLOBAL_EDIT');
 		$text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
 

@@ -761,7 +761,7 @@ class HtmlDocument extends Document
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory . '/' . $filename))
+		if (is_file($directory . '/' . $filename))
 		{
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
@@ -789,12 +789,12 @@ class HtmlDocument extends Document
 		{
 			if ($template->parent !== ''
 				&& $base === 1
-				&& !file_exists(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
+				&& !is_file(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
 			{
 				$dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
 			}
 
-			if (file_exists($dir . $icon))
+			if (is_file($dir . $icon))
 			{
 				$urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
 				$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
@@ -827,22 +827,22 @@ class HtmlDocument extends Document
 		$inherits = $params['templateInherits'] ?? '';
 		$baseDir = $directory . '/' . $template;
 
-		if (!empty($inherits)
-			&& !file_exists($directory . '/' . $template . '/' . $file)
-			&& file_exists($directory . '/' . $inherits . '/' . $file)
-		)
+		if (!is_file($directory . '/' . $template . '/' . $file))
 		{
-			$baseDir = $directory . '/' . $inherits;
-		}
+			if ($inherits !== '' && is_file($directory . '/' . $inherits . '/' . $file))
+			{
+				$baseDir = $directory . '/' . $inherits;
+			}
+			else
+			{
+				$baseDir  = $directory . '/system';
+				$template = 'system';
 
-		if (!file_exists($baseDir . '/' . $file))
-		{
-			$template = 'system';
-		}
-
-		if (!file_exists($baseDir . '/' . $file))
-		{
-			$file = 'index.php';
+				if ($file !== 'index.php' && !is_file($baseDir . '/' . $file))
+				{
+					$file = 'index.php';
+				}
+			}
 		}
 
 		// Load the language file for the template
@@ -850,7 +850,7 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE)
-			|| $lang->load('tpl_' . $inherits, $directory . '/' . $inherits)
+			|| ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables

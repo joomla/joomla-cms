@@ -49,7 +49,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 			<div class="btn-toolbar">
 				<div class="btn-group">
 					<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>" tabindex="0">
-						<span class="fas fa-plus icon-white" aria-hidden="true"></span> </a>
+						<span class="icon-plus icon-white" aria-hidden="true"></span> </a>
 				</div>
 			</div>
 			<?php endif; ?>

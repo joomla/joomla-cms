@@ -40,7 +40,7 @@ class NomenuRules implements RulesInterface
 	}
 
 	/**
-	 * Dummy method to fulfill the interface requirements
+	 * Dummy method to fulfil the interface requirements
 	 *
 	 * @param   array  &$query  The query array to process
 	 *

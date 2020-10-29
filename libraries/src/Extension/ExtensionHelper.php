@@ -182,7 +182,6 @@ class ExtensionHelper
 		array('plugin', 'emailcloak', 'content', 0),
 		array('plugin', 'fields', 'content', 0),
 		array('plugin', 'finder', 'content', 0),
-		array('plugin', 'imagelazyload', 'content', 0),
 		array('plugin', 'joomla', 'content', 0),
 		array('plugin', 'loadmodule', 'content', 0),
 		array('plugin', 'pagebreak', 'content', 0),
