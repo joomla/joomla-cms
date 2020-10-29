@@ -20,13 +20,13 @@ HTMLHelper::_('behavior.formvalidator');
 
 	<fieldset id="installCongrat" class="j-install-step active">
 		<legend class="j-install-step-header">
-			<span class="fas fa-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
+			<span class="icon-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
 		</legend>
 		<div class="j-install-step-form" id="customInstallation">
 			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
 			<div class="form-group">
 				<button class="btn btn-primary btn-block" id="installAddFeatures">
-					<?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span>
+					<?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
 				</button>
 			</div>
 		</div>
@@ -119,7 +119,7 @@ HTMLHelper::_('behavior.formvalidator');
 			</tbody>
 		</table>
 		<button id="defaultLanguagesButton" class="btn btn-block btn-primary">
-			<?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span>
+			<?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
 		</button>
 		<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
@@ -188,15 +188,15 @@ HTMLHelper::_('behavior.formvalidator');
 				<?php echo HTMLHelper::_('form.token'); ?>
 
 				<div class="form-group j-install-last-step">
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fas fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="fas fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
+					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>
 			</div>
 		</div>
 
 		<fieldset id="installLanguages" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fas fa-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
+				<span class="icon-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<?php if (!$this->items) : ?>
@@ -205,7 +205,7 @@ HTMLHelper::_('behavior.formvalidator');
 					<a href="#"
 							class="btn btn-primary"
 							onclick="return Install.goToPage('remove');">
-						<span class="fas fa-arrow-left icon-white" aria-hidden="true"></span>
+						<span class="icon-arrow-left icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
 					</a>
 				</p>
@@ -279,7 +279,7 @@ HTMLHelper::_('behavior.formvalidator');
 
 		<fieldset id="installFinal" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fab fa-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>
+				<span class="icon-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>

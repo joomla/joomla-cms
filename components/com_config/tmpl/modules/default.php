@@ -49,15 +49,15 @@ if (Multilanguage::isEnabled())
 		<div class="col-md-12">
 
 			<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
-				<span class="fas fa-check" aria-hidden="true"></span>
+				<span class="icon-check" aria-hidden="true"></span>
 				<?php echo Text::_('JAPPLY'); ?>
 			</button>
 			<button type="button" class="btn btn-primary" data-submit-task="modules.save">
-				<span class="fas fa-check" aria-hidden="true"></span>
+				<span class="icon-check" aria-hidden="true"></span>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
-				<span class="fas fa-times" aria-hidden="true"></span>
+				<span class="icon-times" aria-hidden="true"></span>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 

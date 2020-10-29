@@ -1,14 +1,14 @@
 // Icons
 
-.icon-back::before {
+.#{$jicon-css-prefix}::before {
   content: "\e008";
 }
 
-.icon-crop::before {
+.#{$jicon-css-prefix}::before {
   content: "\f125";
 }
 
-.icon-white {
+.#{$jicon-css-prefix}-white {
   color: $white-offset;
 }
 

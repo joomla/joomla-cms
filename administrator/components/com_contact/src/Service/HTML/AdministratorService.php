@@ -137,13 +137,13 @@ class AdministratorService
 		{
 			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
 				. ($value == 1 ? ' active' : '') . '" aria-labelledby="cb' . $i . '-desc">'
-				. '<span class="fas fa-' . $icon . '" aria-hidden="true"></span></a>'
+				. '<span class="icon-' . $icon . '" aria-hidden="true"></span></a>'
 				. '<div role="tooltip" id="cb' . $i . '-desc">' . Text::_($state[3]);
 		}
 		else
 		{
 			$html = '<a class="tbody-icon disabled' . ($value == 1 ? ' active' : '')
-				. '" title="' . Text::_($state[2]) . '"><span class="fas fa-' . $icon . '" aria-hidden="true"></span></a>';
+				. '" title="' . Text::_($state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;
