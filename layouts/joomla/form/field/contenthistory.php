@@ -71,6 +71,6 @@ echo HTMLHelper::_(
 	onclick="document.getElementById('versionsModal').open()"
 	class="btn btn-secondary"
 	data-toggle="modal"<?php echo $dataAttribute; ?>>
-		<span class="fas fa-code-branch" aria-hidden="true"></span>
+		<span class="icon-code-branch" aria-hidden="true"></span>
 		<?php echo $label; ?>
 </button>

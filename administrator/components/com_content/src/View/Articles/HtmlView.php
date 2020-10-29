@@ -161,7 +161,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -183,7 +183,7 @@ class HtmlView extends BaseHtmlView
 					$childBar->standardButton('transition')
 						->text($transition['text'])
 						->buttonClass('transition-' . (int) $transition['value'])
-						->icon('fas fa-project-diagram')
+						->icon('icon-project-diagram')
 						->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
 				}
 

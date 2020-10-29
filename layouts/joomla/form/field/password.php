@@ -142,7 +142,7 @@ if ($rules && !empty($description))
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
 			<button type="button" class="btn btn-secondary input-password-toggle">
-				<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
+				<span class="icon-eye icon-fw" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 			</button>
 		</span>
