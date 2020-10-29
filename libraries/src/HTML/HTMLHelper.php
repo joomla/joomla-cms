@@ -567,7 +567,7 @@ abstract class HTMLHelper
 	 *                                     0: Returns a `<img>` tag while searching for relative files
 	 *                                     1: Returns the file path to the image while searching for relative files
 	 *
-	 * @return  string
+	 * @return  string|null  HTML markup for the image, relative path to the image, or null if path is to be returned but image is not found
 	 *
 	 * @since   1.5
 	 */
