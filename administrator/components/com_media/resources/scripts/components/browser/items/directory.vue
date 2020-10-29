@@ -9,7 +9,7 @@
     >
       <div class="file-background">
         <div class="folder-icon">
-          <span class="fas fa-folder" />
+          <span class="icon-folder" />
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
         @keyup.up="openLastActions()"
       >
         <span
-          class="image-browser-action fas fa-ellipsis-h"
+          class="image-browser-action icon-ellipsis-h"
           aria-hidden="true"
           @click.stop="openActions()"
         />
@@ -69,7 +69,7 @@
               @keyup.down="$refs.actionDelete.focus()"
             >
               <span
-                class="image-browser-action fas fa-text-width"
+                class="image-browser-action icon-text-width"
                 aria-hidden="true"
                 @click.stop="openRenameModal()"
               />
@@ -91,7 +91,7 @@
               @keyup.down="$refs.actionRename.focus()"
             >
               <span
-                class="image-browser-action fas fa-trash"
+                class="image-browser-action icon-trash"
                 aria-hidden="true"
                 @click.stop="openConfirmDeleteModal()"
               />
