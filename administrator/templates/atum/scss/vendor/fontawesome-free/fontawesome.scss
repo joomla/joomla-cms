@@ -6,7 +6,9 @@ $fa-font-path:                     "../../../../../../media/vendor/fontawesome-f
 @import "../../../../../../media/vendor/fontawesome-free/scss/fontawesome";
 @import "../../../../../../media/vendor/fontawesome-free/scss/regular";
 @import "../../../../../../media/vendor/fontawesome-free/scss/solid";
-@import "../../../../../../media/vendor/fontawesome-free/scss/brands"; // order of loading is important.
+
+// Brands must be imported last
+@import "../../../../../../media/vendor/fontawesome-free/scss/brands";
 
 // B/C for Icomoon
 @import "../../../../../../build/media_source/system/scss/icomoon";
