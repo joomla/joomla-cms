@@ -103,9 +103,9 @@ abstract class Icons
 	public static function svg(string $file, bool $relative = true): ?string
 	{
 		// Check extension for .svg
-		$extension = strtolower(substr($file, -3, strrpos($file, ".")));
+		$extension = strtolower(substr($file, -4, strrpos($file, ".")));
 
-		if ($extension !== 'svg')
+		if ($extension !== '.svg')
 		{
 			return false;
 		}
