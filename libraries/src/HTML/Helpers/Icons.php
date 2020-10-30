@@ -11,11 +11,8 @@ namespace Joomla\CMS\HTML\Helpers;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\MVC\Controller\Exception;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -99,11 +96,11 @@ abstract class Icons
 	 * @param   string   $file      The relative or absolute PATH to use for the src attribute.
 	 * @param   boolean  $relative  Flag if the path to the file is relative to the /media folder (and searches in template).
 	 *
-	 * @return  string
+	 * @return  string|null
 	 *
 	 * @since   4.0
 	 */
-	public static function svg(string $file, $relative = true)
+	public static function svg(string $file, bool $relative = true): ?string
 	{
 		// Check extension for .svg
 		$extension = strtolower(substr($file, -3, strrpos($file, ".")));
@@ -123,7 +120,7 @@ abstract class Icons
 		}
 
 		// Get contents to display inline
-		$file = file_get_contents(Path::clean(JPATH_ROOT . '/' . substr($file, \strlen(Uri::root(true)))));
+		$file = file_get_contents(JPATH_ROOT . '/' . substr($file, \strlen(Uri::root(true))));
 
 		return $file;
 	}
