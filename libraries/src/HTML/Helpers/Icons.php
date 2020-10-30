@@ -116,7 +116,7 @@ abstract class Icons
 		// Make sure path is local to J!
 		$file = Path::check(JPATH_ROOT . '/' . substr($file, \strlen(Uri::root(true))));
 
-		// If you can't find the icon or if its unsafe then skip it
+		// If you can't find the icon or if it's unsafe then skip it
 		if (!$file)
 		{
 			return false;
