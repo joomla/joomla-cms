@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -24,7 +25,8 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 
 <?php if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1)) : ?>
 	<form name="lang" method="post" action="<?php echo htmlspecialchars_decode(htmlspecialchars(Uri::current(), ENT_COMPAT, 'UTF-8'), ENT_NOQUOTES); ?>">
-	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
+	<label for="lang" class="sr-only"><?php echo Text::_('JOPTION_SELECT_LANGUAGE'); ?></label>
+	<select id="lang" class="inputbox custom-select" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
 		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 		<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?></option>
@@ -38,7 +40,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
 					<span class="caret"></span>
 					<?php if ($language->image) : ?>
-						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
+						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native), null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
@@ -50,7 +52,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				<li>
 				<a href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 					<?php if ($language->image) : ?>
-						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_SWITCH', $language->title_native), null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
@@ -60,7 +62,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				<li class="lang-active">
 				<a href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 					<?php if ($language->image) : ?>
-						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif',  Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native), null, true); ?>
 					<?php endif; ?>
 					<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
 				</a>
@@ -77,7 +79,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				<a href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 					<?php if ($params->get('image', 1)) : ?>
 						<?php if ($language->image) : ?>
-							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_SWITCH', $language->title_native), array('title' => $language->title_native), true); ?>
 						<?php else : ?>
 							<span class="label" title="<?php echo $language->title_native; ?>"><?php echo strtoupper($language->sef); ?></span>
 						<?php endif; ?>
@@ -93,7 +95,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
-					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native), array('title' => $language->title_native), true); ?>
 				<?php else : ?>
 					<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
 				<?php endif; ?>
