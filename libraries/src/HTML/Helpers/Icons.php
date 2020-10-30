@@ -11,8 +11,11 @@ namespace Joomla\CMS\HTML\Helpers;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\Controller\Exception;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -102,10 +105,26 @@ abstract class Icons
 	 */
 	public static function svg(string $file, $relative = true)
 	{
+		// Check extension for .svg
+		$extension = strtolower(substr($file, -3, strrpos($file, ".")));
+
+		if ($extension !== 'svg')
+		{
+			return false;
+		}
+
+		// Get path to icon
 		$file = HTMLHelper::_('image', $file, '', '', $relative, true);
 
-		$file = substr($file, \strlen(Uri::root(true)));
+		// If you can't find the icon then skip it
+		if (!$file)
+		{
+			return false;
+		}
 
-		return file_get_contents(JPATH_ROOT . $file);
+		// Get contents to display inline
+		$file = file_get_contents(Path::clean(JPATH_ROOT . '/' . substr($file, \strlen(Uri::root(true)))));
+
+		return $file;
 	}
 }
