@@ -56,7 +56,7 @@ class ConsentBoxField extends CheckboxesField
 	 * The menu item ID.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $menuItemId;
 
@@ -64,7 +64,7 @@ class ConsentBoxField extends CheckboxesField
 	 * Type of the privacy policy.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $privacyType;
 
@@ -310,7 +310,7 @@ class ConsentBoxField extends CheckboxesField
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getAssignedMenuItemUrl()
 	{

@@ -85,7 +85,7 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		return array(
 			array(
 				'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-				'image' => 'fas fa-star',
+				'image' => 'icon-star',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_extensionupdate',

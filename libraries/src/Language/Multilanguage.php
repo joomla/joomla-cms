@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseInterface;
 
 /**
- * Utitlity class for multilang
+ * Utility class for multilang
  *
  * @since  2.5.4
  */

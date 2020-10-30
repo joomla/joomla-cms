@@ -26,7 +26,7 @@ if (isset($displayData['contact']))
 $tooltip = $displayData['tooltip'];
 
 ?>
-<span class="hasTooltip fas fa-lock" aria-hidden="true"></span>
+<span class="hasTooltip icon-lock" aria-hidden="true"></span>
 	<?php echo Text::_('JLIB_HTML_CHECKED_OUT'); ?>
 <div role="tooltip" id="<?php echo $aria_described; ?>">
 	<?php echo $tooltip; ?>
