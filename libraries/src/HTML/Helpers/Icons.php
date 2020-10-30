@@ -113,14 +113,17 @@ abstract class Icons
 		// Get path to icon
 		$file = HTMLHelper::_('image', $file, '', '', $relative, true);
 
-		// If you can't find the icon then skip it
+		// Make sure path is local to J!
+		$file = Path::check(JPATH_ROOT . '/' . substr($file, \strlen(Uri::root(true))));
+
+		// If you can't find the icon or if its unsafe then skip it
 		if (!$file)
 		{
 			return false;
 		}
 
 		// Get contents to display inline
-		$file = file_get_contents(JPATH_ROOT . '/' . substr($file, \strlen(Uri::root(true))));
+		$file = file_get_contents($file);
 
 		return $file;
 	}
