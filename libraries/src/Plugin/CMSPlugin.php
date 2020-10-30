@@ -319,7 +319,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
 	{

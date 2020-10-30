@@ -262,7 +262,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::loadFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testloadFileWebp()
 	{
@@ -576,7 +576,7 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @covers  Joomla\CMS\Image\Image::toFile
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testToFileWebp()
 	{

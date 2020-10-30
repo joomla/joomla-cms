@@ -57,14 +57,6 @@ class HtmlView extends BaseHtmlView
 	protected $toc = [];
 
 	/**
-	 * URL for the latest version check
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $latestVersionCheck = 'https://downloads.joomla.org/latest';
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -83,7 +75,6 @@ class HtmlView extends BaseHtmlView
 		$this->page               = $model->getPage();
 		$this->toc                = $model->getToc();
 		$this->languageTag        = $model->getLangTag();
-		$this->latestVersionCheck = $model->getLatestVersionCheck();
 
 		$this->addToolbar();
 
