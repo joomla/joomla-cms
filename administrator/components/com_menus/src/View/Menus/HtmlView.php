@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::deleteList('COM_MENUS_MENU_CONFIRM_DELETE', 'menus.delete', 'JTOOLBAR_DELETE');
 		}
 
-		ToolbarHelper::custom('menus.rebuild', 'refresh.png', '', 'JTOOLBAR_REBUILD', false);
+		ToolbarHelper::custom('menus.rebuild', 'refresh', '', 'JTOOLBAR_REBUILD', false);
 
 		if ($canDo->get('core.admin') && $this->state->get('client_id') == 1)
 		{

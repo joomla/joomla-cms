@@ -239,8 +239,8 @@ class ListView extends HtmlView
 
 			if (isset($this->items[0]->featured))
 			{
-				ToolbarHelper::custom($viewName . '.featured', 'featured.png', '', 'JFEATURE', true);
-				ToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured.png', '', 'JUNFEATURE', true);
+				ToolbarHelper::custom($viewName . '.featured', 'featured', '', 'JFEATURE', true);
+				ToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured', '', 'JUNFEATURE', true);
 			}
 
 			ToolbarHelper::archiveList($viewName . '.archive');

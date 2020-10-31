@@ -134,7 +134,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::custom('styles.duplicate', 'copy.png', '', 'JTOOLBAR_DUPLICATE', true);
+			ToolbarHelper::custom('styles.duplicate', 'copy', '', 'JTOOLBAR_DUPLICATE', true);
 			ToolbarHelper::divider();
 		}
 
