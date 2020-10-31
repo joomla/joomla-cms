@@ -107,7 +107,7 @@ abstract class Icons
 
 		if ($extension !== '.svg')
 		{
-			return false;
+			return null;
 		}
 
 		// Get path to icon
