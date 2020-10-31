@@ -99,7 +99,7 @@ abstract class ToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function custom($task = '', $icon = '', string $iconOver = '', $alt = '', $listSelect = true, $formId = null)
+	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $formId = null)
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
