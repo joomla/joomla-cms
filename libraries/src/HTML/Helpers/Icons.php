@@ -119,7 +119,7 @@ abstract class Icons
 		// If you can't find the icon or if it's unsafe then skip it
 		if (!$file)
 		{
-			return false;
+			return null;
 		}
 
 		// Get contents to display inline
