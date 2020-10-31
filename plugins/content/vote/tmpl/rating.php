@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Filesystem\Path;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->app->getDocument()->getWebAssetManager();
@@ -31,15 +33,37 @@ if ($context === 'com_content.categories')
 	return;
 }
 
-$rating = (float) $row->rating;
-$rating = round($rating / 0.5) * 0.5; // round to 0.5
-$stars  = $rating;
+// Get path to icon
+$iconStar     = HTMLHelper::_('image', 'plg_content_vote/vote-star.svg', '', '', true, true);
+$iconHalfstar = HTMLHelper::_('image', 'plg_content_vote/vote-star-half.svg', '', '', true, true);
 
+$pathStar     = Path::clean(realpath(JPATH_ROOT . '/../..') . '/' . $iconStar);
+$pathHalfstar = Path::clean(realpath(JPATH_ROOT . '/../..') . '/' . $iconHalfstar);
+
+// Writes an inline '<svg>' element
+$star     = '';
+$halfstar = '';
+
+if (file_exists($pathStar))
+{
+	$star = file_get_contents($pathStar);
+}
+
+if (file_exists($pathHalfstar))
+{
+	$halfstar = file_get_contents($pathHalfstar);
+}
+
+// Get rating
+$rating = (float) $row->rating;
 $rcount = (int) $row->rating_count;
 
-$img      = '';
-$star     = file_get_contents(JPATH_ROOT . '/media/plg_content_vote/images/vote-star.svg');
-$halfstar = file_get_contents(JPATH_ROOT . '/media/plg_content_vote/images/vote-star-half.svg');
+// Round to 0.5
+$rating = round($rating / 0.5) * 0.5;
+
+// Determine number of stars
+$stars = $rating;
+$img   = '';
 
 for ($i = 0; $i < floor($stars); $i++)
 {
@@ -56,7 +80,7 @@ if (($stars - floor($stars)) >= 0.5)
 	$img .= '<li class="vote-star-empty">' . $starinactive . '</li>';
 	$img .= '<li class="vote-star-half">' . $halfstaractive . '</li>';
 
-	$stars += 1;
+	++$stars;
 }
 
 for ($i = $stars; $i < 5; $i++)
