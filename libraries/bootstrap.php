@@ -7,16 +7,16 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 // Set the platform root path as a constant if necessary.
-\defined('JPATH_PLATFORM') or \define('JPATH_PLATFORM', __DIR__);
+defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
 
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
-\defined('IS_WIN') or \define('IS_WIN', ($os === 'WIN'));
-\defined('IS_UNIX') or \define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')));
+defined('IS_WIN') or define('IS_WIN', ($os === 'WIN'));
+defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')));
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
