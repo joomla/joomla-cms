@@ -79,7 +79,7 @@ switch ($config->error_reporting)
 		break;
 }
 
-define('JDEBUG', $config->debug);
+\define('JDEBUG', $config->debug);
 
 if (JDEBUG || $config->error_reporting === 'maximum')
 {

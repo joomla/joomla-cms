@@ -21,7 +21,7 @@ trigger_error(
 // Set the platform root path as a constant if necessary.
 if (!\defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', __DIR__);
+	\define('JPATH_PLATFORM', __DIR__);
 }
 
 // Detect the native operating system type.
@@ -29,12 +29,12 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 
 if (!\defined('IS_WIN'))
 {
-	define('IS_WIN', $os === 'WIN');
+	\define('IS_WIN', $os === 'WIN');
 }
 
 if (!\defined('IS_UNIX'))
 {
-	define('IS_UNIX', IS_WIN === false);
+	\define('IS_UNIX', IS_WIN === false);
 }
 
 // Import the library loader if necessary.

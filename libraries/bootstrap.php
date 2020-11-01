@@ -10,13 +10,13 @@
 \defined('_JEXEC') or die;
 
 // Set the platform root path as a constant if necessary.
-\defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
+\defined('JPATH_PLATFORM') or \define('JPATH_PLATFORM', __DIR__);
 
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
-\defined('IS_WIN') or define('IS_WIN', ($os === 'WIN'));
-\defined('IS_UNIX') or define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')));
+\defined('IS_WIN') or \define('IS_WIN', ($os === 'WIN'));
+\defined('IS_UNIX') or \define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')));
 
 // Import the library loader if necessary.
 if (!class_exists('JLoader'))
@@ -71,7 +71,7 @@ if (in_array('phar', stream_get_wrappers()))
 }
 
 // Define the Joomla version if not already defined.
-\defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
+\defined('JVERSION') or \define('JVERSION', (new JVersion)->getShortVersion());
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))

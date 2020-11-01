@@ -19,7 +19,7 @@ namespace
 	// Fake a miniature Joomla environment
 	if (!\defined('_JEXEC'))
 	{
-		define('_JEXEC', 1);
+		\define('_JEXEC', 1);
 	}
 
 	if (!function_exists('jimport'))
@@ -56,7 +56,7 @@ namespace
 		{
 			if (!\defined('JPATH_ROOT'))
 			{
-				define('JPATH_ROOT', $siteRoot);
+				\define('JPATH_ROOT', $siteRoot);
 			}
 
 			$filePath = JPATH_ROOT . '/administrator/components/com_admin/script.php';

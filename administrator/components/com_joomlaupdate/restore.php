@@ -19,38 +19,38 @@
  * @subpackage  kickstart
  */
 
-define('_AKEEBA_RESTORATION', 1);
-\defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+\define('_AKEEBA_RESTORATION', 1);
+\defined('DS') or \define('DS', DIRECTORY_SEPARATOR);
 
 // Unarchiver run states
-define('AK_STATE_NOFILE', 0); // File header not read yet
-define('AK_STATE_HEADER', 1); // File header read; ready to process data
-define('AK_STATE_DATA', 2); // Processing file data
-define('AK_STATE_DATAREAD', 3); // Finished processing file data; ready to post-process
-define('AK_STATE_POSTPROC', 4); // Post-processing
-define('AK_STATE_DONE', 5); // Done with post-processing
+\define('AK_STATE_NOFILE', 0); // File header not read yet
+\define('AK_STATE_HEADER', 1); // File header read; ready to process data
+\define('AK_STATE_DATA', 2); // Processing file data
+\define('AK_STATE_DATAREAD', 3); // Finished processing file data; ready to post-process
+\define('AK_STATE_POSTPROC', 4); // Post-processing
+\define('AK_STATE_DONE', 5); // Done with post-processing
 
 /* Windows system detection */
 if (!\defined('_AKEEBA_IS_WINDOWS'))
 {
 	if (function_exists('php_uname'))
 	{
-		define('_AKEEBA_IS_WINDOWS', stristr(php_uname(), 'windows'));
+		\define('_AKEEBA_IS_WINDOWS', stristr(php_uname(), 'windows'));
 	}
 	else
 	{
-		define('_AKEEBA_IS_WINDOWS', DIRECTORY_SEPARATOR == '\\');
+		\define('_AKEEBA_IS_WINDOWS', DIRECTORY_SEPARATOR == '\\');
 	}
 }
 
 // Get the file's root
 if (!\defined('KSROOTDIR'))
 {
-	define('KSROOTDIR', dirname(__FILE__));
+	\define('KSROOTDIR', dirname(__FILE__));
 }
 if (!\defined('KSLANGDIR'))
 {
-	define('KSLANGDIR', KSROOTDIR);
+	\define('KSLANGDIR', KSROOTDIR);
 }
 
 // Make sure the locale is correct for basename() to work
