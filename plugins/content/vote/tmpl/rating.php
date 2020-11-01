@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
 use Joomla\Filesystem\Path;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -37,8 +38,8 @@ if ($context === 'com_content.categories')
 $iconStar     = HTMLHelper::_('image', 'plg_content_vote/vote-star.svg', '', '', true, true);
 $iconHalfstar = HTMLHelper::_('image', 'plg_content_vote/vote-star-half.svg', '', '', true, true);
 
-$pathStar     = Path::clean(realpath(JPATH_ROOT . '/../..') . '/' . $iconStar);
-$pathHalfstar = Path::clean(realpath(JPATH_ROOT . '/../..') . '/' . $iconHalfstar);
+$pathStar     = Path::check(JPATH_ROOT . '/' . substr($iconStar, \strlen(Uri::root(true))));
+$pathHalfstar = Path::check(JPATH_ROOT . '/' . substr($iconHalfstar, \strlen(Uri::root(true))));
 
 // Writes an inline '<svg>' element
 $star     = '';
