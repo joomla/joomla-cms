@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('list');
 
@@ -75,7 +75,7 @@ abstract class JFormFieldPredefinedList extends JFormFieldList
 			foreach ($this->predefinedOptions as $value => $text)
 			{
 				$val = (string) $value;
-	
+
 				if (empty($filter) || in_array($val, $filter, true))
 				{
 					$text = $this->translate ? JText::_($text) : $text;

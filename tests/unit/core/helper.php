@@ -197,7 +197,7 @@ class TestHelper
 	 */
 	public static function registerLogger()
 	{
-		if (defined('JOOMLA_TEST_LOGGING') && JOOMLA_TEST_LOGGING === 'yes')
+		if (\defined('JOOMLA_TEST_LOGGING') && JOOMLA_TEST_LOGGING === 'yes')
 		{
 			Log::addLogger(
 				array(
@@ -225,6 +225,6 @@ class TestHelper
 			return getenv('ANSICON') !== false || getenv('ConEmuANSI') === 'ON';
 		}
 
-		return defined('STDOUT') && function_exists('posix_isatty') && @posix_isatty(STDOUT);
+		return \defined('STDOUT') && function_exists('posix_isatty') && @posix_isatty(STDOUT);
 	}
 }

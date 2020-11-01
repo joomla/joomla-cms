@@ -9,7 +9,7 @@
 
 // @deprecated  4.0 not used for a long time
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 JFactory::getDocument()->addScriptDeclaration(
 	'

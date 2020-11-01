@@ -9,7 +9,7 @@
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
 

@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
-// define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
+// \define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
 
 /**
  * Joomla! Update Notification plugin
@@ -55,7 +55,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		$now  = time();
 		$last = (int) $this->params->get('lastrun', 0);
 
-		if (!defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout))
+		if (!\defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout))
 		{
 			return;
 		}
@@ -196,7 +196,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		 * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
 		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
 		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
-		 * solution! 
+		 * solution!
 		 */
 		$jLanguage = JFactory::getLanguage();
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);

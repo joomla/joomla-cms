@@ -44,12 +44,12 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 	public static function setUpBeforeClass()
 	{
 		// First let's look to see if we have a DSN defined or in the environment variables.
-		if (!defined('JTEST_DATABASE_SQLSRV_DSN') && !getenv('JTEST_DATABASE_SQLSRV_DSN'))
+		if (!\defined('JTEST_DATABASE_SQLSRV_DSN') && !getenv('JTEST_DATABASE_SQLSRV_DSN'))
 		{
 			static::markTestSkipped('The SQL Server driver is not configured.');
 		}
 
-		$dsn = defined('JTEST_DATABASE_SQLSRV_DSN') ? JTEST_DATABASE_SQLSRV_DSN : getenv('JTEST_DATABASE_SQLSRV_DSN');
+		$dsn = \defined('JTEST_DATABASE_SQLSRV_DSN') ? JTEST_DATABASE_SQLSRV_DSN : getenv('JTEST_DATABASE_SQLSRV_DSN');
 
 		// First let's trim the sqlsrv: part off the front of the DSN if it exists.
 		if (strpos($dsn, 'sqlsrv:') === 0)

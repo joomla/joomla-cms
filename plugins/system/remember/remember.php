@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Joomla! System Remember Me Plugin
@@ -122,7 +122,7 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		/*
-		 * But now, we need to do something 
+		 * But now, we need to do something
 		 * Delete all tokens for this user!
 		 */
 		$db = JFactory::getDbo();

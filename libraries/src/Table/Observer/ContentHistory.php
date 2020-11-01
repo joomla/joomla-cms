@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table\Observer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Table class supporting modified pre-order tree traversal behavior.

@@ -8,7 +8,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * A helper class which provides update information for the Joomla! CMS itself. This is slightly different than the

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * MySQL database driver
@@ -306,7 +306,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		{
 			$this->timings[] = microtime(true);
 
-			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			if (\defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 			}

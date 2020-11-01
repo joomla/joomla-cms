@@ -8,7 +8,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework model behavior class to filter front-end access to items

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Crypt\Cipher;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * JCrypt cipher for Triple DES encryption, decryption and key generation.

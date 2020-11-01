@@ -28,7 +28,7 @@ class JCacheStorageMemcacheTest extends TestCaseCache
 		parent::setUp();
 
 		// Parse the DSN details for the test server
-		$dsn = defined('JTEST_CACHE_MEMCACHE_DSN') ? JTEST_CACHE_MEMCACHE_DSN : getenv('JTEST_CACHE_MEMCACHE_DSN');
+		$dsn = \defined('JTEST_CACHE_MEMCACHE_DSN') ? JTEST_CACHE_MEMCACHE_DSN : getenv('JTEST_CACHE_MEMCACHE_DSN');
 
 		if ($dsn)
 		{

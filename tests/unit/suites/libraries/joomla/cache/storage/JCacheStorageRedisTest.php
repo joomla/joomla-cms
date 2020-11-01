@@ -28,7 +28,7 @@ class JCacheStorageRedisTest extends TestCaseCache
 		parent::setUp();
 
 		// Parse the DSN details for the test server
-		$dsn = defined('JTEST_CACHE_REDIS_DSN') ? JTEST_CACHE_REDIS_DSN : getenv('JTEST_CACHE_REDIS_DSN');
+		$dsn = \defined('JTEST_CACHE_REDIS_DSN') ? JTEST_CACHE_REDIS_DSN : getenv('JTEST_CACHE_REDIS_DSN');
 
 		if ($dsn)
 		{

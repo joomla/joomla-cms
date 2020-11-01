@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
 
@@ -316,29 +316,29 @@ class SearchHelper
 			{
 				$iOriLen = StringHelper::strlen(StringHelper::substr($text, 0, $pos + $chunk_size));
 				$iModLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, 0, $pos + $chunk_size)));
-				
+
 				$chunk_size += $iOriLen - $iModLen;
 			}
 			else
 			{
 				$iOriSkippedLen = StringHelper::strlen(StringHelper::substr($text, 0, $pos));
 				$iModSkippedLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, 0, $pos)));
-				
+
 				// Adjust starting position $pos
 				if ($iOriSkippedLen !== $iModSkippedLen)
 				{
 					$pos += $iOriSkippedLen - $iModSkippedLen;
 				}
-				
+
 				$iOriReturnLen = StringHelper::strlen(StringHelper::substr($text, $pos, $chunk_size));
 				$iModReturnLen = StringHelper::strlen(self::remove_accents(StringHelper::substr($text, $pos, $chunk_size)));
-				
+
 				if ($iOriReturnLen !== $iModReturnLen)
 				{
 					$chunk_size += $iOriReturnLen - $iModReturnLen;
 				}
 			}
-			
+
 			$sPre = $pos > 0 ? '...&#160;' : '';
 			$sPost = ($pos + $chunk_size) >= StringHelper::strlen($text) ? '' : '&#160;...';
 

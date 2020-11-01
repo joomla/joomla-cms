@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Include the languages functions only once
 JLoader::register('ModLanguagesHelper', __DIR__ . '/helper.php');

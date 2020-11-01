@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Content Component Query Helper
@@ -240,7 +240,7 @@ class ContentHelperQuery
 	 * @return  array  Reordered array to achieve desired ordering down columns
 	 *
 	 * @since       1.6
-	 * @deprecated  4.0 
+	 * @deprecated  4.0
 	 */
 	public static function orderDownColumns(&$articles, $numColumns = 1)
 	{

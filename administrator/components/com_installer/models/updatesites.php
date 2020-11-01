@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
@@ -328,9 +328,9 @@ class InstallerModelUpdatesites extends InstallerModel
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where('(' 
-								. $db->quoteName('name') . ' = ' . $db->quote($manifest->name) 
-								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename) 
+							->where('('
+								. $db->quoteName('name') . ' = ' . $db->quote($manifest->name)
+								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename)
 								. ')' )
 							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
 							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')

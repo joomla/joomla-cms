@@ -8,7 +8,7 @@
  */
 use Joomla\CMS\Menu\Node\Separator;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * =========================================================================================================

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -306,7 +306,7 @@ class ContactModelContacts extends JModelList
 			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryTable = JTable::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
-		
+
 			foreach ($categoryId as $filter_catid)
 			{
 				$categoryTable->load($filter_catid);
@@ -315,7 +315,7 @@ class ContactModelContacts extends JModelList
 					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
 					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
-		
+
 			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 

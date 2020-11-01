@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 JLog::add('JResponse is deprecated.', JLog::WARNING, 'deprecated');
 
@@ -248,7 +248,7 @@ class JResponse
 		self::setHeader('Vary', 'Accept-Encoding');
 
 		// Header will be removed at 4.0
-		if (defined('JVERSION') && JFactory::getConfig()->get('MetaVersion', 0))
+		if (\defined('JVERSION') && JFactory::getConfig()->get('MetaVersion', 0))
 		{
 			self::setHeader('X-Content-Encoded-By', 'Joomla! ' . JVERSION);
 		}

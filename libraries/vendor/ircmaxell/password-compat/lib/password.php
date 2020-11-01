@@ -9,10 +9,10 @@
 
 namespace {
 
-    if (!defined('PASSWORD_BCRYPT')) {
+    if (!\defined('PASSWORD_BCRYPT')) {
         /**
          * PHPUnit Process isolation caches constants, but not function declarations.
-         * So we need to check if the constants are defined separately from 
+         * So we need to check if the constants are defined separately from
          * the functions to enable supporting process isolation in userland
          * code.
          */
@@ -101,7 +101,7 @@ namespace {
             } else {
                 $buffer = '';
                 $buffer_valid = false;
-                if (function_exists('mcrypt_create_iv') && !defined('PHALANGER')) {
+                if (function_exists('mcrypt_create_iv') && !\defined('PHALANGER')) {
                     $buffer = mcrypt_create_iv($raw_salt_len, MCRYPT_DEV_URANDOM);
                     if ($buffer) {
                         $buffer_valid = true;

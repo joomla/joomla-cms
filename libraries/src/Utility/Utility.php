@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Utility;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * JUtility is a utility functions class

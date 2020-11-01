@@ -18,10 +18,10 @@ if (PHP_VERSION_ID >= 50600) {
 if (!function_exists('hash_equals')) {
     function hash_equals($knownString, $userInput) { return p\Php56::hash_equals($knownString, $userInput); }
 }
-if (extension_loaded('ldap') && !defined('LDAP_ESCAPE_FILTER')) {
+if (extension_loaded('ldap') && !\defined('LDAP_ESCAPE_FILTER')) {
     define('LDAP_ESCAPE_FILTER', 1);
 }
-if (extension_loaded('ldap') && !defined('LDAP_ESCAPE_DN')) {
+if (extension_loaded('ldap') && !\defined('LDAP_ESCAPE_DN')) {
     define('LDAP_ESCAPE_DN', 2);
 }
 

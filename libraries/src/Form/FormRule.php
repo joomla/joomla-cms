@@ -8,12 +8,12 @@
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
 // Detect if we have full UTF-8 and unicode PCRE support.
-if (!defined('JCOMPAT_UNICODE_PROPERTIES'))
+if (!\defined('JCOMPAT_UNICODE_PROPERTIES'))
 {
 	/**
 	 * Flag indicating UTF-8 and PCRE support is present
@@ -21,7 +21,7 @@ if (!defined('JCOMPAT_UNICODE_PROPERTIES'))
 	 * @var    boolean
 	 * @since  1.6
 	 */
-	define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
+	\define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
 }
 
 /**

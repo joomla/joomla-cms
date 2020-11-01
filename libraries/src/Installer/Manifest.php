@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.filesystem.file');
 

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Date;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * JDate is a class that stores a date and provides logic to manipulate

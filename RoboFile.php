@@ -17,9 +17,9 @@
  */
 require_once __DIR__ . '/tests/codeception/vendor/autoload.php';
 
-if (!defined('JPATH_BASE'))
+if (!\defined('JPATH_BASE'))
 {
-	define('JPATH_BASE', __DIR__);
+	\define('JPATH_BASE', __DIR__);
 }
 
 /**

@@ -44,12 +44,12 @@ abstract class TestCaseDatabasePdomysql extends TestCaseDatabase
 	public static function setUpBeforeClass()
 	{
 		// First let's look to see if we have a DSN defined or in the environment variables.
-		if (!defined('JTEST_DATABASE_PDO_MYSQL_DSN') && !getenv('JTEST_DATABASE_PDO_MYSQL_DSN'))
+		if (!\defined('JTEST_DATABASE_PDO_MYSQL_DSN') && !getenv('JTEST_DATABASE_PDO_MYSQL_DSN'))
 		{
 			static::markTestSkipped('The PDO MySQL driver is not configured.');
 		}
 
-		$dsn = defined('JTEST_DATABASE_PDO_MYSQL_DSN') ? JTEST_DATABASE_PDO_MYSQL_DSN : getenv('JTEST_DATABASE_PDO_MYSQL_DSN');
+		$dsn = \defined('JTEST_DATABASE_PDO_MYSQL_DSN') ? JTEST_DATABASE_PDO_MYSQL_DSN : getenv('JTEST_DATABASE_PDO_MYSQL_DSN');
 
 		// First let's trim the mysql: part off the front of the DSN if it exists.
 		if (strpos($dsn, 'mysql:') === 0)

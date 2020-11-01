@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Language\Stemmer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\LanguageStemmer;
 

@@ -636,7 +636,7 @@ class SimplePie
 
 		if (func_num_args() > 0)
 		{
-			$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+			$level = \defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
 			trigger_error('Passing parameters to the constructor is no longer supported. Please use set_feed_url(), set_cache_location(), and set_cache_location() directly.', $level);
 
 			$args = func_get_args();
@@ -2930,7 +2930,7 @@ class SimplePie
 	 */
 	public function set_favicon_handler($page = false, $qs = 'i')
 	{
-		$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+		$level = \defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
 		trigger_error('Favicon handling has been removed, please use your own handling', $level);
 		return false;
 	}
@@ -2942,7 +2942,7 @@ class SimplePie
 	 */
 	public function get_favicon()
 	{
-		$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+		$level = \defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
 		trigger_error('Favicon handling has been removed, please use your own handling', $level);
 
 		if (($url = $this->get_link()) !== null)
@@ -2964,13 +2964,13 @@ class SimplePie
 	{
 		if (strpos($method, 'subscribe_') === 0)
 		{
-			$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+			$level = \defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
 			trigger_error('subscribe_*() has been deprecated, implement the callback yourself', $level);
 			return '';
 		}
 		if ($method === 'enable_xml_dump')
 		{
-			$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+			$level = \defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
 			trigger_error('enable_xml_dump() has been deprecated, use get_raw_data() instead', $level);
 			return false;
 		}

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Client;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Utility\BufferStreamHandler;
@@ -25,7 +25,7 @@ use Joomla\CMS\Utility\BufferStreamHandler;
  * - 38 : Local filesystem error
  */
 
-if (!defined('CRLF'))
+if (!\defined('CRLF'))
 {
 	/**
 	 * Constant defining a line break
@@ -33,10 +33,10 @@ if (!defined('CRLF'))
 	 * @var    string
 	 * @since  1.5
 	 */
-	define('CRLF', "\r\n");
+	\define('CRLF', "\r\n");
 }
 
-if (!defined('FTP_AUTOASCII'))
+if (!\defined('FTP_AUTOASCII'))
 {
 	/**
 	 * Constant defining whether the FTP connection type will automatically determine ASCII support based on a file extension
@@ -44,10 +44,10 @@ if (!defined('FTP_AUTOASCII'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	define('FTP_AUTOASCII', -1);
+	\define('FTP_AUTOASCII', -1);
 }
 
-if (!defined('FTP_BINARY'))
+if (!\defined('FTP_BINARY'))
 {
 	/**
 	 * Stub of the native FTP_BINARY constant if PHP is running without the ftp extension enabled
@@ -55,10 +55,10 @@ if (!defined('FTP_BINARY'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	define('FTP_BINARY', 1);
+	\define('FTP_BINARY', 1);
 }
 
-if (!defined('FTP_ASCII'))
+if (!\defined('FTP_ASCII'))
 {
 	/**
 	 * Stub of the native FTP_ASCII constant if PHP is running without the ftp extension enabled
@@ -66,10 +66,10 @@ if (!defined('FTP_ASCII'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	define('FTP_ASCII', 0);
+	\define('FTP_ASCII', 0);
 }
 
-if (!defined('FTP_NATIVE'))
+if (!\defined('FTP_NATIVE'))
 {
 	/**
 	 * Constant defining whether native FTP support is available on the platform
@@ -77,7 +77,7 @@ if (!defined('FTP_NATIVE'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	define('FTP_NATIVE', function_exists('ftp_connect') ? 1 : 0);
+	\define('FTP_NATIVE', function_exists('ftp_connect') ? 1 : 0);
 }
 
 /**

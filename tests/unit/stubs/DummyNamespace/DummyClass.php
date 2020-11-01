@@ -7,7 +7,7 @@
  */
 namespace DummyNamespace;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Dummy class, used for namespaced class loading tests.

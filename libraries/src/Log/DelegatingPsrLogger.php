@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Log;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;

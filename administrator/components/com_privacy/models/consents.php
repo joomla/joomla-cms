@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -30,7 +30,7 @@ class PrivacyModelConsents extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'a.id', 
+				'id', 'a.id',
 				'user_id', 'a.user_id',
 				'subject', 'a.subject',
 				'created', 'a.created',

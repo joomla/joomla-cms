@@ -6,7 +6,7 @@
  *  @license     GNU General Public License version 2, or later
  */
 
-defined('FOF_INCLUDED') or die();
+\defined('FOF_INCLUDED') or die();
 
 /**
  * The main class autoloader for FOF itself

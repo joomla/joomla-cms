@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -395,7 +395,7 @@ abstract class InstallerHelper
 				$hashRemote  = $updateObject->$hash->_data;
 				$hashOnFile  = true;
 
-				if ($hashPackage !== strtolower($hashRemote))	
+				if ($hashPackage !== strtolower($hashRemote))
 				{
 					return self::HASH_NOT_VALIDATED;
 				}

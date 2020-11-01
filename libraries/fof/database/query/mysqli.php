@@ -10,7 +10,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * Query Building Class.
@@ -128,10 +128,10 @@ class FOFDatabaseQueryMysqli extends FOFDatabaseQuery implements FOFDatabaseQuer
 	 * Return correct rand() function for Mysql.
 	 *
 	 * Ensure that the rand() function is Mysql compatible.
-	 * 
+	 *
 	 * Usage:
 	 * $query->Rand();
-	 * 
+	 *
 	 * @return  string  The correct rand function.
 	 *
 	 * @since   3.5

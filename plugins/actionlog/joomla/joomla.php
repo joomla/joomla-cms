@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -1066,10 +1066,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	{
 		$context = $this->app->input->get('option');
 		$user    = JFactory::getUser();
-		
+
 		if (empty($oldVersion))
-		{			
-			$oldVersion = JText::_('JLIB_UNKNOWN');	
+		{
+			$oldVersion = JText::_('JLIB_UNKNOWN');
 		}
 
 		$message = array(

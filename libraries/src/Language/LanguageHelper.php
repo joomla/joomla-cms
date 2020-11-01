@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -426,7 +426,7 @@ class LanguageHelper
 		}
 
 		// @deprecated 3.9.0 Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
-		if (!defined('_QQ_'))
+		if (!\defined('_QQ_'))
 		{
 			/**
 			 * Defines a placeholder for a double quote character (") in a language file
@@ -435,7 +435,7 @@ class LanguageHelper
 			 * @since  1.6
 			 * @deprecated  4.0 Use escaped double quotes (\") instead.
 			 */
-			define('_QQ_', '"');
+			\define('_QQ_', '"');
 		}
 
 		// Capture hidden PHP errors from the parsing.

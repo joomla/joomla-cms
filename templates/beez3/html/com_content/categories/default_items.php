@@ -8,7 +8,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 $class = ' class="first"';
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 ?>

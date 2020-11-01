@@ -97,7 +97,7 @@ chdir($repo);
 system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
 
 // Import the version class to set the version information
-define('JPATH_PLATFORM', 1);
+\define('JPATH_PLATFORM', 1);
 require_once $fullpath . '/libraries/src/Version.php';
 
 // Set version information for the build

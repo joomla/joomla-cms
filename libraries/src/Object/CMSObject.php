@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Object;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Platform Object Class

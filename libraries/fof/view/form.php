@@ -8,7 +8,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework Form class. It preferably renders an XML view template

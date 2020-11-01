@@ -19,38 +19,38 @@
  * @subpackage  kickstart
  */
 
-define('_AKEEBA_RESTORATION', 1);
-defined('DS') or define('DS', DIRECTORY_SEPARATOR);
+\define('_AKEEBA_RESTORATION', 1);
+\defined('DS') or \define('DS', DIRECTORY_SEPARATOR);
 
 // Unarchiver run states
-define('AK_STATE_NOFILE', 0); // File header not read yet
-define('AK_STATE_HEADER', 1); // File header read; ready to process data
-define('AK_STATE_DATA', 2); // Processing file data
-define('AK_STATE_DATAREAD', 3); // Finished processing file data; ready to post-process
-define('AK_STATE_POSTPROC', 4); // Post-processing
-define('AK_STATE_DONE', 5); // Done with post-processing
+\define('AK_STATE_NOFILE', 0); // File header not read yet
+\define('AK_STATE_HEADER', 1); // File header read; ready to process data
+\define('AK_STATE_DATA', 2); // Processing file data
+\define('AK_STATE_DATAREAD', 3); // Finished processing file data; ready to post-process
+\define('AK_STATE_POSTPROC', 4); // Post-processing
+\define('AK_STATE_DONE', 5); // Done with post-processing
 
 /* Windows system detection */
-if (!defined('_AKEEBA_IS_WINDOWS'))
+if (!\defined('_AKEEBA_IS_WINDOWS'))
 {
 	if (function_exists('php_uname'))
 	{
-		define('_AKEEBA_IS_WINDOWS', stristr(php_uname(), 'windows'));
+		\define('_AKEEBA_IS_WINDOWS', stristr(php_uname(), 'windows'));
 	}
 	else
 	{
-		define('_AKEEBA_IS_WINDOWS', DIRECTORY_SEPARATOR == '\\');
+		\define('_AKEEBA_IS_WINDOWS', DIRECTORY_SEPARATOR == '\\');
 	}
 }
 
 // Get the file's root
-if (!defined('KSROOTDIR'))
+if (!\defined('KSROOTDIR'))
 {
-	define('KSROOTDIR', dirname(__FILE__));
+	\define('KSROOTDIR', dirname(__FILE__));
 }
-if (!defined('KSLANGDIR'))
+if (!\defined('KSLANGDIR'))
 {
-	define('KSLANGDIR', KSROOTDIR);
+	\define('KSLANGDIR', KSROOTDIR);
 }
 
 // Make sure the locale is correct for basename() to work
@@ -135,7 +135,7 @@ function getQueryParam($key, $default = null)
 // Debugging function
 function debugMsg($msg)
 {
-	if (!defined('KSDEBUG'))
+	if (!\defined('KSDEBUG'))
 	{
 		return;
 	}
@@ -146,7 +146,7 @@ function debugMsg($msg)
 	fclose($fp);
 
 	// Echo to stdout if KSDEBUGCLI is defined
-	if (defined('KSDEBUGCLI'))
+	if (\defined('KSDEBUGCLI'))
 	{
 		echo $msg . "\n";
 	}
@@ -1037,7 +1037,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 */
 	private function scanArchives()
 	{
-		if (defined('KSDEBUG'))
+		if (\defined('KSDEBUG'))
 		{
 			@unlink('debug.txt');
 		}
@@ -1829,7 +1829,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 		}
 
 		// Try to download ourselves
-		$testFilename = defined('KSSELFNAME') ? KSSELFNAME : basename(__FILE__);
+		$testFilename = \defined('KSSELFNAME') ? KSSELFNAME : basename(__FILE__);
 		$tempHandle   = fopen('php://temp', 'r+');
 		if (@ftp_fget($this->handle, $tempHandle, $testFilename, FTP_ASCII, 0) === false)
 		{
@@ -1940,7 +1940,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 	private function fixPermissions($path)
 	{
 		// Turn off error reporting
-		if (!defined('KSDEBUG'))
+		if (!\defined('KSDEBUG'))
 		{
 			$oldErrorReporting = @error_reporting(E_NONE);
 		}
@@ -1984,7 +1984,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 		}
 
 		// Restore error reporting
-		if (!defined('KSDEBUG'))
+		if (!\defined('KSDEBUG'))
 		{
 			@error_reporting($oldErrorReporting);
 		}
@@ -2411,7 +2411,7 @@ class AKPostprocSFTP extends AKAbstractPostproc
 		}
 
 		// Try to download ourselves
-		$testFilename = defined('KSSELFNAME') ? KSSELFNAME : basename(__FILE__);
+		$testFilename = \defined('KSSELFNAME') ? KSSELFNAME : basename(__FILE__);
 		$basePath     = '/' . trim($this->dir, '/');
 
 		if (@fopen("ssh2.sftp://{$this->handle}$basePath/$testFilename", 'r+') === false)
@@ -2596,7 +2596,7 @@ class AKPostprocSFTP extends AKAbstractPostproc
 	private function fixPermissions($path)
 	{
 		// Turn off error reporting
-		if (!defined('KSDEBUG'))
+		if (!\defined('KSDEBUG'))
 		{
 			$oldErrorReporting = @error_reporting(E_NONE);
 		}
@@ -2646,7 +2646,7 @@ class AKPostprocSFTP extends AKAbstractPostproc
 		}
 
 		// Restore error reporting
-		if (!defined('KSDEBUG'))
+		if (!\defined('KSDEBUG'))
 		{
 			@error_reporting($oldErrorReporting);
 		}
@@ -3097,7 +3097,7 @@ class AKPostprocHybrid extends AKAbstractPostproc
 		}
 
 		// Try to download ourselves
-		$testFilename = defined('KSSELFNAME') ? KSSELFNAME : basename(__FILE__);
+		$testFilename = \defined('KSSELFNAME') ? KSSELFNAME : basename(__FILE__);
 		$tempHandle   = fopen('php://temp', 'r+');
 
 		if (@ftp_fget($this->handle, $tempHandle, $testFilename, FTP_ASCII, 0) === false)
@@ -3255,7 +3255,7 @@ class AKPostprocHybrid extends AKAbstractPostproc
 	private function fixPermissions($path)
 	{
 		// Turn off error reporting
-		if (!defined('KSDEBUG'))
+		if (!\defined('KSDEBUG'))
 		{
 			$oldErrorReporting = error_reporting(0);
 		}
@@ -3305,7 +3305,7 @@ class AKPostprocHybrid extends AKAbstractPostproc
 		}
 
 		// Restore error reporting
-		if (!defined('KSDEBUG'))
+		if (!\defined('KSDEBUG'))
 		{
 			@error_reporting($oldErrorReporting);
 		}
@@ -6097,7 +6097,7 @@ class AKText extends AKAbstractObject
 
 	private function loadTranslation($lang = null)
 	{
-		if (defined('KSLANGDIR'))
+		if (\defined('KSLANGDIR'))
 		{
 			$dirname = KSLANGDIR;
 		}
@@ -6614,7 +6614,7 @@ class AKFactory
 				)),
 			);
 
-			if (!defined('KICKSTART'))
+			if (!\defined('KICKSTART'))
 			{
 				// In restore.php mode we have to exclude the restoration.php files
 				$moreSkippedFiles     = array(
@@ -7983,7 +7983,7 @@ function masterSetup()
 	$ini_data = null;
 
 	// In restore.php mode, require restoration.php or fail
-	if (!defined('KICKSTART'))
+	if (!\defined('KICKSTART'))
 	{
 		// This is the standalone mode, used by Akeeba Backup Professional. It looks for a restoration.php
 		// file to perform its magic. If the file is not there, we will abort.
@@ -8126,7 +8126,7 @@ function masterSetup()
 	// ------------------------------------------------------------
 	// 4. Try the configuration variable for Kickstart
 	// ------------------------------------------------------------
-	if (defined('KICKSTART'))
+	if (\defined('KICKSTART'))
 	{
 		$configuration = getQueryParam('configuration');
 
@@ -8167,7 +8167,7 @@ function masterSetup()
  */
 
 // Mini-controller for restore.php
-if (!defined('KICKSTART'))
+if (!\defined('KICKSTART'))
 {
 	// The observer class, used to report number of files and bytes processed
 	class RestorationObserver extends AKAbstractPartObserver

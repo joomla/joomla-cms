@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Cli\CliOutput;
 use Joomla\CMS\Input\Cli;
@@ -55,7 +55,7 @@ class CliApplication extends BaseApplication
 	public function __construct(Cli $input = null, Registry $config = null, \JEventDispatcher $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line.
-		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
+		if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}

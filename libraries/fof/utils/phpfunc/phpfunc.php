@@ -7,7 +7,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * Intercept calls to PHP functions.

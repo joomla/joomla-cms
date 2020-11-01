@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
@@ -16,7 +16,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		var form = document.getElementById("adminForm");
 
-		// do field validation 
+		// do field validation
 		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
 			alert("' . JText::_('PLG_INSTALLER_URLINSTALLER_NO_URL', true) . '");
 		}

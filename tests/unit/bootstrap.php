@@ -23,7 +23,7 @@ function jexit($message = 0)
 {
 }
 
-define('_JEXEC', 1);
+\define('_JEXEC', 1);
 
 // Fix magic quotes.
 ini_set('magic_quotes_runtime', 0);
@@ -40,69 +40,69 @@ ini_set('precision', 14);
  * Ensure that required path constants are defined.  These can be overridden within the phpunit.xml file
  * if you chose to create a custom version of that file.
  */
-if (!defined('JPATH_TESTS'))
+if (!\defined('JPATH_TESTS'))
 {
-	define('JPATH_TESTS', realpath(__DIR__));
+	\define('JPATH_TESTS', realpath(__DIR__));
 }
-if (!defined('JPATH_TEST_DATABASE'))
+if (!\defined('JPATH_TEST_DATABASE'))
 {
-	define('JPATH_TEST_DATABASE', JPATH_TESTS . '/stubs/database');
+	\define('JPATH_TEST_DATABASE', JPATH_TESTS . '/stubs/database');
 }
-if (!defined('JPATH_TEST_STUBS'))
+if (!\defined('JPATH_TEST_STUBS'))
 {
-	define('JPATH_TEST_STUBS', JPATH_TESTS . '/stubs');
+	\define('JPATH_TEST_STUBS', JPATH_TESTS . '/stubs');
 }
-if (!defined('JPATH_PLATFORM'))
+if (!\defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', realpath(dirname(dirname(__DIR__)) . '/libraries'));
+	\define('JPATH_PLATFORM', realpath(dirname(dirname(__DIR__)) . '/libraries'));
 }
-if (!defined('JPATH_LIBRARIES'))
+if (!\defined('JPATH_LIBRARIES'))
 {
-	define('JPATH_LIBRARIES', realpath(dirname(dirname(__DIR__)) . '/libraries'));
+	\define('JPATH_LIBRARIES', realpath(dirname(dirname(__DIR__)) . '/libraries'));
 }
-if (!defined('JPATH_BASE'))
+if (!\defined('JPATH_BASE'))
 {
-	define('JPATH_BASE', realpath(dirname(dirname(__DIR__))));
+	\define('JPATH_BASE', realpath(dirname(dirname(__DIR__))));
 }
-if (!defined('JPATH_ROOT'))
+if (!\defined('JPATH_ROOT'))
 {
-	define('JPATH_ROOT', realpath(JPATH_BASE));
+	\define('JPATH_ROOT', realpath(JPATH_BASE));
 }
-if (!defined('JPATH_CACHE'))
+if (!\defined('JPATH_CACHE'))
 {
-	define('JPATH_CACHE', JPATH_BASE . '/cache');
+	\define('JPATH_CACHE', JPATH_BASE . '/cache');
 }
-if (!defined('JPATH_CONFIGURATION'))
+if (!\defined('JPATH_CONFIGURATION'))
 {
-	define('JPATH_CONFIGURATION', JPATH_BASE);
+	\define('JPATH_CONFIGURATION', JPATH_BASE);
 }
-if (!defined('JPATH_SITE'))
+if (!\defined('JPATH_SITE'))
 {
-	define('JPATH_SITE', JPATH_ROOT);
+	\define('JPATH_SITE', JPATH_ROOT);
 }
-if (!defined('JPATH_ADMINISTRATOR'))
+if (!\defined('JPATH_ADMINISTRATOR'))
 {
-	define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
+	\define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
 }
-if (!defined('JPATH_INSTALLATION'))
+if (!\defined('JPATH_INSTALLATION'))
 {
-	define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');
+	\define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');
 }
-if (!defined('JPATH_MANIFESTS'))
+if (!\defined('JPATH_MANIFESTS'))
 {
-	define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . '/manifests');
+	\define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . '/manifests');
 }
-if (!defined('JPATH_PLUGINS'))
+if (!\defined('JPATH_PLUGINS'))
 {
-	define('JPATH_PLUGINS', JPATH_BASE . '/plugins');
+	\define('JPATH_PLUGINS', JPATH_BASE . '/plugins');
 }
-if (!defined('JPATH_THEMES'))
+if (!\defined('JPATH_THEMES'))
 {
-	define('JPATH_THEMES', JPATH_BASE . '/templates');
+	\define('JPATH_THEMES', JPATH_BASE . '/templates');
 }
-if (!defined('JDEBUG'))
+if (!\defined('JDEBUG'))
 {
-	define('JDEBUG', false);
+	\define('JDEBUG', false);
 }
 
 // Import the platform in legacy mode.

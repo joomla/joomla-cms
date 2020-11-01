@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Crypt\Cipher;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Crypt cipher for Rijndael 256 encryption, decryption and key generation.

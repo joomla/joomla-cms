@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Crypt\Password;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Crypt\CryptPassword;

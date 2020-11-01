@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Exception;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Displays the custom error page when an uncaught exception occurs.

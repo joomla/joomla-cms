@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Uri;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * JUri Class
@@ -146,7 +146,7 @@ class Uri extends \Joomla\Uri\Uri
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				static::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
-				if (defined('JPATH_BASE') && defined('JPATH_ADMINISTRATOR'))
+				if (\defined('JPATH_BASE') && \defined('JPATH_ADMINISTRATOR'))
 				{
 					if (JPATH_BASE == JPATH_ADMINISTRATOR)
 					{

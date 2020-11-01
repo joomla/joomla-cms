@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Access\Wrapper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access as StaticAccess;
 use Joomla\CMS\Access\Rules as AccessRules;

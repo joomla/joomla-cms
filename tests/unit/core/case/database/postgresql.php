@@ -44,12 +44,12 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	public static function setUpBeforeClass()
 	{
 		// First let's look to see if we have a DSN defined or in the environment variables.
-		if (!defined('JTEST_DATABASE_POSTGRESQL_DSN') && !getenv('JTEST_DATABASE_POSTGRESQL_DSN'))
+		if (!\defined('JTEST_DATABASE_POSTGRESQL_DSN') && !getenv('JTEST_DATABASE_POSTGRESQL_DSN'))
 		{
 			static::markTestSkipped('The PostgreSQL driver is not configured.');
 		}
 
-		$dsn = defined('JTEST_DATABASE_POSTGRESQL_DSN') ? JTEST_DATABASE_POSTGRESQL_DSN : getenv('JTEST_DATABASE_POSTGRESQL_DSN');
+		$dsn = \defined('JTEST_DATABASE_POSTGRESQL_DSN') ? JTEST_DATABASE_POSTGRESQL_DSN : getenv('JTEST_DATABASE_POSTGRESQL_DSN');
 
 		// First let's trim the pgsql: part off the front of the DSN if it exists.
 		if (strpos($dsn, 'pgsql:') === 0)

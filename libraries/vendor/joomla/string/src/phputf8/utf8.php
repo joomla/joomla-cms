@@ -23,7 +23,7 @@
 /**
 * Put the current directory in this constant
 */
-if ( !defined('UTF8') ) {
+if ( !\defined('UTF8') ) {
     define('UTF8',dirname(__FILE__));
 }
 
@@ -62,7 +62,7 @@ unset($UTF8_ar);
 * Load the smartest implementations of utf8_strpos, utf8_strrpos
 * and utf8_substr
 */
-if ( !defined('UTF8_CORE') ) {
+if ( !\defined('UTF8_CORE') ) {
     if ( function_exists('mb_substr') ) {
         require_once UTF8 . '/mbstring/core.php';
     } else {

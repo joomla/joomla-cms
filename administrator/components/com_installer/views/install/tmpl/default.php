@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
 JHtml::_('behavior.framework', true);
@@ -25,7 +25,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		else
 		{
 			JoomlaInstaller.showLoading();
-			
+
 			form.installtype.value = "url";
 			form.submit();
 		}
@@ -33,16 +33,16 @@ JFactory::getDocument()->addScriptDeclaration(
 
 	Joomla.submitbuttonInstallWebInstaller = function() {
 		var form = document.getElementById("adminForm");
-		
+
 		form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
-		
+
 		Joomla.submitbutton4();
 	};
 
 	// Add spindle-wheel for installations:
 	jQuery(document).ready(function($) {
 		var outerDiv = $("#installer-install");
-		
+
 		JoomlaInstaller.getLoadingOverlay()
 			.css("top", outerDiv.position().top - $(window).scrollTop())
 			.css("left", "0")
@@ -51,7 +51,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			.css("display", "none")
 			.css("margin-top", "-10px");
 	});
-	
+
 	var JoomlaInstaller = {
 		getLoadingOverlay: function () {
 			return jQuery("#loading");

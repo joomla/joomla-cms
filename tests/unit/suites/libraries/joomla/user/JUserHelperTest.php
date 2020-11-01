@@ -337,7 +337,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testHashPasswordArgon2i()
 	{
-		if (!defined('PASSWORD_ARGON2I'))
+		if (!\defined('PASSWORD_ARGON2I'))
 		{
 			$this->markTestSkipped('Argon2i algorithm not supported.');
 		}
@@ -360,7 +360,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testHashPasswordArgon2id()
 	{
-		if (!defined('PASSWORD_ARGON2ID'))
+		if (!\defined('PASSWORD_ARGON2ID'))
 		{
 			$this->markTestSkipped('Argon2id algorithm not supported.');
 		}

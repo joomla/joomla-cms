@@ -8,7 +8,7 @@
  */
 /* add accessibility, labels on input forms */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 

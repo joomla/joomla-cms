@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
 
@@ -111,7 +111,7 @@ class DaemonApplication extends CliApplication
 	public function __construct(\JInputCli $input = null, Registry $config = null, \JEventDispatcher $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
-		if (!defined('SIGHUP'))
+		if (!\defined('SIGHUP'))
 		{
 			\JLog::add('The PCNTL extension for PHP is not available.', \JLog::ERROR);
 			throw new \RuntimeException('The PCNTL extension for PHP is not available.');

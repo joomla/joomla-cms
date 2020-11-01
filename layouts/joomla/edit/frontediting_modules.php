@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // JLayout for standard handling of the edit modules:
 
@@ -42,7 +42,7 @@ $moduleHtml = preg_replace(
 	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|nav|address|article) [^>]*class="[^"]*)"/',
 	// By itself, adding class jmoddiv and data attributes for the URL and tooltip:
 	'\\1 jmoddiv" data-jmodediturl="' . $editUrl . '" data-target="' . $target . '" data-jmodtip="'
-	.	JHtml::_('tooltipText', 
+	.	JHtml::_('tooltipText',
 			JText::_('JLIB_HTML_EDIT_MODULE'),
 			htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br />' . sprintf(JText::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position, ENT_COMPAT, 'UTF-8')),
 			0

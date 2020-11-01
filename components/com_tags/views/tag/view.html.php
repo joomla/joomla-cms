@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -292,8 +292,8 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		$this->document->setTitle($title);
-		
-		$pathway->addItem($title);	
+
+		$pathway->addItem($title);
 
 		foreach ($this->item as $itemElement)
 		{

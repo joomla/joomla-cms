@@ -7,7 +7,7 @@
  * @note	This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 JLoader::import('joomla.filesystem.folder');
 JLoader::import('joomla.filesystem.file');
@@ -218,7 +218,7 @@ abstract class FOFUtilsInstallscript
 		// Check the minimum PHP version
 		if (!empty($this->minimumPHPVersion))
 		{
-			if (defined('PHP_VERSION'))
+			if (\defined('PHP_VERSION'))
 			{
 				$version = PHP_VERSION;
 			}
@@ -1285,7 +1285,7 @@ abstract class FOFUtilsInstallscript
 		}
 
 		// Get the target path
-		if (!defined('JPATH_LIBRARIES'))
+		if (!\defined('JPATH_LIBRARIES'))
 		{
 			$target = JPATH_ROOT . '/libraries/f0f';
 		}

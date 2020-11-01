@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 if (version_compare(JVERSION, '2.5.0', 'lt'))
 {
@@ -519,7 +519,7 @@ class FOFForm extends JForm
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Method to remove a header from the form definition.
 	 *

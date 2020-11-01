@@ -28,7 +28,7 @@
 
 if (!is_callable('RandomCompat_strlen')) {
     if (
-        defined('MB_OVERLOAD_STRING') &&
+        \defined('MB_OVERLOAD_STRING') &&
         ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING
     ) {
         /**
@@ -81,7 +81,7 @@ if (!is_callable('RandomCompat_strlen')) {
 if (!is_callable('RandomCompat_substr')) {
 
     if (
-        defined('MB_OVERLOAD_STRING')
+        \defined('MB_OVERLOAD_STRING')
         &&
         ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING
     ) {

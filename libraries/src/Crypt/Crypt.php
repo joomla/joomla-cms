@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Crypt;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Crypt\Cipher\SimpleCipher;
 use Joomla\CMS\Log\Log;
@@ -166,7 +166,7 @@ class Crypt
 		// Log usage of deprecated function
 		Log::add(__METHOD__ . '() is deprecated without replacement.', Log::WARNING, 'deprecated');
 
-		if (!defined('PASSWORD_DEFAULT'))
+		if (!\defined('PASSWORD_DEFAULT'))
 		{
 			// Always make sure that the password hashing API has been defined.
 			include_once JPATH_ROOT . '/vendor/ircmaxell/password-compat/lib/password.php';

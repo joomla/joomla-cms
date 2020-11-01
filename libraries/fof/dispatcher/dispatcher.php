@@ -8,7 +8,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * FrameworkOnFramework dispatcher class
@@ -450,19 +450,19 @@ class FOFDispatcher extends FOFUtilsObject
 		{
 			$componentPaths = FOFPlatform::getInstance()->getComponentBaseDirs($option);
 
-			if (!defined('JPATH_COMPONENT'))
+			if (!\defined('JPATH_COMPONENT'))
 			{
-				define('JPATH_COMPONENT', $componentPaths['main']);
+				\define('JPATH_COMPONENT', $componentPaths['main']);
 			}
 
-			if (!defined('JPATH_COMPONENT_SITE'))
+			if (!\defined('JPATH_COMPONENT_SITE'))
 			{
-				define('JPATH_COMPONENT_SITE', $componentPaths['site']);
+				\define('JPATH_COMPONENT_SITE', $componentPaths['site']);
 			}
 
-			if (!defined('JPATH_COMPONENT_ADMINISTRATOR'))
+			if (!\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 			{
-				define('JPATH_COMPONENT_ADMINISTRATOR', $componentPaths['admin']);
+				\define('JPATH_COMPONENT_ADMINISTRATOR', $componentPaths['admin']);
 			}
 		}
 

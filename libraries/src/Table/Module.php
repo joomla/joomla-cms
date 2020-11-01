@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\Registry\Registry;
@@ -123,7 +123,7 @@ class Module extends Table
 			return false;
 		}
 
-		// Prevent to save too large content > 65535 
+		// Prevent to save too large content > 65535
 		if ((strlen($this->content) > 65535) || (strlen($this->params) > 65535))
 		{
 			$this->setError(\JText::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));

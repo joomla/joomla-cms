@@ -11,7 +11,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * This crazy three line bit is required to convince Joomla! to load JDatabaseInterface which is on the same file as the

@@ -29,7 +29,7 @@
  * SOFTWARE.
  */
 
-if (!defined('PHP_VERSION_ID')) {
+if (!\defined('PHP_VERSION_ID')) {
     // This constant was introduced in PHP 5.2.7
     $RandomCompatversion = array_map('intval', explode('.', PHP_VERSION));
     define(
@@ -48,7 +48,7 @@ if (PHP_VERSION_ID >= 70000) {
     return;
 }
 
-if (!defined('RANDOM_COMPAT_READ_BUFFER')) {
+if (!\defined('RANDOM_COMPAT_READ_BUFFER')) {
     define('RANDOM_COMPAT_READ_BUFFER', 8);
 }
 

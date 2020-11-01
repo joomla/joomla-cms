@@ -8,7 +8,7 @@
  */
 
 // No direct access.
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 JText::script('TPL_BEEZ3_ALTOPEN');
 JText::script('TPL_BEEZ3_ALTCLOSE');

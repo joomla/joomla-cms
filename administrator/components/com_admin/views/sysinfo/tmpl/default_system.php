@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_ADMIN_SYSTEM_INFORMATION'); ?></legend>
@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 				<td>
 					<?php echo $this->info['dbserver']; ?>
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td>
 					<strong><?php echo JText::_('COM_ADMIN_DATABASE_VERSION'); ?></strong>

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Email helper class, provides static methods to perform various tasks relevant

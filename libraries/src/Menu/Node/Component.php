@@ -7,7 +7,7 @@
  */
 namespace Joomla\CMS\Menu\Node;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Menu\Node;
 

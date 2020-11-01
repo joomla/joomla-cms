@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
@@ -138,7 +138,7 @@ class InstallerModelManage extends InstallerModel
 			{
 				$table->enabled = $value;
 			}
-		
+
 			$context = $this->option . '.' . $this->name;
 			JPluginHelper::importPlugin('extension');
 			JEventDispatcher::getInstance()->trigger('onExtensionChangeState', array($context, $eid, $value));

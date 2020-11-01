@@ -8,7 +8,7 @@
  */
 
 // No direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 $params   = $displayData->params;
 $basePath = $params->get('basePath', 'media/editors/codemirror/');

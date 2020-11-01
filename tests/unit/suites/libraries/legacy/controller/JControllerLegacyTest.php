@@ -35,9 +35,9 @@ class JControllerLegacyTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		if (!defined('JPATH_COMPONENT'))
+		if (!\defined('JPATH_COMPONENT'))
 		{
-			define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');
+			\define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');
 		}
 
 		$this->saveFactoryState();

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -484,7 +484,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$app->setUserState('com_joomlaupdate.password', $password);
 		$app->setUserState('com_joomlaupdate.filesize', $filesize);
 
-		$data = "<?php\ndefined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
+		$data = "<?php\n\defined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
 		$data .= '$restoration_setup = array(' . "\n";
 		$data .= <<<ENDDATA
 	'kickstart.security.password' => '$password',

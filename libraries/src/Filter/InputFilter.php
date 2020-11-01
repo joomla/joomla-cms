@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Filter\InputFilter as BaseInputFilter;
 use Joomla\String\StringHelper;

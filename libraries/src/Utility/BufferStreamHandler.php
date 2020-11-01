@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Utility;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 // Workaround for B/C. Will be removed with 4.0
 BufferStreamHandler::stream_register();

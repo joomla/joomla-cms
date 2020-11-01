@@ -8,7 +8,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * A utility class to load view templates, media files and modules.
@@ -257,7 +257,7 @@ class FOFTemplateUtils
 		$filePath = $altPaths['normal'];
 
 		// If JDEBUG is enabled, prefer that path, else prefer an alternate path if present
-		if (defined('JDEBUG') && JDEBUG && isset($altPaths['debug']))
+		if (\defined('JDEBUG') && JDEBUG && isset($altPaths['debug']))
 		{
 			if (file_exists($platformDirs['public'] . '/' . $altPaths['debug']))
 			{

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Schema;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Each object represents one query, which is one line from a DDL SQL query.

@@ -6,12 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Set the platform root path as a constant if necessary.
-if (!defined('JPATH_PLATFORM'))
+if (!\defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', __DIR__);
+	\define('JPATH_PLATFORM', __DIR__);
 }
 
 // Import the library loader if necessary.
@@ -55,10 +55,10 @@ if (in_array('phar', stream_get_wrappers()))
 }
 
 // Define the Joomla version if not already defined.
-if (!defined('JVERSION'))
+if (!\defined('JVERSION'))
 {
 	$jversion = new JVersion;
-	define('JVERSION', $jversion->getShortVersion());
+	\define('JVERSION', $jversion->getShortVersion());
 }
 
 // Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance

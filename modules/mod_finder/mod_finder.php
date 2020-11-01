@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
@@ -15,9 +15,9 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 // Include the helper.
 JLoader::register('ModFinderHelper', __DIR__ . '/helper.php');
 
-if (!defined('FINDER_PATH_INDEXER'))
+if (!\defined('FINDER_PATH_INDEXER'))
 {
-	define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
+	\define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 }
 
 JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');

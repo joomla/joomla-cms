@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Session\MetadataManager;
@@ -112,7 +112,7 @@ class CMSApplication extends WebApplication
 		$this->loadDispatcher();
 
 		// If JDEBUG is defined, load the profiler instance
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$this->profiler = \JProfiler::getInstance('Application');
 		}
@@ -1023,7 +1023,7 @@ class CMSApplication extends WebApplication
 		// Fall back to constants.
 		else
 		{
-			$this->docOptions['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+			$this->docOptions['directory'] = \defined('JPATH_THEMES') ? JPATH_THEMES : (\defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
 		}
 
 		// Parse the document.

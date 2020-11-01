@@ -47,13 +47,13 @@ if (file_exists(dirname(__DIR__) . '/defines.php'))
 	require_once dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES'))
+if (!\defined('_JDEFINES'))
 {
-	define('JPATH_BASE', dirname(__DIR__));
+	\define('JPATH_BASE', dirname(__DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
-define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
+\define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 // Get the framework.
 require_once JPATH_LIBRARIES . '/import.legacy.php';
@@ -66,7 +66,7 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 
 // System configuration.
 $config = new JConfig;
-define('JDEBUG', $config->debug);
+\define('JDEBUG', $config->debug);
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);

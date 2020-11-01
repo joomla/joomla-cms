@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 
@@ -376,18 +376,18 @@ class JFormFieldSubform extends JFormField
 	private function loadSubFormData(Form &$subForm)
 	{
 		$value = $this->value ? (array) $this->value : array();
-		
+
 		// Simple form, just bind the data and return one row.
 		if (!$this->multiple)
 		{
 			$subForm->bind($value);
 			return array($subForm);
 		}
-		
+
 		// Multiple rows possible: Construct array and bind values to their respective forms.
 		$forms = array();
 		$value = array_values($value);
-		
+
 		// Show as many rows as we have values, but at least min and at most max.
 		$c = max($this->min, min(count($value), $this->max));
 

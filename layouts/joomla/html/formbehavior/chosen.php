@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Layout variables
@@ -26,7 +26,7 @@ JHtml::_('script', 'jui/chosen.jquery.min.js', array('version' => 'auto', 'relat
 JHtml::_('stylesheet', 'jui/chosen.css', array('version' => 'auto', 'relative' => true));
 
 // Options array to json options string
-$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
+$options_str = json_encode($options, ($debug && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
 JFactory::getDocument()->addScriptDeclaration(
 	'

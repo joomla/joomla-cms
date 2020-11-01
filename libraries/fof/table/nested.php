@@ -7,7 +7,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * A class to manage tables holding nested sets (hierarchical data)
@@ -265,9 +265,9 @@ class FOFTableNested extends FOFTable
 	/**
 	 * Makes a copy of the record, inserting it as the last child of the given node's parent.
 	 *
-	 * @param   integer|array  $cid  The primary key value (or values) or the record(s) to copy. 
+	 * @param   integer|array  $cid  The primary key value (or values) or the record(s) to copy.
 	 *                               If null, the current record will be copied
-	 * 
+	 *
 	 * @return self|FOFTableNested	 The last copied node
 	 */
 	public function copy($cid = null)
@@ -291,7 +291,7 @@ class FOFTableNested extends FOFTable
 			{
 				// Even if it's null, let's still create the record
 				$this->create($this->getData());
-				
+
 				return $this;
 			}
 		}
@@ -306,7 +306,7 @@ class FOFTableNested extends FOFTable
 			}
 
 			$this->load($item);
-			
+
 			$this->create($this->getData());
 		}
 

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 echo JHtml::_('bootstrap.startAccordion', 'categoryOptions', array('active' => 'collapse0'));
 $fieldSets = $this->form->getFieldsets('params');

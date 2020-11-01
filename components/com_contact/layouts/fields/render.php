@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Check if we have all the data
 if (!key_exists('item', $displayData) || !key_exists('context', $displayData))

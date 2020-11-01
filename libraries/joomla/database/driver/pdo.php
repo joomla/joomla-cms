@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Platform PDO Database Driver Class
@@ -420,7 +420,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		{
 			$this->timings[] = microtime(true);
 
-			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			if (\defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 			}
@@ -554,7 +554,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public static function isSupported()
 	{
-		return defined('PDO::ATTR_DRIVER_NAME');
+		return \defined('PDO::ATTR_DRIVER_NAME');
 	}
 
 	/**

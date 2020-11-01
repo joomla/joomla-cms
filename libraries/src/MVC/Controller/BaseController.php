@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for a Joomla Controller
@@ -320,7 +320,7 @@ class BaseController extends \JObject
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			\JLog::addLogger(array('text_file' => 'jcontroller.log.php'), \JLog::ALL, array('controller'));
 		}
@@ -507,7 +507,7 @@ class BaseController extends \JObject
 
 			$result = in_array((int) $id, $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
 				\JLog::add(
 					sprintf(
@@ -873,7 +873,7 @@ class BaseController extends \JObject
 			$values   = array_unique($values);
 			$app->setUserState($context . '.id', $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
 				\JLog::add(
 					sprintf(
@@ -987,7 +987,7 @@ class BaseController extends \JObject
 			unset($values[$index]);
 			$app->setUserState($context . '.id', $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
 				\JLog::add(
 					sprintf(

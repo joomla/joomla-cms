@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\UCM;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;

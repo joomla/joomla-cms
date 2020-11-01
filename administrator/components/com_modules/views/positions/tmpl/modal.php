@@ -9,7 +9,7 @@
 
 // @deprecated  4.0 without replacement only used in hathor
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 

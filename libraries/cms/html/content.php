@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class to fire onContentPrepare for non-article based content.
@@ -56,7 +56,7 @@ abstract class JHtmlContent
 	{
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
-		foreach ($state as $key => $value) 
+		foreach ($state as $key => $value)
 		{
 			$model->setState($key, $value);
 		}

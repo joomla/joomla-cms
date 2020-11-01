@@ -212,7 +212,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertThat(JLoader::load('ShuttleChallenger'), $this->isTrue(), 'Tests that the class file was loaded.');
 
-		$this->assertThat(defined('CHALLENGER_LOADED'), $this->isTrue(), 'Tests that the class file was loaded.');
+		$this->assertThat(\defined('CHALLENGER_LOADED'), $this->isTrue(), 'Tests that the class file was loaded.');
 
 		$this->assertThat(JLoader::load('Mir'), $this->isFalse(), 'Tests that an unknown class is ignored.');
 

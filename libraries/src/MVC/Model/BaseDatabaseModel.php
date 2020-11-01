@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -264,7 +264,7 @@ abstract class BaseDatabaseModel extends \JObject
 			$this->addTablePath($config['table_path']);
 		}
 		// @codeCoverageIgnoreStart
-		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');

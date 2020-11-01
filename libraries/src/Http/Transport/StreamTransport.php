@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Http\Transport;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;

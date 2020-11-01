@@ -10,7 +10,7 @@
  * in the default .htaccess file regarding hardening against XSS in SVG's
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Notifies users of a change in the default .htaccess file regarding hardening against XSS in SVG's

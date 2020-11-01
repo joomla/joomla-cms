@@ -8,7 +8,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * Part of the FOF Platform Abstraction Layer.
@@ -34,7 +34,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	{
 		$this->name = 'joomla';
 		$this->humanReadableName = 'Joomla!';
-		$this->version = defined('JVERSION') ? JVERSION : '0.0';
+		$this->version = \defined('JVERSION') ? JVERSION : '0.0';
 	}
 
     /**
@@ -46,7 +46,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
      */
     public function checkExecution()
     {
-        return defined('_JEXEC');
+        return \defined('_JEXEC');
     }
 
     public function raiseError($code, $message)
@@ -75,7 +75,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 			$this->isEnabled = true;
 
 			// Make sure _JEXEC is defined
-			if (!defined('_JEXEC'))
+			if (!\defined('_JEXEC'))
 			{
 				$this->isEnabled = false;
 			}
@@ -83,7 +83,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 			// We need JVERSION to be defined
 			if ($this->isEnabled)
 			{
-				if (!defined('JVERSION'))
+				if (!\defined('JVERSION'))
 				{
 					$this->isEnabled = false;
 				}
@@ -648,7 +648,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	 */
 	public function isGlobalFOFCacheEnabled()
 	{
-		return !(defined('JDEBUG') && JDEBUG);
+		return !(\defined('JDEBUG') && JDEBUG);
 	}
 
 	/**

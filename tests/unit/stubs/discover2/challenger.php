@@ -6,4 +6,4 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-define('CHALLENGER_LOADED', true);
+\define('CHALLENGER_LOADED', true);

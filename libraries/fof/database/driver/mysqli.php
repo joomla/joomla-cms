@@ -10,7 +10,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * MySQLi database driver
@@ -614,7 +614,7 @@ class FOFDatabaseDriverMysqli extends FOFDatabaseDriver
 		{
 			$this->timings[] = microtime(true);
 
-			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			if (\defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 			}

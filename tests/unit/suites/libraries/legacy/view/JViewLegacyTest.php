@@ -454,7 +454,7 @@ class JViewLegacyTest extends TestCase
 		JFactory::$application = TestMockApplication::create($this);
 		JFactory::$application->input = new JInput(array());
 
-		defined('JPATH_COMPONENT') or define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');
+		\defined('JPATH_COMPONENT') or \define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');
 		$_SERVER['REQUEST_METHOD'] = 'get';
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 

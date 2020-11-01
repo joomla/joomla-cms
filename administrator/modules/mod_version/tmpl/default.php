@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 ?>
 <?php if (!empty($version)) : ?>
 	<p class="text-center"><?php echo $version; ?></p>

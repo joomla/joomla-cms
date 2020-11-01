@@ -6,7 +6,7 @@
 /**
 * Define UTF8_CORE as required
 */
-if ( !defined('UTF8_CORE') ) {
+if ( !\defined('UTF8_CORE') ) {
     define('UTF8_CORE',TRUE);
 }
 

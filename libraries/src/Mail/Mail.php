@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
@@ -57,7 +57,7 @@ class Mail extends \PHPMailer
 		};
 
 		// If debug mode is enabled then set SMTPDebug to the maximum level
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$this->SMTPDebug = 4;
 		}

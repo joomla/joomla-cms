@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -1537,7 +1537,7 @@ class PlgSystemDebug extends JPlugin
 
 				if ($dbVersion80)
 				{
-					$dbVersion56 = false; 
+					$dbVersion56 = false;
 				}
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))

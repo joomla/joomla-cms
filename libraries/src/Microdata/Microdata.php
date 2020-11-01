@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Microdata;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Platform class for interacting with Microdata semantics.

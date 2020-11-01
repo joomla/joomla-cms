@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 $script = "\t" . 'Joomla.submitbutton = function(pressbutton) {' . "\n";
 $script .= "\t\t" . 'var form = document.adminForm;' . "\n";

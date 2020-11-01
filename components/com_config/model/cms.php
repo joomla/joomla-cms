@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -191,7 +191,7 @@ abstract class ConfigModelCms extends JModelDatabase
 		{
 			$this->addTablePath($config['table_path']);
 		}
-		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			// Register the paths for the form
 			$paths = new SplPriorityQueue;

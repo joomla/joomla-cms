@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Error Definition: Illegal Options
@@ -589,7 +589,7 @@ abstract class JError
 		else
 		{
 			// Output as simple text
-			if (defined('STDERR'))
+			if (\defined('STDERR'))
 			{
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
 
@@ -685,7 +685,7 @@ abstract class JError
 		else
 		{
 			// Output as simple text
-			if (defined('STDERR'))
+			if (\defined('STDERR'))
 			{
 				fwrite(STDERR, "J$level_human: " . $error->get('message') . "\n");
 				jexit();

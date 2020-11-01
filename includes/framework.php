@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Joomla system checks.
 @ini_set('magic_quotes_runtime', 0);
@@ -89,9 +89,9 @@ switch ($config->error_reporting)
 		break;
 }
 
-if (!defined('JDEBUG'))
+if (!\defined('JDEBUG'))
 {
-	define('JDEBUG', $config->debug);
+	\define('JDEBUG', $config->debug);
 }
 
 unset($config);

@@ -10,7 +10,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 /**
  * Joomla Platform PDO Database Driver Class
@@ -439,7 +439,7 @@ abstract class FOFDatabaseDriverPdo extends FOFDatabaseDriver
 		{
 			$this->timings[] = microtime(true);
 
-			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			if (\defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 			}
@@ -567,7 +567,7 @@ abstract class FOFDatabaseDriverPdo extends FOFDatabaseDriver
 	 */
 	public static function isSupported()
 	{
-		return defined('PDO::ATTR_DRIVER_NAME');
+		return \defined('PDO::ATTR_DRIVER_NAME');
 	}
 
 	/**

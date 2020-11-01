@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Component;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\Exception\MissingComponentException;
@@ -324,7 +324,7 @@ class ComponentHelper
 		$file = substr($option, 4);
 
 		// Define component path.
-		if (!defined('JPATH_COMPONENT'))
+		if (!\defined('JPATH_COMPONENT'))
 		{
 			/**
 			 * Defines the path to the active component for the request
@@ -334,10 +334,10 @@ class ComponentHelper
 			 * @var    string
 			 * @since  1.5
 			 */
-			define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
+			\define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
 		}
 
-		if (!defined('JPATH_COMPONENT_SITE'))
+		if (!\defined('JPATH_COMPONENT_SITE'))
 		{
 			/**
 			 * Defines the path to the site element of the active component for the request
@@ -345,10 +345,10 @@ class ComponentHelper
 			 * @var    string
 			 * @since  1.5
 			 */
-			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
+			\define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
-		if (!defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		if (!\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			/**
 			 * Defines the path to the admin element of the active component for the request
@@ -356,7 +356,7 @@ class ComponentHelper
 			 * @var    string
 			 * @since  1.5
 			 */
-			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
+			\define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		$path = JPATH_COMPONENT . '/' . $file . '.php';

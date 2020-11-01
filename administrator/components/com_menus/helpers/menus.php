@@ -11,7 +11,7 @@ use Joomla\CMS\Menu\MenuHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Menus component helper.

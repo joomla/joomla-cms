@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Access;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Table\Asset;

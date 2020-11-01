@@ -10,7 +10,7 @@ namespace Joomla\CMS\Filesystem\Wrapper;
 
 use Joomla\CMS\Filesystem\Path;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Wrapper class for Path

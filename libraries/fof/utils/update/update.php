@@ -7,7 +7,7 @@
  */
 
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 if (version_compare(JVERSION, '2.5.0', 'lt'))
 {

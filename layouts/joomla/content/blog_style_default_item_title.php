@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Create a shortcut for params.
 $params = $displayData->params;
@@ -30,7 +30,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 				<?php endif; ?>
 			</h2>
 		<?php endif; ?>
-		
+
 		<?php if ($displayData->state == 0) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
@@ -38,7 +38,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 		<?php if (strtotime($displayData->publish_up) > strtotime(JFactory::getDate())) : ?>
 			<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
-		
+
 		<?php if ($displayData->publish_down != JFactory::getDbo()->getNullDate()
 			&& (strtotime($displayData->publish_down) < strtotime(JFactory::getDate()))
 		) : ?>

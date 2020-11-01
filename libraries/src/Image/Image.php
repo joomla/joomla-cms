@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Image;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
 

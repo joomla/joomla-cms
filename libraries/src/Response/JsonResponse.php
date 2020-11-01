@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Response;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * JSON Response class.

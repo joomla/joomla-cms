@@ -7,7 +7,7 @@
  * @note	This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 // Protect from unauthorized access
-defined('FOF_INCLUDED') or die;
+\defined('FOF_INCLUDED') or die;
 
 JFormHelper::loadFieldClass('list');
 

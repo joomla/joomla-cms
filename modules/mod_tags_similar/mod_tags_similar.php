@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Include the tags_similar functions only once
 JLoader::register('ModTagssimilarHelper', __DIR__ . '/helper.php');

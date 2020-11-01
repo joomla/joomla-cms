@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Environment;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Browser class, provides capability information about the current web client.

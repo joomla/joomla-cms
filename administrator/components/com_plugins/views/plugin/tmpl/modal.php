@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // This code is needed for proper check out in case of modal close
 JFactory::getDocument()->addScriptDeclaration('

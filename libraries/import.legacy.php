@@ -10,30 +10,30 @@
  */
 
 // Set the platform root path as a constant if necessary.
-if (!defined('JPATH_PLATFORM'))
+if (!\defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', __DIR__);
+	\define('JPATH_PLATFORM', __DIR__);
 }
 
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
-if (!defined('IS_WIN'))
+if (!\defined('IS_WIN'))
 {
-	define('IS_WIN', $os === 'WIN');
+	\define('IS_WIN', $os === 'WIN');
 }
 
-if (!defined('IS_UNIX'))
+if (!\defined('IS_UNIX'))
 {
-	define('IS_UNIX', $os !== 'MAC' && $os !== 'WIN');
+	\define('IS_UNIX', $os !== 'MAC' && $os !== 'WIN');
 }
 
 /**
  * @deprecated 4.0	Use IS_UNIX instead
  */
-if (!defined('IS_MAC'))
+if (!\defined('IS_MAC'))
 {
-	define('IS_MAC', IS_UNIX === true && ($os === 'DAR' || $os === 'MAC'));
+	\define('IS_MAC', IS_UNIX === true && ($os === 'DAR' || $os === 'MAC'));
 }
 
 // Import the library loader if necessary.
@@ -61,8 +61,8 @@ if (!interface_exists('JsonSerializable'))
 
 // Add deprecated constants
 // @deprecated 4.0
-define('JPATH_ISWIN', IS_WIN);
-define('JPATH_ISMAC', IS_MAC);
+\define('JPATH_ISWIN', IS_WIN);
+\define('JPATH_ISMAC', IS_MAC);
 
 /**
  * Mask for the raw routing mode
