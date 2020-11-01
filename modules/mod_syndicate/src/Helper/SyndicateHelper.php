@@ -28,7 +28,7 @@ class SyndicateHelper
 	 * @param   Registry      $params    The module parameters
 	 * @param   HtmlDocument  $document  The document
 	 *
-	 * @return  array  The link as a string
+	 * @return  string|null  The link as a string, if found
 	 *
 	 * @since   1.5
 	 */
@@ -43,5 +43,7 @@ class SyndicateHelper
 				return $link;
 			}
 		}
+
+		return null;
 	}
 }

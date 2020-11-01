@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset addfieldprefix="Joomla\Component\Redirect\Administrator\Field">
 		<field
 			name="id"
 			type="number"
