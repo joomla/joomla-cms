@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 trigger_error(
 	sprintf(
@@ -18,7 +18,7 @@ trigger_error(
 );
 
 // Set the platform root path as a constant if necessary
-if (!defined('JPATH_PLATFORM'))
+if (!\defined('JPATH_PLATFORM'))
 {
 	define('JPATH_PLATFORM', __DIR__);
 }
@@ -62,7 +62,7 @@ if (in_array('phar', stream_get_wrappers()))
 }
 
 // Define the Joomla version if not already defined
-if (!defined('JVERSION'))
+if (!\defined('JVERSION'))
 {
 	$jversion = new JVersion;
 	define('JVERSION', $jversion->getShortVersion());

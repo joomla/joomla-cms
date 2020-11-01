@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Installation\Application;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplication;

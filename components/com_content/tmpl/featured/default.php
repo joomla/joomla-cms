@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space

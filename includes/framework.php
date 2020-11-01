@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Version;
 
@@ -74,7 +74,7 @@ switch ($config->error_reporting)
 		break;
 }
 
-if (!defined('JDEBUG'))
+if (!\defined('JDEBUG'))
 {
 	define('JDEBUG', $config->debug);
 }

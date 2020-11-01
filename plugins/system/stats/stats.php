@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
@@ -419,7 +419,7 @@ class PlgSystemStats extends CMSPlugin
 	 */
 	private function isDebugEnabled()
 	{
-		return defined('PLG_SYSTEM_STATS_DEBUG');
+		return \defined('PLG_SYSTEM_STATS_DEBUG');
 	}
 
 	/**

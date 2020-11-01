@@ -7,7 +7,7 @@
  */
 
 // No direct access.
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 require_once __DIR__ . '/extensions.classmap.php';
 

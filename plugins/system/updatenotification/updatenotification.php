@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Cache\Cache;
@@ -87,7 +87,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$now  = time();
 		$last = (int) $this->params->get('lastrun', 0);
 
-		if (!defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout))
+		if (!\defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout))
 		{
 			return;
 		}

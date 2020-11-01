@@ -19,7 +19,7 @@ trigger_error(
 );
 
 // Set the platform root path as a constant if necessary.
-if (!defined('JPATH_PLATFORM'))
+if (!\defined('JPATH_PLATFORM'))
 {
 	define('JPATH_PLATFORM', __DIR__);
 }
@@ -27,12 +27,12 @@ if (!defined('JPATH_PLATFORM'))
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
 
-if (!defined('IS_WIN'))
+if (!\defined('IS_WIN'))
 {
 	define('IS_WIN', $os === 'WIN');
 }
 
-if (!defined('IS_UNIX'))
+if (!\defined('IS_UNIX'))
 {
 	define('IS_UNIX', $os !== 'MAC' && $os !== 'WIN');
 }

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 $description      = $this->params->get('all_tags_description');

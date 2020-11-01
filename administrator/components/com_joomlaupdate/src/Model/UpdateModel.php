@@ -513,7 +513,7 @@ class UpdateModel extends BaseDatabaseModel
 		$app->setUserState('com_joomlaupdate.password', $password);
 		$app->setUserState('com_joomlaupdate.filesize', $filesize);
 
-		$data = "<?php\ndefined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
+		$data = "<?php\n\defined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
 		$data .= '$restoration_setup = array(' . "\n";
 		$data .= <<<ENDDATA
 	'kickstart.security.password' => '$password',

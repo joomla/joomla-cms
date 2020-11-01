@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -89,7 +89,7 @@ abstract class FormBehavior
 		}
 
 		// Options array to json options string
-		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
+		$options_str = json_encode($options, ($debug && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
 		// Add chosen.js assets
 
