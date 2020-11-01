@@ -67,27 +67,20 @@ $img   = '';
 
 for ($i = 0; $i < floor($stars); $i++)
 {
-	$staractive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_ACTIVE'), $star);
-
-	$img .= '<li class="vote-star">' . $staractive . '</li>';
+	$img .= '<li class="vote-star">' . $star . '</li>';
 }
 
 if (($stars - floor($stars)) >= 0.5)
 {
-	$starinactive   = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_INACTIVE'), $star);
-	$halfstaractive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_ACTIVE_HALF'), $halfstar);
-
-	$img .= '<li class="vote-star-empty">' . $starinactive . '</li>';
-	$img .= '<li class="vote-star-half">' . $halfstaractive . '</li>';
+	$img .= '<li class="vote-star-empty">' . $star . '</li>';
+	$img .= '<li class="vote-star-half">' . $halfstar . '</li>';
 
 	++$stars;
 }
 
 for ($i = $stars; $i < 5; $i++)
 {
-	$starinactive = str_replace('{{description}}', Text::_('PLG_VOTE_STAR_INACTIVE'), $star);
-
-	$img .= '<li class="vote-star-empty">' . $starinactive . '</li>';
+	$img .= '<li class="vote-star-empty">' . $star . '</li>';
 }
 
 ?>
