@@ -9,7 +9,7 @@
  * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
 
-\define('_JEXEC', 1);
+define('_JEXEC', 1);
 
 // Maximise error reporting.
 ini_set('zend.ze1_compatibility_mode', '0');

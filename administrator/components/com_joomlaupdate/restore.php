@@ -19,7 +19,7 @@
  * @subpackage  kickstart
  */
 
-\define('_AKEEBA_RESTORATION', 1);
+define('_AKEEBA_RESTORATION', 1);
 \defined('DS') or \define('DS', DIRECTORY_SEPARATOR);
 
 // Unarchiver run states

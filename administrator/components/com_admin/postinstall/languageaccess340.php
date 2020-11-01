@@ -10,7 +10,7 @@
  * affected by the issue with content languages access in 3.4.0
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
