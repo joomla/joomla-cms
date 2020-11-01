@@ -38,7 +38,7 @@ class ContentViewCategory extends JViewCategoryfeed
 		$app               	= JFactory::getApplication();
 		$params            	= $app->getParams();
 		$item->description 	= '';
-		$obj				= json_decode($item->images);
+		$obj			= json_decode($item->images);
 		
 		// Set feed image to image_intro or if that's empty, to image_fulltext
 		$introImage = 	!empty($obj->{'image_intro'}) ?
