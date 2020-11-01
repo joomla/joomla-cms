@@ -609,12 +609,6 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		// Check if this function is enabled.
-		if ($context != 'com_content.article')
-		{
-			return true;
-		}
-
 		$db = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))

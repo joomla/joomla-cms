@@ -43,7 +43,6 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- *
  * @var   string   $userName        The user name
  * @var   mixed    $groups          The filtering groups (null means no filtering)
  * @var   mixed    $excluded        The users to exclude from the list of users
@@ -116,7 +115,7 @@ if (!$readonly)
 		<?php if (!$readonly) : ?>
 			<span class="input-group-append">
 				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
-					<span class="fas fa-user icon-white" aria-hidden="true"></span>
+					<span class="icon-user icon-white" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
 				</button>
 			</span>

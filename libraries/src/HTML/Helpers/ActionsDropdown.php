@@ -10,7 +10,9 @@ namespace Joomla\CMS\HTML\Helpers;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 /**
  * HTML utility class for building a dropdown menu
@@ -226,10 +228,13 @@ abstract class ActionsDropdown
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
 		static::$dropDownList[] = '<li>'
-			. '<a href = "javascript://" onclick="Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')">'
-			. ($icon ? '<span class="icon-' . $icon . '" aria-hidden="true"></span> ' : '')
-			. $label
-			. '</a>'
+			. HTMLHelper::link(
+				'javascript://',
+				($icon ? LayoutHelper::render('joomla.icon.iconclass', ['icon' => $icon]) : '') . $label,
+				[
+					'onclick' => 'Joomla.listItemTask(\'' . $id . '\', \'' . $task . '\')'
+				]
+			)
 			. '</li>';
 	}
 }

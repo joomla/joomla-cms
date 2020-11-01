@@ -12,10 +12,10 @@ $theme-colours: map-merge((
   left: 0;
   z-index: 10000;
   display: flex;
+  align-items: center;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  align-items: center;
   opacity: .8;
 }
 
@@ -27,7 +27,7 @@ $theme-colours: map-merge((
 
   p {
     float: right;
-    margin: 95px 0 0 0;
+    margin: 95px 0 0;
     font: normal 1.25em/1em sans-serif;
     color: #999;
   }
@@ -99,7 +99,7 @@ $theme-colours: map-merge((
 }
 
 .blue {
-  margin: 255px 0 0 0;
+  margin: 255px 0 0;
   transform: rotate(225deg);
 }
 

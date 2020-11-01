@@ -13,12 +13,14 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+
+extract($displayData);
 
 /**
  * Layout variables
- * ---------------------
- *
+ * -----------------
  * @var  string   $asset           The asset text
  * @var  string   $authorField     The label text
  * @var  integer  $authorId        The author id
@@ -39,7 +41,6 @@ use Joomla\CMS\Uri\Uri;
  * @var  string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
-extract($displayData);
 
 $attr = '';
 
@@ -101,10 +102,12 @@ if ($showPreview)
 
 // The url for the modal
 $url    = ($readonly ? ''
-	: ($link ? $link
-		: 'index.php?option=com_media&amp;tmpl=component&amp;asset='
-		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;path=local-0:/' . $folder);
+	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&asset='
+		. $asset . '&author=' . $authorId)
+	. '&fieldid={field-media-id}&path=local-0:/' . $folder);
+
+// Correctly route the url to ensure it's correctly using sef modes and subfolders
+$url = Route::_($url);
 
 Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.field-media')
@@ -159,7 +162,7 @@ Text::script('JLIB_APPLICATION_ERROR_SERVER');
 		<?php if ($disabled != true) : ?>
 			<div class="input-group-append">
 				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
-				<button type="button" class="btn btn-secondary button-clear"><span class="fas fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
+				<button type="button" class="btn btn-secondary button-clear"><span class="icon-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 			</div>
 		<?php endif; ?>
 	</div>

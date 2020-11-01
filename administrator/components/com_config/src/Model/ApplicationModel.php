@@ -714,13 +714,12 @@ class ApplicationModel extends FormModel
 		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
-		$temp = Factory::getConfig();
-		$temp->set('ftp_enable', $data['ftp_enable']);
-		$temp->set('ftp_host', $data['ftp_host']);
-		$temp->set('ftp_port', $data['ftp_port']);
-		$temp->set('ftp_user', $data['ftp_user']);
-		$temp->set('ftp_pass', $data['ftp_pass']);
-		$temp->set('ftp_root', $data['ftp_root']);
+		$app->set('ftp_enable', $data['ftp_enable']);
+		$app->set('ftp_host', $data['ftp_host']);
+		$app->set('ftp_port', $data['ftp_port']);
+		$app->set('ftp_user', $data['ftp_user']);
+		$app->set('ftp_pass', $data['ftp_pass']);
+		$app->set('ftp_root', $data['ftp_root']);
 
 		// Clear cache of com_config component.
 		$this->cleanCache('_system', 0);
@@ -1128,7 +1127,7 @@ class ApplicationModel extends FormModel
 		if ($isSuperUserGroupAfter)
 		{
 			$result['class'] = 'badge badge-success';
-			$result['text'] = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
 		else
@@ -1186,7 +1185,7 @@ class ApplicationModel extends FormModel
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
 				$result['class'] = 'badge badge-danger';
-				$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
 

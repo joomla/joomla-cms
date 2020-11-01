@@ -335,8 +335,6 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
 	{
-		$conf = Factory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $clientId)
@@ -346,7 +344,7 @@ class PlgSystemActionLogs extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
 					];
 
 					$cache = Cache::getInstance('callback', $options);

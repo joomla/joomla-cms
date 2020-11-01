@@ -290,15 +290,12 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
+		$help = "<info>%command.name%</info> removes a user from a group
+		\nUsage: <info>php %command.full_name%</info>";
+
 		$this->setDescription('Remove a user from a group');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command removes a user from a group
-
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setHelp($help);
 	}
 }

@@ -44,7 +44,7 @@ $wa->useScript('joomla.treeselectmenu')
 
 		<hr>
 		<div class="alert alert-info">
-			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
 		</div>
 			<?php if (count($menuLinks)) : ?>
@@ -103,7 +103,7 @@ $wa->useScript('joomla.treeselectmenu')
 					</li>
 				</ul>
 			<?php endif; ?>
-		<joomla-alert id="noresultsfound" type="warning" class="hidden"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+		<joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php endif; ?>
 	</div>
 </div>

@@ -457,6 +457,15 @@
 		/>
 
 		<field
+			name="icon_webpage"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_WEBPAGE_LABEL"
+			hide_none="1"
+			default=""
+			showon="contact_icons:0"
+		/>
+
+		<field
 			name="icon_misc"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
@@ -810,24 +819,6 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
-		<field
- 			name="contacts_display_num"
- 			type="list"
- 			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
- 			default="10"
-			validate="options"
- 			>
- 			<option value="5">J5</option>
- 			<option value="10">J10</option>
- 			<option value="15">J15</option>
- 			<option value="20">J20</option>
- 			<option value="25">J25</option>
- 			<option value="30">J30</option>
- 			<option value="50">J50</option>
- 			<option value="100">J100</option>
- 			<option value="0">JALL</option>
- 		</field>
 
 		<field
 			name="initial_sort"

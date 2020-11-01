@@ -168,8 +168,6 @@ class GroupController extends FormController
 			$registry->loadArray($item->params);
 			$item->params = (string) $registry;
 		}
-
-		return;
 	}
 
 	/**

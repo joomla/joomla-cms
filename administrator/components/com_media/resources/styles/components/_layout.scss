@@ -16,7 +16,7 @@
   max-width: $col-side-panel-width;
 }
 
-[class^='media-col'], [class*=' media-col'] {
+[class^="media-col"], [class*=" media-col"] {
   position: relative;
   width: 100%;
   min-height: 1px;
@@ -25,7 +25,7 @@
 }
 
 @media (min-width: var(--breakpoint-md)) {
-  [class^='media-col'], [class*=' media-col'] {
+  [class^="media-col"], [class*=" media-col"] {
     flex: 0 0 100%;
     max-width: 100%;
   }

@@ -34,7 +34,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   get termKey() { return this.getAttribute('term-key') || 'term'; }
 
-  get minTermLength() { return parseInt(this.getAttribute('min-term-length')) || 1; }
+  get minTermLength() { return parseInt(this.getAttribute('min-term-length'), 10) || 1; }
 
   get newItemPrefix() { return this.getAttribute('new-item-prefix') || ''; }
 
@@ -42,7 +42,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   get searchPlaceholder() { return this.getAttribute('search-placeholder'); }
 
-  get value() {return this.choicesInstance.getValue(true); }
+  get value() { return this.choicesInstance.getValue(true); }
 
   set value($val) { this.choicesInstance.setChoiceByValue($val); }
 
@@ -117,6 +117,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     }
 
     // Init Choices
+    // eslint-disable-next-line no-undef
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
       searchPlaceholderValue: this.searchPlaceholder,
@@ -125,7 +126,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       searchResultLimit: 10,
       shouldSort: false,
       fuseOptions: {
-        threshold: 0.3 // Strict search
+        threshold: 0.3, // Strict search
       },
       noResultsText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
       noChoicesText: Joomla.Text._('JGLOBAL_SELECT_NO_RESULTS_MATCH', 'No results found'),
@@ -133,8 +134,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
       // Redefine some classes
       classNames: {
-        button: 'choices__button_joomla' // It is need because an original styling use unavailable Icon.svg file
-      }
+        button: 'choices__button_joomla', // It is need because an original styling use unavailable Icon.svg file
+      },
     });
 
     // Handle typing of custom Term
@@ -237,16 +238,14 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
           label: event.target.value,
           selected: true,
           customProperties: {
-            value: event.target.value // Store real value, just in case
-          }
+            value: event.target.value, // Store real value, just in case
+          },
         }], 'value', 'label', false);
 
         this.choicesCache[event.target.value] = event.target.value;
 
         event.target.value = null;
         this.choicesInstance.hideDropdown();
-
-        return false;
       });
     }
 
@@ -283,7 +282,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   requestLookup() {
-    let url = this.url;
+    let { url } = this;
     url += (url.indexOf('?') === -1 ? '?' : '&');
     url += `${encodeURIComponent(this.termKey)}=${encodeURIComponent(this.choicesInstance.input.value)}`;
 
@@ -293,7 +292,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     }
 
     this.activeXHR = Joomla.request({
-      url: url,
+      url,
       onSuccess: (response) => {
         this.activeXHR = null;
         const items = response ? JSON.parse(response) : [];
@@ -323,7 +322,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       },
       onError: () => {
         this.activeXHR = null;
-      }
+      },
     });
   }
 

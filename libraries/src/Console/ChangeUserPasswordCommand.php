@@ -162,15 +162,12 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
+		$help = "<info>%command.name%</info> will change a user's password
+		\nUsage: <info>php %command.full_name%</info>";
+
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
 		$this->setDescription("Change a user's password");
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command changes the user's password
-
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setHelp($help);
 	}
 }

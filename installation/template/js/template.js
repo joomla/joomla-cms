@@ -57,7 +57,7 @@
 
     Joomla.request({
       type     : "POST",
-      url      : Jooomla.baseUrl,
+      url      : Joomla.baseUrl,
       data     : data,
       dataType : 'json',
       onSuccess: function (response, xhr) {

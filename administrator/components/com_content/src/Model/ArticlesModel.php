@@ -17,9 +17,9 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -159,10 +159,11 @@ class ArticlesModel extends ListModel
 
 		$formSubmited = $app->input->post->get('form_submited');
 
-		$access     = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-		$authorId   = $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-		$tag        = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+		// Gets the value of a user state variable and sets it in the session
+		$this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+		$this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+		$this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
 		if ($formSubmited)
 		{
@@ -261,6 +262,10 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.fulltext'),
 					$db->quoteName('a.note'),
 					$db->quoteName('a.images'),
+					$db->quoteName('a.metakey'),
+					$db->quoteName('a.metadesc'),
+					$db->quoteName('a.metadata'),
+					$db->quoteName('a.version'),
 				]
 			)
 		)
@@ -380,7 +385,7 @@ class ArticlesModel extends ListModel
 			{
 				$state = (int) $published;
 				$query->where($db->quoteName('a.state') . ' = :state')
-					->bind(':state', $published, ParameterType::INTEGER);
+					->bind(':state', $state, ParameterType::INTEGER);
 			}
 			elseif (!is_numeric($workflowStage))
 			{
@@ -413,7 +418,6 @@ class ArticlesModel extends ListModel
 			foreach ($categoryId as $key => $filter_catid)
 			{
 				$categoryTable->load($filter_catid);
-				$categoryWhere = '';
 
 				// Because values to $query->bind() are passed by reference, using $query->bindArray() here instead to prevent overwriting.
 				$valuesToBind = [$categoryTable->lft, $categoryTable->rgt];
@@ -561,7 +565,7 @@ class ArticlesModel extends ListModel
 		}
 		else
 		{
-			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
+			$ordering = $db->escape($orderCol) . ' ' . $db->escape($orderDirn);
 		}
 
 		$query->order($ordering);
@@ -655,8 +659,6 @@ class ArticlesModel extends ListModel
 
 				$transitions = $db->setQuery($query)->loadAssocList();
 
-				$workflow = new Workflow(['extension' => 'com_content.article']);
-
 				foreach ($transitions as $key => $transition)
 				{
 					if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $transition['value']))
@@ -693,6 +695,12 @@ class ArticlesModel extends ListModel
 		foreach ($items as $item)
 		{
 			$item->typeAlias = 'com_content.article';
+
+			if (isset($item->metadata))
+			{
+				$registry = new Registry($item->metadata);
+				$item->metadata = $registry->toArray();
+			}
 		}
 
 		return $items;

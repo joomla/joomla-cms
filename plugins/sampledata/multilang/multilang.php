@@ -1005,12 +1005,14 @@ class PlgSampledataMultilang extends CMSPlugin
 		$title = $newlanguage->_('JCATEGORY');
 		$alias = ApplicationHelper::stringURLSafe($title);
 
+		$app = Factory::getApplication();
+
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $app->set('unicodeslugs', 1);
 			$alias   = ApplicationHelper::stringURLSafe($title);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$app->set('unicodeslugs', $unicode);
 		}
 
 		// Initialize a new category.
@@ -1084,9 +1086,9 @@ class PlgSampledataMultilang extends CMSPlugin
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$unicode = $this->app->set('unicodeslugs', 1);
 			$alias   = ApplicationHelper::stringURLSafe($title);
-			Factory::getConfig()->set('unicodeslugs', $unicode);
+			$this->app->set('unicodeslugs', $unicode);
 		}
 
 		// Initialize a new article.

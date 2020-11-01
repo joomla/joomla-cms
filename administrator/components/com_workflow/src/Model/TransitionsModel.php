@@ -200,7 +200,7 @@ class TransitionsModel extends ListModel
 		$orderCol	= $this->state->get('list.ordering', 't.id');
 		$orderDirn 	= strtoupper($this->state->get('list.direction', 'ASC'));
 
-		$query->order($db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn === 'DESC' ? 'DESC' : 'ASC'));
+		$query->order($db->escape($orderCol) . ' ' . ($orderDirn === 'DESC' ? 'DESC' : 'ASC'));
 
 		return $query;
 	}

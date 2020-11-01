@@ -12,10 +12,12 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
-/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
+/** @var HtmlView $this */
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->useScript('com_joomlaupdate.default');

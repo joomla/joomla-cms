@@ -16,7 +16,7 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var  array  $statsData  Array containing the data that will be sent to the stats server
+ * @var   array  $statsData  Array containing the data that will be sent to the stats server
  */
 
 $versionFields = array('php_version', 'db_version', 'cms_version');

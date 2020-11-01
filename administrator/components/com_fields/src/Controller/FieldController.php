@@ -194,7 +194,5 @@ class FieldController extends FormController
 			$registry->loadArray($item->params);
 			$item->params = (string) $registry;
 		}
-
-		return;
 	}
 }

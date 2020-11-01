@@ -19,7 +19,7 @@ $title = Text::_('JTOOLBAR_DELETE');
 ?>
 <joomla-toolbar-button>
 	<button id="mediaDelete" class="btn btn-danger" onclick="MediaManager.Event.fire('onClickDelete');">
-		<span class="fas fa-times" aria-hidden="true"></span>
+		<span class="icon-times" aria-hidden="true"></span>
 		<?php echo $title; ?>
 	</button>
 </joomla-toolbar-button>

@@ -43,7 +43,14 @@ abstract class ToolbarHelper
 
 		$app = Factory::getApplication();
 		$app->JComponentTitle = $html;
-		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
+		$title = strip_tags($title) . ' - ' . $app->get('sitename');
+
+		if ($app->isClient('administrator'))
+		{
+			$title .= ' - ' . Text::_('JADMINISTRATION');
+		}
+
+		Factory::getDocument()->setTitle($title);
 	}
 
 	/**
@@ -703,7 +710,7 @@ abstract class ToolbarHelper
 		$title = Text::_($alt);
 
 		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn ' . $class . '">
-			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
+			<span class="' . $icon . ' icon-fw" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

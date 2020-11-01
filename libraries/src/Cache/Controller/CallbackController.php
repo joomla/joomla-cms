@@ -27,7 +27,7 @@ class CallbackController extends CacheController
 	 * @param   callable  $callback    Callback or string shorthand for a callback
 	 * @param   array     $args        Callback arguments
 	 * @param   mixed     $id          Cache ID
-	 * @param   boolean   $wrkarounds  True to use wrkarounds
+	 * @param   boolean   $wrkarounds  True to use workarounds
 	 * @param   array     $woptions    Workaround options
 	 *
 	 * @return  mixed  Result of the callback

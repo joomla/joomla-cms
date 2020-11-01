@@ -99,7 +99,7 @@ $assoc = Associations::isEnabled();
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -115,7 +115,7 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
 								<?php if ($workflow_enabled) : ?>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
@@ -187,7 +187,7 @@ $assoc = Associations::isEnabled();
 							$transition_ids = ArrayHelper::toInteger($transition_ids);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
+							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>"
 								data-transitions="<?php echo implode(',', $transition_ids); ?>"
 							>
 								<td class="text-center">
@@ -207,7 +207,7 @@ $assoc = Associations::isEnabled();
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
-										<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+										<span class="icon-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
 										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
@@ -239,7 +239,7 @@ $assoc = Associations::isEnabled();
 										->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
 								?>
 								</td>
-								<td class="article-status">
+								<td class="article-status text-center">
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
