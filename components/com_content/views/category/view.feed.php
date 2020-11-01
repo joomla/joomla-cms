@@ -42,10 +42,10 @@ class ContentViewCategory extends JViewCategoryfeed
 		
 		// Set feed image to image_intro or if that's empty, to image_fulltext
 		$introImage = 	!empty($obj->{'image_intro'}) ?
-						$obj->{'image_intro'} :
-						( !empty($obj->{'image_fulltext'}) ?
-						$obj->{'image_fulltext'} :
-						'');
+				$obj->{'image_intro'} :
+				( !empty($obj->{'image_fulltext'}) ?
+				$obj->{'image_fulltext'} :
+				'');
 
 		if ( !empty($introImage) )
 		{
