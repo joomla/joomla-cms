@@ -21,7 +21,7 @@ if (!\defined('JCOMPAT_UNICODE_PROPERTIES'))
 	 * @var    boolean
 	 * @since  1.6
 	 */
-	\define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
+define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
 }
 
 /**

@@ -5,7 +5,7 @@
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-\defined('FOF_INCLUDED') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * This class provides an RFC6238-compliant Time-based One Time Passwords,

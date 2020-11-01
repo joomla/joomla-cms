@@ -435,7 +435,7 @@ class LanguageHelper
 			 * @since  1.6
 			 * @deprecated  4.0 Use escaped double quotes (\") instead.
 			 */
-			\define('_QQ_', '"');
+define('_QQ_', '"');
 		}
 
 		// Capture hidden PHP errors from the parsing.
