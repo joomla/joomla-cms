@@ -440,7 +440,5 @@ class PlgContentEmailcloak extends CMSPlugin
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
 		}
-
-		return;
 	}
 }

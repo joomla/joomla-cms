@@ -50,7 +50,7 @@ if ($show_description)
 
 $icon = '';
 if (!empty($this->result->mime)) :
-	$icon = '<span class="fas fa-file-' . $this->result->mime . '" aria-hidden="true"></span> ';
+	$icon = '<span class="icon-file-' . $this->result->mime . '" aria-hidden="true"></span> ';
 endif;
 
 $show_url = '';

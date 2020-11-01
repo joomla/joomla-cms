@@ -37,6 +37,7 @@
 				label="COM_FIELDS_FIELD_CLASS_LABEL"
 				size="40"
 				default="btn-group"
+				validate="CssIdentifier"
 			/>
 		</fieldset>
 	</fields>

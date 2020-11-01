@@ -36,7 +36,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -134,7 +134,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								</th>
 								<td class="text-center btns d-none d-md-table-cell">
 									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<span class="fas fa-list" aria-hidden="true"></span>
+										<span class="icon-list" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>
@@ -159,10 +159,10 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<td class="text-center d-none d-md-table-cell">
 									<span class="tbody-icon">
 									<?php if (!empty($item->otpKey)) : ?>
-										<span class="fas fa-check" aria-hidden="true"></span>
+										<span class="icon-check" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
 									<?php else : ?>
-										<span class="fas fa-times" aria-hidden="true"></span>
+										<span class="icon-times" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
 									<?php endif; ?>
 									</span>
