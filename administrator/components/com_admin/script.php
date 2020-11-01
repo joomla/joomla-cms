@@ -2037,6 +2037,9 @@ class JoomlaInstallerScript
 			// Joomla! 3.9.21
 			'/.github/SECURITY.md',
 
+			// Joomla! 3.9.23
+			'/.drone.jsonnet',
+
 			// Joomla 3.10.0
 			'/libraries/joomla/base/adapter.php',
 			'/libraries/joomla/base/adapterinstance.php',

@@ -91,17 +91,17 @@ class JLinkedinPeople extends JLinkedinObject
 	/**
 	 * Method to get a list of connections for a user who has granted access to his/her account.
 	 *
-	 * @param   string   $fields          Request fields beyond the default ones.
-	 * @param   integer  $start           Starting location within the result set for paginated returns.
-	 * @param   integer  $count           The number of results returned.
-	 * @param   string   $modified        Values are updated or new.
-	 * @param   string   $modified_since  Value as a Unix time stamp of milliseconds since epoch.
+	 * @param   string   $fields         Request fields beyond the default ones.
+	 * @param   integer  $start          Starting location within the result set for paginated returns.
+	 * @param   integer  $count          The number of results returned.
+	 * @param   string   $modified       Values are updated or new.
+	 * @param   string   $modifiedSince  Value as a Unix time stamp of milliseconds since epoch.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.2.0
 	 */
-	public function getConnections($fields = null, $start = 0, $count = 500, $modified = null, $modified_since = null)
+	public function getConnections($fields = null, $start = 0, $count = 500, $modified = null, $modifiedSince = null)
 	{
 		$token = $this->oauth->getToken();
 
@@ -139,9 +139,9 @@ class JLinkedinPeople extends JLinkedinObject
 		}
 
 		// Check if modified_since is specified.
-		if ($modified_since)
+		if ($modifiedSince)
 		{
-			$data['modified-since'] = $modified_since;
+			$data['modified-since'] = $modifiedSince;
 		}
 
 		// Build the request path.
@@ -156,38 +156,39 @@ class JLinkedinPeople extends JLinkedinObject
 	/**
 	 * Method to get information about people.
 	 *
-	 * @param   string   $fields           Request fields beyond the default ones. provide 'api-standard-profile-request'
-	 * 									   field for out of network profiles.
-	 * @param   string   $keywords         Members who have all the keywords anywhere in their profile.
-	 * @param   string   $first_name       Members with a matching first name. Matches must be exact.
-	 * @param   string   $last_name        Members with a matching last name. Matches must be exactly.
-	 * @param   string   $company_name     Members who have a matching company name on their profile.
-	 * @param   boolean  $current_company  A value of true matches members who currently work at the company specified in the company-name
-	 * 									   parameter.
-	 * @param   string   $title            Matches members with that title on their profile.
-	 * @param   boolean  $current_title    A value of true matches members whose title is currently the one specified in the title-name parameter.
-	 * @param   string   $school_name      Members who have a matching school name on their profile.
-	 * @param   string   $current_school   A value of true matches members who currently attend the school specified in the school-name parameter.
-	 * @param   string   $country_code     Matches members with a location in a specific country. Values are defined in by ISO 3166 standard.
-	 * 									   Country codes must be in all lower case.
-	 * @param   integer  $postal_code      Matches members centered around a Postal Code. Must be combined with the country-code parameter.
-	 * 									   Not supported for all countries.
-	 * @param   integer  $distance         Matches members within a distance from a central point. This is measured in miles.
-	 * @param   string   $facets           Facet buckets to return, e.g. location.
-	 * @param   array    $facet            Array of facet values to search over. Contains values for location, industry, network, language,
-	 * 									   current-company, past-company and school, in exactly this order, null must be specified for an element if no value.
-	 * @param   integer  $start            Starting location within the result set for paginated returns.
-	 * @param   integer  $count            The number of results returned.
-	 * @param   string   $sort             Controls the search result order. There are four options: connections, recommenders,
-	 * 									   distance and relevance.
+	 * @param   string   $fields          Request fields beyond the default ones. provide 'api-standard-profile-request'
+	 * 	                                  field for out of network profiles.
+	 * @param   string   $keywords        Members who have all the keywords anywhere in their profile.
+	 * @param   string   $firstName       Members with a matching first name. Matches must be exact.
+	 * @param   string   $lastName        Members with a matching last name. Matches must be exactly.
+	 * @param   string   $companyName     Members who have a matching company name on their profile.
+	 * @param   boolean  $currentCompany  A value of true matches members who currently work at the company specified in the company-name
+	 *                                    parameter.
+	 * @param   string   $title           Matches members with that title on their profile.
+	 * @param   boolean  $currentTitle    A value of true matches members whose title is currently the one specified in the title-name parameter.
+	 * @param   string   $schoolName      Members who have a matching school name on their profile.
+	 * @param   string   $currentSchool   A value of true matches members who currently attend the school specified in the school-name parameter.
+	 * @param   string   $countryCode     Matches members with a location in a specific country. Values are defined in by ISO 3166 standard.
+	 *                                    Country codes must be in all lower case.
+	 * @param   integer  $postalCode      Matches members centered around a Postal Code. Must be combined with the country-code parameter.
+	 *                                    Not supported for all countries.
+	 * @param   integer  $distance        Matches members within a distance from a central point. This is measured in miles.
+	 * @param   string   $facets          Facet buckets to return, e.g. location.
+	 * @param   array    $facet           Array of facet values to search over. Contains values for location, industry, network, language,
+	 *                                    current-company, past-company and school, in exactly this order,
+	 *                                    null must be specified for an element if no value.
+	 * @param   integer  $start           Starting location within the result set for paginated returns.
+	 * @param   integer  $count           The number of results returned.
+	 * @param   string   $sort            Controls the search result order. There are four options: connections, recommenders,
+	 * 									  distance and relevance.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.2.0
 	 */
-	public function search($fields = null, $keywords = null, $first_name = null, $last_name = null, $company_name = null,
-		$current_company = null, $title = null, $current_title = null, $school_name = null, $current_school = null, $country_code = null,
-		$postal_code = null, $distance = null, $facets = null, $facet = null, $start = 0, $count = 10, $sort = null)
+	public function search($fields = null, $keywords = null, $firstName = null, $lastName = null, $companyName = null,
+		$currentCompany = null, $title = null, $currentTitle = null, $schoolName = null, $currentSchool = null, $countryCode = null,
+		$postalCode = null, $distance = null, $facets = null, $facet = null, $start = 0, $count = 10, $sort = null)
 	{
 		$token = $this->oauth->getToken();
 
@@ -214,27 +215,27 @@ class JLinkedinPeople extends JLinkedinObject
 		}
 
 		// Check if first_name is specified.
-		if ($first_name)
+		if ($firstName)
 		{
-			$data['first-name'] = $first_name;
+			$data['first-name'] = $firstName;
 		}
 
 		// Check if last_name is specified.
-		if ($last_name)
+		if ($lastName)
 		{
-			$data['last-name'] = $last_name;
+			$data['last-name'] = $lastName;
 		}
 
 		// Check if company-name is specified.
-		if ($company_name)
+		if ($companyName)
 		{
-			$data['company-name'] = $company_name;
+			$data['company-name'] = $companyName;
 		}
 
 		// Check if current_company is specified.
-		if ($current_company)
+		if ($currentCompany)
 		{
-			$data['current-company'] = $current_company;
+			$data['current-company'] = $currentCompany;
 		}
 
 		// Check if title is specified.
@@ -244,33 +245,33 @@ class JLinkedinPeople extends JLinkedinObject
 		}
 
 		// Check if current_title is specified.
-		if ($current_title)
+		if ($currentTitle)
 		{
-			$data['current-title'] = $current_title;
+			$data['current-title'] = $currentTitle;
 		}
 
 		// Check if school_name is specified.
-		if ($school_name)
+		if ($schoolName)
 		{
-			$data['school-name'] = $school_name;
+			$data['school-name'] = $schoolName;
 		}
 
 		// Check if current_school is specified.
-		if ($current_school)
+		if ($currentSchool)
 		{
-			$data['current-school'] = $current_school;
+			$data['current-school'] = $currentSchool;
 		}
 
 		// Check if country_code is specified.
-		if ($country_code)
+		if ($countryCode)
 		{
-			$data['country-code'] = $country_code;
+			$data['country-code'] = $countryCode;
 		}
 
 		// Check if postal_code is specified.
-		if ($postal_code)
+		if ($postalCode)
 		{
-			$data['postal-code'] = $postal_code;
+			$data['postal-code'] = $postalCode;
 		}
 
 		// Check if distance is specified.

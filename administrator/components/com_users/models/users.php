@@ -496,18 +496,18 @@ class UsersModelUsers extends JModelList
 	/**
 	 * SQL server change
 	 *
-	 * @param   integer  $user_id  User identifier
+	 * @param   integer  $userId  User identifier
 	 *
 	 * @return  string   Groups titles imploded :$
 	 */
-	protected function _getUserDisplayedGroups($user_id)
+	protected function _getUserDisplayedGroups($userId)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->qn('title'))
 			->from($db->qn('#__usergroups', 'ug'))
 			->join('LEFT', $db->qn('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
-			->where($db->qn('map.user_id') . ' = ' . (int) $user_id);
+			->where($db->qn('map.user_id') . ' = ' . (int) $userId);
 
 		try
 		{

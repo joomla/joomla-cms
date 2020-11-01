@@ -355,14 +355,14 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * Custom clean cache method, plugins are cached in 2 places for different clients.
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  Application client id.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_plugins', 0);
 		parent::cleanCache('com_plugins', 1);

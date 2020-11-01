@@ -101,8 +101,8 @@ $this->ignore_fieldsets = array('user_details');
 				<div class="clearfix"></div>
 			<?php endif; ?>
 		</fieldset>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php endif; ?>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<input type="hidden" name="task" value="" />

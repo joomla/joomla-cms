@@ -205,21 +205,21 @@ abstract class ConfigModelCms extends JModelDatabase
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$conf = JFactory::getConfig();
 		$dispatcher = JEventDispatcher::getInstance();
 
 		$options = array(
 			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
-			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
+			'cachebase' => $clientId ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
 
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
@@ -264,17 +264,17 @@ abstract class ConfigModelCms extends JModelDatabase
 		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
-	/**	
-	 * Method to test whether a record can have its state changed.	
-	 *	
-	 * @param   object  $record  A record object.	
-	 *	
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.	
-	 *	
-	 * @since   3.2	
-	 */	
-	protected function canEditState($record)	
-	{	
-		return JFactory::getUser()->authorise('core.edit.state', $this->option);	
+	/**
+	 * Method to test whether a record can have its state changed.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.2
+	 */
+	protected function canEditState($record)
+	{
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 }

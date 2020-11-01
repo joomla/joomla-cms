@@ -65,22 +65,22 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to get tweet timeline for members of the specified list
 	 *
-	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name.
-	 * @param   integer  $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer  $max_id       Returns results with an ID less than (that is, older than) or equal to the specified ID.
-	 * @param   integer  $count        Specifies the number of results to retrieve per "page."
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a variety
-	 * 								   of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $include_rts  When set to either true, t or 1, the list timeline will contain native retweets (if they exist) in addition
-	 * 								   to the standard stream of tweets.
+	 * @param   mixed    $list        Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed    $owner       Either an integer containing the user ID or a string containing the screen name.
+	 * @param   integer  $sinceId     Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   integer  $maxId       Returns results with an ID less than (that is, older than) or equal to the specified ID.
+	 * @param   integer  $count       Specifies the number of results to retrieve per "page."
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities". This node offers a variety
+	 * 								  of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $includeRts  When set to either true, t or 1, the list timeline will contain native retweets (if they exist) in addition
+	 * 								  to the standard stream of tweets.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getStatuses($list, $owner = null, $since_id = 0, $max_id = 0, $count = 0, $entities = null, $include_rts = null)
+	public function getStatuses($list, $owner = null, $sinceId = 0, $maxId = 0, $count = 0, $entities = null, $includeRts = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('lists', 'statuses');
@@ -119,15 +119,15 @@ class JTwitterLists extends JTwitterObject
 		$path = '/lists/statuses.json';
 
 		// Check if since_id is specified
-		if ($since_id > 0)
+		if ($sinceId > 0)
 		{
-			$data['since_id'] = $since_id;
+			$data['since_id'] = $sinceId;
 		}
 
 		// Check if max_id is specified
-		if ($max_id > 0)
+		if ($maxId > 0)
 		{
-			$data['max_id'] = $max_id;
+			$data['max_id'] = $maxId;
 		}
 
 		// Check if count is specified
@@ -143,9 +143,9 @@ class JTwitterLists extends JTwitterObject
 		}
 
 		// Check if include_rts is specified
-		if (!is_null($include_rts))
+		if (!is_null($includeRts))
 		{
-			$data['include_rts'] = $include_rts;
+			$data['include_rts'] = $includeRts;
 		}
 
 		// Send the request.
@@ -155,19 +155,19 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to get the subscribers of the specified list.
 	 *
-	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name.
-	 * @param   integer  $cursor       Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a variety
-	 * 								   of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $list        Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed    $owner       Either an integer containing the user ID or a string containing the screen name.
+	 * @param   integer  $cursor      Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities". This node offers a variety
+	 * 								  of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getSubscribers($list, $owner = null, $cursor = null, $entities = null, $skip_status = null)
+	public function getSubscribers($list, $owner = null, $cursor = null, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('lists', 'subscribers');
@@ -218,9 +218,9 @@ class JTwitterLists extends JTwitterObject
 		}
 
 		// Check if skip_status is specified
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Send the request.
@@ -230,17 +230,17 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to remove multiple members from a list, by specifying a comma-separated list of member ids or screen names.
 	 *
-	 * @param   mixed   $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   string  $user_id      A comma separated list of user IDs, up to 100 are allowed in a single request.
-	 * @param   string  $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
-	 * @param   mixed   $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   mixed   $list        Either an integer containing the list ID or a string containing the list slug.
+	 * @param   string  $userId      A comma separated list of user IDs, up to 100 are allowed in a single request.
+	 * @param   string  $screenName  A comma separated list of screen names, up to 100 are allowed in a single request.
+	 * @param   mixed   $owner       Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function deleteMembers($list, $user_id = null, $screen_name = null, $owner = null)
+	public function deleteMembers($list, $userId = null, $screenName = null, $owner = null)
 	{
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -272,17 +272,17 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
 		}
 
-		if ($user_id)
+		if ($userId)
 		{
-			$data['user_id'] = $user_id;
+			$data['user_id'] = $userId;
 		}
 
-		if ($screen_name)
+		if ($screenName)
 		{
-			$data['screen_name'] = $screen_name;
+			$data['screen_name'] = $screenName;
 		}
 
-		if ($user_id == null && $screen_name == null)
+		if ($userId == null && $screenName == null)
 		{
 			// We don't have a valid entry
 			throw new RuntimeException('You must specify either a comma separated list of screen names, user IDs, or a combination of the two');
@@ -351,19 +351,19 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to check if the specified user is a member of the specified list.
 	 *
-	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name of the user to remove.
-	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
-	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $list        Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name of the user to remove.
+	 * @param   mixed    $owner       Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
+	 * 								  variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function isMember($list, $user, $owner = null, $entities = null, $skip_status = null)
+	public function isMember($list, $user, $owner = null, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('lists', 'members/show');
@@ -422,9 +422,9 @@ class JTwitterLists extends JTwitterObject
 		}
 
 		// Check if skip_status is specified
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Send the request.
@@ -434,19 +434,19 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to check if the specified user is a subscriber of the specified list.
 	 *
-	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name of the user to remove.
-	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
-	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $list        Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name of the user to remove.
+	 * @param   mixed    $owner       Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
+	 * 								  variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function isSubscriber($list, $user, $owner = null, $entities = null, $skip_status = null)
+	public function isSubscriber($list, $user, $owner = null, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('lists', 'subscribers/show');
@@ -505,9 +505,9 @@ class JTwitterLists extends JTwitterObject
 		}
 
 		// Check if skip_status is specified
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Send the request.
@@ -570,17 +570,17 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to add multiple members to a list, by specifying a comma-separated list of member ids or screen names.
 	 *
-	 * @param   mixed   $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   string  $user_id      A comma separated list of user IDs, up to 100 are allowed in a single request.
-	 * @param   string  $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
-	 * @param   mixed   $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   mixed   $list        Either an integer containing the list ID or a string containing the list slug.
+	 * @param   string  $userId      A comma separated list of user IDs, up to 100 are allowed in a single request.
+	 * @param   string  $screenName  A comma separated list of screen names, up to 100 are allowed in a single request.
+	 * @param   mixed   $owner       Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function addMembers($list, $user_id = null, $screen_name = null, $owner = null)
+	public function addMembers($list, $userId = null, $screenName = null, $owner = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('lists', 'members/create_all');
@@ -615,17 +615,17 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
 		}
 
-		if ($user_id)
+		if ($userId)
 		{
-			$data['user_id'] = $user_id;
+			$data['user_id'] = $userId;
 		}
 
-		if ($screen_name)
+		if ($screenName)
 		{
-			$data['screen_name'] = $screen_name;
+			$data['screen_name'] = $screenName;
 		}
 
-		if ($user_id == null && $screen_name == null)
+		if ($userId == null && $screenName == null)
 		{
 			// We don't have a valid entry
 			throw new RuntimeException('You must specify either a comma separated list of screen names, user IDs, or a combination of the two');
@@ -641,18 +641,18 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to get the members of the specified list.
 	 *
-	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a variety
-	 * 								   of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $list        Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed    $owner       Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $entities    When set to either true, t or 1, each tweet will include a node called "entities". This node offers a variety
+	 * 								  of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skipStatus  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
-	public function getMembers($list, $owner = null, $entities = null, $skip_status = null)
+	public function getMembers($list, $owner = null, $entities = null, $skipStatus = null)
 	{
 		// Check the rate limit for remaining hits
 		$this->checkRateLimit('lists', 'members');
@@ -697,9 +697,9 @@ class JTwitterLists extends JTwitterObject
 		}
 
 		// Check if skip_status is specified
-		if (!is_null($skip_status))
+		if (!is_null($skipStatus))
 		{
-			$data['skip_status'] = $skip_status;
+			$data['skip_status'] = $skipStatus;
 		}
 
 		// Send the request.

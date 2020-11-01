@@ -398,41 +398,41 @@ class UsersModelProfile extends JModelForm
 	 * Gets the configuration forms for all two-factor authentication methods
 	 * in an array.
 	 *
-	 * @param   integer  $user_id  The user ID to load the forms for (optional)
+	 * @param   integer  $userId  The user ID to load the forms for (optional)
 	 *
 	 * @return  array
 	 *
 	 * @since   3.2
 	 */
-	public function getTwofactorform($user_id = null)
+	public function getTwofactorform($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		$model = new UsersModelUser;
 
-		$otpConfig = $model->getOtpConfig($user_id);
+		$otpConfig = $model->getOtpConfig($userId);
 
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');
 
-		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $userId));
 	}
 
 	/**
 	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
 	 * configuration for a particular user.
 	 *
-	 * @param   integer  $user_id  The numeric ID of the user
+	 * @param   integer  $userId  The numeric ID of the user
 	 *
 	 * @return  stdClass  An object holding the OTP configuration for this user
 	 *
 	 * @since   3.2
 	 */
-	public function getOtpConfig($user_id = null)
+	public function getOtpConfig($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		$model = new UsersModelUser;
 
-		return $model->getOtpConfig($user_id);
+		return $model->getOtpConfig($userId);
 	}
 }
