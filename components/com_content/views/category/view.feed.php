@@ -35,13 +35,19 @@ class ContentViewCategory extends JViewCategoryfeed
 	protected function reconcileNames($item)
 	{
 		// Get description, intro_image, author and date
-		$app               = JFactory::getApplication();
-		$params            = $app->getParams();
-		$item->description = '';
-		$obj = json_decode($item->images);
-		$introImage = ($obj->{'image_intro'} != '') ? $obj->{'image_intro'} : (($obj->{'image_fulltext'} != '') ? $obj->{'image_fulltext'} : '');
+		$app               	= JFactory::getApplication();
+		$params            	= $app->getParams();
+		$item->description 	= '';
+		$obj				= json_decode($item->images);
+		
+		// Set feed image to image_intro or if that's empty, to image_fulltext
+		$introImage = 	!empty($obj->{'image_intro'}) ?
+						$obj->{'image_intro'} :
+						( !empty($obj->{'image_fulltext'}) ?
+						$obj->{'image_fulltext'} :
+						'');
 
-		if ($introImage != '')
+		if ( !empty($introImage) )
 		{
 			$image = preg_match('/http/', $introImage) ? $introImage : JURI::root() . $introImage;
 			$item->description = '<p><img src="' . $image . '" /></p>';
