@@ -38,6 +38,7 @@ if ($context === 'com_content.categories')
 $iconStar     = HTMLHelper::_('image', 'plg_content_vote/vote-star.svg', '', '', true, true);
 $iconHalfstar = HTMLHelper::_('image', 'plg_content_vote/vote-star-half.svg', '', '', true, true);
 
+// Make sure path is local to J!
 $pathStar     = Path::check(JPATH_ROOT . '/' . substr($iconStar, \strlen(Uri::root(true))));
 $pathHalfstar = Path::check(JPATH_ROOT . '/' . substr($iconHalfstar, \strlen(Uri::root(true))));
 
