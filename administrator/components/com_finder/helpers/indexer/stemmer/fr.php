@@ -144,26 +144,26 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 	 * that can be applied to the given reversed input.
 	 * returns -1 if no rule can be applied, ie the stem has been found
 	 *
-	 * @param   string   $reversed_input  The input to check in reversed order
-	 * @param   integer  $rule_number     The rule number to check
+	 * @param   string   $reversedInput  The input to check in reversed order
+	 * @param   integer  $ruleNumber     The rule number to check
 	 *
 	 * @return  integer  Number of the first rule
 	 *
 	 * @since   3.0
 	 */
-	private static function getFirstRule($reversed_input, $rule_number)
+	private static function getFirstRule($reversedInput, $ruleNumber)
 	{
 		$vars = static::getStemRules();
 
 		$nb_rules = count($vars['rules']);
 
-		for ($i = $rule_number; $i < $nb_rules; $i++)
+		for ($i = $ruleNumber; $i < $nb_rules; $i++)
 		{
 			// Gets the letters from the current rule
 			$rule = $vars['rules'][$i];
 			$rule = preg_replace($vars['rule_pattern'], "\\1", $rule);
 
-			if (strncasecmp(utf8_decode($rule), $reversed_input, strlen(utf8_decode($rule))) == 0)
+			if (strncasecmp(utf8_decode($rule), $reversedInput, strlen(utf8_decode($rule))) == 0)
 			{
 				return $i;
 			}
@@ -175,31 +175,31 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 	/**
 	 * Check the acceptability of a stem for French language
 	 *
-	 * @param   string  $reversed_stem  The stem to check in reverse form
+	 * @param   string  $reversedStem  The stem to check in reverse form
 	 *
 	 * @return  boolean  True if stem is acceptable
 	 *
 	 * @since   3.0
 	 */
-	private static function check($reversed_stem)
+	private static function check($reversedStem)
 	{
 		$vars = static::getStemRules();
 
-		if (preg_match('/[' . $vars['vowels'] . ']$/', utf8_encode($reversed_stem)))
+		if (preg_match('/[' . $vars['vowels'] . ']$/', utf8_encode($reversedStem)))
 		{
 			// If the form starts with a vowel then at least two letters must remain after stemming (e.g.: "etaient" --> "et")
-			return (strlen($reversed_stem) > 2);
+			return (strlen($reversedStem) > 2);
 		}
 		else
 		{
 			// If the reversed stem starts with a consonant then at least two letters must remain after stemming
-			if (strlen($reversed_stem) <= 2)
+			if (strlen($reversedStem) <= 2)
 			{
 				return false;
 			}
 
 			// And at least one of these must be a vowel or "y"
-			return preg_match('/[' . $vars['vowels'] . ']/', utf8_encode($reversed_stem));
+			return preg_match('/[' . $vars['vowels'] . ']/', utf8_encode($reversedStem));
 		}
 	}
 
