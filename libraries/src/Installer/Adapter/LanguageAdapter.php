@@ -270,7 +270,7 @@ class LanguageAdapter extends InstallerAdapter
 			try
 			{
 				\JLog::add(
-					sprintf('Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.', 'pdf_fonts'),
+					'Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.',
 					\JLog::WARNING,
 					'deprecated'
 				);
@@ -542,7 +542,7 @@ class LanguageAdapter extends InstallerAdapter
 			try
 			{
 				\JLog::add(
-					sprintf('Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.', 'pdf_fonts'),
+					'Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.',
 					\JLog::WARNING,
 					'deprecated'
 				);
