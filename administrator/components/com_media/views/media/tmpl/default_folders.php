@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 // Set up the sanitised target for the ul
 $ulTarget = str_replace('/', '-', $this->folders['data']->relative);

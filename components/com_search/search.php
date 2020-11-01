@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 $controller = JControllerLegacy::getInstance('Search');
 $controller->execute(JFactory::getApplication()->input->get('task'));

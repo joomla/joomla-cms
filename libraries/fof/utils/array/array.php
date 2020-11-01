@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('FOF_INCLUDED') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * A utility class to handle array manipulation.

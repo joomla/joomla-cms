@@ -9,7 +9,7 @@
  * This file contains post-installation message handling for Joomla 4.0 pre checks
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 /**
  * Checks if the installation meets the current requirements for Joomla 4

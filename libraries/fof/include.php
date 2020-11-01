@@ -11,7 +11,7 @@
  *  Initializes FOF
  */
 
-\defined('_JEXEC') or die();
+defined('_JEXEC') or die();
 
 if (!\defined('FOF_INCLUDED'))
 {

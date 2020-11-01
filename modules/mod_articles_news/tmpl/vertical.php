@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 ?>
 <ul class="newsflash-vert<?php echo $params->get('moduleclass_sfx'); ?> mod-list">
 	<?php for ($i = 0, $n = count($list); $i < $n; $i ++) : ?>

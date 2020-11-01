@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 $version2 = $this->items[0];
 $version1 = $this->items[1];

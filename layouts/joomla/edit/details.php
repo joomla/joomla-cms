@@ -9,7 +9,7 @@
  * @deprecated  3.2 removed without replacement in 4.0 see global.php for an alternative
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 

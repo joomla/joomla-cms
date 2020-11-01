@@ -7,7 +7,7 @@
  * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
-\defined('FOF_INCLUDED') or die();
+defined('FOF_INCLUDED') or die();
 
 /**
  * The Interface of an FOFConfigDomain class. The methods are used to parse and

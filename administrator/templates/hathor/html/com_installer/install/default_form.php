@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 // MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
 JHtml::_('behavior.framework', true);

@@ -9,7 +9,7 @@
  * This file contains post-installation message handling for eAccelerator compatibility.
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;

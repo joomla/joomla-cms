@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 // Code to support edit links for weblinks
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');

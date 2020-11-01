@@ -7,7 +7,7 @@
  * @since       3.0
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 /** @var JDocumentHtml $this */
 

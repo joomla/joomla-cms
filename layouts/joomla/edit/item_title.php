@@ -9,7 +9,7 @@
  * @deprecated  3.2
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 $title = $displayData->getForm()->getValue('title');
 $name = $displayData->getForm()->getValue('name');

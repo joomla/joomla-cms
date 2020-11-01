@@ -10,7 +10,7 @@
  * in the default textfilter settings
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 /**
  * Notifies users the changes from the default textfilter.

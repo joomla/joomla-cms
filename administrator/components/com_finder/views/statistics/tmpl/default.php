@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 ?>
 <h3>
 	<?php echo JText::_('COM_FINDER_STATISTICS_TITLE'); ?>

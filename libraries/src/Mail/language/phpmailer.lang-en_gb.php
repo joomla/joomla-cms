@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die;
 
 $PHPMAILER_LANG['authenticate']         = JText::_('PHPMAILER_AUTHENTICATE');
 $PHPMAILER_LANG['connect_host']         = JText::_('PHPMAILER_CONNECT_HOST');

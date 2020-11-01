@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 ?>
 <fieldset title="<?php echo JText::_('COM_CONFIG_FTP_DETAILS'); ?>" class="form-horizontal">
 	<legend><?php echo JText::_('COM_CONFIG_FTP_DETAILS'); ?></legend>

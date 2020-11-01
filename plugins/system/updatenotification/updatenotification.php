@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // \define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);

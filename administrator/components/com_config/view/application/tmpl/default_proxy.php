@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 $this->name = JText::_('COM_CONFIG_PROXY_SETTINGS');
 $this->fieldsname = 'proxy';

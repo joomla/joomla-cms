@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');

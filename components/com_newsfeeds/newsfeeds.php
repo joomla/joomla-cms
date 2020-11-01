@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 JLoader::register('NewsfeedsHelperRoute', JPATH_COMPONENT . '/helpers/route.php');
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');

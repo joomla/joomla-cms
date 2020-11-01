@@ -7,7 +7,7 @@
  * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
-\defined('FOF_INCLUDED') or die();
+defined('FOF_INCLUDED') or die();
 
 /**
  * An autoloader for FOF-powered components. It allows the autoloading of

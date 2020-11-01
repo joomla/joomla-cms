@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 // Including fallback code for the placeholder attribute in the search field.
 JHtml::_('jquery.framework');

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 // use ksort() with SORT_NATURAL flag when minimum PHP is 5.4.
 uksort($this->files, 'strnatcmp');

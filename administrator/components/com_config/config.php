@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 JHtml::_('behavior.tabstate');
 
 // Access checks are done internally because of different requirements for the two controllers.
