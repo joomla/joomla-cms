@@ -261,6 +261,26 @@ class LanguageAdapter extends InstallerAdapter
 		// Parse optional tags
 		$this->parent->parseMedia($this->getManifest()->media);
 
+		/*
+		 * Log that PDF Fonts in language packs are deprecated and will be removed in 4.0
+		 * Ref: https://github.com/joomla/joomla-cms/issues/31286
+		 */
+		if (is_dir($basePath . '/language/pdf_fonts'))
+		{
+			try
+			{
+				\JLog::add(
+					'Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.',
+					\JLog::WARNING,
+					'deprecated'
+				);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+		}
+
 		// Copy all the necessary font files to the common pdf_fonts directory
 		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
@@ -512,6 +532,26 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Parse optional tags
 		$this->parent->parseMedia($xml->media);
+
+		/*
+		 * Log that PDF Fonts in language packs are deprecated and will be removed in 4.0
+		 * Ref: https://github.com/joomla/joomla-cms/issues/31286
+		 */
+		if (is_dir($basePath . '/language/pdf_fonts'))
+		{
+			try
+			{
+				\JLog::add(
+					'Using the "pdf_fonts" folder to load language specific fonts in languages is deprecated and will be removed in 4.0.',
+					\JLog::WARNING,
+					'deprecated'
+				);
+			}
+			catch (RuntimeException $exception)
+			{
+				// Informational log only
+			}
+		}
 
 		// Copy all the necessary font files to the common pdf_fonts directory
 		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
