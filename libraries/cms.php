@@ -18,9 +18,9 @@ trigger_error(
 );
 
 // Set the platform root path as a constant if necessary
-if (!\defined('JPATH_PLATFORM'))
+if (!defined('JPATH_PLATFORM'))
 {
-	\define('JPATH_PLATFORM', __DIR__);
+	define('JPATH_PLATFORM', __DIR__);
 }
 
 // Import the library loader if necessary
@@ -62,10 +62,10 @@ if (in_array('phar', stream_get_wrappers()))
 }
 
 // Define the Joomla version if not already defined
-if (!\defined('JVERSION'))
+if (!defined('JVERSION'))
 {
 	$jversion = new JVersion;
-	\define('JVERSION', $jversion->getShortVersion());
+	define('JVERSION', $jversion->getShortVersion());
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
