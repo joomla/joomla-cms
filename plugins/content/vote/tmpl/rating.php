@@ -37,8 +37,8 @@ if ($context === 'com_content.categories')
 $iconStar     = HTMLHelper::_('image', 'plg_content_vote/vote-star.svg', '', '', true, true);
 $iconHalfstar = HTMLHelper::_('image', 'plg_content_vote/vote-star-half.svg', '', '', true, true);
 
-$pathStar     = JPATH_ROOT . '/' . substr($iconStar, \strlen(Uri::root(true)));
-$pathHalfstar = JPATH_ROOT . '/' . substr($iconHalfstar, \strlen(Uri::root(true)));
+$pathStar     = JPATH_ROOT . substr($iconStar, \strlen(Uri::root(true)));
+$pathHalfstar = JPATH_ROOT . substr($iconHalfstar, \strlen(Uri::root(true)));
 
 // Check paths
 if ($pathStar === null || $pathHalfstar === null)
