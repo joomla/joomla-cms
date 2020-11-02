@@ -9,7 +9,7 @@
 
 use Joomla\CMS\Language\Text;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 ?>
 <ul class="nav flex-column">
 	<?php if ($this->userIsSuperAdmin) : ?>
