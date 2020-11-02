@@ -10,7 +10,7 @@
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 $this->name = Text::_('COM_CONFIG_LOGGING_SETTINGS');
 $this->fieldsname = 'logging';
