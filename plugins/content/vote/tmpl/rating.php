@@ -39,22 +39,12 @@ $iconStar     = HTMLHelper::_('image', 'plg_content_vote/vote-star.svg', '', '',
 $iconHalfstar = HTMLHelper::_('image', 'plg_content_vote/vote-star-half.svg', '', '', true, true);
 
 // Make sure path is local to J!
-$pathStar     = Path::check(JPATH_ROOT . '/' . substr($iconStar, strlen(Uri::root(true))));
-$pathHalfstar = Path::check(JPATH_ROOT . '/' . substr($iconHalfstar, strlen(Uri::root(true))));
+$pathStar     = Path::check(JPATH_ROOT . '/' . substr($iconStar, \strlen(Uri::root(true))));
+$pathHalfstar = Path::check(JPATH_ROOT . '/' . substr($iconHalfstar, \strlen(Uri::root(true))));
 
 // Writes an inline '<svg>' element
-$star     = '';
-$halfstar = '';
-
-if (file_exists($pathStar))
-{
-	$star = file_get_contents($pathStar);
-}
-
-if (file_exists($pathHalfstar))
-{
-	$halfstar = file_get_contents($pathHalfstar);
-}
+$star     = file_get_contents($pathStar);
+$halfstar = file_get_contents($pathHalfstar);
 
 // Get rating
 $rating = (float) $row->rating;
