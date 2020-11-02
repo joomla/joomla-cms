@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Filesystem\Path;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->app->getDocument()->getWebAssetManager();
@@ -34,21 +33,20 @@ if ($context === 'com_content.categories')
 	return;
 }
 
-// Get path to icon
+// Get paths to icons
 $iconStar     = HTMLHelper::_('image', 'plg_content_vote/vote-star.svg', '', '', true, true);
 $iconHalfstar = HTMLHelper::_('image', 'plg_content_vote/vote-star-half.svg', '', '', true, true);
 
-// Make sure path is local to J!
-$pathStar     = Path::check(JPATH_ROOT . '/' . substr($iconStar, \strlen(Uri::root(true))));
-$pathHalfstar = Path::check(JPATH_ROOT . '/' . substr($iconHalfstar, \strlen(Uri::root(true))));
+$pathStar     = JPATH_ROOT . '/' . substr($iconStar, \strlen(Uri::root(true)));
+$pathHalfstar = JPATH_ROOT . '/' . substr($iconHalfstar, \strlen(Uri::root(true)));
 
-// File check
+// Check paths
 if ($pathStar === null || $pathHalfstar === null)
 {
 	return;
 }
 
-// Writes an inline '<svg>' element
+// Write inline '<svg>' elements
 $star     = file_get_contents($pathStar);
 $halfstar = file_get_contents($pathHalfstar);
 
