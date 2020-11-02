@@ -108,12 +108,14 @@ class ComponentModel extends FormModel
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadFormData()
 	{
+		$option = $this->getState()->get('component.option');
+
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_config.edit.component.data', []);
+		$data = Factory::getApplication()->getUserState('com_config.edit.component.' . $option . '.data', []);
 
 		if (empty($data))
 		{

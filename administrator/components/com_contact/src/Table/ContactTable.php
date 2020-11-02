@@ -73,6 +73,12 @@ class ContactTable extends Table implements VersionableTableInterface
 		$date   = Factory::getDate()->toSql();
 		$userId = Factory::getUser()->id;
 
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date;
+		}
+
 		if ($this->id)
 		{
 			// Existing item
@@ -81,13 +87,7 @@ class ContactTable extends Table implements VersionableTableInterface
 		}
 		else
 		{
-			// New contact. A contact created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date;
-			}
-
+			// Field created_by field can be set by the user, so we don't touch it if it's set.
 			if (empty($this->created_by))
 			{
 				$this->created_by = $userId;

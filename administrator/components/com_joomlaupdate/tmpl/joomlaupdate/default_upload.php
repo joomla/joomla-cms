@@ -23,7 +23,7 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 ?>
 
 <div class="alert alert-info">
-	<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+	<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
 </div>
 
@@ -32,7 +32,7 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 	<?php foreach ($this->warnings as $warning) : ?>
 		<div class="alert alert-warning">
 			<h4 class="alert-heading">
-				<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+				<span class="icon-exclamation-triangle" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo $warning['message']; ?>
 			</h4>
@@ -41,7 +41,7 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 	<?php endforeach; ?>
 	<div class="alert alert-info">
 		<h4 class="alert-heading">
-			<span class="fas fa-info-circle" aria-hidden="true"></span>
+			<span class="icon-info-circle" aria-hidden="true"></span>
 			<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?>
 		</h4>

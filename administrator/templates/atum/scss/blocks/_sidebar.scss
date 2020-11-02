@@ -38,7 +38,10 @@
       min-height: 44px;
       font-size: .9rem;
 
-      .fas {
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         margin: 0 .85rem;
         transform: scale(1.3);
       }
