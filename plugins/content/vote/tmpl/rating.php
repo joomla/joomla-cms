@@ -42,6 +42,12 @@ $iconHalfstar = HTMLHelper::_('image', 'plg_content_vote/vote-star-half.svg', ''
 $pathStar     = Path::check(JPATH_ROOT . '/' . substr($iconStar, \strlen(Uri::root(true))));
 $pathHalfstar = Path::check(JPATH_ROOT . '/' . substr($iconHalfstar, \strlen(Uri::root(true))));
 
+// File check
+if ($pathStar === null || $pathHalfstar === null)
+{
+	return;
+}
+
 // Writes an inline '<svg>' element
 $star     = file_get_contents($pathStar);
 $halfstar = file_get_contents($pathHalfstar);
