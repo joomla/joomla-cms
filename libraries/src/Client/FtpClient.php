@@ -34,7 +34,7 @@ if (!\defined('CRLF'))
 	 * @var    string
 	 * @since  1.5
 	 */
-	\define('CRLF', "\r\n");
+define('CRLF', "\r\n");
 }
 
 if (!\defined('FTP_AUTOASCII'))
@@ -45,7 +45,7 @@ if (!\defined('FTP_AUTOASCII'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	\define('FTP_AUTOASCII', -1);
+define('FTP_AUTOASCII', -1);
 }
 
 if (!\defined('FTP_BINARY'))
@@ -56,7 +56,7 @@ if (!\defined('FTP_BINARY'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	\define('FTP_BINARY', 1);
+define('FTP_BINARY', 1);
 }
 
 if (!\defined('FTP_ASCII'))
@@ -67,7 +67,7 @@ if (!\defined('FTP_ASCII'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	\define('FTP_ASCII', 0);
+define('FTP_ASCII', 0);
 }
 
 if (!\defined('FTP_NATIVE'))
@@ -78,7 +78,7 @@ if (!\defined('FTP_NATIVE'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	\define('FTP_NATIVE', \function_exists('ftp_connect') ? 1 : 0);
+define('FTP_NATIVE', \function_exists('ftp_connect') ? 1 : 0);
 }
 
 /**
