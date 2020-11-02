@@ -49,7 +49,7 @@
     {
       "name": "template.cassiopeia.googlefont",
       "type": "style",
-      "uri": "https://fonts.googleapis.com/css?family=Fira+Sans:400"
+      "uri": "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500&display=swap"
     },
     {
       "name": "template.cassiopeia",
