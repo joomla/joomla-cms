@@ -28,9 +28,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 const JOOMLA_MINIMUM_PHP = '7.2.5';
 
-if (!\defined('_JDEFINES'))
+if (!defined('_JDEFINES'))
 {
-	\define('JPATH_BASE', dirname(__DIR__));
+	define('JPATH_BASE', dirname(__DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
