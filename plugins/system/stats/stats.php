@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 
 // Uncomment the following line to enable debug mode for testing purposes. Note: statistics will be sent on every page load
-// \define('PLG_SYSTEM_STATS_DEBUG', 1);
+// define('PLG_SYSTEM_STATS_DEBUG', 1);
 
 /**
  * Statistics system plugin. This sends anonymous data back to the Joomla! Project about the
@@ -419,7 +419,7 @@ class PlgSystemStats extends CMSPlugin
 	 */
 	private function isDebugEnabled()
 	{
-		return \defined('PLG_SYSTEM_STATS_DEBUG');
+		return defined('PLG_SYSTEM_STATS_DEBUG');
 	}
 
 	/**

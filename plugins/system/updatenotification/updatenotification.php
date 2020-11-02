@@ -26,7 +26,7 @@ use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
-// \define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
+// define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
 
 /**
  * Joomla! Update Notification plugin
@@ -87,7 +87,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$now  = time();
 		$last = (int) $this->params->get('lastrun', 0);
 
-		if (!\defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout))
+		if (!defined('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG') && (abs($now - $last) < $cache_timeout))
 		{
 			return;
 		}

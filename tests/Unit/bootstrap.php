@@ -25,69 +25,69 @@ ini_set('precision', 14);
  */
 $rootDirectory = getcwd();
 
-if (!\defined('JPATH_BASE'))
+if (!defined('JPATH_BASE'))
 {
-	\define('JPATH_BASE', $rootDirectory);
+	define('JPATH_BASE', $rootDirectory);
 }
 
-if (!\defined('JPATH_ROOT'))
+if (!defined('JPATH_ROOT'))
 {
-	\define('JPATH_ROOT', JPATH_BASE);
+	define('JPATH_ROOT', JPATH_BASE);
 }
 
-if (!\defined('JPATH_PLATFORM'))
+if (!defined('JPATH_PLATFORM'))
 {
-	\define('JPATH_PLATFORM', JPATH_BASE . '/libraries');
+	define('JPATH_PLATFORM', JPATH_BASE . '/libraries');
 }
 
-if (!\defined('JPATH_LIBRARIES'))
+if (!defined('JPATH_LIBRARIES'))
 {
-	\define('JPATH_LIBRARIES', JPATH_BASE . '/libraries');
+	define('JPATH_LIBRARIES', JPATH_BASE . '/libraries');
 }
 
-if (!\defined('JPATH_CACHE'))
+if (!defined('JPATH_CACHE'))
 {
-	\define('JPATH_CACHE', JPATH_BASE . '/cache');
+	define('JPATH_CACHE', JPATH_BASE . '/cache');
 }
 
-if (!\defined('JPATH_CONFIGURATION'))
+if (!defined('JPATH_CONFIGURATION'))
 {
-	\define('JPATH_CONFIGURATION', JPATH_BASE);
+	define('JPATH_CONFIGURATION', JPATH_BASE);
 }
 
-if (!\defined('JPATH_SITE'))
+if (!defined('JPATH_SITE'))
 {
-	\define('JPATH_SITE', JPATH_ROOT);
+	define('JPATH_SITE', JPATH_ROOT);
 }
 
-if (!\defined('JPATH_ADMINISTRATOR'))
+if (!defined('JPATH_ADMINISTRATOR'))
 {
-	\define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
+	define('JPATH_ADMINISTRATOR', JPATH_ROOT . '/administrator');
 }
 
-if (!\defined('JPATH_INSTALLATION'))
+if (!defined('JPATH_INSTALLATION'))
 {
-	\define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');
+	define('JPATH_INSTALLATION', JPATH_ROOT . '/installation');
 }
 
-if (!\defined('JPATH_MANIFESTS'))
+if (!defined('JPATH_MANIFESTS'))
 {
-	\define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . '/manifests');
+	define('JPATH_MANIFESTS', JPATH_ADMINISTRATOR . '/manifests');
 }
 
-if (!\defined('JPATH_PLUGINS'))
+if (!defined('JPATH_PLUGINS'))
 {
-	\define('JPATH_PLUGINS', JPATH_BASE . '/plugins');
+	define('JPATH_PLUGINS', JPATH_BASE . '/plugins');
 }
 
-if (!\defined('JPATH_THEMES'))
+if (!defined('JPATH_THEMES'))
 {
-	\define('JPATH_THEMES', JPATH_BASE . '/templates');
+	define('JPATH_THEMES', JPATH_BASE . '/templates');
 }
 
-if (!\defined('JDEBUG'))
+if (!defined('JDEBUG'))
 {
-	\define('JDEBUG', false);
+	define('JDEBUG', false);
 }
 
 // Import the library loader if necessary.
@@ -121,4 +121,4 @@ spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Define the Joomla version if not already defined.
-\defined('JVERSION') or \define('JVERSION', (new JVersion)->getShortVersion());
+defined('JVERSION') or define('JVERSION', (new JVersion)->getShortVersion());
