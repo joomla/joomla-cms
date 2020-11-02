@@ -352,7 +352,7 @@ class ComponentHelper
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
 			 */
-\define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
+			\define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
 		}
 
 		if (!\defined('JPATH_COMPONENT_SITE'))
@@ -364,7 +364,7 @@ class ComponentHelper
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
 			 */
-\define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
+			\define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
 		if (!\defined('JPATH_COMPONENT_ADMINISTRATOR'))
@@ -376,7 +376,7 @@ class ComponentHelper
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
 			 */
-\define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
+			\define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		// If component is disabled throw error
