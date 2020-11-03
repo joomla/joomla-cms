@@ -23,13 +23,6 @@
 		/>
 
 		<field
-			name="spacer1"
-			type="spacer"
-			label="COM_MEDIA_FOLDERS_PATH_LABEL"
-			class="text"
-		/>
-
-		<field
 			name="file_path"
 			type="text"
 			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"

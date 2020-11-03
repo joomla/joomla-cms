@@ -100,21 +100,22 @@ class GroupTable extends Table
 			return false;
 		}
 
-		$date = Factory::getDate();
+		$date = Factory::getDate()->toSql();
 		$user = Factory::getUser();
+
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date;
+		}
 
 		if ($this->id)
 		{
-			$this->modified = $date->toSql();
+			$this->modified = $date;
 			$this->modified_by = $user->get('id');
 		}
 		else
 		{
-			if (!(int) $this->created)
-			{
-				$this->created = $date->toSql();
-			}
-
 			if (!(int) $this->modified)
 			{
 				$this->modified = $this->created;
