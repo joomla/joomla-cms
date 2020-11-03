@@ -1624,4 +1624,21 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		return "decode('" . bin2hex($data) . "', 'hex')";
 	}
+
+	/**
+	 * Internal function to get the name of the default schema for the current PostgreSQL connexion.
+	 * That is the schema where tables are created by Joomla.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getDefaultSchema()
+	{
+
+		// Supported since PostgreSQL 7.3
+		$this->setQuery('SELECT (current_schemas(false))[1]');
+		return $this->loadResult();
+
+	}
 }
