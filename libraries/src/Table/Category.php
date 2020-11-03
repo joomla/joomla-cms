@@ -231,29 +231,29 @@ class Category extends Nested implements VersionableTableInterface
 	 */
 	public function store($updateNulls = true)
 	{
-		$date = Factory::getDate();
+		$date = Factory::getDate()->toSql();
 		$user = Factory::getUser();
+
+		// Set created date if not set.
+		if (!(int) $this->created_time)
+		{
+			$this->created_time = $date;
+		}
 
 		if ($this->id)
 		{
 			// Existing category
 			$this->modified_user_id = $user->get('id');
-			$this->modified_time    = $date->toSql();
+			$this->modified_time    = $date;
 		}
 		else
 		{
-			// New category. A category created_time and created_user_id field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created_time)
-			{
-				$this->created_time = $date->toSql();
-			}
-
 			if (!(int) ($this->modified_time))
 			{
 				$this->modified_time = $this->created_time;
 			}
 
+			// Field created_user_id can be set by the user, so we don't touch it if it's set.
 			if (empty($this->created_user_id))
 			{
 				$this->created_user_id = $user->get('id');
