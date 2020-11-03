@@ -241,16 +241,16 @@ if (!\function_exists('hash_pbkdf2'))
 	/**
 	 * Shim for missing hash_pbkdf2
 	 *
-	 * @param   string   $algo        Algorithm to use
-	 * @param   string   $password    Plaintext password
-	 * @param   string   $salt        Salt for the hash
-	 * @param   integer  $count       Number of iterations
-	 * @param   integer  $length      Length
-	 * @param   boolean  $raw_output  Raw output
+	 * @param   string   $algo       Algorithm to use
+	 * @param   string   $password   Plaintext password
+	 * @param   string   $salt       Salt for the hash
+	 * @param   integer  $count      Number of iterations
+	 * @param   integer  $length     Length
+	 * @param   boolean  $rawOutput  Raw output
 	 *
 	 * @return   string  Hashed string
 	 */
-	function hash_pbkdf2($algo, $password, $salt, $count, $length = 0, $raw_output = false)
+	function hash_pbkdf2($algo, $password, $salt, $count, $length = 0, $rawOutput = false)
 	{
 		if (!\in_array(strtolower($algo), hash_algos()))
 		{
@@ -278,7 +278,7 @@ if (!\function_exists('hash_pbkdf2'))
 		}
 
 		$output      = '';
-		$block_count = $length ? ceil($length / \strlen(hash($algo, '', $raw_output))) : 1;
+		$block_count = $length ? ceil($length / \strlen(hash($algo, '', $rawOutput))) : 1;
 
 		for ($i = 1; $i <= $block_count; $i++)
 		{
@@ -292,7 +292,7 @@ if (!\function_exists('hash_pbkdf2'))
 			$output .= $xorsum;
 		}
 
-		if (!$raw_output)
+		if (!$rawOutput)
 		{
 			$output = bin2hex($output);
 		}
