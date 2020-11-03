@@ -114,7 +114,7 @@ abstract class Icons
 		// Get path to icon
 		$file = HTMLHelper::_('image', $file, '', '', $relative, true);
 
-		// Make sure path is local to J!
+		// Make sure path is local to Joomla
 		$file = Path::check(JPATH_ROOT . '/' . substr($file, \strlen(Uri::root(true))));
 
 		// If you can't find the icon or if it's unsafe then skip it
