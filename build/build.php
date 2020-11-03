@@ -155,13 +155,12 @@ $filesArray = array(
  */
 $doNotPackage = array(
 	'.appveyor.yml',
+	'.drone.jsonnet',
 	'.drone.yml',
 	'.editorconfig',
 	'.github',
 	'.gitignore',
-	'.hound.yml',
 	'.php_cs',
-	'.travis.yml',
 	'README.md',
 	'appveyor-phpunit.xml',
 	'build',
@@ -173,7 +172,6 @@ $doNotPackage = array(
 	'phpunit.xml.dist',
 	'stubs.php',
 	'tests',
-	'travisci-phpunit.xml',
 	'codeception.yml',
 	'Jenkinsfile',
 	'jenkins-phpunit.xml',
