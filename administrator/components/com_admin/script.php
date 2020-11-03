@@ -1520,7 +1520,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/img/wline.gif',
 			'/media/mod_languages/images/km_kr.gif',
-			'/media/mod_languages/images/si_LK.gif',
 			'/plugins/editors/codemirror/styles.css',
 			'/plugins/editors/codemirror/styles.min.css',
 
@@ -1540,7 +1539,6 @@ class JoomlaInstallerScript
 			'/libraries/simplepie/idn/idna_convert.class.php',
 			'/libraries/simplepie/idn/npdata.ser',
 			'/libraries/simplepie/simplepie.php',
-			'/media/mod_languages/images/si_lk.gif',
 			'/media/system/js/permissions.min.js',
 			'/plugins/editors/tinymce/fields/skins.php',
 			'/plugins/user/profile/fields/dob.php',
@@ -2657,6 +2655,7 @@ class JoomlaInstallerScript
 		$files = array(
 			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
 			'libraries/vendor/paragonie/sodium_compat/src/Core/Xsalsa20.php' => 'libraries/vendor/paragonie/sodium_compat/src/Core/XSalsa20.php',
+			'media/mod_languages/images/si_LK.gif' => 'media/mod_languages/images/si_lk.gif',
 		);
 
 		foreach ($files as $old => $expected)
