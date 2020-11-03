@@ -96,7 +96,7 @@ abstract class FormModel extends BaseDatabaseModel
 			}
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id') && !$user->authorise('core.manage', 'com_checkin'))
 			{
 				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
