@@ -183,6 +183,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
