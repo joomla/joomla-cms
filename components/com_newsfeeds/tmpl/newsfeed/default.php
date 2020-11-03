@@ -93,7 +93,7 @@ use Joomla\CMS\Layout\FileLayout;
 		<!-- Show Image -->
 	  <?php if ($this->rssDoc->image && $this->params->get('show_feed_image')) : ?>
 			<div class="com-newsfeeds-newsfeed__feed-image">
-        <img src="<?php echo $this->rssDoc->image->uri; ?>" alt="<?php echo $this->rssDoc->image->title; ?>" />
+				<img src="<?php echo $this->rssDoc->image->uri; ?>" alt="<?php echo $this->rssDoc->image->title; ?>" />
 			</div>
 		<?php endif; ?>
 
