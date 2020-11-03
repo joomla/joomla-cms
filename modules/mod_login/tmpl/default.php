@@ -119,8 +119,8 @@ Text::script('JHIDEPASSWORD');
 						<?php if ($button['onclick']): ?>
 						onclick="<?php echo $button['onclick'] ?>"
 						<?php endif; ?>
-				        title="<?php echo Text::_($button['label']) ?>"
-				        id="<?php echo $button['id'] ?>"
+						title="<?php echo Text::_($button['label']) ?>"
+						id="<?php echo $button['id'] ?>"
 						>
 					<?php if (!empty($button['icon'])): ?>
 						<span class="<?php echo $button['icon'] ?>"></span>
