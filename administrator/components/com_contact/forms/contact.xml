@@ -46,7 +46,6 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			id="published"
 			class="custom-select-color-state"
 			size="1"
 			validate="options"

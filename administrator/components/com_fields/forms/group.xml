@@ -125,7 +125,6 @@
 			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"
-			id="rules"
 			translate_label="false"
 			filter="rules"
 			validate="rules"
