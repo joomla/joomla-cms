@@ -414,7 +414,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 		else
 		{
-			$schema = $this->getDefaultSchema();;
+			$schema = $this->getDefaultSchema();
 		}
 
 		$this->setQuery('
