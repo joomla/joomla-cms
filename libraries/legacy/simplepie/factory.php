@@ -24,23 +24,23 @@ class JSimplepieFactory
 	/**
 	 * Get a parsed XML Feed Source
 	 *
-	 * @param   string   $url         URL for feed source.
-	 * @param   integer  $cache_time  Time to cache feed for (using internal cache mechanism).
+	 * @param   string   $url        URL for feed source.
+	 * @param   integer  $cacheTime  Time to cache feed for (using internal cache mechanism).
 	 *
 	 * @return  SimplePie|boolean  SimplePie parsed object on success, false on failure.
 	 *
 	 * @since   3.0
 	 * @deprecated  3.0  Use JFeedFactory($url) instead.
 	 */
-	public static function getFeedParser($url, $cache_time = 0)
+	public static function getFeedParser($url, $cacheTime = 0)
 	{
 		JLog::add(__METHOD__ . ' is deprecated.   Use JFeedFactory() or supply Simple Pie instead.', JLog::WARNING, 'deprecated');
 
 		$cache = JFactory::getCache('feed_parser', 'callback');
 
-		if ($cache_time > 0)
+		if ($cacheTime > 0)
 		{
-			$cache->setLifeTime($cache_time);
+			$cache->setLifeTime($cacheTime);
 		}
 
 		$simplepie = new SimplePie(null, null, 0);
