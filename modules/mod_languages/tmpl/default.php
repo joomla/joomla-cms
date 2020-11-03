@@ -28,7 +28,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	<label for="lang" class="sr-only"><?php echo Text::_('JOPTION_SELECT_LANGUAGE'); ?></label>
 	<select id="lang" class="inputbox custom-select" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
-		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
+		<option dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>" value="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 		<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?></option>
 	<?php endforeach; ?>
 	</select>
@@ -38,7 +38,6 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
 				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
-					<span class="caret"></span>
 					<?php if ($language->image) : ?>
 						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', Text::sprintf('MOD_LANGUAGES_ALT_ACTIVE', $language->title_native), null, true); ?>
 					<?php endif; ?>
