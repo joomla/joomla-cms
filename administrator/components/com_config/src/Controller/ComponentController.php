@@ -196,10 +196,11 @@ class ComponentController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		// Clear session data.
-		$this->app->setUserState("$this->option.edit.$this->context.$option.data", null);
-
 		$component = $this->input->get('component');
+
+		// Clear session data.
+		$this->app->setUserState("$this->option.edit.$this->context.$component.data", null);
+
 		$this->setRedirect(Route::_('index.php?option=' . $component, false));
 
 		return true;
