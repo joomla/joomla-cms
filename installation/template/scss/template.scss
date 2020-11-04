@@ -43,6 +43,20 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  img.logo-small,
+  svg.logo-small {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .icon-question {
+    color: $white;
+
+    &:hover {
+      color: var(--atum-link-color);
+    }
+  }
 }
 
 .j-container {

@@ -67,10 +67,10 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 			<header id="header" class="header">
 				<div class="d-flex ">
 					<div class="logo d-none d-md-block col">
-						<img src="<?php echo $this->baseurl; ?>/template/images/logo-joomla-blue.svg" alt="">
+						<img src="<?php echo $this->baseurl; ?>/template/images/Joomla-logo-monochrome-horizontal-white.svg" alt="">
 					</div>
 					<div class="mx-2 my-3 d-flex d-md-none">
-						<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/logo-blue.svg" alt="">
+						<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/Joomla-brandmark-monochrome-white-RGB.svg" alt="">
 					</div>
 					<div class="d-flex flex-wrap align-items-center mx-auto col-md-auto justify-content-center">
 						<h1 class="h2 mx-1 d-flex align-items-baseline">
