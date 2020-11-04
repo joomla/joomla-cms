@@ -29,7 +29,7 @@ class ExceptionHandler
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public static function handleException($error)
 	{
@@ -171,7 +171,7 @@ class ExceptionHandler
 	 *
 	 * @return  string|false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	protected static function getCallerFunctionName()
 	{
@@ -187,7 +187,7 @@ class ExceptionHandler
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	protected static function isException($error)
 	{
@@ -203,7 +203,7 @@ class ExceptionHandler
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	protected static function logException($error)
 	{
