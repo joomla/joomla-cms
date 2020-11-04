@@ -56,6 +56,24 @@ function extractionMethodHandler(target, prefix)
      */
     PreUpdateChecker.run = function () {
 
+		$('.settingstoggle').css('float', 'right').css('cursor', 'pointer');
+		$('.settingstoggle').on('click', function(toggle, index)
+		{
+			var settingsfieldset = $(this).closest('fieldset');
+			if($(this).data('state') == 'closed')
+			{
+				$(this).data('state', 'open');
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_COMPATIBILITY_INFORMATION);
+				settingsfieldset.find('.settingsInfo').removeClass('hidden');
+			}
+			else
+			{
+				$(this).data('state', 'closed');
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION);
+				settingsfieldset.find('.settingsInfo').addClass('hidden');
+			}
+		});
+
 		$('#preupdatecheckbox #noncoreplugins').on('change', function ()
 		{
 			if ($('#preupdatecheckbox #noncoreplugins').is(':checked')) {
@@ -93,7 +111,7 @@ function extractionMethodHandler(target, prefix)
 			if($(this).data('state') == 'closed')
 			{
 				$(this).data('state', 'open');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION);
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_COMPATIBILITY_INFORMATION);
 				compatibilitytypes.find('.exname').removeClass('span8').addClass('span4');
 				compatibilitytypes.find('.extype').removeClass('span4').addClass('span2');
 				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('span2');
@@ -112,7 +130,7 @@ function extractionMethodHandler(target, prefix)
 			else
 			{
 				$(this).data('state', 'closed');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION);
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION);
 				compatibilitytypes.find('.exname').addClass('span8').removeClass('span4');
 				compatibilitytypes.find('.extype').addClass('span4').removeClass('span2');
 				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('span2');
@@ -275,16 +293,22 @@ function extractionMethodHandler(target, prefix)
 					tableRow.addClass('error');
 					var pluginTitleTableCell = tableRow.find('td:first-child');
 					pluginTitleTableCell.html(pluginTitleTableCell.html()
-						+ '<span class="label label-warning hasPopover" '
+						+ '<span class="label label-warning " >'
+						+ '<span class="icon-warning"></span>'
+						+ Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')
+						+ '</span>'
+
+						+ '<span class="label label-important hasPopover" '
 						+ ' title="' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') +'"'
 						+ ' data-content="' + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC')  +'"'
 						+ '>'
-						+ '<span class="icon-warning"></span>'
-						+ Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')
-						+ '</span>');
+						+ '<span class="icon-help"></span>'
+						+ Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP')
+						+ '</span>'
+					);
 					var popoverElement = pluginTitleTableCell.find('.hasPopover');
-
-					popoverElement.popover({"placement": "top","trigger": "hover focus click"});
+					popoverElement.css('cursor', 'pointer')
+					popoverElement.popover({"placement": "top","trigger": "focus click"});
 				}
 			}
 			if (PreUpdateChecker.nonCoreCriticalPlugins.length == 0)

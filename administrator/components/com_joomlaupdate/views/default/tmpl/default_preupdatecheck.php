@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /** @var JoomlaupdateViewDefault $this */
 
 // JText::script doesn't have a sprintf equivalent so work around this
-JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>', true) . "';");
-JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up large-icon" style="font-size:0.85rem"></span>', true) . "';");
+JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>', true) . "';");
+JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up large-icon" style="font-size:0.85rem"></span>', true) . "';");
 
 JFactory::getDocument()->addScriptDeclaration("var nonCoreCriticalPlugins = '" . json_encode($this->nonCoreCriticalPlugins) . "';");
 
@@ -53,79 +53,114 @@ $compatibilityTypes = array(
 	<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXPLANATION_AND_LINK_TO_DOCS'); ?>
 </p>
 <div class="row-fluid">
-	<fieldset class="span6">
-		<legend>
-			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
+	<fieldset class="span6 ">
+		<?php
+		$labelClass = 'success';
+		foreach ($this->phpOptions as $option) :
+			if (!$option->state)
+			{
+				$labelClass = 'important';
+				break;
+			}
+		endforeach;
+		?>
+		<legend class="label label-<?php echo $labelClass;?>">
+			<h3>
+				<?php
+				echo $labelClass === 'important' ? JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED');
+				?>
+				<div class="settingstoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+			</h3>
 		</legend>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>
-						<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_REQUIREMENT'); ?>
-					</th>
-					<th>
-						<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_CHECKED'); ?>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php foreach ($this->phpOptions as $option) : ?>
+		<div class="settingsInfo hidden" >
+			<table class="table">
+				<thead>
 					<tr>
-						<td>
-							<?php echo $option->label; ?>
-						</td>
-						<td>
-							<span class="label label-<?php echo $option->state ? 'success' : 'important'; ?>">
-								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
-								<?php if ($option->notice) : ?>
-									<span class="icon-info icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
-								<?php endif; ?>
-							</span>
-						</td>
+						<th>
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_REQUIREMENT'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_HEADING_CHECKED'); ?>
+						</th>
 					</tr>
-				<?php endforeach; ?>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<?php foreach ($this->phpOptions as $option) : ?>
+						<tr>
+							<td>
+								<?php echo $option->label; ?>
+							</td>
+							<td>
+								<span class="label label-<?php echo $option->state ? 'success' : 'important'; ?>">
+									<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
+									<?php if ($option->notice) : ?>
+										<span class="icon-info icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
+									<?php endif; ?>
+								</span>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
 	</fieldset>
-	<fieldset class="span6">
-		<legend>
-			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
+	<fieldset class="span6 ">
+		<?php
+		$labelClass = 'success';
+		foreach ($this->phpSettings as $setting) :
+			if ($setting->state !== $setting->recommended)
+			{
+				$labelClass = 'warning';
+				break;
+			}
+		endforeach;
+		?>
+
+		<legend class="label label-<?php echo $labelClass;?>">
+			<h3>
+				<?php
+				echo $labelClass === 'warning' ? JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED');
+				?>
+				<div class="settingstoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+			</h3>
 		</legend>
-		<p>
-			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
-		</p>
-		<table class="table">
-			<thead>
-			<tr>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
-				</td>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
-				</td>
-				<td>
-					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
-				</td>
-			</tr>
-			</thead>
-			<tbody>
-				<?php foreach ($this->phpSettings as $setting) : ?>
-					<tr>
-						<td>
-							<?php echo $setting->label; ?>
-						</td>
-						<td>
-							<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
-						</td>
-						<td>
-							<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
-							</span>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-			</tbody>
-		</table>
+		<div class="settingsInfo hidden" >
+			<p>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_DESC'); ?>
+			</p>
+			<table class="table">
+				<thead>
+				<tr>
+					<td>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
+					</td>
+					<td>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
+					</td>
+					<td>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
+					</td>
+				</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($this->phpSettings as $setting) : ?>
+						<tr>
+							<td>
+								<?php echo $setting->label; ?>
+							</td>
+							<td>
+								<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
+							</td>
+							<td>
+								<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+									<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
+								</span>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
 	</fieldset>
 </div>
 <?php if (!empty($this->nonCoreExtensions)) : ?>
@@ -141,7 +176,7 @@ $compatibilityTypes = array(
 				<legend class="label <?php echo $compatibilityDisplayClass;?>">
 					<h3>
 						<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
-						<div class="compatibilitytoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+						<div class="compatibilitytoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
 						<?php endif; ?>
 						<?php echo JText::_($compatibilityType); ?>
 					</h3>
