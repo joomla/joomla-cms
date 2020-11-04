@@ -65,8 +65,10 @@
     }
   }
 
-  .plg_system_webauthn_login_button svg path {
-    fill: $white;
+  .plg_system_webauthn_login_button svg {
+    fill: currentColor;
+    background: transparent;
+    margin-right: 2px;
   }
 
   .form-group {

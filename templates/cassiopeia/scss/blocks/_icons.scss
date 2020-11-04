@@ -1,5 +1,4 @@
 // Icons
-
 .#{$jicon-css-prefix}::before {
   content: "\e008";
 }
@@ -18,6 +17,6 @@
   }
 }
 
-.plg_system_webauthn_login_button svg path {
-  fill: $white;
+.plg_system_webauthn_login_button svg{
+  margin-right: 2px;
 }
