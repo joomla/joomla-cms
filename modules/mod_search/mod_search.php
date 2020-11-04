@@ -45,7 +45,7 @@ $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT,
 
 if ($imagebutton)
 {
-	$img = ModSearchHelper::getSearchImage($button_text);
+	$img = ModSearchHelper::getSearchImage();
 }
 
 require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));
