@@ -224,7 +224,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -732,7 +733,7 @@
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
 			/>
 
-			<field 
+			<field
 				name="float_intro"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
@@ -762,7 +763,7 @@
 				label="COM_CONTENT_FIELD_FULL_LABEL"
 			/>
 
-			<field 
+			<field
 				name="float_fulltext"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"

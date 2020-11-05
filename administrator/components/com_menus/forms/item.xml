@@ -143,8 +143,9 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			filter="integer"
-			/>
+			filter="UINT"
+			validate="options"
+		/>
 
 		<field
 			name="template_style_id"
