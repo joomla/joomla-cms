@@ -66,8 +66,11 @@
   }
 
   .plg_system_webauthn_login_button svg {
-    fill: currentColor;
     margin-right: 2px;
+  }
+
+  .plg_system_webauthn_login_button svg path {
+    fill: currentColor;
     background: transparent;
   }
 
