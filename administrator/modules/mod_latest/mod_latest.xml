@@ -46,7 +46,6 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					id="catid"
 					extension="com_content"
 					default=""
 					filter="integer"
