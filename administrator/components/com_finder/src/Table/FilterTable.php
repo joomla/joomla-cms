@@ -125,6 +125,12 @@ class FilterTable extends Table
 		$date = Factory::getDate()->toSql();
 		$userId = Factory::getUser()->id;
 
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date;
+		}
+
 		if ($this->filter_id)
 		{
 			// Existing item
@@ -133,13 +139,6 @@ class FilterTable extends Table
 		}
 		else
 		{
-			// New item. A filter's created field can be set by the user,
-			// so we don't touch it if it is set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date;
-			}
-
 			if (empty($this->created_by))
 			{
 				$this->created_by = $userId;
