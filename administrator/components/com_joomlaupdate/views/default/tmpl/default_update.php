@@ -143,37 +143,90 @@ defined('_JEXEC') or die;
 			</td>
 		</tr>
 		<tr id="preupdateconfirmation" >
-			<td class="preupdateconfirmation_label">
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_BEING_CHECKED'); ?>
+			<td colspan="2">
+				<label  class="preupdateconfirmation_label label label-warning span12">
+					<h3>
+						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_BEING_CHECKED'); ?>
+					</h3>
+				</label>
 			</td>
-			<td>
-				<table>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<table class="table table-striped">
 					<thead>
-					<th>
-						<?php echo JText::_('COM_INSTALLER_TYPE_PLUGIN'); ?>
-					</th>
-					<th>
-						<?php echo JText::_('COM_INSTALLER_TYPE_PACKAGE'); ?>
-					</th>
+						<th>
+							<?php echo JText::_('COM_INSTALLER_TYPE_PLUGIN'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('COM_INSTALLER_TYPE_PACKAGE'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('COM_INSTALLER_AUTHOR_INFORMATION'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_EXTENSION_AUTHOR_URL'); ?>
+						</th>
 					</thead>
-					<?php foreach ($this->nonCoreCriticalPlugins as $nonCoreCriticalPlugin) : ?>
-						<tr id='plg_<?php echo $nonCoreCriticalPlugin->extension_id ?>'>
-							<td>
-								<?php echo JText::_($nonCoreCriticalPlugin->name); ?>
-							</td>
-							<?php if ($nonCoreCriticalPlugin->package_id > 0) : ?>
-								<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
-									<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
+					<tbody>
+						<?php foreach ($this->nonCoreCriticalPlugins as $nonCoreCriticalPlugin) : ?>
+							<tr id='plg_<?php echo $nonCoreCriticalPlugin->extension_id ?>'>
+								<td>
+									<?php echo JText::_($nonCoreCriticalPlugin->name); ?>
+								</td>
+								<?php if ($nonCoreCriticalPlugin->package_id > 0) : ?>
+									<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
+										<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
+											<td>
+												<?php echo $nonCoreExtension->name; ?>
+											</td>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								<?php else : ?>
+									<td/>
+								<?php endif; ?>
+								<td>
+									<?php if (isset($nonCoreCriticalPlugin->manifest_cache->author)) : ?>
+									<?php echo JText::_($nonCoreCriticalPlugin->manifest_cache->author); ?>
+									<?php elseif ($nonCoreCriticalPlugin->package_id > 0) : ?>
+									<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
+										<?php if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id) : ?>
 										<td>
 											<?php echo $nonCoreExtension->name; ?>
 										</td>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							<?php else : ?>
-								<td/>
-							<?php endif; ?>
-						</tr>
-					<?php endforeach; ?>
+										<?php endif; ?>
+									<?php endforeach; ?>
+									<?php endif;?>
+								</td>
+								<td>
+									<?php
+									$authorURL = "";
+									if (isset($nonCoreCriticalPlugin->manifest_cache->authorUrl))
+									{
+										$authorURL = $nonCoreCriticalPlugin->manifest_cache->authorUrl;
+									}
+									else if ($nonCoreCriticalPlugin->package_id > 0)
+									{
+										foreach ($this->nonCoreExtensions as $nonCoreExtension)
+										{
+											if ($nonCoreCriticalPlugin->package_id == $nonCoreExtension->extension_id)
+											{
+												$authorURL = $nonCoreExtension->manifest_cache->authorUrl;
+											}
+										}
+									}
+									?>
+									<?php if (!empty($authorURL)) : ?>
+										<a href="<?php echo $authorURL; ?>" target="_blank" >
+											<?php echo $authorURL; ?>
+											<span class="icon-out-2" aria-hidden="true"></span>
+											<span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span>
+										</a>
+									<?php endif;?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
 				</table>
 			</td>
 		</tr>
@@ -187,10 +240,10 @@ defined('_JEXEC') or die;
 		</tr>
 
 		<tr>
-			<td>
+			<td >
 				&nbsp;
 			</td>
-			<td>
+			<td >
 				<button class="btn btn-primary disabled submitupdate" type="submit" disabled>
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 				</button>

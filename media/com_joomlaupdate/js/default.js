@@ -92,7 +92,7 @@ function extractionMethodHandler(target, prefix)
 
 		});
 
-		PreUpdateChecker.nonCoreCriticalPlugins = Object.values(JSON.parse(nonCoreCriticalPlugins));
+		PreUpdateChecker.nonCoreCriticalPlugins = typeof nonCoreCriticalPlugins !== 'undefined' ? Object.values(JSON.parse(nonCoreCriticalPlugins)) : [];
 
         // Get version of the available joomla update
         PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
@@ -321,11 +321,14 @@ function extractionMethodHandler(target, prefix)
 			else {
 				$('#preupdateCheckWarning').addClass('hidden');
 				$('#preupdateCheckCompleteProblems').removeClass('hidden');
-				$('#preupdateconfirmation .preupdateconfirmation_label').html(Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST'))
+				$('#preupdateconfirmation .preupdateconfirmation_label h3').html(Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST'))
+				$('#preupdateconfirmation .preupdateconfirmation_label').removeClass('label-warning').addClass('label-important')
 			}
 		}
     }
 
     // Run PreUpdateChecker on document ready
-    $(PreUpdateChecker.run);
+	document.addEventListener( "ready", function() {
+		$(PreUpdateChecker.run);
+	} );
 })(jQuery, document, window);

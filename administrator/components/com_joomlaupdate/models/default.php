@@ -1416,6 +1416,7 @@ ENDDATA;
 				? $decode->version
 				: JText::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($extension->manifest_cache);
+			$extension->manifest_cache = $decode;
 		}
 
 		return $rows;
@@ -1485,6 +1486,7 @@ ENDDATA;
 				? $decode->version
 				: JText::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($plugin->manifest_cache);
+			$plugin->manifest_cache = $decode;
 		}
 
 		return $rows;
