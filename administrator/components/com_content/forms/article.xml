@@ -734,16 +734,23 @@
 			/>
 
 			<field
-				name="float_intro"
+				name="image_intro_alt"
 				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 				size="20"
 			/>
 
 			<field
-				name="image_intro_alt"
+				name="image_intro_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
+				name="float_intro"
 				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 			/>
 
@@ -764,16 +771,23 @@
 			/>
 
 			<field
-				name="float_fulltext"
+				name="image_fulltext_alt"
 				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 				size="20"
 			/>
 
 			<field
-				name="image_fulltext_alt"
+				name="image_fulltext_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
+				name="float_fulltext"
 				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 			/>
 
