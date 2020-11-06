@@ -27,7 +27,6 @@ $buffer = '';
 if ($value)
 {
 	$path = $value['imagefile'];
-	// $alt = ' alt="' . htmlentities($value['alt_text'], ENT_COMPAT, 'UTF-8', true) . '"';
 	$alt = empty($value['alt_text']) && empty($value['alt_empty']) ? '' : 'alt="'. htmlspecialchars($value['alt_text'], ENT_COMPAT, 'UTF-8') .'"';
 
 	if (file_exists($path))
