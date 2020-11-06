@@ -38,7 +38,7 @@ class UrlRule extends FormRule
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
 	 * @since   1.7.0
-	 * @link    http://www.w3.org/Addressing/URL/url-spec.txt
+	 * @link    https://www.w3.org/Addressing/URL/url-spec.txt
 	 * @see	    JString
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
@@ -53,7 +53,7 @@ class UrlRule extends FormRule
 
 		$urlParts = UriHelper::parse_url($value);
 
-		// See http://www.w3.org/Addressing/URL/url-spec.txt
+		// See https://www.w3.org/Addressing/URL/url-spec.txt
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
 		{

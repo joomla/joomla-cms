@@ -50,7 +50,7 @@ class UrlFilter implements FormFilterInterface
 		$value = InputFilter::getInstance()->clean($value, 'html');
 		$value = trim($value);
 
-		// <>" are never valid in a uri see http://www.ietf.org/rfc/rfc1738.txt.
+		// <>" are never valid in a uri see https://www.ietf.org/rfc/rfc1738.txt.
 		$value = str_replace(array('<', '>', '"'), '', $value);
 
 		// Check for a protocol

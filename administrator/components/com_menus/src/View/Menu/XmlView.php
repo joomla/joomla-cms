@@ -70,7 +70,7 @@ class XmlView extends BaseHtmlView
 		$this->items = $root->getChildren();
 
 		$xml = new \SimpleXMLElement('<menu ' .
-			'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
+			'xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" ' .
 			'xmlns="urn:joomla.org"	xsi:schemaLocation="urn:joomla.org menu.xsd"' .
 			'></menu>'
 		);

@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
  * Form Field class for the Joomla Platform.
  * Provides a one line text box with up-down handles to set a number in the field.
  *
- * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @link   https://html.spec.whatwg.org/multipage/input.html#number-state-(type=number)
  * @since  3.2
  */
 class NumberField extends FormField

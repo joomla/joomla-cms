@@ -17,7 +17,7 @@ use Joomla\CMS\Form\FormField;
  * Single checkbox field.
  * This is a boolean field with null for false and the specified option for true
  *
- * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
+ * @link   https://html.spec.whatwg.org/multipage/input.html#checkbox-state-(type=checkbox)
  * @see    CheckboxField
  * @since  1.7.0
  */

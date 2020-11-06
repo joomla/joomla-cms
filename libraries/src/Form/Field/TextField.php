@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
  * Form Field class for the Joomla Platform.
  * Supports a one line text field.
  *
- * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @link   https://html.spec.whatwg.org/multipage/input.html#text-(type=text)-state-and-search-state-(type=search)
  * @since  1.7.0
  */
 class TextField extends FormField

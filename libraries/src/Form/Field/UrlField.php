@@ -14,7 +14,7 @@ namespace Joomla\CMS\Form\Field;
  * Form Field class for the Joomla Platform.
  * Supports a URL text field
  *
- * @link   http://www.w3.org/TR/html-markup/input.url.html#input.url
+ * @link   https://html.spec.whatwg.org/multipage/input.html#url-state-(type=url)
  * @see    \Joomla\CMS\Form\Rule\UrlRule for validation of full urls
  * @since  1.7.0
  */

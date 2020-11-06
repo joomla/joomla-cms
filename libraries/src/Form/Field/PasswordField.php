@@ -18,7 +18,7 @@ use Joomla\CMS\Form\FormField;
  * Form Field class for the Joomla Platform.
  * Text field for passwords
  *
- * @link   http://www.w3.org/TR/html-markup/input.password.html#input.password
+ * @link   https://html.spec.whatwg.org/multipage/input.html#password-state-(type=password)
  * @note   Two password fields may be validated as matching using \Joomla\CMS\Form\Rule\EqualsRule
  * @since  1.7.0
  */

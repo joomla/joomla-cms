@@ -24,8 +24,8 @@ use Joomla\Utilities\ArrayHelper;
  * It uses XML definitions to construct form fields and a variety of field and rule classes to
  * render and validate the form.
  *
- * @link   http://www.w3.org/TR/html4/interact/forms.html
- * @link   http://www.w3.org/TR/html5/forms.html
+ * @link   https://www.w3.org/TR/html4/interact/forms.html
+ * @link   https://html.spec.whatwg.org/multipage/forms.html
  * @since  1.7.0
  */
 class Form
