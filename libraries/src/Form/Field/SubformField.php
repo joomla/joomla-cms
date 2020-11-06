@@ -203,8 +203,12 @@ class SubformField extends FormField
 
 		if ($this->value && \is_string($this->value))
 		{
-			// Guess here is the JSON string from 'default' attribute
 			$this->value = json_decode($this->value, true);
+		}
+
+		if (!$this->value && \is_string($this->default))
+		{
+			$this->value = json_decode($this->default, true);
 		}
 
 		if (!$this->formsource && $element->form)
