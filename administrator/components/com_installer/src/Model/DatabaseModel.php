@@ -11,7 +11,10 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Schema\ChangeSet;
@@ -20,7 +23,11 @@ use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\UnsupportedAdapterException;
 use Joomla\Database\ParameterType;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 
 \JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
@@ -335,6 +342,233 @@ class DatabaseModel extends InstallerModel
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get the filename of the temporary database archive
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getZipFilename()
+	{
+		return Factory::getApplication()->get('tmp_path') . '/joomla_db.zip';
+	}
+
+	/**
+	 * Export all the database via XML
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function export()
+	{
+		$db = $this->getDbo();
+
+		// Make sure the database supports exports before we get going
+		try
+		{
+			$exporter = $db->getExporter()->withStructure();
+		}
+		catch (UnsupportedAdapterException $e)
+		{
+			return false;
+		}
+
+		$tables = $db->getTableList();
+		$prefix = $db->getPrefix();
+
+		$zipFile = $this->getZipFilename();
+		$zipArchive = (new Archive)->getAdapter('zip');
+
+		foreach ($tables as $table)
+		{
+			if (strpos($table, $prefix) === 0)
+			{
+				$data = (string) $exporter->from($table)->withData(true);
+				$zipFilesArray[] = ['name' => $table . '.xml', 'data' => $data];
+				$zipArchive->create($zipFile, $zipFilesArray);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if the zip file contains database export files
+	 *
+	 * @param   string  $file  A zip archive to analyze
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	private function checkZipFile($archive)
+	{
+		$db = $this->getDbo();
+		$zip = zip_open($archive);
+
+		if (!\is_resource($zip))
+		{
+			throw new \RuntimeException('Unable to open archive');
+		}
+
+		while ($file = @zip_read($zip))
+		{
+			if (strpos(zip_entry_name($file), $db->getPrefix()) === false)
+			{
+				zip_entry_close($file);
+				@zip_close($zip);
+				throw new \RuntimeException('Unable to find prefix');
+			}
+
+			zip_entry_close($file);
+		}
+
+		@zip_close($zip);
+	}
+
+	/**
+	 * Import all the database via XML
+	 *
+	 * @param   string  $file  A zip archive to extract
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function import($file)
+	{
+		// Specify the title of the message
+		$title = sprintf('[%s]', Text::sprintf('COM_INSTALLER_VIEW_DEFAULT_TAB_IMPORT'));
+
+		$app = Factory::getApplication();
+		$db = $this->getDbo();
+
+		// Make sure that file uploads are enabled in php.
+		if (!(bool) ini_get('file_uploads'))
+		{
+			$app->enqueueMessage($title, 'error');
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
+
+			return false;
+		}
+
+		$tmpFile = $app->get('tmp_path') . '/' . $file['name'];
+
+		try
+		{
+			File::upload($file['tmp_name'], $tmpFile);
+		}
+		catch (FilesystemException $e)
+		{
+			$app->enqueueMessage($title, 'error');
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_UPLOAD_ERROR', $file['name']), 'error');
+
+			return false;
+		}
+
+		try
+		{
+			$this->checkZipFile($tmpFile);
+		}
+		catch (\RuntimeException $e)
+		{
+			$app->enqueueMessage($title, 'error');
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_CHECK_ERROR', $e->getMessage()), 'error');
+			unlink($tmpFile);
+
+			return false;
+		}
+
+		$destDir = Path::clean($app->get('tmp_path') . '/');
+		$zipArchive = (new Archive)->getAdapter('zip');
+
+		try
+		{
+			$zipArchive->extract($tmpFile, $destDir);
+		}
+		catch (\RuntimeException $e)
+		{
+			$app->enqueueMessage($title, 'error');
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_EXTRACT_ERROR', $tmpFile, $destDir), 'error');
+			unlink($tmpFile);
+
+			return false;
+		}
+
+		try
+		{
+			$importer = $db->getImporter()
+				->withStructure()
+				->asXml();
+		}
+		catch (UnsupportedAdapterException $e)
+		{
+			unlink($tmpFile);
+
+			return false;
+		}
+
+		$tables = Folder::files($destDir, '\.xml$');
+
+		foreach ($tables as $table)
+		{
+			$tableFile = $destDir . '/' . $table;
+			$tableName = str_replace('.xml', '', $table);
+			$importer->from(file_get_contents($tableFile));
+
+			try
+			{
+				$db->dropTable($tableName, true);
+			}
+			catch (ExecutionFailureException $e)
+			{
+				unlink($tableFile);
+				unlink($tmpFile);
+				$app->enqueueMessage($title, 'error');
+				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_DROP_ERROR', $tableName), 'error');
+
+				return false;
+			}
+
+			try
+			{
+				$importer->mergeStructure();
+			}
+			catch (\Exception $e)
+			{
+				unlink($tableFile);
+				unlink($tmpFile);
+				$app->enqueueMessage($title, 'error');
+				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_MERGE_ERROR', $tableName), 'error');
+
+				return false;
+			}
+
+			try
+			{
+				$importer->importData();
+			}
+			catch (\Exception $e)
+			{
+				unlink($tableFile);
+				unlink($tmpFile);
+				$app->enqueueMessage($title, 'error');
+				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_DATA_ERROR', $tableName), 'error');
+
+				return false;
+			}
+
+			unlink($tableFile);
+		}
+
+		unlink($tmpFile);
+
+		return true;
 	}
 
 	/**

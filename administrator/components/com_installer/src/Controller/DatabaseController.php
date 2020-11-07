@@ -36,6 +36,9 @@ class DatabaseController extends BaseController
 	 */
 	public function fix()
 	{
+		// Specify the title of the message
+		$title = sprintf('[%s]', Text::sprintf('COM_INSTALLER_VIEW_DEFAULT_TAB_FIX'));
+
 		// Check for request forgeries.
 		$this->checkToken();
 
@@ -44,6 +47,7 @@ class DatabaseController extends BaseController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
+			$this->app->getLogger()->warning($title, array('category' => 'jerror'));
 			$this->app->getLogger()->warning(
 				Text::_(
 					'COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'
@@ -63,6 +67,77 @@ class DatabaseController extends BaseController
 
 			// Refresh versionable assets cache
 			$this->app->flushAssets();
+		}
+
+		$this->setRedirect(Route::_('index.php?option=com_installer&view=database', false));
+	}
+
+	/**
+	 * Export all the database via XML
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function export()
+	{
+		if ($view = $this->getView('Database', 'raw'))
+		{
+			/** @var DatabaseModel $model */
+			$model = $this->getModel('Database');
+
+			if ($model->export())
+			{
+				// Push the model into the view (as default).
+				$view->setModel($model, true);
+
+				// Push document object into the view.
+				$view->document = $this->app->getDocument();
+
+				$view->display();
+			}
+		}
+	}
+
+	/**
+	 * Import all the database via XML
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function import()
+	{
+		// Specify the title of the message
+		$title = sprintf('[%s]', Text::sprintf('COM_INSTALLER_VIEW_DEFAULT_TAB_IMPORT'));
+
+		// Get file to import in the database.
+		$file = $this->input->files->get('zip_file', null, 'raw');
+
+		if ($file['name'] == '')
+		{
+			$this->app->getLogger()->warning($title, ['category' => 'jerror']);
+			$this->app->getLogger()->warning(
+				Text::_(
+					'COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'
+				), ['category' => 'jerror']
+			);
+		}
+		else
+		{
+			/** @var DatabaseModel $model */
+			$model = $this->getModel('Database');
+
+			if ($model->import($file))
+			{
+				$this->app->enqueueMessage($title, 'message');
+				$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_OK'));
+			}
+			else
+			{
+				$this->app->enqueueMessage($title, 'error');
+				$this->setMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_ERROR', $file['name']), 'error');
+			}
 		}
 
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=database', false));
