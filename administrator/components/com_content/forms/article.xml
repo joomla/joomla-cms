@@ -224,7 +224,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -732,17 +733,24 @@
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
 			/>
 
-			<field 
-				name="float_intro"
-				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
-				size="20"
-			/>
-
 			<field
 				name="image_intro_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+				size="20"
+			/>
+
+			<field
+				name="image_intro_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
+				name="float_intro"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 			/>
 
@@ -762,17 +770,24 @@
 				label="COM_CONTENT_FIELD_FULL_LABEL"
 			/>
 
-			<field 
-				name="float_fulltext"
-				type="text"
-				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
-				size="20"
-			/>
-
 			<field
 				name="image_fulltext_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
+				size="20"
+			/>
+
+			<field
+				name="image_fulltext_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
+				name="float_fulltext"
+				type="text"
+				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				size="20"
 			/>
 

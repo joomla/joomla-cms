@@ -13,11 +13,15 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+if (!$multilanguageEnabled)
+{
+	return;
+}
+
 $app->getDocument()->getWebAssetManager()
 	->registerAndUseScript('mod_multilangstatus.admin', 'mod_multilangstatus/admin-multilangstatus.min.js', [], ['defer' => true]);
 
 ?>
-
 <div class="header-item-content multilanguage">
 	<a class="d-flex align-items-stretch" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
 		<div class="d-flex align-items-end mx-auto">

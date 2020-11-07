@@ -69,7 +69,6 @@
 			type="list"
 			label="JSTATUS"
 			class="custom-select-color-state"
-			id="published"
 			size="1"
 			default="1"
 			filter="integer"
@@ -127,7 +126,6 @@
 		<field
 			name="access"
 			type="hidden"
-			id="access"
 			default="0"
 		/>
 
