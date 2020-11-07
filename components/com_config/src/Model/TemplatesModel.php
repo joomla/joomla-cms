@@ -101,7 +101,7 @@ class TemplatesModel extends FormModel
 		$lang->load('tpl_' . $template, JPATH_BASE)
 		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template);
 
-		// Look for com_config.xml, which contains fileds to display
+		// Look for com_config.xml, which contains fields to display
 		$formFile = Path::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
 		if (!file_exists($formFile))

@@ -12,7 +12,6 @@ namespace Joomla\CMS\Toolbar\Button;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Uri\Uri;
 

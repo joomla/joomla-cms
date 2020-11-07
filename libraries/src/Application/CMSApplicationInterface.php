@@ -11,7 +11,6 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\ConfigurationAwareApplicationInterface;
 use Joomla\CMS\Extension\ExtensionManagerInterface;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\User\User;
 use Joomla\Input\Input;
 

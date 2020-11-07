@@ -11,9 +11,9 @@ namespace Joomla\CMS\Versioning;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Database\ParameterType;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 /**
  * Handle the versioning of content items

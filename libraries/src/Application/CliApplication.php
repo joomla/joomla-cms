@@ -17,7 +17,6 @@ use Joomla\CMS\Application\CLI\Output\Stdout;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -145,7 +144,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * @return  mixed   A value if the property name is valid, null otherwise.
 	 *
 	 * @since       4.0.0
-	 * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
+	 * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
 	 */
 	public function __get($name)
 	{

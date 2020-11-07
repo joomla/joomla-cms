@@ -133,7 +133,7 @@ class StagesController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to publish from the request.
 		$cid   = $this->input->get('cid', array(), 'array');

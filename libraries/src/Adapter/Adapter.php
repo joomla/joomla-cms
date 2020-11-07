@@ -157,7 +157,7 @@ class Adapter extends CMSObject
 
 		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
 
-		if (!file_exists($fullpath))
+		if (!is_file($fullpath))
 		{
 			return false;
 		}

@@ -12,12 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-/**
- * Layout variables
- * ---------------------
- * None
- */
-
 ?>
 <label id="batch-workflowstage-lbl" for="batch-workflowstage-id">
 	<?php echo Text::_('JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL'); ?>

@@ -267,25 +267,28 @@ class Workflow
 	}
 
 	/**
-	 * Executes a transition to change the current state in the association table
+	 * Check if a transition can be executed
 	 *
-	 * @param   integer[]  $pks            The item IDs, which should use the transition
-	 * @param   integer    $transition_id  The transition which should be executed
+	 * @param   integer[]  $pks           The item IDs, which should use the transition
+	 * @param   integer    $transitionId  The transition which should be executed
 	 *
-	 * @return  boolean
+	 * @return  object | null
 	 */
-	public function executeTransition(array $pks, int $transition_id): bool
+	public function getValidTransition(array $pks, int $transitionId)
 	{
 		$pks = ArrayHelper::toInteger($pks);
 		$pks = array_filter($pks);
 
 		if (!\count($pks))
 		{
-			return true;
+			return null;
 		}
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
+
+		$app = Factory::getApplication();
+		$user = $app->getIdentity();
 
 		$query->select(
 			[
@@ -296,15 +299,58 @@ class Workflow
 				$db->quoteName('t.workflow_id'),
 			]
 		)
-			->from($db->quoteName('#__workflow_transitions', 't'))
+			->from(
+				[
+					$db->quoteName('#__workflow_transitions', 't'),
+				]
+			)
+			->join('INNER', $db->quoteName('#__workflows', 'w'))
 			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
-			->where($db->quoteName('t.id') . ' = :id')
-			->where($db->quoteName('t.published') . ' = 1')
-			->bind(':id', $transition_id, ParameterType::INTEGER);
+			->where(
+				[
+					$db->quoteName('t.id') . ' = :id',
+					$db->quoteName('t.workflow_id') . ' = ' . $db->quoteName('w.id'),
+					$db->quoteName('t.published') . ' = 1',
+					$db->quoteName('w.extension') . ' = :extension'
+				]
+			)
+			->bind(':id', $transitionId, ParameterType::INTEGER)
+			->bind(':extension', $this->extension);
 
 		$transition = $db->setQuery($query)->loadObject();
 
-		if (empty($transition->id))
+		$parts = explode('.', $this->extension);
+		$option = reset($parts);
+
+		if (!empty($transition->id) && $user->authorise('core.execute.transition', $option . '.transition.' . (int) $transition->id))
+		{
+			return $transition;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Executes a transition to change the current state in the association table
+	 *
+	 * @param   integer[]  $pks           The item IDs, which should use the transition
+	 * @param   integer    $transitionId  The transition which should be executed
+	 *
+	 * @return  boolean
+	 */
+	public function executeTransition(array $pks, int $transitionId): bool
+	{
+		$pks = ArrayHelper::toInteger($pks);
+		$pks = array_filter($pks);
+
+		if (!\count($pks))
+		{
+			return true;
+		}
+
+		$transition = $this->getValidTransition($pks, $transitionId);
+
+		if (is_null($transition))
 		{
 			return false;
 		}
@@ -486,13 +532,13 @@ class Workflow
 	/**
 	 * Loads an existing association item with state and item ID
 	 *
-	 * @param   integer  $item_id  The item ID to load
+	 * @param   integer  $itemId  The item ID to load
 	 *
 	 * @return  \stdClass|null
 	 *
 	 * @since  4.0.0
 	 */
-	public function getAssociation(int $item_id): ?\stdClass
+	public function getAssociation(int $itemId): ?\stdClass
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -515,7 +561,7 @@ class Workflow
 					  $db->quoteName('extension') . ' = :extension',
 				  ]
 			)
-			->bind(':id', $item_id, ParameterType::INTEGER)
+			->bind(':id', $itemId, ParameterType::INTEGER)
 			->bind(':extension', $this->extension);
 
 		return $db->setQuery($query)->loadObject();

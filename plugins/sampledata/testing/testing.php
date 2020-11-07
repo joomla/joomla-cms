@@ -13,11 +13,8 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Banners\Administrator\Model\BannerModel;
-use Joomla\Component\Banners\Administrator\Model\ClientModel;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\DatabaseDriver;
 
@@ -190,7 +187,7 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$tagIds[] = $model->getState('tag.id');
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.testing.tags', $tagIds);
 
 		$response            = array();
@@ -1368,7 +1365,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$contactIds[] = $model->getItem()->id;
 		}
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.testing.contacts', $contactIds);
 		$this->app->setUserState('sampledata.testing.contacts.catids1', $catIdsLevel1);
 		$this->app->setUserState('sampledata.testing.contacts.catids2', $catIdsLevel2);
@@ -1499,7 +1496,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$newsfeedsIds[] = $model->getState('newsfeed.id');
 		}
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.testing.newsfeeds', $newsfeedsIds);
 		$this->app->setUserState('sampledata.testing.newsfeeds.catids', $catIdsLevel1);
 
@@ -1567,7 +1564,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$menuTypes[] = $menu['menutype'];
 		}
 
-		// Storing IDs in UserState for later useage.
+		// Storing IDs in UserState for later usage.
 		$this->app->setUserState('sampledata.testing.menutypes', $menuTypes);
 
 		// Get previously entered Data from UserStates
@@ -4461,8 +4458,6 @@ class PlgSampledataTesting extends CMSPlugin
 			*/
 		);
 
-		$modulesIds = array();
-
 		foreach ($modules as $module)
 		{
 			// Set values which are always the same.
@@ -4520,9 +4515,6 @@ class PlgSampledataTesting extends CMSPlugin
 
 				return $response;
 			}
-
-			// Get ID from category we just added
-			$modulesIds[] = $model->getItem()->id;
 		}
 
 		$response            = array();

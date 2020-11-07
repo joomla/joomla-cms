@@ -46,7 +46,6 @@
 					name="catid"
 					type="category"
 					label="JCATEGORY"
-					id="catid"
 					extension="com_content"
 					default=""
 					filter="integer"
@@ -79,6 +78,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field

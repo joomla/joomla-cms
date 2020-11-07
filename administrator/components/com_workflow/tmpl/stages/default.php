@@ -48,7 +48,7 @@ if ($saveOrder)
 				?>
 				<?php if (empty($this->stages)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
@@ -86,7 +86,8 @@ if ($saveOrder)
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.stage.' . $item->id);
 								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || is_null($item->checked_out);
-								$canChange  = $user->authorise('core.edit.stage', $this->extension . '.stage.' . $item->id) && $canCheckin;
+								$canChange  = $user->authorise('core.edit.state', $this->extension . '.stage.' . $item->id) && $canCheckin;
+
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">
@@ -105,7 +106,7 @@ if ($saveOrder)
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+											<span class="icon-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">

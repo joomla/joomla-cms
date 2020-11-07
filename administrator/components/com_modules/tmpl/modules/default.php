@@ -48,7 +48,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
 						<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 						</th>
 						<th scope="col" style="min-width:85px" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
@@ -71,7 +71,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
 						<?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
-						<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
 						<?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>
@@ -92,7 +92,7 @@ if ($saveOrder && !empty($this->items))
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| is_null($item->checked_out);
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
-					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->position ?: 'none'; ?>">
+					<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->position ?: 'none'; ?>">
 						<td class="text-center">
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
@@ -111,7 +111,7 @@ if ($saveOrder && !empty($this->items))
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass; ?>">
-								<span class="fas fa-ellipsis-v"></span>
+								<span class="icon-ellipsis-v"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
 								<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
@@ -124,7 +124,7 @@ if ($saveOrder && !empty($this->items))
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
 								<span class="tbody-icon" title="<?php echo Text::sprintf('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED', $this->escape($item->name)); ?>">
-									<span class="fas fa-minus-circle" aria-hidden="true"></span>
+									<span class="icon-minus-circle" aria-hidden="true"></span>
 								</span>
 							<?php endif; ?>
 						</td>
@@ -170,7 +170,7 @@ if ($saveOrder && !empty($this->items))
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<?php if (($clientId === 0) && (Multilanguage::isEnabled())) : ?>
-						<td class="small d-none d-md-table-cell text-center">
+						<td class="small d-none d-md-table-cell">
 							<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<?php elseif ($clientId === 1 && ModuleHelper::isAdminMultilang()) : ?>

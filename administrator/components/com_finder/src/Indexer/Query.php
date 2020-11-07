@@ -1225,6 +1225,12 @@ class Query
 		{
 			// Tokenize the phrase.
 			$token = Helper::tokenize($phrases[$i], $lang, true);
+
+			if (!count($token))
+			{
+				continue;
+			}
+
 			$token = $this->getTokenData(array_shift($token));
 
 			if ($params->get('filter_commonwords', 0) && $token->common)

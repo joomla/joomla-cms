@@ -26,7 +26,6 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**

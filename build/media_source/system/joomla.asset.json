@@ -177,6 +177,17 @@
       }
     },
     {
+      "name": "field.modal-fields",
+      "type": "script",
+      "uri": "system/fields/modal-fields.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
       "name": "joomla.batch-language",
       "type": "script",
       "uri": "layouts/joomla/html/batch/batch-language.min.js",

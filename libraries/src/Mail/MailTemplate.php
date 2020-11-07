@@ -81,15 +81,15 @@ class MailTemplate
 	/**
 	 * Constructor for the mail templating class
 	 *
-	 * @param   string  $template_id  Id of the mail template.
-	 * @param   string  $language     Language of the template to use.
-	 * @param   Mail    $mailer       Mail object to send the mail with.
+	 * @param   string  $templateId  Id of the mail template.
+	 * @param   string  $language    Language of the template to use.
+	 * @param   Mail    $mailer      Mail object to send the mail with.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($template_id, $language, Mail $mailer = null)
+	public function __construct($templateId, $language, Mail $mailer = null)
 	{
-		$this->template_id = $template_id;
+		$this->template_id = $templateId;
 		$this->language = $language;
 
 		if ($mailer)
@@ -189,18 +189,18 @@ class MailTemplate
 
 		/** @var Registry $params */
 		$params = $mail->params;
-		$gconfig = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		if ($config->get('alternative_mailconfig'))
 		{
 			if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')
 			{
-				$smtpauth = ($params->get('smtpauth', $gconfig->get('smtpauth')) == 0) ? null : 1;
-				$smtpuser = $params->get('smtpuser', $gconfig->get('smtpuser'));
-				$smtppass = $params->get('smtppass', $gconfig->get('smtppass'));
-				$smtphost = $params->get('smtphost', $gconfig->get('smtphost'));
-				$smtpsecure = $params->get('smtpsecure', $gconfig->get('smtpsecure'));
-				$smtpport = $params->get('smtpport', $gconfig->get('smtpport'));
+				$smtpauth = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
+				$smtpuser = $params->get('smtpuser', $app->get('smtpuser'));
+				$smtppass = $params->get('smtppass', $app->get('smtppass'));
+				$smtphost = $params->get('smtphost', $app->get('smtphost'));
+				$smtpsecure = $params->get('smtpsecure', $app->get('smtpsecure'));
+				$smtpport = $params->get('smtpport', $app->get('smtpport'));
 				$this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
 			}
 
@@ -209,8 +209,8 @@ class MailTemplate
 				$this->mailer->isSendmail();
 			}
 
-			$mailfrom = $params->get('mailfrom', $gconfig->get('mailfrom'));
-			$fromname = $params->get('fromname', $gconfig->get('fromname'));
+			$mailfrom = $params->get('mailfrom', $app->get('mailfrom'));
+			$fromname = $params->get('fromname', $app->get('fromname'));
 
 			if (MailHelper::isEmailAddress($mailfrom))
 			{
@@ -218,7 +218,7 @@ class MailTemplate
 			}
 		}
 
-		Factory::getApplication()->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
+		$app->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
 
 		$mail->subject = $this->replaceTags(Text::_($mail->subject), $this->data);
 		$this->mailer->setSubject($mail->subject);

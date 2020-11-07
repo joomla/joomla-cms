@@ -119,11 +119,11 @@ class HtmlView extends BaseHtmlView
 
 		if ((int) $this->state->get('client_id') === 1)
 		{
-			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
+			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments langmanager');
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
+			ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments langmanager');
 		}
 
 		if ($canDo->get('core.edit.state'))

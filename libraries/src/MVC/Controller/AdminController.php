@@ -426,7 +426,7 @@ class AdminController extends BaseController
 	/**
 	 * Method to run Transition by id of item.
 	 *
-	 * @return  boolean  Indicates whether the transition was succesful.
+	 * @return  boolean  Indicates whether the transition was successful.
 	 *
 	 * @since   4.0.0
 	 */

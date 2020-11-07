@@ -48,7 +48,7 @@ use Joomla\CMS\Layout\FileLayout;
 			<?php if ($this->item->published == 0) : ?>
 				<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 			<?php endif; ?>
-			<a href="<?php echo $this->item->link; ?>" target="_blank">
+			<a href="<?php echo $this->item->link; ?>" target="_blank" rel="noopener">
 				<?php echo str_replace('&apos;', "'", $this->item->name); ?>
 			</a>
 		</h2>
@@ -91,9 +91,9 @@ use Joomla\CMS\Layout\FileLayout;
 		<?php endif; ?>
 
 		<!-- Show Image -->
-		<?php if (isset($this->rssDoc->image, $this->rssDoc->imagetitle) && $this->params->get('show_feed_image')) : ?>
+	  <?php if ($this->rssDoc->image && $this->params->get('show_feed_image')) : ?>
 			<div class="com-newsfeeds-newsfeed__feed-image">
-				<img src="<?php echo $this->rssDoc->image; ?>" alt="<?php echo $this->rssDoc->image->decription; ?>">
+				<img src="<?php echo $this->rssDoc->image->uri; ?>" alt="<?php echo $this->rssDoc->image->title; ?>" />
 			</div>
 		<?php endif; ?>
 
@@ -110,7 +110,7 @@ use Joomla\CMS\Layout\FileLayout;
 					<li>
 						<?php if (!empty($uri)) : ?>
 							<h3 class="feed-link">
-								<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
+								<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank" rel="noopener">
 									<?php echo trim($this->rssDoc[$i]->title); ?>
 								</a>
 							</h3>

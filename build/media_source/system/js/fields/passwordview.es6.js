@@ -20,7 +20,7 @@
         if (input.type === 'password') {
           // Update the icon class
           icon.classList.remove('icon-eye');
-          icon.classList.add('icon-eye-close');
+          icon.classList.add('icon-eye-slash');
 
           // Update the input type
           input.type = 'text';
@@ -33,7 +33,7 @@
         } else if (input.type === 'text') {
           // Update the icon class
           icon.classList.add('icon-eye');
-          icon.classList.remove('icon-eye-close');
+          icon.classList.remove('icon-eye-slash');
 
           // Update the input type
           input.type = 'password';

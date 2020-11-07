@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Set the toolbar information.
-		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'sync install');
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 

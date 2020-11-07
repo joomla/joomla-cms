@@ -136,7 +136,7 @@ class HtmlView extends BaseHtmlView
 		// Prepare the toolbar.
 		ToolbarHelper::title(
 			$title,
-			'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . '-group-' .
+			'puzzle-piece field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . '-group-' .
 			($isNew ? 'add' : 'edit')
 		);
 

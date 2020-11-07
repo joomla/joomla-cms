@@ -15,7 +15,6 @@
   &.input-full {
     max-width: 100%;
   }
-
 }
 
 .spacer hr {
@@ -48,7 +47,6 @@ td .form-control {
     position: static;
     margin-left: 0;
   }
-
 }
 
 .modal label {
@@ -74,10 +72,21 @@ td .form-control {
   z-index: $zindex-tooltip;
   display: none;
   max-width: 100%;
-  padding: .25em;
-  margin: .25em;
-  color: $white;
-  background: $black;
+  padding: .5em;
+  margin: .5em;
+  color: $black;
+  background: $white-offset;
+  border: 1px solid $gray-600;
+  border-radius: $border-radius;
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, .8);
+
+  &[id^=editarticle-] {
+    margin-inline-start: -10em;
+  }
+
+  &[id^=editcontact-] {
+    margin-inline-start: -10em;
+  }
 
   [dir=ltr] & {
     text-align: left;

@@ -19,21 +19,25 @@ use Joomla\CMS\Router\Route;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('com_cache.admin-cache');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<div class="alert alert-info">
-					<span class="fas fa-info-circle" aria-hidden="true"></span>
+					<span class="icon-info-circle" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?>
 				</div>
 				<?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 				<?php if (!$this->data) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>

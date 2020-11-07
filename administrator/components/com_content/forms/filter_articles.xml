@@ -13,7 +13,7 @@
 		<field
 			name="featured"
 			type="list"
-			label="FEATURED"
+			label="JFEATURED"
 			onchange="this.form.submit();"
 			default=""
 			validate="options"

@@ -39,6 +39,11 @@ class SafehtmlFilter implements FormFilterInterface
 	 */
 	public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		return InputFilter::getInstance([], [], InputFilter::TAGS_BLACKLIST, InputFilter::ATTR_BLACKLIST)->clean($value, 'html');
+		return InputFilter::getInstance(
+			[],
+			[],
+			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
+			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+		)->clean($value, 'html');
 	}
 }

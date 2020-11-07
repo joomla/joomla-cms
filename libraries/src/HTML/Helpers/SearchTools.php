@@ -104,7 +104,7 @@ abstract class SearchTools
 	)
 	{
 		$direction = strtolower($direction);
-		$orderIcons = array('icon-arrow-up-3', 'icon-arrow-down-3');
+		$orderIcons = array('icon-caret-up', 'icon-caret-down');
 		$index = (int) ($direction === 'desc');
 
 		if ($order !== $selected)

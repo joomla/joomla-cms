@@ -11,8 +11,8 @@ namespace Joomla\Component\Menus\Api\View\Items;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Collection;

@@ -64,9 +64,6 @@ else
 
 	if ($feed !== false)
 	{
-		// Image handling
-		$iUrl   = $feed->image ?? null;
-		$iTitle = $feed->imagetitle ?? null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;" class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
 		<?php
@@ -75,7 +72,7 @@ else
 		{
 			?>
 				<h2 class="<?php echo $direction; ?>">
-					<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+					<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
 					<?php echo $feed->title; ?></a>
 				</h2>
 			<?php
@@ -94,9 +91,9 @@ else
 			<?php
 		}
 		// Feed image
-		if ($iUrl && $params->get('rssimage', 1)) :
+		if ($feed->image && $params->get('rssimage', 1)) :
 		?>
-			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>">
+			<img src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
 		<?php endif; ?>
 
 
@@ -113,7 +110,7 @@ else
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<span class="feed-link">
-						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
 						<?php echo trim($feed[$i]->title); ?></a></span>
 					<?php else : ?>
 						<span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>

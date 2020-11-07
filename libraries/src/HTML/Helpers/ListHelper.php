@@ -13,8 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\String\StringHelper;
 use Joomla\Database\DatabaseQuery;
+use Joomla\String\StringHelper;
 
 /**
  * Utility class for creating different select lists

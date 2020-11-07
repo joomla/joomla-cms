@@ -10,7 +10,6 @@
 			name="purchase_type"
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
-			id="purchase_type"
 			default="1"
 			validate="options"
 			>

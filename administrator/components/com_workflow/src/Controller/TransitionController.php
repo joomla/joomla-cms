@@ -105,7 +105,7 @@ class TransitionController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		return $this->app->getIdentity()->authorise('core.create', $this->extension);
+		return $this->app->getIdentity()->authorise('core.create', $this->extension . '.workflow.' . (int) $this->workflowId);
 	}
 
 	/**
@@ -127,9 +127,10 @@ class TransitionController extends FormController
 
 		$item = $model->getItem($recordId);
 
-		$model = $this->getModel('Workflow');
-
-		$workflow = $model->getItem($item->workflow_id);
+		if (empty($item->id))
+		{
+			return false;
+		}
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.transition.' . $recordId))
@@ -140,10 +141,7 @@ class TransitionController extends FormController
 		// Check "edit own" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit.own', $this->extension . '.transition.' . $recordId))
 		{
-			// Need to do a lookup from the model to get the owner
-			$record = $this->getModel()->getItem($recordId);
-
-			return !empty($record) && $record->created_by == $user->id;
+			return !empty($item) && $item->created_by == $user->id;
 		}
 
 		return false;

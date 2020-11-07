@@ -15,9 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.combobox');
-HTMLHelper::_('behavior.keepalive');
 
 $hasContent = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
@@ -38,7 +36,12 @@ Text::script('JALL');
 Text::script('JTRASHED');
 
 $this->document->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
-HTMLHelper::_('script', 'com_modules/admin-module-edit.min.js', array('version' => 'auto', 'relative' => true));
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_modules.admin-module-edit');
 
 $input = Factory::getApplication()->input;
 
@@ -116,7 +119,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							<?php endif; ?>
 						<?php else : ?>
 							<div class="alert alert-danger">
-								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+								<span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 								<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
 							</div>
 						<?php endif; ?>
@@ -202,7 +205,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 		<input type="hidden" name="task" value="">
-		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
+		<input type="hidden" name="return" value="<?php echo $input->get('return', null, 'BASE64'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 		<?php echo $this->form->getInput('module'); ?>
 		<?php echo $this->form->getInput('client_id'); ?>

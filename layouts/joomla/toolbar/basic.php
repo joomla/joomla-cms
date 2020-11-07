@@ -16,20 +16,23 @@ Factory::getDocument()->getWebAssetManager()
 	->useScript('core')
 	->useScript('webcomponent.toolbar-button');
 
-/**
- * @var  int     $id
- * @var  string  $onclick
- * @var  string  $class
- * @var  string  $text
- * @var  string  $btnClass
- * @var  string  $tagName
- * @var  string  $htmlAttributes
- * @var  string  $task             The task which should be executed
- * @var  bool    $listCheck        Boolean, whether selection from a list is needed
- * @var  string  $form             CSS selector for a target form
- * @var  bool    $formValidation   Whether the form need to be validated before run the task
- */
 extract($displayData, EXTR_OVERWRITE);
+
+/**
+ * Layout variables
+ * -----------------
+ * @var   int     $id
+ * @var   string  $onclick
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   string  $htmlAttributes
+ * @var   string  $task             The task which should be executed
+ * @var   bool    $listCheck        Boolean, whether selection from a list is needed
+ * @var   string  $form             CSS selector for a target form
+ * @var   bool    $formValidation   Whether the form need to be validated before run the task
+ */
 
 $tagName = $tagName ?? 'button';
 

@@ -111,9 +111,9 @@ class Profiler
 
 		$m = (object) array(
 			'prefix' => $this->prefix,
-			'time' => ($current > $this->previousTime ? '+' : '-') . (($current - $this->previousTime) * 1000),
+			'time' => ($current - $this->previousTime) * 1000,
 			'totalTime' => ($current * 1000),
-			'memory' => ($currentMem > $this->previousMem ? '+' : '-') . ($currentMem - $this->previousMem),
+			'memory' => $currentMem - $this->previousMem,
 			'totalMemory' => $currentMem,
 			'label' => $label,
 		);

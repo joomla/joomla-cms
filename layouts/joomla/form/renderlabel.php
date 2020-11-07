@@ -13,11 +13,11 @@ extract($displayData);
 
 /**
  * Layout variables
- * ---------------------
- * 	$text         : (string)  The label text
- * 	$for          : (string)  The id of the input this label is for
- * 	$required     : (boolean) True if a required field
- * 	$classes      : (array)   A list of classes
+ * -----------------
+ * @var   string   $text      The label text
+ * @var   string   $for       The id of the input this label is for
+ * @var   boolean  $required  True if a required field
+ * @var   array    $classes   A list of classes
  */
 
 $classes = array_filter((array) $classes);

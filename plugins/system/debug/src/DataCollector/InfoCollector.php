@@ -100,10 +100,10 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 */
 	public function getAssets(): array
 	{
-		return array(
+		return [
 			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.js',
 			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/info/widget.min.css',
-		);
+		];
 	}
 
 	/**

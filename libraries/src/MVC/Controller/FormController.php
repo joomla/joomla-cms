@@ -663,7 +663,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			}
 
 			/**
-			 * We need the filtered value of calendar fields because the UTC normalision is
+			 * We need the filtered value of calendar fields because the UTC normalisation is
 			 * done in the filter and on output. This would apply the Timezone offset on
 			 * reload. We set the calendar values we save to the processed date.
 			 */
@@ -863,7 +863,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$form = $model->getForm($data, false);
 
 		/**
-		 * We need the filtered value of calendar fields because the UTC normalision is
+		 * We need the filtered value of calendar fields because the UTC normalisation is
 		 * done in the filter and on output. This would apply the Timezone offset on
 		 * reload. We set the calendar values we save to the processed date.
 		 */

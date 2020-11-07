@@ -46,13 +46,13 @@ abstract class LatestHelper
 		switch ($params->get('ordering', 'c_dsc'))
 		{
 			case 'm_dsc':
-				$model->setState('list.ordering', 'modified DESC, created');
+				$model->setState('list.ordering', 'a.modified DESC, a.created');
 				$model->setState('list.direction', 'DESC');
 				break;
 
 			case 'c_dsc':
 			default:
-				$model->setState('list.ordering', 'created');
+				$model->setState('list.ordering', 'a.created');
 				$model->setState('list.direction', 'DESC');
 				break;
 		}

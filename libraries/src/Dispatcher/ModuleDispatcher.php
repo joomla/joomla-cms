@@ -30,7 +30,7 @@ class ModuleDispatcher extends AbstractModuleDispatcher
 	{
 		$path = JPATH_BASE . '/modules/' . $this->module->module . '/' . $this->module->module . '.php';
 
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			return;
 		}

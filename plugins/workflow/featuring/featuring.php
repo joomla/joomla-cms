@@ -83,7 +83,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * The form event.
 	 *
-	 * @param EventInterface $event The event
+	 * @param   EventInterface  $event  The event
 	 *
 	 * @since   4.0.0
 	 */
@@ -103,16 +103,14 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 		}
 
 		$this->enhanceItemForm($form, $data);
-
-		return;
 	}
 
 	/**
 	 * Disable certain fields in the item form view, when we want to take over this function in the transition
 	 * Check also for the workflow implementation and if the field exists
 	 *
-	 * @param Form     $form The form
-	 * @param stdClass $data The data
+	 * @param   Form      $form  The form
+	 * @param   stdClass  $data  The data
 	 *
 	 * @return  boolean
 	 *
@@ -185,7 +183,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Manipulate the generic list view
 	 *
-	 * @param DisplayEvent $event
+	 * @param   DisplayEvent  $event
 	 *
 	 * @since   4.0.0
 	 */
@@ -222,7 +220,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 				if (!dropdown)
 				{
-					reuturn;
+					return;
 				}
 
 				" . \json_encode($states) . ".forEach((action) => {
@@ -245,9 +243,9 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Check if we can execute the transition
 	 *
-	 * @param WorkflowTransitionEvent $event
+	 * @param   WorkflowTransitionEvent  $event
 	 *
-	 * @return boolean
+	 * @return   boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -298,6 +296,8 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 		if ($eventResult->getArgument('abort'))
 		{
+			$event->setStopTransition();
+
 			return false;
 		}
 
@@ -307,13 +307,13 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Change Feature State of an item. Used to disable feature state change
 	 *
-	 * @param WorkflowTransitionEvent $event
+	 * @param   WorkflowTransitionEvent  $event
 	 *
-	 * @return boolean
+	 * @return   void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
+	public function onWorkflowAfterTransition(WorkflowTransitionEvent $event): void
 	{
 		$context       = $event->getArgument('extension');
 		$extensionName = $event->getArgument('extensionName');
@@ -350,11 +350,11 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Change Feature State of an item. Used to disable Feature state change
 	 *
-	 * @param FeatureEvent $event
+	 * @param   FeatureEvent  $event
 	 *
-	 * @return boolean
+	 * @return   boolean
 	 *
-	 * @throws Exception
+	 * @throws   Exception
 	 * @since   4.0.0
 	 */
 	public function onContentBeforeChangeFeatured(FeatureEvent $event)
@@ -380,7 +380,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * The save event.
 	 *
-	 * @param EventInterface $event
+	 * @param   EventInterface  $event
 	 *
 	 * @return  boolean
 	 *
@@ -390,8 +390,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getArgument('0');
 
-		// @var TableInterface
-
+		/** @var TableInterface $table */
 		$table = $event->getArgument('1');
 		$isNew = $event->getArgument('2');
 		$data  = $event->getArgument('3');
@@ -408,8 +407,10 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 
 		$article->load($table->id);
 
-		// We don't allow the change of the feature state when we use the workflow
-		// As we're setting the field to disabled, no value should be there at all
+		/**
+		 * We don't allow the change of the feature state when we use the workflow
+		 * As we're setting the field to disabled, no value should be there at all
+		 */
 		if (isset($data[$keyName]))
 		{
 			$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED'), 'error');
@@ -423,9 +424,9 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Check if the current plugin should execute workflow related activities
 	 *
-	 * @param string $context
+	 * @param   string  $context
 	 *
-	 * @return boolean
+	 * @return   boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -475,7 +476,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * If plugin supports the functionality we set the used variable
 	 *
-	 * @param WorkflowFunctionalityUsedEvent $event
+	 * @param   WorkflowFunctionalityUsedEvent  $event
 	 *
 	 * @since 4.0.0
 	 */

@@ -22,6 +22,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -33,6 +34,8 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
  */
 class ContactController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The URL view item variable.
 	 *

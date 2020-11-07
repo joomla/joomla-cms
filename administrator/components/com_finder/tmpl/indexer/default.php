@@ -10,13 +10,16 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 Text::script('COM_FINDER_INDEXER_MESSAGE_COMPLETE', true);
 
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_finder/indexer.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useStyle('com_finder.indexer')
+	->useScript('com_finder.indexer');
+
 ?>
 
 <div class="text-center">

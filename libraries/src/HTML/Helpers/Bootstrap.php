@@ -369,7 +369,7 @@ abstract class Bootstrap
 	}
 
 	/**
-	 * Add javascript support for Bootstrap accordians and insert the accordian
+	 * Add javascript support for Bootstrap accordions and insert the accordion
 	 *
 	 * @param   string  $selector  The ID selector for the tooltip.
 	 * @param   array   $params    An array of options for the tooltip.
@@ -386,7 +386,7 @@ abstract class Bootstrap
 	 *                             - onHidden  function  This event is fired when a collapse element has been hidden from the user
 	 *                                                   (will wait for css transitions to complete).
 	 *
-	 * @return  string  HTML for the accordian
+	 * @return  string  HTML for the accordion
 	 *
 	 * @since   3.0
 	 */
@@ -420,7 +420,7 @@ abstract class Bootstrap
 	/**
 	 * Close the current accordion
 	 *
-	 * @return  string  HTML to close the accordian
+	 * @return  string  HTML to close the accordion
 	 *
 	 * @since   3.0
 	 */
@@ -449,7 +449,7 @@ abstract class Bootstrap
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="card mb-2' . $class . '">'
+		$html = '<div class="card' . $class . '">'
 			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
 			. $text
 			. '</a>'

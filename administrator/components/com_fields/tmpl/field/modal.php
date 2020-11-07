@@ -14,9 +14,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_fields/admin-field-edit-modal.min.js', ['relative' => true, 'version' => 'auto']);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_fields.admin-field-edit-modal');
 
 $this->useCoreUI = true;
 ?>

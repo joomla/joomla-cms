@@ -28,9 +28,6 @@
         background-color: var(--atum-bg-dark) !important;
       }
     }
-
-
-
   }
 
   &.custom-select-color-state {
@@ -61,6 +58,10 @@
   &:focus {
     border-color: $focuscolor;
     box-shadow: $focusshadow;
+  }
+
+  &:disabled {
+    cursor: default;
   }
 
   optgroup,

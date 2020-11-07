@@ -15,9 +15,8 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentError $this */
 
-$app  = Factory::getApplication();
-$lang = Factory::getLanguage();
-$wa   = $this->getWebAssetManager();
+$app = Factory::getApplication();
+$wa  = $this->getWebAssetManager();
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -90,7 +89,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 			<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
 				<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-					<span class="fas fa-bars"></span>
+					<span class="icon-menu"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbar">
 					<jdoc:include type="modules" name="menu" style="none" />
@@ -104,14 +103,14 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		</nav>
 		<?php if ($this->countModules('banner')) : ?>
 		<div class="grid-child container-banner">
-			<jdoc:include type="modules" name="banner" style="xhtml" />
+			<jdoc:include type="modules" name="banner" style="html5" />
 		</div>
 		<?php endif; ?>
 	</header>
 
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
-		<jdoc:include type="modules" name="top-a" style="cardGrey" />
+		<jdoc:include type="modules" name="top-a" style="card" />
 	</div>
 	<?php endif; ?>
 
@@ -125,7 +124,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 		<?php if ($this->countModules('sidebar-left')) : ?>
 		<div class="container-sidebar-left">
-			<jdoc:include type="modules" name="sidebar-left" style="default" />
+			<jdoc:include type="modules" name="sidebar-left" style="card" />
 		</div>
 		<?php endif; ?>
 
@@ -143,7 +142,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<li><?php echo Text::_('JERROR_LAYOUT_YOU_HAVE_NO_ACCESS_TO_THIS_PAGE'); ?></li>
 					</ul>
 					<p><?php echo Text::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
-					<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn btn-secondary"><span class="fas fa-home" aria-hidden="true"></span> <?php echo Text::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
+					<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn btn-secondary"><span class="icon-home" aria-hidden="true"></span> <?php echo Text::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
 					<hr>
 					<p><?php echo Text::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 					<blockquote>
@@ -175,7 +174,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 		<?php if ($this->countModules('sidebar-right')) : ?>
 		<div class="container-sidebar-right">
-			<jdoc:include type="modules" name="sidebar-right" style="default" />
+			<jdoc:include type="modules" name="sidebar-right" style="card" />
 		</div>
 		<?php endif; ?>
 
@@ -183,7 +182,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 	<?php if ($this->countModules('bottom-a')) : ?>
 	<div class="grid-child container-bottom-a">
-		<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
+		<jdoc:include type="modules" name="bottom-a" style="card" />
 	</div>
 	<?php endif; ?>
 
@@ -198,7 +197,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
-				<span class="fas fa-arrow-up" aria-hidden="true"></span>
+				<span class="icon-arrow-up" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
 			</a>
 		</p>

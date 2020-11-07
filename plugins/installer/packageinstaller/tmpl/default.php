@@ -9,22 +9,32 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var PlgInstallerPackageInstaller $this */
+
 HTMLHelper::_('form.csrf');
 
+Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
-$return  = Factory::getApplication()->input->getBase64('return');
+$this->app->getDocument()->getWebAssetManager()
+	->registerAndUseScript(
+		'plg_installer_packageinstaller.packageinstaller',
+		'plg_installer_packageinstaller/packageinstaller.js',
+		[],
+		['defer' => true],
+		['core']
+	);
+
+$return  = $this->app->input->getBase64('return');
 $maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
 $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
-
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 
 <hr>

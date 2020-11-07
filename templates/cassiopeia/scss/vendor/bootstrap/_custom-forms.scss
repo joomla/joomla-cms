@@ -52,4 +52,10 @@
       }
     }
   }
+
+  optgroup,
+  option {
+    color: var(--dark);
+    background-color: $white;
+  }
 }

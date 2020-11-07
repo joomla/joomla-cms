@@ -169,7 +169,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 			$options[$key] = $value;
 		}
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
 			$options[CURLOPT_USERPWD] = $this->getOption('userauth') . ':' . $this->getOption('passwordauth');

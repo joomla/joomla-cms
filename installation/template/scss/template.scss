@@ -1,20 +1,33 @@
 // Variables
 @import "../../../administrator/templates/atum/scss/variables";
+$jicon-css-prefix: icon;
+$fa-css-prefix: fa;
 $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
-// Bootstrap
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+// Font Awesome
+@import "../../../administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome";
 
 // "Font Awesome 5 Free"
 @import "../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../media/vendor/fontawesome-free/scss/regular";
 @import "../../../media/vendor/fontawesome-free/scss/solid";
-@import "../../../media/vendor/fontawesome-free/scss/brands";
+@import "../../../media/vendor/fontawesome-free/scss/brands"; // order of loading is important.
+
+// B/C for Icomoon
+@import "../../../build/media_source/system/scss/icomoon";
+
+// Bootstrap
+@import "../../../media/vendor/bootstrap/scss/bootstrap";
 
 // Backend Template stuff
 @import "../../../administrator/templates/atum/scss/mixin";
 @import "../../../administrator/templates/atum/scss/blocks/global";
 @import "../../../administrator/templates/atum/scss/blocks/header";
 @import "../../../administrator/templates/atum/scss/vendor/bootstrap/custom-forms";
+@import "../../../administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert";
+
+// Safari fix
+@import "../../../administrator/templates/atum/scss/vendor/bootstrap/reboot";
 
 body {
   background: var(--atum-bg-light);
@@ -35,7 +48,6 @@ body {
     width: auto;
   }
 }
-
 
 .j-container {
   width: 100%;
@@ -92,7 +104,6 @@ body {
   }
 }
 
-
 .languageForm {
   padding: 0 0 30px;
 
@@ -101,41 +112,13 @@ body {
   }
 }
 
-.system-message .alert {
-  margin: 25px 50px;
+// Alerts
+#system-message-container joomla-alert {
+  margin-top: 25px;
 }
 
-.alert {
-  position: relative;
-  display: flex;
-  margin: 0 0 20px;
-  background: #fafafa;
-  border: 1px solid rgba(0, 0, 0, .1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, .05);
-
-  p {
-    margin-bottom: 0;
-  }
-}
-
-.alert-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 25%;
-  margin-bottom: 0;
-  font-size: 3rem;
-  opacity: .6;
-
-  .fas {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-.alert-text {
-  width: 75%;
-  padding: 10px 20px;
+.alert-heading {
+  font-size: $h4-font-size;
 }
 
 .hidden,
@@ -228,23 +211,6 @@ caption {
 
 .badge-warning {
   color: #292b2c;
-}
-
-.fa-eye,
-.icon-eye-open,
-.icon-eye {
-  font-family: "Font Awesome 5 Free";
-  cursor: pointer;
-  content: "\f06e";
-}
-
-.fa-eye-slash,
-.icon-eye-close,
-.icon-eye-blocked,
-.icon-eye-2::before {
-  font-family: "Font Awesome 5 Free";
-  cursor: pointer;
-  content: "\f070";
 }
 
 // footer

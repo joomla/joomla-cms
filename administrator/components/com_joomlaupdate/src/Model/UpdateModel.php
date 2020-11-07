@@ -1494,7 +1494,7 @@ ENDDATA;
 	}
 
 	/**
-	 * Method to get details URLs from a colletion update site for given extension and Joomla target version.
+	 * Method to get details URLs from a collection update site for given extension and Joomla target version.
 	 *
 	 * @param   array   $updateSiteInfo       The update site and extension information record to process
 	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against,

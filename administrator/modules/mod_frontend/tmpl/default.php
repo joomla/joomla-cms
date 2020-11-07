@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+
 ?>
 <div class="header-item-content">
 	<a class="d-flex" href="<?php echo Uri::root(); ?>"
 		title="<?php echo Text::sprintf('MOD_FRONTEND_PREVIEW', $sitename); ?>"
 		target="_blank">
 		<div class="d-flex align-items-end mx-auto">
-			<span class="fas fa-external-link-alt" aria-hidden="true"></span>
+			<span class="icon-external-link-alt" aria-hidden="true"></span>
 		</div>
 		<div class="align-items-center tiny">
 			<?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?>

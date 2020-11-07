@@ -184,7 +184,7 @@ class Filter
 			// Populate the toggle button.
 			// @todo Remove jQuery
 			$html .= '<button class="btn btn-secondary" type="button" onclick="jQuery(\'[id=&quot;tax-'
-				. $bk . '&quot;]\').each(function(){this.click();});"><span class="fas fa-square" aria-hidden="true"></span> '
+				. $bk . '&quot;]\').each(function(){this.click();});"><span class="icon-square" aria-hidden="true"></span> '
 				. Text::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
 
 			// Populate the group with nodes.
@@ -467,7 +467,9 @@ class Filter
 			// Load the CSS/JS resources.
 			if ($loadMedia)
 			{
-				HTMLHelper::_('stylesheet', 'com_finder/dates.css', array('version' => 'auto', 'relative' => true));
+				/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+				$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+				$wa->useStyle('com_finder.dates');
 			}
 
 			// Open the widget.

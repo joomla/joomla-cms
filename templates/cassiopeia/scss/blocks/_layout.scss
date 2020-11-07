@@ -34,7 +34,7 @@ header {
 .container-top-b,
 .container-bottom-a,
 .container-bottom-b {
-  > div {
+  > * {
     flex: 1;
     margin: ($cassiopeia-grid-gutter / 2);
   }
@@ -42,21 +42,21 @@ header {
   @include media-breakpoint-down(sm) {
     flex-direction: column;
 
-    > div {
+    > * {
       flex: 0 1 auto;
     }
   }
 }
 
 .container-main {
-  > div {
+  > * {
     margin: ($cassiopeia-grid-gutter / 2);
   }
 
   @include media-breakpoint-down(sm) {
     flex-direction: column;
 
-    > div {
+    > * {
       flex: 0 1 auto;
     }
   }
@@ -65,7 +65,7 @@ header {
 .container-component {
   flex: 1;
 
-  > div:not(#system-message-container) {
+  > *:not(#system-message-container) {
     margin-bottom: $cassiopeia-grid-gutter;
 
     &:last-of-type {
@@ -79,14 +79,6 @@ header {
   flex: 0 0 auto;
   width: calc(100% - #{$cassiopeia-grid-gutter});
   order: 1;
-
-  > div {
-    margin-bottom: $cassiopeia-grid-gutter;
-
-    &:last-of-type {
-      margin-bottom: 0;
-    }
-  }
 
   @include media-breakpoint-up(sm) {
     width: calc(25% - #{$cassiopeia-grid-gutter});

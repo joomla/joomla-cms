@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 ?>
 <nav role="navigation" aria-label="<?php echo $module->title; ?>">
@@ -20,7 +21,7 @@ use Joomla\CMS\Language\Text;
 			</li>
 		<?php else : ?>
 			<li class="mod-breadcrumbs__divider float-left">
-				<span class="divider fas fa-location" aria-hidden="true"></span>
+				<span class="divider icon-location" aria-hidden="true"></span>
 			</li>
 		<?php endif; ?>
 
@@ -47,7 +48,7 @@ use Joomla\CMS\Language\Text;
 		foreach ($list as $key => $item) :
 			if ($key !== $last_item_key) :
 				if (!empty($item->link)) :
-					$breadcrumbItem = '<a itemprop="item" href="' . $item->link . '" class="pathway"><span itemprop="name">' . $item->name . '</span></a>';
+					$breadcrumbItem = '<a itemprop="item" href="' . Route::_($item->link) . '" class="pathway"><span itemprop="name">' . $item->name . '</span></a>';
 				else :
 					$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
 				endif;
@@ -57,7 +58,7 @@ use Joomla\CMS\Language\Text;
 				</li>
 			<?php elseif ($show_last) :
 				$breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>';
-				// Render last item if reqd. ?>
+				// Render last item if required. ?>
 				<li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item active"><?php echo $breadcrumbItem; ?>
 					<meta itemprop="position" content="<?php echo $key + 1; ?>">
 				</li>

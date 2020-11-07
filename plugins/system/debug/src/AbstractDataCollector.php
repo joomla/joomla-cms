@@ -65,7 +65,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	}
 
 	/**
-	 * Returns the default data formater
+	 * Returns the default data formatter
 	 *
 	 * @since  4.0.0
 	 * @return DataFormatter

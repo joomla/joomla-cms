@@ -19,9 +19,14 @@ if (document.getElementById('installAddFeatures')) {
 if (document.getElementById('skipLanguages')) {
 	document.getElementById('skipLanguages').addEventListener('click', function(e) {
 		e.preventDefault();
+		document.getElementById('installCongrat').classList.add('active');
 		document.getElementById('installFinal').classList.add('active');
 		document.getElementById('installRecommended').classList.add('active');
 		document.getElementById('installLanguages').classList.remove('active');
+
+		if (document.getElementById('installFinal')) {
+			document.getElementById('installFinal').focus();
+		}
 	})
 }
 
