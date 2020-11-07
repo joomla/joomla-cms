@@ -182,7 +182,6 @@ class ExtensionHelper
 		array('plugin', 'emailcloak', 'content', 0),
 		array('plugin', 'fields', 'content', 0),
 		array('plugin', 'finder', 'content', 0),
-		array('plugin', 'imagelazyload', 'content', 0),
 		array('plugin', 'joomla', 'content', 0),
 		array('plugin', 'loadmodule', 'content', 0),
 		array('plugin', 'pagebreak', 'content', 0),
@@ -308,6 +307,7 @@ class ExtensionHelper
 		array('plugin', 'config', 'webservices', 0),
 		array('plugin', 'contact', 'webservices', 0),
 		array('plugin', 'content', 'webservices', 0),
+		array('plugin', 'installer', 'webservices', 0),
 		array('plugin', 'languages', 'webservices', 0),
 		array('plugin', 'menus', 'webservices', 0),
 		array('plugin', 'messages', 'webservices', 0),
@@ -420,7 +420,7 @@ class ExtensionHelper
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\StdClass
+	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\stdClass
 	{
 		if ($type === 'plugin' && $folder === null)
 		{

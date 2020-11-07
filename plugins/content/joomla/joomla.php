@@ -16,9 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\User\User;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
-use Joomla\Component\Content\Administrator\Table\ArticleTable;
 use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
@@ -472,21 +470,21 @@ class PlgContentJoomla extends CMSPlugin
 	/**
 	 * Get count of items in assigned to a stage
 	 *
-	 * @param   array   $stage_ids  The stage ids to test for
+	 * @param   array   $stageIds   The stage ids to test for
 	 * @param   string  $extension  The extension of the workflow
 	 *
 	 * @return  bool
 	 *
 	 * @since   4.0.0
 	 */
-	private function _countItemsInStage(array $stage_ids, string $extension) : bool
+	private function _countItemsInStage(array $stageIds, string $extension) : bool
 	{
 		$db = $this->db;
 
 		$parts = explode('.', $extension);
 
-		$stage_ids = ArrayHelper::toInteger($stage_ids);
-		$stage_ids = array_filter($stage_ids);
+		$stageIds = ArrayHelper::toInteger($stageIds);
+		$stageIds = array_filter($stageIds);
 
 		$section = '';
 
@@ -499,9 +497,9 @@ class PlgContentJoomla extends CMSPlugin
 
 		$table = $component->getWorkflowTableBySection($section);
 
-		if (empty($stage_ids) || !$table)
+		if (empty($stageIds) || !$table)
 		{
-			return true;
+			return false;
 		}
 
 		$query = $db->getQuery(true);
@@ -512,7 +510,7 @@ class PlgContentJoomla extends CMSPlugin
 			->from($db->quoteName($table, 'b'))
 			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
 			->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
-			->whereIn($db->quoteName('s.id'), $stage_ids);
+			->whereIn($db->quoteName('s.id'), $stageIds);
 
 		try
 		{
@@ -608,12 +606,6 @@ class PlgContentJoomla extends CMSPlugin
 				}
 			}
 
-			return true;
-		}
-
-		// Check if this function is enabled.
-		if ($context != 'com_content.article')
-		{
 			return true;
 		}
 

@@ -65,7 +65,7 @@ class SubformField extends FormField
 	protected $groupByFieldset = false;
 
 	/**
-	 * Which buttons to show in miltiple mode
+	 * Which buttons to show in multiple mode
 	 * @var array $buttons
 	 */
 	protected $buttons = array('add' => true, 'remove' => true, 'move' => true);

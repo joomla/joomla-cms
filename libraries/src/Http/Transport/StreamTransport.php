@@ -143,7 +143,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			)
 		);
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($uri instanceof Uri && $this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
 			$uri->setUser($this->getOption('userauth'));

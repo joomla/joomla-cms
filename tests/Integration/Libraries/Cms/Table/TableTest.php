@@ -8,9 +8,9 @@
  */
 namespace Joomla\Tests\Integration\Libraries\Cms\Table;
 
+use Joomla\CMS\Table\Table;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Table\Table;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
 use Joomla\Tests\Integration\IntegrationTestCase;

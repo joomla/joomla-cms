@@ -86,7 +86,6 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->transitions   = $this->get('Transitions');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
 		if (ComponentHelper::getParams('com_content')->get('workflow_enabled'))
@@ -141,7 +140,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -163,7 +162,7 @@ class HtmlView extends BaseHtmlView
 					$childBar->standardButton('transition')
 						->text($transition['text'])
 						->buttonClass('transition-' . (int) $transition['value'])
-						->icon('fas fa-project-diagram')
+						->icon('icon-project-diagram')
 						->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
 				}
 
@@ -185,7 +184,10 @@ class HtmlView extends BaseHtmlView
 
 				$childBar->checkin('articles.checkin')->listCheck(true);
 
-				$childBar->trash('articles.trash')->listCheck(true);
+				if (!$this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED)
+				{
+					$childBar->trash('articles.trash')->listCheck(true);
+				}
 			}
 		}
 

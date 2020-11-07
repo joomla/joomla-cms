@@ -16,7 +16,6 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
     return false;
   });
 
-
   // Notify user when file is over the drop area
   editor.on('dragover', (e) => {
     e.preventDefault();

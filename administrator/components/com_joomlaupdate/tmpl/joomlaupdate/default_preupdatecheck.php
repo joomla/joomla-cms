@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
-/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
+/** @var HtmlView $this */
 ?>
 
 <h2 class="mt-3 mb-3">
@@ -48,7 +49,7 @@ use Joomla\CMS\Language\Text;
 								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 									<?php if ($option->notice) : ?>
-										<span class="fas fa-info icon-white" title="<?php echo $option->notice; ?>"></span>
+										<span class="icon-info-circle icon-white" title="<?php echo $option->notice; ?>"></span>
 									<?php endif; ?>
 								</span>
 							</td>
@@ -135,7 +136,7 @@ use Joomla\CMS\Language\Text;
 						<td class="extension-check"
 							data-extension-id="<?php echo $extension->extension_id; ?>"
 							data-extension-current-version="<?php echo $extension->version; ?>">
-							<span class="fas fa-spinner fa-spin" aria-hidden="true"></span>
+							<span class="icon-spinner icon-spin" aria-hidden="true"></span>
 						</td>
 						<td>
 							<?php echo $extension->version; ?>
@@ -158,14 +159,14 @@ use Joomla\CMS\Language\Text;
 			</ul>
 		</fieldset>
 	</div>
-    <?php else: ?>
-    <div class="col-md-6">
-        <h3>
-            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
-        </h3>
-        <div class="alert alert-no-items">
-            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
-        </div>
-    </div>
+	<?php else: ?>
+	<div class="col-md-6">
+		<h3>
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+		</h3>
+		<div class="alert alert-no-items">
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
+		</div>
+	</div>
 	<?php endif; ?>
 </div>

@@ -247,13 +247,13 @@ class HtmlView extends BaseHtmlView
 			// Add a Crop and Resize button
 			elseif ($this->type === 'image')
 			{
-				ToolbarHelper::custom('template.cropImage', 'crop', 'move', 'COM_TEMPLATES_BUTTON_CROP', false);
+				ToolbarHelper::custom('template.cropImage', 'icon-crop', 'icon-arrows-alt', 'COM_TEMPLATES_BUTTON_CROP', false);
 				ToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
 			}
 			// Add an extract button
 			elseif ($this->type === 'archive')
 			{
-				ToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
+				ToolbarHelper::custom('template.extractArchive', 'chevron-down', 'chevron-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
 			// Add a copy template button
 			elseif ($this->type === 'home')
@@ -263,12 +263,13 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add a Template preview button
-		if ($this->preview->client_id === 0 && $this->type === 'home')
+		if ($this->type === 'home')
 		{
+			$client = (int) $this->preview->client_id === 1 ? 'administrator/' : '';
 			$bar->linkButton('preview')
-				->icon('icon-picture')
+				->icon('icon-image')
 				->text('COM_TEMPLATES_BUTTON_PREVIEW')
-				->url(Uri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id)
+				->url(Uri::root() . $client . 'index.php?tp=1&templateStyle=' . $this->preview->id)
 				->attributes(['target' => '_new']);
 		}
 
@@ -286,16 +287,16 @@ class HtmlView extends BaseHtmlView
 			else
 			{
 				// Add a Rename file Button
-				ToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
+				ToolbarHelper::modal('renameModal', 'icon-sync', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 
 				// Add a Delete file Button
-				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
+				ToolbarHelper::modal('deleteModal', 'icon-times', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
 			}
 		}
 
 		if (count($this->updatedList) !== 0 && $this->pluginState)
 		{
-			ToolbarHelper::custom('template.deleteOverrideHistory', 'delete', 'move', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
+			ToolbarHelper::custom('template.deleteOverrideHistory', 'times', 'move', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
 		}
 
 		if ($this->type === 'home')

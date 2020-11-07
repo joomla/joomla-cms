@@ -94,7 +94,7 @@ class PlgExtensionFinder extends CMSPlugin
 	/**
 	 * Get an object of information if the handled extension is a language
 	 *
-	 * @param   integer  $eid  Extensuon id
+	 * @param   integer  $eid  Extension id
 	 *
 	 * @return  object
 	 *

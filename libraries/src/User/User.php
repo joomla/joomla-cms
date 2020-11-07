@@ -592,7 +592,7 @@ class User extends CMSObject
 			// Check the password and create the crypted password
 			if (empty($array['password']))
 			{
-				$array['password']  = UserHelper::genRandomPassword();
+				$array['password']  = UserHelper::genRandomPassword(32);
 				$array['password2'] = $array['password'];
 			}
 

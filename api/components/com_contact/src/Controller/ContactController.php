@@ -18,13 +18,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
+use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\SendEmail;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
@@ -193,15 +193,15 @@ class ContactController extends ApiController
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   array      $data                  The data to send in the email.
-	 * @param   \stdClass  $contact               The user information to send the email to
-	 * @param   boolean    $copy_email_activated  True to send a copy of the email to the user.
+	 * @param   array      $data               The data to send in the email.
+	 * @param   \stdClass  $contact            The user information to send the email to
+	 * @param   boolean    $emailCopyToSender  True to send a copy of the email to the user.
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *
 	 * @since   1.6.4
 	 */
-	private function _sendEmail($data, $contact, $copy_email_activated)
+	private function _sendEmail($data, $contact, $emailCopyToSender)
 	{
 		$app = $this->app;
 
@@ -252,7 +252,7 @@ class ContactController extends ApiController
 			$sent = $mailer->send();
 
 			// If we are supposed to copy the sender, do so.
-			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
+			if ($emailCopyToSender == true && !empty($data['contact_email_copy']))
 			{
 				$mailer = new MailTemplate('com_contact.mail.copy', $app->getLanguage()->getTag());
 				$mailer->addRecipient($templateData['email']);

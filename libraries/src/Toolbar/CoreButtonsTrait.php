@@ -11,7 +11,6 @@ namespace Joomla\CMS\Toolbar;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
@@ -447,7 +446,7 @@ trait CoreButtonsTrait
 	 *
 	 * @param   string  $component  The name of the component, eg, com_content.
 	 * @param   string  $text       The text of this button.
-	 * @param   string  $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string  $path       An alternative path for the configuration xml relative to JPATH_SITE.
 	 *
 	 * @return  LinkButton
 	 *

@@ -17,8 +17,8 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\Component\Config\Api\View\Component\JsonapiView;
 use Joomla\Component\Config\Administrator\Model\ComponentModel;
+use Joomla\Component\Config\Api\View\Component\JsonapiView;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**

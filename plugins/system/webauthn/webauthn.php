@@ -20,7 +20,6 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerCreate;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerDelete;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerLogin;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerSaveLabel;
-use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInUserPage;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
 

@@ -11,7 +11,7 @@ namespace Joomla\Component\Contenthistory\Administrator\Dispatcher;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
@@ -28,14 +28,14 @@ class Dispatcher extends ComponentDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception|Notallowed
+	 * @throws  \Exception|NotAllowed
 	 */
 	protected function checkAccess()
 	{
 		// Check the user has permission to access this component if in the backend
 		if ($this->app->getIdentity()->guest)
 		{
-			throw new Notallowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 }

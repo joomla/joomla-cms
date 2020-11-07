@@ -84,7 +84,7 @@ class ModulesController extends AdminController
 	{
 		$model = $this->getModel('Modules');
 
-		$model->setState('filter.published', 1);
+		$model->setState('filter.state', 1);
 		$model->setState('filter.client_id', 0);
 
 		$amount = (int) $model->getTotal();

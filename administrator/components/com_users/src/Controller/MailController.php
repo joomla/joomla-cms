@@ -65,6 +65,10 @@ class MailController extends BaseController
 	{
 		// Check for request forgeries.
 		$this->checkToken('request');
+
+		// Clear data from session.
+		$this->app->setUserState('com_users.display.mail.data', null);
+
 		$this->setRedirect('index.php?option=com_users&view=users');
 	}
 }

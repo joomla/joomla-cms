@@ -11,7 +11,6 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -20,23 +19,18 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Table\Category;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Administrator\Event\Model\FeatureEvent;
-use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -123,7 +117,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
 	 * @param   TableInterface  $table  The table object containing the newly created item
 	 * @param   integer         $newId  The id of the new item
@@ -515,6 +509,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
 				{
 					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'required', 'false');
 					$form->setFieldAttribute('catid', 'filter', 'unset');
 				}
 			}
@@ -530,22 +525,20 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					? (int) reset($assignedCatids)
 					: (int) $assignedCatids;
 
-				// Try to get the category from the html code of the field
+				// Try to get the category from the category field
 				if (empty($assignedCatids))
 				{
 					$assignedCatids = $formField->getAttribute('default', null);
 
-					// Choose the first category available
-					$xml = new \DOMDocument;
-					libxml_use_internal_errors(true);
-					$xml->loadHTML($formField->__get('input'));
-					libxml_clear_errors();
-					libxml_use_internal_errors(false);
-					$options = $xml->getElementsByTagName('option');
-
-					if (!$assignedCatids && $firstChoice = $options->item(0))
+					if (!$assignedCatids)
 					{
-						$assignedCatids = $firstChoice->getAttribute('value');
+						// Choose the first category available
+						$catOptions = $formField->options;
+
+						if ($catOptions && !empty($catOptions[0]->value))
+						{
+							$assignedCatids = (int) $catOptions[0]->value;
+						}
 					}
 				}
 
@@ -718,6 +711,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Create new category, if needed.
 		$createCategory = true;
+
+		if (is_null($data['catid']))
+		{
+			// When there is no catid passed don't try to create one
+			$createCategory = false;
+		}
 
 		// If category ID is provided, check if it's valid.
 		if (is_numeric($data['catid']) && $data['catid'])
@@ -1137,7 +1136,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function hit()
 	{
-		return;
 	}
 
 	/**

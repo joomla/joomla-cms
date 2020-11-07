@@ -11,6 +11,7 @@
 	<description>PLG_WORKFLOW_FEATURING_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="featuring">featuring.php</filename>
+		<folder>forms</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">plg_workflow_featuring.ini</language>

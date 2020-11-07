@@ -1,0 +1,64 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_modules",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_modules.admin-module-edit",
+      "type": "script",
+      "uri": "com_modules/admin-module-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_modules.admin-module-edit-assignment",
+      "type": "script",
+      "uri": "com_modules/admin-module-edit_assignment.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_modules.admin-module-search",
+      "type": "script",
+      "uri": "com_modules/admin-module-search.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_modules.admin-modules-modal",
+      "type": "script",
+      "uri": "com_modules/admin-modules-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "com_modules.admin-select-modal",
+      "type": "script",
+      "uri": "com_modules/admin-select-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    }
+  ]
+}

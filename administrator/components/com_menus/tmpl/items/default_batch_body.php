@@ -23,7 +23,9 @@ $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype')
 
 if ($clientId == 1)
 {
-	HTMLHelper::_('script', 'com_menus/default-batch-body.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = $this->document->getWebAssetManager();
+	$wa->useScript('com_menus.batch-body');
 }
 ?>
 <div class="container">

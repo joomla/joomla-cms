@@ -273,6 +273,11 @@ class PlgSystemFields extends CMSPlugin
 			}
 		}
 
+		if ($context === 'com_admin.profile')
+		{
+			$context = 'com_users.user';
+		}
+
 		$parts = FieldsHelper::extract($context, $form);
 
 		if (!$parts)

@@ -25,7 +25,7 @@ class UserListCest
 	public function __construct()
 	{
 		$this->username = "testUser";
-		$this->password = "test";
+		$this->password = "joomla17082005";
 		$this->name     = "Test Bot";
 		$this->email    = "Testbot@example.com";
 	}

@@ -15,7 +15,9 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
+use Joomla\String\Inflector;
 
 /**
  * Workflow base controller package.
@@ -82,5 +84,37 @@ class DisplayController extends BaseController
 				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
 			}
 		}
+	}
+
+	/**
+	 * Method to display a view.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  BaseController|boolean  This object to support chaining.
+	 *
+	 * @since   1.5
+	 */
+	public function display($cachable = false, $urlparams = array())
+	{
+		$view   = $this->input->get('view');
+		$layout = $this->input->get('layout');
+		$id     = $this->input->getInt('id');
+
+		// Check for edit form.
+		if (in_array($view, ['workflow', 'stage', 'transition']) && $layout == 'edit' && !$this->checkEditId('com_workflow.edit.' . $view, $id))
+		{
+			// Somehow the person just went to the form - we don't allow that.
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+
+			$url = 'index.php?option=com_workflow&view=' . Inflector::pluralize($view) . '&extension=' . $this->input->getCmd('extension');
+
+			$this->setRedirect(Route::_($url, false));
+
+			return false;
+		}
+
+		return parent::display();
 	}
 }

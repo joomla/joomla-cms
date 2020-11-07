@@ -117,13 +117,6 @@ trait AjaxHandler
 		{
 			switch ($input->getCmd('encoding', 'json'))
 			{
-				default:
-				case 'json':
-					Joomla::log('system', "Callback complete, returning JSON.");
-					echo json_encode($result);
-
-					break;
-
 				case 'jsonhash':
 					Joomla::log('system', "Callback complete, returning JSON inside ### markers.");
 					echo '###' . json_encode($result) . '###';
@@ -157,6 +150,12 @@ trait AjaxHandler
 					$app->redirect($result);
 
 					return;
+					break;
+
+				default:
+					Joomla::log('system', "Callback complete, returning JSON.");
+					echo json_encode($result);
+
 					break;
 			}
 

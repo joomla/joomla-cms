@@ -10,9 +10,9 @@ namespace Joomla\CMS\String;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\Uri\UriHelper;
 use Algo26\IdnaConvert\ToIdn;
 use Algo26\IdnaConvert\ToUnicode;
+use Joomla\Uri\UriHelper;
 
 /**
  * Joomla Platform String Punycode Class

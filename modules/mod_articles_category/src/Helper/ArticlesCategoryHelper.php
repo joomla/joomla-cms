@@ -68,7 +68,7 @@ abstract class ArticlesCategoryHelper
 
 		switch ($mode)
 		{
-			case 'dynamic' :
+			case 'dynamic':
 				$option = $input->get('option');
 				$view   = $input->get('view');
 
@@ -76,11 +76,11 @@ abstract class ArticlesCategoryHelper
 				{
 					switch ($view)
 					{
-						case 'category' :
-						case 'categories' :
+						case 'category':
+						case 'categories':
 							$catids = array($input->getInt('id'));
 							break;
-						case 'article' :
+						case 'article':
 							if ($params->get('show_on_article_page', 1))
 							{
 								$article_id = $input->getInt('id');
@@ -109,7 +109,6 @@ abstract class ArticlesCategoryHelper
 							}
 							break;
 
-						case 'featured' :
 						default:
 							// Return right away if not on the category or article views
 							return;
@@ -123,7 +122,6 @@ abstract class ArticlesCategoryHelper
 
 				break;
 
-			case 'normal' :
 			default:
 				$catids = $params->get('catid');
 				$articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
@@ -343,7 +341,7 @@ abstract class ArticlesCategoryHelper
 	 * the html intact as possible with all tags properly closed.
 	 *
 	 * @param   string   $html       The content of the introtext to be truncated
-	 * @param   integer  $maxLength  The maximum number of charactes to render
+	 * @param   integer  $maxLength  The maximum number of characters to render
 	 *
 	 * @return  string  The truncated string
 	 *
@@ -466,7 +464,7 @@ abstract class ArticlesCategoryHelper
 		{
 			switch ($type)
 			{
-				case 'month_year' :
+				case 'month_year':
 					$month_year = StringHelper::substr($item->$field, 0, 7);
 
 					if (!isset($grouped[$month_year]))
@@ -477,7 +475,6 @@ abstract class ArticlesCategoryHelper
 					$grouped[$month_year][$key] = $item;
 					break;
 
-				case 'year' :
 				default:
 					$year = StringHelper::substr($item->$field, 0, 4);
 

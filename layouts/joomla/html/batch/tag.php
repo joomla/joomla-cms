@@ -12,12 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-/**
- * Layout variables
- * ---------------------
- * None
- */
-
 ?>
 <label id="batch-tag-lbl" for="batch-tag-id">
 	<?php echo Text::_('JLIB_HTML_BATCH_TAG_LABEL'); ?>

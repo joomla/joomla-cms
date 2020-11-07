@@ -117,6 +117,12 @@ class BannerTable extends Table implements VersionableTableInterface
 			return false;
 		}
 
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = Factory::getDate()->toSql();
+		}
+
 		// Set publish_up, publish_down to null if not set
 		if (!$this->publish_up)
 		{

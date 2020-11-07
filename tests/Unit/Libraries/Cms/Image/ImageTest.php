@@ -46,14 +46,23 @@ class ImageTest extends UnitTestCase
 
 		$this->instance = new Image;
 
+		$randFile = __DIR__ . '/tmp/koala-' . rand();
+
 		// 500*341 resolution
-		$this->testFile = __DIR__ . '/stubs/koala.jpg';
+		$this->testFile = $randFile . '.jpg';
+		copy(__DIR__ . '/stubs/koala.jpg', $this->testFile);
 
-		$this->testFileGif = __DIR__ . '/stubs/koala.gif';
+		$this->testFileGif = $randFile . '.gif';
+		copy(__DIR__ . '/stubs/koala.gif', $this->testFileGif);
 
-		$this->testFilePng = __DIR__ . '/stubs/koala.png';
+		$this->testFilePng = $randFile . '.png';
+		copy(__DIR__ . '/stubs/koala.png', $this->testFilePng);
 
-		$this->testFileBmp = __DIR__ . '/stubs/koala.bmp';
+		$this->testFileBmp = $randFile . '.bmp';
+		copy(__DIR__ . '/stubs/koala.bmp', $this->testFileBmp);
+
+		$this->testFileWebp = $randFile . '.webp';
+		copy(__DIR__ . '/stubs/koala.webp', $this->testFileWebp);
 	}
 
 	/**
@@ -251,6 +260,33 @@ class ImageTest extends UnitTestCase
 	/**
 	 * Test the Joomla\CMS\Image\Image::loadFile method
 	 *
+	 * Makes sure WebP images are loaded correctly
+	 *
+	 * In this case we are taking the simple approach of loading an image file
+	 * and asserting that the dimensions are correct.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\CMS\Image\Image::loadFile
+	 *
+	 * @since   4.0.0
+	 */
+	public function testloadFileWebp()
+	{
+		// Get a new Image inspector.
+		$image = new ImageInspector;
+		$image->loadFile($this->testFileWebp);
+
+		// Verify that the cropped image is the correct size.
+		$this->assertEquals(341, imagesy($image->getClassProperty('handle')));
+		$this->assertEquals(500, imagesx($image->getClassProperty('handle')));
+
+		$this->assertEquals($this->testFileWebp, $image->getPath());
+	}
+
+	/**
+	 * Test the Joomla\CMS\Image\Image::loadFile method
+	 *
 	 * Makes sure BMP images are not loaded properly.
 	 *
 	 * @return  void
@@ -305,13 +341,13 @@ class ImageTest extends UnitTestCase
 
 		$image->resize(1000, 682, false);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
 
 		$image->resize(1000, 682, false, ImageInspector::SCALE_FIT);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(682, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(1000, imagesx($image->getClassProperty('handle')));
 	}
@@ -340,7 +376,7 @@ class ImageTest extends UnitTestCase
 
 		$image->resize(5, 5, false);
 
-		// Verify that the resizeed image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(5, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(5, imagesx($image->getClassProperty('handle')));
 
@@ -383,13 +419,13 @@ class ImageTest extends UnitTestCase
 
 		$image->cropResize(500 * 2, 341 * 2, false);
 
-		// Verify that the croped resizeded image is the correct size.
+		// Verify that the cropped resized image is the correct size.
 		$this->assertEquals(341 * 2, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(500 * 2, imagesx($image->getClassProperty('handle')));
 
 		$image->cropResize(500 * 3, 341 * 2, false);
 
-		// Verify that the croped resizeded image is the correct size.
+		// Verify that the cropped resized image is the correct size.
 		$this->assertEquals(341 * 2, imagesy($image->getClassProperty('handle')));
 		$this->assertEquals(500 * 3, imagesx($image->getClassProperty('handle')));
 	}
@@ -431,7 +467,7 @@ class ImageTest extends UnitTestCase
 	 */
 	public function testToFileGif()
 	{
-		$outFileGif = __DIR__ . '/tmp/out.gif';
+		$outFileGif = __DIR__ . '/tmp/out-' . rand() . '.gif';
 
 		$image = new ImageInspector($this->testFile);
 		$image->toFile($outFileGif, IMAGETYPE_GIF);
@@ -471,7 +507,7 @@ class ImageTest extends UnitTestCase
 	 */
 	public function testToFilePng()
 	{
-		$outFilePng = __DIR__ . '/tmp/out.png';
+		$outFilePng = __DIR__ . '/tmp/out-' . rand() . '.png';
 
 		$image = new ImageInspector($this->testFile);
 		$image->toFile($outFilePng, IMAGETYPE_PNG);
@@ -512,7 +548,7 @@ class ImageTest extends UnitTestCase
 	public function testToFileJpg()
 	{
 		// Write the file out to a JPG.
-		$outFileJpg = __DIR__ . '/tmp/out.jpg';
+		$outFileJpg = __DIR__ . '/tmp/out-' . rand() . '.jpg';
 
 		$image = new ImageInspector($this->testFile);
 		$image->toFile($outFileJpg, IMAGETYPE_JPEG);
@@ -549,10 +585,50 @@ class ImageTest extends UnitTestCase
 	 *
 	 * @since   4.0.0
 	 */
+	public function testToFileWebp()
+	{
+		$outFileWebp = __DIR__ . '/tmp/out-' . rand() . '.webp';
+
+		$image = new ImageInspector($this->testFile);
+		$image->toFile($outFileWebp, IMAGETYPE_WEBP);
+
+		$a = Image::getImageFileProperties($this->testFile);
+		$b = Image::getImageFileProperties($outFileWebp);
+
+		// Assert that properties that should be equal are equal.
+		$this->assertEquals($a->width, $b->width);
+		$this->assertEquals($a->height, $b->height);
+		$this->assertEquals($a->attributes, $b->attributes);
+		$this->assertEquals($a->bits, $b->bits);
+
+		// Assert that properties that should be different are different.
+		$this->assertEquals('image/webp', $b->mime);
+		$this->assertEquals(IMAGETYPE_WEBP, $b->type);
+		$this->assertNull($b->channels);
+
+		// Clean up after ourselves.
+		unlink($outFileWebp);
+	}
+
+	/**
+	 * Test the Joomla\CMS\Image\Image::toFile method
+	 *
+	 * Make sure that a new image is properly written to file.
+	 *
+	 * When performing this test using a lossy compression we are not able
+	 * to open and save the same image and then compare the checksums as the checksums
+	 * may have changed. Therefore we are limited to comparing the image properties.
+	 *
+	 * @return  void
+	 *
+	 * @covers  Joomla\CMS\Image\Image::toFile
+	 *
+	 * @since   4.0.0
+	 */
 	public function testToFileDefault()
 	{
 		// Write the file out to a JPG.
-		$outFileDefault = __DIR__ . '/tmp/out.default';
+		$outFileDefault = __DIR__ . '/tmp/out-' . rand() . '.default';
 
 		$image = new ImageInspector($this->testFile);
 		$image->toFile($outFileDefault);
@@ -750,7 +826,7 @@ class ImageTest extends UnitTestCase
 
 		$thumbs = $image->generateThumbs('50x38');
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			34,
 			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
@@ -762,7 +838,7 @@ class ImageTest extends UnitTestCase
 
 		$thumbs = $image->generateThumbs('50x38', ImageInspector::CROP);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			38,
 			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
@@ -774,7 +850,7 @@ class ImageTest extends UnitTestCase
 
 		$thumbs = $image->generateThumbs('50x38', ImageInspector::CROP_RESIZE);
 
-		// Verify that the resizeded image is the correct size.
+		// Verify that the resized image is the correct size.
 		$this->assertEquals(
 			38,
 			imagesy(TestHelper::getValue($thumbs[0], 'handle'))
@@ -899,7 +975,7 @@ class ImageTest extends UnitTestCase
 	/**
 	 * Test the Joomla\CMS\Image\Image::isTransparent method
 	 *
-	 * Make sure it gives the correct result if the image does not haave an alpha channel.
+	 * Make sure it gives the correct result if the image does not have an alpha channel.
 	 *
 	 * @return  void
 	 *
@@ -1324,7 +1400,7 @@ class ImageTest extends UnitTestCase
 	 * Tests the Joomla\CMS\Image\Image::sanitizeOffset method
 	 *
 	 * @param   mixed    $input     The input offset.
-	 * @param   integer  $expected  The expected result offest.
+	 * @param   integer  $expected  The expected result offset.
 	 *
 	 * @return  void
 	 *
@@ -1347,7 +1423,7 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the Joomla\CMS\Image\Image::destory method
+	 * Tests the Joomla\CMS\Image\Image::destroy method
 	 *
 	 * @return  void
 	 *

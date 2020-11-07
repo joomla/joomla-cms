@@ -39,7 +39,7 @@ Text::script('JHIDEPASSWORD');
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
 						<span class="input-group-text" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-							<span class="fas fa-user" aria-hidden="true"></span>
+							<span class="icon-user icon-fw" aria-hidden="true"></span>
 						</span>
 					</span>
 				</div>
@@ -56,7 +56,7 @@ Text::script('JHIDEPASSWORD');
 					<span class="input-group-append">
 						<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 						<button type="button" class="btn btn-secondary input-password-toggle">
-							<span class="fas fa-eye" aria-hidden="true"></span>
+							<span class="icon-eye icon-fw" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 						</button>
 					</span>
@@ -80,7 +80,7 @@ Text::script('JHIDEPASSWORD');
 						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="input-group-text">
-								<span class="fas fa-question" aria-hidden="true"></span>
+								<span class="icon-question" aria-hidden="true"></span>
 							</span>
 						</span>
 					</div>
@@ -88,7 +88,7 @@ Text::script('JHIDEPASSWORD');
 					<label for="modlgn-secretkey-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 					<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 					<span class="btn width-auto" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-						<span class="fas fa-question" aria-hidden="true"></span>
+						<span class="icon-question" aria-hidden="true"></span>
 					</span>
 				<?php endif; ?>
 			</div>
@@ -105,23 +105,31 @@ Text::script('JHIDEPASSWORD');
 			</div>
 		<?php endif; ?>
 
-		<?php foreach($extraButtons as $button): ?>
+		<?php foreach($extraButtons as $button):
+			$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+				return substr($key, 0, 5) == 'data-';
+			});
+			?>
 			<div class="mod-login__submit form-group">
 				<button type="button"
-				        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
-				        data-webauthn-form="<?= $button['data-webauthn-form'] ?>"
-					data-webauthn-url="<?= $button['data-webauthn-url'] ?>"
-				        title="<?php echo Text::_($button['label']) ?>"
-				        id="<?php echo $button['id'] ?>"
+						class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+						<?php foreach ($dataAttributeKeys as $key): ?>
+						<?php echo $key ?>="<?php echo $button[$key] ?>"
+						<?php endforeach; ?>
+						<?php if ($button['onclick']): ?>
+						onclick="<?php echo $button['onclick'] ?>"
+						<?php endif; ?>
+						title="<?php echo Text::_($button['label']) ?>"
+						id="<?php echo $button['id'] ?>"
 						>
 					<?php if (!empty($button['icon'])): ?>
 						<span class="<?php echo $button['icon'] ?>"></span>
 					<?php elseif (!empty($button['image'])): ?>
-						<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+						<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 							'class' => 'icon',
 						], true) ?>
 					<?php endif; ?>
-					<?= Text::_($button['label']) ?>
+					<?php echo Text::_($button['label']) ?>
 				</button>
 			</div>
 		<?php endforeach; ?>
@@ -133,20 +141,20 @@ Text::script('JHIDEPASSWORD');
 		<?php
 			$usersConfig = ComponentHelper::getParams('com_users'); ?>
 			<ul class="mod-login__options list-unstyled">
-			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
-				<li>
-					<a href="<?php echo Route::_($registerLink); ?>">
-					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="fas fa-arrow-alt-circle-right"></span></a>
-				</li>
-			<?php endif; ?>
-				<li>
-					<a href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
-					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
-				</li>
 				<li>
 					<a href="<?php echo Route::_('index.php?option=com_users&view=reset'); ?>">
 					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
+				<li>
+					<a href="<?php echo Route::_('index.php?option=com_users&view=remind'); ?>">
+					<?php echo Text::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
+				</li>
+				<?php if ($usersConfig->get('allowUserRegistration')) : ?>
+				<li>
+					<a href="<?php echo Route::_($registerLink); ?>">
+					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-alt-circle-right"></span></a>
+				</li>
+				<?php endif; ?>
 			</ul>
 		<input type="hidden" name="option" value="com_users">
 		<input type="hidden" name="task" value="user.login">

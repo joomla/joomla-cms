@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
@@ -16,9 +15,12 @@ use Joomla\Registry\Registry;
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
-HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_container.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_menus/admin-item-edit_container.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
-$this->document->getWebAssetManager()->useScript('joomla.treeselectmenu');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('joomla.treeselectmenu')
+	->useStyle('com_menus.admin-item-edit-container')
+	->useScript('com_menus.admin-item-edit-container');
+
 ?>
 <div id="menuselect-group" class="control-group">
 	<div class="control-label"><?php echo $this->form->getLabel('hideitems', 'params'); ?></div>
@@ -42,7 +44,7 @@ $this->document->getWebAssetManager()->useScript('joomla.treeselectmenu');
 
 		<hr>
 		<div class="alert alert-info">
-			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
 		</div>
 			<?php if (count($menuLinks)) : ?>
@@ -101,7 +103,7 @@ $this->document->getWebAssetManager()->useScript('joomla.treeselectmenu');
 					</li>
 				</ul>
 			<?php endif; ?>
-		<joomla-alert id="noresultsfound" type="warning" class="hidden"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+		<joomla-alert id="noresultsfound" type="warning" style="display:none"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php endif; ?>
 	</div>
 </div>

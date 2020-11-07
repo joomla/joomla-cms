@@ -11,9 +11,9 @@ namespace Joomla\CMS\Form\Rule;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Field\SubformField;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\Registry\Registry;
 
 /**
  * Form rule to validate subforms field-wise.

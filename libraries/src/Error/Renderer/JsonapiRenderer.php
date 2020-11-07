@@ -11,15 +11,15 @@ namespace Joomla\CMS\Error\Renderer;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Error\JsonApi\AuthenticationFailedExceptionHandler;
+use Joomla\CMS\Error\JsonApi\CheckinCheckoutExceptionHandler;
 use Joomla\CMS\Error\JsonApi\InstallLanguageExceptionHandler;
+use Joomla\CMS\Error\JsonApi\InvalidParameterExceptionHandler;
 use Joomla\CMS\Error\JsonApi\InvalidRouteExceptionHandler;
 use Joomla\CMS\Error\JsonApi\NotAcceptableExceptionHandler;
 use Joomla\CMS\Error\JsonApi\NotAllowedExceptionHandler;
 use Joomla\CMS\Error\JsonApi\ResourceNotFoundExceptionHandler;
-use Joomla\CMS\Error\JsonApi\CheckinCheckoutExceptionHandler;
 use Joomla\CMS\Error\JsonApi\SaveExceptionHandler;
 use Joomla\CMS\Error\JsonApi\SendEmailExceptionHandler;
-use Joomla\CMS\Error\JsonApi\InvalidParameterExceptionHandler;
 use Joomla\CMS\Factory;
 use Tobscure\JsonApi\ErrorHandler;
 use Tobscure\JsonApi\Exception\Handler\FallbackExceptionHandler;

@@ -1,8 +1,8 @@
 // Modifiers
 
 // com_modules
-[class^='container-'],
-[class*=' container-'] {
+[class^="container-"],
+[class*=" container-"] {
   .span-col-2 {
     flex: 0 0 50%;
     max-width: calc(50% - #{$cassiopeia-grid-gutter});
@@ -21,14 +21,14 @@
 
 @supports (display: grid) {
 
-  [class^='span-'],
-  [class*=' span-'] {
+  [class^="span-"],
+  [class*=" span-"] {
     grid-column-end: auto;
     grid-row-end: auto;
   }
 
-  [class^='span-col'],
-  [class*=' span-col'] {
+  [class^="span-col"],
+  [class*=" span-col"] {
     @include media-breakpoint-up(sm) {
       grid-column-end: span 2;
     }
@@ -60,11 +60,11 @@
     }
   }
 
-  [class^='container-'],
-  [class*=' container-'] {
+  [class^="container-"],
+  [class*=" container-"] {
 
-    [class^='span-'],
-    [class*=' span-'] {
+    [class^="span-"],
+    [class*=" span-"] {
       flex: 0 1 auto;
       max-width: none;
     }
@@ -172,8 +172,8 @@
       padding: 0;
     }
 
-    &[class^='columns-'],
-    &[class*=' columns-'] {
+    &[class^="columns-"],
+    &[class*=" columns-"] {
       > div {
         flex: 0 1 auto;
         width: auto;
@@ -199,8 +199,8 @@
 
 .blog-items {
 
-  &[class^='masonry-'],
-  &[class*=' masonry-'] {
+  &[class^="masonry-"],
+  &[class*=" masonry-"] {
     display: block;
     column-gap: $cassiopeia-grid-gutter;
 

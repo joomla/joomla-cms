@@ -11,8 +11,8 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Console\Loader;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Tests\Unit\UnitTestCase;
-use Psr\Container\ContainerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 
 /**
  * Test class for Joomla\CMS\Console\Loader\WritableContainerLoader.

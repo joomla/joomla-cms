@@ -60,13 +60,12 @@
 
 .media-preview-close {
   position: absolute;
-  top: 0;
-  right: 0;
-  margin: 5px 20px;
-  font-size: 3rem;
+  bottom: 100%;
+  left: 100%;
+  font-size: 2rem;
+  color: inherit;
   background: none;
   border: 0;
-  color: inherit;
   opacity: .7;
   &:hover {
     cursor: pointer;
