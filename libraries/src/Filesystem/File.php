@@ -449,9 +449,10 @@ class File
 	 * @param   boolean  $allow_unsafe     Allow the upload of unsafe files
 	 * @param   boolean  $safeFileOptions  Options to InputFilter::isSafeFile
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean  True on success, throws exception on failure.
 	 *
 	 * @since   1.7.0
+	 * @throws  \RuntimeException
 	 */
 	public static function upload($src, $dest, $use_streams = false, $allow_unsafe = false, $safeFileOptions = array())
 	{
@@ -470,8 +471,7 @@ class File
 			if (!$isSafe)
 			{
 				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR03', $dest), Log::WARNING, 'jerror');
-
-				return false;
+				throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR03', $dest), 1);
 			}
 		}
 
@@ -493,8 +493,7 @@ class File
 			if (!$stream->upload($src, $dest))
 			{
 				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_UPLOAD', $stream->getError()), Log::WARNING, 'jerror');
-
-				return false;
+				throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_ERROR_UPLOAD', $stream->getError()), 2);
 			}
 
 			return true;
@@ -521,6 +520,7 @@ class File
 				else
 				{
 					Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), Log::WARNING, 'jerror');
+					throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), 3);
 				}
 			}
 			else
@@ -535,11 +535,13 @@ class File
 					else
 					{
 						Log::add(Text::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'), Log::WARNING, 'jerror');
+						throw new \RuntimeException(Text::_('JLIB_FILESYSTEM_ERROR_WARNFS_ERR01'), 4);
 					}
 				}
 				else
 				{
 					Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), Log::WARNING, 'jerror');
+					throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), 3);
 				}
 			}
 
