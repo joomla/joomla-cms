@@ -7,30 +7,30 @@
   border: 1px solid var(--bluegray);
 
   > legend {
+    position: relative;
     width: auto;
     padding: 0 .5rem;
     font-weight: $font-weight-bold;
     color: var(--atum-text-dark);
     background-color: $white;
     border-top: 1px solid var(--bluegray);
-    position: relative;
     &::before {
-      content: '';
       position: absolute;
-      left: 0;
-      width: 1px;
-      background-color: var(--bluegray);
-      height: 50%;
       top: 0;
+      left: 0;
+      height: 50%;
+      width: 1px;
+      content: "";
+      background-color: var(--bluegray);
     }
     &::after {
-      content: '';
       position: absolute;
-      right: 0;
-      width: 1px;
-      background-color: var(--bluegray);
-      height: 50%;
       top: 0;
+      right: 0;
+      height: 50%;
+      width: 1px;
+      content: "";
+      background-color: var(--bluegray);
     }
   }
 }
