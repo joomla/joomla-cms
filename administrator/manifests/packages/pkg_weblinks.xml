@@ -2,7 +2,7 @@
 <extension type="package" version="3.6" method="upgrade">
 	<name>pkg_weblinks</name>
 	<packagename>weblinks</packagename>
-	<creationDate>December 2012</creationDate>
+	<creationDate>2012-12</creationDate>
 	<packager>Joomla! Project</packager>
 	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<packageremail>admin@joomla.org</packageremail>

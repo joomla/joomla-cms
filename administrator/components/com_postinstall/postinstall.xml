@@ -2,7 +2,7 @@
 <extension type="component" version="3.2" method="upgrade">
 	<name>com_postinstall</name>
 	<author>Joomla! Project</author>
-	<creationDate>September 2013</creationDate>
+	<creationDate>2013-09</creationDate>
 	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

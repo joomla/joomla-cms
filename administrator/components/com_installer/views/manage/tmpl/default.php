@@ -61,7 +61,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
 						<th width="10%" class="hidden-phone hidden-tablet">
-							<?php echo JText::_('JDATE'); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'creationDate', $listDirn, $listOrder); ?>
 						</th>
 						<th width="15%" class="hidden-phone hidden-tablet">
 							<?php echo JText::_('JAUTHOR'); ?>
@@ -85,6 +85,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</tr>
 				</tfoot>
 				<tbody>
+				<?php $createdDateFormat = JText::_('DATE_FORMAT_LC4'); ?>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<tr class="row<?php echo $i % 2; if ($item->status == 2) echo ' protected'; ?>">
 						<td>
@@ -114,7 +115,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
+							<?php if (!empty($item->creationDate)) : ?>
+								<?php try {
+									echo JHtml::date($item->creationDate, $createdDateFormat);
+								}
+								catch (Exception $e) {
+									echo $item->creationDate;
+								}?>
+							<?php else: ?>
+								<?php echo '&#160;'; ?>
+							<?php endif; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
 							<span class="editlinktip hasTooltip" title="<?php echo JHtml::_('tooltipText', JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">

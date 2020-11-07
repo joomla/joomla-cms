@@ -2,7 +2,7 @@
 <extension type="plugin" version="3.8.0" group="fields" method="upgrade">
 	<name>plg_fields_repeatable</name>
 	<author>Joomla! Project</author>
-	<creationDate>April 2018</creationDate>
+	<creationDate>2018-04</creationDate>
 	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

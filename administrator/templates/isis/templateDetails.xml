@@ -3,7 +3,7 @@
 <extension version="3.1" type="template" client="administrator">
 	<name>isis</name>
 	<version>1.0</version>
-	<creationDate>3/30/2012</creationDate>
+	<creationDate>2012-03-30</creationDate>
 	<author>Kyle Ledbetter</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.</copyright>
@@ -47,75 +47,75 @@
 		<fields name="params">
 			<fieldset name="advanced">
 
-				<field 
-					name="templateColor" 
-					type="color" 
+				<field
+					name="templateColor"
+					type="color"
 					label="TPL_ISIS_COLOR_LABEL"
-					description="TPL_ISIS_COLOR_DESC" 
-					class="" 
+					description="TPL_ISIS_COLOR_DESC"
+					class=""
 					default="#10223E"
 					validate="color"
 				/>
 
-				<field 
-					name="headerColor" 
-					type="color" 
+				<field
+					name="headerColor"
+					type="color"
 					label="TPL_ISIS_COLOR_HEADER_LABEL"
-					description="TPL_ISIS_COLOR_HEADER_DESC" 
-					class="" 
+					description="TPL_ISIS_COLOR_HEADER_DESC"
+					class=""
 					default="#1A3867"
 					validate="color"
 				/>
 
-				<field 
-					name="sidebarColor" 
-					type="color" 
+				<field
+					name="sidebarColor"
+					type="color"
 					label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
-					description="TPL_ISIS_COLOR_SIDEBAR_DESC" 
-					class="" 
+					description="TPL_ISIS_COLOR_SIDEBAR_DESC"
+					class=""
 					default="#3071a9"
 					validate="color"
 				/>
 
-				<field 
-					name="linkColor" 
-					type="color" 
+				<field
+					name="linkColor"
+					type="color"
 					label="TPL_ISIS_COLOR_LINK_LABEL"
-					description="TPL_ISIS_COLOR_LINK_DESC" 
-					class="" 
+					description="TPL_ISIS_COLOR_LINK_DESC"
+					class=""
 					default="#3071a9"
 					validate="color"
 				/>
 
-				<field 
-					name="loginBackgroundColor" 
-					type="color" 
+				<field
+					name="loginBackgroundColor"
+					type="color"
 					label="TPL_ISIS_COLOR_LOGIN_BACKGROUND_LABEL"
 					description="TPL_ISIS_COLOR_LOGIN_BACKGROUND_DESC"
-					class="" 
+					class=""
 					default="#17568C"
 					validate="color"
 				/>
 
-				<field 
-					name="logoFile" 
-					type="media" 
+				<field
+					name="logoFile"
+					type="media"
 					label="TPL_ISIS_LOGO_LABEL"
 					description="TPL_ISIS_LOGO_DESC"
-					class="" 
+					class=""
 					default=""
 				 />
 
-				<field 
-					name="loginLogoFile" 
-					type="media" 
+				<field
+					name="loginLogoFile"
+					type="media"
 					label="TPL_ISIS_LOGIN_LOGO_LABEL"
 					description="TPL_ISIS_LOGIN_LOGO_DESC"
-					class="" 
+					class=""
 					default=""
 				 />
 
-				<field 
+				<field
 					name="admin_menus"
 					type="radio"
 					label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
@@ -128,8 +128,8 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field 
-					name="displayHeader" 
+				<field
+					name="displayHeader"
 					type="radio"
 					label="TPL_ISIS_HEADER_LABEL"
 					description="TPL_ISIS_HEADER_DESC"
@@ -141,8 +141,8 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field 
-					name="statusFixed" 
+				<field
+					name="statusFixed"
 					type="list"
 					label="TPL_ISIS_STATUS_LABEL"
 					description="TPL_ISIS_STATUS_DESC"
@@ -153,8 +153,8 @@
 					<option value="0">TPL_ISIS_STATUS_TOP</option>
 				</field>
 
-				<field 
-					name="stickyToolbar" 
+				<field
+					name="stickyToolbar"
 					type="radio"
 					label="TPL_ISIS_STICKY_LABEL"
 					description="TPL_ISIS_STICKY_DESC"

@@ -2,7 +2,7 @@
 <extension type="module" version="3.1" client="administrator" method="upgrade">
 	<name>mod_logged</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2005</creationDate>
+	<creationDate>2005-01</creationDate>
 	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

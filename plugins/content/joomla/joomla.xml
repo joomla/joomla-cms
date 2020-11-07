@@ -2,7 +2,7 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>plg_content_joomla</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2010</creationDate>
+	<creationDate>2010-11</creationDate>
 	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -32,7 +32,7 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field 
+				<field
 					name="email_new_fe"
 					type="radio"
 					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_LABEL"

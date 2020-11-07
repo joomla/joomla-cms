@@ -55,7 +55,7 @@ class JInstallerManifestLibraryTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'2008',
+			'2008-01',
 			$this->object->creationdate
 		);
 

@@ -2,7 +2,7 @@
 <extension type="component" version="3.1" method="upgrade">
 	<name>com_admin</name>
 	<author>Joomla! Project</author>
-	<creationDate>April 2006</creationDate>
+	<creationDate>2006-04</creationDate>
 	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

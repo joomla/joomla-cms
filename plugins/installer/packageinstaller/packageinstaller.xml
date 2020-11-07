@@ -2,7 +2,7 @@
 <extension version="3.6" type="plugin" group="installer">
 	<name>plg_installer_packageinstaller</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2016</creationDate>
+	<creationDate>2016-05</creationDate>
 	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

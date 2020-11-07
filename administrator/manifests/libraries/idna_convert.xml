@@ -4,7 +4,7 @@
 	<libraryname>idna_convert</libraryname>
 	<version>0.8.0</version>
 	<description>LIB_IDNA_XML_DESCRIPTION</description>
-	<creationDate>2004</creationDate>
+	<creationDate>2004-01</creationDate>
 	<copyright>2004-2011 phlyLabs Berlin, http://phlylabs.de</copyright>
 	<license>https://www.gnu.org/licenses/lgpl-2.1.html GNU/LGPL</license>
 	<author>phlyLabs</author>

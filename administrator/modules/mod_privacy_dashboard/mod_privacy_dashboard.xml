@@ -2,7 +2,7 @@
 <extension type="module" version="3.9" client="administrator" method="upgrade">
 	<name>mod_privacy_dashboard</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2018</creationDate>
+	<creationDate>2018-06</creationDate>
 	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

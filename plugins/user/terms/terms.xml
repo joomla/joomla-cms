@@ -2,7 +2,7 @@
 <extension version="3.1" type="plugin" group="user" method="upgrade">
 	<name>plg_user_terms</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2018</creationDate>
+	<creationDate>2018-06</creationDate>
 	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -21,17 +21,17 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
-				<field 
-					name="terms_note" 
-					type="textarea" 
+				<field
+					name="terms_note"
+					type="textarea"
 					label="PLG_USER_TERMS_NOTE_FIELD_LABEL"
 					description="PLG_USER_TERMS_NOTE_FIELD_DESC"
 					hint="PLG_USER_TERMS_NOTE_FIELD_DEFAULT"
 					class="span12"
-					rows="7" 
-					cols="20" 
+					rows="7"
+					cols="20"
 					filter="html"
-				/>	
+				/>
 				<field
 					name="terms_article"
 					type="modal_article"

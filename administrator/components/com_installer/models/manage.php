@@ -39,6 +39,7 @@ class InstallerModelManage extends InstallerModel
 				'folder', 'folder_translated',
 				'package_id',
 				'extension_id',
+				'creationDate',
 			);
 		}
 
@@ -138,7 +139,7 @@ class InstallerModelManage extends InstallerModel
 			{
 				$table->enabled = $value;
 			}
-		
+
 			$context = $this->option . '.' . $this->name;
 			JPluginHelper::importPlugin('extension');
 			JEventDispatcher::getInstance()->trigger('onExtensionChangeState', array($context, $eid, $value));
