@@ -265,6 +265,13 @@
 				/>
 
 				<field
+					name="image_first_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
+
+				<field
 					name="image_first_caption"
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
@@ -300,6 +307,13 @@
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
 					size="20"
+				/>
+
+				<field
+					name="image_second_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
 				/>
 
 				<field
