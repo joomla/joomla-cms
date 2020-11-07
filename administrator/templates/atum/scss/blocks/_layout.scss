@@ -12,5 +12,25 @@
     font-weight: $font-weight-bold;
     color: var(--atum-text-dark);
     background-color: $white;
+    border-top: 1px solid var(--bluegray);
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 1px;
+      background-color: var(--bluegray);
+      height: 50%;
+      top: 0;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      width: 1px;
+      background-color: var(--bluegray);
+      height: 50%;
+      top: 0;
+    }
   }
 }
