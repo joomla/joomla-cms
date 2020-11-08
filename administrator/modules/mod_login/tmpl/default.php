@@ -69,7 +69,7 @@ Text::script('JHIDEPASSWORD');
 			<div class="form-group">
 				<label for="mod-login-secretkey">
 					<span class="label"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></span>
-					<span class="text-right">
+					<span class="form-control-hint">
 						<?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
 					</span>
 				</label>
@@ -100,15 +100,15 @@ Text::script('JHIDEPASSWORD');
 			?>
 		<div class="form-group">
 			<button type="button"
-			        class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
+					class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
 					<?php foreach ($dataAttributeKeys as $key): ?>
 					<?php echo $key ?>="<?php echo $button[$key] ?>"
 					<?php endforeach; ?>
 					<?php if ($button['onclick']): ?>
 					onclick="<?php echo $button['onclick'] ?>"
 					<?php endif; ?>
-			        title="<?php echo Text::_($button['label']) ?>"
-			        id="<?php echo $button['id'] ?>"
+					title="<?php echo Text::_($button['label']) ?>"
+					id="<?php echo $button['id'] ?>"
 			>
 				<?php if (!empty($button['icon'])): ?>
 					<span class="<?php echo $button['icon'] ?>"></span>
