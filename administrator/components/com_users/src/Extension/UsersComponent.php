@@ -52,8 +52,8 @@ class UsersComponent extends MVCComponent implements BootableExtensionInterface,
 	/**
 	 * Returns a valid section for the given section. If it is not valid then null is returned.
 	 *
-	 * @param   string  $section  The section to get the mapping for
-	 * @param   object  $item     The item
+	 * @param   string       $section  The section to get the mapping for
+	 * @param   object|null  $item     The content item or null
 	 *
 	 * @return  string|null  The new section or null
 	 *
