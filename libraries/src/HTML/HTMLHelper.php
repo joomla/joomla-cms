@@ -1260,4 +1260,32 @@ abstract class HTMLHelper
 
 		return '';
 	}
+
+	/**
+	 * Write a `<svg>` sprite element
+	 *
+	 * @param   string $icon    The icon to use.
+	 * @param   string $brand   The sprite font set.
+	 * @param   string $class   classes to apply.
+	 * @param   string $url     Url to link to.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0
+	 */
+	public static function sprite(string $icon, string $brand, string $class, string $url)
+	{
+		// Strip icon-
+		$icon = substr_replace($icon, '', 'icon-');
+
+		// TODO figure out where to put the optional class
+
+		$html[] = '<a href="' . $url . '">'
+			. '<svg>'
+			. '<use xlink:href="fa-' . $brand . '.svg#' . $icon . '"></use>'
+			. '</svg>'
+			. '</a>';
+
+		return implode("\n", $html);
+	}
 }
