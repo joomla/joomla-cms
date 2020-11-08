@@ -37,7 +37,7 @@
 			multiple="true"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
-			<option value="">JALL</option>
+			<option value="0">JALL</option>
 			<option value="-1">JNONE</option>
 		</field>
 
