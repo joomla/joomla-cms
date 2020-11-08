@@ -5,7 +5,6 @@
 			name="language"
 			type="installation.language"
 			label="INSTL_LANGUAGE_LABEL"
-			id="language"
 			default="en-GB"
 			required="true"
 			onchange="Install.setlanguage();"
@@ -16,7 +15,6 @@
 			name="ftp_enable"
 			type="radio"
 			label="INSTL_FTP_ENABLE_LABEL"
-			id="ftp_enable"
 			class="btn-group btn-group-reverse"
 			default="0"
 			filter="int"
@@ -29,14 +27,12 @@
 			name="ftp_user"
 			type="text"
 			label="INSTL_FTP_USER_LABEL"
-			id="ftp_user"
 			class="form-control"
 		/>
 		<field
 			name="ftp_pass"
 			type="password"
 			label="INSTL_FTP_PASSWORD_LABEL"
-			id="ftp_pass"
 			class="form-control"
 			filter="raw"
 		/>
@@ -44,7 +40,6 @@
 			name="ftp_root"
 			type="text"
 			label="INSTL_FTP_ROOT_LABEL"
-			id="ftp_root"
 			class="form-control"
 		/>
 	</fieldset>
@@ -55,7 +50,6 @@
 			name="ftp_host"
 			type="text"
 			label="INSTL_FTP_HOST_LABEL"
-			id="ftp_host"
 			class="form-control"
 			default="127.0.0.1"
 		/>
@@ -63,7 +57,6 @@
 			name="ftp_port"
 			type="text"
 			label="INSTL_FTP_PORT_LABEL"
-			id="ftp_port"
 			class="form-control"
 			default="21"
 			filter="int"
@@ -72,7 +65,6 @@
 			name="ftp_save"
 			type="radio"
 			label="INSTL_FTP_SAVE_LABEL"
-			id="ftp_save"
 			class="btn-group btn-group-reverse"
 			default="0"
 			required="true"

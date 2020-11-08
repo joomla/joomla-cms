@@ -159,14 +159,14 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 			</ul>
 		</fieldset>
 	</div>
-    <?php else: ?>
-    <div class="col-md-6">
-        <h3>
-            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
-        </h3>
-        <div class="alert alert-no-items">
-            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
-        </div>
-    </div>
+	<?php else: ?>
+	<div class="col-md-6">
+		<h3>
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+		</h3>
+		<div class="alert alert-no-items">
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
+		</div>
+	</div>
 	<?php endif; ?>
 </div>
