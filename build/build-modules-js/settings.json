@@ -256,7 +256,7 @@
         "filesExtra": {
           "scss": "scss",
           "webfonts": "webfonts",
-          "svgs": "images"
+          "sprites": "sprites"
         },
         "provideAssets": [
           {
