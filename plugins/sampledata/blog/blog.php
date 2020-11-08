@@ -1294,7 +1294,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle' => 0,
 				'params'    => array(
 					'menutype'        => $menuTypes[0],
-					'layout'          => 'cassiopeia:metismenu',
+					'layout'          => 'cassiopeia:dropdown-metismenu',
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 1,
