@@ -58,8 +58,8 @@
 		<field
 			name="logindescription_show"
 			type="list"
-			label="JFIELD_BASIS_LOGIN_DESCRIPTION_SHOW_LABEL"
-			description="JFIELD_BASIS_LOGIN_DESCRIPTION_SHOW_DESC"
+			label="JFIELD_BASIC_LOGIN_DESCRIPTION_SHOW_LABEL"
+			description="JFIELD_BASIC_LOGIN_DESCRIPTION_SHOW_DESC"
 			default="1"
 			class="chzn-color"
 			>
@@ -70,8 +70,8 @@
 		<field
 			name="login_description"
 			type="textarea"
-			label="JFIELD_BASIS_LOGIN_DESCRIPTION_LABEL"
-			description="JFIELD_BASIS_LOGIN_DESCRIPTION_DESC"
+			label="JFIELD_BASIC_LOGIN_DESCRIPTION_LABEL"
+			description="JFIELD_BASIC_LOGIN_DESCRIPTION_DESC"
 			rows="3"
 			cols="40"
 			filter="safehtml"
@@ -85,8 +85,8 @@
 			description="JFIELD_LOGIN_IMAGE_DESC"
 		/>
 
-		<field 
-			name="spacer1" 
+		<field
+			name="spacer1"
 			type="spacer"
 			hr="true"
 		/>
@@ -115,7 +115,7 @@
 			message="COM_USERS_FIELD_LOGOUT_REDIRECT_ERROR"
 			showon="logoutredirectchoice:0"
 		/>
-		
+
 		<field
 			name="logout_redirect_menuitem"
 			type="modal_menu"
@@ -134,8 +134,8 @@
 		<field
 			name="logoutdescription_show"
 			type="list"
-			label="JFIELD_BASIS_LOGOUT_DESCRIPTION_SHOW_LABEL"
-			description="JFIELD_BASIS_LOGOUT_DESCRIPTION_SHOW_DESC"
+			label="JFIELD_BASIC_LOGOUT_DESCRIPTION_SHOW_LABEL"
+			description="JFIELD_BASIC_LOGOUT_DESCRIPTION_SHOW_DESC"
 			default="1"
 			class="chzn-color"
 			>
@@ -146,8 +146,8 @@
 		<field
 			name="logout_description"
 			type="textarea"
-			label="JFIELD_BASIS_LOGOUT_DESCRIPTION_LABEL"
-			description="JFIELD_BASIS_LOGOUT_DESCRIPTION_DESC"
+			label="JFIELD_BASIC_LOGOUT_DESCRIPTION_LABEL"
+			description="JFIELD_BASIC_LOGOUT_DESCRIPTION_DESC"
 			rows="3"
 			cols="40"
 			filter="safehtml"
