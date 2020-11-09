@@ -86,7 +86,11 @@ class PlgSystemAccessibility extends CMSPlugin
 							'units' => 'px',
 						]
 					]
-				]
+				],
+				'hotkeys' => [
+					'enabled' => true,
+					'helpTitles' => true,
+				],
 			]
 		);
 
