@@ -97,7 +97,7 @@ class ContentViewFeatured extends JViewLegacy
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
 			{
 				$link = \JRoute::_($link, true, $app->get('force_ssl') == 2 ? \JRoute::TLS_FORCE : \JRoute::TLS_IGNORE, true);
-				$description .= '<p class="feed-readmore"><a target="_blank" href="' . $link  . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+				$description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 			}
 
 			// Load item description and add div
