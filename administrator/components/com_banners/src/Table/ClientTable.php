@@ -57,4 +57,44 @@ class ClientTable extends Table implements VersionableTableInterface
 	{
 		return 'com_banners.client';
 	}
+
+	/**
+	 * Overloaded check function
+	 *
+	 * @return  boolean  True if the object is ok
+	 *
+	 * @see     Table::check()
+	 * @since   {
+	 */
+	public function check()
+	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		// Check for valid name
+		if (trim($this->name) == '')
+		{
+			$this->setError(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
+
+			return false;
+		}
+
+		// Check for valid contact
+		if (trim($this->contact) === '')
+		{
+			$this->setError(Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
+
+			return false;
+		}
+
+		return true;
+	}
 }

@@ -24,7 +24,6 @@
 			label="COM_BANNERS_FIELD_CONTACT_LABEL"
 			size="40"
 			required="true"
-			filter="TRIM"
 		/>
 
 		<field
