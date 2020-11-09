@@ -399,7 +399,7 @@ abstract class HTMLHelper
 		{
 			// Extract extension and strip the file
 			$strip = File::stripExt($file);
-			$ext   = pathinfo($file, PATHINFO_EXTENSION);
+			$ext   = File::getExt($file);
 
 			// Prepare array of files
 			$includes = [];
@@ -751,12 +751,6 @@ abstract class HTMLHelper
 		if ($returnPath === 1)
 		{
 			return $file;
-		}
-
-		// Default to lazy you can disable lazyloading by passing $attribs['loading'] = 'eager';
-		if (!isset($attribs['loading']))
-		{
-			$attribs['loading'] = 'lazy';
 		}
 
 		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
@@ -1265,36 +1259,30 @@ abstract class HTMLHelper
 	 */
 	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
 	{
-		if (!$debugMode)
-		{
-			// We are handling a name.min.ext file:
-			if (strrpos($path, '.min', '-4'))
-			{
-				$position        = strrpos($path, '.min', '-4');
-				$minifiedPath    = $path;
-				$nonMinifiedPath = str_replace('.min', '', $path, $position);
-
-				return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
-			}
-
-			$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
-
-			return self::checkFileOrder($path, $minifiedPath);
-		}
+		$position = strrpos($path, '.min.');
 
 		// We are handling a name.min.ext file:
-		if (strrpos($path, '.min', '-4'))
+		if ($position !== false)
 		{
-			$position        = strrpos($path, '.min', '-4');
 			$minifiedPath    = $path;
-			$nonMinifiedPath = str_replace('.min', '', $path, $position);
+			$nonMinifiedPath = substr_replace($path, '', $position, 4);
 
-			return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+			if ($debugMode)
+			{
+				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+			}
+
+			return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
 		}
 
 		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
-		return self::checkFileOrder($minifiedPath, $path);
+		if ($debugMode)
+		{
+			return self::checkFileOrder($minifiedPath, $path);
+		}
+
+		return self::checkFileOrder($path, $minifiedPath);
 	}
 
 	/**

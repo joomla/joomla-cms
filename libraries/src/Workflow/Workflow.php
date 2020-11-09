@@ -269,12 +269,12 @@ class Workflow
 	/**
 	 * Check if a transition can be executed
 	 *
-	 * @param   integer[]  $pks            The item IDs, which should use the transition
-	 * @param   integer    $transition_id  The transition which should be executed
+	 * @param   integer[]  $pks           The item IDs, which should use the transition
+	 * @param   integer    $transitionId  The transition which should be executed
 	 *
 	 * @return  object | null
 	 */
-	public function getValidTransition(array $pks, int $transition_id)
+	public function getValidTransition(array $pks, int $transitionId)
 	{
 		$pks = ArrayHelper::toInteger($pks);
 		$pks = array_filter($pks);
@@ -314,7 +314,7 @@ class Workflow
 					$db->quoteName('w.extension') . ' = :extension'
 				]
 			)
-			->bind(':id', $transition_id, ParameterType::INTEGER)
+			->bind(':id', $transitionId, ParameterType::INTEGER)
 			->bind(':extension', $this->extension);
 
 		$transition = $db->setQuery($query)->loadObject();
@@ -333,12 +333,12 @@ class Workflow
 	/**
 	 * Executes a transition to change the current state in the association table
 	 *
-	 * @param   integer[]  $pks            The item IDs, which should use the transition
-	 * @param   integer    $transition_id  The transition which should be executed
+	 * @param   integer[]  $pks           The item IDs, which should use the transition
+	 * @param   integer    $transitionId  The transition which should be executed
 	 *
 	 * @return  boolean
 	 */
-	public function executeTransition(array $pks, int $transition_id): bool
+	public function executeTransition(array $pks, int $transitionId): bool
 	{
 		$pks = ArrayHelper::toInteger($pks);
 		$pks = array_filter($pks);
@@ -348,7 +348,7 @@ class Workflow
 			return true;
 		}
 
-		$transition = $this->getValidTransition($pks, $transition_id);
+		$transition = $this->getValidTransition($pks, $transitionId);
 
 		if (is_null($transition))
 		{
@@ -532,13 +532,13 @@ class Workflow
 	/**
 	 * Loads an existing association item with state and item ID
 	 *
-	 * @param   integer  $item_id  The item ID to load
+	 * @param   integer  $itemId  The item ID to load
 	 *
 	 * @return  \stdClass|null
 	 *
 	 * @since  4.0.0
 	 */
-	public function getAssociation(int $item_id): ?\stdClass
+	public function getAssociation(int $itemId): ?\stdClass
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
@@ -561,7 +561,7 @@ class Workflow
 					  $db->quoteName('extension') . ' = :extension',
 				  ]
 			)
-			->bind(':id', $item_id, ParameterType::INTEGER)
+			->bind(':id', $itemId, ParameterType::INTEGER)
 			->bind(':extension', $this->extension);
 
 		return $db->setQuery($query)->loadObject();

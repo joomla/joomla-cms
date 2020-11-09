@@ -59,7 +59,7 @@ trait CoreButtonsTrait
 			$button = $this->linkButton('link', $text)
 				->url($url)
 				->attributes(['target' => '_blank'])
-				->icon('fas fa-eye');
+				->icon('icon-eye');
 		}
 		else
 		{
@@ -67,7 +67,7 @@ trait CoreButtonsTrait
 				->url($url)
 				->iframeWidth(640)
 				->iframeHeight(480)
-				->icon('fas fa-eye');
+				->icon('icon-eye');
 		}
 
 		return $button;

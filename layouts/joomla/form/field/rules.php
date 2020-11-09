@@ -176,7 +176,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									if ($isSuperUserGroup)
 									{
 										$result['class'] = 'badge badge-success';
-										$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+										$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 									}
 									else
 									{
@@ -233,7 +233,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 										{
 											$result['class'] = 'badge badge-danger';
-											$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+											$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 										}
 									}
 									?>

@@ -23,6 +23,7 @@ if (empty($images->image_fulltext))
 $imgclass  = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext;
 $extraAttr = '';
 $img       = HTMLHelper::cleanImageURL($images->image_fulltext);
+$alt       = empty($images->image_fulltext_alt) && empty($images->image_fulltext_alt_empty) ? '' : 'alt="' . htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8') . '"';
 
 // Set lazyloading only for images which have width and height attributes
 if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
@@ -33,7 +34,7 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 ?>
 <figure class="<?php echo htmlspecialchars($imgclass, ENT_COMPAT, 'UTF-8'); ?> item-image">
 	<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
-			 alt="<?php echo htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8'); ?>"
+			 <?php echo $alt; ?> alt
 			 itemprop="image"
 			<?php echo $extraAttr; ?>
 	/>

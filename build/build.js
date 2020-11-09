@@ -18,16 +18,16 @@ const Program = require('commander');
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
-const errorPages = require('./build/build-modules-js/error-pages.es6.js');
-const init = require('./build/build-modules-js/init.es6.js');
-const compileCSS = require('./build/build-modules-js/compilecss.es6.js');
-const compileJS = require('./build/build-modules-js/compilejs.es6.js');
-const minifyVendor = require('./build/build-modules-js/javascript/minify-vendor.es6.js');
-const watch = require('./build/build-modules-js/watch.es6.js');
+const errorPages = require('./build-modules-js/error-pages.es6.js');
+const init = require('./build-modules-js/init.es6.js');
+const compileCSS = require('./build-modules-js/compilecss.es6.js');
+const compileJS = require('./build-modules-js/compilejs.es6.js');
+const minifyVendor = require('./build-modules-js/javascript/minify-vendor.es6.js');
+const watch = require('./build-modules-js/watch.es6.js');
 
 // The settings
-const options = require('./package.json');
-const settings = require('./build/build-modules-js/settings.json');
+const options = require('../package.json');
+const settings = require('./build-modules-js/settings.json');
 
 // Merge Joomla's specific settings to the main package.json object
 if ('settings' in settings) {

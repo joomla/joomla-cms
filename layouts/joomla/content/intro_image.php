@@ -25,6 +25,7 @@ if (empty($images->image_intro))
 $imgclass  = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro;
 $extraAttr = '';
 $img       = HTMLHelper::cleanImageURL($images->image_intro);
+$alt       = empty($images->image_intro_alt) && empty($images->image_intro_alt_empty) ? '' : 'alt="'. htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8') .'"';
 
 // Set lazyloading only for images which have width and height attributes
 if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
@@ -37,14 +38,14 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 		<a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>">
 			<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
-					 alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"
+					 <?php echo $alt; ?>
 					 itemprop="thumbnailUrl"
 					 <?php echo $extraAttr; ?>
 			/>
 		</a>
 	<?php else : ?>
 		<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
-				 alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"
+				 <?php echo $alt; ?>
 				 itemprop="thumbnailUrl"
 				 <?php echo $extraAttr; ?>
 		/>

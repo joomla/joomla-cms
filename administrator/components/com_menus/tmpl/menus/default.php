@@ -47,7 +47,7 @@ $wa->useScript('com_menus.admin-menus');
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -69,19 +69,19 @@ $wa->useScript('com_menus.admin-menus');
 									<?php echo Text::_('COM_MENUS_MENUS'); ?>
 								</th>
 								<th scope="col" class="w-10 text-center  d-none d-md-table-cell">
-									<span class="fas fa-check" aria-hidden="true"></span>
+									<span class="icon-check" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
-									<span class="fas fa-times" aria-hidden="true"></span>
+									<span class="icon-times" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
-									<span class="fas fa-trash" aria-hidden="true"></span>
+									<span class="icon-trash" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-lg-table-cell">
-									<span class="fas fa-cube" aria-hidden="true"></span>
+									<span class="icon-cube" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
 								<th scope="col" class="w-5 d-none d-lg-table-cell text-center">
@@ -117,7 +117,7 @@ $wa->useScript('com_menus.admin-menus');
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
-											<span class="fas fa-list" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_MENUS_MENUS'); ?></span>
+											<span class="icon-list" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_MENUS_MENUS'); ?></span>
 										</a>
 									<?php endif; ?>
 								</td>
