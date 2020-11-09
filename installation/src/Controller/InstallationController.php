@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Installation\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;

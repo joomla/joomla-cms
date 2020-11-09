@@ -16,7 +16,6 @@
 			type="text"
 			label="JGLOBAL_TITLE"
 			size="40"
-			id="title"
 			required="true"
 		/>
 
