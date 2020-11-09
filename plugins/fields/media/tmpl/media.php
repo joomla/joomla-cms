@@ -28,12 +28,11 @@ $buffer = '';
 
 if ($value)
 {
-	$alt       = ' alt="' . htmlentities($value['alt_text'], ENT_COMPAT, 'UTF-8', true) . '"';
 	$img       = HTMLHelper::cleanImageURL($value['imagefile']);
 	$imgUrl    = htmlentities($img->url, ENT_COMPAT, 'UTF-8', true);
-  $alt       = empty($value['alt_text']) && empty($value['alt_empty']) ? '' : ' alt="' . htmlspecialchars($value['alt_text'], ENT_COMPAT, 'UTF-8') . '"';
+	$alt       = empty($value['alt_text']) && empty($value['alt_empty']) ? '' : ' alt="' . htmlspecialchars($value['alt_text'], ENT_COMPAT, 'UTF-8') . '"';
 
-  if (file_exists($img->url))
+	if (file_exists($img->url))
 	{
 		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s%s>',
 			$img->attributes['width'],
