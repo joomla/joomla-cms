@@ -65,7 +65,7 @@
 					name="siteDescription"
 					type="text"
 					default=""
-					label="JGLOBAL_DESCRIPTION"
+					label="TPL_CASSIOPEIA_TAGLINE"
 					filter="string"
 				/>
 
