@@ -12,6 +12,7 @@ namespace Joomla\Component\Banners\Administrator\Table;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 
@@ -64,7 +65,7 @@ class ClientTable extends Table implements VersionableTableInterface
 	 * @return  boolean  True if the object is ok
 	 *
 	 * @see     Table::check()
-	 * @since   {
+	 * @since   DEPLOY_VERSION
 	 */
 	public function check()
 	{
@@ -80,7 +81,7 @@ class ClientTable extends Table implements VersionableTableInterface
 		}
 
 		// Check for valid name
-		if (trim($this->name) == '')
+		if (trim($this->name) === '')
 		{
 			$this->setError(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
 
