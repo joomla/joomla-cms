@@ -9,13 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
 <div class="header-item-content">
 	<div class="joomlaversion d-flex text-muted">
 		<div class="d-flex align-items-end mx-auto">
-			<?php echo HTMLHelper::_('sprite', 'icon-joomla', 'brand', '', ''); ?>
+			<span><?php echo HTMLHelper::_('sprite', 'icon-joomla', 'brands', 'icon'); ?></span>
 		</div>
 		<div class="tiny mx-auto">
 			<span class="sr-only"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_TEXT', $version); ?></span>

@@ -70,3 +70,14 @@
     border-color: $state-warning-bg;
   }
 }
+
+// SVG Icons
+svg.icon {
+  max-height: 2rem;
+  max-width: 2rem;
+}
+
+// Joomla
+svg.joomla {
+  fill: white;
+}
