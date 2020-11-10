@@ -421,7 +421,7 @@ class AbstractMenu
 	 */
 	public function __get($propName)
 	{
-		if ('user' === $propName)
+		if ($propName === 'user')
 		{
 			return empty($this->storedUser)
 				? Factory::getUser()
