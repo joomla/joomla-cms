@@ -65,7 +65,7 @@ class ClientTable extends Table implements VersionableTableInterface
 	 * @return  boolean  True if the object is ok
 	 *
 	 * @see     Table::check()
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()
 	{
