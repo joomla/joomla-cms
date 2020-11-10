@@ -34,7 +34,10 @@ $extensionassoc = array_key_exists('item_associations', $this->form->getFieldset
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['jmetadata', 'item_associations'];
 
-if (!ComponentHelper::getParams('com_content')->get('workflow_enabled', 0))
+$c = Factory::getApplication()->bootComponent('com_content');
+
+if (!$c instanceof WorkflowServiceInterface
+	|| !$c->isWorkflowActive('com_content.article'))
 {
 	$this->ignore_fieldsets[] = 'workflow';
 }
