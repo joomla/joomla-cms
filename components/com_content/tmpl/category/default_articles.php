@@ -171,11 +171,11 @@ if (!empty($this->items))
 			<tbody>
 			<?php foreach ($this->items as $i => $article) : ?>
 				<?php if ($this->items[$i]->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
-					<tr scope="row" class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
+					<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else : ?>
-					<tr scope="row" class="cat-list-row<?php echo $i % 2; ?>" >
+					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
-				<td class="list-title">
+				<td class="list-title" scope="row">
 					<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<a href="<?php echo Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 							<?php echo $this->escape($article->title); ?>
