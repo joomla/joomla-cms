@@ -8,6 +8,8 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Layout\LayoutHelper;
 ?>
 <?php if ($params->get('item_title')) : ?>
 
@@ -23,7 +25,7 @@ defined('_JEXEC') or die;
 	</<?php echo $item_heading; ?>>
 <?php endif; ?>
 
-<?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>	
+<?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>
 	<figure class="newsflash-image">
 		<img src="<?php echo $item->imageSrc; ?>" alt="<?php echo $item->imageAlt; ?>">
 		<?php if (!empty($item->imageCaption)) : ?>
@@ -47,5 +49,5 @@ defined('_JEXEC') or die;
 <?php echo $item->afterDisplayContent; ?>
 
 <?php if (isset($item->link) && $item->readmore != 0 && $params->get('readmore')) : ?>
-	<?php echo '<a class="readmore" href="' . $item->link . '">' . $item->linkText . '</a>'; ?>
+	<?php echo LayoutHelper::render('joomla.content.readmore', array('item' => $item, 'params' => $item->params, 'link' => $item->link)); ?>
 <?php endif; ?>

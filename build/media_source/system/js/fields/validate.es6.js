@@ -166,8 +166,10 @@
     }
 
     handleResponse(state, element, empty) {
+      const tagName = element.tagName.toLowerCase();
+
       // Set the element and its label (if exists) invalid state
-      if (element.tagName.toLowerCase() !== 'button' && element.value !== undefined) {
+      if ((tagName !== 'button' && element.value !== undefined) || tagName === 'fieldset') {
         if (state === false) {
           this.markInvalid(element, empty);
         } else {
@@ -190,7 +192,8 @@
       if (element.getAttribute('required') || element.classList.contains('required')) {
         tagName = element.tagName.toLowerCase();
         if (tagName === 'fieldset' && (element.classList.contains('radio') || element.classList.contains('checkboxes'))) {
-          if (!element.querySelector('input:checked').length) {
+          // No options are checked.
+          if (element.querySelector('input:checked') === null) {
             this.handleResponse(false, element, 'checkbox');
             return false;
           }
@@ -249,7 +252,7 @@
       const invalid = [];
 
       // Validate form fields
-      const fields = [].slice.call(form.querySelectorAll('input, textarea, select, button'));
+      const fields = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
       fields.forEach((field) => {
         if (this.validate(field) === false) {
           valid = false;

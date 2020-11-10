@@ -37,7 +37,7 @@ class Config implements ServiceProviderInterface
 				'JConfig',
 				function (Container $container)
 				{
-					if (!file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+					if (!is_file(JPATH_CONFIGURATION . '/configuration.php'))
 					{
 						return new Registry;
 					}

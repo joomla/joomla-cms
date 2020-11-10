@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installation\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Joomla Installation Database Helper Class.

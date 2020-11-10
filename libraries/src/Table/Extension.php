@@ -37,6 +37,14 @@ class Extension extends Table
 	protected $_jsonEncode = ['params'];
 
 	/**
+	 * Custom data can be used by extension developers
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $custom_data = '';
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.

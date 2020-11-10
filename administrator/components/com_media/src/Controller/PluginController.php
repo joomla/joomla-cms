@@ -124,7 +124,7 @@ class PluginController extends BaseController
 				// Redirect browser to Media Manager
 				case 'media-manager':
 				default:
-					$this->setRedirect(Route::_('index.php?option=com_media', false));
+					$this->setRedirect(Route::_('index.php?option=com_media&view=media', false));
 			}
 		}
 		catch (\Exception $e)

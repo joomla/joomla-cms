@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Installation\View\Remove;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Installation\View\DefaultView;
 use Joomla\CMS\Version;
@@ -64,7 +64,7 @@ class HtmlView extends DefaultView
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *

@@ -10,7 +10,7 @@
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
@@ -75,7 +75,7 @@ abstract class CredentialsCreation
 		try
 		{
 			$app      = Factory::getApplication();
-			$siteName = $app->getConfig()->get('sitename');
+			$siteName = $app->getConfig()->get('sitename', 'Joomla! Site');
 		}
 		catch (Exception $e)
 		{

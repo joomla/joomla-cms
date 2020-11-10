@@ -303,8 +303,6 @@ class TemplateModel extends FormModel
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -1407,7 +1405,7 @@ class TemplateModel extends FormModel
 	/**
 	 * Upload new file.
 	 *
-	 * @param   string  $file      The name of the file.
+	 * @param   array   $file      The uploaded file array.
 	 * @param   string  $location  Location for the new file.
 	 *
 	 * @return   boolean  True if file uploaded successfully, false otherwise

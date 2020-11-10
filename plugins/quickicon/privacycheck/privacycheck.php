@@ -74,7 +74,7 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 		return array(
 			array(
 				'link'  => $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
-				'image' => 'fas fa-users',
+				'image' => 'icon-users',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
 				'id'    => 'plg_quickicon_privacycheck',

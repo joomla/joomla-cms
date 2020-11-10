@@ -97,7 +97,6 @@
 			name="contenthistory"
 			type="contenthistory"
 			label="JTOOLBAR_VERSIONS"
-			id="contenthistory"
 			data-typeAlias="com_contact.contact"
 		/>
 
@@ -258,7 +257,6 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			id="published"
 			class="custom-select-color-state"
 			size="1"
 			validate="options"
@@ -305,7 +303,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 	</fieldset>
 

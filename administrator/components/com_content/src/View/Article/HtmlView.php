@@ -152,7 +152,7 @@ class HtmlView extends BaseHtmlView
 
 					if ($user->authorise('core.create', 'com_menus.menu'))
 					{
-						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+						$childBar->save('article.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
 					}
 
 					$childBar->save2new('article.save2new');
@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
 					// If checked out, we can still save2menu
 					if ($user->authorise('core.create', 'com_menus.menu'))
 					{
-						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+						$childBar->save('article.save2menu', 'JTOOLBAR_SAVE_TO_MENU');
 					}
 
 					// If checked out, we can still save

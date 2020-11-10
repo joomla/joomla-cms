@@ -58,7 +58,7 @@ defined('_JEXEC') or die;
 
 	<?php if (!empty($this->link_items)) : ?>
 		<div class="items-more">
-		<?php echo $this->loadTemplate('links'); ?>
+			<?php echo $this->loadTemplate('links'); ?>
 		</div>
 	<?php endif; ?>
 

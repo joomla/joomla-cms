@@ -36,7 +36,7 @@ $wa->useScript('com_finder.index');
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -106,7 +106,7 @@ $wa->useScript('com_finder.index');
 								<td class="text-center d-none d-md-table-cell text-center">
 								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
 									<span tabindex="0">
-										<span class="fas fa-calendar" aria-hidden="true"></span>
+										<span class="icon-calendar" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
 									</span>
 									<div role="tooltip" id="tip<?php echo $i; ?>">

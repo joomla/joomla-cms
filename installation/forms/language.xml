@@ -5,7 +5,6 @@
 			name="language"
 			type="installation.language"
 			label="INSTL_SELECT_LANGUAGE_TITLE"
-			id="language"
 			class="custom-select required ml-2"
 			default="en-GB"
 		/>
