@@ -1266,18 +1266,21 @@ abstract class HTMLHelper
 	 *
 	 * @param   string $icon    The icon to use.
 	 * @param   string $brand   The sprite font set.
-	 * @param   string $class   classes to apply.
+	 * @param   string $class   Optional class(s) to apply.
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0
 	 */
-	public static function sprite(string $icon, string $brand = 'solid', string $class = 'icon')
+	public static function sprite(string $icon, string $brand = 'solid', string $class = '')
 	{
+		// Compute class
+		$class = $class ? $class : 'icon ' . $icon;
+
 		// Strip icon-
 		$icon = str_replace('icon-', '', $icon);
 
-		$html = '<svg class="' . $class . ' ' . $icon . '"><use xlink:href="/media/vendor/fontawesome-free/sprites/' . $brand . '.svg#' . $icon . '"></use></svg>';
+		$html = '<svg class="' . $class . '"><use xlink:href="/media/vendor/fontawesome-free/sprites/' . $brand . '.svg#' . $icon . '"></use></svg>';
 
 		return $html;
 	}
