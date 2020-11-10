@@ -63,19 +63,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
 			<div class="col-lg-9">
-				<div>
-					<div class="card-body pl-0">
-						<fieldset class="adminform">
-							<?php echo $this->form->getLabel('articletext'); ?>
-							<?php echo $this->form->getInput('articletext'); ?>
-						</fieldset>
-					</div>
-				</div>
+				<fieldset class="adminform options-form">
+					<legend><?php echo $this->form->getLabel('articletext'); ?></legend>
+					<?php echo $this->form->getInput('articletext'); ?>
+					</fieldset>
 			</div>
 			<div class="col-lg-3">
-				<div class="px-3">
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
-				</div>
 			</div>
 		</div>
 
