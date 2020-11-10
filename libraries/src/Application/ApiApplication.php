@@ -178,11 +178,10 @@ final class ApiApplication extends CMSApplication
 
 			// Access-Control headers are received during OPTIONS requests (pre-flight)
 			if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
-			{			
+			{
 
 				if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
 				{
-
 					header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE, PATCH");         
 				}
 
