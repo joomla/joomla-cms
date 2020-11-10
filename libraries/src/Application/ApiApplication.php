@@ -161,12 +161,40 @@ final class ApiApplication extends CMSApplication
 	{
 		// Set the Joomla! API signature
 		$this->setHeader('X-Powered-By', 'JoomlaAPI/1.0', true);
+		
+		$forceCORS = (int) $this->get('cors');
 
-		if (\array_key_exists('cors', $options))
+		if ($forceCORS)
 		{
 			// Enable CORS (Cross-origin resource sharing)
-			$this->setHeader('Access-Control-Allow-Origin', '*', true);
+			$this->setHeader('Access-Control-Allow-Origin', $_SERVER['HTTP_ORIGIN'], true);
 			$this->setHeader('Access-Control-Allow-Headers', 'Authorization');
+
+			if (isset($_SERVER['HTTP_ORIGIN']))
+			{
+				// TO-DO filter allowed $_SERVER['HTTP_ORIGIN']
+				header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+				header('Access-Control-Allow-Credentials: true');
+	
+			}
+	
+			// Access-Control headers are received during OPTIONS requests (pre-flight)
+			if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+			{			
+	
+				if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+				{
+	
+					header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE, PATCH");         
+				}
+	
+				if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+				{
+					header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+				}
+	
+				exit(0);
+			}
 		}
 
 		// Parent function can be overridden later on for debugging.
