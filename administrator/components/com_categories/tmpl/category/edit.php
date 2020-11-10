@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
@@ -32,6 +33,12 @@ $extensionassoc = array_key_exists('item_associations', $this->form->getFieldset
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = ['jmetadata', 'item_associations'];
+
+if (!ComponentHelper::getParams('com_content')->get('workflow_enabled', 0))
+{
+	$this->ignore_fieldsets[] = 'workflow';
+}
+
 $this->useCoreUI = true;
 
 // In case of modal
