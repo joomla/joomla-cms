@@ -1264,15 +1264,17 @@ abstract class HTMLHelper
 	/**
 	 * Write a `<svg>` sprite element
 	 *
-	 * @param   string $icon    The icon to use.
-	 * @param   string $brand   The sprite font set.
-	 * @param   string $class   Optional class(s) to apply.
+	 * @param   string   $icon          The icon to use.
+	 * @param   string   $brand         The sprite font set.
+	 * @param   string   $class         Optional class(s) to apply.
+	 * @param   string   $title         Optional title/tooltip.
+	 * @param   string   $description   Optional description.
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0
 	 */
-	public static function sprite(string $icon, string $brand = 'solid', string $class = '')
+	public static function sprite(string $icon, string $brand = 'solid', string $class = '', string $title = '', string $description = '')
 	{
 		// Compute class
 		$class = $class ? $class : 'icon ' . $icon;
@@ -1280,7 +1282,17 @@ abstract class HTMLHelper
 		// Strip icon-
 		$icon = str_replace('icon-', '', $icon);
 
-		$html = '<svg class="' . $class . '"><use xlink:href="/media/vendor/fontawesome-free/sprites/' . $brand . '.svg#' . $icon . '"></use></svg>';
+		// Compute title
+		$title = $title ? '<title>' . $title . '</title>' : '';
+
+		// Compute Description
+		$description = $description ? '<desc>' . $description . '</desc>' : '';
+
+		$html = '<svg class="' . $class . '">'
+			. $title
+			. $description
+			. '<use xlink:href="/media/vendor/fontawesome-free/sprites/' . $brand . '.svg#' . $icon . '"></use>'
+			. '</svg>';
 
 		return $html;
 	}
