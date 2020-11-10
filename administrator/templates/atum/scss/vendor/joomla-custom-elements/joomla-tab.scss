@@ -46,7 +46,7 @@ joomla-tab {
       padding: .5rem 1rem;
       color: var(--atum-link-color);
       text-decoration: none;
-      border: 0 solid var(--bluegray);
+      border: 1px solid var(--bluegray);
       border-top: 0;
       border-right: 0;
       border-bottom: 0;
@@ -57,8 +57,7 @@ joomla-tab {
         margin: -1px;
         background-color: $white;
         background-image: none;
-        border: 1px solid var(--bluegray);
-        border-bottom: solid 1px #fff;
+        border-bottom: 1px solid var(--bluegray);
         border-radius: 0;
         box-shadow: none;
         &::after {
