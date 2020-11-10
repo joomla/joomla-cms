@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
@@ -55,7 +56,8 @@ if (!Multilanguage::isEnabled())
 }
 
 $html   = array();
-$html[] = '<fieldset class="form-vertical">';
+$html[] = '<fieldset class="form-vertical options-form">';
+$html[] = '<legend>' . Text::_('JGLOBAL') . '</legend>';
 
 foreach ($fields as $field)
 {
