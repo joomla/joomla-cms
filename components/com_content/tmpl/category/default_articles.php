@@ -171,11 +171,11 @@ if (!empty($this->items))
 			<tbody>
 			<?php foreach ($this->items as $i => $article) : ?>
 				<?php if ($this->items[$i]->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
-					<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
+					<tr scope="row" class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else : ?>
-					<tr class="cat-list-row<?php echo $i % 2; ?>" >
+					<tr scope="row" class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
-				<td headers="categorylist_header_title" class="list-title">
+				<td class="list-title">
 					<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<a href="<?php echo Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 							<?php echo $this->escape($article->title); ?>
@@ -251,41 +251,53 @@ if (!empty($this->items))
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_author', 1)) : ?>
-					<td headers="categorylist_header_author" class="list-author">
+					<td class="list-author">
 						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>
 							<?php $author = $article->created_by_alias ?: $author; ?>
 							<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
-								<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', HTMLHelper::_('link', $article->contact_link, $author)); ?>
+								<?php if ($this->params->get('show_headings')) : ?>
+									<?php echo HTMLHelper::_('link', $article->contact_link, $author); ?>
+								<?php else : ?>
+									<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', HTMLHelper::_('link', $article->contact_link, $author)); ?>
+								<?php endif; ?>
 							<?php else : ?>
-								<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+								<?php if ($this->params->get('show_headings')) : ?>
+									<?php echo $author; ?>
+								<?php else : ?>
+									<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+								<?php endif; ?>
 							<?php endif; ?>
 						<?php endif; ?>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_hits', 1)) : ?>
-					<td headers="categorylist_header_hits" class="list-hits">
+					<td class="list-hits">
 						<span class="badge badge-info">
-							<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
+							<?php if ($this->params->get('show_headings')) : ?>
+								<?php echo $article->hits; ?>
+							<?php else : ?>
+								<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
+							<?php endif; ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
-					<td headers="categorylist_header_votes" class="list-votes">
+					<td class="list-votes">
 						<span class="badge badge-success">
 							<?php echo Text::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
-					<td headers="categorylist_header_ratings" class="list-ratings">
+					<td class="list-ratings">
 						<span class="badge badge-warning">
 							<?php echo Text::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($isEditable) : ?>
-					<td headers="categorylist_header_edit" class="list-edit">
+					<td class="list-edit">
 						<?php if ($article->params->get('access-edit')) : ?>
 							<?php echo HTMLHelper::_('contenticon.edit', $article, $article->params); ?>
 						<?php endif; ?>
