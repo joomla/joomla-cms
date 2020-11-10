@@ -232,8 +232,3 @@ ul {
 .btn-group > .btn-group:not(:first-child) {
   @include border-right-radius(0);
 }
-
-// WebAuthn
-.plg_system_webauthn_login_button svg {
-  margin-left: 2px;
-}

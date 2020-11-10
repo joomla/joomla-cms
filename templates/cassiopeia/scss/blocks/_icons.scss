@@ -19,9 +19,16 @@
 
 // WebAuthn
 .plg_system_webauthn_login_button svg {
-  margin-right: 2px;
+  [dir=ltr] & {
+    margin-right: 2px;
+  }
+
+  [dir=rtl] & {
+    margin-left: 2px;
+  }
 }
 
 .plg_system_webauthn_login_button svg path {
   fill: currentColor;
 }
+
