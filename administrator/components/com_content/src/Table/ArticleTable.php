@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Content\Administrator\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Article table
