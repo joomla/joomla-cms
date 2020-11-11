@@ -44,7 +44,7 @@
   box-shadow: $col-box-shadow;
 
   /* Small devices (Portrait and Landscape, < 576px) */
-  @media (max-width: 576px) {
+  @media (max-width: var(--breakpoint-sm)) {
     margin-top: 4.5vh;
     margin-left: 0;
   }
