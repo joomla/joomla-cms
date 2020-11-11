@@ -934,6 +934,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'aligncenter'   => array('label' => 'Align center'),
 			'alignright'    => array('label' => 'Align right'),
 			'alignjustify'  => array('label' => 'Justify'),
+			'lineheight'    => array('label' => 'Line height'),
 
 			'outdent'       => array('label' => 'Decrease indent'),
 			'indent'        => array('label' => 'Increase indent'),
@@ -1029,6 +1030,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'toolbar1' => array(
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+				'lineheight', '|',
 				'styleselect', '|',
 				'formatselect', 'fontselect', 'fontsizeselect', '|',
 				'searchreplace', '|',
