@@ -1330,8 +1330,7 @@ class PlgSystemDebug extends JPlugin
 
 			if (isset($bar->tip) && $bar->tip)
 			{
-				$barClass .= ' hasTooltip';
-				$tip      = JHtml::_('tooltipText', $bar->tip, '', 0);
+				$tip = JHtml::_('tooltipText', $bar->tip, '', 0);
 			}
 
 			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
@@ -1537,7 +1536,7 @@ class PlgSystemDebug extends JPlugin
 
 				if ($dbVersion80)
 				{
-					$dbVersion56 = false; 
+					$dbVersion56 = false;
 				}
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
