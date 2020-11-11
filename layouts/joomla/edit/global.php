@@ -57,7 +57,7 @@ if (!Multilanguage::isEnabled())
 
 $html   = array();
 $html[] = '<fieldset class="form-vertical options-form">';
-$html[] = '<legend>' . Text::_('JGLOBAL') . '</legend>';
+$html[] = '<legend>' . Text::_('JPARAMS_BASIC') . '</legend>';
 
 foreach ($fields as $field)
 {
