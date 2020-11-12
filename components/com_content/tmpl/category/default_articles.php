@@ -285,14 +285,22 @@ if (!empty($this->items))
 				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
 					<td class="list-votes">
 						<span class="badge badge-success">
-							<?php echo Text::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
+							<?php if ($this->params->get('show_headings')) : ?>
+								<?php echo $article->rating_count; ?>
+							<?php else : ?>
+								<?php echo Text::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
+							<?php endif; ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
 					<td class="list-ratings">
 						<span class="badge badge-warning">
-							<?php echo Text::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
+							<?php if ($this->params->get('show_headings')) : ?>
+								<?php echo $article->rating; ?>
+							<?php else : ?>
+								<?php echo Text::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
+							<?php endif; ?>
 						</span>
 					</td>
 				<?php endif; ?>
