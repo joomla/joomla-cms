@@ -15,7 +15,7 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
- * Voteradio Field class.
+ * Votelist Field class.
  *
  * @since  __DEPLOY_VERSION__
  */
