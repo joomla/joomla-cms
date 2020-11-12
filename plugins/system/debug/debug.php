@@ -949,7 +949,7 @@ class PlgSystemDebug extends JPlugin
 					'class' => $barClass,
 					'width' => $barWidth,
 					'pre'   => $barPre,
-					'tip'   => sprintf('%.2f&nbsp;ms', $queryTime),
+					'tip'   => sprintf('%.2f ms', $queryTime),
 				);
 				$info[$id] = (object) array(
 					'class'       => $labelClass,
@@ -1326,14 +1326,9 @@ class PlgSystemDebug extends JPlugin
 				$barClass .= ' dbg-bar-active';
 			}
 
-			$tip = '';
+			$tip = empty($bar->tip) ? '' : ' title="' . htmlspecialchars($bar->tip, ENT_COMPAT, 'UTF-8'). '"';
 
-			if (isset($bar->tip) && $bar->tip)
-			{
-				$tip = JHtml::_('tooltipText', $bar->tip, '', 0);
-			}
-
-			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
+			$html[] = '<a class="bar dbg-bar ' . $barClass . '"' . $tip . ' style="width: '
 				. $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
 		}
 
@@ -1827,9 +1822,9 @@ class PlgSystemDebug extends JPlugin
 			$logEntriesDatabasequery = count(
 				array_filter(
 					$this->logEntries, function ($logEntry)
-					{
-						return $logEntry->category === 'databasequery';
-					}
+				{
+					return $logEntry->category === 'databasequery';
+				}
 				)
 			);
 			$logEntriesTotal         -= $logEntriesDatabasequery;
@@ -1839,9 +1834,9 @@ class PlgSystemDebug extends JPlugin
 		$logEntriesDeprecated = count(
 			array_filter(
 				$this->logEntries, function ($logEntry)
-				{
-					return $logEntry->category === 'deprecated';
-				}
+			{
+				return $logEntry->category === 'deprecated';
+			}
 			)
 		);
 		$showDeprecated       = $this->params->get('log-deprecated', 0);
