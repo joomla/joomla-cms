@@ -175,7 +175,7 @@ if (!empty($this->items))
 				<?php else : ?>
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
-				<td class="list-title" scope="row">
+				<th class="list-title" scope="row">
 					<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<a href="<?php echo Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 							<?php echo $this->escape($article->title); ?>
@@ -240,7 +240,7 @@ if (!empty($this->items))
 							</span>
 						</div>
 					<?php endif; ?>
-				</td>
+				</th>
 				<?php if ($this->params->get('list_show_date')) : ?>
 					<td headers="categorylist_header_date" class="list-date small">
 						<?php
