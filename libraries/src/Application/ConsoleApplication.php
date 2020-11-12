@@ -411,7 +411,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function getLongVersion(): string
 	{
-		return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version)->getShortVersion(), (defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
+		return sprintf('Joomla! <info>%s</info> (debug: %s)', (new Version)->getShortVersion(), (\defined('JDEBUG') && JDEBUG ? 'Yes' : 'No'));
 	}
 
 	/**

@@ -67,7 +67,11 @@ if ($readonly || $disabled)
 }
 
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
-$attr2 .= ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY')) . '" ';
+
+$placeholder = $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY'));
+
+$attr2 .= ' placeholder="' . $placeholder . '" ';
+$attr2 .= ' search-placeholder="' . $placeholder . '" ';
 
 if ($allowCustom)
 {

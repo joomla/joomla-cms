@@ -227,6 +227,13 @@
 			/>
 
 			<field
+				name="image_intro_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
+			/>
+
+			<field
 				name="image_intro_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
@@ -252,6 +259,13 @@
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 				size="20"
+			/>
+
+			<field
+				name="image_fulltext_alt_empty"
+				type="checkbox"
+				label="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_ALT_EMPTY_DESC"
 			/>
 
 			<field
