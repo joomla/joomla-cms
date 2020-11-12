@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * Voteradio Field class.
  *
- * @since  3.8.0
+ * @since  __DEPLOY_VERSION__
  */
 class VotelistField extends ListField
 {
@@ -40,7 +40,7 @@ class VotelistField extends ListField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
