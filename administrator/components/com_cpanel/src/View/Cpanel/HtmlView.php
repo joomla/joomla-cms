@@ -56,34 +56,33 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app = Factory::getApplication();
-		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
+		$dashboard = $app->input->getCmd('dashboard');
 
 		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
 		$icon  = 'icon-home';
 
-		$position = ApplicationHelper::stringURLSafe($extension);
+		$position = ApplicationHelper::stringURLSafe($dashboard);
 
 		// Generate a title for the view cpanel
-		if (!empty($extension))
+		if (!empty($dashboard))
 		{
-			$parts = explode('.', $extension);
+			$parts     = explode('.', $dashboard);
+			$component = $parts[0];
 
-			$prefix = 'COM_CPANEL_DASHBOARD_';
 			$lang = Factory::getLanguage();
 
-			if (strpos($parts[0], 'com_') === false)
-			{
-				$prefix .= strtoupper($parts[0]);
-			}
-			else
-			{
-				$prefix = strtoupper($parts[0]) . '_DASHBOARD';
+			$prefix = strtoupper($component) . '_DASHBOARD';
 
-				// Need to load the language file
-				$lang->load($parts[0], JPATH_BASE)
-				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0]);
-				$lang->load($parts[0]);
+			if (strpos($component, 'com_') === false)
+			{
+				$prefix  = 'COM_' . $prefix;
+				$component = 'com_' . $component;
 			}
+
+			// Need to load the language file
+			$lang->load($component, JPATH_BASE)
+			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+			$lang->load($component);
 
 			$sectionkey = !empty($parts[1]) ? '_' . strtoupper($parts[1]) : '';
 			$key = $prefix . $sectionkey . '_TITLE';
@@ -93,6 +92,16 @@ class HtmlView extends BaseHtmlView
 			if ($lang->hasKey($key))
 			{
 				$title = Text::_($key);
+			}
+			else
+			{
+				// Try with a string from CPanel
+				$key = 'COM_CPANEL_DASHBOARD_' . $parts[0] . '_TITLE';
+
+				if ($lang->hasKey($key))
+				{
+					$title = Text::_($key);
+				}
 			}
 
 			if (empty($parts[1]))
@@ -129,10 +138,6 @@ class HtmlView extends BaseHtmlView
 				elseif ($lang->hasKey($keyIcon))
 				{
 					$icon = Text::_($keyIcon);
-				}
-				else
-				{
-					$icon = '';
 				}
 			}
 			elseif ($lang->hasKey($keyIcon))
