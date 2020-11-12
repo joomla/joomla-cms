@@ -604,8 +604,8 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Image plugin options
 				'a11y_advanced_options' => true,
-				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
-				'image_title'        => true,
+				'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
+				'image_title'           => true,
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
