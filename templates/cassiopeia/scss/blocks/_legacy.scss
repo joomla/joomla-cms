@@ -6,3 +6,9 @@
 .right.item-image {
   float: right;
 }
+
+// style J4 custom field site display like J3
+ul.fields-container {
+  list-style: none; 
+  padding-left: 0;
+}
