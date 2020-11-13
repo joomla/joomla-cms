@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->app->getDocument()->getWebAssetManager();
@@ -33,22 +32,15 @@ if ($context === 'com_content.categories')
 	return;
 }
 
-// Get paths to icons
-$iconStar     = HTMLHelper::_('image', 'plg_content_vote/vote-star.svg', '', '', true, true);
-$iconHalfstar = HTMLHelper::_('image', 'plg_content_vote/vote-star-half.svg', '', '', true, true);
+// Write inline '<svg>' elements
+$star     = HTMLHelper::_('icons.svg', 'plg_content_vote/vote-star.svg', true);
+$halfstar = HTMLHelper::_('icons.svg', 'plg_content_vote/vote-star-half.svg', true);
 
-$pathStar     = JPATH_ROOT . substr($iconStar, strlen(Uri::root(true)));
-$pathHalfstar = JPATH_ROOT . substr($iconHalfstar, strlen(Uri::root(true)));
-
-// Check paths
-if ($pathStar === null || $pathHalfstar === null)
+// If you can't find the icon then skip it
+if ($star === null || $halfstar === null)
 {
 	return;
 }
-
-// Write inline '<svg>' elements
-$star     = file_get_contents($pathStar);
-$halfstar = file_get_contents($pathHalfstar);
 
 // Get rating
 $rating = (float) $row->rating;
