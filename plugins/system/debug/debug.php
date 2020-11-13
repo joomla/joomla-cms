@@ -1834,9 +1834,9 @@ class PlgSystemDebug extends JPlugin
 		$logEntriesDeprecated = count(
 			array_filter(
 				$this->logEntries, function ($logEntry)
-			{
-				return $logEntry->category === 'deprecated';
-			}
+				{
+					return $logEntry->category === 'deprecated';
+				}
 			)
 		);
 		$showDeprecated       = $this->params->get('log-deprecated', 0);
