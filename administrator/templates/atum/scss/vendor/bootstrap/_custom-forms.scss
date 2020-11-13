@@ -63,8 +63,8 @@
   &:disabled {
     cursor: default;
     border: 0;
-    box-shadow: none;
     background: $gray-200;
+    box-shadow: none;
   }
 
   optgroup,
