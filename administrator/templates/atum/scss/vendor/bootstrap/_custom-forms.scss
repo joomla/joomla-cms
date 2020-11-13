@@ -62,8 +62,8 @@
 
   &:disabled {
     cursor: default;
-    border: 0;
     background: $gray-200;
+    border: 0;
     box-shadow: none;
   }
 
