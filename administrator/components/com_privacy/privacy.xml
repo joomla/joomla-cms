@@ -32,5 +32,7 @@
 			<language tag="en-GB">language/en-GB/com_privacy.sys.ini</language>
 		</languages>
 	</administration>
+	<dashboards>
+		<dashboard title="COM_PRIVACY_DASHBOARD_TITLE" icon="icon-lock">privacy</dashboard>
+	</dashboards>
 </extension>
-
