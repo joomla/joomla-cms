@@ -1326,7 +1326,7 @@ class PlgSystemDebug extends JPlugin
 				$barClass .= ' dbg-bar-active';
 			}
 
-			$tip = empty($bar->tip) ? '' : ' title="' . htmlspecialchars($bar->tip, ENT_COMPAT, 'UTF-8'). '"';
+			$tip = empty($bar->tip) ? '' : ' title="' . htmlspecialchars($bar->tip, ENT_COMPAT, 'UTF-8') . '"';
 
 			$html[] = '<a class="bar dbg-bar ' . $barClass . '"' . $tip . ' style="width: '
 				. $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
