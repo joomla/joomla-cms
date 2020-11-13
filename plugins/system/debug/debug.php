@@ -1822,9 +1822,9 @@ class PlgSystemDebug extends JPlugin
 			$logEntriesDatabasequery = count(
 				array_filter(
 					$this->logEntries, function ($logEntry)
-				{
-					return $logEntry->category === 'databasequery';
-				}
+					{
+						return $logEntry->category === 'databasequery';
+					}
 				)
 			);
 			$logEntriesTotal         -= $logEntriesDatabasequery;
