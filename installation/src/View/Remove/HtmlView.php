@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Installation\View\Remove;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Installation\View\DefaultView;
 use Joomla\CMS\Version;

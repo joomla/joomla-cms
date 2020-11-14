@@ -592,17 +592,20 @@ class PlgEditorTinymce extends CMSPlugin
 				'document_base_url'  => Uri::root(true) . '/',
 				'paste_data_images'  => $allowImgPaste,
 				'importcss_append'   => true,
-				'image_title'        => true,
 				'height'             => $html_height,
 				'width'              => $html_width,
 				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,
-				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 				'toolbar_sticky'     => true,
 				'toolbar_mode'       => 'sliding',
+
+				// Image plugin options
+				'a11y_advanced_options' => true,
+				'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
+				'image_title'           => true,
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
@@ -934,6 +937,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'aligncenter'   => array('label' => 'Align center'),
 			'alignright'    => array('label' => 'Align right'),
 			'alignjustify'  => array('label' => 'Justify'),
+			'lineheight'    => array('label' => 'Line height'),
 
 			'outdent'       => array('label' => 'Decrease indent'),
 			'indent'        => array('label' => 'Increase indent'),
@@ -1029,6 +1033,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'toolbar1' => array(
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+				'lineheight', '|',
 				'styleselect', '|',
 				'formatselect', 'fontselect', 'fontsizeselect', '|',
 				'searchreplace', '|',

@@ -197,6 +197,13 @@ class AccessiblemediaField extends SubformField
 			type="text"
 			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_TEXT_LABEL"
 		/>
+
+		<field
+			name="alt_empty"
+			type="checkbox"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_LABEL"
+			description="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_EMPTY_DESC"
+		/>
 	</fieldset>
 </form>
 XML;
