@@ -123,7 +123,7 @@ class HtmlView extends BaseHtmlView
 
 		// Set the toolbar information.
 		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
-		ToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
+		ToolbarHelper::custom('update.purge', 'loop', '', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
 		if (Factory::getUser()->authorise('core.admin'))
