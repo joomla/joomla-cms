@@ -1043,7 +1043,7 @@ class Document
 	 *
 	 * @since   1.7.0
 	 *
-	 * @link    https://www.w3.org/TR/xhtml-media-types
+	 * @link    https://www.w3.org/TR/xhtml-media-types/
 	 */
 	public function setMimeEncoding($type = 'text/html', $sync = true)
 	{
