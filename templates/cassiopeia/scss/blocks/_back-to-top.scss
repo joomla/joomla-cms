@@ -21,10 +21,10 @@ $scrollLength: 100vh;
 .back-to-top-link {
   position: fixed;
   position: sticky;
-  pointer-events: all;
   top: calc(#{$scrollLength} - #{$cassiopeia-grid-gutter * 3});
   padding: $cassiopeia-grid-gutter/2;
   color: var(--cassiopeia-color-primary, $standard-color-primary);
+  pointer-events: all;
   background-color: var(--white, $white);
   border: 1px solid transparent;
   border-radius: $border-radius;
