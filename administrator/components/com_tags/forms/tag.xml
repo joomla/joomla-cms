@@ -125,6 +125,8 @@
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
+		filter="UINT"
+		validate="options"
 	/>
 
 	<field
@@ -241,6 +243,7 @@
 					type="text"
 					label="COM_TAGS_FIELD_TAG_LINK_CLASS"
 					size="20"
+					validate="CssIdentifier"
 				/>
 
 			</fields>

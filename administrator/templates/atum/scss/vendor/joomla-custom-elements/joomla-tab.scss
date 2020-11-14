@@ -31,6 +31,7 @@ joomla-tab {
 
   > ul {
     display: flex;
+    flex-flow: wrap;
     padding: 0;
     margin: 0;
     white-space: nowrap;

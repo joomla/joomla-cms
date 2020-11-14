@@ -77,16 +77,17 @@
       if (typeof title !== 'undefined') {
         titleWrapper = document.createElement('div');
         titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = Joomla.Text._(type) ? Joomla.Text._(type) : type;
+        titleWrapper.innerHTML = `<span class="${type}"></span><span class="sr-only">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`;
         messagesBox.appendChild(titleWrapper);
       }
 
       // Add messages to the message box
+      messageWrapper = document.createElement('div');
+      messageWrapper.className = 'alert-wrapper';
       typeMessages.forEach((typeMessage) => {
-        messageWrapper = document.createElement('div');
-        messageWrapper.innerHTML = `<div class="alert-message">${typeMessage}</div>`;
-        messagesBox.appendChild(messageWrapper);
+        messageWrapper.innerHTML += `<div class="alert-message">${typeMessage}</div>`;
       });
+      messagesBox.appendChild(messageWrapper);
 
       messageContainer.appendChild(messagesBox);
     });
@@ -132,14 +133,12 @@
   Joomla.ajaxErrorsMessages = (xhr, textStatus) => {
     const msg = {};
 
-
     if (textStatus === 'parsererror') {
       // For jQuery jqXHR
       const buf = [];
 
       // Html entity encode.
       let encodedJson = xhr.responseText.trim();
-
 
       // eslint-disable-next-line no-plusplus
       for (let i = encodedJson.length - 1; i >= 0; i--) {

@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Installation\View\Error;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Installation\View\DefaultView;
 

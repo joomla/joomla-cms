@@ -39,8 +39,15 @@ $logoBrandSmall = $this->params->get('logoBrandSmall')
 	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
 	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
 
-$logoBrandLargeAlt = htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
-$logoBrandSmallAlt = htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
+$logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
+$logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
+$loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt'), ENT_COMPAT, 'UTF-8') . '"';
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -62,6 +69,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 // Add cookie alert message
 Text::script('JGLOBAL_WARNCOOKIES');
+// Add generic AJAX error message
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -85,10 +94,9 @@ Text::script('JGLOBAL_WARNCOOKIES');
 	<div class="d-flex">
 		<div class="header-title d-flex">
 			<div class="d-flex align-items-center">
-				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
-					<img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo $logoBrandLargeAlt; ?>">
-					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo $logoBrandSmallAlt; ?>">
+					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>"  <?php echo $logoBrandSmallAlt; ?>>
 				</div>
 			</div>
 			<jdoc:include type="modules" name="title" />
@@ -103,12 +111,13 @@ Text::script('JGLOBAL_WARNCOOKIES');
 
 	<div class="container-fluid container-main order-1">
 		<section id="content" class="content h-100">
-			<jdoc:include type="message" />
+			<div class="login_message">
+				<jdoc:include type="message" />
+			</div>
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
 					<div class="main-brand logo text-center">
-						<img src="<?php echo $loginLogo; ?>"
-							 alt="<?php echo htmlspecialchars($this->params->get('altLoginLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
+						<img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
 					</div>
 					<jdoc:include type="component" />
 				</div>

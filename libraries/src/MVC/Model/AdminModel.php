@@ -22,6 +22,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -509,15 +510,30 @@ abstract class AdminModel extends FormModel
 
 			if (!empty($oldAssetId))
 			{
+				$dbType = strtolower($db->getServerType());
+
 				// Copy rules
 				$query = $db->getQuery(true);
 				$query->clear()
-					->update($db->quoteName('#__assets', 't'))
-					->join('INNER', $db->quoteName('#__assets', 's') .
-						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
-					)
-					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
-					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+					->update($db->quoteName('#__assets', 't'));
+
+				if ($dbType === 'mysql')
+				{
+					$query->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'));
+				}
+				else
+				{
+					$query->set($db->quoteName('rules') . ' = ' . $db->quoteName('s.rules'));
+				}
+
+				$query->join(
+					'INNER',
+					$db->quoteName('#__assets', 's'),
+					$db->quoteName('s.id') . ' = :oldassetid'
+				)
+					->where($db->quoteName('t.id') . ' = :assetid')
+					->bind(':oldassetid', $oldAssetId, ParameterType::INTEGER)
+					->bind(':assetid', $this->table->asset_id, ParameterType::INTEGER);
 
 				$db->setQuery($query)->execute();
 			}
@@ -537,15 +553,15 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
-	 * @param   \JTableInterface  $table  The table object containing the newly created item
-	 * @param   integer           $newId  The id of the new item
-	 * @param   integer           $oldId  The original item id
+	 * @param   TableInterface  $table  The table object containing the newly created item
+	 * @param   integer         $newId  The id of the new item
+	 * @param   integer         $oldId  The original item id
 	 *
 	 * @return  void
 	 *
 	 * @since  3.8.12
 	 */
-	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
+	protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
 	{
 	}
 

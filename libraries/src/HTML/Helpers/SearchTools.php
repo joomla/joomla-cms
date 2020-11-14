@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -104,7 +104,7 @@ abstract class SearchTools
 	)
 	{
 		$direction = strtolower($direction);
-		$orderIcons = array('fas fa-caret-up', 'fas fa-caret-down');
+		$orderIcons = array('icon-caret-up', 'icon-caret-down');
 		$index = (int) ($direction === 'desc');
 
 		if ($order !== $selected)

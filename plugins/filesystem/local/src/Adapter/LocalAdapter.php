@@ -816,7 +816,7 @@ class LocalAdapter implements AdapterInterface
 
 		if (!$can)
 		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'), 403);
+			throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 403);
 		}
 	}
 

@@ -42,6 +42,7 @@ class CoreAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterf
 				'root' => Uri::root(true),
 				'rootFull' => Uri::root(),
 				'base' => Uri::base(true),
+				'baseFull' => Uri::base(),
 			]
 		);
 

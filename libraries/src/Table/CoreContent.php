@@ -53,7 +53,7 @@ class CoreContent extends Table
 		parent::__construct('#__ucm_content', 'core_content_id', $db);
 
 		$this->setColumnAlias('published', 'core_state');
-		$this->setColumnAlias('checked_out', 'core_checked_out');
+		$this->setColumnAlias('checked_out', 'core_checked_out_user_id');
 		$this->setColumnAlias('checked_out_time', 'core_checked_out_time');
 	}
 
