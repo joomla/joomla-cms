@@ -67,7 +67,7 @@ class ArticlesController extends ApiController
 
 		if (array_key_exists('state', $apiFilterInfo))
 		{
-			$this->modelState->set('filter.condition', $filter->clean($apiFilterInfo['state'], 'INT'));
+			$this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
 		}
 
 		if (array_key_exists('language', $apiFilterInfo))
