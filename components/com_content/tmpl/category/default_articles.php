@@ -242,7 +242,7 @@ if (!empty($this->items))
 					<?php endif; ?>
 				</th>
 				<?php if ($this->params->get('list_show_date')) : ?>
-					<td headers="categorylist_header_date" class="list-date small">
+					<td class="list-date small">
 						<?php
 						echo HTMLHelper::_(
 							'date', $article->displayDate,
