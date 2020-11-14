@@ -158,7 +158,7 @@ Text::script('JLIB_APPLICATION_ERROR_SERVER');
 		</div>
 	<?php endif; ?>
 	<div class="input-group">
-		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
+		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
 			<div class="input-group-append">
 				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
