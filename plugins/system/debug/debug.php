@@ -713,7 +713,7 @@ class PlgSystemDebug extends JPlugin
 			$barsMem[] = (object) array(
 				'width' => round((float) $mark->memory / ($totalMem / 100), 4),
 				'class' => $barClassMem,
-				'tip'   => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
+				'tip'   => $mark->tip . ' ' . round((float) $mark->memory, 3) . '  MB',
 			);
 
 			$htmlMarks[] = '<div>' . str_replace('label-time', $labelClass, str_replace('label-memory', $labelClassMem, $mark->html)) . '</div>';
@@ -1537,7 +1537,7 @@ class PlgSystemDebug extends JPlugin
 
 				if ($dbVersion80)
 				{
-					$dbVersion56 = false; 
+					$dbVersion56 = false;
 				}
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
