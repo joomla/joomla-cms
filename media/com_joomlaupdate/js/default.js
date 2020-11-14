@@ -328,7 +328,7 @@ function extractionMethodHandler(target, prefix)
     }
 
     // Run PreUpdateChecker on document ready
-	document.addEventListener( "ready", function() {
+	document.addEventListener( "DOMContentLoaded", function() {
 		$(PreUpdateChecker.run);
 	} );
 })(jQuery, document, window);
