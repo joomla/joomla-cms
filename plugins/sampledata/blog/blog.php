@@ -565,6 +565,7 @@ class PlgSampledataBlog extends CMSPlugin
 			),
 
 			// Category 0 = Blog
+			// Category 0 = Blog
 			array(
 				// Article 2 - Welcome to your blog
 				'catid'    => $catIds[0],
@@ -672,6 +673,15 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 9 - Workflows
 				'catid'       => $catIds[1],
 				'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_FIELD_0'),
+			),
+
+			array(
+				// Article 10 - Typography
+				'catid'    => $catIds[2],
+				'images'   => array(
+					'image_intro'            => 'images/banners/banner.jpg',
+					'image_intro_caption'    => 'Cassiopeia',
+				)
 			),
 		);
 
@@ -961,6 +971,32 @@ class PlgSampledataBlog extends CMSPlugin
 					'menu_text'               => 1,
 					'show_page_heading'       => 0,
 					'secure'                  => 0,
+				),
+			),
+			array(
+				// Typography
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
+				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[10],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'show_title'            => 0,
+					'link_titles'           => 0,
+					'show_intro'            => 1,
+					'info_block_position'   => '',
+					'info_block_show_title' => 0,
+					'show_category'         => 0,
+					'show_author'           => 0,
+					'show_create_date'      => 0,
+					'show_modify_date'      => 0,
+					'show_publish_date'     => 0,
+					'show_item_navigation'  => 0,
+					'show_hits'             => 0,
+					'show_tags'             => 0,
+					'menu_text'             => 1,
+					'menu_show'             => 1,
+					'page_title'            => '',
+					'secure'                => 0,
 				),
 			),
 			array(
@@ -1282,7 +1318,11 @@ class PlgSampledataBlog extends CMSPlugin
 		// Get previously entered Data from UserStates
 		$menuTypes = $this->app->getUserState('sampledata.blog.menutypes');
 
-		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
+		$catids     = $this->app->getUserState('sampledata.blog.articles.catids');
+		$articleIds = $this->app->getUserState('sampledata.blog.articles');
+
+		// Link to article "typography" in banner module
+		$headerLink = 'index.php?option=com_content&view=article&id=' . $articleIds[10];
 
 		$modules = array(
 			array(
@@ -1492,7 +1532,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				// Header image
 				'title'      => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
-				'content'    => '<p>' . Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_CONTENT') . '</p>',
+				'content'    => '<p>' . Text::sprintf('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_CONTENT', $headerLink) . '</p>',
 				'ordering'   => 1,
 				'position'   => 'banner',
 				'module'     => 'mod_custom',
