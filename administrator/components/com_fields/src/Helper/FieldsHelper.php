@@ -316,17 +316,15 @@ class FieldsHelper
 		{
 			$assignedCatids = $formField->getAttribute('default', null);
 
-			// Choose the first category available
-			$xml = new \DOMDocument;
-			libxml_use_internal_errors(true);
-			$xml->loadHTML($formField->__get('input'));
-			libxml_clear_errors();
-			libxml_use_internal_errors(false);
-			$options = $xml->getElementsByTagName('option');
-
-			if (!$assignedCatids && $firstChoice = $options->item(0))
+			if (!$assignedCatids)
 			{
-				$assignedCatids = $firstChoice->getAttribute('value');
+				// Choose the first category available
+				$catOptions = $formField->options;
+
+				if ($catOptions && !empty($catOptions[0]->value))
+				{
+					$assignedCatids = (int) $catOptions[0]->value;
+				}
 			}
 
 			$data->fieldscatid = $assignedCatids;

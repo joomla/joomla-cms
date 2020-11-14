@@ -60,9 +60,6 @@ else
 	}
 
 	if ($feed != false) :
-		// Image handling
-		$iUrl   = $feed->image ?? null;
-		$iTitle = $feed->imagetitle ?? null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' : 'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' : 'left'; ?> !important" class="feed">
 		<?php
@@ -87,8 +84,8 @@ else
 		<?php endif; ?>
 
 		<?php // Feed image ?>
-		<?php if ($params->get('rssimage', 1) && $iUrl) : ?>
-			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>">
+		<?php if ($params->get('rssimage', 1) && $feed->image) : ?>
+			<img src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
 		<?php endif; ?>
 
 

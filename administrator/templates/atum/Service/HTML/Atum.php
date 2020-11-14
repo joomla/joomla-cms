@@ -149,8 +149,7 @@ class JHtmlAtum
 	/**
 	 * Calculates the different template colors
 	 *
-	 * @param   string   $color         Template parameter color.
-	 * @param   boolean  $monochrome    Template parameter monochrome.
+	 * @param   string  $color  Template parameter color.
 	 *
 	 * @return  array  An array of calculated color values and css variables
 	 *

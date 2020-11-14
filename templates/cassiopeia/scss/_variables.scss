@@ -47,19 +47,19 @@ $teal:                               #5bc0de;
 $cyan:                               #108193;
 
 $colors: (
-  blue: $blue,
-  indigo: $indigo,
-  purple: $purple,
-  pink: $pink,
-  red: $red,
-  orange: $orange,
-  yellow: $yellow,
-  green: $green,
-  teal: $teal,
-  cyan: $cyan,
-  white: $white,
-  gray: $gray-600,
-  gray-dark: $gray-800
+  "blue": $blue,
+  "indigo": $indigo,
+  "purple": $purple,
+  "pink": $pink,
+  "red": $red,
+  "orange": $orange,
+  "yellow": $yellow,
+  "green": $green,
+  "teal": $teal,
+  "cyan": $cyan,
+  "white": $white,
+  "gray": $gray-600,
+  "gray-dark": $gray-800
 );
 
 $theme-colors: (
@@ -87,6 +87,8 @@ $h4-font-size:                       1rem;
 $h5-font-size:                       .9286rem;
 $h6-font-size:                       .8571rem;
 $font-size-sm:                       .8rem;
+$jicon-css-prefix:                   icon;
+$fa-css-prefix:                      fa;
 $fa-font-path:                       "../../../media/vendor/fontawesome-free/webfonts";
 
 // Border Radius

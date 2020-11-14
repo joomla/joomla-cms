@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installation\Form\Field\Installation;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
@@ -100,10 +100,10 @@ class LanguageField extends ListField
 	/**
 	 * Method to sort languages by name.
 	 *
-	 * @param   string  $a  The first value to determine sort
-	 * @param   string  $b  The second value to determine sort
+	 * @param   array  $a  The first value to determine sort
+	 * @param   array  $b  The second value to determine sort
 	 *
-	 * @return  string
+	 * @return  integer
 	 *
 	 * @since   3.1
 	 */

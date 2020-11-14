@@ -35,7 +35,7 @@ class JNamespacePsr4Map
 	 */
 	public function exists()
 	{
-		return file_exists($this->file);
+		return is_file($this->file);
 	}
 
 	/**
@@ -176,7 +176,7 @@ class JNamespacePsr4Map
 				$file = $extensionPath . $name . '.xml';
 
 				// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_ prefix.
-				if (!file_exists($file))
+				if (!is_file($file))
 				{
 					if (!$count)
 					{
@@ -185,7 +185,7 @@ class JNamespacePsr4Map
 
 					$file = $extensionPath . $extension . '.xml';
 
-					if (!file_exists($file))
+					if (!is_file($file))
 					{
 						continue;
 					}

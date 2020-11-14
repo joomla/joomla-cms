@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -59,8 +59,6 @@ abstract class Jquery
 		{
 			$wa->useScript('jquery-migrate');
 		}
-
-		return;
 	}
 
 	/**

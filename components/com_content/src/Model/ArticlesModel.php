@@ -691,7 +691,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * Overridden to inject convert the attribs field into a \JParameter object.
+	 * Overridden to inject convert the attribs field into a Registry object.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *

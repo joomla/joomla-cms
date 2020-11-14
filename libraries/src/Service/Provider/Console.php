@@ -15,6 +15,7 @@ use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
@@ -166,6 +167,15 @@ class Console implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new UpdateCoreCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			FinderIndexCommand::class,
+			function (Container $container)
+			{
+				return new FinderIndexCommand($container->get('db'));
 			},
 			true
 		);

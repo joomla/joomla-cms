@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\Input;
@@ -172,7 +172,7 @@ class GetConfigurationCommand extends AbstractCommand
 				$foundGroup = true;
 				$options = [];
 
-				foreach ($value['options'] as $key => $option)
+				foreach ($value['options'] as $option)
 				{
 					$options[] = [$option, $configs[$option]];
 				}

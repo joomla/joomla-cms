@@ -1,4 +1,12 @@
 // Global
+:root {
+  scroll-behavior: smooth;
+
+  // Disable smooth scroll when the user has set "prefers-reduced-motion"
+  @media screen and (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
 
 html {
   font-size: $font-size-root;
@@ -31,6 +39,10 @@ small,
 
 dd {
   margin-bottom: 0;
+}
+
+th dd {
+  font-weight: normal;
 }
 
 .mod-menu {

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Object\CMSObject;
 
@@ -157,7 +157,7 @@ class Adapter extends CMSObject
 
 		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
 
-		if (!file_exists($fullpath))
+		if (!is_file($fullpath))
 		{
 			return false;
 		}

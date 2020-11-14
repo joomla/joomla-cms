@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -225,7 +225,7 @@ class ChecksModel extends BaseInstallationModel
 	/**
 	 * Method to get the form.
 	 *
-	 * @param   string  $view  The view being processed.
+	 * @param   string|null  $view  The view being processed.
 	 *
 	 * @return  Form|boolean  Form object on success, false on failure.
 	 *
