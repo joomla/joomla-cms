@@ -401,7 +401,7 @@
 				name="sef_ids"
 				type="radio"
 				layout="joomla.form.field.radio.switcher"
-				default="1"
+				default="0"
 				label="JGLOBAL_SEF_NOIDS_LABEL"
 				filter="integer">
 				<option value="0">JNO</option>
