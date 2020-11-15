@@ -20,6 +20,7 @@ $scrollLength: 100vh;
 
 .back-to-top-link {
   position: fixed;
+  /* stylelint-disable-next-line declaration-block-no-duplicate-properties */
   position: sticky;
   top: calc(#{$scrollLength} - #{$cassiopeia-grid-gutter * 3});
   padding: $cassiopeia-grid-gutter/2;
