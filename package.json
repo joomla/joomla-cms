@@ -32,9 +32,8 @@
   ],
   "dependencies": {
     "@claviska/jquery-minicolors": "^2.3.5",
-    "@webcomponents/webcomponentsjs": "^2.5.0",
-    "@edx/tinymce-language-selector": "^1.1.0",
     "@webcomponents/webcomponentsjs": "^2.4.4",
+    "@edx/tinymce-language-selector": "^1.1.0",
     "accessibility": "^3.0.10",
     "awesomplete": "1.1.5",
     "bootstrap": "^4.5.3",
