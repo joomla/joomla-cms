@@ -69,7 +69,15 @@ class ClientTable extends Table implements VersionableTableInterface
 	 */
 	public function check()
 	{
-		// Check that client name is not blank
+		// Check that client is not blank
+		if (trim($this->name) === '')
+		{
+			$this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+
+			return false;
+		}
+
+		// Check that client contact name is not blank
 		if (trim($this->contact) === '')
 		{
 			$this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
