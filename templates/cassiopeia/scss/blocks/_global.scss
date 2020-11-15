@@ -27,6 +27,26 @@ h6 {
   font-weight: var(--cassiopeia-font-weight-headings, $font-weight-bold);
 }
 
+.display-1 {
+  font-size: clamp(2.7rem, 8vw, 5.5rem);
+}
+
+.display-2 {
+  font-size: clamp(2.3rem, 7vw, 4.5rem);
+}
+
+.display-3 {
+  font-size: clamp(1.9rem, 6vw, 3.5rem);
+}
+
+.display-4 {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+.lead {
+  font-size: clamp(1.1rem, 3vw, 1.25rem);
+}
+
 a {
   color: var(--cassiopeia-color-link);
 
