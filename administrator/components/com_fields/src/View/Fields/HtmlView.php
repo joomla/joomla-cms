@@ -156,7 +156,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -176,7 +176,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->checkin('fields.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state'))
+			if ($canDo->get('core.edit.state') && !$this->state->get('filter.state') == -2)
 			{
 				$childBar->trash('fields.trash')->listCheck(true);
 			}

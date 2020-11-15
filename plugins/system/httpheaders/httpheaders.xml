@@ -79,6 +79,7 @@
 							<option value="feature-policy">Feature-Policy</option>
 							<option value="permissions-policy">Permissions-Policy</option>
 							<option value="referrer-policy">Referrer-Policy</option>
+							<option value="report-to">Report-To</option>
 							<option value="strict-transport-security">Strict-Transport-Security</option>
 							<option value="x-frame-options">X-Frame-Options</option>
 						</field>

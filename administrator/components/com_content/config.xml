@@ -222,7 +222,7 @@
 
 		<field
 			name="show_vote"
-			type="radio"
+			type="voteradio"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
@@ -266,7 +266,6 @@
 			name="show_tags"
 			type="radio"
 			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-			id="show_tags"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -499,27 +498,19 @@
 
 		<field
 			name="float_intro"
-			type="list"
-			label="COM_CONTENT_FLOAT_INTRO_LABEL"
+			type="text"
+			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
+			size="20"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
-			validate="options"
-			>
-			<option value="right">COM_CONTENT_RIGHT</option>
-			<option value="left">COM_CONTENT_LEFT</option>
-			<option value="none">COM_CONTENT_NONE</option>
-		</field>
+		/>
 
 		<field
 			name="float_fulltext"
-			type="list"
-			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
+			type="text"
+			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
+			size="20"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
-			validate="options"
-			>
-			<option value="right">COM_CONTENT_RIGHT</option>
-			<option value="left">COM_CONTENT_LEFT</option>
-			<option value="none">COM_CONTENT_NONE</option>
-		</field>
+		/>
 	</fieldset>
 	<fieldset
 		name="category"
@@ -764,6 +755,23 @@
 			<option value="3">J3</option>
 			<option value="4">J4</option>
 			<option value="5">J5</option>
+		</field>
+
+		<field
+			name="spacer2"
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
+			name="link_intro_image"
+			type="radio"
+			label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 	<fieldset

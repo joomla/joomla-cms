@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Content\Site\Dispatcher;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Language\Text;

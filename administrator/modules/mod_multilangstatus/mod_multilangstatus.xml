@@ -9,10 +9,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_MULTILANGSTATUS_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Module\Multilangstatus</namespace>
 	<files>
 		<filename module="mod_multilangstatus">mod_multilangstatus.php</filename>
-		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 
@@ -41,6 +39,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 			</fieldset>

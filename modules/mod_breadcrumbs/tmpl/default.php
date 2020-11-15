@@ -24,7 +24,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
 			</li>
 		<?php else : ?>
 			<li class="mod-breadcrumbs__divider float-left">
-				<span class="divider fas fa-location" aria-hidden="true"></span>
+				<span class="divider icon-location" aria-hidden="true"></span>
 			</li>
 		<?php endif; ?>
 

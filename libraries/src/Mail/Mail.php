@@ -714,7 +714,7 @@ class Mail extends PHPMailer
 		}
 
 		// Add sender to replyTo only if no replyTo received
-		$autoReplyTo = (empty($this->ReplyTo)) ? true : false;
+		$autoReplyTo = empty($this->ReplyTo);
 
 		if ($this->setSender(array($from, $fromName, $autoReplyTo)) === false)
 		{

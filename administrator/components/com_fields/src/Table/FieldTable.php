@@ -173,22 +173,23 @@ class FieldTable extends Table
 			$this->fieldparams = '{}';
 		}
 
-		$date = Factory::getDate();
+		$date = Factory::getDate()->toSql();
 		$user = Factory::getUser();
+
+		// Set created date if not set.
+		if (!(int) $this->created_time)
+		{
+			$this->created_time = $date;
+		}
 
 		if ($this->id)
 		{
 			// Existing item
-			$this->modified_time = $date->toSql();
+			$this->modified_time = $date;
 			$this->modified_by = $user->get('id');
 		}
 		else
 		{
-			if (!(int) $this->created_time)
-			{
-				$this->created_time = $date->toSql();
-			}
-
 			if (!(int) $this->modified_time)
 			{
 				$this->modified_time = $this->created_time;

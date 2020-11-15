@@ -45,9 +45,9 @@
    * @since   4.0.0
    */
   function toggleArrowIcon(positionTop) {
-    const navDropDownIcon = doc.querySelectorAll('.nav-item.dropdown span[class*="fa-angle-"]');
-    const remIcon = (positionTop) ? 'fa-angle-up' : 'fa-angle-down';
-    const addIcon = (positionTop) ? 'fa-angle-down' : 'fa-angle-up';
+    const navDropDownIcon = doc.querySelectorAll('.nav-item.dropdown span[class*="icon-angle-"]');
+    const remIcon = (positionTop) ? 'icon-angle-up' : 'icon-angle-down';
+    const addIcon = (positionTop) ? 'icon-angle-down' : 'icon-angle-up';
 
     if (!navDropDownIcon) {
       return;
@@ -136,7 +136,7 @@
         headerMoreBtn.setAttribute('type', 'button');
         headerMoreBtn.setAttribute('title', Joomla.Text._('TPL_ATUM_MORE_ELEMENTS'));
         const spanFa = document.createElement('span');
-        spanFa.className = 'fas fa-ellipsis-h';
+        spanFa.className = 'icon-ellipsis-h';
         spanFa.setAttribute('aria-hidden', 'true');
         const headerMoreMenu = document.createElement('div');
         headerMoreMenu.className = 'header-more-menu d-flex flex-wrap';
