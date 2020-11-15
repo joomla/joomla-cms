@@ -124,7 +124,7 @@ abstract class Icons
 		// Make sure path is local to Joomla
 		$file = Path::check(JPATH_ROOT . '/' . substr($file, \strlen(Uri::root(true))));
 
-		// If it's doesn't exist then skip it.
+		// If it doesn't exist then skip it.
 		if (!File::exists($file))
 		{
 			return null;
