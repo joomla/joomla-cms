@@ -11,6 +11,7 @@ namespace Joomla\Component\Banners\Administrator\Table;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
@@ -56,5 +57,26 @@ class ClientTable extends Table implements VersionableTableInterface
 	public function getTypeAlias()
 	{
 		return 'com_banners.client';
+	}
+
+	/**
+	 * Overloaded check function
+	 *
+	 * @return  boolean
+	 *
+	 * @see     Table::check
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function check()
+	{
+		// Check that client name is not blank
+		if (trim($this->contact) === '')
+		{
+			$this->setError(Text::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+
+			return false;
+		}
+
+		return true;
 	}
 }
