@@ -69,7 +69,7 @@ Text::script('JHIDEPASSWORD');
 			<div class="form-group">
 				<label for="mod-login-secretkey">
 					<span class="label"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></span>
-					<span class="text-right">
+					<span class="form-control-hint">
 						<?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
 					</span>
 				</label>
@@ -116,6 +116,8 @@ Text::script('JHIDEPASSWORD');
 					<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 						'class' => 'icon',
 					], true) ?>
+				<?php elseif (!empty($button['svg'])): ?>
+					<?php echo $button['svg']; ?>
 				<?php endif; ?>
 				<?php echo Text::_($button['label']) ?>
 			</button>

@@ -237,8 +237,8 @@ class HtmlView extends BaseHtmlView
 		{
 			if (!isset($this->typeName))
 			{
-				ToolbarHelper::custom('associations.purge', 'purge', 'purge', 'COM_ASSOCIATIONS_PURGE', false, false);
-				ToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
+				ToolbarHelper::custom('associations.purge', 'purge', '', 'COM_ASSOCIATIONS_PURGE', false, false);
+				ToolbarHelper::custom('associations.clean', 'refresh', '', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
 			}
 
 			ToolbarHelper::preferences('com_associations');

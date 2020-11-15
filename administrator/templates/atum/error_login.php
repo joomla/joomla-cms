@@ -39,8 +39,15 @@ $logoBrandSmall = $this->params->get('logoBrandSmall')
 	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
 	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
 
-$logoBrandLargeAlt = htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
-$logoBrandSmallAlt = htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
+$logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
+$logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
+$loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt'), ENT_COMPAT, 'UTF-8') . '"';
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -87,10 +94,9 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<div class="d-flex">
 		<div class="header-title d-flex mr-auto">
 			<div class="d-flex align-items-center">
-				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
-					<img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo $logoBrandLargeAlt; ?>">
-					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo $logoBrandSmallAlt; ?>">
+					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 				</div>
 			</div>
 			<jdoc:include type="modules" name="title"/>
@@ -121,7 +127,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 				<div id="element-box" class="card">
 					<div class="card-body">
 						<div class="main-brand d-flex align-items-center justify-content-center">
-							<img src="<?php echo $loginLogo; ?>" alt="">
+							<img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
 						</div>
 						<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<jdoc:include type="message" />
