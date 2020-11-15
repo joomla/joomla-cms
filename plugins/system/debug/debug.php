@@ -1439,7 +1439,7 @@ class PlgSystemDebug extends JPlugin
 					$htmlTdWithWarnings = str_replace(
 						'Using&nbsp;filesort',
 						'<span class="dbg-warning" title="'
-						. htmlspecialchars(JText::_('PLG_DEBUG_WARNING_USING_FILESORT_DESC'), ENT_COMPAT, 'UTF-8') . '">' . '">'
+						. htmlspecialchars(JText::_('PLG_DEBUG_WARNING_USING_FILESORT_DESC'), ENT_COMPAT, 'UTF-8') . '">'
 						. JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
 						$htmlTd
 					);
