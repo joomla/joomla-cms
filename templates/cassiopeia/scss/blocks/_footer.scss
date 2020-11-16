@@ -19,4 +19,12 @@
   [dir=rtl] & {
     background-image: $cassiopeia-header-grad-rtl;
   }
+
+  @if $metismenu==true {
+    .metismenu.mod-menu {
+      .mm-collapse {
+        background: var(--cassiopeia-color-primary);
+      }
+    }
+  }
 }

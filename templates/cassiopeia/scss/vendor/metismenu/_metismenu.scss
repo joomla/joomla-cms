@@ -1,41 +1,29 @@
 @if $metismenu==true {
   .metismenu {
-    &.mod-menu {
+    &.menu-horizontal {
+      flex: 1 0 100%;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      @include media-breakpoint-up(md) {
+        display: flex;
+        flex: 1 1 0%;
+        flex-direction: row;
+      }
+
       > li {
-        > a::after,
-        > button::before {
+        position: relative;
 
-          @include media-breakpoint-up(md) {
-            position: absolute;
-            right: 50%;
-            bottom: 0;
-            left: 50%;
-            display: block;
-            height: 2px;
-            margin: auto;
-            content: "";
-            background: transparent;
-            opacity: .2;
-            transition: all .2s ease, background-color .2s ease;
+        @include media-breakpoint-up(md) {
+          + li {
+            margin-left: 1.55em;
           }
-        }
-
-        @include media-breakpoint-down(md) {
-          &.active > button,
-          > button:hover {
-            text-decoration: underline;
-          }
-        }
-
-        > a:hover::after,
-        > button:hover::before,
-        &.active > a::after,
-        &.active > button::before {
-          right: 2px;
-          left: 0;
-          background: $white;
         }
       }
+    }
+
+    &.mod-menu {
       .metismenu-item {
         display: flex;
         font-size: 1.1rem;
@@ -57,14 +45,6 @@
           @include media-breakpoint-down(md) {
             width: 100%;
           }
-          .active > a,
-          .active > button {
-            text-decoration: underline;
-          }
-
-          a:hover {
-            text-decoration: underline;
-          }
         }
         > span,
         > a {
@@ -79,6 +59,13 @@
         > button:focus {
           outline: 1px dotted $gray-400;
           outline-offset: 2px;
+        }
+
+        &.active > a,
+        &.active > button,
+        > a:hover,
+        > button:hover {
+          text-decoration: underline;
         }
 
         &::after {
@@ -107,9 +94,6 @@
           display: block;
           > a {
             display: inline-flex;
-          }
-          > button:hover {
-            text-decoration: underline;
           }
         }
         > li.parent {
@@ -141,12 +125,16 @@
         &:after {
           width: 0;
           height: 0;
-          margin: 0 .5em;
+          margin: 0 0 0 .5em;
           content: "";
           border-top: 10px solid currentColor;
           border-right: 10px solid transparent;
           border-left: 10px solid transparent;
           transition: all .3s ease-out;
+
+          [dir="rtl"] & {
+            margin: 0 .5em 0 0;
+          }
 
           @at-root .mm-active > & {
             transform: rotate(-180deg);
@@ -163,12 +151,6 @@
   .sidebar-right,
   .sidebar-left {
     .metismenu {
-      li.active > a,
-      li.active > button,
-      li > a:hover,
-      li > button:hover {
-        text-decoration: underline;
-      }
       .mm-collapse {
         position: relative;
         background-color: rgba(0,0,0,.03);

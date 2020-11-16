@@ -41,7 +41,7 @@ $start = (int) $params->get('startLevel', 1);
 
 	$itemParams = $item->getParams();
 	$class      = [];
-	$class[]    = 'metismenu-item item-' . $item->id;
+	$class[]    = 'metismenu-item item-' . $item->id . ' level-' . ($item->level - $start + 1);
 
 	if ($item->id == $default_id)
 	{
