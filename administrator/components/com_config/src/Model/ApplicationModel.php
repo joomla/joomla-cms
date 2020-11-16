@@ -713,11 +713,8 @@ class ApplicationModel extends FormModel
 		// Create the new configuration object.
 		$config = new Registry($data);
 
-		// Overwrite webservices cors settings
+		// Overwrite webservices cors setting
 		$app->set('cors', $data['cors']);
-		$app->set('cors_allow_origin', $data['cors_allow_origin']);
-		$app->set('cors_allow_headers', $data['cors_allow_headers']);
-		$app->set('cors_allow_methods', $data['cors_allow_methods']);
 
 		// Overwrite the old FTP credentials with the new ones.
 		$app->set('ftp_enable', $data['ftp_enable']);

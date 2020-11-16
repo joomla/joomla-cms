@@ -161,16 +161,12 @@ final class ApiApplication extends CMSApplication
 	{
 		// Set the Joomla! API signature
 		$this->setHeader('X-Powered-By', 'JoomlaAPI/1.0', true);
-
 		$forceCORS = (int) $this->get('cors');
 
 		if ($forceCORS)
 		{
 			// Enable CORS (Cross-origin resource sharing)
-			// Obtain allowed CORS origin from Global Settings.
-			// Set to * (=all) if not set.
-			$allowedOrigin = $this->get('cors_allowed_origin', '*');
-			$this->setHeader('Access-Control-Allow-Origin', $allowedOrigin, true);
+			$this->setHeader('Access-Control-Allow-Origin', $_SERVER['HTTP_ORIGIN'], true);
 			$this->setHeader('Access-Control-Allow-Headers', 'Authorization');
 
 			if (isset($_SERVER['HTTP_ORIGIN']))
@@ -179,10 +175,27 @@ final class ApiApplication extends CMSApplication
 				header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
 				header('Access-Control-Allow-Credentials: true');
 			}
+
+			// Access-Control headers are received during OPTIONS requests (pre-flight)
+			if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+			{
+				if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+				{
+					header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE, PATCH");
+				}
+
+				if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+				{
+					header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+				}
+
+				exit(0);
+			}
 		}
 
 		// Parent function can be overridden later on for debugging.
 		parent::respond();
+
 	}
 
 	/**
@@ -199,11 +212,11 @@ final class ApiApplication extends CMSApplication
 		// The API application should not need to use a template
 		if ($params)
 		{
-			$template              = new \stdClass;
-			$template->template    = 'system';
-			$template->params      = new Registry;
+			$template = new \stdClass;
+			$template->template = 'system';
+			$template->params = new Registry;
 			$template->inheritable = 0;
-			$template->parent      = '';
+			$template->parent = '';
 
 			return $template;
 		}
@@ -231,13 +244,10 @@ final class ApiApplication extends CMSApplication
 		PluginHelper::importPlugin('webservices');
 		$this->triggerEvent('onBeforeApiRoute', array(&$router, $this));
 		$caught404 = false;
-		$method    = $this->input->getMethod();
 
 		try
 		{
-			$this->handlePreflight($method, $router);
-
-			$route = $router->parseApiRoute($method);
+			$route = $router->parseApiRoute($this->input->getMethod());
 		}
 		catch (RouteNotFoundException $e)
 		{
@@ -315,58 +325,6 @@ final class ApiApplication extends CMSApplication
 				throw new AuthenticationFailed;
 			}
 		}
-	}
-
-	/**
-	 * Handles preflight requests.
-	 *
-	 * @param $method
-	 * @param $router
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function handlePreflight($method, $router)
-	{
-		// If not an OPTIONS request or CORS is not enabled,
-		// there's nothing useful to do here.
-		if ($method !== 'OPTIONS' || !(int) $this->get('cors'))
-		{
-			return;
-		}
-
-		// Extract routes matching current route from all known routes.
-		$matchingRoutes = $router->getMatchingRoutes();
-
-		// Extract exposed methods from matching routes.
-		$matchingRoutesMethods = array_unique(
-			array_reduce($matchingRoutes, function ($carry, $route) {
-				return array_merge($carry, $route->getMethods());
-			}, [])
-		);
-
-		// Obtain allowed CORS origin from Global Settings.
-		// Set to * (=all) if not set.
-		$allowedOrigin = $this->get('cors_allowed_origin', '*');
-
-		// Obtain allowed CORS headers from Global Settings.
-		// Set to sensible default if not set.
-		$allowedHeaders = $this->get('cors_allowed_headers', 'Content-Type,X-Joomla-Token');
-
-		// Obtain allowed CORS methods from Global Settings.
-		// Set to methods exposed by current route if not set.
-		$allowedMethods = $this->get('cors_allowed_headers', implode(',', $matchingRoutesMethods));
-
-		// No use to go through the regular route handling hassle,
-		// so let's simply output the headers and exit.
-		$this->setHeader('status', '204');
-		$this->setHeader('Access-Control-Allow-Origin', $allowedOrigin);
-		$this->setHeader('Access-Control-Allow-Headers', $allowedHeaders);
-		$this->setHeader('Access-Control-Allow-Methods', $allowedMethods);
-		$this->sendHeaders();
-
-		$this->close();
 	}
 
 	/**
