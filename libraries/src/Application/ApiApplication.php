@@ -169,7 +169,7 @@ final class ApiApplication extends CMSApplication
 			// Enable CORS (Cross-origin resource sharing)
 			// Obtain allowed CORS origin from Global Settings.
 			// Set to * (=all) if not set.
-			$allowedOrigin = $this->get('cors_allowed_origin', '*');
+			$allowedOrigin = $this->get('cors_allow_origin', '*');
 			$this->setHeader('Access-Control-Allow-Origin', $allowedOrigin, true);
 			$this->setHeader('Access-Control-Allow-Headers', 'Authorization');
 
@@ -348,7 +348,7 @@ final class ApiApplication extends CMSApplication
 
 		// Obtain allowed CORS origin from Global Settings.
 		// Set to * (=all) if not set.
-		$allowedOrigin = $this->get('cors_allowed_origin', '*');
+		$allowedOrigin = $this->get('cors_allow_origin', '*');
 
 		// Obtain allowed CORS headers from Global Settings.
 		// Set to sensible default if not set.
