@@ -322,8 +322,9 @@ final class ApiApplication extends CMSApplication
 	/**
 	 * Handles preflight requests.
 	 *
-	 * @param $method
-	 * @param $router
+	 * @param   String     $method  The REST verb
+	 *
+	 * @param   ApiRouter  $router  The API Routing object
 	 *
 	 * @return  void
 	 *
