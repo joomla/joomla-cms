@@ -348,8 +348,8 @@ final class ApiApplication extends CMSApplication
 		$matchingRoutesMethods = array_unique(
 			array_reduce($matchingRoutes, function ($carry, $route) {
 					return array_merge($carry, $route->getMethods());
-				},
-				[]
+			},
+			[]
 			)
 		);
 
