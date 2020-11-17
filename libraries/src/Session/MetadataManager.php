@@ -120,19 +120,24 @@ final class MetadataManager
 	 */
 	public function createOrUpdateRecord(SessionInterface $session, User $user)
 	{
-		$exists = $this->checkSessionRecordExists($session->getId());
-
-		// Do not try to touch the database if we can't determine the record state
-		if ($exists === self::$sessionRecordUnknown)
+		// Active non-new session with database handler always exists at this stage.
+		// We should only check session presence for non-database or inactive or new sessions.
+		if ($this->app->get('session_handler') !== 'database' || !$session->isActive() || $session->isNew())
 		{
-			return;
-		}
+			$exists = $this->checkSessionRecordExists($session->getId());
 
-		if ($exists === self::$sessionRecordDoesNotExist)
-		{
-			$this->createSessionRecord($session, $user);
+			// Do not try to touch the database if we can't determine the record state
+			if ($exists === self::$sessionRecordUnknown)
+			{
+				return;
+			}
 
-			return;
+			if ($exists === self::$sessionRecordDoesNotExist)
+			{
+				$this->createSessionRecord($session, $user);
+
+				return;
+			}
 		}
 
 		$this->updateSessionRecord($session, $user);
