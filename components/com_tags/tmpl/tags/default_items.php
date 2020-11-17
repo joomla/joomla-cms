@@ -83,7 +83,7 @@ $n         = count($this->items);
 		<?php endif; ?>
 	</form>
 
-	<!-- Fix for chrome. -->
+	<!-- Clear floated content -->
 	<div class="clearfix"></div>
 
 	<?php if ($this->items == false || $n === 0) : ?>
