@@ -38,7 +38,7 @@
           z-index: 1001;
           display: block;
           min-width: 180px;
-          padding: .375em;
+          padding: .375em 1em;
           list-style: none;
           box-shadow: 0 0 10px hsla(0, 0%, 0%, .1);
 
@@ -71,6 +71,16 @@
         &::after {
           content: none;
         }
+
+        &:not(.level-1) > ul,
+        &:not(.level-2) > ul {
+          margin-right: -1em;
+
+          [dir="rtl"] & {
+            margin-right: 0;
+            margin-left: -1em;
+          }
+        }
       }
 
       .mm-collapsing {
@@ -83,7 +93,7 @@
 
       .mm-collapse {
         position: absolute;
-        padding: .375em;
+        padding: .375em 1em;
         background-color: hsl(0, 0%, 100%);
         box-shadow: $cassiopeia-box-shadow;
 
