@@ -166,9 +166,11 @@ final class ApiApplication extends CMSApplication
 
 		if ($forceCORS)
 		{
-			// Enable CORS (Cross-origin resource sharing)
-			// Obtain allowed CORS origin from Global Settings.
-			// Set to * (=all) if not set.
+			/**
+			* Enable CORS (Cross-origin resource sharing)
+			* Obtain allowed CORS origin from Global Settings.
+			* Set to * (=all) if not set.
+			*/
 			$allowedOrigin = $this->get('cors_allow_origin', '*');
 			$this->setHeader('Access-Control-Allow-Origin', $allowedOrigin, true);
 			$this->setHeader('Access-Control-Allow-Headers', 'Authorization');
@@ -329,8 +331,10 @@ final class ApiApplication extends CMSApplication
 	 */
 	protected function handlePreflight($method, $router)
 	{
-		// If not an OPTIONS request or CORS is not enabled,
-		// there's nothing useful to do here.
+		/**
+		* If not an OPTIONS request or CORS is not enabled,
+		* there's nothing useful to do here.
+		*/
 		if ($method !== 'OPTIONS' || !(int) $this->get('cors'))
 		{
 			return;
@@ -346,16 +350,22 @@ final class ApiApplication extends CMSApplication
 			}, [])
 		);
 
-		// Obtain allowed CORS origin from Global Settings.
-		// Set to * (=all) if not set.
+		/**
+		* Obtain allowed CORS origin from Global Settings.
+		* Set to * (=all) if not set.
+		*/
 		$allowedOrigin = $this->get('cors_allow_origin', '*');
 
-		// Obtain allowed CORS headers from Global Settings.
-		// Set to sensible default if not set.
+		/**
+		* Obtain allowed CORS headers from Global Settings.
+		* Set to sensible default if not set.
+		*/
 		$allowedHeaders = $this->get('cors_allowed_headers', 'Content-Type,X-Joomla-Token');
 
-		// Obtain allowed CORS methods from Global Settings.
-		// Set to methods exposed by current route if not set.
+		/**
+		* Obtain allowed CORS methods from Global Settings.
+		* Set to methods exposed by current route if not set.
+		*/
 		$allowedMethods = $this->get('cors_allowed_headers', implode(',', $matchingRoutesMethods));
 
 		// No use to go through the regular route handling hassle,
