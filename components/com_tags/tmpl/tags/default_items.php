@@ -83,7 +83,7 @@ $n         = count($this->items);
 		<?php endif; ?>
 	</form>
 
-	<!-- Fix for weird 1st row behavior in chrome. -->
+	<!-- Fix for chrome. -->
 	<div class="clearfix"></div>
 
 	<?php if ($this->items == false || $n === 0) : ?>
