@@ -205,7 +205,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 
 	<?php if ($this->params->get('backTop') == 1) : ?>
 		<div class="back-to-top-wrapper">
-			<a href="#top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
+			<a href="#top" id="back-top" class="back-to-top-link" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>">
 				<span class="icon-arrow-up icon-fw" aria-hidden="true"></span>
 			</a>
 		</div>
