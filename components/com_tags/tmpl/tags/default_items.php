@@ -91,7 +91,7 @@ $n         = count($this->items);
 	<?php else : ?>
 		<?php foreach ($this->items as $i => $item) : ?>
 			<?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
-				<ul class="com-tags__category category list-group">
+				<ul class="com-tags__category category list-group list-group-horizontal">
 			<?php endif; ?>
 
 			<li class="list-group-item list-group-item-action">
