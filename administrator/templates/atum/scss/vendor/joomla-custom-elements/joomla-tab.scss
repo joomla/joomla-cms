@@ -126,37 +126,37 @@ joomla-tab {
         flex: 0 0 100%;
         max-width: 100%;
       }
-    }
 
-    li:last-of-type a[role=tab] {
-      border-bottom: 0;
-    }
+      > li:last-of-type a[role=tab] {
+        border-bottom: 0;
+      }
 
-    a[role=tab] {
-      position: relative;
-      display: block;
-      padding: .75em 1em;
-      color: var(--atum-special-color);
-      text-decoration: none;
-      border: 0;
-      border-bottom: 1px solid $gray-300;
-      box-shadow: none;
-
-      &[active],
-      &:hover {
-        color: var(--atum-text-light);
-        background-color: var(--atum-link-color);
-        background-image: none;
-        border-right: 0;
+      > li > a[role=tab] {
+        position: relative;
+        display: block;
+        padding: .75em 1em;
+        color: var(--atum-special-color);
+        text-decoration: none;
+        border: 0;
+        border-bottom: 1px solid $gray-300;
         box-shadow: none;
 
-        &::after {
-          top: 0;
-          bottom: 0;
-          left: -1px;
-          width: 5px;
-          height: auto;
-          background-color: var(--atum-bg-dark);
+        &[active],
+        &:hover {
+          color: var(--atum-text-light);
+          background-color: var(--atum-link-color);
+          background-image: none;
+          border-right: 0;
+          box-shadow: none;
+
+          &::after {
+            top: 0;
+            bottom: 0;
+            left: -1px;
+            width: 5px;
+            height: auto;
+            background-color: var(--atum-bg-dark);
+          }
         }
       }
     }
