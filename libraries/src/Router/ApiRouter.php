@@ -168,7 +168,7 @@ class ApiRouter extends Router
 	/**
 	 * Removes the index.php from the route's path.
 	 *
-	 * @param   string  $path
+	 * @param   string  $path  The path
 	 *
 	 * @return  string
 	 *
@@ -207,8 +207,10 @@ class ApiRouter extends Router
 		$routePath = $this->getRoutePath();
 
 		// Extract routes matching $routePath from all known routes.
-		return array_filter($this->routes, function ($route) use ($routePath) {
-			return preg_match($route->getRegex(), ltrim($routePath, '/'), $matches) === 1;
-		});
+		return array_filter($this->routes,
+			function ($route) use ($routePath) {
+				return preg_match($route->getRegex(), ltrim($routePath, '/'), $matches) === 1;
+			}
+		);
 	}
 }
