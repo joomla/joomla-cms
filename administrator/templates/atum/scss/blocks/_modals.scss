@@ -1,90 +1,91 @@
 // Modals
 
 .modal {
-
-  .btn {
-    padding: 0 22px;
-    margin-right: .5rem;
-    font-size: 1rem;
-    line-height: 2.3rem;
-    color: var(--atum-text-dark);
-    background: var(--white);
-    border-color: var(--whiteoffset);
-    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
-  }
-
-  .btn-primary:not([href]),
-  .btn-success:not([href]),
-  .btn-danger:not([href]),
-  .btn-secondary:not([href]) {
-    color: var(--atum-text-dark);
-    background: var(--white);
-    border: 1px solid var(--atum-text-dark);
-  }
-
-  .btn-primary:not([href]) {
-    &:hover {
-      color: var(--white);
-      background: var(--primary);
-      border-color: var(--primary);
+  > .modal-footer {
+    .btn {
+      padding: 0 22px;
+      margin-right: .5rem;
+      font-size: 1rem;
+      line-height: 2.3rem;
+      color: var(--atum-text-dark);
+      background: var(--white);
+      border-color: var(--whiteoffset);
+      box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
     }
-  }
 
-  .btn-secondary:not([href]) {
-    &:hover {
-      color: var(--white);
-      background: var(--secondary);
-      border-color: var(--secondary);
+    .btn-primary:not([href]),
+    .btn-success:not([href]),
+    .btn-danger:not([href]),
+    .btn-secondary:not([href]) {
+      color: var(--atum-text-dark);
+      background: var(--white);
+      border: 1px solid var(--atum-text-dark);
     }
-  }
 
-  .btn-success:not([href]) {
-    &:hover {
-      color: var(--white);
-      background: var(--success);
-      border-color: var(--success);
+    .btn-primary:not([href]) {
+      &:hover {
+        color: var(--white);
+        background: var(--primary);
+        border-color: var(--primary);
+      }
     }
-  }
 
-  .btn-danger:not([href]) {
-    &:hover {
-      color: var(--white);
-      background: var(--danger);
-      border-color: var(--danger);
+    .btn-secondary:not([href]) {
+      &:hover {
+        color: var(--white);
+        background: var(--secondary);
+        border-color: var(--secondary);
+      }
     }
-  }
 
-  .btn.btn-danger {
-    [class^="#{$jicon-css-prefix}-"],
-    [class*=" #{$jicon-css-prefix}-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"],
-    span {
-      display: inline-block;
-      width: 2.375rem;
-      height: 100%;
-      margin: 0 16px;
-      margin-inline-start: -22px;
-      line-height: 2.375rem;
-      color: hsla(0, 0%, 100%, .9);
-      background-color: var(--danger);
+    .btn-success:not([href]) {
+      &:hover {
+        color: var(--white);
+        background: var(--success);
+        border-color: var(--success);
+      }
     }
-  }
 
-  .btn.btn-success {
-    [class^="#{$jicon-css-prefix}-"],
-    [class*=" #{$jicon-css-prefix}-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"],
-    span {
-      display: inline-block;
-      width: 2.375rem;
-      height: 100%;
-      margin: 0 16px;
-      margin-inline-start: -22px;
-      line-height: 2.375rem;
-      color: hsla(0, 0%, 100%, .9);
-      background-color: var(--success);
+    .btn-danger:not([href]) {
+      &:hover {
+        color: var(--white);
+        background: var(--danger);
+        border-color: var(--danger);
+      }
+    }
+
+    .btn.btn-danger {
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"],
+      span {
+        display: inline-block;
+        width: 2.375rem;
+        height: 100%;
+        margin: 0 16px;
+        margin-inline-start: -22px;
+        line-height: 2.375rem;
+        color: hsla(0, 0%, 100%, .9);
+        background-color: var(--danger);
+      }
+    }
+
+    .btn.btn-success {
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"],
+      span {
+        display: inline-block;
+        width: 2.375rem;
+        height: 100%;
+        margin: 0 16px;
+        margin-inline-start: -22px;
+        line-height: 2.375rem;
+        color: hsla(0, 0%, 100%, .9);
+        background-color: var(--success);
+      }
     }
   }
 }
