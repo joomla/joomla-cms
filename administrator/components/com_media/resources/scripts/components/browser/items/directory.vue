@@ -16,15 +16,11 @@
     <div class="media-browser-item-info">
       {{ item.name }}
     </div>
-    <a
-      href="#"
+    <span
       class="media-browser-select"
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-      @click.stop="toggleSelect()"
-      @focus="focused(true)"
-      @blur="focused(false)"
-    />
+    ></span>
     <div
       class="media-browser-actions"
       :class="{'active': showActions}"
