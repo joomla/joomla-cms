@@ -124,19 +124,18 @@ export default {
         }
         this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
         return;
-      } else {
-        this.$store.dispatch('toggleBrowserItemSelect', this.item);
-        window.parent.document.dispatchEvent(
-          new CustomEvent(
-            'onMediaFileSelected',
-            {
-              bubbles: true,
-              cancelable: false,
-              detail: {},
-            },
-          ),
-        );
       }
+      this.$store.dispatch('toggleBrowserItemSelect', this.item);
+      window.parent.document.dispatchEvent(
+        new CustomEvent(
+          'onMediaFileSelected',
+          {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          },
+        ),
+      );
 
       // If more than one item was selected and the user clicks again on the selected item,
       // he most probably wants to unselect all other items.

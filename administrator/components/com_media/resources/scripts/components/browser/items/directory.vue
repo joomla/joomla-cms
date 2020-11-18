@@ -20,7 +20,7 @@
       class="media-browser-select"
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-    ></span>
+    />
     <div
       class="media-browser-actions"
       :class="{'active': showActions}"
