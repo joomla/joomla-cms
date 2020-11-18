@@ -62,12 +62,19 @@ class PlgButtonImage extends CMSPlugin
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id))
 		{
-			$app->getDocument()->getWebAssetManager()->useScript('webcomponent.image-select');
+			$app->getDocument()->getWebAssetManager()
+				->useScript('webcomponent.image-select')
+				->useScript('webcomponent.field-media')
+				->useStyle('webcomponent.image-select');
 
 			Text::script('JFIELD_MEDIA_LAZY_LABEL');
 			Text::script('JFIELD_MEDIA_ALT_LABEL');
-
-			$app->getDocument()->getWebAssetManager()->useScript('webcomponent.field-media');
+			Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
+			Text::script('JFIELD_MEDIA_CLASSES_LABEL');
+			Text::script('JFIELD_MEDIA_FIGURE_CLASSES_LABEL');
+			Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
+			Text::script('JFIELD_MEDIA_LAZY_LABEL');
+			Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
 
 			$link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&author=' . $author;
 
