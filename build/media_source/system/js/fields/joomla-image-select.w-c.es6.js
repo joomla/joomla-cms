@@ -154,15 +154,15 @@
             imageElement = `<img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt}/>`;
           }
 
+          if (attribs) {
+            attribs.parentNode.removeChild(attribs);
+          }
+
           Joomla.editors.instances[editor].replaceSelection(imageElement);
         } else {
           const val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width);
           editor.value = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);
           fieldClass.updatePreview();
-        }
-
-        if (attribs) {
-          attribs.parentNode.removeChild(attribs);
         }
       }
     }
@@ -360,3 +360,27 @@
 
   customElements.define('joomla-field-mediamore', JoomlaFieldMediaOptions);
 })(customElements, Joomla);
+
+// Patch the closing of the modal for XTD buttons
+((Joomla) => {
+  'use strict';
+
+  if (!Joomla) {
+    throw new Error('Joomla API is not properly initiated');
+  }
+
+  if (window.jQuery) {
+    const MediaXTDElements = Joomla.getOptions('xtdImageModal');
+
+    if (MediaXTDElements.length) {
+      MediaXTDElements.forEach((element) => {
+        window.jQuery(`#${element}`).on('hide.bs.modal', (ev) => {
+          const addData = ev.target.querySelector('joomla-field-mediamore');
+          if (addData) {
+            addData.parentNode.removeChild(addData);
+          }
+        });
+      });
+    }
+  }
+})(Joomla);

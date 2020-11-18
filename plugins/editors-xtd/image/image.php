@@ -43,6 +43,7 @@ class PlgButtonImage extends CMSPlugin
 	public function onDisplay($name, $asset, $author)
 	{
 		$app       = Factory::getApplication();
+		$doc       = $app->getDocument();
 		$user      = Factory::getUser();
 		$extension = $app->input->get('option');
 
@@ -62,10 +63,14 @@ class PlgButtonImage extends CMSPlugin
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id))
 		{
-			$app->getDocument()->getWebAssetManager()
+			$doc->getWebAssetManager()
 				->useScript('webcomponent.image-select')
 				->useScript('webcomponent.field-media')
 				->useStyle('webcomponent.image-select');
+
+			$doc->addScriptOptions('xtdImageModal', [
+				$name . '_ImageModal'
+			]);
 
 			Text::script('JFIELD_MEDIA_LAZY_LABEL');
 			Text::script('JFIELD_MEDIA_ALT_LABEL');
