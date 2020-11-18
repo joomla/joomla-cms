@@ -226,6 +226,12 @@ define('UTF8_BAD_SEQINCOMPLETE',7);
 /**
 * Reports on the type of bad byte found in a UTF-8 string. Returns a
 * status code on the first bad byte found
+*
+* Joomla modification - As of PHP 7.4, curly brace access has been deprecated. As a result this function has been
+* modified to use square brace syntax
+* See https://github.com/php/php-src/commit/d574df63dc375f5fc9202ce5afde23f866b6450a
+* for additional references
+*
 * @author <hsivonen@iki.fi>
 * @param string UTF-8 encoded string
 * @return mixed integer constant describing problem or FALSE if valid UTF-8
@@ -244,7 +250,7 @@ function utf8_bad_identify($str, &$i) {
 
     for($i = 0; $i < $len; $i++) {
 
-        $in = ord($str{$i});
+        $in = ord($str[$i]);
 
         if ( $mState == 0) {
 
