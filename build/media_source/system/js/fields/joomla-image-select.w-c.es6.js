@@ -247,7 +247,7 @@
 
     connectedCallback() {
       this.innerHTML = `
-<details>
+<details open>
   <summary>${this.summarytext}</summary>
   <div class="">
     <div class="form-group">
