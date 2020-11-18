@@ -29,14 +29,14 @@
     const currentModal = Joomla.Modal.getCurrent();
     const container = currentModal.querySelector('.modal-body');
 
-    // No extra attributes (lazy, alt) for fields
-    if (container.closest('joomla-field-media')) {
-      return;
-    }
-
     const optionsEl = container.querySelector('joomla-field-mediamore');
     if (optionsEl) {
       optionsEl.parentNode.removeChild(optionsEl);
+    }
+
+    // No extra attributes (lazy, alt) for fields
+    if (container.closest('joomla-field-media')) {
+      return;
     }
 
     if (Joomla.selectedMediaFile.path) {
@@ -47,6 +47,7 @@
   lazy-label="${Joomla.Text._('JFIELD_MEDIA_LAZY_LABEL')}"
   alt-label="${Joomla.Text._('JFIELD_MEDIA_ALT_LABEL')}"
   alt-check-label="${Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_LABEL')}"
+  alt-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL')}"
   classes-label="${Joomla.Text._('JFIELD_MEDIA_CLASSES_LABEL')}"
   figure-classes-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CLASSES_LABEL')}"
   figure-caption-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CAPTION_LABEL')}"
@@ -127,7 +128,7 @@
         let attribs;
         let isLazy = '';
         let alt = '';
-        let appendAlt = false;
+        let appendAlt = '';
         let classes = '';
         let figClasses = '';
         let figCaption = '';
@@ -137,9 +138,10 @@
           const currentModal = fieldClass.closest('.modal-content');
           attribs = currentModal.querySelector('joomla-field-mediamore');
           if (attribs) {
-            appendAlt = !!attribs.getAttribute('alt-check');
-            // eslint-disable-next-line no-nested-ternary
-            alt = attribs.getAttribute('alt-value') ? ` alt="${attribs.getAttribute('alt-value')}"` : appendAlt ? ' alt=""' : '';
+            if (attribs.getAttribute('alt-check') === 'true') {
+              appendAlt = ' alt=""';
+            }
+            alt = attribs.getAttribute('alt-value') ? ` alt="${attribs.getAttribute('alt-value')}"` : appendAlt;
             classes = attribs.getAttribute('img-classes') ? ` class="${attribs.getAttribute('img-classes')}"` : '';
             figClasses = attribs.getAttribute('fig-classes') ? ` class="${attribs.getAttribute('fig-classes')}"` : '';
             figCaption = attribs.getAttribute('fig-caption') ? `${attribs.getAttribute('fig-caption')}` : '';
@@ -237,6 +239,8 @@
 
     get altchecktext() { return this.getAttribute('alt-check-label'); }
 
+    get altcheckdesctext() { return this.getAttribute('alt-check-desc-label'); }
+
     get classestext() { return this.getAttribute('classes-label'); }
 
     get figclassestext() { return this.getAttribute('figure-classes-label'); }
@@ -262,6 +266,7 @@
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="${this.parentId}-alt-check">
         <label class="form-check-label" for="${this.parentId}-alt-check">${this.altchecktext}</label>
+        <div><small class="form-text text-muted">${this.altcheckdesctext}</small></div>
       </div>
     </div>
     <div class="form-group">
@@ -321,14 +326,12 @@
     }
 
     disconnectedCallback() {
-      this.lazyInput.removeEventListener('click', this.lazyInputFn);
-      if (this.enableAltField) {
-        this.altInput.removeEventListener('click', this.altInputFn);
-        this.altCheck.removeEventListener('input', this.altCheckFn);
-        this.imgClasses.removeEventListener('input', this.imgClassesFn);
-        this.figClasses.removeEventListener('input', this.figclassesFn);
-        this.figCaption.removeEventListener('input', this.figcaptionFn);
-      }
+      this.lazyInput.removeEventListener('input', this.lazyInputFn);
+      this.altInput.removeEventListener('input', this.altInputFn);
+      this.altCheck.removeEventListener('input', this.altCheckFn);
+      this.imgClasses.removeEventListener('input', this.imgClassesFn);
+      this.figClasses.removeEventListener('input', this.figclassesFn);
+      this.figCaption.removeEventListener('input', this.figcaptionFn);
 
       this.innerHTML = '';
     }
@@ -361,7 +364,7 @@
   customElements.define('joomla-field-mediamore', JoomlaFieldMediaOptions);
 })(customElements, Joomla);
 
-// Patch the closing of the modal for XTD buttons
+// Patch the opening of the modal for XTD buttons
 ((Joomla) => {
   'use strict';
 
@@ -374,7 +377,7 @@
 
     if (MediaXTDElements.length) {
       MediaXTDElements.forEach((element) => {
-        window.jQuery(`#${element}`).on('hide.bs.modal', (ev) => {
+        window.jQuery(`#${element}`).on('show.bs.modal', (ev) => {
           const addData = ev.target.querySelector('joomla-field-mediamore');
           if (addData) {
             addData.parentNode.removeChild(addData);

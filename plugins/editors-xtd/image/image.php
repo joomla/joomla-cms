@@ -75,6 +75,7 @@ class PlgButtonImage extends CMSPlugin
 			Text::script('JFIELD_MEDIA_LAZY_LABEL');
 			Text::script('JFIELD_MEDIA_ALT_LABEL');
 			Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
+			Text::script('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL');
 			Text::script('JFIELD_MEDIA_CLASSES_LABEL');
 			Text::script('JFIELD_MEDIA_FIGURE_CLASSES_LABEL');
 			Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
