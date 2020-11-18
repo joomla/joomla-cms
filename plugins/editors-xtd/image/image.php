@@ -62,6 +62,11 @@ class PlgButtonImage extends CMSPlugin
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id))
 		{
+			$app->getDocument()->getWebAssetManager()->useScript('webcomponent.image-select');
+
+			Text::script('JFIELD_MEDIA_LAZY_LABEL');
+			Text::script('JFIELD_MEDIA_ALT_LABEL');
+
 			$app->getDocument()->getWebAssetManager()->useScript('webcomponent.field-media');
 
 			$link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&author=' . $author;
@@ -80,7 +85,7 @@ class PlgButtonImage extends CMSPlugin
 				'bodyHeight' => '70',
 				'modalWidth' => '80',
 				'tinyPath'   => $link,
-				'confirmCallback' => 'Joomla.getImage(Joomla.selectedFile, \'' . $name . '\')',
+				'confirmCallback' => 'Joomla.getImage(Joomla.selectedMediaFile, \'' . $name . '\', this)',
 				'confirmText' => Text::_('PLG_IMAGE_BUTTON_INSERT')
 			];
 

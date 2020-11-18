@@ -80,11 +80,11 @@ class FeaturedModel extends ArticlesModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 		}
 		else
 		{
-			$this->setState('filter.condition', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
+			$this->setState('filter.published', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
 		}
 
 		// Process show_noauth parameter
