@@ -128,10 +128,6 @@ export default {
       this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(types.SHOW_RENAME_MODAL);
     },
-    /* Toggle the item selection */
-    toggleSelect() {
-      this.$store.dispatch('toggleBrowserItemSelect', this.item);
-    },
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
