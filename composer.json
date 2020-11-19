@@ -10,7 +10,8 @@
         "platform": {
             "php": "5.3.10"
         },
-        "vendor-dir": "libraries/vendor"
+        "vendor-dir": "libraries/vendor",
+        "github-protocols": ["https"]
     },
     "support": {
         "issues": "https://issues.joomla.org",
