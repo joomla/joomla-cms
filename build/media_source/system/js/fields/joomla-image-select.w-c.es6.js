@@ -48,8 +48,8 @@
   alt-label="${Joomla.Text._('JFIELD_MEDIA_ALT_LABEL')}"
   alt-check-label="${Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_LABEL')}"
   alt-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL')}"
-  classes-label="${Joomla.Text._('JFIELD_MEDIA_CLASSES_LABEL')}"
-  figure-classes-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CLASSES_LABEL')}"
+  classes-label="${Joomla.Text._('JFIELD_MEDIA_CLASS_LABEL')}"
+  figure-classes-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CLASS_LABEL')}"
   figure-caption-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CAPTION_LABEL')}"
 ></joomla-field-mediamore>
 `);
