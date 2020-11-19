@@ -21,8 +21,8 @@
     },
     "repositories": [
       {
-        "type": "vcs",
-        "url": "https://github.com/joomla-backports/lessphp"
+        "type": "github",
+        "url": "https://github.com/joomla-backports/lessphp.git"
       }
     ],
     "require": {

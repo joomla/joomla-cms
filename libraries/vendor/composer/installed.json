@@ -1019,7 +1019,7 @@
         "description": "lessphp is a compiler for LESS written in PHP.",
         "homepage": "http://leafo.net/lessphp/",
         "support": {
-            "source": "https://github.com/joomla-backports/lessphp/tree/master"
+            "source": "https://github.com/joomla-backports/lessphp/tree/dev-joomla3-php8"
         }
     },
     {

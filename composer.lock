@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c949510eaef24efa1093cf86245bb295",
+    "content-hash": "c0c23b68c82eccc7946187edf0cee94e",
     "packages": [
         {
             "name": "brumann/polyfill-unserialize",
@@ -985,7 +985,7 @@
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
             "support": {
-                "source": "https://github.com/joomla-backports/lessphp/tree/master"
+                "source": "https://github.com/joomla-backports/lessphp/tree/dev-joomla3-php8"
             },
             "time": "2020-10-10T19:20:26+00:00"
         },
