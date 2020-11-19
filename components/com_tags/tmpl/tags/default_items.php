@@ -21,29 +21,15 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_tags.tags-default');
 
 // Get the user object.
-$user = Factory::getUser();
+$app = Factory::getApplication();
+$user = $app->getIdentity();
 
 // Check if user is allowed to add/edit based on tags permissions.
 $canEdit      = $user->authorise('core.edit', 'com_tags');
 $canCreate    = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 
-$columns = $this->params->get('tag_columns', 1);
-
-// Avoid division by 0 and negative columns.
-if ($columns < 1)
-{
-	$columns = 1;
-}
-
-$bsspans = floor(12 / $columns);
-
-if ($bsspans < 1)
-{
-	$bsspans = 1;
-}
-
-$bscolumns = min($columns, floor(12 / $bsspans));
+$columns = $this->params->get('tag_columns', 0);
 $n         = count($this->items);
 ?>
 

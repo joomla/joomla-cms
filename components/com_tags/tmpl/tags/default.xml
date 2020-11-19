@@ -42,8 +42,9 @@
 			<field
 				name="tag_columns"
 				type="number"
+				min="0"
 				label="COM_TAGS_COMPACT_COLUMNS_LABEL"
-				default="4"
+				default="0"
 				filter="integer"
 			/>
 

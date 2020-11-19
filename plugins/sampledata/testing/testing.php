@@ -2613,7 +2613,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'link'         => 'index.php?option=com_tags&view=tags',
 				'component_id' => ComponentHelper::getComponent('com_tags')->id,
 				'params'       => array(
-					'tag_columns'                     => 4,
+					'tag_columns'                     => 0,
 					'all_tags_tag_maximum_characters' => 0,
 					'maximum'                         => 200,
 					'menu_text'                       => 1,
