@@ -166,7 +166,7 @@ class Router
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param   string  $url  The internal URL or an associative array
+	 * @param   string|array|Uri  $url  The internal URL or an associative array
 	 *
 	 * @return  Uri  The absolute search engine friendly URL object
 	 *
@@ -181,8 +181,14 @@ class Router
 			return clone $this->cache[$key];
 		}
 
-		// Create the URI object
-		$uri = $this->createUri($url);
+		if ($url instanceof Uri)
+		{
+			$uri = $url;
+		}
+		else
+		{
+			$uri = $this->createUri($url);
+		}
 
 		// Do the preprocess stage of the URL build process
 		$this->processBuildRules($uri, self::PROCESS_BEFORE);
