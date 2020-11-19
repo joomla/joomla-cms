@@ -151,7 +151,7 @@
           }
 
           if (figCaption) {
-            imageElement = `<figure${figClasses} contenteditable="false"><img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt}/><figcaption contenteditable="true">${figCaption}</figcaption></figure>`;
+            imageElement = `<figure${figClasses}><img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt}/><figcaption>${figCaption}</figcaption></figure>`;
           } else {
             imageElement = `<img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt}/>`;
           }
