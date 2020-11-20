@@ -10,7 +10,8 @@
         "platform": {
             "php": "5.3.10"
         },
-        "vendor-dir": "libraries/vendor"
+        "vendor-dir": "libraries/vendor",
+        "github-protocols": ["https"]
     },
     "support": {
         "issues": "https://issues.joomla.org",
@@ -18,10 +19,16 @@
         "forum": "https://forum.joomla.org/",
         "docs": "https://docs.joomla.org"
     },
+    "repositories": [
+      {
+        "type": "github",
+        "url": "https://github.com/joomla-backports/lessphp.git"
+      }
+    ],
     "require": {
         "php": ">=5.3.10",
         "joomla/application": "~1.9",
-        "joomla/archive": "~1.1.5",
+        "joomla/archive": "^1.1.7",
         "joomla/data": "~1.2",
         "joomla/di": "~1.5",
         "joomla/event": "~1.2",
@@ -35,7 +42,7 @@
         "joomla/uri": "~1.2",
         "joomla/utilities": "^1.6",
         "ircmaxell/password-compat": "1.*",
-        "leafo/lessphp": "0.5.0",
+        "leafo/lessphp": "dev-joomla3-php8",
         "paragonie/random_compat": "~1.4",
         "paragonie/sodium_compat": "1.9.1",
         "phpmailer/phpmailer": "^5.2.20",
@@ -54,5 +61,7 @@
         "friendsofphp/php-cs-fixer": "~1.11",
         "squizlabs/php_codesniffer": "~1.5",
         "pear/cache_lite": "1.7.16"
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

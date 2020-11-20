@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset>
+	<rule ref="PSR2">
+		<exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed" />
+		<exclude name="Generic.Files.LineLength.TooLong" />
+		<exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
+		<exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
+		<exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace" />
+		<exclude name="PSR1.Classes.ClassDeclaration.MultipleClasses" />
+		<exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
+		<exclude name="PSR1.Methods.CamelCapsMethodName.NotCamelCaps" />
+		<exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
+		<exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine" />
+		<exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpaceBeforeCloseBrace" />
+		<exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
+		<exclude name="PSR2.ControlStructures.SwitchDeclaration.BodyOnNextLineCASE" />
+		<exclude name="PSR2.ControlStructures.SwitchDeclaration.BreakIndent" />
+		<exclude name="PSR2.ControlStructures.SwitchDeclaration.BreakNotNewLine" />
+		<exclude name="PSR2.ControlStructures.SwitchDeclaration.TerminatingComment" />
+		<exclude name="PSR2.Methods.FunctionCallSignature.CloseBracketLine" />
+		<exclude name="PSR2.Methods.FunctionCallSignature.ContentAfterOpenBracket" />
+		<exclude name="PSR2.Methods.FunctionCallSignature.Indent" />
+		<exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
+		<exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeCloseBracket" />
+		<exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose" />
+		<exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
+		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace" />
+		<exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceAfterDefault" />
+		<exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpaceBeforeEquals" />
+		<exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
+		<exclude name="Squiz.Functions.MultiLineFunctionDeclaration.ContentAfterBrace" />
+		<exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction" />
+		<exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose" />
+		<exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore" />
+	</rule>
+	<file>.</file>
+	<arg name="encoding" value="UTF-8"/>
+	<arg name="extensions" value="php"/>
+	<exclude-pattern>vendor</exclude-pattern>
+</ruleset>
