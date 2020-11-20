@@ -79,9 +79,9 @@ $n         = count($this->items);
 			<?php echo Text::_('COM_TAGS_NO_TAGS'); ?>
 		</div>
 	<?php else : ?>
-		<div class="com-tags__category category flex-wrap <?php echo $btngroup ?> justify-content-between" role="group"">
+		<div class="com-tags__category category" role="group" style="grid-template-columns: repeat(<?php echo $columns ?>,<?php echo floor(100 / $columns) ?>%);">
 		<?php foreach ($this->items as $i => $item) : ?>
-				<button type="button" class="flex-grow-0 flex-shrink-1 btn border-gray">
+				<button type="button" class="btn border-gray">
 					<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<h3 class="mb-0">
 							<a href="<?php echo Route::_(RouteHelper::getTagRoute($item->id . ':' . $item->alias)); ?>">
@@ -124,7 +124,6 @@ $n         = count($this->items);
 				</button>
 		<?php endforeach; ?>
 		</div>
-
 	<?php endif; ?>
 
 	<?php // Add pagination links ?>

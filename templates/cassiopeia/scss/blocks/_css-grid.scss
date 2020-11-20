@@ -149,3 +149,9 @@
     grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));
   }
 }
+
+// Com_tags
+.com-tags__category.category {
+  display: grid;
+  justify-content: space-between;
+}
