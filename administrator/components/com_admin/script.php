@@ -2050,8 +2050,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/string/.drone.jsonnet',
 			'/libraries/vendor/joomla/string/.drone.yml',
 			'/libraries/vendor/leafo/lessphp/.drone.yml',
-			'/libraries/vendor/leafo/lessphp/.phpunit.xml.dist',
-			'/libraries/vendor/leafo/lessphp/.ruleset.xml',
+			'/libraries/vendor/leafo/lessphp/phpunit.xml.dist',
+			'/libraries/vendor/leafo/lessphp/ruleset.xml',
 
 		);
 
