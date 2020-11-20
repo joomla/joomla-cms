@@ -30,6 +30,7 @@ $canCreate    = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 
 $columns = $this->params->get('tag_columns', 0);
+$columnsize = $columns === 0 ? "display: flex;" : "grid-template-columns: repeat(" . $columns . "," . floor(100 / $columns) . "%);";
 $btngroup = $this->params->get('tag_columns', 0) === 1 ? "btn-group-vertical" : "btn-group";
 $n         = count($this->items);
 ?>
@@ -79,7 +80,7 @@ $n         = count($this->items);
 			<?php echo Text::_('COM_TAGS_NO_TAGS'); ?>
 		</div>
 	<?php else : ?>
-		<div class="com-tags__category category" role="group" style="grid-template-columns: repeat(<?php echo $columns ?>,<?php echo floor(100 / $columns) ?>%);">
+		<div class="com-tags__category category" role="group" style="<?php echo $columnsize ?>">
 		<?php foreach ($this->items as $i => $item) : ?>
 				<button type="button" class="btn border-gray">
 					<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
