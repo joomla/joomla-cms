@@ -222,9 +222,17 @@ Joomla = window.Joomla || {};
     }
 
     checkFilter(element) {
-      const option = element.querySelector('option:checked');
-      if (option) {
-        if (option.value !== '') {
+      if (element.tagName.toLowerCase() === 'select') {
+        const option = element.querySelector('option:checked');
+        if (option) {
+          if (option.value !== '') {
+            this.activeFilter(element, this);
+          } else {
+            this.deactiveFilter(element, this);
+          }
+        }
+      } else {
+        if (element.value !== '') {
           this.activeFilter(element, this);
         } else {
           this.deactiveFilter(element, this);
@@ -280,8 +288,7 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
-      const el = cont.mainContainer;
-      const els = [].slice.call(el.querySelectorAll('.js-stools-field-filter select'));
+      const els = this.getFilterFields();
       let activeFilterCount = 0;
 
       els.forEach((item) => {
