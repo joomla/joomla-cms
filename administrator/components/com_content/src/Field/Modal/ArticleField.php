@@ -178,7 +178,7 @@ class ArticleField extends FormField
 		if ($allowEdit)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
@@ -207,7 +207,7 @@ class ArticleField extends FormField
 			$callbackFunctionStem = substr("jSelectArticle_" . $this->id, 0, -$tagLength);
 
 			$html .= '<button'
-			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+			. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
 			. ' type="button"'
 			. ' id="' . $this->id . '_propagate"'
 			. ' title="' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'

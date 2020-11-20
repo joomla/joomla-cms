@@ -250,6 +250,13 @@
 					label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
 					size="20"
 				/>
+
+				<field
+					name="image_alt_empty"
+					type="checkbox"
+					label="COM_CATEGORIES_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_CATEGORIES_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
 			</fieldset>
 		</fieldset>
 	</fields>

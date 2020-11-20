@@ -15,6 +15,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
@@ -152,7 +153,7 @@ trait AdditionalLoginButtons
 				'id'                 => $randomId,
 				'data-webauthn-form' => $form,
 				'data-webauthn-url'  => $url,
-				'image'              => 'plg_system_webauthn/webauthn-white.svg',
+				'svg'                => HTMLHelper::_('icons.svg', 'plg_system_webauthn/webauthn.svg', true),
 				'class'              => 'plg_system_webauthn_login_button',
 			],
 		];

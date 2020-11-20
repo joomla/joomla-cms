@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app = Factory::getApplication();
-		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
+		$extension = $app->input->getCmd('dashboard');
 
 		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
 		$icon  = 'icon-home';
