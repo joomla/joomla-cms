@@ -30,6 +30,7 @@ $canCreate    = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 
 $columns = $this->params->get('tag_columns', 0);
+$btngroup = $this->params->get('tag_columns', 0) === 1 ? "btn-group-vertical" : "btn-group";
 $n         = count($this->items);
 ?>
 
@@ -78,23 +79,20 @@ $n         = count($this->items);
 			<?php echo Text::_('COM_TAGS_NO_TAGS'); ?>
 		</div>
 	<?php else : ?>
+		<div class="com-tags__category category flex-wrap <?php echo $btngroup ?> justify-content-between" role="group"">
 		<?php foreach ($this->items as $i => $item) : ?>
-			<?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
-				<ul class="com-tags__category category list-group list-group-horizontal">
-			<?php endif; ?>
+				<button type="button" class="flex-grow-0 flex-shrink-1 btn border-gray">
+					<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
+						<h3 class="mb-0">
+							<a href="<?php echo Route::_(RouteHelper::getTagRoute($item->id . ':' . $item->alias)); ?>">
+								<?php echo $this->escape($item->title); ?>
+							</a>
+						</h3>
+					<?php endif; ?>
 
-			<li class="list-group-item list-group-item-action">
-				<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-					<h3 class="mb-0">
-						<a href="<?php echo Route::_(RouteHelper::getTagRoute($item->id . ':' . $item->alias)); ?>">
-							<?php echo $this->escape($item->title); ?>
-						</a>
-					</h3>
-				<?php endif; ?>
-
-				<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
-					<?php $images = json_decode($item->images); ?>
-					<span class="tag-body">
+					<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
+						<?php $images = json_decode($item->images); ?>
+						<span class="tag-body">
 						<?php if (!empty($images->image_intro)) : ?>
 							<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
 							<div class="float-<?php echo htmlspecialchars($imgfloat); ?> item-image">
@@ -106,30 +104,27 @@ $n         = count($this->items);
 									alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
 							</div>
 						<?php endif; ?>
-					</span>
-				<?php endif; ?>
+						</span>
+					<?php endif; ?>
 
-				<?php if (($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) || $this->params->get('all_tags_show_tag_hits')) : ?>
-					<div class="caption">
-						<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
-							<span class="tag-body">
-								<?php echo HTMLHelper::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
-							</span>
-						<?php endif; ?>
-						<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
-							<span class="list-hits badge badge-info">
-								<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
-							</span>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-			</li>
-
-			<?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
-				</ul>
-			<?php endif; ?>
-
+					<?php if (($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) || $this->params->get('all_tags_show_tag_hits')) : ?>
+						<div class="caption">
+							<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
+								<span class="tag-body">
+									<?php echo HTMLHelper::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
+								</span>
+							<?php endif; ?>
+							<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
+								<span class="list-hits badge badge-info">
+									<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
+								</span>
+							<?php endif; ?>
+						</div>
+					<?php endif; ?>
+				</button>
 		<?php endforeach; ?>
+		</div>
+
 	<?php endif; ?>
 
 	<?php // Add pagination links ?>
