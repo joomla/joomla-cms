@@ -47,10 +47,10 @@ use Joomla\CMS\Router\Route;
 				</h2>
 				<ul class="list-group list-group-flush">
 					<?php foreach ($child->getChildren() as $item) : ?>
-						<li class="list-group-item d-flex align-items-center">
-							<?php $params = $item->getParams(); ?>
-							<?php // Only if Menu-show = true
-								if ($params->get('menu_show', 1)) : ?>
+						<?php $params = $item->getParams(); ?>
+						<?php // Only if Menu-show = true
+						if ($params->get('menu_show', 1)) : ?>
+							<li class="list-group-item d-flex align-items-center">
 								<a class="flex-grow-1" href="<?php echo $item->link; ?>"
 									<?php echo $item->target === '_blank' ? ' title="' . Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->title)) . '"' : ''; ?>
 									<?php echo $item->target ? ' target="' . $item->target . '"' : ''; ?>>
@@ -101,8 +101,8 @@ use Joomla\CMS\Router\Route;
 										</a>
 									</span>
 								<?php endif; ?>
-							<?php endif; ?>
-						</li>
+							</li>
+						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
 			</div>
