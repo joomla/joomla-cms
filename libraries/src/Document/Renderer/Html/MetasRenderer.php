@@ -115,12 +115,14 @@ class MetasRenderer extends DocumentRenderer
 		$noFavicon = true;
 		$searchFor = 'image/vnd.microsoft.icon';
 
+		// @codingStandardsIgnoreStart
 		array_map(function($value) use(&$noFavicon, $searchFor) {
 			if ($value['attribs']['type'] === $searchFor)
 			{
 				$noFavicon = false;
 			}
 		}, array_values((array)$this->_doc->_links));
+		// @codingStandardsIgnoreEnd
 
 		if ($noFavicon)
 		{
