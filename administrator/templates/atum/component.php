@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 /** @var JDocumentHtml $this */
 
 $wa = $this->getWebAssetManager();
@@ -20,6 +21,11 @@ $wa->useStyle('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
+
+// Browsers support SVG favicons
+$this->addHeadLink(HTMLHelper::image('joomla-favicon.svg', '', [], true, 1),'icon', 'rel', ['type' => 'image/svg+xml']);
+$this->addHeadLink(HTMLHelper::image('favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
+$this->addHeadLink(HTMLHelper::image('joomla-favicon-pinned.svg', '', [], true, 1),'mask-icon', 'rel', ['color' => '#000']);
 
 ?>
 
