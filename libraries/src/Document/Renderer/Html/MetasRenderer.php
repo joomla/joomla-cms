@@ -117,7 +117,7 @@ class MetasRenderer extends DocumentRenderer
 
 		// @codingStandardsIgnoreStart
 		array_map(function($value) use(&$noFavicon, $searchFor) {
-			if ($value['attribs']['type'] === $searchFor)
+			if (isset($value['attribs']['type']) && $value['attribs']['type'] === $searchFor)
 			{
 				$noFavicon = false;
 			}
