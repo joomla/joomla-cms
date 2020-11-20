@@ -13,7 +13,6 @@ namespace Joomla\CMS\Document\Renderer\Html;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
