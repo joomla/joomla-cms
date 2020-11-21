@@ -153,12 +153,12 @@
 // Com-tags
 .com-tags__category.category {
   display: grid;
-  justify-content: space-between;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .com-tags__category.category button {
-  overflow: hidden;
   flex: 1 1 auto;
+  overflow: hidden;
   margin: .25rem .25rem 0 0;
 }
