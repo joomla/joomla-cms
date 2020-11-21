@@ -133,7 +133,7 @@ class MetasRenderer extends DocumentRenderer
 			$foldersToCheck = [
 				JPATH_BASE,
 				JPATH_ROOT . '/media/templates/' . $client . $template->template,
-				'templates/' . $template->template,
+				JPATH_BASE . '/templates/' . $template->template,
 			];
 
 			foreach ($foldersToCheck as $base => $dir)
