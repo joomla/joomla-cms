@@ -72,7 +72,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 			if (!preg_match('/(.*)Model/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GENERIC_GET_NAME', __METHOD__), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);

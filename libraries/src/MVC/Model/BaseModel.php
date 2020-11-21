@@ -143,7 +143,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 
 			if (!preg_match('/Model(.*)/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GENERIC_GET_NAME', __METHOD__), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->name = str_replace(['\\', 'model'], '', strtolower($r[1]));

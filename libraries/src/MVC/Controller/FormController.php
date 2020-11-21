@@ -119,7 +119,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 			if (!preg_match('/(.*)' . $match . '(.*)/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GENERIC_GET_NAME', __METHOD__), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			// Remove the backslashes and the suffix controller
