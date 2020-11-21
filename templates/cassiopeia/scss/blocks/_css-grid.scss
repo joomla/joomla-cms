@@ -155,9 +155,10 @@
   display: grid;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding-inline-start: 0;
 }
 
-.com-tags__category.category button {
+.com-tags__category.category li {
   flex: 1 1 auto;
   margin: .25rem .25rem 0 0;
   overflow: hidden;
