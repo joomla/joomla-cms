@@ -84,11 +84,11 @@ $n         = count($this->items);
 		<?php foreach ($this->items as $i => $item) : ?>
 				<li class="btn border-gray">
 					<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-						<h3 class="mb-0">
+						<div class="tag-item mb-0">
 							<a href="<?php echo Route::_(RouteHelper::getTagRoute($item->id . ':' . $item->alias)); ?>">
 								<?php echo $this->escape($item->title); ?>
 							</a>
-						</h3>
+						</div>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
