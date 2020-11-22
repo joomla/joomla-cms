@@ -565,21 +565,22 @@ class PlgSampledataBlog extends CMSPlugin
 			),
 
 			// Category 0 = Blog
-			// Category 0 = Blog
 			array(
 				// Article 2 - Welcome to your blog
 				'catid'    => $catIds[0],
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'            => 'images/banners/banner.jpg',
-					'float_intro'            => 'left',
-					'image_intro_alt'        => '',
-					'image_intro_caption'    => '',
-					'image_fulltext'         => '',
-					'float_fulltext'         => '',
-					'image_fulltext_alt'     => '',
-					'image_fulltext_caption' => ''
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa1-1200.jpg',
+					'float_intro'               => '',
+					'image_intro_alt'           => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_2_INTROIMAGE_ALT'),
+					'image_intro_alt_empty'     => '',
+					'image_intro_caption'       => '',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa1-400.jpg',
+					'float_fulltext'            => 'float-left',
+					'image_fulltext_alt'        => '',
+					'image_fulltext_alt_empty'  => 1,
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
 				)
 			),
 			array(
@@ -588,13 +589,16 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'            => 'images/banners/banner.jpg',
-					'image_intro_alt'        => '',
-					'image_intro_caption'    => '',
-					'image_fulltext'         => '',
-					'float_fulltext'         => '',
-					'image_fulltext_alt'     => '',
-					'image_fulltext_caption' => ''
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa2-1200.jpg',
+					'float_intro'               => '',
+					'image_intro_alt'           => '',
+					'image_intro_alt_empty'     => '',
+					'image_intro_caption'       => '',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa2-400.jpg',
+					'float_fulltext'            => 'float-left',
+					'image_fulltext_alt'        => '',
+					'image_fulltext_alt_empty'  => 1,
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
 				),
 				'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_3_FIELD_0'),
 			),
@@ -604,12 +608,16 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'            => 'images/banners/banner.jpg',
-					'image_intro_alt'        => '',
-					'image_intro_caption'    => '',
-					'image_fulltext'         => '',
-					'image_fulltext_alt'     => '',
-					'image_fulltext_caption' => ''
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa3-1200.jpg',
+					'float_intro'               => '',
+					'image_intro_alt'           => '',
+					'image_intro_alt_empty'     => 1,
+					'image_intro_caption'       => '',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa3-400.jpg',
+					'float_fulltext'            => 'float-left',
+					'image_fulltext_alt'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_4_FULLTEXTIMAGE_ALT'),
+					'image_fulltext_alt_empty'  => '',
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
 				)
 			),
 			array(
@@ -618,70 +626,72 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'            => 'images/banners/banner.jpg',
-					'image_intro_alt'        => '',
-					'image_intro_caption'    => '',
-					'image_fulltext'         => '',
-					'image_fulltext_alt'     => '',
-					'image_fulltext_caption' => ''
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa4-1200.jpg',
+					'float_intro'               => '',
+					'image_intro_alt'           => '',
+					'image_intro_alt_empty'     => 1,
+					'image_intro_caption'       => '',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg',
+					'float_fulltext'            => 'float-left',
+					'image_fulltext_alt'        => '',
+					'image_fulltext_alt_empty'  => 1,
+					'image_fulltext_caption' => 'www.nasa.gov/multimedia/imagegallery'
 				)
 			),
-
 			// Category 2 = Joomla - marketing texts
 			array(
 				// Article 6 - Millions
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/banners/banner.jpg',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa1-640.jpg',
+					'float_intro'            => '',
 					'image_intro_alt'        => '',
+					'image_intro_alt_empty'  => 1,
 					'image_intro_caption'    => '',
-					'image_fulltext'         => '',
-					'float_fulltext'         => '',
-					'image_fulltext_alt'     => '',
-					'image_fulltext_caption' => ''
 				)
 			),
 			array(
 				// Article 7 - Love
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/banners/banner.jpg',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa2-640.jpg',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
+					'image_intro_alt_empty'  => 1,
 					'image_intro_caption'    => '',
-					'image_fulltext'         => '',
-					'float_fulltext'         => '',
-					'image_fulltext_alt'     => '',
-					'image_fulltext_caption' => ''
 				)
 			),
 			array(
 				// Article 8 - Joomla
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/banners/banner.jpg',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa3-640.jpg',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
+					'image_intro_alt_empty'  => 1,
 					'image_intro_caption'    => '',
-					'image_fulltext'         => '',
-					'float_fulltext'         => '',
-					'image_fulltext_alt'     => '',
-					'image_fulltext_caption' => ''
 				)
 			),
 			array(
 				// Article 9 - Workflows
 				'catid'       => $catIds[1],
+				'images'      => array(
+					'image_intro'               => '',
+					'float_intro'               => '',
+					'image_intro_alt'           => '',
+					'image_intro_alt_empty'     => '',
+					'image_intro_caption'       => '',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg',
+					'float_fulltext'            => 'float-right',
+					'image_fulltext_alt'        => '',
+					'image_fulltext_alt_empty'  => 1,
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
+				),
 				'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_FIELD_0'),
 			),
-
 			array(
 				// Article 10 - Typography
 				'catid'    => $catIds[2],
-				'images'   => array(
-					'image_intro'            => 'images/banners/banner.jpg',
-					'image_intro_caption'    => 'Cassiopeia',
-				)
 			),
 		);
 
