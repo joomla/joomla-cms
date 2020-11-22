@@ -82,7 +82,7 @@ $n         = count($this->items);
 	<?php else : ?>
 		<ul class="com-tags__category category" role="group" style="<?php echo $columnsize ?>">
 		<?php foreach ($this->items as $i => $item) : ?>
-				<li class="btn border-gray">
+				<li class="tag-list btn border-gray">
 					<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<div class="tag-item mb-0">
 							<a href="<?php echo Route::_(RouteHelper::getTagRoute($item->id . ':' . $item->alias)); ?>">
