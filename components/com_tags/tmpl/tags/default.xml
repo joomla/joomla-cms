@@ -127,6 +127,8 @@
 			<field
 				name="all_tags_tag_maximum_characters"
 				type="number"
+				default="12"
+				min="0"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 				filter="integer"
 			/>

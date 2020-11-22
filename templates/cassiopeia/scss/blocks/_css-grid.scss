@@ -164,6 +164,10 @@
   overflow: hidden;
 }
 
+.com-tags__category.category li:last-child {
+  flex-grow: 0;
+}
+
 .com-tags__category .tag-item {
   font-size: 1.286rem;
   font-weight: bold;
