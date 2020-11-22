@@ -11,6 +11,8 @@ steps:
   image: joomlaprojects/docker-images:php7.4
   commands:
   - php -v
+  - git config --global url."git://".insteadOf https://
+  - git config --global url."ssh://".insteadOf https://
   - composer install
   - composer require phpmd/phpmd
   volumes:
@@ -722,6 +724,6 @@ steps:
 
 ---
 kind: signature
-hmac: 891055d296eb627e4c15bb3a6e672a3171d33e74f73d916075cf384b5c9a552e
+hmac: cbef4bc42fe32344786211da2373cc3f6899ed9d40c31678f93fe24dce99a0d6
 
 ...

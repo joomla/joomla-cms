@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Archive Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -275,9 +275,9 @@ class Zip implements ExtractableInterface
 	 */
 	protected function extractNative($archive, $destination)
 	{
-		$zip = zip_open($archive);
+		$zip = new \ZipArchive;
 
-		if (!\is_resource($zip))
+		if ($zip->open($archive) !== true)
 		{
 			throw new \RuntimeException('Unable to open archive');
 		}
@@ -289,27 +289,32 @@ class Zip implements ExtractableInterface
 		}
 
 		// Read files in the archive
-		while ($file = @zip_read($zip))
+		for ($index = 0; $index < $zip->numFiles; $index++)
 		{
-			if (!zip_entry_open($zip, $file, 'r'))
+			$file = $zip->getNameIndex($index);
+
+			if (substr($file, -1) === '/')
+			{
+				continue;
+			}
+
+			$stream = $zip->getStream($file);
+
+			if ($stream === false)
 			{
 				throw new \RuntimeException('Unable to read ZIP entry');
 			}
 
-			if (substr(zip_entry_name($file), \strlen(zip_entry_name($file)) - 1) != '/')
+			$buffer = stream_get_contents($stream);
+			fclose($stream);
+
+			if (File::write($destination . '/' . $file, $buffer) === false)
 			{
-				$buffer = zip_entry_read($file, zip_entry_filesize($file));
-
-				if (File::write($destination . '/' . zip_entry_name($file), $buffer) === false)
-				{
-					throw new \RuntimeException('Unable to write ZIP entry to file ' . $destination . '/' . zip_entry_name($file));
-				}
-
-				zip_entry_close($file);
+				throw new \RuntimeException('Unable to write ZIP entry to file ' . $destination . '/' . $file);
 			}
 		}
 
-		@zip_close($zip);
+		$zip->close();
 
 		return true;
 	}
@@ -433,7 +438,7 @@ class Zip implements ExtractableInterface
 	}
 
 	/**
-	 * Returns the file data for a file by offsest in the ZIP archive
+	 * Returns the file data for a file by offset in the ZIP archive
 	 *
 	 * @param   integer  $key  The position of the file in the archive.
 	 *
