@@ -1185,7 +1185,6 @@ class PlgSampledataBlog extends CMSPlugin
 				'parent_id'    => $menuIdsLevel1[3],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
-					'page_subheading'	=> 'Subheading of List',
 					'menu_text'         => 1,
 					'show_page_heading' => 1,
 					'secure'            => 0,
@@ -1219,7 +1218,31 @@ class PlgSampledataBlog extends CMSPlugin
 					'show_page_heading'       => 0,
 					'secure'                  => 0,
 				),
-			)
+			),
+			array(
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_3_TITLE'),
+				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[3],
+				'parent_id'    => $menuIdsLevel1[1],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'menu_show' => 1,
+					'show_page_heading' => 1,
+					'secure'    => 0,
+				),
+			),
+			array(
+				'menutype'     => $menuTypes[0],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_TITLE'),
+				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[9],
+				'parent_id'    => $menuIdsLevel1[1],
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
+				'params'       => array(
+					'menu_show' => 1,
+					'show_page_heading' => 1,
+					'secure'    => 0,
+				),
+			),
 		);
 
 		try
