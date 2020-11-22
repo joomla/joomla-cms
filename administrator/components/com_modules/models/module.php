@@ -896,6 +896,14 @@ class ModulesModelModule extends JModelAdmin
 	{
 		JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
+		if (!JFactory::getUser()->authorise('core.admin', 'com_modules'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
 		return parent::validate($form, $data, $group);
 	}
 
