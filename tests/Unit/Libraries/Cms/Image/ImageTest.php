@@ -66,6 +66,24 @@ class ImageTest extends UnitTestCase
 	}
 
 	/**
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function tearDown():void
+	{
+		unlink($this->testFile);
+		unlink($this->testFileGif);
+		unlink($this->testFilePng);
+		unlink($this->testFileBmp);
+		unlink($this->testFileWebp);
+
+		parent::tearDown();
+	}
+
+	/**
 	 * Data for Joomla\CMS\Image\Image::prepareDimensions method.
 	 *
 	 * Don't put percentages in here.  We test elsewhere that percentages get sanitized into
