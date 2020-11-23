@@ -1226,9 +1226,9 @@ class PlgSampledataBlog extends CMSPlugin
 				'parent_id'    => $menuIdsLevel1[1],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
-					'menu_show' => 1,
-					'show_page_heading' => 1,
-					'secure'    => 0,
+					'menu_show'         => 1,
+					'show_page_heading' => 0,
+					'secure'            => 0,
 				),
 			),
 			array(
@@ -1238,9 +1238,9 @@ class PlgSampledataBlog extends CMSPlugin
 				'parent_id'    => $menuIdsLevel1[1],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
-					'menu_show' => 1,
-					'show_page_heading' => 1,
-					'secure'    => 0,
+					'menu_show'         => 1,
+					'show_page_heading' => 0,
+					'secure'            => 0,
 				),
 			),
 		);
