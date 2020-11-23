@@ -41,10 +41,6 @@
           padding: .375em 1em;
           list-style: none;
           box-shadow: 0 0 10px hsla(0, 0%, 0%, .1);
-
-          @include media-breakpoint-down(md) {
-            width: 100%;
-          }
         }
         > span,
         > a {
@@ -180,6 +176,16 @@
           top: 0;
           padding: 0 1em;
           box-shadow: none;
+
+          @include media-breakpoint-down(md) {
+            width: 100%;
+          }
+        }
+      }
+      .metismenu-item {
+        > span,
+        > a {
+          white-space: inherit;
         }
       }
     }
