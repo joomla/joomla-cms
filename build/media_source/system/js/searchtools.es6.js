@@ -231,12 +231,10 @@ Joomla = window.Joomla || {};
             this.deactiveFilter(element, this);
           }
         }
+      } else if (element.value !== '') {
+        this.activeFilter(element, this);
       } else {
-        if (element.value !== '') {
-          this.activeFilter(element, this);
-        } else {
-          this.deactiveFilter(element, this);
-        }
+        this.deactiveFilter(element, this);
       }
     }
 
