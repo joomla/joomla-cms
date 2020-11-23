@@ -1832,7 +1832,7 @@ class FtpClient
 		// Make sure we have a connection to the server
 		if (!\is_resource($this->_conn))
 		{
-			Log::add(Text::_('JLIB_CLIENT_ERROR_FTP_NO_CONNECT'), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_CLIENT_ERROR_FTP_NO_CONNECT', __METHOD__), Log::WARNING, 'jerror');
 
 			return false;
 		}
