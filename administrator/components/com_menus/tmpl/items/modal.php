@@ -113,9 +113,13 @@ if (!empty($editor))
 							<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 							<?php echo $prefix; ?>
 							<?php if (!$uselessMenuItem) : ?>
-								<a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
-									<?php echo $this->escape($item->title); ?>
-								</a>
+								<a class="select-link" href="javascript:void(0)"
+									data-function="<?php echo $this->escape($function); ?>"
+									data-id="<?php echo $item->id; ?>"
+									data-title="<?php echo $this->escape($item->title); ?>"
+									data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>"
+									data-language="<?php echo $this->escape($language); ?>">
+									<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
