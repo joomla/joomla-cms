@@ -48,7 +48,7 @@ class ContentViewFeatured extends JViewLegacy
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// URL link to article
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
+			$link = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
 
 			$description = '';
 			$obj = json_decode($row->images);
@@ -66,7 +66,7 @@ class ContentViewFeatured extends JViewLegacy
 			// Load individual item creator class
 			$item           = new JFeedItem;
 			$item->title    = $title;
-			$item->link     = $link;
+			$item->link     = \JRoute::_($link);
 			$item->date     = $row->publish_up;
 			$item->category = array();
 
@@ -96,7 +96,8 @@ class ContentViewFeatured extends JViewLegacy
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
 			{
-				$description .= '<p class="feed-readmore"><a target="_blank" href ="' . $item->link . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+				$link = \JRoute::_($link, true, $app->get('force_ssl') == 2 ? \JRoute::TLS_FORCE : \JRoute::TLS_IGNORE, true);
+				$description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 			}
 
 			// Load item description and add div

@@ -20,6 +20,15 @@ use Joomla\Utilities\ArrayHelper;
 class ConfigModelApplication extends ConfigModelForm
 {
 	/**
+	 * Array of protected password fields from the configuration.php
+	 *
+	 * @var    array
+	 * @since  3.9.23
+	 */
+	private $protectedConfigurtionFields = array('password', 'secret', 'ftp_pass', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+
+
+	/**
 	 * Method to get a form object.
 	 *
 	 * @param   array    $data      Data for the form.
@@ -85,6 +94,15 @@ class ConfigModelApplication extends ConfigModelForm
 			$data = array_merge($data, $temp);
 		}
 
+		// Unset all protected config fields to empty
+		foreach ($this->protectedConfigurtionFields as $fieldKey)
+		{
+			if (isset($data[$fieldKey]))
+			{
+				$data[$fieldKey] = '';
+			}
+		}
+
 		return $data;
 	}
 
@@ -101,13 +119,23 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		$app = JFactory::getApplication();
 		$dispatcher = JEventDispatcher::getInstance();
+		$config = JFactory::getConfig();
+
+		// Try to load the values from the configuration file
+		foreach ($this->protectedConfigurtionFields as $fieldKey)
+		{
+			if (isset($data[$fieldKey]) && empty($data[$fieldKey]))
+			{
+				$data[$fieldKey] = $config->get($fieldKey);
+			}
+		}
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => JFactory::getConfig()->get('password'),
+			'password' => $config->get('password'),
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);

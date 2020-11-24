@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Archive Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -175,7 +175,7 @@ class Tar implements ExtractableInterface
 
 		while ($position < \strlen($data))
 		{
-			if (version_compare(PHP_VERSION, '5.5', '>='))
+			if (version_compare(\PHP_VERSION, '5.5', '>='))
 			{
 				$info = @unpack(
 					'Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor',

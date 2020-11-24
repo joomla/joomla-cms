@@ -828,7 +828,7 @@ class TemplatesModelTemplate extends JModelForm
 			$inFile       = urldecode(base64_decode($input));
 			$explodeArray = explode('/', $inFile);
 			$fileName     = end($explodeArray);
-			$outFile      = reset(explode('.', $fileName));
+			$outFile      = current(explode('.', $fileName));
 
 			$less = new JLess;
 			$less->setFormatter(new JLessFormatterJoomla);

@@ -188,17 +188,17 @@
     },
     {
         "name": "joomla/archive",
-        "version": "1.1.6",
-        "version_normalized": "1.1.6.0",
+        "version": "1.1.7",
+        "version_normalized": "1.1.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/archive.git",
-            "reference": "b1d496e8c7814f1e376cb14296c38d5ef4e08c78"
+            "reference": "185be301bae7cb6479a1e755944a68d52870e9fe"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/archive/zipball/b1d496e8c7814f1e376cb14296c38d5ef4e08c78",
-            "reference": "b1d496e8c7814f1e376cb14296c38d5ef4e08c78",
+            "url": "https://api.github.com/repos/joomla-framework/archive/zipball/185be301bae7cb6479a1e755944a68d52870e9fe",
+            "reference": "185be301bae7cb6479a1e755944a68d52870e9fe",
             "shasum": ""
         },
         "require": {
@@ -208,14 +208,14 @@
         "require-dev": {
             "joomla/coding-standards": "~2.0@alpha",
             "joomla/test": "~1.0",
-            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+            "phpunit/phpunit": "^4.8.35|^5.4.3|^6.0|^7.0|^8.0"
         },
         "suggest": {
             "ext-bz2": "To extract bzip2 compressed packages",
             "ext-zip": "To extract zip compressed packages",
             "ext-zlib": "To extract gzip or zip compressed packages"
         },
-        "time": "2019-03-10T15:17:48+00:00",
+        "time": "2020-11-14T17:40:00+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -482,16 +482,6 @@
             "filesystem",
             "framework",
             "joomla"
-        ],
-        "funding": [
-            {
-                "url": "https://community.joomla.org/sponsorship-campaigns.html",
-                "type": "custom"
-            },
-            {
-                "url": "https://github.com/joomla",
-                "type": "github"
-            }
         ]
     },
     {
@@ -813,17 +803,17 @@
     },
     {
         "name": "joomla/string",
-        "version": "1.4.4",
-        "version_normalized": "1.4.4.0",
+        "version": "1.4.5",
+        "version_normalized": "1.4.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/string.git",
-            "reference": "5fc1f6fbd588c4b50e97a019be8e9a2b4b3683fc"
+            "reference": "21269bfcddef4e676c6a1a49b7d959f896522a96"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/string/zipball/5fc1f6fbd588c4b50e97a019be8e9a2b4b3683fc",
-            "reference": "5fc1f6fbd588c4b50e97a019be8e9a2b4b3683fc",
+            "url": "https://api.github.com/repos/joomla-framework/string/zipball/21269bfcddef4e676c6a1a49b7d959f896522a96",
+            "reference": "21269bfcddef4e676c6a1a49b7d959f896522a96",
             "shasum": ""
         },
         "require": {
@@ -837,7 +827,7 @@
         "suggest": {
             "ext-mbstring": "For improved processing"
         },
-        "time": "2020-08-04T10:09:53+00:00",
+        "time": "2020-10-07T08:01:44+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -877,16 +867,6 @@
             "framework",
             "joomla",
             "string"
-        ],
-        "funding": [
-            {
-                "url": "https://community.joomla.org/sponsorship-campaigns.html",
-                "type": "custom"
-            },
-            {
-                "url": "https://github.com/joomla",
-                "type": "github"
-            }
         ]
     },
     {
@@ -987,33 +967,44 @@
     },
     {
         "name": "leafo/lessphp",
-        "version": "v0.5.0",
-        "version_normalized": "0.5.0.0",
+        "version": "dev-joomla3-php8",
+        "version_normalized": "dev-joomla3-php8",
         "source": {
             "type": "git",
-            "url": "https://github.com/leafo/lessphp.git",
-            "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283"
+            "url": "https://github.com/joomla-backports/lessphp.git",
+            "reference": "1bddadba0691b59dedfe841b1f99f9d4294b208c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/leafo/lessphp/zipball/0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
-            "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
+            "url": "https://api.github.com/repos/joomla-backports/lessphp/zipball/1bddadba0691b59dedfe841b1f99f9d4294b208c",
+            "reference": "1bddadba0691b59dedfe841b1f99f9d4294b208c",
             "shasum": ""
         },
-        "time": "2014-11-24T18:39:20+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "0.4.x-dev"
-            }
+        "require-dev": {
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+            "squizlabs/php_codesniffer": "~3.3"
         },
-        "installation-source": "dist",
+        "time": "2020-10-10T19:20:26+00:00",
+        "bin": [
+            "plessc",
+            "lessify"
+        ],
+        "type": "library",
+        "installation-source": "source",
         "autoload": {
             "classmap": [
                 "lessc.inc.php"
             ]
         },
-        "notification-url": "https://packagist.org/downloads/",
+        "scripts": {
+            "test": [
+                "phpunit",
+                "phpcs -p -s"
+            ],
+            "fix": [
+                "phpcbf"
+            ]
+        },
         "license": [
             "MIT",
             "GPL-3.0"
@@ -1026,7 +1017,10 @@
             }
         ],
         "description": "lessphp is a compiler for LESS written in PHP.",
-        "homepage": "http://leafo.net/lessphp/"
+        "homepage": "http://leafo.net/lessphp/",
+        "support": {
+            "source": "https://github.com/joomla-backports/lessphp/tree/dev-joomla3-php8"
+        }
     },
     {
         "name": "paragonie/random_compat",
@@ -1459,20 +1453,6 @@
             "ctype",
             "polyfill",
             "portable"
-        ],
-        "funding": [
-            {
-                "url": "https://symfony.com/sponsor",
-                "type": "custom"
-            },
-            {
-                "url": "https://github.com/fabpot",
-                "type": "github"
-            },
-            {
-                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                "type": "tidelift"
-            }
         ]
     },
     {
@@ -1535,20 +1515,6 @@
             "polyfill",
             "portable",
             "shim"
-        ],
-        "funding": [
-            {
-                "url": "https://symfony.com/sponsor",
-                "type": "custom"
-            },
-            {
-                "url": "https://github.com/fabpot",
-                "type": "github"
-            },
-            {
-                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                "type": "tidelift"
-            }
         ]
     },
     {
@@ -1611,20 +1577,6 @@
             "polyfill",
             "portable",
             "shim"
-        ],
-        "funding": [
-            {
-                "url": "https://symfony.com/sponsor",
-                "type": "custom"
-            },
-            {
-                "url": "https://github.com/fabpot",
-                "type": "github"
-            },
-            {
-                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                "type": "tidelift"
-            }
         ]
     },
     {
@@ -1686,20 +1638,6 @@
             "polyfill",
             "portable",
             "shim"
-        ],
-        "funding": [
-            {
-                "url": "https://symfony.com/sponsor",
-                "type": "custom"
-            },
-            {
-                "url": "https://github.com/fabpot",
-                "type": "github"
-            },
-            {
-                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                "type": "tidelift"
-            }
         ]
     },
     {
@@ -1764,20 +1702,6 @@
             "polyfill",
             "portable",
             "shim"
-        ],
-        "funding": [
-            {
-                "url": "https://symfony.com/sponsor",
-                "type": "custom"
-            },
-            {
-                "url": "https://github.com/fabpot",
-                "type": "github"
-            },
-            {
-                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                "type": "tidelift"
-            }
         ]
     },
     {
@@ -1836,20 +1760,6 @@
             "compatibility",
             "polyfill",
             "shim"
-        ],
-        "funding": [
-            {
-                "url": "https://symfony.com/sponsor",
-                "type": "custom"
-            },
-            {
-                "url": "https://github.com/fabpot",
-                "type": "github"
-            },
-            {
-                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                "type": "tidelift"
-            }
         ]
     },
     {
