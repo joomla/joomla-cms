@@ -236,7 +236,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface
 
 			if (empty($this->_name))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 		}
 
