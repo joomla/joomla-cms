@@ -113,7 +113,7 @@ class TagField extends ListField
 		$data['options']       = $this->getOptions();
 		$data['isNested']      = $this->isNested();
 		$data['allowCustom']   = $this->allowCustom();
-		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 3);
+		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 1);
 
 		return $this->getRenderer($this->layout)->render($data);
 	}
@@ -130,12 +130,11 @@ class TagField extends ListField
 		$published = $this->element['published'] ?: array(0, 1);
 		$app       = Factory::getApplication();
 		$language  = null;
+		$options   = [];
 
-		// Return only basic options, everything else will be searched via AJAX
-		if ($this->isRemoteSearch() && !$this->value)
-		{
-			return parent::getOptions();
-		}
+		// This limit is only used with isRemoteSearch
+		$limit          = (int) $this->comParams->get('prefill_limit', 30);
+		$isRemoteSearch = $this->isRemoteSearch();
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -184,12 +183,6 @@ class TagField extends ListField
 
 		$query->where($db->quoteName('a.lft') . ' > 0');
 
-		// Preload only active values, everything else will be searched via AJAX
-		if ($this->isRemoteSearch() && $this->value)
-		{
-			$query->whereIn($db->quoteName('a.id'), $this->value);
-		}
-
 		// Filter on the published state
 		if (is_numeric($published))
 		{
@@ -205,16 +198,73 @@ class TagField extends ListField
 
 		$query->order($db->quoteName('a.lft') . ' ASC');
 
-		// Get the options.
-		$db->setQuery($query);
+		// Preload only active values and 30 most used tags or fill up
+		if ($isRemoteSearch)
+		{
+			// Load the most $limit used tags
+			$topQuery = $db->getQuery(true)
+			               ->select($db->quoteName('tag_id'))
+			               ->from($db->quoteName('#__contentitem_tag_map'))
+			               ->group($db->quoteName('tag_id'))
+			               ->order('count(*)')
+			               ->setLimit($limit);
 
-		try
-		{
-			$options = $db->loadObjectList();
+			$db->setQuery($topQuery);
+			$topIds = $db->loadColumn();
+
+			// Merge the used values into the most used tags
+			if (!empty($this->value) && is_array($this->value))
+			{
+				$topIds = array_merge($topIds, $this->value);
+				$topIds = array_keys(array_flip($topIds));
+			}
+
+			// Set the default limit for the main query
+			$query->setLimit($limit);
+
+			if (!empty($topIds))
+			{
+				// Filter the ids to the most used tags and the selected tags
+				$preQuery = clone $query;
+				$preQuery->whereIn($db->quoteName('a.id'), $topIds);
+
+				$db->setQuery($preQuery);
+
+				try
+				{
+					$options = $db->loadObjectList();
+				}
+				catch (\RuntimeException $e)
+				{
+					return array();
+				}
+
+				// Limit the main query to the missing amount of tags
+				$count = count($options);
+				$limit = $limit - $count;
+				$query->setLimit($limit);
+
+				// Exclude the already loaded tags from the main query
+				if ($count > 0) {
+					$query->whereNotIn($db->quoteName('a.id'), ArrayHelper::getColumn($options, 'value'));
+				}
+			}
 		}
-		catch (\RuntimeException $e)
+
+		// Only execute the query if we need more tags not already loaded by the $preQuery query
+		if (!$isRemoteSearch || $limit > 0)
 		{
-			return array();
+			// Get the options.
+			$db->setQuery($query);
+
+			try
+			{
+				$options = array_merge($options, $db->loadObjectList());
+			}
+			catch (\RuntimeException $e)
+			{
+				return array();
+			}
 		}
 
 		// Block the possibility to set a tag as it own parent

@@ -166,7 +166,15 @@
 			first="1"
 			last="3"
 			step="1"
-			default="3"
+			default="1"
+		/>
+
+		<field
+			name="prefill_limit"
+			type="number"
+			label="COM_TAGS_CONFIG_TAG_PREFILL_LIMIT_LABEL"
+			default="30"
+			filter="integer"
 		/>
 
 		<field
