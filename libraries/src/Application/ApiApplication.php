@@ -175,11 +175,11 @@ final class ApiApplication extends CMSApplication
 			$this->setHeader('Access-Control-Allow-Origin', $allowedOrigin, true);
 			$this->setHeader('Access-Control-Allow-Headers', 'Authorization');
 
-			if (isset($_SERVER['HTTP_ORIGIN']))
+			if ($this->input->server->getString('HTTP_ORIGIN', null) !== null)
 			{
-				// TO-DO filter allowed $_SERVER['HTTP_ORIGIN']
-				header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-				header('Access-Control-Allow-Credentials: true');
+				// TO-DO filter on $_SERVER['HTTP_ORIGIN']
+				$this->setHeader('Access-Control-Allow-Origin', $this->input->server->getString('HTTP_ORIGIN'), true);
+				$this->setHeader('Access-Control-Allow-Credentials', 'true', true);
 			}
 		}
 
