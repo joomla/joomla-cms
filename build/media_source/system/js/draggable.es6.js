@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Get the order array
       for (i = 0, l = rows.length; l > i; i += 1) {
         rows[i].value = i + 1;
-        result.push(`order[]=${encodeURIComponent(i)}`);
+        result.push(`order[]=${encodeURIComponent(rows[i].value)}`);
         result.push(`cid[]=${encodeURIComponent(inputRows[i].value)}`);
       }
 
