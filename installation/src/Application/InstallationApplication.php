@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Installation\Application;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplication;
@@ -195,9 +195,9 @@ final class InstallationApplication extends CMSApplication
 		Factory::$document = $document;
 
 		// Define component path.
-		define('JPATH_COMPONENT', JPATH_BASE);
-		define('JPATH_COMPONENT_SITE', JPATH_SITE);
-		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
+		\define('JPATH_COMPONENT', JPATH_BASE);
+		\define('JPATH_COMPONENT_SITE', JPATH_SITE);
+		\define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
 
 		// Execute the task.
 		ob_start();

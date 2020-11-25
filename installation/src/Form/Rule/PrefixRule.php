@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installation\Form\Rule;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\FormRule;
 

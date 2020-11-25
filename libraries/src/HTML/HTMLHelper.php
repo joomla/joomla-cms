@@ -399,7 +399,7 @@ abstract class HTMLHelper
 		{
 			// Extract extension and strip the file
 			$strip = File::stripExt($file);
-			$ext   = pathinfo($file, PATHINFO_EXTENSION);
+			$ext   = File::getExt($file);
 
 			// Prepare array of files
 			$includes = [];
@@ -654,6 +654,72 @@ abstract class HTMLHelper
 		return $includes;
 	}
 
+	/**
+	 * Gets a URL, cleans the Joomla specific params and returns an object
+	 *
+	 * @param    string        $url        The relative or absolute URL to use for the src attribute.
+	 *
+	 * @return   object
+	 * @example  {
+	 *             url:    'string',
+	 *             width:  integer,
+	 *             height: integer,
+	 *           }
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 */
+	public static function cleanImageURL($url)
+	{
+		$obj = new \stdClass;
+
+		$obj->attributes = [
+			'width'  => 0,
+			'height' => 0,
+		];
+
+		if (!strpos($url, '?'))
+		{
+			$obj->url = $url;
+
+			return $obj;
+		}
+
+		$pieces = explode('?', $url);
+
+		parse_str($pieces[1], $urlParams);
+
+		if (isset($urlParams['joomla_image_height']) && $urlParams['joomla_image_height'] !== 'null')
+		{
+			if ((int) $urlParams['joomla_image_height'] > 0)
+			{
+				$obj->attributes['height'] = $urlParams['joomla_image_height'];
+			}
+			else
+			{
+				unset($obj->attributes['height']);
+			}
+
+			unset($urlParams['joomla_image_height']);
+		}
+
+		if (isset($urlParams['joomla_image_width']) && $urlParams['joomla_image_width'] !== 'null')
+		{
+			if ((int) $urlParams['joomla_image_width'] > 0)
+			{
+				$obj->attributes['width'] = $urlParams['joomla_image_width'];
+			}
+			else
+			{
+				unset($obj->attributes['width']);
+			}
+
+			unset($urlParams['joomla_image_width']);
+		}
+
+		$obj->url  = $pieces[0] . (count($urlParams) ? '?' . http_build_query($urlParams) : '');
+
+		return $obj;
+	}
 
 	/**
 	 * Write a `<img>` element
@@ -1193,36 +1259,30 @@ abstract class HTMLHelper
 	 */
 	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
 	{
-		if (!$debugMode)
-		{
-			// We are handling a name.min.ext file:
-			if (strrpos($path, '.min', '-4'))
-			{
-				$position        = strrpos($path, '.min', '-4');
-				$minifiedPath    = $path;
-				$nonMinifiedPath = str_replace('.min', '', $path, $position);
-
-				return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
-			}
-
-			$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
-
-			return self::checkFileOrder($path, $minifiedPath);
-		}
+		$position = strrpos($path, '.min.');
 
 		// We are handling a name.min.ext file:
-		if (strrpos($path, '.min', '-4'))
+		if ($position !== false)
 		{
-			$position        = strrpos($path, '.min', '-4');
 			$minifiedPath    = $path;
-			$nonMinifiedPath = str_replace('.min', '', $path, $position);
+			$nonMinifiedPath = substr_replace($path, '', $position, 4);
 
-			return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+			if ($debugMode)
+			{
+				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+			}
+
+			return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
 		}
 
 		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
-		return self::checkFileOrder($minifiedPath, $path);
+		if ($debugMode)
+		{
+			return self::checkFileOrder($minifiedPath, $path);
+		}
+
+		return self::checkFileOrder($path, $minifiedPath);
 	}
 
 	/**
