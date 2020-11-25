@@ -203,11 +203,11 @@ class TagField extends ListField
 		{
 			// Load the most $limit used tags
 			$topQuery = $db->getQuery(true)
-			               ->select($db->quoteName('tag_id'))
-			               ->from($db->quoteName('#__contentitem_tag_map'))
-			               ->group($db->quoteName('tag_id'))
-			               ->order('count(*)')
-			               ->setLimit($limit);
+				->select($db->quoteName('tag_id'))
+				->from($db->quoteName('#__contentitem_tag_map'))
+				->group($db->quoteName('tag_id'))
+				->order('count(*)')
+				->setLimit($limit);
 
 			$db->setQuery($topQuery);
 			$topIds = $db->loadColumn();
@@ -245,7 +245,8 @@ class TagField extends ListField
 				$query->setLimit($limit);
 
 				// Exclude the already loaded tags from the main query
-				if ($count > 0) {
+				if ($count > 0)
+				{
 					$query->whereNotIn($db->quoteName('a.id'), ArrayHelper::getColumn($options, 'value'));
 				}
 			}
