@@ -22,7 +22,8 @@
       "name": "joomla.frontediting",
       "type": "script",
       "dependencies": [
-        "jquery"
+        "jquery",
+        "jquery-noconflict"
       ],
       "uri": "legacy/frontediting.min.js",
       "attributes": {
@@ -41,7 +42,8 @@
       "name": "joomla.treeselectmenu",
       "type": "script",
       "dependencies": [
-        "jquery"
+        "jquery",
+        "jquery-noconflict"
       ],
       "uri": "legacy/treeselectmenu.min.js",
       "attributes": {

@@ -43,7 +43,8 @@
       "uri": "com_finder/finder-edit.min.js",
       "dependencies": [
         "core",
-        "jquery"
+        "jquery",
+        "jquery-noconflict"
       ],
       "attributes": {
         "defer": true
@@ -55,7 +56,8 @@
       "uri": "com_finder/index.min.js",
       "dependencies": [
         "core",
-        "jquery"
+        "jquery",
+        "jquery-noconflict"
       ],
       "attributes": {
         "defer": true

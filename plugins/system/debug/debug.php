@@ -206,7 +206,7 @@ class PlgSystemDebug extends CMSPlugin
 				'plg_system_debug/debug.min.js',
 				[],
 				['defer' => true],
-				['jquery']
+				['jquery', 'jquery-noconflict']
 			);
 		}
 
@@ -343,7 +343,7 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
-		echo str_replace('</body>', $debugBarRenderer->renderHead() . $debugBarRenderer->render() . '</body>', $contents);
+		echo str_replace('</head>', $debugBarRenderer->renderHead() . $debugBarRenderer->render() . '</head>', $contents);
 	}
 
 	/**

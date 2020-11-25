@@ -76,7 +76,8 @@
       "uri": "com_menus/admin-menus-default.min.js",
       "dependencies": [
         "core",
-        "jquery"
+        "jquery",
+        "jquery-noconflict"
       ],
       "attributes": {
         "defer": true

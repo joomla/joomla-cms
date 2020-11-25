@@ -57,6 +57,21 @@ class ScriptsRenderer extends DocumentRenderer
 		// Merge with existing scripts, for rendering
 		$assets = array_merge(array_values($assets), $this->_doc->_scripts);
 
+		// Add Script Options as inline asset
+		$scriptOptions = $this->_doc->getScriptOptions();
+
+		if ($scriptOptions)
+		{
+			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
+			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
+			$nonce       = $this->_doc->cspNonce ? ' nonce="' . $this->_doc->cspNonce . '"' : '';
+
+			$buffer .= '<script type="application/json" class="joomla-script-options new"' . $nonce . '>' . $jsonOptions . '</script>';
+		}
+
+		$buffer .= '<script type=module' . $nonce . '>!function(e,t,n){!("noModule"in(t=e.createElement("script")))&&"onbeforeload"in t&&(n=!1,e.addEventListener("beforeload",function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()},!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove())}(document)</script>';
+
 		// Generate script file links
 		foreach ($assets as $key => $item)
 		{
@@ -122,12 +137,6 @@ class ScriptsRenderer extends DocumentRenderer
 			}
 		}
 
-		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
-		foreach (array_unique($this->_doc->_custom) as $custom)
-		{
-			$buffer .= $tab . $custom . $lnEnd;
-		}
-
 		return ltrim($buffer, $tab);
 	}
 
@@ -154,14 +163,12 @@ class ScriptsRenderer extends DocumentRenderer
 
 		$lnEnd        = $this->_doc->_getLineEnd();
 		$tab          = $this->_doc->_getTab();
-		$mediaVersion = $this->_doc->getMediaVersion();
 
 		// Get the attributes and other options
 		if ($asset)
 		{
 			$attribs     = $asset->getAttributes();
 			$version     = $asset->getVersion();
-			$conditional = $asset->getOption('conditional');
 
 			// Add an asset info for debugging
 			if (JDEBUG)
@@ -178,38 +185,25 @@ class ScriptsRenderer extends DocumentRenderer
 		{
 			$attribs     = $item;
 			$version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
-			$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 		}
 
 		// To prevent double rendering
 		$this->renderedSrc[$src] = true;
 
+		return $this->checkEsAlternative($src, $attribs, $version);
+
 		// Check if script uses media version.
-		if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
-		{
-			$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
-		}
-
-		$buffer .= $tab;
-
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
-		{
-			$buffer .= '<!--[if ' . $conditional . ']>';
-		}
-
-		// Render the element with attributes
-		$buffer .= '<script src="' . htmlspecialchars($src) . '"';
-		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= '></script>';
-
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
-		{
-			$buffer .= '<![endif]-->';
-		}
-
-		$buffer .= $lnEnd;
+//		if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
+//		{
+//			$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+//		}
+//
+//		// Render the element with attributes
+//		$buffer .= $tab . '<script src="' . htmlspecialchars($src) . '"';
+//		$buffer .= $this->renderAttributes($attribs, true);
+//		$buffer .= '></script>';
+//
+//		$buffer .= $lnEnd;
 
 		return $buffer;
 	}
@@ -225,10 +219,6 @@ class ScriptsRenderer extends DocumentRenderer
 	 */
 	private function renderInlineElement($item) : string
 	{
-		$buffer = '';
-		$lnEnd  = $this->_doc->_getLineEnd();
-		$tab    = $this->_doc->_getTab();
-
 		if ($item instanceof WebAssetItemInterface)
 		{
 			$attribs = $item->getAttributes();
@@ -254,39 +244,26 @@ class ScriptsRenderer extends DocumentRenderer
 			$attribs['nonce'] = $this->_doc->cspNonce;
 		}
 
-		$buffer .= $tab . '<script';
-		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= '>';
+		$finalAttribs = $this->renderAttributes($attribs, true);
+		$attribs['src'] = 'data:text/javascript;base64,' . base64_encode($content);
+		$content = '';
 
-		// This is for full XHTML support.
-		if ($this->_doc->_mime !== 'text/html')
-		{
-			$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-		}
+		$finalSrc = !empty($attribs['src']) ? ' src="' . $attribs['src'] . '"' : '';
 
-		$buffer .= $content;
-
-		// See above note
-		if ($this->_doc->_mime !== 'text/html')
-		{
-			$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-		}
-
-		$buffer .= '</script>' . $lnEnd;
-
-		return $buffer;
+		return $this->_doc->_getTab() . '<script ' . $finalAttribs . $finalSrc . '>' . $content . '</script>' . $this->_doc->_getLineEnd();
 	}
 
 	/**
 	 * Renders the element attributes
 	 *
-	 * @param   array  $attributes  The element attributes
+	 * @param array $attributes The element attributes
+	 * @param bool  $forceDefer Force the defer attribute
 	 *
 	 * @return  string  The attributes string
 	 *
 	 * @since   4.0.0
 	 */
-	private function renderAttributes(array $attributes) : string
+	private function renderAttributes(array $attributes, bool $forceDefer) : string
 	{
 		$buffer = '';
 
@@ -336,6 +313,108 @@ class ScriptsRenderer extends DocumentRenderer
 			}
 		}
 
+		if ($forceDefer && !isset($attributes['async']) && !isset($attributes['defer']))
+		{
+			$buffer .= ' defer';
+		}
+
 		return $buffer;
+	}
+
+	/**
+	 * @param   string  $src  The source string
+	 *
+	 * @return  string|string[]
+	 */
+	public function checkEsAlternative(string $src, $attribs, $version)
+	{
+		$mediaVersion = $this->_doc->getMediaVersion();
+
+		if (strpos('http://', $src) || strpos('https://', $src)  || strpos('//', $src))
+		{
+			return '';
+		}
+
+		$testx = '';
+
+		// The given file IS ES6
+		if (strpos('.es6.', $src))
+		{
+			if (!strpos('.min.js', $src))
+			{
+				$newSrc = str_replace('.es6.js', '.js', $src);
+			}
+			else
+			{
+				$newSrc = str_replace('.es6.min.js', '.min.js', $src);
+			}
+
+			if (!empty($newSrc) && is_file(JPATH_ROOT . '/' . $newSrc))
+			{
+				// Check if script uses media version.
+				if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
+				{
+					$newSrc .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+				}
+
+				$attribs['nomodule'] = true;
+
+				// Render the element with attributes
+				$testx = '<script src="' . htmlspecialchars($newSrc) . '"';
+				$testx .= $this->renderAttributes($attribs, true);
+				$testx .= '></script>';
+			}
+		}
+
+		// The given file IS ES5
+		if (!strpos($src, '.es6.'))
+		{
+			if (!strpos($src, '.min.'))
+			{
+				$newSrc = str_replace('.js', '.es6.js', $src);
+			}
+			else
+			{
+				$newSrc = str_replace('.min.js', '.es6.min.js', $src);
+			}
+
+			if (!empty($newSrc) && is_file(JPATH_ROOT .  $newSrc))
+			{
+				// Check if script uses media version.
+				if ($version && strpos($newSrc, '?') === false && ($mediaVersion || $version !== 'auto'))
+				{
+					$newSrc .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+				}
+
+				$attribs['type'] = 'module';
+
+				// Render the element with attributes
+				$testx .= '<script src="' . htmlspecialchars($newSrc) . '"';
+				$testx .= $this->renderAttributes($attribs, false);
+				$testx .= '></script>';
+			}
+
+			$noModule = '';
+			if (isset($attribs['type']))
+			{
+				unset($attribs['type']);
+				$noModule = ' nomodule';
+			}
+
+
+			// Check if script uses media version.
+			if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
+			{
+				$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+			}
+
+			// Render the element with attributes
+			$testx .= '<script src="' . htmlspecialchars($src) . '"';
+			$testx .= $this->renderAttributes($attribs, true);
+			$testx .= $noModule. '></script>';
+
+		}
+
+		return $testx;
 	}
 }

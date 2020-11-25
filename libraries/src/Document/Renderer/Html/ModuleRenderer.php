@@ -22,18 +22,22 @@ use Joomla\Registry\Registry;
  */
 class ModuleRenderer extends DocumentRenderer
 {
+	use FixAssets;
+
 	/**
 	 * Renders a module script and returns the results as a string
 	 *
-	 * @param   string  $module   The name of the module to render
-	 * @param   array   $attribs  Associative array of values
-	 * @param   string  $content  If present, module information from the buffer will be used
+	 * @param   string|object  $module   The name of the module to render
+	 * @param   array          $attribs  Associative array of values
+	 * @param   string         $content  If present, module information from the buffer will be used
 	 *
 	 * @return  string  The output of the script
 	 *
+	 * @throws \Exception
+	 *
 	 * @since   3.5
 	 */
-	public function render($module, $attribs = array(), $content = null)
+	public function render($module, $attribs = [], $content = '')
 	{
 		if (!\is_object($module))
 		{
@@ -64,6 +68,14 @@ class ModuleRenderer extends DocumentRenderer
 		// Set the module content
 		if (!\is_null($content))
 		{
+			$app      = Factory::getApplication();
+			$template = $app->getTemplate(true);
+
+			if ($template->params->getBool('joomla_skip_assets_processing_modules', true))
+			{
+				$module->content = $this->fixAssets($content);
+			}
+
 			$module->content = $content;
 		}
 
@@ -73,25 +85,25 @@ class ModuleRenderer extends DocumentRenderer
 		// Use parameters from template
 		if (isset($attribs['params']))
 		{
-			$template_params = new Registry(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
-			$params->merge($template_params);
+			$templateParams = new Registry(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
+			$params->merge($templateParams);
 			$module = clone $module;
 			$module->params = (string) $params;
 		}
 
 		// Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
-		$cachemode = $params->get('cachemode', 'static');
+		$cacheMode = $params->get('cachemode', 'static');
 
-		if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cachemode !== 'id' && $cachemode !== 'safeuri')
+		if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cacheMode !== 'id' && $cacheMode !== 'safeuri')
 		{
 			// Default to itemid creating method and workarounds on
-			$cacheparams = new \stdClass;
-			$cacheparams->cachemode = $cachemode;
-			$cacheparams->class = ModuleHelper::class;
-			$cacheparams->method = 'renderModule';
-			$cacheparams->methodparams = array($module, $attribs);
+			$cacheParams = new \stdClass;
+			$cacheParams->cachemode = $cacheMode;
+			$cacheParams->class = ModuleHelper::class;
+			$cacheParams->method = 'renderModule';
+			$cacheParams->methodparams = array($module, $attribs);
 
-			return ModuleHelper::ModuleCache($module, $params, $cacheparams);
+			return ModuleHelper::ModuleCache($module, $params, $cacheParams);
 		}
 
 		return ModuleHelper::renderModule($module, $attribs);

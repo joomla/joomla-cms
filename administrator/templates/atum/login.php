@@ -80,6 +80,7 @@ Text::script('JGLOBAL_WARNCOOKIES');
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
@@ -140,6 +141,5 @@ Text::script('JGLOBAL_WARNCOOKIES');
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
-<jdoc:include type="scripts" />
 </body>
 </html>

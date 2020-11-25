@@ -25,6 +25,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class MetasRenderer extends DocumentRenderer
 {
+	use FixAssets;
+
 	/**
 	 * Renders the document metas and returns the results as a string
 	 *
@@ -36,7 +38,7 @@ class MetasRenderer extends DocumentRenderer
 	 *
 	 * @since   4.0.0
 	 */
-	public function render($head, $params = array(), $content = null)
+	public function render($head, $params = [], $content = '')
 	{
 		// Convert the tagids to titles
 		if (isset($this->_doc->_metaTags['name']['tags']))
@@ -72,22 +74,8 @@ class MetasRenderer extends DocumentRenderer
 		// Trigger the onBeforeCompileHead event
 		$app->triggerEvent('onBeforeCompileHead');
 
-		// Add Script Options as inline asset
-		$scriptOptions = $this->_doc->getScriptOptions();
-
-		if ($scriptOptions)
-		{
-			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
-			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
-
-			$wa->addInlineScript(
-				$jsonOptions,
-				['name' => 'joomla.script.options', 'position' => 'before'],
-				['type' => 'application/json', 'class' => 'joomla-script-options new'],
-				['core']
-			);
-		}
+		// Fix any styles/scripts inserted using addCustomTag
+		$this->fixCustom();
 
 		// Lock the AssetManager
 		$wa->lock();
@@ -207,6 +195,12 @@ class MetasRenderer extends DocumentRenderer
 			}
 
 			$buffer .= '>' . $lnEnd;
+		}
+
+		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
+		foreach ($this->_doc->_custom as $custom)
+		{
+			$buffer .= $tab . $custom . $lnEnd;
 		}
 
 		return ltrim($buffer, $tab);

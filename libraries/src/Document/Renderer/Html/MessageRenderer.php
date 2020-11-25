@@ -33,7 +33,7 @@ class MessageRenderer extends DocumentRenderer
 	 *
 	 * @since   3.5
 	 */
-	public function render($name, $params = array(), $content = null)
+	public function render($name, $params = [], $content = '')
 	{
 		$msgList     = $this->getData();
 		$displayData = array(
@@ -71,7 +71,7 @@ class MessageRenderer extends DocumentRenderer
 	private function getData()
 	{
 		// Initialise variables.
-		$lists = array();
+		$lists = [];
 
 		// Get the message queue
 		$messages = Factory::getApplication()->getMessageQueue();

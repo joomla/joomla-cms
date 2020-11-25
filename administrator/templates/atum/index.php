@@ -84,6 +84,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
@@ -178,6 +179,5 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
-<jdoc:include type="scripts" />
 </body>
 </html>

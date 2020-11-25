@@ -782,7 +782,7 @@ abstract class HTMLHelper
 		{
 			if (\count($includes) === 0)
 			{
-				return;
+				return null;
 			}
 
 			if (\count($includes) === 1)

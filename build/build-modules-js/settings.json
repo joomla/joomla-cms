@@ -82,7 +82,8 @@
             "type": "script",
             "uri": "bootstrap.min.js",
             "dependencies": [
-              "jquery"
+              "jquery",
+              "jquery-noconflict"
             ]
           },
           {
@@ -90,7 +91,8 @@
             "type": "script",
             "uri": "bootstrap.bundle.min.js",
             "dependencies": [
-              "jquery"
+              "jquery",
+              "jquery-noconflict"
             ]
           }
         ],
@@ -418,7 +420,8 @@
             "type": "script",
             "uri": "jquery.minicolors.min.js",
             "dependencies": [
-              "jquery"
+              "jquery",
+              "jquery-noconflict"
             ],
             "attributes": {
               "defer": true
@@ -434,7 +437,8 @@
           }
         ],
         "dependencies": [
-          "jquery"
+          "jquery",
+          "jquery-noconflict"
         ],
         "licenseFilename": "LICENSE.md"
       },
@@ -478,7 +482,8 @@
             "type": "script",
             "uri": "chosen.jquery.js",
             "dependencies": [
-              "jquery"
+              "jquery",
+              "jquery-noconflict"
             ]
           },
           {

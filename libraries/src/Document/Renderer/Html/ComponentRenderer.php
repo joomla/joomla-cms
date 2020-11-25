@@ -11,6 +11,7 @@ namespace Joomla\CMS\Document\Renderer\Html;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Factory;
 
 /**
  * HTML document renderer for the component output
@@ -19,6 +20,8 @@ use Joomla\CMS\Document\DocumentRenderer;
  */
 class ComponentRenderer extends DocumentRenderer
 {
+	use FixAssets;
+
 	/**
 	 * Renders a component script and returns the results as a string
 	 *
@@ -30,8 +33,16 @@ class ComponentRenderer extends DocumentRenderer
 	 *
 	 * @since   3.5
 	 */
-	public function render($component = null, $params = array(), $content = null)
+	public function render($component = '', $params = array(), $content = '')
 	{
+		$app      = Factory::getApplication();
+		$template = $app->getTemplate(true);
+
+		if ($template->params->getBool('joomla_skip_assets_processing_components', true))
+		{
+			return $this->fixAssets($content);
+		}
+
 		return $content;
 	}
 }

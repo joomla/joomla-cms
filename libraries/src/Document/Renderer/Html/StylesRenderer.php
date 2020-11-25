@@ -152,7 +152,6 @@ class StylesRenderer extends DocumentRenderer
 		{
 			$attribs     = $asset->getAttributes();
 			$version     = $asset->getVersion();
-			$conditional = $asset->getOption('conditional');
 
 			// Add an asset info for debugging
 			if (JDEBUG)
@@ -169,7 +168,6 @@ class StylesRenderer extends DocumentRenderer
 		{
 			$attribs     = $item;
 			$version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
-			$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 		}
 
 		// To prevent double rendering
@@ -183,12 +181,6 @@ class StylesRenderer extends DocumentRenderer
 
 		$buffer .= $tab;
 
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
-		{
-			$buffer .= '<!--[if ' . $conditional . ']>';
-		}
-
 		// Avoid double rel="", StyleSheet can have only rel="stylesheet"
 		unset($attribs['rel']);
 
@@ -196,12 +188,6 @@ class StylesRenderer extends DocumentRenderer
 		$buffer .= '<link href="' . htmlspecialchars($src) . '" rel="stylesheet"';
 		$buffer .= $this->renderAttributes($attribs);
 		$buffer .= ' />';
-
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
-		{
-			$buffer .= '<![endif]-->';
-		}
 
 		$buffer .= $lnEnd;
 

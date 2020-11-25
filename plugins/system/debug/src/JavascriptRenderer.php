@@ -66,7 +66,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 
 		foreach ($jsFiles as $file)
 		{
-			$html .= sprintf('<script type="text/javascript" src="%s" defer></script>' . "\n", $file);
+			$html .= sprintf('<script src="%s" defer></script>' . "\n", $file);
 		}
 
 		$nonce = '';
@@ -78,7 +78,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 
 		foreach ($inlineJs as $content)
 		{
-			$html .= sprintf('<script type="module"%s>%s</script>' . "\n", $nonce, $content);
+			$html .= '<script defer ' . $nonce . ' src="data:text/javascript;base64,' . base64_encode($content) . '"></script>' . "\n";
 		}
 
 		foreach ($inlineHead as $content)
@@ -120,22 +120,60 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
 		}
 
 		$suffix = !$initialize ? '(ajax)' : null;
-		$js .= $this->getAddDatasetCode($this->debugBar->getCurrentRequestId(), $this->debugBar->getData(), $suffix);
-
-		$nonce = '';
+		$data   = $this->getAddDatasetCode($this->debugBar->getCurrentRequestId(), $this->debugBar->getData(), $suffix);
+		$js    .= $data->inlineJs;
+		$nonce  = '';
 
 		if ($doc->cspNonce)
 		{
-			$nonce = ' nonce="' . $doc->cspNonce . '"';
+			$nonce = 'nonce="' . $doc->cspNonce . '"';
 		}
 
 		if ($this->useRequireJs)
 		{
-			return "<script type=\"module\"$nonce>\nrequire(['debugbar'], function(PhpDebugBar){ $js });\n</script>\n";
+			return $data->jsonTag . "\n" . '<script defer nomodule ' . $nonce . ' src="data:text/javascript;base64,'
+				. base64_encode("require(['debugbar'], function(PhpDebugBar){ $js });") . '"></script>' . "\n";
 		}
 		else
 		{
-			return "<script type=\"module\"$nonce>\n$js\n</script>\n";
+			return $data->jsonTag . "\n" . '<script defer ' . $nonce
+				. ' src="data:text/javascript;base64,' . base64_encode($js) . '"></script>' . "\n";
 		}
+	}
+
+	/**
+	 * Returns the js code needed to add a dataset
+	 *
+	 * @param string $requestId
+	 * @param array $data
+	 * @param mixed $suffix
+	 * @return string
+	 */
+	protected function getAddDatasetCode($requestId, $data, $suffix = null)
+	{
+		$output = new \stdClass();
+		$finalVar = '"' . $requestId . ($suffix ? ", " . json_encode($suffix) : '') . '"';
+
+		$output->jsonTag = '<script type="application/json" id="debugbar-json-data">' . json_encode($data) . '</script>';
+		$output->inlineJs = <<<JS
+document.addEventListener('DOMContentLoaded', function() {
+  jQuery(document).ready(function () {
+    var debugbarJsonData, debugbarJsonElement = document.getElementById('debugbar-json-data');
+	if (debugbarJsonElement) {
+	  try {
+		debugbarJsonData = JSON.parse(debugbarJsonElement.innerHTML);
+	  } catch (e) {
+		console.log(e)
+	  }
+
+	  if (debugbarJsonData) {
+		phpdebugbar.addDataSet(debugbarJsonData, $finalVar);
+	  }
+	}
+  });
+});
+JS;
+
+		return $output;
 	}
 }

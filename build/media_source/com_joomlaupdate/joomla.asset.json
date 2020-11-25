@@ -45,6 +45,7 @@
       "dependencies": [
         "core",
         "jquery",
+        "jquery-noconflict",
         "com_joomlaupdate.encryption"
       ],
       "attributes": {
