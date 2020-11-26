@@ -223,7 +223,7 @@ class FileLayout extends BaseLayout
 	/**
 	 * Add one path to include in layout search. Proxy of addIncludePaths()
 	 *
-	 * @param   string  $path  The path to search for layouts
+	 * @param   string|string[]  $path  The path to search for layouts
 	 *
 	 * @return  self
 	 *
