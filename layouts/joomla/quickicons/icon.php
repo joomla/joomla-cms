@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
@@ -63,7 +64,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 			<?php if (isset($displayData['image'])): ?>
 				<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-					<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+					<?php echo HTMLHelper::_('icons.icon', $displayData['image'], Text::_($displayData['name']), 'svg'); ?>
 				</div>
 			<?php endif; ?>
 			<?php if (isset($displayData['ajaxurl'])) : ?>
