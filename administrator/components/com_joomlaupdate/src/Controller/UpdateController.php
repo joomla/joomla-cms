@@ -290,6 +290,8 @@ class UpdateController extends BaseController
 		{
 			$url = 'index.php?option=com_joomlaupdate';
 			$this->setRedirect($url, $e->getMessage(), 'error');
+
+			return;
 		}
 
 		$token = Session::getFormToken();
