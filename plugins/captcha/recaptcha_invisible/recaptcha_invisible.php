@@ -82,15 +82,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 		$this->app->getDocument()->getWebAssetManager()
 			->registerAndUseScript('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha.min.js', [], ['defer' => true])
 			->registerAndUseScript('plg_captcha_recaptchainvisible.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptchainvisible'])
-			->addInlineStyle(
-				<<<CSS
-
-.grecaptcha-badge {
-	z-index: 999999;
-}
-
-CSS
-			);
+			->registerAndUseStyle('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha_invisible.css');
 
 		return true;
 	}
