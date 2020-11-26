@@ -133,7 +133,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<p class="com-content-article__readmore readmore">
 		<a href="<?php echo $link; ?>" class="register">
 			<?php if ($params->get('alternative_readmore', '') === '') : ?>
-				<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
+				<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 			<?php else : ?>
 				<?php echo $params->get('alternative_readmore'); ?>
 				<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
