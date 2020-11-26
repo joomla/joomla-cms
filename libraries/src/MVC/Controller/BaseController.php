@@ -144,7 +144,7 @@ class BaseController implements ControllerInterface
 	 * The factory.
 	 *
 	 * @var    MVCFactoryInterface
-	 * @since  4.0.0
+	 * @since  3.10.0
 	 */
 	protected $factory;
 
