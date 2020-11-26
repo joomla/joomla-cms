@@ -281,7 +281,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_fields_list', 'plugin', 'list', 'fields', 0, 1, 1, 0, 1, '', '', '', 7, 0),
 (0, 'plg_fields_media', 'plugin', 'media', 'fields', 0, 1, 1, 0, 1, '', '', '', 8, 0),
 (0, 'plg_fields_radio', 'plugin', 'radio', 'fields', 0, 1, 1, 0, 1, '', '', '', 9, 0),
-(0, 'plg_fields_sql', 'plugin', 'sql', 'fields', 0, 1, 1, 0, 1, '', '', '',1 0, 0),
+(0, 'plg_fields_sql', 'plugin', 'sql', 'fields', 0, 1, 1, 0, 1, '', '', '', 10, 0),
 (0, 'plg_fields_subfields', 'plugin', 'subfields', 'fields', 0, 1, 1, 0, 1, '', '', '', 11, 0),
 (0, 'plg_fields_text', 'plugin', 'text', 'fields', 0, 1, 1, 0, 1, '', '', '', 12, 0),
 (0, 'plg_fields_textarea', 'plugin', 'textarea', 'fields', 0, 1, 1, 0, 1, '', '', '', 13, 0),
@@ -361,8 +361,8 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_webservices_templates', 'plugin', 'templates', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 15, 0),
 (0, 'plg_webservices_users', 'plugin', 'users', 'webservices', 0, 1, 1, 0, 1, '', '{}', '', 16, 0),
 (0, 'plg_workflow_featuring', 'plugin', 'featuring', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 1, 0),
-(0, 'plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 2, 0);
-(0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
+(0, 'plg_workflow_notification', 'plugin', 'notification', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
+(0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, 1, '', '{}', '', 3, 0);
 
 -- Templates
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`) VALUES
