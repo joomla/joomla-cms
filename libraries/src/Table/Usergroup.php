@@ -65,7 +65,7 @@ class Usergroup extends Table
 		// The parent_id can not be equal to the current id
 		if ($this->id === (int) $this->parent_id)
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
 			return false;
 		}
@@ -103,7 +103,7 @@ class Usergroup extends Table
 
 			if ((!$table->parent_id && $this->parent_id) || ($table->parent_id && !$this->parent_id))
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
 				return false;
 			}
@@ -111,7 +111,7 @@ class Usergroup extends Table
 		// New entry should always be greater 0
 		elseif (!$this->parent_id)
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
 			return false;
 		}
@@ -124,7 +124,7 @@ class Usergroup extends Table
 
 			if ($table->id != $this->parent_id)
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
 				return false;
 			}

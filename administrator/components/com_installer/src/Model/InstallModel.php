@@ -151,7 +151,7 @@ class InstallModel extends BaseDatabaseModel
 		// Check if package was uploaded successfully.
 		if (!\is_array($package))
 		{
-			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(Text::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
 
 			return false;
 		}
