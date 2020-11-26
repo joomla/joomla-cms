@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -17,6 +18,11 @@ use Joomla\CMS\Uri\Uri;
 
 $app = Factory::getApplication();
 $wa  = $this->getWebAssetManager();
+
+// Browsers support SVG favicons
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
+$this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -105,7 +111,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 
 				<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
 					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-						<span class="icon-bars" aria-hidden="true"></span>
+						<span class="icon-menu" aria-hidden="true"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbar">
 						<jdoc:include type="modules" name="menu" style="none" />

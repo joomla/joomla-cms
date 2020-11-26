@@ -8,14 +8,14 @@
 
 namespace Joomla\CMS\Versioning;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Table\TableInterface;
 
 /**
  * Interface for a versionable Table class
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 interface VersionableTableInterface extends TableInterface
 {
@@ -27,7 +27,7 @@ interface VersionableTableInterface extends TableInterface
 	 *
 	 * @return  string  The alias as described above
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getTypeAlias();
 }

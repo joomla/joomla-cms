@@ -324,8 +324,8 @@ $home_pages        = array_column($this->homepages, 'language');
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							</td>
 						</tr>
- 					<?php endif; ?>
- 				<?php endforeach; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
 			</tbody>
 		</table>
 	<?php endif; ?>

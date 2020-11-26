@@ -69,7 +69,7 @@ class ComponentController extends FormController
 		$id      = $this->input->get('id', null, 'INT');
 		$option  = $this->input->get('component');
 		$user    = $this->app->getIdentity();
-		$context = "$this->option.edit.$this->context";
+		$context = "$this->option.edit.$this->context.$option";
 
 		/** @var \Joomla\Component\Config\Administrator\Model\ComponentModel $model */
 		$model = $this->getModel('Component', 'Administrator');
@@ -196,10 +196,11 @@ class ComponentController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		// Clear session data.
-		$this->app->setUserState("$this->option.edit.$this->context.data", null);
-
 		$component = $this->input->get('component');
+
+		// Clear session data.
+		$this->app->setUserState("$this->option.edit.$this->context.$component.data", null);
+
 		$this->setRedirect(Route::_('index.php?option=' . $component, false));
 
 		return true;

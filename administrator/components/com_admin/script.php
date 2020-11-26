@@ -476,6 +476,9 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
+			// Joomla 3.10.0
+			'/libraries/joomla/base/adapter.php',
+			'/libraries/joomla/base/adapterinstance.php',
 			// Joomla 4.0 Beta 1
 			'/administrator/components/com_actionlogs/actionlogs.php',
 			'/administrator/components/com_actionlogs/controller.php',

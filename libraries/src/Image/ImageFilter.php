@@ -13,7 +13,7 @@ namespace Joomla\CMS\Image;
 /**
  * Class to manipulate an image.
  *
- * @since  2.5.0
+ * @since  1.7.3
  */
 abstract class ImageFilter
 {
@@ -28,7 +28,7 @@ abstract class ImageFilter
 	 *
 	 * @param   resource  $handle  The image resource on which to apply the filter.
 	 *
-	 * @since   2.5.0
+	 * @since   1.7.3
 	 * @throws  \InvalidArgumentException
 	 * @throws  \RuntimeException
 	 */

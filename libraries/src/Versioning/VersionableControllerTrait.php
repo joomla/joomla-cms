@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Versioning;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 /**
  * Defines the trait for a Versionable Controller Class.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 trait VersionableControllerTrait
 {
