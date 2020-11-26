@@ -821,7 +821,7 @@ class ApplicationModel extends FormModel
 			\opcache_invalidate($file);
 		}
 
-		// Attempt to make the file unwriteable if using FTP.
+		// Attempt to make the file unwriteable if NOT using FTP.
 		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');

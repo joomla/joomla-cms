@@ -331,6 +331,17 @@ class MessageModel extends AdminModel
 			return false;
 		}
 
+		// Load the user details (already valid from table check).
+		$toUser = User::getInstance($table->user_id_to);
+
+		// Check if recipient can access com_messages.
+		if (!$toUser->authorise('core.login.admin') || !$toUser->authorise('core.manage', 'com_messages'))
+		{
+			$this->setError(Text::_('COM_MESSAGES_ERROR_RECIPIENT_NOT_AUTHORISED'));
+
+			return false;
+		}
+
 		// Load the recipient user configuration.
 		$model  = $this->bootComponent('com_messages')
 			->getMVCFactory()->createModel('Config', 'Administrator', ['ignore_request' => true]);
@@ -368,9 +379,7 @@ class MessageModel extends AdminModel
 
 		if ($config->get('mail_on_new', true))
 		{
-			// Load the user details (already valid from table check).
 			$fromUser         = User::getInstance($table->user_id_from);
-			$toUser           = User::getInstance($table->user_id_to);
 			$debug            = Factory::getApplication()->get('debug_lang');
 			$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);

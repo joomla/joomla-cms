@@ -46,7 +46,7 @@ class InstallController extends BaseController
 
 		if (!$redirect_url)
 		{
-			$redirect_url = base64_decode($this->input->get('return'));
+			$redirect_url = base64_decode($this->input->getBase64('return'));
 		}
 
 		// Don't redirect to an external URL.
