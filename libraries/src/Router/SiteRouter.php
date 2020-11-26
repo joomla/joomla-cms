@@ -158,7 +158,7 @@ class SiteRouter extends Router
 
 			// If a php file has been found in the request path, check to see if it is a valid file.
 			// Also verify that it represents the same file from the server variable for entry script.
-			if (file_exists(JPATH_SITE . $matches[0]) && ($matches[0] === $relativeScriptPath))
+			if (is_file(JPATH_SITE . $matches[0]) && ($matches[0] === $relativeScriptPath))
 			{
 				// Remove the entry point segments from the request path for proper routing.
 				$path = str_replace($matches[0], '', $path);

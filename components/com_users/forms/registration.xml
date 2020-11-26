@@ -12,7 +12,6 @@
 			name="name"
 			type="text"
 			label="COM_USERS_REGISTER_NAME_LABEL"
-			description="COM_USERS_REGISTER_NAME_DESC"
 			filter="string"
 			required="true"
 			size="30"
@@ -22,7 +21,6 @@
 			name="username"
 			type="text"
 			label="COM_USERS_REGISTER_USERNAME_LABEL"
-			description="COM_USERS_DESIRED_USERNAME"
 			class="validate-username"
 			filter="username"
 			message="COM_USERS_REGISTER_USERNAME_MESSAGE"
@@ -47,6 +45,7 @@
 			rules="true"
 			force="on"
 			filter="raw"
+			hiddenDescription="true"
 		/>
 
 		<field
@@ -67,7 +66,6 @@
 			name="email1"
 			type="email"
 			label="COM_USERS_REGISTER_EMAIL1_LABEL"
-			description="COM_USERS_REGISTER_EMAIL1_DESC"
 			field="id"
 			filter="string"
 			required="true"
@@ -82,7 +80,6 @@
 			name="captcha"
 			type="captcha"
 			label="COM_USERS_CAPTCHA_LABEL"
-			description="COM_USERS_CAPTCHA_DESC"
 			validate="captcha"
 		/>
 	</fieldset>

@@ -157,6 +157,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         Joomla.MediaManager.Edit.Reset(true);
         break;
       case 'save':
+        // eslint-disable-next-line func-names
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
           if (this.readyState === XMLHttpRequest.DONE) {
             if (window.self !== window.top) {

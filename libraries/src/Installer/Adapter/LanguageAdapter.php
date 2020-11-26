@@ -425,20 +425,6 @@ class LanguageAdapter extends InstallerAdapter
 		// Parse optional tags
 		$this->parent->parseMedia($this->getManifest()->media);
 
-		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
-		$overwrite = $this->parent->setOverwrite(true);
-
-		if ($this->parent->parseFiles($this->getManifest()->fonts) === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort();
-
-			return false;
-		}
-
-		$this->parent->setOverwrite($overwrite);
-
 		// Get the language description
 		$description = (string) $this->getManifest()->description;
 
@@ -610,20 +596,6 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Parse optional tags
 		$this->parent->parseMedia($xml->media);
-
-		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath . '/language/pdf_fonts');
-		$overwrite = $this->parent->setOverwrite(true);
-
-		if ($this->parent->parseFiles($xml->fonts) === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort();
-
-			return false;
-		}
-
-		$this->parent->setOverwrite($overwrite);
 
 		// Get the language description and set it as message
 		$this->parent->set('message', (string) $xml->description);

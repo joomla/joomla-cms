@@ -67,7 +67,8 @@ $blogClassIntro .= $this->params->get('blog_class_intro_image') != 'none' ? '' :
 	<?php if ($beforeDisplayContent || $afterDisplayContent || $this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 		<div class="category-desc clearfix">
 			<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
-				<img src="<?php echo $this->category->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>">
+				<?php $alt = empty($this->category->getParams()->get('image_alt')) && empty($this->category->getParams()->get('image_alt_empty')) ? '' : 'alt="' . htmlspecialchars($this->category->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
+				<img src="<?php echo $this->category->getParams()->get('image'); ?>" <?php echo $alt; ?>>
 			<?php endif; ?>
 			<?php echo $beforeDisplayContent; ?>
 			<?php if ($this->params->get('show_description') && $this->category->description) : ?>
@@ -119,7 +120,7 @@ $blogClassIntro .= $this->params->get('blog_class_intro_image') != 'none' ? '' :
 	<?php endif; ?>
 
 	<?php if (!empty($this->link_items)) : ?>
-		<div class="com-content-category-blog__items-more items-more">
+		<div class="items-more">
 			<?php echo $this->loadTemplate('links'); ?>
 		</div>
 	<?php endif; ?>

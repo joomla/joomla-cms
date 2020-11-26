@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
@@ -123,8 +123,6 @@ abstract class Behavior
 	public static function keepalive()
 	{
 		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('keepalive');
-
-		return;
 	}
 
 	/**
@@ -194,8 +192,6 @@ abstract class Behavior
 		);
 
 		static::$loaded[__METHOD__][$sig] = true;
-
-		return;
 	}
 
 	/**

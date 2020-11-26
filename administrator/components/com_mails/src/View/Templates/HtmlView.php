@@ -135,6 +135,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_mails');
 		}
 
-		$toolbar->help('JHELP_CONFIG_MAIL_MANAGER');
+		$toolbar->help('JHELP_COMPONENTS_MAILS_TEMPLATES');
 	}
 }

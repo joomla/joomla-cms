@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -81,15 +81,15 @@ class MailTemplate
 	/**
 	 * Constructor for the mail templating class
 	 *
-	 * @param   string  $template_id  Id of the mail template.
-	 * @param   string  $language     Language of the template to use.
-	 * @param   Mail    $mailer       Mail object to send the mail with.
+	 * @param   string  $templateId  Id of the mail template.
+	 * @param   string  $language    Language of the template to use.
+	 * @param   Mail    $mailer      Mail object to send the mail with.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($template_id, $language, Mail $mailer = null)
+	public function __construct($templateId, $language, Mail $mailer = null)
 	{
-		$this->template_id = $template_id;
+		$this->template_id = $templateId;
 		$this->language = $language;
 
 		if ($mailer)

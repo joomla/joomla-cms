@@ -3,6 +3,8 @@
 .sidebar-nav {
 
   // override bootstrap important
+  max-height: 75vh;
+  overflow-y: scroll;
   background: var(--atum-sidebar-bg) !important;
   box-shadow: $atum-box-shadow;
 

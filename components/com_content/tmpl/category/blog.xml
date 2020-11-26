@@ -191,6 +191,7 @@
 					label="JGLOBAL_BLOG_CLASS_LEADING"
 					useglobal="true"
 					size="3"
+					validate="CssIdentifier"
 				/>
 				<field
 					name="blog_class_leading_help"
@@ -263,6 +264,7 @@
 					label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 					useglobal="true"
 					size="3"
+					validate="CssIdentifier"
 				/>
 				<field
 					name="blog_class_intro"
@@ -373,6 +375,23 @@
 
 				<field
 					name="spacer1"
+					type="spacer"
+					hr="true"
+				/>
+
+				<field
+					name="link_intro_image"
+					type="list"
+					label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+					useglobal="true"
+					validate="options"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="spacer2"
 					type="spacer"
 					hr="true"
 				/>

@@ -10,7 +10,7 @@
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
 use DateTime;
 use DateTimeZone;
@@ -389,7 +389,7 @@ abstract class Joomla
 		// We only log errors unless Site Debug is enabled
 		$logLevels = Log::ERROR | Log::CRITICAL | Log::ALERT | Log::EMERGENCY;
 
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$logLevels = Log::ALL;
 		}

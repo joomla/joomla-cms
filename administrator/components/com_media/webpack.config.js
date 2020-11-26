@@ -6,7 +6,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
     mode: process.env.NODE_ENV,
     entry: [
-        './administrator/components/com_media/resources/scripts/mediamanager.js',
+        './administrator/components/com_media/resources/scripts/mediamanager.es6.js',
         './administrator/components/com_media/resources/styles/mediamanager.scss',
     ],
     output: {
