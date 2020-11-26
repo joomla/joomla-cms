@@ -25,7 +25,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 * @var    array
 	 * @since  3.9.23
 	 */
-	private $protectedConfigurtionFields = array('password', 'secret', 'ftp_pass', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+	private $protectedConfigurtionFields = array('password', 'secret', 'ftp_pass', 'redis_server_auth', 'session_redis_server_auth');
 
 
 	/**
