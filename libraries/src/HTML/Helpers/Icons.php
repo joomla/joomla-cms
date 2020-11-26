@@ -12,9 +12,11 @@ namespace Joomla\CMS\HTML\Helpers;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Filesystem\Path;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for icons.
@@ -127,5 +129,53 @@ abstract class Icons
 		$file = file_get_contents($file);
 
 		return $file;
+	}
+
+	/**
+	 * Method to write a `<span>` element for an icon
+	 *
+	 * @param   string  $icon     The functional name for an icon.
+	 * @param   string  $srOnly   Screen Reader text if no visible text is placed
+	 * @param   array   $attribs  Attributes to be added to the wrapping element
+	 *
+	 * @return  string
+	 *
+	 * @throws  \InvalidArgumentException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function icon(string $icon, string $srOnly = '', string $type = '', array $attribs = []): string
+	{
+		if ($icon === '')
+		{
+			throw new \InvalidArgumentException(Text::_('JLIB_HTML_ICONS_NO_ICON'));
+		}
+
+		if (isset($attribs['class']))
+		{
+			$icon .= ' ' . $attribs['class'];
+		}
+
+		$attribs['class'] = $icon;
+
+		if (!isset($attribs['aria-hidden']))
+		{
+			$attribs['aria-hidden'] = 'true';
+		}
+
+		if ($srOnly !== '')
+		{
+			$text   = htmlspecialchars($srOnly, ENT_COMPAT, 'UTF-8');
+			$srOnly = '<span class="sr-only">' . $text . '</span>';
+		}
+
+		$output = '<span ' . ArrayHelper::toString($attribs) . '></span>';
+
+		if ($type === 'svg')
+		{
+			$output = HTMLHelper::_('icons.svg', $icon . '.svg');
+		}
+
+		return  $output . $srOnly;
 	}
 }
