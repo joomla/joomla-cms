@@ -76,6 +76,7 @@ abstract class BaseDatabaseModel extends \JObject
 	 *
 	 * @var    MVCFactoryInterface
 	 * @since  3.10.0
+	 * @deprecated  4.0  This is a temporary property that will be moved into a trait in Joomla 4
 	 */
 	protected $factory;
 
