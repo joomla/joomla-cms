@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Privacy\Administrator\Model\ExportModel;
 use Joomla\Component\Privacy\Administrator\Model\RemoveModel;
@@ -305,6 +306,9 @@ class RequestController extends FormController
 	 */
 	public function remove()
 	{
+		// Check for request forgeries.
+		Session::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
+
 		/** @var RemoveModel $model */
 		$model = $this->getModel('Remove');
 

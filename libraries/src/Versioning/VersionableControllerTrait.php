@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 /**
  * Defines the trait for a Versionable Controller Class.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 trait VersionableControllerTrait
 {

@@ -108,7 +108,7 @@ class BannersModel extends ListModel
 				'AND',
 				[
 					$db->quoteName('a.imptotal') . ' = 0',
-					$db->quoteName('a.impmade') . ' <= ' . $db->quoteName('a.imptotal'),
+					$db->quoteName('a.impmade') . ' < ' . $db->quoteName('a.imptotal'),
 				],
 				'OR'
 			)

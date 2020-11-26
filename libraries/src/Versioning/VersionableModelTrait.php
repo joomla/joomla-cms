@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Defines the trait for a Versionable Model Class.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 trait VersionableModelTrait
 {

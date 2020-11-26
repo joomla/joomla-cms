@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var   array  Array of PHP config options
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	protected $phpOptions = null;
 
@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var   array  Array of PHP settings
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	protected $phpSettings = null;
 
@@ -77,7 +77,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var   array  Array of Non-Core-Extensions
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	protected $nonCoreExtensions = null;
 
@@ -275,7 +275,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	public function shouldDisplayPreUpdateCheck()
 	{
