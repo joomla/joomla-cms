@@ -64,7 +64,12 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 			<?php if (isset($displayData['image'])): ?>
 				<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
-					<?php echo HTMLHelper::_('icons.icon', $displayData['image'], Text::_($displayData['name']), 'svg'); ?>
+					<?php echo HTMLHelper::_('icons.icon',
+							str_replace('icon-', '', $displayData['image']), [
+									'text' => Text::_($displayData['name']),
+									'svg'  => true
+							]
+					); ?>
 				</div>
 			<?php endif; ?>
 			<?php if (isset($displayData['ajaxurl'])) : ?>
