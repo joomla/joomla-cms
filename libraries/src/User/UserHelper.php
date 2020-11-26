@@ -52,11 +52,10 @@ abstract class UserHelper
 	 * B/C constant `PASSWORD_ARGON2I` for PHP < 7.4 (using integer)
 	 *
 	 * Note: PHP's native `PASSWORD_ARGON2I` constant is not used as PHP may be compiled without this constant
-	 *
-	 * @deprecated 4.0.0  Use self::HASH_ARGON2I instead
-	 *
+	 *	 *
 	 * @var    integer
 	 * @since  4.0.0
+	 * @deprecated 4.0.0  Use self::HASH_ARGON2I instead
 	 */
 	const HASH_ARGON2I_BC = 2;
 
@@ -74,11 +73,10 @@ abstract class UserHelper
 	 * B/C constant `PASSWORD_ARGON2ID` for PHP < 7.4 (using integer)
 	 *
 	 * Note: PHP's native `PASSWORD_ARGON2ID` constant is not used as PHP may be compiled without this constant
-	 *
-	 * @deprecated 4.0.0  Use self::HASH_ARGON2ID instead
-	 *
+	 *	 *
 	 * @var    integer
 	 * @since  4.0.0
+	 * @deprecated  4.0.0  Use self::HASH_ARGON2ID instead
 	 */
 	const HASH_ARGON2ID_BC = 3;
 
@@ -92,11 +90,10 @@ abstract class UserHelper
 
 	/**
 	 * B/C constant `PASSWORD_BCRYPT` for PHP < 7.4 (using integer)
-	 *
-	 * @deprecated 4.0.0  Use self::HASH_BCRYPT instead
-	 *
+	 *	 *
 	 * @var    integer
 	 * @since  4.0.0
+	 * @deprecated  4.0.0  Use self::HASH_BCRYPT instead
 	 */
 	const HASH_BCRYPT_BC = 1;
 
