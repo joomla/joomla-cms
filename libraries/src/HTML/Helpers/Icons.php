@@ -135,7 +135,6 @@ abstract class Icons
 	 * Method to write a `<span>` element for an icon
 	 *
 	 * @param   string  $icon     The functional name for an icon.
-	 * @param   string  $srOnly   Screen Reader text if no visible text is placed
 	 * @param   array   $attribs  Attributes to be added to the wrapping element
 	 *
 	 * @return  string
@@ -144,38 +143,44 @@ abstract class Icons
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function icon(string $icon, string $srOnly = '', string $type = '', array $attribs = []): string
+	public static function icon(string $icon, array $attribs = []): string
 	{
 		if ($icon === '')
 		{
 			throw new \InvalidArgumentException(Text::_('JLIB_HTML_ICONS_NO_ICON'));
 		}
 
+		$class = $icon;
+
 		if (isset($attribs['class']))
 		{
-			$icon .= ' ' . $attribs['class'];
+			$class .= ' ' . $attribs['class'];
 		}
 
-		$attribs['class'] = $icon;
+		$attribs['class'] = $class;
 
 		if (!isset($attribs['aria-hidden']))
 		{
 			$attribs['aria-hidden'] = 'true';
 		}
 
-		if ($srOnly !== '')
+		if (isset($attribs['text']))
 		{
-			$text   = htmlspecialchars($srOnly, ENT_COMPAT, 'UTF-8');
-			$srOnly = '<span class="sr-only">' . $text . '</span>';
+			$text = htmlspecialchars($attribs['text'], ENT_COMPAT, 'UTF-8');
+			$text = '<span class="sr-only">' . $text . '</span>';
+			unset($attribs['text']);
 		}
 
 		$output = '<span ' . ArrayHelper::toString($attribs) . '></span>';
 
-		if ($type === 'svg')
+		if (isset($attribs['svg']))
 		{
-			$output = HTMLHelper::_('icons.svg', $icon . '.svg');
+			$provider = $attribs['svg']['provider'] ?? 'fontawesome-free';
+			$group    = $attribs['svg']['group'] ?? 'regular';
+			$path     = '/media/vendor/' . $provider . '/svgs/' . $group;
+			$output   = HTMLHelper::_('icons.svg', $icon . '.svg', $path);
 		}
 
-		return  $output . $srOnly;
+		return $output . $text;
 	}
 }
