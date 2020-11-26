@@ -189,73 +189,7 @@
 					name="blog_class_leading"
 					type="text"
 					label="JGLOBAL_BLOG_CLASS_LEADING"
-					useglobal="true"
-					size="3"
 					validate="CssIdentifier"
-				/>
-				<field
-					name="blog_class_leading_help"
-					type="list"
-					label="JGLOBAL_BLOG_CLASS_HELP"
-					layout="joomla.form.field.radio.switcher"
-					validate="options"
-					default="0"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-					name="blog_class_leading_boxed"
-					type="list"
-					label="JGLOBAL_BLOG_CLASS_BOXED"
-					useglobal="true"
-					showon="blog_class_leading_help:1"
-					validate="options"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-					name="blog_class-leading_columns"
-					type="integer"
-					label="JGLOBAL_BLOG_CLASS_COLUMNS"
-					first="1"
-					last="6"
-					step="1"
-					showon="blog_class_leading_help:1"
-				/>
-				<field
-					name="blog_class_leading_type"
-					type="list"
-					label="JGLOBAL_BLOG_CLASS_TYPE"
-					useglobal="true"
-					validate="options"
-					default="columns"
-					showon="blog_class_leading_help:1"
-					>
-					<option value="columns">JGLOBAL_BLOG_CLASS_TYPE_COLUMNS</option>
-					<option value="masonry">JGLOBAL_BLOG_CLASS_TYPE_MASONRY</option>
-				</field>
-				<field
-					name="blog_class_leading_image"
-					type="list"
-					label="JGLOBAL_BLOG_CLASS_IMAGE"
-					useglobal="true"
-					validate="options"
-					default="none"
-					showon="blog_class_leading_help:1"
-					>
-					<option value="none">JNONE</option>
-					<option value="left">JGLOBAL_BLOG_IMAGE_LEFT</option>
-					<option value="right">JGLOBAL_BLOG_IMAGE_RIGHT</option>
-					<option value="alternate">JGLOBAL_BLOG_IMAGE_ALTERNATE</option>
-				</field>
-
-				<field
-					name="spacer2"
-					type="spacer"
-					hr="true"
 				/>
 
 				<field
@@ -264,19 +198,17 @@
 					label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 					useglobal="true"
 					size="3"
-					validate="CssIdentifier"
 				/>
 				<field
 					name="blog_class_intro"
 					type="text"
 					label="JGLOBAL_BLOG_CLASS_INTRO"
-					useglobal="true"
-					size="3"
+					validate="CssIdentifier"
 				/>
 				<field
-					name="blog_class_intro_help"
+					name="multi_column_order_down"
 					type="list"
-					label="JGLOBAL_BLOG_CLASS_HELP"
+					label="JGLOBAL_BLOG_ORDER_DOWN"
 					layout="joomla.form.field.radio.switcher"
 					validate="options"
 					default="0"
@@ -285,52 +217,14 @@
 					<option value="1">JYES</option>
 				</field>
 				<field
-					name="blog_class_intro_boxed"
-					type="list"
-					label="JGLOBAL_BLOG_CLASS_BOXED"
-					useglobal="true"
-					showon="blog_class_intro_help:1"
-					validate="options"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-				<field
-					name="blog_class_intro_columns"
+					name="num_columns"
 					type="integer"
 					label="JGLOBAL_BLOG_CLASS_COLUMNS"
 					first="1"
 					last="6"
 					step="1"
-					showon="blog_class_intro_help:1"
+					showon="multi_column_order_down:1"
 				/>
-				<field
-					name="blog_class_intro_type"
-					type="list"
-					label="JGLOBAL_BLOG_CLASS_TYPE"
-					useglobal="true"
-					validate="options"
-					default="columns"
-					showon="blog_class_intro_help:1"
-					>
-					<option value="columns">JGLOBAL_BLOG_CLASS_TYPE_COLUMNS</option>
-					<option value="masonry">JGLOBAL_BLOG_CLASS_TYPE_MASONRY</option>
-				</field>
-				<field
-					name="blog_class_intro_image"
-					type="list"
-					label="JGLOBAL_BLOG_CLASS_IMAGE"
-					useglobal="true"
-					validate="options"
-					default="none"
-					showon="blog_class_intro_help:1"
-					>
-					<option value="none">JNONE</option>
-					<option value="left">JGLOBAL_BLOG_IMAGE_LEFT</option>
-					<option value="right">JGLOBAL_BLOG_IMAGE_RIGHT</option>
-					<option value="alternate">JGLOBAL_BLOG_IMAGE_ALTERNATE</option>
-				</field>
 
 				<field
 					name="link_intro_image"
@@ -342,12 +236,6 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
-				<field
-					name="spacer2"
-					type="spacer"
-					hr="true"
-				/>
 
 				<field
 					name="num_links"
