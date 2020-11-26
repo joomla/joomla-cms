@@ -49,10 +49,20 @@ class CompareModel extends ListModel
 
 		$id1 = $input->getInt('id1');
 		$id2 = $input->getInt('id2');
+
+		if (!$id1 || \is_array($id1) || !$id2 || \is_array($id2))
+		{
+			$this->setError(Text::_('COM_CONTENTHISTORY_ERROR_INVALID_ID'));
+
+			return false;
+		}
+
 		$result = array();
 
 		if (!$table1->load($id1) || !$table2->load($id2))
 		{
+			$this->setError(Text::_('COM_CONTENTHISTORY_ERROR_VERSION_NOT_FOUND'));
+
 			// Assume a failure to load the content means broken data, abort mission
 			return false;
 		}
@@ -66,6 +76,8 @@ class CompareModel extends ListModel
 
 		if (!$contentTypeTable->load(array('type_alias' => $typeAlias)))
 		{
+			$this->setError(Text::_('COM_CONTENTHISTORY_ERROR_FAILED_LOADING_CONTENT_TYPE'));
+
 			// Assume a failure to load the content type means broken data, abort mission
 			return false;
 		}

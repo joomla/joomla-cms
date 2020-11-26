@@ -82,7 +82,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 										<?php endif; ?>
 									<?php endif; ?>
 									<?php if ($item->status == 1 && $item->request_type === 'remove') : ?>
-										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
+										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id . '&' . Factory::getSession()->getFormToken() . '=1'); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
 									<?php endif; ?>
 								</div>
 							</td>

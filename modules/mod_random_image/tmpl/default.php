@@ -22,7 +22,7 @@ if (!count($images))
 
 <div class="mod-randomimage random-image">
 <?php if ($link) : ?>
-<a href="<?php echo $link; ?>">
+<a href="<?php echo htmlspecialchars($link, ENT_QUOTES, 'UTF-8'); ?>">
 <?php endif; ?>
 	<?php echo HTMLHelper::_('image', $image->folder . '/' . htmlspecialchars($image->name, ENT_COMPAT, 'UTF-8'), '', array('width' => $image->width, 'height' => $image->height)); ?>
 <?php if ($link) : ?>

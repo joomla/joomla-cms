@@ -14,7 +14,7 @@ namespace Joomla\CMS\Image;
 /**
  * Class to manipulate an image.
  *
- * @since  2.5.0
+ * @since  1.7.3
  */
 class Image
 {
@@ -101,7 +101,7 @@ class Image
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
-	 * @since   2.5.0
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct($source = null)
