@@ -684,6 +684,7 @@ abstract class HTMLHelper
 			return $obj;
 		}
 
+		$url    = preg_replace('#&amp;#', '&', $url);
 		$pieces = explode('?', $url);
 
 		parse_str($pieces[1], $urlParams);
@@ -743,17 +744,17 @@ abstract class HTMLHelper
 
 		if ($returnPath !== -1)
 		{
-			$includes = static::includeRelativeFiles('images', $file, $relative, false, false);
+			$includes = static::includeRelativeFiles('images', (self::cleanImageURL($file))->url, $relative, false, false);
 			$file = \count($includes) ? $includes[0] : null;
 		}
 
 		// If only path is required
 		if ($returnPath === 1)
 		{
-			return $file;
+			return (self::cleanImageURL($file))->url;
 		}
 
-		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
+		return '<img src="' . (self::cleanImageURL($file))->url . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
 	}
 
 	/**
