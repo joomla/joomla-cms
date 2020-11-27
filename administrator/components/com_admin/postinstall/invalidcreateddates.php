@@ -47,20 +47,40 @@ function admin_postinstall_invalidcreateddates_condition()
 
 	$query5 = $db->getQuery(true)
 		->select('1')
+		->from($db->quoteName('#__fields'))
+		->where($db->quoteName('created_time') . ' = ' . $nullDate);
+
+	$query6 = $db->getQuery(true)
+		->select('1')
+		->from($db->quoteName('#__fields_groups'))
+		->where($db->quoteName('created') . ' = ' . $nullDate);
+
+	$query7 = $db->getQuery(true)
+		->select('1')
 		->from($db->quoteName('#__newsfeeds'))
 		->where($db->quoteName('created') . ' = ' . $nullDate);
 
-	$query6 = $db->getQuery(true)
+	$query8 = $db->getQuery(true)
+		->select('1')
+		->from($db->quoteName('#__redirect_links'))
+		->where($db->quoteName('created_time') . ' = ' . $nullDate);
+
+	$query9 = $db->getQuery(true)
 		->select('1')
 		->from($db->quoteName('#__tags'))
 		->where($db->quoteName('created_time') . ' = ' . $nullDate);
 
-	$query7 = $db->getQuery(true)
+	$query10 = $db->getQuery(true)
+		->select('1')
+		->from($db->quoteName('#__users'))
+		->where($db->quoteName('registerDate') . ' = ' . $nullDate);
+
+	$query11 = $db->getQuery(true)
 		->select('1')
 		->from($db->quoteName('#__user_notes'))
 		->where($db->quoteName('created_time') . ' = ' . $nullDate);
 
-	$query1->unionAll(array($query2, $query3, $query4, $query5, $query6, $query7));
+	$query1->unionAll(array($query2, $query3, $query4, $query5, $query6, $query7, $query8, $query9, $query10, $query11));
 
 	$db->setQuery($query1);
 	$db->execute();
