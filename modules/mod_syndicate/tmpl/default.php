@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Set alt-text for the image only if no text is displayed
-$alt = (!$params->get('display_text', 1) && empty($text)) ? JText::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES') : '';
+$alt = (!$params->get('display_text', 1)) ? JText::_('MOD_SYNDICATE_DEFAULT_FEED_ENTRIES') : '';
 ?>
 <a href="<?php echo $link; ?>" class="syndicate-module<?php echo $moduleclass_sfx; ?>">
 	<?php echo JHtml::_('image', 'system/livemarks.png', $alt, null, true); ?>
