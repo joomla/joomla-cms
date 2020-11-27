@@ -19,6 +19,7 @@ defined('_JEXEC') or die;
  * @since   __DEPLOY_VERSION__
  *
  * @link    https://github.com/joomla/joomla-cms/issues/30546
+ * @link    https://github.com/joomla/joomla-cms/pull/31450
  */
 function admin_postinstall_invalidcreateddates_condition()
 {
@@ -92,6 +93,6 @@ function admin_postinstall_invalidcreateddates_condition()
 		return true;
 	}
 
-	// All good the query return nothing.
+	// All good, the query returned nothing.
 	return false;
 }
