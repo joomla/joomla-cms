@@ -10,7 +10,6 @@
 	<files>
 		<filename>component.php</filename>
 		<filename>error.php</filename>
-		<filename>favicon.ico</filename>
 		<filename>index.php</filename>
 		<filename>joomla.asset.json</filename>
 		<filename>offline.php</filename>
