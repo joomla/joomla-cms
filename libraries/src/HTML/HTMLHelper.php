@@ -742,19 +742,24 @@ abstract class HTMLHelper
 	{
 		$returnPath = (int) $returnPath;
 
+		if (strpos($file, '?') !== false)
+		{
+			$file = (static::cleanImageURL($file))->url;
+		}
+
 		if ($returnPath !== -1)
 		{
-			$includes = static::includeRelativeFiles('images', (self::cleanImageURL($file))->url, $relative, false, false);
+			$includes = static::includeRelativeFiles('images', $file, $relative, false, false);
 			$file = \count($includes) ? $includes[0] : null;
 		}
 
 		// If only path is required
 		if ($returnPath === 1)
 		{
-			return (self::cleanImageURL($file))->url;
+			return $file;
 		}
 
-		return '<img src="' . (self::cleanImageURL($file))->url . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
+		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
 	}
 
 	/**
