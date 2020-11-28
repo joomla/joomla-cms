@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
@@ -18,11 +19,13 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
 
 /**
@@ -68,13 +71,15 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onContentPrepareForm'        => 'onContentPrepareForm',
-			'onAfterDisplay'              => 'onAfterDisplay',
-			'onWorkflowBeforeTransition'  => 'onWorkflowBeforeTransition',
-			'onWorkflowAfterTransition'   => 'onWorkflowAfterTransition',
-			'onContentBeforeChangeState'  => 'onContentBeforeChangeState',
-			'onContentBeforeSave'         => 'onContentBeforeSave',
-			'onWorkflowFunctionalityUsed' => 'onWorkflowFunctionalityUsed',
+			'onAfterDisplay'                  => 'onAfterDisplay',
+			'onContentBeforeChangeState'      => 'onContentBeforeChangeState',
+			'onContentBeforeSave'             => 'onContentBeforeSave',
+			'onContentPrepareForm'            => 'onContentPrepareForm',
+			'onContentVersioningPrepareTable' => 'onContentVersioningPrepareTable',
+			'onTableBeforeStore'              => 'onTableBeforeStore',
+			'onWorkflowAfterTransition'       => 'onWorkflowAfterTransition',
+			'onWorkflowBeforeTransition'      => 'onWorkflowBeforeTransition',
+			'onWorkflowFunctionalityUsed'     => 'onWorkflowFunctionalityUsed'
 		];
 	}
 
@@ -430,6 +435,82 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 		}
 
 		return true;
+	}
+
+	/**
+	 * We remove the publishing field from the versioning
+	 *
+	 * @param   EventInterface  $event
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public function onContentVersioningPrepareTable(EventInterface $event)
+	{
+		$subject = $event->getArgument('subject');
+		$context = $event->getArgument('extension');
+
+		if (!$this->isSupported($context))
+		{
+			return true;
+		}
+
+		$parts = explode('.', $context);
+
+		$component = $this->app->bootComponent($parts[0]);
+
+		$modelName = $component->getModelName($context);
+
+		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+
+		$table = $model->getTable();
+
+		$subject->ignoreChanges[] = $table->getColumnAlias('published');
+	}
+
+	/**
+	 * Pre-processor for $table->store($updateNulls)
+	 *
+	 * @param   BeforeStoreEvent  $event  The event to handle
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onTableBeforeStore(BeforeStoreEvent $event)
+	{
+		$subject = $event->getArgument('subject');
+
+		if (!($subject instanceof ContentHistory))
+		{
+			return;
+		}
+
+		$parts = explode('.', $subject->item_id);
+
+		$typeAlias = $parts[0] . (isset($parts[1]) ? '.' . $parts[1] : '');
+
+		if (!$this->isSupported($typeAlias))
+		{
+			return;
+		}
+
+		$component = $this->app->bootComponent($parts[0]);
+
+		$modelName = $component->getModelName($typeAlias);
+
+		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+
+		$table = $model->getTable();
+
+		$field = $table->getColumnAlias('published');
+
+		$versionData = new Registry($subject->version_data);
+
+		$versionData->remove($field);
+
+		$subject->version_data = $versionData->toString();
 	}
 
 	/**
