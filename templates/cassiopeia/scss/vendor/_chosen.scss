@@ -91,7 +91,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
         right: 0;
         width: $chosen-multi-close-width;
         height: 100%;
-        background: hsla(0, 0%, 0%,.2);
+        background: hsla(0, 0%, 0%, .2);
         background-image: none !important;
 
         &::before {
