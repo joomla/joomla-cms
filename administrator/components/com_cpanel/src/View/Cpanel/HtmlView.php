@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app = Factory::getApplication();
-		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
+		$extension = $app->input->getCmd('dashboard');
 
 		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
 		$icon  = 'icon-home';

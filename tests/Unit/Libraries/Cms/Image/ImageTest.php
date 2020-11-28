@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,16 +46,41 @@ class ImageTest extends UnitTestCase
 
 		$this->instance = new Image;
 
+		$randFile = __DIR__ . '/tmp/koala-' . rand();
+
 		// 500*341 resolution
-		$this->testFile = __DIR__ . '/stubs/koala.jpg';
+		$this->testFile = $randFile . '.jpg';
+		copy(__DIR__ . '/stubs/koala.jpg', $this->testFile);
 
-		$this->testFileGif = __DIR__ . '/stubs/koala.gif';
+		$this->testFileGif = $randFile . '.gif';
+		copy(__DIR__ . '/stubs/koala.gif', $this->testFileGif);
 
-		$this->testFilePng = __DIR__ . '/stubs/koala.png';
+		$this->testFilePng = $randFile . '.png';
+		copy(__DIR__ . '/stubs/koala.png', $this->testFilePng);
 
-		$this->testFileBmp = __DIR__ . '/stubs/koala.bmp';
+		$this->testFileBmp = $randFile . '.bmp';
+		copy(__DIR__ . '/stubs/koala.bmp', $this->testFileBmp);
 
-		$this->testFileWebp = __DIR__ . '/stubs/koala.webp';
+		$this->testFileWebp = $randFile . '.webp';
+		copy(__DIR__ . '/stubs/koala.webp', $this->testFileWebp);
+	}
+
+	/**
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function tearDown():void
+	{
+		unlink($this->testFile);
+		unlink($this->testFileGif);
+		unlink($this->testFilePng);
+		unlink($this->testFileBmp);
+		unlink($this->testFileWebp);
+
+		parent::tearDown();
 	}
 
 	/**
@@ -460,7 +485,7 @@ class ImageTest extends UnitTestCase
 	 */
 	public function testToFileGif()
 	{
-		$outFileGif = __DIR__ . '/tmp/out.gif';
+		$outFileGif = __DIR__ . '/tmp/out-' . rand() . '.gif';
 
 		$image = new ImageInspector($this->testFile);
 		$image->toFile($outFileGif, IMAGETYPE_GIF);
@@ -500,7 +525,7 @@ class ImageTest extends UnitTestCase
 	 */
 	public function testToFilePng()
 	{
-		$outFilePng = __DIR__ . '/tmp/out.png';
+		$outFilePng = __DIR__ . '/tmp/out-' . rand() . '.png';
 
 		$image = new ImageInspector($this->testFile);
 		$image->toFile($outFilePng, IMAGETYPE_PNG);
@@ -541,7 +566,7 @@ class ImageTest extends UnitTestCase
 	public function testToFileJpg()
 	{
 		// Write the file out to a JPG.
-		$outFileJpg = __DIR__ . '/tmp/out.jpg';
+		$outFileJpg = __DIR__ . '/tmp/out-' . rand() . '.jpg';
 
 		$image = new ImageInspector($this->testFile);
 		$image->toFile($outFileJpg, IMAGETYPE_JPEG);
@@ -580,7 +605,7 @@ class ImageTest extends UnitTestCase
 	 */
 	public function testToFileWebp()
 	{
-		$outFileWebp = __DIR__ . '/tmp/out.webp';
+		$outFileWebp = __DIR__ . '/tmp/out-' . rand() . '.webp';
 
 		$image = new ImageInspector($this->testFile);
 		$image->toFile($outFileWebp, IMAGETYPE_WEBP);
@@ -621,7 +646,7 @@ class ImageTest extends UnitTestCase
 	public function testToFileDefault()
 	{
 		// Write the file out to a JPG.
-		$outFileDefault = __DIR__ . '/tmp/out.default';
+		$outFileDefault = __DIR__ . '/tmp/out-' . rand() . '.default';
 
 		$image = new ImageInspector($this->testFile);
 		$image->toFile($outFileDefault);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,15 +112,15 @@ Text::script('JHIDEPASSWORD');
 			?>
 			<div class="mod-login__submit form-group">
 				<button type="button"
-				        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+						class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
 						<?php foreach ($dataAttributeKeys as $key): ?>
 						<?php echo $key ?>="<?php echo $button[$key] ?>"
 						<?php endforeach; ?>
 						<?php if ($button['onclick']): ?>
 						onclick="<?php echo $button['onclick'] ?>"
 						<?php endif; ?>
-				        title="<?php echo Text::_($button['label']) ?>"
-				        id="<?php echo $button['id'] ?>"
+						title="<?php echo Text::_($button['label']) ?>"
+						id="<?php echo $button['id'] ?>"
 						>
 					<?php if (!empty($button['icon'])): ?>
 						<span class="<?php echo $button['icon'] ?>"></span>
@@ -128,6 +128,8 @@ Text::script('JHIDEPASSWORD');
 						<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 							'class' => 'icon',
 						], true) ?>
+					<?php elseif (!empty($button['svg'])): ?>
+						<?php echo $button['svg']; ?>
 					<?php endif; ?>
 					<?php echo Text::_($button['label']) ?>
 				</button>

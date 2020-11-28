@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<span class="small break-word">
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
 									</span>
-									<br />
+									<br>
 									<span class="small break-word">
 										<?php if ($item->downloadKey['valid']) : ?>
 										<span class="badge badge-info">
