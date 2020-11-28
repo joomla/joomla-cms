@@ -150,7 +150,6 @@ abstract class AuthenticationHelper
 					'tooltip' => '',
 					'icon'    => '',
 					'image'   => '',
-					'svg'     => '',
 					'class'   => '',
 					'id'      => '',
 					'onclick' => '',
@@ -166,7 +165,7 @@ abstract class AuthenticationHelper
 						continue;
 					}
 
-					if (!in_array($key, ['label', 'tooltip', 'icon', 'image', 'svg', 'class', 'id', 'onclick']))
+					if (!in_array($key, ['label', 'tooltip', 'icon', 'image', 'class', 'id', 'onclick']))
 					{
 						unset($button[$key]);
 					}
