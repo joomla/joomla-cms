@@ -44,7 +44,7 @@
 
     &.active {
       background-color: $cassiopeia-tabs-active-bg;
-      background-image: linear-gradient(to bottom, hsla(0, 0%, 0%,0), hsla(0, 0%, 0%,. 05) 100%);
+      background-image: linear-gradient(to bottom, hsla(0, 0%, 0%,0), hsla(0, 0%, 0%, .05) 100%);
       border-right: 0;
       border-left: 0;
       border-top-left-radius: 0;
