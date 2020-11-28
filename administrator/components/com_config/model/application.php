@@ -912,12 +912,12 @@ class ConfigModelApplication extends ConfigModelForm
 	public function sendTestMail()
 	{
 		// Set the new values to test with the current settings
-		$app = JFactory::getApplication();
-		$input = $app->input;
+		$app      = JFactory::getApplication();
+		$input    = $app->input;
+		$smtppass = $input->get('smtppass', '', 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
-		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
 		$app->set('smtphost', $input->get('smtphost'));
 		$app->set('smtpsecure', $input->get('smtpsecure'));
 		$app->set('smtpport', $input->get('smtpport'));
@@ -925,6 +925,12 @@ class ConfigModelApplication extends ConfigModelForm
 		$app->set('fromname', $input->get('fromname', '', 'STRING'));
 		$app->set('mailer', $input->get('mailer'));
 		$app->set('mailonline', $input->get('mailonline'));
+
+		// Use smtppass only if it was submitted
+		if ($smtppass)
+		{
+			$app->set('smtppass', $smtppass);
+		}
 
 		$mail = JFactory::getMailer();
 
