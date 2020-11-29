@@ -54,8 +54,7 @@ cat /usr/lib/node_modules/selenium-standalone/lib/default-config.js
 sed -i '/config.drivers.chromiumedge/,/}/d' /usr/lib/node_modules/selenium-standalone/lib/default-config.js
 cat /usr/lib/node_modules/selenium-standalone/lib/default-config.js
 
-selenium-standalone start
-#>> /tests/Codeception/_output/selenium.$DB_ENGINE.log 2>&1 &
+selenium-standalone start >> /tests/Codeception/_output/selenium.$DB_ENGINE.log 2>&1 &
 sleep 5
 
 echo "[RUNNER] Run Codeception"
