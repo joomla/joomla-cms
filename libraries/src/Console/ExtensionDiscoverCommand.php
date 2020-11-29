@@ -90,7 +90,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 		$help = "<info>%command.name%</info> is used to discover extensions
 		\nYou can provide the following option to the command:
-		\n  --extension: The ID of the extension
+		\n  --eid: The ID of the extension
 		\nUsage:
 		\n  <info>php %command.full_name% --eid=<id_of_the_extension></info>";
 
@@ -99,9 +99,9 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	}
 
 	/**
-	 * Used for installing extension from a path
+	 * Used for discovering extensions
 	 *
-	 * @param   string  $path  Path to the extension zip file
+	 * @param   string  $eid  Id of the extension
 	 *
 	 * @return boolean
 	 *
