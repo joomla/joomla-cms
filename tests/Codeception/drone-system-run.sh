@@ -50,7 +50,8 @@ apache2ctl -D FOREGROUND &
 google-chrome --version
 
 echo "[RUNNER] Start Selenium"
-selenium-standalone start --singleDriverInstall=chrome
+cat /usr/lib/node_modules/selenium-standalone/lib/default-config.js
+selenium-standalone start
 #>> /tests/Codeception/_output/selenium.$DB_ENGINE.log 2>&1 &
 sleep 5
 
