@@ -491,7 +491,7 @@ class PlgSampledataBlog extends CMSPlugin
 		// Store the categories
 		$catIds        = array();
 
-		for ($i = 0; $i <= 2; $i++)
+		for ($i = 0; $i <= 3; $i++)
 		{
 			$categoryModel = $this->app->bootComponent('com_categories')
 				->getMVCFactory()->createModel('Category', 'Administrator');
@@ -689,9 +689,10 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 				'authorValue' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_9_FIELD_0'),
 			),
+			// Category 3 - Typography
 			array(
 				// Article 10 - Typography
-				'catid'    => $catIds[2],
+				'catid'    => $catIds[3],
 			),
 		);
 
