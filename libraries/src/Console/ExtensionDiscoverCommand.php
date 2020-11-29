@@ -92,9 +92,9 @@ class ExtensionDiscoverCommand extends AbstractCommand
 		\nYou can provide the following option to the command:
 		\n  --extension: The ID of the extension
 		\nUsage:
-		\n  <info>php %command.full_name% --extension=<id_of_the_extension></info>";
+		\n  <info>php %command.full_name% --eid=<id_of_the_extension></info>";
 
-		$this->setDescription('Discover all extensions or an extension');
+		$this->setDescription('Discover all extensions or a specified extension');
 		$this->setHelp($help);
 	}
 
