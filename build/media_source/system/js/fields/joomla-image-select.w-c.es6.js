@@ -100,13 +100,8 @@
 
           // eslint-disable-next-line prefer-destructuring
           Joomla.selectedMediaFile.url = resp.data[0].url.split(rootFull)[1];
-          if (resp.data[0].thumb_path) {
-            Joomla.selectedMediaFile.thumb = resp.data[0].thumb_path;
-          } else {
-            Joomla.selectedMediaFile.thumb = false;
-          }
         } else if (resp.data[0].thumb_path) {
-          Joomla.selectedMediaFile.thumb = resp.data[0].thumb_path;
+          Joomla.selectedMediaFile.url = resp.data[0].thumb_path;
         }
       } else {
         Joomla.selectedMediaFile.url = false;
