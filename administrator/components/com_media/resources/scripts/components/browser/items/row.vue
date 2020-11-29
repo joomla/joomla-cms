@@ -104,6 +104,8 @@ export default {
       if (this.item.type === 'file') {
         data.path = this.item.path;
         data.thumb = this.item.thumb ? this.item.thumb : false;
+        data.width = this.item.width ? this.item.width : 0;
+        data.height = this.item.height ? this.item.height : 0;
 
         const ev = new CustomEvent('onMediaFileSelected', {
           bubbles: true,
