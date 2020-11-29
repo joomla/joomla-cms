@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -476,6 +476,9 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
+			// Joomla 3.10.0
+			'/libraries/joomla/base/adapter.php',
+			'/libraries/joomla/base/adapterinstance.php',
 			// Joomla 4.0 Beta 1
 			'/administrator/components/com_actionlogs/actionlogs.php',
 			'/administrator/components/com_actionlogs/controller.php',
