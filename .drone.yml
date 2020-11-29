@@ -15,15 +15,8 @@ steps:
       - composer install --no-progress --no-suggest
       - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
-  - name: npm
-    image: node:14-alpine
-    depends_on: [ composer ]
-    commands:
-      - npm ci --unsafe-perm
-
-
   - name: system-tests-mysql
-    depends_on: [ npm ]
+    depends_on: [ composer ]
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
