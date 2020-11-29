@@ -592,7 +592,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro'               => 'images/sampledata/cassiopeia/nasa2-1200.jpg',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
-					'image_intro_alt_empty'     => '',
+					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
 					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa2-400.jpg',
 					'float_fulltext'            => 'float-left',
