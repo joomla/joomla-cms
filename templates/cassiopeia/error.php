@@ -105,7 +105,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<header class="header container-header full-width">
 		<div class="grid-child">
 			<div class="navbar-brand">
-				<a href="<?php echo $this->baseurl; ?>/">
+				<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
 					<?php echo $logo; ?>
 				</a>
 				<?php if ($params->get('siteDescription')) : ?>
@@ -116,7 +116,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu')) : ?>
-					<nav class="navbar navbar-expand-lg">
+					<nav class="navbar navbar-expand-md">
 						<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
 							<span class="icon-menu" aria-hidden="true"></span>
 						</button>
@@ -124,7 +124,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 							<jdoc:include type="modules" name="menu" style="none" />
 						</div>
 					</nav>
-					<?php endif; ?>
+				<?php endif; ?>
 				<?php if ($this->countModules('search')) : ?>
 					<div class="container-search">
 						<div class="form-inline">
@@ -180,16 +180,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		</div>
 	</div>
 
-	<?php if ($this->countModules('footer') || ($params->get('backTop') == 1)) : ?>
+	<?php if ($this->countModules('footer')) : ?>
 	<footer class="container-footer footer full-width">
 		<div class="grid-child">
 			<jdoc:include type="modules" name="footer" style="none" />
-			<?php if ($params->get('backTop') == 1) : ?>
-				<a href="#top" id="back-top" class="back-top">
-					<span class="icon-arrow-up" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
-				</a>
-			<?php endif; ?>
 		</div>
 	</footer>
 	<?php endif; ?>
