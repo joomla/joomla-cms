@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -49,6 +50,14 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
+	 * Database connector
+	 *
+	 * @var    DatabaseInterface
+	 * @since  4.0.0
+	 */
+	private $db;
+
+	/**
 	 * Exit Code For Discover Failure
 	 * @since
 	 */
@@ -59,6 +68,19 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * @since
 	 */
 	public const DISCOVER_SUCCESSFUL = 0;
+
+	/**
+	 * Instantiate the command.
+	 *
+	 * @param   DatabaseInterface  $db  Database connector
+	 *
+	 * @since   4.0.0
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		$this->db = $db;
+		parent::__construct();
+	}
 
 	/**
 	 * Configures the IO
@@ -115,7 +137,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 		if ($eid === -1)
 		{
-			$db = Factory::getDbo();
+			$db    = $this->db;
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['extension_id']))
 				->from($db->quoteName('#__extensions'))
