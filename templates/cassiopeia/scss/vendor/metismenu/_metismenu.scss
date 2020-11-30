@@ -32,16 +32,18 @@
         &.parent {
           position: relative;
         }
+
         > ul {
           position: absolute;
           top: 100%;
           z-index: 1001;
           display: block;
-          min-width: 180px;
+          min-width: 12rem;
           padding: .375em 1em;
           list-style: none;
-          box-shadow: 0 0 10px hsla(0, 0%, 0%, .1);
+          box-shadow: 0 0 .5em hsla(0, 0%, 0%, .1);
         }
+
         > span,
         > a {
           padding: $cassiopeia-grid-gutter/2 0;
@@ -96,21 +98,25 @@
         &:not(.mm-show) {
           display: none;
         }
+
         > li {
           display: block;
+
           > a {
             display: inline-flex;
           }
         }
+
         > li.parent {
           .mm-toggler {
             display: inline-flex;
           }
+
           > ul {
             position: relative;
             top: 0;
             padding: 0 1em;
-            background-color: rgba(0, 0, 0, .03);
+            background-color: hsla(0, 0%, 0%, .03);
             box-shadow: none;
           }
         }
@@ -133,9 +139,9 @@
           height: 0;
           margin: 0 0 0 .5em;
           content: "";
-          border-top: 10px solid currentColor;
-          border-right: 10px solid transparent;
-          border-left: 10px solid transparent;
+          border-top: .5em solid currentColor;
+          border-right: .5em solid transparent;
+          border-left: .5em solid transparent;
           transition: all .3s ease-out;
 
           [dir="rtl"] & {
@@ -143,12 +149,19 @@
           }
 
           @at-root .mm-active > & {
-            transform: rotate(-180deg);
+            transform: rotateX(-180deg);
           }
         }
 
         &[aria-expanded="true"]:after {
-          transform: rotate(-180deg);
+          transform: rotateX(-180deg);
+        }
+
+        &.mm-toggler-nolink {
+          &:after {
+            position: relative;
+            top: .125em;
+          }
         }
       }
     }
@@ -161,8 +174,10 @@
         position: relative;
         background-color: rgba(0, 0, 0, .03);
       }
+
       li.parent {
         display: block;
+
         .mm-toggler {
           display: inline-flex;
           text-align: left;
@@ -171,6 +186,7 @@
             text-align: right;
           }
         }
+
         > ul {
           position: relative;
           top: 0;
@@ -182,6 +198,7 @@
           }
         }
       }
+
       .metismenu-item {
         > span,
         > a {
