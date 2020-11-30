@@ -7,14 +7,15 @@ $scrollLength: 100vh;
 .back-to-top-wrapper {
   position: absolute;
   top: calc(#{$scrollLength} + #{$cassiopeia-grid-gutter * 10});
-  right: $cassiopeia-grid-gutter;
+  right: 0;
   bottom: 0;
+  z-index: $zindex-fixed;
   width: 3rem;
   pointer-events: none;
 
   [dir=rtl] & {
     right: unset;
-    left: $cassiopeia-grid-gutter;
+    left: 0;
   }
 }
 
@@ -22,18 +23,19 @@ $scrollLength: 100vh;
   position: fixed;
   /* stylelint-disable-next-line declaration-block-no-duplicate-properties */
   position: sticky;
-  top: calc(#{$scrollLength} - #{$cassiopeia-grid-gutter * 3});
+  top: calc(#{$scrollLength} - #{$cassiopeia-grid-gutter * 4});
   padding: $cassiopeia-grid-gutter/2;
   color: var(--cassiopeia-color-primary, $standard-color-primary);
   pointer-events: all;
   background-color: var(--white, $white);
-  border: 1px solid transparent;
+  border: 1px solid var(--cassiopeia-color-primary, $standard-color-primary);
   border-radius: $border-radius;
-  transition: border-color 200ms ease-in;
+  transition: all 200ms ease-in;
 
   &:hover,
   &:focus {
-    color: var(--cassiopeia-color-hover);
-    border-color: var(--cassiopeia-color-primary, $standard-color-primary);
+    color: var(--white, $white);
+    background-color: var(--cassiopeia-color-hover);
+    border-color: var(--white, $white);
   }
 }
