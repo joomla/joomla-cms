@@ -25,8 +25,8 @@
     }
 
     .container-component,
-    .container-sidebar-left,
-    .container-sidebar-right {
+    .container-sidebar-primary,
+    .container-sidebar-secondary {
       display: flex;
       flex-direction: column;
 
@@ -35,11 +35,11 @@
       }
     }
 
-    &:not(.has-sidebar-left) .container-component {
+    &:not(.has-sidebar-primary) .container-component {
       grid-column-start: main-start;
     }
 
-    &:not(.has-sidebar-right) .container-component {
+    &:not(.has-sidebar-secondary) .container-component {
       grid-column-end: main-end;
     }
 
@@ -93,11 +93,11 @@
   grid-area: comp;
 }
 
-.container-sidebar-left {
+.container-sidebar-primary {
   grid-area: side-l;
 }
 
-.container-sidebar-right {
+.container-sidebar-secondary {
   grid-area: side-r;
 }
 

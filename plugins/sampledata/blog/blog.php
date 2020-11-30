@@ -911,7 +911,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
 				'ordering'  => 6,
-				'position'  => 'sidebar-right',
+				'position'  => 'sidebar-secondary',
 				'module'    => 'mod_syndicate',
 				'showtitle' => 0,
 				'params'    => array(
@@ -925,7 +925,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
 				'ordering' => 4,
-				'position' => 'sidebar-right',
+				'position' => 'sidebar-secondary',
 				'module'   => 'mod_articles_archive',
 				'params'   => array(
 					'count'      => 10,
@@ -938,7 +938,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
 				'ordering' => 5,
-				'position' => 'sidebar-right',
+				'position' => 'sidebar-secondary',
 				'module'   => 'mod_articles_popular',
 				'params'   => array(
 					'catid'      => $catids[0],
@@ -953,7 +953,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
 				'ordering' => 2,
-				'position' => 'sidebar-right',
+				'position' => 'sidebar-secondary',
 				'module'   => 'mod_articles_category',
 				'params'   => array(
 					'mode'                         => 'normal',
@@ -1054,7 +1054,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
 				'ordering' => 1,
-				'position' => 'sidebar-right',
+				'position' => 'sidebar-secondary',
 				'module'   => 'mod_tags_popular',
 				'params'   => array(
 					'maximum'         => 8,

@@ -3261,7 +3261,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
 				'ordering' => 1,
-				'position' => 'sidebar-right',
+				'position' => 'sidebar-secondary',
 				'module'   => 'mod_menu',
 				'access'   => $access,
 				'params'   => array(
@@ -3297,7 +3297,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
 				'ordering'   => 3,
-				'position'   => 'sidebar-right',
+				'position'   => 'sidebar-secondary',
 				'module'     => 'mod_menu',
 				'access'     => 2,
 				'assignment' => -1,
@@ -3348,7 +3348,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
 				'ordering'   => 2,
-				'position'   => 'sidebar-left',
+				'position'   => 'sidebar-primary',
 				'module'     => 'mod_menu',
 				'access'     => $access,
 				'assignment' => 1,
@@ -3374,7 +3374,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
 				'ordering'   => 4,
-				'position'   => 'sidebar-right',
+				'position'   => 'sidebar-secondary',
 				'module'     => 'mod_menu',
 				'access'     => $access,
 				'assignment' => -1,
@@ -3428,7 +3428,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
 				'ordering'   => 5,
-				'position'   => 'sidebar-right',
+				'position'   => 'sidebar-secondary',
 				'module'     => 'mod_menu',
 				'access'     => $access,
 				'assignment' => -1,
@@ -3749,7 +3749,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_24_TITLE'),
 				'ordering'   => 6,
-				'position'   => 'sidebar-right',
+				'position'   => 'sidebar-secondary',
 				'module'     => 'mod_articles_latest',
 				'access'     => $access,
 				'assignment' => 1,
@@ -3827,7 +3827,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_28_TITLE'),
 				'ordering'   => 3,
-				'position'   => 'sidebar-left',
+				'position'   => 'sidebar-primary',
 				'module'     => 'mod_menu',
 				'access'     => $access,
 				'assignment' => 1,
@@ -3900,7 +3900,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_31_TITLE'),
 				'ordering'   => 3,
-				'position'   => 'sidebar-left',
+				'position'   => 'sidebar-primary',
 				'published'  => 0,
 				'module'     => 'mod_languages',
 				'access'     => $access,
@@ -3957,7 +3957,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_34_TITLE'),
 				'content'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_34_CONTENT'),
 				'ordering'   => 1,
-				'position'   => 'sidebar-left',
+				'position'   => 'sidebar-primary',
 				'module'     => 'mod_custom',
 				'access'     => $access,
 				'assignment' => 1,
@@ -3980,7 +3980,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_35_TITLE'),
 				'ordering'   => 2,
-				'position'   => 'sidebar-right',
+				'position'   => 'sidebar-secondary',
 				'published'  => 0,
 				'module'     => 'mod_menu',
 				'access'     => $access,
@@ -4000,7 +4000,7 @@ class PlgSampledataTesting extends CMSPlugin
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_36_TITLE'),
 				'content'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_36_CONTENT'),
 				'ordering'   => 2,
-				'position'   => 'sidebar-left',
+				'position'   => 'sidebar-primary',
 				'module'     => 'mod_custom',
 				'access'     => $access,
 				'assignment' => 1,
@@ -4263,7 +4263,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_48_TITLE'),
 				'ordering' => '2',
-				'position' => 'sidebar-right',
+				'position' => 'sidebar-secondary',
 				'module'   => 'mod_menu',
 				'access'   => $access,
 				'params'   => array(
@@ -4279,7 +4279,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_49_TITLE'),
 				'ordering' => 1,
-				'position' => 'sidebar-left',
+				'position' => 'sidebar-primary',
 				'module'   => 'mod_menu',
 				'access'   => $access,
 				'params'   => array(
@@ -4295,7 +4295,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'      => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_50_TITLE'),
 				'ordering'   => 1,
-				'position'   => 'sidebar-right',
+				'position'   => 'sidebar-secondary',
 				'module'     => 'mod_menu',
 				'access'     => $access,
 				'assignment' => 1,
@@ -4351,7 +4351,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_53_TITLE'),
 				'ordering' => 1,
-				'position' => 'sidebar-left',
+				'position' => 'sidebar-primary',
 				'module'   => 'mod_syndicate',
 				'access'   => $access,
 				'params'   => array(
@@ -4364,7 +4364,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'title'    => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MODULES_MODULE_54_TITLE'),
 				'ordering' => 1,
-				'position' => 'sidebar-left',
+				'position' => 'sidebar-primary',
 				'module'   => 'mod_tags_similar',
 				'access'   => $access,
 				'params'   => array(

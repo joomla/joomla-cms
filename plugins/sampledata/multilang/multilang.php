@@ -580,7 +580,7 @@ class PlgSampledataMultilang extends CMSPlugin
 					$db->quoteName('client_id') . ' = 0',
 					$db->quoteName('module') . ' = ' . $db->quote('mod_menu'),
 					$db->quoteName('language') . ' = ' . $db->quote('*'),
-					$db->quoteName('position') . ' = ' . $db->quote('sidebar-right'),
+					$db->quoteName('position') . ' = ' . $db->quote('sidebar-secondary'),
 				]
 			);
 		$db->setQuery($query);
@@ -613,7 +613,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'title'     => 'Language Switcher',
 			'note'      => '',
 			'content'   => '',
-			'position'  => 'sidebar-right',
+			'position'  => 'sidebar-secondary',
 			'module'    => 'mod_languages',
 			'access'    => 1,
 			'showtitle' => 0,
@@ -667,7 +667,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'title'     => $title,
 			'note'      => '',
 			'content'   => '',
-			'position'  => 'sidebar-right',
+			'position'  => 'sidebar-secondary',
 			'module'    => 'mod_menu',
 			'access'    => 1,
 			'showtitle' => 1,

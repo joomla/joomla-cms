@@ -31,8 +31,8 @@
 		<position>main-top</position>
 		<position>main-bottom</position>
 		<position>breadcrumbs</position>
-		<position>sidebar-left</position>
-		<position>sidebar-right</position>
+		<position>sidebar-primary</position>
+		<position>sidebar-secondary</position>
 		<position>bottom-a</position>
 		<position>bottom-b</position>
 		<position>footer</position>
