@@ -139,7 +139,7 @@ dd {
 }
 
 th dd {
-  font-weight: normal;
+  font-weight: var(--cassiopeia-font-weight-normal, $font-weight-normal);
 }
 
 figure {

@@ -39,7 +39,7 @@
 }
 
 .modal-title {
-  font-weight: normal;
+  font-weight: var(--cassiopeia-font-weight-normal, $font-weight-normal);
   line-height: $modal-header-height;
 }
 
