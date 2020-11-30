@@ -25,7 +25,7 @@ class FOFModelBehaviorFilters extends FOFModelBehavior
 	 *
 	 * @return  void
 	 */
-	public function onAfterBuildQuery(&$model, &$query)
+	public function onAfterBuildQuery($model, &$query)
 	{
 		$table = $model->getTable();
 		$tableName = $table->getTableName();
