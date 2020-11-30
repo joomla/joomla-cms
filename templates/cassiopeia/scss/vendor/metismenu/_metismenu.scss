@@ -14,18 +14,23 @@
 
       > li {
         position: relative;
+      }
 
-        @include media-breakpoint-up(md) {
-          + li {
-            margin-left: 1.55em;
-          }
+      .level-1 {
+        > ul {
+          min-width: 12rem;
         }
       }
     }
 
     &.mod-menu {
+      margin: 0;
+
       .metismenu-item {
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: ($cassiopeia-grid-gutter/2) $cassiopeia-grid-gutter;
         font-size: 1.1rem;
         line-height: 1.5;
 
@@ -38,15 +43,13 @@
           top: 100%;
           z-index: 1001;
           display: block;
-          min-width: 12rem;
-          padding: .375em 1em;
+          padding: 0;
           list-style: none;
           box-shadow: 0 0 .5em hsla(0, 0%, 0%, .1);
         }
 
         > span,
         > a {
-          padding: $cassiopeia-grid-gutter/2 0;
           overflow: hidden;
           text-decoration: none;
           text-overflow: ellipsis;
@@ -86,12 +89,11 @@
         overflow: hidden;
         transition-timing-function: ease;
         transition-duration: .35s;
-        transition-property: height, visibility;
+        transition-property: color, background-color, height, visibility;
       }
 
       .mm-collapse {
         position: absolute;
-        padding: .375em 1em;
         background-color: hsl(0, 0%, 100%);
         box-shadow: $cassiopeia-box-shadow;
 
@@ -100,8 +102,6 @@
         }
 
         > li {
-          display: block;
-
           > a {
             display: inline-flex;
           }
@@ -115,7 +115,9 @@
           > ul {
             position: relative;
             top: 0;
-            padding: 0 1em;
+            flex-basis: calc(100% + #{$cassiopeia-grid-gutter});
+            margin-top: ($cassiopeia-grid-gutter/2);
+            margin-bottom: ($cassiopeia-grid-gutter/-2);
             background-color: hsla(0, 0%, 0%, .03);
             box-shadow: none;
           }
@@ -127,7 +129,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: ($cassiopeia-grid-gutter/2) 0;
+        height: 100%;
+        padding: 0;
         color: currentColor;
         user-select: none;
         background: none;
@@ -156,13 +159,6 @@
         &[aria-expanded="true"]:after {
           transform: rotateX(-180deg);
         }
-
-        &.mm-toggler-nolink {
-          &:after {
-            position: relative;
-            top: .125em;
-          }
-        }
       }
     }
   }
@@ -172,12 +168,10 @@
     .metismenu {
       .mm-collapse {
         position: relative;
-        background-color: rgba(0, 0, 0, .03);
+        background-color: hsla(0, 0%, 0%, .03);
       }
 
       li.parent {
-        display: block;
-
         .mm-toggler {
           display: inline-flex;
           text-align: left;
@@ -190,7 +184,6 @@
         > ul {
           position: relative;
           top: 0;
-          padding: 0 1em;
           box-shadow: none;
 
           @include media-breakpoint-down(md) {

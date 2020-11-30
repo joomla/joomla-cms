@@ -107,7 +107,6 @@
       }
 
       &::after {
-
         @include media-breakpoint-up(md) {
           position: absolute;
           right: 50%;
@@ -142,13 +141,17 @@
     .parent {
       > ul {
         display: none;
-        color: var(--cassiopeia-color-primary);
+        color: $gray-900;
       }
     }
   }
 
   @if $metismenu==true {
     .metismenu > li {
+      + li {
+        margin-left: 0;
+      }
+
       > a::after,
       > button::before {
 
@@ -197,6 +200,10 @@
         @include media-breakpoint-up(md) {
           text-decoration: none;
         }
+      }
+
+      > ul {
+        min-width: 12rem;
       }
     }
   }
