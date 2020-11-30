@@ -105,7 +105,7 @@ abstract class FOFModelBehavior extends FOFUtilsObservableEvent
 	 *
 	 * @return  void
 	 */
-	public function onBeforeBuildQuery(&$model, &$query)
+	public function onBeforeBuildQuery($model, &$query)
 	{
 	}
 
@@ -195,7 +195,7 @@ abstract class FOFModelBehavior extends FOFUtilsObservableEvent
 	 *
 	 * @return  void
 	 */
-	public function onAfterBuildQuery(&$model, &$query)
+	public function onAfterBuildQuery($model, &$query)
 	{
 	}
 
