@@ -91,8 +91,8 @@ else
 			<?php else : ?>
 				<h1><?php echo $sitename; ?></h1>
 			<?php endif; ?>
-			<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
-				<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo $sitename; ?>">
+			<?php if ($app->get('offline_image')) : ?>
+				<?php echo HTMLHelper::_('image', $app->get('offline_image'), $sitename, [], false, 0); ?>
 			<?php endif; ?>
 			<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 				<p><?php echo $app->get('offline_message'); ?></p>
