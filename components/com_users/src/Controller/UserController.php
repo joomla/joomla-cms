@@ -140,10 +140,8 @@ class UserController extends BaseController
 
 		$this->app->setUserState('users.login.form.data', array());
 
-		$login = ComponentHelper::getParams('com_users')->get('frontend_login_message', 0);
-
 		// Show a message when a user is logged in.
-		if ($login === 1 && Factory::getUser()->get('id') > 0)
+		if (ComponentHelper::getParams('com_users')->get('frontend_login_message', 0))
 		{
 			$this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
 		}
