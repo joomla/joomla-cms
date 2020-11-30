@@ -57,7 +57,7 @@
 					name="siteTitle"
 					type="text"
 					default=""
-					label="JGLOBAL_TITLE"
+					label="TPL_CASSIOPEIA_TITLE"
 					filter="string"
 				/>
 
