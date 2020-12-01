@@ -5,12 +5,11 @@
 	<creationDate>February 2017</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
 		<filename>error.php</filename>
-		<filename>favicon.ico</filename>
 		<filename>index.php</filename>
 		<filename>joomla.asset.json</filename>
 		<filename>offline.php</filename>
@@ -57,7 +56,7 @@
 					name="siteTitle"
 					type="text"
 					default=""
-					label="JGLOBAL_TITLE"
+					label="TPL_CASSIOPEIA_TITLE"
 					filter="string"
 				/>
 

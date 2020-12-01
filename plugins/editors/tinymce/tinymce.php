@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -523,6 +523,9 @@ class PlgEditorTinymce extends CMSPlugin
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			Text::script('JERROR');
+			Text::script('PLG_TINY_DND_ADDITIONALDATA');
+			Text::script('PLG_TINY_DND_ALTTEXT');
+			Text::script('PLG_TINY_DND_LAZYLOADED');
 
 			$scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
 			$scriptOptions['csrfToken']          = Session::getFormToken();
