@@ -185,7 +185,7 @@ abstract class Tag
 	{
 		// Get the component parameters
 		$params = ComponentHelper::getParams('com_tags');
-		$minTermLength = (int) $params->get('min_term_length', 1);
+		$minTermLength = (int) $params->get('min_term_length', 3);
 
 		Text::script('JGLOBAL_KEEP_TYPING');
 		Text::script('JGLOBAL_LOOKING_FOR');

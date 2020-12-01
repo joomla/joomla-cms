@@ -113,7 +113,7 @@ class TagField extends ListField
 		$data['options']       = $this->getOptions();
 		$data['isNested']      = $this->isNested();
 		$data['allowCustom']   = $this->allowCustom();
-		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 1);
+		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 3);
 
 		return $this->getRenderer($this->layout)->render($data);
 	}
@@ -133,7 +133,7 @@ class TagField extends ListField
 		$options   = [];
 
 		// This limit is only used with isRemoteSearch
-		$limit          = (int) $this->comParams->get('prefill_limit', 30);
+		$prefillLimit          = 30;
 		$isRemoteSearch = $this->isRemoteSearch();
 
 		$db    = Factory::getDbo();
@@ -201,13 +201,13 @@ class TagField extends ListField
 		// Preload only active values and 30 most used tags or fill up
 		if ($isRemoteSearch)
 		{
-			// Load the most $limit used tags
+			// Load the most $prefillLimit used tags
 			$topQuery = $db->getQuery(true)
 				->select($db->quoteName('tag_id'))
 				->from($db->quoteName('#__contentitem_tag_map'))
 				->group($db->quoteName('tag_id'))
 				->order('count(*)')
-				->setLimit($limit);
+				->setLimit($prefillLimit);
 
 			$db->setQuery($topQuery);
 			$topIds = $db->loadColumn();
@@ -220,7 +220,7 @@ class TagField extends ListField
 			}
 
 			// Set the default limit for the main query
-			$query->setLimit($limit);
+			$query->setLimit($prefillLimit);
 
 			if (!empty($topIds))
 			{
@@ -241,8 +241,8 @@ class TagField extends ListField
 
 				// Limit the main query to the missing amount of tags
 				$count = count($options);
-				$limit = $limit - $count;
-				$query->setLimit($limit);
+				$prefillLimit = $prefillLimit - $count;
+				$query->setLimit($prefillLimit);
 
 				// Exclude the already loaded tags from the main query
 				if ($count > 0)
@@ -253,7 +253,7 @@ class TagField extends ListField
 		}
 
 		// Only execute the query if we need more tags not already loaded by the $preQuery query
-		if (!$isRemoteSearch || $limit > 0)
+		if (!$isRemoteSearch || $prefillLimit > 0)
 		{
 			// Get the options.
 			$db->setQuery($query);
