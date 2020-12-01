@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -684,6 +684,7 @@ abstract class HTMLHelper
 			return $obj;
 		}
 
+		$url    = preg_replace('#&amp;#', '&', $url);
 		$pieces = explode('?', $url);
 
 		parse_str($pieces[1], $urlParams);
@@ -740,6 +741,11 @@ abstract class HTMLHelper
 	public static function image($file, $alt, $attribs = null, $relative = false, $returnPath = 0)
 	{
 		$returnPath = (int) $returnPath;
+
+		if (strpos($file, '?') !== false)
+		{
+			$file = (static::cleanImageURL($file))->url;
+		}
 
 		if ($returnPath !== -1)
 		{
