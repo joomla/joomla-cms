@@ -49,7 +49,8 @@
         }
 
         > span,
-        > a {
+        > a,
+        > button {
           overflow: hidden;
           text-decoration: none;
           text-overflow: ellipsis;
@@ -128,7 +129,6 @@
         position: relative;
         display: flex;
         align-items: center;
-        justify-content: center;
         height: 100%;
         padding: 0;
         color: currentColor;
@@ -158,6 +158,12 @@
 
         &[aria-expanded="true"]:after {
           transform: rotateX(-180deg);
+        }
+      }
+
+      .parent {
+        > ul {
+          color: $gray-900;
         }
       }
     }

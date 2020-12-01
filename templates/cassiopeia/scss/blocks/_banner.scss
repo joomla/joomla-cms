@@ -1,8 +1,6 @@
 // Banner
 
 .container-banner {
-  color: $white;
-
   img {
     display: block;
     margin: auto;
@@ -10,6 +8,7 @@
 
   .banner-overlay {
     height: 70vh;
+    color: $white;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: top,center;
