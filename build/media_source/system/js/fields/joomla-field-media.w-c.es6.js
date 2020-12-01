@@ -1,86 +1,9 @@
 ((customElements, Joomla) => {
+  'use strict';
+
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
-
-  Joomla.selectedFile = {};
-
-  window.document.addEventListener('onMediaFileSelected', (e) => {
-    Joomla.selectedFile = e.detail;
-  });
-
-  const execTransform = (resp, editor, fieldClass) => {
-    if (resp.success === true) {
-      if (resp.data[0].url) {
-        if (/local-/.test(resp.data[0].adapter)) {
-          const { rootFull } = Joomla.getOptions('system.paths');
-
-          // eslint-disable-next-line prefer-destructuring
-          Joomla.selectedFile.url = resp.data[0].url.split(rootFull)[1];
-          if (resp.data[0].thumb_path) {
-            Joomla.selectedFile.thumb = resp.data[0].thumb_path;
-          } else {
-            Joomla.selectedFile.thumb = false;
-          }
-        } else if (resp.data[0].thumb_path) {
-          Joomla.selectedFile.thumb = resp.data[0].thumb_path;
-        }
-      } else {
-        Joomla.selectedFile.url = false;
-      }
-
-      const isElement = (o) => (
-        typeof HTMLElement === 'object' ? o instanceof HTMLElement
-          : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
-      );
-
-      if (Joomla.selectedFile.url) {
-        if (!isElement(editor) && (typeof editor !== 'object')) {
-          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
-        } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
-        } else {
-          editor.value = Joomla.selectedFile.url;
-          fieldClass.updatePreview();
-        }
-      }
-    }
-  };
-
-  /**
-   * Create and dispatch onMediaFileSelected Event
-   *
-   * @param {object}  data  The data for the detail
-   *
-   * @returns {void}
-   */
-  Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
-    if (!data || (typeof data === 'object' && (!data.path || data.path === ''))) {
-      Joomla.selectedFile = {};
-      resolve({
-        resp: {
-          success: false,
-        },
-      });
-      return;
-    }
-
-    const apiBaseUrl = `${Joomla.getOptions('system.paths').baseFull}index.php?option=com_media&format=json`;
-
-    Joomla.request({
-      url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`,
-      method: 'GET',
-      perform: true,
-      headers: { 'Content-Type': 'application/json' },
-      onSuccess: (response) => {
-        const resp = JSON.parse(response);
-        resolve(execTransform(resp, editor, fieldClass));
-      },
-      onError: (err) => {
-        reject(err);
-      },
-    });
-  });
 
   class JoomlaFieldMedia extends HTMLElement {
     constructor() {
@@ -204,20 +127,20 @@
     show() {
       this.modalElement.open();
 
-      Joomla.selectedFile = {};
+      Joomla.selectedMediaFile = {};
 
       this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
     }
 
     modalClose() {
-      Joomla.getImage(Joomla.selectedFile, this.inputElement, this)
+      Joomla.getImage(Joomla.selectedMediaFile, this.inputElement, this)
         .then(() => {
           Joomla.Modal.getCurrent().close();
-          Joomla.selectedFile = {};
+          Joomla.selectedMediaFile = {};
         })
         .catch(() => {
           Joomla.Modal.getCurrent().close();
-          Joomla.selectedFile = {};
+          Joomla.selectedMediaFile = {};
           Joomla.renderMessages({
             error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
           });
@@ -248,15 +171,14 @@
           this.previewElement.innerHTML = '';
           const imgPreview = new Image();
 
-          switch (this.type) {
-            case 'image':
+          const mediaType = {
+            image() {
               imgPreview.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               imgPreview.setAttribute('alt', '');
-              break;
-            default:
-              // imgPreview.src = dummy image path;
-              break;
-          }
+            },
+          };
+
+          mediaType[this.type]();
 
           this.previewElement.style.width = this.previewWidth;
           this.previewElement.appendChild(imgPreview);

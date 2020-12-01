@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,6 +133,14 @@ class MessageModel extends AdminModel
 		{
 			if ($this->item = parent::getItem($pk))
 			{
+				// Invalid message_id returns 0
+				if ($this->item->user_id_to === '0')
+				{
+					$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+
+					return false;
+				}
+
 				// Prime required properties.
 				if (empty($this->item->message_id))
 				{
@@ -142,12 +150,7 @@ class MessageModel extends AdminModel
 						// If replying to a message, preload some data.
 						$db    = $this->getDbo();
 						$query = $db->getQuery(true)
-							->select(
-								[
-									$db->quoteName('subject'),
-									$db->quoteName('user_id_from'),
-								]
-							)
+							->select($db->quoteName(['subject', 'user_id_from', 'user_id_to']))
 							->from($db->quoteName('#__messages'))
 							->where($db->quoteName('message_id') . ' = :messageid')
 							->bind(':messageid', $replyId, ParameterType::INTEGER);
@@ -163,12 +166,19 @@ class MessageModel extends AdminModel
 							return false;
 						}
 
+						if (!$message || $message->user_id_to != Factory::getUser()->id)
+						{
+							$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
+
+							return false;
+						}
+
 						$this->item->set('user_id_to', $message->user_id_from);
 						$re = Text::_('COM_MESSAGES_RE');
 
 						if (stripos($message->subject, $re) !== 0)
 						{
-							$this->item->set('subject', $re . $message->subject);
+							$this->item->set('subject', $re . ' ' . $message->subject);
 						}
 					}
 				}
@@ -331,6 +341,17 @@ class MessageModel extends AdminModel
 			return false;
 		}
 
+		// Load the user details (already valid from table check).
+		$toUser = User::getInstance($table->user_id_to);
+
+		// Check if recipient can access com_messages.
+		if (!$toUser->authorise('core.login.admin') || !$toUser->authorise('core.manage', 'com_messages'))
+		{
+			$this->setError(Text::_('COM_MESSAGES_ERROR_RECIPIENT_NOT_AUTHORISED'));
+
+			return false;
+		}
+
 		// Load the recipient user configuration.
 		$model  = $this->bootComponent('com_messages')
 			->getMVCFactory()->createModel('Config', 'Administrator', ['ignore_request' => true]);
@@ -368,9 +389,7 @@ class MessageModel extends AdminModel
 
 		if ($config->get('mail_on_new', true))
 		{
-			// Load the user details (already valid from table check).
 			$fromUser         = User::getInstance($table->user_id_from);
-			$toUser           = User::getInstance($table->user_id_to);
 			$debug            = Factory::getApplication()->get('debug_lang');
 			$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
