@@ -32,7 +32,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 $blogClassLeading = $this->params->get('blog_class_leading', '');
 $blogClassIntro   = $this->params->get('blog_class_intro', '');
 
-if ($this->params->get('multi_column_order_down', 0) && !empty($this->intro_items))
+if ($this->params->get('multi_column_order', 0) && !empty($this->intro_items))
 {
 	// Order articles in columns top down
 	$numCols = (int) $this->params->get('num_columns', 1);
@@ -99,10 +99,7 @@ if ($this->params->get('multi_column_order_down', 0) && !empty($this->intro_item
 	<?php if (!empty($this->intro_items)) : ?>
 		<div class="com-content-category-blog__items blog-items <?php echo $blogClassIntro; ?> ">
 			<?php $count = count($this->intro_items); ?>
-			<?php if ($numCols == 1
-					|| $count <= $numCols
-					|| !$this->params->get('multi_column_order_down', 0)) :
-			?>
+			<?php if ($numCols == 1 || $count < $numCols || !$this->params->get('multi_column_order', 0)) :?>
 				<?php foreach ($this->intro_items as $key => &$item) : ?>
 					<article class="com-content-category-blog__item blog-item <?php echo !empty($item->orderingClass) ? $item->orderingClass : ''; ?>"
 						itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
@@ -118,7 +115,8 @@ if ($this->params->get('multi_column_order_down', 0) && !empty($this->intro_item
 				<div class="d-flex flex-wrap">
 					<?php for ($c = 0; $c < $numCols; $c++) : ?>
 						<div class="col">
-							<?php for($i = 0; $i < $maxRows && $counter < $count; $i++) :
+							<?php
+							for($i = 0; $i < $maxRows && $counter < $count; $i++) :
 								$item = $this->intro_items[$counter];
 								$counter++; ?>
 								<article class="com-content-category-blog__item blog-item"

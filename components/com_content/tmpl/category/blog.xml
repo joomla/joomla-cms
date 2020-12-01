@@ -208,7 +208,7 @@
 				<field
 					name="multi_column_order"
 					type="list"
-					label="JGLOBAL_BLOG_ORDER_DOWN"
+					label="JGLOBAL_BLOG_ORDER"
 					layout="joomla.form.field.radio.switcher"
 					validate="options"
 					default="0"
@@ -219,7 +219,7 @@
 				<field
 					name="num_columns"
 					type="integer"
-					label="JGLOBAL_BLOG_CLASS_COLUMNS"
+					label="JGLOBAL_BLOG_COLUMNS"
 					first="1"
 					last="6"
 					step="1"
