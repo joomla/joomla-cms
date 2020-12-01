@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,19 +29,15 @@ $beforeDisplayContent = trim(implode("\n", $results));
 $results = $app->triggerEvent('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
 
-$blogClassLeading = '';
-$blogClassLeading .= $this->params->get('blog_class_leading');
-$blogClassLeading .= $this->params->get('blog_class_leading_boxed') ? ' boxed' : '';
-$blogClassLeading .= $this->params->get('blog_class_leading_type') ? ' ' . $this->params->get('blog_class_leading_type') . '-' : '';
-$blogClassLeading .= $this->params->get('blog_class-leading_columns');
-$blogClassLeading .= $this->params->get('blog_class_leading_image') == 'none' ? '' : ' image-' . $this->params->get('blog_class_leading_image');
+$blogClassLeading = $this->params->get('blog_class_leading', '');
+$blogClassIntro   = $this->params->get('blog_class_intro', '');
 
-$blogClassIntro = '';
-$blogClassIntro .= $this->params->get('blog_class_intro');
-$blogClassIntro .= $this->params->get('blog_class_intro_boxed') ? ' boxed' : '';
-$blogClassIntro .= $this->params->get('blog_class_leading_type') ? ' ' . $this->params->get('blog_class_intro_type') . '-' : '';
-$blogClassIntro .= $this->params->get('blog_class_intro_columns');
-$blogClassIntro .= $this->params->get('blog_class_intro_image') != 'none' ? '' : ' image-' . $this->params->get('blog_class_intro_image');
+if ($this->params->get('multi_column_order_down', 0) && !empty($this->intro_items))
+{
+	// Order articles in columns top down
+	$numCols = (int) $this->params->get('num_columns', 1);
+	$blogClassIntro   = '';
+}
 ?>
 <div class="com-content-category-blog blog" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -100,22 +96,44 @@ $blogClassIntro .= $this->params->get('blog_class_intro_image') != 'none' ? '' :
 		</div>
 	<?php endif; ?>
 
-	<?php
-	$introcount = count($this->intro_items);
-	$counter = 0;
-	?>
-
 	<?php if (!empty($this->intro_items)) : ?>
-		<div class="com-content-category-blog__items blog-items <?php echo $blogClassIntro; ?>">
-		<?php foreach ($this->intro_items as $key => &$item) : ?>
-			<div class="com-content-category-blog__item blog-item"
-				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<?php
-					$this->item = & $item;
-					echo $this->loadTemplate('item');
-					?>
-			</div>
-		<?php endforeach; ?>
+		<div class="com-content-category-blog__items blog-items <?php echo $blogClassIntro; ?> ">
+			<?php $count = count($this->intro_items); ?>
+			<?php if ($numCols == 1
+					|| $count <= $numCols
+					|| !$this->params->get('multi_column_order_down', 0)) :
+			?>
+				<?php foreach ($this->intro_items as $key => &$item) : ?>
+					<article class="com-content-category-blog__item blog-item <?php echo !empty($item->orderingClass) ? $item->orderingClass : ''; ?>"
+						itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+							<?php
+							$this->item = & $item;
+							echo $this->loadTemplate('item');
+							?>
+					</article>
+				<?php endforeach; ?>
+			<?php else: ?>
+				<?php $maxRows  = ceil($count / $numCols); ?>
+				<?php $counter  = 0; ?>
+				<div class="d-flex flex-wrap">
+					<?php for ($c = 0; $c < $numCols; $c++) : ?>
+						<div class="col">
+							<?php for($i = 0; $i < $maxRows && $counter < $count; $i++) :
+								$item = $this->intro_items[$counter];
+								$counter++; ?>
+								<article class="com-content-category-blog__item blog-item"
+									itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+										<?php
+										$this->item = & $item;
+										echo $this->loadTemplate('item');
+										?>
+								</article>
+							<?php endfor; ?>
+						</div>
+					<?php endfor; ?>
+				</div>
+			<?php endif; ?>
+
 		</div>
 	<?php endif; ?>
 

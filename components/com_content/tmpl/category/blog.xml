@@ -206,7 +206,7 @@
 					validate="CssIdentifier"
 				/>
 				<field
-					name="multi_column_order_down"
+					name="multi_column_order"
 					type="list"
 					label="JGLOBAL_BLOG_ORDER_DOWN"
 					layout="joomla.form.field.radio.switcher"
@@ -223,7 +223,7 @@
 					first="1"
 					last="6"
 					step="1"
-					showon="multi_column_order_down:1"
+					showon="multi_column_order:1"
 				/>
 
 				<field
