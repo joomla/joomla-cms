@@ -35,15 +35,17 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 	/**
 	 * Stores the Input Object
-	 * @var InputInterface
-	 * @since __DEPLOY_VERSION__
+	 *
+	 * @var    InputInterface
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
-	 * @var SymfonyStyle
-	 * @since __DEPLOY_VERSION__
+	 *
+	 * @var    SymfonyStyle
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $ioStyle;
 
@@ -57,13 +59,15 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 	/**
 	 * Exit Code For Discover Failure
-	 * @since
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public const DISCOVER_FAILED = 1;
 
 	/**
 	 * Exit Code For Discover Success
-	 * @since
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public const DISCOVER_SUCCESSFUL = 0;
 
@@ -72,7 +76,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @param   DatabaseInterface  $db  Database connector
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(DatabaseInterface $db)
 	{
@@ -86,9 +90,9 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * @param   InputInterface   $input   Console Input
 	 * @param   OutputInterface  $output  Console Output
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
@@ -123,11 +127,10 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @param   string  $eid  Id of the extension
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 *
-	 * @since __DEPLOY_VERSION__
-	 *
-	 * @throws \Exception
+	 * @throws  \Exception
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function processDiscover($eid): bool
 	{
@@ -171,7 +174,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @throws \Exception
+	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
