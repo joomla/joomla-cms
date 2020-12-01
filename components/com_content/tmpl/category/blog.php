@@ -31,11 +31,11 @@ $afterDisplayContent = trim(implode("\n", $results));
 
 $blogClassLeading = $this->params->get('blog_class_leading', '');
 $blogClassIntro   = $this->params->get('blog_class_intro', '');
+$numCols          = (int) $this->params->get('num_columns', 1);
 
 if ($this->params->get('multi_column_order', 0) && !empty($this->intro_items))
 {
 	// Order articles in columns top down
-	$numCols = (int) $this->params->get('num_columns', 1);
 	$blogClassIntro   = '';
 }
 ?>
