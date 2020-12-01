@@ -83,6 +83,21 @@
             margin-left: -1em;
           }
         }
+
+        &.divider:not(.parent) {
+          width: 1px;
+          padding: 0;
+          margin: .25em;
+          overflow: hidden;
+          border-right: 1px solid $gray-400;
+
+          @include media-breakpoint-down(sm) {
+            width: auto;
+            height: 1px;
+            border-bottom: 1px solid $gray-400;
+          }
+
+        }
       }
 
       .mm-collapsing {
@@ -105,6 +120,12 @@
         > li {
           > a {
             display: inline-flex;
+          }
+
+          &.divider:not(.parent) {
+            width: auto;
+            height: 1px;
+            border-bottom: 1px solid $gray-400;
           }
         }
 
@@ -202,6 +223,12 @@
         > span,
         > a {
           white-space: inherit;
+        }
+
+        &.divider:not(.parent) {
+          width: auto;
+          height: 1px;
+          border-bottom: 1px solid $gray-400;
         }
       }
     }
