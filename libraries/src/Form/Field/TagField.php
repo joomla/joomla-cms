@@ -127,12 +127,12 @@ class TagField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$published  = $this->element['published'] ?: array(0, 1);
-		$app        = Factory::getApplication();
-		$language   = null;
-		$options    = [];
+		$published = $this->element['published'] ?: array(0, 1);
+		$app       = Factory::getApplication();
+		$language  = null;
+		$options   = [];
 
-		// This limit is only used with isRemoteSearch	
+		// This limit is only used with isRemoteSearch
 		$prefillLimit   = 30;
 		$isRemoteSearch = $this->isRemoteSearch();
 
