@@ -112,7 +112,7 @@ Text::script('JHIDEPASSWORD');
 			>
 				<?php if (!empty($button['icon'])): ?>
 					<span class="<?php echo $button['icon'] ?>"></span>
-				<?php elseif (!empty($button['image'])): ?>
+				<?php elseif (!empty($button['image']) && file_exists(JPATH_ROOT . substr(HTMLHelper::_('image', $button['image'], '', '', true, true), strlen(Uri::root(true))))): ?>
 				<?php echo file_get_contents(JPATH_ROOT . substr(HTMLHelper::_('image', $button['image'], '', '', true, true), strlen(Uri::root(true)))); ?>
 				<?php endif; ?>
 				<?php echo Text::_($button['label']) ?>
