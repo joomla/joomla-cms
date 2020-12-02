@@ -146,6 +146,9 @@ trait AdditionalLoginButtons
 		// Set up the JavaScript callback
 		$url = $uri->toString();
 
+		$image =  JPATH_ROOT . substr(HTMLHelper::_('image', $button['image'], '', '', true, true), strlen(Uri::root(true)));
+		$image = file_exists($image) ? $image : '';
+
 		return [
 			[
 				'label'              => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
@@ -153,7 +156,7 @@ trait AdditionalLoginButtons
 				'id'                 => $randomId,
 				'data-webauthn-form' => $form,
 				'data-webauthn-url'  => $url,
-				'image'              => 'plg_system_webauthn/webauthn.svg',
+				'image'              => $image,
 				'class'              => 'plg_system_webauthn_login_button',
 			],
 		];
