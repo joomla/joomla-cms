@@ -18,11 +18,6 @@ body,
   right: -1px;
 }
 
-dd {
-  margin-right: 0;
-  margin-left: auto;
-}
-
 .form-check {
   padding-right: 1.25rem;
   padding-left: 0;
@@ -40,12 +35,40 @@ dd {
   padding-right: 0;
 }
 
+.metismenu.mod-menu .mm-toggler {
+  &:after {
+    margin-right: .5em;
+    margin-left: 0;
+  }
+}
+
+.container-header {
+  background-image: $cassiopeia-header-grad-rtl;
+
+  .container-nav .container-search:only-child {
+    margin-right: auto;
+    margin-left: 0;
+  }
+
+  .mod-menu {
+    > li {
+      margin-left: 1.55em;
+    }
+  }
+}
+
 .mr-2 {
   margin-right: 0 !important;
   margin-left: .5rem;
 }
 
 // SearchTools rounded corners
+.awesomplete {
+  input {
+    @include border-left-radius(0);
+  }
+}
+
 .input-group > .input-group-prepend > .btn,
 .input-group > .input-group-prepend > .input-group-text,
 .input-group > .input-group-append:not(:last-child) > .btn,
