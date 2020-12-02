@@ -147,7 +147,7 @@ trait AdditionalLoginButtons
 		$url = $uri->toString();
 
 		$image = JPATH_ROOT . substr(HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true), strlen(Uri::root(true)));
-		$image = file_exists($image) ? $image : '';
+		$image = file_exists($image) ? file_get_contents($image) : '';
 
 		return [
 			[
