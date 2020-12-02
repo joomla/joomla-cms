@@ -127,13 +127,10 @@ class TagField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published'] ?: array(0, 1);
-		$app       = Factory::getApplication();
-		$language  = null;
-		$options   = [];
-
-		// This limit is only used with isRemoteSearch
-		$prefillLimit          = 30;
+		$published      = $this->element['published'] ?: array(0, 1);
+		$app            = Factory::getApplication();
+		$language       = null;
+		$options        = [];
 		$isRemoteSearch = $this->isRemoteSearch();
 
 		$db    = Factory::getDbo();
@@ -201,6 +198,8 @@ class TagField extends ListField
 		// Preload only active values and 30 most used tags or fill up
 		if ($isRemoteSearch)
 		{
+			$prefillLimit          = 30;
+
 			// Load the most $prefillLimit used tags
 			$topQuery = $db->getQuery(true)
 				->select($db->quoteName('tag_id'))
