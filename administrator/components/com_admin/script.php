@@ -17,6 +17,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
@@ -6668,6 +6669,8 @@ class JoomlaInstallerScript
 			}
 		}
 
+		$this->convertBlogLayouts();
+
 		return true;
 	}
 
@@ -7027,6 +7030,85 @@ class JoomlaInstallerScript
 
 			// Execute the query.
 			$db->execute();
+		}
+	}
+
+	/**
+	 * Converts layout parameters for blog / featured views into the according CSS classes.
+	 *
+	 * @return void
+	 *
+	 * @since 4.0.0
+	 */
+	private function convertBlogLayouts()
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('link'),
+					$db->quoteName('params'),
+				]
+			)
+			->from($db->quoteName('#__menu'));
+
+		// Restrict selection to com_content items.
+		$query2 = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('com_content'));
+		$query->where($db->quoteName('component_id') . ' = (' . $query2 . ')');
+
+		$menuItems = $db->setQuery($query)->loadAssocList('id');
+
+		foreach ($menuItems as $id => $menuItem)
+		{
+			$view = Uri::getInstance($menuItem['link'])->getVar('view');
+
+			if (!in_array($view, ['category', 'categories', 'featured']))
+			{
+				continue;
+			}
+
+			$params = json_decode($menuItem['params'], true);
+
+			if (!isset($params['num_columns']))
+			{
+				continue;
+			}
+
+			$nColumns = (int) $params['num_columns'];
+			unset($params['num_columns']);
+			$order = 0;
+
+			if (isset($params['multi_column_order']))
+			{
+				$order = (int) $params['multi_column_order'];
+				unset($params['multi_column_order']);
+			}
+
+			if ($nColumns > 1)
+			{
+				// Convert to the according CSS class depending on order = "down" or "across".
+				$layout = ($order === 0) ? 'masonry-' : 'columns-';
+
+				if (strpos($params['blog_class'], $layout) === false)
+				{
+					$params['blog_class'] .= ' ' . $layout . $nColumns;
+				}
+			}
+
+			$newParams = json_encode($params);
+
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('params') . ' = :params')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':params', $newParams, ParameterType::STRING)
+				->bind(':id', $id, ParameterType::INTEGER);
+
+			$db->setQuery($query)->execute();
 		}
 	}
 }
