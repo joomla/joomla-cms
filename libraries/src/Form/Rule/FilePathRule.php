@@ -54,7 +54,7 @@ class FilePathRule extends FormRule
 
 		try
 		{
-			$path = Path::check($value);
+			Path::check($value);
 		}
 		catch (\Exception $e)
 		{
@@ -62,6 +62,8 @@ class FilePathRule extends FormRule
 			return false;
 		}
 
-		return $value === $path;
+		// When there are no exception this rule should pass.
+		// See: https://github.com/joomla/joomla-cms/issues/30500#issuecomment-683290162
+		return true;
 	}
 }
