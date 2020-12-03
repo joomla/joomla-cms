@@ -427,7 +427,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * We remove the publishing field from the versioning
+	 * We remove the featured field from the versioning
 	 *
 	 * @param   EventInterface  $event
 	 *
