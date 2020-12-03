@@ -87,7 +87,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 <div class="js-stools" role="search">
 	<?php if ($data['options']['showSelector']) : ?>
 	<div class="js-stools-container-selector">
-		<?php echo LayoutHelper::render('joomla.searchtools.default.selector', $data); ?>
+		<?php echo $this->sublayout('selector', $data); ?>
 	</div>
 	<?php endif; ?>
 	<div class="js-stools-container-bar">

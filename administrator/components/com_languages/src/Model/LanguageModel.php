@@ -217,6 +217,14 @@ class LanguageModel extends AdminModel
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
 		$data['sef'] = ApplicationHelper::stringURLSafe($data['sef']);
 
+		// Prevent saving an empty url language code
+		if ($data['sef'] === '')
+		{
+			$this->setError(JText::_('COM_LANGUAGES_ERROR_SEF'));
+
+			return false;
+		}
+
 		// Bind the data.
 		if (!$table->bind($data))
 		{

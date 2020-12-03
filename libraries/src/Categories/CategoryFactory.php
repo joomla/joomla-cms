@@ -13,7 +13,7 @@ namespace Joomla\CMS\Categories;
 /**
  * Option based categories factory.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 class CategoryFactory implements CategoryFactoryInterface
 {
@@ -46,7 +46,7 @@ class CategoryFactory implements CategoryFactoryInterface
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 *
 	 * @throws  SectionNotFoundException
 	 */
