@@ -15,7 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Session\Session as BaseSession;
+use Joomla\Session\StorageInterface;
 
 /**
  * Class for managing HTTP sessions
@@ -43,6 +45,8 @@ class Session extends BaseSession
 		{
 			$options['name'] = md5($options['name']);
 		}
+
+		parent::__construct($store, $dispatcher, $options);
 	}
 
 	/**
