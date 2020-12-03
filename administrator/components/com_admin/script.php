@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -7078,13 +7079,15 @@ class JoomlaInstallerScript
 				continue;
 			}
 
-			$nColumns = (int) $params['num_columns'];
+			$nColumns = $params['num_columns'] !== '' ? (int) $params['num_columns']
+				: (int) ComponentHelper::getParams('com_content')->get('num_columns', '1');
 			unset($params['num_columns']);
 			$order = 0;
 
 			if (isset($params['multi_column_order']))
 			{
-				$order = (int) $params['multi_column_order'];
+				$order = $params['multi_column_order'] !== '' ? (int) $params['multi_column_order']
+					: (int) ComponentHelper::getParams('com_content')->get('multi_column_order', '0');
 				unset($params['multi_column_order']);
 			}
 
