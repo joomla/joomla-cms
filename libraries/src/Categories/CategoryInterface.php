@@ -13,7 +13,7 @@ namespace Joomla\CMS\Categories;
 /**
  * The category interface.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 interface CategoryInterface
 {
@@ -25,7 +25,7 @@ interface CategoryInterface
 	 *
 	 * @return  CategoryNode|null  CategoryNode object or null if $id is not valid
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function get($id = 'root', $forceload = false);
 }
