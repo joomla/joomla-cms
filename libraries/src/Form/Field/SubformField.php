@@ -376,7 +376,7 @@ class SubformField extends FormField
 	 *
 	 * @since   3.9.7
 	 */
-	private function loadSubFormData(Form $subForm)
+	protected function loadSubFormData(Form $subForm)
 	{
 		$value = $this->value ? (array) $this->value : array();
 
