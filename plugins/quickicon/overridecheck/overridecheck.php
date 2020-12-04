@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Overridecheck
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 		return array(
 			array(
 				'link'  => 'index.php?option=com_templates&view=templates',
-				'image' => 'fas fa-file',
+				'image' => 'icon-file',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
 				'id'    => 'plg_quickicon_overridecheck',

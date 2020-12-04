@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -511,6 +511,20 @@ class Installer extends \JAdapter
 
 		// Run the install
 		$result = $adapter->install();
+
+		// Make sure Joomla can figure out what has changed
+		clearstatcache();
+
+		/**
+		 * Flush the opcache regardless of result to ensure consistency
+		 *
+		 * In some (most?) systems PHP's CLI has a separate opcode cache to the one used by the web server or FPM process,
+		 * which means running opcache_reset() in the CLI won't reset the webserver/fpm opcode cache, and vice versa.
+		 */
+		if (function_exists('opcache_reset'))
+		{
+			\opcache_reset();
+		}
 
 		// Fire the onExtensionAfterInstall
 		Factory::getApplication()->triggerEvent(

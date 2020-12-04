@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -904,13 +904,12 @@ abstract class Adapter extends CMSPlugin
 		switch ($item)
 		{
 			// Published and archived items only should return a published state
-			case 1;
+			case 1:
 			case 2:
 				return 1;
 
 			// All other states should return an unpublished state
 			default:
-			case 0:
 				return 0;
 		}
 	}

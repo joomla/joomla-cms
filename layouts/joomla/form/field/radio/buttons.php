@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,7 +122,7 @@ if ($dataAttribute)
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required'; ?>
 			<?php endif; ?>
-			<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass . ' ' . $style);; ?>">
+			<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass . ' ' . $style); ?>">
 				<input type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
 				<?php echo $option->text; ?>
 			</label>

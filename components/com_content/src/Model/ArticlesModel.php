@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,7 +125,7 @@ class ArticlesModel extends ListModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -159,7 +159,7 @@ class ArticlesModel extends ListModel
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . serialize($this->getState('filter.condition'));
+		$id .= ':' . serialize($this->getState('filter.published'));
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.featured');
 		$id .= ':' . serialize($this->getState('filter.article_id'));
@@ -327,7 +327,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$condition = $this->getState('filter.condition');
+		$condition = $this->getState('filter.published');
 
 		if (is_numeric($condition) && $condition == 2)
 		{
@@ -691,7 +691,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * Overridden to inject convert the attribs field into a \JParameter object.
+	 * Overridden to inject convert the attribs field into a Registry object.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *

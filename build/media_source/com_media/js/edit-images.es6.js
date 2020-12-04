@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -157,6 +157,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         Joomla.MediaManager.Edit.Reset(true);
         break;
       case 'save':
+        // eslint-disable-next-line func-names
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
           if (this.readyState === XMLHttpRequest.DONE) {
             if (window.self !== window.top) {

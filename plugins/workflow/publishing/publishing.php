@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Workflow.Publishing
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,8 +101,6 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 		}
 
 		$this->enhanceItemForm($form, $data);
-
-		return;
 	}
 
 	/**
@@ -309,6 +307,8 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
 		if (\in_array(false, $result, true))
 		{
+			$event->setStopTransition();
+
 			return false;
 		}
 

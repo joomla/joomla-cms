@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,14 +133,12 @@
   Joomla.ajaxErrorsMessages = (xhr, textStatus) => {
     const msg = {};
 
-
     if (textStatus === 'parsererror') {
       // For jQuery jqXHR
       const buf = [];
 
       // Html entity encode.
       let encodedJson = xhr.responseText.trim();
-
 
       // eslint-disable-next-line no-plusplus
       for (let i = encodedJson.length - 1; i >= 0; i--) {
