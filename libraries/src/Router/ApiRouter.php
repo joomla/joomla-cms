@@ -53,6 +53,7 @@ class ApiRouter extends Router
 	 * @param   string  $controller  The name of the controller that contains CRUD functions.
 	 * @param   array   $defaults    An array of default values that are used when the URL is matched.
 	 * @param   bool    $publicGets  Allow the public to make GET requests.
+	 * @param   array   $defaults    An array of allowed verbs.
 	 *
 	 * @return  void
 	 *
