@@ -58,17 +58,32 @@ class ApiRouter extends Router
 	 *
 	 * @since   4.0.0
 	 */
-	public function createCRUDRoutes($baseName, $controller, $defaults = [], $publicGets = false)
+	public function createCRUDRoutes($baseName, $controller, $defaults = [], $publicGets = false, $allowed = [])
 	{
 		$getDefaults = array_merge(['public' => $publicGets], $defaults);
 
-		$routes = [
-			new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
-			new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '(\d+)'], $getDefaults),
-			new Route(['POST'], $baseName, $controller . '.add', [], $defaults),
-			new Route(['PATCH'], $baseName . '/:id', $controller . '.edit', ['id' => '(\d+)'], $defaults),
-			new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '(\d+)'], $defaults),
-		];
+		$routes = [];
+
+		if (in_array('GET', $allowed))
+		{
+			$routes[] = new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults);
+			$routes[] = new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '(\d+)'], $getDefaults);
+		}
+
+		if (in_array('POST', $allowed))
+		{
+			$routes[] = new Route(['POST'], $baseName, $controller . '.add', [], $defaults);
+		}
+
+		if (in_array('PATCH', $allowed))
+		{
+			$routes[] = new Route(['PATCH'], $baseName . '/:id', $controller . '.edit', ['id' => '(\d+)'], $defaults);
+		}
+
+		if (in_array('DELETE', $allowed))
+		{
+			$routes[] = new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '(\d+)'], $defaults);
+		}
 
 		$this->addRoutes($routes);
 	}
