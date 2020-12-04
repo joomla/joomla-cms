@@ -64,7 +64,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
 
           const dialogClose = (api) => {
             const dialogData = api.getData();
-            const altEmpty = dialogData.altEmpty ? ` alt=""` : '';
+            const altEmpty = dialogData.altEmpty ? ' alt=""' : '';
             const altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : altEmpty;
             const lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
             const width = dialogData.isLazy ? ` width="${responseData.width}"` : '';
