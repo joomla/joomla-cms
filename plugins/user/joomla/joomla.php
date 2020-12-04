@@ -133,7 +133,7 @@ class PlgUserJoomla extends CMSPlugin
 
 			if (!$sessionManager->destroySessions($sessionIds))
 			{
-				return false;
+				return;
 			}
 		}
 
