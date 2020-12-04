@@ -64,7 +64,8 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
 
           const dialogClose = (api) => {
             const dialogData = api.getData();
-            const altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : '';
+            const altEmpty = dialogData.altEmpty ? ` alt=""` : '';
+            const altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : altEmpty;
             const lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
             const width = dialogData.isLazy ? ` width="${responseData.width}"` : '';
             const height = dialogData.isLazy ? ` height="${responseData.height}"` : '';
@@ -80,6 +81,11 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
                   type: 'input',
                   name: 'altText',
                   label: Joomla.Text._('PLG_TINY_DND_ALTTEXT'),
+                },
+                {
+                  type: 'checkbox',
+                  name: 'altEmpty',
+                  label: Joomla.Text._('PLG_TINY_DND_EMPTY_ALT'),
                 },
                 {
                   type: 'checkbox',
@@ -103,6 +109,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
             initialData: {
               altText: '',
               isLazy: true,
+              altEmpty: false,
             },
             onSubmit(api) {
               dialogClose(api);
