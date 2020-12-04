@@ -26,7 +26,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div class="com-contact-featured__items">
 	<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
+		<?php if ($this->params->get('filter_field')) : ?>
 			<div class="com-contact-featured__filter btn-group">
 				<label class="filter-search-lbl sr-only" for="filter-search">
 					<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>
