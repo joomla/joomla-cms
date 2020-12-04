@@ -28,7 +28,20 @@ class PlgWebservicesContent extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+	/**
+	 * Allowed verbs
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
 	protected $allowedVerbs = [];
+
+	/**
+	 * Allow public GET .
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
 	protected $allowPublic = false;
 
 	/**
@@ -62,7 +75,7 @@ class PlgWebservicesContent extends CMSPlugin
 		{
 			return;
 		}
-	
+
 		$router->createCRUDRoutes(
 			'v1/content/article',
 			'articles',
