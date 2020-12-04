@@ -44,7 +44,7 @@ class PlgWebservicesContent extends CMSPlugin
 		parent::__construct($subject, $config);
 
 		$this->allowedVerbs = $this->params->get('restverbs', []);
-		$this->allowPublic = $this->params->get('public', false);
+		$this->allowPublic  = $this->params->get('public', false);
 	}
 
 	/**
@@ -56,10 +56,9 @@ class PlgWebservicesContent extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	public function onBeforeApiRoute(&$router, $object, $method)
+	public function onBeforeApiRoute(&$router, $object)
 	{
-	
-		if (!in_array($method, $this->allowedVerbs))
+		if (!in_array($object->input->getMethod(), $this->allowedVerbs))
 		{
 			return;
 		}
