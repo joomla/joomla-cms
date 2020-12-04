@@ -12,7 +12,7 @@
 		/>
 		<field
 			name="position"
-			type="modulesposition"
+			type="ModulesPosition"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			client="site"
 			onchange="this.form.submit();"

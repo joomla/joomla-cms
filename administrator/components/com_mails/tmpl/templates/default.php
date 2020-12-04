@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-10 d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-30 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
@@ -59,6 +59,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						<tbody>
 						<?php foreach ($this->items as $i => $item) :
 							list($component, $sub_id) = explode('.', $item->template_id, 2);
+							$sub_id = str_replace('.', '_', $sub_id);
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="break-word">
@@ -66,7 +67,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
 										</a>
-										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+										<div class="dropdown-menu" aria-labelledby="mTemplate<?php echo $i; ?>">
 											<?php foreach ($this->languages as $language) : ?>
 												<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
 													<?php if (in_array($language->lang_code, $item->languages)) : ?>

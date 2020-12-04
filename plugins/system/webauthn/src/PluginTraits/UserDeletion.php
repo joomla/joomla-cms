@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
 use Exception;
 use Joomla\CMS\Factory;
@@ -34,17 +34,17 @@ trait UserDeletion
 	 * @param   bool    $success  True if user was successfully stored in the database
 	 * @param   string  $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @throws  Exception
 	 *
 	 * @since   4.0.0
 	 */
-	public function onUserAfterDelete(array $user, bool $success, ?string $msg): bool
+	public function onUserAfterDelete(array $user, bool $success, ?string $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
@@ -63,7 +63,5 @@ trait UserDeletion
 
 			$db->setQuery($query)->execute();
 		}
-
-		return true;
 	}
 }

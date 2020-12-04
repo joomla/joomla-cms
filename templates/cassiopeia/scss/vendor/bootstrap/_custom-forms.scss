@@ -17,15 +17,15 @@
 
   &[multiple] {
     padding: 0;
-    background-color: var(--white-offset);
+    background-color: $white;
 
     option {
       padding: $custom-select-multiple-padding-y $custom-select-padding-x;
-      background-color: var(--white);
+      background-color: $white;
 
       &:checked {
-        color: var(--white);
-        background-color: $cassiopeia-template-color-dark !important;
+        color: $white;
+        background-color: var(--cassiopeia-color-primary) !important;
       }
     }
   }
@@ -33,23 +33,29 @@
   &.custom-select-color-state {
 
     &.custom-select-success {
-      color: $white-offset;
-      background-color: theme-color("success");
+      color: $success;
+      background-color: $success;
 
       option {
         color: $custom-select-color;
-        background-color: $white-offset;
+        background-color: $white;
       }
     }
 
     &.custom-select-danger {
-      color: $white-offset;
-      background-color: theme-color("danger");
+      color: $danger;
+      background-color: $danger;
 
       option {
         color: $custom-select-color;
-        background-color: $white-offset;
+        background-color: $white;
       }
     }
+  }
+
+  optgroup,
+  option {
+    color: var(--dark);
+    background-color: $white;
   }
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 		$this->form            = $this->get('Form');
 		$this->state           = $this->get('State');
 		$this->params          = $this->state->params;
-		$this->sendMailEnabled = (bool) Factory::getConfig()->get('mailonline', 1);
+		$this->sendMailEnabled = (bool) Factory::getApplication()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

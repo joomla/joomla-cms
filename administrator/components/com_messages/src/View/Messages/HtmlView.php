@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
+				->icon('icon-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -137,25 +137,8 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		$toolbar->appendButton(
-			'Popup',
-			'cog',
-			'COM_MESSAGES_TOOLBAR_MY_SETTINGS',
-			'index.php?option=com_messages&amp;view=config&amp;tmpl=component',
-			500,
-			250,
-			0,
-			0,
-			'',
-			Text::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS'),
-			'<button type="button" class="btn btn-secondary" data-dismiss="modal">'
-			. Text::_('JCANCEL')
-			. '</button>'
-			. '<button type="button" class="btn btn-success" data-dismiss="modal"'
-			. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal-cog\', buttonSelector: \'#saveBtn\'})">'
-			. Text::_('JSAVE')
-			. '</button>'
-		);
+		$toolbar->appendButton('Link', 'cog', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config');
+		ToolbarHelper::divider();
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{

@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -36,7 +36,7 @@ class ChecksModel extends BaseInstallationModel
 
 		if (!empty($disabled_functions))
 		{
-			// Attempt to detect them in the disable_functions blacklist.
+			// Attempt to detect them in the PHP INI disable_functions variable.
 			$disabled_functions = explode(',', trim($disabled_functions));
 			$number_of_disabled_functions = count($disabled_functions);
 
@@ -225,7 +225,7 @@ class ChecksModel extends BaseInstallationModel
 	/**
 	 * Method to get the form.
 	 *
-	 * @param   string  $view  The view being processed.
+	 * @param   string|null  $view  The view being processed.
 	 *
 	 * @return  Form|boolean  Form object on success, false on failure.
 	 *

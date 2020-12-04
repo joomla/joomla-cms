@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 						<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 						<?php if (empty($this->changeSet)) : ?>
 							<div class="alert alert-info">
-								<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+								<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 								<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 							</div>
 						<?php else : ?>
@@ -77,12 +77,10 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 
 										<tr>
 											<td class="text-center">
-												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id); ?>
+												<?php echo HTMLHelper::_('grid.id', $i, $extension->extension_id, false, 'cid', 'cb', $extension->name); ?>
 											</td>
 											<th scope="row">
-												<label for="cb<?php echo $i; ?>">
-													<?php echo $extension->name; ?>
-												</label>
+												<?php echo $extension->name; ?>
 												<div class="small">
 													<?php echo Text::_($manifest->description); ?>
 												</div>

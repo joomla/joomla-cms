@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 /**
  * Test class for Image.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ImageFilterBackgroundfillTest extends UnitTestCase
 {
@@ -20,7 +20,7 @@ class ImageFilterBackgroundfillTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setup(): void
 	{
@@ -39,7 +39,7 @@ class ImageFilterBackgroundfillTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function tearDown(): void
 	{
@@ -54,7 +54,7 @@ class ImageFilterBackgroundfillTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @covers   Joomla\CMS\Image\Filter\Backgroundfill::execute
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @note     Because GD2 uses 7bit alpha channel, results differ slightly
 	 *           compared to 8bit systems like Adobe Photoshop.
@@ -101,7 +101,7 @@ class ImageFilterBackgroundfillTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @covers  Joomla\CMS\Image\Filter\Backgroundfill::execute
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testExecuteInvalidArgument()
 	{

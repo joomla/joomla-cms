@@ -208,6 +208,7 @@ const copyFiles = (options) => {
 
       if (!FsExtra.existsSync(itemvendorPath)) {
         FsExtra.mkdirSync(itemvendorPath);
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'icons'));
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'plugins'));
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'langs'));
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'skins'));
@@ -215,6 +216,7 @@ const copyFiles = (options) => {
         FsExtra.mkdirSync(Path.join(itemvendorPath, 'templates'));
       }
 
+      copyAll('icons', 'tinymce', 'icons');
       copyAll('plugins', 'tinymce', 'plugins');
       copyAll('skins', 'tinymce', 'skins');
       copyAll('themes', 'tinymce', 'themes');
@@ -325,10 +327,10 @@ const recreateMediaFolder = () => {
   console.log('Recreating the media folder...');
 
   Copydir.sync(Path.join(RootPath, 'build/media_source'), Path.join(RootPath, 'media'), (stat, filepath, filename) => {
-    if (stat === 'file' && (filepath.match(/\.es6\.js/) || filepath.match(/\.scss/) || filepath.match(/\.es5\.js/))) {
+    if (stat === 'file' && filename.match(/\.(es6\.js|es5\.js|scss)$/)) {
       return false;
     }
-    if (stat === 'directory' && (filename.match(/webcomponent/) || filename.match(/scss/))) {
+    if (stat === 'directory' && filename.match(/^(core\.es6|scss)$/)) {
       return false;
     }
     return true;
@@ -339,7 +341,6 @@ const recreateMediaFolder = () => {
     }
   });
 };
-
 
 module.exports.copyAssets = (options) => {
   Promise.resolve()

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\ConfigurationAwareApplicationInterface;
 use Joomla\CMS\Extension\ExtensionManagerInterface;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\User\User;
 use Joomla\Input\Input;
 
@@ -146,7 +145,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
 	 *
 	 * @return  Input
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getInput(): Input;
 
@@ -155,7 +154,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
 	 *
 	 * @return  Language  The language object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getLanguage();
 

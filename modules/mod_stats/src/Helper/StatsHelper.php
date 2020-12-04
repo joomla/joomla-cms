@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Helper for mod_stats
@@ -94,7 +95,7 @@ class StatsHelper
 			$query->clear()
 				->select('COUNT(' . $db->quoteName('c.id') . ') AS count_items')
 				->from($db->quoteName('#__content', 'c'))
-				->where($db->quoteName('c.state') . ' = 1');
+				->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_PUBLISHED);
 			$db->setQuery($query);
 
 			try
@@ -128,7 +129,7 @@ class StatsHelper
 			$query->clear()
 				->select('SUM(' . $db->quoteName('hits') . ') AS count_hits')
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('state') . ' = 1');
+				->where($db->quoteName('state') . ' = ' . ContentComponent::CONDITION_PUBLISHED);
 			$db->setQuery($query);
 
 			try

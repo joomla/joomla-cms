@@ -23,8 +23,8 @@
     }
 
     sendTestMail() {
-      const email_data = {
-        smtpauth: document.getElementById("jform_smtpauth1").checked ? 1 : 0,
+      const emailData = {
+        smtpauth: document.getElementById('jform_smtpauth1').checked ? 1 : 0,
         smtpuser: this.querySelector('[name="jform[smtpuser]"]').value,
         smtppass: this.querySelector('[name="jform[smtppass]"]').value,
         smtphost: this.querySelector('[name="jform[smtphost]"]').value,
@@ -33,7 +33,7 @@
         mailfrom: this.querySelector('[name="jform[mailfrom]"]').value,
         fromname: this.querySelector('[name="jform[fromname]"]').value,
         mailer: this.querySelector('[name="jform[mailer]"]').value,
-        mailonline: document.getElementById("jform_mailonline1").checked ? 1 : 0,
+        mailonline: document.getElementById('jform_mailonline1').checked ? 1 : 0,
       };
 
       // Remove js messages, if they exist.
@@ -42,11 +42,18 @@
       Joomla.request({
         url: this.getAttribute('uri'),
         method: 'POST',
-        data: JSON.stringify(email_data),
+        data: JSON.stringify(emailData),
         perform: true,
         headers: { 'Content-Type': 'application/json' },
-        onSuccess: (response, xhr) => {
-          response = JSON.parse(response);
+        onSuccess: (resp) => {
+          let response;
+          try {
+            response = JSON.parse(resp);
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error(e);
+          }
+
           if (typeof response.messages === 'object' && response.messages !== null) {
             Joomla.renderMessages(response.messages);
           }

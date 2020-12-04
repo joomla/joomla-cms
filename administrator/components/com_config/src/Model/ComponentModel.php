@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,6 +101,28 @@ class ComponentModel extends FormModel
 		|| $lang->load($option, JPATH_BASE . "/components/$option");
 
 		return $form;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  array  The default data is an empty array.
+	 *
+	 * @since   4.0.0
+	 */
+	protected function loadFormData()
+	{
+		$option = $this->getState()->get('component.option');
+
+		// Check the session for previously entered form data.
+		$data = Factory::getApplication()->getUserState('com_config.edit.component.' . $option . '.data', []);
+
+		if (empty($data))
+		{
+			return $this->getComponent()->getParams()->toArray();
+		}
+
+		return $data;
 	}
 
 	/**

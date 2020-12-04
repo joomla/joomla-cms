@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -150,7 +150,7 @@ abstract class FieldsPlugin extends CMSPlugin
 
 		if (!file_exists($path))
 		{
-			$path = JPluginHelper::getLayoutPath('fields', $this->_name, $field->type);
+			$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
 		}
 
 		// Render the layout

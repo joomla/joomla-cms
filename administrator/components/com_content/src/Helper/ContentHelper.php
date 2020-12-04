@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,60 +54,23 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @param   array  $transitions  Array of transitions
 	 * @param   int    $pk           Id of state
-	 * @param   int    $workflow_id  Id of the workflow
+	 * @param   int    $workflowId   Id of the workflow
 	 *
 	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	public static function filterTransitions(array $transitions, int $pk, int $workflow_id = 0): array
+	public static function filterTransitions(array $transitions, int $pk, int $workflowId = 0): array
 	{
 		return array_values(
 			array_filter(
 				$transitions,
-				function ($var) use ($pk, $workflow_id)
+				function ($var) use ($pk, $workflowId)
 				{
-					return in_array($var['from_stage_id'], [-1, $pk]) && $var['to_stage_id'] != $pk && $workflow_id == $var['workflow_id'];
+					return in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id'];
 				}
 			)
 		);
-	}
-
-	/**
-	 * Method to change state of multiple ids
-	 *
-	 * @param   array  $pks        Array of IDs
-	 * @param   int    $condition  Condition of the workflow state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public static function updateContentState(array $pks, int $condition): bool
-	{
-		if (empty($pks))
-		{
-			return false;
-		}
-
-		try
-		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->update($db->quoteName('#__content'))
-				->set($db->quoteName('state') . ' = :condition')
-				->whereIn($db->quoteName('id'), $pks)
-				->bind(':condition', $condition, ParameterType::INTEGER);
-
-			$db->setQuery($query)->execute();
-		}
-		catch (\Exception $e)
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

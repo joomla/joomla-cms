@@ -1,80 +1,10 @@
-((Joomla) => {
+((customElements, Joomla) => {
+  'use strict';
+
   if (!Joomla) {
     throw new Error('Joomla API is not properly initiated');
   }
 
-  Joomla.selectedFile = {};
-
-  window.document.addEventListener('onMediaFileSelected', (e) => {
-    Joomla.selectedFile = e.detail;
-  });
-
-  Joomla.doIt = (resp, editor, fieldClass) => {
-    if (resp.success === true) {
-      if (resp.data[0].url) {
-        if (/local-/.test(resp.data[0].adapter)) {
-          const { rootFull } = Joomla.getOptions('system.paths');
-
-          // eslint-disable-next-line prefer-destructuring
-          Joomla.selectedFile.url = resp.data[0].url.split(rootFull)[1];
-          if (resp.data[0].thumb_path) {
-            Joomla.selectedFile.thumb = resp.data[0].thumb_path;
-          } else {
-            Joomla.selectedFile.thumb = false;
-          }
-        } else if (resp.data[0].thumb_path) {
-          Joomla.selectedFile.thumb = resp.data[0].thumb_path;
-        }
-      } else {
-        Joomla.selectedFile.url = false;
-      }
-
-      const isElement = (o) => (
-        typeof HTMLElement === 'object' ? o instanceof HTMLElement
-          : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
-      );
-
-      if (Joomla.selectedFile.url) {
-        if (!isElement(editor) && (typeof editor !== 'object')) {
-          Joomla.editors.instances[editor].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
-        } else if (!isElement(editor) && (typeof editor === 'object' && editor.id)) {
-          window.parent.Joomla.editors.instances[editor.id].replaceSelection(`<img loading="lazy" src="${Joomla.selectedFile.url}" alt=""/>`);
-        } else {
-          editor.value = Joomla.selectedFile.url;
-          fieldClass.updatePreview();
-        }
-      }
-    }
-  };
-
-  /**
-   * Create and dispatch onMediaFileSelected Event
-   *
-   * @param {object}  data  The data for the detail
-   *
-   * @returns {void}
-   */
-  Joomla.getImage = (data, editor, fieldClass) => new Promise((resolve, reject) => {
-    const apiBaseUrl = `${Joomla.getOptions('system.paths').rootFull}administrator/index.php?option=com_media&format=json`;
-
-    Joomla.request({
-      url: `${apiBaseUrl}&task=api.files&url=true&path=${data.path}&${Joomla.getOptions('csrf.token')}=1&format=json`,
-      method: 'GET',
-      perform: true,
-      headers: { 'Content-Type': 'application/json' },
-      onSuccess: (response) => {
-        const resp = JSON.parse(response);
-        resolve(Joomla.doIt(resp, editor, fieldClass));
-      },
-      onError: () => {
-        reject();
-      },
-    });
-  });
-})(Joomla);
-
-
-((customElements, Joomla) => {
   class JoomlaFieldMedia extends HTMLElement {
     constructor() {
       super();
@@ -82,6 +12,9 @@
       this.onSelected = this.onSelected.bind(this);
       this.show = this.show.bind(this);
       this.clearValue = this.clearValue.bind(this);
+      this.modalClose = this.modalClose.bind(this);
+      this.setValue = this.setValue.bind(this);
+      this.updatePreview = this.updatePreview.bind(this);
     }
 
     static get observedAttributes() {
@@ -150,12 +83,20 @@
 
     connectedCallback() {
       this.button = this.querySelector(this.buttonSelect);
+      this.inputElement = this.querySelector(this.input);
       this.buttonClearEl = this.querySelector(this.buttonClear);
-      this.show = this.show.bind(this);
-      this.modalClose = this.modalClose.bind(this);
-      this.clearValue = this.clearValue.bind(this);
-      this.setValue = this.setValue.bind(this);
-      this.updatePreview = this.updatePreview.bind(this);
+      this.modalElement = this.querySelector('.joomla-modal');
+      this.buttonSaveSelectedElement = this.querySelector(this.buttonSaveSelected);
+      this.previewElement = this.querySelector('.field-media-preview');
+
+      if (!this.button || !this.inputElement || !this.buttonClearEl || !this.modalElement
+        || !this.buttonSaveSelectedElement) {
+        throw new Error('Misconfiguaration...');
+      }
+
+      if (Joomla.Bootstrap && Joomla.Bootstrap.initModal && typeof Joomla.Bootstrap.initModal === 'function') {
+        Joomla.Bootstrap.initModal(this.modalElement);
+      }
 
       this.button.addEventListener('click', this.show);
 
@@ -176,7 +117,6 @@
     }
 
     onSelected(event) {
-      // event.target.removeEventListener('click', this.onSelected);
       event.preventDefault();
       event.stopPropagation();
 
@@ -185,20 +125,30 @@
     }
 
     show() {
-      this.querySelector('[role="dialog"]').open();
+      this.modalElement.open();
 
-      this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
+      Joomla.selectedMediaFile = {};
+
+      this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
     }
 
     modalClose() {
-      const input = this.querySelector(this.input);
-      Joomla.getImage(Joomla.selectedFile, input, this);
-
-      Joomla.Modal.getCurrent().close();
+      Joomla.getImage(Joomla.selectedMediaFile, this.inputElement, this)
+        .then(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.selectedMediaFile = {};
+        })
+        .catch(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.selectedMediaFile = {};
+          Joomla.renderMessages({
+            error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
+          });
+        });
     }
 
     setValue(value) {
-      this.querySelector(this.input).value = value;
+      this.inputElement.value = value;
       this.updatePreview();
     }
 
@@ -207,34 +157,31 @@
     }
 
     updatePreview() {
-      if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false') {
+      if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
         return;
       }
 
       // Reset preview
       if (this.preview) {
-        const input = this.querySelector(this.input);
-        const { value } = input;
-        const div = this.querySelector('.field-media-preview');
+        const { value } = this.inputElement;
 
         if (!value) {
-          div.innerHTML = '<span class="field-media-preview-icon"></span>';
+          this.previewElement.innerHTML = '<span class="field-media-preview-icon"></span>';
         } else {
-          div.innerHTML = '';
+          this.previewElement.innerHTML = '';
           const imgPreview = new Image();
 
-          switch (this.type) {
-            case 'image':
+          const mediaType = {
+            image() {
               imgPreview.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
               imgPreview.setAttribute('alt', '');
-              break;
-            default:
-              // imgPreview.src = dummy image path;
-              break;
-          }
+            },
+          };
 
-          div.style.width = this.previewWidth;
-          div.appendChild(imgPreview);
+          mediaType[this.type]();
+
+          this.previewElement.style.width = this.previewWidth;
+          this.previewElement.appendChild(imgPreview);
         }
       }
     }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ HTMLHelper::_('bootstrap.framework');
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
-			<th scope="col" style="width:60%"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+			<th scope="col" class="w-60"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
 			<th scope="col" class="w-20"><?php echo Text::_('JAUTHOR'); ?></th>
 			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
 		</tr>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ use Joomla\CMS\Language\Text;
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" class="w-25">
+				<th scope="col" class="w-30">
 					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th scope="col">

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_popular
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ abstract class ArticlesPopularHelper
 		$model->setState('params', $appParams);
 
 		$model->setState('list.start', 0);
-		$model->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+		$model->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 
 		// Set the filters based on the module params
 		$model->setState('list.limit', (int) $params->get('count', 5));

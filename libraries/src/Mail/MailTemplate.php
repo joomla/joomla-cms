@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -71,17 +71,25 @@ class MailTemplate
 	protected $recipients = array();
 
 	/**
+	 * Reply To of the email
+	 *
+	 * @var    \stdClass
+	 * @since  4.0.0
+	 */
+	protected $replyto;
+
+	/**
 	 * Constructor for the mail templating class
 	 *
-	 * @param   string  $template_id  Id of the mail template.
-	 * @param   string  $language     Language of the template to use.
-	 * @param   Mail    $mailer       Mail object to send the mail with.
+	 * @param   string  $templateId  Id of the mail template.
+	 * @param   string  $language    Language of the template to use.
+	 * @param   Mail    $mailer      Mail object to send the mail with.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($template_id, $language, Mail $mailer = null)
+	public function __construct($templateId, $language, Mail $mailer = null)
 	{
-		$this->template_id = $template_id;
+		$this->template_id = $templateId;
 		$this->language = $language;
 
 		if ($mailer)
@@ -123,13 +131,31 @@ class MailTemplate
 	 *
 	 * @since   4.0.0
 	 */
-	public function addRecipient($mail, $name, $type = 'to')
+	public function addRecipient($mail, $name = null, $type = 'to')
 	{
 		$recipient = new \stdClass;
 		$recipient->mail = $mail;
-		$recipient->name = $name;
+		$recipient->name = $name ?? $mail;
 		$recipient->type = $type;
 		$this->recipients[] = $recipient;
+	}
+
+	/**
+	 * Set reply to for this mail
+	 *
+	 * @param   string  $mail  Mail address to reply to
+	 * @param   string  $name  Name
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function setReplyTo($mail, $name = '')
+	{
+		$reply = new \stdClass;
+		$reply->mail = $mail;
+		$reply->name = $name;
+		$this->replyto = $reply;
 	}
 
 	/**
@@ -163,18 +189,18 @@ class MailTemplate
 
 		/** @var Registry $params */
 		$params = $mail->params;
-		$gconfig = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		if ($config->get('alternative_mailconfig'))
 		{
 			if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')
 			{
-				$smtpauth = ($params->get('smtpauth', $gconfig->get('smtpauth')) == 0) ? null : 1;
-				$smtpuser = $params->get('smtpuser', $gconfig->get('smtpuser'));
-				$smtppass = $params->get('smtppass', $gconfig->get('smtppass'));
-				$smtphost = $params->get('smtphost', $gconfig->get('smtphost'));
-				$smtpsecure = $params->get('smtpsecure', $gconfig->get('smtpsecure'));
-				$smtpport = $params->get('smtpport', $gconfig->get('smtpport'));
+				$smtpauth = ($params->get('smtpauth', $app->get('smtpauth')) == 0) ? null : 1;
+				$smtpuser = $params->get('smtpuser', $app->get('smtpuser'));
+				$smtppass = $params->get('smtppass', $app->get('smtppass'));
+				$smtphost = $params->get('smtphost', $app->get('smtphost'));
+				$smtpsecure = $params->get('smtpsecure', $app->get('smtpsecure'));
+				$smtpport = $params->get('smtpport', $app->get('smtpport'));
 				$this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
 			}
 
@@ -183,8 +209,8 @@ class MailTemplate
 				$this->mailer->isSendmail();
 			}
 
-			$mailfrom = $params->get('mailfrom', $gconfig->get('mailfrom'));
-			$fromname = $params->get('fromname', $gconfig->get('fromname'));
+			$mailfrom = $params->get('mailfrom', $app->get('mailfrom'));
+			$fromname = $params->get('fromname', $app->get('fromname'));
 
 			if (MailHelper::isEmailAddress($mailfrom))
 			{
@@ -192,7 +218,7 @@ class MailTemplate
 			}
 		}
 
-		Factory::getApplication()->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
+		$app->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
 
 		$mail->subject = $this->replaceTags(Text::_($mail->subject), $this->data);
 		$this->mailer->setSubject($mail->subject);
@@ -240,6 +266,11 @@ class MailTemplate
 			}
 		}
 
+		if ($this->replyto)
+		{
+			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
+		}
+
 		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
 
 		foreach ((array) json_decode($mail->attachments)  as $attachment)
@@ -282,21 +313,23 @@ class MailTemplate
 			if (is_array($value))
 			{
 				$matches = array();
-				preg_match_all('/{' . strtoupper($key) . '}(.*?){/' . strtoupper($key) . '}/s', $text, $matches);
 
-				foreach ($matches[0] as $i => $match)
+				if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches))
 				{
-					$replacement = '';
-
-					foreach ($value as $subvalue)
+					foreach ($matches[0] as $i => $match)
 					{
-						if (is_array($subvalue))
-						{
-							$replacement .= $this->replaceTags($matches[1][$i], $subvalue);
-						}
-					}
+						$replacement = '';
 
-					$text = str_replace($match, $replacement, $text);
+						foreach ($value as $subvalue)
+						{
+							if (is_array($subvalue))
+							{
+								$replacement .= $this->replaceTags($matches[1][$i], $subvalue);
+							}
+						}
+
+						$text = str_replace($match, $replacement, $text);
+					}
 				}
 			}
 			else

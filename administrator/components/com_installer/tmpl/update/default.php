@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('script', 'com_installer/changelog.js', ['version' => 'auto', 'relative' => true]);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_installer.changelog');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -34,7 +37,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
 						</div>
 					<?php else : ?>
@@ -73,9 +76,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 								</th>
-								<th scope="col" style="width:40%" class="d-none d-md-table-cell">
-									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
-								</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -84,7 +84,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
 										<?php if($item->isMissingDownloadKey): ?>
-										<span class="fas fa-ban"></span>
+										<span class="icon-ban"></span>
 										<?php else: ?>
 										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
 										<?php endif; ?>
@@ -94,22 +94,28 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<div role="tooltip" id="tip<?php echo $i; ?>">
 											<?php echo $item->description; ?>
 										</div>
+										<div class="small break-word">
+										<?php echo $item->detailsurl; ?>
+											<?php if (!empty($item->infourl)) : ?>
+												<br>
+												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape(trim($item->infourl)); ?></a>
+											<?php endif; ?>
+										</div>
 										<?php if($item->isMissingDownloadKey): ?>
-										<br/>
 										<span class="badge badge-warning">
 											<span class="hasPopover"
-												  title="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
-												  data-content="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
+												  title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
+												  data-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
 											>
 												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
 												</span>
 										</span>
 										<?php endif; ?>
 									</th>
-									<td class="center d-none d-md-table-cell">
+									<td class="d-none d-md-table-cell">
 										<?php echo $item->client_translated; ?>
 									</td>
-									<td class="center d-none d-md-table-cell">
+									<td class="d-none d-md-table-cell">
 										<?php echo $item->type_translated; ?>
 									</td>
 									<td>
@@ -145,15 +151,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->install_type; ?>
-									</td>
-									<td class="d-none d-md-table-cell">
-										<span class="break-word">
-										<?php echo $item->detailsurl; ?>
-											<?php if (!empty($item->infourl)) : ?>
-												<br>
-												<a href="<?php echo $item->infourl; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->infourl); ?></a>
-											<?php endif; ?>
-										</span>
 									</td>
 								</tr>
 							<?php endforeach; ?>

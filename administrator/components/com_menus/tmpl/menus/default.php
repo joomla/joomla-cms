@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -34,8 +34,11 @@ foreach ($this->items as $item)
 }
 
 $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
-HTMLHelper::_('jquery.framework');
-HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('com_menus.admin-menus');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -44,7 +47,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'a
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -66,19 +69,19 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'a
 									<?php echo Text::_('COM_MENUS_MENUS'); ?>
 								</th>
 								<th scope="col" class="w-10 text-center  d-none d-md-table-cell">
-									<span class="fas fa-check" aria-hidden="true"></span>
+									<span class="icon-check" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
-									<span class="fas fa-times" aria-hidden="true"></span>
+									<span class="icon-times" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
-									<span class="fas fa-trash" aria-hidden="true"></span>
+									<span class="icon-trash" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" class="w-10 text-center d-none d-lg-table-cell">
-									<span class="fas fa-cube" aria-hidden="true"></span>
+									<span class="icon-cube" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
 								<th scope="col" class="w-5 d-none d-lg-table-cell text-center">
@@ -114,7 +117,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'a
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
-											<span class="fas fa-list" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_MENUS_MENUS'); ?></span>
+											<span class="icon-list" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_MENUS_MENUS'); ?></span>
 										</a>
 									<?php endif; ?>
 								</td>

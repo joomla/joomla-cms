@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,14 @@ abstract class ToolbarHelper
 
 		$app = Factory::getApplication();
 		$app->JComponentTitle = $html;
-		Factory::getDocument()->setTitle(strip_tags($title) . ' - ' . $app->get('sitename') . ' - ' . Text::_('JADMINISTRATION'));
+		$title = strip_tags($title) . ' - ' . $app->get('sitename');
+
+		if ($app->isClient('administrator'))
+		{
+			$title .= ' - ' . Text::_('JADMINISTRATION');
+		}
+
+		Factory::getDocument()->setTitle($title);
 	}
 
 	/**
@@ -83,7 +90,7 @@ abstract class ToolbarHelper
 	 *
 	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
 	 * @param   string  $icon        The image to display.
-	 * @param   string  $iconOver    The image to display when moused over.
+	 * @param   string  $iconOver    @deprecated 5.0
 	 * @param   string  $alt         The alt text for the icon image.
 	 * @param   bool    $listSelect  True if required to check that a standard list item is checked.
 	 * @param   string  $formId      The id of action form.
@@ -160,7 +167,8 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a back button.
-		$bar->appendButton('Link', 'back', $alt, $href);
+		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+		$bar->appendButton('Link', $arrow, $alt, $href);
 	}
 
 	/**
@@ -584,7 +592,7 @@ abstract class ToolbarHelper
 	 * @param   integer  $height     The height of the popup. [UNUSED]
 	 * @param   integer  $width      The width of the popup. [UNUSED]
 	 * @param   string   $alt        The name of the button.
-	 * @param   string   $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string   $path       An alternative path for the configuration xml relative to JPATH_SITE.
 	 *
 	 * @return  void
 	 *
@@ -635,9 +643,7 @@ abstract class ToolbarHelper
 		$options['title']     = Text::_($alt);
 		$options['height']    = $height;
 		$options['width']     = $width;
-		$options['itemId']    = $itemId;
-		$options['typeId']    = $typeId;
-		$options['typeAlias'] = $typeAlias;
+		$options['itemId']    = $typeAlias . '.' . $itemId;
 
 		$bar    = Toolbar::getInstance('toolbar');
 		$layout = new FileLayout('joomla.toolbar.versions');
@@ -704,7 +710,7 @@ abstract class ToolbarHelper
 		$title = Text::_($alt);
 
 		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn ' . $class . '">
-			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
+			<span class="' . $icon . ' icon-fw" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

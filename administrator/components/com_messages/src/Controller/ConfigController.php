@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class ConfigController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$model = $this->getModel('Config', 'MessagesModel');
+		$model = $this->getModel('Config');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
@@ -87,5 +87,17 @@ class ConfigController extends BaseController
 		$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 
 		return true;
+	}
+
+	/**
+	 * Cancel operation.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function cancel()
+	{
+		$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 	}
 }

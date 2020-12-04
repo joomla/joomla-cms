@@ -3,7 +3,7 @@
  * @package     Joomla.Admin
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,37 +13,41 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+
+extract($displayData);
 
 /**
  * Layout variables
- * ---------------------
- *
- * @var  string   $asset          The asset text
- * @var  string   $authorField    The label text
- * @var  integer  $authorId       The author id
- * @var  string   $class          The class text
- * @var  boolean  $disabled       True if field is disabled
- * @var  string   $folder         The folder text
- * @var  string   $id             The label text
- * @var  string   $link           The link text
- * @var  string   $name           The name text
- * @var  string   $preview        The preview image relative path
- * @var  integer  $previewHeight  The image preview height
- * @var  integer  $previewWidth   The image preview width
- * @var  string   $onchange       The onchange text
- * @var  boolean  $readonly       True if field is readonly
- * @var  integer  $size           The size text
- * @var  string   $value          The value text
- * @var  string   $src            The path and filename of the image
+ * -----------------
+ * @var  string   $asset           The asset text
+ * @var  string   $authorField     The label text
+ * @var  integer  $authorId        The author id
+ * @var  string   $class           The class text
+ * @var  boolean  $disabled        True if field is disabled
+ * @var  string   $folder          The folder text
+ * @var  string   $id              The label text
+ * @var  string   $link            The link text
+ * @var  string   $name            The name text
+ * @var  string   $preview         The preview image relative path
+ * @var  integer  $previewHeight   The image preview height
+ * @var  integer  $previewWidth    The image preview width
+ * @var  string   $onchange        The onchange text
+ * @var  boolean  $readonly        True if field is readonly
+ * @var  integer  $size            The size text
+ * @var  string   $value           The value text
+ * @var  string   $src             The path and filename of the image
+ * @var  string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
-extract($displayData);
 
 $attr = '';
 
 // Initialize some field attributes.
 $attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
+$attr .= $dataAttribute;
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
@@ -98,15 +102,24 @@ if ($showPreview)
 
 // The url for the modal
 $url    = ($readonly ? ''
-	: ($link ? $link
-		: 'index.php?option=com_media&amp;tmpl=component&amp;asset='
-		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;path=local-0:/' . $folder);
+	: ($link ?: 'index.php?option=com_media&view=media&tmpl=component&asset='
+		. $asset . '&author=' . $authorId)
+	. '&fieldid={field-media-id}&path=local-0:/' . $folder);
 
-Factory::getDocument()->getWebAssetManager()
-	->useStyle('webcomponent.field-media')
+// Correctly route the url to ensure it's correctly using sef modes and subfolders
+$url = Route::_($url);
+$wam = Factory::getDocument()->getWebAssetManager();
+
+$wam->useScript('webcomponent.image-select');
+
+Text::script('JFIELD_MEDIA_LAZY_LABEL');
+Text::script('JFIELD_MEDIA_ALT_LABEL');
+Text::script('JFIELD_MEDIA_CONFIRM_TEXT');
+
+$wam->useStyle('webcomponent.field-media')
 	->useScript('webcomponent.field-media');
 
+Text::script('JLIB_APPLICATION_ERROR_SERVER');
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
@@ -155,7 +168,7 @@ Factory::getDocument()->getWebAssetManager()
 		<?php if ($disabled != true) : ?>
 			<div class="input-group-append">
 				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
-				<button type="button" class="btn btn-secondary button-clear"><span class="fas fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
+				<button type="button" class="btn btn-secondary button-clear"><span class="icon-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 			</div>
 		<?php endif; ?>
 	</div>

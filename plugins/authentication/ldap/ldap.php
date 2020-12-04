@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,7 +93,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 					$entry = $this->searchByString(
 						str_replace(
 							'[search]',
-							str_replace(';', '\3b', $ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER)),
+							str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
 							$this->params->get('search_string')
 						),
 						$ldap
@@ -136,7 +136,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 				// We just accept the result here
 				try
 				{
-					$ldap->bind($ldap->escape($credentials['username'], null, LDAP_ESCAPE_DN), $credentials['password']);
+					$ldap->bind($ldap->escape($credentials['username'], '', LDAP_ESCAPE_DN), $credentials['password']);
 				}
 				catch (ConnectionException $exception)
 				{
@@ -151,7 +151,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 					$entry = $this->searchByString(
 						str_replace(
 							'[search]',
-							str_replace(';', '\3b', $ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER)),
+							str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
 							$this->params->get('search_string')
 						),
 						$ldap

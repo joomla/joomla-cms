@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,7 +74,7 @@ class ApplicationModel extends FormModel
 	 * JConfig. If configuration data has been saved in the session, that
 	 * data will be merged into the original data, overwriting it.
 	 *
-	 * @return	array  An array containg all global config data.
+	 * @return	array  An array containing all global config data.
 	 *
 	 * @since	1.6
 	 */
@@ -714,13 +714,12 @@ class ApplicationModel extends FormModel
 		$config = new Registry($data);
 
 		// Overwrite the old FTP credentials with the new ones.
-		$temp = Factory::getConfig();
-		$temp->set('ftp_enable', $data['ftp_enable']);
-		$temp->set('ftp_host', $data['ftp_host']);
-		$temp->set('ftp_port', $data['ftp_port']);
-		$temp->set('ftp_user', $data['ftp_user']);
-		$temp->set('ftp_pass', $data['ftp_pass']);
-		$temp->set('ftp_root', $data['ftp_root']);
+		$app->set('ftp_enable', $data['ftp_enable']);
+		$app->set('ftp_host', $data['ftp_host']);
+		$app->set('ftp_port', $data['ftp_port']);
+		$app->set('ftp_user', $data['ftp_user']);
+		$app->set('ftp_pass', $data['ftp_pass']);
+		$app->set('ftp_root', $data['ftp_root']);
 
 		// Clear cache of com_config component.
 		$this->cleanCache('_system', 0);
@@ -822,7 +821,7 @@ class ApplicationModel extends FormModel
 			\opcache_invalidate($file);
 		}
 
-		// Attempt to make the file unwriteable if using FTP.
+		// Attempt to make the file unwriteable if NOT using FTP.
 		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
@@ -1053,7 +1052,7 @@ class ApplicationModel extends FormModel
 			 * @to do: incorrect info
 			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
 			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
-			 * Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.
+			 * Also, currently it uses the component permission, but should use the calculated permissions for a child of the component/section.
 			 */
 
 			// If not in global config we need the parent_id asset to calculate permissions.
@@ -1128,7 +1127,7 @@ class ApplicationModel extends FormModel
 		if ($isSuperUserGroupAfter)
 		{
 			$result['class'] = 'badge badge-success';
-			$result['text'] = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
 		else
@@ -1148,21 +1147,21 @@ class ApplicationModel extends FormModel
 				$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
-			// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
+			// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 			/**
-			 * @to do: incorect info
+			 * @to do: incorrect info
 			 * If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 			 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 			 */
 
-			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
+			// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
 				$result['class'] = 'badge badge-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED');
 			}
-			// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
+			// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
 				$result['class'] = 'badge badge-success';
@@ -1186,7 +1185,7 @@ class ApplicationModel extends FormModel
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
 				$result['class'] = 'badge badge-danger';
-				$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
 

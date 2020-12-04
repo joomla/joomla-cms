@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.accessibility
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 /**
  * System plugin to add additional accessibility features to the administrator interface.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgSystemAccessibility extends CMSPlugin
 {
@@ -33,7 +33,7 @@ class PlgSystemAccessibility extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onBeforeCompileHead()
 	{
@@ -56,7 +56,7 @@ class PlgSystemAccessibility extends CMSPlugin
 		$this->loadLanguage();
 
 		// Determine if it is an LTR or RTL language
-		$direction = Factory::getLanguage()->isRTL() ? 'left' : 'right';
+		$direction = Factory::getLanguage()->isRTL() ? 'right' : 'left';
 
 		/**
 		* Add strings for translations in Javascript.
@@ -78,6 +78,8 @@ class PlgSystemAccessibility extends CMSPlugin
 					'readingGuide'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_READING'),
 					'textToSpeech'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
 					'speechToText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_STT'),
+					'resetTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_RESET'),
+					'closeTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_CLOSE'),
 				],
 				'icon' => [
 					'position' => [
@@ -86,7 +88,11 @@ class PlgSystemAccessibility extends CMSPlugin
 							'units' => 'px',
 						]
 					]
-				]
+				],
+				'hotkeys' => [
+					'enabled' => true,
+					'helpTitles' => true,
+				],
 			]
 		);
 

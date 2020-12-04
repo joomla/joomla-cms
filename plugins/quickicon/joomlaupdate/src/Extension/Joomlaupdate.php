@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
 				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&'
-					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
+					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
 				'version' => JVERSION,
 			]
 		);
@@ -131,7 +131,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 		$result[] = [
 			[
 				'link'  => 'index.php?option=com_joomlaupdate',
-				'image' => 'fab fa-joomla',
+				'image' => 'icon-joomla',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_joomlaupdate',

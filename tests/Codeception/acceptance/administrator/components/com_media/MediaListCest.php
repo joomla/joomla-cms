@@ -3,12 +3,12 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Page\Acceptance\Administrator\MediaListPage;
 use Page\Acceptance\Administrator\MediaFilePage;
+use Page\Acceptance\Administrator\MediaListPage;
 use Step\Acceptance\Administrator\Media;
 
 /*
@@ -834,8 +834,6 @@ class MediaListCest
 		$I->seeElement(MediaListPage::$itemsContainerMedium);
 		$I->click(MediaListPage::$decreaseThumbnailSizeButton);
 		$I->seeElement(MediaListPage::$itemsContainerSmall);
-		$I->click(MediaListPage::$decreaseThumbnailSizeButton);
-		$I->seeElement(MediaListPage::$itemsContainerExtraSmall);
 		$I->seeElement(MediaListPage::$decreaseThumbnailSizeButtonDisabled);
 	}
 

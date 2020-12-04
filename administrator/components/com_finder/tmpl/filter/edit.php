@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,10 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.core');
-
 Text::script('COM_FINDER_FILTER_SHOW_ALL', true);
 Text::script('COM_FINDER_FILTER_HIDE_ALL', true);
 
@@ -26,7 +22,12 @@ $this->ignore_fieldsets = ['jbasic'];
 
 $this->useCoreUI = true;
 
-HTMLHelper::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_finder.finder-edit');
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
@@ -45,7 +46,7 @@ HTMLHelper::_('script', 'com_finder/finder-edit.min.js', array('version' => 'aut
 							<?php echo $this->form->renderField('map_count'); ?>
 						</div>
 						<button class="btn btn-secondary filter-toggle-all" type="button">
-							<span class="fas fa-square" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?></button>
+							<span class="icon-square" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
 						<button class="btn btn-secondary float-right" type="button" id="expandAccordion"><?php echo Text::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 						<hr>
@@ -91,6 +92,6 @@ HTMLHelper::_('script', 'com_finder/finder-edit.min.js', array('version' => 'aut
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="">
-	<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', '', 'cmd'); ?>">
+	<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', '', 'BASE64'); ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

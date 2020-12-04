@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ namespace Joomla\Component\Finder\Administrator\Response;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
@@ -40,9 +40,6 @@ class Response
 			$options['text_file'] = 'indexer.php';
 			Log::addLogger($options);
 		}
-
-		// The old token is invalid so send a new one.
-		$this->token = Factory::getSession()->getFormToken();
 
 		// Check if we are dealing with an error.
 		if ($state instanceof \Exception)

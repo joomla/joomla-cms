@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Session\Session as BaseSession;
+use Joomla\Session\StorageInterface;
 
 /**
  * Class for managing HTTP sessions
@@ -24,6 +26,29 @@ use Joomla\Session\Session as BaseSession;
  */
 class Session extends BaseSession
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   StorageInterface     $store       A StorageInterface implementation.
+	 * @param   DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
+	 * @param   array                $options     Optional parameters. Supported keys include:
+	 *                                            - name: The session name
+	 *                                            - id: The session ID
+	 *                                            - expire: The session lifetime in seconds
+	 *
+	 * @since   1.0
+	 */
+	public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = [])
+	{
+		// Extra hash the name of the session for b/c with Joomla 3.x or the session is never found.
+		if (isset($options['name']))
+		{
+			$options['name'] = md5($options['name']);
+		}
+
+		parent::__construct($store, $dispatcher, $options);
+	}
+
 	/**
 	 * Checks for a form token in the request.
 	 *
@@ -85,7 +110,7 @@ class Session extends BaseSession
 	 *
 	 * @return  array  An array of available session handlers
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getHandlers(): array
 	{
@@ -169,11 +194,24 @@ class Session extends BaseSession
 					'deprecated'
 				);
 
-				$name = $args[2] . '.' . $name;
+				$name = '__' . $args[2] . '.' . $name;
 			}
 		}
 
-		return parent::get($name, $default);
+		// More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+		// as no sessions should have this format anymore!
+		if ($this->has($name))
+		{
+			return parent::get($name, $default);
+		}
+		elseif ($this->has('__default.' . $name))
+		{
+			return parent::get('__default.' . $name, $default);
+		}
+		else
+		{
+			return $default;
+		}
 	}
 
 	/**

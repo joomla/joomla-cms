@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,9 +29,9 @@ abstract class CategoryAssociationHelper
 	/**
 	 * Method to get the associations for a given category
 	 *
-	 * @param   integer  $id         Id of the item
-	 * @param   string   $extension  Name of the component
-	 * @param   string   $layout     Category layout
+	 * @param   integer      $id         Id of the item
+	 * @param   string       $extension  Name of the component
+	 * @param   string|null  $layout     Category layout
 	 *
 	 * @return  array    Array of associations for the component categories
 	 *

@@ -2,16 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Cli\CliInput;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
@@ -138,7 +137,7 @@ class UpdateCoreCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws \Exception
 	 */
 	public function doExecute(InputInterface $input, OutputInterface $output): int
@@ -190,13 +189,10 @@ class UpdateCoreCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Updates joomla core');
+		$help = "<info>%command.name%</info> is used to update Joomla
+		\nUsage: <info>php %command.full_name%</info>";
 
-		$help = <<<'EOF'
-The <info>%command.name%</info> is used to update Joomla.
-
-  <info>php %command.full_name%</info>
-EOF;
+		$this->setDescription('Update Joomla');
 		$this->setHelp($help);
 	}
 

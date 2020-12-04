@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,8 +33,6 @@ $fields = $displayData->get('fields') ?: array(
 	array('published', 'state', 'enabled'),
 	array('category', 'catid'),
 	'featured',
-	'featured_up',
-	'featured_down',
 	'sticky',
 	'access',
 	'language',

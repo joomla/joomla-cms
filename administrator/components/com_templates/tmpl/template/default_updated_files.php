@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,10 +29,10 @@ $input = Factory::getApplication()->input;
 								<td class="w-5 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:7%">
+								<th scope="col" class="w-7">
 									<?php echo Text::_('COM_TEMPLATES_OVERRIDE_CHECKED'); ?>
 								</th>
-								<th scope="col" style="width:30%">
+								<th scope="col" class="w-30">
 									<?php echo Text::_('COM_TEMPLATES_OVERRIDE_TEMPLATE_FILE'); ?>
 								</th>
 								<th scope="col">
@@ -81,7 +81,7 @@ $input = Factory::getApplication()->input;
 					<?php echo HTMLHelper::_('form.token'); ?>
 				<?php else : ?>
 					<div class="alert alert-success">
-						<span class="fas fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
+						<span class="icon-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 						<?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
 					</div>
 				<?php endif; ?>

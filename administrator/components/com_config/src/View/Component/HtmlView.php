@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,12 +82,6 @@ class HtmlView extends BaseHtmlView
 			return false;
 		}
 
-		// Bind the form to the data.
-		if ($form)
-		{
-			$form->bind($component->getParams());
-		}
-
 		$this->fieldsets   = $form ? $form->getFieldsets() : null;
 		$this->formControl = $form ? $form->getFormControl() : null;
 
@@ -120,7 +114,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'equalizer config');
+		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'sliders-h config');
 		ToolbarHelper::apply('component.apply');
 		ToolbarHelper::divider();
 		ToolbarHelper::save('component.save');

@@ -295,7 +295,9 @@ Joomla = window.Joomla || {};
       // If there are no active filters - remove the filtered caption area from the table
       if (activeFilterCount === 0) {
         const filteredByCaption = document.getElementById('filteredBy');
-        filteredByCaption.parentNode.removeChild(filteredByCaption);
+        if (filteredByCaption) {
+          filteredByCaption.parentNode.removeChild(filteredByCaption);
+        }
       }
 
       // Disable clear button when no filter is active and search is empty
@@ -527,10 +529,11 @@ Joomla = window.Joomla || {};
     }
 
     const sort = document.getElementById('sorted');
+    const order = document.getElementById('orderedBy');
 
-    if (sort && sort.hasAttribute('data-caption')) {
+    if (sort && sort.hasAttribute('data-caption') && order) {
       const orderedBy = sort.getAttribute('data-caption');
-      document.getElementById('orderedBy').textContent += orderedBy;
+      order.textContent += orderedBy;
     }
 
     if (sort && sort.hasAttribute('data-sort')) {

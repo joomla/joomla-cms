@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,23 +13,27 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
+extract($displayData, EXTR_OVERWRITE);
 
 /**
- * @var  string  $id
- * @var  string  $onclick
- * @var  string  $class
- * @var  string  $text
- * @var  string  $btnClass
- * @var  string  $tagName
- * @var  string  $htmlAttributes
- * @var  string  $hasButtons
- * @var  string  $button
- * @var  string  $dropdownItems
- * @var  string  $caretClass
- * @var  string  $toggleSplit
+ * Layout variables
+ * -----------------
+ * @var   string  $id
+ * @var   string  $onclick
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   string  $htmlAttributes
+ * @var   string  $hasButtons
+ * @var   string  $button
+ * @var   string  $dropdownItems
+ * @var   string  $caretClass
+ * @var   string  $toggleSplit
  */
-extract($displayData, EXTR_OVERWRITE);
+
+$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
+
 ?>
 <?php if ($hasButtons && trim($button) !== ''): ?>
 	<?php HTMLHelper::_('bootstrap.framework'); ?>

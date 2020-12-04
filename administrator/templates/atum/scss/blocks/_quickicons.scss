@@ -3,7 +3,6 @@
 .quick-icons {
   background-color: $white;
 
-
   li {
     padding: 0;
   }
@@ -11,11 +10,13 @@
   a {
     width: 100%;
     color: var(--atum-link-color);
+    text-decoration: none;
     transition: all .25s ease;
 
-
-    .fas,
-    .fab {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
       margin: 0 auto;
       font-size: $quickicon-icon-size;
       color: transparent;
@@ -27,21 +28,20 @@
       }
     }
 
-
     @include hover-focus-active {
       color: $white;
       text-decoration: none;
       background: var(--atum-link-color);
 
-      .fas,
-      .fab {
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         color: transparent;
         background: linear-gradient(var(--atum-bg-light), $white);
         background-clip: text;
       }
     }
-
-
   }
 
   // Group link to the overview and link to the edit form in a container
@@ -140,12 +140,11 @@
       &.quickicon-icon {
         margin: .8rem auto 0;
 
-        &.big {
-
-          .fas,
-          .fab {
-            font-size: $quickicon-icon-size-big;
-          }
+        &.big [class^="#{$jicon-css-prefix}-"],
+        &.big [class*=" #{$jicon-css-prefix}-"],
+        &.big [class^="#{$fa-css-prefix}-"],
+        &.big [class*=" #{$fa-css-prefix}-"] {
+          font-size: $quickicon-icon-size-big;
         }
       }
     }
@@ -161,7 +160,8 @@
       font-size: $display1-size;
       font-weight: $bold-weight;
 
-      > .fa-spinner {
+      > .#{$jicon-css-prefix}-spinner,
+      > .#{$fa-css-prefix}-spinner {
         font-size: $display1-size;
       }
     }
@@ -178,8 +178,10 @@
       background: var(--danger);
       border: 1px solid lighten($danger-txt, 30%);
 
-      .fas,
-      .fab {
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         color: $danger-txt;
       }
 
@@ -187,11 +189,11 @@
         color: var(--white);
         background: var(--danger);
 
-        .fas,
-        .fab {
-          &::before {
-            color: var(--white);
-          }
+        [class^="#{$jicon-css-prefix}-"]::before,
+        [class*=" #{$jicon-css-prefix}-"]::before,
+        [class^="#{$fa-css-prefix}-"]::before,
+        [class*=" #{$fa-css-prefix}-"]::before {
+          color: var(--white);
         }
       }
     }
@@ -200,26 +202,26 @@
       color: var(--success);
       border: 1px solid lighten($success-txt, 20%);
 
-      .fas,
-      .fab {
-        color: var(--success);
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
+        color: transparent;
         background: linear-gradient(var(--success), #159c1e);
         background-clip: text;
-        color: transparent;
       }
 
       @include hover-focus-active {
         color: var(--white);
         background: var(--success);
 
-        .fas,
-        .fab {
-          &::before {
-            color: var(--white);
-            background: linear-gradient($white, lighten($green, 40%));
-            background-clip: text;
-            color: transparent;
-          }
+        [class^="#{$jicon-css-prefix}-"]::before,
+        [class*=" #{$jicon-css-prefix}-"]::before,
+        [class^="#{$fa-css-prefix}-"]::before,
+        [class*=" #{$fa-css-prefix}-"]::before {
+          color: transparent;
+          background: linear-gradient($white, lighten($green, 40%));
+          background-clip: text;
         }
       }
     }

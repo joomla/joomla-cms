@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Event for getting extra data attributes for an API Entity
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class OnGetApiAttributes extends AbstractImmutableEvent
 {
@@ -23,7 +23,7 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
 	 * The attributes
 	 *
 	 * @var     array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $attributes = [];
 
@@ -37,7 +37,7 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \BadMethodCallException
 	 */
 	public function __construct($name, array $arguments = array())
@@ -61,7 +61,7 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAttributes(): array
 	{
@@ -75,7 +75,7 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
 	 * @param   mixed   $value  The value of the named property to be rendered in the api.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addAttribute($name, $value): void
 	{
@@ -88,7 +88,7 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
 	 * @param   array  $value  An array of key/value pairs for properties to be added to the api.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addAttributes(array $value): void
 	{

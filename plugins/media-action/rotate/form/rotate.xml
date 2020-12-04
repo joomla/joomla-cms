@@ -30,8 +30,8 @@
 		<field
 			name="rotate_distinct"
 			type="radio"
-			hiddenLabel="true"
-			class="btn-group btn-group-rotate"
+			label="PLG_MEDIA-ACTION_ROTATE_PARAM_BUTTONS"
+			class="btn-group"
 			default=""
 			>
 			<option value="0">0</option>

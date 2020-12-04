@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -65,7 +65,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<tbody>
 					<?php foreach ($this->items as $i => $item) :
 						$canEdit    = $user->authorise('core.edit',       'com_users.category.' . $item->catid);
-						$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+						$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
 						$canChange  = $user->authorise('core.edit.state', 'com_users.category.' . $item->catid) && $canCheckin;
 						$subject    = $item->subject ?: Text::_('COM_USERS_EMPTY_SUBJECT');
 						?>
@@ -82,7 +82,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php endif; ?>
 								<?php $subject = $item->subject ?: Text::_('COM_USERS_EMPTY_SUBJECT'); ?>
 								<?php if ($canEdit) : ?>
-									<a href="<?php echo Route::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($subject)); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($subject); ?>">
 										<?php echo $this->escape($subject); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($subject); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,6 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
-$images  = json_decode($this->item->images);
 $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = Factory::getUser();
@@ -53,7 +52,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<h2 itemprop="headline">
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
-		<?php if ($this->item->condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+		<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
@@ -133,21 +132,14 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php $link->setVar('return', base64_encode(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
 	<p class="com-content-article__readmore readmore">
 		<a href="<?php echo $link; ?>" class="register">
-		<?php $attribs = json_decode($this->item->attribs); ?>
-		<?php
-		if ($attribs->alternative_readmore == null) :
-			echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-		elseif ($readmore = $attribs->alternative_readmore) :
-			echo $readmore;
-			if ($params->get('show_readmore_title', 0) != 0) :
-				echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
-			endif;
-		elseif ($params->get('show_readmore_title', 0) == 0) :
-			echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE');
-		else :
-			echo Text::_('COM_CONTENT_READ_MORE');
-			echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
-		endif; ?>
+			<?php if ($params->get('alternative_readmore', '') === '') : ?>
+				<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
+			<?php else : ?>
+				<?php echo $params->get('alternative_readmore'); ?>
+				<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
+					<?php echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
+				<?php endif; ?>
+			<?php endif; ?>
 		</a>
 	</p>
 	<?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -57,7 +57,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
-								<th scope="col" style="width:10%; " class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-5 text-center d-md-table-cell">
@@ -71,16 +71,16 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
 								</th>
 								<?php endif; ?>
-								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-12 d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th scope="col" style="width:12%;" class="d-none d-xl-table-cell">
+								<th scope="col" class="w-12 d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
+								<th scope="col" class="w-12 d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
+								<th scope="col" class="w-12 d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-5 d-none d-md-table-cell">
@@ -134,7 +134,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								</th>
 								<td class="text-center btns d-none d-md-table-cell">
 									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<span class="fas fa-list" aria-hidden="true"></span>
+										<span class="icon-list" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>
@@ -146,7 +146,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<?php if ($canChange) : ?>
 										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', !$self); ?>
 									<?php else : ?>
-										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', false);; ?>
+										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', false); ?>
 									<?php endif; ?>
 								</td>
 								<td class="text-center d-md-table-cell">
@@ -156,14 +156,16 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									?>
 								</td>
 								<?php if ($tfa) : ?>
-								<td class="text-center d-none d-md-table-cell tbody-icon">
+								<td class="text-center d-none d-md-table-cell">
+									<span class="tbody-icon">
 									<?php if (!empty($item->otpKey)) : ?>
-										<span class="fas fa-check" aria-hidden="true"></span>
+										<span class="icon-check" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
 									<?php else : ?>
-										<span class="fas fa-times" aria-hidden="true"></span>
+										<span class="icon-times" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
 									<?php endif; ?>
+									</span>
 								</td>
 								<?php endif; ?>
 								<td class="d-none d-md-table-cell">

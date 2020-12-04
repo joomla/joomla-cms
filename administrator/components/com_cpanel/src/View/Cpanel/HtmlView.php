@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,10 +56,10 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app = Factory::getApplication();
-		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
+		$extension = $app->input->getCmd('dashboard');
 
 		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
-		$icon  = 'fas fa-home';
+		$icon  = 'icon-home';
 
 		$position = ApplicationHelper::stringURLSafe($extension);
 
@@ -100,31 +100,31 @@ class HtmlView extends BaseHtmlView
 				// Default core icons.
 				if ($parts[0] === 'content')
 				{
-					$icon = 'fas fa-file-alt';
+					$icon = 'icon-file-alt';
 				}
 				elseif ($parts[0] === 'components')
 				{
-					$icon = 'fas fa-puzzle-piece';
+					$icon = 'icon-puzzle-piece';
 				}
 				elseif ($parts[0] === 'menus')
 				{
-					$icon = 'fas fa-list';
+					$icon = 'icon-list';
 				}
 				elseif ($parts[0] === 'system')
 				{
-					$icon = 'fas fa-wrench';
+					$icon = 'icon-wrench';
 				}
 				elseif ($parts[0] === 'users')
 				{
-					$icon = 'fas fa-users';
+					$icon = 'icon-users';
 				}
 				elseif ($parts[0] === 'privacy')
 				{
-					$icon = 'lock';
+					$icon = 'icon-lock';
 				}
 				elseif ($parts[0] === 'help')
 				{
-					$icon = 'fas fa-info-circle';
+					$icon = 'icon-info-circle';
 				}
 				elseif ($lang->hasKey($keyIcon))
 				{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,8 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 /**
@@ -25,7 +25,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.0
  */
-class ContactTable extends Table
+class ContactTable extends Table implements VersionableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -70,15 +70,14 @@ class ContactTable extends Table
 	 */
 	public function store($updateNulls = true)
 	{
-		// Transform the params field
-		if (is_array($this->params))
-		{
-			$registry = new Registry($this->params);
-			$this->params = (string) $registry;
-		}
-
 		$date   = Factory::getDate()->toSql();
 		$userId = Factory::getUser()->id;
+
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date;
+		}
 
 		if ($this->id)
 		{
@@ -88,13 +87,7 @@ class ContactTable extends Table
 		}
 		else
 		{
-			// New contact. A contact created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date;
-			}
-
+			// Field created_by field can be set by the user, so we don't touch it if it's set.
 			if (empty($this->created_by))
 			{
 				$this->created_by = $userId;
@@ -266,5 +259,18 @@ class ContactTable extends Table
 		}
 
 		return $this->alias;
+	}
+
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   4.0.0
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_contact.contact';
 	}
 }

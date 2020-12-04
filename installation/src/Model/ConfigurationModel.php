@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
@@ -304,7 +304,7 @@ class ConfigurationModel extends BaseInstallationModel
 			'#__newsfeeds'       => array('created_by', 'modified_by'),
 			'#__tags'            => array('created_user_id', 'modified_user_id'),
 			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
-			'#__ucm_history'     => array('editor_user_id'),
+			'#__history'         => array('editor_user_id'),
 			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
 			'#__workflows'       => array('created_by', 'modified_by'),
 		);
@@ -362,6 +362,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$testingPlugin->access = 1;
 		$testingPlugin->manifest_cache = '';
 		$testingPlugin->params = '{}';
+		$testingPlugin->custom_data = '';
 
 		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
 
@@ -374,8 +375,6 @@ class ConfigurationModel extends BaseInstallationModel
 				'error'
 			);
 		}
-
-		return true;
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getUri($resolvePath = true): string;
 
@@ -67,7 +67,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getOption(string $key, $default = null);
 
@@ -79,7 +79,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setOption(string $key, $value = null): WebAssetItemInterface;
 
@@ -88,7 +88,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getOptions(): array;
 
@@ -100,7 +100,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAttribute(string $key, $default = null);
 
@@ -112,7 +112,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setAttribute(string $key, $value = null): WebAssetItemInterface;
 
@@ -121,7 +121,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAttributes(): array;
 

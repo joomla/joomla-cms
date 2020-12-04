@@ -36,6 +36,17 @@
         "joomla.frontediting#style",
         "joomla.frontediting#script"
       ]
+    },
+    {
+      "name": "joomla.treeselectmenu",
+      "type": "script",
+      "dependencies": [
+        "jquery"
+      ],
+      "uri": "legacy/treeselectmenu.min.js",
+      "attributes": {
+        "defer": true
+      }
     }
   ]
 }

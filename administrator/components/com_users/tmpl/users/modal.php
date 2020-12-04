@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,8 +21,8 @@ $input           = Factory::getApplication()->input;
 $field           = $input->getCmd('field');
 $listOrder       = $this->escape($this->state->get('list.ordering'));
 $listDirn        = $this->escape($this->state->get('list.direction'));
-$enabledStates   = array(0 => 'icon-publish', 1 => 'icon-unpublish');
-$activatedStates = array(0 => 'icon-publish', 1 => 'icon-unpublish');
+$enabledStates   = array(0 => 'icon-check', 1 => 'icon-times');
+$activatedStates = array(0 => 'icon-check', 1 => 'icon-times');
 $userRequired    = (int) $input->get('required', 0, 'int');
 $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.getCurrent().close()";
 
@@ -38,7 +38,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>

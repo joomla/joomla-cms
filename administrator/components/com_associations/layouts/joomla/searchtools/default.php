@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,7 +70,7 @@ $customOptions = array(
 	'selectorFieldName'   => $selectorFieldName,
 	'showSelector'        => $showSelector,
 	'orderFieldSelector'  => '#list_fullordering',
-	'showNoResults'       => !empty($noResultsText) ? true : false,
+	'showNoResults'       => !empty($noResultsText),
 	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
 	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
 );
