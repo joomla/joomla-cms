@@ -35,7 +35,7 @@ if ((isset($img->attributes['width']) && (int) $img->attributes['width'] > 0)
 }
 ?>
 <figure class="<?php echo htmlspecialchars($imgclass, ENT_COMPAT, 'UTF-8'); ?> item-image">
-	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
+	<?php if ($params->get('link_intro_image') && $params->get('access-view')) : ?>
 		<a href="<?php echo Route::_(RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>">
 			<img src="<?php echo htmlspecialchars($img->url, ENT_COMPAT, 'UTF-8'); ?>"
 					 <?php echo $alt; ?>
