@@ -16,4 +16,35 @@
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_content.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_content.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="restverbs"
+					type="list"
+					label="PLG_WEBSERVICES_ALLOWEDVERBS_LABEL"
+					multiple="true"				
+					default="GET"				
+					layout="joomla.form.field.list-fancy-select"
+					>
+					<option value="GET">PLG_WEBSERVICES_FIELD_VALUE_GET</option>
+					<option value="POST">PLG_WEBSERVICES_FIELD_VALUE_POST</option>
+					<option value="DELETE">PLG_WEBSERVICES_FIELD_VALUE_DELETE</option>
+					<option value="PUT">PLG_WEBSERVICES_FIELD_VALUE_PUT</option>
+					<option value="PATCH">PLG_WEBSERVICES_FIELD_VALUE_PATCH</option>
+				</field>
+				<field
+					name="public"
+					type="radio"
+					label="PLG_WEBSERVICES_PUBLIC_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
