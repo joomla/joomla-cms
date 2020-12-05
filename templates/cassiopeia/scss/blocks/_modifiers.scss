@@ -160,10 +160,6 @@
     .image-right & {
       padding-right: 25px;
     }
-
-    dd {
-      padding: 0;
-    }
   }
 
   .image-left &,
@@ -173,6 +169,12 @@
     @include media-breakpoint-up(md) {
       flex-direction: row;
     }
+  }
+}
+
+.article-info {
+  dd {
+    padding: 0;
   }
 }
 
