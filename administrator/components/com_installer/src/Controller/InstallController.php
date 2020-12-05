@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,11 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -46,7 +48,7 @@ class InstallController extends BaseController
 
 		if (!$redirect_url)
 		{
-			$redirect_url = base64_decode($this->input->get('return'));
+			$redirect_url = base64_decode($this->input->getBase64('return'));
 		}
 
 		// Don't redirect to an external URL.
@@ -81,6 +83,9 @@ class InstallController extends BaseController
 	 */
 	public function ajax_upload()
 	{
+		// Check for request forgeries.
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
 		$app = $this->app;
 		$message = $app->getUserState('com_installer.message');
 
