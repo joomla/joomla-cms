@@ -200,11 +200,11 @@ class Session extends BaseSession
 
 		// More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
 		// as no sessions should have this format anymore!
-		if ($this->has($name))
+		if (parent::has($name))
 		{
 			return parent::get($name, $default);
 		}
-		elseif ($this->has('__default.' . $name))
+		elseif (parent::has('__default.' . $name))
 		{
 			return parent::get('__default.' . $name, $default);
 		}
@@ -276,7 +276,14 @@ class Session extends BaseSession
 			}
 		}
 
-		return parent::has($name);
+		if (parent::has($name))
+		{
+			return true;
+		}
+
+		// More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
+		// as no sessions should have this format anymore!
+		return parent::has('__default.' . $name);
 	}
 
 	/**
