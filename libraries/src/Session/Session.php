@@ -195,7 +195,6 @@ class Session extends BaseSession
 				);
 
 				$name       = $args[2] . '.' . $name;
-				$legacyName = '__' . $name;
 			}
 		}
 
@@ -211,9 +210,9 @@ class Session extends BaseSession
 		 * This is no longer the case in Joomla 4 and will be converted
 		 * when saving new values in `self::set()`
 		 */
-		if (isset($legacyName) && parent::has($legacyName))
+		if (strpos($name, '.') !== false && parent::has('__' . $name))
 		{
-			return parent::get($legacyName, $default);
+			return parent::get('__' . $name, $default);
 		}
 
 		// More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
@@ -285,7 +284,6 @@ class Session extends BaseSession
 				);
 
 				$name       = $args[1] . '.' . $name;
-				$legacyName = '__' . $name;
 			}
 		}
 
@@ -300,7 +298,7 @@ class Session extends BaseSession
 		 * This is no longer the case in Joomla 4 and will be converted
 		 * when saving new values in `self::set()`
 		 */
-		if (isset($legacyName) && parent::has($legacyName))
+		if (strpos($name, '.') !== false && parent::has('__' . $name))
 		{
 			return true;
 		}
@@ -344,8 +342,7 @@ class Session extends BaseSession
 						'deprecated'
 					);
 
-					$name       = $args[1] . '.' . $name;
-					$legacyName = '__' . $name;
+					$name = $args[1] . '.' . $name;
 				}
 
 				$this->remove($name);
@@ -355,10 +352,7 @@ class Session extends BaseSession
 				 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
 				 * This is no longer the case in Joomla 4 so we clean both variants.
 				 */
-				if (isset($legacyName) && parent::has($legacyName))
-				{
-					$this->remove($legacyName);
-				}
+				$this->remove('__' . $name);
 
 				return;
 			}
