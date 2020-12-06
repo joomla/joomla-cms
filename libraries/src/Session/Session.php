@@ -194,24 +194,36 @@ class Session extends BaseSession
 					'deprecated'
 				);
 
-				$name = '__' . $args[2] . '.' . $name;
+				$name       = $args[2] . '.' . $name;
+				$legacyName = '__' . $name;
 			}
+		}
+
+		if (parent::has($name))
+		{
+			// Parent is used because of b/c, can be changed in Joomla 5
+			return parent::get($name, $default);
+		}
+
+		/*
+		 * B/C for retrieving sessions that originated in Joomla 3.
+		 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
+		 * This is no longer the case in Joomla 4 and will be converted
+		 * when saving new values in `self::set()`
+		 */
+		if (isset($legacyName) && parent::has($legacyName))
+		{
+			return parent::get($legacyName, $default);
 		}
 
 		// More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
 		// as no sessions should have this format anymore!
-		if (parent::has($name))
-		{
-			return parent::get($name, $default);
-		}
-		elseif (parent::has('__default.' . $name))
+		if (parent::has('__default.' . $name))
 		{
 			return parent::get('__default.' . $name, $default);
 		}
-		else
-		{
-			return $default;
-		}
+
+		return $default;
 	}
 
 	/**
@@ -272,11 +284,23 @@ class Session extends BaseSession
 					'deprecated'
 				);
 
-				$name = $args[1] . '.' . $name;
+				$name       = $args[1] . '.' . $name;
+				$legacyName = '__' . $name;
 			}
 		}
 
 		if (parent::has($name))
+		{
+			return true;
+		}
+
+		/*
+		 * B/C for retrieving sessions that originated in Joomla 3.
+		 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
+		 * This is no longer the case in Joomla 4 and will be converted
+		 * when saving new values in `self::set()`
+		 */
+		if (isset($legacyName) && parent::has($legacyName))
 		{
 			return true;
 		}
@@ -320,10 +344,23 @@ class Session extends BaseSession
 						'deprecated'
 					);
 
-					$name = $args[1] . '.' . $name;
+					$name       = $args[1] . '.' . $name;
+					$legacyName = '__' . $name;
 				}
 
-				return $this->remove($name);
+				$this->remove($name);
+
+				/*
+				 * B/C for cleaning sessions that originated in Joomla 3.
+				 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
+				 * This is no longer the case in Joomla 4 so we clean both variants.
+				 */
+				if (isset($legacyName) && parent::has($legacyName))
+				{
+					$this->remove($legacyName);
+				}
+
+				return;
 			}
 		}
 
