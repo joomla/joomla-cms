@@ -194,7 +194,7 @@ class Session extends BaseSession
 					'deprecated'
 				);
 
-				$name       = $args[2] . '.' . $name;
+				$name = $args[2] . '.' . $name;
 			}
 		}
 
@@ -283,7 +283,7 @@ class Session extends BaseSession
 					'deprecated'
 				);
 
-				$name       = $args[1] . '.' . $name;
+				$name = $args[1] . '.' . $name;
 			}
 		}
 
