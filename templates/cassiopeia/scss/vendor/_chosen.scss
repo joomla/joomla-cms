@@ -49,7 +49,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
   }
 
   .chosen-drop {
-    background: $white-offset;
+    background: $white;
     border: $custom-select-border-width solid $custom-select-border-color;
   }
 
@@ -69,13 +69,13 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
     min-height: #{$input-height};
     font-size: $font-size-base;
     line-height: $input-line-height;
-    background-image: var(--white);
+    background-image: $white;
 
     li.search-choice {
       $chosen-multi-close-width: 20px;
 
       padding: 5px (13 + $chosen-multi-close-width) 5px 10px;
-      color: var(--white);
+      color: $white;
       background: var(--primary);
       border: 0;
       box-shadow: $cassiopeia-box-shadow;
@@ -91,7 +91,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
         right: 0;
         width: $chosen-multi-close-width;
         height: 100%;
-        background: rgba(0, 0, 0, .2);
+        background: hsla(0, 0%, 0%, .2);
         background-image: none !important;
 
         &::before {
@@ -99,7 +99,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
           top: 6px;
           right: ($chosen-multi-close-width / 4);
           font-size: $font-size-base;
-          color: var(--white);
+          color: $white;
           content: "\00d7";
         }
       }

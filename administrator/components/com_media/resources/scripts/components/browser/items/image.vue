@@ -15,14 +15,10 @@
     <div class="media-browser-item-info">
       {{ item.name }} {{ item.filetype }}
     </div>
-    <a
-      href="#"
+    <span
       class="media-browser-select"
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-      @click.stop="toggleSelect()"
-      @focus="focused(true)"
-      @blur="focused(false)"
     />
     <div
       class="media-browser-actions"
@@ -42,7 +38,7 @@
         @keyup.up="openLastActions()"
       >
         <span
-          class="image-browser-action fas fa-ellipsis-h"
+          class="image-browser-action icon-ellipsis-h"
           aria-hidden="true"
           @click.stop="openActions()"
         />
@@ -68,7 +64,7 @@
               @keyup.down="$refs.actionDownload.focus()"
             >
               <span
-                class="image-browser-action fas fa-search-plus"
+                class="image-browser-action icon-search-plus"
                 aria-hidden="true"
                 @click.stop="openPreview()"
               />
@@ -90,7 +86,7 @@
               @keyup.down="$refs.actionRename.focus()"
             >
               <span
-                class="image-browser-action fas fa-download"
+                class="image-browser-action icon-download"
                 aria-hidden="true"
                 @click.stop="download()"
               />
@@ -112,7 +108,7 @@
               @keyup.down="canEdit ? $refs.actionEdit.focus() : $refs.actionShare.focus()"
             >
               <span
-                class="image-browser-action fas fa-text-width"
+                class="image-browser-action icon-text-width"
                 aria-hidden="true"
                 @click.stop="openRenameModal()"
               />
@@ -134,7 +130,7 @@
               @keyup.down="$refs.actionShare.focus()"
             >
               <span
-                class="image-browser-action fas fa-pencil-alt"
+                class="image-browser-action icon-pencil-alt"
                 aria-hidden="true"
                 @click.stop="editItem()"
               />
@@ -156,7 +152,7 @@
               @keyup.down="$refs.actionDelete.focus()"
             >
               <span
-                class="image-browser-action fas fa-link"
+                class="image-browser-action icon-link"
                 aria-hidden="true"
                 @click.stop="openShareUrlModal()"
               />
@@ -178,7 +174,7 @@
               @keyup.down="$refs.actionPreview.focus()"
             >
               <span
-                class="image-browser-action fas fa-trash"
+                class="image-browser-action icon-trash"
                 aria-hidden="true"
                 @click.stop="openConfirmDeleteModal()"
               />
@@ -239,10 +235,6 @@ export default {
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;
-    },
-    /* Toggle the item selection */
-    toggleSelect() {
-      this.$store.dispatch('toggleBrowserItemSelect', this.item);
     },
     /* Open modal for share url */
     openShareUrlModal() {

@@ -43,6 +43,7 @@
 				label="JGLOBAL_BLOG_CLASS_LEADING"
 				useglobal="true"
 				size="3"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -51,6 +52,7 @@
 				label="JGLOBAL_BLOG_CLASS"
 				useglobal="true"
 				size="3"
+				validate="CssIdentifier"
 			/>
 
 			<field

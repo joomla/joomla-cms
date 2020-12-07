@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -821,7 +821,7 @@ class ApplicationModel extends FormModel
 			\opcache_invalidate($file);
 		}
 
-		// Attempt to make the file unwriteable if using FTP.
+		// Attempt to make the file unwriteable if NOT using FTP.
 		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
@@ -1127,7 +1127,7 @@ class ApplicationModel extends FormModel
 		if ($isSuperUserGroupAfter)
 		{
 			$result['class'] = 'badge badge-success';
-			$result['text'] = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
 		else
@@ -1185,7 +1185,7 @@ class ApplicationModel extends FormModel
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
 				$result['class'] = 'badge badge-danger';
-				$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
 

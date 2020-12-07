@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 							class="btn btn-secondary btn-sm float-right"
 							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
 						>
-							<span class="fas fa-plus" aria-hidden="true"></span>
+							<span class="icon-plus" aria-hidden="true"></span>
 						</button>
 					<?php endif; ?>
 				</h3>

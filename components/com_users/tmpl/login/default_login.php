@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,15 +76,15 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				<div class="com-users-login__submit control-group">
 					<div class="controls">
 						<button type="button"
-						        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+								class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
 								<?php foreach ($dataAttributeKeys as $key): ?>
 								<?php echo $key ?>="<?php echo $button[$key] ?>"
 								<?php endforeach; ?>
 								<?php if ($button['onclick']): ?>
-						        onclick="<?php echo $button['onclick'] ?>"
+								onclick="<?php echo $button['onclick'] ?>"
 								<?php endif; ?>
-						        title="<?php echo Text::_($button['label']) ?>"
-						        id="<?php echo $button['id'] ?>"
+								title="<?php echo Text::_($button['label']) ?>"
+								id="<?php echo $button['id'] ?>"
 						>
 							<?php if (!empty($button['icon'])): ?>
 								<span class="<?php echo $button['icon'] ?>"></span>

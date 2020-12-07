@@ -9,21 +9,17 @@
     >
       <div class="file-background">
         <div class="folder-icon">
-          <span class="fas fa-folder" />
+          <span class="icon-folder" />
         </div>
       </div>
     </div>
     <div class="media-browser-item-info">
       {{ item.name }}
     </div>
-    <a
-      href="#"
+    <span
       class="media-browser-select"
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-      @click.stop="toggleSelect()"
-      @focus="focused(true)"
-      @blur="focused(false)"
     />
     <div
       class="media-browser-actions"
@@ -43,7 +39,7 @@
         @keyup.up="openLastActions()"
       >
         <span
-          class="image-browser-action fas fa-ellipsis-h"
+          class="image-browser-action icon-ellipsis-h"
           aria-hidden="true"
           @click.stop="openActions()"
         />
@@ -69,7 +65,7 @@
               @keyup.down="$refs.actionDelete.focus()"
             >
               <span
-                class="image-browser-action fas fa-text-width"
+                class="image-browser-action icon-text-width"
                 aria-hidden="true"
                 @click.stop="openRenameModal()"
               />
@@ -91,7 +87,7 @@
               @keyup.down="$refs.actionRename.focus()"
             >
               <span
-                class="image-browser-action fas fa-trash"
+                class="image-browser-action icon-trash"
                 aria-hidden="true"
                 @click.stop="openConfirmDeleteModal()"
               />
@@ -131,10 +127,6 @@ export default {
     openRenameModal() {
       this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(types.SHOW_RENAME_MODAL);
-    },
-    /* Toggle the item selection */
-    toggleSelect() {
-      this.$store.dispatch('toggleBrowserItemSelect', this.item);
     },
     /* Open actions dropdown */
     openActions() {

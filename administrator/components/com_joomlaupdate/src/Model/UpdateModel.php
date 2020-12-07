@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ class UpdateModel extends BaseDatabaseModel
 	 * @var   array  $updateInformation  null
 	 * Holds the update information evaluated in getUpdateInformation.
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	private $updateInformation = null;
 
@@ -224,7 +224,8 @@ class UpdateModel extends BaseDatabaseModel
 			return $this->updateInformation;
 		}
 
-		$this->updateInformation['latest'] = $updateObject->version;
+		$this->updateInformation['latest']  = $updateObject->version;
+		$this->updateInformation['current'] = JVERSION;
 
 		// Check whether this is an update or not.
 		if (version_compare($updateObject->version, JVERSION, '>'))
@@ -958,6 +959,9 @@ ENDDATA;
 
 		// Unset the update filename from the session.
 		Factory::getApplication()->setUserState('com_joomlaupdate.file', null);
+
+		// Trigger event after joomla update.
+		Factory::getApplication()->triggerEvent('onJoomlaAfterUpdate');
 	}
 
 	/**
@@ -1130,7 +1134,7 @@ ENDDATA;
 	 *
 	 * @return array Array of PHP config options
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getPhpOptions()
 	{
@@ -1212,7 +1216,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getPhpSettings()
 	{
@@ -1261,7 +1265,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	private function getConfiguredDatabaseType()
 	{
@@ -1274,7 +1278,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	public function isDatabaseTypeSupported()
 	{
@@ -1295,7 +1299,7 @@ ENDDATA;
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	public function isPhpVersionSupported()
 	{
@@ -1308,7 +1312,7 @@ ENDDATA;
 	 *
 	 * @return string
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	private function getTargetMinimumPHPVersion()
 	{
@@ -1323,7 +1327,7 @@ ENDDATA;
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getIniParserAvailability()
 	{
@@ -1356,7 +1360,7 @@ ENDDATA;
 	 *
 	 * @return  array  name,version,updateserver
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	public function getNonCoreExtensions()
 	{
@@ -1401,7 +1405,7 @@ ENDDATA;
 	 *
 	 * @return object
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
@@ -1427,6 +1431,11 @@ ENDDATA;
 						// Return the compatible version
 						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
 					}
+					else
+					{
+						// Return the compatible version as false so we can say update server is supported but no compatible version found
+						return (object) array('state' => 1, 'compatibleVersion' => false);
+					}
 				}
 			}
 			else
@@ -1437,6 +1446,11 @@ ENDDATA;
 				{
 					// Return the compatible version
 					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				}
+				else
+				{
+					// Return the compatible version as false so we can say update server is supported but no compatible version found
+					return (object) array('state' => 1, 'compatibleVersion' => false);
 				}
 			}
 		}
@@ -1452,7 +1466,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since 4.0.0
+	 * @since 3.10.0
 	 */
 	private function getUpdateSitesInfo($extensionID)
 	{
@@ -1501,7 +1515,7 @@ ENDDATA;
 	 *
 	 * @return  array  An array of URLs.
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
 	{
@@ -1559,7 +1573,7 @@ ENDDATA;
 	 *
 	 * @return  mixed  An array of data items or false.
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
 	{
@@ -1579,7 +1593,7 @@ ENDDATA;
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	protected function translateExtensionName(&$item)
 	{

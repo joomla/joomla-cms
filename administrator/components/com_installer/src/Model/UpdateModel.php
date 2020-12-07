@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -323,6 +323,10 @@ class UpdateModel extends ListModel
 			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 		$db->setQuery($query);
 		$db->execute();
+
+		// Clear the administrator cache
+		$this->cleanCache('_system', 1);
+
 		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
 
 		return true;

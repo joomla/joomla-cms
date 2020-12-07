@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,7 +90,7 @@ abstract class ToolbarHelper
 	 *
 	 * @param   string  $task        The task to perform (picked up by the switch($task) blocks).
 	 * @param   string  $icon        The image to display.
-	 * @param   string  $iconOver    The image to display when moused over.
+	 * @param   string  $iconOver    @deprecated 5.0
 	 * @param   string  $alt         The alt text for the icon image.
 	 * @param   bool    $listSelect  True if required to check that a standard list item is checked.
 	 * @param   string  $formId      The id of action form.
@@ -710,7 +710,7 @@ abstract class ToolbarHelper
 		$title = Text::_($alt);
 
 		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn ' . $class . '">
-			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
+			<span class="' . $icon . ' icon-fw" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');
 		$bar->appendButton('Custom', $dhtml, $alt);

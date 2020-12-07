@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -206,8 +206,7 @@ abstract class ToolbarButton
 		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
 
 		// Isolate button class from icon class
-		$buttonClass = str_replace('fas fa-', '', $this->getName());
-		$buttonClass = str_ireplace('fa-', '', $buttonClass);
+		$buttonClass = str_replace('icon-', '', $this->getName());
 		$iconclass = $options['btnClass'] ?? '';
 		$options['btnClass'] = 'button-' . $buttonClass . ' ' . $iconclass;
 

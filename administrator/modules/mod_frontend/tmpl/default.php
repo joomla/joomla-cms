@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_frontend
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 		title="<?php echo Text::sprintf('MOD_FRONTEND_PREVIEW', $sitename); ?>"
 		target="_blank">
 		<div class="d-flex align-items-end mx-auto">
-			<span class="fas fa-external-link-alt" aria-hidden="true"></span>
+			<span class="icon-external-link-alt" aria-hidden="true"></span>
 		</div>
 		<div class="align-items-center tiny">
 			<?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?>

@@ -1,5 +1,4 @@
 // Variables
-@import "../../../../media/vendor/bootstrap/scss/functions";
 
 $white:                            #fff;
 $whiteoffset:                      #fefefe;
@@ -126,7 +125,8 @@ $content-font-size:                calc(var(--font-size-base) * .875);
 $label-font-size:                  calc(var(--font-size-base) * 1);
 $danger-bg:                        #900;
 $badge-font-size:                  calc(var(--font-size-base) * .75);
-$fa-css-prefix:                    fa;
+$jicon-css-prefix:                 icon !default;
+$fa-css-prefix:                    fa !default;
 $fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
 

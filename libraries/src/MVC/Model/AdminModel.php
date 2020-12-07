@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -510,15 +510,30 @@ abstract class AdminModel extends FormModel
 
 			if (!empty($oldAssetId))
 			{
+				$dbType = strtolower($db->getServerType());
+
 				// Copy rules
 				$query = $db->getQuery(true);
 				$query->clear()
-					->update($db->quoteName('#__assets', 't'))
-					->join('INNER', $db->quoteName('#__assets', 's') .
-						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
-					)
-					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
-					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+					->update($db->quoteName('#__assets', 't'));
+
+				if ($dbType === 'mysql')
+				{
+					$query->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'));
+				}
+				else
+				{
+					$query->set($db->quoteName('rules') . ' = ' . $db->quoteName('s.rules'));
+				}
+
+				$query->join(
+					'INNER',
+					$db->quoteName('#__assets', 's'),
+					$db->quoteName('s.id') . ' = :oldassetid'
+				)
+					->where($db->quoteName('t.id') . ' = :assetid')
+					->bind(':oldassetid', $oldAssetId, ParameterType::INTEGER)
+					->bind(':assetid', $this->table->asset_id, ParameterType::INTEGER);
 
 				$db->setQuery($query)->execute();
 			}

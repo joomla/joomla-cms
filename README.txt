@@ -69,6 +69,6 @@ Joomla! CMS™
 	* Documentation for Web designers: https://docs.joomla.org/Special:MyLanguage/Web_designers
 
 Copyright:
-	* Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+	* (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
 	* Distributed under the GNU General Public License version 2 or later
 	* See License details at https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses

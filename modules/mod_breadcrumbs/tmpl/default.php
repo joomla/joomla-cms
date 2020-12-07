@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 			</li>
 		<?php else : ?>
 			<li class="mod-breadcrumbs__divider float-left">
-				<span class="divider fas fa-location" aria-hidden="true"></span>
+				<span class="divider icon-location" aria-hidden="true"></span>
 			</li>
 		<?php endif; ?>
 

@@ -22,6 +22,8 @@ class Api {
     this._baseUrl = options.apiBaseUrl;
     // eslint-disable-next-line no-underscore-dangle
     this._csrfToken = Joomla.getOptions('csrf.token');
+
+    this.imagesExtensions = options.imagesExtensions;
   }
 
   /**

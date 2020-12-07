@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -258,7 +258,7 @@ abstract class Grid
 	{
 		return '<a href="javascript:saveorder('
 			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-right" title="'
-			. Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="fas fa-sort"></span></a>';
+			. Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-sort"></span></a>';
 	}
 
 	/**

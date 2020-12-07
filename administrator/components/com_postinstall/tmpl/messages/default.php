@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ $params = array('params' => json_encode($param));
 		<h2><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
 		<p><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
 		<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-warning btn-lg">
-			<span class="fas fa-eye" aria-hidden="true"></span>
+			<span class="icon-eye" aria-hidden="true"></span>
 			<?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?>
 		</a>
 	</div>

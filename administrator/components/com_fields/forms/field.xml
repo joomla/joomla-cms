@@ -37,7 +37,7 @@
 			multiple="true"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
-			<option value="">JALL</option>
+			<option value="0">JALL</option>
 			<option value="-1">JNONE</option>
 		</field>
 
@@ -183,13 +183,14 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
 			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"
-			id="rules"
 			translate_label="false"
 			filter="rules"
 			validate="rules"
@@ -219,6 +220,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -226,6 +228,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -248,6 +251,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -267,6 +271,7 @@
 					label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
 					size="40"
 					showon="showlabel:1"
+					validate="CssIdentifier"
 				/>
 
 				<field

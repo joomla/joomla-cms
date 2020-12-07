@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,12 +71,12 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 
 									if (!$long_description)
 									{
-										$truncated = JHtmlString::truncate($short_description, 550, true, false);
+										$truncated = HtmlHelper::_('string.truncate', $short_description, 550, true, false);
 
 										if (strlen($truncated) > 500)
 										{
 											$long_description  = $short_description;
-											$short_description = JHtmlString::truncate($truncated, 250);
+											$short_description = HtmlHelper::_('string.truncate', $truncated, 250);
 
 											if ($short_description == $long_description)
 											{
@@ -97,7 +97,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							<?php endif; ?>
 							<?php else : ?>
 								<div class="alert alert-danger">
-								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+								<span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 									<?php echo Text::_('COM_PLUGINS_XML_ERR'); ?>
 								</div>
 							<?php endif; ?>

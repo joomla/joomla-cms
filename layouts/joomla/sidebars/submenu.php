@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ HTMLHelper::_('behavior.core');
 <div id="j-toggle-sidebar-wrapper">
 	<div id="sidebar" class="sidebar">
 		<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-			<span class="fas fa-align-justify" aria-hidden="true"></span>
+			<span class="icon-align-justify" aria-hidden="true"></span>
 			<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 		</button>
 		<div class="sidebar-nav bg-light p-2 my-2">

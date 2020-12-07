@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -339,24 +339,24 @@ class Content extends Table implements VersionableTableInterface
 	 */
 	public function store($updateNulls = true)
 	{
-		$date = Factory::getDate();
+		$date = Factory::getDate()->toSql();
 		$user = Factory::getUser();
+
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date;
+		}
 
 		if ($this->id)
 		{
 			// Existing item
 			$this->modified_by = $user->get('id');
-			$this->modified    = $date->toSql();
+			$this->modified    = $date;
 		}
 		else
 		{
-			// New article. An article created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date->toSql();
-			}
-
+			// Field created_by can be set by the user, so we don't touch it if it's set.
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
