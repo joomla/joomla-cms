@@ -102,10 +102,6 @@ class JoomlaInstallerScript
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
 		$this->cleanJoomlaCache();
-
-		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
-		// LOGOUT ALL THE USERS
-		$this->flushSessions();
 	}
 
 	/**
@@ -476,9 +472,6 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
-			// Joomla 3.10.0
-			'/libraries/joomla/base/adapter.php',
-			'/libraries/joomla/base/adapterinstance.php',
 			// Joomla 4.0 Beta 1
 			'/administrator/components/com_actionlogs/actionlogs.php',
 			'/administrator/components/com_actionlogs/controller.php',
@@ -6307,66 +6300,6 @@ class JoomlaInstallerScript
 
 				return false;
 			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * If we migrated the session from the previous system, flush all the active sessions.
-	 * Otherwise users will be logged in, but not able to do anything since they don't have
-	 * a valid session
-	 *
-	 * @return  boolean
-	 */
-	public function flushSessions()
-	{
-		/**
-		 * The session may have not been started yet (e.g. CLI-based Joomla! update scripts). Let's make sure we do
-		 * have a valid session.
-		 */
-		$session = Factory::getSession();
-
-		/**
-		 * Restarting the Session require a new login for the current user so lets check if we have an active session
-		 * and only restart it if not.
-		 * For B/C reasons we need to use getState as isActive is not available in 2.5
-		 */
-		if ($session->getState() !== 'active')
-		{
-			$session->restart();
-		}
-
-		// If $_SESSION['__default'] is no longer set we do not have a migrated session, therefore we can quit.
-		if (!isset($_SESSION['__default']))
-		{
-			return true;
-		}
-
-		$db = Factory::getDbo();
-
-		try
-		{
-			switch ($db->getServerType())
-			{
-				// MySQL database, use TRUNCATE (faster, more resilient)
-				case 'mysql':
-					$db->truncateTable('#__session');
-					break;
-
-				// Non-MySQL databases, use a simple DELETE FROM query
-				default:
-					$query = $db->getQuery(true)
-						->delete($db->quoteName('#__session'));
-					$db->setQuery($query)->execute();
-					break;
-			}
-		}
-		catch (Exception $e)
-		{
-			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
-
-			return false;
 		}
 
 		return true;

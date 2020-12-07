@@ -158,9 +158,9 @@ class PlgContentPagebreak extends CMSPlugin
 			$hasToc = $this->params->get('multipage_toc', 1);
 
 			// Adds heading or title to <site> Title.
-			if ($title && $page && isset($matches[$page - 1], $matches[$page - 1][2]))
+			if ($title && $page && isset($matches[$page - 1][0]))
 			{
-				$attrs = Utility::parseAttributes($matches[$page - 1][1]);
+				$attrs = Utility::parseAttributes($matches[$page - 1][0]);
 
 				if (isset($attrs['title']))
 				{
