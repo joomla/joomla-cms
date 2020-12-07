@@ -298,7 +298,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || ($record->state != -2 && !Factory::getApplication()->isClient('api')))
+		if (empty($record->id) || ($record->state != -2))
 		{
 			return false;
 		}

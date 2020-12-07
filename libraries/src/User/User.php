@@ -102,7 +102,7 @@ class User extends CMSObject
 	/**
 	 * Date the user was registered
 	 *
-	 * @var    \DateTime
+	 * @var    string
 	 * @since  1.7.0
 	 */
 	public $registerDate = null;
@@ -110,7 +110,7 @@ class User extends CMSObject
 	/**
 	 * Date of last visit
 	 *
-	 * @var    \DateTime
+	 * @var    string
 	 * @since  1.7.0
 	 */
 	public $lastvisitDate = null;
