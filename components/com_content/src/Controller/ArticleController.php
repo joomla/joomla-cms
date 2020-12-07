@@ -439,6 +439,12 @@ class ArticleController extends FormController
 			$viewName = $this->input->getString('view', $this->default_view);
 			$model = $this->getModel($viewName);
 
+			// Don't redirect to an external URL.
+			if (!Uri::isInternal($url))
+			{
+				$url = Route::_('index.php');
+			}
+
 			if ($model->storeVote($id, $user_rating))
 			{
 				$this->setRedirect($url, Text::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
