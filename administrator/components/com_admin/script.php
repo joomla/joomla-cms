@@ -7047,19 +7047,14 @@ class JoomlaInstallerScript
 		$query = $db->getQuery(true)
 			->select(
 				[
-					$db->quoteName('id'),
-					$db->quoteName('link'),
-					$db->quoteName('params'),
+					$db->quoteName('m.id'),
+					$db->quoteName('m.link'),
+					$db->quoteName('m.params'),
 				]
 			)
-			->from($db->quoteName('#__menu'));
-
-		// Restrict selection to com_content items.
-		$query2 = $db->getQuery(true)
-			->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('com_content'));
-		$query->where($db->quoteName('component_id') . ' = (' . $query2 . ')');
+			->from($db->quoteName('#__menu', 'm'))
+			->leftJoin($db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('m.component_id'))
+			->where($db->quoteName('e.element') . ' = ' . $db->quote('com_content'));
 
 		$menuItems = $db->setQuery($query)->loadAssocList('id');
 
