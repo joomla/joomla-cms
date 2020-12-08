@@ -440,9 +440,9 @@ class ArticleController extends FormController
 			$model = $this->getModel($viewName);
 
 			// Don't redirect to an external URL.
-			if (!JUri::isInternal($url))
+			if (!Uri::isInternal($url))
 			{
-				$url = JRoute::_('index.php');
+				$url = Route::_('index.php');
 			}
 
 			if ($model->storeVote($id, $user_rating))

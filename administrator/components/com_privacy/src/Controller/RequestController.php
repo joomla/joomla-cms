@@ -307,7 +307,7 @@ class RequestController extends FormController
 	public function remove()
 	{
 		// Check for request forgeries.
-		Session::checkToken('get') or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		/** @var RemoveModel $model */
 		$model = $this->getModel('Remove');
