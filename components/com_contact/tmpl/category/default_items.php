@@ -61,10 +61,12 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-info">
-				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<?php if ($this->params->get('show_no_contacts', 1)) : ?>
+				<div class="alert alert-info">
+					<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>
-			</div>
+				</div>
+			<?php endif; ?>
 		<?php else : ?>
 			<table class="com-content-category__table category table table-striped table-bordered table-hover" id="contactList">
 				<caption id="captionTable" class="sr-only">
