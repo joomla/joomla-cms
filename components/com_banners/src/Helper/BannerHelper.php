@@ -29,7 +29,14 @@ abstract class BannerHelper
 	 */
 	public static function isImage($url)
 	{
-		return preg_match('#\.(?:bmp|gif|jpe?g|png)#i', $url);
+		$urlCheck = explode('?', $url);
+
+		if (preg_match('#\.(?:bmp|gif|jpe?g|png)$#i', $urlCheck[0]))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
