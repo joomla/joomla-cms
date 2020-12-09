@@ -90,7 +90,7 @@ abstract class UserHelper
 
 	/**
 	 * B/C constant `PASSWORD_BCRYPT` for PHP < 7.4 (using integer)
-	 *	 *
+	 *
 	 * @var    integer
 	 * @since  4.0.0
 	 * @deprecated  4.0.0  Use self::HASH_BCRYPT instead
