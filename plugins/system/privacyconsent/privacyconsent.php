@@ -599,30 +599,19 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			// The mail
 			try
 			{
-				$substitutions = [
-					'[SITENAME]' => $app->get('sitename'),
-					'[URL]'      => Uri::root(),
-					'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
-					'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
-					'[TOKEN]'    => $token,
-					'\\n'        => "\n",
+				$templateData = [
+					'sitename' => $app->get('sitename'),
+					'url'      => Uri::root(),
+					'tokenurl' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
+					'formurl'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
+					'token'    => $token,
 				];
 
-				$emailSubject = Text::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_SUBJECT');
-				$emailBody = Text::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_BODY');
-
-				foreach ($substitutions as $k => $v)
-				{
-					$emailSubject = str_replace($k, $v, $emailSubject);
-					$emailBody    = str_replace($k, $v, $emailBody);
-				}
-
-				$mailer = Factory::getMailer();
-				$mailer->setSubject($emailSubject);
-				$mailer->setBody($emailBody);
+				$mailer = new MailTemplate('plg_system_privacyconsent.request.reminder', $app->getLanguage()->getTag());
+				$mailer->addTemplateData($templateData);
 				$mailer->addRecipient($user->email);
 
-				$mailResult = $mailer->Send();
+				$mailResult = $mailer->send();
 
 				if ($mailResult === false)
 				{
