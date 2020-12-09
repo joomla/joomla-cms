@@ -194,24 +194,35 @@ class Session extends BaseSession
 					'deprecated'
 				);
 
-				$name = '__' . $args[2] . '.' . $name;
+				$name = $args[2] . '.' . $name;
 			}
+		}
+
+		if (parent::has($name))
+		{
+			// Parent is used because of b/c, can be changed in Joomla 5
+			return parent::get($name, $default);
+		}
+
+		/*
+		 * B/C for retrieving sessions that originated in Joomla 3.
+		 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
+		 * This is no longer the case in Joomla 4 and will be converted
+		 * when saving new values in `self::set()`
+		 */
+		if (strpos($name, '.') !== false && parent::has('__' . $name))
+		{
+			return parent::get('__' . $name, $default);
 		}
 
 		// More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
 		// as no sessions should have this format anymore!
-		if (parent::has($name))
-		{
-			return parent::get($name, $default);
-		}
-		elseif (parent::has('__default.' . $name))
+		if (parent::has('__default.' . $name))
 		{
 			return parent::get('__default.' . $name, $default);
 		}
-		else
-		{
-			return $default;
-		}
+
+		return $default;
 	}
 
 	/**
@@ -281,6 +292,17 @@ class Session extends BaseSession
 			return true;
 		}
 
+		/*
+		 * B/C for retrieving sessions that originated in Joomla 3.
+		 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
+		 * This is no longer the case in Joomla 4 and will be converted
+		 * when saving new values in `self::set()`
+		 */
+		if (strpos($name, '.') !== false && parent::has('__' . $name))
+		{
+			return true;
+		}
+
 		// More b/c for retrieving sessions that originated in Joomla 3. This will be removed in Joomla 5
 		// as no sessions should have this format anymore!
 		return parent::has('__default.' . $name);
@@ -323,7 +345,16 @@ class Session extends BaseSession
 					$name = $args[1] . '.' . $name;
 				}
 
-				return $this->remove($name);
+				$this->remove($name);
+
+				/*
+				 * B/C for cleaning sessions that originated in Joomla 3.
+				 * A namespace before Joomla 4 has a prefix of 2 underscores (__).
+				 * This is no longer the case in Joomla 4 so we clean both variants.
+				 */
+				$this->remove('__' . $name);
+
+				return;
 			}
 		}
 
