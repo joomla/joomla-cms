@@ -140,7 +140,7 @@ class AdminModelProfile extends UsersModelUser
 		}
 
 		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
+		if (array_key_exists('twofactor', $data)) && (array_key_exists('method', $data['twofactor'])
 		{
 			$twoFactorMethod = $data['twofactor']['method'];
 
