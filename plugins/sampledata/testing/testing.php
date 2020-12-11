@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Testing
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -4458,8 +4458,6 @@ class PlgSampledataTesting extends CMSPlugin
 			*/
 		);
 
-		$modulesIds = array();
-
 		foreach ($modules as $module)
 		{
 			// Set values which are always the same.
@@ -4517,9 +4515,6 @@ class PlgSampledataTesting extends CMSPlugin
 
 				return $response;
 			}
-
-			// Get ID from category we just added
-			$modulesIds[] = $model->getItem()->id;
 		}
 
 		$response            = array();

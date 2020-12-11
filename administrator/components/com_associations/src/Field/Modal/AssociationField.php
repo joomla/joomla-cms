@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Associations\Administrator\Field\Modal;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -70,7 +70,7 @@ class AssociationField extends FormField
 			. ' data-select="' . Text::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . Text::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' data-target="#associationSelect' . $this->id . 'Modal">'
-			. '<span class="fas fa-file" aria-hidden="true"></span> '
+			. '<span class="icon-file" aria-hidden="true"></span> '
 			. '<span id="select-change-text"></span>'
 			. '</button>';
 
@@ -80,7 +80,7 @@ class AssociationField extends FormField
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
 			. ' id="remove-assoc">'
-			. '<span class="fas fa-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
+			. '<span class="icon-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 			. '</button>';
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . $value . '">';

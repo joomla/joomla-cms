@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -160,7 +160,7 @@ class Icon
 
 		$aria_described = 'editcontact-' . (int) $contact->id;
 
-		$text = '<span class="fas fa-' . $icon . '" aria-hidden="true"></span>';
+		$text = '<span class="icon-' . $icon . '" aria-hidden="true"></span>';
 		$text .= Text::_('JGLOBAL_EDIT');
 		$text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
 

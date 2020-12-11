@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.webauthn
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,11 +105,11 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 				<td><?php echo htmlentities($method['label']) ?></td>
 				<td>
 					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-edit btn btn-secondary">
-						<span class="fas fa-edit" aria-hidden="true"></span>
+						<span class="icon-edit" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
 					</button>
 					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-delete btn btn-danger">
-						<span class="fas fa-minus" aria-hidden="true"></span>
+						<span class="icon-minus" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
 					</button>
 				</td>
@@ -134,7 +134,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 				id="plg_system_webauthn-manage-add"
 				class="btn btn-success btn-block"
 				data-random-id="<?php echo $randomId; ?>">
-				<span class="fas fa-plus" aria-hidden="true"></span>
+				<span class="icon-plus" aria-hidden="true"></span>
 				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>
 			</button>
 		</p>

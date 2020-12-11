@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,8 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-$msgList = $displayData['msgList'];
+$msgList   = $displayData['msgList'];
+$msgOutput = '';
 
 $alert = [
 	CMSApplication::MSG_EMERGENCY => 'danger',
@@ -43,25 +44,22 @@ Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
 	->useScript('webcomponent.joomla-alert');
 
+if (is_array($msgList) && !empty($msgList)) :
+	foreach ($msgList as $type => $msgs) :
+		$msgOutput .= '<joomla-alert type="' . ($alert[$type] ?? $type) . '" dismiss="true">';
+		if (!empty($msgs)) :
+			$msgOutput .= '<div class="alert-heading">';
+			$msgOutput .= '<span class="' . $type . '"></span>';
+			$msgOutput .= '<span class="sr-only">' . Text::_($type) . '</span>';
+			$msgOutput .= '</div>';
+			$msgOutput .= '<div class="alert-wrapper">';
+			foreach ($msgs as $msg) :
+				$msgOutput .= '<div class="alert-message">' . $msg . '</div>';
+			endforeach;
+			$msgOutput .= '</div>';
+		endif;
+		$msgOutput .= '</joomla-alert>';
+	endforeach;
+endif;
 ?>
-<div id="system-message-container" aria-live="polite">
-	<div id="system-message">
-		<?php if (is_array($msgList) && !empty($msgList)) : ?>
-			<?php foreach ($msgList as $type => $msgs) : ?>
-				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
-					<?php if (!empty($msgs)) : ?>
-						<div class="alert-heading">
-							<span class="<?php echo $type; ?>"></span>
-							<span class="sr-only"><?php echo Text::_($type); ?></span>
-						</div>
-						<div class="alert-wrapper">
-							<?php foreach ($msgs as $msg) : ?>
-								<div class="alert-message"><?php echo $msg; ?></div>
-							<?php endforeach; ?>
-						</div>
-					<?php endif; ?>
-				</joomla-alert>
-			<?php endforeach; ?>
-		<?php endif; ?>
-	</div>
-</div>
+<div id="system-message-container" aria-live="polite"><?php echo $msgOutput; ?></div>

@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Categories\Administrator\Field\Modal;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -165,7 +165,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '">'
-				. '<span class="fas fa-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
+				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
 
@@ -178,7 +178,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalNew' . $modalId . '">'
-				. '<span class="fas fa-plus" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
+				. '<span class="icon-plus" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</button>';
 		}
 
@@ -186,12 +186,12 @@ class CategoryField extends FormField
 		if ($allowEdit)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalEdit' . $modalId . '">'
-				. '<span class="fas fa-pen-square" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
+				. '<span class="icon-pen-square" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</button>';
 		}
 
@@ -203,7 +203,7 @@ class CategoryField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="fas fa-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
+				. '<span class="icon-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 				. '</button>';
 		}
 
@@ -215,12 +215,12 @@ class CategoryField extends FormField
 			$callbackFunctionStem = substr("jSelectCategory_" . $this->id, 0, -$tagLength);
 
 			$html .= '<button'
-			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+			. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
 			. ' type="button"'
 			. ' id="' . $this->id . '_propagate"'
 			. ' title="' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
 			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
-			. '<span class="fas fa-sync" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '<span class="icon-sync" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
 			. '</button>';
 		}
 

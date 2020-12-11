@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ $multilang = Multilanguage::isEnabled();
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -68,10 +68,10 @@ $multilang = Multilanguage::isEnabled();
 				<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'fas fa-trash',
-					0  => 'fas fa-times',
-					1  => 'fas fa-check',
-					2  => 'fas fa-folder',
+					-2 => 'icon-trash',
+					0  => 'icon-times',
+					1  => 'icon-check',
+					2  => 'icon-folder',
 				);
 				?>
 				<?php foreach ($this->items as $i => $item) : ?>

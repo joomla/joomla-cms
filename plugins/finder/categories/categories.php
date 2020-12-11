@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
@@ -326,7 +325,17 @@ class PlgFinderCategories extends Adapter
 		}
 		else
 		{
-			$item->route = RouteHelper::getCategoryRoute($item->id, $item->language);
+			$class = 'Joomla\\Component\\' . $extension . '\\Site\\Helper\\RouteHelper';
+
+			if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
+			{
+				$item->route = $class::getCategoryRoute($item->id, $item->language);
+			}
+			else
+			{
+				// This category has no frontend route.
+				return;
+			}
 		}
 
 		// Get the menu title if it exists.

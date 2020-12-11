@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,12 +38,12 @@ if ($this->params->get('show_autosuggest', 1))
 				<input type="text" name="q" id="q" class="js-finder-search-query form-control" value="<?php echo $this->escape($this->query->input); ?>">
 				<span class="input-group-append">
 				<button type="submit" class="btn btn-primary">
-					<span class="fas fa-search icon-white" aria-hidden="true"></span>
+					<span class="icon-search icon-white" aria-hidden="true"></span>
 					<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>
 				</button>
 				<?php if ($this->params->get('show_advanced', 1)) : ?>
 					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary">
-						<span class="fas fa-search-plus" aria-hidden="true"></span>
+						<span class="icon-search-plus" aria-hidden="true"></span>
 						<?php echo Text::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
 				<?php endif; ?>
 				</span>

@@ -1,14 +1,23 @@
 // Variables
 @import "../../../administrator/templates/atum/scss/variables";
+$jicon-css-prefix: icon;
+$fa-css-prefix: fa;
 $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
-// Bootstrap
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+// Font Awesome
+@import "../../../administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome";
 
 // "Font Awesome 5 Free"
 @import "../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../media/vendor/fontawesome-free/scss/regular";
 @import "../../../media/vendor/fontawesome-free/scss/solid";
-@import "../../../media/vendor/fontawesome-free/scss/brands";
+@import "../../../media/vendor/fontawesome-free/scss/brands"; // order of loading is important.
+
+// B/C for Icomoon
+@import "../../../build/media_source/system/scss/icomoon";
+
+// Bootstrap
+@import "../../../media/vendor/bootstrap/scss/bootstrap";
 
 // Backend Template stuff
 @import "../../../administrator/templates/atum/scss/mixin";
@@ -35,8 +44,18 @@ body {
   flex-direction: column;
   min-height: 100vh;
 
-  .logo {
-    width: auto;
+  img.logo-small,
+  svg.logo-small {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .icon-question {
+    color: $white;
+
+    &:hover {
+      color: var(--atum-link-color);
+    }
   }
 }
 
@@ -202,23 +221,6 @@ caption {
 
 .badge-warning {
   color: #292b2c;
-}
-
-.fa-eye,
-.icon-eye-open,
-.icon-eye {
-  font-family: "Font Awesome 5 Free";
-  cursor: pointer;
-  content: "\f06e";
-}
-
-.fa-eye-slash,
-.icon-eye-close,
-.icon-eye-blocked,
-.icon-eye-2::before {
-  font-family: "Font Awesome 5 Free";
-  cursor: pointer;
-  content: "\f070";
 }
 
 // footer

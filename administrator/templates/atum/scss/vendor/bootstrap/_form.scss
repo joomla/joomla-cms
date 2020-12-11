@@ -73,8 +73,8 @@ select.form-control {
     background-color: darken(theme-color("danger"), 8%);
   }
 
-  .button-clear > .fa-check,
-  .button-select > .fa-times {
+  .button-clear > .#{$fa-css-prefix}-check,
+  .button-select > .#{$fa-css-prefix}-times {
     color: $gray-100;
   }
 

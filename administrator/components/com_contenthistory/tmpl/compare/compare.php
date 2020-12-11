@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
 		</thead>
 		<tbody>
 		<?php foreach ($object1 as $name => $value) : ?>
-			<?php if ($value->value != $object2->$name->value) : ?>
+			<?php if (isset($value->value) && isset($object2->$name->value) && $value->value != $object2->$name->value) : ?>
 				<?php if (is_object($value->value)) : ?>
 					<tr>
 						<td colspan="4">

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,8 +43,8 @@ $xml = $this->form->getXml();
 
 		<?php // Begin Sidebar ?>
 		<div class="col-md-3" id="sidebar">
-			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-				 <span class="fas fa-align-justify" aria-hidden="true"></span>
+			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false">
+				 <span class="icon-align-justify" aria-hidden="true"></span>
 				 <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
 			<div class="sidebar-nav bg-light p-2 my-2">
@@ -105,7 +105,7 @@ $xml = $this->form->getXml();
 
 					<?php if (!empty($fieldSet->description)) : ?>
 						<div class="tab-description alert alert-info">
-							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_($fieldSet->description); ?>
 						</div>
 					<?php endif; ?>
@@ -133,7 +133,7 @@ $xml = $this->form->getXml();
 
 			<?php else : ?>
 				<div class="alert alert-info">
-					<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
 				</div>
 			<?php endif; ?>
