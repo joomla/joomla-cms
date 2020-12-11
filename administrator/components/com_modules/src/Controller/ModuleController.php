@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 
 /**
@@ -85,6 +86,14 @@ class ModuleController extends FormController
 
 		if ($return = $this->input->get('return', '', 'BASE64'))
 		{
+			$return = base64_decode($return);
+
+			// Don't redirect to an external URL.
+			if (!Uri::isInternal($return))
+			{
+				$return = Uri::base();
+			}
+
 			$this->app->redirect(base64_decode($return));
 		}
 
