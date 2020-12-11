@@ -2,14 +2,14 @@
 
 .form-control {
   max-width: $input-max-width;
-  background-color: $white-offset;
+  background-color: $white;
 
   &.input-xlarge {
-    max-width: 350px;
+    max-width: 21.875rem;
   }
 
   &.input-xxlarge {
-    max-width: 550px;
+    max-width: 34.375rem;
   }
 
   &.input-full {
@@ -18,7 +18,7 @@
 }
 
 .spacer hr {
-  width: 380px;
+  width: 23.75rem;
 }
 
 .custom-select {
@@ -55,12 +55,12 @@ td .form-control {
 
 // Validation
 .invalid {
-  color: theme-color("danger");
-  border-color: theme-color("danger");
+  color: $danger;
+  border-color: $danger;
 }
 
 .valid {
-  border-color: theme-color("success");
+  border-color: $success;
 }
 
 .form-control-feedback {
@@ -75,7 +75,7 @@ td .form-control {
   padding: .5em;
   margin: .5em;
   color: $black;
-  background: $white-offset;
+  background: $white;
   border: 1px solid $gray-600;
   border-radius: $border-radius;
   box-shadow: 0 0 .5rem rgba(0, 0, 0, .8);
@@ -108,7 +108,25 @@ td .form-control {
   bottom: 100%;
 }
 
+fieldset {
+  margin-bottom: $cassiopeia-grid-gutter*2;
+  + fieldset {
+    margin-top: $cassiopeia-grid-gutter*2;
+  }
+
+  > * {
+    margin-bottom: 0;
+  }
+}
+
+.control-group {
+  margin: $cassiopeia-grid-gutter 0;
+}
 .container-popup [id="filter[search]-desc"] {
   top: 100%;
   bottom: auto;
+}
+
+.com-users-login__options {
+  margin-top: $cassiopeia-grid-gutter*2;
 }

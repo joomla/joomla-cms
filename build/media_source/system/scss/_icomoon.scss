@@ -3,7 +3,7 @@
  */
 
 // Define global icon prefix
-$jicon-css-prefix: icon !global;
+$jicon-css-prefix: icon !default;
 
 
 // Standard icon global definition
@@ -328,7 +328,7 @@ $jicons: (
   pin : $fa-var-thumbtack,
   play-2 : $fa-var-play,
   play-circle : $fa-var-play-circle,
-  play : $fa-var-expand-arrows-alt,
+  play : $fa-var-play,
   plug : $fa-var-plug,
   plus-2 : $fa-var-plus,
   plus-circle : $fa-var-plus-circle,

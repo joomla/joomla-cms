@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -63,6 +63,24 @@ class ImageTest extends UnitTestCase
 
 		$this->testFileWebp = $randFile . '.webp';
 		copy(__DIR__ . '/stubs/koala.webp', $this->testFileWebp);
+	}
+
+	/**
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function tearDown():void
+	{
+		unlink($this->testFile);
+		unlink($this->testFileGif);
+		unlink($this->testFilePng);
+		unlink($this->testFileBmp);
+		unlink($this->testFileWebp);
+
+		parent::tearDown();
 	}
 
 	/**
