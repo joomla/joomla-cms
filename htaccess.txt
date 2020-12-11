@@ -38,6 +38,13 @@ Options -Indexes
 #	Header always set Cross-Origin-Embedder-Policy "require-corp"
 #</IfModule>
 
+## Disable inline JavaScript when directly opening SVG files or embedding them with the object-tag
+<FilesMatch "\.svg$">
+  <IfModule mod_headers.c>
+    Header always set Content-Security-Policy "script-src 'none'"
+  </IfModule>
+</FilesMatch>
+
 ## These directives are only enabled if the Apache mod_rewrite module is enabled
 <IfModule mod_rewrite.c>
 	RewriteEngine On

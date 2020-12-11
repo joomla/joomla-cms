@@ -13,7 +13,7 @@ namespace Joomla\CMS\Categories;
 /**
  * Category factory interface
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 interface CategoryFactoryInterface
 {
@@ -25,7 +25,7 @@ interface CategoryFactoryInterface
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 *
 	 * @throws  SectionNotFoundException
 	 */
