@@ -180,7 +180,7 @@ class QueryHelper
 		switch ($orderDate)
 		{
 			case 'modified' :
-				$queryDate = ' CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END';
+				$queryDate = ' CASE WHEN a.modified is NULL THEN a.created ELSE a.modified END';
 				break;
 
 			// Use created if publish_up is not set
