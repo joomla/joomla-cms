@@ -1347,7 +1347,7 @@ class TemplateModel extends FormModel
 
 			if (!$return)
 			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_FAIL'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
 
 				return false;
 			}
@@ -1513,7 +1513,7 @@ class TemplateModel extends FormModel
 
 			if (!$return)
 			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_DELETE_ERROR'), 'error');
 
 				return false;
 			}
