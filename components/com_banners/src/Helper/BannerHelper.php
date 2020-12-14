@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,14 @@ abstract class BannerHelper
 	 */
 	public static function isImage($url)
 	{
-		return preg_match('#\.(?:bmp|gif|jpe?g|png)$#i', $url);
+		$urlCheck = explode('?', $url);
+
+		if (preg_match('#\.(?:bmp|gif|jpe?g|png)$#i', $urlCheck[0]))
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

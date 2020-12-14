@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -223,7 +223,7 @@ class FileLayout extends BaseLayout
 	/**
 	 * Add one path to include in layout search. Proxy of addIncludePaths()
 	 *
-	 * @param   string  $path  The path to search for layouts
+	 * @param   string|string[]  $path  The path to search for layouts
 	 *
 	 * @return  self
 	 *
@@ -239,7 +239,7 @@ class FileLayout extends BaseLayout
 	/**
 	 * Add one or more paths to include in layout search
 	 *
-	 * @param   string  $paths  The path or array of paths to search for layouts
+	 * @param   string|string[]  $paths  The path or array of paths to search for layouts
 	 *
 	 * @return  self
 	 *

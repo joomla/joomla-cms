@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 			</label>
 			<div class="controls">
-				<input class="form-control-file" id="install_package" name="install_package" type="file" size="57" onchange="Joomla.installpackageChange()">
+				<input class="form-control-file" id="install_package" name="install_package" type="file" size="57" accept=".zip,application/zip" onchange="Joomla.installpackageChange()">
 				<?php $maxSizeBytes = Utility::getMaxUploadSize(); ?>
 				<?php $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes); ?>
 				<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>"/>

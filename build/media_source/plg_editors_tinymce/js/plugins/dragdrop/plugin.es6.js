@@ -1,10 +1,11 @@
 /* eslint-disable no-undef */
 tinymce.PluginManager.add('jdragndrop', (editor) => {
+  let responseData;
   // Reset the drop area border
   tinyMCE.DOM.bind(document, 'dragleave', (e) => {
     e.stopPropagation();
     e.preventDefault();
-    tinyMCE.activeEditor.contentAreaContainer.style.borderWidth = '1px 0 0';
+    editor.contentAreaContainer.style.borderWidth = '1px 0 0';
 
     return false;
   });
@@ -26,12 +27,12 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
   });
 
   function uploadFile(name, content) {
-    const url = `${tinyMCE.activeEditor.settings.uploadUri}&path=${tinyMCE.activeEditor.settings.comMediaAdapter}`;
+    const url = `${editor.settings.uploadUri}&path=${editor.settings.comMediaAdapter}`;
     const data = {
-      [tinyMCE.activeEditor.settings.csrfToken]: '1',
+      [editor.settings.csrfToken]: '1',
       name,
       content,
-      parent: tinyMCE.activeEditor.settings.parentUploadFolder,
+      parent: editor.settings.parentUploadFolder,
     };
 
     Joomla.request({
@@ -49,18 +50,75 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
         }
 
         if (response.data && response.data.path) {
+          responseData = response.data;
           let urlPath;
           // For local adapters use relative paths
-          if (/local-/.test(response.data.adapter)) {
+          if (/local-/.test(responseData.adapter)) {
             const { rootFull } = Joomla.getOptions('system.paths');
 
             urlPath = `${response.data.thumb_path.split(rootFull)[1]}`;
-          } else if (response.data.thumb_path) {
+          } else if (responseData.thumb_path) {
             // Absolute path for different domain
-            urlPath = response.data.thumb_path;
+            urlPath = responseData.thumb_path;
           }
 
-          tinyMCE.activeEditor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" alt=""/>`);
+          const dialogClose = (api) => {
+            const dialogData = api.getData();
+            const altEmpty = dialogData.altEmpty ? ' alt=""' : '';
+            const altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : altEmpty;
+            const lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
+            const width = dialogData.isLazy ? ` width="${responseData.width}"` : '';
+            const height = dialogData.isLazy ? ` height="${responseData.height}"` : '';
+            editor.execCommand('mceInsertContent', false, `<img src="${urlPath}"${altValue}${lazyValue}${width}${height}/>`);
+          };
+
+          editor.windowManager.open({
+            title: Joomla.Text._('PLG_TINY_DND_ADDITIONALDATA'),
+            body: {
+              type: 'panel',
+              items: [
+                {
+                  type: 'input',
+                  name: 'altText',
+                  label: Joomla.Text._('PLG_TINY_DND_ALTTEXT'),
+                },
+                {
+                  type: 'checkbox',
+                  name: 'altEmpty',
+                  label: Joomla.Text._('PLG_TINY_DND_EMPTY_ALT'),
+                },
+                {
+                  type: 'checkbox',
+                  name: 'isLazy',
+                  label: Joomla.Text._('PLG_TINY_DND_LAZYLOADED'),
+                },
+              ],
+            },
+            buttons: [
+              {
+                type: 'cancel',
+                text: 'Cancel',
+              },
+              {
+                type: 'submit',
+                name: 'submitButton',
+                text: 'Save',
+                primary: true,
+              },
+            ],
+            initialData: {
+              altText: '',
+              isLazy: true,
+              altEmpty: false,
+            },
+            onSubmit(api) {
+              dialogClose(api);
+              api.close();
+            },
+            onCancel(api) {
+              dialogClose(api);
+            },
+          });
         }
       },
       onError: (xhr) => {

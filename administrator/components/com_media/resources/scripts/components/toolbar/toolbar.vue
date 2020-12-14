@@ -42,7 +42,7 @@
         v-if="isGridView"
         type="button"
         class="media-toolbar-icon media-toolbar-decrease-grid-size"
-        :class="{disabled: isGridSize('xs')}"
+        :class="{disabled: isGridSize('sm')}"
         :aria-label="translate('COM_MEDIA_DECREASE_GRID')"
         @click.stop.prevent="decreaseGridSize()"
       >
@@ -127,7 +127,7 @@ export default {
       }
     },
     decreaseGridSize() {
-      if (!this.isGridSize('xs')) {
+      if (!this.isGridSize('sm')) {
         this.$store.commit(types.DECREASE_GRID_SIZE);
       }
     },

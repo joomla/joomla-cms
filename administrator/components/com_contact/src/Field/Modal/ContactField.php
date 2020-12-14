@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Administrator\Field\Modal;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -175,7 +175,7 @@ class ContactField extends FormField
 		if ($allowEdit)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
@@ -204,7 +204,7 @@ class ContactField extends FormField
 			$callbackFunctionStem = substr("jSelectContact_" . $this->id, 0, -$tagLength);
 
 			$html .= '<button'
-			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+			. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
 			. ' type="button"'
 			. ' id="' . $this->id . '_propagate"'
 			. ' title="' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
