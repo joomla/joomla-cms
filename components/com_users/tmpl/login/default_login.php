@@ -41,7 +41,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 		<?php if ($this->params->get('login_image') != '') : ?>
 			<?php $alt = empty($this->params->get('login_image_alt')) && empty($this->params->get('login_image_alt_empty'))
 				? ''
-				: 'alt="' . htmlspecialchars($this->params->get('login_image_alt', ENT_COMPAT, 'UTF-8')) . '"'; ?>
+				: 'alt="' . htmlspecialchars($this->params->get('login_image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
 			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="com-users-login__image login-image" <?php echo $alt; ?>>
 		<?php endif; ?>
 
