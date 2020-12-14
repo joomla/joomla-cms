@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <menu
-	xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="urn:joomla.org"
 	xsi:schemaLocation="urn:joomla.org menu.xsd"
 	>
