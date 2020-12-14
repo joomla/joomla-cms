@@ -72,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<input type="button"
 										class="<?php echo $buttonClass; ?>"
 										value="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>"
-										aria-label="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON') . $language->name; ?>"
+										aria-label="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON') . " " . $language->name; ?>"
 										onclick="<?php echo $onclick; ?>"
 									>
 								</td>
