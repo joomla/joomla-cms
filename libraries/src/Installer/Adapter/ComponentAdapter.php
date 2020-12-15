@@ -388,7 +388,7 @@ class ComponentAdapter extends InstallerAdapter
 				// Install failed, roll back changes
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ABORT_COMP_COPY_SETUP',
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
 						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 					)
 				);
