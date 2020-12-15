@@ -25,8 +25,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 * @var    array
 	 * @since  3.9.23
 	 */
-	private $protectedConfigurtionFields = array('password', 'secret', 'ftp_pass', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
-
+	private $protectedConfigurationFields = array('password', 'secret', 'ftp_pass', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
 
 	/**
 	 * Method to get a form object.
@@ -95,7 +94,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Unset all protected config fields to empty
-		foreach ($this->protectedConfigurtionFields as $fieldKey)
+		foreach ($this->protectedConfigurationFields as $fieldKey)
 		{
 			if (isset($data[$fieldKey]))
 			{
@@ -122,7 +121,7 @@ class ConfigModelApplication extends ConfigModelForm
 		$config = JFactory::getConfig();
 
 		// Try to load the values from the configuration file
-		foreach ($this->protectedConfigurtionFields as $fieldKey)
+		foreach ($this->protectedConfigurationFields as $fieldKey)
 		{
 			if (isset($data[$fieldKey]) && empty($data[$fieldKey]))
 			{
