@@ -228,14 +228,14 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 							</span>
 						</div>
 					<?php endif; ?>
-			    <?php if ($article->publish_up > $currentDate) : ?>
+					<?php if ($article->publish_up > $currentDate) : ?>
 						<div>
 							<span class="list-published badge badge-warning">
 								<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
-			    <?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
+					<?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
 						<div>
 							<span class="list-published badge badge-warning">
 								<?php echo Text::_('JEXPIRED'); ?>
