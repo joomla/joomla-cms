@@ -17,8 +17,8 @@ $options = [
 	HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
 	HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 ];
-$published = $this->state->get('filter.published');
-$clientId  = $this->state->get('filter.client_id');
+$published = (int) $this->state->get('filter.published');
+$clientId  = (int) $this->state->get('filter.client_id');
 $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype');
 
 if ($clientId == 1)

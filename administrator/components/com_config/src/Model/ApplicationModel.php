@@ -1243,10 +1243,10 @@ class ApplicationModel extends FormModel
 		$app = Factory::getApplication();
 		$user = Factory::getUser();
 		$input = $app->input->json;
+		$smtppass = $input->get('smtppass', '', 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
-		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
 		$app->set('smtphost', $input->get('smtphost'));
 		$app->set('smtpsecure', $input->get('smtpsecure'));
 		$app->set('smtpport', $input->get('smtpport'));
@@ -1254,6 +1254,12 @@ class ApplicationModel extends FormModel
 		$app->set('fromname', $input->get('fromname', '', 'STRING'));
 		$app->set('mailer', $input->get('mailer'));
 		$app->set('mailonline', $input->get('mailonline'));
+
+		// Use smtppass only if it was submitted
+		if ($smtppass)
+		{
+			$app->set('smtppass', $smtppass);
+		}
 
 		$mail = Factory::getMailer();
 

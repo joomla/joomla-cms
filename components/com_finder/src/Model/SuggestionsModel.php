@@ -98,7 +98,7 @@ class SuggestionsModel extends ListModel
 			->order('t.weight DESC');
 
 		// Determine the relevant mapping table suffix by inverting the logic from drivers
-		$mappingTableSuffix = substr(md5(substr($this->getState('input'), 0, 1)), 0, 1);
+		$mappingTableSuffix = StringHelper::substr(md5(StringHelper::substr($this->getState('input'), 0, 1)), 0, 1);
 
 		// Join mapping table for term <-> link relation
 		$mappingTable = $db->quoteName('#__finder_links_terms' . $mappingTableSuffix);

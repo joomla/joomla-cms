@@ -65,6 +65,8 @@ if (!empty($this->items))
 		}
 	}
 }
+
+$currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 ?>
 
 <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-content-category__articles">
@@ -226,14 +228,14 @@ if (!empty($this->items))
 							</span>
 						</div>
 					<?php endif; ?>
-					<?php if (strtotime($article->publish_up) > strtotime(Factory::getDate())) : ?>
+			    <?php if ($article->publish_up > $currentDate) : ?>
 						<div>
 							<span class="list-published badge badge-warning">
 								<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
-					<?php if (!is_null($article->publish_down) && strtotime($article->publish_down) < strtotime(Factory::getDate())) : ?>
+			    <?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
 						<div>
 							<span class="list-published badge badge-warning">
 								<?php echo Text::_('JEXPIRED'); ?>

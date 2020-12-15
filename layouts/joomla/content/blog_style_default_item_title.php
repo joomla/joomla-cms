@@ -17,8 +17,9 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 // Create a shortcut for params.
 $params  = $displayData->params;
 $canEdit = $displayData->params->get('access-edit');
-?>
 
+$currentDate = JFactory::getDate()->format('Y-m-d H:i:s');
+?>
 <?php if ($displayData->state == 0 || $params->get('show_title') || ($params->get('show_author') && !empty($displayData->author ))) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
@@ -39,7 +40,7 @@ $canEdit = $displayData->params->get('access-edit');
 			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 
-		<?php if (strtotime($displayData->publish_up) > strtotime(Factory::getDate())) : ?>
+		<?php if (strtotime($displayData->publish_up) > $currentDate) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 
