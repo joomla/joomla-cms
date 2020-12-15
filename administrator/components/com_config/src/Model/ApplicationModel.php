@@ -45,6 +45,14 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
 class ApplicationModel extends FormModel
 {
 	/**
+	 * Array of protected password fields from the configuration.php
+	 *
+	 * @var    array
+	 * @since  3.9.23
+	 */
+	private $protectedConfigurationFields = array('password', 'secret', 'ftp_pass', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+
+	/**
 	 * Method to get a form object.
 	 *
 	 * @param   array    $data      Data for the form.
@@ -278,6 +286,15 @@ class ApplicationModel extends FormModel
 			}
 		}
 
+		// Unset all protected config fields to empty
+		foreach ($this->protectedConfigurationFields as $fieldKey)
+		{
+			if (isset($data[$fieldKey]))
+			{
+				$data[$fieldKey] = '';
+			}
+		}
+
 		return $data;
 	}
 
@@ -293,6 +310,15 @@ class ApplicationModel extends FormModel
 	public function save($data)
 	{
 		$app = Factory::getApplication();
+
+		// Try to load the values from the configuration file
+		foreach ($this->protectedConfigurationFields as $fieldKey)
+		{
+			if (isset($data[$fieldKey]) && empty($data[$fieldKey]))
+			{
+				$data[$fieldKey] = $app->get($fieldKey);
+			}
+		}
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(

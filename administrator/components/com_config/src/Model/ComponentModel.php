@@ -185,6 +185,11 @@ class ComponentModel extends FormModel
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
+			if (!Factory::getUser()->authorise('core.admin', $data['option']))
+			{
+				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			}
+
 			$rules = new Rules($data['params']['rules']);
 			$asset = Table::getInstance('asset');
 

@@ -671,6 +671,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
+		if (!JFactory::getUser()->authorise('core.admin', 'com_content'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
 		return parent::validate($form, $data, $group);
 	}
 
