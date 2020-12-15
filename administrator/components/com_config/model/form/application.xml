@@ -177,6 +177,7 @@
 			showon="cache_handler:redis"
 			autocomplete="off"
 			size="30"
+			hint="***************"
 		/>
 
 		<field
@@ -395,6 +396,7 @@
 			showon="ftp_enable:1"
 			autocomplete="off"
 			size="25"
+			hint="***************"
 		/>
 
 		<field
@@ -470,6 +472,7 @@
 			showon="proxy_enable:1"
 			autocomplete="off"
 			size="25"
+			hint="***************"
 		/>
 
 	</fieldset>
@@ -662,6 +665,7 @@
 			filter="raw"
 			autocomplete="off"
 			size="30"
+			hint="***************"
 		/>
 
 	</fieldset>
@@ -982,6 +986,7 @@
 			showon="session_handler:redis"
 			autocomplete="off"
 			size="30"
+			hint="***************"
 		/>
 
 		<field

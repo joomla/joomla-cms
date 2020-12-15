@@ -187,16 +187,16 @@
         },
         {
             "name": "joomla/archive",
-            "version": "1.1.7",
+            "version": "1.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/archive.git",
-                "reference": "185be301bae7cb6479a1e755944a68d52870e9fe"
+                "reference": "3753805379a764fa96fd3db7e3b6218760d169ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/185be301bae7cb6479a1e755944a68d52870e9fe",
-                "reference": "185be301bae7cb6479a1e755944a68d52870e9fe",
+                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/3753805379a764fa96fd3db7e3b6218760d169ac",
+                "reference": "3753805379a764fa96fd3db7e3b6218760d169ac",
                 "shasum": ""
             },
             "require": {
@@ -235,7 +235,17 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2020-11-14T17:40:00+00:00"
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-27T23:24:42+00:00"
         },
         {
             "name": "joomla/compat",

@@ -814,10 +814,24 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedInUser = User::getInstance($response['username']);
+		// Get the user id for the given username
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'username')))
+			->from($this->db->quoteName('#__users'))
+			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($response['username']));
+		$this->db->setQuery($query);
+
+		try
+		{
+			$loggedInUser = $this->db->loadObject();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return;
+		}
 
 		// Not a valid user, return
-		if (!$loggedInUser->id)
+		if (!isset($loggedInUser->id))
 		{
 			return;
 		}
@@ -1066,10 +1080,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	{
 		$context = $this->app->input->get('option');
 		$user    = JFactory::getUser();
-		
+
 		if (empty($oldVersion))
-		{			
-			$oldVersion = JText::_('JLIB_UNKNOWN');	
+		{
+			$oldVersion = JText::_('JLIB_UNKNOWN');
 		}
 
 		$message = array(
