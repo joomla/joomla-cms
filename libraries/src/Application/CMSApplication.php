@@ -229,7 +229,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Get invalid input variables
 		$invalidInputVariables = array_filter(
 			array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
-			function($systemVariable) use ($input) {
+			function ($systemVariable) use ($input) {
 				return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
 			}
 		);
