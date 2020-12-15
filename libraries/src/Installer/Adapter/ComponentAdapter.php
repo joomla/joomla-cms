@@ -268,7 +268,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ERROR_COMP_FAILED_TO_CREATE_DIRECTORY',
+						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
 						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->parent->getPath('extension_site')
 					)
@@ -299,7 +299,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ERROR_COMP_FAILED_TO_CREATE_DIRECTORY',
+						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
 						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->parent->getPath('extension_administrator')
 					)
@@ -330,7 +330,7 @@ class ComponentAdapter extends InstallerAdapter
 			{
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ERROR_COMP_FAILED_TO_CREATE_DIRECTORY',
+						'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
 						Text::_('JLIB_INSTALLER_' . strtoupper($this->route)),
 						$this->parent->getPath('extension_api')
 					)
