@@ -548,11 +548,11 @@ class UsersModel extends ListModel
 	/**
 	 * SQL server change
 	 *
-	 * @param   integer  $user_id  User identifier
+	 * @param   integer  $userId  User identifier
 	 *
 	 * @return  string   Groups titles imploded :$
 	 */
-	protected function _getUserDisplayedGroups($user_id)
+	protected function _getUserDisplayedGroups($userId)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -560,7 +560,7 @@ class UsersModel extends ListModel
 			->from($db->quoteName('#__usergroups', 'ug'))
 			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
 			->where($db->quoteName('map.user_id') . ' = :user_id')
-			->bind(':user_id', $user_id, ParameterType::INTEGER);
+			->bind(':user_id', $userId, ParameterType::INTEGER);
 
 		try
 		{

@@ -30,7 +30,7 @@ abstract class Grid
 	 * @param   string  $direction      The current direction
 	 * @param   string  $selected       The selected ordering
 	 * @param   string  $task           An optional task override
-	 * @param   string  $new_direction  An optional direction for the new column
+	 * @param   string  $newDirection  An optional direction for the new column
 	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
 	 * @param   string  $form           An optional form selector
 	 *
@@ -38,7 +38,7 @@ abstract class Grid
 	 *
 	 * @since   1.5
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '', $form = null)
+	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $newDirection = 'asc', $tip = '', $form = null)
 	{
 		HTMLHelper::_('behavior.core');
 		HTMLHelper::_('bootstrap.popover');
@@ -49,7 +49,7 @@ abstract class Grid
 
 		if ($order != $selected)
 		{
-			$direction = $new_direction;
+			$direction = $newDirection;
 		}
 		else
 		{
@@ -207,17 +207,17 @@ abstract class Grid
 	 * Method to create a select list of states for filtering
 	 * By default the filter shows only published and unpublished items
 	 *
-	 * @param   string  $filter_state  The initial filter state
-	 * @param   string  $published     The Text string for published
-	 * @param   string  $unpublished   The Text string for Unpublished
-	 * @param   string  $archived      The Text string for Archived
-	 * @param   string  $trashed       The Text string for Trashed
+	 * @param   string  $filterState  The initial filter state
+	 * @param   string  $published    The Text string for published
+	 * @param   string  $unpublished  The Text string for Unpublished
+	 * @param   string  $archived     The Text string for Archived
+	 * @param   string  $trashed      The Text string for Trashed
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function state($filter_state = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
+	public static function state($filterState = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
 	{
 		$state = array('' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished));
 
@@ -237,7 +237,7 @@ abstract class Grid
 			'filter_state',
 			array(
 				'list.attr' => 'class="form-control" size="1" onchange="Joomla.submitform();"',
-				'list.select' => $filter_state,
+				'list.select' => $filterState,
 				'option.key' => null,
 			)
 		);

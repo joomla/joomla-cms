@@ -503,15 +503,15 @@ class ModuleModel extends AdminModel
 	/**
 	 * Method to change the title.
 	 *
-	 * @param   integer  $category_id  The id of the category. Not used here.
-	 * @param   string   $title        The title.
-	 * @param   string   $position     The position.
+	 * @param   integer  $categoryId  The id of the category. Not used here.
+	 * @param   string   $title       The title.
+	 * @param   string   $position    The position.
 	 *
 	 * @return  array  Contains the modified title.
 	 *
 	 * @since   2.5
 	 */
-	protected function generateNewTitle($category_id, $title, $position)
+	protected function generateNewTitle($categoryId, $title, $position)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
@@ -1127,14 +1127,14 @@ class ModuleModel extends AdminModel
 	/**
 	 * Custom clean cache method for different clients
 	 *
-	 * @param   string   $group      The name of the plugin group to import (defaults to null).
-	 * @param   integer  $client_id  The client ID. [optional]
+	 * @param   string   $group     The name of the plugin group to import (defaults to null).
+	 * @param   integer  $clientId  The client ID. [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_modules', $this->getClient());
 	}

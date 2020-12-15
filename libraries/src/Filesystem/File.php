@@ -97,16 +97,16 @@ class File
 	/**
 	 * Copies a file
 	 *
-	 * @param   string   $src          The path to the source file
-	 * @param   string   $dest         The path to the destination file
-	 * @param   string   $path         An optional base path to prefix to the file names
-	 * @param   boolean  $use_streams  True to use streams
+	 * @param   string   $src         The path to the source file
+	 * @param   string   $dest        The path to the destination file
+	 * @param   string   $path        An optional base path to prefix to the file names
+	 * @param   boolean  $useStreams  True to use streams
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public static function copy($src, $dest, $path = null, $use_streams = false)
+	public static function copy($src, $dest, $path = null, $useStreams = false)
 	{
 		// Prepend a base path if it exists
 		if ($path)
@@ -123,7 +123,7 @@ class File
 			return false;
 		}
 
-		if ($use_streams)
+		if ($useStreams)
 		{
 			$stream = Factory::getStream();
 
@@ -252,16 +252,16 @@ class File
 	/**
 	 * Moves a file
 	 *
-	 * @param   string   $src          The path to the source file
-	 * @param   string   $dest         The path to the destination file
-	 * @param   string   $path         An optional base path to prefix to the file names
-	 * @param   boolean  $use_streams  True to use streams
+	 * @param   string   $src         The path to the source file
+	 * @param   string   $dest        The path to the destination file
+	 * @param   string   $path        An optional base path to prefix to the file names
+	 * @param   boolean  $useStreams  True to use streams
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public static function move($src, $dest, $path = '', $use_streams = false)
+	public static function move($src, $dest, $path = '', $useStreams = false)
 	{
 		if ($path)
 		{
@@ -277,7 +277,7 @@ class File
 			return false;
 		}
 
-		if ($use_streams)
+		if ($useStreams)
 		{
 			$stream = Factory::getStream();
 
@@ -328,15 +328,15 @@ class File
 	/**
 	 * Write contents to a file
 	 *
-	 * @param   string   $file         The full file path
-	 * @param   string   $buffer       The buffer to write
-	 * @param   boolean  $use_streams  Use streams
+	 * @param   string   $file        The full file path
+	 * @param   string   $buffer      The buffer to write
+	 * @param   boolean  $useStreams  Use streams
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public static function write($file, $buffer, $use_streams = false)
+	public static function write($file, $buffer, $useStreams = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
@@ -349,7 +349,7 @@ class File
 			}
 		}
 
-		if ($use_streams)
+		if ($useStreams)
 		{
 			$stream = Factory::getStream();
 
@@ -391,25 +391,25 @@ class File
 	/**
 	 * Append contents to a file
 	 *
-	 * @param   string   $file         The full file path
-	 * @param   string   $buffer       The buffer to write
-	 * @param   boolean  $use_streams  Use streams
+	 * @param   string   $file        The full file path
+	 * @param   string   $buffer      The buffer to write
+	 * @param   boolean  $useStreams  Use streams
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.6.0
 	 */
-	public static function append($file, $buffer, $use_streams = false)
+	public static function append($file, $buffer, $useStreams = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
 		// If the file doesn't exist, just write instead of append
 		if (!file_exists($file))
 		{
-			return self::write($file, $buffer, $use_streams);
+			return self::write($file, $buffer, $useStreams);
 		}
 
-		if ($use_streams)
+		if ($useStreams)
 		{
 			$stream = Factory::getStream();
 
@@ -454,17 +454,17 @@ class File
 	 *
 	 * @param   string   $src              The name of the php (temporary) uploaded file
 	 * @param   string   $dest             The path (including filename) to move the uploaded file to
-	 * @param   boolean  $use_streams      True to use streams
-	 * @param   boolean  $allow_unsafe     Allow the upload of unsafe files
+	 * @param   boolean  $useStreams       True to use streams
+	 * @param   boolean  $allowUnsafe      Allow the upload of unsafe files
 	 * @param   boolean  $safeFileOptions  Options to InputFilter::isSafeFile
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public static function upload($src, $dest, $use_streams = false, $allow_unsafe = false, $safeFileOptions = array())
+	public static function upload($src, $dest, $useStreams = false, $allowUnsafe = false, $safeFileOptions = array())
 	{
-		if (!$allow_unsafe)
+		if (!$allowUnsafe)
 		{
 			$descriptor = array(
 				'tmp_name' => $src,
@@ -495,7 +495,7 @@ class File
 			Folder::create($baseDir);
 		}
 
-		if ($use_streams)
+		if ($useStreams)
 		{
 			$stream = Factory::getStream();
 
