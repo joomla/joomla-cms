@@ -394,7 +394,7 @@ class CategoryModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $data['extension']))
+		if (!Factory::getUser()->authorise('core.admin', $data['extension']))
 		{
 			if (isset($data['rules']))
 			{
