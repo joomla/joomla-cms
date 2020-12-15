@@ -94,7 +94,7 @@ class ModuleController extends FormController
 				$return = Uri::base();
 			}
 
-			$this->app->redirect(base64_decode($return));
+			$this->app->redirect($return);
 		}
 
 		return $result;
