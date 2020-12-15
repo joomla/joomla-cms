@@ -130,18 +130,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php $itemId = $active->id; ?>
 	<?php $link = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
 	<?php $link->setVar('return', base64_encode(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
-	<p class="com-content-article__readmore readmore">
-		<a href="<?php echo $link; ?>" class="register">
-			<?php if ($params->get('alternative_readmore', '') === '') : ?>
-				<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
-			<?php else : ?>
-				<?php echo $params->get('alternative_readmore'); ?>
-				<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
-					<?php echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
-				<?php endif; ?>
-			<?php endif; ?>
-		</a>
-	</p>
+	<?php echo LayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
 	<?php endif; ?>
 	<?php endif; ?>
 	<?php

@@ -42,7 +42,7 @@ $fieldsets = $this->form->getFieldsets();
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php endforeach; ?>
 
-	<?php if (!empty($this->tfaform) && $this->item->id) : ?>
+	<?php if (!empty($this->twofactorform) && $this->item->id) : ?>
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_ADMIN_PROFILE_TWO_FACTOR_AUTH')); ?>
 	<div class="control-group">
 		<div class="control-label">
@@ -55,7 +55,7 @@ $fieldsets = $this->form->getFieldsets();
 		</div>
 	</div>
 	<div id="com_users_twofactor_forms_container">
-		<?php foreach ($this->tfaform as $form) : ?>
+		<?php foreach ($this->twofactorform as $form) : ?>
 			<?php $class = $form['method'] == $this->otpConfig->method ? '' : ' class="hidden"'; ?>
 			<div id="com_users_twofactor_<?php echo $form['method'] ?>"<?php echo $class; ?>>
 				<?php echo $form['form'] ?>

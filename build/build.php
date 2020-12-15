@@ -307,9 +307,7 @@ $doNotPackage = array(
 	'.eslintrc',
 	'.github',
 	'.gitignore',
-	'.hound.yml',
 	'.php_cs.dist',
-	'.travis.yml',
 	'CODE_OF_CONDUCT.md',
 	'Gemfile',
 	'Gemfile.lock',
@@ -332,7 +330,6 @@ $doNotPackage = array(
 	'scss-lint.yml',
 	'selenium.log',
 	'tests',
-	'travisci-phpunit.xml',
 	// Media Manager Node Assets
 	'administrator/components/com_media/webpack.config.js',
 	'administrator/components/com_media/resources',
