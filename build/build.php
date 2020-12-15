@@ -301,6 +301,7 @@ $filesArray = array(
 $doNotPackage = array(
 	'.appveyor.yml',
 	'.babelrc',
+	'.drone.jsonnet',
 	'.drone.yml',
 	'.editorconfig',
 	'.eslintignore',

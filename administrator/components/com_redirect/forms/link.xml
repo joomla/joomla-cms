@@ -92,6 +92,7 @@
 			label="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_LABEL"
 			description="COM_REDIRECT_FIELD_REDIRECT_STATUS_CODE_DESC"
 			default="301"
+			validate="options"
 		/>
 	</fieldset>
 </form>

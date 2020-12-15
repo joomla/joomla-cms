@@ -1631,12 +1631,26 @@ class TemplateModel extends FormModel
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
-			$JImage   = new Image($path);
 
 			try
 			{
-				$image = $JImage->crop($w, $h, $x, $y, true);
-				$image->toFile($path);
+				$image      = new Image($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->crop($w, $h, $x, $y, false);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}
@@ -1667,12 +1681,25 @@ class TemplateModel extends FormModel
 			$relPath = base64_decode($file);
 			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			$JImage = new Image($path);
-
 			try
 			{
-				$image = $JImage->resize($width, $height, true, 1);
-				$image->toFile($path);
+				$image      = new Image($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->resize($width, $height, false, Image::SCALE_FILL);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}
