@@ -63,7 +63,7 @@ class ExceptionHandler
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	public static function handleException(\Throwable $error)
 	{
@@ -203,7 +203,7 @@ class ExceptionHandler
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	protected static function isException($error)
 	{
@@ -217,7 +217,7 @@ class ExceptionHandler
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.10.0
 	 */
 	protected static function logException(\Throwable $error)
 	{
