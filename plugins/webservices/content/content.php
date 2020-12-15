@@ -179,4 +179,10 @@ class PlgWebservicesContent extends CMSPlugin
 
 		$router->addRoutes($routes);
 	}
+
+	public function onAfterApiRoute($object, $publicApi)
+	{
+		$status = $publicApi ? 0 : 1;
+		Factory::getApplication()->input->set('isPublicApi', $status);
+	}
 }
