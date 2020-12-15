@@ -1135,10 +1135,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	{
 		$context = $this->app->input->get('option');
 		$user    = JFactory::getUser();
-		
+
 		if (empty($oldVersion))
-		{			
-			$oldVersion = JText::_('JLIB_UNKNOWN');	
+		{
+			$oldVersion = JText::_('JLIB_UNKNOWN');
 		}
 
 		$message = array(

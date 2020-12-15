@@ -201,7 +201,7 @@ class ExceptionHandler
 	 *
 	 * @param   mixed  $error  Any error value.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.10.0
 	 */
