@@ -91,9 +91,9 @@ class StreamString
 	/**
 	 * Method to open a file or URL.
 	 *
-	 * @param   string   $path         The stream path.
-	 * @param   string   $mode         Not used.
-	 * @param   integer  $options      Not used.
+	 * @param   string   $path        The stream path.
+	 * @param   string   $mode        Not used.
+	 * @param   integer  $options     Not used.
 	 * @param   string   $openedPath  Not used.
 	 *
 	 * @return  boolean

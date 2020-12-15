@@ -373,9 +373,9 @@ class Patcher
 	/**
 	 * Apply the patch
 	 *
-	 * @param   array   $lines     The udiff array of lines
-	 * @param   string  $src       The source file
-	 * @param   string  $dst       The destination file
+	 * @param   array   $lines    The udiff array of lines
+	 * @param   string  $src      The source file
+	 * @param   string  $dst      The destination file
 	 * @param   string  $srcLine  The beginning of the patch for the source file
 	 * @param   string  $srcSize  The size of the patch for the source file
 	 * @param   string  $dstLine  The beginning of the patch for the destination file

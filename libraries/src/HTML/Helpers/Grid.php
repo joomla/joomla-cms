@@ -25,14 +25,14 @@ abstract class Grid
 	/**
 	 * Method to sort a column in a grid
 	 *
-	 * @param   string  $title          The link title
-	 * @param   string  $order          The order field for the column
-	 * @param   string  $direction      The current direction
-	 * @param   string  $selected       The selected ordering
-	 * @param   string  $task           An optional task override
+	 * @param   string  $title         The link title
+	 * @param   string  $order         The order field for the column
+	 * @param   string  $direction     The current direction
+	 * @param   string  $selected      The selected ordering
+	 * @param   string  $task          An optional task override
 	 * @param   string  $newDirection  An optional direction for the new column
-	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
-	 * @param   string  $form           An optional form selector
+	 * @param   string  $tip           An optional text shown as tooltip title instead of $title
+	 * @param   string  $form          An optional form selector
 	 *
 	 * @return  string
 	 *
