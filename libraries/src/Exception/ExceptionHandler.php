@@ -56,7 +56,7 @@ class ExceptionHandler
 		return false;
 	}
 
-	/*
+	/**
 	 * Handles exceptions: logs errors and renders error page.
 	 *
 	 * @param   \Exception|\Throwable  $error  An Exception or Throwable (PHP 7+) object for which to render the error page.
