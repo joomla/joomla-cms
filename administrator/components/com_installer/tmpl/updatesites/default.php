@@ -88,7 +88,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo HTMLHelper::_('updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
 									<?php endif; ?>
 								</td>
-								<td scope="row">
+								<th scope="row">
 									<?php if ($item->checked_out) : ?>
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'updatesites.', $canCheckin); ?>
 									<?php endif; ?>
@@ -125,7 +125,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</span>
 										<?php endif; ?>
 									</span>
-								</td>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<span tabindex="0">
 										<?php echo $item->name; ?>
