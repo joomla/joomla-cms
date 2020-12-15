@@ -119,7 +119,7 @@ class UpdateController extends BaseController
 	public function install()
 	{
 		$this->checkToken('get');
-		JFactory::getApplication()->setUserState('com_joomlaupdate.oldversion', JVERSION);
+		Factory::getApplication()->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
