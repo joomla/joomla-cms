@@ -1015,8 +1015,15 @@ abstract class AdminModel extends FormModel
 
 		if ($pk > 0)
 		{
-			// Attempt to load the row.
-			$return = $table->load($pk);
+			if ((int) Factory::getApplication()->input->get('isPublicApi', 0) === 1)
+			{			
+				$return = $table->load(['id' => $pk, 'state' => 1]);
+			}
+			else
+			{
+				// Attempt to load the row.
+				$return = $table->load($pk);
+			}
 
 			// Check for a table object error.
 			if ($return === false && $table->getError())
