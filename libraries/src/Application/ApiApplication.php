@@ -292,15 +292,21 @@ final class ApiApplication extends CMSApplication
 			}
 		}
 
-		$this->triggerEvent('onAfterApiRoute', array($this));
-
-		if (!isset($route['vars']['public']) || $route['vars']['public'] === false)
+		$publicApi = true;
+	
+		if (!$this->login(array('username' => ''), array('silent' => true, 'action' => 'core.login.api')))
 		{
-			if (!$this->login(array('username' => ''), array('silent' => true, 'action' => 'core.login.api')))
+			if (!isset($route['vars']['public']) || $route['vars']['public'] === false)
 			{
 				throw new AuthenticationFailed;
-			}
+			}			
+			if ($route['vars']['public'] === true)
+			{
+				$publicApi = false;
+			}			
 		}
+
+		$this->triggerEvent('onAfterApiRoute', ['this' => $this, 'public' => $publicApi]);
 	}
 
 	/**
