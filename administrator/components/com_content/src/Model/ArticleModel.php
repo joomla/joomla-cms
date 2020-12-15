@@ -1186,12 +1186,4 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		return $return;
 	}
-
-	/**
-	 * Load the assigned workflow information by a given category ID
-	 *
-	 * @param   integer  $catId  The given category
-	 *
-	 * @return  integer|boolean  If found, the workflow ID, otherwise false
-	 */
 }
