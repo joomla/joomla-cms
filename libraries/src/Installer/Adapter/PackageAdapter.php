@@ -295,7 +295,12 @@ class PackageAdapter extends InstallerAdapter
 				if (!$this->parent->copyFiles(array($path)))
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_PACKAGE_INSTALL_MANIFEST'));
+					throw new \RuntimeException(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_MANIFEST',
+							Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+						)
+					);
 				}
 			}
 		}

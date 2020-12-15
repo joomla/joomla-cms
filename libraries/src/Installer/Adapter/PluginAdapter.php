@@ -109,7 +109,7 @@ class PluginAdapter extends InstallerAdapter
 					// Install failed, rollback changes
 					throw new \RuntimeException(
 						Text::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_MANIFEST',
+							'JLIB_INSTALLER_ABORT_MANIFEST',
 							Text::_('JLIB_INSTALLER_' . $this->route)
 						)
 					);
