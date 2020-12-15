@@ -42,6 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   boolean  $lock            File types that are accepted.
  */
 
 if ($meter)
@@ -67,6 +68,21 @@ if ($meter)
 JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
+if ($lock) {
+	// Load script on document load.
+	JFactory::getDocument()->addScriptDeclaration(
+			"
+		jQuery(document).ready(function() {
+			jQuery('#" . $id ."_lock').on('click', function() {
+				jQuery('#" . $id . "').attr('disabled', jQuery(this).hasClass('active'));
+			});
+		});"
+	);
+
+	$disabled = true;
+	$value = '';
+}
+
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',
@@ -80,8 +96,13 @@ $attributes = array(
 );
 
 ?>
+<?php if ($lock): ?><span class="input-append"><?php endif; ?>
 <input type="password" name="<?php
 echo $name; ?>" id="<?php
 echo $id; ?>" value="<?php
 echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php
 echo implode(' ', $attributes); ?> />
+<?php if ($lock): ?>
+<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info" data-toggle="button"><?php echo JText::_('JMODIFY'); ?></button>
+</span>
+<?php endif; ?>

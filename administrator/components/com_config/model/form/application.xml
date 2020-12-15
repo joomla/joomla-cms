@@ -178,6 +178,7 @@
 			autocomplete="off"
 			size="30"
 			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -267,6 +268,18 @@
 			required="true"
 			filter="string"
 			size="30"
+		/>
+
+		<field
+			name="password"
+			type="password"
+			label="COM_CONFIG_FIELD_DATABASE_PASSWORD_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_PASSWORD_DESC"
+			filter="raw"
+			autocomplete="off"
+			size="30"
+			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -397,6 +410,7 @@
 			autocomplete="off"
 			size="25"
 			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -473,6 +487,7 @@
 			autocomplete="off"
 			size="25"
 			hint="***************"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -666,6 +681,7 @@
 			autocomplete="off"
 			size="30"
 			hint="***************"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -987,6 +1003,7 @@
 			autocomplete="off"
 			size="30"
 			hint="***************"
+			lock="true"
 		/>
 
 		<field

@@ -93,15 +93,6 @@ class ConfigModelApplication extends ConfigModelForm
 			$data = array_merge($data, $temp);
 		}
 
-		// Unset all protected config fields to empty
-		foreach ($this->protectedConfigurationFields as $fieldKey)
-		{
-			if (isset($data[$fieldKey]))
-			{
-				$data[$fieldKey] = '';
-			}
-		}
-
 		return $data;
 	}
 
@@ -123,7 +114,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Try to load the values from the configuration file
 		foreach ($this->protectedConfigurationFields as $fieldKey)
 		{
-			if (isset($data[$fieldKey]) && empty($data[$fieldKey]))
+			if (!isset($data[$fieldKey]))
 			{
 				$data[$fieldKey] = $config->get($fieldKey);
 			}
@@ -134,7 +125,7 @@ class ConfigModelApplication extends ConfigModelForm
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => $config->get('password'),
+			'password' => $data['password'],
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
@@ -913,7 +904,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Set the new values to test with the current settings
 		$app      = JFactory::getApplication();
 		$input    = $app->input;
-		$smtppass = $input->get('smtppass', '', 'RAW');
+		$smtppass = $input->get('smtppass', null, 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
@@ -926,7 +917,7 @@ class ConfigModelApplication extends ConfigModelForm
 		$app->set('mailonline', $input->get('mailonline'));
 
 		// Use smtppass only if it was submitted
-		if ($smtppass)
+		if ($smtppass !== NULL)
 		{
 			$app->set('smtppass', $smtppass);
 		}
