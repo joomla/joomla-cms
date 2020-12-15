@@ -75,6 +75,12 @@ class ArticlesController extends ApiController
 			$this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
 		}
 
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			
+			$this->modelState->set('filter.published', 1, 'INT');
+		}
+
 		return parent::displayList();
 	}
 
