@@ -280,7 +280,7 @@ class GroupModel extends AdminModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		if (!JFactory::getUser()->authorise('core.admin', 'com_fields'))
+		if (!Factory::getUser()->authorise('core.admin', 'com_fields'))
 		{
 			if (isset($data['rules']))
 			{

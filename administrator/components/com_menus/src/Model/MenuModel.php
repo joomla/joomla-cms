@@ -220,7 +220,7 @@ class MenuModel extends FormModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		if (!JFactory::getUser()->authorise('core.admin', 'com_menus'))
+		if (!Factory::getUser()->authorise('core.admin', 'com_menus'))
 		{
 			if (isset($data['rules']))
 			{
