@@ -24,7 +24,7 @@ class JFormFieldPassword extends JFormField
 	 * also remove the value from the output.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.24
 	 */
 	protected $lock = false;
 
