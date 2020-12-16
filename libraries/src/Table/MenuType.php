@@ -129,7 +129,7 @@ class MenuType extends Table
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+					Text::sprintf('JLIB_DATABASE_ERROR_METHOD_FAILED', __METHOD__, Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
 
 				return false;
@@ -149,7 +149,7 @@ class MenuType extends Table
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+					Text::sprintf('JLIB_DATABASE_ERROR_METHOD_FAILED', __METHOD__, Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
 
 				return false;
@@ -230,7 +230,7 @@ class MenuType extends Table
 
 			if ($this->_db->loadRowList())
 			{
-				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_METHOD_FAILED', __METHOD__, Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
 				return false;
 			}
@@ -248,7 +248,7 @@ class MenuType extends Table
 
 			if ($this->_db->loadRowList())
 			{
-				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_METHOD_FAILED', __METHOD__, Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
 				return false;
 			}
