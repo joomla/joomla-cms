@@ -96,13 +96,18 @@ $attributes = array(
 );
 
 ?>
-<?php if ($lock): ?><span class="input-append"><?php endif; ?>
-<input type="password" name="<?php
-echo $name; ?>" id="<?php
-echo $id; ?>" value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php
-echo implode(' ', $attributes); ?> />
 <?php if ($lock): ?>
-<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info" data-toggle="button"><?php echo JText::_('JMODIFY'); ?></button>
-</span>
+    <span class="input-append">
+<?php endif; ?>
+
+<input 
+    type="password" 
+    name="<?php echo $name; ?>" 
+    id="<?php echo $id; ?>" 
+    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" 
+    <?php echo implode(' ', $attributes); ?>
+/>
+<?php if ($lock): ?>
+    <button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info" data-toggle="button"><?php echo JText::_('JMODIFY'); ?></button>
+    </span>
 <?php endif; ?>
