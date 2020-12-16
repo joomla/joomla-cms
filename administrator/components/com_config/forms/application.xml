@@ -315,6 +315,46 @@
 
 	</fieldset>
 
+	<fieldset name="webservices" label="CONFIG_WEBSERVICES_SETTINGS_LABEL">
+		<field
+			name="cors"
+			type="radio"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORSOFFF_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="boolean"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="cors_allow_origin"
+			type="text"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_DESC"
+			default="*"
+			showon="cors:1"
+		/>
+
+		<field
+			name="cors_allow_headers"
+			type="text"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_DESC"
+			default="Content-Type,X-Joomla-Token"
+			showon="cors:1"
+		/>
+
+		<field
+			name="cors_allow_methods"
+			type="text"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_DESC"
+			showon="cors:1"
+		/>
+	</fieldset>
+
 	<fieldset name="ftp" label="CONFIG_FTP_SETTINGS_LABEL">
 
 		<field
