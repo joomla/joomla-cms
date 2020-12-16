@@ -42,7 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
- * @var   boolean  $lock            File types that are accepted.
+ * @var   boolean  $lock            Is this field locked.
  */
 
 if ($meter)
@@ -75,7 +75,18 @@ if ($lock)
 			"
 		jQuery(document).ready(function() {
 			jQuery('#" . $id ."_lock').on('click', function() {
-				jQuery('#" . $id . "').attr('disabled', jQuery(this).hasClass('active'));
+				var lockButton = jQuery(this);
+				var lock = lockButton.hasClass('active');
+
+				jQuery('#" . $id . "').attr('disabled', lock);
+
+				if (lock === true) {
+					lockButton.html('" . JText::_('JMODIFY', true) . "');
+				}
+				else
+				{
+					lockButton.html('" . JText::_('JUNPROTECTED', true) . "');
+				}
 			});
 		});"
 	);
@@ -100,12 +111,11 @@ $attributes = array(
 <?php if ($lock): ?>
     <span class="input-append">
 <?php endif; ?>
-
-<input 
-    type="password" 
-    name="<?php echo $name; ?>" 
-    id="<?php echo $id; ?>" 
-    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" 
+<input
+    type="password"
+    name="<?php echo $name; ?>"
+    id="<?php echo $id; ?>"
+    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
     <?php echo implode(' ', $attributes); ?>
 />
 <?php if ($lock): ?>
