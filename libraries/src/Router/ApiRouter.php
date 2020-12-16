@@ -126,7 +126,7 @@ class ApiRouter extends Router
 			}
 		}
 
-		throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $path));
+		throw new RouteNotFoundException(sprintf('Unable to handle request for route `%s`.', $routePath));
 	}
 
 	/**
