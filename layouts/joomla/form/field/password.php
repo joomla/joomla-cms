@@ -86,7 +86,7 @@ if ($lock)
 				}
 				else
 				{
-					lockButton.html('" . JText::_('JPREVIOUS', true) . "');
+					lockButton.html('" . JText::_('JCANCEL', true) . "');
 					passwordInput.attr('disabled', false);
 				}
 			});
