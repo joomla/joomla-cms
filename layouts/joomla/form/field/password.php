@@ -76,22 +76,25 @@ if ($lock)
 		jQuery(document).ready(function() {
 			jQuery('#" . $id ."_lock').on('click', function() {
 				var lockButton = jQuery(this);
+				var passwordInput = jQuery('#" . $id . "');
 				var lock = lockButton.hasClass('active');
-
-				jQuery('#" . $id . "').attr('disabled', lock);
 
 				if (lock === true) {
 					lockButton.html('" . JText::_('JMODIFY', true) . "');
+					passwordInput.attr('disabled', true);
+					passwordInput.val('');
 				}
 				else
 				{
-					lockButton.html('" . JText::_('JUNPROTECTED', true) . "');
+					lockButton.html('" . JText::_('JPREVIOUS', true) . "');
+					passwordInput.attr('disabled', false);
 				}
 			});
 		});"
 	);
 
 	$disabled = true;
+	$hint = str_repeat('*', strlen($value));
 	$value = '';
 }
 
