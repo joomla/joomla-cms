@@ -917,7 +917,7 @@ class ConfigModelApplication extends ConfigModelForm
 		$app->set('mailonline', $input->get('mailonline'));
 
 		// Use smtppass only if it was submitted
-		if ($smtppass !== NULL)
+		if ($smtppass !== null)
 		{
 			$app->set('smtppass', $smtppass);
 		}
