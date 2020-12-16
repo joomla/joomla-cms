@@ -68,7 +68,8 @@ if ($meter)
 JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
-if ($lock) {
+if ($lock)
+{
 	// Load script on document load.
 	JFactory::getDocument()->addScriptDeclaration(
 			"
