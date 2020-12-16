@@ -1017,7 +1017,7 @@ abstract class AdminModel extends FormModel
 		{
 			if ((int) Factory::getApplication()->input->get('isPublicApi', 0) === 1)
 			{			
-				$return = $table->load(['id' => $pk, 'state' => 1]);
+				$return = $table->load(['id' => $pk, $table->getColumnAlias('published') => 1]);
 			}
 			else
 			{
