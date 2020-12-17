@@ -1374,7 +1374,15 @@ class Installer extends \JAdapter
 
 				if (!Folder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					Log::add(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							Text::_('JLIB_INSTALLER_INSTALL'),
+							$newdir
+						),
+						Log::WARNING,
+						'jerror'
+					);
 
 					return false;
 				}
@@ -1490,7 +1498,15 @@ class Installer extends \JAdapter
 
 				if (!Folder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					Log::add(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							Text::_('JLIB_INSTALLER_INSTALL'),
+							$newdir
+						),
+						Log::WARNING,
+						'jerror'
+					);
 
 					return false;
 				}
@@ -1571,7 +1587,15 @@ class Installer extends \JAdapter
 
 				if (!Folder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					Log::add(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							Text::_('JLIB_INSTALLER_INSTALL'),
+							$newdir
+						),
+						Log::WARNING,
+						'jerror'
+					);
 
 					return false;
 				}

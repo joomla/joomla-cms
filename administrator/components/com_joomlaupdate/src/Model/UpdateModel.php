@@ -752,7 +752,12 @@ ENDDATA;
 		{
 			if ($manifestClass->preflight('update', $installer) === false)
 			{
-				$installer->abort(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				$installer->abort(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+						Text::_('JLIB_INSTALLER_INSTALL')
+					)
+				);
 
 				return false;
 			}
@@ -867,7 +872,12 @@ ENDDATA;
 			if ($manifestClass->update($installer) === false)
 			{
 				// Install failed, rollback changes.
-				$installer->abort(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				$installer->abort(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+						Text::_('JLIB_INSTALLER_INSTALL')
+					)
+				);
 
 				return false;
 			}
