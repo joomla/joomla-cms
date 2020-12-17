@@ -77,7 +77,6 @@ class ArticlesController extends ApiController
 
 		if ((int) $this->input->get('isPublicApi', 0) === 1)
 		{
-			
 			$this->modelState->set('filter.published', 1, 'INT');
 		}
 
