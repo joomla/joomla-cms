@@ -40,11 +40,11 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 
-		<?php if (strtotime($displayData->publish_up) > $currentDate) : ?>
+		<?php if ($displayData->publish_up > $currentDate) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 
-		<?php if ($displayData->publish_down !== null && strtotime($displayData->publish_down) < strtotime(Factory::getDate())) : ?>
+		<?php if ($displayData->publish_down !== null && $displayData->publish_down < $currentDate) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
