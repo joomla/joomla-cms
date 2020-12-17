@@ -65,7 +65,6 @@ class GroupsController extends ApiController
 		
 		if ((int) $this->input->get('isPublicApi', 0) === 1)
 		{
-			
 			$this->modelState->set('filter.state', 1, 'INT');
 		}
 
