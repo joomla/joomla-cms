@@ -454,13 +454,13 @@ abstract class UserHelper
 	 *
 	 * @param   string   $password  The plaintext password to check.
 	 * @param   string   $hash      The hash to verify against.
-	 * @param   integer  $user_id   ID of the user if the password hash should be updated
+	 * @param   integer  $userId    ID of the user if the password hash should be updated
 	 *
 	 * @return  boolean  True if the password and hash match, false otherwise
 	 *
 	 * @since   3.2.1
 	 */
-	public static function verifyPassword($password, $hash, $user_id = 0)
+	public static function verifyPassword($password, $hash, $userId = 0)
 	{
 		$passwordAlgorithm = self::HASH_BCRYPT;
 		$container         = Factory::getContainer();
@@ -503,9 +503,9 @@ abstract class UserHelper
 		$rehash = $handler instanceof CheckIfRehashNeededHandlerInterface ? $handler->checkIfRehashNeeded($hash) : false;
 
 		// If we have a match and rehash = true, rehash the password with the current algorithm.
-		if ((int) $user_id > 0 && $match && $rehash)
+		if ((int) $userId > 0 && $match && $rehash)
 		{
-			$user = new User($user_id);
+			$user = new User($userId);
 			$user->password = static::hashPassword($password, $passwordAlgorithm);
 			$user->save();
 		}

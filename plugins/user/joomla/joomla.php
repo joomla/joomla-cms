@@ -67,7 +67,7 @@ class PlgUserJoomla extends CMSPlugin
 			// After returning from error, $data is an array but populated
 			if (!$data)
 			{
-				$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+				$data = Factory::getApplication()->input->get('jform', array(), 'array');
 			}
 
 			if (is_array($data))

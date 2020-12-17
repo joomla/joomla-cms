@@ -145,6 +145,9 @@ class RequestController extends FormController
 	 */
 	public function emailexport()
 	{
+		// Check for request forgeries.
+		$this->checkToken('get');
+
 		/** @var ExportModel $model */
 		$model = $this->getModel('Export');
 

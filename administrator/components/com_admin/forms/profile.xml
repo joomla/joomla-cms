@@ -93,6 +93,11 @@
 			filter="unset"
 		/>
 
+		<!-- Used to get the two factor authentication configuration -->
+		<field
+			name="twofactor"
+			type="hidden"
+		/>
 	</fieldset>
 
 	<fields name="params">

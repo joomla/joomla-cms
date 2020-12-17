@@ -69,7 +69,7 @@ if (!defined('JVERSION'))
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
-set_exception_handler(array('JErrorPage', 'render'));
+set_exception_handler(array('Joomla\CMS\Exception\ExceptionHandler', 'handleException'));
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))
