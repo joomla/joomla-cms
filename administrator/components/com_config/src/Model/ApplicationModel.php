@@ -316,7 +316,7 @@ class ApplicationModel extends FormModel
 		{
 			if (isset($data[$fieldKey]) && empty($data[$fieldKey]))
 			{
-				$data[$fieldKey] = $app->get($fieldKey);
+				$data[$fieldKey] = $app->get($fieldKey, '');
 			}
 		}
 
