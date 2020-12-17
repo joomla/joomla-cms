@@ -62,7 +62,7 @@ class GroupsController extends ApiController
 	public function displayList()
 	{
 		$this->modelState->set('filter.context', $this->getContextFromInput());
-		
+
 		if ((int) $this->input->get('isPublicApi', 0) === 1)
 		{
 			$this->modelState->set('filter.state', 1, 'INT');
