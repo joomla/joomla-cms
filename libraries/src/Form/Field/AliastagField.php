@@ -71,7 +71,7 @@ class AliastagField extends ListField
 			$options,
 			function ($a, $b)
 			{
-				return $a->text > $b->text;
+				return strcmp($a->text, $b->text);
 			}
 		);
 

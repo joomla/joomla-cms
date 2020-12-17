@@ -28,6 +28,14 @@ use Joomla\Utilities\ArrayHelper;
 class UsersModel extends ListModel
 {
 	/**
+	 * A blacklist of filter variables to not merge into the model's state
+	 *
+	 * @var    array
+	 * @since  3.9.23
+	 */
+	protected $filterBlacklist = array('groups', 'excluded');
+
+	/**
 	 * Override parent constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.

@@ -671,6 +671,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
+		if (!Factory::getUser()->authorise('core.admin', 'com_content'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
 		return parent::validate($form, $data, $group);
 	}
 
@@ -1178,12 +1186,4 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		return $return;
 	}
-
-	/**
-	 * Load the assigned workflow information by a given category ID
-	 *
-	 * @param   integer  $catId  The given category
-	 *
-	 * @return  integer|boolean  If found, the workflow ID, otherwise false
-	 */
 }

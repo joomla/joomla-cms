@@ -14,6 +14,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * User controller class.
@@ -70,7 +71,15 @@ class UserController extends FormController
 
 		if ($return = $this->input->get('return', '', 'BASE64'))
 		{
-			$this->app->redirect(base64_decode($return));
+			$return = base64_decode($return);
+
+			// Don't redirect to an external URL.
+			if (!Uri::isInternal($return))
+			{
+				$return = Uri::base();
+			}
+
+			$this->app->redirect($return);
 		}
 
 		return $result;
