@@ -1631,7 +1631,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.24
 	 */
 	private function getDefaultSchema()
 	{

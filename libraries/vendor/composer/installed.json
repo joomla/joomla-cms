@@ -188,17 +188,17 @@
     },
     {
         "name": "joomla/archive",
-        "version": "1.1.7",
-        "version_normalized": "1.1.7.0",
+        "version": "1.1.8",
+        "version_normalized": "1.1.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/archive.git",
-            "reference": "185be301bae7cb6479a1e755944a68d52870e9fe"
+            "reference": "3753805379a764fa96fd3db7e3b6218760d169ac"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/archive/zipball/185be301bae7cb6479a1e755944a68d52870e9fe",
-            "reference": "185be301bae7cb6479a1e755944a68d52870e9fe",
+            "url": "https://api.github.com/repos/joomla-framework/archive/zipball/3753805379a764fa96fd3db7e3b6218760d169ac",
+            "reference": "3753805379a764fa96fd3db7e3b6218760d169ac",
             "shasum": ""
         },
         "require": {
@@ -215,7 +215,7 @@
             "ext-zip": "To extract zip compressed packages",
             "ext-zlib": "To extract gzip or zip compressed packages"
         },
-        "time": "2020-11-14T17:40:00+00:00",
+        "time": "2020-11-27T23:24:42+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -238,6 +238,16 @@
             "archive",
             "framework",
             "joomla"
+        ],
+        "funding": [
+            {
+                "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/joomla",
+                "type": "github"
+            }
         ]
     },
     {
@@ -538,17 +548,17 @@
     },
     {
         "name": "joomla/image",
-        "version": "1.5.0",
-        "version_normalized": "1.5.0.0",
+        "version": "1.5.1",
+        "version_normalized": "1.5.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/image.git",
-            "reference": "8885c6db5d5b3653ad30d4ad4f73607925a725a5"
+            "reference": "00e843bccb2f9b1f1e6d8710ed55d103c641a75b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/image/zipball/8885c6db5d5b3653ad30d4ad4f73607925a725a5",
-            "reference": "8885c6db5d5b3653ad30d4ad4f73607925a725a5",
+            "url": "https://api.github.com/repos/joomla-framework/image/zipball/00e843bccb2f9b1f1e6d8710ed55d103c641a75b",
+            "reference": "00e843bccb2f9b1f1e6d8710ed55d103c641a75b",
             "shasum": ""
         },
         "require": {
@@ -561,7 +571,7 @@
             "joomla/test": "~1.0",
             "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
         },
-        "time": "2018-05-25T02:29:30+00:00",
+        "time": "2020-12-02T13:11:43+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -584,6 +594,16 @@
             "framework",
             "image",
             "joomla"
+        ],
+        "funding": [
+            {
+                "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/joomla",
+                "type": "github"
+            }
         ]
     },
     {
