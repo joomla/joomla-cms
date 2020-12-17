@@ -119,7 +119,7 @@ if ($saveOrder && !empty($this->items))
 							</th>
 						<?php endif; ?>
 						<th scope="col" class="w-10 d-none d-md-table-cell text-center">
-							<?php echo JHtml::_('searchtools.sort', 'COM_TAGS_COUNT_TAGGED_ITEMS', 'countTaggedItems', $listDirn, $listOrder); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', 'COM_TAGS_COUNT_TAGGED_ITEMS', 'countTaggedItems', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="w-5 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
