@@ -84,7 +84,7 @@ class CategoriesController extends ApiController
 		$this->modelState->set('filter.extension', $this->getExtensionFromInput());
 
 		if ((int) $this->input->get('isPublicApi', 0) === 1)
-		{	
+		{
 			$this->modelState->set('filter.published', 1, 'INT');
 		}
 
