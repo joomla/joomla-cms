@@ -36,7 +36,7 @@ class UserIdRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
