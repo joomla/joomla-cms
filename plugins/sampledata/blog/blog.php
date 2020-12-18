@@ -809,7 +809,7 @@ class PlgSampledataBlog extends CMSPlugin
 		}
 
 		$this->app->setUserState('sampledata.blog.articles', $ids);
-		$this->app->setUserState('sampledata.blog.articles.catids', $catIds);
+		$this->app->setUserState('sampledata.blog.articles.catIds', $catIds);
 
 		$response          = new stdClass;
 		$response->success = true;
@@ -897,7 +897,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 		// Get previously entered categories ids
-		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
+		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
 
 		// Insert menuitems level 1.
 		$menuItems = array(
@@ -905,7 +905,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Blog
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
-				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catIds[0],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'layout_type'             => 'blog',
@@ -925,7 +925,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Help
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE'),
-				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[1],
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catIds[1],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'blog_class_leading'      => '',
@@ -988,7 +988,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Typography
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[10],
+				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[10] ,
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'show_title'            => 0,
@@ -1018,7 +1018,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'access'       => 3,
 				'params'       => array(
 					'enable_category'   => 1,
-					'catid'             => $catids[0],
+					'catid'             => $catIds[0],
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
 					'secure'            => 0,
@@ -1141,6 +1141,8 @@ class PlgSampledataBlog extends CMSPlugin
 			return $response;
 		}
 
+		$this->app->setUserState('sampledata.blog.menuIdsLevel1', $menuIdsLevel1);
+
 		// Insert menuitems level 2.
 		$menuItems = array(
 			array(
@@ -1172,7 +1174,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Blog
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
-				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catIds[0],
 				'parent_id'    => $menuIdsLevel1[3],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
@@ -1201,7 +1203,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Category List
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_12_TITLE'),
-				'link'         => 'index.php?option=com_content&view=category&id=' . $catids[0],
+				'link'         => 'index.php?option=com_content&view=category&id=' . $catIds[0],
 				'parent_id'    => $menuIdsLevel1[3],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
@@ -1214,7 +1216,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Articles (menu header)
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_13_TITLE'),
-				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[2],
+				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catIds[2],
 				'parent_id'    => $menuIdsLevel1[3],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
@@ -1242,7 +1244,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_3_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[3],
+				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[3],
 				'parent_id'    => $menuIdsLevel1[1],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
@@ -1283,7 +1285,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_6_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[6],
+				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[6],
 				'parent_id'    => $menuIdsLevel2[4],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
@@ -1294,7 +1296,7 @@ class PlgSampledataBlog extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_7_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=&id=' . (int) $articleIds[7],
+				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[7],
 				'parent_id'    => $menuIdsLevel2[4],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
@@ -1371,11 +1373,11 @@ class PlgSampledataBlog extends CMSPlugin
 		// Get previously entered Data from UserStates
 		$menuTypes = $this->app->getUserState('sampledata.blog.menutypes');
 
-		$catids     = $this->app->getUserState('sampledata.blog.articles.catids');
-		$articleIds = $this->app->getUserState('sampledata.blog.articles');
+		$catIds        = $this->app->getUserState('sampledata.blog.articles.catIds');
+		$menuIdsLevel1 = $this->app->getUserState('sampledata.blog.menuIdsLevel1');
 
 		// Link to article "typography" in banner module
-		$headerLink = 'index.php?option=com_content&view=article&id=' . $articleIds[10];
+		$headerLink = 'index.php?Itemid=' . $menuIdsLevel1[4];
 
 		$modules = array(
 			array(
@@ -1466,7 +1468,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'assignment' => 1,
 				'showtitle'  => 0,
 				'params'   => array(
-					'catid'             => $catids[2],
+					'catid'             => $catIds[2],
 					'image'             => 1,
 					'img_intro_full'    => 'intro',
 					'item_title'        => 0,
@@ -1505,7 +1507,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'show_front'                   => 'show',
 					'count'                        => 6,
 					'category_filtering_type'      => 1,
-					'catid'                        => $catids[0],
+					'catid'                        => $catIds[0],
 					'show_child_category_articles' => 0,
 					'levels'                       => 1,
 					'author_filtering_type'        => 1,
