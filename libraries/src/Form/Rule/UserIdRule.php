@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  1.7.0
+ * @since  __DEPLOY_VERSION__
  */
 class UserIdRule extends FormRule
 {
