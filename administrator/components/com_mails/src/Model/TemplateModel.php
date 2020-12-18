@@ -155,9 +155,9 @@ class TemplateModel extends AdminModel
 			$return = $table->load(array('template_id' => $template_id, 'language' => $language));
 
 			// Check for a table object error.
-			if ($return === false)
+			if ($return === false && $table->getError())
 			{
-				$this->setError($table->getError() ?: Text::_('COM_MAILS_TEMPLATE_NOT_FOUND'));
+				$this->setError($table->getError());
 
 				return false;
 			}
