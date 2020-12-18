@@ -56,6 +56,7 @@ Text::script('MESSAGE');
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-server', Text::_('COM_CONFIG_SERVER')); ?>
 					<?php echo $this->loadTemplate('server'); ?>
 					<?php echo $this->loadTemplate('locale'); ?>
+					<?php echo $this->loadTemplate('webservices'); ?>
 					<?php echo $this->loadTemplate('ftp'); ?>
 					<?php echo $this->loadTemplate('proxy'); ?>
 					<?php echo $this->loadTemplate('database'); ?>

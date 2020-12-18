@@ -70,11 +70,11 @@ class ContactModel extends FormModel
 		/** @var SiteApplication $app */
 		$app = Factory::getContainer()->get(SiteApplication::class);
 
-		if (\JFactory::getApplication()->isClient('api'))
+		if (Factory::getApplication()->isClient('api'))
 		{
 			// TODO: remove this
 			$app->loadLanguage();
-			$this->setState('contact.id', \JFactory::getApplication()->input->post->getInt('id'));
+			$this->setState('contact.id', Factory::getApplication()->input->post->getInt('id'));
 		}
 		else
 		{

@@ -212,6 +212,12 @@
     },
     {
       "name": "webcomponent.image-select",
+      "type": "style",
+      "uri": "system/fields/joomla-image-select.min.css",
+      "webcomponent": true
+    },
+    {
+      "name": "webcomponent.image-select",
       "type": "script",
       "uri": "system/fields/joomla-image-select.min.js",
       "webcomponent": true

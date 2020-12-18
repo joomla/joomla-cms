@@ -17,10 +17,11 @@ $tooltip = $displayData['tooltip'];
 $nowDate = strtotime(Factory::getDate());
 
 $icon = $article->state ? 'edit' : 'eye-slash';
+$currentDate   = Factory::getDate()->format('Y-m-d H:i:s');
+$isUnpublished = ($article->publish_up > $currentDate)
+	|| !is_null($article->publish_down) && ($article->publish_down < $currentDate);
 
-if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate)
-	|| ($article->publish_down !== null && strtotime($article->publish_down) < $nowDate
-		&& $article->publish_down !== Factory::getDbo()->getNullDate()))
+if ($isUnpublished)
 {
 	$icon = 'eye-slash';
 }

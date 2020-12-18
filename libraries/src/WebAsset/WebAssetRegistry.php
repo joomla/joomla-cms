@@ -371,12 +371,12 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 		$data = file_get_contents(JPATH_ROOT . '/' . $path);
 		$data = $data ? json_decode($data, true) : null;
 
-		if (!$data)
+		if ($data === null)
 		{
-			throw new \RuntimeException(sprintf('Asset registry file "%s" are broken', $path));
+			throw new \RuntimeException(sprintf('Asset registry file "%s" contains invalid JSON', $path));
 		}
 
-		// Asset exists but empty, skip it silently
+		// Check if asset field exists and contains data. If it doesn't - we can just bail here.
 		if (empty($data['assets']))
 		{
 			return;

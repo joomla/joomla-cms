@@ -13,7 +13,8 @@
         "platform": {
             "php": "7.2.5"
         },
-        "vendor-dir": "libraries/vendor"
+        "vendor-dir": "libraries/vendor",
+        "github-protocols": ["https"]
     },
     "support": {
         "issues": "https://issues.joomla.org",
