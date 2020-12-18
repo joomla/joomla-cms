@@ -38,4 +38,7 @@
 			<language tag="en-GB">language/en-GB/com_content.sys.ini</language>
 		</languages>
 	</administration>
+	<dashboards>
+		<dashboard title="COM_CONTENT_DASHBOARD_TITLE" icon="icon-file-alt">content</dashboard>
+	</dashboards>
 </extension>
