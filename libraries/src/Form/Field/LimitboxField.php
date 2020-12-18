@@ -54,7 +54,7 @@ class LimitboxField extends \JFormFieldList
 	protected function getOptions()
 	{
 		// Accepted modifiers
-		$hash = md5($this->element);
+		$hash = md5($this->element['name']);
 
 		if (!isset(static::$options[$hash]))
 		{
