@@ -13,6 +13,7 @@ namespace Joomla\Component\Mails\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
@@ -154,9 +155,9 @@ class TemplateModel extends AdminModel
 			$return = $table->load(array('template_id' => $template_id, 'language' => $language));
 
 			// Check for a table object error.
-			if ($return === false && $table->getError())
+			if ($return === false)
 			{
-				$this->setError($table->getError());
+				$this->setError($table->getError() ?: Text::_('COM_MAILS_TEMPLATE_NOT_FOUND'));
 
 				return false;
 			}
