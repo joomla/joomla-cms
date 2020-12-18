@@ -3670,7 +3670,6 @@ class JoomlaInstallerScript
 			'/libraries/src/Filter/Wrapper/OutputFilterWrapper.php',
 			'/libraries/src/Form/Field/HelpsiteField.php',
 			'/libraries/src/Form/FormWrapper.php',
-			'/libraries/src/Form/Rule/FilePathRule.php',
 			'/libraries/src/Helper/ContentHistoryHelper.php',
 			'/libraries/src/Helper/SearchHelper.php',
 			'/libraries/src/Http/Wrapper/FactoryWrapper.php',

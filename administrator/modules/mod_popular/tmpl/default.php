@@ -13,6 +13,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('bootstrap.framework');
+
+$moduleId = str_replace(' ', '', $module->title) . $module->id;
+
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
@@ -32,7 +35,7 @@ HTMLHelper::_('bootstrap.framework');
 			<tr>
 				<th scope="row">
 					<?php if ($item->checked_out) : ?>
-						<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
+						<?php echo HTMLHelper::_('jgrid.checkedout', $moduleId . $i, $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 					<?php if ($item->link) : ?>
 						<a href="<?php echo $item->link; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">

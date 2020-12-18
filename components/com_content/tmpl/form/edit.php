@@ -56,7 +56,7 @@ if (!$editoroptions)
 					<?php echo $this->form->renderField('alias'); ?>
 				<?php endif; ?>
 
-				<?php echo $this->form->getInput('articletext'); ?>
+				<?php echo $this->form->renderField('articletext'); ?>
 
 				<?php if ($this->captchaEnabled) : ?>
 					<?php echo $this->form->renderField('captcha'); ?>
