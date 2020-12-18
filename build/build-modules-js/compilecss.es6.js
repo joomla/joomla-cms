@@ -40,35 +40,6 @@ module.exports.compile = (options, path) => {
           process.exit(1);
         }
       } else {
-<<<<<<< HEAD
-=======
-        files = [
-          `${RootPath}/templates/cassiopeia/scss/offline.scss`,
-          `${RootPath}/templates/cassiopeia/scss/template.scss`,
-          `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/fonts-local_roboto.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/fonts-web_fira-sans.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/colors_standard.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/colors_alternative.scss`,
-          `${RootPath}/templates/cassiopeia/scss/system/searchtools/searchtools.scss`,
-          `${RootPath}/templates/cassiopeia/scss/vendor/choicesjs/choices.scss`,
-          `${RootPath}/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
-          `${RootPath}/templates/cassiopeia/scss/vendor/fontawesome-free/fontawesome.scss`,
-          `${RootPath}/administrator/templates/atum/scss/template.scss`,
-          `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
-          `${RootPath}/administrator/templates/atum/scss/system/searchtools/searchtools.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/awesomplete/awesomplete.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/choicesjs/choices.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-tab.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome.scss`,
-          `${RootPath}/installation/template/scss/template.scss`,
-          `${RootPath}/installation/template/scss/template-rtl.scss`,
-        ];
-
->>>>>>> 42d855489a5ae6450bf42d0ef9cd566a2a647146
         folders = [
           `${RootPath}/build/media_source`,
           `${RootPath}/templates`,
