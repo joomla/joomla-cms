@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageinstaller
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,7 +78,7 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 				</p>
 				<p>
 					<button id="select-file-button" type="button" class="btn btn-success">
-						<span class="fas fa-copy" aria-hidden="true"></span>
+						<span class="icon-copy" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
 					</button>
 				</p>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 					<input name="username" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
 					<span class="input-group-append">
 						<span class="input-group-text">
-							<span class="fas fa-user" aria-hidden="true"></span>
+							<span class="icon-user" aria-hidden="true"></span>
 							<label for="mod-login-username" class="sr-only">
 								<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 							</label>
@@ -56,7 +56,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 					<input name="passwd" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
 					<span class="input-group-append">
 						<span class="input-group-text">
-							<span class="fas fa-lock" aria-hidden="true"></span>
+							<span class="icon-lock" aria-hidden="true"></span>
 							<label for="mod-login-password" class="sr-only">
 								<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 							</label>
@@ -72,7 +72,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 						<input name="secretkey" autocomplete="one-time-code" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
 						<span class="input-group-append">
 							<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-								<span class="fas fa-star" aria-hidden="true"></span>
+								<span class="icon-star" aria-hidden="true"></span>
 								<label for="mod-login-secretkey" class="sr-only">
 									<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
 								</label>
@@ -86,10 +86,10 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			<div class="controls">
 				<div class="btn-group">
 					<a class="btn btn-danger" href="index.php?option=com_joomlaupdate">
-						<span class="fas fa-times" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
+						<span class="icon-times" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
 					</a>
 					<button type="submit" class="btn btn-primary">
-						<span class="fas fa-play" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
+						<span class="icon-play" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
 			</div>

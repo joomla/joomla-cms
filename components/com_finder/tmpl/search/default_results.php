@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,15 +64,19 @@ use Joomla\CMS\Uri\Uri;
 <br id="highlighter-end" />
 <?php // Display the pagination ?>
 <div class="com-finder__navigation search-pagination">
+	<?php if ($this->params->get('show_pagination', 1) > 0) : ?>
 	<div class="com-finder__pagination w-100">
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
-	<div class="com-finder__counter search-pages-counter">
-		<?php // Prepare the pagination string.  Results X - Y of Z ?>
-		<?php $start = (int) $this->pagination->limitstart + 1; ?>
-		<?php $total = (int) $this->pagination->total; ?>
-		<?php $limit = (int) $this->pagination->limit * $this->pagination->pagesCurrent; ?>
-		<?php $limit = (int) ($limit > $total ? $total : $limit); ?>
-		<?php echo Text::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total); ?>
-	</div>
+	<?php endif; ?>
+	<?php if ($this->params->get('show_pagination_results', 1) > 0) : ?>
+		<div class="com-finder__counter search-pages-counter">
+			<?php // Prepare the pagination string.  Results X - Y of Z ?>
+			<?php $start = (int) $this->pagination->limitstart + 1; ?>
+			<?php $total = (int) $this->pagination->total; ?>
+			<?php $limit = (int) $this->pagination->limit * $this->pagination->pagesCurrent; ?>
+			<?php $limit = (int) ($limit > $total ? $total : $limit); ?>
+			<?php echo Text::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total); ?>
+		</div>
+	<?php endif; ?>
 </div>

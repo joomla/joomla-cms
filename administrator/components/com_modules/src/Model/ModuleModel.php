@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -503,15 +503,15 @@ class ModuleModel extends AdminModel
 	/**
 	 * Method to change the title.
 	 *
-	 * @param   integer  $category_id  The id of the category. Not used here.
-	 * @param   string   $title        The title.
-	 * @param   string   $position     The position.
+	 * @param   integer  $categoryId  The id of the category. Not used here.
+	 * @param   string   $title       The title.
+	 * @param   string   $position    The position.
 	 *
 	 * @return  array  Contains the modified title.
 	 *
 	 * @since   2.5
 	 */
-	protected function generateNewTitle($category_id, $title, $position)
+	protected function generateNewTitle($categoryId, $title, $position)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
@@ -904,6 +904,30 @@ class ModuleModel extends AdminModel
 	}
 
 	/**
+	 * Loads ContentHelper for filters before validating data.
+	 *
+	 * @param   object  $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the group(defaults to null).
+	 *
+	 * @return  mixed  Array of filtered data if valid, false otherwise.
+	 *
+	 * @since   1.1
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		if (!Factory::getUser()->authorise('core.admin', 'com_modules'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
@@ -1127,14 +1151,14 @@ class ModuleModel extends AdminModel
 	/**
 	 * Custom clean cache method for different clients
 	 *
-	 * @param   string   $group      The name of the plugin group to import (defaults to null).
-	 * @param   integer  $client_id  The client ID. [optional]
+	 * @param   string   $group     The name of the plugin group to import (defaults to null).
+	 * @param   integer  $clientId  The client ID. [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_modules', $this->getClient());
 	}

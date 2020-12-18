@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,11 +27,11 @@ $wa->useScript('keepalive')
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">
 
 	<button type="button" class="btn btn-primary" data-submit-task="templates.apply">
-		<span class="fas fa-check text-white" aria-hidden="true"></span>
+		<span class="icon-check text-white" aria-hidden="true"></span>
 		<?php echo Text::_('JSAVE') ?>
 	</button>
 	<button type="button" class="btn btn-danger" data-submit-task="templates.cancel">
-		<span class="fas fa-times text-white" aria-hidden="true"></span>
+		<span class="icon-times text-white" aria-hidden="true"></span>
 		<?php echo Text::_('JCANCEL') ?>
 	</button>
 

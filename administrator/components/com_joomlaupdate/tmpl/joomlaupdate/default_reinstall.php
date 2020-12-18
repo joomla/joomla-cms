@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,13 +21,13 @@ use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 		<?php echo Text::_('COM_JOOMLAUPDATE_UPDATE_CHECK'); ?>
 	</legend>
 	<p class="alert alert-info">
-		<span class="fas fa-info-circle" aria-hidden="true"></span>
+		<span class="icon-info-circle" aria-hidden="true"></span>
 		<span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?>
 	</p>
 	<p><?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?></p>
 	<p class="alert alert-success">
-		<span class="fas fa-check-circle" aria-hidden="true"></span>
+		<span class="icon-check-circle" aria-hidden="true"></span>
 		<span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', '&#x200E;' . JVERSION); ?>
 	</p>

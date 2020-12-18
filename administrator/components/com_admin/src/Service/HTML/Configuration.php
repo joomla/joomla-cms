@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ namespace Joomla\Component\Admin\Administrator\Service\HTML;
 /**
  * Class for rendering configuration values
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Configuration
 {
@@ -25,7 +25,7 @@ class Configuration
 	 *
 	 * @return  string  Formatted and escaped string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function value($value): string
 	{

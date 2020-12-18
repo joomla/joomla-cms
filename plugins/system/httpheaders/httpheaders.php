@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.HttpHeaders
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,7 +79,56 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'expect-ct',
 		'feature-policy',
 		'cross-origin-opener-policy',
+		'report-to',
 		'permissions-policy',
+	];
+
+	/**
+	 * The list of valid directives based on: https://www.w3.org/TR/CSP3/#csp-directives
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	private $validDirectives = [
+		'child-src',
+		'connect-src',
+		'default-src',
+		'font-src',
+		'frame-src',
+		'img-src',
+		'manifest-src',
+		'media-src',
+		'prefetch-src',
+		'object-src',
+		'script-src',
+		'script-src-elem',
+		'script-src-attr',
+		'style-src',
+		'style-src-elem',
+		'style-src-attr',
+		'worker-src',
+		'base-uri',
+		'plugin-types',
+		'sandbox',
+		'form-action',
+		'frame-ancestors',
+		'navigate-to',
+		'report-uri',
+		'report-to',
+		'block-all-mixed-content',
+		'upgrade-insecure-requests',
+		'require-sri-for',
+	];
+
+	/**
+	 * The list of directives without a value
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	private $noValueDirectives = [
+		'block-all-mixed-content',
+		'upgrade-insecure-requests',
 	];
 
 	/**
@@ -286,6 +335,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$cspValues                 = $this->comCspParams->get('contentsecuritypolicy_values', []);
 		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
 		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$strictDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
 		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
 		$frameAncestorsSet         = false;
@@ -298,9 +348,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
+			// Handle non value directives
+			if (in_array($cspValue->directive, $this->noValueDirectives))
+			{
+				$newCspValues[] = trim($cspValue->directive);
+
+				continue;
+			}
+
 			// We can only use this if this is a valid entry
-			if (isset($cspValue->directive) && isset($cspValue->value)
-				&& !empty($cspValue->directive) && !empty($cspValue->value))
+			if (in_array($cspValue->directive, $this->validDirectives)
+				&& !empty($cspValue->value))
 			{
 				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
@@ -325,13 +383,21 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					$frameAncestorsSet = true;
 				}
 
+				// Add strict-dynamic to the script-src directive when enabled
+				if ($strictDynamicEnabled
+					&& $cspValue->directive === 'script-src'
+					&& strpos($cspValue->value, 'strict-dynamic') === false)
+				{
+					$cspValue->value .= " 'strict-dynamic' ";
+				}
+
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
 			}
 		}
 
 		if ($frameAncestorsSelfEnabled && !$frameAncestorsSet)
 		{
-			$newCspValues[] = 'frame-ancestors \'self\'';
+			$newCspValues[] = "frame-ancestors 'self'";
 		}
 
 		if (empty($newCspValues))
@@ -374,6 +440,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$cspHeaderCollection       = [];
 		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
 		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$strictDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
 		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
 
@@ -428,6 +495,20 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
 		{
+			// Handle non value directives
+			if (in_array($cspHeaderkey, $this->noValueDirectives))
+			{
+				$automaticCspHeader[] = $cspHeaderkey;
+
+				continue;
+			}
+
+			// Make sure this is a valid directive
+			if (!in_array($cspHeaderkey, $this->validDirectives))
+			{
+				continue;
+			}
+
 			// Append the random $nonce for the script and style tags if enabled
 			if (in_array($cspHeaderkey, $this->nonceDirectives) && $nonceEnabled)
 			{
@@ -445,6 +526,14 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			if ($styleHashesEnabled && strpos($cspHeaderkey, 'style-src') === 0)
 			{
 				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
+			}
+
+			// Add strict-dynamic to the script-src directive when enabled
+			if ($strictDynamicEnabled
+				&& $cspHeaderkey === 'script-src'
+				&& strpos($cspHeaderValue, 'strict-dynamic') === false)
+			{
+				$cspHeaderValue .= " 'strict-dynamic' ";
 			}
 
 			// By default we should whitelist 'self' on any directive
@@ -512,12 +601,21 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		foreach ($additionalHttpHeaders as $additionalHttpHeader)
 		{
+			// Make sure we have a key and a value
 			if (empty($additionalHttpHeader->key) || empty($additionalHttpHeader->value))
 			{
 				continue;
 			}
 
+			// Make sure the header is a valid and supported header
 			if (!in_array(strtolower($additionalHttpHeader->key), $this->supportedHttpHeaders))
+			{
+				continue;
+			}
+
+			// Make sure we do not add one header twice but we support to set a different header per client.
+			if (isset($staticHeaderConfiguration[$additionalHttpHeader->key . '#' . $additionalHttpHeader->client])
+				|| isset($staticHeaderConfiguration[$additionalHttpHeader->key . '#both']))
 			{
 				continue;
 			}

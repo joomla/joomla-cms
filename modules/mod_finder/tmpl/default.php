@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ if ($params->get('show_button', 0))
 	$output .= '<div class="mod-finder__search input-group">';
 	$output .= $input;
 	$output .= '<span class="input-group-append">';
-	$output .= '<button class="btn btn-primary" type="submit"><span class="fas fa-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
+	$output .= '<button class="btn btn-primary" type="submit"><span class="icon-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
 	$output .= '</span>';
 	$output .= '</div>';
 }

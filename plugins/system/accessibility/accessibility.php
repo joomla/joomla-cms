@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.accessibility
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,6 +78,8 @@ class PlgSystemAccessibility extends CMSPlugin
 					'readingGuide'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_READING'),
 					'textToSpeech'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
 					'speechToText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_STT'),
+					'resetTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_RESET'),
+					'closeTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_CLOSE'),
 				],
 				'icon' => [
 					'position' => [
@@ -86,7 +88,11 @@ class PlgSystemAccessibility extends CMSPlugin
 							'units' => 'px',
 						]
 					]
-				]
+				],
+				'hotkeys' => [
+					'enabled' => true,
+					'helpTitles' => true,
+				],
 			]
 		);
 

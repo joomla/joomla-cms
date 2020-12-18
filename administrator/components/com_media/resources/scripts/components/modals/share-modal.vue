@@ -51,7 +51,7 @@
                     @click="copyToClipboard"
                   >
                     <span
-                      class="fas fa-clipboard"
+                      class="icon-clipboard"
                       aria-hidden="true"
                     />
                   </button>

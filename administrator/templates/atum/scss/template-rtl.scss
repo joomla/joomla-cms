@@ -30,10 +30,14 @@ ul {
 
 // Header
 .header {
-  .page-title [class^="icon-"],
-  .page-title [class^="fa-"] {
-    margin-right: 0;
-    margin-left: 15px;
+  .page-title {
+    [class^="#{$jicon-css-prefix}-"],
+    [class*=" #{$jicon-css-prefix}-"],
+    [class^="#{$fa-css-prefix}-"],
+    [class*=" #{$fa-css-prefix}-"] {
+      margin-right: 0;
+      margin-left: 15px;
+    }
   }
 
   .logo svg,

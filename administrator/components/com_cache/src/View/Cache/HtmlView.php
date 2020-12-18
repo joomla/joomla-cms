@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,8 +125,8 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
-		ToolbarHelper::custom('deleteAll', 'remove.png', 'delete_f2.png', 'JTOOLBAR_DELETE_ALL', false);
+		ToolbarHelper::custom('delete', 'delete', '', 'JTOOLBAR_DELETE', true);
+		ToolbarHelper::custom('deleteAll', 'remove', '', 'JTOOLBAR_DELETE_ALL', false);
 		$toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
 		ToolbarHelper::divider();
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -139,6 +139,12 @@ class NewsfeedTable extends Table implements VersionableTableInterface
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
+		// Set created date if not set.
+		if (!(int) $this->created)
+		{
+			$this->created = $date->toSql();
+		}
+
 		if ($this->id)
 		{
 			// Existing item
@@ -147,13 +153,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface
 		}
 		else
 		{
-			// New newsfeed. A feed created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date->toSql();
-			}
-
+			// Field created_by can be set by the user, so we don't touch it if it's set.
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');

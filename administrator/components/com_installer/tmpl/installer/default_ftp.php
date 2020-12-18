@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 	<legend><?php echo Text::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?></legend>
 
 	<div class="alert alert-info">
-		<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+		<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 		<?php echo Text::_('COM_INSTALLER_MSG_DESCFTP'); ?>
 	</div>
 

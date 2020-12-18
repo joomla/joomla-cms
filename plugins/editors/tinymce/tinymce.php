@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -523,6 +523,10 @@ class PlgEditorTinymce extends CMSPlugin
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			Text::script('JERROR');
+			Text::script('PLG_TINY_DND_ADDITIONALDATA');
+			Text::script('PLG_TINY_DND_ALTTEXT');
+			Text::script('PLG_TINY_DND_LAZYLOADED');
+			Text::script('PLG_TINY_DND_EMPTY_ALT');
 
 			$scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
 			$scriptOptions['csrfToken']          = Session::getFormToken();
@@ -591,18 +595,22 @@ class PlgEditorTinymce extends CMSPlugin
 				'content_css'        => $content_css,
 				'document_base_url'  => Uri::root(true) . '/',
 				'paste_data_images'  => $allowImgPaste,
+				'image_caption'      => true,
 				'importcss_append'   => true,
-				'image_title'        => true,
 				'height'             => $html_height,
 				'width'              => $html_width,
 				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,
-				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 				'toolbar_sticky'     => true,
 				'toolbar_mode'       => 'sliding',
+
+				// Image plugin options
+				'a11y_advanced_options' => true,
+				'image_advtab'          => (bool) $levelParams->get('image_advtab', false),
+				'image_title'           => true,
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
@@ -934,6 +942,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'aligncenter'   => array('label' => 'Align center'),
 			'alignright'    => array('label' => 'Align right'),
 			'alignjustify'  => array('label' => 'Justify'),
+			'lineheight'    => array('label' => 'Line height'),
 
 			'outdent'       => array('label' => 'Decrease indent'),
 			'indent'        => array('label' => 'Increase indent'),
@@ -1029,6 +1038,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'toolbar1' => array(
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+				'lineheight', '|',
 				'styleselect', '|',
 				'formatselect', 'fontselect', 'fontsizeselect', '|',
 				'searchreplace', '|',

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ $maxsize = $params->get('maxsize', 2);
 <?php
 if (!count($list)) : ?>
 	<div class="alert alert-info">
-		<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+		<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 		<?php echo Text::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?>
 	</div>
 <?php else :
