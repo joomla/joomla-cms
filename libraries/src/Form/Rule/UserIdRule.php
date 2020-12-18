@@ -43,10 +43,10 @@ class UserIdRule extends FormRule
 		// Check if the field is required.
 		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
-		// If the value is empty, null or has the value 0 and the field is not required return True.
-		if (($value === '' || $value === null || (string) $value === '0') && !$required)
+		// If the value is empty, null or has the value 0 and the field is not required return True else return false
+		if (($value === '' || $value === null || (string) $value === '0'))
 		{
-			return true;
+			return !$required;
 		}
 
 		// Get the database object and a new query object.
