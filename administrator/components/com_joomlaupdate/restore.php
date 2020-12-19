@@ -874,7 +874,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 */
 	public function __wakeup()
 	{
-		if ($this->currentPartNumber >= 0)
+		if ($this->currentPartNumber >= 0 && !empty($this->archiveList[$this->currentPartNumber]))
 		{
 			$this->fp = @fopen($this->archiveList[$this->currentPartNumber], 'rb');
 			if ((is_resource($this->fp)) && ($this->currentPartOffset > 0))

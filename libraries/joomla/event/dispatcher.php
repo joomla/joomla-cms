@@ -162,7 +162,7 @@ class JEventDispatcher extends JObject
 			// Fire the event for a function based observer.
 			elseif (is_array($this->_observers[$key]))
 			{
-				$value = call_user_func_array($this->_observers[$key]['handler'], $args);
+				$value = call_user_func_array($this->_observers[$key]['handler'], array_values($args));
 			}
 
 			if (isset($value))
