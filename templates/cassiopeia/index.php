@@ -119,7 +119,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 
 		<?php if ($this->countModules('topbar')) : ?>
 			<div class="container-topbar">
-					<jdoc:include type="modules" name="topbar" style="none" />
+			<jdoc:include type="modules" name="topbar" style="none" />
 			</div>
 		<?php endif; ?>
 
