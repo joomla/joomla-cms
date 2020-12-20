@@ -331,9 +331,9 @@ final class InstallationApplication extends CMSApplication
 	 */
 	public function getLocalise()
 	{
-		if(!function_exists('xml_parser_create'))
+		if (!function_exists('xml_parser_create'))
 		{
-			die ('Joomla requires the libxml PHP extension. This should be enabled by default.');
+			die('Joomla requires the libxml PHP extension. This should be enabled by default.');
 		}
 
 		$xml = simplexml_load_file(JPATH_INSTALLATION . '/localise.xml');
