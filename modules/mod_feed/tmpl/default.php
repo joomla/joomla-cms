@@ -127,7 +127,7 @@ else
 						<?php
 							// Strip the images.
 							$text = OutputFilter::stripImages($text);
-							$text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0));
+							$text = HTMLHelper::_('string.truncate', $text, $params->get('char_count', 0));
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>
