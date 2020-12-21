@@ -64,7 +64,7 @@ function admin_postinstall_invalidcreateddates_condition()
 	$query8 = $db->getQuery(true)
 		->select('1')
 		->from($db->quoteName('#__redirect_links'))
-		->where($db->quoteName('created_time') . ' = ' . $nullDate);
+		->where($db->quoteName('created_date') . ' = ' . $nullDate);
 
 	$query9 = $db->getQuery(true)
 		->select('1')
