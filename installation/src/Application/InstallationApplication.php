@@ -334,7 +334,7 @@ final class InstallationApplication extends CMSApplication
 		if (!function_exists('xml_parser_create'))
 		{
 			$output   = 'Joomla requires the libxml PHP extension. This should be enabled by default.';
-			$template = JPATH_ROOT . '/media/system/noxml.html';
+			$template = JPATH_ROOT . '/media/system/html/noxml.html';
 
 			if (file_exists($template))
 			{
