@@ -988,7 +988,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Typography
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[10] ,
+				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[10],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'show_title'            => 0,
