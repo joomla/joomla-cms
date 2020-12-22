@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
@@ -88,7 +87,7 @@ $fieldsets = $this->form->getFieldsets();
 
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php endif; ?>
-	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="return" value="<?php echo $input->get('return', '', 'BASE64'); ?>">
