@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ExtensionDiscoverCommand extends AbstractCommand
+class ExtensionDiscoverInstallCommand extends AbstractCommand
 {
 	/**
 	 * The default command name
@@ -31,7 +31,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $defaultName = 'extension:discover';
+	protected static $defaultName = 'extension:discoverinstall';
 
 	/**
 	 * Stores the Input Object
@@ -118,7 +118,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 		\nUsage:
 		\n  <info>php %command.full_name% --eid=<id_of_the_extension></info>";
 
-		$this->setDescription('Discover all extensions or a specified extension');
+		$this->setDescription('Discover and install all extensions or a specified extension');
 		$this->setHelp($help);
 	}
 
@@ -156,7 +156,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 				return true;
 			}
 
-			$this->ioStyle->warning('There is no extension to discover.');
+			$this->ioStyle->warning('There is no extension to discover and install.');
 
 			return true;
 		}
@@ -187,12 +187,12 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 			if (!$result)
 			{
-				$this->ioStyle->error('Unable to discover extension with ID ' . $eid);
+				$this->ioStyle->error('Unable to discover and install the extension with ID ' . $eid);
 
 				return self::DISCOVER_FAILED;
 			}
 
-			$this->ioStyle->success('Extension with ID ' . $eid . ' discovered successfully.');
+			$this->ioStyle->success('Extension with ID ' . $eid . ' discovered and installed successfully.');
 
 			return self::DISCOVER_SUCCESSFUL;
 		}
@@ -202,12 +202,12 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 			if (!$result)
 			{
-				$this->ioStyle->error('Unable to discover all extensions');
+				$this->ioStyle->error('Unable to discover and install all extensions');
 
 				return self::DISCOVER_FAILED;
 			}
 
-			$this->ioStyle->success('All extensions discovered successfully.');
+			$this->ioStyle->success('All extensions discovered and installed successfully.');
 
 			return self::DISCOVER_SUCCESSFUL;
 		}
