@@ -1500,7 +1500,8 @@ abstract class AdminModel extends FormModel
 			$this->table->load((int) $pk);
 
 			// We don't want to modify tags on reorder, not removing the tagsHelper removes all tags asociated
-			if (property_exists($this->table, 'tagsHelper')) {
+			if (property_exists($this->table, 'tagsHelper'))
+			{
 				unset($this->table->tagsHelper);
 			}
 
