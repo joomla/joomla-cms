@@ -8,6 +8,7 @@ paths:
 settings:
     colors: true
     memory_limit: 1024M
+    shuffle: true
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
