@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ExtensionDiscoverCommand extends AbstractCommand
+class ExtensionDiscoverInstallCommand extends AbstractCommand
 {
 	/**
 	 * The default command name
@@ -31,19 +31,21 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $defaultName = 'extension:discover';
+	protected static $defaultName = 'extension:discoverinstall';
 
 	/**
 	 * Stores the Input Object
-	 * @var InputInterface
-	 * @since __DEPLOY_VERSION__
+	 *
+	 * @var    InputInterface
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
-	 * @var SymfonyStyle
-	 * @since __DEPLOY_VERSION__
+	 *
+	 * @var    SymfonyStyle
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $ioStyle;
 
@@ -57,13 +59,15 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 	/**
 	 * Exit Code For Discover Failure
-	 * @since
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public const DISCOVER_FAILED = 1;
 
 	/**
 	 * Exit Code For Discover Success
-	 * @since
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public const DISCOVER_SUCCESSFUL = 0;
 
@@ -72,7 +76,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @param   DatabaseInterface  $db  Database connector
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(DatabaseInterface $db)
 	{
@@ -86,9 +90,9 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 * @param   InputInterface   $input   Console Input
 	 * @param   OutputInterface  $output  Console Output
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output): void
@@ -114,7 +118,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 		\nUsage:
 		\n  <info>php %command.full_name% --eid=<id_of_the_extension></info>";
 
-		$this->setDescription('Discover all extensions or a specified extension');
+		$this->setDescription('Discover and install all extensions or a specified extension');
 		$this->setHelp($help);
 	}
 
@@ -123,11 +127,10 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @param   string  $eid  Id of the extension
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 *
-	 * @since __DEPLOY_VERSION__
-	 *
-	 * @throws \Exception
+	 * @throws  \Exception
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function processDiscover($eid): bool
 	{
@@ -153,7 +156,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 				return true;
 			}
 
-			$this->ioStyle->warning('There is no extension to discover.');
+			$this->ioStyle->warning('There is no extension to discover and install.');
 
 			return true;
 		}
@@ -171,7 +174,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @throws \Exception
+	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
@@ -184,12 +187,12 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 			if (!$result)
 			{
-				$this->ioStyle->error('Unable to discover extension with ID ' . $eid);
+				$this->ioStyle->error('Unable to discover and install the extension with ID ' . $eid);
 
 				return self::DISCOVER_FAILED;
 			}
 
-			$this->ioStyle->success('Extension with ID ' . $eid . ' discovered successfully.');
+			$this->ioStyle->success('Extension with ID ' . $eid . ' discovered and installed successfully.');
 
 			return self::DISCOVER_SUCCESSFUL;
 		}
@@ -199,12 +202,12 @@ class ExtensionDiscoverCommand extends AbstractCommand
 
 			if (!$result)
 			{
-				$this->ioStyle->error('Unable to discover all extensions');
+				$this->ioStyle->error('Unable to discover and install all extensions');
 
 				return self::DISCOVER_FAILED;
 			}
 
-			$this->ioStyle->success('All extensions discovered successfully.');
+			$this->ioStyle->success('All extensions discovered and installed successfully.');
 
 			return self::DISCOVER_SUCCESSFUL;
 		}
