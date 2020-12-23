@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
 class UserIdRule extends FormRule
 {
 	/**
-	 * Method to test the username for uniqueness.
+	 * Method to test the validity of a Joomla User.
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed              $value    The form field value to validate.
