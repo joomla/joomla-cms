@@ -135,6 +135,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	public function processDiscover($eid): bool
 	{
 		$jInstaller = new Installer;
+		$result = true;
 
 		if ($eid === -1)
 		{
@@ -150,15 +151,17 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 			{
 				if (!$jInstaller->discover_install($eidToDiscover->extension_id))
 				{
-					return false;
+					$this->ioStyle->warning('There was a problem installing the extension with ID ' . $eidToDiscover->extension_id . '.');
+					$result = false;
 				}
-
-				return true;
 			}
 
-			$this->ioStyle->warning('There is no extension to discover and install.');
+			if (empty($eidsToDiscover))
+			{
+				$this->ioStyle->warning('There is no extension to discover and install.');
+			}
 
-			return true;
+			return $result;
 		}
 		else
 		{
