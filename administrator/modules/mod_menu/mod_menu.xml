@@ -80,18 +80,6 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
-
-				<field
-					name="forum_url"
-					type="url"
-					label="MOD_MENU_FIELD_FORUMURL_LABEL"
-					description="MOD_MENU_FIELD_FORUMURL_DESC"
-					filter="url"
-					size="30"
-					default=""
-					showon="menutype:*"
-					validate="url"
-				/>
 			</fieldset>
 
 			<fieldset name="advanced">

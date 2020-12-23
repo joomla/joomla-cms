@@ -295,20 +295,6 @@ class CssMenu
 				continue;
 			}
 
-			if (substr($item->link, 0, 8) === 'special:')
-			{
-				$special = substr($item->link, 8);
-
-				if ($special === 'language-forum')
-				{
-					$item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
-				}
-				elseif ($special === 'custom-forum')
-				{
-					$item->link = $this->params->get('forum_url');
-				}
-			}
-
 			// Exclude item if is not enabled
 			if ($item->element && !ComponentHelper::isEnabled($item->element))
 			{
