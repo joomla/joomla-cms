@@ -41,7 +41,7 @@ $wa->useScript('com_contenthistory.admin-compare-compare');
 		</thead>
 		<tbody>
 		<?php foreach ($object1 as $name => $value) : ?>
-			<?php if ($value->value != $object2->$name->value) : ?>
+			<?php if (isset($value->value) && isset($object2->$name->value) && $value->value != $object2->$name->value) : ?>
 				<?php if (is_object($value->value)) : ?>
 					<tr>
 						<td colspan="4">

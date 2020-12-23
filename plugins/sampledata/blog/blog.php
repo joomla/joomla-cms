@@ -1107,6 +1107,25 @@ class PlgSampledataBlog extends CMSPlugin
 					'secure'            => 0,
 				),
 			),
+			array(
+				// Hidden menuItem search
+				'menutype'     => $menuTypes[2],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
+				'link'         => 'index.php?option=com_finder&view=search',
+				'type'         => 'component',
+				'component_id' => ExtensionHelper::getExtensionRecord('com_finder', 'component')->extension_id,
+				'params'       => array(
+					'show_date_filters' => '1',
+					'show_advanced'         => '',
+					'expand_advanced'       => '1',
+					'show_taxonomy'         => '1',
+					'show_date'             => '1',
+					'show_url'              => '1',
+					'menu_text'             => 0,
+					'menu_show'             => 0,
+					'secure'                => 0,
+				),
+			),
 		);
 
 		try
@@ -1530,10 +1549,11 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle' => 0,
 				'params'    => array(
 					'menutype'        => $menuTypes[2],
+					'class_sfx'       => 'menu-horizontal',
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 0,
-					'layout'          => '_:default',
+					'layout'          => 'cassiopeia:dropdown-metismenu',
 					'cache'           => 1,
 					'cache_time'      => 900,
 					'cachemode'       => 'itemid',

@@ -10,6 +10,7 @@ namespace Joomla\CMS\Adapter;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 
 /**
@@ -77,7 +78,7 @@ class Adapter extends CMSObject
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
-		$this->_db = \JFactory::getDbo();
+		$this->_db = Factory::getDbo();
 	}
 
 	/**

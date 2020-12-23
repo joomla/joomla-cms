@@ -232,6 +232,7 @@ $assoc = Associations::isEnabled();
 								<td class="text-center d-none d-md-table-cell">
 								<?php
 									$options = [
+										'task_prefix' => 'articles.',
 										'disabled' => $workflow_featured || !$canChange
 									];
 

@@ -38,4 +38,7 @@
 			<language tag="en-GB">language/en-GB/com_users.sys.ini</language>
 		</languages>
 	</administration>
+	<dashboards>
+		<dashboard title="COM_USERS_DASHBOARD_TITLE" icon="icon-users">users</dashboard>
+	</dashboards>
 </extension>
