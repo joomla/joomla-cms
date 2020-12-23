@@ -31,12 +31,14 @@ $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT
 $headerAttribs          = [];
 
 // Only output a header class if one is set
-if ($headerClass != '') {
+if ($headerClass != '')
+{
 	$headerAttribs['class'] = $headerClass;
 }
 
 // Only add aria if the moduleTag is not a div
-if ($moduleTag != 'div') {
+if ($moduleTag != 'div')
+{
 	if ($module->showtitle) :
 		$moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
 		$headerAttribs['id']             = 'mod-' . $module->id;
