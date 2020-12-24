@@ -38,6 +38,9 @@
           // Update the input type
           input.type = 'password';
 
+          // Focus the input field
+          input.focus();
+
           // Update the text for screenreaders
           srText.innerText = Joomla.Text._('JSHOWPASSWORD');
         }
