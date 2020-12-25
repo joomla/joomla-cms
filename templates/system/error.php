@@ -21,11 +21,11 @@ if (!isset($this->error))
 }
 
 // Load template CSS file
-$this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'templates/system/css/error.css');
+$this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'error.css');
 
 if ($this->direction === 'rtl')
 {
-	$this->getWebAssetManager()->registerAndUseStyle('template.system.error_rtl', 'templates/system/css/error_rtl.css');
+	$this->getWebAssetManager()->registerAndUseStyle('template.system.error_rtl', 'error_rtl.css');
 }
 
 // Set page title
