@@ -41,7 +41,7 @@
     const advanced = event.target.querySelector('.js-finder-advanced');
 
     // Disable select boxes with no value selected.
-    if (advanced !== null && advanced.length) {
+    if (advanced) {
       const fields = [].slice.call(advanced.querySelectorAll('select'));
 
       fields.forEach((field) => {
