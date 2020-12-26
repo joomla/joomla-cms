@@ -291,7 +291,6 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		$content_css    = null;
-		$templates_path = JPATH_SITE . '/templates';
 
 		// Loading of css file for 'styles' dropdown
 		if ($content_css_custom)
@@ -305,14 +304,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = Uri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom;
-
-				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
-				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
-				{
-					$msg = sprintf(Text::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
-					Log::add($msg, Log::WARNING, 'jerror');
-				}
+				HTMLHelper::_('stylesheet', $content_css_custom, ['relative' => true, 'version' => 'auto', 'pathOnly' => true], []);
 			}
 		}
 		else
@@ -320,24 +312,7 @@ class PlgEditorTinymce extends CMSPlugin
 			// Process when use_content_css is Yes and no custom file given
 			if ($use_content_css)
 			{
-				// First check templates folder for default template
-				// if no editor.css file in templates folder, check system template folder
-				if (!file_exists($templates_path . '/' . $template . '/css/editor.css'))
-				{
-					// If no editor.css file in system folder, show alert
-					if (!file_exists($templates_path . '/system/css/editor.css'))
-					{
-						Log::add(Text::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'), Log::WARNING, 'jerror');
-					}
-					else
-					{
-						$content_css = Uri::root(true) . '/templates/system/css/editor.css';
-					}
-				}
-				else
-				{
-					$content_css = Uri::root(true) . '/templates/' . $template . '/css/editor.css';
-				}
+				HTMLHelper::_('stylesheet', 'editor.css', ['relative' => true, 'version' => 'auto', 'pathOnly' => true], []);
 			}
 		}
 
