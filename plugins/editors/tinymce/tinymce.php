@@ -262,35 +262,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$use_content_css    = $levelParams->get('content_css', 1);
 		$content_css_custom = $levelParams->get('content_css_custom', '');
-
-		/*
-		 * Lets get the default template for the site application
-		 */
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('template'))
-			->from($db->quoteName('#__template_styles'))
-			->where(
-				[
-					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('home') . ' = ' . $db->quote('1')
-				]
-			);
-
-		$db->setQuery($query);
-
-		try
-		{
-			$template = $db->loadResult();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-			return '';
-		}
-
-		$content_css    = null;
+		$content_css        = null;
 
 		// Loading of css file for 'styles' dropdown
 		if ($content_css_custom)
