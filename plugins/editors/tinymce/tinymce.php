@@ -268,7 +268,7 @@ class PlgEditorTinymce extends CMSPlugin
 		 */
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('template'))
+			->select('*')
 			->from($db->quoteName('#__template_styles'))
 			->where(
 				[
@@ -281,7 +281,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		try
 		{
-			$template = $db->loadResult();
+			$template = $db->loadObject();
 		}
 		catch (RuntimeException $e)
 		{
@@ -290,8 +290,21 @@ class PlgEditorTinymce extends CMSPlugin
 			return '';
 		}
 
+		// Default to legacy
+		$templates_path = 'templates' . '/' . $template->template;
 		$content_css    = null;
-		$templates_path = JPATH_SITE . '/templates';
+
+		if ("" !== $template->parent)
+		{
+			$templates_path = 'media/templates/site/' . $template->parent;
+		}
+		else
+		{
+			if ($template->inheritable)
+			{
+				$templates_path = 'media/templates/site/' . $template->template;
+			}
+		}
 
 		// Loading of css file for 'styles' dropdown
 		if ($content_css_custom)
@@ -305,13 +318,15 @@ class PlgEditorTinymce extends CMSPlugin
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = Uri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom;
-
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
-				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
+				if (!file_exists(JPATH_ROOT. '/' . $templates_path . '/css/' . $content_css_custom))
 				{
 					$msg = sprintf(Text::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
 					Log::add($msg, Log::WARNING, 'jerror');
+				}
+				else
+				{
+					$content_css = Uri::root(true) . $templates_path . '/css/' . $content_css_custom;
 				}
 			}
 		}
@@ -322,7 +337,7 @@ class PlgEditorTinymce extends CMSPlugin
 			{
 				// First check templates folder for default template
 				// if no editor.css file in templates folder, check system template folder
-				if (!file_exists($templates_path . '/' . $template . '/css/editor.css'))
+				if (!file_exists($templates_path . '/css/editor.css'))
 				{
 					// If no editor.css file in system folder, show alert
 					if (!file_exists($templates_path . '/system/css/editor.css'))
@@ -336,7 +351,7 @@ class PlgEditorTinymce extends CMSPlugin
 				}
 				else
 				{
-					$content_css = Uri::root(true) . '/templates/' . $template . '/css/editor.css';
+					$content_css = Uri::root(true) . $templates_path . '/css/editor.css';
 				}
 			}
 		}
