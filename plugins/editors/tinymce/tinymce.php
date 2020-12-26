@@ -296,7 +296,12 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if ("" !== $template->parent)
 		{
-			$templates_path = 'media/templates/site/' . $template->parent;
+			$templates_path = 'media/templates/site/' . $template->template;
+
+			if (!file_exists(JPATH_ROOT. '/' . $templates_path))
+			{
+				$templates_path = 'media/templates/site/' . $template->parent;
+			}
 		}
 		else
 		{
@@ -337,10 +342,10 @@ class PlgEditorTinymce extends CMSPlugin
 			{
 				// First check templates folder for default template
 				// if no editor.css file in templates folder, check system template folder
-				if (!file_exists($templates_path . '/css/editor.css'))
+				if (!file_exists(JPATH_ROOT . '/' . $templates_path . '/css/editor.css'))
 				{
 					// If no editor.css file in system folder, show alert
-					if (!file_exists($templates_path . '/system/css/editor.css'))
+					if (!file_exists(JPATH_ROOT . '/templates/system/css/editor.css'))
 					{
 						Log::add(Text::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'), Log::WARNING, 'jerror');
 					}
