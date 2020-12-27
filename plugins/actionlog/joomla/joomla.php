@@ -701,7 +701,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onUserAfterSaveGroup($context, $table, $isNew)
 	{
-		// Override context (com_users.group) with the component context (com_users) to pass the chekLoggable
+		// Override context (com_users.group) with the component context (com_users) to pass the checkLoggable
 		$context = $this->app->input->get('option');
 
 		if (!$this->checkLoggable($context))
