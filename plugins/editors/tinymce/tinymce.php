@@ -294,7 +294,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$templates_path = 'templates' . '/' . $template->template;
 		$content_css    = null;
 
-		if ("" !== $template->parent)
+		if ($template->parent !== '')
 		{
 			$templates_path = 'media/templates/site/' . $template->template;
 
