@@ -486,6 +486,12 @@ abstract class AdminModel extends FormModel
 			// New category ID
 			$this->table->catid = $categoryId;
 
+			if (property_exists($this->table, 'typeAlias') && property_exists($this->table, 'tagsHelper'))
+			{
+				$this->table->newTags = $this->table->tagsHelper->tags;
+
+			}
+
 			// TODO: Deal with ordering?
 			// $this->table->ordering = 1;
 
