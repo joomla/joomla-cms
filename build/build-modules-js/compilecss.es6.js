@@ -66,7 +66,7 @@ module.exports.compile = (options, path) => {
                     Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
                   }
                 }
-                if (file.match(/\.css/) && !file.match(/\/template(s)?\//)) {
+                if (file.match(/\.css/) && !(file.match(/\/template(s)?\//) || file.match(/\\template(s)?\\/))) {
                   // CSS file, we will copy the file and then minify it in place
                   // Ensure that the directories exist or create them
                   FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
