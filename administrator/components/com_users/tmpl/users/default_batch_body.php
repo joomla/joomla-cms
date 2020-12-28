@@ -26,7 +26,7 @@ $resetOptions = array(
 );
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa = $this->document->getWebAssetManager();
 $wa->useScript('joomla.batch-copymove');
 
 ?>
