@@ -489,7 +489,6 @@ abstract class AdminModel extends FormModel
 			if (property_exists($this->table, 'typeAlias') && property_exists($this->table, 'tagsHelper'))
 			{
 				$this->table->newTags = $this->table->tagsHelper->tags;
-
 			}
 
 			// TODO: Deal with ordering?
