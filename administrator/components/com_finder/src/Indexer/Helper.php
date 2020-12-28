@@ -73,7 +73,7 @@ class Helper
 
 			if ($config->get('language_default', '') == '')
 			{
-				$defaultLang = Factory::getLanguage()->gettag();
+				$defaultLang = Factory::getLanguage()->getTag();
 			}
 			elseif ($config->get('language_default', '') == '-1')
 			{
@@ -212,7 +212,7 @@ class Helper
 
 			if ($config->get('language_default', '') == '')
 			{
-				$defaultLang = Factory::getLanguage()->gettag();
+				$defaultLang = Factory::getLanguage()->getTag();
 			}
 			elseif ($config->get('language_default', '') == '-1')
 			{
