@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Database\DatabaseQuery;
-use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
