@@ -25,6 +25,10 @@ $resetOptions = array(
 	HTMLHelper::_('select.option', 'no', Text::_('JNO'))
 );
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->useScript('joomla.batch-copymove');
+
 ?>
 
 <div class="container">
