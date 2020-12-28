@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
-
-defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
