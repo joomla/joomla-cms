@@ -73,7 +73,7 @@ class Helper
 
 			if ($config->get('language_default', '') == '')
 			{
-				$defaultLang = '*';
+				$defaultLang = Factory::getLanguage()->gettag();
 			}
 			elseif ($config->get('language_default', '') == '-1')
 			{
@@ -91,7 +91,6 @@ class Helper
 			 */
 			$obj = Language::getInstance($defaultLang);
 			$defaultLanguage = clone $obj;
-			$defaultLanguage->language = '*';
 		}
 
 		if (!$multilingual || $lang == '*')
@@ -213,16 +212,18 @@ class Helper
 
 			if ($config->get('language_default', '') == '')
 			{
-				$defaultStemmer = Language::getInstance('*');
+				$defaultLang = Factory::getLanguage()->gettag();
 			}
 			elseif ($config->get('language_default', '') == '-1')
 			{
-				$defaultStemmer = Language::getInstance(self::getDefaultLanguage());
+				$defaultLang = self::getDefaultLanguage();
 			}
 			else
 			{
-				$defaultStemmer = Language::getInstance($config->get('language_default'));
+				$defaultLang = $config->get('language_default');
 			}
+
+			$defaultStemmer = Language::getInstance($defaultLang);
 		}
 
 		if (!$multilingual || $lang == '*')
