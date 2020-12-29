@@ -368,24 +368,24 @@ abstract class HTMLHelper
 	/**
 	 * Compute the files to be included
 	 *
-	 * @param   string   $folder          Folder name to search in (i.e. images, css, js).
-	 * @param   string   $file            Path to file.
-	 * @param   boolean  $relative        Flag if the path to the file is relative to the /media folder (and searches in template).
-	 * @param   boolean  $detect_browser  Flag if the browser should be detected to include specific browser files.
-	 * @param   boolean  $detect_debug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   string   $folder         Folder name to search in (i.e. images, css, js).
+	 * @param   string   $file           Path to file.
+	 * @param   boolean  $relative       Flag if the path to the file is relative to the /media folder (and searches in template).
+	 * @param   boolean  $detectBrowser  Flag if the browser should be detected to include specific browser files.
+	 * @param   boolean  $detectDebug    Flag if debug mode is enabled to include uncompressed files if debug is on.
 	 *
 	 * @return  array    files to be included.
 	 *
 	 * @see     Browser
 	 * @since   1.6
 	 */
-	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
+	protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
 	{
 		// Set debug flag
 		$debugMode = false;
 
 		// Detect debug mode
-		if ($detect_debug && JDEBUG)
+		if ($detectDebug && JDEBUG)
 		{
 			$debugMode = true;
 		}
@@ -405,7 +405,7 @@ abstract class HTMLHelper
 			$includes = [];
 
 			// Detect browser and compute potential files
-			if ($detect_browser)
+			if ($detectBrowser)
 			{
 				$navigator = Browser::getInstance();
 				$browser   = $navigator->getBrowser();
@@ -734,7 +734,7 @@ abstract class HTMLHelper
 	 *                                     0: Returns a `<img>` tag while searching for relative files
 	 *                                     1: Returns the file path to the image while searching for relative files
 	 *
-	 * @return  string
+	 * @return  string|null  HTML markup for the image, relative path to the image, or null if path is to be returned but image is not found
 	 *
 	 * @since   1.5
 	 */

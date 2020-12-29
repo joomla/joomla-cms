@@ -354,7 +354,7 @@ abstract class Bootstrap
 		$opt['title']       = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
 		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
-		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
+		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 		$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
 		$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
 		$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;

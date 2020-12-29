@@ -206,11 +206,11 @@ class LinksModel extends ListModel
 	/**
 	 * Add the entered URLs into the database
 	 *
-	 * @param   array  $batch_urls  Array of URLs to enter into the database
+	 * @param   array  $batchUrls  Array of URLs to enter into the database
 	 *
 	 * @return boolean
 	 */
-	public function batchProcess($batch_urls)
+	public function batchProcess($batchUrls)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -253,7 +253,7 @@ class LinksModel extends ListModel
 
 		$db->setQuery($query);
 
-		foreach ($batch_urls as $batch_url)
+		foreach ($batchUrls as $batch_url)
 		{
 			$old_url = $batch_url[0];
 

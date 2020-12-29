@@ -77,10 +77,9 @@ class ModulesController extends BaseController
 		// Check if the user is authorized to do this.
 		$user = $this->app->getIdentity();
 
-		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
-			&& !$user->authorise('module.edit.frontend', 'com_modules'))
+		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id')))
 		{
-			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$this->app->redirect('index.php');
 		}
 

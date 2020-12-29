@@ -16,7 +16,7 @@ use Joomla\CMS\Form\FormField;
  * Form Field class for the Joomla Platform.
  * Provides an input field for files
  *
- * @link   http://www.w3.org/TR/html-markup/input.file.html#input.file
+ * @link   https://html.spec.whatwg.org/multipage/input.html#file-upload-state-(type=file)
  * @since  1.7.0
  */
 class FileField extends FormField

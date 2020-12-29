@@ -29,7 +29,7 @@ $options = array(
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->useScript('joomla.batch-language');
+$wa->useScript('joomla.batch-copymove');
 
 ?>
 <label id="batch-choose-action-lbl" for="batch-category-id">
