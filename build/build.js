@@ -105,7 +105,7 @@ if (Program.watch) {
   watch.run();
 }
 
-// Compress/transpile the javascript files
+// Gzip js/css files
 if (Program.gzip) {
   gzipFiles();
 }
