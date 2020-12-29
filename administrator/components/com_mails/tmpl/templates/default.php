@@ -36,7 +36,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="min-width:100px">
+								<th scope="col" class="w-25" style="min-width:100px">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-15 d-none d-md-table-cell">
