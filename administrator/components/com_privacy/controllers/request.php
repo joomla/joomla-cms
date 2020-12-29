@@ -135,6 +135,9 @@ class PrivacyControllerRequest extends JControllerForm
 	 */
 	public function emailexport()
 	{
+		// Check for request forgeries.
+		$this->checkToken('get');
+
 		/** @var PrivacyModelExport $model */
 		$model = $this->getModel('Export');
 

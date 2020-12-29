@@ -414,7 +414,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 		else
 		{
-			$schema = 'public';
+			$schema = $this->getDefaultSchema();
 		}
 
 		$this->setQuery('
@@ -1623,5 +1623,22 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function quoteBinary($data)
 	{
 		return "decode('" . bin2hex($data) . "', 'hex')";
+	}
+
+	/**
+	 * Internal function to get the name of the default schema for the current PostgreSQL connection.
+	 * That is the schema where tables are created by Joomla.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.9.24
+	 */
+	private function getDefaultSchema()
+	{
+
+		// Supported since PostgreSQL 7.3
+		$this->setQuery('SELECT (current_schemas(false))[1]');
+		return $this->loadResult();
+
 	}
 }

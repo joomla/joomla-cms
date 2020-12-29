@@ -152,6 +152,23 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Internal function to get the name of the default schema for the current PostgreSQL connection.
+	 * That is the schema where tables are created by Joomla.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.9.24
+	 */
+	private function getDefaultSchema()
+	{
+
+		// Supported since PostgreSQL 7.3
+		$this->setQuery('SELECT (current_schemas(false))[1]');
+		return $this->loadResult();
+
+	}
+	
+	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
 	 * This is unsupported by PostgreSQL.
@@ -187,6 +204,8 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 
 		$tableSub = $this->replacePrefix($table);
 
+		$defaultSchema = $this->getDefaultSchema();
+		
 		$this->setQuery('
 			SELECT a.attname AS "column_name",
 				pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
@@ -207,7 +226,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 			WHERE a.attrelid =
 				(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
-					nspname = \'public\')
+					nspname = ' . $this->quote($defaultSchema) . ')
 				)
 			AND a.attnum > 0 AND NOT a.attisdropped
 			ORDER BY a.attnum'
