@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Model;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Model\BeforeBatchCopy;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;
@@ -512,7 +513,11 @@ abstract class AdminModel extends FormModel
 			// New category ID
 			$this->table->catid = $categoryId;
 
-			Factory::getApplication()->triggerEvent($this->event_before_batch_copy, array($contexts, $originalTable, $this->table));
+			$event = new BeforeBatchCopy(
+				$this->event_before_batch_copy,
+				['sourceTable' => $originalTable, 'updatedTable' => $this->table]
+			);
+			Factory::getApplication()->triggerEvent($this->event_before_batch_copy, $event);
 
 			// TODO: Deal with ordering?
 			// $this->table->ordering = 1;

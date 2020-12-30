@@ -63,9 +63,6 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
 		// If the table already has a tags helper we have nothing to do
 		if (!is_null($table->getTagsHelper()))
 		{
@@ -78,7 +75,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 
 		// This is required because getTagIds overrides the tags property of the Tags Helper.
 		$cloneHelper = clone $table->getTagsHelper();
-		$tagIds = $cloneHelper->getTagIds($table->getId(), $typeAlias);
+		$tagIds = $cloneHelper->getTagIds($table->getId(), $table->getTypeAlias());
 
 		if (!empty($tagIds))
 		{
@@ -107,9 +104,6 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
 		// If the table doesn't have a tags helper we can't proceed
 		if (is_null($table->getTagsHelper()))
 		{
@@ -118,7 +112,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 
 		/** @var TagsHelper $tagsHelper */
 		$tagsHelper            = $table->getTagsHelper();
-		$tagsHelper->typeAlias = $typeAlias;
+		$tagsHelper->typeAlias = $table->getTypeAlias();
 
 		$newTags = $table->newTags ?? array();
 
@@ -158,9 +152,6 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
 		// If the table doesn't have a tags helper we can't proceed
 		if (is_null($table->getTagsHelper()))
 		{
@@ -170,7 +161,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		// Get the Tags helper and assign the parsed alias
 		/** @var TagsHelper $tagsHelper */
 		$tagsHelper            = $table->getTagsHelper();
-		$tagsHelper->typeAlias = $typeAlias;
+		$tagsHelper->typeAlias = $table->getTypeAlias();
 
 		$newTags = $table->newTags ?? array();
 
@@ -215,9 +206,6 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
 		// If the table doesn't have a tags helper we can't proceed
 		if (is_null($table->getTagsHelper()))
 		{
@@ -225,7 +213,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		}
 
 		// Get the Tags helper and assign the parsed alias
-		$table->getTagsHelper()->typeAlias = $typeAlias;
+		$table->getTagsHelper()->typeAlias = $table->getTypeAlias();
 
 		$table->getTagsHelper()->deleteTagData($table, $pk);
 	}
@@ -253,9 +241,6 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
 		// If the table doesn't have a tags helper we can't proceed
 		if (is_null($table->getTagsHelper()))
 		{
@@ -265,7 +250,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		// Get the Tags helper and assign the parsed alias
 		/** @var TagsHelper $tagsHelper */
 		$tagsHelper            = $table->getTagsHelper();
-		$tagsHelper->typeAlias = $typeAlias;
+		$tagsHelper->typeAlias = $table->getTypeAlias();
 
 		if (!$tagsHelper->postStoreProcess($table, $newTags, $replaceTags))
 		{
@@ -295,9 +280,8 @@ class PlgBehaviourTaggable extends CMSPlugin
 		}
 
 		// Parse the type alias
-		$typeAlias         = $this->parseTypeAlias($table);
 		$tagsHelper = new TagsHelper;
-		$tagsHelper->typeAlias = $typeAlias;
+		$tagsHelper->typeAlias = $table->getTypeAlias();
 		$table->setTagsHelper($tagsHelper);
 	}
 
@@ -322,9 +306,6 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
 		// If the table doesn't have a tags helper we can't proceed
 		if (is_null($table->getTagsHelper()))
 		{
@@ -333,7 +314,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 
 		// This is required because getTagIds overrides the tags property of the Tags Helper.
 		$cloneHelper = clone $table->getTagsHelper();
-		$tagIds = $cloneHelper->getTagIds($table->getId(), $typeAlias);
+		$tagIds = $cloneHelper->getTagIds($table->getId(), $table->getTypeAlias());
 
 		if (!empty($tagIds))
 		{
@@ -344,37 +325,20 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Runs when an existing table object has been loaded
 	 *
-	 * @param   string[]  $contexts  The contexts to check
+	 * @param   CmsEvent\Model\BeforeBatchCopy  $event  The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onBeforeBatchCopy($contexts, $oldTable, $updatedTable)
+	public function onBeforeBatchCopy(CmsEvent\Model\BeforeBatchCopy $event)
 	{
-		$updatedTable->newTags = $oldTable->tagsHelper->tags;
-	}
+		/** @var TableInterface $oldTable */
+		$oldTable = $event['sourceTable'];
 
-	/**
-	 * Internal method
-	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
-	 *
-	 * @param   TaggableTableInterface  $table  The table
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 *
-	 * @internal
-	 */
-	protected function parseTypeAlias(TaggableTableInterface &$table)
-	{
-		return preg_replace_callback('/{([^}]+)}/',
-			function ($matches) use ($table)
-			{
-				return $table->{$matches[1]};
-			},
-			$table->getTypeAlias()
-		);
+		/** @var TableInterface $updatedTable */
+		$updatedTable = $event['updatedTable'];
+
+		$updatedTable->newTags = $oldTable->tagsHelper->tags;
 	}
 }
