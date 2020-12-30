@@ -23,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -99,6 +100,14 @@ abstract class AdminModel extends FormModel
 	 * @since  1.6
 	 */
 	protected $event_change_state = null;
+
+	/**
+	 * The event to trigger before batch copy.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $event_before_batch_copy = null;
 
 	/**
 	 * Batch copy/move command. If set to false,
@@ -245,6 +254,15 @@ abstract class AdminModel extends FormModel
 			$this->event_change_state = 'onContentChangeState';
 		}
 
+		if (isset($config['event_before_batch_copy']))
+		{
+			$this->event_before_batch_copy = $config['event_before_batch_copy'];
+		}
+		elseif (empty($this->event_before_batch_copy))
+		{
+			$this->event_before_batch_copy = 'onBeforeBatchCopy';
+		}
+
 		$config['events_map'] = $config['events_map'] ?? array();
 
 		$this->events_map = array_merge(
@@ -382,6 +400,12 @@ abstract class AdminModel extends FormModel
 				$this->table->load($pk);
 				$this->table->access = (int) $value;
 
+				// We don't want to modify tags - so remove the tags helper associated
+				if ($this->table instanceof TaggableTableInterface)
+				{
+					$this->table->clearTagsHelper();
+				}
+
 				if (!$this->table->store())
 				{
 					$this->setError($this->table->getError());
@@ -435,6 +459,8 @@ abstract class AdminModel extends FormModel
 			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
+			$originalTable = clone $this->table;
+
 			$this->table->reset();
 
 			// Check that the row actually exists
@@ -485,6 +511,8 @@ abstract class AdminModel extends FormModel
 
 			// New category ID
 			$this->table->catid = $categoryId;
+
+			Factory::getApplication()->triggerEvent($this->event_before_batch_copy, array($contexts, $originalTable, $this->table));
 
 			// TODO: Deal with ordering?
 			// $this->table->ordering = 1;
@@ -589,6 +617,12 @@ abstract class AdminModel extends FormModel
 				$this->table->load($pk);
 				$this->table->language = $value;
 
+				// We don't want to modify tags - so remove the tags helper associated
+				if ($this->table instanceof TaggableTableInterface)
+				{
+					$this->table->clearTagsHelper();
+				}
+
 				if (!$this->table->store())
 				{
 					$this->setError($this->table->getError());
@@ -663,6 +697,12 @@ abstract class AdminModel extends FormModel
 
 			// Set the new category ID
 			$this->table->catid = $categoryId;
+
+			// We don't want to modify tags - so remove the tags helper associated
+			if ($this->table instanceof TaggableTableInterface)
+			{
+				$this->table->clearTagsHelper();
+			}
 
 			// Check the row.
 			if (!$this->table->check())
@@ -1499,10 +1539,10 @@ abstract class AdminModel extends FormModel
 		{
 			$this->table->load((int) $pk);
 
-			// We don't want to modify tags on reorder, not removing the tagsHelper removes all tags asociated
-			if (property_exists($this->table, 'tagsHelper'))
+			// We don't want to modify tags on reorder, not removing the tagsHelper removes all tags associated
+			if ($this->table instanceof TaggableTableInterface)
 			{
-				unset($this->table->tagsHelper);
+				$this->table->clearTagsHelper();
 			}
 
 			// Access checks.
