@@ -1542,7 +1542,7 @@ abstract class AdminModel extends FormModel
 		{
 			$this->table->load((int) $pk);
 
-			// We don't want to modify tags on reorder, not removing the tagsHelper removes all tags associated
+			// We don't want to modify tags on reorder, not removing the tagsHelper removes all associated tags
 			if ($this->table instanceof TaggableTableInterface)
 			{
 				$this->table->clearTagsHelper();
