@@ -338,7 +338,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 
 		if ($sourceTable instanceof TaggableTableInterface)
 		{
-			$sourceTable->newTags = $sourceTable->tagsHelper->tags;
+			$sourceTable->newTags = $sourceTable->getTagsHelper()->tags;
 		}
 	}
 }
