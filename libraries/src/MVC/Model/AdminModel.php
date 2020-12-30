@@ -620,7 +620,7 @@ abstract class AdminModel extends FormModel
 				$this->table->load($pk);
 				$this->table->language = $value;
 
-				// We don't want to modify tags - so remove the tags helper associated
+				// We don't want to modify tags - so remove the associated tags helper
 				if ($this->table instanceof TaggableTableInterface)
 				{
 					$this->table->clearTagsHelper();
