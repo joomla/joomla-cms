@@ -256,6 +256,6 @@ class TagTable extends Nested implements VersionableTableInterface
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_tags.tag';
+		return $this->typeAlias;
 	}
 }

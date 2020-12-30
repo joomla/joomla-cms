@@ -275,6 +275,6 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_contact.contact';
+		return $this->typeAlias;
 	}
 }

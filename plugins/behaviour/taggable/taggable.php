@@ -359,7 +359,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 * Internal method
 	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
 	 *
-	 * @param   TableInterface  $table  The table
+	 * @param   TaggableTableInterface  $table  The table
 	 *
 	 * @return  string
 	 *
@@ -367,14 +367,14 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 *
 	 * @internal
 	 */
-	protected function parseTypeAlias(TableInterface &$table)
+	protected function parseTypeAlias(TaggableTableInterface &$table)
 	{
 		return preg_replace_callback('/{([^}]+)}/',
 			function ($matches) use ($table)
 			{
 				return $table->{$matches[1]};
 			},
-			$table->typeAlias
+			$table->getTypeAlias()
 		);
 	}
 }

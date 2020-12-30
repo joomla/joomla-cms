@@ -210,6 +210,6 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_newsfeeds.newsfeed';
+		return $this->typeAlias;
 	}
 }

@@ -49,6 +49,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
 	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_content.article';
+
 		parent::__construct('#__content', 'id', $db);
 
 		// Set the alias since the column is called state
@@ -393,7 +394,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
 	}
 
 	/**
-	 * Get the type alias for the history table
+	 * Get the type alias for UCM features
 	 *
 	 * @return  string  The alias as described above
 	 *
@@ -401,6 +402,6 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
 	 */
 	public function getTypeAlias()
 	{
-		return 'com_content.article';
+		return $this->typeAlias;
 	}
 }
