@@ -701,7 +701,7 @@ abstract class AdminModel extends FormModel
 			// Set the new category ID
 			$this->table->catid = $categoryId;
 
-			// We don't want to modify tags - so remove the tags helper associated
+			// We don't want to modify tags - so remove the associated tags helper
 			if ($this->table instanceof TaggableTableInterface)
 			{
 				$this->table->clearTagsHelper();
