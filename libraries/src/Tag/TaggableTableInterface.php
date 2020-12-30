@@ -44,7 +44,9 @@ interface TaggableTableInterface extends TableInterface
 	/**
 	 * Set the tags helper
 	 *
-	 * @string   TagsHelper  $tagsHelper  The tags helper object
+	 * @param   TagsHelper  $tagsHelper  The tags helper object
+	 *
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
