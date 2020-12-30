@@ -325,20 +325,33 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Runs when an existing table object has been loaded
 	 *
-	 * @param   CmsEvent\Model\BeforeBatchCopy  $event  The event to handle
+	 * @param   CmsEvent\Model\BeforeBatchEvent $event The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onBeforeBatchCopy(CmsEvent\Model\BeforeBatchCopy $event)
+	public function onBeforeBatch(CmsEvent\Model\BeforeBatchEvent $event)
 	{
 		/** @var TableInterface $oldTable */
 		$sourceTable = $event['src'];
 
-		if ($sourceTable instanceof TaggableTableInterface)
+		if (!($sourceTable instanceof TaggableTableInterface))
+		{
+			return;
+		}
+
+		if ($event['type'] === 'copy')
 		{
 			$sourceTable->newTags = $sourceTable->getTagsHelper()->tags;
+		}
+		else
+		{
+			/**
+			 * All other batch actions we don't want the tags to be modified so clear the helper - that way no actions
+			 * will be performed on store
+			 */
+			$sourceTable->clearTagsHelper();
 		}
 	}
 }

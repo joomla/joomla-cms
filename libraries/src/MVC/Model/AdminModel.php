@@ -11,7 +11,7 @@ namespace Joomla\CMS\MVC\Model;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\Model\BeforeBatchCopy;
+use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;
@@ -103,12 +103,12 @@ abstract class AdminModel extends FormModel
 	protected $event_change_state = null;
 
 	/**
-	 * The event to trigger before batch copy.
+	 * The event to trigger before batch.
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $event_before_batch_copy = null;
+	protected $event_before_batch = null;
 
 	/**
 	 * Batch copy/move command. If set to false,
@@ -255,13 +255,13 @@ abstract class AdminModel extends FormModel
 			$this->event_change_state = 'onContentChangeState';
 		}
 
-		if (isset($config['event_before_batch_copy']))
+		if (isset($config['event_before_batch']))
 		{
-			$this->event_before_batch_copy = $config['event_before_batch_copy'];
+			$this->event_before_batch = $config['event_before_batch'];
 		}
-		elseif (empty($this->event_before_batch_copy))
+		elseif (empty($this->event_before_batch))
 		{
-			$this->event_before_batch_copy = 'onBeforeBatchCopy';
+			$this->event_before_batch = 'onBeforeBatch';
 		}
 
 		$config['events_map'] = $config['events_map'] ?? array();
@@ -401,10 +401,18 @@ abstract class AdminModel extends FormModel
 				$this->table->load($pk);
 				$this->table->access = (int) $value;
 
-				// We don't want to modify tags - so remove the associated tags helper
-				if ($this->table instanceof TaggableTableInterface)
+				$event = new BeforeBatchEvent(
+					$this->event_before_batch,
+					['src' => $this->table, 'type' => 'access']
+				);
+				Factory::getApplication()->triggerEvent($this->event_before_batch, $event);
+
+				// Check the row.
+				if (!$this->table->check())
 				{
-					$this->table->clearTagsHelper();
+					$this->setError($this->table->getError());
+
+					return false;
 				}
 
 				if (!$this->table->store())
@@ -511,11 +519,11 @@ abstract class AdminModel extends FormModel
 			// New category ID
 			$this->table->catid = $categoryId;
 
-			$event = new BeforeBatchCopy(
-				$this->event_before_batch_copy,
-				['src' => $this->table]
+			$event = new BeforeBatchEvent(
+				$this->event_before_batch,
+				['src' => $this->table, 'type' => 'copy']
 			);
-			Factory::getApplication()->triggerEvent($this->event_before_batch_copy, $event);
+			Factory::getApplication()->triggerEvent($this->event_before_batch, $event);
 
 			// TODO: Deal with ordering?
 			// $this->table->ordering = 1;
@@ -620,10 +628,18 @@ abstract class AdminModel extends FormModel
 				$this->table->load($pk);
 				$this->table->language = $value;
 
-				// We don't want to modify tags - so remove the associated tags helper
-				if ($this->table instanceof TaggableTableInterface)
+				$event = new BeforeBatchEvent(
+					$this->event_before_batch,
+					['src' => $this->table, 'type' => 'language']
+				);
+				Factory::getApplication()->triggerEvent($this->event_before_batch, $event);
+
+				// Check the row.
+				if (!$this->table->check())
 				{
-					$this->table->clearTagsHelper();
+					$this->setError($this->table->getError());
+
+					return false;
 				}
 
 				if (!$this->table->store())
@@ -701,11 +717,11 @@ abstract class AdminModel extends FormModel
 			// Set the new category ID
 			$this->table->catid = $categoryId;
 
-			// We don't want to modify tags - so remove the associated tags helper
-			if ($this->table instanceof TaggableTableInterface)
-			{
-				$this->table->clearTagsHelper();
-			}
+			$event = new BeforeBatchEvent(
+				$this->event_before_batch,
+				['src' => $this->table, 'type' => 'move']
+			);
+			Factory::getApplication()->triggerEvent($this->event_before_batch, $event);
 
 			// Check the row.
 			if (!$this->table->check())

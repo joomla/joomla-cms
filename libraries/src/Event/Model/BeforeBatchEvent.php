@@ -14,11 +14,11 @@ use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 /**
- * Event class for modifying batch copy data
+ * Event class for modifying a table object before a batch event is applied
  *
  * @since  __DEPLOY_VERSION__
  */
-class BeforeBatchCopy extends AbstractImmutableEvent
+class BeforeBatchEvent extends AbstractImmutableEvent
 {
 	/**
 	 * Constructor.
@@ -35,6 +35,11 @@ class BeforeBatchCopy extends AbstractImmutableEvent
 		if (!\array_key_exists('src', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'src' is required for event $name");
+		}
+
+		if (!\array_key_exists('type', $arguments))
+		{
+			throw new BadMethodCallException("Argument 'type' is required for event $name");
 		}
 
 		parent::__construct($name, $arguments);
