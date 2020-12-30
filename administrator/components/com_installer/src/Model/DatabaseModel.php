@@ -321,6 +321,7 @@ class DatabaseModel extends InstallerModel
 			{
 				$installer = new \JoomlaInstallerScript;
 				$installer->deleteUnexistingFiles();
+				$installer->fixFilenameCasing();
 				$this->fixDefaultTextFilters();
 
 				/*

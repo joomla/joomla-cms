@@ -6966,17 +6966,18 @@ class JoomlaInstallerScript
 		}
 	}
 
-	/* Renames or removes incorrectly cased files.
+	/*
+	 * Renames or removes incorrectly cased files.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function fixFilenameCasing()
+	public function fixFilenameCasing()
 	{
 		$files = array(
 			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
-			'libraries/vendor/paragonie/sodium_compat/src/Core/Xsalsa20.php' => 'libraries/vendor/paragonie/sodium_compat/src/Core/XSalsa20.php',
+			'libraries/src/Form/Rule/SubFormRule.php' => 'libraries/src/Form/Rule/SubformRule.php',
 		);
 
 		foreach ($files as $old => $expected)

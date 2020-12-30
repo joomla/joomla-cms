@@ -72,7 +72,10 @@ namespace
 			// Remove obsolete files - prevents errors occurring in some system plugins
 			if (class_exists('JoomlaInstallerScript'))
 			{
-				(new JoomlaInstallerScript)->deleteUnexistingFiles();
+				$installer = new JoomlaInstallerScript;
+
+				$installer->deleteUnexistingFiles();
+				$installer->fixFilenameCasing();
 			}
 
 			// Clear OPcache
