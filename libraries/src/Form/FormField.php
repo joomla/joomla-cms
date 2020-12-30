@@ -370,6 +370,18 @@ abstract class FormField
 	protected $renderLabelLayout = 'joomla.form.renderlabel';
 
 	/**
+	 * Hint for render width
+	 * Possible values are:
+	 *  - full
+	 *  - large
+	 *  - medium
+	 *  - small
+	 *
+	 * @var  string
+	 */
+	protected $fieldWidth = 'full';
+
+	/**
 	 * The data-attribute name and values of the form field.
 	 * For example, data-action-type="click" data-action-type="change"
 	 *
@@ -450,6 +462,7 @@ abstract class FormField
 			case 'spellcheck':
 			case 'validationtext':
 			case 'showon':
+			case 'fieldWidth':
 				return $this->$name;
 
 			case 'input':
@@ -514,6 +527,7 @@ abstract class FormField
 			case 'validationtext':
 			case 'group':
 			case 'showon':
+			case 'fieldWidth':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -639,10 +653,10 @@ abstract class FormField
 		// Set the group of the field.
 		$this->group = $group;
 
-		$attributes = array(
+		$attributes = [
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
 			'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'fieldWidth'];
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -1327,6 +1341,7 @@ abstract class FormField
 			'value'          => $this->value,
 			'dataAttribute'  => $this->renderDataAttributes(),
 			'dataAttributes' => $this->dataAttributes,
+			'fieldWidth'     => $this->fieldWidth,
 		];
 	}
 

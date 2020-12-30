@@ -42,7 +42,6 @@
 
   .controls {
     position: relative;
-    flex: 1;
     min-width: 210px;
 
     + div {
@@ -55,6 +54,23 @@
     flex-direction: column;
   }
 
+  @each $breakpoint, $form-field-widths2 in $form-field-widths {
+    @each $name, $form-field-width in $form-field-widths2 {
+      @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        &.#{$name} {
+          .controls {
+            width: #{$form-field-width};
+          }
+
+          @if $breakpoint != 'sm' and $breakpoint != 'xs'  {
+            .control-label + .controls {
+              width: calc(#{$form-field-width} - 240px)
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .control-group {

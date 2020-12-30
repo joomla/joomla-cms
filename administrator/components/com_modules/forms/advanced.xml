@@ -8,6 +8,7 @@
 				name="style"
 				type="chromestyle"
 				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
+				fieldWidth="medium"
 			/>
 
 			<field
@@ -16,6 +17,7 @@
 				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
 				default="div"
 				validate="options"
+				fieldWidth="medium"
 			/>
 
 			<field
@@ -25,6 +27,7 @@
 				first="0"
 				last="12"
 				step="1"
+				fieldWidth="small"
 			/>
 
 			<field
@@ -33,6 +36,7 @@
 				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
 				default="h3"
 				validate="options"
+				fieldWidth="full"
 			/>
 
 			<field
@@ -41,6 +45,7 @@
 				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
 				rows="3"
 				validate="CssIdentifier"
+				fieldWidth="full"
 			/>
 		</fieldset>
 	</fields>

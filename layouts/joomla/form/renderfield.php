@@ -21,6 +21,7 @@ extract($displayData);
  * @var   string  $label        The html code for the label
  * @var   string  $input        The input field html code
  * @var   string  $description  An optional description to use in a tooltip
+ * @var   string  $fieldWidth   A hint for the field width
  */
 
 if (!empty($options['showonEnabled']))
@@ -35,6 +36,10 @@ $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id              = $name . '-desc';
 $hide            = empty($options['hiddenLabel']) ? '' : ' sr-only';
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
+$fieldWidth      = empty($fieldWidth) ? 'full' : $fieldWidth;
+
+$class .= ' ' . $fieldWidth;
+
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>

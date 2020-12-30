@@ -155,7 +155,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
 			<fieldset id="fieldset-editor" class="options-form">
 				<legend><?php echo Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'); ?></legend>
-				<div class="column-count-md-2 column-count-lg-3">
+				<div>
 				<?php echo $this->form->renderFieldset('editorConfig'); ?>
 				</div>
 			</fieldset>

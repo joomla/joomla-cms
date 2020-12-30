@@ -7,6 +7,7 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			readonly="true"
+			fieldWidth="small"
 		/>
 
 		<field
@@ -16,6 +17,7 @@
 			size="40"
 			maxlength="100"
 			required="true"
+			fieldWidth="full"
 		/>
 
 		<field
@@ -24,6 +26,7 @@
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="255"
 			size="40"
+			fieldWidth="full"
 		/>
 
 		<field
@@ -40,6 +43,7 @@
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
+			fieldWidth="medium"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -53,6 +57,7 @@
 			default="1"
 			size="1"
 			validate="options"
+			fieldWidth="full"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -67,6 +72,7 @@
 			translateformat="true"
 			showtime="true"
 			size="22"
+			fieldWidth="medium"
 		/>
 
 		<field
@@ -77,6 +83,7 @@
 			translateformat="true"
 			showtime="true"
 			size="22"
+			fieldWidth="medium"
 		/>
 
 		<field
@@ -85,6 +92,7 @@
 			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
 			readonly="true"
 			size="1"
+			fieldWidth="small"
 		/>
 
 		<field
@@ -94,6 +102,7 @@
 			default=""
 			maxlength="50"
 			client="site"
+			fieldWidth="medium"
 		/>
 
 		<field
@@ -109,6 +118,7 @@
 			type="moduleorder"
 			label="JFIELD_ORDERING_LABEL"
 			linked="position"
+			fieldWidth="medium"
 		/>
 
 		<field
@@ -118,12 +128,14 @@
 			buttons="true"
 			filter="JComponentHelper::filterText"
 			hide="readmore,pagebreak,module"
+			fieldWidth="full"
 		/>
 
 		<field
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
+			fieldWidth="medium"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -153,6 +165,7 @@
 			component="com_modules"
 			section="module"
 			validate="rules"
+			fieldWidth="full"
 		/>
 	</fieldset>
 </form>

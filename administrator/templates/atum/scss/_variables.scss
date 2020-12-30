@@ -266,3 +266,36 @@ $zindex-tooltip:                   1070;
 $zindex-mobile-bottom:             8000;
 $zindex-mobile-toggle:             9999;
 $zindex-mobile-menu:               9000;
+
+$form-field-widths: (
+  xs: (
+    full:                          100%,
+    large:                         100%,
+    medium:                        100%,
+    small:                         100%,
+  ),
+  sm: (
+    full:                          100%,
+    large:                         100%,
+    medium:                        100%,
+    small:                         100%,
+  ),
+  md: (
+    full:                          100%,
+    large:                         100%,
+    medium:                        100%,
+    small:                         75%,
+  ),
+  lg: (
+    full:                          100%,
+    large:                         100%,
+    medium:                        75%,
+    small:                         50%,
+  ),
+  xl: (
+    full:                          100%,
+    large:                         75%,
+    medium:                        50%,
+    small:                         25%,
+  ),
+);
