@@ -334,11 +334,11 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onBeforeBatchCopy(CmsEvent\Model\BeforeBatchCopy $event)
 	{
 		/** @var TableInterface $oldTable */
-		$oldTable = $event['sourceTable'];
+		$sourceTable = $event['src'];
 
-		/** @var TableInterface $updatedTable */
-		$updatedTable = $event['updatedTable'];
-
-		$updatedTable->newTags = $oldTable->tagsHelper->tags;
+		if ($sourceTable instanceof TaggableTableInterface)
+		{
+			$sourceTable->newTags = $sourceTable->tagsHelper->tags;
+		}
 	}
 }

@@ -460,8 +460,6 @@ abstract class AdminModel extends FormModel
 			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
-			$originalTable = clone $this->table;
-
 			$this->table->reset();
 
 			// Check that the row actually exists
@@ -515,7 +513,7 @@ abstract class AdminModel extends FormModel
 
 			$event = new BeforeBatchCopy(
 				$this->event_before_batch_copy,
-				['sourceTable' => $originalTable, 'updatedTable' => $this->table]
+				['src' => $this->table]
 			);
 			Factory::getApplication()->triggerEvent($this->event_before_batch_copy, $event);
 

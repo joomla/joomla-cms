@@ -16,7 +16,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Event class for modifying batch copy data
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class BeforeBatchCopy extends AbstractImmutableEvent
 {
@@ -28,18 +28,13 @@ class BeforeBatchCopy extends AbstractImmutableEvent
 	 *
 	 * @throws  BadMethodCallException
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!\array_key_exists('sourceTable', $arguments))
+		if (!\array_key_exists('src', $arguments))
 		{
-			throw new BadMethodCallException("Argument 'sourceTable' is required for event $name");
-		}
-
-		if (!\array_key_exists('updatedTable', $arguments))
-		{
-			throw new BadMethodCallException("Argument 'updatedTable' is required for event $name");
+			throw new BadMethodCallException("Argument 'src' is required for event $name");
 		}
 
 		parent::__construct($name, $arguments);
