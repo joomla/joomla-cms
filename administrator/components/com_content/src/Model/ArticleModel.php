@@ -27,6 +27,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
@@ -260,6 +261,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 			// Set the new category ID
 			$this->table->catid = $categoryId;
+
+			// We don't want to modify tags - so remove the tags helper associated
+			if ($this->table instanceof TaggableTableInterface)
+			{
+				$this->table->clearTagsHelper();
+			}
 
 			// Check the row.
 			if (!$this->table->check())
