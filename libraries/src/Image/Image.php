@@ -474,7 +474,7 @@ class Image
 	 * @return  Image
 	 *
 	 * @since   2.5.0
-	 * @see     Joomla\CMS\Image\Filter
+	 * @see     \Joomla\CMS\Image\Filter
 	 * @throws  \LogicException
 	 */
 	public function filter($type, array $options = [])
