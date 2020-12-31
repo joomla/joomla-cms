@@ -14,6 +14,7 @@ namespace Joomla\Component\Contenthistory\Api\Controller;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception;
+use Joomla\CMS\Router\Exception\RateLimitException;
 use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
 
 /**
@@ -48,6 +49,21 @@ class HistoryController extends ApiController
 	 */
 	public function displayList()
 	{
+		$extension = substr($this->getExtensionFromInput(), 4);
+
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$option = $extension . '.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+
+			$this->app->triggerEvent('onPublicGet', [$extension . '.webservice']);
+		}
+
 		$this->modelState->set('type_alias', $this->getTypeAliasFromInput());
 		$this->modelState->set('type_id', $this->getTypeIdFromInput());
 		$this->modelState->set('item_id', $this->getTypeAliasFromInput() . '.' . $this->getItemIdFromInput());
@@ -128,5 +144,18 @@ class HistoryController extends ApiController
 	{
 		return $this->input->exists('type_alias') ?
 			$this->input->get('type_alias') : $this->input->post->get('type_alias');
+	}
+
+	/**
+	 * Get extension from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getExtensionFromInput()
+	{
+		return $this->input->exists('extension') ?
+			$this->input->get('extension') : $this->input->post->get('extension');
 	}
 }
