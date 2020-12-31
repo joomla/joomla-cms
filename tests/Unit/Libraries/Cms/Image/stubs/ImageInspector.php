@@ -72,7 +72,7 @@ class ImageInspector extends Image
 	 * @return  ImageFilter
 	 *
 	 * @since   4.0.0
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	public function getFilterInstance($type)
 	{

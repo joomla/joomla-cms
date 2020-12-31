@@ -306,7 +306,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	}
 
 	/**
-	 * Runs when an existing table object is reset
+	 * Runs when an existing table object has been loaded
 	 *
 	 * @param   CmsEvent\Table\AfterLoadEvent  $event  The event to handle
 	 *

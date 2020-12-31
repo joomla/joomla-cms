@@ -24,7 +24,7 @@ module.exports.compile = (options, path) => {
   Promise.resolve()
   // Compile the scss files
     .then(() => {
-      let files = [];
+      const files = [];
       let folders = [];
 
       if (path) {
@@ -40,34 +40,11 @@ module.exports.compile = (options, path) => {
           process.exit(1);
         }
       } else {
-        files = [
-          `${RootPath}/templates/cassiopeia/scss/offline.scss`,
-          `${RootPath}/templates/cassiopeia/scss/template.scss`,
-          `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/fonts-local_roboto.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/fonts-web_fira-sans.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/fonts-web_roboto+noto-sans.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/colors_standard.scss`,
-          `${RootPath}/templates/cassiopeia/scss/global/colors_alternative.scss`,
-          `${RootPath}/templates/cassiopeia/scss/system/searchtools/searchtools.scss`,
-          `${RootPath}/templates/cassiopeia/scss/vendor/choicesjs/choices.scss`,
-          `${RootPath}/templates/cassiopeia/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
-          `${RootPath}/templates/cassiopeia/scss/vendor/fontawesome-free/fontawesome.scss`,
-          `${RootPath}/administrator/templates/atum/scss/template.scss`,
-          `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
-          `${RootPath}/administrator/templates/atum/scss/system/searchtools/searchtools.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/awesomplete/awesomplete.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/choicesjs/choices.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-alert.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/joomla-custom-elements/joomla-tab.scss`,
-          `${RootPath}/administrator/templates/atum/scss/vendor/fontawesome-free/fontawesome.scss`,
-          `${RootPath}/installation/template/scss/template.scss`,
-          `${RootPath}/installation/template/scss/template-rtl.scss`,
-        ];
-
         folders = [
           `${RootPath}/build/media_source`,
+          `${RootPath}/templates`,
+          `${RootPath}/installation/template`,
+          `${RootPath}/administrator/templates`,
         ];
       }
 
@@ -78,10 +55,18 @@ module.exports.compile = (options, path) => {
             filesRc.forEach(
               (file) => {
                 // Don't take files with "_" but "file" has the full path, so check via match
-                if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
-                  files.push(file);
+                if (file.match(/\.scss$/)) {
+                  if (!file.match(/(\/|\\)_[^/\\]+$/)) {
+                    files.push(file);
+                  }
+
+                  // Update the scss in the media folder
+                  if (file.match(/build\/media_source\//)) {
+                    FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
+                    Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
+                  }
                 }
-                if (file.match(/\.css/)) {
+                if (file.match(/\.css/) && !(file.match(/\/template(s)?\//) || file.match(/\\template(s)?\\/))) {
                   // CSS file, we will copy the file and then minify it in place
                   // Ensure that the directories exist or create them
                   FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});

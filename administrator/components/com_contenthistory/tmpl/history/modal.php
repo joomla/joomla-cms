@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -27,7 +28,7 @@ $listDirn       = $this->escape($this->state->get('list.direction'));
 $deleteMessage  = "alert(Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
 $aliasArray     = explode('.', $this->state->item_id);
 $option         = ($aliasArray[1] == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 2)) : $aliasArray[0];
-$filter         = JFilterInput::getInstance();
+$filter         = InputFilter::getInstance();
 $task           = $filter->clean($aliasArray[1]) . '.loadhistory';
 $loadUrl        = Route::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
 $deleteUrl      = Route::_('index.php?option=com_contenthistory&task=history.delete');

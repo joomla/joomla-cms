@@ -14,7 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $params = ComponentHelper::getParams('com_content');
 
-$published = $this->state->get('filter.published');
+$published = (int) $this->state->get('filter.published');
 
 $user = Factory::getUser();
 ?>

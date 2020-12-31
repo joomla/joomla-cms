@@ -526,6 +526,7 @@ class PlgEditorTinymce extends CMSPlugin
 			Text::script('PLG_TINY_DND_ADDITIONALDATA');
 			Text::script('PLG_TINY_DND_ALTTEXT');
 			Text::script('PLG_TINY_DND_LAZYLOADED');
+			Text::script('PLG_TINY_DND_EMPTY_ALT');
 
 			$scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
 			$scriptOptions['csrfToken']          = Session::getFormToken();
@@ -594,6 +595,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'content_css'        => $content_css,
 				'document_base_url'  => Uri::root(true) . '/',
 				'paste_data_images'  => $allowImgPaste,
+				'image_caption'      => true,
 				'importcss_append'   => true,
 				'height'             => $html_height,
 				'width'              => $html_width,

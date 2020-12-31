@@ -123,14 +123,14 @@ class OverrideModel extends AdminModel
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array    $data             The form data.
-	 * @param   boolean  $opposite_client  Indicates whether the override should not be created for the current client.
+	 * @param   array    $data            The form data.
+	 * @param   boolean  $oppositeClient  Indicates whether the override should not be created for the current client.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public function save($data, $opposite_client = false)
+	public function save($data, $oppositeClient = false)
 	{
 		$app = Factory::getApplication();
 
@@ -146,7 +146,7 @@ class OverrideModel extends AdminModel
 		}
 
 		// If the override should be created for both.
-		if ($opposite_client)
+		if ($oppositeClient)
 		{
 			$client = 1 - $client;
 		}
@@ -197,7 +197,7 @@ class OverrideModel extends AdminModel
 
 		// If the override should be stored for both clients save
 		// it also for the other one and prevent endless recursion.
-		if (isset($data['both']) && $data['both'] && !$opposite_client)
+		if (isset($data['both']) && $data['both'] && !$oppositeClient)
 		{
 			return $this->save($data, true);
 		}

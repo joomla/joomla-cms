@@ -298,7 +298,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || ($record->state != -2 && !Factory::getApplication()->isClient('api')))
+		if (empty($record->id) || ($record->state != -2))
 		{
 			return false;
 		}
@@ -668,6 +668,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			if (isset($data['modified_by']))
 			{
 				unset($data['modified_by']);
+			}
+		}
+
+		if (!Factory::getUser()->authorise('core.admin', 'com_content'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
 			}
 		}
 
@@ -1109,14 +1117,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	/**
 	 * Custom clean the cache of com_content and content modules
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_content');
 		parent::cleanCache('mod_articles_archive');
@@ -1178,12 +1186,4 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		return $return;
 	}
-
-	/**
-	 * Load the assigned workflow information by a given category ID
-	 *
-	 * @param   integer  $catId  The given category
-	 *
-	 * @return  integer|boolean  If found, the workflow ID, otherwise false
-	 */
 }
