@@ -401,6 +401,19 @@ class AtomParserTest extends UnitTestCase
 				['content', 'summary']
 			);
 
+		/**
+		 * Ensure that for the test to work we correctly return the content element (as a normal class would do
+		 * when a property is set)
+		 */
+		$map = [
+			['content', 'summary'],
+		];
+
+		$feedEntryMock
+			->expects($this->any())
+			->method('__get')
+			->will($this->returnValueMap($map));
+
 		// Use reflection to test protected method
 		$atomParser = new AtomParser($this->createMock(XMLReader::class));
 		$reflectionClass = new ReflectionClass($atomParser);
