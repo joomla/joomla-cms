@@ -11,10 +11,12 @@ namespace Joomla\Component\Content\Api\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-
+use Joomla\CMS\Access\Exception\AuthenticationFailed;
+use Joomla\CMS\Router\Exception\RateLimitException;
 /**
  * The article controller
  *
@@ -47,6 +49,18 @@ class ArticlesController extends ApiController
 	 */
 	public function displayList()
 	{
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$option = 'content.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+			$this->app->triggerEvent('onPublicGet', ['content.webservice']);
+		}
+
 		$apiFilterInfo = $this->input->get('filter', [], 'array');
 		$filter        = InputFilter::getInstance();
 
@@ -70,16 +84,17 @@ class ArticlesController extends ApiController
 			$this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
 		}
 
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$this->modelState->set('filter.published', 1);
+		}
+
 		if (array_key_exists('language', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
 		}
 
-		if ((int) $this->input->get('isPublicApi', 0) === 1)
-		{
-			$this->modelState->set('filter.published', 1, 'INT');
-		}
-
+		
 		return parent::displayList();
 	}
 
@@ -110,5 +125,22 @@ class ArticlesController extends ApiController
 		$this->input->set('data', $data);
 
 		return parent::save($recordKey);
+	}
+
+	public function displayItem($id = null)
+	{
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$option = 'content.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+			$this->app->triggerEvent('onPublicGet', ['content.webservice']);
+		}
+
+		return parent::displayItem($id);
 	}
 }
