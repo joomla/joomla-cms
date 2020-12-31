@@ -90,6 +90,11 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::apply('plugin.apply');
 
 			ToolbarHelper::save('plugin.save');
+
+			if ($this->item->folder === 'webservices')
+			{
+				ToolbarHelper::custom('plugin.resetrate', 'refresh', '', 'COM_PLUGINS_RESET_LIMIT', false);
+			}
 		}
 
 		ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
