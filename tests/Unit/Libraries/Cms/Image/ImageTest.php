@@ -6,9 +6,6 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
 
-require_once __DIR__ . '/stubs/ImageInspector.php';
-require_once __DIR__ . '/stubs/ImageFilterInspector.php';
-
 use Joomla\CMS\Image\Image;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -1245,12 +1242,14 @@ class ImageTest extends UnitTestCase
 		$mockFilter->expects($this->once())
 			->method('execute');
 
-		// Create a new ImageInspector object.
-		$image = new ImageInspector($handle);
-		$image->mockFilter = $mockFilter;
+		// Create a new Image mock
+		$mockImage = $this->getMockForAbstractClass('\\Joomla\\CMS\\Image\\Image', [$handle], 'ImageMock', true, false, true, ['getFilterInstance']);
+		$mockImage->expects($this->once())
+			->method('getFilterInstance')
+			->willReturn($mockFilter);
 
 		// Execute the filter.
-		$image->filter('mock');
+		$mockImage->filter('mock');
 	}
 
 	/**
