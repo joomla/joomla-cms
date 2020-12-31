@@ -695,13 +695,13 @@ class ImageTest extends UnitTestCase
 	 */
 	public function testGetFilterInstance()
 	{
-		// Create a new ImageInspector object.
-		$image = new ImageInspector(imagecreatetruecolor(1, 1));
+		// Create a new Image object.
+		$image = new Image(imagecreatetruecolor(1, 1));
 
 		// Get the filter instance.
-		$filter = $image->getFilterInstance('inspector');
+		$filter = TestHelper::invoke($image, 'getFilterInstance', 'brightness');
 
-		$this->assertInstanceOf('\\Joomla\\CMS\\Image\\Filter\\Inspector', $filter);
+		$this->assertInstanceOf('\\Joomla\\CMS\\Image\\Filter\\Brightness', $filter);
 	}
 
 	/**
