@@ -9,9 +9,9 @@
 
 namespace Joomla\CMS\Image;
 
-use Joomla\CMS\Factory;
-
 \defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Class to manipulate an image.
