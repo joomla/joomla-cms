@@ -3,7 +3,7 @@
 	<name>plg_webservices_content</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2017</creationDate>
-	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -24,7 +24,7 @@
 					type="list"
 					label="PLG_WEBSERVICES_CONTENT_ALLOWEDVERBS_LABEL"
 					multiple="true"				
-					default="GET"				
+					default=""				
 					layout="joomla.form.field.list-fancy-select"
 					>
 					<option value="GET">GET</option>
@@ -32,6 +32,7 @@
 					<option value="DELETE">DELETE</option>
 					<option value="PUT">PUT</option>
 					<option value="PATCH">PATCH</option>
+					<option value="OPTIONS">OPTIONS</option>
 				</field>
 				<field
 					name="public"
@@ -44,6 +45,20 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field
+					name="taskid"
+					type="hidden"
+					default="0"
+					size="15"
+				/>
+				<field
+					name="limit"
+					type="number"
+					label="PLG_WEBSERVICES_CONTENT_LIMIT_LABEL"
+					default="0"
+					filter="integer"
+					showon="public:1"
+				/>
 			</fieldset>
 		</fields>
 	</config>
