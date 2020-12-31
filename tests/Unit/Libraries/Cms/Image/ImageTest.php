@@ -1317,7 +1317,7 @@ class ImageTest extends UnitTestCase
 		// Create a new Image from the image handle.
 		$image = new Image($imageHandle);
 
-		$dimensions = TestHelper::invoke($image, 'prepareDimensions', [$inputWidth, $inputHeight, $inputScale]);
+		$dimensions = TestHelper::invoke($image, 'prepareDimensions', $inputWidth, $inputHeight, $inputScale);
 
 		// Validate the correct response.
 		$this->assertEquals($expectedHeight, $dimensions->height);
@@ -1342,7 +1342,7 @@ class ImageTest extends UnitTestCase
 
 		$image = new Image($imageHandle);
 
-		$dimensions = TestHelper::invoke($image, 'prepareDimensions', [123, 456, 42]);
+		$dimensions = TestHelper::invoke($image, 'prepareDimensions', 123, 456, 42);
 	}
 
 	/**
@@ -1373,7 +1373,7 @@ class ImageTest extends UnitTestCase
 		// Validate the correct response.
 		$this->assertEquals(
 			$expectedHeight,
-			TestHelper::invoke($image, 'sanitizeHeight', [$inputHeight, $inputWidth])
+			TestHelper::invoke($image, 'sanitizeHeight', $inputHeight, $inputWidth)
 		);
 	}
 
@@ -1405,7 +1405,7 @@ class ImageTest extends UnitTestCase
 		// Validate the correct response.
 		$this->assertEquals(
 			$expectedWidth,
-			TestHelper::invoke($image, 'sanitizeWidth', [$inputWidth, $inputHeight])
+			TestHelper::invoke($image, 'sanitizeWidth', $inputWidth, $inputHeight)
 		);
 	}
 
@@ -1428,7 +1428,7 @@ class ImageTest extends UnitTestCase
 		// Validate the correct response.
 		$this->assertEquals(
 			$expected,
-			TestHelper::invoke($this->instance, 'sanitizeOffset', [$input])
+			TestHelper::invoke($this->instance, 'sanitizeOffset', $input)
 		);
 	}
 
