@@ -12,6 +12,7 @@ namespace Joomla\Component\Categories\Api\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\Router\Exception\RateLimitException;
 
 /**
  * The categories controller
@@ -69,9 +70,25 @@ class CategoriesController extends ApiController
 	public function displayItem($id = null)
 	{
 		$this->modelState->set('filter.extension', $this->getExtensionFromInput());
+		$extension = substr($this->getExtensionFromInput(), 4);
+
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$option = $extension . '.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+
+			$this->modelState->set('filter.published', 1);
+			$this->app->triggerEvent('onPublicGet', [$extension . '.webservice']);
+		}
 
 		return parent::displayItem($id);
 	}
+
 	/**
 	 * Basic display of a list view
 	 *
@@ -81,11 +98,21 @@ class CategoriesController extends ApiController
 	 */
 	public function displayList()
 	{
+		$extension = substr($this->getExtensionFromInput(), 4);
 		$this->modelState->set('filter.extension', $this->getExtensionFromInput());
 
 		if ((int) $this->input->get('isPublicApi', 0) === 1)
 		{
+			$option = $extension . '.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+
 			$this->modelState->set('filter.published', 1, 'INT');
+			$this->app->triggerEvent('onPublicGet', [$extension . '.webservice']);
 		}
 
 		return parent::displayList();
