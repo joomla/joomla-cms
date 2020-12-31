@@ -8,7 +8,7 @@
 				name="style"
 				type="chromestyle"
 				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
-				fieldWidth="medium"
+				fieldWidth="large"
 			/>
 
 			<field
@@ -36,7 +36,7 @@
 				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
 				default="h3"
 				validate="options"
-				fieldWidth="full"
+				fieldWidth="small"
 			/>
 
 			<field
