@@ -71,6 +71,11 @@ class ApiRouter extends Router
 			$routes[] = new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '(\d+)'], $getDefaults);
 		}
 
+		if (in_array('OPTIONS', $allowed))
+		{
+			$routes[] = new Route(['OPTIONS'], $baseName, $controller . '.displayList', [], $getDefaults);
+		}
+
 		if (in_array('POST', $allowed))
 		{
 			$routes[] = new Route(['POST'], $baseName, $controller . '.add', [], $defaults);
