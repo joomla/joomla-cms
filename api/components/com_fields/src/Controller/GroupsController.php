@@ -12,6 +12,7 @@ namespace Joomla\Component\Fields\Api\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\Router\Exception\RateLimitException;
 
 /**
  * The groups controller
@@ -49,6 +50,22 @@ class GroupsController extends ApiController
 	{
 		$this->modelState->set('filter.context', $this->getContextFromInput());
 
+		$extension = $this->getContextFromInput();
+		$extension = substr(trim(substr($extension, 0, strpos($extension, "."))), 4);
+
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$option = $extension . '.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+
+			$this->app->triggerEvent('onPublicGet', [$extension . '.webservice']);
+		}
+
 		return parent::displayItem($id);
 	}
 
@@ -63,9 +80,21 @@ class GroupsController extends ApiController
 	{
 		$this->modelState->set('filter.context', $this->getContextFromInput());
 
+		$extension = $this->getContextFromInput();
+		$extension = substr(trim(substr($extension, 0, strpos($extension, "."))), 4);
+
 		if ((int) $this->input->get('isPublicApi', 0) === 1)
 		{
+			$option = $extension . '.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+
 			$this->modelState->set('filter.state', 1, 'INT');
+			$this->app->triggerEvent('onPublicGet', [$extension . '.webservice']);
 		}
 
 		return parent::displayList();
