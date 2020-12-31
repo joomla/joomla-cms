@@ -378,4 +378,59 @@ class PluginModel extends AdminModel
 		parent::cleanCache('com_plugins', 0);
 		parent::cleanCache('com_plugins', 1);
 	}
+
+	/**
+	 * Reset rate limit method.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   4.0
+	 */
+	public function resetRateLimit($pk) : bool
+	{
+		$taskid = null;
+		$db     = $this->getDbo();
+
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName(['params']))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('extension_id') . ' = :eid')
+			->bind(':eid', $pk);
+
+		$db->setQuery($query);
+
+		$params = $db->loadObject();
+
+		$query  = $db->getQuery(true);
+		$now    = Factory::getDate()->toSql();
+		$query->update($db->quoteName('#__extensions'));
+
+		// Reset the rate limit
+		$taskParams = json_decode($params->params, true);
+
+		$registry = new Registry($taskParams);
+		$registry->set('taskid', 0);
+		$jsonparam = $registry->toString('JSON');
+
+		$query->set($db->quoteName('params') . ' = :params')
+			->where($db->quoteName('extension_id') . ' = :eid')
+			->bind(':params', $jsonparam)
+			->bind(':eid', $pk);
+
+		try
+		{
+			// Update the plugin parameters
+			$result = $db->setQuery($query)->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			// If we fail
+			return false;
+		}
+
+		return true;
+	}
 }
