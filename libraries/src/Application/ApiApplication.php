@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\ApiRouter;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\CMS\Router\Exception\RateLimitException;
 use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\Input\Json as JInputJson;
@@ -226,13 +227,13 @@ final class ApiApplication extends CMSApplication
 	 */
 	protected function route()
 	{
-		$router = $this->getApiRouter();
+		$router    = $this->getApiRouter();
+		$caught404 = false;
+		$method    = $this->input->getMethod();
 
 		// Trigger the onBeforeApiRoute event.
 		PluginHelper::importPlugin('webservices');
 		$this->triggerEvent('onBeforeApiRoute', array(&$router, $this));
-		$caught404 = false;
-		$method    = $this->input->getMethod();
 
 		try
 		{
@@ -314,11 +315,9 @@ final class ApiApplication extends CMSApplication
 			if (!isset($route['vars']['public']) || $route['vars']['public'] === false)
 			{
 				throw new AuthenticationFailed;
-			}			
-			if ($route['vars']['public'] === true)
-			{
-				$publicApi = false;
-			}			
+			}
+
+			$publicApi = false;		
 		}
 
 		$this->triggerEvent('onAfterApiRoute', ['this' => $this, 'public' => $publicApi]);
