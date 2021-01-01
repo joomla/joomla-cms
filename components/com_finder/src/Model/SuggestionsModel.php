@@ -92,20 +92,17 @@ class SuggestionsModel extends ListModel
 
 		// Select required fields
 		$termQuery->select('DISTINCT(t.term)')
-			->from($db->quoteName('#__finder_terms') . ' AS t')
+			->from($db->quoteName('#__finder_terms', 't'))
 			->whereIn('t.term_id', $termIds)
 			->order('t.links DESC')
 			->order('t.weight DESC');
 
-		// Determine the relevant mapping table suffix by inverting the logic from drivers
-		$mappingTableSuffix = StringHelper::substr(md5(StringHelper::substr($this->getState('input'), 0, 1)), 0, 1);
-
 		// Join mapping table for term <-> link relation
-		$mappingTable = $db->quoteName('#__finder_links_terms' . $mappingTableSuffix);
-		$termQuery->join('INNER', $mappingTable . ' AS tm ON tm.term_id = t.term_id');
+		$mappingTable = $db->quoteName('#__finder_links_terms', 'tm');
+		$termQuery->join('INNER', $mappingTable . ' ON tm.term_id = t.term_id');
 
 		// Join links table
-		$termQuery->join('INNER', $db->quoteName('#__finder_links') . ' AS l ON (tm.link_id = l.link_id)')
+		$termQuery->join('INNER', $db->quoteName('#__finder_links', 'l') . ' ON (tm.link_id = l.link_id)')
 			->where('l.access IN (' . implode(',', $groups) . ')')
 			->where('l.state = 1')
 			->where('l.published = 1');

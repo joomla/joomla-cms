@@ -25,6 +25,8 @@ $input = Factory::getApplication()->input;
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 
+// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
+$this->useCoreUI = true;
 ?>
 <form
 	action="<?php echo Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>"
@@ -35,14 +37,7 @@ $fieldsets = $this->form->getFieldsets();
 	class="form-validate"
 >
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'user_details']); ?>
-	<?php foreach ($fieldsets as $fieldset) : ?>
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $fieldset->name, Text::_($fieldset->label)); ?>
-		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
-			<?php echo $field->renderField(); ?>
-		<?php endforeach; ?>
-		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-	<?php endforeach; ?>
-
+	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 	<?php if (!empty($this->twofactorform) && $this->item->id) : ?>
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_ADMIN_PROFILE_TWO_FACTOR_AUTH')); ?>
 	<div class="control-group">
@@ -88,7 +83,7 @@ $fieldsets = $this->form->getFieldsets();
 
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php endif; ?>
-	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="return" value="<?php echo $input->get('return', '', 'BASE64'); ?>">

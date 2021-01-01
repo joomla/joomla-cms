@@ -156,10 +156,12 @@ $table-bg-accent:                     hsla(0, 0%, 0%, .3) !default;
 
 // Forms
 $input-padding:                       .6rem 1rem;
-$input-border:                        solid 1px $gray-600;
+$input-border:                        solid 1px $gray-400;
 $input-btn-padding-y:                 .6rem;
 $input-btn-padding-x:                 1rem;
 $input-max-width:                     100%;
+
+$cassiopeia-input-focus-shadow:       0 0 0 .2rem hsla(0, 0%, 0%, .1);
 
 $custom-select-indicator-padding:     3rem;
 $custom-select-bg:                    $gray-200;

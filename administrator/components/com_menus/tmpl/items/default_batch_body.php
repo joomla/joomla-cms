@@ -26,6 +26,7 @@ if ($clientId == 1)
 	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 	$wa = $this->document->getWebAssetManager();
 	$wa->useScript('com_menus.batch-body');
+	$wa->useScript('joomla.batch-copymove');
 }
 ?>
 <div class="container">

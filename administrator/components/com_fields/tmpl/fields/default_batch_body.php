@@ -15,6 +15,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_fields.admin-fields-batch');
+$wa->useScript('joomla.batch-copymove');
 
 $context   = $this->escape($this->state->get('filter.context'));
 ?>
