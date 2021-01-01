@@ -42,10 +42,10 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-15 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-10 d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" class="w-10 d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
 								<th scope="col" class="w-30 d-none d-md-table-cell">
@@ -83,7 +83,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component); ?>
 								</td>
-								<td class="d-md-table-cell">
+								<td class="d-none d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
 										<?php if (in_array($language->lang_code, $item->languages)) : ?>
 											<?php if ($language->image) : ?>
@@ -94,7 +94,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 										<?php endif; ?>
 									<?php endforeach; ?>
 								</td>
-								<td class="d-md-table-cell">
+								<td class="d-none d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
 										<?php if (!in_array($language->lang_code, $item->languages)) : ?>
 											<?php if ($language->image) : ?>
