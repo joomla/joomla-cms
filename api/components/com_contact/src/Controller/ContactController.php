@@ -21,6 +21,7 @@ use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Controller\Exception\SendEmail;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Exception\RateLimitException;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
@@ -278,5 +279,59 @@ class ContactController extends ApiController
 		}
 
 		return $sent;
+	}
+
+	/**
+	 * Basic display of an item view
+	 *
+	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayItem($id = null)
+	{
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$option = 'contact.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+
+			$this->app->triggerEvent('onPublicGet', ['contact.webservice']);
+		}
+
+		return parent::displayItem($id);
+	}
+
+	/**
+	 * Basic display of an item view
+	 *
+	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList()
+	{
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$option = 'contact.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+
+			$this->app->triggerEvent('onPublicGet', ['contact.webservice']);
+		}
+
+		return parent::displayList();
 	}
 }
