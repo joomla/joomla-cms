@@ -58,6 +58,7 @@ class ArticlesController extends ApiController
 			{
 				throw new RateLimitException;
 			}
+
 			$this->app->triggerEvent('onPublicGet', ['content.webservice']);
 		}
 
@@ -94,7 +95,6 @@ class ArticlesController extends ApiController
 			$this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
 		}
 
-		
 		return parent::displayList();
 	}
 
@@ -138,6 +138,7 @@ class ArticlesController extends ApiController
 			{
 				throw new RateLimitException;
 			}
+
 			$this->app->triggerEvent('onPublicGet', ['content.webservice']);
 		}
 
