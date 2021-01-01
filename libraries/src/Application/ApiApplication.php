@@ -309,7 +309,7 @@ final class ApiApplication extends CMSApplication
 		}
 
 		$publicApi = true;
-	
+
 		if (!$this->login(array('username' => ''), array('silent' => true, 'action' => 'core.login.api')))
 		{
 			if (!isset($route['vars']['public']) || $route['vars']['public'] === false)
@@ -317,7 +317,7 @@ final class ApiApplication extends CMSApplication
 				throw new AuthenticationFailed;
 			}
 
-			$publicApi = false;		
+			$publicApi = false;	
 		}
 
 		$this->triggerEvent('onAfterApiRoute', ['this' => $this, 'public' => $publicApi]);
