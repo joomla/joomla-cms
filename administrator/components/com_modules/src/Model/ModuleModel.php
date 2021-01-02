@@ -684,7 +684,15 @@ class ModuleModel extends AdminModel
 			$table = $this->getTable();
 
 			// Attempt to load the row.
-			$return = $table->load($pk);
+			if ((int) Factory::getApplication()->input->get('isPublicApi', 0) === 1)
+			{
+				$return = $table->load(['id' => $pk, $table->getColumnAlias('published') => 1]);
+			}
+			else
+			{
+				// Attempt to load the row.
+				$return = $table->load($pk);
+			}
 
 			// Check for a table object error.
 			if ($return === false && $error = $table->getError())
