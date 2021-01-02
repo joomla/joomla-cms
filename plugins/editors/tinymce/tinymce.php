@@ -96,7 +96,8 @@ class PlgEditorTinymce extends CMSPlugin
 	 * @return  string
 	 */
 	public function onDisplay(
-		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array()
+	)
 	{
 		if (empty($id))
 		{
@@ -202,20 +203,20 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
-		// load external plugins
+		// Load external plugins
 		if (isset($extraOptions->external_plugins) && $extraOptions->external_plugins)
 		{
 			foreach (json_decode(json_encode($extraOptions->external_plugins), true) as $external)
 			{
-				// get the path for readability
+				// Get the path for readability
 				$path = $external['path'];
 
-				// if we have a name and path, add it to the list
+				// If we have a name and path, add it to the list
 				if ($external['name'] != '' && $path != '')
 				{
 					if (substr($path, 0, 1) == '/')
 					{
-						// treat as a local path, so add the root
+						// Treat as a local path, so add the root
 						$path = Uri::root() . substr($path, 1);
 					}
 
@@ -253,115 +254,7 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
-		$text_direction = 'ltr';
-
-		if ($language->isRtl())
-		{
-			$text_direction = 'rtl';
-		}
-
-		$use_content_css    = $levelParams->get('content_css', 1);
-		$content_css_custom = $levelParams->get('content_css_custom', '');
-
-		/*
-		 * Lets get the default template for the site application
-		 */
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->quoteName('#__template_styles'))
-			->where(
-				[
-					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('home') . ' = ' . $db->quote('1')
-				]
-			);
-
-		$db->setQuery($query);
-
-		try
-		{
-			$template = $db->loadObject();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-			return '';
-		}
-
-		// Default to legacy
-		$templates_path = 'templates' . '/' . $template->template;
-		$content_css    = null;
-
-		if ($template->parent !== '')
-		{
-			$templates_path = 'media/templates/site/' . $template->template;
-
-			if (!file_exists(JPATH_ROOT. '/' . $templates_path))
-			{
-				$templates_path = 'media/templates/site/' . $template->parent;
-			}
-		}
-		else
-		{
-			if ($template->inheritable)
-			{
-				$templates_path = 'media/templates/site/' . $template->template;
-			}
-		}
-
-		// Loading of css file for 'styles' dropdown
-		if ($content_css_custom)
-		{
-			// If URL, just pass it to $content_css
-			if (strpos($content_css_custom, 'http') !== false)
-			{
-				$content_css = $content_css_custom;
-			}
-
-			// If it is not a URL, assume it is a file name in the current template folder
-			else
-			{
-				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
-				if (!file_exists(JPATH_ROOT. '/' . $templates_path . '/css/' . $content_css_custom))
-				{
-					$msg = sprintf(Text::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
-					Log::add($msg, Log::WARNING, 'jerror');
-				}
-				else
-				{
-					$content_css = Uri::root(true) . $templates_path . '/css/' . $content_css_custom;
-				}
-			}
-		}
-		else
-		{
-			// Process when use_content_css is Yes and no custom file given
-			if ($use_content_css)
-			{
-				// First check templates folder for default template
-				// if no editor.css file in templates folder, check system template folder
-				if (!file_exists(JPATH_ROOT . '/' . $templates_path . '/css/editor.css'))
-				{
-					// If no editor.css file in system folder, show alert
-					if (!file_exists(JPATH_ROOT . '/templates/system/css/editor.css'))
-					{
-						Log::add(Text::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'), Log::WARNING, 'jerror');
-					}
-					else
-					{
-						$content_css = Uri::root(true) . '/templates/system/css/editor.css';
-					}
-				}
-				else
-				{
-					$content_css = Uri::root(true) . $templates_path . '/css/editor.css';
-				}
-			}
-		}
-
-		$ignore_filter = false;
+		$ignore_filter  = false;
 
 		// Text filtering
 		if ($levelParams->get('use_config_textfilters', 0))
@@ -467,9 +360,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$levelParams->loadArray($preset);
 		}
 
-		$menubar         = (array) $levelParams->get('menu', []);
-		$toolbar1        = (array) $levelParams->get('toolbar1', []);
-		$toolbar2        = (array) $levelParams->get('toolbar2', []);
+		$menubar  = (array) $levelParams->get('menu', []);
+		$toolbar1 = (array) $levelParams->get('toolbar1', []);
+		$toolbar2 = (array) $levelParams->get('toolbar2', []);
 
 		// Make an easy way to check which button is enabled
 		$allButtons = array_merge($toolbar1, $toolbar2);
@@ -584,7 +477,7 @@ class PlgEditorTinymce extends CMSPlugin
 			array(
 				'suffix'   => '.min',
 				'baseURL'  => Uri::root(true) . '/media/vendor/tinymce',
-				'directionality' => $text_direction,
+				'directionality' => $language->isRtl() ? 'rtl' : 'ltr',
 				'language' => $langPrefix,
 				'autosave_restore_when_empty' => false,
 				'skin'     => $skin,
@@ -592,8 +485,8 @@ class PlgEditorTinymce extends CMSPlugin
 				'schema'   => 'html5',
 
 				// Toolbars
-				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
+				'menubar'  => empty($menubar) ? false : implode(' ', array_unique($menubar)),
+				'toolbar'  => empty($toolbar) ? null : 'jxtdbuttons ' . implode(' ', $toolbar),
 
 				'plugins'  => implode(',', array_unique($plugins)),
 
@@ -612,7 +505,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'remove_script_host' => false,
 
 				// Layout
-				'content_css'        => $content_css,
+				'content_css'        => $this->getEditorCSS($levelParams->get('content_css', 1), $levelParams->get('content_css_custom', '')),
 				'document_base_url'  => Uri::root(true) . '/',
 				'paste_data_images'  => $allowImgPaste,
 				'image_caption'      => true,
@@ -622,7 +515,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,
-				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+				'external_plugins'   => empty($externalPlugins) ? null : $externalPlugins,
 				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 				'toolbar_sticky'     => true,
 				'toolbar_mode'       => 'sliding',
@@ -1085,7 +978,7 @@ class PlgEditorTinymce extends CMSPlugin
 	/**
 	 * Gets the plugin extension id.
 	 *
-	 * @return  int  The plugin id.
+	 * @return  integer  The plugin id.
 	 *
 	 * @since   3.7.0
 	 */
@@ -1122,6 +1015,155 @@ class PlgEditorTinymce extends CMSPlugin
 				unset($array[$subKey]);
 			}
 		}
+
 		return $array;
+	}
+
+	/**
+	 * Helper function to resolve the editor css
+	 *
+	 * @param   integer  $useContentCss     Use content CSS
+	 * @param   string   $contentCssCustom  Custom CSS name/path
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function getEditorCSS($useContentCss = 1, $contentCssCustom = ''): string
+	{
+		/*
+		 * Lets get the default template for the site application
+		 */
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__template_styles'))
+			->where(
+				[
+					$db->quoteName('client_id') . ' = 0',
+					$db->quoteName('home') . ' = ' . $db->quote('1')
+				]
+			);
+
+		$db->setQuery($query);
+
+		try
+		{
+			$template = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return $this->getSystemEditorCss();
+		}
+
+		// Loading of css file for 'styles' dropdown
+		if ($contentCssCustom !== '')
+		{
+			// If URL, just pass it to $contentCss
+			if (strpos($contentCssCustom, 'http') !== false)
+			{
+				return $contentCssCustom;
+			}
+
+			// If it is not a URL, assume it is a file name in the current template folder
+			else
+			{
+				return $this->resolveTemplateEditorCSS($template, $contentCssCustom);
+			}
+		}
+		else
+		{
+			// Process when useContentCss is Yes and no custom file given
+			if ($useContentCss)
+			{
+				// First check templates folder for default template
+				// if no editor.css file in templates folder, check system template folder
+				return $this->resolveTemplateEditorCSS($template, 'editor.css');
+			}
+
+			return '';
+		}
+	}
+
+	/**
+	 * Helper function to resolve the default system editor css
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function getSystemEditorCss(): string
+	{
+		$css = '';
+
+		// If no editor.css file in system folder, show alert
+		if (!file_exists(JPATH_ROOT . '/templates/system/css/editor.css'))
+		{
+			Log::add(Text::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'), Log::WARNING, 'jerror');
+		}
+		else
+		{
+			$css = Uri::root(true) . '/templates/system/css/editor.css';
+		}
+
+		return $css;
+	}
+
+	/**
+	 * Helper function to resolve the given editor css
+	 *
+	 * @param   Object  $template  The ACTIVE FRONT END template object
+	 * @param   string  $cssFile   The filename for the editor css stylesheet
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private function resolveTemplateEditorCSS($template, $cssFile): string
+	{
+		// Default to legacy
+		$templatesPath = 'templates' . '/' . $template->template;
+
+		if ($template->parent !== '' || $template->inheritable)
+		{
+			$templatesPath = 'media/templates/site/' . $template->template;
+
+			if (file_exists(JPATH_ROOT . '/' . $templatesPath . '/css/' . $cssFile))
+			{
+				return Uri::root(true) . $templatesPath . '/css/' . $cssFile;
+			}
+			elseif (!file_exists(JPATH_ROOT . '/' . $templatesPath . '/css/' . $cssFile) && $template->parent !== '')
+			{
+				// Template is a child template
+				$templatesPath = 'media/templates/site/' . $template->parent;
+
+				if (!file_exists(JPATH_ROOT . '/' . $templatesPath . '/css/' . $cssFile))
+				{
+					return $this->getSystemEditorCss();
+				}
+				else
+				{
+					return Uri::root(true) . $templatesPath . '/css/' . $cssFile;
+				}
+			}
+			else
+			{
+				return $this->getSystemEditorCss();
+			}
+		}
+		else
+		{
+			// Legacy templates
+			if (!file_exists(JPATH_ROOT . '/' . $templatesPath . '/css/' . $cssFile))
+			{
+				return $this->getSystemEditorCss();
+			}
+			else
+			{
+				return Uri::root(true) . $templatesPath . '/css/' . $cssFile;
+			}
+		}
 	}
 }
