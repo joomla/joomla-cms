@@ -17,4 +17,7 @@
       max-width: none;
     }
   }
+  > ul {
+    z-index: $zindex-dropdown !important;
+  }
 }
