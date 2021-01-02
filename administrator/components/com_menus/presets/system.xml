@@ -264,7 +264,7 @@
 	</menuitem>
 
 	<menuitem
-		title="MOD_MENU_ACCESS"
+		title="MOD_MENU_ACCESS_HEADLINE"
 		type="heading"
 		icon="key"
 		>
