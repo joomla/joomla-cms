@@ -136,7 +136,7 @@ class MessageModel extends AdminModel
 				// Invalid message_id returns 0
 				if ($this->item->user_id_to === '0')
 				{
-					$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+					$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 					return false;
 				}
