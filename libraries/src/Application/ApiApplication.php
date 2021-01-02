@@ -317,7 +317,7 @@ final class ApiApplication extends CMSApplication
 				throw new AuthenticationFailed;
 			}
 
-			$publicApi = false;	
+			$publicApi = false;
 		}
 
 		$this->triggerEvent('onAfterApiRoute', ['this' => $this, 'public' => $publicApi]);
