@@ -49,7 +49,10 @@ class RemoveOldFilesCommand extends AbstractCommand
 		// We need the update script
 		\JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
-		(new \JoomlaInstallerScript)->deleteUnexistingFiles();
+		$installer = new \JoomlaInstallerScript;
+
+		$installer->deleteUnexistingFiles();
+		$installer->fixFilenameCasing();
 
 		$symfonyStyle->success('Files removed');
 
