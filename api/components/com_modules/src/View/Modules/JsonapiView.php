@@ -106,7 +106,7 @@ class JsonapiView extends BaseApiView
 			throw new RouteNotFoundException('Item does not exist');
 		}
 
-		if ((int) $model->getState('client_id') !== $item->client_id)
+		if ($model->getState('filter.client_id') !== $item->client_id)
 		{
 			throw new RouteNotFoundException('Item does not exist');
 		}
