@@ -15,6 +15,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\Router\Exception\RateLimitException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -80,6 +81,19 @@ class UsersController extends ApiController
 	 */
 	public function displayList()
 	{
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$option = 'users.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+
+			$this->app->triggerEvent('onPublicGet', ['users.webservice']);
+		}
+
 		$apiFilterInfo = $this->input->get('filter', [], 'array');
 		$filter        = InputFilter::getInstance();
 
