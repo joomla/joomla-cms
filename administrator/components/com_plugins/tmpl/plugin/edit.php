@@ -66,7 +66,6 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 									<?php
 									$this->fieldset    = 'description';
 									$short_description = Text::_($this->item->xml->description);
-									$this->fieldset    = 'description';
 									$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
 									if (!$long_description)

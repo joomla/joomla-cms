@@ -9,13 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->useScript('joomla.batch-language');
 
 ?>
 <label id="batch-language-lbl" for="batch-language-id">

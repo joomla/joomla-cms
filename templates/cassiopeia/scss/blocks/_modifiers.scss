@@ -172,6 +172,12 @@
   }
 }
 
+.article-info {
+  dd {
+    padding: 0;
+  }
+}
+
 @supports (display: grid) {
   .blog-items {
     display: grid;

@@ -8,6 +8,7 @@
     const batchCategory = document.getElementById('batch-category-id');
     const batchMenu = document.getElementById('batch-menu-id');
     const batchPosition = document.getElementById('batch-position-id');
+    const batchGroup = document.getElementById('batch-group-id');
     const batchCopyMove = document.getElementById('batch-copy-move');
     let batchSelector;
 
@@ -30,6 +31,10 @@
 
     if (batchPosition) {
       batchSelector = batchPosition;
+    }
+
+    if (batchGroup) {
+      batchSelector = batchGroup;
     }
 
     if (batchCopyMove) {
