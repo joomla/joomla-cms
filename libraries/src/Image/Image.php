@@ -186,7 +186,7 @@ class Image
 
 		if (!$info)
 		{
-			throw new \RuntimeException('Unable to get properties for the image.');
+			throw new Exception\UnparsableImageException('Unable to get properties for the image.');
 		}
 
 		// Build the response object.
