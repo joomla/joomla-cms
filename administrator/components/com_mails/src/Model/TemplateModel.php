@@ -144,14 +144,14 @@ class TemplateModel extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
-		$template_id = $this->getState($this->getName() . '.template_id');
+		$templateId = $this->getState($this->getName() . '.template_id');
 		$language = $this->getState($this->getName() . '.language');
 		$table = $this->getTable('Template', 'Table');
 
-		if ($template_id != '' && $language != '')
+		if ($templateId != '' && $language != '')
 		{
 			// Attempt to load the row.
-			$return = $table->load(array('template_id' => $template_id, 'language' => $language));
+			$return = $table->load(array('template_id' => $templateId, 'language' => $language));
 
 			// Check for a table object error.
 			if ($return === false && $table->getError())
@@ -174,7 +174,7 @@ class TemplateModel extends AdminModel
 
 		if (!$item->template_id)
 		{
-			$item->template_id = $template_id;
+			$item->template_id = $templateId;
 		}
 
 		if (!$item->language)
