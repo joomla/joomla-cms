@@ -47,7 +47,6 @@ class PlgWebservicesContact extends CMSPlugin
 	 */
 	protected $db;
 
-
 	/**
 	 * Allowed verbs
 	 *
