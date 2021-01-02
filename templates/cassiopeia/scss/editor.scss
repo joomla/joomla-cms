@@ -16,5 +16,11 @@
 @import "blocks/global";
 
 /* STYLES FOR JOOMLA! EDITOR */
-hr#system-readmore  { border: $red dashed 1px; color: $red; }
-hr.system-pagebreak { border: gray dashed 1px; color: gray; }
+hr#system-readmore {
+  color: $red;
+  border: $red dashed 1px;
+}
+hr.system-pagebreak {
+  color: $dark;
+  border: $dark dashed 1px;
+}
