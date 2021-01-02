@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-		elseif ($this->getLayout() != 'edit' && empty($this->item->message_id))
+		elseif ($this->getLayout() !== 'edit' && empty($this->item->message_id))
 		{
 			throw new GenericDataException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
