@@ -82,6 +82,18 @@ class CalendarField extends FormField
 	protected $layout = 'joomla.form.field.calendar';
 
 	/**
+	 * Hint for render width
+	 * Possible values are:
+	 *  - full
+	 *  - large
+	 *  - medium
+	 *  - small
+	 *
+	 * @var  string
+	 */
+	protected $fieldWidth = 'small';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.

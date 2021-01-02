@@ -682,7 +682,8 @@ abstract class FormField
 
 		foreach ($attributes as $attributeName)
 		{
-			if (isset($element[$attributeName])) {
+			if (isset($element[$attributeName]))
+			{
 				$this->__set($attributeName, $element[$attributeName]);
 			}
 		}

@@ -55,8 +55,8 @@
   }
 }
 
-@each $breakpoint, $form-field-widths2 in $form-field-widths {
-  @each $name, $form-field-width in $form-field-widths2 {
+@each $breakpoint, $form-field-widths-local in $form-field-widths {
+  @each $name, $form-field-width in $form-field-widths-local {
     @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
       .control-group.#{$name} .controls {
         width: min(#{$form-field-width}, 100%);
@@ -67,7 +67,6 @@
           width: min(calc(#{$form-field-width} - 240px), 100%);
         }
       }
-
     }
   }
 }

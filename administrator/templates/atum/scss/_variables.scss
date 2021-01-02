@@ -226,7 +226,8 @@ $custom-select-bg-size-sm:           75rem;
 $custom-select-multiple-padding-y:   .3rem;
 
 //input
-$input-padding:                    .6rem 1rem;
+$input-padding-y:                  .6rem;
+$input-padding-x:                  .6rem;
 $input-border:                     solid 1px  #c9c9c9;
 
 // Modals
@@ -275,27 +276,14 @@ $form-field-widths: (
     small:                         100%,
   ),
   sm: (
-    full:                          100%,
-    large:                         100%,
-    medium:                        100%,
-    small:                         100%,
   ),
   md: (
-    full:                          100%,
-    large:                         100%,
-    medium:                        700px,
-    small:                         450px,
+    medium:                        710px,
+    small:                         460px,
   ),
   lg: (
-    full:                          100%,
-    large:                         100%,
-    medium:                        700px,
-    small:                         450px,
   ),
   xl: (
-    full:                          100%,
-    large:                         900px,
-    medium:                        700px,
-    small:                         450px,
+    large:                         910px,
   ),
 );
