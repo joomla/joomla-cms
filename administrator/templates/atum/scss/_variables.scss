@@ -283,19 +283,19 @@ $form-field-widths: (
   md: (
     full:                          100%,
     large:                         100%,
-    medium:                        100%,
-    small:                         75%,
+    medium:                        700px,
+    small:                         450px,
   ),
   lg: (
     full:                          100%,
     large:                         100%,
-    medium:                        75%,
-    small:                         50%,
+    medium:                        700px,
+    small:                         450px,
   ),
   xl: (
     full:                          100%,
-    large:                         75%,
-    medium:                        50%,
-    small:                         25%,
+    large:                         900px,
+    medium:                        700px,
+    small:                         450px,
   ),
 );
