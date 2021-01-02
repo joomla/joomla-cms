@@ -1,21 +1,39 @@
 <?php
 
 /**
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! udpate notification plugin
  *
  * @package		Joomla.Plugin
  * @subpackage	Quickicon.Joomla
- * @since		2.5
+ * @since		3.10
  */
 class plgQuickiconEosnotify extends JPlugin
 {
+	/**
+	 * The Application object
+	 *
+	 * @var    JApplicationSite
+	 * @since  3.10.0
+	 */
+	protected $app;
+
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.10.0
+	 */
+	protected $autoloadLanguage = true;
 
 	/**
 	 * This method is called when the Quick Icons module is constructing its set
@@ -27,32 +45,30 @@ class plgQuickiconEosnotify extends JPlugin
 	 * @return array A list of icon definition associative arrays, consisting of the
 	 *				 keys link, image, text and access.
 	 *
-	 * @since       2.5
+	 * @since       3.10
 	 */
 	public function onGetIcons($context)
 	{
-		return array(array(
-			'link' => 'http://www.google.com',
-			'image' => JURI::root() . 'plugins/quickicon/eosnotify/stop15.png',
-			'text' => '<span style="color:red;">Joomla 3.10 Support Has Ended!!<br />Click Here for More Information.</span>',
-			'id' => 'plg_quickicon_eos'
-		));
-		$app = JFactory::getApplication();
-		if (!$app->isClient('administrator') || version_compare(JVERSION, '4.0', '>='))
+		if (!$this->app->isClient('administrator') || version_compare(JVERSION, '3.10', '>=') || Factory::getDate()->toSql() <= '2021-04-15')
 		{
-			return;
+			return array();
 		}
 
-		$text = JText::_('PLG_EOSNOTIFY_SUPPORT_ENDING');
-
-		if (JFactory::getDate() >= '2020-01-01') {
-			$text = JText::_('PLG_EOSNOTIFY_SUPPORT_ENDED');
-		}
-// Only to com_cpanel
 		if ($this->app->input->get('option') == 'com_cpanel')
 		{
-			$app->enqueueMessage(JText::sprintf('PLG_EOSNOTIFY_CLICK_FOR_INFORMATION_WITH_LINK', $text), 'warning');
+			$this->app->enqueueMessage(
+				Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_MESSAGE_START)
+				. ' <a href="https://www.joomla.org/" target="_blank"> ' . Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_CLICK_WORD)
+				. ' </a> ' . Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_MESSAGE_END), 'warning'
+			);
 		}
 
+		return array(array(
+			'link' => 'http://www.google.com',
+			'image' => 'info-circle',
+			'text' => '<span class="alert-error">'.Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_WITH_LINK_QUICKLINK).'</span>',
+			'id' => 'plg_quickicon_eos',
+			'group' => Text::_(PLG_QUICKICON_EOSNOTIFY_GROUP)
+		));
 	}
 }

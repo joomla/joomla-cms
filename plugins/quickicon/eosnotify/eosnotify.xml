@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.10" type="plugin" group="quickicon">
-	<name>End of Support Notifier</name>
+<extension version="3.10" type="plugin" group="quickicon" method="upgrade">
+	<name>plg_quickicon_eosnotifier</name>
 	<author>Joomla! Project</author>
-	<creationDate>October 2014</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>Jan 2021</creationDate>
+	<copyright>Copyright (C) 2005 - 2021 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
-	<description>End of Support Notifier</description>
+	<description>LG_QUICKICON_EOSNOTIFIER_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="eosnotify">eosnotify.php</filename>
 		<filename>index.html</filename>
-		<filename>stop15.png</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_quickicon_eosnotify.ini</language>
+		<language tag="en-GB">en-GB.plg_quickicon_eosnotify.sys.ini</language>
+	</languages>
 </extension>
