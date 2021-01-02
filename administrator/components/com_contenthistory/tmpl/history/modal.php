@@ -72,7 +72,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 
 	<form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table table-sm">
-			<caption id="captionTable" class="sr-only">
+			<caption class="sr-only">
 				<?php echo Text::_('COM_CONTENTHISTORY_VERSION_CAPTION'); ?>
 			</caption>
 			<thead>

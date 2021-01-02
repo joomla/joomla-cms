@@ -42,7 +42,7 @@ $stateMsgs  = array(
 			</div>
 		<?php else : ?>
 			<table class="table" id="consentList">
-				<caption id="captionTable" class="sr-only">
+				<caption class="sr-only">
 					<?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>

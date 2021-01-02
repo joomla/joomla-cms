@@ -70,7 +70,7 @@ $saveOrder = $listOrder == 'a.id';
 					</div>
 				<?php else : ?>
 					<table class="table" id="articleList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="sr-only">
 							<?php echo Text::_('COM_CSP_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
