@@ -16,4 +16,49 @@
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_users.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_users.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="restverbs"
+					type="list"
+					label="PLG_WEBSERVICES_USERS_ALLOWEDVERBS_LABEL"
+					multiple="true"				
+					default=""				
+					layout="joomla.form.field.list-fancy-select"
+					>
+					<option value="GET">GET</option>
+					<option value="POST">POST</option>
+					<option value="DELETE">DELETE</option>
+					<option value="PUT">PUT</option>
+					<option value="PATCH">PATCH</option>
+					<option value="OPTIONS">OPTIONS</option>
+				</field>
+				<field
+					name="public"
+					type="radio"
+					label="PLG_WEBSERVICES_USERS_PUBLIC_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="boolean"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="taskid"
+					type="hidden"
+					default="0"
+					size="15"
+				/>
+				<field
+					name="limit"
+					type="number"
+					label="PLG_WEBSERVICES_USERS_LIMIT_LABEL"
+					default="0"
+					filter="integer"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
