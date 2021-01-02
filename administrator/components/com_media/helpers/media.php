@@ -223,7 +223,7 @@ abstract class MediaHelper
 
 		// Now remove the filename
 		$uploadedBasePath = substr_replace(
-			$uploadedPath ,
+			$uploadedPath,
 			'',
 			(strlen(DIRECTORY_SEPARATOR . $mediaObject->get('name')) * -1)
 		);
