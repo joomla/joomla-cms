@@ -196,7 +196,7 @@ class PlgWebservicesContent extends CMSPlugin
 
 		if (in_array('DELETE', $this->allowedVerbs))
 		{
-			$routes[] = new Route(['DELETE'], 'v1/content/article/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults);
+			$routes[] = new Route(['DELETE'], 'v1/content/article/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults);
 		}
 
 		$router->addRoutes($routes);
