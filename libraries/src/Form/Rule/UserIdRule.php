@@ -60,8 +60,6 @@ class UserIdRule extends FormRule
 			->bind(':userId', $value, ParameterType::INTEGER);
 
 		// Set and query the database.
-		$db->setQuery($query);
-
-		return (bool) $db->loadResult();
+		return (bool) $db->setQuery($query)->loadResult();
 	}
 }
