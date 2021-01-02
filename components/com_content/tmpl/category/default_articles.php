@@ -124,7 +124,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 		</div>
 	<?php else : ?>
 		<table class="com-content-category__table category table table-striped table-bordered table-hover">
-			<caption id="captionTable" class="sr-only">
+			<caption class="sr-only">
 				<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
 			</caption>
 			<?php if ($this->params->get('show_headings')) : ?>

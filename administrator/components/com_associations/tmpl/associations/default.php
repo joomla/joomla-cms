@@ -53,7 +53,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 					</div>
 				<?php else : ?>
 					<table class="table" id="associationsList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="sr-only">
 							<?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
