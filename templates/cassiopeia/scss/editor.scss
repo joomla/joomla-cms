@@ -1,0 +1,20 @@
+// Bootstrap functions
+@import "../../../media/vendor/bootstrap/scss/functions";
+
+// Variables, Functions and Mixins
+@import "tools/tools";
+
+// Bootstrap
+@import "../../../media/vendor/bootstrap/scss/variables";
+@import "../../../media/vendor/bootstrap/scss/mixins";
+
+@import "../../../media/vendor/bootstrap/scss/reboot";
+@import "../../../media/vendor/bootstrap/scss/code";
+@import "../../../media/vendor/bootstrap/scss/tables";
+@import "../../../media/vendor/bootstrap/scss/type";
+
+@import "blocks/global";
+
+/* STYLES FOR JOOMLA! EDITOR */
+hr#system-readmore  { border: $red dashed 1px; color: $red; }
+hr.system-pagebreak { border: gray dashed 1px; color: gray; }
