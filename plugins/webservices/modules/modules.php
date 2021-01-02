@@ -27,7 +27,7 @@ class PlgWebservicesModules extends CMSPlugin
 	 *
 	 * @var    JApplicationCms
 	 *
-	 * @since  3.8.0
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -38,7 +38,7 @@ class PlgWebservicesModules extends CMSPlugin
 	 * @since  4.0.0
 	 */
 	protected $db;
-	
+
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -87,8 +87,7 @@ class PlgWebservicesModules extends CMSPlugin
 		}
 	}
 
-
-/**
+	/**
 	 * Registers com_modules's API's routes in the application
 	 *
 	 * @param   ApiRouter  &$router  The API Routing object
