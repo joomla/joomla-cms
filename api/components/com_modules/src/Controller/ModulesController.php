@@ -13,6 +13,7 @@ namespace Joomla\Component\Modules\Api\Controller;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\Router\Exception\RateLimitException;
 use Joomla\Component\Modules\Administrator\Model\SelectModel;
 use Joomla\Component\Modules\Api\View\Modules\JsonapiView;
 
@@ -52,6 +53,11 @@ class ModulesController extends ApiController
 	{
 		$this->modelState->set('filter.client_id', $this->getClientIdFromInput());
 
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$this->modelState->set('filter.state', 1);
+		}
+
 		return parent::displayItem($id);
 	}
 
@@ -64,6 +70,20 @@ class ModulesController extends ApiController
 	 */
 	public function displayList()
 	{
+		if ((int) $this->input->get('isPublicApi', 0) === 1)
+		{
+			$option = 'modules.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get($option);
+
+			if ($ratelimit > 0)
+			{
+				throw new RateLimitException;
+			}
+
+			$this->app->triggerEvent('onPublicGet', ['modules.webservice']);
+			$this->modelState->set('filter.state', 1);
+		}
+
 		$this->modelState->set('filter.client_id', $this->getClientIdFromInput());
 
 		return parent::displayList();
