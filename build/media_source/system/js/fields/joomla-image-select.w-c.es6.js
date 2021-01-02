@@ -375,7 +375,7 @@
   if (window.jQuery) {
     const MediaXTDElements = Joomla.getOptions('xtdImageModal');
 
-    if (MediaXTDElements.length) {
+    if (MediaXTDElements) {
       MediaXTDElements.forEach((element) => {
         window.jQuery(`#${element}`).on('show.bs.modal', (ev) => {
           const addData = ev.target.querySelector('joomla-field-mediamore');

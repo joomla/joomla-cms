@@ -34,7 +34,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 							</div>
 						<?php else : ?>
 							<table class="table">
-								<caption id="captionTable" class="sr-only">
+								<caption class="sr-only">
 									<?php echo Text::_('COM_INSTALLER_DATABASE_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
