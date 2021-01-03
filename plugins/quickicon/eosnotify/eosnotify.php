@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
  *
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomla
- * @since       3.10
+ * @since       __DEPLOY_VERSION__
  */
 class PlgQuickiconEosnotify extends JPlugin
 {
@@ -23,7 +23,7 @@ class PlgQuickiconEosnotify extends JPlugin
 	 * The Application object
 	 *
 	 * @var    JApplicationSite
-	 * @since  3.10.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -31,7 +31,7 @@ class PlgQuickiconEosnotify extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  3.10.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -45,7 +45,7 @@ class PlgQuickiconEosnotify extends JPlugin
 	 * @return array A list of icon definition associative arrays, consisting of the
 	 *				 keys link, image, text and access.
 	 *
-	 * @since       3.10.0
+	 * @since       __DEPLOY_VERSION__
 	 */
 	public function onGetIcons($context)
 	{
