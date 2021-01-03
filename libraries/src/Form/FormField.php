@@ -682,7 +682,7 @@ abstract class FormField
 
 		foreach ($attributes as $attributeName)
 		{
-				$this->__set($attributeName, $element[$attributeName]);
+			$this->__set($attributeName, $element[$attributeName]);
 		}
 
 		// Allow for repeatable elements
