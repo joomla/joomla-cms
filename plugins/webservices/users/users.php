@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Router\ApiRouter;
+use Joomla\Registry\Registry;
 
 /**
  * Web Services adapter for com_users.
