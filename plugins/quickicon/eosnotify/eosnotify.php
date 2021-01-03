@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @copyright	Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -13,11 +13,11 @@ use Joomla\CMS\Language\Text;
 /**
  * Joomla! udpate notification plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Quickicon.Joomla
- * @since		3.10
+ * @package     Joomla.Plugin
+ * @subpackage  Quickicon.Joomla
+ * @since       3.10
  */
-class plgQuickiconEosnotify extends JPlugin
+class PlgQuickiconEosnotify extends JPlugin
 {
 	/**
 	 * The Application object
@@ -40,12 +40,12 @@ class plgQuickiconEosnotify extends JPlugin
 	 * of icons. You can return an array which defines a single icon and it will
 	 * be rendered right after the stock Quick Icons.
 	 *
-	 * @param  $context  The calling context
+	 * @param   string  $context  The calling context
 	 *
 	 * @return array A list of icon definition associative arrays, consisting of the
 	 *				 keys link, image, text and access.
 	 *
-	 * @since       3.10
+	 * @since       3.10.0
 	 */
 	public function onGetIcons($context)
 	{
@@ -66,7 +66,7 @@ class plgQuickiconEosnotify extends JPlugin
 		return array(array(
 			'link' => 'http://www.google.com',
 			'image' => 'info-circle',
-			'text' => '<span class="alert-error">'.Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_WITH_LINK_QUICKLINK).'</span>',
+			'text' => '<span class="alert-error">' . Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_WITH_LINK_QUICKLINK) . '</span>',
 			'id' => 'plg_quickicon_eos',
 			'group' => Text::_(PLG_QUICKICON_EOSNOTIFY_GROUP)
 		));
