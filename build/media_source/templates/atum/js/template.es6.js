@@ -151,7 +151,7 @@
              headerMoreItem.classList.toggle('active');
         });
         window.onclick = function(event) {
-             headerMoreItem.classList.remove("active");
+          headerMoreItem.classList.remove("active");
         }
         
         headerItemsWidth += headerMoreItem.offsetWidth;
