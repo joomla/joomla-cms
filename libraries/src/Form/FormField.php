@@ -656,7 +656,7 @@ abstract class FormField
 		$attributes = [
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
 			'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'fieldWidth'];
+			'translate_label', 'translateDescription', 'translate_description', 'size', 'showon'];
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -682,10 +682,7 @@ abstract class FormField
 
 		foreach ($attributes as $attributeName)
 		{
-			if (isset($element[$attributeName]))
-			{
 				$this->__set($attributeName, $element[$attributeName]);
-			}
 		}
 
 		// Allow for repeatable elements
@@ -696,6 +693,8 @@ abstract class FormField
 		$this->hidden = ($this->hidden || (string) $element['type'] === 'hidden');
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
+
+		$this->fieldWidth = isset($this->element['fieldWidth']) ? (string) $this->element['fieldWidth'] : $this->fieldWidth;
 
 		// Add required to class list if field is required.
 		if ($this->required)
