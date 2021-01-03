@@ -152,8 +152,8 @@
         });
         window.onclick = () => {
           headerMoreItem.classList.remove('active');
-        }
-        
+        };
+
         headerItemsWidth += headerMoreItem.offsetWidth;
       }
 
