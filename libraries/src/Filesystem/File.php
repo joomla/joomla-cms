@@ -118,7 +118,7 @@ class File
 		// Check src path
 		if (!is_readable($src))
 		{
-			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', $src), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('LIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', __METHOD__, $src), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -129,7 +129,7 @@ class File
 
 			if (!$stream->copy($src, $dest))
 			{
-				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_STREAMS', $src, $dest, $stream->getError()), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FILE_STREAMS', __METHOD__, $src, $dest, $stream->getError()), Log::WARNING, 'jerror');
 
 				return false;
 			}
@@ -283,7 +283,7 @@ class File
 
 			if (!$stream->move($src, $dest))
 			{
-				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_MOVE_STREAMS', $stream->getError()), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_GENERIC', __METHOD__, $stream->getError()), Log::WARNING, 'jerror');
 
 				return false;
 			}
@@ -358,7 +358,7 @@ class File
 
 			if (!$stream->writeFile($file, $buffer))
 			{
-				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', $file, $stream->getError()), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', __METHOD__, $file, $stream->getError()), Log::WARNING, 'jerror');
 
 				return false;
 			}
@@ -421,7 +421,7 @@ class File
 				return true;
 			}
 
-			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', $file, $stream->getError()), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', __METHOD__, $file, $stream->getError()), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -501,7 +501,7 @@ class File
 
 			if (!$stream->upload($src, $dest))
 			{
-				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_UPLOAD', $stream->getError()), Log::WARNING, 'jerror');
+				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_GENERIC', __METHOD__, $stream->getError()), Log::WARNING, 'jerror');
 
 				return false;
 			}
