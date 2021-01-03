@@ -65,28 +65,28 @@ class ApiRouter extends Router
 
 		$routes = [];
 
-		if (in_array('GET', $allowed))
+		if ((in_array('GET', $allowed)) || (!$publicGets))
 		{
 			$routes[] = new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults);
 			$routes[] = new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '(\d+)'], $getDefaults);
 		}
 
-		if (in_array('OPTIONS', $allowed))
+		if ((in_array('OPTIONS', $allowed)) || (!$publicGets))
 		{
 			$routes[] = new Route(['OPTIONS'], $baseName, $controller . '.displayList', [], $getDefaults);
 		}
 
-		if (in_array('POST', $allowed))
+		if ((in_array('POST', $allowed)) || (!$publicGets))
 		{
 			$routes[] = new Route(['POST'], $baseName, $controller . '.add', [], $defaults);
 		}
 
-		if (in_array('PATCH', $allowed))
+		if ((in_array('PATCH', $allowed)) || (!$publicGets))
 		{
 			$routes[] = new Route(['PATCH'], $baseName . '/:id', $controller . '.edit', ['id' => '(\d+)'], $defaults);
 		}
 
-		if (in_array('DELETE', $allowed))
+		if ((in_array('DELETE', $allowed)) || (!$publicGets))
 		{
 			$routes[] = new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '(\d+)'], $defaults);
 		}
