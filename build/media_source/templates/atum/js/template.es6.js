@@ -147,8 +147,8 @@
         headerMoreItem.appendChild(headerMoreMenu);
         headerWrapper.appendChild(headerMoreItem);
         headerMoreBtn.addEventListener('click', function () {
-              event.stopPropagation();
-             headerMoreItem.classList.toggle('active');
+          event.stopPropagation();
+          headerMoreItem.classList.toggle('active');
         });
         window.onclick = function(event) {
           headerMoreItem.classList.remove("active");
