@@ -63,7 +63,7 @@ class BasicCest
 	{
 		$I->amBearerAuthenticated('BADTOKEN');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/content/article/1');
+		$I->sendGET('/plugins/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::UNAUTHORIZED);
 	}
 
