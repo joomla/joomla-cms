@@ -64,6 +64,7 @@ if (empty($options['to']))
 $previousReleaseExclude = [
 	$options['from'] . '/administrator/components/com_search',
 	$options['from'] . '/components/com_search',
+	$options['from'] . '/modules/mod_search',
 	$options['from'] . '/plugins/search',
 	$options['from'] . '/plugins/fields/repeatable',
 	$options['from'] . '/installation'
@@ -171,6 +172,8 @@ $filesToRemove = [
 	"'/administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_system_weblinks.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini',",
+	"'/language/en-GB/en-GB.mod_search.ini',",
+	"'/language/en-GB/en-GB.mod_search.sys.ini',",
 ];
 
 foreach ($filesToRemove as $file)
