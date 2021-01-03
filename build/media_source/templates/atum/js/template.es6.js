@@ -146,12 +146,12 @@
         headerMoreItem.appendChild(headerItemContent);
         headerMoreItem.appendChild(headerMoreMenu);
         headerWrapper.appendChild(headerMoreItem);
-        headerMoreBtn.addEventListener('click', function () {
+        headerMoreBtn.addEventListener('click', (event) => {
           event.stopPropagation();
           headerMoreItem.classList.toggle('active');
         });
-        window.onclick = function(event) {
-          headerMoreItem.classList.remove("active");
+        window.onclick = () => {
+          headerMoreItem.classList.remove('active');
         }
         
         headerItemsWidth += headerMoreItem.offsetWidth;
