@@ -336,7 +336,7 @@ Joomla = window.Joomla || {};
             captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
           }
         } else {
-          captionContent = "".concat(element.labels[0].textContent, " - ").concat(element.value);
+          captionContent = `${element.labels[0].textContent} - ${element.value}`;
         }
 
         filteredByCaption.textContent += captionContent;
