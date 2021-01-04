@@ -64,7 +64,7 @@ class PlgQuickiconEosnotify extends JPlugin
 		}
 
 		return array(array(
-			'link' => 'http://www.google.com',
+			'link' => 'https://docs.joomla.org/Planning_for_Mini-Migration_-_Joomla_3.10.x_to_4.x',
 			'image' => 'info-circle',
 			'text' => '<span class="alert-error">' . Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_WITH_LINK_QUICKLINK) . '</span>',
 			'id' => 'plg_quickicon_eos',
