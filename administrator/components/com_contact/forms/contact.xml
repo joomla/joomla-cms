@@ -269,13 +269,6 @@
 
 	<fieldset name="details" label="COM_CONTACT_CONTACT_DETAILS">
 		<field
-			name="@text_details"
-			type="note"
-			label=""
-			description="COM_CONTACT_EDIT_DETAILS"
-		/>
-
-		<field
 			name="image"
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
@@ -855,10 +848,10 @@
 				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow" />
+				<option value="noindex, follow" />
+				<option value="index, nofollow" />
+				<option value="noindex, nofollow" />
 			</field>
 
 			<field

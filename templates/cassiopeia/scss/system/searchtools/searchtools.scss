@@ -1,4 +1,4 @@
-@import "../../variables";
+@import "../../tools/tools";
 
 // Search tools
 
@@ -25,8 +25,11 @@
   margin-bottom: 20px;
 
   &-visible {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    padding: 10px;
+    background-color: $white;
   }
 
   > * {

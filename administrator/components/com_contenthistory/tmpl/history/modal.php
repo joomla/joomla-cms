@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -27,7 +28,7 @@ $listDirn       = $this->escape($this->state->get('list.direction'));
 $deleteMessage  = "alert(Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
 $aliasArray     = explode('.', $this->state->item_id);
 $option         = ($aliasArray[1] == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 2)) : $aliasArray[0];
-$filter         = JFilterInput::getInstance();
+$filter         = InputFilter::getInstance();
 $task           = $filter->clean($aliasArray[1]) . '.loadhistory';
 $loadUrl        = Route::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
 $deleteUrl      = Route::_('index.php?option=com_contenthistory&task=history.delete');
@@ -71,7 +72,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 
 	<form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table table-sm">
-			<caption id="captionTable" class="sr-only">
+			<caption class="sr-only">
 				<?php echo Text::_('COM_CONTENTHISTORY_VERSION_CAPTION'); ?>
 			</caption>
 			<thead>

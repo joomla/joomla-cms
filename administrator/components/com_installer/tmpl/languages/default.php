@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</div>
 					<?php else : ?>
 					<table class="table">
-						<caption id="captionTable" class="sr-only">
+						<caption class="sr-only">
 							<?php echo Text::_('COM_INSTALLER_LANGUAGES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -69,7 +69,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php $buttonText = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'REINSTALL' : 'INSTALL'; ?>
 									<?php $buttonClass = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'btn btn-success btn-sm' : 'btn btn-primary btn-sm'; ?>
 									<?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\');'; ?>
-									<input type="button" class="<?php echo $buttonClass; ?>" value="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>">
+									<input type="button"
+										class="<?php echo $buttonClass; ?>"
+										value="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>"
+										aria-label="<?php echo Text::sprintf('COM_INSTALLER_' . $buttonText . '_ARIA', $language->name); ?>"
+										onclick="<?php echo $onclick; ?>"
+									>
 								</td>
 								<th scope="row">
 									<?php echo $language->name; ?>

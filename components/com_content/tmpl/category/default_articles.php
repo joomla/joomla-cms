@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,6 +65,8 @@ if (!empty($this->items))
 		}
 	}
 }
+
+$currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 ?>
 
 <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-content-category__articles">
@@ -122,7 +124,7 @@ if (!empty($this->items))
 		</div>
 	<?php else : ?>
 		<table class="com-content-category__table category table table-striped table-bordered table-hover">
-			<caption id="captionTable" class="sr-only">
+			<caption class="sr-only">
 				<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
 			</caption>
 			<?php if ($this->params->get('show_headings')) : ?>
@@ -226,14 +228,14 @@ if (!empty($this->items))
 							</span>
 						</div>
 					<?php endif; ?>
-					<?php if (strtotime($article->publish_up) > strtotime(Factory::getDate())) : ?>
+					<?php if ($article->publish_up > $currentDate) : ?>
 						<div>
 							<span class="list-published badge badge-warning">
 								<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
-					<?php if (!is_null($article->publish_down) && strtotime($article->publish_down) < strtotime(Factory::getDate())) : ?>
+					<?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
 						<div>
 							<span class="list-published badge badge-warning">
 								<?php echo Text::_('JEXPIRED'); ?>

@@ -23,9 +23,6 @@
   margin-bottom: $grid-gutter-width;
   cursor: pointer;
   user-select: none;
-  .media-browser-items-xs & {
-    width: calc(#{$grid-item-width-xs} - #{$grid-gutter-width});
-  }
   .media-browser-items-sm & {
     width: calc(#{$grid-item-width-sm} - #{$grid-gutter-width});
   }
@@ -375,48 +372,48 @@
     }
   }
   // Images
-  &[data-type="jpg"],
-  &[data-type="png"],
-  &[data-type="gif"],
-  &[data-type="jpeg"],
-  &[data-type="tiff"],
-  &[data-type="bmp"],
-  &[data-type="svg"] {
+  &[data-type="jpg" i],
+  &[data-type="png" i],
+  &[data-type="gif" i],
+  &[data-type="jpeg" i],
+  &[data-type="tiff" i],
+  &[data-type="bmp" i],
+  &[data-type="svg" i] {
     &::before {
       content: $icon-type-images;
     }
   }
   // Video
-  &[data-type="mov"],
-  &[data-type="mkv"],
-  &[data-type="mp4"],
-  &[data-type="mpg"],
-  &[data-type="mpeg"] {
+  &[data-type="mov" i],
+  &[data-type="mkv" i],
+  &[data-type="mp4" i],
+  &[data-type="mpg" i],
+  &[data-type="mpeg" i] {
     &::before {
       content: $icon-type-video;
     }
   }
   // Audio
-  &[data-type="mp3"],
-  &[data-type="wav"],
-  &[data-type="raw"],
-  &[data-type="wma"] {
+  &[data-type="mp3" i],
+  &[data-type="wav" i],
+  &[data-type="raw" i],
+  &[data-type="wma" i] {
     &::before {
       content: $icon-type-audio;
     }
   }
   // Docs
-  &[data-type="doc"],
-  &[data-type="xls"],
-  &[data-type="pdf"],
-  &[data-type="txt"] {
+  &[data-type="doc" i],
+  &[data-type="xls" i],
+  &[data-type="pdf" i],
+  &[data-type="txt" i] {
     &::before {
       content: $icon-type-docs;
     }
   }
   // Code
-  &[data-type="html"],
-  &[data-type="htm"] {
+  &[data-type="html" i],
+  &[data-type="htm" i] {
     &::before {
       content: $icon-type-code;
     }

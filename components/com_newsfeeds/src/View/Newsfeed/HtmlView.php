@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -95,19 +95,6 @@ class HtmlView extends BaseHtmlView
 		// Get model data.
 		$state = $this->get('State');
 		$item  = $this->get('Item');
-
-		if ($item)
-		{
-			// Get Category Model data
-			$categoryModel = $app->bootComponent('com_newsfeeds')
-				->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => true]);
-			$categoryModel->setState('category.id', $item->catid);
-			$categoryModel->setState('list.ordering', 'a.name');
-			$categoryModel->setState('list.direction', 'asc');
-
-			// @TODO: $items is not used. Remove this line?
-			$items = $categoryModel->getItems();
-		}
 
 		// Check for errors.
 		// @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))

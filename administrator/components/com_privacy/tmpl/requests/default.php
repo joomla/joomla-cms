@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 			</div>
 		<?php else : ?>
 			<table class="table" id="requestList">
-				<caption id="captionTable" class="sr-only">
+				<caption class="sr-only">
 					<?php echo Text::_('COM_PRIVACY_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -78,11 +78,11 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 									<?php if ($item->status == 1 && $item->request_type === 'export') : ?>
 										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="icon-download" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?></span></a>
 										<?php if ($this->sendMailEnabled) : ?>
-											<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-envelope" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
+											<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id . '&' . Factory::getSession()->getFormToken() . '=1'); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-envelope" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
 										<?php endif; ?>
 									<?php endif; ?>
 									<?php if ($item->status == 1 && $item->request_type === 'remove') : ?>
-										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
+										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id . '&' . Factory::getSession()->getFormToken() . '=1'); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
 									<?php endif; ?>
 								</div>
 							</td>

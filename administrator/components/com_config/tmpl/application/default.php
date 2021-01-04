@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,6 +56,7 @@ Text::script('MESSAGE');
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-server', Text::_('COM_CONFIG_SERVER')); ?>
 					<?php echo $this->loadTemplate('server'); ?>
 					<?php echo $this->loadTemplate('locale'); ?>
+					<?php echo $this->loadTemplate('webservices'); ?>
 					<?php echo $this->loadTemplate('ftp'); ?>
 					<?php echo $this->loadTemplate('proxy'); ?>
 					<?php echo $this->loadTemplate('database'); ?>

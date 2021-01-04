@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document) => {
@@ -37,6 +37,9 @@
 
           // Update the input type
           input.type = 'password';
+
+          // Focus the input field
+          input.focus();
 
           // Update the text for screenreaders
           srText.innerText = Joomla.Text._('JSHOWPASSWORD');
