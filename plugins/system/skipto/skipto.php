@@ -62,7 +62,7 @@ class PlgSystemSkipto extends CMSPlugin
 				'settings' => [
 					'skipTo' => [
 						'colorTheme'                  => 'joomla',
-					//	'displayOption'               => 'popup',
+						'displayOption'               => 'popup',
 						'accesskey'                   => '9',
 						'customClass'                 => 'joomla',
 						'enableActions'               => false,
@@ -103,5 +103,3 @@ class PlgSystemSkipto extends CMSPlugin
 			);
 	}
 }
-
-//useStyle('skipto')
