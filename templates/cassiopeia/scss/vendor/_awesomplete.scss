@@ -7,6 +7,17 @@
       @include border-right-radius(0);
     }
   }
+  .input-group-append button {
+    display: flex;
+    align-items: center;
+    .icon-search {
+      margin-right: .2em;
+      [dir=rtl] & {
+        margin-right: 0;
+        margin-left: .2em;
+      }
+    }
+  }
 }
 
 .awesomplete {

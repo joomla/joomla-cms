@@ -8,6 +8,7 @@ ALTER TABLE `#__banners` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 
 ALTER TABLE `#__banner_clients` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 
+UPDATE `#__banners` SET `created` = '1980-01-01 00:00:00' WHERE `created` = '0000-00-00 00:00:00';
 UPDATE `#__banners` SET `modified` = `created`, `modified_by` = `created_by` WHERE `modified` = '0000-00-00 00:00:00';
 
 UPDATE `#__banners` SET `reset` = NULL WHERE `reset` = '0000-00-00 00:00:00';
@@ -16,6 +17,10 @@ UPDATE `#__banners` SET `publish_down` = NULL WHERE `publish_down` = '0000-00-00
 UPDATE `#__banners` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
 
 UPDATE `#__banner_clients` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
+
+UPDATE `#__ucm_content` SET `core_created_time` = '1980-01-01 00:00:00'
+ WHERE `core_type_alias` = 'com_banners.banner'
+   AND `core_created_time` = '0000-00-00 00:00:00';
 
 UPDATE `#__ucm_content` SET `core_modified_time` = `core_created_time`
  WHERE `core_type_alias` = 'com_banners.banner'
