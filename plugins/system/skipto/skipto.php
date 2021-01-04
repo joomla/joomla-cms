@@ -55,7 +55,7 @@ class PlgSystemSkipto extends CMSPlugin
 		// Load language file.
 		$this->loadLanguage();
 
-		// Add strings for translations in JavaScript.
+		// Add strings for translations in JavaScript and other plugin settings.
 		$document->addScriptOptions(
 			'skipto-settings',
 			[
