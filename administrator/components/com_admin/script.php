@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
@@ -7057,6 +7058,7 @@ class JoomlaInstallerScript
 			->where($db->quoteName('e.element') . ' = ' . $db->quote('com_content'));
 
 		$menuItems = $db->setQuery($query)->loadAssocList('id');
+		$contentParams = ComponentHelper::getParams('com_content');
 
 		foreach ($menuItems as $id => $menuItem)
 		{
@@ -7069,24 +7071,45 @@ class JoomlaInstallerScript
 
 			$params = json_decode($menuItem['params'], true);
 
+			// Don't update parameters if num_columns is unset.
 			if (!isset($params['num_columns']))
 			{
 				continue;
 			}
 
-			$nColumns = $params['num_columns'] !== '' ? (int) $params['num_columns']
-				: (int) ComponentHelper::getParams('com_content')->get('num_columns', '1');
+			$useLocalCols = $params['num_columns'] !== '';
+
+			if ($useLocalCols)
+			{
+				$nColumns = (int) $params['num_columns'];
+			}
+			else
+			{
+				$nColumns = (int) $contentParams->get('num_columns', '1');
+			}
+
 			unset($params['num_columns']);
+
 			$order = 0;
+			$useLocalOrder = false;
 
 			if (isset($params['multi_column_order']))
 			{
-				$order = $params['multi_column_order'] !== '' ? (int) $params['multi_column_order']
-					: (int) ComponentHelper::getParams('com_content')->get('multi_column_order', '0');
+				if ($params['multi_column_order'] !== '')
+				{
+					$useLocalOrder = true;
+					$order = (int) $params['multi_column_order'];
+				}
+				else
+				{
+					$order = (int) $contentParams->get('multi_column_order', '0');
+				}
+
 				unset($params['multi_column_order']);
 			}
 
-			if ($nColumns > 1)
+			// Only add CSS class if columns > 1 and a local value was set for columns or order.
+			if ($nColumns > 1 && ($useLocalOrder || $useLocalCols))
 			{
 				// Convert to the according CSS class depending on order = "down" or "across".
 				$layout = ($order === 0) ? 'masonry-' : 'columns-';
@@ -7107,6 +7130,51 @@ class JoomlaInstallerScript
 				->bind(':id', $id, ParameterType::INTEGER);
 
 			$db->setQuery($query)->execute();
+		}
+
+		// Update global parameters for com_content.
+		$nColumns = $contentParams->get('num_columns');
+
+		if ($nColumns !== null || true)
+		{
+			$nColumns = (int) $nColumns;
+			$order  = (int) $contentParams->get('multi_column_order', '0');
+			$params = $contentParams->toArray();
+
+			if (!isset($params['blog_class']))
+			{
+				$params['blog_class'] = '';
+			}
+
+			// Convert to the according CSS class depending on order = "down" or "across".
+			$layout = ($order === 0) ? 'masonry-' : 'columns-';
+
+			if (strpos($params['blog_class'], $layout) === false && $nColumns > 1)
+			{
+				$params['blog_class'] .= ' ' . $layout . $nColumns;
+			}
+
+			unset($params['num_columns']);
+
+			$app = Factory::getApplication();
+			/** @var ComponentModel $configModel */
+			$configModel = $app->bootComponent('com_config')
+				->getMVCFactory()
+				->createModel('Component', 'Administrator', ['ignore_request' => true]);
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('element') . ' = ' . $db->quote('com_content'));
+
+			$componentId = $db->setQuery($query)->loadResult();
+
+			$data = array(
+				'id'     => $componentId,
+				'option' => 'com_content',
+				'params' => $params,
+			);
+			$configModel->save($data);
 		}
 	}
 }

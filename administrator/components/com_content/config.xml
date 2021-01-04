@@ -715,6 +715,22 @@
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 		>
 		<field
+			name="blog_class_leading"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS_LEADING"
+			size="3"
+			validate="CssIdentifier"
+		/>
+
+		<field
+			name="blog_class"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS"
+			size="3"
+			validate="CssIdentifier"
+		/>
+
+		<field
 			name="num_leading_articles"
 			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
