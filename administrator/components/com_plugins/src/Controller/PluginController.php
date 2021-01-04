@@ -12,7 +12,6 @@ namespace Joomla\Component\Plugins\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Plugin controller class.
