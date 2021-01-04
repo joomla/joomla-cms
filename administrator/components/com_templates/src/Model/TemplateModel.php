@@ -1012,6 +1012,14 @@ class TemplateModel extends FormModel
 		// Make sure EOL is Unix
 		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
 
+		// If the asset file for the template ensure we have valid template so we don't instantly destroy it
+		if ($fileName === '/joomla.asset.json' && json_decode($data['source']) === null)
+		{
+			$this->setError(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_INVALID_JSON'));
+
+			return false;
+		}
+
 		$return = File::write($filePath, $data['source']);
 
 		if (!$return)

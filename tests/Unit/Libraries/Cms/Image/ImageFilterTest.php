@@ -7,7 +7,6 @@
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
 
 use Joomla\CMS\Image\Filter\Brightness as FilterBrightness;
-use Joomla\CMS\Image\Filter\Inspector as FilterInspector;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -18,11 +17,6 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class ImageFilterTest extends UnitTestCase
 {
-	/**
-	 * @var  FilterInspector  The object to test.
-	 */
-	protected $instance;
-
 	/**
 	 * Setup for testing.
 	 *
@@ -39,8 +33,6 @@ class ImageFilterTest extends UnitTestCase
 		{
 			$this->markTestSkipped('No GD support so skipping Image tests.');
 		}
-
-		$this->instance = new FilterInspector(imagecreate(10, 10));
 	}
 
 	/**

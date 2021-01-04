@@ -186,7 +186,7 @@ class Image
 
 		if (!$info)
 		{
-			throw new \RuntimeException('Unable to get properties for the image.');
+			throw new Exception\UnparsableImageException('Unable to get properties for the image.');
 		}
 
 		// Build the response object.
@@ -474,7 +474,7 @@ class Image
 	 * @return  Image
 	 *
 	 * @since   2.5.0
-	 * @see     Joomla\CMS\Image\Filter
+	 * @see     \Joomla\CMS\Image\Filter
 	 * @throws  \LogicException
 	 */
 	public function filter($type, array $options = [])

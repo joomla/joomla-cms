@@ -136,7 +136,7 @@ class MessageModel extends AdminModel
 				// Invalid message_id returns 0
 				if ($this->item->user_id_to === '0')
 				{
-					$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+					$this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
 					return false;
 				}
@@ -201,7 +201,7 @@ class MessageModel extends AdminModel
 				}
 			}
 
-			// Get the user name for an existing messasge.
+			// Get the user name for an existing message.
 			if ($this->item->user_id_from && $fromUser = new User($this->item->user_id_from))
 			{
 				$this->item->set('from_user_name', $fromUser->name);
