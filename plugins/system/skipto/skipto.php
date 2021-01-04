@@ -61,15 +61,30 @@ class PlgSystemSkipto extends CMSPlugin
 			[
 				'settings' => [
 					'skipTo' => [
-						'buttonDivRole'  => 'navigation',
-						'buttonDivLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
-						'buttonLabel'    => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-						'buttonDivTitle' => '',
-						'menuLabel'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
-						'landmarksLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-						'headingsLabel'	 => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-						// The following string begins with a space
-						'contentLabel'   => ' ' . Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
+						'colorTheme'                  => 'joomla',
+					//	'displayOption'               => 'popup',
+						'accesskey'                   => '9',
+						'customClass'                 => 'joomla',
+						'enableActions'               => false,
+						'enableHeadingLevelShortcuts' => false,
+						'headings'                    => 'h1, h2, h3',
+						'landmarks'                   => 'main, nav, search, aside, header, footer, form',
+						'accesskeyNotSupported'       => Text::_('PLG_SYSTEM_SKIPTO_ACCESS_KEY_NOT_SUPPORTED'),
+						'asideLabel'                  => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_ASIDE'),
+						'buttonLabel'                 => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+						'buttonTitle'                 => Text::_('PLG_SYSTEM_SKIPTO_TITLE'),
+						'buttonTitleWithAccesskey'    => Text::_('PLG_SYSTEM_SKIPTO_TITLE_WITH_ACCCESS_KEY'),
+						'footerLabel'                 => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_FOOTER'),
+						'formLabel'                   => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_FORM'),
+						'headerLabel'                 => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_HEADER'),
+						'headingImportantGroupLabel'  => Text::_('PLG_SYSTEM_SKIPTO_HEADING_IMP'),
+						'headingLevelLabel'           => Text::_('PLG_SYSTEM_SKIPTO_HEADING_LEVEL'),
+						'landmarkImportantGroupLabel' => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_IMP'),
+						'mainLabel'                   => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_MAIN'),
+						'msgNoHeadingsFound'          => Text::_('PLG_SYSTEM_SKIPTO_HEADING_NONE'),
+						'msgNoLandmarksFound'         => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_NONE'),
+						'navLabel'                    => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_NAV'),
+						'searchLabel'                 => Text::_('PLG_SYSTEM_SKIPTO_LANDMARK_SEARCH'),
 					]
 				]
 			]
@@ -78,15 +93,15 @@ class PlgSystemSkipto extends CMSPlugin
 		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = $document->getWebAssetManager();
 		$wa->useStyle('skipto')
-			->useScript('skipto.dropmenu')
 			->useScript('skipto')
 			->addInlineScript(
 				'document.addEventListener(\'DOMContentLoaded\', function() {'
-				. 'window.SkipToConfig = Joomla.getOptions(\'skipto-settings\');'
-				. 'window.skipToMenuInit();});',
+				. 'window.SkipToConfig = Joomla.getOptions(\'skipto-settings\');});',
 				[],
 				['type' => 'module'],
 				['skipto']
 			);
 	}
 }
+
+//useStyle('skipto')
