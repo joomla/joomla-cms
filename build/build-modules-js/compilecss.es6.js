@@ -57,7 +57,7 @@ module.exports.compile = (options, path) => {
                 // Don't take files with "_" but "file" has the full path, so check via match
                 if (file.match(/\.scss$/)) {
                   // Bail out for non Joomla convention folders, eg: scss
-                  if (!file.match(/\/template(s)?\/scss\//) || !file.match(/\\template(s)?\\scss\\/)) {
+                  if (!(file.match(/\/templates\/scss\//) || file.match(/\\templates\\scss\\/))) {
                     return;
                   }
                   // Ignore files starting with _
