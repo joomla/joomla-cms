@@ -327,12 +327,16 @@ Joomla = window.Joomla || {};
       if (filteredByCaption) {
         let captionContent = '';
 
-        if (element.multiple === true) {
-          const selectedOptions = element.querySelectorAll('option:checked');
-          const selectedTextValues = [].slice.call(selectedOptions).map((el) => el.text);
-          captionContent = `${element.labels[0].textContent} - ${selectedTextValues.join()}`;
+        if (element.tagName.toLowerCase() === 'select') {
+          if (element.multiple === true) {
+            const selectedOptions = element.querySelectorAll('option:checked');
+            const selectedTextValues = [].slice.call(selectedOptions).map((el) => el.text);
+            captionContent = `${element.labels[0].textContent} - ${selectedTextValues.join()}`;
+          } else {
+            captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
+          }
         } else {
-          captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
+          captionContent = "".concat(element.labels[0].textContent, " - ").concat(element.value);
         }
 
         filteredByCaption.textContent += captionContent;
