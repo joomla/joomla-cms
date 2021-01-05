@@ -76,7 +76,7 @@ Joomla.checkDbCredentials = function() {
   var form = document.getElementById('adminForm'),
     data = Joomla.serialiseForm(form);
   jQuery('#installationProgress').modal();
-  document.querySelector('#progressdbcheck i').classList.remove('text-white');
+  document.querySelector('#progressdbcheck span').classList.remove('text-white');
 
   Joomla.request({
     method: "POST",
@@ -89,7 +89,7 @@ Joomla.checkDbCredentials = function() {
       try {
         response = JSON.parse(response);
       } catch (e) {
-        document.querySelector('#progressdbcheck i').classList.value = 'fa fa-times-circle text-error';
+        document.querySelector('#progressdbcheck span').classList.value = 'fa fa-times-circle text-error';
         loaderElement.parentNode.removeChild(loaderElement);
         console.error('Error in DB Check Endpoint');
         console.error(response);
@@ -106,12 +106,12 @@ Joomla.checkDbCredentials = function() {
       loaderElement.parentNode.removeChild(loaderElement);
 
       if (response.error) {
-        document.querySelector('#progressdbcheck i').classList.value = 'fa fa-times-circle text-error';
+        document.querySelector('#progressdbcheck span').classList.value = 'fa fa-times-circle text-error';
         Joomla.renderMessages({'error': [response.message]});
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
         // TODO: Convert to promises
-        document.querySelector('#progressdbcheck i').classList.value = 'fa fa-check-circle text-success';
+        document.querySelector('#progressdbcheck span').classList.value = 'fa fa-check-circle text-success';
         Joomla.install(['create', 'populate1', 'populate2', 'populate3', 'custom1', 'custom2', 'config'], form);
       }
     },
