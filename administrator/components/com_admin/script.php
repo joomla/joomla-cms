@@ -82,7 +82,6 @@ class JoomlaInstallerScript
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
-		$this->fixFilenameCasing();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
@@ -2323,6 +2322,8 @@ class JoomlaInstallerScript
 		{
 			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
 		}
+
+		$this->fixFilenameCasing();
 	}
 
 	/**
