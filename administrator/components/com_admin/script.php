@@ -96,7 +96,6 @@ class JoomlaInstallerScript
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
-		$this->fixFilenameCasing();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->updateAssets($installer);
@@ -6259,6 +6258,8 @@ class JoomlaInstallerScript
 				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
 			}
 		}
+
+		$this->fixFilenameCasing();
 	}
 
 	/**
@@ -6973,7 +6974,7 @@ class JoomlaInstallerScript
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function fixFilenameCasing()
+	protected function fixFilenameCasing()
 	{
 		$files = array(
 			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',

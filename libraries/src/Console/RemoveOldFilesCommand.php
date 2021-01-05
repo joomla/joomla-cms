@@ -52,7 +52,6 @@ class RemoveOldFilesCommand extends AbstractCommand
 		$installer = new \JoomlaInstallerScript;
 
 		$installer->deleteUnexistingFiles();
-		$installer->fixFilenameCasing();
 
 		$symfonyStyle->success('Files removed');
 

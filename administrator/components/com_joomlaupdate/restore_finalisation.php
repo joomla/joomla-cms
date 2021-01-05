@@ -75,7 +75,6 @@ namespace
 				$installer = new JoomlaInstallerScript;
 
 				$installer->deleteUnexistingFiles();
-				$installer->fixFilenameCasing();
 			}
 
 			// Clear OPcache
