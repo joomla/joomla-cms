@@ -12,77 +12,88 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.formvalidator');
+$showFTP = false;
 
 /** @var \Joomla\CMS\Installation\View\Preinstall\HtmlView $this */
 ?>
 <div id="installer-view" class="container" data-page-name="preinstall">
-		<div class="row">
-			<div class="col-md-12 mb-4">
-				<div class="j-install-step active">
-					<div class="j-install-step-header">
-						<span class="icon-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
-					</div>
-					<div class="j-install-step-form">
-						<?php foreach ($this->options as $option) : ?>
-							<?php if ($option->state === 'JNO' || $option->state === false) : ?>
-								<div class="alert preinstall-alert">
-									<div class="alert-icon">
-										<span class="alert-icon icon-exclamation-triangle" aria-hidden="true"></span>
-									</div>
-									<div class="alert-text">
-										<strong><?php echo $option->label; ?></strong>
-										<p class="form-text text-muted small"><?php echo $option->notice; ?></p>
-									</div>
-								</div>
-							<?php endif; ?>
-						<?php endforeach; ?>
-					</div>
+	<form action="index.php" method="post" id="languageForm" class="lang-select">
+		<fieldset class="j-install-step active">
+			<legend class="j-install-step-header">
+				<span class="icon-language" aria-hidden="true"></span> <?php echo Text::_('INSTL_SELECT_INSTALL_LANG'); ?>
+			</legend>
+			<div class="j-install-step-form">
+				<div class="form-group">
+					<?php echo $this->form->getLabel('language'); ?>
+					<?php echo $this->form->getInput('language'); ?>
 				</div>
-
-
-				<?php if ($option->state === false && preg_match('$configuration.php$', $option->label)) : ?>
-					<div id="ftpOptions" class="ftp-options mb-4 hidden">
-						<form action="index.php" method="post" id="ftpForm" class="form-validate">
-							<!-- 					<h3><?php echo Text::_('INSTL_FTP'); ?></h3>
-					<hr> -->
-							<div class="form-group row">
-								<div class="col-md-8 offset-md-2">
-									<?php echo $this->form->getLabel('ftp_user'); ?>
-									<?php echo $this->form->getInput('ftp_user'); ?>
-									<p class="form-text text-muted small"><?php echo Text::_('INSTL_FTP_USER_DESC'); ?></p>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-8 offset-md-2">
-									<?php echo $this->form->getLabel('ftp_pass'); ?>
-									<?php echo $this->form->getInput('ftp_pass'); ?>
-									<p class="form-text text-muted small"><?php echo Text::_('INSTL_FTP_PASSWORD_DESC'); ?></p>
-								</div>
-							</div>
-							<div class="form-group row mb-4">
-								<div class="col-md-8 offset-md-2">
-									<?php echo $this->form->getLabel('ftp_host'); ?>
-									<div class="input-append d-flex">
-										<?php echo $this->form->getInput('ftp_host'); ?><button id="findbutton" class="btn btn-secondary ml-2" onclick="Joomla.installation.detectFtpRoot(this);"><span class="icon-folder-open"></span> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-8 offset-md-2">
-									<?php echo $this->form->getLabel('ftp_port'); ?>
-									<?php echo $this->form->getInput('ftp_port'); ?>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-md-8 offset-md-2 justify-content-end d-flex">
-									<button id="verifybutton" class="btn btn-success"><span class="icon-check icon-white"></span> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
-								</div>
-							</div>
-							<input type="hidden" name="format" value="json">
-							<?php echo HTMLHelper::_('form.token'); ?>
-						</form>
-					</div>
-				<?php endif; ?>
+				<input type="hidden" name="task" value="language.set">
+				<input type="hidden" name="format" value="json">
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
+		</fieldset>
+	</form>
+	<div class="j-install-step active">
+		<div class="j-install-step-header">
+			<span class="icon-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
 		</div>
+		<div class="j-install-step-form">
+			<?php foreach ($this->options as $option) : ?>
+				<?php if ($option->state === 'JNO' || $option->state === false) : ?>
+					<div class="alert preinstall-alert">
+						<div class="alert-icon">
+							<span class="alert-icon icon-exclamation-triangle" aria-hidden="true"></span>
+						</div>
+						<div class="alert-text">
+							<strong><?php echo $option->label; ?></strong>
+							<div class="form-text text-muted small"><?php echo $option->notice; ?></div>
+						</div>
+					</div>
+					<?php $showFTP = isset($option->showFTP) ? $option->showFTP : $showFTP; ?>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<?php if ($showFTP) : ?>
+		<form action="index.php" method="post" id="ftpForm" class="form-validate">
+			<fieldset id="preinstall-ftp" class="j-install-step active">
+				<legend class="j-install-step-header">
+					<span class="icon-cog" aria-hidden="true"></span> <?php echo Text::_('INSTL_FTP'); ?>
+				</legend>
+				<div class="j-install-step-form">
+					<div class="form-group">
+						<?php echo $this->form->getLabel('ftp_user'); ?>
+						<?php echo $this->form->getInput('ftp_user'); ?>
+					</div>
+					<div class="form-group">
+						<?php echo $this->form->getLabel('ftp_pass'); ?>
+						<?php echo $this->form->getInput('ftp_pass'); ?>
+					</div>
+					<div class="form-group">
+						<?php echo $this->form->getLabel('ftp_host'); ?>
+						<?php echo $this->form->getInput('ftp_host'); ?>
+					</div>
+					<div class="form-group">
+						<?php echo $this->form->getLabel('ftp_root'); ?>
+						<div class=" input-group ">
+							<?php echo $this->form->getInput('ftp_root'); ?>
+							<div class="input-group-append">
+								<button id="findbutton" class="btn btn-secondary"><span class="icon-folder-open"></span> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<?php echo $this->form->getLabel('ftp_port'); ?>
+						<?php echo $this->form->getInput('ftp_port'); ?>
+					</div>
+					<div class="form-group">
+						<button id="verifybutton" class="btn btn-success"><span class="icon-check icon-white"></span> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
+						<button id="skipFTPbutton" class="btn btn-secondary float-right"><span class="icon-times icon-white"></span> <?php echo Text::_('INSTL_SKIP_FTP'); ?></button>
+					</div>
+					<input type="hidden" name="format" value="json">
+					<?php echo HTMLHelper::_('form.token'); ?>
+				</div>
+			</fieldset>
+		</form>
+	<?php endif; ?>
 </div>

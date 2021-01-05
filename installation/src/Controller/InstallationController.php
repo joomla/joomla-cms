@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -46,6 +47,81 @@ class InstallationController extends JSONController
 		$this->registerTask('custom1', 'populate');
 		$this->registerTask('custom2', 'populate');
 		$this->registerTask('removeFolder', 'delete');
+	}
+
+	/**
+	 * Detects the FTP root of the Joomla installation
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function detectftproot()
+	{
+		$this->checkValidToken();
+
+		$r = new \stdClass;
+
+		// Check the form
+		/** @var \Joomla\CMS\Installation\Model\ChecksModel $model */
+		$model = $this->getModel('Checks');
+
+		if ($model->checkForm('preinstall') === false)
+		{
+			$this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
+			$r->validated = false;
+			$this->sendJsonResponse($r);
+
+			return;
+		}
+
+		$return = $model->detectFtpRoot();
+
+		// If we got a FTP root, add it to the response object
+		if ($return)
+		{
+			$r->root = $return;
+		}
+
+		$this->sendJsonResponse($r);
+	}
+
+	/**
+	 * Detects the FTP root of the Joomla installation
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function verifyftp()
+	{
+		$this->checkValidToken();
+
+		$r = new \stdClass;
+
+		// Check the form
+		/** @var \Joomla\CMS\Installation\Model\ChecksModel $model */
+		$model = $this->getModel('Checks');
+
+		if ($model->checkForm('preinstall') === false)
+		{
+			$this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
+			$r->validated = false;
+			$this->sendJsonResponse($r);
+
+			return;
+		}
+
+		$r->valid = $model->verifyFtpSettings();
+
+		if ($r->valid)
+		{
+			$options = $model->getOptions();
+			$options['ftp_enable'] = 1;
+			$model->storeOptions($options);
+		}
+
+		$this->sendJsonResponse($r);
 	}
 
 	/**
@@ -183,22 +259,16 @@ class InstallationController extends JSONController
 	 */
 	public function config()
 	{
-		$this->checkValidToken();
+		//$this->checkValidToken();
 
-		/** @var \Joomla\CMS\Installation\Model\SetupModel $setUpModel */
-		$setUpModel = $this->getModel('Setup');
-
-		// Get the options from the session
-		$options = $setUpModel->getOptions();
+		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $model */
+		$model = $this->getModel('Configuration');
 
 		$r = new \stdClass;
 		$r->view = 'remove';
 
-		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
-		$configurationModel = $this->getModel('Configuration');
-
 		// Attempt to setup the configuration.
-		if (!$configurationModel->setup($options))
+		if (!$model->setup())
 		{
 			$r->view = 'setup';
 		}

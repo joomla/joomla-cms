@@ -3,96 +3,198 @@
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-Joomla = window.Joomla || {};
 
-// @TODO FTP???
-Joomla.installation = Joomla.installation || {};
-// Initialize the installation data
-Joomla.installation.data = {
-  // FTP
-  ftpUsername: "",
-  ftpPassword: "",
-  ftpHost: "",
-  ftpPort: 21,
-  ftpRoot: "/",
+/**
+ * Method to set the language for the installation UI via AJAX
+ *
+ * @return {Boolean}
+ */
+Joomla.setlanguage = function(form) {
+  var data = Joomla.serialiseForm(form);
+  Joomla.removeMessages();
+  document.body.appendChild(document.createElement('joomla-core-loader'));
+
+  Joomla.request({
+    url: Joomla.baseUrl,
+    method: 'POST',
+    data: data,
+    perform: true,
+    onSuccess: function(response, xhr){
+      response = JSON.parse(response);
+      Joomla.replaceTokens(response.token);
+      var loaderElement = document.querySelector('joomla-core-loader');
+
+      if (response.messages) {
+        Joomla.renderMessages(response.messages);
+      }
+
+      if (response.error) {
+        loaderElement.parentNode.removeChild(loaderElement);
+        Joomla.renderMessages({'error': [response.message]});
+      } else {
+        loaderElement.parentNode.removeChild(loaderElement);
+        Joomla.goToPage(response.data.view, true);
+      }
+    },
+    onError:   function(xhr){
+      var loaderElement = document.querySelector('joomla-core-loader');
+      loaderElement.parentNode.removeChild(loaderElement);
+      try {
+        var r = JSON.parse(xhr.responseText);
+        Joomla.replaceTokens(r.token);
+        alert(r.message);
+      } catch (e) {}
+    }
+  });
+
+  return false;
 };
 
 /**
  * Method to detect the FTP root via AJAX request.
- *
- * @param el  The page element requesting the event
  */
-Joomla.installation.detectFtpRoot = function(el) {
-  var data, task, form = document.getElementById('ftpForm');
-
-  data = Joomla.serialiseForm(form); //'format: json&' +
-  el.setAttribute('disabled', 'disabled');
-  task = 'detectftproot';
+Joomla.detectFtpRoot = function() {
+  document.body.appendChild(document.createElement('joomla-core-loader'));
+  var form = document.getElementById('ftpForm'),
+    data = Joomla.serialiseForm(form);
 
   Joomla.request({
-    type: "POST",
-    url : Joomla.installationBaseUrl + '?task=' + task + '&format=json',
+    method: "POST",
+    url : Joomla.installationBaseUrl + '?task=installation.detectftproot&format=json',
     data: data,
     perform: true,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     onSuccess: function(response, xhr){
-      var r = JSON.parse(response);
+      var loaderElement = document.querySelector('joomla-core-loader');
+      try {
+        response = JSON.parse(response);
+      } catch (e) {
+        loaderElement.parentNode.removeChild(loaderElement);
+        console.error('Error in FTP folder detection Endpoint');
+        console.error(response);
+        Joomla.renderMessages({'error': [Joomla.JText._('INSTL_FTPDETECT_RESPONSE_ERROR')]});
 
-      if (r) {
-        Joomla.replaceTokens(r.token)
-        console.log(r.messages.error)
-        if (r.messages && !r.messages.error) {
-          if (r.data && r.data.root) {
-            document.getElementById('jform_ftp_host').value += r.data.root;
-          }
-        } else {
-          alert(r.messages.warning);
-        }
+        return false;
       }
-      el.removeAttribute('disabled');
+
+      if (response.messages) {
+        Joomla.renderMessages(response.messages);
+      }
+
+      Joomla.replaceTokens(response.token);
+      loaderElement.parentNode.removeChild(loaderElement);
+
+      if (response.error) {
+        Joomla.renderMessages({'error': [response.message]});
+      } else if (response.data && response.data.root) {
+        document.getElementById('jform_ftp_root').value = response.data.root;
+      }
     },
     onError:   function(xhr){
+      Joomla.renderMessages([['', Joomla.JText._('JLIB_FTP_ERROR_FTP_CONNECT', 'A FTP error occurred.')]]);
+      //Install.goToPage('summary');
+      var loaderElement = document.querySelector('joomla-core-loader');
+      loaderElement.parentNode.removeChild(loaderElement);
+
       try {
         var r = JSON.parse(xhr.responseText);
         Joomla.replaceTokens(r.token);
-        alert(xhr.status + ': ' + r.message);
+        alert(r.message);
       } catch (e) {
-        alert(xhr.status + ': ' + xhr.statusText);
       }
     }
   });
 };
 
-if (document.getElementById('showFtp')) {
-  // @TODO FTP??
-  document.getElementById('showFtp').classList.add('hidden');
-  document.getElementById('showFtp').addEventListener('click', function(e) {
-    e.preventDefault();
-    if (document.getElementById('ftpOptions')) {
-      document.getElementById('ftpOptions').classList.remove('hidden');
-      document.getElementById('ftpOptions').scrollIntoView();
-    }
-  })
-}
+/**
+ * Method to detect the FTP root via AJAX request.
+ */
+Joomla.verifyFtp = function() {
+  document.body.appendChild(document.createElement('joomla-core-loader'));
+  var form = document.getElementById('ftpForm'),
+    data = Joomla.serialiseForm(form);
 
-if (document.getElementById('verifybutton')) {
-  document.getElementById('verifybutton').addEventListener('click', function(e) {
-    e.preventDefault();
-    // @TODO FTP??
-    //onclick="Install.verifyFtpSettings(this);"
-    var ftpForm = document.getElementById('ftpForm');
-    if (ftpForm) {
-      Joomla.installation.data.ftpUsername = document.getElementById('jform_ftp_user').value;
-      Joomla.installation.data.ftpPassword = document.getElementById('jform_ftp_pass').value;
-      Joomla.installation.data.ftpHost = document.getElementById('jform_ftp_host').value;
-      Joomla.installation.data.ftpPort = document.getElementById('jform_ftp_port').value;
+  Joomla.request({
+    method: "POST",
+    url : Joomla.installationBaseUrl + '?task=installation.verifyftp&format=json',
+    data: data,
+    perform: true,
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    onSuccess: function(response, xhr){
+      var loaderElement = document.querySelector('joomla-core-loader');
+      try {
+        response = JSON.parse(response);
+      } catch (e) {
+        loaderElement.parentNode.removeChild(loaderElement);
+        console.error('Error in FTP verification Endpoint');
+        console.error(response);
+        Joomla.renderMessages({'error': [Joomla.JText._('INSTL_FTPVERIFY_RESPONSE_ERROR')]});
 
-      var p, data = [];
-      for(p in Joomla.installation.data) {
-        data.push(Joomla.installation.data[p])
+        return false;
       }
-      sessionStorage.setItem('installData', JSON.stringify(data));
-      // get it back: JSON.parse(sessionStorage.installData)
+
+      if (response.messages) {
+        Joomla.renderMessages(response.messages);
+      }
+
+      Joomla.replaceTokens(response.token);
+      loaderElement.parentNode.removeChild(loaderElement);
+
+      if (response.error) {
+        Joomla.renderMessages({'error': [response.message]});
+      } else if (response.data && response.data.valid) {
+        Joomla.goToPage('setup');
+      }
+    },
+    onError:   function(xhr){
+      Joomla.renderMessages([['', Joomla.JText._('JLIB_FTP_ERROR_FTP_CONNECT', 'A FTP error occurred.')]]);
+      //Install.goToPage('summary');
+      var loaderElement = document.querySelector('joomla-core-loader');
+      loaderElement.parentNode.removeChild(loaderElement);
+
+      try {
+        var r = JSON.parse(xhr.responseText);
+        Joomla.replaceTokens(r.token);
+        alert(r.message);
+      } catch (e) {
+      }
     }
   });
-}
+};
+
+(function() {
+  // Merge options from the session storage
+  if (sessionStorage && sessionStorage.getItem('installation-data')) {
+    Joomla.extend(this.options, sessionStorage.getItem('installation-data'));
+  }
+
+  Joomla.pageInit();
+
+  // Select language
+  var languageEl = document.getElementById('jform_language');
+
+  if (languageEl) {
+    languageEl.addEventListener('change', function(e) {
+      var form = document.getElementById('languageForm');
+      Joomla.setlanguage(form)
+    })
+  }
+
+  document.getElementById('findbutton').addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    Joomla.detectFtpRoot();
+  })
+
+  document.getElementById('verifybutton').addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    Joomla.verifyFtp();
+  })
+
+  document.getElementById('skipFTPbutton').addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    Joomla.skipFtp();
+  })
+})();

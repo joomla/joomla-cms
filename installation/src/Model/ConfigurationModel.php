@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Filesystem\File;
+use Joomla\CMS\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -47,10 +47,10 @@ class ConfigurationModel extends BaseInstallationModel
 	 *
 	 * @since   3.1
 	 */
-	public function setup($options)
+	public function setup()
 	{
 		// Get the options as an object for easier handling.
-		$options = ArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($this->getOptions());
 
 		// Get a database object.
 		try
@@ -388,8 +388,6 @@ class ConfigurationModel extends BaseInstallationModel
 	 */
 	public function createConfiguration($options)
 	{
-		$saveFtp = isset($options->ftp_save) && $options->ftp_save;
-
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
 
@@ -432,10 +430,10 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', $options->ftp_host ?? '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
-		$registry->set('ftp_user', ($saveFtp && isset($options->ftp_user)) ? $options->ftp_user : '');
-		$registry->set('ftp_pass', ($saveFtp && isset($options->ftp_pass)) ? $options->ftp_pass : '');
-		$registry->set('ftp_root', ($saveFtp && isset($options->ftp_root)) ? $options->ftp_root : '');
-		$registry->set('ftp_enable', (isset($options->ftp_host) && null === $options->ftp_host) ? $options->ftp_enable : 0);
+		$registry->set('ftp_user', isset($options->ftp_user) ? $options->ftp_user : '');
+		$registry->set('ftp_pass', isset($options->ftp_pass_plain) ? $options->ftp_pass_plain : '');
+		$registry->set('ftp_root', isset($options->ftp_root) ? $options->ftp_root : '');
+		$registry->set('ftp_enable', (isset($options->ftp_host) && null !== $options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
 		$registry->set('offset', 'UTC');
@@ -491,6 +489,8 @@ class ConfigurationModel extends BaseInstallationModel
 		// Build the configuration file path.
 		$path = JPATH_CONFIGURATION . '/configuration.php';
 
+		Factory::getApplication()->setCfg($registry->toArray());
+
 		// Determine if the configuration file path is writable.
 		if (file_exists($path))
 		{
@@ -501,40 +501,22 @@ class ConfigurationModel extends BaseInstallationModel
 			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
 		}
 
-		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		 * is not writable we need to use FTP.
-		 */
-		$useFTP = false;
-
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
-		{
-			return false;
-
-			// $useFTP = true;
-		}
-
-		// Enable/Disable override.
-		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
-		{
-			$useFTP = false;
-		}
-
 		// Get the session
 		$session = Factory::getSession();
 
-		if ($canWrite)
+		if ($canWrite || $options->ftp_enable)
 		{
-			file_put_contents($path, $buffer);
-			$session->set('setup.config', null);
-		}
-		else
-		{
-			// If we cannot write the configuration.php, setup fails!
-			return false;
+			$return = File::write($path, $buffer);
+
+			if ($return)
+			{
+				$session->set('setup.config', null);
+
+				return true;
+			}
 		}
 
-		return true;
+		return false;
 	}
 
 	/**

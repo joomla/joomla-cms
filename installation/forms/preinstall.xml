@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Joomla\CMS\Installation\Form\Field" addruleprefix="Joomla\CMS\Installation\Form\Rule">
-	<fieldset>
+	<fieldset name="site">
 		<field
 			name="language"
 			type="installation.language"
-			label="INSTL_LANGUAGE_LABEL"
+			label="INSTL_SELECT_LANGUAGE_TITLE"
+			class="custom-select required ml-2"
 			default="en-GB"
-			required="true"
-			onchange="Install.setlanguage();"
 		/>
 	</fieldset>
 	<fieldset name="basic">
-		<field
+		<!--<field
 			name="ftp_enable"
 			type="radio"
 			label="INSTL_FTP_ENABLE_LABEL"
@@ -22,7 +21,7 @@
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
-		</field>
+		</field>-->
 		<field
 			name="ftp_user"
 			type="text"
@@ -42,10 +41,6 @@
 			label="INSTL_FTP_ROOT_LABEL"
 			class="form-control"
 		/>
-	</fieldset>
-
-	<!-- Advanced Settings -->
-	<fieldset name="advanced">
 		<field
 			name="ftp_host"
 			type="text"
@@ -61,17 +56,5 @@
 			default="21"
 			filter="int"
 		/>
-		<field
-			name="ftp_save"
-			type="radio"
-			label="INSTL_FTP_SAVE_LABEL"
-			class="btn-group btn-group-reverse"
-			default="0"
-			required="true"
-			filter="int"
-			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
 	</fieldset>
 </form>
