@@ -177,7 +177,6 @@ class StreamTransport implements TransportInterface
 		$context = stream_context_create($streamOptions);
 
 		// Authentication, if needed
-
 		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
 		{
 			$uri->setUser($this->options->get('userauth'));
