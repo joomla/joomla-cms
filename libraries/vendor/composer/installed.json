@@ -1,23 +1,23 @@
 [
     {
         "name": "brumann/polyfill-unserialize",
-        "version": "v1.0.3",
-        "version_normalized": "1.0.3.0",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/dbrumann/polyfill-unserialize.git",
-            "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b"
+            "reference": "46e5c18ee87d8a9b5765ef95468c1ac27bd107bf"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
-            "reference": "844d7e44b62a1a3d5c68cfb7ebbd59c17ea0fd7b",
+            "url": "https://api.github.com/repos/dbrumann/polyfill-unserialize/zipball/46e5c18ee87d8a9b5765ef95468c1ac27bd107bf",
+            "reference": "46e5c18ee87d8a9b5765ef95468c1ac27bd107bf",
             "shasum": ""
         },
         "require": {
             "php": "^5.3|^7.0"
         },
-        "time": "2017-02-03T09:55:47+00:00",
+        "time": "2020-07-24T10:16:53+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -188,17 +188,17 @@
     },
     {
         "name": "joomla/archive",
-        "version": "1.1.6",
-        "version_normalized": "1.1.6.0",
+        "version": "1.1.8",
+        "version_normalized": "1.1.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/archive.git",
-            "reference": "b1d496e8c7814f1e376cb14296c38d5ef4e08c78"
+            "reference": "3753805379a764fa96fd3db7e3b6218760d169ac"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/archive/zipball/b1d496e8c7814f1e376cb14296c38d5ef4e08c78",
-            "reference": "b1d496e8c7814f1e376cb14296c38d5ef4e08c78",
+            "url": "https://api.github.com/repos/joomla-framework/archive/zipball/3753805379a764fa96fd3db7e3b6218760d169ac",
+            "reference": "3753805379a764fa96fd3db7e3b6218760d169ac",
             "shasum": ""
         },
         "require": {
@@ -208,14 +208,14 @@
         "require-dev": {
             "joomla/coding-standards": "~2.0@alpha",
             "joomla/test": "~1.0",
-            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
+            "phpunit/phpunit": "^4.8.35|^5.4.3|^6.0|^7.0|^8.0"
         },
         "suggest": {
             "ext-bz2": "To extract bzip2 compressed packages",
             "ext-zip": "To extract zip compressed packages",
             "ext-zlib": "To extract gzip or zip compressed packages"
         },
-        "time": "2019-03-10T15:17:48+00:00",
+        "time": "2020-11-27T23:24:42+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -238,6 +238,16 @@
             "archive",
             "framework",
             "joomla"
+        ],
+        "funding": [
+            {
+                "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/joomla",
+                "type": "github"
+            }
         ]
     },
     {
@@ -386,27 +396,27 @@
     },
     {
         "name": "joomla/event",
-        "version": "1.2.0",
-        "version_normalized": "1.2.0.0",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/event.git",
-            "reference": "d8cc2a4757c4556f0ab12e58903e9d168077018b"
+            "reference": "ea97afdc7afd78cc9a0500f4b60372764fc2c0b0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/event/zipball/d8cc2a4757c4556f0ab12e58903e9d168077018b",
-            "reference": "d8cc2a4757c4556f0ab12e58903e9d168077018b",
+            "url": "https://api.github.com/repos/joomla-framework/event/zipball/ea97afdc7afd78cc9a0500f4b60372764fc2c0b0",
+            "reference": "ea97afdc7afd78cc9a0500f4b60372764fc2c0b0",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.3.10|>=7.0"
+            "php": "^5.3.10|~7.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "~4.8|~5.0",
-            "squizlabs/php_codesniffer": "1.*"
+            "joomla/coding-standards": "~2.0@alpha",
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
         },
-        "time": "2016-03-13T19:41:09+00:00",
+        "time": "2019-10-07T22:54:58+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -416,13 +426,12 @@
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "Joomla\\Event\\": "src/",
-                "Joomla\\Event\\Tests\\": "Tests/"
+                "Joomla\\Event\\": "src/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "GPL-2.0+"
+            "GPL-2.0-or-later"
         ],
         "description": "Joomla Event Package",
         "homepage": "https://github.com/joomla-framework/event",
@@ -434,17 +443,17 @@
     },
     {
         "name": "joomla/filesystem",
-        "version": "1.5.0",
-        "version_normalized": "1.5.0.0",
+        "version": "1.6.0",
+        "version_normalized": "1.6.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/filesystem.git",
-            "reference": "d8757954138b245d5a0f1f1272051eb9d954f875"
+            "reference": "d8801f18db358b0284675381ab4195acd028b420"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/d8757954138b245d5a0f1f1272051eb9d954f875",
-            "reference": "d8757954138b245d5a0f1f1272051eb9d954f875",
+            "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/d8801f18db358b0284675381ab4195acd028b420",
+            "reference": "d8801f18db358b0284675381ab4195acd028b420",
             "shasum": ""
         },
         "require": {
@@ -460,7 +469,7 @@
         "suggest": {
             "paragonie/random_compat": "Required to use Joomla\\Filesystem\\Path::isOwner()"
         },
-        "time": "2019-03-10T15:19:21+00:00",
+        "time": "2020-09-02T09:05:23+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -487,17 +496,17 @@
     },
     {
         "name": "joomla/filter",
-        "version": "1.3.5",
-        "version_normalized": "1.3.5.0",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/filter.git",
-            "reference": "ee1d870b5c188056745e1dd3cece21522e2158b8"
+            "reference": "86fec1be2b545f8c00f899658f87f80b4fc67c81"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/filter/zipball/ee1d870b5c188056745e1dd3cece21522e2158b8",
-            "reference": "ee1d870b5c188056745e1dd3cece21522e2158b8",
+            "url": "https://api.github.com/repos/joomla-framework/filter/zipball/86fec1be2b545f8c00f899658f87f80b4fc67c81",
+            "reference": "86fec1be2b545f8c00f899658f87f80b4fc67c81",
             "shasum": ""
         },
         "require": {
@@ -512,7 +521,7 @@
         "suggest": {
             "joomla/language": "Required only if you want to use `OutputFilter::stringURLSafe`."
         },
-        "time": "2018-05-26T15:48:53+00:00",
+        "time": "2020-06-08T22:31:51+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -539,17 +548,17 @@
     },
     {
         "name": "joomla/image",
-        "version": "1.5.0",
-        "version_normalized": "1.5.0.0",
+        "version": "1.5.1",
+        "version_normalized": "1.5.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/image.git",
-            "reference": "8885c6db5d5b3653ad30d4ad4f73607925a725a5"
+            "reference": "00e843bccb2f9b1f1e6d8710ed55d103c641a75b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/image/zipball/8885c6db5d5b3653ad30d4ad4f73607925a725a5",
-            "reference": "8885c6db5d5b3653ad30d4ad4f73607925a725a5",
+            "url": "https://api.github.com/repos/joomla-framework/image/zipball/00e843bccb2f9b1f1e6d8710ed55d103c641a75b",
+            "reference": "00e843bccb2f9b1f1e6d8710ed55d103c641a75b",
             "shasum": ""
         },
         "require": {
@@ -562,7 +571,7 @@
             "joomla/test": "~1.0",
             "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
         },
-        "time": "2018-05-25T02:29:30+00:00",
+        "time": "2020-12-02T13:11:43+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -585,6 +594,16 @@
             "framework",
             "image",
             "joomla"
+        ],
+        "funding": [
+            {
+                "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/joomla",
+                "type": "github"
+            }
         ]
     },
     {
@@ -691,17 +710,17 @@
     },
     {
         "name": "joomla/registry",
-        "version": "1.6.2",
-        "version_normalized": "1.6.2.0",
+        "version": "1.6.3",
+        "version_normalized": "1.6.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/registry.git",
-            "reference": "182eed3a56b2b7e14cef11fdbc63c253ddcfd924"
+            "reference": "51c08b18838aaf2104e38c3846e34b4706e83644"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/registry/zipball/182eed3a56b2b7e14cef11fdbc63c253ddcfd924",
-            "reference": "182eed3a56b2b7e14cef11fdbc63c253ddcfd924",
+            "url": "https://api.github.com/repos/joomla-framework/registry/zipball/51c08b18838aaf2104e38c3846e34b4706e83644",
+            "reference": "51c08b18838aaf2104e38c3846e34b4706e83644",
             "shasum": ""
         },
         "require": {
@@ -714,12 +733,12 @@
             "joomla/coding-standards": "~2.0@alpha",
             "joomla/test": "~1.0",
             "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
-            "symfony/yaml": "~2.0|~3.0|~4.0"
+            "symfony/yaml": "~2.0|~3.0|~4.0|~5.0"
         },
         "suggest": {
             "symfony/yaml": "Install symfony/yaml if you require YAML support."
         },
-        "time": "2018-06-06T16:48:30+00:00",
+        "time": "2019-11-27T16:58:55+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -804,17 +823,17 @@
     },
     {
         "name": "joomla/string",
-        "version": "1.4.2",
-        "version_normalized": "1.4.2.0",
+        "version": "1.4.5",
+        "version_normalized": "1.4.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/string.git",
-            "reference": "64ed484157262578b8daddb488bb9bd3552bc4fe"
+            "reference": "21269bfcddef4e676c6a1a49b7d959f896522a96"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/string/zipball/64ed484157262578b8daddb488bb9bd3552bc4fe",
-            "reference": "64ed484157262578b8daddb488bb9bd3552bc4fe",
+            "url": "https://api.github.com/repos/joomla-framework/string/zipball/21269bfcddef4e676c6a1a49b7d959f896522a96",
+            "reference": "21269bfcddef4e676c6a1a49b7d959f896522a96",
             "shasum": ""
         },
         "require": {
@@ -828,7 +847,7 @@
         "suggest": {
             "ext-mbstring": "For improved processing"
         },
-        "time": "2019-06-16T18:18:09+00:00",
+        "time": "2020-10-07T08:01:44+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -920,17 +939,17 @@
     },
     {
         "name": "joomla/utilities",
-        "version": "1.6.0",
-        "version_normalized": "1.6.0.0",
+        "version": "1.6.1",
+        "version_normalized": "1.6.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/utilities.git",
-            "reference": "181fe644149ca0bd4a31f12212d3840147552b30"
+            "reference": "b54beb07ddf2d8074f6f8f43c365f84ddf714c8f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/181fe644149ca0bd4a31f12212d3840147552b30",
-            "reference": "181fe644149ca0bd4a31f12212d3840147552b30",
+            "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/b54beb07ddf2d8074f6f8f43c365f84ddf714c8f",
+            "reference": "b54beb07ddf2d8074f6f8f43c365f84ddf714c8f",
             "shasum": ""
         },
         "require": {
@@ -941,7 +960,7 @@
             "joomla/coding-standards": "~2.0@alpha",
             "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0"
         },
-        "time": "2018-10-16T23:36:52+00:00",
+        "time": "2019-07-17T01:48:57+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
@@ -968,33 +987,44 @@
     },
     {
         "name": "leafo/lessphp",
-        "version": "v0.5.0",
-        "version_normalized": "0.5.0.0",
+        "version": "dev-joomla3-php8",
+        "version_normalized": "dev-joomla3-php8",
         "source": {
             "type": "git",
-            "url": "https://github.com/leafo/lessphp.git",
-            "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283"
+            "url": "https://github.com/joomla-backports/lessphp.git",
+            "reference": "1bddadba0691b59dedfe841b1f99f9d4294b208c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/leafo/lessphp/zipball/0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
-            "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
+            "url": "https://api.github.com/repos/joomla-backports/lessphp/zipball/1bddadba0691b59dedfe841b1f99f9d4294b208c",
+            "reference": "1bddadba0691b59dedfe841b1f99f9d4294b208c",
             "shasum": ""
         },
-        "time": "2014-11-24T18:39:20+00:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "0.4.x-dev"
-            }
+        "require-dev": {
+            "phpunit/phpunit": "^4.8.35|^5.4.3|~6.0",
+            "squizlabs/php_codesniffer": "~3.3"
         },
-        "installation-source": "dist",
+        "time": "2020-10-10T19:20:26+00:00",
+        "bin": [
+            "plessc",
+            "lessify"
+        ],
+        "type": "library",
+        "installation-source": "source",
         "autoload": {
             "classmap": [
                 "lessc.inc.php"
             ]
         },
-        "notification-url": "https://packagist.org/downloads/",
+        "scripts": {
+            "test": [
+                "phpunit",
+                "phpcs -p -s"
+            ],
+            "fix": [
+                "phpcbf"
+            ]
+        },
         "license": [
             "MIT",
             "GPL-3.0"
@@ -1007,7 +1037,10 @@
             }
         ],
         "description": "lessphp is a compiler for LESS written in PHP.",
-        "homepage": "http://leafo.net/lessphp/"
+        "homepage": "http://leafo.net/lessphp/",
+        "support": {
+            "source": "https://github.com/joomla-backports/lessphp/tree/dev-joomla3-php8"
+        }
     },
     {
         "name": "paragonie/random_compat",
@@ -1145,17 +1178,17 @@
     },
     {
         "name": "phpmailer/phpmailer",
-        "version": "v5.2.27",
-        "version_normalized": "5.2.27.0",
+        "version": "v5.2.28",
+        "version_normalized": "5.2.28.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPMailer/PHPMailer.git",
-            "reference": "dde1db116511aa4956389d75546c5be4c2beb2a6"
+            "reference": "acba50393dd03da69a50226c139722af8b153b11"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/dde1db116511aa4956389d75546c5be4c2beb2a6",
-            "reference": "dde1db116511aa4956389d75546c5be4c2beb2a6",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/acba50393dd03da69a50226c139722af8b153b11",
+            "reference": "acba50393dd03da69a50226c139722af8b153b11",
             "shasum": ""
         },
         "require": {
@@ -1185,7 +1218,7 @@
         "suggest": {
             "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
         },
-        "time": "2018-11-15T22:32:31+00:00",
+        "time": "2020-03-19T14:29:37+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1205,12 +1238,12 @@
         ],
         "authors": [
             {
-                "name": "Jim Jagielski",
-                "email": "jimjag@gmail.com"
-            },
-            {
                 "name": "Marcus Bointon",
                 "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
             },
             {
                 "name": "Andy Prevost",
@@ -1275,27 +1308,27 @@
     },
     {
         "name": "psr/log",
-        "version": "1.1.0",
-        "version_normalized": "1.1.0.0",
+        "version": "1.1.3",
+        "version_normalized": "1.1.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/php-fig/log.git",
-            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+            "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
-            "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
+            "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2018-11-20T15:27:04+00:00",
+        "time": "2020-03-23T09:12:05+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.0.x-dev"
+                "dev-master": "1.1.x-dev"
             }
         },
         "installation-source": "dist",
@@ -1380,17 +1413,17 @@
     },
     {
         "name": "symfony/polyfill-ctype",
-        "version": "v1.11.0",
-        "version_normalized": "1.11.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-ctype.git",
-            "reference": "82ebae02209c21113908c229e9883c419720738a"
+            "reference": "1c302646f6efc070cd46856e600e5e0684d6b454"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
-            "reference": "82ebae02209c21113908c229e9883c419720738a",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/1c302646f6efc070cd46856e600e5e0684d6b454",
+            "reference": "1c302646f6efc070cd46856e600e5e0684d6b454",
             "shasum": ""
         },
         "require": {
@@ -1399,11 +1432,15 @@
         "suggest": {
             "ext-ctype": "For best performance"
         },
-        "time": "2019-02-06T07:57:58+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.11-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -1421,12 +1458,12 @@
         ],
         "authors": [
             {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
+                "name": "Gert de Pagter",
+                "email": "BackEndTea@gmail.com"
             },
             {
-                "name": "Gert de Pagter",
-                "email": "backendtea@gmail.com"
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
             }
         ],
         "description": "Symfony polyfill for ctype functions",
@@ -1440,28 +1477,32 @@
     },
     {
         "name": "symfony/polyfill-php55",
-        "version": "v1.11.0",
-        "version_normalized": "1.11.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php55.git",
-            "reference": "96fa25cef405ea452919559a0025d5dc16e30e4c"
+            "reference": "9c769895334a63971244ee25d0ac71660aa07723"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php55/zipball/96fa25cef405ea452919559a0025d5dc16e30e4c",
-            "reference": "96fa25cef405ea452919559a0025d5dc16e30e4c",
+            "url": "https://api.github.com/repos/symfony/polyfill-php55/zipball/9c769895334a63971244ee25d0ac71660aa07723",
+            "reference": "9c769895334a63971244ee25d0ac71660aa07723",
             "shasum": ""
         },
         "require": {
             "ircmaxell/password-compat": "~1.0",
             "php": ">=5.3.3"
         },
-        "time": "2019-02-06T07:57:58+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.11-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -1498,28 +1539,32 @@
     },
     {
         "name": "symfony/polyfill-php56",
-        "version": "v1.11.0",
-        "version_normalized": "1.11.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php56.git",
-            "reference": "f4dddbc5c3471e1b700a147a20ae17cdb72dbe42"
+            "reference": "13df84e91cd168f247c2f2ec82cc0fa24901c011"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/f4dddbc5c3471e1b700a147a20ae17cdb72dbe42",
-            "reference": "f4dddbc5c3471e1b700a147a20ae17cdb72dbe42",
+            "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/13df84e91cd168f247c2f2ec82cc0fa24901c011",
+            "reference": "13df84e91cd168f247c2f2ec82cc0fa24901c011",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3",
             "symfony/polyfill-util": "~1.0"
         },
-        "time": "2019-02-06T07:57:58+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.11-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -1556,27 +1601,31 @@
     },
     {
         "name": "symfony/polyfill-php71",
-        "version": "v1.11.0",
-        "version_normalized": "1.11.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php71.git",
-            "reference": "8fc094a6b4f646b3ecd2400069420ef82f23a93e"
+            "reference": "28b8b32d6905857a82597d9a0b3463a264e9d367"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php71/zipball/8fc094a6b4f646b3ecd2400069420ef82f23a93e",
-            "reference": "8fc094a6b4f646b3ecd2400069420ef82f23a93e",
+            "url": "https://api.github.com/repos/symfony/polyfill-php71/zipball/28b8b32d6905857a82597d9a0b3463a264e9d367",
+            "reference": "28b8b32d6905857a82597d9a0b3463a264e9d367",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2019-02-06T07:57:58+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.11-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -1613,27 +1662,31 @@
     },
     {
         "name": "symfony/polyfill-php73",
-        "version": "v1.11.0",
-        "version_normalized": "1.11.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php73.git",
-            "reference": "d1fb4abcc0c47be136208ad9d68bf59f1ee17abd"
+            "reference": "fffa1a52a023e782cdcc221d781fe1ec8f87fcca"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/d1fb4abcc0c47be136208ad9d68bf59f1ee17abd",
-            "reference": "d1fb4abcc0c47be136208ad9d68bf59f1ee17abd",
+            "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/fffa1a52a023e782cdcc221d781fe1ec8f87fcca",
+            "reference": "fffa1a52a023e782cdcc221d781fe1ec8f87fcca",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2019-02-06T07:57:58+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.11-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -1673,27 +1726,31 @@
     },
     {
         "name": "symfony/polyfill-util",
-        "version": "v1.11.0",
-        "version_normalized": "1.11.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-util.git",
-            "reference": "b46c6cae28a3106735323f00a0c38eccf2328897"
+            "reference": "46b910c71e9828f8ec2aa7a0314de1130d9b295a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/b46c6cae28a3106735323f00a0c38eccf2328897",
-            "reference": "b46c6cae28a3106735323f00a0c38eccf2328897",
+            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/46b910c71e9828f8ec2aa7a0314de1130d9b295a",
+            "reference": "46b910c71e9828f8ec2aa7a0314de1130d9b295a",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2019-02-08T14:16:39+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.11-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -1727,8 +1784,8 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v2.8.50",
-        "version_normalized": "2.8.50.0",
+        "version": "v2.8.52",
+        "version_normalized": "2.8.52.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
@@ -1779,23 +1836,23 @@
     },
     {
         "name": "typo3/phar-stream-wrapper",
-        "version": "v2.1.2",
-        "version_normalized": "2.1.2.0",
+        "version": "v2.2.0",
+        "version_normalized": "2.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-            "reference": "057622f5a3b92a5ffbea0fbaadce573500a62870"
+            "reference": "5e6269b8a54c5fe82322692f26f10dcd5e4532a1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/057622f5a3b92a5ffbea0fbaadce573500a62870",
-            "reference": "057622f5a3b92a5ffbea0fbaadce573500a62870",
+            "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/5e6269b8a54c5fe82322692f26f10dcd5e4532a1",
+            "reference": "5e6269b8a54c5fe82322692f26f10dcd5e4532a1",
             "shasum": ""
         },
         "require": {
-            "brumann/polyfill-unserialize": "^1.0",
+            "brumann/polyfill-unserialize": "^1.0 || ^2.0",
             "ext-json": "*",
-            "php": "^5.3.3|^7.0"
+            "php": "^5.3.3 || ^7.0"
         },
         "require-dev": {
             "ext-xdebug": "*",
@@ -1804,7 +1861,7 @@
         "suggest": {
             "ext-fileinfo": "For PHP builtin file type guessing, otherwise uses internal processing"
         },
-        "time": "2019-05-14T13:14:31+00:00",
+        "time": "2020-07-27T09:17:38+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {

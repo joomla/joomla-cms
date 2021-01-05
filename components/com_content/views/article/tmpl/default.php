@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
-$images  = json_decode($this->item->images);
 $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = JFactory::getUser();
@@ -22,6 +21,10 @@ $info    = $params->get('info_block_position', 0);
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (JLanguageAssociations::isEnabled() && $params->get('show_associations'));
 JHtml::_('behavior.caption');
+
+$currentDate       = JFactory::getDate()->format('Y-m-d H:i:s');
+$isNotPublishedYet = $this->item->publish_up > $currentDate;
+$isExpired         = $this->item->publish_down < $currentDate && $this->item->publish_down !== JFactory::getDbo()->getNullDate();
 
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
@@ -47,20 +50,18 @@ JHtml::_('behavior.caption');
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
-	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
+	<?php if ($params->get('show_title')) : ?>
 	<div class="page-header">
-		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="headline">
-				<?php echo $this->escape($this->item->title); ?>
-			</h2>
-		<?php endif; ?>
+		<h2 itemprop="headline">
+			<?php echo $this->escape($this->item->title); ?>
+		</h2>
 		<?php if ($this->item->state == 0) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
-		<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
+		<?php if ($isNotPublishedYet) : ?>
 			<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
-		<?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate()) : ?>
+		<?php if ($isExpired) : ?>
 			<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
@@ -144,21 +145,14 @@ JHtml::_('behavior.caption');
 	<?php $link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
 	<p class="readmore">
 		<a href="<?php echo $link; ?>" class="register">
-		<?php $attribs = json_decode($this->item->attribs); ?>
-		<?php
-		if ($attribs->alternative_readmore == null) :
-			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-		elseif ($readmore = $attribs->alternative_readmore) :
-			echo $readmore;
-			if ($params->get('show_readmore_title', 0) != 0) :
-				echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
-			endif;
-		elseif ($params->get('show_readmore_title', 0) == 0) :
-			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
-		else :
-			echo JText::_('COM_CONTENT_READ_MORE');
-			echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
-		endif; ?>
+			<?php if ($params->get('alternative_readmore', '') === '') : ?>
+				<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
+			<?php else : ?>
+				<?php echo $params->get('alternative_readmore'); ?>
+				<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
+					<?php echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
+				<?php endif; ?>
+			<?php endif; ?>
 		</a>
 	</p>
 	<?php endif; ?>

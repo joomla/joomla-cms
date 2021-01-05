@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -376,6 +376,18 @@ class Update extends \JObject
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
+						// MySQL and MariaDB use the same database driver but not the same version numbers
+						if ($dbType === 'mysql')
+						{
+							// Check whether we have a MariaDB version string and extract the proper version from it
+							if (stripos($dbVersion, 'mariadb') !== false)
+							{
+								// MariaDB: Strip off any leading '5.5.5-', if present
+								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+								$dbType    = 'mariadb';
+							}
+						}
+
 						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
@@ -477,14 +489,14 @@ class Update extends \JObject
 	/**
 	 * Loads an XML file from a URL.
 	 *
-	 * @param   string  $url                The URL.
-	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see Updater}
+	 * @param   string  $url               The URL.
+	 * @param   int     $minimumStability  The minimum stability required for updating the extension {@see Updater}
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public function loadFromXml($url, $minimum_stability = Updater::STABILITY_STABLE)
+	public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE)
 	{
 		$version    = new Version;
 		$httpOption = new Registry;
@@ -508,7 +520,7 @@ class Update extends \JObject
 			return false;
 		}
 
-		$this->minimum_stability = $minimum_stability;
+		$this->minimum_stability = $minimumStability;
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -191,7 +191,7 @@ if ($saveOrder)
 										<?php
 										$ParentCatUrl = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
 										$CurrentCatUrl = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
-										$EditCatTxt = JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY');
+										$EditCatTxt = JText::_('COM_CONTENT_EDIT_CATEGORY');
 
 										echo JText::_('JCATEGORY') . ': ';
 

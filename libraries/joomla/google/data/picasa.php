@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -106,7 +106,7 @@ class JGoogleDataPicasa extends JGoogleData
 			$xml->addChild('gphoto:access', $access);
 			$xml->addChild('gphoto:timestamp', $time);
 			$media = $xml->addChild('media:group', '', 'http://search.yahoo.com/mrss/');
-			$media->addChild('media:keywords', implode($keywords, ', '));
+			$media->addChild('media:keywords', implode(', ', $keywords));
 			$cat = $xml->addChild('category', '');
 			$cat->addAttribute('scheme', 'http://schemas.google.com/g/2005#kind');
 			$cat->addAttribute('term', 'http://schemas.google.com/photos/2007#album');

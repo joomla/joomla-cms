@@ -3,7 +3,7 @@
 	<name>mod_tags_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -29,6 +29,7 @@
 					description="MOD_TAGS_POPULAR_PARENT_TAG_DESC"
 					multiple="true"
 					filter="int_array"
+					mode="nested"
 				/>
 
 				<field
@@ -49,6 +50,7 @@
 					label="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_DESC"
 					default="alltime"
+					validate="options"
 					>
 					<option value="alltime">MOD_TAGS_POPULAR_FIELD_ALL_TIME</option>
 					<option value="hour">MOD_TAGS_POPULAR_FIELD_LAST_HOUR</option>
@@ -64,6 +66,7 @@
 					label="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_DESC"
 					default="count"
+					validate="options"
 					>
 					<option value="title">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_TITLE</option>
 					<option value="count">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_COUNT</option>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ class InstallerControllerInstall extends JControllerLegacy
 
 		if (!$redirect_url)
 		{
-			$redirect_url = base64_decode($app->input->get('return'));
+			$redirect_url = base64_decode($app->input->get('return', null, 'BASE64'));
 		}
 
 		// Don't redirect to an external URL.
@@ -74,6 +74,9 @@ class InstallerControllerInstall extends JControllerLegacy
 	 */
 	public function ajax_upload()
 	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$app = JFactory::getApplication();
 		$message = $app->getUserState('com_installer.message');
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -206,9 +206,9 @@ class ContentModelForm extends ContentModelArticle
 	{
 		$params = $this->getState()->get('params');
 
-		if ($params && $params->get('enable_category') == 1)
+		if ($params && $params->get('enable_category') == 1 && $params->get('catid'))
 		{
-			$form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
+			$form->setFieldAttribute('catid', 'default', $params->get('catid'));
 			$form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 

@@ -476,7 +476,7 @@ class PharStreamWrapper
     {
         $arguments = func_get_args();
         array_shift($arguments);
-        $silentExecution = $functionName{0} === '@';
+        $silentExecution = $functionName[0] === '@';
         $functionName = ltrim($functionName, '@');
         $this->restoreInternalSteamWrapper();
 

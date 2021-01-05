@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,6 +102,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	public function install()
 	{
 		$this->checkToken('get');
+		JFactory::getApplication()->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -273,6 +274,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			$url = 'index.php?option=com_joomlaupdate';
 			$this->setRedirect($url, $e->getMessage(), 'error');
+
+			return;
 		}
 
 		$token = JSession::getFormToken();

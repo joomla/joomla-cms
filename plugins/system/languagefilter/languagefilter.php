@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -287,7 +287,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$path = $uri->getPath();
 			$parts = explode('/', $path);
 
-			$sef = $parts[0];
+			$sef = StringHelper::strtolower($parts[0]);
 
 			// Do we have a URL Language Code ?
 			if (!isset($this->sefs[$sef]))
@@ -489,7 +489,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($language->getTag() !== $lang_code)
 		{
-			$language_new = JLanguage::getInstance($lang_code);
+			$language_new = JLanguage::getInstance($lang_code, (bool) $this->app->get('debug_lang'));
 
 			foreach ($language->getPaths() as $extension => $files)
 			{
@@ -684,7 +684,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 						{
 							$associationItemid = $associations[$lang_code];
-							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
+							$this->app->setUserState('users.login.form.return', $this->processLoginReturnUrl($associationItemid));
 							$foundAssociation = true;
 						}
 					}
@@ -696,7 +696,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						 * We redirect to the user preferred site language associated page.
 						 */
 						$associationItemid = $associations[$lang_code];
-						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
+						$this->app->setUserState('users.login.form.return', $this->processLoginReturnUrl($associationItemid));
 						$foundAssociation = true;
 					}
 					elseif ($active->home)
@@ -706,7 +706,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($item && $item->language !== $active->language && $item->language !== '*')
 						{
-							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
+							$this->app->setUserState('users.login.form.return', $this->processLoginReturnUrl($item->id)));
 							$foundAssociation = true;
 						}
 					}
@@ -732,6 +732,28 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Process login return URL and make sure it contains Itemid.
+	 *
+	 * @param   int  $fallbackItemid  Default menu item id if there is no Itemid in the url.
+	 *
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function processLoginReturnUrl($fallbackItemid)
+	{
+		$redirect = $this->app->getUserState('users.login.form.return');
+		$uri = new JUri($redirect);
+
+		if (JUri::isInternal($redirect))
+		{
+			$uri->setVar('Itemid', $fallbackItemid);
+		}
+
+		return $uri->toString();
 	}
 
 	/**
@@ -775,8 +797,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// Load component associations.
 			$option = $this->app->input->get('option');
-			$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+			$cName = ucfirst(substr($option, 4)) . 'HelperAssociation';
+			JLoader::register($cName, JPath::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
 
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 			{
@@ -784,7 +806,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			}
 
 			// For each language...
-			foreach ($languages as $i => &$language)
+			foreach ($languages as $i => $language)
 			{
 				switch (true)
 				{
@@ -833,7 +855,7 @@ class PlgSystemLanguageFilter extends JPlugin
 									= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
 				}
 
-				foreach ($languages as $i => &$language)
+				foreach ($languages as $i => $language)
 				{
 					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
 				}

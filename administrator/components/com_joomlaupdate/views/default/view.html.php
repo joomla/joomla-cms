@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,8 +63,8 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->loadHelper('select');
 
 		// Assign view variables.
-		$ftp           = $model->getFTPOptions();
-		$defaultMethod = $ftp['enabled'] ? 'hybrid' : 'direct';
+		$this->ftp     = $model->getFTPOptions();
+		$defaultMethod = $this->ftp['enabled'] ? 'hybrid' : 'direct';
 
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);

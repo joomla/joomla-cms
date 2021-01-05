@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ class PluginsHelper
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @return  string    The HTML code for the select tag
+	 * @return  array    The HTML code for the select tag
 	 */
 	public static function publishedOptions()
 	{

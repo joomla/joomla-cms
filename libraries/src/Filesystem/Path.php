@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,13 +145,13 @@ class Path
 		for ($i = 0; $i < 3; $i++)
 		{
 			// Read
-			$parsed_mode .= ($mode{$i} & 04) ? 'r' : '-';
+			$parsed_mode .= ($mode[$i] & 04) ? 'r' : '-';
 
 			// Write
-			$parsed_mode .= ($mode{$i} & 02) ? 'w' : '-';
+			$parsed_mode .= ($mode[$i] & 02) ? 'w' : '-';
 
 			// Execute
-			$parsed_mode .= ($mode{$i} & 01) ? 'x' : '-';
+			$parsed_mode .= ($mode[$i] & 01) ? 'x' : '-';
 		}
 
 		return $parsed_mode;

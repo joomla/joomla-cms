@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,14 +21,14 @@ class PrivacyModelRequest extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	protected function cleanCache($group = 'com_privacy', $client_id = 1)
+	protected function cleanCache($group = 'com_privacy', $clientId = 1)
 	{
 		parent::cleanCache('com_privacy', 1);
 	}
@@ -262,7 +262,7 @@ class PrivacyModelRequest extends JModelAdmin
 			$db->getQuery(true)
 				->select('id')
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($table->email) . ')'),
 			0,
 			1
 		)->loadResult();

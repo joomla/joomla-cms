@@ -23,6 +23,21 @@
 		</field>
 
 		<field
+			name="minimum_stability"
+			type="list"
+			label="COM_JOOMLAUPDATE_MINIMUM_STABILITY_LABEL"
+			description="COM_JOOMLAUPDATE_MINIMUM_STABILITY_DESC"
+			default="4"
+			showon="updatesource:testing[OR]updatesource:custom"
+			>
+			<option value="0">COM_JOOMLAUPDATE_MINIMUM_STABILITY_DEV</option>
+			<option value="1">COM_JOOMLAUPDATE_MINIMUM_STABILITY_ALPHA</option>
+			<option value="2">COM_JOOMLAUPDATE_MINIMUM_STABILITY_BETA</option>
+			<option value="3">COM_JOOMLAUPDATE_MINIMUM_STABILITY_RC</option>
+			<option value="4">COM_JOOMLAUPDATE_MINIMUM_STABILITY_STABLE</option>
+		</field>
+
+		<field
 			name="customurl"
 			type="text"
 			label="COM_JOOMLAUPDATE_CONFIG_CUSTOMURL_LABEL"

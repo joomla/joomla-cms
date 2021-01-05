@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -331,14 +331,11 @@ class FormHelper
 		// Add the new paths to the stack if not already there.
 		foreach ($new as $path)
 		{
+			$path = trim($path);
+
 			if (!in_array($path, $paths))
 			{
-				array_unshift($paths, trim($path));
-			}
-
-			if (!is_dir($path))
-			{
-				array_unshift($paths, trim($path));
+				array_unshift($paths, $path);
 			}
 		}
 

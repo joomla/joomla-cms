@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Utilities Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -205,7 +205,7 @@ final class ArrayHelper
 	 * @return  array  An array with the new column added to the source array
 	 *
 	 * @since   1.5.0
-	 * @see     https://secure.php.net/manual/en/language.types.array.php
+	 * @see     https://www.php.net/manual/en/language.types.array.php
 	 */
 	public static function addColumn(array $array, array $column, $colName, $keyCol = null)
 	{
@@ -265,7 +265,7 @@ final class ArrayHelper
 	 * @return  array  Column of values from the source array
 	 *
 	 * @since   1.5.0
-	 * @see     https://secure.php.net/manual/en/language.types.array.php
+	 * @see     https://www.php.net/manual/en/language.types.array.php
 	 */
 	public static function dropColumn(array $array, $colName)
 	{
@@ -300,8 +300,8 @@ final class ArrayHelper
 	 * @return  array  Column of values from the source array
 	 *
 	 * @since   1.0
-	 * @see     https://secure.php.net/manual/en/language.types.array.php
-	 * @see     https://secure.php.net/manual/en/function.array-column.php
+	 * @see     https://www.php.net/manual/en/language.types.array.php
+	 * @see     https://www.php.net/manual/en/function.array-column.php
 	 */
 	public static function getColumn(array $array, $valueCol, $keyCol = null)
 	{
@@ -674,7 +674,7 @@ final class ArrayHelper
 	 *
 	 * @return  array
 	 *
-	 * @see     https://secure.php.net/manual/en/function.array-unique.php
+	 * @see     https://www.php.net/manual/en/function.array-unique.php
 	 * @since   1.0
 	 */
 	public static function arrayUnique(array $array)
@@ -722,6 +722,7 @@ final class ArrayHelper
 	 * @return  array
 	 *
 	 * @since   1.3.0
+	 * @note    As of 2.0, the result will not include the original array structure
 	 */
 	public static function flatten($array, $separator = '.', $prefix = '')
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,7 +49,7 @@ class JGithubPackageIssuesAssignees extends JGithubPackage
 	 *
 	 * @param   string  $owner     The name of the owner of the GitHub repository.
 	 * @param   string  $repo      The name of the GitHub repository.
-	 * @param   string  $assignee  The assinees login name.
+	 * @param   string  $assignee  The assignees login name.
 	 *
 	 * @throws DomainException|Exception
 	 * @return boolean

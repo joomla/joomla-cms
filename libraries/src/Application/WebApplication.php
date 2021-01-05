@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -182,7 +182,8 @@ class WebApplication extends BaseApplication
 		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
-		'feature-policy',
+		'feature-policy', // @deprecated - see: https://scotthelme.co.uk/goodbye-feature-policy-and-hello-permissions-policy/
+		'permissions-policy',
 	);
 
 	/**
@@ -478,6 +479,7 @@ class WebApplication extends BaseApplication
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
+				$this->setHeader('Vary', 'Accept-Encoding');
 
 				// Header will be removed at 4.0
 				if ($this->get('MetaVersion'))
