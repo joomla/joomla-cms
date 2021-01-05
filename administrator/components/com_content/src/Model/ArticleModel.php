@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
@@ -261,6 +262,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			// Set the new category ID
 			$this->table->catid = $categoryId;
 
+			// We don't want to modify tags - so remove the associated tags helper
+			if ($this->table instanceof TaggableTableInterface)
+			{
+				$this->table->clearTagsHelper();
+			}
+
 			// Check the row.
 			if (!$this->table->check())
 			{
@@ -298,7 +305,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || ($record->state != -2 && !Factory::getApplication()->isClient('api')))
+		if (empty($record->id) || ($record->state != -2))
 		{
 			return false;
 		}
@@ -509,6 +516,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
 				{
 					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'required', 'false');
 					$form->setFieldAttribute('catid', 'filter', 'unset');
 				}
 			}
@@ -670,6 +678,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
+		if (!Factory::getUser()->authorise('core.admin', 'com_content'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
 		return parent::validate($form, $data, $group);
 	}
 
@@ -710,6 +726,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Create new category, if needed.
 		$createCategory = true;
+
+		if (is_null($data['catid']))
+		{
+			// When there is no catid passed don't try to create one
+			$createCategory = false;
+		}
 
 		// If category ID is provided, check if it's valid.
 		if (is_numeric($data['catid']) && $data['catid'])
@@ -1102,14 +1124,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	/**
 	 * Custom clean the cache of com_content and content modules
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_content');
 		parent::cleanCache('mod_articles_archive');
@@ -1171,12 +1193,4 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		return $return;
 	}
-
-	/**
-	 * Load the assigned workflow information by a given category ID
-	 *
-	 * @param   integer  $catId  The given category
-	 *
-	 * @return  integer|boolean  If found, the workflow ID, otherwise false
-	 */
 }

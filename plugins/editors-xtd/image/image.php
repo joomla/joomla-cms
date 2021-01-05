@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.image
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,6 +43,7 @@ class PlgButtonImage extends CMSPlugin
 	public function onDisplay($name, $asset, $author)
 	{
 		$app       = Factory::getApplication();
+		$doc       = $app->getDocument();
 		$user      = Factory::getUser();
 		$extension = $app->input->get('option');
 
@@ -62,7 +63,24 @@ class PlgButtonImage extends CMSPlugin
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
 			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author === $user->id))
 		{
-			$app->getDocument()->getWebAssetManager()->useScript('webcomponent.field-media');
+			$doc->getWebAssetManager()
+				->useScript('webcomponent.image-select')
+				->useScript('webcomponent.field-media')
+				->useStyle('webcomponent.image-select');
+
+			$doc->addScriptOptions('xtdImageModal', [
+				$name . '_ImageModal'
+			]);
+
+			Text::script('JFIELD_MEDIA_LAZY_LABEL');
+			Text::script('JFIELD_MEDIA_ALT_LABEL');
+			Text::script('JFIELD_MEDIA_ALT_CHECK_LABEL');
+			Text::script('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL');
+			Text::script('JFIELD_MEDIA_CLASS_LABEL');
+			Text::script('JFIELD_MEDIA_FIGURE_CLASS_LABEL');
+			Text::script('JFIELD_MEDIA_FIGURE_CAPTION_LABEL');
+			Text::script('JFIELD_MEDIA_LAZY_LABEL');
+			Text::script('JFIELD_MEDIA_SUMMARY_LABEL');
 
 			$link = 'index.php?option=com_media&view=media&tmpl=component&e_name=' . $name . '&asset=' . $asset . '&author=' . $author;
 
@@ -80,7 +98,7 @@ class PlgButtonImage extends CMSPlugin
 				'bodyHeight' => '70',
 				'modalWidth' => '80',
 				'tinyPath'   => $link,
-				'confirmCallback' => 'Joomla.getImage(Joomla.selectedFile, \'' . $name . '\')',
+				'confirmCallback' => 'Joomla.getImage(Joomla.selectedMediaFile, \'' . $name . '\', this)',
 				'confirmText' => Text::_('PLG_IMAGE_BUTTON_INSERT')
 			];
 

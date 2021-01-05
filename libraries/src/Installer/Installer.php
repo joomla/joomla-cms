@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -511,6 +511,20 @@ class Installer extends \JAdapter
 
 		// Run the install
 		$result = $adapter->install();
+
+		// Make sure Joomla can figure out what has changed
+		clearstatcache();
+
+		/**
+		 * Flush the opcache regardless of result to ensure consistency
+		 *
+		 * In some (most?) systems PHP's CLI has a separate opcode cache to the one used by the web server or FPM process,
+		 * which means running opcache_reset() in the CLI won't reset the webserver/fpm opcode cache, and vice versa.
+		 */
+		if (function_exists('opcache_reset'))
+		{
+			\opcache_reset();
+		}
 
 		// Fire the onExtensionAfterInstall
 		Factory::getApplication()->triggerEvent(
@@ -1360,7 +1374,15 @@ class Installer extends \JAdapter
 
 				if (!Folder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					Log::add(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							Text::_('JLIB_INSTALLER_INSTALL'),
+							$newdir
+						),
+						Log::WARNING,
+						'jerror'
+					);
 
 					return false;
 				}
@@ -1476,7 +1498,15 @@ class Installer extends \JAdapter
 
 				if (!Folder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					Log::add(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							Text::_('JLIB_INSTALLER_INSTALL'),
+							$newdir
+						),
+						Log::WARNING,
+						'jerror'
+					);
 
 					return false;
 				}
@@ -1557,7 +1587,15 @@ class Installer extends \JAdapter
 
 				if (!Folder::create($newdir))
 				{
-					Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), Log::WARNING, 'jerror');
+					Log::add(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_CREATE_DIRECTORY',
+							Text::_('JLIB_INSTALLER_INSTALL'),
+							$newdir
+						),
+						Log::WARNING,
+						'jerror'
+					);
 
 					return false;
 				}
@@ -2073,14 +2111,14 @@ class Installer extends \JAdapter
 	/**
 	 * Compares two "files" entries to find deleted files/folders
 	 *
-	 * @param   array  $old_files  An array of \SimpleXMLElement objects that are the old files
-	 * @param   array  $new_files  An array of \SimpleXMLElement objects that are the new files
+	 * @param   array  $oldFiles  An array of \SimpleXMLElement objects that are the old files
+	 * @param   array  $newFiles  An array of \SimpleXMLElement objects that are the new files
 	 *
 	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
 	 * @since   3.1
 	 */
-	public function findDeletedFiles($old_files, $new_files)
+	public function findDeletedFiles($oldFiles, $newFiles)
 	{
 		// The magic find deleted files function!
 		// The files that are new
@@ -2098,7 +2136,7 @@ class Installer extends \JAdapter
 		// A list of folders to delete
 		$folders_deleted = array();
 
-		foreach ($new_files as $file)
+		foreach ($newFiles as $file)
 		{
 			switch ($file->getName())
 			{
@@ -2141,7 +2179,7 @@ class Installer extends \JAdapter
 			}
 		}
 
-		foreach ($old_files as $file)
+		foreach ($oldFiles as $file)
 		{
 			switch ($file->getName())
 			{

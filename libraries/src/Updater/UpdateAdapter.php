@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,17 +135,17 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * from their URL and enabled afterwards. If the URL fetch fails with a PHP fatal error (e.g. timeout) the faulty
 	 * update site will remain disabled the next time we attempt to load the update information.
 	 *
-	 * @param   int   $update_site_id  The numeric ID of the update site to enable/disable
-	 * @param   bool  $enabled         Enable the site when true, disable it when false
+	 * @param   int   $updateSiteId  The numeric ID of the update site to enable/disable
+	 * @param   bool  $enabled       Enable the site when true, disable it when false
 	 *
 	 * @return  void
 	 */
-	protected function toggleUpdateSite($update_site_id, $enabled = true)
+	protected function toggleUpdateSite($updateSiteId, $enabled = true)
 	{
-		$update_site_id = (int) $update_site_id;
+		$updateSiteId = (int) $updateSiteId;
 		$enabled = (bool) $enabled ? 1 : 0;
 
-		if (empty($update_site_id))
+		if (empty($updateSiteId))
 		{
 			return;
 		}
@@ -156,7 +156,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 			->set($db->quoteName('enabled') . ' = :enabled')
 			->where($db->quoteName('update_site_id') . ' = :id')
 			->bind(':enabled', $enabled, ParameterType::INTEGER)
-			->bind(':id', $update_site_id, ParameterType::INTEGER);
+			->bind(':id', $updateSiteId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try

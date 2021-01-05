@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -280,17 +280,17 @@ class UpdateModel extends ListModel
 	/**
 	 * Finds updates for an extension.
 	 *
-	 * @param   int  $eid                Extension identifier to look for
-	 * @param   int  $cache_timeout      Cache timout
-	 * @param   int  $minimum_stability  Minimum stability for updates {@see Updater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
+	 * @param   int  $eid               Extension identifier to look for
+	 * @param   int  $cacheTimeout      Cache timout
+	 * @param   int  $minimumStability  Minimum stability for updates {@see Updater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
 	 *
 	 * @since   1.6
 	 */
-	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = Updater::STABILITY_STABLE)
+	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimumStability = Updater::STABILITY_STABLE)
 	{
-		Updater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
+		Updater::getInstance()->findUpdates($eid, $cacheTimeout, $minimumStability);
 
 		return true;
 	}
@@ -323,6 +323,10 @@ class UpdateModel extends ListModel
 			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 		$db->setQuery($query);
 		$db->execute();
+
+		// Clear the administrator cache
+		$this->cleanCache('_system', 1);
+
 		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
 
 		return true;
@@ -333,14 +337,14 @@ class UpdateModel extends ListModel
 	 *
 	 * Sets the "result" state with the result of the operation.
 	 *
-	 * @param   array  $uids               Array[int] List of updates to apply
-	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see Updater}
+	 * @param   int[]  $uids              List of updates to apply
+	 * @param   int    $minimumStability  The minimum allowed stability for installed updates {@see Updater}
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function update($uids, $minimum_stability = Updater::STABILITY_STABLE)
+	public function update($uids, $minimumStability = Updater::STABILITY_STABLE)
 	{
 		$result = true;
 
@@ -349,7 +353,7 @@ class UpdateModel extends ListModel
 			$update = new Update;
 			$instance = new \Joomla\CMS\Table\Update($this->getDbo());
 			$instance->load($uid);
-			$update->loadFromXml($instance->detailsurl, $minimum_stability);
+			$update->loadFromXml($instance->detailsurl, $minimumStability);
 			$update->set('extra_query', $instance->extra_query);
 
 			$this->preparePreUpdate($update, $instance);
@@ -440,6 +444,13 @@ class UpdateModel extends ListModel
 
 		// Unpack the downloaded package file
 		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
+
+		if (empty($package))
+		{
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file), 'error');
+
+			return false;
+		}
 
 		// Get an installer instance
 		$installer = Installer::getInstance();

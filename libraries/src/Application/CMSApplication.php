@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -216,6 +216,38 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
+	 * Ensure several core system input variables are not arrays.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9
+	 */
+	private function sanityCheckSystemVariables()
+	{
+		$input = $this->input;
+
+		// Get invalid input variables
+		$invalidInputVariables = array_filter(
+			array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
+			function ($systemVariable) use ($input) {
+				return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+			}
+		);
+
+		// Unset invalid system variables
+		foreach ($invalidInputVariables as $systemVariable)
+		{
+			$input->set($systemVariable, null);
+		}
+
+		// Abort when there are invalid variables
+		if ($invalidInputVariables)
+		{
+			throw new \RuntimeException('Invalid input, aborting application.');
+		}
+	}
+
+	/**
 	 * Execute the application.
 	 *
 	 * @return  void
@@ -226,6 +258,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	{
 		try
 		{
+			$this->sanityCheckSystemVariables();
 			$this->setupLogging();
 			$this->createExtensionNamespaceMap();
 
@@ -263,7 +296,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			// Trigger the onError event.
 			$this->triggerEvent('onError', $event);
 
-			ExceptionHandler::render($event->getError());
+			ExceptionHandler::handleException($event->getError());
 		}
 
 		// Send the application response.
@@ -1128,7 +1161,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		/** @var Session $session */
 		$session = $this->getSession();
 
-		return $session->getFormToken();
+		return $session->getFormToken($forceNew);
 	}
 
 	/**
@@ -1320,7 +1353,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function setupLogging(): void
 	{

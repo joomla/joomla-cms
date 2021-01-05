@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,12 +32,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
 					<table class="table">
-						<caption id="captionTable" class="sr-only">
+						<caption class="sr-only">
 							<?php echo Text::_('COM_INSTALLER_UPDATESITES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -88,7 +88,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo HTMLHelper::_('updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
 									<?php endif; ?>
 								</td>
-								<td scope="row">
+								<th scope="row">
 									<?php if ($item->checked_out) : ?>
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'updatesites.', $canCheckin); ?>
 									<?php endif; ?>
@@ -107,7 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<span class="small break-word">
 										<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
 									</span>
-									<br />
+									<br>
 									<span class="small break-word">
 										<?php if ($item->downloadKey['valid']) : ?>
 										<span class="badge badge-info">
@@ -125,7 +125,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</span>
 										<?php endif; ?>
 									</span>
-								</td>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<span tabindex="0">
 										<?php echo $item->name; ?>

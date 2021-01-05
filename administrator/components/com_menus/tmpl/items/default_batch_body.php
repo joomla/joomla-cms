@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -17,8 +17,8 @@ $options = [
 	HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
 	HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 ];
-$published = $this->state->get('filter.published');
-$clientId  = $this->state->get('filter.client_id');
+$published = (int) $this->state->get('filter.published');
+$clientId  = (int) $this->state->get('filter.client_id');
 $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype');
 
 if ($clientId == 1)
@@ -26,6 +26,7 @@ if ($clientId == 1)
 	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 	$wa = $this->document->getWebAssetManager();
 	$wa->useScript('com_menus.batch-body');
+	$wa->useScript('joomla.batch-copymove');
 }
 ?>
 <div class="container">

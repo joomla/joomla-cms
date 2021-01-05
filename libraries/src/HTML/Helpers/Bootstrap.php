@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -354,7 +354,7 @@ abstract class Bootstrap
 		$opt['title']       = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
 		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
-		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
+		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 		$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
 		$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
 		$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -210,6 +210,9 @@ class ActionlogsHelper
 
 		foreach ($messageData as $key => $value)
 		{
+			// Escape any markup in the values to prevent XSS attacks
+			$value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+
 			// Convert relative url to absolute url so that it is clickable in action logs notification email
 			if ($generateLinks && StringHelper::strpos($value, 'index.php?') === 0)
 			{
@@ -336,6 +339,9 @@ class ActionlogsHelper
 			$lang->load($extension, JPATH_ADMINISTRATOR)
 			|| $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
 		}
+
+		// Load plg_system_actionlogs too
+		$lang->load('plg_system_actionlogs', JPATH_ADMINISTRATOR);
 
 		// Load com_privacy too.
 		$lang->load('com_privacy', JPATH_ADMINISTRATOR);

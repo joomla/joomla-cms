@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Subfields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -185,15 +185,8 @@ class PlgFieldsSubfields extends FieldsPlugin
 			// For each row, iterate over all the subfields
 			foreach ($this->getSubfieldsFromField($field) as $subfield)
 			{
-				// Just to be sure, unset this subfields value (and rawvalue)
-				$subfield->rawvalue = $subfield->value = '';
-
-				// If we have data for this field in the current row
-				if (isset($row[$subfield->name]) && $row[$subfield->name])
-				{
-					// Take over the data into our virtual subfield
-					$subfield->rawvalue = $subfield->value = $row[$subfield->name];
-				}
+				// Fill value (and rawvalue) if we have data for this subfield in the current row, otherwise set them to empty
+				$subfield->rawvalue = $subfield->value = isset($row[$subfield->name]) ? $row[$subfield->name] : '';
 
 				// Do we want to render the value of this field, and is the value non-empty?
 				if ($subfield->value !== '' && $subfield->render_values == '1')
@@ -252,21 +245,21 @@ class PlgFieldsSubfields extends FieldsPlugin
 	}
 
 	/**
-	 * Returns a DOMElement which is the child of $orig_parent and represents
+	 * Returns a DOMElement which is the child of $parent and represents
 	 * the form XML definition for this field.
 	 *
-	 * @param   \stdClass   $field        The field
-	 * @param   DOMElement  $orig_parent  The original parent element
-	 * @param   JForm       $form         The form
+	 * @param   \stdClass   $field   The field
+	 * @param   DOMElement  $parent  The original parent element
+	 * @param   JForm       $form    The form
 	 *
 	 * @return  \DOMElement
 	 *
 	 * @since 4.0.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $orig_parent, Form $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
 		// Call the onCustomFieldsPrepareDom method on FieldsPlugin
-		$parent_field = parent::onCustomFieldsPrepareDom($field, $orig_parent, $form);
+		$parent_field = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
 		if (!$parent_field)
 		{

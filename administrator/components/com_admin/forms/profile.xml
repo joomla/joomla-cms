@@ -24,6 +24,9 @@
 			name="password"
 			type="password"
 			label="JGLOBAL_PASSWORD"
+			description="JFIELD_PASSWORD_RULES_MINIMUM_REQUIREMENTS"
+			hiddenDescription="true"
+			rules="true"
 			autocomplete="new-password"
 			class="validate-password-strength"
 			filter="raw"
@@ -90,6 +93,11 @@
 			filter="unset"
 		/>
 
+		<!-- Used to get the two factor authentication configuration -->
+		<field
+			name="twofactor"
+			type="hidden"
+		/>
 	</fieldset>
 
 	<fields name="params">

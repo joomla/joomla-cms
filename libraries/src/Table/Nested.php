@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1469,22 +1469,22 @@ class Nested extends Table
 	/**
 	 * Method to update order of table rows
 	 *
-	 * @param   array  $idArray    id numbers of rows to be reordered.
-	 * @param   array  $lft_array  lft values of rows to be reordered.
+	 * @param   array  $idArray   id numbers of rows to be reordered.
+	 * @param   array  $lftArray  lft values of rows to be reordered.
 	 *
 	 * @return  integer  1 + value of root rgt on success, false on failure.
 	 *
 	 * @since   1.7.0
 	 * @throws  \Exception on database error.
 	 */
-	public function saveorder($idArray = null, $lft_array = null)
+	public function saveorder($idArray = null, $lftArray = null)
 	{
 		try
 		{
 			$query = $this->_db->getQuery(true);
 
 			// Validate arguments
-			if (\is_array($idArray) && \is_array($lft_array) && \count($idArray) == \count($lft_array))
+			if (\is_array($idArray) && \is_array($lftArray) && \count($idArray) == \count($lftArray))
 			{
 				for ($i = 0, $count = \count($idArray); $i < $count; $i++)
 				{
@@ -1492,7 +1492,7 @@ class Nested extends Table
 					$query->clear()
 						->update($this->_tbl)
 						->where($this->_tbl_key . ' = ' . (int) $idArray[$i])
-						->set('lft = ' . (int) $lft_array[$i]);
+						->set('lft = ' . (int) $lftArray[$i]);
 
 					$this->_db->setQuery($query)->execute();
 

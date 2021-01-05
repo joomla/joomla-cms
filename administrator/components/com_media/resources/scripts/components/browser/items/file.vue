@@ -6,21 +6,17 @@
     <div class="media-browser-item-preview">
       <div class="file-background">
         <div class="file-icon">
-          <span class="fas fa-file-alt" />
+          <span class="icon-file-alt" />
         </div>
       </div>
     </div>
     <div class="media-browser-item-info">
       {{ item.name }} {{ item.filetype }}
     </div>
-    <a
-      href="#"
+    <span
       class="media-browser-select"
       :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
       :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
-      @click.stop="toggleSelect()"
-      @focus="focused(true)"
-      @blur="focused(false)"
     />
     <div
       class="media-browser-actions"
@@ -41,7 +37,7 @@
         @keyup.up="openLastActions()"
       >
         <span
-          class="image-browser-action fas fa-ellipsis-h"
+          class="image-browser-action icon-ellipsis-h"
           aria-hidden="true"
           @click.stop="openActions()"
         />
@@ -64,7 +60,7 @@
               @keyup.down="$refs.actionRename.focus()"
             >
               <span
-                class="image-browser-action fas fa-download"
+                class="image-browser-action icon-download"
                 aria-hidden="true"
                 @click.stop="download()"
               />
@@ -86,7 +82,7 @@
               @keyup.down="$refs.actionUrl.focus()"
             >
               <span
-                class="image-browser-action fas fa-text-width"
+                class="image-browser-action icon-text-width"
                 aria-hidden="true"
                 @click.stop="openRenameModal()"
               />
@@ -108,7 +104,7 @@
               @keyup.down="$refs.actionDelete.focus()"
             >
               <span
-                class="image-browser-action fas fa-link"
+                class="image-browser-action icon-link"
                 aria-hidden="true"
                 @click.stop="openShareUrlModal()"
               />
@@ -130,7 +126,7 @@
               @keyup.down="$refs.actionDownload.focus()"
             >
               <span
-                class="image-browser-action fas fa-trash"
+                class="image-browser-action icon-trash"
                 aria-hidden="true"
                 @click.stop="openConfirmDeleteModal()"
               />
@@ -169,10 +165,6 @@ export default {
     openRenameModal() {
       this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(types.SHOW_RENAME_MODAL);
-    },
-    /* Toggle the item selection */
-    toggleSelect() {
-      this.$store.dispatch('toggleBrowserItemSelect', this.item);
     },
     /* Open modal for share url */
     openShareUrlModal() {

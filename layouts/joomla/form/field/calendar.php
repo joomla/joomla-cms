@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -134,7 +134,7 @@ $document->getWebAssetManager()
 				<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 				<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
 				title="<?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
-			><span class="fas fa-calendar" aria-hidden="true"></span>
+			><span class="icon-calendar" aria-hidden="true"></span>
 			<span class="sr-only"><?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?></span>
 			</button>
 		</span>

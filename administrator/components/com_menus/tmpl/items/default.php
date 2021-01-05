@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (!empty($this->items)) : ?>
 					<table class="table" id="itemList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="sr-only">
 							<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -59,7 +59,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							</td>
 							<?php if ($menuType) : ?>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
 							<?php endif; ?>
 							<th scope="col" class="w-1 text-center">
@@ -154,7 +154,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+											<span class="icon-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" class="hidden" name="order[]" size="5"
@@ -178,23 +178,27 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<span class="small">
-									<?php if ($item->type != 'url') : ?>
-										<?php if (empty($item->note)) : ?>
-											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-										<?php else : ?>
-											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
-										<?php endif; ?>
-									<?php elseif ($item->type == 'url' && $item->note) : ?>
-										<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-									<?php endif; ?>
-									</span>
 									<?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
+									<div>
+										<?php echo $prefix; ?>
+										<span class="small">
+										<?php if ($item->type != 'url') : ?>
+											<?php if (empty($item->note)) : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+											<?php else : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+											<?php endif; ?>
+										<?php elseif ($item->type == 'url' && $item->note) : ?>
+											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+										<?php endif; ?>
+										</span>
+									</div>
 									<div title="<?php echo $this->escape($item->path); ?>">
 										<?php echo $prefix; ?>
 										<span class="small"
 											  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
-											<?php echo $this->escape($item->item_type); ?></span>
+											<?php echo $this->escape($item->item_type); ?>
+										</span>
 									</div>
 									<?php if ($item->type === 'component' && !$item->enabled) : ?>
 										<div>
@@ -211,7 +215,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<td class="text-center d-none d-md-table-cell">
 										<?php if ($item->type == 'component') : ?>
 											<?php if ($item->language == '*' || $item->home == '0') : ?>
-												<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected, 'cb', null, 'fa-home', 'fa-circle'); ?>
+												<?php echo HTMLHelper::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange && !$item->protected, 'cb', null, 'icon-home', 'icon-circle'); ?>
 											<?php elseif ($canChange) : ?>
 												<a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
 													<?php if ($item->language_image) : ?>
