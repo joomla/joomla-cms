@@ -118,17 +118,22 @@ if (!empty($editor))
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
-							<span class="small">
+							<?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
+							<div>
+								<?php echo $prefix; ?>
+								<span class="small">
 								<?php if (empty($item->note)) : ?>
 									<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								<?php else : ?>
 									<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 								<?php endif; ?>
-							</span>
+								</span>
+							</div>
 							<div title="<?php echo $this->escape($item->path); ?>">
 								<?php echo $prefix; ?>
 								<span class="small" title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
-									<?php echo $this->escape($item->item_type); ?></span>
+									<?php echo $this->escape($item->item_type); ?>
+								</span>
 							</div>
 							<?php if ($item->type === 'component' && !$item->enabled) : ?>
 								<div>
