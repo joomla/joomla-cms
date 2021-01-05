@@ -684,7 +684,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 						{
 							$associationItemid = $associations[$lang_code];
-							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
+							$this->app->setUserState('users.login.form.return', $this->processLoginReturnUrl($associationItemid));
 							$foundAssociation = true;
 						}
 					}
@@ -696,7 +696,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						 * We redirect to the user preferred site language associated page.
 						 */
 						$associationItemid = $associations[$lang_code];
-						$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
+						$this->app->setUserState('users.login.form.return', $this->processLoginReturnUrl($associationItemid));
 						$foundAssociation = true;
 					}
 					elseif ($active->home)
@@ -706,7 +706,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($item && $item->language !== $active->language && $item->language !== '*')
 						{
-							$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $item->id);
+							$this->app->setUserState('users.login.form.return', $this->processLoginReturnUrl($item->id)));
 							$foundAssociation = true;
 						}
 					}
@@ -732,6 +732,28 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Process login return URL and make sure it contains Itemid.
+	 *
+	 * @param   int  $fallbackItemid  Default menu item id if there is no Itemid in the url.
+	 *
+	 * @return string
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function processLoginReturnUrl($fallbackItemid)
+	{
+		$redirect = $this->app->getUserState('users.login.form.return');
+		$uri = new JUri($redirect);
+
+		if (JUri::isInternal($redirect))
+		{
+			$uri->setVar('Itemid', $fallbackItemid);
+		}
+
+		return $uri->toString();
 	}
 
 	/**
