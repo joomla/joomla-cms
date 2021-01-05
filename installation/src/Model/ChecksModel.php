@@ -352,8 +352,6 @@ class ChecksModel extends BaseInstallationModel
 	/**
 	 * Find the ftp filesystem root for a given user/pass pair.
 	 *
-	 * @param   array  $options  Configuration options.
-	 *
 	 * @return  mixed  FTP root for given FTP user, or boolean false if not found.
 	 *
 	 * @since   4.0

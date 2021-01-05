@@ -41,8 +41,6 @@ class ConfigurationModel extends BaseInstallationModel
 	/**
 	 * Method to setup the configuration file
 	 *
-	 * @param   array  $options  The session options
-	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1

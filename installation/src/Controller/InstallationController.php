@@ -259,7 +259,7 @@ class InstallationController extends JSONController
 	 */
 	public function config()
 	{
-		//$this->checkValidToken();
+		$this->checkValidToken();
 
 		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $model */
 		$model = $this->getModel('Configuration');
