@@ -123,39 +123,39 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 						<div class="modal-body">
 							<ul class="list-unstyled">
 								<li id="progressdbcheck">
-									<i class="fa fa-spinner fa-spin text-white"></i>
+									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_DBCHECK'); ?>
 								</li>
 								<li id="progresscreate">
-									<i class="fa fa-spinner fa-spin text-white"></i>
+									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_CREATE'); ?>
 								</li>
 								<li id="progresspopulate1">
-									<i class="fa fa-spinner fa-spin text-white"></i>
+									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE1'); ?>
 								</li>
 								<li id="progresspopulate2">
-									<i class="fa fa-spinner fa-spin text-white"></i>
+									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE2'); ?>
 								</li>
 								<li id="progresspopulate3">
-									<i class="fa fa-spinner fa-spin text-white"></i>
+									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE3'); ?>
 								</li>
 								<?php if (is_file('sql/mysql/localise.sql')) : ?>
 									<li id="progresscustom1">
-										<i class="fa fa-spinner fa-spin text-white"></i>
+										<span class="fa fa-spinner fa-spin text-white"></span>
 										<?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM1'); ?>
 									</li>
 								<?php endif; ?>
 								<?php if (is_file('sql/mysql/custom.sql')) : ?>
 									<li id="progresscustom2">
-										<i class="fa fa-spinner fa-spin text-white"></i>
+										<span class="fa fa-spinner fa-spin text-white"></span>
 										<?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM2'); ?>
 									</li>
 								<?php endif; ?>
 								<li id="progressconfig">
-									<i class="fa fa-spinner fa-spin text-white"></i>
+									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_CONFIG'); ?>
 								</li>
 							</ul>
