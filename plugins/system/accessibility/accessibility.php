@@ -52,6 +52,13 @@ class PlgSystemAccessibility extends CMSPlugin
 			return;
 		}
 
+		// Are we in a modal?
+		$input   = Factory::getApplication()->input;
+		if ($input->get('tmpl', '', 'cmd') === 'component')
+		{
+			return;
+		}
+
 		// Load language file.
 		$this->loadLanguage();
 
