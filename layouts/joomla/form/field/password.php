@@ -42,6 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   boolean  $lock            Is this field locked.
  */
 
 if ($meter)
@@ -67,6 +68,36 @@ if ($meter)
 JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
+if ($lock)
+{
+	// Load script on document load.
+	JFactory::getDocument()->addScriptDeclaration(
+			"
+		jQuery(document).ready(function() {
+			jQuery('#" . $id ."_lock').on('click', function() {
+				var lockButton = jQuery(this);
+				var passwordInput = jQuery('#" . $id . "');
+				var lock = lockButton.hasClass('active');
+
+				if (lock === true) {
+					lockButton.html('" . JText::_('JMODIFY', true) . "');
+					passwordInput.attr('disabled', true);
+					passwordInput.val('');
+				}
+				else
+				{
+					lockButton.html('" . JText::_('JCANCEL', true) . "');
+					passwordInput.attr('disabled', false);
+				}
+			});
+		});"
+	);
+
+	$disabled = true;
+	$hint = str_repeat('*', strlen($value));
+	$value = '';
+}
+
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',
@@ -80,8 +111,17 @@ $attributes = array(
 );
 
 ?>
-<input type="password" name="<?php
-echo $name; ?>" id="<?php
-echo $id; ?>" value="<?php
-echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php
-echo implode(' ', $attributes); ?> />
+<?php if ($lock): ?>
+    <span class="input-append">
+<?php endif; ?>
+<input
+    type="password"
+    name="<?php echo $name; ?>"
+    id="<?php echo $id; ?>"
+    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+    <?php echo implode(' ', $attributes); ?>
+/>
+<?php if ($lock): ?>
+    <button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info" data-toggle="button"><?php echo JText::_('JMODIFY'); ?></button>
+    </span>
+<?php endif; ?>
