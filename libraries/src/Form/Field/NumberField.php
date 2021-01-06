@@ -34,20 +34,20 @@ class NumberField extends FormField
 	protected $type = 'Number';
 
 	/**
-	 * The allowable minimum value of the field.
-	 *
-	 * @var    float
-	 * @since  3.2
-	 */
-	protected $min = null;
-
-	/**
 	 * The allowable maximum value of the field.
 	 *
 	 * @var    float
 	 * @since  3.2
 	 */
 	protected $max = null;
+
+	/**
+	 * The allowable minimum value of the field.
+	 *
+	 * @var    float
+	 * @since  3.2
+	 */
+	protected $min = null;
 
 	/**
 	 * The step by which value of the field increased or decreased.
@@ -94,8 +94,8 @@ class NumberField extends FormField
 	{
 		switch ($name)
 		{
-			case 'min':
 			case 'max':
+			case 'min':
 			case 'step':
 			case 'addonBefore':
 			case 'addonAfter':
@@ -119,8 +119,8 @@ class NumberField extends FormField
 	{
 		switch ($name)
 		{
-			case 'min':
 			case 'max':
+			case 'min':
 			case 'step':
 				$this->$name = (float) $value;
 				break;
