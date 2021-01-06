@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -43,6 +45,8 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
+ * @var   string   $addonBefore     The text to use in a bootstrap input group prepend
+ * @var   string   $addonAfter      The text to use in a bootstrap input group append
  */
 
 $attributes = array(
@@ -70,11 +74,31 @@ else
 	$value = '';
 	$value = ($required && isset($min)) ? $min : $value;
 }
+
+$addonBeforeHtml = '<span class="input-group-prepend"><span class="input-group-text">' . Text::_($addonBefore) . '</span></span>';
+$addonAfterHtml  = '<span class="input-group-append"><span class="input-group-text">' . Text::_($addonAfter) . '</span></span>';
 ?>
-<input
-	type="number"
-	inputmode="numeric"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+
+<?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>
+<div class="input-group">
+<?php endif; ?>
+
+	<?php if (!empty($addonBefore)) : ?>
+		<?php echo $addonBeforeHtml; ?>
+	<?php endif; ?>
+
+	<input
+		type="number"
+		inputmode="numeric"
+		name="<?php echo $name; ?>"
+		id="<?php echo $id; ?>"
+		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+		<?php echo implode(' ', $attributes); ?>>
+
+	<?php if (!empty($addonAfter)) : ?>
+		<?php echo $addonAfterHtml; ?>
+	<?php endif; ?>
+
+<?php if (!empty($addonBefore) || !empty($addonAfter)) : ?>
+</div>
+<?php endif; ?>
