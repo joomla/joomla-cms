@@ -34,20 +34,20 @@ class NumberField extends FormField
 	protected $type = 'Number';
 
 	/**
-	 * The allowable maximum value of the field.
-	 *
-	 * @var    float
-	 * @since  3.2
-	 */
-	protected $max = null;
-
-	/**
 	 * The allowable minimum value of the field.
 	 *
 	 * @var    float
 	 * @since  3.2
 	 */
 	protected $min = null;
+
+	/**
+	 * The allowable maximum value of the field.
+	 *
+	 * @var    float
+	 * @since  3.2
+	 */
+	protected $max = null;
 
 	/**
 	 * The step by which value of the field increased or decreased.
@@ -78,8 +78,8 @@ class NumberField extends FormField
 	{
 		switch ($name)
 		{
-			case 'max':
 			case 'min':
+			case 'max':
 			case 'step':
 				return $this->$name;
 		}
@@ -101,9 +101,9 @@ class NumberField extends FormField
 	{
 		switch ($name)
 		{
-			case 'step':
 			case 'min':
 			case 'max':
+			case 'step':
 				$this->$name = (float) $value;
 				break;
 
@@ -133,8 +133,8 @@ class NumberField extends FormField
 		if ($return)
 		{
 			// It is better not to force any default limits if none is specified
-			$this->max  = isset($this->element['max']) ? (float) $this->element['max'] : null;
 			$this->min  = isset($this->element['min']) ? (float) $this->element['min'] : null;
+			$this->max  = isset($this->element['max']) ? (float) $this->element['max'] : null;
 			$this->step = isset($this->element['step']) ? (float) $this->element['step'] : 1;
 		}
 
@@ -202,8 +202,8 @@ class NumberField extends FormField
 
 		// Initialize some field attributes.
 		$extraData = array(
-			'max'   => $this->max,
 			'min'   => $this->min,
+			'max'   => $this->max,
 			'step'  => $this->step,
 			'value' => $this->value,
 		);
