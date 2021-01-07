@@ -59,6 +59,32 @@
 					filter="integer"
 					showon="public:1"
 				/>
+				<field
+					name="lastrun"
+					type="hidden"
+					default="0"
+					size="15"
+				/>
+				<field
+					name="unit"
+					type="list"
+					label="PLG_WEBSERVICES_MODULES_UNIT_LABEL"
+					default="86400"
+					filter="integer"
+					showon="public:1"
+				>
+					<option value="60">PLG_WEBSERVICES_MODULES_MINUTE</option>
+					<option value="3600">PLG_WEBSERVICES_MODULES_HOUR</option>
+					<option value="86400">JDAY</option>
+				</field>
+				<field
+					name="timeout"
+					type="number"
+					label="PLG_WEBSERVICES_MODULES_TIMEOUT_LABEL"
+					default="1"
+					filter="integer"
+					showon="public:1"
+				/>
 			</fieldset>
 		</fields>
 	</config>
