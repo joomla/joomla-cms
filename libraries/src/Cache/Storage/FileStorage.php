@@ -513,7 +513,7 @@ class FileStorage extends CacheStorage
 
 		if ($pos === false || $pos > 0)
 		{
-			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -569,7 +569,7 @@ class FileStorage extends CacheStorage
 			return true;
 		}
 
-		Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
+		Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', __METHOD__, $path), Log::WARNING, 'jerror');
 
 		return false;
 	}
@@ -624,7 +624,7 @@ class FileStorage extends CacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -714,7 +714,7 @@ class FileStorage extends CacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', __METHOD__, $path), Log::WARNING, 'jerror');
 
 			return false;
 		}

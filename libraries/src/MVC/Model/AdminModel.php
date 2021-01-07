@@ -106,7 +106,7 @@ abstract class AdminModel extends FormModel
 	 * The event to trigger before batch.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $event_before_batch = null;
 

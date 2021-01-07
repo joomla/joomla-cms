@@ -1135,6 +1135,18 @@ abstract class FormField
 			{
 				$subForm = $this->loadSubForm();
 
+				// Subform field may have a default value, that is a JSON string
+				if ($value && is_string($value))
+				{
+					$value = json_decode($value, true);
+
+					// The string is invalid json
+					if (!$value)
+					{
+						return null;
+					}
+				}
+
 				if ($this->multiple)
 				{
 					$return = array();
