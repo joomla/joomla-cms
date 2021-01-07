@@ -17,6 +17,7 @@ use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
 use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
+use Joomla\CMS\Console\RateLimitResetCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -176,6 +177,15 @@ class Console implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new FinderIndexCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			RateLimitResetCommand::class,
+			function (Container $container)
+			{
+				return new RateLimitResetCommand($container->get('db'));
 			},
 			true
 		);
