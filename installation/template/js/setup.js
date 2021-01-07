@@ -72,10 +72,15 @@ Joomla.checkInputs = function() {
 
 
 Joomla.checkDbCredentials = function() {
+  const progress = document.getElementById('progressbar');
   document.body.appendChild(document.createElement('joomla-core-loader'));
   var form = document.getElementById('adminForm'),
-    data = Joomla.serialiseForm(form);
-  jQuery('#installationProgress').modal();
+    data = Joomla.serialiseForm(form), modalel = document.getElementById('installationProgress');
+  const installationProgress = new bootstrap.Modal(modalel, {'keyboard': false});
+  installationProgress.show();
+  modalel.setAttribute('role', 'region');
+  modalel.setAttribute('aria-live', 'polite');
+
   document.querySelector('#progressdbcheck span').classList.remove('text-white');
 
   Joomla.request({
@@ -111,7 +116,10 @@ Joomla.checkDbCredentials = function() {
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
         // TODO: Convert to promises
+        document.getElementById('progressdbcheck').removeAttribute('aria-hidden');
         document.querySelector('#progressdbcheck span').classList.value = 'fa fa-check-circle text-success';
+        progress.setAttribute('aria-valuenow', parseInt(progress.getAttribute('aria-valuenow')) + 1);
+        progress.style.width = (100 / progress.getAttribute('aria-valuemax') * progress.getAttribute('aria-valuenow')) + '%';
         Joomla.install(['create', 'populate1', 'populate2', 'populate3', 'custom1', 'custom2', 'config'], form);
       }
     },
@@ -204,5 +212,4 @@ Joomla.checkDbCredentials = function() {
       Joomla.checkInputs();
     })
   }
-
 })();

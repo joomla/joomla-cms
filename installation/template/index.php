@@ -55,6 +55,18 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 // Load strings for translated messages (directory removal)
 Text::script('INSTL_REMOVE_INST_FOLDER');
 Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
+
+$steps = 6;
+
+if (is_file('sql/mysql/localise.sql'))
+{
+	$steps++;
+}
+
+if (is_file('sql/mysql/custom.sql'))
+{
+	$steps++;
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -114,47 +126,50 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 					</div>
 				</div>
 			</div>
-			<div id="installationProgress" class="modal" tabindex="-1" role="dialog" style="z-index:10050;">
+			<div id="installationProgress" class="modal" tabindex="-1" style="z-index:10050;">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title"><?php echo Text::_('INSTL_PROGRESS_MODAL'); ?></h5>
+							<h2 class="modal-title h5"><?php echo Text::_('INSTL_PROGRESS_MODAL'); ?></h2>
 						</div>
 						<div class="modal-body">
+							<div class="progress">
+								<div class="progress-bar" role="progressbar" id="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="<?php echo $steps; ?>"></div>
+							</div>
 							<ul class="list-unstyled">
-								<li id="progressdbcheck">
+								<li id="progressdbcheck" aria-hidden="true">
 									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_DBCHECK'); ?>
 								</li>
-								<li id="progresscreate">
+								<li id="progresscreate" aria-hidden="true">
 									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_CREATE'); ?>
 								</li>
-								<li id="progresspopulate1">
+								<li id="progresspopulate1" aria-hidden="true">
 									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE1'); ?>
 								</li>
-								<li id="progresspopulate2">
+								<li id="progresspopulate2" aria-hidden="true">
 									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE2'); ?>
 								</li>
-								<li id="progresspopulate3">
+								<li id="progresspopulate3" aria-hidden="true">
 									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE3'); ?>
 								</li>
 								<?php if (is_file('sql/mysql/localise.sql')) : ?>
-									<li id="progresscustom1">
+									<li id="progresscustom1" aria-hidden="true">
 										<span class="fa fa-spinner fa-spin text-white"></span>
 										<?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM1'); ?>
 									</li>
 								<?php endif; ?>
 								<?php if (is_file('sql/mysql/custom.sql')) : ?>
-									<li id="progresscustom2">
+									<li id="progresscustom2" aria-hidden="true">
 										<span class="fa fa-spinner fa-spin text-white"></span>
 										<?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM2'); ?>
 									</li>
 								<?php endif; ?>
-								<li id="progressconfig">
+								<li id="progressconfig" aria-hidden="true">
 									<span class="fa fa-spinner fa-spin text-white"></span>
 									<?php echo Text::_('INSTL_PROGRESS_STEP_CONFIG'); ?>
 								</li>
