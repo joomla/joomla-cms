@@ -79,7 +79,6 @@ Joomla.checkDbCredentials = function() {
   const installationProgress = new bootstrap.Modal(modalel, {'keyboard': false});
   installationProgress.show();
   modalel.setAttribute('role', 'region');
-  modalel.setAttribute('aria-live', 'polite');
 
   document.querySelector('#progressdbcheck span').classList.remove('text-white');
 

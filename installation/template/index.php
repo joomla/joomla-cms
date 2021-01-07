@@ -126,7 +126,7 @@ if (is_file('sql/mysql/custom.sql'))
 					</div>
 				</div>
 			</div>
-			<div id="installationProgress" class="modal" tabindex="-1" style="z-index:10050;">
+			<div id="installationProgress" class="modal" tabindex="-1" aria-live="polite" role="region" style="z-index:10050;">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
