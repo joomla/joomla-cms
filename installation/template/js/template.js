@@ -196,6 +196,7 @@
           response = JSON.parse(response);
         } catch (e) {
           spinnerElement.parentNode.removeChild(spinnerElement);
+          Joomla.Modal.getCurrent().close();
           console.error('Error in ' + task + ' Endpoint');
           console.error(response);
           Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
@@ -208,6 +209,7 @@
         if (response.error === true)
         {
           spinnerElement.parentNode.removeChild(spinnerElement);
+          Joomla.Modal.getCurrent().close();
           Joomla.renderMessages({"error": [response.message]});
           return false;
         }
@@ -227,6 +229,7 @@
         Joomla.install(tasks, form);
       },
       onError: function(xhr){
+        Joomla.Modal.getCurrent().close();
         Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
         Joomla.goToPage('remove');
 

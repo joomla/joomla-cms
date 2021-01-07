@@ -77,6 +77,7 @@ Joomla.checkDbCredentials = function() {
   var form = document.getElementById('adminForm'),
     data = Joomla.serialiseForm(form), modalel = document.getElementById('installationProgress');
   const installationProgress = new bootstrap.Modal(modalel, {'keyboard': false});
+  Joomla.Modal.setCurrent(installationProgress);
   installationProgress.show();
   modalel.setAttribute('role', 'region');
 
@@ -110,7 +111,7 @@ Joomla.checkDbCredentials = function() {
       loaderElement.parentNode.removeChild(loaderElement);
 
       if (response.error) {
-        document.querySelector('#progressdbcheck span').classList.value = 'fa fa-times-circle text-error';
+        Joomla.Modal.getCurrent().close();
         Joomla.renderMessages({'error': [response.message]});
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
@@ -123,6 +124,7 @@ Joomla.checkDbCredentials = function() {
       }
     },
     onError:   function(xhr){
+      Joomla.Modal.getCurrent().close();
       Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
       //Install.goToPage('summary');
       var loaderElement = document.querySelector('joomla-core-loader');
