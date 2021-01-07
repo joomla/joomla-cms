@@ -44,7 +44,7 @@ class Backgroundfill extends ImageFilter
 		$colorCode = $options['color'] ?? null;
 
 		// Get resource dimensions
-		$width = imagesx($this->handle);
+		$width  = imagesx($this->handle);
 		$height = imagesy($this->handle);
 
 		// Sanitize color
@@ -100,8 +100,8 @@ class Backgroundfill extends ImageFilter
 			$colors = array_merge($colors, $input);
 		}
 		elseif (\is_string($input))
-		// Convert RGBA 6-9 char string
 		{
+			// Convert RGBA 6-9 char string
 			$hex = ltrim($input, '#');
 
 			$hexValues = [
@@ -120,8 +120,8 @@ class Backgroundfill extends ImageFilter
 			}
 		}
 		else
-		// Cannot sanitize such type
 		{
+			// Cannot sanitize such type
 			return $colors;
 		}
 
