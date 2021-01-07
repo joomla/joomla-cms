@@ -11,13 +11,12 @@ namespace Joomla\Component\Content\Api\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Exception\AuthenticationFailed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\CMS\Router\Exception\RateLimitException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-
+use Joomla\CMS\Access\Exception\AuthenticationFailed;
+use Joomla\CMS\Router\Exception\RateLimitException;
 /**
  * The article controller
  *
@@ -52,8 +51,15 @@ class ArticlesController extends ApiController
 	{
 		if ((int) $this->input->get('isPublicApi', 0) === 1)
 		{
-			$option = 'content.webservices.ratelimit';
-			$ratelimit = (int) $this->input->get($option);
+			$option    = 'content.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get('content.webservices.ratelimit');
+			$limit     = (int) $this->input->get('content.webservices.x-limit');
+			$remaining = (int) $this->input->get('content.webservices.x-remaining');
+			$reset     = $this->input->get('content.webservices.x-reset','string');
+			$xreset    = gmdate('D, d M Y H:i:s \G\M\T', $reset);
+			$this->app->setHeader('X-RateLimit-Limit', $limit);
+			$this->app->setHeader('X-RateLimit-Remaining', $remaining);
+			$this->app->setHeader('X-RateLimit-Reset', $xreset);
 
 			if ($ratelimit > 0)
 			{
