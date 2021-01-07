@@ -23,6 +23,7 @@ use Joomla\CMS\Console\FinderIndexCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\CMS\Console\Loader\WritableLoaderInterface;
+use Joomla\CMS\Console\RateLimitResetCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
@@ -159,6 +160,7 @@ class Application implements ServiceProviderInterface
 						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
 						UpdateCoreCommand::getDefaultName()         => UpdateCoreCommand::class,
 						FinderIndexCommand::getDefaultName()        => FinderIndexCommand::class,
+						RateLimitResetCommand::getDefaultName()     => RateLimitResetCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);
