@@ -242,7 +242,7 @@ class Indexer
 	 * @return  integer  The ID of the record in the links table.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \Exception on database error.
 	 */
 	public function index($item, $format = 'html')
 	{

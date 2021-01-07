@@ -48,10 +48,13 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
+ * @var   boolean  $lock            Is this field locked.
  */
 
+$document = Factory::getApplication()->getDocument();
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa = $document->getWebAssetManager();
 
 if ($meter)
 {
@@ -71,6 +74,39 @@ Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
+
+// TODO: Remove this jQuery dependency and move the lock functionality to the password view script
+\Joomla\CMS\HTML\HTMLHelper::_('jquery.framework');
+
+if ($lock)
+{
+	// Load script on document load.
+	$document->addScriptDeclaration(
+			"
+		jQuery(document).ready(function() {
+			jQuery('#" . $id ."_lock').on('click', function() {
+				var lockButton = jQuery(this);
+				var passwordInput = jQuery('#" . $id . "');
+				var lock = lockButton.hasClass('active');
+
+				if (lock === true) {
+					lockButton.html('" . Text::_('JMODIFY', true) . "');
+					passwordInput.attr('disabled', true);
+					passwordInput.val('');
+				}
+				else
+				{
+					lockButton.html('" . Text::_('JCANCEL', true) . "');
+					passwordInput.attr('disabled', false);
+				}
+			});
+		});"
+	);
+
+	$disabled = true;
+	$hint = str_repeat('*', strlen($value));
+	$value = '';
+}
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -122,6 +158,7 @@ if ($rules && !empty($description))
 	}
 }
 ?>
+<<<<<<< HEAD
 <?php if (!empty($description)) : ?>
 	<div id="<?php echo $name . '-desc'; ?>" class="small text-muted">
 		<?php if ($rules) : ?>
@@ -148,3 +185,19 @@ if ($rules && !empty($description))
 		</span>
 	</div>
 </div>
+=======
+<?php if ($lock): ?>
+    <span class="input-append">
+<?php endif; ?>
+<input
+    type="password"
+    name="<?php echo $name; ?>"
+    id="<?php echo $id; ?>"
+    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+    <?php echo implode(' ', $attributes); ?>
+/>
+<?php if ($lock): ?>
+    <button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info" data-toggle="button"><?php echo JText::_('JMODIFY'); ?></button>
+    </span>
+<?php endif; ?>
+>>>>>>> 3.10-dev
