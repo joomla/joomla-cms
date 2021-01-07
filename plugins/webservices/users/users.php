@@ -74,16 +74,25 @@ class PlgWebservicesUsers extends CMSPlugin
 	{
 		parent::__construct($subject, $config);
 
+		$endpoint           = $this->_name . '.' . $this->_type . '.';
 		$this->allowedVerbs = $this->params->get('restverbs', []);
 		$this->allowPublic  = $this->params->get('public', false);
 		$this->limit        = $this->params->get('limit', 0);
 		$this->taskid       = (int) $this->params->get('taskid', 0);
+		$lastrun            = $this->params->get('lastrun', 0);
+		$timeout            = $this->params->get('timeout', 1);
+		$unit               = $this->params->get('unit', 86400);
+		$timeout            = ($unit * $timeout);
+		$xreset             = $lastrun + $timeout;
 
 		if ($this->taskid > $this->limit)
 		{
-			$endpoint = $this->_name . '.' . $this->_type . '.ratelimit';
-			$this->app->input->set($endpoint, $this->limit, 'int');
+			$this->app->input->set($endpoint . 'ratelimit', $this->limit, 'int');
 		}
+
+		$this->app->input->set($endpoint . 'x-limit', $this->limit, 'int');
+		$this->app->input->set($endpoint . 'x-remaining', $this->limit - $this->taskid, 'int');
+		$this->app->input->set($endpoint . 'x-reset', $xreset, 'string');
 	}
 
 	/**
