@@ -145,7 +145,7 @@ class HtmlView extends BaseHtmlView
 		if (!empty($this->stages))
 		{
 			$extension = Factory::getApplication()->input->getCmd('extension');
-			$workflow  = new Workflow(['extension' => $extension]);
+			$workflow  = new Workflow($extension);
 		}
 
 		$this->addToolbar();

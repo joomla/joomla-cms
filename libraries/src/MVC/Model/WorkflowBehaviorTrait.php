@@ -77,7 +77,7 @@ trait WorkflowBehaviorTrait
 			$this->section = array_shift($parts);
 		}
 
-		$this->workflow = new Workflow(['extension' => $extension]);
+		$this->workflow = new Workflow($extension);
 
 		$params = ComponentHelper::getParams($this->extension);
 
