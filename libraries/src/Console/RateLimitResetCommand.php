@@ -90,10 +90,9 @@ class RateLimitResetCommand extends AbstractCommand
 		{
 			$nextrun    = ' the next reset will be as soon as possible';
 			$taskParams = json_decode($webservice->params, true);
-	
+
 			if ((!array_key_exists('public', $taskParams)) || ($taskParams['public'] === false))
 			{
-			
 				continue;
 			}
 
@@ -209,7 +208,7 @@ EOF
 		$registry->set('taskid', 0);
 		$registry->set('lastrun', time());
 		$jsonparam = $registry->toString('JSON');
-		
+
 		$query  = $this->db->getQuery(true);
 		$query->update($this->db->quoteName('#__extensions'))
 			->set($this->db->quoteName('params') . ' = :params')
