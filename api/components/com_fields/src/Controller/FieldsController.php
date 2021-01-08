@@ -101,6 +101,7 @@ class FieldsController extends ApiController
 			$this->app->setHeader('X-RateLimit-Limit', $limit);
 			$this->app->setHeader('X-RateLimit-Remaining', $remaining);
 			$this->app->setHeader('X-RateLimit-Reset', $xreset);
+
 			if ($ratelimit > 0)
 			{
 				throw new RateLimitException;
