@@ -138,8 +138,15 @@ class ArticlesController extends ApiController
 	{
 		if ((int) $this->input->get('isPublicApi', 0) === 1)
 		{
-			$option = 'content.webservices.ratelimit';
-			$ratelimit = (int) $this->input->get($option);
+			$option    = 'content.webservices.ratelimit';
+			$ratelimit = (int) $this->input->get('content.webservices.ratelimit');
+			$limit     = (int) $this->input->get('content.webservices.x-limit');
+			$remaining = (int) $this->input->get('content.webservices.x-remaining');
+			$reset     = $this->input->get('content.webservices.x-reset', 'string');
+			$xreset    = gmdate('D, d M Y H:i:s \G\M\T', $reset);
+			$this->app->setHeader('X-RateLimit-Limit', $limit);
+			$this->app->setHeader('X-RateLimit-Remaining', $remaining);
+			$this->app->setHeader('X-RateLimit-Reset', $xreset);
 
 			if ($ratelimit > 0)
 			{
