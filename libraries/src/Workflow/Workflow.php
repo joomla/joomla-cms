@@ -44,14 +44,6 @@ class Workflow
 	protected $extension = null;
 
 	/**
-	 * Workflow options
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $options = [];
-
-	/**
 	 * Application Object
 	 *
 	 * @var    CMSApplication
@@ -102,30 +94,15 @@ class Workflow
 	/**
 	 * Class constructor
 	 *
-	 * @param   array            $options  Array of options
-	 * @param   ?CMSApplication  $app      Application Object
-	 * @param   ?DatabaseDriver  $db       Database Driver Object
+	 * @param   string           $extension  The extension name
+	 * @param   ?CMSApplication  $app        Application Object
+	 * @param   ?DatabaseDriver  $db         Database Driver Object
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(array $options, ?CMSApplication $app = null, ?DatabaseDriver $db = null)
+	public function __construct(string $extension, ?CMSApplication $app = null, ?DatabaseDriver $db = null)
 	{
-		// Required options
-		if (!array_key_exists('extension', $options))
-		{
-			throw new \InvalidArgumentException('Missing argument \'extension\' for Workflow');
-		}
-
-		$this->extension = $options['extension'];
-
-		// Default some optional options
-		$defaultOptions = [
-			'access'     => true,
-			'published'  => true,
-			'countItems' => false,
-		];
-
-		$this->setOptions(array_merge($defaultOptions, $this->options));
+		$this->extension = $extension;
 
 		// Initialise default objects if none have been provided
 		$this->app = $app ?: Factory::getApplication();
@@ -586,32 +563,5 @@ class Workflow
 			->bind(':extension', $this->extension);
 
 		return $this->db->setQuery($query)->loadObject();
-	}
-
-	/**
-	 * Allows to set some optional options, eg. if the access level should be considered.
-	 *
-	 * @param   array  $options  The new options
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function setOptions(array $options): void
-	{
-		if (isset($options['access']))
-		{
-			$this->options['access'] = (bool) $options['access'];
-		}
-
-		if (isset($options['published']))
-		{
-			$this->options['published'] = (bool) $options['published'];
-		}
-
-		if (isset($options['countItems']))
-		{
-			$this->options['countItems'] = (bool) $options['countItems'];
-		}
 	}
 }
