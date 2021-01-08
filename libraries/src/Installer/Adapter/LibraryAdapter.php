@@ -118,13 +118,23 @@ class LibraryAdapter extends InstallerAdapter
 			if (!is_dir($destFolder) && !@mkdir($destFolder))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					)
+				);
 			}
 
 			if (!$this->parent->copyFiles(array($manifest), true))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					)
+				);
 			}
 
 			// If there is a manifest script, let's copy it.

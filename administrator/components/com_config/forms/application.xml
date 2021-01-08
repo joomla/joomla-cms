@@ -150,6 +150,8 @@
 			showon="cache_handler:redis"
 			autocomplete="off"
 			size="30"
+			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -190,6 +192,18 @@
 			required="true"
 			filter="string"
 			size="30"
+		/>
+
+		<field
+			name="password"
+			type="password"
+			label="COM_CONFIG_FIELD_DATABASE_PASSWORD_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_PASSWORD_DESC"
+			filter="raw"
+			autocomplete="off"
+			size="30"
+			hiddenDescription="true"
+			lock="true"
 		/>
 
 		<field
@@ -314,6 +328,46 @@
 
 	</fieldset>
 
+	<fieldset name="webservices" label="CONFIG_WEBSERVICES_SETTINGS_LABEL">
+		<field
+			name="cors"
+			type="radio"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORSOFFF_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="boolean"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="cors_allow_origin"
+			type="text"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_DESC"
+			default="*"
+			showon="cors:1"
+		/>
+
+		<field
+			name="cors_allow_headers"
+			type="text"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_DESC"
+			default="Content-Type,X-Joomla-Token"
+			showon="cors:1"
+		/>
+
+		<field
+			name="cors_allow_methods"
+			type="text"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_DESC"
+			showon="cors:1"
+		/>
+	</fieldset>
+
 	<fieldset name="ftp" label="CONFIG_FTP_SETTINGS_LABEL">
 
 		<field
@@ -367,6 +421,7 @@
 			showon="ftp_enable:1"
 			autocomplete="off"
 			size="25"
+			lock="true"
 		/>
 
 		<field
@@ -435,6 +490,7 @@
 			showon="proxy_enable:1"
 			autocomplete="off"
 			size="25"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -613,6 +669,7 @@
 			filter="raw"
 			autocomplete="off"
 			size="30"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -898,6 +955,7 @@
 			showon="session_handler:redis"
 			autocomplete="off"
 			size="30"
+			lock="true"
 		/>
 
 		<field

@@ -45,6 +45,14 @@ use PHPMailer\PHPMailer\Exception as phpMailerException;
 class ApplicationModel extends FormModel
 {
 	/**
+	 * Array of protected password fields from the configuration.php
+	 *
+	 * @var    array
+	 * @since  3.9.23
+	 */
+	private $protectedConfigurationFields = array('password', 'secret', 'ftp_pass', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+
+	/**
 	 * Method to get a form object.
 	 *
 	 * @param   array    $data      Data for the form.
@@ -294,12 +302,21 @@ class ApplicationModel extends FormModel
 	{
 		$app = Factory::getApplication();
 
+		// Try to load the values from the configuration file
+		foreach ($this->protectedConfigurationFields as $fieldKey)
+		{
+			if (!isset($data[$fieldKey]))
+			{
+				$data[$fieldKey] = $app->get($fieldKey, '');
+			}
+		}
+
 		// Check that we aren't setting wrong database configuration
 		$options = array(
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => $app->get('password'),
+			'password' => $data['password'],
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix'],
 		);
@@ -712,6 +729,12 @@ class ApplicationModel extends FormModel
 
 		// Create the new configuration object.
 		$config = new Registry($data);
+
+		// Overwrite webservices cors settings
+		$app->set('cors', $data['cors']);
+		$app->set('cors_allow_origin', $data['cors_allow_origin']);
+		$app->set('cors_allow_headers', $data['cors_allow_headers']);
+		$app->set('cors_allow_methods', $data['cors_allow_methods']);
 
 		// Overwrite the old FTP credentials with the new ones.
 		$app->set('ftp_enable', $data['ftp_enable']);
@@ -1217,10 +1240,10 @@ class ApplicationModel extends FormModel
 		$app = Factory::getApplication();
 		$user = Factory::getUser();
 		$input = $app->input->json;
+		$smtppass = $input->get('smtppass', null, 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
-		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
 		$app->set('smtphost', $input->get('smtphost'));
 		$app->set('smtpsecure', $input->get('smtpsecure'));
 		$app->set('smtpport', $input->get('smtpport'));
@@ -1228,6 +1251,12 @@ class ApplicationModel extends FormModel
 		$app->set('fromname', $input->get('fromname', '', 'STRING'));
 		$app->set('mailer', $input->get('mailer'));
 		$app->set('mailonline', $input->get('mailonline'));
+
+		// Use smtppass only if it was submitted
+		if ($smtppass !== null)
+		{
+			$app->set('smtppass', $smtppass);
+		}
 
 		$mail = Factory::getMailer();
 

@@ -189,11 +189,10 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= '<!--[if ' . $conditional . ']>';
 		}
 
-		// Avoid double rel="", StyleSheet can have only rel="stylesheet"
-		unset($attribs['rel']);
+		$relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
 
 		// Render the element with attributes
-		$buffer .= '<link href="' . htmlspecialchars($src) . '" rel="stylesheet"';
+		$buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
 		$buffer .= $this->renderAttributes($attribs);
 		$buffer .= ' />';
 

@@ -146,10 +146,14 @@
         headerMoreItem.appendChild(headerItemContent);
         headerMoreItem.appendChild(headerMoreMenu);
         headerWrapper.appendChild(headerMoreItem);
-
-        headerMoreBtn.addEventListener('click', () => {
+        headerMoreBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
           headerMoreItem.classList.toggle('active');
         });
+        window.onclick = () => {
+          headerMoreItem.classList.remove('active');
+        };
+
         headerItemsWidth += headerMoreItem.offsetWidth;
       }
 

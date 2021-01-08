@@ -22,7 +22,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="table-responsive">
 			<table class="table">
-				<caption id="captionTable" class="sr-only">
+				<caption class="sr-only">
 					<?php echo Text::_('COM_USERS_DEBUG_GROUP_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>

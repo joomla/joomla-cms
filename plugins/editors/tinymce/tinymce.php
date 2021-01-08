@@ -595,6 +595,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'content_css'        => $content_css,
 				'document_base_url'  => Uri::root(true) . '/',
 				'paste_data_images'  => $allowImgPaste,
+				'image_caption'      => true,
 				'importcss_append'   => true,
 				'height'             => $html_height,
 				'width'              => $html_width,
@@ -987,6 +988,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'template'       => array('label' => 'Insert template', 'plugin' => 'template'),
 			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
 			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
+			'help'           => array('label' => 'Help', 'plugin' => 'help'),
 			// 'spellchecker'   => array('label' => 'Spellcheck', 'plugin' => 'spellchecker'),
 		];
 
@@ -1016,7 +1018,7 @@ class PlgEditorTinymce extends CMSPlugin
 		];
 
 		$preset['medium'] = array(
-			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
+			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools', 'help'),
 			'toolbar1' => array(
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
@@ -1033,7 +1035,7 @@ class PlgEditorTinymce extends CMSPlugin
 		);
 
 		$preset['advanced'] = array(
-			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
+			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools', 'help'),
 			'toolbar1' => array(
 				'bold', 'italic', 'underline', 'strikethrough', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',

@@ -33,7 +33,7 @@ if ($module->showtitle) :
 	$headerAttribs['id']             = 'mod-' . $module->id;
 
 	if ($headerClass !== 'card-title') :
-		$headerAttribs['class'] .= 'card-header ' . $headerClass;
+		$headerAttribs['class'] = 'card-header ' . $headerClass;
 	endif;
 else:
 	$moduleAttribs['aria-label'] = $module->title;
