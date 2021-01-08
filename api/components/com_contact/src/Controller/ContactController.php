@@ -325,7 +325,7 @@ class ContactController extends ApiController
 			$ratelimit = (int) $this->input->get('contact.webservices.ratelimit');
 			$limit     = (int) $this->input->get('contact.webservices.x-limit');
 			$remaining = (int) $this->input->get('contact.webservices.x-remaining');
-			$reset     = $this->input->get('contact.webservices.x-reset','string');
+			$reset     = $this->input->get('contact.webservices.x-reset', 'string');
 			$xreset    = gmdate('D, d M Y H:i:s \G\M\T', $reset);
 			$this->app->setHeader('X-RateLimit-Limit', $limit);
 			$this->app->setHeader('X-RateLimit-Remaining', $remaining);
