@@ -49,12 +49,20 @@ class HistoryController extends ApiController
 	 */
 	public function displayList()
 	{
-		$extension = substr($this->getExtensionFromInput(), 4);
+		$extension = substr($this->getTypeAliasFromInput(), 4);
+		$extension = substr($extension, 0, strpos($extension, '.'));
 
 		if ((int) $this->input->get('isPublicApi', 0) === 1)
 		{
 			$option = $extension . '.webservices.ratelimit';
 			$ratelimit = (int) $this->input->get($option);
+			$limit     = (int) $this->input->get($extension . '.webservices.x-limit');
+			$remaining = (int) $this->input->get($extension . '.webservices.x-remaining');
+			$reset     = $this->input->get($extension . '.webservices.x-reset', 'string');
+			$xreset    = gmdate('D, d M Y H:i:s \G\M\T', $reset);
+			$this->app->setHeader('X-RateLimit-Limit', $limit);
+			$this->app->setHeader('X-RateLimit-Remaining', $remaining);
+			$this->app->setHeader('X-RateLimit-Reset', $xreset);
 
 			if ($ratelimit > 0)
 			{
@@ -146,16 +154,4 @@ class HistoryController extends ApiController
 			$this->input->get('type_alias') : $this->input->post->get('type_alias');
 	}
 
-	/**
-	 * Get extension from input
-	 *
-	 * @return string
-	 *
-	 * @since 4.0
-	 */
-	private function getExtensionFromInput()
-	{
-		return $this->input->exists('extension') ?
-			$this->input->get('extension') : $this->input->post->get('extension');
-	}
 }
