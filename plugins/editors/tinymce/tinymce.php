@@ -499,7 +499,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Check for extra plugins, from the setoptions form
-		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1) as $pName => $def)
+		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'textpattern' => 0) as $pName => $def)
 		{
 			if ($levelParams->get($pName, $def))
 			{
