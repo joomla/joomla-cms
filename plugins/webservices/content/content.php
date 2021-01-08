@@ -255,7 +255,6 @@ class PlgWebservicesContent extends CMSPlugin
 		$db->setQuery($query);
 
 		$params = $db->loadObject();
-		
 		$query  = $db->getQuery(true);
 		$query->update($db->quoteName('#__extensions'));
 
