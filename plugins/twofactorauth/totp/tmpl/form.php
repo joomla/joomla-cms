@@ -19,11 +19,16 @@ $js = "
 {
 	document.addEventListener('DOMContentLoaded', function()
 	{
-		var qr = qrcode(0, 'H');
-		qr.addData('" . $url . "');
-		qr.make();
+	    var totpQrCodeElement = document.getElementById('totp-qrcode');
 
-		document.getElementById('totp-qrcode').innerHTML = qr.createImgTag(4);
+        // There's no QR Code element on the view profile page so ensure we don't get any errors
+        if (totpQrCodeElement) {
+            var qr = qrcode(0, 'H');
+            qr.addData('" . $url . "');
+            qr.make();
+    
+            totpQrCodeElement.innerHTML = qr.createImgTag(4);
+		}
 	});
 })(document);
 ";
