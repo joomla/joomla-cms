@@ -404,6 +404,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'autolink',
 			'lists',
 			'importcss',
+			'quickbars',
 		);
 
 		// Allowed elements
@@ -576,6 +577,11 @@ class PlgEditorTinymce extends CMSPlugin
 				'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
 
 				'plugins'  => implode(',', array_unique($plugins)),
+
+				// Quickbars
+				'quickbars_image_toolbar'     => false,
+				'quickbars_insert_toolbar'    => false,
+				'quickbars_selection_toolbar' => 'bold italic | H2 H3 | link blockquote',
 
 				// Cleanup/Output
 				'inline_styles'    => true,
