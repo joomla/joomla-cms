@@ -120,7 +120,6 @@ class CategoriesController extends ApiController
 			$this->app->setHeader('X-RateLimit-Remaining', $remaining);
 			$this->app->setHeader('X-RateLimit-Reset', $xreset);
 
-
 			if ($ratelimit > 0)
 			{
 				throw new RateLimitException;
