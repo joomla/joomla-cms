@@ -111,14 +111,21 @@ class Workflow
 	public function __construct(array $options, ?CMSApplication $app = null, ?DatabaseDriver $db = null)
 	{
 		// Required options
+		if (!array_key_exists('extension', $options))
+		{
+			throw new \InvalidArgumentException('Missing argument \'extension\' for Workflow');
+		}
+
 		$this->extension = $options['extension'];
 
 		// Default some optional options
-		$this->options['access']     = true;
-		$this->options['published']  = true;
-		$this->options['countItems'] = false;
+		$defaultOptions = [
+			'access'     => true,
+			'published'  => true,
+			'countItems' => false,
+		];
 
-		$this->setOptions($options);
+		$this->setOptions(array_merge($defaultOptions, $this->options));
 
 		// Initialise default objects if none have been provided
 		$this->app = $app ?: Factory::getApplication();
