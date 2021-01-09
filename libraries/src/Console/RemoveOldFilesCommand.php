@@ -11,6 +11,7 @@ namespace Joomla\CMS\Console;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -53,7 +54,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 
 		$symfonyStyle->success('Files removed');
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**
