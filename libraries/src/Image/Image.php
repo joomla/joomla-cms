@@ -315,7 +315,7 @@ class Image
 	}
 
 	/**
-	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or croppping the original image.
+	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
 	 *
 	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping
