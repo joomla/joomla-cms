@@ -468,11 +468,11 @@ class JoomlaInstallerScript
 	 * Delete files that should not exist
 	 *
 	 * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
-	 * @param bool  $supressOutput   Set to true to supress echoing any errors, and just return the $status array
+	 * @param bool  $suppressOutput   Set to true to supress echoing any errors, and just return the $status array
 	 *
 	 * @return  array
 	 */
-	public function deleteUnexistingFiles($dryRun = false, $supressOutput = false)
+	public function deleteUnexistingFiles($dryRun = false, $suppressOutput = false)
 	{
 		$status = [
 			'files_exist'     =>[],
