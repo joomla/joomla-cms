@@ -35,8 +35,8 @@ class RemoveOldFilesCommand extends AbstractCommand
 	/**
 	 * Internal function to execute the command.
 	 *
-	 * @param  InputInterface  $input   The input to inject into the command.
-	 * @param  OutputInterface $output  The output to inject into the command.
+	 * @param   InputInterface  $input   The input to inject into the command.
+	 * @param   OutputInterface $output  The output to inject into the command.
 	 *
 	 * @return  integer  The command exit code
 	 *
@@ -60,6 +60,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 			foreach ($status['files_checked'] as $file)
 			{
 				$exists = in_array($file, array_values($status['files_exist']));
+
 				if ($exists)
 				{
 					$symfonyStyle->writeln('<error>File Checked & Exists</error> - ' . $file, OutputInterface::VERBOSITY_VERY_VERBOSE);
@@ -73,6 +74,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 			foreach ($status['folders_checked'] as $folder)
 			{
 				$exists = in_array($folder, array_values($status['folders_exist']));
+
 				if ($exists)
 				{
 					$symfonyStyle->writeln('<error>Folder Checked & Exists</error> - ' . $folder, OutputInterface::VERBOSITY_VERY_VERBOSE);
@@ -84,38 +86,44 @@ class RemoveOldFilesCommand extends AbstractCommand
 			}
 		}
 
-		if ($dryRun===false)
+		if ($dryRun === false)
 		{
-			foreach ($status['files_deleted'] as $file) {
+			foreach ($status['files_deleted'] as $file)
+			{
 				$symfonyStyle->writeln('<comment>File Deleted = ' . $file . '</comment>', OutputInterface::VERBOSITY_VERBOSE);
 			}
 
-			foreach ($status['files_errors'] as $error) {
+			foreach ($status['files_errors'] as $error)
+			{
 				$symfonyStyle->error($error);
 			}
 
-			foreach ($status['folders_deleted'] as $folder) {
+			foreach ($status['folders_deleted'] as $folder)
+			{
 				$symfonyStyle->writeln('<comment>Folder Deleted = ' . $folder . '</comment>', OutputInterface::VERBOSITY_VERBOSE);
 			}
 
-			foreach ($status['folders_errors'] as $error) {
+			foreach ($status['folders_errors'] as $error)
+			{
 				$symfonyStyle->error($error);
 			}
 		}
 
-		$symfonyStyle->success(sprintf(
-			$dryRun ? '%s Files checked and %s would be deleted' : '%s Files checked and %s deleted',
-			\count($status['files_checked']),
-			($dryRun ? \count($status['files_exist']) : \count($status['files_deleted'])
+		$symfonyStyle->success(
+			sprintf(
+				$dryRun ? '%s Files checked and %s would be deleted' : '%s Files checked and %s deleted',
+				\count($status['files_checked']),
+				($dryRun ? \count($status['files_exist']) : \count($status['files_deleted']))
 			)
-		));
+		);
 
-		$symfonyStyle->success(sprintf(
-			$dryRun ? '%s Folders checked and %s would be deleted' : '%s Folders checked and %s deleted',
-			\count($status['folders_checked']),
-			($dryRun ? \count($status['folders_exist']) : \count($status['folders_deleted'])
+		$symfonyStyle->success(
+			sprintf(
+				$dryRun ? '%s Folders checked and %s would be deleted' : '%s Folders checked and %s deleted',
+				\count($status['folders_checked']),
+				($dryRun ? \count($status['folders_exist']) : \count($status['folders_deleted']))
 			)
-		));
+		);
 
 		return Command::SUCCESS;
 	}

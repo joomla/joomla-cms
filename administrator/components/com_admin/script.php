@@ -475,14 +475,14 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles($dryRun = false, $suppressOutput = false)
 	{
 		$status = [
-			'files_exist'     =>[],
-			'folders_exist'   =>[],
-			'files_deleted'   =>[],
-			'folders_deleted' =>[],
-			'files_errors'    =>[],
-			'folders_errors'  =>[],
-			'folders_checked' =>[],
-			'files_checked'   =>[],
+			'files_exist'     => [],
+			'folders_exist'   => [],
+			'files_deleted'   => [],
+			'folders_deleted' => [],
+			'files_errors'    => [],
+			'folders_errors'  => [],
+			'folders_checked' => [],
+			'files_checked'   => [],
 		];
 
 		$files = array(
@@ -6237,14 +6237,15 @@ class JoomlaInstallerScript
 			{
 				$status['files_exist'][] = $file;
 
-				if ($dryRun === false){
+				if ($dryRun === false)
+				{
 					if (File::delete(JPATH_ROOT . $file))
 					{
 						$status['files_deleted'][] = $file;
 					}
 					else
 					{
-						$status['files_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) ;
+						$status['files_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file);
 					}
 				}
 			}
@@ -6256,7 +6257,8 @@ class JoomlaInstallerScript
 			{
 				$status['folders_exist'][] = $folder;
 
-				if ($dryRun === false){
+				if ($dryRun === false)
+				{
 					// TODO There is an issue while deleting folders using the ftp mode
 					if (Folder::delete(JPATH_ROOT . $folder))
 					{
@@ -6264,7 +6266,7 @@ class JoomlaInstallerScript
 					}
 					else
 					{
-						$status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) ;
+						$status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder);
 					}
 				}
 			}
