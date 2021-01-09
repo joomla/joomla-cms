@@ -459,6 +459,12 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('cachetime', 15);
 		$registry->set('cache_platformprefix', false);
 
+		// Cors settings.
+		$registry->set('caching', 0);
+		$registry->set('cache_handler', 'file');
+		$registry->set('cachetime', 15);
+		$registry->set('cache_platformprefix', false);
+
 		// Meta settings.
 		$registry->set('MetaDesc', '');
 		$registry->set('MetaTitle', true);
