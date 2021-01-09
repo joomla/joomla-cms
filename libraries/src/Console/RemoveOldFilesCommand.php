@@ -72,7 +72,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 
 			foreach ($status['folders_checked'] as $folder)
 			{
-				$exists = in_array($file, array_values($status['folders_exist']));
+				$exists = in_array($folder, array_values($status['folders_exist']));
 				if ($exists)
 				{
 					$symfonyStyle->writeln('<error>Folder Checked & Exists</error> - ' . $folder, OutputInterface::VERBOSITY_VERY_VERBOSE);
