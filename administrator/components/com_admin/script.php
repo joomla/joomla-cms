@@ -6272,12 +6272,12 @@ class JoomlaInstallerScript
 			}
 		}
 
-		if ($supressOutput === false && \count($status['folders_errors']))
+		if ($suppressOutput === false && \count($status['folders_errors']))
 		{
 			echo implode('<br/>', $status['folders_errors']);
 		}
 
-		if ($supressOutput === false && \count($status['files_errors']))
+		if ($suppressOutput === false && \count($status['files_errors']))
 		{
 			echo implode('<br/>', $status['files_errors']);
 		}
