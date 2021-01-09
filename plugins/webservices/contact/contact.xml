@@ -57,6 +57,7 @@
 					label="PLG_WEBSERVICES_CONTACT_LIMIT_LABEL"
 					default="0"
 					filter="integer"
+					showon="public:1"
 				/>
 				<field
 					name="lastrun"
