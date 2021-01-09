@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Utility class for Bootstrap elements.
@@ -26,7 +27,31 @@ abstract class Bootstrap
 	 * @var    array  Array containing information for loaded files
 	 * @since  3.0
 	 */
-	protected static $loaded = array();
+	protected static $loaded = [];
+
+	/**
+	 * @var    array  Array containing the available components
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $scripts = [
+		'alert',
+		'button',
+		'carousel',
+		'collapse',
+		'dropdown',
+		'modal',
+		'popover',
+		'scrollspy',
+		'tab',
+		'toast',
+		'tooltip',
+	];
+
+	/**
+	 * @var    array  Array containing the components loaded
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $loadedScripts = [];
 
 	/**
 	 * Add javascript support for Bootstrap alerts
@@ -34,6 +59,8 @@ abstract class Bootstrap
 	 * @param   string  $selector  Common class for the alerts
 	 *
 	 * @return  void
+	 *
+	 * @throws \Exception
 	 *
 	 * @since   3.0
 	 */
@@ -45,10 +72,43 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		$timestamp = (new \DateTime)->getTimestamp();
 
-		Factory::getDocument()->addScriptOptions('bootstrap.alert', array($selector => ''));
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'alert');
+
+		$selector1 = json_encode('.' . $selector);
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->addInlineScript(
+				<<<JS
+(() => {
+  console.log($selector1)
+  const x = document.querySelectorAll($selector1);
+  console.log(x)
+  if (x) {
+    x.forEach((el) => {
+      new Joomla.Bootstrap.Alert(el);
+    })
+  }
+})();
+JS,
+				[],
+				['type' => 'module']
+			);
+
+		//          ->registerScript(
+		//              'alert.es5.' . $timestamp,
+		//              'data:application/javascript;charset=utf-8;base64,' .
+		//              base64_encode('new Joomla.Bootstrap.Alert(' . json_encode('.' . $selector) . ');'),
+		//              [
+		//                  'dependencies' => [],
+		//                  'attributes'  => ['defer' => '']
+		//              ]
+		//          )
+		//          ->useScript('alert.es6.' . $timestamp);
+		//          ->useScript('alert.es5.' . $timestamp);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -60,6 +120,8 @@ abstract class Bootstrap
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
+	 *
 	 * @since   3.1
 	 */
 	public static function button($selector = 'button')
@@ -70,10 +132,30 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'button');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.button', array($selector));
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->addInlineScript(
+				'new Joomla.Bootstrap.Button(' . json_encode('.' . $selector) . ');',
+				[
+					'dependencies' => [],
+					'attributes'  => ['type' => 'module']
+				]
+			)
+			->registerScript(
+				'button.es5.' . base64_encode(static::$loaded[__METHOD__][$selector]),
+				'data:application/javascript;charset=utf-8;base64,' .
+				base64_encode('new Joomla.Bootstrap.Button(' . json_encode('.' . $selector) . ');'),
+				[
+					'dependencies' => [],
+					'attributes'  => ['defer' => '']
+				]
+			)
+			->useScript('button.es6.' . base64_encode(static::$loaded[__METHOD__][$selector]))
+			->useScript('button.es5.' . base64_encode(static::$loaded[__METHOD__][$selector]));
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -83,17 +165,20 @@ abstract class Bootstrap
 	 *
 	 * @param   string  $selector  Common class for the carousels.
 	 * @param   array   $params    An array of options for the carousel.
-	 *                             Options for the carousel can be:
-	 *                             - interval  number  The amount of time to delay between automatically cycling an item.
-	 *                                                 If false, carousel will not automatically cycle.
-	 *                             - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
-	 *                                                 of the carousel on mouseleave.
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
+	 *
 	 * @since   3.0
+	 *
+	 * Options for the carousel can be:
+	 * - interval  number  The amount of time to delay between automatically cycling an item.
+	 *                     If false, carousel will not automatically cycle.
+	 * - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
+	 *                     of the carousel on mouseleave.
 	 */
-	public static function carousel($selector = 'carousel', $params = array())
+	public static function carousel($selector = 'carousel', $params = [])
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -101,14 +186,36 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
-
 		// Setup options object
 		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
 		$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
 
-		Factory::getDocument()->addScriptOptions('bootstrap.carousel', array($selector => $opt));
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'carousel');
+
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
+		$wa
+			->registerScript(
+				'carousel.es6.' . base64_encode(static::$loaded[__METHOD__][$selector]),
+				'new Joomla.Bootstrap.Button(' . json_encode('.' . $selector) . ');',
+				[
+					'dependencies' => [],
+					'attributes'  => ['type' => 'module']
+				]
+			)
+		//          ->registerScript(
+		//              'carousel.es5.' . base64_encode(static::$loaded[__METHOD__][$selector]),
+		//              'data:application/javascript;charset=utf-8;base64,' . base64_encode('new Joomla.Bootstrap.Button(' . json_encode('.' . $selector) . ');'),
+		//              [
+		//                  'dependencies' => [],
+		//                  'attributes'  => ['defer' => '']
+		//              ]
+		//          )
+			->useScript('carousel.es6.' . base64_encode(static::$loaded[__METHOD__][$selector]));
+
+		//          ->useScript('carousel.es5.' . base64_encode(static::$loaded[__METHOD__][$selector]));
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -139,11 +246,55 @@ abstract class Bootstrap
 	}
 
 	/**
-	 * Method to load the Bootstrap JavaScript framework into the document head
+	 * Method to enqueue a javascript file
 	 *
-	 * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
+	 * @param   string $script The component name
 	 *
-	 * @param   mixed  $debug  Is debugging mode on? [optional]
+	 * @throws \Exception
+	 *
+	 * @return void
+	 */
+	public static function loadScript(string $script)
+	{
+		if (!in_array($script, static::$loadedScripts)
+			&& in_array($script, static::$scripts))
+		{
+			// Tooltip+popover are combined
+			$script = $script === 'tooltip' ? 'popover' : $script;
+
+			Factory::getApplication()
+				->getDocument()
+				->getWebAssetManager()
+				->registerScript(
+					'bootstrap.' . $script . 'ES6',
+					'vendor/bs5/' . $script . '.es6.min.js',
+					[
+						'dependencies' => [],
+						'attributes' => [
+							'type' => 'module'
+						]
+					]
+				)
+			//              ->registerScript(
+			//                  'bootstrap.' . $script . 'ES5',
+			//                  'vendor/bs5/' . $script . '.min.js',
+			//                  [
+			//                      'dependencies' => [],
+			//                      'attributes' => [
+			//                          'defer' => ''
+			//                      ]
+			//                  ]
+			//              )
+				->useScript('bootstrap.' . $script . 'ES6');
+
+			//              ->useScript('bootstrap.' . $script . 'ES5');
+		}
+	}
+
+	/**
+	 * Method is EMPTY!!!
+	 *
+	 * @param   mixed $debug Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
@@ -151,25 +302,11 @@ abstract class Bootstrap
 	 */
 	public static function framework($debug = null)
 	{
-		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-
-		if ($wa->assetExists('script', 'bootstrap.init.legacy') && $wa->isAssetActive('script', 'bootstrap.init.legacy'))
-		{
-			return;
-		}
-
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		$wa
-			->registerScript('bootstrap.init.legacy', 'legacy/bootstrap-init.min.js', ['dependencies' => ['core', 'bootstrap.js.bundle']])
-			->useScript('bootstrap.init.legacy');
-
-		static::$loaded[__METHOD__] = true;
+		Log::add(
+			'Bootstrap is using modular scripts in Joomla 4. Nothing loaded!',
+			Log::WARNING,
+			'deprecated'
+		);
 	}
 
 	/**
@@ -177,24 +314,25 @@ abstract class Bootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
-	 *                             - title        string   The modal title
-	 *                             - backdrop     mixed    A boolean select if a modal-backdrop element should be included (default = true)
-	 *                                                     The string 'static' includes a backdrop which doesn't close the modal on click.
-	 *                             - keyboard     boolean  Closes the modal when escape key is pressed (default = true)
-	 *                             - closeButton  boolean  Display modal close button (default = true)
-	 *                             - animation    boolean  Fade in from the top of the page (default = true)
-	 *                             - footer       string   Optional markup for the modal footer
-	 *                             - url          string   URL of a resource to be inserted as an `<iframe>` inside the modal body
-	 *                             - height       string   height of the `<iframe>` containing the remote resource
-	 *                             - width        string   width of the `<iframe>` containing the remote resource
 	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the URL option is set
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
 	 * @since   3.0
+	 *
+	 * Options ($param) for the modal can be:
+	 * - title        string   The modal title
+	 * - backdrop     mixed    A boolean select if a modal-backdrop element should be included (default = true)
+	 *                         The string 'static' includes a backdrop which doesn't close the modal on click.
+	 * - keyboard     boolean  Closes the modal when escape key is pressed (default = true)
+	 * - closeButton  boolean  Display modal close button (default = true)
+	 * - animation    boolean  Fade in from the top of the page (default = true)
+	 * - footer       string   Optional markup for the modal footer
+	 * - url          string   URL of a resource to be inserted as an `<iframe>` inside the modal body
+	 * - height       string   height of the `<iframe>` containing the remote resource
+	 * - width        string   width of the `<iframe>` containing the remote resource
 	 */
-	public static function renderModal($selector = 'modal', $params = array(), $body = '')
+	public static function renderModal($selector = 'modal', $params = [], $body = '')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -213,7 +351,7 @@ abstract class Bootstrap
 
 		static::$loaded[__METHOD__][$selector] = true;
 
-		return LayoutHelper::render('joomla.modal.main', $layoutData);
+		return LayoutHelper::render('libraries.html.bootstrap.modal.main', $layoutData);
 	}
 
 	/**
@@ -223,28 +361,29 @@ abstract class Bootstrap
 	 *
 	 * @param   string  $selector  Selector for the popover
 	 * @param   array   $params    An array of options for the popover.
-	 *                  Options for the popover can be:
-	 *                      animation    boolean          apply a css fade transition to the popover
-	 *                      container    string|boolean   Appends the popover to a specific element: { container: 'body' }
-	 *                      content      string|function  default content value if `data-content` attribute isn't present
-	 *                      delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
-	 *                                                    If a number is supplied, delay is applied to both hide/show
-	 *                                                    Object structure is: delay: { show: 500, hide: 100 }
-	 *                      html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
-	 *                                                    content into the dom.
-	 *                      placement    string|function  how to position the popover - top | bottom | left | right
-	 *                      selector     string           If a selector is provided, popover objects will be delegated to the specified targets.
-	 *                      template     string           Base HTML to use when creating the popover.
-	 *                      title        string|function  default title value if `title` tag isn't present
-	 *                      trigger      string           how popover is triggered - hover | focus | manual
-	 *                      constraints  array            An array of constraints - passed through to Popper.
-	 *                      offset       string           Offset of the popover relative to its target.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * - Options($params)  for the popover can be:
+	 * - animation    boolean          apply a css fade transition to the popover
+	 * - container    string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 * - content      string|function  default content value if `data-content` attribute isn't present
+	 * - delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
+	 *                                 If a number is supplied, delay is applied to both hide/show
+	 *                                 Object structure is: delay: { show: 500, hide: 100 }
+	 * - html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
+	 *                                 content into the dom.
+	 * - placement    string|function  how to position the popover - top | bottom | left | right
+	 * - selector     string           If a selector is provided, popover objects will be delegated to the specified targets.
+	 * - template     string           Base HTML to use when creating the popover.
+	 * - title        string|function  default title value if `title` tag isn't present
+	 * - trigger      string           how popover is triggered - hover | focus | manual
+	 * - constraints  array            An array of constraints - passed through to Popper.
+	 * - offset       string           Offset of the popover relative to its target.
 	 */
-	public static function popover($selector = '.hasPopover', $params = array())
+	public static function popover($selector = '.hasPopover', $params = [])
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -280,14 +419,15 @@ abstract class Bootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the ScrollSpy element.
 	 * @param   array   $params    An array of options for the ScrollSpy.
-	 *                             Options for the ScrollSpy can be:
-	 *                             - offset  number  Pixels to offset from top when calculating position of scroll.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * Options ($param) for the ScrollSpy can be:
+	 * - offset  number  Pixels to offset from top when calculating position of scroll.
 	 */
-	public static function scrollspy($selector = 'navbar', $params = array())
+	public static function scrollspy($selector = 'navbar', $params = [])
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -311,28 +451,29 @@ abstract class Bootstrap
 	 *
 	 * @param   string  $selector  The ID selector for the tooltip.
 	 * @param   array   $params    An array of options for the tooltip.
-	 *                             Options for the tooltip can be:
-	 *                                animation    boolean          apply a css fade transition to the popover
-	 *                                container    string|boolean   Appends the popover to a specific element: { container: 'body' }
-	 *                                delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
-	 *                                                              If a number is supplied, delay is applied to both hide/show
-	 *                                                              Object structure is: delay: { show: 500, hide: 100 }
-	 *                                html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
-	 *                                                              content into the dom.
-	 *                                placement    string|function  how to position the popover - top | bottom | left | right
-	 *                                selector     string           If a selector is provided, popover objects will be
-	 *                                                              delegated to the specified targets.
-	 *                                template     string           Base HTML to use when creating the popover.
-	 *                                title        string|function  default title value if `title` tag isn't present
-	 *                                trigger      string           how popover is triggered - hover | focus | manual
-	 *                                constraints  array            An array of constraints - passed through to Popper.
-	 *                                offset       string           Offset of the popover relative to its target.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * Options ($params) for the tooltip can be:
+	 * - animation    boolean          apply a css fade transition to the popover
+	 * - container    string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 * - delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
+	 *                                 If a number is supplied, delay is applied to both hide/show
+	 *                                 Object structure is: delay: { show: 500, hide: 100 }
+	 * - html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to
+	 *                                 insert content into the dom.
+	 * - placement    string|function  how to position the popover - top | bottom | left | right
+	 * - selector     string           If a selector is provided, popover objects will be
+	 *                                 delegated to the specified targets.
+	 * - template     string           Base HTML to use when creating the popover.
+	 * - title        string|function  default title value if `title` tag isn't present
+	 * - trigger      string           how popover is triggered - hover | focus | manual
+	 * - constraints  array            An array of constraints - passed through to Popper.
+	 * - offset       string           Offset of the popover relative to its target.
 	 */
-	public static function tooltip($selector = '.hasTooltip', $params = array())
+	public static function tooltip($selector = '.hasTooltip', $params = [])
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -390,7 +531,7 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function startAccordion($selector = 'myAccordian', $params = array())
+	public static function startAccordion($selector = 'myAccordian', $params = [])
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -481,7 +622,7 @@ abstract class Bootstrap
 	 *
 	 * @since   3.1
 	 */
-	public static function startTabSet($selector = 'myTab', $params = array())
+	public static function startTabSet($selector = 'myTab', $params = [])
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
@@ -500,7 +641,7 @@ abstract class Bootstrap
 			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
-		return LayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
+		return LayoutHelper::render('libraries.html.bootstrap.tab.starttabset', array('selector' => $selector));
 	}
 
 	/**
@@ -512,7 +653,7 @@ abstract class Bootstrap
 	 */
 	public static function endTabSet()
 	{
-		return LayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
+		return LayoutHelper::render('libraries.html.bootstrap.tab.endtabset');
 	}
 
 	/**
@@ -531,7 +672,7 @@ abstract class Bootstrap
 		static $tabScriptLayout = null;
 		static $tabLayout = null;
 
-		$tabScriptLayout = $tabScriptLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
+		$tabScriptLayout = $tabScriptLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtabscript') : $tabScriptLayout;
 		$tabLayout = $tabLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtab') : $tabLayout;
 
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
@@ -552,7 +693,7 @@ abstract class Bootstrap
 	 */
 	public static function endTab()
 	{
-		return LayoutHelper::render('libraries.cms.html.bootstrap.endtab');
+		return LayoutHelper::render('libraries.html.bootstrap.tab.endtab');
 	}
 
 	/**
@@ -566,7 +707,7 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function loadCss($includeMainCss = true, $direction = 'ltr', $attribs = array())
+	public static function loadCss($includeMainCss = true, $direction = 'ltr', $attribs = [])
 	{
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
@@ -582,6 +723,5 @@ abstract class Bootstrap
 		 *  HTMLHelper::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
 		 * }
 		 */
-
 	}
 }
