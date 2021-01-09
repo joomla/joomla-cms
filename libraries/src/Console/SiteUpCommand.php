@@ -29,7 +29,7 @@ class SiteUpCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0
 	 */
-	protected static $defaultName = 'site:up';
+	protected static $defaultName = 'joomla:site:up';
 
 	/**
 	 * SymfonyStyle Object
@@ -39,13 +39,13 @@ class SiteUpCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * Return code if site:up failed
+	 * Return code if joomla:site:up failed
 	 * @since 4.0
 	 */
 	const SITE_UP_FAILED = 1;
 
 	/**
-	 * Return code if site:up was successful
+	 * Return code if joomla:site:up was successful
 	 * @since 4.0
 	 */
 	const SITE_UP_SUCCESSFUL = 0;

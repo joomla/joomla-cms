@@ -34,7 +34,7 @@ class UpdateCoreCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0
 	 */
-	protected static $defaultName = 'core:update';
+	protected static $defaultName = 'joomla:update:install';
 
 	/**
 	 * Stores the Input Object

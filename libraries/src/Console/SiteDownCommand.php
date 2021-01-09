@@ -29,7 +29,7 @@ class SiteDownCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0
 	 */
-	protected static $defaultName = 'site:down';
+	protected static $defaultName = 'joomla:site:down';
 
 	/**
 	 * SymfonyStyle Object
@@ -39,13 +39,13 @@ class SiteDownCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * Return code if site:down failed
+	 * Return code if joomla:site:down failed
 	 * @since 4.0
 	 */
 	const SITE_DOWN_FAILED = 1;
 
 	/**
-	 * Return code if site:down was successful
+	 * Return code if joomla:site:down was successful
 	 * @since 4.0
 	 */
 	const SITE_DOWN_SUCCESSFUL = 0;

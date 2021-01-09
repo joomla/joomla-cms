@@ -28,7 +28,7 @@ class RemoveOldFilesCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'update:joomla:remove-old-files';
+	protected static $defaultName = 'joomla:update:cleanup';
 
 	/**
 	 * Internal function to execute the command.

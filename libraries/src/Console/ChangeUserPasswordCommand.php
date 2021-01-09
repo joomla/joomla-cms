@@ -31,7 +31,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'user:reset-password';
+	protected static $defaultName = 'joomla:user:reset-password';
 
 	/**
 	 * SymfonyStyle Object

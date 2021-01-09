@@ -34,7 +34,7 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'session:gc';
+	protected static $defaultName = 'joomla:session:gc';
 
 	/**
 	 * Internal function to execute the command.

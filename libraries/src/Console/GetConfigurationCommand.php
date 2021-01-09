@@ -30,7 +30,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0
 	 */
-	protected static $defaultName = 'config:get';
+	protected static $defaultName = 'joomla:config:get';
 
 	/**
 	 * Stores the Input Object

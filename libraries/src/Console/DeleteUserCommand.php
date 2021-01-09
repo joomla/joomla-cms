@@ -35,7 +35,7 @@ class DeleteUserCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'user:delete';
+	protected static $defaultName = 'joomla:user:delete';
 
 	/**
 	 * SymfonyStyle Object

@@ -30,7 +30,7 @@ class SessionMetadataGcCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'session:metadata:gc';
+	protected static $defaultName = 'joomla:session:metadatagc';
 
 	/**
 	 * The session metadata manager.

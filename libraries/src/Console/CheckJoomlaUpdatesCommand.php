@@ -29,7 +29,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0
 	 */
-	protected static $defaultName = 'core:check-updates';
+	protected static $defaultName = 'joomla:updates:check';
 
 	/**
 	 * Stores the Update Information

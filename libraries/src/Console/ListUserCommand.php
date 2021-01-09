@@ -29,7 +29,7 @@ class ListUserCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'user:list';
+	protected static $defaultName = 'joomla:user:list';
 
 	/**
 	 * SymfonyStyle Object

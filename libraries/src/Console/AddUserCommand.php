@@ -34,7 +34,7 @@ class AddUserCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'user:add';
+	protected static $defaultName = 'joomla:user:add';
 
 	/**
 	 * SymfonyStyle Object

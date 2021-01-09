@@ -33,7 +33,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0
 	 */
-	protected static $defaultName = 'extension:remove';
+	protected static $defaultName = 'joomla:extension:remove';
 
 	/**
 	 * @var InputInterface
@@ -123,12 +123,12 @@ class ExtensionRemoveCommand extends AbstractCommand
 		$this->addArgument(
 			'extensionId',
 			InputArgument::REQUIRED,
-			'ID of extension to be removed (run extension:list command to check)'
+			'ID of extension to be removed (run joomla:extension:list command to check)'
 		);
 
 		$help = "<info>%command.name%</info> is used to uninstall extensions.
 		\nThe command requires one argument, the ID of the extension to uninstall.
-		\nYou may find this ID by running the <info>extension:list</info> command.
+		\nYou may find this ID by running the <info>joomla:extension:list</info> command.
 		\nUsage: <info>php %command.full_name% <extension_id></info>";
 
 		$this->setDescription('Remove an extension');

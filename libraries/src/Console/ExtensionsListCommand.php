@@ -30,7 +30,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0
 	 */
-	protected static $defaultName = 'extension:list';
+	protected static $defaultName = 'joomla:extension:list';
 
 	/**
 	 * Stores the installed Extensions

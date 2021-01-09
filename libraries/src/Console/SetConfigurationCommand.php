@@ -34,7 +34,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0
 	 */
-	protected static $defaultName = 'config:set';
+	protected static $defaultName = 'joomla:config:set';
 
 	/**
 	 * Stores the Input Object

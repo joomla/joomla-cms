@@ -31,7 +31,7 @@ class ExtensionInstallCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0
 	 */
-	protected static $defaultName = 'extension:install';
+	protected static $defaultName = 'joomla:extension:install';
 
 	/**
 	 * Stores the Input Object

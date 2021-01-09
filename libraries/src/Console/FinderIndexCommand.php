@@ -35,7 +35,7 @@ class FinderIndexCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'finder:index';
+	protected static $defaultName = 'joomla:finder:index';
 
 	/**
 	 * Stores the Input Object

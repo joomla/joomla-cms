@@ -29,7 +29,7 @@ class CleanCacheCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'cache:clean';
+	protected static $defaultName = 'joomla:cache:clean';
 
 	/**
 	 * Internal function to execute the command.

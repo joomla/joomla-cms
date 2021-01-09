@@ -36,7 +36,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'user:removefromgroup';
+	protected static $defaultName = 'joomla:user:removefromgroup';
 
 	/**
 	 * SymfonyStyle Object

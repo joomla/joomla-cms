@@ -36,7 +36,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $defaultName = 'user:addtogroup';
+	protected static $defaultName = 'joomla:user:addtogroup';
 
 	/**
 	 * SymfonyStyle Object
