@@ -460,10 +460,10 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('cache_platformprefix', false);
 
 		// Cors settings.
-		$registry->set('caching', 0);
-		$registry->set('cache_handler', 'file');
-		$registry->set('cachetime', 15);
-		$registry->set('cache_platformprefix', false);
+		$registry->set('cors', false);
+		$registry->set('cors_allow_origin', '*');
+		$registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
+		$registry->set('cors_allow_methods', '');
 
 		// Meta settings.
 		$registry->set('MetaDesc', '');
