@@ -495,7 +495,7 @@ class UsersModel extends ListModel
 	 *
 	 * @param   string  $range  The textual range to construct the filter for.
 	 *
-	 * @return  string  The date range to filter on.
+	 * @return  array  The date range to filter on.
 	 *
 	 * @since   3.6.0
 	 * @throws  \Exception
