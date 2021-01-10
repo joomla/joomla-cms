@@ -2698,11 +2698,25 @@ class JoomlaInstallerScript
 				continue;
 			}
 
-			// On Unix with correctly and incorrectly cased files.
-			if ($oldBasename === basename($old) && $newBasename === $expectedBasename)
+			// There might still be an incorrectly cased file on other OS than Windows.
+			if ($oldBasename === basename($old))
 			{
-				// Delete the file.
-				unlink(JPATH_ROOT . '/' . $old);
+				// Check if case-insensitive file system, eg on OSX.
+				if (fileinode($oldRealpath) === fileinode($newRealpath))
+				{
+					// Check deeper because even realpath or glob might not return the actual case.
+					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
+					{
+						// Rename the file.
+						rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
+						rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+					}
+				}
+				else
+				{
+					// On Unix with both files: Delete the incorrectly cased file.
+					unlink(JPATH_ROOT . '/' . $old);
+				}
 			}
 		}
 	}
