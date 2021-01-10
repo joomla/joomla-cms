@@ -151,7 +151,7 @@ Text::script('JLIB_APPLICATION_ERROR_SERVER');
 			'modalWidth'  => '80',
 			'bodyHeight'  => '60',
 			'footer'      => '<button type="button" class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button>'
-				. '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
+				. '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
 		)
 	);
 

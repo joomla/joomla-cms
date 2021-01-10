@@ -137,7 +137,7 @@ if (!$readonly)
 				'width'       => '100%',
 				'modalWidth'  => 80,
 				'bodyHeight'  => 60,
-				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
+				'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
 			)
 		); ?>
 	<?php endif; ?>

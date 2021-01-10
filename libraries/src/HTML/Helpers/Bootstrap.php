@@ -64,7 +64,7 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function alert($selector = 'alert')
+	public static function alert($selector = '.alert')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -72,23 +72,20 @@ abstract class Bootstrap
 			return;
 		}
 
-		$timestamp = (new \DateTime)->getTimestamp();
-
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadScript', 'alert');
 
-		$selector1 = json_encode('.' . $selector);
+		$selector = json_encode($selector);
+
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->addInlineScript(
 				<<<JS
 (() => {
-  console.log($selector1)
-  const x = document.querySelectorAll($selector1);
-  console.log(x)
-  if (x) {
-    x.forEach((el) => {
+  const alerts = document.querySelectorAll($selector);
+  if (alerts && Joomla.Bootstrap && Joomla.Bootstrap.Alert) {
+    alerts.forEach((el) => {
       new Joomla.Bootstrap.Alert(el);
     })
   }
@@ -98,6 +95,7 @@ JS,
 				['type' => 'module']
 			);
 
+		// Some way to fire the ES5 initialization
 		//          ->registerScript(
 		//              'alert.es5.' . $timestamp,
 		//              'data:application/javascript;charset=utf-8;base64,' .
@@ -106,9 +104,7 @@ JS,
 		//                  'dependencies' => [],
 		//                  'attributes'  => ['defer' => '']
 		//              ]
-		//          )
-		//          ->useScript('alert.es6.' . $timestamp);
-		//          ->useScript('alert.es5.' . $timestamp);
+		//          );
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -124,7 +120,7 @@ JS,
 	 *
 	 * @since   3.1
 	 */
-	public static function button($selector = 'button')
+	public static function button($selector = '.button')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -135,27 +131,25 @@ JS,
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadScript', 'button');
 
+		$selector = json_encode($selector);
+
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->addInlineScript(
-				'new Joomla.Bootstrap.Button(' . json_encode('.' . $selector) . ');',
-				[
-					'dependencies' => [],
-					'attributes'  => ['type' => 'module']
-				]
-			)
-			->registerScript(
-				'button.es5.' . base64_encode(static::$loaded[__METHOD__][$selector]),
-				'data:application/javascript;charset=utf-8;base64,' .
-				base64_encode('new Joomla.Bootstrap.Button(' . json_encode('.' . $selector) . ');'),
-				[
-					'dependencies' => [],
-					'attributes'  => ['defer' => '']
-				]
-			)
-			->useScript('button.es6.' . base64_encode(static::$loaded[__METHOD__][$selector]))
-			->useScript('button.es5.' . base64_encode(static::$loaded[__METHOD__][$selector]));
+				<<<JS
+(() => {
+  const buttons = document.querySelectorAll($selector);
+  if (buttons && Joomla.Bootstrap && Joomla.Bootstrap.Button) {
+    buttons.forEach((el) => {
+      return new Joomla.Bootstrap.Button(el);
+    })
+  }
+})();
+JS,
+				[],
+				['type' => 'module']
+			);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -178,7 +172,7 @@ JS,
 	 * - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
 	 *                     of the carousel on mouseleave.
 	 */
-	public static function carousel($selector = 'carousel', $params = [])
+	public static function carousel($selector = '.carousel', $params = [])
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -193,29 +187,25 @@ JS,
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadScript', 'carousel');
 
-		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-
-		$wa
-			->registerScript(
-				'carousel.es6.' . base64_encode(static::$loaded[__METHOD__][$selector]),
-				'new Joomla.Bootstrap.Button(' . json_encode('.' . $selector) . ');',
-				[
-					'dependencies' => [],
-					'attributes'  => ['type' => 'module']
-				]
-			)
-		//          ->registerScript(
-		//              'carousel.es5.' . base64_encode(static::$loaded[__METHOD__][$selector]),
-		//              'data:application/javascript;charset=utf-8;base64,' . base64_encode('new Joomla.Bootstrap.Button(' . json_encode('.' . $selector) . ');'),
-		//              [
-		//                  'dependencies' => [],
-		//                  'attributes'  => ['defer' => '']
-		//              ]
-		//          )
-			->useScript('carousel.es6.' . base64_encode(static::$loaded[__METHOD__][$selector]));
-
-		//          ->useScript('carousel.es5.' . base64_encode(static::$loaded[__METHOD__][$selector]));
+		$selector = json_encode($selector);
+		$options  = json_encode('.' . $opt);
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->addInlineScript(
+				<<<JS
+(() => {
+  const carousels = document.querySelectorAll($selector);
+  if (carousels && Joomla.Bootstrap && Joomla.Bootstrap.Carousel) {
+    carousels.forEach((el) => {
+      return new Joomla.Bootstrap.Carousel(el, $options);
+    })
+  }
+})();
+JS,
+				[],
+				['type' => 'module']
+			);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -229,7 +219,7 @@ JS,
 	 *
 	 * @since   3.0
 	 */
-	public static function dropdown($selector = 'dropdown-toggle')
+	public static function dropdown($selector = '.dropdown-toggle')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -237,10 +227,28 @@ JS,
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'dropdown');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', array($selector));
+		$selector = json_encode($selector);
+
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->addInlineScript(
+				<<<JS
+(() => {
+  const dropdowns = document.querySelectorAll($selector);
+  if (dropdowns && Joomla.Bootstrap && Joomla.Bootstrap.Dropdown) {
+    dropdowns.forEach((el) => {
+      return new Joomla.Bootstrap.Dropdown(el);
+    })
+  }
+})();
+JS,
+				[],
+				['type' => 'module']
+			);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -266,7 +274,7 @@ JS,
 				->getDocument()
 				->getWebAssetManager()
 				->registerScript(
-					'bootstrap.' . $script . 'ES6',
+					'bootstrap.' . $script . '.ES6',
 					'vendor/bs5/' . $script . '.es6.min.js',
 					[
 						'dependencies' => [],
@@ -275,19 +283,10 @@ JS,
 						]
 					]
 				)
-			//              ->registerScript(
-			//                  'bootstrap.' . $script . 'ES5',
-			//                  'vendor/bs5/' . $script . '.min.js',
-			//                  [
-			//                      'dependencies' => [],
-			//                      'attributes' => [
-			//                          'defer' => ''
-			//                      ]
-			//                  ]
-			//              )
-				->useScript('bootstrap.' . $script . 'ES6');
+				->useScript('bootstrap.' . $script . '.ES6');
+			// @todo ES5 as nomodule/defer
 
-			//              ->useScript('bootstrap.' . $script . 'ES5');
+			array_push(static::$loadedScripts, $script);
 		}
 	}
 
@@ -334,22 +333,108 @@ JS,
 	 */
 	public static function renderModal($selector = 'modal', $params = [], $body = '')
 	{
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__][$selector]))
-		{
-			return '';
-		}
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'modal');
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		$options  = json_encode($params);
+		$selector1 = json_encode($selector);
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->addInlineScript(
+				<<<JS
+(() => {
+  const modalElement = document.getElementById($selector1);
+
+  if (modalElement && Joomla.Bootstrap && Joomla.Bootstrap.Modal) {
+     const modal = new Joomla.Bootstrap.Modal(modalElement, $options);
+      // Comply with the Joomla API - Bound element.open/close
+      modalElement.open = () => { modal.show(modalElement); };
+      modalElement.close = () => { modal.hide(); };
+
+      // Do some Joomla specific changes
+      modalElement.addEventListener('show.bs.modal', () => {
+      	// Comply with the Joomla API - Set the current Modal ID
+      	Joomla.Modal.setCurrent(modalElement);
+
+      	// @TODO throw the standard Joomla event
+      	if (modalElement.dataset.url) {
+      	  const modalBody = modalElement.querySelector('.modal-body');
+      	  let el;
+      	  const iframe = modalBody.querySelector('iframe');
+      	  if (iframe) {
+      		iframe.parentNode.removeChild(iframe);
+      	  }
+
+      	  // Hacks because com_associations and field modals use pure javascript in the url!
+      	  if (modalElement.dataset.iframe.indexOf("document.getElementById") > 0){
+      		const iframeTextArr = modalElement.dataset.iframe.split('+');
+      		var idFieldArr = iframeTextArr[1].split('"');
+
+      		idFieldArr[0] = idFieldArr[0].replace(/&quot;/g,'"');
+
+      		if (!document.getElementById(idFieldArr[1])) {
+      		  el = document.querySelector(idFieldArr[0]);
+      		} else {
+      		  el = document.getElementById(idFieldArr[1]).value;
+      		}
+
+      		var data_iframe = iframeTextArr[0] + el + iframeTextArr[2];
+      		modalBody.prepend(data_iframe);
+      	  } else {
+      		modalBody.insertAdjacentHTML('afterbegin', modalElement.dataset.iframe);
+      	  }
+      	}
+      });
+
+      modalElement.addEventListener('shown.bs.modal', () => {
+        const modalBody = modalElement.querySelector('.modal-body');
+        const modalHeader = modalElement.querySelector('.modal-header');
+        const modalFooter = modalElement.querySelector('.modal-footer');
+        const modalRects = modalElement.getBoundingClientRect();
+        const modalHeaderRects = modalHeader.getBoundingClientRect();
+        const modalHeight = modalRects.height;
+        const modalHeaderHeight = modalHeaderRects.height;
+        const modalBodyHeightOuter = modalBody.offsetHeight;
+        const modalBodyHeight = parseFloat(getComputedStyle(modalBody, null).height.replace("px", ""));
+        const modalFooterHeight = parseFloat(getComputedStyle(modalFooter, null).height.replace("px", ""));
+        const padding = modalBody.offsetTop;
+        const maxModalHeight = parseFloat(getComputedStyle(document.body, null).height.replace("px", ""))-(padding * 2)
+        const modalBodyPadding = modalBodyHeightOuter - modalBodyHeight;
+        const maxModalBodyHeight = maxModalHeight - (modalHeaderHeight + modalFooterHeight + modalBodyPadding);
+
+        if (modalElement.dataset.url) {
+          const iframeEl = modalElement.querySelector('.iframe');
+          var iframeHeight = parseFloat(getComputedStyle(iframeEl, null).height.replace("px", ""));
+          if (iframeHeight > maxModalBodyHeight){
+            modalBody.style.maxHeight = maxModalBodyHeight;
+            modalBody.style.overflowY = 'auto';
+            iframeEl.style.maxHeight = maxModalBodyHeight - modalBodyPadding;
+          }
+        }
+      });
+
+      modalElement.addEventListener('hide.bs.modal', () => {
+        const modalBody = modalElement.querySelector('.modal-body');
+        modalBody.style.maxHeight = 'initial'
+      });
+
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        // Comply with the Joomla API - Remove the current Modal ID
+        Joomla.Modal.setCurrent('');
+      });
+  }
+})();
+JS,
+				[],
+				['type' => 'module']
+			);
 
 		$layoutData = array(
 			'selector' => $selector,
 			'params'   => $params,
 			'body'     => $body,
 		);
-
-		static::$loaded[__METHOD__][$selector] = true;
 
 		return LayoutHelper::render('libraries.html.bootstrap.modal.main', $layoutData);
 	}
@@ -409,7 +494,28 @@ JS,
 
 		$opt     = (object) array_filter((array) $opt);
 
-		Factory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $opt));
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'popover');
+
+		$selector1 = json_encode($selector);
+
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->addInlineScript(
+				<<<JS
+(() => {
+  const popovers = document.querySelectorAll($selector1);
+  if (popovers && Joomla.Bootstrap && Joomla.Bootstrap.Popover) {
+    popovers.forEach((el) => {
+      new Joomla.Bootstrap.Popover(el);
+    })
+  }
+})();
+JS,
+				[],
+				['type' => 'module']
+			);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -435,10 +541,28 @@ JS,
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'scrollspy');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', array($selector => $params));
+		$selector1 = json_encode($selector);
+
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->addInlineScript(
+				<<<JS
+(() => {
+  const scrollspys = document.querySelectorAll($selector1);
+  if (scrollspys && Joomla.Bootstrap && Joomla.Bootstrap.Scrollspy) {
+    scrollspys.forEach((el) => {
+      new Joomla.Bootstrap.Scrollspy(el);
+    })
+  }
+})();
+JS,
+				[],
+				['type' => 'module']
+			);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -481,9 +605,6 @@ JS,
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
-
 		// Setup options object
 		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
 		$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
@@ -501,9 +622,28 @@ JS,
 		$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;
 		$onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
-		$opt     = (object) array_filter((array) $opt);
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'tooltip');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.tooltip', array($selector => $opt));
+		$selector1 = json_encode($selector);
+
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->addInlineScript(
+				<<<JS
+(() => {
+  const tooltips = document.querySelectorAll($selector1);
+  if (tooltips && Joomla.Bootstrap && Joomla.Bootstrap.Tooltip) {
+    tooltips.forEach((el) => {
+      new Joomla.Bootstrap.Tooltip(el);
+    })
+  }
+})();
+JS,
+				[],
+				['type' => 'module']
+			);
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
@@ -539,9 +679,6 @@ JS,
 			return '';
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
-
 		// Setup options object
 		$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : '';
 		$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : !($opt['parent'] === false || isset($params['active']));
@@ -551,7 +688,28 @@ JS,
 		$opt['onHidden'] = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 		$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
-		Factory::getDocument()->addScriptOptions('bootstrap.accordion', array($selector => $opt));
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'collapse');
+
+		$selector1 = json_encode($selector);
+
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->addInlineScript(
+				<<<JS
+(() => {
+  const collapses = document.querySelectorAll($selector1);
+  if (collapses && Joomla.Bootstrap && Joomla.Bootstrap.Collapse) {
+    collapses.forEach((el) => {
+      new Joomla.Bootstrap.Collapse(el);
+    })
+  }
+})();
+JS,
+				[],
+				['type' => 'module']
+			);
 
 		static::$loaded[__METHOD__][$selector] = $opt;
 
@@ -591,7 +749,7 @@ JS,
 		$class     = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="card' . $class . '">'
-			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
+			. '<a href="#' . $id . '" data-bs-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
 			. $text
 			. '</a>'
 			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
@@ -628,13 +786,31 @@ JS,
 
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
-			// Include Bootstrap framework
-			HTMLHelper::_('bootstrap.framework');
-
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			Factory::getDocument()->addScriptOptions('bootstrap.tabs', array($selector => $opt));
+			// Include Bootstrap component
+			HTMLHelper::_('bootstrap.loadScript', 'tab');
+
+			$selector1 = json_encode($selector);
+
+			Factory::getApplication()
+				->getDocument()
+				->getWebAssetManager()
+				->addInlineScript(
+					<<<JS
+(() => {
+  const tabs = document.querySelectorAll($selector1);
+  if (tabs && Joomla.Bootstrap && Joomla.Bootstrap.Tab) {
+    tabs.forEach((el) => {
+      new Joomla.Bootstrap.Tab(el);
+    })
+  }
+})();
+JS,
+					[],
+					['type' => 'module']
+				);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;

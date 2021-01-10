@@ -286,9 +286,9 @@ class MenuField extends FormField
 			$html .= '<button'
 				. ' class="btn btn-primary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
-				. ' data-toggle="modal"'
+				. ' data-bs-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalSelect' . $modalId . '">'
+				. ' data-bs-target="#ModalSelect' . $modalId . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
@@ -299,9 +299,9 @@ class MenuField extends FormField
 			$html .= '<button'
 				. ' class="btn btn-secondary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
-				. ' data-toggle="modal"'
+				. ' data-bs-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalNew' . $modalId . '">'
+				. ' data-bs-target="#ModalNew' . $modalId . '">'
 				. '<span class="icon-plus" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</button>';
 		}
@@ -312,9 +312,9 @@ class MenuField extends FormField
 			$html .= '<button'
 				. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
-				. ' data-toggle="modal"'
+				. ' data-bs-toggle="modal"'
 				. ' type="button"'
-				. ' data-target="#ModalEdit' . $modalId . '">'
+				. ' data-bs-target="#ModalEdit' . $modalId . '">'
 				. '<span class="icon-pen-square" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</button>';
 		}
@@ -366,7 +366,7 @@ class MenuField extends FormField
 					'width'       => '800px',
 					'bodyHeight'  => 70,
 					'modalWidth'  => 80,
-					'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+					'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
 										. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
 				)
 			);
