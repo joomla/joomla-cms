@@ -75,33 +75,10 @@ Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
 
-// TODO: Remove this jQuery dependency and move the lock functionality to the password view script
-\Joomla\CMS\HTML\HTMLHelper::_('jquery.framework');
-
 if ($lock)
 {
-	// Load script on document load.
-	$document->addScriptDeclaration(
-			"
-		jQuery(document).ready(function() {
-			jQuery('#" . $id ."_lock').on('click', function() {
-				var lockButton = jQuery(this);
-				var passwordInput = jQuery('#" . $id . "');
-				var lock = lockButton.hasClass('active');
-
-				if (lock === true) {
-					lockButton.html('" . Text::_('JMODIFY', true) . "');
-					passwordInput.attr('disabled', true);
-					passwordInput.val('');
-				}
-				else
-				{
-					lockButton.html('" . Text::_('JCANCEL', true) . "');
-					passwordInput.attr('disabled', false);
-				}
-			});
-		});"
-	);
+	Text::script('JMODIFY');
+	Text::script('JCANCEL');
 
 	$disabled = true;
 	$hint = str_repeat('*', strlen($value));
@@ -183,7 +160,9 @@ if ($rules && !empty($description))
 				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 			</button>
 			<?php else: ?>
-				<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info" data-toggle="button"><?php echo Text::_('JMODIFY'); ?></button>
+				<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify">
+					<?php echo Text::_('JMODIFY'); ?>
+				</button>
 			<?php endif; ?>
 		</span>
 	</div>
