@@ -2688,7 +2688,7 @@ class JoomlaInstallerScript
 			$newBasename      = basename($newRealpath);
 			$expectedBasename = basename($expected);
 
-			// On Windows with incorrectly cased file.
+			// On Windows or Unix with only the incorrectly cased file.
 			if ($newBasename !== $expectedBasename)
 			{
 				// Rename the file.
