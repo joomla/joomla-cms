@@ -666,7 +666,7 @@ abstract class HTMLHelper
 	 *             height: integer,
 	 *           }
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    4.0.0
 	 */
 	public static function cleanImageURL($url)
 	{

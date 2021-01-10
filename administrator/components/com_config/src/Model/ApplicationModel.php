@@ -286,15 +286,6 @@ class ApplicationModel extends FormModel
 			}
 		}
 
-		// Unset all protected config fields to empty
-		foreach ($this->protectedConfigurationFields as $fieldKey)
-		{
-			if (isset($data[$fieldKey]))
-			{
-				$data[$fieldKey] = '';
-			}
-		}
-
 		return $data;
 	}
 
@@ -314,7 +305,7 @@ class ApplicationModel extends FormModel
 		// Try to load the values from the configuration file
 		foreach ($this->protectedConfigurationFields as $fieldKey)
 		{
-			if (isset($data[$fieldKey]) && empty($data[$fieldKey]))
+			if (!isset($data[$fieldKey]))
 			{
 				$data[$fieldKey] = $app->get($fieldKey, '');
 			}
@@ -325,7 +316,7 @@ class ApplicationModel extends FormModel
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => $app->get('password'),
+			'password' => $data['password'],
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix'],
 		);
@@ -1249,7 +1240,7 @@ class ApplicationModel extends FormModel
 		$app = Factory::getApplication();
 		$user = Factory::getUser();
 		$input = $app->input->json;
-		$smtppass = $input->get('smtppass', '', 'RAW');
+		$smtppass = $input->get('smtppass', null, 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
@@ -1262,7 +1253,7 @@ class ApplicationModel extends FormModel
 		$app->set('mailonline', $input->get('mailonline'));
 
 		// Use smtppass only if it was submitted
-		if ($smtppass)
+		if ($smtppass !== null)
 		{
 			$app->set('smtppass', $smtppass);
 		}

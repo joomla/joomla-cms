@@ -14,7 +14,7 @@ namespace Joomla\CMS\Image\Exception;
 /**
  * Exception thrown when an image has no known properties.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class UnparsableImageException extends \RuntimeException
 {

@@ -57,7 +57,7 @@ class UsersComponent extends MVCComponent implements BootableExtensionInterface,
 	 *
 	 * @return  string|null  The new section or null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validateSection($section, $item = null)
 	{
@@ -85,7 +85,7 @@ class UsersComponent extends MVCComponent implements BootableExtensionInterface,
 	 *
 	 * @return  array  Associative array with contexts as keys and translated strings as values
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContexts(): array
 	{
