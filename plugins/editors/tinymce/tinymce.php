@@ -581,7 +581,7 @@ class PlgEditorTinymce extends CMSPlugin
 				// Quickbars
 				'quickbars_image_toolbar'     => false,
 				'quickbars_insert_toolbar'    => false,
-				'quickbars_selection_toolbar' => 'bold italic | H2 H3 | link blockquote',
+				'quickbars_selection_toolbar' => 'bold italic underline | H2 H3 | link blockquote',
 
 				// Cleanup/Output
 				'inline_styles'    => true,
