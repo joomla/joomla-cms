@@ -49,8 +49,6 @@ class ConfigController extends BaseController
 	/**
 	 * Method to handle cancel
 	 *
-	 * @return  boolean  True on success.
-	 *
 	 * @since   3.2
 	 */
 	public function cancel()
