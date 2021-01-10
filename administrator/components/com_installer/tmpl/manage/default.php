@@ -115,7 +115,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php if (!empty($item->version)) : ?>
 										<?php if (!empty($item->changelogurl)) : ?>
-											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-toggle="modal">
+											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-bs-toggle="modal">
 												<?php echo $item->version?>
 											</a>
 											<?php

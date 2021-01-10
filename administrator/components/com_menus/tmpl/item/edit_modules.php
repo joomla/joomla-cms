@@ -36,11 +36,11 @@ echo HTMLHelper::_(
 		'closeButton' => false,
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<button type="button" class="btn" data-dismiss="modal" data-target="#closeBtn">'
+		'footer'      => '<button type="button" class="btn" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
 				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-				. '<button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#saveBtn">'
+				. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="#saveBtn">'
 				. Text::_('JSAVE') . '</button>'
-				. '<button type="button" class="btn btn-success" data-target="#applyBtn">'
+				. '<button type="button" class="btn btn-success" data-bs-target="#applyBtn">'
 				. Text::_('JAPPLY') . '</button>',
 	)
 );
@@ -94,7 +94,7 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 		<tr id="tr-<?php echo $module->id; ?>" class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>">
 			<th scope="row">
 				<button type="button"
-					data-target="#moduleEditModal"
+					data-bs-target="#moduleEditModal"
 					class="btn btn-link module-edit-link"
 					title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
 					id="title-<?php echo $module->id; ?>"

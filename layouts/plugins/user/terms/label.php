@@ -101,7 +101,7 @@ if ($article)
 			'width'  => '100%',
 			'modalWidth'  => '800',
 			'bodyHeight'  => '500',
-			'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+			'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
 				. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 		]
 	);

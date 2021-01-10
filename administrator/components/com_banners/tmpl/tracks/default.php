@@ -95,7 +95,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 						'height'      => '370px',
 						'width'       => '300px',
 						'modalWidth'  => '40',
-						'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
+						'footer'      => '<button type="button" class="btn" data-bs-dismiss="modal"'
 								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#closeBtn\'})">'
 								. Text::_('COM_BANNERS_CANCEL') . '</button>'
 								. '<button type="button" class="btn btn-success"'

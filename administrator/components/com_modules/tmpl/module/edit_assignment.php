@@ -133,7 +133,7 @@ $this->document->getWebAssetManager()
 				<div class="hidden" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">
-							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
+							<button type="button"  data-bs-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
 								<span class="caret"></span>
 								<span class="sr-only"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 							</button>

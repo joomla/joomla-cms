@@ -94,10 +94,6 @@
         throw new Error('Misconfiguaration...');
       }
 
-      if (Joomla.Bootstrap && Joomla.Bootstrap.initModal && typeof Joomla.Bootstrap.initModal === 'function') {
-        Joomla.Bootstrap.initModal(this.modalElement);
-      }
-
       this.button.addEventListener('click', this.show);
 
       if (this.buttonClearEl) {
@@ -132,19 +128,17 @@
       this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
     }
 
-    modalClose() {
-      Joomla.getImage(Joomla.selectedMediaFile, this.inputElement, this)
-        .then(() => {
-          Joomla.Modal.getCurrent().close();
-          Joomla.selectedMediaFile = {};
-        })
-        .catch(() => {
-          Joomla.Modal.getCurrent().close();
-          Joomla.selectedMediaFile = {};
-          Joomla.renderMessages({
-            error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
-          });
+    async modalClose() {
+      try {
+        await Joomla.getImage(Joomla.selectedMediaFile, this.inputElement, this);
+      } catch (err) {
+        Joomla.renderMessages({
+          error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
         });
+      }
+
+      Joomla.selectedMediaFile = {};
+      Joomla.Modal.getCurrent().close();
     }
 
     setValue(value) {

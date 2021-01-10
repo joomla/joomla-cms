@@ -151,7 +151,7 @@ $wa->useScript('com_menus.admin-menus');
 								<td class="text-center d-none d-lg-table-cell itemnumber">
 									<?php if (isset($this->modules[$item->menutype])) : ?>
 										<div class="dropdown">
-											<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
+											<button type="button" class="btn btn-secondary btn-sm dropdown-toggle"  data-bs-toggle="dropdown">
 												<?php echo Text::_('COM_MENUS_MODULES'); ?>
 												<span class="caret"></span>
 											</button>
@@ -159,7 +159,7 @@ $wa->useScript('com_menus.admin-menus');
 												<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 													<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 														<?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-														<button type="button" class="dropdown-item" data-target="#moduleEdit<?php echo $module->id; ?>Modal" data-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
+														<button type="button" class="dropdown-item" data-bs-target="#moduleEdit<?php echo $module->id; ?>Modal" data-bs-toggle="modal" title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
 															<?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></button>
 													<?php else : ?>
 														<span class="dropdown-item"><?php echo Text::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
@@ -183,7 +183,7 @@ $wa->useScript('com_menus.admin-menus');
 															'width'       => '800px',
 															'bodyHeight'  => 70,
 															'modalWidth'  => 80,
-															'footer'      => '<button type="button" class="btn btn-danger" data-dismiss="modal"'
+															'footer'      => '<button type="button" class="btn btn-danger" data-bs-dismiss="modal"'
 																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 																	. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 																	. '<button type="button" class="btn btn-success"'
@@ -198,7 +198,7 @@ $wa->useScript('com_menus.admin-menus');
 										<?php endforeach; ?>
 									<?php elseif ($modMenuId) : ?>
 										<?php $link = Route::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
-										<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#moduleAddModal"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
+										<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#moduleAddModal"><?php echo Text::_('COM_MENUS_ADD_MENU_MODULE'); ?></button>
 										<?php echo HTMLHelper::_(
 												'bootstrap.renderModal',
 												'moduleAddModal',
@@ -212,7 +212,7 @@ $wa->useScript('com_menus.admin-menus');
 													'width'       => '800px',
 													'bodyHeight'  => 70,
 													'modalWidth'  => 80,
-													'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal"'
+													'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
 															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
 															. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 															. '<button type="button" class="btn btn-primary"'

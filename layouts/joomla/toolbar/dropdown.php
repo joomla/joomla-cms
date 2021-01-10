@@ -36,13 +36,13 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 
 ?>
 <?php if ($hasButtons && trim($button) !== ''): ?>
-	<?php HTMLHelper::_('bootstrap.framework'); ?>
+	<?php HTMLHelper::_('bootstrap.dropdown', $id); ?>
 	<div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group">
 		<?php echo $button; ?>
 
 		<?php if ($toggleSplit ?? true): ?>
 			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"
-				data-toggle="dropdown" data-target="#<?php echo $id; ?>" data-display="static" aria-haspopup="true" aria-expanded="false">
+				 data-bs-toggle="dropdown" data-target="#<?php echo $id; ?>" data-display="static" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 				<span class="icon-chevron-down" aria-hidden="true"></span>
 			</button>

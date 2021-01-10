@@ -39,7 +39,7 @@ $text     = isset($displayData['text']) ? $displayData['text'] : '';
 		class="btn btn-primary"
 		type="button"
 		onclick="document.getElementById('modal_<?php echo $selector; ?>').open(); document.body.appendChild(document.getElementById('modal_<?php echo $selector; ?>'));"
-		data-toggle="modal">
+		data-bs-toggle="modal">
 		<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 		<?php echo $text; ?>
 	</button>
@@ -57,7 +57,7 @@ echo HTMLHelper::_('bootstrap.renderModal',
 		'modalWidth'  => 80,
 		'bodyHeight'  => 60,
 		'closeButton' => true,
-		'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
+		'footer'      => '<a class="btn btn-secondary" data-bs-dismiss="modal" type="button"'
 						. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
 						. Text::_('COM_BANNERS_CANCEL') . '</a>'
 						. '<button class="btn btn-success" type="button"'
