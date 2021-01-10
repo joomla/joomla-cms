@@ -70,7 +70,7 @@ class Backgroundfill extends ImageFilter
 		// Apply image over background
 		imagecopy($bg, $this->handle, 0, 0, 0, 0, $width, $height);
 
-		// Move flattened result onto curent handle.
+		// Move flattened result onto current handle.
 		// If handle was palette-based, it'll stay like that.
 		imagecopy($this->handle, $bg, 0, 0, 0, 0, $width, $height);
 
