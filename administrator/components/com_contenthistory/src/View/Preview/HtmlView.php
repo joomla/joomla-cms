@@ -56,8 +56,6 @@ class HtmlView extends BaseHtmlView
 			Factory::getLanguage()->load('com_content', JPATH_SITE, null, true);
 
 			throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
-
-			return false;
 		}
 
 		// Check for errors.
