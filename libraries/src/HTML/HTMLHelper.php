@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -368,24 +368,24 @@ abstract class HTMLHelper
 	/**
 	 * Compute the files to be included
 	 *
-	 * @param   string   $folder          Folder name to search in (i.e. images, css, js).
-	 * @param   string   $file            Path to file.
-	 * @param   boolean  $relative        Flag if the path to the file is relative to the /media folder (and searches in template).
-	 * @param   boolean  $detect_browser  Flag if the browser should be detected to include specific browser files.
-	 * @param   boolean  $detect_debug    Flag if debug mode is enabled to include uncompressed files if debug is on.
+	 * @param   string   $folder         Folder name to search in (i.e. images, css, js).
+	 * @param   string   $file           Path to file.
+	 * @param   boolean  $relative       Flag if the path to the file is relative to the /media folder (and searches in template).
+	 * @param   boolean  $detectBrowser  Flag if the browser should be detected to include specific browser files.
+	 * @param   boolean  $detectDebug    Flag if debug mode is enabled to include uncompressed files if debug is on.
 	 *
 	 * @return  array    files to be included.
 	 *
 	 * @see     Browser
 	 * @since   1.6
 	 */
-	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
+	protected static function includeRelativeFiles($folder, $file, $relative, $detectBrowser, $detectDebug)
 	{
 		// Set debug flag
 		$debugMode = false;
 
 		// Detect debug mode
-		if ($detect_debug && JDEBUG)
+		if ($detectDebug && JDEBUG)
 		{
 			$debugMode = true;
 		}
@@ -399,13 +399,13 @@ abstract class HTMLHelper
 		{
 			// Extract extension and strip the file
 			$strip = File::stripExt($file);
-			$ext   = pathinfo($file, PATHINFO_EXTENSION);
+			$ext   = File::getExt($file);
 
 			// Prepare array of files
 			$includes = [];
 
 			// Detect browser and compute potential files
-			if ($detect_browser)
+			if ($detectBrowser)
 			{
 				$navigator = Browser::getInstance();
 				$browser   = $navigator->getBrowser();
@@ -654,6 +654,73 @@ abstract class HTMLHelper
 		return $includes;
 	}
 
+	/**
+	 * Gets a URL, cleans the Joomla specific params and returns an object
+	 *
+	 * @param    string        $url        The relative or absolute URL to use for the src attribute.
+	 *
+	 * @return   object
+	 * @example  {
+	 *             url:    'string',
+	 *             width:  integer,
+	 *             height: integer,
+	 *           }
+	 *
+	 * @since    4.0.0
+	 */
+	public static function cleanImageURL($url)
+	{
+		$obj = new \stdClass;
+
+		$obj->attributes = [
+			'width'  => 0,
+			'height' => 0,
+		];
+
+		if (!strpos($url, '?'))
+		{
+			$obj->url = $url;
+
+			return $obj;
+		}
+
+		$url    = preg_replace('#&amp;#', '&', $url);
+		$pieces = explode('?', $url);
+
+		parse_str($pieces[1], $urlParams);
+
+		if (isset($urlParams['joomla_image_height']) && $urlParams['joomla_image_height'] !== 'null')
+		{
+			if ((int) $urlParams['joomla_image_height'] > 0)
+			{
+				$obj->attributes['height'] = $urlParams['joomla_image_height'];
+			}
+			else
+			{
+				unset($obj->attributes['height']);
+			}
+
+			unset($urlParams['joomla_image_height']);
+		}
+
+		if (isset($urlParams['joomla_image_width']) && $urlParams['joomla_image_width'] !== 'null')
+		{
+			if ((int) $urlParams['joomla_image_width'] > 0)
+			{
+				$obj->attributes['width'] = $urlParams['joomla_image_width'];
+			}
+			else
+			{
+				unset($obj->attributes['width']);
+			}
+
+			unset($urlParams['joomla_image_width']);
+		}
+
+		$obj->url  = $pieces[0] . (count($urlParams) ? '?' . http_build_query($urlParams) : '');
+
+		return $obj;
+	}
 
 	/**
 	 * Write a `<img>` element
@@ -667,13 +734,18 @@ abstract class HTMLHelper
 	 *                                     0: Returns a `<img>` tag while searching for relative files
 	 *                                     1: Returns the file path to the image while searching for relative files
 	 *
-	 * @return  string
+	 * @return  string|null  HTML markup for the image, relative path to the image, or null if path is to be returned but image is not found
 	 *
 	 * @since   1.5
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $returnPath = 0)
 	{
 		$returnPath = (int) $returnPath;
+
+		if (strpos($file, '?') !== false)
+		{
+			$file = (static::cleanImageURL($file))->url;
+		}
 
 		if ($returnPath !== -1)
 		{
@@ -685,12 +757,6 @@ abstract class HTMLHelper
 		if ($returnPath === 1)
 		{
 			return $file;
-		}
-
-		// Default to lazy you can disable lazyloading by passing $attribs['loading'] = 'eager';
-		if (!isset($attribs['loading']))
-		{
-			$attribs['loading'] = 'lazy';
 		}
 
 		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
@@ -1199,36 +1265,30 @@ abstract class HTMLHelper
 	 */
 	protected static function addFileToBuffer($path = '', $ext = '', $debugMode = false)
 	{
-		if (!$debugMode)
-		{
-			// We are handling a name.min.ext file:
-			if (strrpos($path, '.min', '-4'))
-			{
-				$position        = strrpos($path, '.min', '-4');
-				$minifiedPath    = $path;
-				$nonMinifiedPath = str_replace('.min', '', $path, $position);
-
-				return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
-			}
-
-			$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
-
-			return self::checkFileOrder($path, $minifiedPath);
-		}
+		$position = strrpos($path, '.min.');
 
 		// We are handling a name.min.ext file:
-		if (strrpos($path, '.min', '-4'))
+		if ($position !== false)
 		{
-			$position        = strrpos($path, '.min', '-4');
 			$minifiedPath    = $path;
-			$nonMinifiedPath = str_replace('.min', '', $path, $position);
+			$nonMinifiedPath = substr_replace($path, '', $position, 4);
 
-			return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+			if ($debugMode)
+			{
+				return self::checkFileOrder($minifiedPath, $nonMinifiedPath);
+			}
+
+			return self::checkFileOrder($nonMinifiedPath, $minifiedPath);
 		}
 
 		$minifiedPath = pathinfo($path, PATHINFO_DIRNAME) . '/' . pathinfo($path, PATHINFO_FILENAME) . '.min.' . $ext;
 
-		return self::checkFileOrder($minifiedPath, $path);
+		if ($debugMode)
+		{
+			return self::checkFileOrder($minifiedPath, $path);
+		}
+
+		return self::checkFileOrder($path, $minifiedPath);
 	}
 
 	/**

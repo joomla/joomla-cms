@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -25,20 +25,20 @@ abstract class Grid
 	/**
 	 * Method to sort a column in a grid
 	 *
-	 * @param   string  $title          The link title
-	 * @param   string  $order          The order field for the column
-	 * @param   string  $direction      The current direction
-	 * @param   string  $selected       The selected ordering
-	 * @param   string  $task           An optional task override
-	 * @param   string  $new_direction  An optional direction for the new column
-	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
-	 * @param   string  $form           An optional form selector
+	 * @param   string  $title         The link title
+	 * @param   string  $order         The order field for the column
+	 * @param   string  $direction     The current direction
+	 * @param   string  $selected      The selected ordering
+	 * @param   string  $task          An optional task override
+	 * @param   string  $newDirection  An optional direction for the new column
+	 * @param   string  $tip           An optional text shown as tooltip title instead of $title
+	 * @param   string  $form          An optional form selector
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '', $form = null)
+	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $newDirection = 'asc', $tip = '', $form = null)
 	{
 		HTMLHelper::_('behavior.core');
 		HTMLHelper::_('bootstrap.popover');
@@ -49,7 +49,7 @@ abstract class Grid
 
 		if ($order != $selected)
 		{
-			$direction = $new_direction;
+			$direction = $newDirection;
 		}
 		else
 		{
@@ -207,17 +207,17 @@ abstract class Grid
 	 * Method to create a select list of states for filtering
 	 * By default the filter shows only published and unpublished items
 	 *
-	 * @param   string  $filter_state  The initial filter state
-	 * @param   string  $published     The Text string for published
-	 * @param   string  $unpublished   The Text string for Unpublished
-	 * @param   string  $archived      The Text string for Archived
-	 * @param   string  $trashed       The Text string for Trashed
+	 * @param   string  $filterState  The initial filter state
+	 * @param   string  $published    The Text string for published
+	 * @param   string  $unpublished  The Text string for Unpublished
+	 * @param   string  $archived     The Text string for Archived
+	 * @param   string  $trashed      The Text string for Trashed
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function state($filter_state = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
+	public static function state($filterState = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
 	{
 		$state = array('' => '- ' . Text::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => Text::_($published), 'U' => Text::_($unpublished));
 
@@ -237,7 +237,7 @@ abstract class Grid
 			'filter_state',
 			array(
 				'list.attr' => 'class="form-control" size="1" onchange="Joomla.submitform();"',
-				'list.select' => $filter_state,
+				'list.select' => $filterState,
 				'option.key' => null,
 			)
 		);
@@ -258,7 +258,7 @@ abstract class Grid
 	{
 		return '<a href="javascript:saveorder('
 			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-sm btn-secondary float-right" title="'
-			. Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="fas fa-sort"></span></a>';
+			. Text::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-sort"></span></a>';
 	}
 
 	/**

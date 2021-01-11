@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,9 +45,9 @@
    * @since   4.0.0
    */
   function toggleArrowIcon(positionTop) {
-    const navDropDownIcon = doc.querySelectorAll('.nav-item.dropdown span[class*="fa-angle-"]');
-    const remIcon = (positionTop) ? 'fa-angle-up' : 'fa-angle-down';
-    const addIcon = (positionTop) ? 'fa-angle-down' : 'fa-angle-up';
+    const navDropDownIcon = doc.querySelectorAll('.nav-item.dropdown span[class*="icon-angle-"]');
+    const remIcon = (positionTop) ? 'icon-angle-up' : 'icon-angle-down';
+    const addIcon = (positionTop) ? 'icon-angle-down' : 'icon-angle-up';
 
     if (!navDropDownIcon) {
       return;
@@ -136,7 +136,7 @@
         headerMoreBtn.setAttribute('type', 'button');
         headerMoreBtn.setAttribute('title', Joomla.Text._('TPL_ATUM_MORE_ELEMENTS'));
         const spanFa = document.createElement('span');
-        spanFa.className = 'fas fa-ellipsis-h';
+        spanFa.className = 'icon-ellipsis-h';
         spanFa.setAttribute('aria-hidden', 'true');
         const headerMoreMenu = document.createElement('div');
         headerMoreMenu.className = 'header-more-menu d-flex flex-wrap';
@@ -146,10 +146,14 @@
         headerMoreItem.appendChild(headerItemContent);
         headerMoreItem.appendChild(headerMoreMenu);
         headerWrapper.appendChild(headerMoreItem);
-
-        headerMoreBtn.addEventListener('click', () => {
+        headerMoreBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
           headerMoreItem.classList.toggle('active');
         });
+        window.onclick = () => {
+          headerMoreItem.classList.remove('active');
+        };
+
         headerItemsWidth += headerMoreItem.offsetWidth;
       }
 

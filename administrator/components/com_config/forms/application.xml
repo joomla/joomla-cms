@@ -150,6 +150,8 @@
 			showon="cache_handler:redis"
 			autocomplete="off"
 			size="30"
+			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -190,6 +192,18 @@
 			required="true"
 			filter="string"
 			size="30"
+		/>
+
+		<field
+			name="password"
+			type="password"
+			label="COM_CONFIG_FIELD_DATABASE_PASSWORD_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_PASSWORD_DESC"
+			filter="raw"
+			autocomplete="off"
+			size="30"
+			hiddenDescription="true"
+			lock="true"
 		/>
 
 		<field
@@ -314,6 +328,46 @@
 
 	</fieldset>
 
+	<fieldset name="webservices" label="CONFIG_WEBSERVICES_SETTINGS_LABEL">
+		<field
+			name="cors"
+			type="radio"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORSOFFF_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="boolean"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="cors_allow_origin"
+			type="text"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_DESC"
+			default="*"
+			showon="cors:1"
+		/>
+
+		<field
+			name="cors_allow_headers"
+			type="text"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_DESC"
+			default="Content-Type,X-Joomla-Token"
+			showon="cors:1"
+		/>
+
+		<field
+			name="cors_allow_methods"
+			type="text"
+			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_LABEL"
+			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_DESC"
+			showon="cors:1"
+		/>
+	</fieldset>
+
 	<fieldset name="ftp" label="CONFIG_FTP_SETTINGS_LABEL">
 
 		<field
@@ -367,6 +421,7 @@
 			showon="ftp_enable:1"
 			autocomplete="off"
 			size="25"
+			lock="true"
 		/>
 
 		<field
@@ -435,6 +490,7 @@
 			showon="proxy_enable:1"
 			autocomplete="off"
 			size="25"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -613,6 +669,7 @@
 			filter="raw"
 			autocomplete="off"
 			size="30"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -639,10 +696,10 @@
 			default=""
 			validate="options"
 			>
-			<option value="">JGLOBAL_INDEX_FOLLOW</option>
-			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			<option value="">index, follow</option>
+			<option value="noindex, follow"></option>
+			<option value="index, nofollow"></option>
+			<option value="noindex, nofollow"></option>
 		</field>
 
 		<field
@@ -898,6 +955,7 @@
 			showon="session_handler:redis"
 			autocomplete="off"
 			size="30"
+			lock="true"
 		/>
 
 		<field
@@ -1040,7 +1098,8 @@
 			type="accesslevel"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			default="1"
-			filter="integer"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -1098,8 +1157,8 @@
 	</fieldset>
 
 	<fieldset
-		name="system"
-		label="CONFIG_SYSTEM_SETTINGS_LABEL">
+		name="logging"
+		label="CONFIG_LOGGING_SETTINGS_LABEL">
 
 		<field
 			name="log_path"
@@ -1109,6 +1168,77 @@
 			filter="string"
 			size="50"
 		/>
+
+		<field
+			name="log_everything"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOG_EVERYTHING_LABEL"
+			description="COM_CONFIG_FIELD_LOG_EVERYTHING_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="log_deprecated"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOG_DEPRECATED_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+	</fieldset>
+
+	<fieldset
+		name="logging_custom"
+		label="CONFIG_LOGGING_CUSTOM_SETTINGS_LABEL">
+
+		<field
+			name="log_priorities"
+			type="list"
+			label="COM_CONFIG_FIELD_LOG_PRIORITIES_LABEL"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			default="all"
+			validate="options"
+			>
+			<option value="all">COM_CONFIG_FIELD_LOG_PRIORITIES_ALL</option>
+			<option value="emergency">COM_CONFIG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
+			<option value="alert">COM_CONFIG_FIELD_LOG_PRIORITIES_ALERT</option>
+			<option value="critical">COM_CONFIG_FIELD_LOG_PRIORITIES_CRITICAL</option>
+			<option value="error">COM_CONFIG_FIELD_LOG_PRIORITIES_ERROR</option>
+			<option value="warning">COM_CONFIG_FIELD_LOG_PRIORITIES_WARNING</option>
+			<option value="notice">COM_CONFIG_FIELD_LOG_PRIORITIES_NOTICE</option>
+			<option value="info">COM_CONFIG_FIELD_LOG_PRIORITIES_INFO</option>
+			<option value="debug">COM_CONFIG_FIELD_LOG_PRIORITIES_DEBUG</option>
+		</field>
+
+		<field
+			name="log_categories"
+			type="text"
+			label="COM_CONFIG_FIELD_LOG_CATEGORIES_LABEL"
+			description="COM_CONFIG_FIELD_LOG_CATEGORIES_DESC"
+			size="60"
+			default=""
+		/>
+
+		<field
+			name="log_category_mode"
+			type="radio"
+			label="COM_CONFIG_FIELD_LOG_CATEGORY_MODE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">COM_CONFIG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
+			<option value="1">COM_CONFIG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
+		</field>
 
 	</fieldset>
 

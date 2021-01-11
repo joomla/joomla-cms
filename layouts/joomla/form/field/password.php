@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,10 +48,13 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
+ * @var   boolean  $lock            Is this field locked.
  */
 
+$document = Factory::getApplication()->getDocument();
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa = $document->getWebAssetManager();
 
 if ($meter)
 {
@@ -71,6 +74,39 @@ Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
+
+// TODO: Remove this jQuery dependency and move the lock functionality to the password view script
+\Joomla\CMS\HTML\HTMLHelper::_('jquery.framework');
+
+if ($lock)
+{
+	// Load script on document load.
+	$document->addScriptDeclaration(
+			"
+		jQuery(document).ready(function() {
+			jQuery('#" . $id ."_lock').on('click', function() {
+				var lockButton = jQuery(this);
+				var passwordInput = jQuery('#" . $id . "');
+				var lock = lockButton.hasClass('active');
+
+				if (lock === true) {
+					lockButton.html('" . Text::_('JMODIFY', true) . "');
+					passwordInput.attr('disabled', true);
+					passwordInput.val('');
+				}
+				else
+				{
+					lockButton.html('" . Text::_('JCANCEL', true) . "');
+					passwordInput.attr('disabled', false);
+				}
+			});
+		});"
+	);
+
+	$disabled = true;
+	$hint = str_repeat('*', strlen($value));
+	$value = '';
+}
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -142,9 +178,12 @@ if ($rules && !empty($description))
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
 			<button type="button" class="btn btn-secondary input-password-toggle">
-				<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
+				<span class="icon-eye icon-fw" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 			</button>
+			<?php if ($lock): ?>
+				<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info" data-toggle="button"><?php echo Text::_('JMODIFY'); ?></button>
+			<?php endif; ?>
 		</span>
 	</div>
 </div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ use Joomla\CMS\Router\Route;
 						<?php foreach ($this->messages as $message) : ?>
 							<div class="alert alert-warning">
 								<h4 class="alert-heading">
-									<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+									<span class="icon-exclamation-triangle" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 									<?php echo $message['message']; ?>
 								</h4>
@@ -32,7 +32,7 @@ use Joomla\CMS\Router\Route;
 						<?php endforeach; ?>
 						<div class="alert alert-info">
 							<h4 class="alert-heading">
-								<span class="fas fa-info-circle" aria-hidden="true"></span>
+								<span class="icon-info-circle" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 								<?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?>
 							</h4>
@@ -40,7 +40,7 @@ use Joomla\CMS\Router\Route;
 						</div>
 					<?php else: ?>
 						<div class="alert alert-info">
-							<span class="fas fa-info-circle" aria-hidden="true"></span>
+							<span class="icon-info-circle" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?>
 						</div>

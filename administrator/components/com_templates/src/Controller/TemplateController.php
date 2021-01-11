@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -456,6 +456,12 @@ class TemplateController extends BaseController
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(Route::_($url, false));
 		}
+		if (base64_decode(urldecode($file)) == '/joomla.asset.json')
+		{
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_DELETE'), 'warning');
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(Route::_($url, false));
+		}
 		elseif ($model->deleteFile($file))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_FILE_DELETE_SUCCESS'));
@@ -696,6 +702,12 @@ class TemplateController extends BaseController
 		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(Route::_($url, false));
+		}
+		elseif (base64_decode(urldecode($file)) == '/joomla.asset.json')
+		{
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_ASSET_FILE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(Route::_($url, false));
 		}

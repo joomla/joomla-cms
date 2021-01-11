@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,15 +38,15 @@ if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled(
 
 	switch ($tagfilter)
 	{
-		case 'current_language' :
+		case 'current_language':
 			$langFilter = Factory::getApplication()->getLanguage()->getTag();
 			break;
 
-		case 'all' :
+		case 'all':
 			$langFilter = false;
 			break;
 
-		default :
+		default:
 			$langFilter = $tagfilter;
 	}
 }
@@ -65,6 +65,8 @@ if (!empty($this->items))
 		}
 	}
 }
+
+$currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 ?>
 
 <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="com-content-category__articles">
@@ -117,12 +119,12 @@ if (!empty($this->items))
 
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-info">
-			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
 		</div>
 	<?php else : ?>
 		<table class="com-content-category__table category table table-striped table-bordered table-hover">
-			<caption id="captionTable" class="sr-only">
+			<caption class="sr-only">
 				<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
 			</caption>
 			<?php if ($this->params->get('show_headings')) : ?>
@@ -175,7 +177,7 @@ if (!empty($this->items))
 				<?php else : ?>
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
-				<td headers="categorylist_header_title" class="list-title">
+				<th class="list-title" scope="row">
 					<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<a href="<?php echo Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 							<?php echo $this->escape($article->title); ?>
@@ -226,23 +228,23 @@ if (!empty($this->items))
 							</span>
 						</div>
 					<?php endif; ?>
-					<?php if (strtotime($article->publish_up) > strtotime(Factory::getDate())) : ?>
+					<?php if ($article->publish_up > $currentDate) : ?>
 						<div>
 							<span class="list-published badge badge-warning">
 								<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
-					<?php if (!is_null($article->publish_down) && strtotime($article->publish_down) < strtotime(Factory::getDate())) : ?>
+					<?php if (!is_null($article->publish_down) && $article->publish_down < $currentDate) : ?>
 						<div>
 							<span class="list-published badge badge-warning">
 								<?php echo Text::_('JEXPIRED'); ?>
 							</span>
 						</div>
 					<?php endif; ?>
-				</td>
+				</th>
 				<?php if ($this->params->get('list_show_date')) : ?>
-					<td headers="categorylist_header_date" class="list-date small">
+					<td class="list-date small">
 						<?php
 						echo HTMLHelper::_(
 							'date', $article->displayDate,
@@ -251,41 +253,61 @@ if (!empty($this->items))
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_author', 1)) : ?>
-					<td headers="categorylist_header_author" class="list-author">
+					<td class="list-author">
 						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>
 							<?php $author = $article->created_by_alias ?: $author; ?>
 							<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
-								<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', HTMLHelper::_('link', $article->contact_link, $author)); ?>
+								<?php if ($this->params->get('show_headings')) : ?>
+									<?php echo HTMLHelper::_('link', $article->contact_link, $author); ?>
+								<?php else : ?>
+									<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', HTMLHelper::_('link', $article->contact_link, $author)); ?>
+								<?php endif; ?>
 							<?php else : ?>
-								<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+								<?php if ($this->params->get('show_headings')) : ?>
+									<?php echo $author; ?>
+								<?php else : ?>
+									<?php echo Text::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+								<?php endif; ?>
 							<?php endif; ?>
 						<?php endif; ?>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_hits', 1)) : ?>
-					<td headers="categorylist_header_hits" class="list-hits">
+					<td class="list-hits">
 						<span class="badge badge-info">
-							<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
+							<?php if ($this->params->get('show_headings')) : ?>
+								<?php echo $article->hits; ?>
+							<?php else : ?>
+								<?php echo Text::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
+							<?php endif; ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_votes', 0) && $this->vote) : ?>
-					<td headers="categorylist_header_votes" class="list-votes">
+					<td class="list-votes">
 						<span class="badge badge-success">
-							<?php echo Text::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
+							<?php if ($this->params->get('show_headings')) : ?>
+								<?php echo $article->rating_count; ?>
+							<?php else : ?>
+								<?php echo Text::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
+							<?php endif; ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($this->params->get('list_show_ratings', 0) && $this->vote) : ?>
-					<td headers="categorylist_header_ratings" class="list-ratings">
+					<td class="list-ratings">
 						<span class="badge badge-warning">
-							<?php echo Text::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
+							<?php if ($this->params->get('show_headings')) : ?>
+								<?php echo $article->rating; ?>
+							<?php else : ?>
+								<?php echo Text::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
+							<?php endif; ?>
 						</span>
 					</td>
 				<?php endif; ?>
 				<?php if ($isEditable) : ?>
-					<td headers="categorylist_header_edit" class="list-edit">
+					<td class="list-edit">
 						<?php if ($article->params->get('access-edit')) : ?>
 							<?php echo HTMLHelper::_('contenticon.edit', $article, $article->params); ?>
 						<?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ $app->getDocument()->addScriptDeclaration('
 <ul class="list-group list-group-flush stats-module">
 	<?php foreach ($list as $item) : ?>
 		<li class="list-group-item">
-			<span class="mr-2 fas fa-<?php echo $item->icon; ?> fa-fw" aria-hidden="true"></span> <?php echo $item->title; ?>
+			<span class="mr-2 icon-<?php echo $item->icon; ?> icon-fw" aria-hidden="true"></span> <?php echo $item->title; ?>
 
 			<?php if(isset($item->link)) : ?>
 				<a class="btn btn-info btn-sm js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>

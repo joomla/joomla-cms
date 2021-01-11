@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp.tmpl
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,11 +19,16 @@ $js = "
 {
 	document.addEventListener('DOMContentLoaded', function()
 	{
-		var qr = qrcode(0, 'H');
-		qr.addData('" . $url . "');
-		qr.make();
+		var totpQrCodeElement = document.getElementById('totp-qrcode');
 
-		document.getElementById('totp-qrcode').innerHTML = qr.createImgTag(4);
+		// There's no QR Code element on the view profile page so ensure we don't get any errors
+		if (totpQrCodeElement) {
+			var qr = qrcode(0, 'H');
+			qr.addData('" . $url . "');
+			qr.make();
+	
+			totpQrCodeElement.innerHTML = qr.createImgTag(4);
+		}
 	});
 })(document);
 ";
@@ -58,7 +63,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 		</li>
 	</ul>
 	<div class="alert alert-warning">
-		<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+		<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?>
 	</div>
 </fieldset>
@@ -101,7 +106,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 	</div>
 
 	<div class="alert alert-info">
-		<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+		<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?>
 	</div>
 </fieldset>

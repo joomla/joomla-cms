@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ if ($show_description)
 
 $icon = '';
 if (!empty($this->result->mime)) :
-	$icon = '<span class="fas fa-file-' . $this->result->mime . '" aria-hidden="true"></span> ';
+	$icon = '<span class="icon-file-' . $this->result->mime . '" aria-hidden="true"></span> ';
 endif;
 
 $show_url = '';

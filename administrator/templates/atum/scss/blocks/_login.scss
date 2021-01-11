@@ -58,7 +58,14 @@
           position: absolute;
           right: 0;
           bottom: -1.1rem;
-          font-size: .75rem;
+          font-size: ($font-size-base * .75);
+          text-align: right;
+        }
+        .form-control-hint {
+          position: absolute;
+          top: .3rem;
+          right: 0;
+          font-size: ($font-size-base * .75);
           text-align: right;
         }
       }
@@ -68,14 +75,14 @@
   .form-group {
     label {
       span {
-        font-size: .9rem;
+        font-size: ($font-size-base * .9);
 
         @include media-breakpoint-down(xs) {
           width: 100%;
         }
 
         &.text-right {
-          font-size: .75rem;
+          font-size: ($font-size-base * .75);
           color: var(--atum-special-color);
         }
       }
@@ -104,7 +111,7 @@
 
     @include media-breakpoint-only(xs) {
       padding: 8px 10px;
-      font-size: 14px;
+      font-size: ($font-size-base * .875);
     }
   }
 
@@ -127,19 +134,19 @@
       margin-bottom: auto;
 
       a {
-        font-size: .875rem;
+        font-size: ($font-size-base * .875);
       }
     }
 
     .card-header {
-      font-size: 1.125rem;
+      font-size: ($font-size-base * 1.125);
     }
   }
 
   #sidebar {
     align-self: flex-end;
     width: 100%;
-    font-size: .875rem;
+    font-size: ($font-size-base * .875);
     color: var(--atum-text-light);
     text-align: center;
 

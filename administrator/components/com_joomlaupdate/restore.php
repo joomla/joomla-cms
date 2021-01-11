@@ -869,7 +869,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 */
 	public function __wakeup()
 	{
-		if ($this->currentPartNumber >= 0)
+		if ($this->currentPartNumber >= 0 && !empty($this->archiveList[$this->currentPartNumber]))
 		{
 			$this->fp = @fopen($this->archiveList[$this->currentPartNumber], 'rb');
 			if ((is_resource($this->fp)) && ($this->currentPartOffset > 0))
@@ -4549,7 +4549,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 				// End of ZIP file detected. We'll just skip to the end of file...
 				while ($this->nextFile())
 				{
-				};
+				}
 				@fseek($this->fp, 0, SEEK_END); // Go to EOF
 				return false;
 			}

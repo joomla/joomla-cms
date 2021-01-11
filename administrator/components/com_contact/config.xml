@@ -63,7 +63,6 @@
 			type="radio"
 			layout="joomla.form.field.radio.switcher"
 			label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
-			id="show_tags"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -451,6 +450,15 @@
 			name="icon_fax"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
+			hide_none="1"
+			default=""
+			showon="contact_icons:0"
+		/>
+
+		<field
+			name="icon_webpage"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_WEBPAGE_LABEL"
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"

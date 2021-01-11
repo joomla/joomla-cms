@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Form\FormField;
  * Form Field class for the Joomla Platform.
  * Supports a multi line area for entry of plain text
  *
- * @link   http://www.w3.org/TR/html-markup/textarea.html#textarea
+ * @link   https://html.spec.whatwg.org/multipage/form-elements.html#the-textarea-element
  * @since  1.7.0
  */
 class TextareaField extends FormField
