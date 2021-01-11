@@ -29,6 +29,6 @@
 .badge-info {
   color: var(--atum-text-dark);
   background-color: $gray-300;
-  border: 1px solid lighten(theme-color("atum-text-dark"), 30%);
+  border: 1px solid lighten($atum-text-dark, 30%);
 }
 

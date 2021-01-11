@@ -128,7 +128,9 @@
     border: .125rem dashed var(--atum-link-color);
     transition: all .3s ease-in;
 
-    @include hover-focus-active() {
+    &:hover,
+    &:focus,
+    &:active {
       text-decoration: none;
       background-color: var(--white);
       border-color: var(--atum-bg-dark);

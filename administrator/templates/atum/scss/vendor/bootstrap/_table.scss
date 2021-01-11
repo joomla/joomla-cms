@@ -42,7 +42,9 @@
 
   tbody {
     tr {
-      @include hover-focus-active {
+      &:hover,
+      &:focus,
+      &:active {
         background-color: $table-hover-bg;
       }
     }

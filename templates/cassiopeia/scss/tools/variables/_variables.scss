@@ -153,6 +153,20 @@ $fa-css-prefix:                       fa;
 // Tables
 $table-bg:                            transparent !default;
 $table-bg-accent:                     hsla(0, 0%, 0%, .3) !default;
+$table-bg-scale:                      -80% !default;
+
+// This should be the same as bootstrap's default. But we override primary colour from $primary (which is a CSS Var)
+// to the SCSS variable matching
+$table-variants: (
+        "primary":    shift-color($standard-color-primary, $table-bg-scale),
+        "secondary":  shift-color($secondary, $table-bg-scale),
+        "success":    shift-color($success, $table-bg-scale),
+        "info":       shift-color($info, $table-bg-scale),
+        "warning":    shift-color($warning, $table-bg-scale),
+        "danger":     shift-color($danger, $table-bg-scale),
+        "light":      $light,
+        "dark":       $dark,
+);
 
 // Forms
 $input-padding:                       .6rem 1rem;
@@ -160,20 +174,23 @@ $input-border:                        solid 1px $gray-400;
 $input-btn-padding-y:                 .6rem;
 $input-btn-padding-x:                 1rem;
 $input-max-width:                     100%;
+$input-focus-border-color:            tint-color($standard-color-primary, 50%);
 
 $cassiopeia-input-focus-shadow:       0 0 0 .2rem hsla(0, 0%, 0%, .1);
 
-$custom-select-indicator-padding:     3rem;
-$custom-select-bg:                    $gray-200;
-$custom-select-bg-size:               116rem;
-$custom-select-bg-size-sm:            75rem;
-$custom-select-indicator:             url("../images/select-bg.svg");
-$custom-select-indicator-rtl:         url("../images/select-bg-rtl.svg");
-$custom-select-indicator-active:      url("../../../images/select-bg.svg");
-$custom-select-indicator-active-rtl:  url("../../../images/select-bg-rtl.svg");
-$custom-select-background:            $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$custom-select-background-rtl:        $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$custom-select-multiple-padding-y:    .3rem;
+$form-select-indicator-padding:     3rem;
+$form-select-bg:                    $gray-200;
+$form-select-bg-size:               116rem;
+$form-select-bg-size-sm:            75rem;
+$form-select-indicator:             url("../images/select-bg.svg");
+$form-select-indicator-rtl:         url("../images/select-bg-rtl.svg");
+$form-select-indicator-active:      url("../../../images/select-bg.svg");
+$form-select-indicator-active-rtl:  url("../../../images/select-bg-rtl.svg");
+$form-select-background:            $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background-rtl:        $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-multiple-padding-y:    .3rem;
+
+$form-range-thumb-active-bg:        tint-color($standard-color-primary, 70%);
 
 // Z-index master list
 $zindex-negative:                     -1;
@@ -213,6 +230,10 @@ $badge-default-bg:                    $gray-600;
 
 // Modals
 $modal-header-height:                 3rem;
+
+// Accordion
+$accordion-button-active-bg:          tint-color($standard-color-primary, 90%);
+$accordion-button-active-color:       shade-color($standard-color-primary, 10%);
 
 // Alerts
 $state-success-text:                  $white !default;

@@ -28,7 +28,9 @@
       }
     }
 
-    @include hover-focus-active {
+    &:hover,
+    &:focus,
+    &:active {
       color: $white;
       text-decoration: none;
       background: var(--atum-link-color);
@@ -185,7 +187,9 @@
         color: $danger-txt;
       }
 
-      @include hover-focus-active {
+      &:hover,
+      &:focus,
+      &:active {
         color: var(--white);
         background: var(--danger);
 
@@ -211,7 +215,9 @@
         background-clip: text;
       }
 
-      @include hover-focus-active {
+      &:hover,
+      &:focus,
+      &:active {
         color: var(--white);
         background: var(--success);
 
@@ -226,7 +232,9 @@
       }
     }
 
-    @include hover-focus-active {
+    &:hover,
+    &:focus,
+    &:active {
       color: $white;
       text-decoration: none;
       background: var(--atum-bg-dark);

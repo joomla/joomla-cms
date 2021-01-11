@@ -33,18 +33,23 @@ $cyan:                             #107d8e; //used in bootstrap
 $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
+// Atum colours defined as scss variables for use in scss functions
+$atum-text-dark:                   $gray-700;
+$success:                          $green;
+$danger:                           $red;
+
 $theme-colors: ();
 $theme-colors: map-merge((
   primary:                         $base-color, //used only in bootstrap, please use $atum-bg-dark
   secondary:                       $gray-700, //used for btn-secondary
-  success:                         $green,
+  success:                         $success,
   info:                            $light-blue,
   warning:                         $yellow,
-  danger:                          $red,
+  danger:                          $danger,
   light:                           $gray-100, //used in bootstrap
   dark:                            $gray-900,  //used in bootstrap and for table-border
   atum-link-color:                 $light-blue,
-  atum-text-dark:                  $gray-700,
+  atum-text-dark:                  $atum-text-dark,
   atum-bg-dark:                    $base-color, //standard background color
   action:                          $base-color,
   error:                           $red-dark,
@@ -196,7 +201,7 @@ $danger-txt:                       #fff;
 
 // Input Group
 $input-group-addon-color:          var(--white);
-$input-group-addon-bg:             var(--atum-bg-dark);
+$input-group-addon-bg:             $base-color;
 $input-group-addon-border-color:   var(--atum-bg-dark);
 
 // Treeselect
@@ -212,18 +217,18 @@ $input-btn-padding-x-sm-submenu:    1.625rem;
 $input-btn-submenu-icon-distance:   1rem;
 
 // Custom form
-$custom-select-indicator-padding:    3rem;
-$custom-select-bg:                   var(--atum-bg-light);
-$custom-select-bg-size:              116rem;
-$custom-select-indicator:            url("../images/select-bg.svg");
-$custom-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
-$custom-select-indicator-active:     url("../../../images/select-bg.svg");
-$custom-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
-$custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$custom-select-background-rtl:       $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$custom-select-box-shadow:           $atum-box-shadow;
-$custom-select-bg-size-sm:           75rem;
-$custom-select-multiple-padding-y:   .3rem;
+$form-select-indicator-padding:    3rem;
+$form-select-bg:                   var(--atum-bg-light);
+$form-select-bg-size:              116rem;
+$form-select-indicator:            url("../images/select-bg.svg");
+$form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
+$form-select-indicator-active:     url("../../../images/select-bg.svg");
+$form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
+$form-select-background:           $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background-rtl:       $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-box-shadow:           $atum-box-shadow;
+$form-select-bg-size-sm:           75rem;
+$form-select-multiple-padding-y:   .3rem;
 
 //input
 $input-padding:                    .6rem 1rem;

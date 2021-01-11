@@ -16,16 +16,11 @@ $extension-types: (
   "jtool":       #333
 );
 
+// TODO: PR REVIEW -> BADGE'S HAVE BEEN REMOVED - NEED TO MOVE TO BG https://getbootstrap.com/docs/5.0/migration/#badges-1
 .com-apps-container {
   // Extension type badges
   .badge {
     margin: 1px;
-  }
-
-  @each $color, $value in $extension-types {
-    .badge-#{$color} {
-      @include badge-variant($value);
-    }
   }
 
   .fader {

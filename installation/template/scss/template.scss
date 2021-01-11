@@ -117,7 +117,7 @@ body {
 .languageForm {
   padding: 0 0 30px;
 
-  .custom-select {
+  .form-select {
     width: 100%;
   }
 }
@@ -174,7 +174,7 @@ body {
   width: 380px;
 }
 
-.card .custom-select {
+.card .form-select {
   width: 100%;
 }
 
@@ -203,7 +203,7 @@ legend {
 }
 
 // Possibly temporary until Bootstrap support it themselves
-.custom-select[multiple] {
+.form-select[multiple] {
   height: auto;
   background: none;
 }
