@@ -465,7 +465,7 @@ abstract class HTMLHelper
 
 							if (empty($found))
 							{
-								$found = static::addFileToBuffer("$templaPath/$template->parent/$folder/$file", $ext, $debugMode);
+								$found = static::addFileToBuffer(JPATH_THEMES . "/$template->parent/$folder/$file", $ext, $debugMode);
 							}
 						}
 						else
