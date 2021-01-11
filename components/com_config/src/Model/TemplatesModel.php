@@ -56,7 +56,7 @@ class TemplatesModel extends FormModel
 		{
 			// Get the form.
 			$form = $this->loadForm('com_config.templates', 'templates', array('control' => 'jform', 'load_data' => $loadData));
-			
+
 			$data = array();
 			$this->preprocessForm($form, $data);
 
