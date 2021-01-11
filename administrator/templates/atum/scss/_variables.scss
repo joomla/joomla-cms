@@ -104,6 +104,9 @@ $input-btn-padding-x:              1rem;
 $input-max-width:                  100%;
 $btn-disabled-opacity:             .4;
 
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$variable-prefix:                  '';
+
 // Toolbar
 $atum-toolbar-line-height:         2.45rem;
 
