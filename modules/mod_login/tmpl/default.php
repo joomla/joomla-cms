@@ -36,12 +36,10 @@ Text::script('JHIDEPASSWORD');
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
 					<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-					<span class="input-group-append">
-						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-						<span class="input-group-text" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-							<span class="icon-user icon-fw" aria-hidden="true"></span>
-						</span>
-					</span>
+                    <label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+                    <span class="input-group-text" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+                        <span class="icon-user icon-fw" aria-hidden="true"></span>
+                    </span>
 				</div>
 			<?php else : ?>
 				<label for="modlgn-username-<?php echo $module->id; ?>"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
@@ -53,13 +51,11 @@ Text::script('JHIDEPASSWORD');
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
 					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
-					<span class="input-group-append">
-						<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-						<button type="button" class="btn btn-secondary input-password-toggle">
-							<span class="icon-eye icon-fw" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
-						</button>
-					</span>
+                    <label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+                    <button type="button" class="btn btn-secondary input-password-toggle">
+                        <span class="icon-eye icon-fw" aria-hidden="true"></span>
+                        <span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+                    </button>
 				</div>
 			<?php else : ?>
 				<label for="modlgn-passwd-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
@@ -71,28 +67,22 @@ Text::script('JHIDEPASSWORD');
 			<div class="mod-login__twofactor form-group">
 				<?php if (!$params->get('usetext', 0)) : ?>
 					<div class="input-group">
-						<span class="input-group-prepend" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
-							<span class="input-group-text">
-								<span class="icon-star" aria-hidden="true"></span>
-							</span>
-							<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-						</span>
+                        <span class="input-group-text">
+                            <span class="icon-star" aria-hidden="true"></span>
+                        </span>
+                        <label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
-						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="input-group-text">
-								<span class="icon-question icon-fw" aria-hidden="true"></span>
-							</span>
-						</span>
+                        <span class="input-group-text">
+                            <span class="icon-question icon-fw" aria-hidden="true"></span>
+                        </span>
 					</div>
 				<?php else : ?>
 					<label for="modlgn-secretkey-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 					<div class="input-group">
 						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
-						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="input-group-text">
-								<span class="icon-question icon-fw" aria-hidden="true"></span>
-							</span>
-						</span>
+                        <span class="input-group-text">
+                            <span class="icon-question icon-fw" aria-hidden="true"></span>
+                        </span>
 					</div>
 				<?php endif; ?>
 			</div>

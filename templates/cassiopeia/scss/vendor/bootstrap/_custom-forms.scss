@@ -65,6 +65,11 @@
   }
 }
 
+// Backwards compat with BS4
 .custom-select {
   @extend .form-select;
+}
+
+.form-group {
+  @extend .mb-3
 }
