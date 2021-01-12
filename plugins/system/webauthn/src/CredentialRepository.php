@@ -23,6 +23,7 @@ use Joomla\Registry\Registry;
 use JsonException;
 use RuntimeException;
 use Throwable;
+use Webauthn\PublicKeyCredentialDescriptor;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
@@ -484,5 +485,17 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		}
 
 		return $secret;
+	}
+
+	public function getFakePublicKeyCredentialDescriptor(string $username): PublicKeyCredentialDescriptor
+	{
+		$key = $this->getEncryptionKey();
+		$username = hash_hmac('sha256', $username, $key, false);
+
+		return new PublicKeyCredentialDescriptor(
+			'public-key',
+			$username,
+			[]
+		);
 	}
 }

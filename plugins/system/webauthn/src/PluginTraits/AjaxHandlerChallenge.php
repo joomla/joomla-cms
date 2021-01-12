@@ -73,7 +73,7 @@ trait AjaxHandlerChallenge
 
 		Joomla::setSessionVar('returnUrl', $returnUrl, 'plg_system_webauthn');
 
-		// Do I have a username?
+		// Do I have a username? - should have been caught by Javascript validation under normal circumstances.
 		if (empty($username))
 		{
 			return json_encode(false);
@@ -91,30 +91,32 @@ trait AjaxHandlerChallenge
 
 		if ($userId <= 0)
 		{
-			return json_encode(false);
+			$credentials = [];
 		}
+		else
+		{
+			try
+			{
+				$userEntity = new PublicKeyCredentialUserEntity(
+					'', $repository->getHandleFromUserId($userId), ''
+				);
+				$credentials = $repository->findAllForUserEntity($userEntity);
 
-		// Load the saved credentials into an array of PublicKeyCredentialDescriptor objects
-		try
-		{
-			$userEntity  = new PublicKeyCredentialUserEntity(
-				'', $repository->getHandleFromUserId($userId), ''
-			);
-			$credentials = $repository->findAllForUserEntity($userEntity);
-		}
-		catch (Exception $e)
-		{
-			return json_encode(false);
-		}
-
-		// No stored credentials?
-		if (empty($credentials))
-		{
-			return json_encode(false);
+				// No stored credentials?
+				if (empty($credentials))
+				{
+					$credentials = [];
+				}
+			}
+			catch (Exception $e)
+			{
+				$credentials = [];
+			}
 		}
 
 		$registeredPublicKeyCredentialDescriptors = [];
 
+		// Load the saved credentials, if exists, into an array of PublicKeyCredentialDescriptor objects
 		/** @var PublicKeyCredentialSource $record */
 		foreach ($credentials as $record)
 		{
@@ -126,6 +128,18 @@ trait AjaxHandlerChallenge
 			{
 				continue;
 			}
+		}
+
+		/**
+		 * If there are no registered credentials for this user, or if the username doesn't exist then fake one.
+		 *
+		 * We do this, because else User Enumeration can take place to discover usernames with WebAuthn enabled
+		 * This fake credential looks like a real one, and will prompt the user in the browser but no successful
+		 * authentication can take place using any WebAuthn device and this fake credential.
+		 */
+		if (\count($registeredPublicKeyCredentialDescriptors) === 0)
+		{
+			$registeredPublicKeyCredentialDescriptors[] = $repository->getFakePublicKeyCredentialDescriptor($username);
 		}
 
 		// Extensions
@@ -142,17 +156,22 @@ trait AjaxHandlerChallenge
 		);
 
 		// Save in session. This is used during the verification stage to prevent replay attacks.
-		Joomla::setSessionVar(
-			'publicKeyCredentialRequestOptions',
-			base64_encode(serialize($publicKeyCredentialRequestOptions)),
-			'plg_system_webauthn'
-		);
-		Joomla::setSessionVar(
-			'userHandle',
-			$repository->getHandleFromUserId($userId),
-			'plg_system_webauthn'
-		);
-		Joomla::setSessionVar('userId', $userId, 'plg_system_webauthn');
+		if ($userId)
+		{
+			Joomla::setSessionVar(
+				'publicKeyCredentialRequestOptions',
+				base64_encode(serialize($publicKeyCredentialRequestOptions)),
+				'plg_system_webauthn'
+			);
+
+			Joomla::setSessionVar(
+				'userHandle',
+				$repository->getHandleFromUserId($userId),
+				'plg_system_webauthn'
+			);
+
+			Joomla::setSessionVar('userId', $userId, 'plg_system_webauthn');
+		}
 
 		// Return the JSON encoded data to the caller
 		return json_encode(
