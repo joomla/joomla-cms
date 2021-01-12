@@ -66,7 +66,6 @@ abstract class Bootstrap
 	 */
 	public static function alert($selector = '.alert')
 	{
-
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
 		{
@@ -206,8 +205,9 @@ abstract class Bootstrap
 			&& in_array($script, static::$scripts))
 		{
 			// Tooltip+popover are combined
-//			$script = $script === 'tooltip' ? 'popover' : $script;
+			// $script = $script === 'tooltip' ? 'popover' : $script;
 
+			// @todo use a json file
 			Factory::getApplication()
 				->getDocument()
 				->getWebAssetManager()
@@ -607,17 +607,10 @@ abstract class Bootstrap
 	 */
 	public static function addTab($selector, $id, $title)
 	{
-		static $tabScriptLayout = null;
 		static $tabLayout = null;
 
-		$tabScriptLayout = $tabScriptLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtabscript') : $tabScriptLayout;
 		$tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
-
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
-//
-//		// Inject tab into UL
-//		Factory::getDocument()
-//			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector, 'id' => $id, 'active' => $active, 'title' => $title)));
 
 		return $tabLayout->render(array('id' => str_replace('.', '', $id), 'active' => $active, 'title' => $title));
 	}
@@ -661,5 +654,32 @@ abstract class Bootstrap
 		 *  HTMLHelper::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
 		 * }
 		 */
+	}
+
+	/**
+	 * Add javascript support for Bootstrap toasts
+	 *
+	 * @param   string  $selector  Common class for the toasts
+	 *
+	 * @return  void
+	 *
+	 * @throws \Exception
+	 *
+	 * @since   3.0
+	 */
+	public static function toast($selector = '.toast')
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadScript', 'toast');
+
+		Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector]);
+
+		static::$loaded[__METHOD__][$selector] = true;
 	}
 }
