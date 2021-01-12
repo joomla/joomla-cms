@@ -149,6 +149,7 @@ abstract class Bootstrap
 	 * Add javascript support for Bootstrap collapse
 	 *
 	 * @param   string  $selector  Common class for the collapse
+	 * @param   array   $params    Parameters for the collapsable element
 	 *
 	 * @return  void
 	 *
@@ -233,8 +234,8 @@ abstract class Bootstrap
 					]
 				)
 				->useScript('bootstrap.' . $script . '.ES6');
-			// @todo ES5 as nomodule/defer
 
+			// @todo ES5 as nomodule/defer
 			array_push(static::$loadedScripts, $script);
 		}
 	}
@@ -345,12 +346,12 @@ abstract class Bootstrap
 		$opt['delay']       = isset($params['delay']) ? $params['delay'] : null;
 		$opt['html']        = isset($params['html']) ? $params['html'] : true;
 		$opt['placement']   = isset($params['placement']) ? $params['placement'] : null;
-//		$opt['selector']    = isset($params['selector']) ? $params['selector'] : '.popover';
+		// $opt['selector']    = isset($params['selector']) ? $params['selector'] : '.popover';
 		$opt['template']    = isset($params['template']) ? $params['template'] : null;
 		$opt['title']       = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-//		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] :
-//			['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
+		// $opt['constraints'] = isset($params['constraints']) ? $params['constraints'] :
+		//	['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 
 		$opt     = (object) array_filter((array) $opt);
@@ -443,7 +444,7 @@ abstract class Bootstrap
 		$opt['template']    = isset($params['template']) ? $params['template'] : null;
 		$opt['title']       = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-//		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
+		// $opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 		$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
 		$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
