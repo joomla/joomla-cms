@@ -140,7 +140,7 @@ abstract class Bootstrap
 		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
 		$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
 
-		Factory::getDocument()->addScriptOptions('bootstrap.carousel', array($selector => $opt));
+		Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => $opt]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -160,7 +160,7 @@ abstract class Bootstrap
 		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
 		$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
 
-		Factory::getDocument()->addScriptOptions('bootstrap.carousel', array($selector => $opt));
+		Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => $opt]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -185,7 +185,7 @@ abstract class Bootstrap
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadScript', 'dropdown');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', array($selector));
+		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -205,7 +205,7 @@ abstract class Bootstrap
 			&& in_array($script, static::$scripts))
 		{
 			// Tooltip+popover are combined
-			// $script = $script === 'tooltip' ? 'popover' : $script;
+			$script = $script === 'tooltip' ? 'popover' : $script;
 
 			// @todo use a json file
 			Factory::getApplication()
@@ -280,11 +280,11 @@ abstract class Bootstrap
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadScript', 'modal');
 
-		$layoutData = array(
+		$layoutData = [
 			'selector' => $selector,
 			'params'   => $params,
 			'body'     => $body,
-		);
+		];
 
 		static::$loaded[__METHOD__][$selector] = true;
 
@@ -320,7 +320,7 @@ abstract class Bootstrap
 	 * - constraints  array            An array of constraints - passed through to Popper.
 	 * - offset       string           Offset of the popover relative to its target.
 	 */
-	public static function popover($selector = '.popover', $params = [])
+	public static function popover($selector = '[data-bs-toggle="popover"]', $params = [])
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -334,12 +334,12 @@ abstract class Bootstrap
 		$opt['delay']       = isset($params['delay']) ? $params['delay'] : null;
 		$opt['html']        = isset($params['html']) ? $params['html'] : true;
 		$opt['placement']   = isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector']    = isset($params['selector']) ? $params['selector'] : '.popover';
+//		$opt['selector']    = isset($params['selector']) ? $params['selector'] : '.popover';
 		$opt['template']    = isset($params['template']) ? $params['template'] : null;
 		$opt['title']       = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] :
-			['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
+//		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] :
+//			['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 
 		$opt     = (object) array_filter((array) $opt);
@@ -347,7 +347,7 @@ abstract class Bootstrap
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadScript', 'popover');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $opt));
+		Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => $opt]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -376,7 +376,7 @@ abstract class Bootstrap
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadScript', 'scrollspy');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', array($selector => $params));
+		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => $params]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -411,7 +411,7 @@ abstract class Bootstrap
 	 * - constraints  array            An array of constraints - passed through to Popper.
 	 * - offset       string           Offset of the popover relative to its target.
 	 */
-	public static function tooltip($selector = '.hasTooltip', $params = [])
+	public static function tooltip($selector = '[data-bs-toggle=tooltip]', $params = [])
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -432,7 +432,7 @@ abstract class Bootstrap
 		$opt['template']    = isset($params['template']) ? $params['template'] : null;
 		$opt['title']       = isset($params['title']) ? $params['title'] : null;
 		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
+//		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 		$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
 		$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
@@ -441,7 +441,7 @@ abstract class Bootstrap
 
 		$opt     = (object) array_filter((array) $opt);
 
-		Factory::getDocument()->addScriptOptions('bootstrap.tooltip', array($selector => $opt));
+		Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => $opt]);
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
@@ -489,7 +489,7 @@ abstract class Bootstrap
 		$opt['onHidden'] = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 		$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
-		Factory::getDocument()->addScriptOptions('bootstrap.accordion', array($selector => $opt));
+		Factory::getDocument()->addScriptOptions('bootstrap.accordion', [$selector => $opt]);
 
 		static::$loaded[__METHOD__][$selector] = $opt;
 
@@ -612,7 +612,7 @@ abstract class Bootstrap
 		$tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
-		return $tabLayout->render(array('id' => str_replace('.', '', $id), 'active' => $active, 'title' => $title));
+		return $tabLayout->render(['id' => str_replace('.', '', $id), 'active' => $active, 'title' => $title]);
 	}
 
 	/**
@@ -651,7 +651,7 @@ abstract class Bootstrap
 		 * Load Bootstrap RTL CSS
 		 * if ($direction === 'rtl')
 		 * {
-		 *  HTMLHelper::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
+		 *  HTMLHelper::_('stylesheet', 'jui/bootstrap-rtl.css', ['version' => 'auto', 'relative' => true], $attribs);
 		 * }
 		 */
 	}
