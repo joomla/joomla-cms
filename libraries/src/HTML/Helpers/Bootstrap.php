@@ -145,6 +145,17 @@ abstract class Bootstrap
 		static::$loaded[__METHOD__][$selector] = true;
 	}
 
+	/**
+	 * Add javascript support for Bootstrap collapse
+	 *
+	 * @param   string  $selector  Common class for the collapse
+	 *
+	 * @return  void
+	 *
+	 * @throws \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public static function collapse($selector = '.collapse', $params = [])
 	{
 		// Only load once
