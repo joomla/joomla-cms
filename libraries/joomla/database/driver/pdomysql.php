@@ -157,7 +157,10 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		// Disable query cache and turn profiling ON in debug mode.
 		if ($this->debug)
 		{
-			$this->connection->query('SET query_cache_type = 0;');
+			if ($this->hasQueryCache())
+			{
+				$this->connection->query('SET query_cache_type = 0;');
+			}
 
 			if ($this->hasProfiling())
 			{
@@ -585,6 +588,20 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	private function hasProfiling()
 	{
 		$result = $this->setQuery("SHOW VARIABLES LIKE 'have_profiling'")->loadAssoc();
+
+		return isset($result);
+	}
+
+	/**
+	 * Internal function to check if query cache is available.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function hasQueryCache()
+	{
+		$result = $this->setQuery("SHOW VARIABLES LIKE 'have_query_cache'")->loadAssoc();
 
 		return isset($result);
 	}

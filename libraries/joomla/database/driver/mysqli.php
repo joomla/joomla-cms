@@ -191,7 +191,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Disable query cache and turn profiling ON in debug mode.
 		if ($this->debug)
 		{
-			mysqli_query($this->connection, 'SET query_cache_type = 0;');
+			if ($this->hasQueryCache())
+			{
+				mysqli_query($this->connection, 'SET query_cache_type = 0;');
+			}
 
 			if ($this->hasProfiling())
 			{
@@ -937,6 +940,28 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		try
 		{
 			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'have_profiling'");
+			$row = mysqli_fetch_assoc($res);
+
+			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Internal function to check if query cache is available.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function hasQueryCache()
+	{
+		try
+		{
+			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'have_query_cache'");
 			$row = mysqli_fetch_assoc($res);
 
 			return isset($row);
