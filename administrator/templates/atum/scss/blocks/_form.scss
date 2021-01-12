@@ -175,3 +175,7 @@ legend {
 .input-group > .form-control[readonly] {
   margin-right: 1px;
 }
+
+.custom-select {
+  @extend .form-select;
+}
