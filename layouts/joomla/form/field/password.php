@@ -104,12 +104,12 @@ if ($lock)
 	);
 
 	$disabled = true;
-	$hint = str_repeat('*', strlen($value));
+	$hint = str_repeat('&#x2022;', strlen($value));
 	$value = '';
 }
 
 $attributes = array(
-	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
