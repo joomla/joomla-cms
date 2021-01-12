@@ -177,7 +177,7 @@ a[target="_blank"]::before {
 
 #wrapper {
   &.d-flex {
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       display: block !important;
     }
   }

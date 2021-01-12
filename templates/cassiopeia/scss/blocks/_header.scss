@@ -57,7 +57,7 @@
     justify-content: space-between;
     padding-bottom: $cassiopeia-grid-gutter;
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       .container-search,
       nav {
         margin-top: $cassiopeia-grid-gutter;

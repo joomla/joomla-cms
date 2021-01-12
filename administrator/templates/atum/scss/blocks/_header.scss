@@ -13,7 +13,7 @@
     .d-flex:last-child {
       max-width: calc(100% - #{$sidebar-width});
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         max-width: calc(100% - #{$sidebar-width-closed});
       }
     }
@@ -22,7 +22,7 @@
       width: 100%;
     }
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       width: 100%;
       margin-top: 1rem;
       margin-bottom: 1rem;
@@ -349,7 +349,7 @@
     }
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     position: static;
     top: 0;
     z-index: $zindex-header;
