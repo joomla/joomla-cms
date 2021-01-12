@@ -7,6 +7,22 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     [].slice.call(document.querySelectorAll('input[type="password"]')).forEach((input) => {
+      const lockButton = input.parentNode.querySelector('.input-password-lock');
+
+      if (lockButton) {
+        lockButton.addEventListener('click', () => {
+          if (input.disabled) {
+            lockButton.innerHTML = Joomla.Text._('JCANCEL');
+            input.disabled = false;
+            return;
+          }
+
+          lockButton.innerHTML = Joomla.Text._('JMODIFY');
+          input.disabled = true;
+          input.value = '';
+        });
+      }
+
       const toggleButton = input.parentNode.querySelector('.input-password-toggle');
 
       if (!toggleButton) {
