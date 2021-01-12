@@ -520,7 +520,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	{
 		try
 		{
-			$res = mysql_query("SHOW VARIABLES LIKE 'have_query_cache'", $this->connection);
+			$res = mysql_query("SHOW VARIABLES LIKE 'query_cache_type'", $this->connection);
 			$row = mysql_fetch_assoc($res);
 
 			return isset($row);

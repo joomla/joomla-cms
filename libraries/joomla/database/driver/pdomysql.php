@@ -601,7 +601,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	private function hasQueryCache()
 	{
-		$result = $this->setQuery("SHOW VARIABLES LIKE 'have_query_cache'")->loadAssoc();
+		$result = $this->setQuery("SHOW VARIABLES LIKE 'query_cache_type'")->loadAssoc();
 
 		return isset($result);
 	}
