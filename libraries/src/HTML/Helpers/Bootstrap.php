@@ -450,11 +450,12 @@ abstract class Bootstrap
 		// $opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 
-		//		$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
-		//		$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
-		//		$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;
-		//		$onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
-
+		/**
+		 * $onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
+		 * $onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
+		 * $onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;
+		 * $onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+		 */
 		$opt     = (object) array_filter((array) $opt);
 
 		Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => $opt]);
