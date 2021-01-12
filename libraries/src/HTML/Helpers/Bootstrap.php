@@ -665,7 +665,7 @@ abstract class Bootstrap
 	 *
 	 * @throws \Exception
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function toast($selector = '.toast')
 	{
