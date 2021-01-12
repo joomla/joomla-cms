@@ -33,6 +33,10 @@ body {
   background: var(--atum-bg-light);
 }
 
+.custom-select {
+  @extend .form-select;
+}
+
 *,
 *::after,
 *::before {
@@ -85,7 +89,7 @@ body {
     margin-left: 0 !important;
   }
 
-  .btn-block {
+  .installer-next-step {
     margin-top: 40px;
   }
 }
@@ -108,10 +112,6 @@ body {
 
 .j-install-step-form {
   padding: .65rem 1.2rem;
-
-  .btn-block + .btn-block {
-    margin-top: .5rem;
-  }
 }
 
 .languageForm {
@@ -152,6 +152,10 @@ body {
     max-width: 100%;
   }
 
+}
+
+label {
+  margin-bottom: 0.5rem;
 }
 
 .control-group {
