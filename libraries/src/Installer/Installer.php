@@ -2137,7 +2137,7 @@ class Installer extends \JAdapter
 							$container .= '/';
 						}
 
-						// Aappend the folder part
+						// Append the folder part
 						$container .= $part;
 
 						if (!in_array($container, $containers))
