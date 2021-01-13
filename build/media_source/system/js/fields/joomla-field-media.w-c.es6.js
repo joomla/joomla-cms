@@ -97,7 +97,11 @@
       this.button.addEventListener('click', this.show);
 
       // Bootstrap modal init
-      if (Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.initModal && typeof Joomla.Bootstrap.Methods.initModal === 'function') {
+      if (this.modalElement
+        && Joomla.Bootstrap
+        && Joomla.Bootstrap.Instances
+        && Joomla.Bootstrap.Instances.Modal
+        && Joomla.Bootstrap.Instances.Modal.get(this.modalElement) === undefined) {
         Joomla.Bootstrap.Methods.initModal(this.modalElement);
       }
 
