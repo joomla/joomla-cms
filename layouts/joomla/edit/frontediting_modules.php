@@ -47,7 +47,7 @@ $moduleHtml = preg_replace(
 	// Replace first tag of module with a class
 	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|nav|address|article) [^>]*class="[^"]*)"/',
 	// By itself, adding class jmoddiv and data attributes for the URL and tooltip:
-	'\\1 jmoddiv" data-jmodediturl="' . $editUrl . '" data-target="' . $target . '" data-jmodtip="'
+	'\\1 jmoddiv" data-jmodediturl="' . $editUrl . '" data-bs-target="' . $target . '" data-jmodtip="'
 	.	HTMLHelper::_('tooltipText',
 			Text::_('JLIB_HTML_EDIT_MODULE'),
 			htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br>' . sprintf(Text::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position, ENT_COMPAT, 'UTF-8')),

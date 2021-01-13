@@ -149,7 +149,6 @@ abstract class Bootstrap
 	 * Add javascript support for Bootstrap collapse
 	 *
 	 * @param   string  $selector  Common class for the collapse
-	 * @param   array   $params    Parameters for the collapsable element
 	 *
 	 * @return  void
 	 *
@@ -157,7 +156,7 @@ abstract class Bootstrap
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function collapse($selector = '.collapse', $params = [])
+	public static function collapse($selector = '.collapse')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -168,11 +167,7 @@ abstract class Bootstrap
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadScript', 'collapse');
 
-		// Setup options object
-		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
-		$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
-
-		Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => $opt]);
+		Factory::getDocument()->addScriptOptions('bootstrap.collapse');
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -197,7 +192,16 @@ abstract class Bootstrap
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadScript', 'dropdown');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector]);
+		$doc           = Factory::getDocument();
+		$scriptOptions = $doc->getScriptOptions('bootstrap.dropdown');
+		$options       = [$selector];
+
+		if (is_array($scriptOptions))
+		{
+			$options = array_merge($scriptOptions, $options);
+		}
+
+		$doc->addScriptOptions('bootstrap.dropdown', $options, false);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
