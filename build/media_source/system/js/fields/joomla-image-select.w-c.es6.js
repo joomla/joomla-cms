@@ -363,25 +363,3 @@
 
   customElements.define('joomla-field-mediamore', JoomlaFieldMediaOptions);
 })(customElements, Joomla);
-
-// Patch the opening of the modal for XTD buttons
-((Joomla) => {
-  'use strict';
-
-  if (!Joomla) {
-    throw new Error('Joomla API is not properly initiated');
-  }
-
-  const MediaXTDElements = Joomla.getOptions('xtdImageModal');
-
-  if (MediaXTDElements) {
-    MediaXTDElements.forEach((element) => {
-      document.querySelector(`#${element}`).addEventListener('show.bs.modal', (ev) => {
-        const addData = ev.target.querySelector('joomla-field-mediamore');
-        if (addData) {
-          addData.parentNode.removeChild(addData);
-        }
-      });
-    });
-  }
-})(Joomla);
