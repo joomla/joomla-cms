@@ -87,7 +87,7 @@ if ($privacyLink)
 {
 	$attribs = [
 		'data-toggle' => 'modal',
-		'data-target' => '#consentModal',
+		'data-bs-target' => '#consentModal',
 	];
 
 	$link = HTMLHelper::_('link', Route::_($privacyLink . '&tmpl=component'), $text, $attribs);

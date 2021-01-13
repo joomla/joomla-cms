@@ -22,7 +22,7 @@ if ($button->get('name')) :
 	$onclick = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
 	$title   = ($button->get('title')) ? $button->get('title') : $button->get('text');
 ?>
-<button type="button" data-target="<?php echo $href; ?>" class="xtd-button btn btn-secondary <?php echo $class; ?>" <?php echo $button->get('modal') ? 'data-bs-toggle="modal"' : '' ?> title="<?php echo $title; ?>" <?php echo $onclick; ?>>
+<button type="button" data-bs-target="<?php echo $href; ?>" class="xtd-button btn btn-secondary <?php echo $class; ?>" <?php echo $button->get('modal') ? 'data-bs-toggle="modal"' : '' ?> title="<?php echo $title; ?>" <?php echo $onclick; ?>>
 	<span class="icon-<?php echo $button->get('name'); ?>" aria-hidden="true"></span>
 	<?php echo $button->get('text'); ?>
 </button>

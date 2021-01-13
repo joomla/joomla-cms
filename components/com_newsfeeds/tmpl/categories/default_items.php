@@ -33,7 +33,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 						<button
 							type="button"
 							id="category-btn-<?php echo $item->id; ?>"
-							data-target="#category-<?php echo $item->id; ?>"
+							data-bs-target="#category-<?php echo $item->id; ?>"
 							data-bs-toggle="collapse"
 							class="btn btn-secondary btn-sm float-right"
 							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"

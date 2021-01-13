@@ -86,7 +86,7 @@ if ($article)
 {
 	$attribs = [
 		'data-toggle' => 'modal',
-		'data-target' => '#tosModal',
+		'data-bs-target' => '#tosModal',
 	];
 
 	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
