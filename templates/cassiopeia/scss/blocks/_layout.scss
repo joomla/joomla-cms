@@ -3,13 +3,13 @@
 .grid-child {
   display: flex;
   width: 100%;
-  max-width: 1080px + ($cassiopeia-grid-gutter * 4);
+  max-width: max-width(xl);
   margin-right: auto;
   margin-left: auto;
 }
 
 .container-header header .site {
-  background-color: #fafafa;
+  background-color: $gray-100;
 
   > .full-width {
     max-width: none;
@@ -21,10 +21,6 @@
   }
 }
 
-header {
-  margin-bottom: 10px;
-}
-
 .container-banner {
   display: block;
   margin: 0 0 2rem;
@@ -34,6 +30,8 @@ header {
 .container-top-b,
 .container-bottom-a,
 .container-bottom-b {
+  padding: 4rem 0;
+
   > * {
     flex: 1;
     margin: ($cassiopeia-grid-gutter / 2);
@@ -48,29 +46,23 @@ header {
   }
 }
 
-.container-main {
-  > * {
-    margin: ($cassiopeia-grid-gutter / 2);
-  }
-
-  @include media-breakpoint-down(sm) {
-    flex-direction: column;
-
-    > * {
-      flex: 0 1 auto;
-    }
-  }
-}
-
-.container-component {
+.container-component,
+.container-sidebar-left,
+.container-sidebar-right {
+  display: flex;
   flex: 1;
+  flex-direction: column;
 
-  > *:not(#system-message-container) {
-    margin-bottom: $cassiopeia-grid-gutter;
+  > * {
+    margin-bottom: 0;
 
-    &:last-of-type {
-      margin-bottom: 0;
+    &:first-child {
+      margin-top: $cassiopeia-grid-gutter;
     }
+  }
+
+  > * + * {
+    margin-top: $cassiopeia-grid-gutter;
   }
 }
 
@@ -83,6 +75,23 @@ header {
   @include media-breakpoint-up(sm) {
     width: calc(25% - #{$cassiopeia-grid-gutter});
     order: 0;
+  }
+}
+
+.container-sidebar-left {
+  .sidebar-left:first-child {
+    margin-top: $cassiopeia-grid-gutter;
+  }
+  .sidebar-left:last-child {
+    margin-bottom: $cassiopeia-grid-gutter;
+  }
+}
+.container-sidebar-right {
+  .sidebar-right:first-child {
+    margin-top: $cassiopeia-grid-gutter;
+  }
+  .sidebar-right:last-child {
+    margin-bottom: $cassiopeia-grid-gutter;
   }
 }
 

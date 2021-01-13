@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ use Joomla\CMS\Language\Text;
 				<div class="controls">
 					<input type="text" name="comment" id="comment" value="" size="50">
 				</div>
-			</div>			
+			</div>
 			<button class="btn btn-primary" type="button" onclick="this.form.task.value='links.duplicateUrls';this.form.submit();">
 				<?php echo Text::_('COM_REDIRECT_BUTTON_UPDATE_LINKS'); ?>
 			</button>

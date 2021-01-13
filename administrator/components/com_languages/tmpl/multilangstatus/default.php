@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -324,8 +324,8 @@ $home_pages        = array_column($this->homepages, 'language');
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							</td>
 						</tr>
- 					<?php endif; ?>
- 				<?php endforeach; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
 			</tbody>
 		</table>
 	<?php endif; ?>

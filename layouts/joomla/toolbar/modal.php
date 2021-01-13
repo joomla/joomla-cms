@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,9 +57,9 @@ echo HTMLHelper::_('bootstrap.renderModal',
 		'modalWidth'  => 80,
 		'bodyHeight'  => 60,
 		'closeButton' => true,
-		'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
+		'footer'      => '<button class="btn btn-secondary" data-dismiss="modal" type="button"'
 						. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
-						. Text::_('COM_BANNERS_CANCEL') . '</a>'
+						. Text::_('COM_BANNERS_CANCEL') . '</button>'
 						. '<button class="btn btn-success" type="button"'
 						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal_downloadModal\', buttonSelector: \'#exportBtn\'})">'
 						. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',

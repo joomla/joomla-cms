@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1134,6 +1134,18 @@ abstract class FormField
 			if ($this instanceof SubformField)
 			{
 				$subForm = $this->loadSubForm();
+
+				// Subform field may have a default value, that is a JSON string
+				if ($value && is_string($value))
+				{
+					$value = json_decode($value, true);
+
+					// The string is invalid json
+					if (!$value)
+					{
+						return null;
+					}
+				}
 
 				if ($this->multiple)
 				{

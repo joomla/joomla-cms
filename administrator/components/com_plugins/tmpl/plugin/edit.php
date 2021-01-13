@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,17 +66,16 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 									<?php
 									$this->fieldset    = 'description';
 									$short_description = Text::_($this->item->xml->description);
-									$this->fieldset    = 'description';
 									$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
 									if (!$long_description)
 									{
-										$truncated = JHtmlString::truncate($short_description, 550, true, false);
+										$truncated = HtmlHelper::_('string.truncate', $short_description, 550, true, false);
 
 										if (strlen($truncated) > 500)
 										{
 											$long_description  = $short_description;
-											$short_description = JHtmlString::truncate($truncated, 250);
+											$short_description = HtmlHelper::_('string.truncate', $truncated, 250);
 
 											if ($short_description == $long_description)
 											{

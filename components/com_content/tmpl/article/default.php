@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,10 @@ $user    = Factory::getUser();
 $info    = $params->get('info_block_position', 0);
 
 // Check if associations are implemented. If they are, define the parameter.
-$assocParam = (Associations::isEnabled() && $params->get('show_associations'));
+$assocParam        = (Associations::isEnabled() && $params->get('show_associations'));
+$currentDate       = Factory::getDate()->format('Y-m-d H:i:s');
+$isNotPublishedYet = $this->item->publish_up > $currentDate;
+$isExpired         = !is_null($this->item->publish_down) && $this->item->publish_down < $currentDate;
 ?>
 <div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
@@ -55,10 +58,10 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
-		<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
+		<?php if ($isNotPublishedYet) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
-		<?php if (!is_null($this->item->publish_down) && (strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
+		<?php if ($isExpired) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
@@ -130,25 +133,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php $itemId = $active->id; ?>
 	<?php $link = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false)); ?>
 	<?php $link->setVar('return', base64_encode(RouteHelper::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
-	<p class="com-content-article__readmore readmore">
-		<a href="<?php echo $link; ?>" class="register">
-		<?php $attribs = json_decode($this->item->attribs); ?>
-		<?php
-		if ($attribs->alternative_readmore == null) :
-			echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-		elseif ($readmore = $attribs->alternative_readmore) :
-			echo $readmore;
-			if ($params->get('show_readmore_title', 0) != 0) :
-				echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
-			endif;
-		elseif ($params->get('show_readmore_title', 0) == 0) :
-			echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE');
-		else :
-			echo Text::_('COM_CONTENT_READ_MORE');
-			echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
-		endif; ?>
-		</a>
-	</p>
+	<?php echo LayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
 	<?php endif; ?>
 	<?php endif; ?>
 	<?php

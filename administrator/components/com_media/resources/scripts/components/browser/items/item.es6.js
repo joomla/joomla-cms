@@ -94,7 +94,22 @@ export default {
                 thumb: this.item.thumb,
                 fileType: this.item.mime_type ? this.item.mime_type : false,
                 extension: this.item.extension ? this.item.extension : false,
+                width: this.item.width ? this.item.width : 0,
+                height: this.item.height ? this.item.height : 0,
               },
+            },
+          ),
+        );
+      }
+
+      if (this.item.type === 'dir') {
+        window.parent.document.dispatchEvent(
+          new CustomEvent(
+            'onMediaFileSelected',
+            {
+              bubbles: true,
+              cancelable: false,
+              detail: {},
             },
           ),
         );
@@ -110,6 +125,17 @@ export default {
         this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
         return;
       }
+      this.$store.dispatch('toggleBrowserItemSelect', this.item);
+      window.parent.document.dispatchEvent(
+        new CustomEvent(
+          'onMediaFileSelected',
+          {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          },
+        ),
+      );
 
       // If more than one item was selected and the user clicks again on the selected item,
       // he most probably wants to unselect all other items.

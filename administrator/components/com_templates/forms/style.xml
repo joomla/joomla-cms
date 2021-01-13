@@ -5,7 +5,6 @@
 			name="id"
 			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			id="id"
 			default="0"
 			readonly="true"
 			class="readonly"

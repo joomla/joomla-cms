@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ $this->fields = array('toggle_modules_assigned','toggle_modules_published');
 echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 
 <table class="table" id="modules_assigned">
-	<caption id="captionTable" class="sr-only">
+	<caption class="sr-only">
 		<?php echo Text::_('COM_MENUS_MODULES_TABLE_CAPTION'); ?>
 	</caption>
 	<thead>
