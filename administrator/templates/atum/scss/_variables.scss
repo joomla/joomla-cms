@@ -67,6 +67,7 @@ $colors: (
   danger-border:                   theme-color("danger"),
   login-main-bg:                   darken($base-color, 8%), //used on login
   border:                          $gray-400,
+  'white':                         $white, // the key here must be in quotes to avoid scss compilation warnings.
   white-offset:                    $whiteoffset,
   focus:                           $focuscolor,
   focus-shadow:                    $focusshadow,
