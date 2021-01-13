@@ -45,8 +45,7 @@ Joomla = window.Joomla || {};
 
         if (elements) {
           elements.forEach((element) => {
-            // @todo Remove jQuery!!
-            window.jQuery(element).collapse('toggle');
+            element.toggle();
           });
         }
       });
