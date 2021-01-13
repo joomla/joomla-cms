@@ -32,9 +32,7 @@ if ($params->get('show_button', 0))
 	$output .= $label;
 	$output .= '<div class="mod-finder__search input-group">';
 	$output .= $input;
-	$output .= '<span class="input-group-append">';
 	$output .= '<button class="btn btn-primary" type="submit"><span class="icon-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
-	$output .= '</span>';
 	$output .= '</div>';
 }
 else

@@ -166,10 +166,8 @@ Text::script('JLIB_APPLICATION_ERROR_SERVER');
 	<div class="input-group">
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
-			<div class="input-group-append">
-				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
-				<button type="button" class="btn btn-secondary button-clear"><span class="icon-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
-			</div>
+            <button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
+            <button type="button" class="btn btn-secondary button-clear"><span class="icon-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 		<?php endif; ?>
 	</div>
 </joomla-field-media>

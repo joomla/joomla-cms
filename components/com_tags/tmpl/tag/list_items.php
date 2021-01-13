@@ -36,10 +36,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					class="inputbox" onchange="document.adminForm.submit();"
 					placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>"
 				>
-				<span class="input-group-append">
-					<button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
-					<button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
-				</span>
+                <button type="submit" name="filter_submit" class="btn btn-primary"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+                <button type="reset" name="filter-clear-button" class="btn btn-secondary"><?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?></button>
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>

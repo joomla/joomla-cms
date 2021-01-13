@@ -275,11 +275,6 @@ class MenuField extends FormField
 
 		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35">';
 
-		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
-		{
-			$html .= '<span class="input-group-append">';
-		}
-
 		// Select menu item button
 		if ($this->allowSelect)
 		{
@@ -350,7 +345,7 @@ class MenuField extends FormField
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
-			$html .= '</span></span>';
+			$html .= '</span>';
 		}
 
 		// Select menu item modal

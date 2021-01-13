@@ -34,12 +34,7 @@
                 required
                 autocomplete="off"
               >
-              <span
-                v-if="extension.length"
-                class="input-group-append"
-              >
-                <span class="input-group-text">{{ extension }}</span>
-              </span>
+              <span v-if="extension.length" class="input-group-text">{{ extension }}</span>
             </div>
           </div>
         </form>

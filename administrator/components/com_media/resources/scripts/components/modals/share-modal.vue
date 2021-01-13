@@ -43,19 +43,17 @@
                   placeholder="URL"
                   autocomplete="off"
                 >
-                <span class="input-group-append">
-                  <button
-                    class="btn btn-secondary"
-                    type="button"
-                    :title="translate('COM_MEDIA_SHARE_COPY')"
-                    @click="copyToClipboard"
-                  >
-                    <span
-                      class="icon-clipboard"
-                      aria-hidden="true"
-                    />
-                  </button>
-                </span>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  :title="translate('COM_MEDIA_SHARE_COPY')"
+                  @click="copyToClipboard"
+                >
+                  <span
+                    class="icon-clipboard"
+                    aria-hidden="true"
+                  />
+                </button>
               </span>
             </div>
           </template>

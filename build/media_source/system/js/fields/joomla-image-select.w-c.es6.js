@@ -256,9 +256,7 @@
   <div class="">
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
         <input class="form-control" type="text" id="${this.parentId}-alt" />
       </div>
     </div>
@@ -277,25 +275,19 @@
     </div>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-classes">${this.classestext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-classes">${this.classestext}</label>
         <input class="form-control" type="text" id="${this.parentId}-classes" />
       </div>
     </div>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-figclasses">${this.figclassestext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-figclasses">${this.figclassestext}</label>
         <input class="form-control" type="text" id="${this.parentId}-figclasses" />
       </div>
     </div>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
         <input class="form-control" type="text" id="${this.parentId}-figcaption" />
       </div>
     </div>

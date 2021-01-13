@@ -90,9 +90,9 @@ class MenutypeField extends ListField
 		$link = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
-		$html[] = '<span class="input-group-append"><button type="button" data-bs-target="#menuTypeModal" class="btn btn-primary" data-bs-toggle="modal">'
+		$html[] = '<button type="button" data-bs-target="#menuTypeModal" class="btn btn-primary" data-bs-toggle="modal">'
 			. '<span class="icon-list icon-white" aria-hidden="true"></span> '
-			. Text::_('JSELECT') . '</button></span></span>';
+			. Text::_('JSELECT') . '</button></span>';
 		$html[] = HTMLHelper::_(
 			'bootstrap.renderModal',
 			'menuTypeModal',

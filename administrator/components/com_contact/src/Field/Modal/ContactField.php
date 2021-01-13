@@ -140,11 +140,6 @@ class ContactField extends FormField
 
 		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" readonly size="35">';
 
-		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
-		{
-			$html .= '<span class="input-group-append">';
-		}
-
 		// Select contact button
 		if ($allowSelect)
 		{
@@ -215,7 +210,7 @@ class ContactField extends FormField
 
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
-			$html .= '</span></span>';
+			$html .= '</span>';
 		}
 
 		// Select contact modal
