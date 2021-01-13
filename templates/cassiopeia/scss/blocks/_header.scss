@@ -7,7 +7,7 @@
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px hsla(0, 0%, 0%, .03) inset;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     position: relative !important;
   }
 
@@ -129,7 +129,7 @@
         background: $white;
       }
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         &.active > a,
         &.active > span,
         > a:hover {

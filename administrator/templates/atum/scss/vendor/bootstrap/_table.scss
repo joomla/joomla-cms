@@ -16,7 +16,7 @@
       border-top: 0;
       border-bottom: 0;
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         white-space: normal;
       }
     }
@@ -33,7 +33,7 @@
 
     .actions,
     .actions-th1 {
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         width: 28%;
       }
 

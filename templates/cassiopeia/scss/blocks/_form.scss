@@ -29,7 +29,7 @@
   width: auto;
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
   .form-inline .form-select {
     width: 100%;
   }

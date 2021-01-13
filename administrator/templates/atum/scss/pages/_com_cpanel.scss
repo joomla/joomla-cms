@@ -58,11 +58,11 @@
     }
 
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       column-count: 2;
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       column-count: 1;
     }
   }
