@@ -96,6 +96,11 @@
 
       this.button.addEventListener('click', this.show);
 
+      // Bootstrap modal init
+      if (Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.initModal && typeof Joomla.Bootstrap.Methods.initModal === 'function') {
+        Joomla.Bootstrap.Methods.initModal(this.modalElement);
+      }
+
       if (this.buttonClearEl) {
         this.buttonClearEl.addEventListener('click', this.clearValue);
       }
