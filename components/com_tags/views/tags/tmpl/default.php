@@ -24,7 +24,7 @@ $descriptionImage = $this->params->get('all_tags_description_image');
 	<?php endif; ?>
 	<?php if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage)) : ?>
 		<div>
-			<img src="<?php echo $descriptionImage; ?>" />
+			<img src="<?php echo htmlspecialchars($descriptionImage, ENT_QUOTES, 'UTF-8'); ?>" />
 		</div>
 	<?php endif; ?>
 	<?php if (!empty($description)) : ?>
