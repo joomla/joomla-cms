@@ -372,18 +372,16 @@
     throw new Error('Joomla API is not properly initiated');
   }
 
-  if (window.jQuery) {
-    const MediaXTDElements = Joomla.getOptions('xtdImageModal');
+  const MediaXTDElements = Joomla.getOptions('xtdImageModal');
 
-    if (MediaXTDElements) {
-      MediaXTDElements.forEach((element) => {
-        window.jQuery(`#${element}`).on('show.bs.modal', (ev) => {
-          const addData = ev.target.querySelector('joomla-field-mediamore');
-          if (addData) {
-            addData.parentNode.removeChild(addData);
-          }
-        });
+  if (MediaXTDElements) {
+    MediaXTDElements.forEach((element) => {
+      document.querySelector(`#${element}`).addEventListener('show.bs.modal', (ev) => {
+        const addData = ev.target.querySelector('joomla-field-mediamore');
+        if (addData) {
+          addData.parentNode.removeChild(addData);
+        }
       });
-    }
+    });
   }
 })(Joomla);

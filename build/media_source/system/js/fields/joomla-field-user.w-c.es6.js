@@ -54,8 +54,8 @@
       this.setValue = this.setValue.bind(this);
 
       // Bootstrap modal init
-      if (Joomla.Bootstrap && Joomla.Bootstrap.initModal && typeof Joomla.Bootstrap.initModal === 'function') {
-        Joomla.Bootstrap.initModal(this.modal);
+      if (Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.Modal && typeof Joomla.Bootstrap.initModal === 'function') {
+        Joomla.Bootstrap.Methods.Modal(this.modal);
       }
 
       if (this.buttonSelect) {
