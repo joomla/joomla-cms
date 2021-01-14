@@ -89,20 +89,6 @@
   }
 }
 
-.modal-header {
-  padding: 0 15px;
-
-  .close {
-    width: $modal-header-height;
-    height: $modal-header-height;
-    margin-top: 0;
-    margin-right: -15px;
-    font-size: 2rem;
-    line-height: 1rem;
-    border-left: 1px solid var(--border);
-  }
-}
-
 .modal-body {
   overflow-y: initial;
 }

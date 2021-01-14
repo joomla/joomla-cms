@@ -161,19 +161,6 @@ ul {
   float: left;
 }
 
-// Modal header override
-.modal-header .close {
-  margin-right: 0 !important;
-  margin-left: -15px;
-  border-right: 1px solid var(--border);
-  border-left: 0 !important;
-
-  span {
-    position: relative;
-    left: 6px;
-  }
-}
-
 // Redirect urls fields
 #jform_new_url,
 #jform_old_url,
