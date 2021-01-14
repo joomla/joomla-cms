@@ -70,7 +70,7 @@ $label = '<label id="' . $id . '-lbl" for="' . $id . '" class="' . $class . '"';
 if (!empty($description))
 {
 	$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-	$label .= ' data-bs-contentt="' . htmlspecialchars(
+	$label .= ' data-bs-content="' . htmlspecialchars(
 		$translateDescription ? Text::_($description) : $description,
 		ENT_COMPAT,
 		'UTF-8'

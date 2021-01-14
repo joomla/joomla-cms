@@ -85,7 +85,7 @@ class SpacerField extends FormField
 			{
 				HTMLHelper::_('bootstrap.popover');
 				$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-				$label .= ' data-bs-contentt="' . htmlspecialchars(
+				$label .= ' data-bs-content="' . htmlspecialchars(
 					$this->translateDescription ? Text::_($this->description) : $this->description,
 					ENT_COMPAT,
 					'UTF-8'

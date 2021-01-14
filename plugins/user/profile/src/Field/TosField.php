@@ -69,7 +69,7 @@ class TosField extends RadioField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' data-bs-contentt="' . htmlspecialchars(
+			$label .= ' data-bs-content="' . htmlspecialchars(
 				$this->translateDescription ? Text::_($this->description) : $this->description,
 				ENT_COMPAT,
 				'UTF-8'
