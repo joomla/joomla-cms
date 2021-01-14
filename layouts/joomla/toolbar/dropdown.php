@@ -56,4 +56,3 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 	</div>
 </joomla-toolbar-button>
 <?php endif; ?>
-

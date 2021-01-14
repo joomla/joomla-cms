@@ -191,7 +191,6 @@ abstract class Bootstrap
 
 		Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter((array) $opt)]);
 
-
 		static::$loaded[__METHOD__][$selector] = true;
 	}
 
