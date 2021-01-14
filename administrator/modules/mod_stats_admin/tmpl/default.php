@@ -16,9 +16,9 @@ defined('_JEXEC') or die;
 
 		if (elms.length) {
 			elms.forEach(function(el) {
-				el.addEventListener("click", function(ev) {
-					ev.preventDefault();
-					ev.stopPropagation();
+				el.addEventListener("click", function(e) {
+					e.preventDefault();
+					e.stopPropagation();
 
 					var activeTab = [];
 					activeTab.push("#" + e.target.href.split("#")[1]);
