@@ -51,7 +51,6 @@ elseif (!empty($onclick))
 {
 	$htmlAttributes .= ' onclick="' . $onclick . '"';
 }
-
 ?>
 
 <joomla-toolbar-button <?php echo $idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
@@ -69,4 +68,4 @@ elseif (!empty($onclick))
 	<?php echo $text ?? ''; ?>
 </<?php echo $tagName; ?>>
 <?php endif; ?>
-</joomla-toolbar-button>
+

@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var modal =document.getElementById('{$options['selector']}');
   document.body.appendChild(modal);
   if (Joomla && Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.Modal) {
-    Joomla.Bootstrap.Methods.Modal.initModal(modal);
+    Joomla.Bootstrap.Methods.Initialise.Modal(modal);
   }
 });
 JS
