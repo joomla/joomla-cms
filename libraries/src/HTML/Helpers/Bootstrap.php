@@ -461,7 +461,7 @@ abstract class Bootstrap
 	 * Options for the Scrollspy can be:
 	 * - offset  number  Pixels to offset from top when calculating position of scroll.
 	 */
-	public static function scrollspy($selector = 'navbar', $options = []) :void
+	public static function scrollspy($selector = '[data-bs-spy="scroll"]', $options = []) :void
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
