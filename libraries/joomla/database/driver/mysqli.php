@@ -961,10 +961,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		try
 		{
-			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'query_cache_type'");
+			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'have_query_cache'");
 			$row = mysqli_fetch_assoc($res);
 
-			return isset($row);
+			return isset($row['Value']) && $row['Value'] === 'YES';
 		}
 		catch (Exception $e)
 		{
