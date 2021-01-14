@@ -102,7 +102,7 @@
         && Joomla.Bootstrap.Instances
         && Joomla.Bootstrap.Instances.Modal
         && Joomla.Bootstrap.Instances.Modal.get(this.modalElement) === undefined) {
-        Joomla.Bootstrap.Methods.initModal(this.modalElement);
+        Joomla.Bootstrap.Initialise.Modal(this.modalElement);
       }
 
       if (this.buttonClearEl) {

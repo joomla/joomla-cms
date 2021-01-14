@@ -59,7 +59,7 @@
         && Joomla.Bootstrap.Instances
         && Joomla.Bootstrap.Instances.Modal
         && Joomla.Bootstrap.Instances.Modal.get(this.modal) === undefined) {
-        Joomla.Bootstrap.Methods.initModal(this.modal);
+        Joomla.Bootstrap.Initialise.Modal(this.modal);
       }
 
       if (this.buttonSelect) {
