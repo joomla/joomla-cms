@@ -13,8 +13,6 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-// HTMLHelper::_('bootstrap.framework');
-
 // Check if feed URL has been set
 if (empty ($rssurl))
 {

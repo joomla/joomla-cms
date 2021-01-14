@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-// HTMLHelper::_('bootstrap.framework');
-
 $moduleId = str_replace(' ', '', $module->title) . $module->id;
 
 ?>
