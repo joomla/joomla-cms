@@ -147,8 +147,8 @@ $h5-font-size:                        .9286rem;
 $h6-font-size:                        .8571rem;
 
 // Icons
-$jicon-css-prefix:                    icon;
-$fa-css-prefix:                       fa;
+$jicon-css-prefix:                    icon !default;
+$fa-css-prefix:                       fa !default;
 
 // Tables
 $table-bg:                            transparent !default;
