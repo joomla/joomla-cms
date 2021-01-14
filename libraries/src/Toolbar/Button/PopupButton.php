@@ -158,8 +158,12 @@ class PopupButton extends ToolbarButton
 			// TODO: There should be a better workaround than this
 			Factory::getDocument()->addScriptDeclaration(
 				<<<JS
-window.addEventListener('DOMContentLoaded', function() {
-	document.body.appendChild(document.getElementById('{$options['selector']}'));
+document.addEventListener('DOMContentLoaded', function() {
+  var modal =document.getElementById('{$options['selector']}');
+  document.body.appendChild(modal);
+  if (Joomla && Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.Modal) {
+    Joomla.Bootstrap.Methods.Modal.initModal(modal);
+  }
 });
 JS
 			);
@@ -170,9 +174,9 @@ JS
 		{
 			Factory::getDocument()->addScriptDeclaration(
 				<<<JS
-window.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
 	document.querySelector('#{$options['selector']}').addEventListener('hide.bs.modal', function() {
-	    new Function({$options['onclose']});
+	      {$options['onclose']}
 	});
 });
 JS

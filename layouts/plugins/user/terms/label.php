@@ -70,7 +70,7 @@ $label = '<label id="' . $id . '-lbl" for="' . $id . '" class="' . $class . '"';
 if (!empty($description))
 {
 	$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-	$label .= ' data-content="' . htmlspecialchars(
+	$label .= ' data-bs-contentt="' . htmlspecialchars(
 		$translateDescription ? Text::_($description) : $description,
 		ENT_COMPAT,
 		'UTF-8'
@@ -79,7 +79,7 @@ if (!empty($description))
 
 if (Factory::getLanguage()->isRtl())
 {
-	$label .= ' data-placement="left"';
+	$label .= ' data-bs-placement="left"';
 }
 
 if ($article)
