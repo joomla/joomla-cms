@@ -98,7 +98,7 @@ Text::script('JHIDEPASSWORD');
 			?>
 		<div class="form-group">
 			<button type="button"
-					class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
+					class="btn btn-secondary w-100 mt-4 <?php echo $button['class'] ?? '' ?>"
 					<?php foreach ($dataAttributeKeys as $key): ?>
 					<?php echo $key ?>="<?php echo $button[$key] ?>"
 					<?php endforeach; ?>
@@ -122,7 +122,7 @@ Text::script('JHIDEPASSWORD');
 		</div>
 		<?php endforeach; ?>
 		<div class="form-group">
-			<button type="submit" id="btn-login-submit" class="btn btn-primary btn-block btn-lg mt-4"><?php echo Text::_('JLOGIN'); ?></button>
+			<button type="submit" id="btn-login-submit" class="btn btn-primary w-100 btn-lg mt-4"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">

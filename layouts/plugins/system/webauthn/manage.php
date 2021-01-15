@@ -132,7 +132,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 			<button
 				type="button"
 				id="plg_system_webauthn-manage-add"
-				class="btn btn-success btn-block"
+				class="btn btn-success w-100"
 				data-random-id="<?php echo $randomId; ?>">
 				<span class="icon-plus" aria-hidden="true"></span>
 				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>

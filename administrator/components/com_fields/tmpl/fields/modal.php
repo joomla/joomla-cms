@@ -85,10 +85,10 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row" class="has-context">
-							<a class="btn btn-sm btn-block btn-success" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
+							<a class="btn btn-sm btn-success w-100" href="#" onclick="Joomla.fieldIns('<?php echo $this->escape($item->id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $this->escape($item->title); ?></a>
 						</th>
 						<td class="small d-none d-md-table-cell">
-							<a class="btn btn-sm btn-block btn-warning" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : Text::_('JNONE'); ?></a>
+							<a class="btn btn-sm btn-warning w-100" href="#" onclick="Joomla.fieldgroupIns('<?php echo $this->escape($item->group_id); ?>', '<?php echo $this->escape($editor); ?>');"><?php echo $item->group_id ? $this->escape($item->group_title) : Text::_('JNONE'); ?></a>
 						</td>
 						<td class="small d-none d-md-table-cell">
 							<?php echo $item->type; ?>

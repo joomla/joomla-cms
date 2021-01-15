@@ -22,7 +22,7 @@
           <template v-if="!url">
             <div class="control">
               <button
-                class="btn btn-success btn-block"
+                class="btn btn-success w-100"
                 type="button"
                 @click="generateUrl"
               >

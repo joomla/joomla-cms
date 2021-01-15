@@ -24,8 +24,8 @@ HTMLHelper::_('behavior.formvalidator');
 		</legend>
 		<div class="j-install-step-form" id="customInstallation">
 			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
-			<div class="form-group">
-				<button class="btn btn-primary btn-block" id="installAddFeatures">
+			<div class="mb-3 mt-4">
+				<button class="btn btn-primary w-100" id="installAddFeatures">
 					<?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
 				</button>
 			</div>
@@ -118,7 +118,7 @@ HTMLHelper::_('behavior.formvalidator');
 			<?php endforeach; ?>
 			</tbody>
 		</table>
-		<button id="defaultLanguagesButton" class="btn btn-block btn-primary">
+		<button id="defaultLanguagesButton" class="btn w-100 mt-4 btn-primary">
 			<?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="icon-chevron-right" aria-hidden="true"></span>
 		</button>
 		<?php echo HTMLHelper::_('form.token'); ?>
@@ -187,9 +187,9 @@ HTMLHelper::_('behavior.formvalidator');
 				<?php endif; ?>
 				<?php echo HTMLHelper::_('form.token'); ?>
 
-				<div class="form-group j-install-last-step">
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+				<div class="form-group j-install-last-step d-grid gap-2">
+					<a class="btn btn-primary w-100" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="icon-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
+					<a class="btn btn-primary w-100" href="<?php echo Uri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="icon-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
 				</div>
 			</div>
 		</div>
@@ -199,7 +199,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<span class="icon-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
 			</legend>
 			<div class="j-install-step-form">
-				<?php if (!$this->items) : ?>
+			<?php if (!$this->items) : ?>
 				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET'); ?></p>
 				<p>
 					<a href="#"
@@ -263,13 +263,13 @@ HTMLHelper::_('behavior.formvalidator');
 					<?php endforeach; ?>
 					</tbody>
 				</table>
-				<div class="form-group">
-					<?php echo HTMLHelper::_('form.token'); ?>
-					<?php endif; ?>
-					<button id="installLanguagesButton" class="btn btn-block btn-primary">
+				<?php echo HTMLHelper::_('form.token'); ?>
+			<?php endif; ?>
+                <div class="form-group d-grid gap-2">
+					<button id="installLanguagesButton" class="btn btn-primary w-100">
 						<?php echo Text::_('JNEXT'); ?>
 					</button>
-					<button id="skipLanguages" class="btn btn-block btn-secondary">
+					<button id="skipLanguages" class="btn btn-secondary w-100">
 					<?php echo Text::_('JSKIP'); ?>
 					</button>
 				</div>
