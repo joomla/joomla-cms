@@ -603,6 +603,6 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	{
 		$result = $this->setQuery("SHOW VARIABLES LIKE 'query_cache_type'")->loadAssoc();
 
-		return isset($result['Value']) && (int) $result['Value'] === 1;
+		return isset($result['Value']) && ($result['Value'] === 'ON' || $result['Value'] === 'DEMAND');
 	}
 }

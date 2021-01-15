@@ -523,7 +523,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			$res = mysql_query("SHOW VARIABLES LIKE 'query_cache_type'", $this->connection);
 			$row = mysql_fetch_assoc($res);
 
-			return isset($row['Value']) && (int) $row['Value'] === 1;
+			return isset($row['Value']) && ($row['Value'] === 'ON' || $row['Value'] === 'DEMAND');
 		}
 		catch (Exception $e)
 		{
