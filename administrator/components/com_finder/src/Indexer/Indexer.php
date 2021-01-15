@@ -18,7 +18,9 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
+use Exception;
 
 /**
  * Main indexer class for the Finder indexer package.
@@ -102,7 +104,7 @@ class Indexer
 	/**
 	 * Reusable Query Template. To be used with clone.
 	 *
-	 * @var    Joomla\Database\QueryInterface
+	 * @var    QueryInterface
 	 * @since  3.8.0
 	 */
 	protected $addTokensToDbQueryTemplate;
@@ -834,7 +836,7 @@ class Indexer
 				// Parse, tokenise and add tokens to the database.
 				$count = $this->tokenizeToDbShort($string, $context, $lang, $format, $count);
 
-				unset($string, $tokens);
+				unset($string);
 			}
 
 			return $count;
