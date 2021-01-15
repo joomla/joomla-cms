@@ -33,14 +33,16 @@ $checkboxName = $options['checkbox_name'];
 
 if ($tip)
 {
-	HTMLHelper::_('bootstrap.popover', '.hasPopover');
+	HTMLHelper::_('bootstrap.popover');
 }
 ?>
 <?php if ($only_icon || $disabled) : ?>
-	<span class="tbody-icon mr-1 align-self-start <?php echo $tip ? '.hasPopover' : ''; ?> disabled"
+	<span class="tbody-icon mr-1 align-self-start disabled"
 			title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
 			data-bs-content="<?php echo HTMLHelper::_('tooltipText', $tipContent, '', 0); ?>"
 			data-bs-placement="top"
+		  	data-bs-toggle="popover"
+		  	data-bs-trigger="hover focus"
 		>
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 	</span>
@@ -51,11 +53,12 @@ if ($tip)
 		<?php endif; ?>
 	</div>
 <?php else : ?>
-	<?php HTMLHelper::_('bootstrap.popover', '.hasPopover'); ?>
-	<button type="button" class="tbody-icon align-self-start mr-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $tip ? '.hasPopover' : ''; ?>"
+	<button type="button" class="tbody-icon align-self-start mr-1 data-state-<?php echo $this->escape($value ?? ''); ?>"
 		title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
 		data-bs-content="<?php echo HTMLHelper::_('tooltipText', $tipContent, '', 0); ?>"
 		data-bs-placement="top"
+		data-bs-toggle="popover"
+		data-bs-trigger="hover focus"
 		onclick="Joomla.toggleAllNextElements(this, 'd-none')"
 	>
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
