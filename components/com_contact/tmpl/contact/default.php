@@ -43,7 +43,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 
 	<?php if ($canEdit) : ?>
 		<div class="icons">
-			<div class="float-right">
+			<div class="float-end">
 				<div>
 					<?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?>
 				</div>
@@ -93,7 +93,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 		<?php echo '<h3>' . Text::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
 
 		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
-			<div class="com-contact__thumbnail thumbnail float-right">
+			<div class="com-contact__thumbnail thumbnail float-end">
 				<?php echo HTMLHelper::_(
 					'image',
 					$this->item->image,

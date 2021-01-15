@@ -107,7 +107,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
-		<div class="com-content-category__pagination btn-group float-right">
+		<div class="com-content-category__pagination btn-group float-end">
 			<label for="limit" class="sr-only">
 				<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 			</label>
@@ -327,7 +327,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 		<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 			<div class="com-content-category__navigation w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="com-content-category__counter counter float-right pt-3 pr-2">
+					<p class="com-content-category__counter counter float-end pt-3 pr-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>
 					</p>
 				<?php endif; ?>

@@ -50,7 +50,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 				</div>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_pagination_limit')) : ?>
-				<div class="btn-group float-right">
+				<div class="btn-group float-end">
 					<label for="limit" class="sr-only">
 						<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 					</label>

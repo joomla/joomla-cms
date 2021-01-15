@@ -39,7 +39,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</div>
 					<?php endif; ?>
 					<?php if ($this->params->get('show_pagination_limit')) : ?>
-						<div class="btn-group float-right">
+						<div class="btn-group float-end">
 							<label for="limit" class="sr-only">
 								<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 							</label>
@@ -56,11 +56,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<li class="cat-list-row<?php echo $i % 2; ?>">
 					<?php endif; ?>
 					<?php if ($this->params->get('show_articles')) : ?>
-						<span class="list-hits badge badge-info float-right">
+						<span class="list-hits badge badge-info float-end">
 							<?php echo Text::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
 						</span>
 					<?php endif; ?>
-					<span class="list float-left">
+					<span class="list float-start">
 						<div class="list-title">
 							<a href="<?php echo Route::_(RouteHelper::getNewsfeedRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?>
@@ -75,7 +75,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<br>
 					<?php if ($this->params->get('show_link')) : ?>
 						<?php $link = PunycodeHelper::urlToUTF8($item->link); ?>
-						<span class="list float-left">
+						<span class="list float-start">
 							<a href="<?php echo $item->link; ?>">
 								<?php echo $link; ?>
 							</a>
@@ -90,7 +90,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 					<div class="com-newsfeeds-category__pagination w-100">
 						<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-							<p class="counter float-right pt-3 pr-2">
+							<p class="counter float-end pt-3 pr-2">
 								<?php echo $this->pagination->getPagesCounter(); ?>
 							</p>
 						<?php endif; ?>

@@ -145,17 +145,17 @@ th dd {
 
 figure {
   margin: 0 0 ($cassiopeia-grid-gutter*2);
-  &.float-left {
+  &.float-start {
     margin-right: $cassiopeia-grid-gutter;
   }
-  &.float-right {
+  &.float-end {
     margin-left: $cassiopeia-grid-gutter;
   }
-  [dir="rtl"] &.float-left {
+  [dir="rtl"] &.float-start {
     margin-right: 0;
     margin-left: $cassiopeia-grid-gutter;
   }
-  [dir="rtl"] &.float-right {
+  [dir="rtl"] &.float-end {
     margin-right: $cassiopeia-grid-gutter;
     margin-left: 0;
   }

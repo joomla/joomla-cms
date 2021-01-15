@@ -45,7 +45,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="com-contact-featured__pagination btn-group float-right">
+			<div class="com-contact-featured__pagination btn-group float-end">
 				<label for="limit" class="sr-only">
 					<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>

@@ -118,7 +118,7 @@ $context = $this->escape($this->state->get('filter.context'));
 										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'groups.', $canChange, 'cb'); ?>
 									</td>
 									<th scope="row">
-										<div class="float-left break-word">
+										<div class="float-start break-word">
 											<?php if ($item->checked_out) : ?>
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'groups.', $canCheckin); ?>
 											<?php endif; ?>

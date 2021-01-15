@@ -50,7 +50,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="com-contact-category__pagination btn-group float-right">
+			<div class="com-contact-category__pagination btn-group float-end">
 				<label for="limit" class="sr-only">
 					<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>
@@ -188,7 +188,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php if ($this->params->get('show_pagination', 2)) : ?>
 			<div class="com-contact-category__counter w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="com-contact-category__counter counter float-right pt-3 pr-2">
+					<p class="com-contact-category__counter counter float-end pt-3 pr-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>
 					</p>
 				<?php endif; ?>

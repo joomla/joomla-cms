@@ -35,7 +35,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 							id="category-btn-<?php echo $item->id; ?>"
 							data-bs-target="#category-<?php echo $item->id; ?>"
 							data-bs-toggle="collapse"
-							class="btn btn-secondary btn-sm float-right"
+							class="btn btn-secondary btn-sm float-end"
 							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
 						>
 							<span class="icon-plus" aria-hidden="true"></span>

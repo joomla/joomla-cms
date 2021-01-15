@@ -68,7 +68,7 @@ $n         = count($this->items);
 				</div>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_pagination_limit')) : ?>
-				<div class="btn-group float-right">
+				<div class="btn-group float-end">
 					<label for="limit" class="sr-only">
 						<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 					</label>
@@ -146,7 +146,7 @@ $n         = count($this->items);
 		<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 			<div class="com-tags__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="counter float-right pt-3 pr-2">
+					<p class="counter float-end pt-3 pr-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>
 					</p>
 				<?php endif; ?>

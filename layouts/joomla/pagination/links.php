@@ -57,7 +57,7 @@ if ($currentPage >= $step)
 		<div class="pagination pagination-toolbar text-center">
 
 			<?php if ($showLimitBox) : ?>
-				<div class="limit float-right">
+				<div class="limit float-end">
 					<?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
 				</div>
 			<?php endif; ?>
