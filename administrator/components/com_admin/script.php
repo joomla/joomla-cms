@@ -6226,6 +6226,10 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/controller',
 			// Joomla 4.0 Beta 5
 			'/plugins/content/imagelazyload',
+			// Joomla 4.0 Beta 6
+			'/media/vendor/skipto/js/skipTo.js',
+			'/media/vendor/skipto/js/dropMenu.js',
+			'/media/vendor/skipto/css/SkipTo.css'
 		);
 
 		$status['files_checked'] = $files;
