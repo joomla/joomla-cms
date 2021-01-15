@@ -213,7 +213,7 @@ abstract class Bootstrap
 
 		static::$loaded[__METHOD__][$selector] = true;
 
-		return LayoutHelper::render('libraries.html.bootstrap.modal.main', $layoutData);
+		return LayoutHelper::render('joomla.modal.main', $layoutData);
 	}
 
 	/**
