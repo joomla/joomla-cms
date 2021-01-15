@@ -41,8 +41,8 @@ if ($tip)
 			title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
 			data-bs-content="<?php echo HTMLHelper::_('tooltipText', $tipContent, '', 0); ?>"
 			data-bs-placement="top"
-		  	data-bs-toggle="popover"
-		  	data-bs-trigger="hover focus"
+			data-bs-toggle="popover"
+			data-bs-trigger="hover focus"
 		>
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 	</span>
