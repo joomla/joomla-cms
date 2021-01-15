@@ -219,7 +219,7 @@ caption {
   caption-side: top;
 }
 
-.badge-warning {
+.bg-warning {
   color: #292b2c;
 }
 
@@ -231,4 +231,8 @@ caption {
   z-index: $zindex-header;
   background-color: $white;
   box-shadow: 0 0 1px 1px rgba(0, 0, 0, .25);
+}
+
+.table > :not(:last-child) > :last-child > * {
+  border-bottom-color: $table-border-color;
 }

@@ -158,12 +158,12 @@ HTMLHelper::_('behavior.formvalidator');
 									<?php echo $setting->label; ?>
 								</td>
 								<td>
-							<span class="badge badge-success disabled">
+							<span class="badge bg-success disabled">
 								<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</span>
 								</td>
 								<td>
-							<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+							<span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 								<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
 							</span>
 								</td>
@@ -171,11 +171,6 @@ HTMLHelper::_('behavior.formvalidator');
 						<?php endif; ?>
 					<?php endforeach; ?>
 					</tbody>
-					<tfoot>
-					<tr>
-						<td colspan="3"></td>
-					</tr>
-					</tfoot>
 				</table>
 
 				<?php endif; ?>
@@ -254,9 +249,9 @@ HTMLHelper::_('behavior.formvalidator');
 							<td class="text-center">
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
 								<?php if (substr($language->version, 0, 3) != $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION || substr($language->version, 0, 5) != $currentShortVersion) : ?>
-									<span class="badge badge-warning hasTooltip" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+									<span class="badge bg-warning hasTooltip" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 								<?php else : ?>
-									<span class="badge badge-success"><?php echo $language->version; ?></span>
+									<span class="badge bg-success"><?php echo $language->version; ?></span>
 								<?php endif; ?>
 							</td>
 						</tr>
