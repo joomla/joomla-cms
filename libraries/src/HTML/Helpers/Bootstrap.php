@@ -432,7 +432,7 @@ abstract class Bootstrap
 		$opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
 		$opt['template']          = isset($options['template']) ? $options['template'] : null;
 		$opt['title']             = isset($options['title']) ? $options['title'] : null;
-		$opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'hover';
+		$opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'click';
 		$opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
 		$opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'scrollParent';
 		$opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
