@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -20,7 +21,6 @@ use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
-use Exception;
 
 /**
  * Main indexer class for the Finder indexer package.
