@@ -205,6 +205,10 @@ a[target="_blank"]::before {
     @include media-breakpoint-up(md) {
       grid-template-columns: 1fr 1fr 1fr;
     }
+
+    .module-wrapper {
+      margin-bottom: 10px;
+    }
   }
 }
 
