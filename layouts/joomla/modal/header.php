@@ -39,6 +39,6 @@ extract($displayData);
 	<?php endif; ?>
 	<?php if (!isset($params['closeButton']) || $params['closeButton']) : ?>
 		<button type="button" class="btn-close novalidate" data-bs-dismiss="modal" aria-label="<?php echo Text::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>">
-        </button>
+		</button>
 	<?php endif; ?>
 </div>

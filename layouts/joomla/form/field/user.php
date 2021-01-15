@@ -113,10 +113,10 @@ if (!$readonly)
 	<div class="input-group">
 		<input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?>	 readonly>
 		<?php if (!$readonly) : ?>
-            <button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
-                <span class="icon-user icon-white" aria-hidden="true"></span>
-                <span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
-            </button>
+			<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
+				<span class="icon-user icon-white" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
+			</button>
 		<?php endif; ?>
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>

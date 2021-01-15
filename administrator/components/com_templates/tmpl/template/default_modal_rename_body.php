@@ -25,7 +25,7 @@ use Joomla\CMS\Language\Text;
 				<div class="controls">
 					<div class="input-group">
 						<input class="form-control" type="text" name="new_name" id="new_name" required>
-                        <span class="input-group-text">.<?php echo File::getExt($this->fileName); ?></span>
+						<span class="input-group-text">.<?php echo File::getExt($this->fileName); ?></span>
 					</div>
 				</div>
 			</div>

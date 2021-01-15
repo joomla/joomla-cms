@@ -260,7 +260,7 @@ HTMLHelper::_('behavior.formvalidator');
 				</table>
 				<?php echo HTMLHelper::_('form.token'); ?>
 			<?php endif; ?>
-                <div class="form-group d-grid gap-2">
+				<div class="form-group d-grid gap-2">
 					<button id="installLanguagesButton" class="btn btn-primary w-100">
 						<?php echo Text::_('JNEXT'); ?>
 					</button>

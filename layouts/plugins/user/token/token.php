@@ -39,9 +39,9 @@ Factory::getApplication()->getDocument()->getWebAssetManager()
 		id="<?php echo $id; ?>"
 		readonly
 		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
-    <button
-        class="btn btn-primary"
-        type="button"
-        id="token-copy"
-        title="<?php echo Text::_('PLG_USER_TOKEN_COPY_DESC'); ?>"><?php echo Text::_('PLG_USER_TOKEN_COPY'); ?></button>
+	<button
+		class="btn btn-primary"
+		type="button"
+		id="token-copy"
+		title="<?php echo Text::_('PLG_USER_TOKEN_COPY_DESC'); ?>"><?php echo Text::_('PLG_USER_TOKEN_COPY'); ?></button>
 </div>

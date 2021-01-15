@@ -41,9 +41,9 @@ endif;
 						   class="form-control" id="comModulesSelectSearch"
 						   placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
 					>
-                    <div class="input-group-text">
-                        <span class="icon-search" aria-hidden="true"></span>
-                    </div>
+					<div class="input-group-text">
+						<span class="icon-search" aria-hidden="true"></span>
+					</div>
 				</div>
 			</div>
 		</div>
