@@ -17,7 +17,7 @@
     });
   }
 
-  Array.from(document.querySelectorAll('.modal')).map((modalEl) => {
+  Array.from(document.querySelectorAll('.modal')).forEach((modalEl) => {
     modalEl.addEventListener('hidden.bs.modal', () => {
       setTimeout(() => { window.parent.location.reload(); }, 1000);
     });
