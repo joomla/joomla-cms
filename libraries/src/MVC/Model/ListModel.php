@@ -139,13 +139,13 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 		// @deprecated in 4.0 remove in Joomla 5.0
 		if (!empty($this->filterBlacklist))
 		{
-			$this->filterForbiddenList = array_merge($this->filterBlacklist, $this->filterDisallowList);
+			$this->filterForbiddenList = array_merge($this->filterBlacklist, $this->filterForbiddenList);
 		}
 
 		// @deprecated in 4.0 remove in Joomla 5.0
 		if (!empty($this->listBlacklist))
 		{
-			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listDisallowList);
+			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
 		}
 	}
 
