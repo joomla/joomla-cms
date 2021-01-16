@@ -37,13 +37,14 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 ?>
 
 <?php if ($hasButtons && trim($button) !== ''): ?>
-	<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-' . ($name ?? '')); ?>
+	<?php // If there is a toggle split then render the items. Else render the parent button which has the items in the custom element.  ?>
 	<?php if ($toggleSplit ?? true): ?>
+		<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-' . ($name ?? '')); ?>
 		<div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group">
 			<?php echo $button; ?>
 
 			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"
-				data-bs-toggle="dropdown" data-bs-target="#<?php echo $id; ?>" data-display="static" aria-haspopup="true" aria-expanded="false">
+				data-bs-toggle="dropdown" data-bs-target="#<?php echo $id; ?>" data-bs-display="static" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 				<span class="icon-chevron-down" aria-hidden="true"></span>
 			</button>

@@ -73,6 +73,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 	<span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
 	<?php echo $text ?? ''; ?>
 </<?php echo $tagName; ?>>
+<?php // If there is no toggle split then ensure the drop down items are rendered inside the custom element ?>
 <?php if(!($toggleSplit ?? true) && isset($dropdownItems) && trim($dropdownItems) !== '') : ?>
     <div class="dropdown-menu<?php echo ' ' . $direction; ?>">
         <?php echo $dropdownItems; ?>
