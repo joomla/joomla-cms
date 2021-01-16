@@ -222,13 +222,19 @@ Joomla = window.Joomla || {};
     }
 
     checkFilter(element) {
-      const option = element.querySelector('option:checked');
-      if (option) {
-        if (option.value !== '') {
-          this.activeFilter(element, this);
-        } else {
-          this.deactiveFilter(element, this);
+      if (element.tagName.toLowerCase() === 'select') {
+        const option = element.querySelector('option:checked');
+        if (option) {
+          if (option.value !== '') {
+            this.activeFilter(element, this);
+          } else {
+            this.deactiveFilter(element, this);
+          }
         }
+      } else if (element.value !== '') {
+        this.activeFilter(element, this);
+      } else {
+        this.deactiveFilter(element, this);
       }
     }
 
@@ -280,8 +286,7 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
-      const el = cont.mainContainer;
-      const els = [].slice.call(el.querySelectorAll('.js-stools-field-filter select'));
+      const els = this.getFilterFields();
       let activeFilterCount = 0;
 
       els.forEach((item) => {
@@ -322,12 +327,16 @@ Joomla = window.Joomla || {};
       if (filteredByCaption) {
         let captionContent = '';
 
-        if (element.multiple === true) {
-          const selectedOptions = element.querySelectorAll('option:checked');
-          const selectedTextValues = [].slice.call(selectedOptions).map((el) => el.text);
-          captionContent = `${element.labels[0].textContent} - ${selectedTextValues.join()}`;
+        if (element.tagName.toLowerCase() === 'select') {
+          if (element.multiple === true) {
+            const selectedOptions = element.querySelectorAll('option:checked');
+            const selectedTextValues = [].slice.call(selectedOptions).map((el) => el.text);
+            captionContent = `${element.labels[0].textContent} - ${selectedTextValues.join()}`;
+          } else {
+            captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
+          }
         } else {
-          captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
+          captionContent = `${element.labels[0].textContent} - ${element.value}`;
         }
 
         filteredByCaption.textContent += captionContent;

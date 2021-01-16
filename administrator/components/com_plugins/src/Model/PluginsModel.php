@@ -150,8 +150,9 @@ class PluginsModel extends ListModel
 			if ($total < $limitstart)
 			{
 				$limitstart = 0;
-				$this->setState('list.start', 0);
 			}
+
+			$this->cache[$this->getStoreId('getStart')] = $limitstart;
 
 			return array_slice($result, $limitstart, $limit ?: null);
 		}

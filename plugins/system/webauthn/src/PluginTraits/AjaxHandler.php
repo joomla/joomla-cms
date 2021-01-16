@@ -150,7 +150,6 @@ trait AjaxHandler
 					$app->redirect($result);
 
 					return;
-					break;
 
 				default:
 					Joomla::log('system', "Callback complete, returning JSON.");

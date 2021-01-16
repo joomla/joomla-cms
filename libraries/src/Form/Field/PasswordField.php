@@ -157,9 +157,8 @@ class PasswordField extends FormField
 
 		if ($return)
 		{
-			$lock       = (string) $this->element['lock'];
-			$this->lock = ($lock == 'true' || $lock == 'on' || $lock == '1');
-
+			$lock               = (string) $this->element['lock'];
+			$this->lock         = ($lock === 'true' || $lock === 'on' || $lock === '1');
 			$this->maxLength    = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold    = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 			$meter              = (string) $this->element['strengthmeter'];

@@ -17,6 +17,7 @@
 			label="COM_USERS_FIELD_USER_ID_LABEL"
 			size="50"
 			required="true"
+			validate="UserId"
 		/>
 
 		<field

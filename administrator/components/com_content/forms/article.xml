@@ -102,6 +102,7 @@
 			name="created_by"
 			type="user"
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -130,6 +131,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field

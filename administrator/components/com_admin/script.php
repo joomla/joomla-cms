@@ -467,10 +467,24 @@ class JoomlaInstallerScript
 	/**
 	 * Delete files that should not exist
 	 *
-	 * @return  void
+	 * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
+	 * @param bool  $suppressOutput   Set to true to supress echoing any errors, and just return the $status array
+	 *
+	 * @return  array
 	 */
-	public function deleteUnexistingFiles()
+	public function deleteUnexistingFiles($dryRun = false, $suppressOutput = false)
 	{
+		$status = [
+			'files_exist'     => [],
+			'folders_exist'   => [],
+			'files_deleted'   => [],
+			'folders_deleted' => [],
+			'files_errors'    => [],
+			'folders_errors'  => [],
+			'folders_checked' => [],
+			'files_checked'   => [],
+		];
+
 		$files = array(
 			// Joomla 4.0 Beta 1
 			'/administrator/components/com_actionlogs/actionlogs.php',
@@ -5026,7 +5040,6 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
 		);
 
-		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
 			// Joomla 4.0 Beta 1
 			'/templates/system/images',
@@ -6213,23 +6226,67 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/controller',
 			// Joomla 4.0 Beta 5
 			'/plugins/content/imagelazyload',
+			// Joomla 4.0 Beta 6
+			'/media/vendor/skipto/js/skipTo.js',
+			'/media/vendor/skipto/js/dropMenu.js',
+			'/media/vendor/skipto/css/SkipTo.css'
 		);
+
+		$status['files_checked'] = $files;
+		$status['folders_checked'] = $folders;
 
 		foreach ($files as $file)
 		{
-			if (File::exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
+			if ($fileExists = File::exists(JPATH_ROOT . $file))
 			{
-				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
+				$status['files_exist'][] = $file;
+
+				if ($dryRun === false)
+				{
+					if (File::delete(JPATH_ROOT . $file))
+					{
+						$status['files_deleted'][] = $file;
+					}
+					else
+					{
+						$status['files_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file);
+					}
+				}
 			}
 		}
 
 		foreach ($folders as $folder)
 		{
-			if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder))
+			if ($folderExists = Folder::exists(JPATH_ROOT . $folder))
 			{
-				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
+				$status['folders_exist'][] = $folder;
+
+				if ($dryRun === false)
+				{
+					// TODO There is an issue while deleting folders using the ftp mode
+					if (Folder::delete(JPATH_ROOT . $folder))
+					{
+						$status['folders_deleted'][] = $folder;
+					}
+					else
+					{
+						$status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder);
+					}
+				}
 			}
 		}
+
+		if ($suppressOutput === false && \count($status['folders_errors']))
+		{
+			echo implode('<br/>', $status['folders_errors']);
+		}
+
+		if ($suppressOutput === false && \count($status['files_errors']))
+		{
+			echo implode('<br/>', $status['files_errors']);
+		}
+
+		return $status;
 	}
 
 	/**

@@ -38,7 +38,6 @@ if ($paramsFontScheme)
 }
 
 // Enable assets
-$wa = $this->getWebAssetManager();
 $wa->useStyle('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
 	->useStyle('template.user')
