@@ -18,9 +18,6 @@ $switcher-height: 28px;
   width: $switcher-width;
   height: $switcher-height;
   margin: 0;
-  // This property used to exist in BS4 but removed in BS5. Joomla currently needs it
-  // for selenium tests to pass. However in the future we should refactor our tests and remove it!
-  overflow: visible;
   cursor: pointer;
   opacity: 0;
 
