@@ -14,8 +14,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 Factory::getDocument()->getWebAssetManager()
-	->useScript('core')
-	->useScript('webcomponent.toolbar-button');
+		->useScript('core')
+		->useScript('webcomponent.toolbar-button');
 
 extract($displayData, EXTR_OVERWRITE);
 
@@ -38,7 +38,6 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $caretClass
  * @var   string  $toggleSplit
  */
-
 $tagName = $tagName ?? 'button';
 
 $taskAttr = '';
@@ -63,14 +62,22 @@ elseif (!empty($onclick))
 	$htmlAttributes .= ' onclick="' . $onclick . '"';
 }
 
+$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 ?>
 <joomla-toolbar-button <?php echo $idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
 	<<?php echo $tagName; ?>
-	class="<?php echo $btnClass ?? ''; ?>"
+	class="js-dropdown <?php echo $btnClass ?? ''; ?>"
 	<?php echo $htmlAttributes ?? ''; ?>
 	<?php echo $title; ?>
 	>
 	<span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
 	<?php echo $text ?? ''; ?>
 </<?php echo $tagName; ?>>
+<?php // If there is no toggle split then ensure the drop down items are rendered inside the custom element ?>
+<?php if(!($toggleSplit ?? true) && isset($dropdownItems) && trim($dropdownItems) !== '') : ?>
+	<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown'); ?>
+	<div class="dropdown-menu<?php echo ' ' . $direction; ?>">
+		<?php echo $dropdownItems; ?>
+	</div>
+<?php endif; ?>
 </joomla-toolbar-button>

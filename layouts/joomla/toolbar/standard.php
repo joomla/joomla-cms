@@ -68,3 +68,4 @@ elseif (!empty($onclick))
 	<?php echo $text ?? ''; ?>
 </<?php echo $tagName; ?>>
 <?php endif; ?>
+</joomla-toolbar-button>
