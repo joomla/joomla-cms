@@ -18,7 +18,43 @@ extract($displayData, EXTR_OVERWRITE);
 /**
  * Layout variables
  * -----------------
+ * @var   string  $id
+ * @var   string  $onclick
+ * @var   string  $class
+ * @var   string  $text
+ * @var   string  $btnClass
+ * @var   string  $tagName
+ * @var   string  $htmlAttributes
+ * @var   string  $hasButtons
  * @var   string  $button
+ * @var   string  $dropdownItems
+ * @var   string  $caretClass
+ * @var   string  $toggleSplit
  */
 
-echo $button;
+$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
+
+?>
+
+<?php if ($hasButtons && trim($button) !== ''): ?>
+	<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-' . ($name ?? '')); ?>
+	<?php if ($toggleSplit ?? true): ?>
+		<div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group">
+			<?php echo $button; ?>
+
+			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"
+				data-bs-toggle="dropdown" data-bs-target="#<?php echo $id; ?>" data-display="static" aria-haspopup="true" aria-expanded="false">
+				<span class="sr-only"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+				<span class="icon-chevron-down" aria-hidden="true"></span>
+			</button>
+
+			<?php if (trim($dropdownItems) !== ''): ?>
+				<div class="dropdown-menu <?php echo $direction; ?>">
+					<?php echo $dropdownItems; ?>
+				</div>
+			<?php endif; ?>
+		</div>
+	<?php else: ?>
+		<?php echo $button; ?>
+	<?php endif; ?>
+<?php endif; ?>

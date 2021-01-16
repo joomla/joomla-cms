@@ -38,7 +38,6 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $caretClass
  * @var   string  $toggleSplit
  */
-
 $tagName = $tagName ?? 'button';
 
 $taskAttr = '';
@@ -74,19 +73,9 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 	<span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
 	<?php echo $text ?? ''; ?>
 </<?php echo $tagName; ?>>
-<?php if ($toggleSplit ?? true && isset($dropdownItems)): ?>
-	<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"
-			data-bs-toggle="dropdown" data-bs-target="#<?php echo $id; ?>" data-bs-display="static" aria-haspopup="true" aria-expanded="false">
-		<span class="sr-only"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
-		<span class="icon-chevron-down" aria-hidden="true"></span>
-	</button>
-<?php endif; ?>
-<?php if(isset($dropdownItems)) : ?>
-	<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-' . ($name ?? '')); ?>
-		<?php if (trim($dropdownItems) !== ''): ?>
-			<div class="dropdown-menu<?php echo ' ' . $direction; ?>">
-				<?php echo $dropdownItems; ?>
-			</div>
-		<?php endif; ?>
+<?php if(!($toggleSplit ?? true) && isset($dropdownItems) && trim($dropdownItems) !== '') : ?>
+    <div class="dropdown-menu<?php echo ' ' . $direction; ?>">
+        <?php echo $dropdownItems; ?>
+    </div>
 <?php endif; ?>
 </joomla-toolbar-button>
