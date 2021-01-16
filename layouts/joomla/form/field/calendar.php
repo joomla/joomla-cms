@@ -134,7 +134,7 @@ $document->getWebAssetManager()
 			<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
 			title="<?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
 		><span class="icon-calendar" aria-hidden="true"></span>
-		<span class="sr-only"><?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?></span>
+		<span class="visually-hidden"><?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?></span>
 		</button>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>

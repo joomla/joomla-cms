@@ -155,7 +155,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 				<dt>
 					<?php if (!$this->params->get('marker_misc')) : ?>
 						<span class="icon-tags" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
+						<span class="visually-hidden"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
 					<?php else : ?>
 						<span class="<?php echo $this->params->get('marker_class'); ?>">
 							<?php echo $this->params->get('marker_misc'); ?>

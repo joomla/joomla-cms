@@ -27,7 +27,7 @@ if ($this->params->get('show_autosuggest', 1))
 <form action="<?php echo Route::_($this->query->toUri()); ?>" method="get" class="js-finder-searchform">
 	<?php echo $this->getFields(); ?>
 	<fieldset class="com-finder__search word mb-3">
-		<legend class="com-finder__search-legend sr-only">
+		<legend class="com-finder__search-legend visually-hidden">
 			<?php echo Text::_('COM_FINDER_SEARCH_FORM_LEGEND'); ?>
 		</legend>
 		<div class="form-inline">
@@ -51,7 +51,7 @@ if ($this->params->get('show_autosuggest', 1))
 
 	<?php if ($this->params->get('show_advanced', 1)) : ?>
 		<fieldset id="advancedSearch" class="com-finder__advanced js-finder-advanced collapse<?php if ($this->params->get('expand_advanced', 0)) echo ' show'; ?>">
-			<legend class="com-finder__search-advanced sr-only">
+			<legend class="com-finder__search-advanced visually-hidden">
 				<?php echo Text::_('COM_FINDER_SEARCH_ADVANCED_LEGEND'); ?>
 			</legend>
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>

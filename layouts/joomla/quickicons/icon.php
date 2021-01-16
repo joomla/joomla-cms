@@ -70,7 +70,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 				<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
 					<span class="icon-spinner" aria-hidden="true"></span>
 				</div>
-				<div class="quickicon-sr-desc sr-only"></div>
+				<div class="quickicon-sr-desc visually-hidden"></div>
 			<?php endif; ?>
 			<?php // Name indicates the component
 			if (isset($displayData['name'])): ?>

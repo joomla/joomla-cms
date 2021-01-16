@@ -53,7 +53,7 @@ $this->fields = array('toggle_modules_assigned','toggle_modules_published');
 echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 
 <table class="table" id="modules_assigned">
-	<caption class="sr-only">
+	<caption class="visually-hidden">
 		<?php echo Text::_('COM_MENUS_MODULES_TABLE_CAPTION'); ?>
 	</caption>
 	<thead>

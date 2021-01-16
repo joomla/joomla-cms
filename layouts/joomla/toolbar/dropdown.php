@@ -45,7 +45,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 
 			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"
 				data-bs-toggle="dropdown" data-bs-target="#<?php echo $id; ?>" data-bs-display="static" aria-haspopup="true" aria-expanded="false">
-				<span class="sr-only"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+				<span class="visually-hidden"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 				<span class="icon-chevron-down" aria-hidden="true"></span>
 			</button>
 

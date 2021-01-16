@@ -44,5 +44,5 @@ if ($tip)
 	<?php endif; ?>
 >
 	<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
-	<span class="sr-only"><?php echo $title; ?></span>
+	<span class="visually-hidden"><?php echo $title; ?></span>
 </button>

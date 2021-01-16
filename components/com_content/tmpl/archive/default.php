@@ -27,7 +27,7 @@ use Joomla\CMS\Router\Route;
 	<div class="filter-search form-inline">
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 		<div class="mr-2">
-			<label class="filter-search-lbl sr-only" for="filter-search"><?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL') . '&#160;'; ?></label>
+			<label class="filter-search-lbl visually-hidden" for="filter-search"><?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL') . '&#160;'; ?></label>
 			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox col-md-2" onchange="document.getElementById('adminForm').submit();" placeholder="<?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL'); ?>">
 		</div>
 		<?php endif; ?>

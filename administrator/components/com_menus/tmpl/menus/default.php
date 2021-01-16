@@ -47,12 +47,12 @@ $wa->useScript('com_menus.admin-menus');
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table" id="menuList">
-						<caption class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_MENUS_MENUS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -102,7 +102,7 @@ $wa->useScript('com_menus.admin-menus');
 									<div class="name break-word">
 										<?php if ($canEdit) : ?>
 											<a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>">
-												<span class="sr-only"><?php echo Text::_('COM_MENUS_EDIT_MENU'); ?></span><?php echo $this->escape($item->title); ?>
+												<span class="visually-hidden"><?php echo Text::_('COM_MENUS_EDIT_MENU'); ?></span><?php echo $this->escape($item->title); ?>
 											</a>
 										<?php else : ?>
 											<?php echo $this->escape($item->title); ?>
@@ -117,7 +117,7 @@ $wa->useScript('com_menus.admin-menus');
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
-											<span class="icon-list" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_MENUS_MENUS'); ?></span>
+											<span class="icon-list" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('COM_MENUS_MENUS'); ?></span>
 										</a>
 									<?php endif; ?>
 								</td>

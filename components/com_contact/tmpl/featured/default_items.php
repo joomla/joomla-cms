@@ -28,7 +28,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if ($this->params->get('filter_field')) : ?>
 			<div class="com-contact-featured__filter btn-group">
-				<label class="filter-search-lbl sr-only" for="filter-search">
+				<label class="filter-search-lbl visually-hidden" for="filter-search">
 					<?php echo Text::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>
 				</label>
 				<input
@@ -46,7 +46,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
 			<div class="com-contact-featured__pagination btn-group float-end">
-				<label for="limit" class="sr-only">
+				<label for="limit" class="visually-hidden">
 					<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 				</label>
 				<?php echo $this->pagination->getLimitBox(); ?>
@@ -55,12 +55,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>
 			</div>
 		<?php else : ?>
 		<table class="com-contact-featured__table table table-striped table-bordered table-hover">
-			<caption class="sr-only">
+			<caption class="visually-hidden">
 				<?php echo Text::_('COM_CONTACT_TABLE_CAPTION'); ?>,
 			</caption>
 			<?php if ($this->params->get('show_headings')) : ?>

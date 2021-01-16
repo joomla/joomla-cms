@@ -57,7 +57,7 @@ Text::script('JHIDEPASSWORD');
 				>
 				<button type="button" class="btn btn-secondary input-password-toggle">
 					<span class="icon-eye icon-fw" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+					<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 				</button>
 
 			</div>

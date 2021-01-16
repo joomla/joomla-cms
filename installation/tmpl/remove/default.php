@@ -216,7 +216,7 @@ HTMLHelper::_('behavior.formvalidator');
 					<thead>
 					<tr>
 						<th scope="col">
-							<span class="sr-only"><?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_SELECT'); ?></span>
+							<span class="visually-hidden"><?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_SELECT'); ?></span>
 						</th>
 						<th scope="col">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>

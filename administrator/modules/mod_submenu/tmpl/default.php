@@ -89,7 +89,7 @@ use Joomla\CMS\Router\Route;
 											?>
 											<a href="<?php echo $link; ?>">
 												<span class="icon-<?php echo $icon; ?> icon-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
-												<span class="sr-only"><?php echo htmlentities($sronly); ?></span>
+												<span class="visually-hidden"><?php echo htmlentities($sronly); ?></span>
 											</a>
 										</span>
 									<?php endif; ?>

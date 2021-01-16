@@ -73,7 +73,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 	<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 		<div class="com-content__filter btn-group">
 			<?php if ($this->params->get('filter_field') === 'tag') : ?>
-				<span class="sr-only">
+				<span class="visually-hidden">
 					<label class="filter-search-lbl" for="filter-search">
 						<?php echo Text::_('JOPTION_SELECT_TAG'); ?>
 					</label>
@@ -83,7 +83,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', array('filter.published' => array(1), 'filter.language' => $langFilter), true), 'value', 'text', $this->state->get('filter.tag')); ?>
 				</select>
 			<?php elseif ($this->params->get('filter_field') === 'month') : ?>
-				<span class="sr-only">
+				<span class="visually-hidden">
 					<label class="filter-search-lbl" for="filter-search">
 						<?php echo Text::_('JOPTION_SELECT_MONTH'); ?>
 					</label>
@@ -93,7 +93,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 					<?php echo HtmlHelper::_('select.options', HtmlHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
 				</select>
 			<?php else : ?>
-				<label class="filter-search-lbl sr-only" for="filter-search">
+				<label class="filter-search-lbl visually-hidden" for="filter-search">
 					<?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>
 				</label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" placeholder="<?php echo Text::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>">
@@ -108,7 +108,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
 		<div class="com-content-category__pagination btn-group float-end">
-			<label for="limit" class="sr-only">
+			<label for="limit" class="visually-hidden">
 				<?php echo Text::_('JGLOBAL_DISPLAY_NUM'); ?>
 			</label>
 			<?php echo $this->pagination->getLimitBox(); ?>
@@ -117,12 +117,12 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-info">
-			<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
 		</div>
 	<?php else : ?>
 		<table class="com-content-category__table category table table-striped table-bordered table-hover">
-			<caption class="sr-only">
+			<caption class="visually-hidden">
 				<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>
 			</caption>
 			<?php if ($this->params->get('show_headings')) : ?>

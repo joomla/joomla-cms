@@ -37,7 +37,7 @@ $app->getDocument()->addScriptOptions(
 					</div>
 					<button type="button" class="btn btn-secondary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
 						<span class="icon-upload" aria-hidden="true"></span> <?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
-						<span class="sr-only"><?php echo $item->title; ?></span>
+						<span class="visually-hidden"><?php echo $item->title; ?></span>
 					</button>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
@@ -56,7 +56,7 @@ $app->getDocument()->addScriptOptions(
 	</ul>
 <?php else : ?>
 	<div class="alert alert-warning">
-		<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+		<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
 	</div>
 <?php endif; ?>

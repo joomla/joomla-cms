@@ -22,7 +22,7 @@ $input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id .
 	. ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '">';
 
 $showLabel  = $params->get('show_label', 1);
-$labelClass = (!$showLabel ? 'sr-only ' : '') . 'finder';
+$labelClass = (!$showLabel ? 'visually-hidden ' : '') . 'finder';
 $label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . $labelClass . '">' . $params->get('alt_label', Text::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
 
 $output = '';

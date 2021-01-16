@@ -36,12 +36,12 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table" id="userList">
-						<caption class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -119,7 +119,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<?php echo HTMLHelper::_('users.addNote', $item->id); ?>
 										<?php if ($item->note_count > 0) : ?>
 										<button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="sr-only"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+											<span class="visually-hidden"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 										</button>
 										<div class="dropdown-menu">
 											<?php echo HTMLHelper::_('users.filterNotes', $item->note_count, $item->id); ?>
@@ -135,7 +135,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<td class="text-center btns d-none d-md-table-cell">
 									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
 										<span class="icon-list" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
+										<span class="visually-hidden"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>
 								<td class="break-word d-none d-md-table-cell">
@@ -160,10 +160,10 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<span class="tbody-icon">
 									<?php if (!empty($item->otpKey)) : ?>
 										<span class="icon-check" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
+										<span class="visually-hidden"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
 									<?php else : ?>
 										<span class="icon-times" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
+										<span class="visually-hidden"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
 									<?php endif; ?>
 									</span>
 								</td>

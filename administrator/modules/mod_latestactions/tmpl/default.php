@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
-	<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<caption class="visually-hidden"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
 			<th scope="col" class="w-80"><?php echo Text::_('MOD_LATESTACTIONS_ACTION'); ?></th>

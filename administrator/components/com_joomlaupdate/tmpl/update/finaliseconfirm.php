@@ -41,7 +41,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 					<input name="username" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
 					<span class="input-group-text">
 						<span class="icon-user" aria-hidden="true"></span>
-						<label for="mod-login-username" class="sr-only">
+						<label for="mod-login-username" class="visually-hidden">
 							<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 						</label>
 					</span>
@@ -54,7 +54,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 					<input name="passwd" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
 					<span class="input-group-text">
 						<span class="icon-lock" aria-hidden="true"></span>
-						<label for="mod-login-password" class="sr-only">
+						<label for="mod-login-password" class="visually-hidden">
 							<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 						</label>
 					</span>
@@ -68,7 +68,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 						<input name="secretkey" autocomplete="one-time-code" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
 						<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="icon-star" aria-hidden="true"></span>
-							<label for="mod-login-secretkey" class="sr-only">
+							<label for="mod-login-secretkey" class="visually-hidden">
 								<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
 							</label>
 						</span>

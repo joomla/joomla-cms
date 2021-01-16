@@ -39,7 +39,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 					<?php echo htmlspecialchars(Text::_($filters['filter_search']->description), ENT_COMPAT, 'UTF-8'); ?>
 				</div>
 				<?php endif; ?>
-				<label for="filter_search" class="sr-only">
+				<label for="filter_search" class="visually-hidden">
 				<?php if (isset($filters['filter_search']->label)) : ?>
 					<?php echo Text::_($filters['filter_search']->label); ?>
 				<?php else : ?>

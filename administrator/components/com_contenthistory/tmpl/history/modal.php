@@ -72,7 +72,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 
 	<form action="<?php echo Route::_($formUrl); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="table table-sm">
-			<caption class="sr-only">
+			<caption class="visually-hidden">
 				<?php echo Text::_('COM_CONTENTHISTORY_VERSION_CAPTION'); ?>
 			</caption>
 			<thead>
@@ -110,7 +110,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 							<?php echo HTMLHelper::_('date', $item->save_date, Text::_('DATE_FORMAT_LC6')); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>
-							<span class="icon-star" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('JCURRENT'); ?></span>
+							<span class="icon-star" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JCURRENT'); ?></span>
 						<?php endif; ?>
 					</th>
 					<td class="d-none d-md-table-cell">

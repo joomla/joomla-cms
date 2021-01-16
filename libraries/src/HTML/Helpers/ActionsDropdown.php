@@ -45,7 +45,7 @@ abstract class ActionsDropdown
 
 		if ($item)
 		{
-			$html[] = '<span class="sr-only">' . Text::sprintf('JACTIONS', $item) . '</span>';
+			$html[] = '<span class="visually-hidden">' . Text::sprintf('JACTIONS', $item) . '</span>';
 		}
 
 		$html[] = '</button>';

@@ -56,7 +56,7 @@ $this->document->getWebAssetManager()
 						</button>
 					</div>
 					<div role="search" class="flex-grow-1">
-						<label for="treeselectfilter" class="sr-only"><?php echo Text::_('COM_MODULES_SEARCH_MENUITEM'); ?></label>
+						<label for="treeselectfilter" class="visually-hidden"><?php echo Text::_('COM_MODULES_SEARCH_MENUITEM'); ?></label>
 						<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query" autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>">
 					</div>
 				</section>
@@ -135,7 +135,7 @@ $this->document->getWebAssetManager()
 						<div class="dropdown">
 							<button type="button"  data-bs-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
 								<span class="caret"></span>
-								<span class="sr-only"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+								<span class="visually-hidden"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 							</button>
 							<div class="dropdown-menu">
 								<h1 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h1>

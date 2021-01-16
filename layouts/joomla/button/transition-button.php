@@ -47,7 +47,7 @@ if ($tip)
 	<div class="mr-auto">
 		<?php echo $options['title']; ?>
 		<?php if ($tipContent) : ?>
-		<span class="sr-only"><?php echo $tipContent; ?></span>
+		<span class="visually-hidden"><?php echo $tipContent; ?></span>
 		<?php endif; ?>
 	</div>
 <?php else : ?>
@@ -59,16 +59,16 @@ if ($tip)
 		onclick="Joomla.toggleAllNextElements(this, 'd-none')"
 	>
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
-		<span class="sr-only"><?php echo Text::_('JWORKFLOW_SHOW_TRANSITIONS_FOR_THIS_ITEM'); ?></span>
+		<span class="visually-hidden"><?php echo Text::_('JWORKFLOW_SHOW_TRANSITIONS_FOR_THIS_ITEM'); ?></span>
 	</button>
 	<div class="mr-auto">
 		<?php echo $options['title']; ?>
 		<?php if ($tipContent) : ?>
-		<span class="sr-only"><?php echo $tipContent; ?></span>
+		<span class="visually-hidden"><?php echo $tipContent; ?></span>
 		<?php endif; ?>
 	</div>
 	<div class="d-none">
-		<span class="sr-only">
+		<span class="visually-hidden">
 			<label for="transition-select_<?php echo (int) $row ?? ''; ?>">
 			<?php echo Text::_('JWORKFLOW_EXECUTE_TRANSITION'); ?>
 			</label>
