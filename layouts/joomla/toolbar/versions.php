@@ -31,7 +31,7 @@ Factory::getDocument()->getWebAssetManager()
 	->useScript('webcomponent.toolbar-button');
 
 // Enqueue the modal at the body bottom
-Factory::getDocument()->setBodyBottom(
+Factory::getDocument()->enqueueBodyEnd(
 	HTMLHelper::_(
 		'bootstrap.renderModal',
 		'versionsModal',

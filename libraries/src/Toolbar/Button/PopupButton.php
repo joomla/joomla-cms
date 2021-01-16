@@ -147,7 +147,7 @@ class PopupButton extends ToolbarButton
 				$params['footer'] = $footer;
 			}
 
-			Factory::getDocument()->setBodyBottom(HTMLHelper::_('bootstrap.renderModal', $selector, $params));
+			Factory::getDocument()->enqueueBodyEnd(HTMLHelper::_('bootstrap.renderModal', $selector, $params));
 		}
 
 		// If an $onClose event is passed, add it to the modal JS object

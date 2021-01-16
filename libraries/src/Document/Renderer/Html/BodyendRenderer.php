@@ -18,7 +18,7 @@ use Joomla\CMS\Factory;
  *
  * @since  __DEPLOY_VERSION__
  */
-class BodybottomRenderer extends DocumentRenderer
+class BodyendRenderer extends DocumentRenderer
 {
 	/**
 	 * Renders the body bottom queue and returns it as a string
@@ -34,7 +34,7 @@ class BodybottomRenderer extends DocumentRenderer
 	public function render($name, $params = array(), $content = null)
 	{
 		$buffer  = '';
-		$content = Factory::getDocument()->getBodyBottom();
+		$content = Factory::getDocument()->getBodyEndHTML();
 
 		foreach ($content as $key => $value)
 		{
