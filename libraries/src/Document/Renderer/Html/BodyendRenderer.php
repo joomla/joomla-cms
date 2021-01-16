@@ -33,14 +33,6 @@ class BodyendRenderer extends DocumentRenderer
 	 */
 	public function render($name, $params = array(), $content = null)
 	{
-		$buffer  = '';
-		$content = Factory::getDocument()->getBodyEndChunks();
-
-		foreach ($content as $key => $value)
-		{
-			$buffer .= $value;
-		}
-
-		return $buffer;
+		return implode('', Factory::getDocument()->getBodyEndChunks());
 	}
 }
