@@ -180,9 +180,16 @@ Joomla = window.Joomla || {};
 			// Setup each 'showon' field
 			for (var is = 0, ls = $showonFields.length; is < ls; is++) {
 				// Use anonymous function to capture arguments
-				(function() {
-					var $target = $($showonFields[is]), jsondata = $target.data('showon') || [],
-						field, $fields                           = $();
+				(function($target) {
+					// Set up only once
+					if ($target.data('showonInitialised')) {
+						return;
+					}
+
+					$target.data('showonInitialised', true);
+
+					var jsondata = $target.data('showon') || [],
+						field, $fields = $();
 
 					// Collect an all referenced elements
 					for (var ij = 0, lj = jsondata.length; ij < lj; ij++) {
@@ -197,7 +204,8 @@ Joomla = window.Joomla || {};
 					$fields.on('change keyup', function() {
 						linkedoptions($target, true);
 					});
-				})();
+
+				})($($showonFields[is]));
 			}
 		}
 
