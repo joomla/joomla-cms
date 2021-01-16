@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,7 +77,7 @@ trait WorkflowBehaviorTrait
 			$this->section = array_shift($parts);
 		}
 
-		$this->workflow = new Workflow(['extension' => $extension]);
+		$this->workflow = new Workflow($extension);
 
 		$params = ComponentHelper::getParams($this->extension);
 
@@ -288,16 +288,16 @@ trait WorkflowBehaviorTrait
 	/**
 	 * Runs transition for item.
 	 *
-	 * @param   array    $pks            Id of items to execute the transition
-	 * @param   integer  $transition_id  Id of transition
+	 * @param   array    $pks           Id of items to execute the transition
+	 * @param   integer  $transitionId  Id of transition
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public function executeTransition(array $pks, int $transition_id)
+	public function executeTransition(array $pks, int $transitionId)
 	{
-		$result = $this->workflow->executeTransition($pks, $transition_id);
+		$result = $this->workflow->executeTransition($pks, $transitionId);
 
 		if (!$result)
 		{

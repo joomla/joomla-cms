@@ -548,30 +548,15 @@
         "name": "skipto",
         "licenseFilename": "LICENSE.md",
         "js": {
-          "src/js/skipTo.js": "js/skipTo.js",
-          "src/js/dropMenu.js": "js/dropMenu.js"
-        },
-        "css": {
-          "src/css/SkipTo.css": "css/SkipTo.css"
+          "compiled/js/skipto.js": "js/skipto.js",
+          "compiled/js/skipto.min.js": "js/skipto.min.js",
+          "compiled/js/skipto.min.js.map": "js/skipto.min.js.map"
         },
         "provideAssets": [
           {
             "name": "skipto",
-            "type": "style",
-            "uri": "SkipTo.css"
-          },
-          {
-            "name": "skipto.dropmenu",
             "type": "script",
-            "uri": "dropMenu.js",
-            "attributes": {
-              "defer": true
-            }
-          },
-          {
-            "name": "skipto",
-            "type": "script",
-            "uri": "skipTo.js",
+            "uri": "skipto.min.js",
             "attributes": {
               "defer": true
             }

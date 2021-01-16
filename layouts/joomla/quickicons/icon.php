@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 			<?php endif; ?>
 			<?php if (isset($displayData['ajaxurl'])) : ?>
 				<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
-					<span class="fas fa-spinner" aria-hidden="true"></span>
+					<span class="icon-spinner" aria-hidden="true"></span>
 				</div>
 				<div class="quickicon-sr-desc sr-only"></div>
 			<?php endif; ?>
@@ -90,7 +90,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	if (isset($displayData['linkadd'])): ?>
 		<li class="btn-block quickicon-linkadd j-links-link d-flex">
 			<a class="d-flex align-items-center" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
-				<span class="fas fa-plus" aria-hidden="true"></span>
+				<span class="icon-plus" aria-hidden="true"></span>
 			</a>
 		</li>
 	</ul>

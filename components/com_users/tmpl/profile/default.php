@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ use Joomla\CMS\Router\Route;
 		<ul class="com-users-profile__edit btn-toolbar float-right">
 			<li class="btn-group">
 				<a class="btn" href="<?php echo Route::_('index.php?option=com_users&task=profile.edit&user_id=' . (int) $this->data->id); ?>">
-					<span class="fas fa-user"></span> <?php echo Text::_('COM_USERS_EDIT_PROFILE'); ?>
+					<span class="icon-user" aria-hidden="true"></span> <?php echo Text::_('COM_USERS_EDIT_PROFILE'); ?>
 				</a>
 			</li>
 		</ul>

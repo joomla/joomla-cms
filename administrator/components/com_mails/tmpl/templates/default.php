@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,23 +29,23 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="templateList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="sr-only">
 							<?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="min-width:100px">
+								<th scope="col" class="w-25" style="min-width:100px">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-15 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-10 d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" class="w-10 d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
 								<th scope="col" class="w-30 d-none d-md-table-cell">
@@ -83,7 +83,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component); ?>
 								</td>
-								<td class="d-md-table-cell">
+								<td class="d-none d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
 										<?php if (in_array($language->lang_code, $item->languages)) : ?>
 											<?php if ($language->image) : ?>
@@ -94,7 +94,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 										<?php endif; ?>
 									<?php endforeach; ?>
 								</td>
-								<td class="d-md-table-cell">
+								<td class="d-none d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
 										<?php if (!in_array($language->lang_code, $item->languages)) : ?>
 											<?php if ($language->image) : ?>

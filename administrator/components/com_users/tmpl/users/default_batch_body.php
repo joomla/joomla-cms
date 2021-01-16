@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -24,6 +24,10 @@ $resetOptions = array(
 	HTMLHelper::_('select.option', 'yes', Text::_('JYES')),
 	HTMLHelper::_('select.option', 'no', Text::_('JNO'))
 );
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('joomla.batch-copymove');
 
 ?>
 

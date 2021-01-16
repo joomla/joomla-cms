@@ -173,7 +173,9 @@
 
 		</fieldset>
 
-		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
+		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 			<field
 				name="show_pagination_limit"
 				type="list"
@@ -261,10 +263,10 @@
 
 			<field
 				name="list_show_votes"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_LIST_VOTES_LABEL"
-				layout="joomla.form.field.radio.switcher"
 				useglobal="true"
+				class="custom-select-color-state"
 				validate="options"
 				>
 				<option value="0" requires="vote">JHIDE</option>
@@ -273,10 +275,10 @@
 
 			<field
 				name="list_show_ratings"
-				type="list"
+				type="votelist"
 				label="JGLOBAL_LIST_RATINGS_LABEL"
-				layout="joomla.form.field.radio.switcher"
 				useglobal="true"
+				class="custom-select-color-state"
 				validate="options"
 				>
 				<option value="0" requires="vote">JHIDE</option>

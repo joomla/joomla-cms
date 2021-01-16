@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -246,7 +247,7 @@ class ExtensionsListCommand extends AbstractCommand
 		{
 			$this->ioStyle->error("Cannot find extensions of the type '$type' specified.");
 
-			return 0;
+			return Command::SUCCESS;
 		}
 
 		$extensions = $this->getExtensionsNameAndId($extensions);
@@ -254,6 +255,6 @@ class ExtensionsListCommand extends AbstractCommand
 		$this->ioStyle->title('Installed extensions.');
 		$this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
 
-		return 0;
+		return Command::SUCCESS;
 	}
 }

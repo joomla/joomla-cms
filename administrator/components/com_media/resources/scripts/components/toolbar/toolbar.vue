@@ -42,12 +42,12 @@
         v-if="isGridView"
         type="button"
         class="media-toolbar-icon media-toolbar-decrease-grid-size"
-        :class="{disabled: isGridSize('xs')}"
+        :class="{disabled: isGridSize('sm')}"
         :aria-label="translate('COM_MEDIA_DECREASE_GRID')"
         @click.stop.prevent="decreaseGridSize()"
       >
         <span
-          class="fas fa-search-minus"
+          class="icon-search-minus"
           aria-hidden="true"
         />
       </button>
@@ -60,7 +60,7 @@
         @click.stop.prevent="increaseGridSize()"
       >
         <span
-          class="fas fa-search-plus"
+          class="icon-search-plus"
           aria-hidden="true"
         />
       </button>
@@ -84,7 +84,7 @@
         @click.stop.prevent="toggleInfoBar"
       >
         <span
-          class="fas fa-info"
+          class="icon-info"
           aria-hidden="true"
         />
       </button>
@@ -99,10 +99,10 @@ export default {
   name: 'MediaToolbar',
   computed: {
     toggleListViewBtnIcon() {
-      return (this.isGridView) ? 'fas fa-list' : 'fas fa-th';
+      return (this.isGridView) ? 'icon-list' : 'icon-th';
     },
     toggleSelectAllBtnIcon() {
-      return (this.allItemsSelected) ? 'fas fa-check-square' : 'fas fa-square';
+      return (this.allItemsSelected) ? 'icon-check-square' : 'icon-square';
     },
     isLoading() {
       return this.$store.state.isLoading;
@@ -127,7 +127,7 @@ export default {
       }
     },
     decreaseGridSize() {
-      if (!this.isGridSize('xs')) {
+      if (!this.isGridSize('sm')) {
         this.$store.commit(types.DECREASE_GRID_SIZE);
       }
     },

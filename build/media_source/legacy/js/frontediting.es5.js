@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright	(C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@
 
 				// Add editing button with tooltip:
 				self.addClass('jmodinside')
-					.prepend('<a class="btn btn-link jmodedit" href="#" target="' + moduleTarget + '"><span class="fas fa-edit"></span></a>')
+					.prepend('<a class="btn btn-link jmodedit" href="#" target="' + moduleTarget + '"><span class="icon-edit"></span></a>')
 					.children(":first").attr('href', moduleEditUrl).attr('title', moduleTip)
 					.tooltip({container: $('.jmodedit').parent(), html: true, placement: 'auto'});
 			},
@@ -55,7 +55,7 @@
 				// Get tooltip for menu items from enclosing module
 				var menuEditTip = enclosingModuleDiv.data('jmenuedittip').replace('%s', itemids[1]);
 
-				var content = $('<div><a class="btn jfedit-menu" href="#" target="_blank"><span class="fas fa-edit"></span></a></div>');
+				var content = $('<div><a class="btn jfedit-menu" href="#" target="_blank"><span class="icon-edit"></span></a></div>');
 				content.children('a.jfedit-menu').prop('href', menuitemEditUrl).prop('title', menuEditTip);
 
 				if (activePopover) {

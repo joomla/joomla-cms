@@ -3,7 +3,7 @@
 	<name>mod_quickicon</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -35,7 +35,7 @@
 					name="header_icon"
 					type="text"
 					label="MOD_QUICKICON_HEADER_ICON_LABEL"
-					hint="fas fa-crosshairs"
+					hint="icon-crosshairs"
 					default=""
 				/>
 				<field
@@ -180,6 +180,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
