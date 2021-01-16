@@ -25,7 +25,7 @@ $wa->useScript('com_users.admin-users-mail');
 $comUserParams = ComponentHelper::getParams('com_users');
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm" aria-label="<?php echo Text::_('COM_USERS_MASSMAIL_FORM_NEW'); ?>">
 	<div class="row mt-2">
 		<div class="col-md-9">
 			<div class="card">
