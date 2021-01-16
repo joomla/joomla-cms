@@ -155,7 +155,7 @@ $wa->useScript('com_menus.admin-menus');
 												<?php echo Text::_('COM_MENUS_MODULES'); ?>
 												<span class="caret"></span>
 											</button>
-											<div class="dropdown-menu dropdown-menu-right">
+											<div class="dropdown-menu dropdown-menu-end">
 												<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 													<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>
 														<?php $link = Route::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
