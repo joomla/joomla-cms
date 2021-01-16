@@ -572,7 +572,8 @@ class ArticlesModel extends ListModel
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
 					$db->quoteName($dateField) . ' IS NOT NULL AND '
-					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd($db->quote($nowDate), -1 * $relativeDate, 'DAY')
+					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd(':relativeNowDate ', -1 * $relativeDate, 'DAY')
+					->bind(':relativeNowDate ', $nowDate)
 				);
 				break;
 
