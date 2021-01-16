@@ -13,6 +13,7 @@
 			type="checkbox"
 			label="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_REGEXP_LABEL"
 			description="PLG_SYSTEM_REDIRECT_FIELD_EXCLUDE_URLS_REGEXP_DESC"
+			filter="integer"
 		/>
 	</fieldset>
 </form>

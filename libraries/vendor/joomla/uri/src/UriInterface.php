@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Uri Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,6 +18,78 @@ namespace Joomla\Uri;
 interface UriInterface
 {
 	/**
+	 * Include the scheme (http, https, etc.)
+	 *
+	 * @var    integer
+	 * @since  1.2.0
+	 */
+	const SCHEME = 1;
+
+	/**
+	 * Include the user
+	 *
+	 * @var    integer
+	 * @since  1.2.0
+	 */
+	const USER = 2;
+
+	/**
+	 * Include the password
+	 *
+	 * @var    integer
+	 * @since  1.2.0
+	 */
+	const PASS = 4;
+
+	/**
+	 * Include the host
+	 *
+	 * @var    integer
+	 * @since  1.2.0
+	 */
+	const HOST = 8;
+
+	/**
+	 * Include the port
+	 *
+	 * @var    integer
+	 * @since  1.2.0
+	 */
+	const PORT = 16;
+
+	/**
+	 * Include the path
+	 *
+	 * @var    integer
+	 * @since  1.2.0
+	 */
+	const PATH = 32;
+
+	/**
+	 * Include the query string
+	 *
+	 * @var    integer
+	 * @since  1.2.0
+	 */
+	const QUERY = 64;
+
+	/**
+	 * Include the fragment
+	 *
+	 * @var    integer
+	 * @since  1.2.0
+	 */
+	const FRAGMENT = 128;
+
+	/**
+	 * Include all available url parts (scheme, user, pass, host, port, path, query, fragment)
+	 *
+	 * @var    integer
+	 * @since  1.2.0
+	 */
+	const ALL = 255;
+
+	/**
 	 * Magic method to get the string representation of the URI object.
 	 *
 	 * @return  string
@@ -29,7 +101,7 @@ interface UriInterface
 	/**
 	 * Returns full uri string.
 	 *
-	 * @param   array  $parts  An array specifying the parts to render.
+	 * @param   array  $parts  An array of strings specifying the parts to render.
 	 *
 	 * @return  string  The rendered URI string.
 	 *
@@ -147,5 +219,5 @@ interface UriInterface
 	 *
 	 * @since   1.0
 	 */
-	public function isSSL();
+	public function isSsl();
 }

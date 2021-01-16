@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="privacy" method="upgrade">
+	<name>plg_privacy_actionlogs</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2018</creationDate>
+	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.9.0</version>
+	<description>PLG_PRIVACY_ACTIONLOGS_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="actionlogs">actionlogs.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_privacy_actionlogs.ini</language>
+		<language tag="en-GB">en-GB.plg_privacy_actionlogs.sys.ini</language>
+	</languages>
+</extension>

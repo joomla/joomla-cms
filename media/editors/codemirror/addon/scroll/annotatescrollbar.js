@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -43,7 +43,7 @@
     cm.on("markerAdded", this.resizeHandler);
     cm.on("markerCleared", this.resizeHandler);
     if (options.listenForChanges !== false)
-      cm.on("change", this.changeHandler = function() {
+      cm.on("changes", this.changeHandler = function() {
         scheduleRedraw(250);
       });
   }
@@ -116,7 +116,7 @@
     this.cm.off("refresh", this.resizeHandler);
     this.cm.off("markerAdded", this.resizeHandler);
     this.cm.off("markerCleared", this.resizeHandler);
-    if (this.changeHandler) this.cm.off("change", this.changeHandler);
+    if (this.changeHandler) this.cm.off("changes", this.changeHandler);
     this.div.parentNode.removeChild(this.div);
   };
 });

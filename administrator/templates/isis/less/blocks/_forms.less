@@ -253,8 +253,11 @@ textarea.noResize {
 }
 
 .subform-table-layout {
-	.control-group, .control-group:last-of-type {
-		margin-bottom: 0;
+	.control-group {
+		margin-bottom: 10px;
+		&:last-of-type {
+			margin-bottom: 0;
+		}
 	}
 	.controls {
 		padding-right: 20px;
@@ -346,4 +349,9 @@ textarea.noResize {
 /* Align btn-group-yesno to label */
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
+}
+
+/* Fix field media width */
+input.field-media-input {
+	width: auto;
 }

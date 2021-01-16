@@ -31,8 +31,6 @@
 			type="note"
 			label="COM_TEMPLATES_CONFIG_SUPPORTED_LABEL"
 			description="COM_TEMPLATES_CONFIG_SUPPORTED_DESC"
-			default="zip"
-			extension="com_templates"
 		/>
 
 		<field

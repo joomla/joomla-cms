@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function copy()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = JFactory::getApplication();
 		$this->input->set('installtype', 'folder');
@@ -80,6 +80,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$newNameRaw = $this->input->get('new_name', null, 'string');
 		$templateID = $this->input->getInt('id', 0);
 		$file       = $this->input->get('file');
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID . '&file=' . $file);
 		$model = $this->getModel('Template', 'TemplatesModel');
@@ -171,7 +179,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	}
 
 	/**
-	 * Method to check if you can add a new record.
+	 * Method to check if the user can modify template files
 	 *
 	 * @return  boolean
 	 *
@@ -179,19 +187,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	protected function allowEdit()
 	{
-		return JFactory::getUser()->authorise('core.edit', 'com_templates');
-	}
-
-	/**
-	 * Method to check if you can save a new or existing record.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.2
-	 */
-	protected function allowSave()
-	{
-		return $this->allowEdit();
+		return JFactory::getUser()->authorise('core.admin');
 	}
 
 	/**
@@ -204,7 +200,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function save()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app          = JFactory::getApplication();
 		$data         = $this->input->post->get('jform', array(), 'array');
@@ -214,7 +210,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$explodeArray = explode(':', base64_decode($fileName));
 
 		// Access check.
-		if (!$this->allowSave())
+		if (!$this->allowEdit())
 		{
 			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
@@ -295,21 +291,19 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		// Redirect the user based on the chosen task.
 		switch ($task)
 		{
-		case 'apply':
+			case 'apply':
+				// Redirect back to the edit screen.
+				$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
+				$this->setRedirect(JRoute::_($url, false));
+				break;
 
-			// Redirect back to the edit screen.
-			$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
-			$this->setRedirect(JRoute::_($url, false));
-			break;
-
-		default:
-
-			// Redirect to the list screen.
-			$file = base64_encode('home');
-			$id   = $app->input->get('id');
-			$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(JRoute::_($url, false));
-			break;
+			default:
+				// Redirect to the list screen.
+				$file = base64_encode('home');
+				$id   = $app->input->get('id');
+				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+				$this->setRedirect(JRoute::_($url, false));
+				break;
 		}
 	}
 
@@ -322,11 +316,23 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function overrides()
 	{
+		// Check for request forgeries.
+		$this->checkToken('get');
+
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
 		$file     = $app->input->get('file');
 		$override = base64_decode($app->input->get('folder'));
 		$id       = $app->input->get('id');
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
+
 
 		if ($model->createOverride($override))
 		{
@@ -347,10 +353,21 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function less()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
 		$id    = $app->input->get('id');
 		$file  = $app->input->get('file');
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		if ($model->compileLess($file))
 		{
@@ -375,14 +392,22 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
 		$id    = $app->input->get('id');
 		$file  = $app->input->get('file');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
+
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -414,7 +439,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function createFile()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
@@ -423,6 +448,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$name     = $app->input->get('name');
 		$location = base64_decode($app->input->get('address'));
 		$type     = $app->input->get('type');
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		if ($type == 'null')
 		{
@@ -461,7 +494,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function uploadFile()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
@@ -469,6 +502,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$file     = $app->input->get('file');
 		$upload   = $app->input->files->get('files');
 		$location = base64_decode($app->input->get('address'));
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		if ($return = $model->uploadFile($upload, $location))
 		{
@@ -495,7 +536,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function createFolder()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
@@ -503,6 +544,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$file     = $app->input->get('file');
 		$name     = $app->input->get('name');
 		$location = base64_decode($app->input->get('address'));
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		if (!preg_match('/^[a-zA-Z0-9-_.]+$/', $name))
 		{
@@ -534,13 +583,21 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function deleteFolder()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
 		$id       = $app->input->get('id');
 		$file     = $app->input->get('file');
 		$location = base64_decode($app->input->get('address'));
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		if (empty($location))
 		{
@@ -578,7 +635,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function renameFile()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = JFactory::getApplication();
 		$model   = $this->getModel();
@@ -586,7 +643,15 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$file    = $app->input->get('file');
 		$newName = $app->input->get('new_name');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
+
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -621,6 +686,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function cropImage()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		$app   = JFactory::getApplication();
 		$id    = $app->input->get('id');
 		$file  = $app->input->get('file');
@@ -629,6 +697,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$w     = $app->input->get('w');
 		$h     = $app->input->get('h');
 		$model = $this->getModel();
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		if (empty($w) && empty($h) && empty($x) && empty($y))
 		{
@@ -659,12 +735,23 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function resizeImage()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		$app    = JFactory::getApplication();
 		$id     = $app->input->get('id');
 		$file   = $app->input->get('file');
 		$width  = $app->input->get('width');
 		$height = $app->input->get('height');
 		$model  = $this->getModel();
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		if ($model->resizeImage($file, $width, $height))
 		{
@@ -690,7 +777,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function copyFile()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$id       = $app->input->get('id');
@@ -698,6 +785,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$newName  = $app->input->get('new_name');
 		$location = base64_decode($app->input->get('address'));
 		$model    = $this->getModel();
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		if (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName))
 		{
@@ -728,12 +823,20 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function extractArchive()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app   = JFactory::getApplication();
 		$id    = $app->input->get('id');
 		$file  = $app->input->get('file');
 		$model = $this->getModel();
+
+		// Access check.
+		if (!$this->allowEdit())
+		{
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+
+			return false;
+		}
 
 		if ($model->extractArchive($file))
 		{

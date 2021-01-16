@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_content_article_view_default_title" option="com_content_article_view_default_option">
+	<layout title="COM_CONTENT_ARTICLE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARTICLE_VIEW_DEFAULT_OPTION">
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_SINGLE_ARTICLE"
 		/>
 		<message>
-			<![CDATA[com_content_article_view_default_desc]]>
+			<![CDATA[COM_CONTENT_ARTICLE_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 

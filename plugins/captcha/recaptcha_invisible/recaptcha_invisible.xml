@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.8" type="plugin" group="captcha" method="upgrade">
+	<name>plg_captcha_recaptcha_invisible</name>
+	<version>3.8</version>
+	<creationDate>November 2017</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>PLG_CAPTCHA_RECAPTCHA_INVISIBLE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="recaptcha_invisible">recaptcha_invisible.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_captcha_recaptcha_invisible.ini</language>
+		<language tag="en-GB">en-GB.plg_captcha_recaptcha_invisible.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+
+				<field
+					name="public_key"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_PUBLIC_KEY_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_PUBLIC_KEY_DESC"
+					default=""
+					required="true"
+					filter="string"
+					size="100"
+					class="input-xxlarge"
+				/>
+
+				<field
+					name="private_key"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_PRIVATE_KEY_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_PRIVATE_KEY_DESC"
+					default=""
+					required="true"
+					filter="string"
+					size="100"
+					class="input-xxlarge"
+				/>
+
+				<field
+					name="badge"
+					type="list"
+					label="PLG_RECAPTCHA_INVISIBLE_BADGE_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_BADGE_DESC"
+					default="bottomright"
+					>
+					<option value="bottomright">PLG_RECAPTCHA_INVISIBLE_BADGE_BOTTOMRIGHT</option>
+					<option value="bottomleft">PLG_RECAPTCHA_INVISIBLE_BADGE_BOTTOMLEFT</option>
+					<option value="inline">PLG_RECAPTCHA_INVISIBLE_BADGE_INLINE</option>
+				</field>
+
+				<field
+					name="tabindex"
+					type="number"
+					label="PLG_RECAPTCHA_INVISIBLE_TABINDEX_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_TABINDEX_DESC"
+					default="0"
+					min="0"
+					filter="integer"
+				/>
+
+				<field
+					name="callback"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_CALLBACK_DESC"
+					default=""
+					filter="string"
+				/>
+
+				<field
+					name="expired_callback"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_EXPIRED_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_EXPIRED_CALLBACK_DESC"
+					default=""
+					filter="string"
+				/>
+
+				<field
+					name="error_callback"
+					type="text"
+					label="PLG_RECAPTCHA_INVISIBLE_ERROR_CALLBACK_LABEL"
+					description="PLG_RECAPTCHA_INVISIBLE_ERROR_CALLBACK_DESC"
+					default=""
+					filter="string"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

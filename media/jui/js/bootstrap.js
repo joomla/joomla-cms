@@ -101,9 +101,10 @@
     if (!selector) {
       selector = $this.attr('href')
       selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+      selector = selector === '#' ? '' : selector
     }
 
-    $parent = $(selector)
+    $parent = $(document).find(selector)
 
     e && e.preventDefault()
 
@@ -454,10 +455,18 @@
   * ================= */
 
   $(document).on('click.carousel.data-api', '[data-slide], [data-slide-to]', function (e) {
-    var $this = $(this), href
-      , $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
-      , options = $.extend({}, $target.data(), $this.data())
+    var $this = $(this), href, $target, options
+      , selector = $this.attr('data-target')
       , slideIndex
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && selector.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
+      selector = selector === '#' ? '' : selector
+    }
+
+    $target = $(document).find(selector)
+    options = $.extend({}, $target.data(), $this.data())
 
     $target.carousel(options)
 
@@ -631,13 +640,21 @@
   * ================= */
 
   $(document).on('click.collapse.data-api', '[data-toggle=collapse]', function (e) {
-    var $this = $(this), href
-      , target = $this.attr('data-target')
-        || e.preventDefault()
-        || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
-      , option = $(target).data('collapse') ? 'toggle' : $this.data()
-    $this[$(target).hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
-    $(target).collapse(option)
+    var $this = $(this), href, option, $target
+      , selector = $this.attr('data-target')
+
+    if (!selector) {
+        e.preventDefault()
+        selector = $this.attr('href')
+        selector = selector && selector.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
+        selector = selector === '#' ? '' : selector
+    }
+
+    $target = $(document).find(selector)
+
+    option = $target.data('collapse') ? 'toggle' : $this.data()
+    $this[$target.hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
+    $target.collapse(option)
   })
 
 }(window.jQuery);
@@ -797,10 +814,12 @@
 
     if (!selector) {
       selector = $this.attr('href')
-      selector = selector && /#/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+      selector = selector && /#/.test(selector) && selector.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
     }
 
-    $parent = selector && $(selector)
+    selector = selector === '#' ? [] : selector;
+
+    $parent = selector && $(document).find(selector)
 
     if (!$parent || !$parent.length) $parent = $this.parent()
 
@@ -1078,12 +1097,21 @@
   * ============== */
 
   $(document).on('click.modal.data-api', '[data-toggle="modal"]', function (e) {
-    var $this = $(this)
+    var $this = $(this), $target, option
       , href = $this.attr('href')
-      , $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-      , option = $target.data('modal') ? 'toggle' : $.extend({ remote:!/#/.test(href) && href }, $target.data(), $this.data())
+      , selector = $this.attr('data-target')
 
     e.preventDefault()
+
+    if (!selector) {
+      selector = href
+      selector = selector && selector.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
+      selector = selector === '#' ? '' : selector
+    }
+
+    $target = $(document).find(selector)
+
+    option = $target.data('modal') ? 'toggle' : $.extend({ remote:!/#/.test(href) && href }, $target.data(), $this.data())
 
     $target
       .modal(option)
@@ -1686,7 +1714,7 @@
           + '[data-target="' + target + '"],'
           + this.selector + '[href="' + target + '"]'
 
-        active = $(selector)
+        active = $(document).find(selector)
           .parent('li')
           .addClass('active')
 
@@ -1802,7 +1830,7 @@
 
       if (e.isDefaultPrevented()) return
 
-      $target = $(selector)
+      $target = $(document).find(selector)
 
       this.activate($this.parent('li'), $ul)
       this.activate($target, $target.parent(), function () {

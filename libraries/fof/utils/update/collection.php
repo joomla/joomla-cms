@@ -4,6 +4,7 @@
  * @subpackage  utils
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 // Protect from unauthorized access
@@ -103,13 +104,13 @@ class FOFUtilsUpdateCollection
 					// We can't have a category with an empty category name
 					if (empty($params['category']))
 					{
-						continue;
+						break;
 					}
 
 					// We can't have a category with an empty ref
 					if (empty($params['ref']))
 					{
-						continue;
+						break;
 					}
 
 					if (empty($params['description']))
@@ -149,19 +150,19 @@ class FOFUtilsUpdateCollection
 					// We can't have an extension with an empty element
 					if (empty($params['element']))
 					{
-						continue;
+						break;
 					}
 
 					// We can't have an extension with an empty type
 					if (empty($params['type']))
 					{
-						continue;
+						break;
 					}
 
 					// We can't have an extension with an empty version
 					if (empty($params['version']))
 					{
-						continue;
+						break;
 					}
 
 					if (empty($params['name']))

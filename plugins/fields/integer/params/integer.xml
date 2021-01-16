@@ -7,6 +7,7 @@
 				type="list"
 				label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
 				description="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_DESC"
+				filter="integer"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
@@ -18,6 +19,7 @@
 				type="number"
 				label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"
 				description="PLG_FIELDS_INTEGER_PARAMS_FIRST_DESC"
+				filter="integer"
 				size="5"
 			/>
 
@@ -26,6 +28,7 @@
 				type="number"
 				label="PLG_FIELDS_INTEGER_PARAMS_LAST_LABEL"
 				description="PLG_FIELDS_INTEGER_PARAMS_LAST_DESC"
+				filter="integer"
 				size="5"
 			/>
 
@@ -34,6 +37,7 @@
 				type="number"
 				label="PLG_FIELDS_INTEGER_PARAMS_STEP_LABEL"
 				description="PLG_FIELDS_INTEGER_PARAMS_STEP_DESC"
+				filter="integer"
 				size="5"
 			/>
 		</fieldset>

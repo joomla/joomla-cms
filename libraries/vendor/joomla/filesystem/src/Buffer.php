@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ class Buffer
 	 * @var    string
 	 * @since  1.0
 	 */
-	public $name = null;
+	public $name;
 
 	/**
 	 * Buffer hash
@@ -45,22 +45,22 @@ class Buffer
 	/**
 	 * Function to open file or url
 	 *
-	 * @param   string   $path          The URL that was passed
-	 * @param   string   $mode          Mode used to open the file @see fopen
-	 * @param   integer  $options       Flags used by the API, may be STREAM_USE_PATH and STREAM_REPORT_ERRORS
-	 * @param   string   &$opened_path  Full path of the resource. Used with STREAN_USE_PATH option
+	 * @param   string   $path        The URL that was passed
+	 * @param   string   $mode        Mode used to open the file @see fopen
+	 * @param   integer  $options     Flags used by the API, may be STREAM_USE_PATH and STREAM_REPORT_ERRORS
+	 * @param   string   $openedPath  Full path of the resource. Used with STREAN_USE_PATH option
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.0
 	 * @see     streamWrapper::stream_open
 	 */
-	public function stream_open($path, $mode, $options, &$opened_path)
+	public function stream_open($path, $mode, $options, &$openedPath)
 	{
-		$url = parse_url($path);
-		$this->name = $url['host'];
+		$url                        = parse_url($path);
+		$this->name                 = $url['host'];
 		$this->buffers[$this->name] = null;
-		$this->position = 0;
+		$this->position             = 0;
 
 		return true;
 	}
@@ -80,7 +80,7 @@ class Buffer
 	public function stream_read($count)
 	{
 		$ret = substr($this->buffers[$this->name], $this->position, $count);
-		$this->position += strlen($ret);
+		$this->position += \strlen($ret);
 
 		return $ret;
 	}
@@ -97,12 +97,12 @@ class Buffer
 	 */
 	public function stream_write($data)
 	{
-		$left = substr($this->buffers[$this->name], 0, $this->position);
-		$right = substr($this->buffers[$this->name], $this->position + strlen($data));
+		$left                       = substr($this->buffers[$this->name], 0, $this->position);
+		$right                      = substr($this->buffers[$this->name], $this->position + \strlen($data));
 		$this->buffers[$this->name] = $left . $data . $right;
-		$this->position += strlen($data);
+		$this->position += \strlen($data);
 
-		return strlen($data);
+		return \strlen($data);
 	}
 
 	/**
@@ -128,7 +128,7 @@ class Buffer
 	 */
 	public function stream_eof()
 	{
-		return $this->position >= strlen($this->buffers[$this->name]);
+		return $this->position >= \strlen($this->buffers[$this->name]);
 	}
 
 	/**
@@ -147,44 +147,35 @@ class Buffer
 	{
 		switch ($whence)
 		{
-			case SEEK_SET:
-				if ($offset < strlen($this->buffers[$this->name]) && $offset >= 0)
+			case \SEEK_SET:
+				if ($offset < \strlen($this->buffers[$this->name]) && $offset >= 0)
 				{
 					$this->position = $offset;
 
 					return true;
 				}
-				else
-				{
-					return false;
-				}
-				break;
 
-			case SEEK_CUR:
+				return false;
+
+			case \SEEK_CUR:
 				if ($offset >= 0)
 				{
 					$this->position += $offset;
 
 					return true;
 				}
-				else
-				{
-					return false;
-				}
-				break;
 
-			case SEEK_END:
-				if (strlen($this->buffers[$this->name]) + $offset >= 0)
+				return false;
+
+			case \SEEK_END:
+				if (\strlen($this->buffers[$this->name]) + $offset >= 0)
 				{
-					$this->position = strlen($this->buffers[$this->name]) + $offset;
+					$this->position = \strlen($this->buffers[$this->name]) + $offset;
 
 					return true;
 				}
-				else
-				{
-					return false;
-				}
-				break;
+
+				return false;
 
 			default:
 				return false;

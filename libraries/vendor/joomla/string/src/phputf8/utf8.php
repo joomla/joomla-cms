@@ -35,7 +35,14 @@ if ( !defined('UTF8') ) {
 * encoding
 */
 if ( extension_loaded('mbstring')) {
-    if ( ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING ) {
+    /*
+     * Joomla modification - As of PHP 8, the `mbstring.func_overload` configuration has been removed and the
+     * MB_OVERLOAD_STRING constant will no longer be present, so this check only runs for PHP 7 and older
+     * See https://github.com/php/php-src/commit/331e56ce38a91e87a6fb8e88154bb5bde445b132
+     * and https://github.com/php/php-src/commit/97df99a6d7d96a886ac143337fecad775907589a
+     * for additional references
+     */
+    if ( PHP_VERSION_ID < 80000 && ((int) ini_get('mbstring.func_overload')) & MB_OVERLOAD_STRING ) {
         trigger_error('String functions are overloaded by mbstring',E_USER_ERROR);
     }
     mb_internal_encoding('UTF-8');

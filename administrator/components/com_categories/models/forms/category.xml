@@ -19,6 +19,7 @@
 		default="0"
 		class="readonly"
 		readonly="true"
+		filter="unset"
 	/>
 
 	<field
@@ -186,11 +187,12 @@
 
 	<field
 		name="created_time"
-		type="text"
+		type="calendar"
 		label="JGLOBAL_CREATED_DATE"
-		class="readonly"
-		filter="unset"
-		readonly="true"
+		translateformat="true"
+		showtime="true"
+		size="22"
+		filter="user_utc"
 	/>
 
 	<field
@@ -204,11 +206,14 @@
 
 	<field
 		name="modified_time"
-		type="text"
+		type="calendar"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
 		class="readonly"
-		filter="unset"
+		translateformat="true"
+		showtime="true"
+		size="22"
 		readonly="true"
+		filter="user_utc"
 	/>
 
 	<field
@@ -261,7 +266,7 @@
 				description="COM_CATEGORIES_FIELD_IMAGE_DESC"
 			/>
 
-			<field 
+			<field
 				name="image_alt"
 				type="text"
 				label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
@@ -290,10 +295,10 @@
 				description="JFIELD_METADATA_ROBOTS_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="index, follow"></option>
+				<option value="noindex, follow"></option>
+				<option value="index, nofollow"></option>
+				<option value="noindex, nofollow"></option>
 			</field>
 		</fieldset>
 	</fields>

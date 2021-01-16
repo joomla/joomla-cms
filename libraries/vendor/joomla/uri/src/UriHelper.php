@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Uri Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class UriHelper
 	 *
 	 * @return  mixed  Associative array or false if badly formed URL.
 	 *
-	 * @see     http://us3.php.net/manual/en/function.parse-url.php
+	 * @link    https://secure.php.net/manual/en/function.parse-url.php
 	 * @since   1.0
 	 */
 	public static function parse_url($url)

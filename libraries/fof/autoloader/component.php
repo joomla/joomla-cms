@@ -1,9 +1,10 @@
 <?php
 /**
- *  @package     FrameworkOnFramework
- *  @subpackage  autoloader
- *  @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
- *  @license     GNU General Public License version 2, or later
+ * @package     FrameworkOnFramework
+ * @subpackage  autoloader
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2, or later
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 defined('FOF_INCLUDED') or die();
@@ -95,7 +96,7 @@ class FOFAutoloaderComponent
 	 * Creates class aliases. On systems where eval() is enabled it creates a
 	 * real class. On other systems it merely creates an alias. The eval()
 	 * method is preferred as class_aliases result in the name of the class
-	 * being instanciated not being available, making it impossible to create
+	 * being instantiated not being available, making it impossible to create
 	 * a class instance without passing a $config array :(
 	 *
 	 * @param   string   $original  The name of the original (existing) class

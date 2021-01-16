@@ -2,19 +2,20 @@
 /**
  * Part of the Joomla Framework Image Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Image\Filter;
 
-use Joomla\Image\ImageFilter;
 use InvalidArgumentException;
+use Joomla\Image\ImageFilter;
 
 /**
  * Image Filter class adjust the brightness of an image.
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  The joomla/image package is deprecated
  */
 class Brightness extends ImageFilter
 {
@@ -31,7 +32,7 @@ class Brightness extends ImageFilter
 	public function execute(array $options = array())
 	{
 		// Validate that the brightness value exists and is an integer.
-		if (!isset($options[IMG_FILTER_BRIGHTNESS]) || !is_int($options[IMG_FILTER_BRIGHTNESS]))
+		if (!isset($options[IMG_FILTER_BRIGHTNESS]) || !\is_int($options[IMG_FILTER_BRIGHTNESS]))
 		{
 			throw new InvalidArgumentException('No valid brightness value was given.  Expected integer.');
 		}
