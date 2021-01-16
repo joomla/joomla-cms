@@ -62,7 +62,7 @@ Factory::getDocument()->appendBodyEnd(
 		class="btn btn-primary"
 		type="button"
 		data-toggle="modal"
-		data-target="#versionsModal"
+		data-target="#versionsModal">
 		<span class="icon-code-branch" aria-hidden="true"></span>
 		<?php echo $title; ?>
 	</button>
