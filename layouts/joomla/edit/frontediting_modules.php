@@ -40,7 +40,9 @@ $moduleHtml = preg_replace(
 	// Find first tag of module
 	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|nav|address|article) [^>]*>)/',
 	// Create and add the edit link
-	'\\1 <a class="btn btn-link jmodedit" href="' . $editUrl . '" target="' . $target . '"><span class="icon-edit"></span></a>',
+	'\\1 <a class="btn btn-link jmodedit" href="' . $editUrl . '" target="' . $target . '" aria-describedby="mod-' . (int) $mod->id . '">
+	<span class="icon-edit" aria-hidden="true"></span>' . Text::_('JGLOBAL_EDIT') . '</a>
+	<div role="tooltip" id="mod-' . (int) $mod->id . '">' . $mod->title . $position . '</div>',
 	$moduleHtml,
 	1,
 	$count
