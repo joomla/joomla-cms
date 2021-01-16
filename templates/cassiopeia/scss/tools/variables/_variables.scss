@@ -8,7 +8,7 @@ $cassiopeia-header-grad-rtl:          linear-gradient(135deg, var(--cassiopeia-c
 $cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover);
 
 // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
-$variable-prefix:                     '';
+$variable-prefix:                     "";
 
 // Color system
 
@@ -160,14 +160,14 @@ $table-bg-scale:                      -80% !default;
 // This should be the same as bootstrap's default. But we override primary colour from $primary (which is a CSS Var)
 // to the SCSS variable matching
 $table-variants: (
-        "primary":    shift-color($standard-color-primary, $table-bg-scale),
-        "secondary":  shift-color($secondary, $table-bg-scale),
-        "success":    shift-color($success, $table-bg-scale),
-        "info":       shift-color($info, $table-bg-scale),
-        "warning":    shift-color($warning, $table-bg-scale),
-        "danger":     shift-color($danger, $table-bg-scale),
-        "light":      $light,
-        "dark":       $dark,
+  "primary":    shift-color($standard-color-primary, $table-bg-scale),
+  "secondary":  shift-color($secondary, $table-bg-scale),
+  "success":    shift-color($success, $table-bg-scale),
+  "info":       shift-color($info, $table-bg-scale),
+  "warning":    shift-color($warning, $table-bg-scale),
+  "danger":     shift-color($danger, $table-bg-scale),
+  "light":      $light,
+  "dark":       $dark,
 );
 
 // Forms
