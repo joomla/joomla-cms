@@ -138,31 +138,16 @@ class PopupButton extends ToolbarButton
 			$params['bodyHeight'] = $options['bodyHeight'] ?? null;
 			$params['modalWidth'] = $options['modalWidth'] ?? null;
 
-			// Place modal div and scripts in a new div
-			$html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
-
+			// Enqueue the modal HTML to be rendered at the body bottom
 			$selector = $options['selector'];
-
-			$footer = $this->getFooter();
+			$footer   = $this->getFooter();
 
 			if ($footer !== null)
 			{
 				$params['footer'] = $footer;
 			}
 
-			$html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
-
-			$html[] = '</div>';
-
-			// We have to move the modal, otherwise we get problems with the backdrop
-			// TODO: There should be a better workaround than this
-			Factory::getDocument()->addScriptDeclaration(
-				<<<JS
-window.addEventListener('DOMContentLoaded', function() {
-	document.body.appendChild(document.getElementById('{$options['selector']}'));
-});
-JS
-			);
+			Factory::getDocument()->setBodyBottom(HTMLHelper::_('bootstrap.renderModal', $selector, $params));
 		}
 
 		// If an $onClose event is passed, add it to the modal JS object

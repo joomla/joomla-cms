@@ -263,6 +263,14 @@ class Document
 	protected $webAssetManager = null;
 
 	/**
+	 * Body bottom que
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $bodyBottom = [];
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
@@ -379,6 +387,34 @@ class Document
 		$this->factory = $factory;
 
 		return $this;
+	}
+
+	/**
+	 * Set the bodyBottom queue
+	 *
+	 * @param   string  $content  The content to be enqueued
+	 *
+	 * @return  Document instance of $this to allow chaining
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setBodyBottom($content): Document
+	{
+		$this->bodyBottom[] = $content;
+
+		return $this;
+	}
+
+	/**
+	 * Get the $bodyBottom queue
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getBodyBottom(): array
+	{
+		return $this->bodyBottom;
 	}
 
 	/**

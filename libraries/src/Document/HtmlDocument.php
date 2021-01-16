@@ -895,6 +895,8 @@ class HtmlDocument extends Document
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
 
-		return str_replace($replace, $with, $this->_template);
+		$bodyBottom = $this->getBuffer('bodybottom', '', ['type' => 'bodybottom']);
+
+		return str_replace($replace, $with, $this->_template) . $bodyBottom;
 	}
 }

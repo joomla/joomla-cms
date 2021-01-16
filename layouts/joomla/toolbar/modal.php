@@ -31,38 +31,36 @@ $id       = isset($displayData['id']) ? $displayData['id'] : '';
 $class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-primary';
 $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'icon-download';
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
-?>
 
-<!-- Render the button -->
+// Enqueue the modal at the body bottom
+Factory::getDocument()->setBodyBottom(
+	HTMLHelper::_('bootstrap.renderModal',
+		'modal_' . $selector,
+		[
+			'url'         => $displayData['doTask'],
+			'title'       => $text,
+			'height'      => '100%',
+			'width'       => '100%',
+			'modalWidth'  => 80,
+			'bodyHeight'  => 60,
+			'closeButton' => true,
+			'footer'      => '<button class="btn btn-secondary" data-bs-dismiss="modal" type="button"'
+							. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
+							. Text::_('COM_BANNERS_CANCEL') . '</button>'
+							. '<button class="btn btn-success" type="button"'
+							. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal_downloadModal\', buttonSelector: \'#exportBtn\'})">'
+							. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
+		]
+	)
+);
+?>
 <joomla-toolbar-button<?php echo $id; ?>>
 	<button
 		class="btn btn-primary"
 		type="button"
-		onclick="document.getElementById('modal_<?php echo $selector; ?>').open(); document.body.appendChild(document.getElementById('modal_<?php echo $selector; ?>'));"
-		data-toggle="modal">
+		data-toggle="modal"
+		onclick="document.getElementById('modal_<?php echo $selector; ?>').open();">
 		<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 		<?php echo $text; ?>
 	</button>
 </joomla-toolbar-button>
-
-<!-- Render the modal -->
-<?php
-echo HTMLHelper::_('bootstrap.renderModal',
-	'modal_' . $selector,
-	[
-		'url'         => $displayData['doTask'],
-		'title'       => $text,
-		'height'      => '100%',
-		'width'       => '100%',
-		'modalWidth'  => 80,
-		'bodyHeight'  => 60,
-		'closeButton' => true,
-		'footer'      => '<button class="btn btn-secondary" data-dismiss="modal" type="button"'
-						. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
-						. Text::_('COM_BANNERS_CANCEL') . '</button>'
-						. '<button class="btn btn-success" type="button"'
-						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal_downloadModal\', buttonSelector: \'#exportBtn\'})">'
-						. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
-	]
-);
-

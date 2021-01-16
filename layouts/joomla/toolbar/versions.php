@@ -30,27 +30,30 @@ Factory::getDocument()->getWebAssetManager()
 	->useScript('core')
 	->useScript('webcomponent.toolbar-button');
 
-echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'versionsModal',
-	array(
-		'url'    => 'index.php?' . http_build_query(
-			[
-				'option' => 'com_contenthistory',
-				'view' => 'history',
-				'layout' => 'modal',
-				'tmpl' => 'component',
-				'item_id' => $itemId,
-				Session::getFormToken() => 1
-			]
-		),
-		'title'  => $title,
-		'height' => '100%',
-		'width'  => '100%',
-		'modalWidth'  => '80',
-		'bodyHeight'  => '60',
-		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+// Enqueue the modal at the body bottom
+Factory::getDocument()->setBodyBottom(
+	HTMLHelper::_(
+		'bootstrap.renderModal',
+		'versionsModal',
+		[
+			'url'        => 'index.php?' . http_build_query(
+				[
+					'option' => 'com_contenthistory',
+					'view' => 'history',
+					'layout' => 'modal',
+					'tmpl' => 'component',
+					'item_id' => $itemId,
+					Session::getFormToken() => 1
+				]
+			),
+			'title'       => $title,
+			'height'      => '100%',
+			'width'       => '100%',
+			'modalWidth'  => '80',
+			'bodyHeight'  => '60',
+			'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+		]
 	)
 );
 ?>
@@ -58,8 +61,7 @@ echo HTMLHelper::_(
 	<button
 		class="btn btn-primary"
 		type="button"
-		onclick="document.getElementById('versionsModal').open()"
-		data-toggle="modal">
+		onclick="document.getElementById('versionsModal').open()">
 		<span class="icon-code-branch" aria-hidden="true"></span>
 		<?php echo $title; ?>
 	</button>
