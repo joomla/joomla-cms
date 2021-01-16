@@ -69,8 +69,9 @@ $label = '<label id="' . $id . '-lbl" for="' . $id . '" class="' . $class . '"';
 // If a description is specified, use it to build a tooltip.
 if (!empty($description))
 {
+	HTMLHelper::_('bootstrap.popover', '.hasPopover');
 	$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
-	$label .= ' data-content="' . htmlspecialchars(
+	$label .= ' data-bs-content="' . htmlspecialchars(
 		$translateDescription ? Text::_($description) : $description,
 		ENT_COMPAT,
 		'UTF-8'
@@ -79,7 +80,7 @@ if (!empty($description))
 
 if (Factory::getLanguage()->isRtl())
 {
-	$label .= ' data-placement="left"';
+	$label .= ' data-bs-placement="left"';
 }
 
 if ($article)

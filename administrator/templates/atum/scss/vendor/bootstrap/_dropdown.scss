@@ -29,15 +29,15 @@
 
     .btn-secondary + .dropdown-menu & {
       color: var(--atum-text-light);
-      background-color: theme-color("secondary");
+      background-color: var(--secondary);
     }
 
     .btn-danger + .dropdown-menu & {
-      background-color: theme-color("danger");
+      background-color: var(--danger);
     }
 
     .btn-info + .dropdown-menu & {
-      background-color: theme-color("info");
+      background-color: var(--info);
     }
 
     .dropdown-status-group .dropdown-menu &:not(.disabled) {
@@ -47,7 +47,7 @@
 
     .dropdown-save-group .dropdown-menu &:not(.disabled) {
       color: var(--atum-text-light);
-      background-color: theme-color("success");
+      background-color: var(--success);
     }
   }
 
@@ -56,11 +56,11 @@
   }
 
   .dropdown-status-group .dropdown-menu &:not(.disabled) {
-    color: theme-color("action");
+    color: var(--action);
   }
 
   .dropdown-save-group .dropdown-menu &:not(.disabled) {
-    color: theme-color("success");
+    color: var(--success);
   }
 
   &.first {

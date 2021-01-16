@@ -226,7 +226,7 @@ abstract class Bootstrap
 	 *                  Options for the popover can be:
 	 *                      animation    boolean          apply a css fade transition to the popover
 	 *                      container    string|boolean   Appends the popover to a specific element: { container: 'body' }
-	 *                      content      string|function  default content value if `data-content` attribute isn't present
+	 *                      content      string|function  default content value if `data-bs-content` attribute isn't present
 	 *                      delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
 	 *                                                    If a number is supplied, delay is applied to both hide/show
 	 *                                                    Object structure is: delay: { show: 500, hide: 100 }

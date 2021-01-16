@@ -58,7 +58,7 @@ echo HTMLHelper::_(
 	<button
 		class="btn btn-primary"
 		type="button"
-		onclick="document.getElementById('versionsModal').open()"
+        data-bs-target="#versionsModal"
 		data-bs-toggle="modal">
 		<span class="icon-code-branch" aria-hidden="true"></span>
 		<?php echo $title; ?>

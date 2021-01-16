@@ -230,7 +230,7 @@ label {
   }
 
   .invalid .form-control-feedback {
-    color: theme-color("danger");
+    color: var(--danger);
   }
 }
 

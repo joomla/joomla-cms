@@ -85,12 +85,12 @@ ul {
     .list-group {
 
       > .published {
-        border-right: 5px solid theme-color("success");
+        border-right: 5px solid var(--success);
         border-left: 0;
       }
 
       > .unpublished {
-        border-right: 5px solid theme-color("danger");
+        border-right: 5px solid var(--danger);
         border-left: 0;
       }
     }

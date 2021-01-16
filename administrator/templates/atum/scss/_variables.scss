@@ -61,10 +61,10 @@ $colors: (
   bluegray:                        $bluegray,
   lightbluegray:                   #f6f9fc,
   toolbar-bg:                      $white,
-  success-border:                  theme-color("success"),
-  info-border:                     theme-color("info"),
-  warning-border:                  theme-color("warning"),
-  danger-border:                   theme-color("danger"),
+  success-border:                  var(--success),
+  info-border:                     var(--info),
+  warning-border:                  var(--warning),
+  danger-border:                   var(--danger),
   login-main-bg:                   darken($base-color, 8%), //used on login
   border:                          $gray-400,
   "white":                         $white, // the key here must be in quotes to avoid scss compilation warnings.

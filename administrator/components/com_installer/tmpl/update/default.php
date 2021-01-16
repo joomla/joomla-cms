@@ -105,7 +105,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<span class="badge badge-warning">
 											<span class="hasPopover"
 												  title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
-												  data-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
+												  data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
 											>
 												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
 												</span>
