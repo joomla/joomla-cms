@@ -43,6 +43,15 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
 	exit;
 }
 
+// Check if installed
+if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
+	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10))
+{
+	echo 'Install Joomla to run cli commands' . PHP_EOL;
+
+	exit;
+}
+
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 

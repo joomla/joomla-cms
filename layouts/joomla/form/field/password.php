@@ -75,41 +75,18 @@ Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
 
-// TODO: Remove this jQuery dependency and move the lock functionality to the password view script
-\Joomla\CMS\HTML\HTMLHelper::_('jquery.framework');
-
 if ($lock)
 {
-	// Load script on document load.
-	$document->addScriptDeclaration(
-			"
-		jQuery(document).ready(function() {
-			jQuery('#" . $id ."_lock').on('click', function() {
-				var lockButton = jQuery(this);
-				var passwordInput = jQuery('#" . $id . "');
-				var lock = lockButton.hasClass('active');
-
-				if (lock === true) {
-					lockButton.html('" . Text::_('JMODIFY', true) . "');
-					passwordInput.attr('disabled', true);
-					passwordInput.val('');
-				}
-				else
-				{
-					lockButton.html('" . Text::_('JCANCEL', true) . "');
-					passwordInput.attr('disabled', false);
-				}
-			});
-		});"
-	);
+	Text::script('JMODIFY');
+	Text::script('JCANCEL');
 
 	$disabled = true;
-	$hint = str_repeat('*', strlen($value));
+	$hint = str_repeat('&#x2022;', strlen($value));
 	$value = '';
 }
 
 $attributes = array(
-	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
@@ -177,12 +154,15 @@ if ($rules && !empty($description))
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
+			<?php if (!$lock): ?>
 			<button type="button" class="btn btn-secondary input-password-toggle">
 				<span class="icon-eye icon-fw" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 			</button>
-			<?php if ($lock): ?>
-				<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info" data-toggle="button"><?php echo Text::_('JMODIFY'); ?></button>
+			<?php else: ?>
+				<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify">
+					<?php echo Text::_('JMODIFY'); ?>
+				</button>
 			<?php endif; ?>
 		</span>
 	</div>
