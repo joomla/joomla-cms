@@ -61,7 +61,8 @@ Factory::getDocument()->appendBodyEnd(
 	<button
 		class="btn btn-primary"
 		type="button"
-		onclick="document.getElementById('versionsModal').open()">
+		data-toggle="modal"
+		data-target="#versionsModal"
 		<span class="icon-code-branch" aria-hidden="true"></span>
 		<?php echo $title; ?>
 	</button>

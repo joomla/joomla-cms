@@ -59,7 +59,7 @@ Factory::getDocument()->appendBodyEnd(
 		class="btn btn-primary"
 		type="button"
 		data-toggle="modal"
-		onclick="document.getElementById('modal_<?php echo $selector; ?>').open();">
+		data-target="#modal_<?php echo $selector; ?>">
 		<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 		<?php echo $text; ?>
 	</button>
