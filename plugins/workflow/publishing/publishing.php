@@ -307,7 +307,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			]
 		);
 
-		// Release whitelist, the job is done
+		// Release allowed pks, the job is done
 		$this->app->set('plgWorkflowPublishing.' . $context, []);
 
 		if (\in_array(false, $result, true))
@@ -383,7 +383,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			return true;
 		}
 
-		// We have whitelisted the pks, so we're the one who triggered
+		// We have allowed the pks, so we're the one who triggered
 		// With onWorkflowBeforeTransition => free pass
 		if ($this->app->get('plgWorkflowPublishing.' . $context) === $pks)
 		{
@@ -524,7 +524,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function isSupported($context)
 	{
-		if (!$this->checkWhiteAndBlacklist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
+		if (!$this->checkAllowedAndForbiddenlist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
 		{
 			return false;
 		}

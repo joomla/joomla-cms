@@ -78,20 +78,38 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	protected $htmlFormName = 'adminForm';
 
 	/**
-	 * A blacklist of filter variables to not merge into the model's state
+	 * A list of filter variables to not merge into the model's state
 	 *
-	 * @var    array
-	 * @since  3.4.5
+	 * @var        array
+	 * @since      3.4.5
+	 * @deprecated 4.0.0 use $filterForbiddenList instead
 	 */
 	protected $filterBlacklist = array();
 
 	/**
-	 * A blacklist of list variables to not merge into the model's state
+	 * A list of forbidden filter variables to not merge into the model's state
 	 *
 	 * @var    array
-	 * @since  3.4.5
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $filterForbiddenList = array();
+
+	/**
+	 * A list of forbidden variables to not merge into the model's state
+	 *
+	 * @var        array
+	 * @since      3.4.5
+	 * @deprecated 4.0.0 use $listForbiddenList instead
 	 */
 	protected $listBlacklist = array('select');
+
+	/**
+	 * A list of forbidden variables to not merge into the model's state
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $listForbiddenList = array('select');
 
 	/**
 	 * Constructor
@@ -106,7 +124,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	{
 		parent::__construct($config, $factory);
 
-		// Add the ordering filtering fields whitelist.
+		// Add the ordering filtering fields allowed list.
 		if (isset($config['filter_fields']))
 		{
 			$this->filter_fields = $config['filter_fields'];
@@ -116,6 +134,18 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 		if (empty($this->context))
 		{
 			$this->context = strtolower($this->option . '.' . $this->getName());
+		}
+
+		// @deprecated in 4.0 remove in Joomla 5.0
+		if (!empty($this->filterBlacklist))
+		{
+			$this->filterForbiddenList = array_merge($this->filterBlacklist, $this->filterDisallowList);
+		}
+
+		// @deprecated in 4.0 remove in Joomla 5.0
+		if (!empty($this->listBlacklist))
+		{
+			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listDisallowList);
 		}
 	}
 
@@ -432,8 +462,8 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			{
 				foreach ($filters as $name => $value)
 				{
-					// Exclude if blacklisted
-					if (!\in_array($name, $this->filterBlacklist))
+					// Exclude if forbidden
+					if (!\in_array($name, $this->filterForbiddenList))
 					{
 						$this->setState('filter.' . $name, $value);
 					}
@@ -447,8 +477,8 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 			{
 				foreach ($list as $name => $value)
 				{
-					// Exclude if blacklisted
-					if (!\in_array($name, $this->listBlacklist))
+					// Exclude if forbidden
+					if (!\in_array($name, $this->listForbiddenList))
 					{
 						// Extra validations
 						switch ($name)
@@ -542,7 +572,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 				$this->setState('list.limit', $limit);
 
-				// Check if the ordering field is in the whitelist, otherwise use the incoming value.
+				// Check if the ordering field is in the allowed list, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
 
 				if (!\in_array($value, $this->filter_fields))
