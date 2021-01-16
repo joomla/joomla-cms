@@ -263,12 +263,12 @@ class Document
 	protected $webAssetManager = null;
 
 	/**
-	 * Body bottom que
+	 * Body bottom HTML chunks
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $bodyEndQueue = [];
+	protected $bodyEndChunks = [];
 
 	/**
 	 * Class constructor.
@@ -398,9 +398,9 @@ class Document
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function enqueueBodyEnd($content): Document
+	public function appendBodyEnd($content): Document
 	{
-		$this->bodyEndQueue[] = $content;
+		$this->bodyEndChunks[] = $content;
 
 		return $this;
 	}
@@ -414,9 +414,9 @@ class Document
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setBodyEndQueue($content): Document
+	public function setBodyEndChunks($content): Document
 	{
-		$this->bodyEndQueue = $content;
+		$this->bodyEndChunks = $content;
 
 		return $this;
 	}
@@ -428,9 +428,9 @@ class Document
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getBodyEndQueue(): array
+	public function getBodyEndChunks(): array
 	{
-		return $this->bodyEndQueue;
+		return $this->bodyEndChunks;
 	}
 
 	/**

@@ -33,7 +33,7 @@ $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'icon-download'
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
 
 // Enqueue the modal at the body bottom
-Factory::getDocument()->enqueueBodyEnd(
+Factory::getDocument()->appendBodyEnd(
 	HTMLHelper::_('bootstrap.renderModal',
 		'modal_' . $selector,
 		[
