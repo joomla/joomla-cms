@@ -75,8 +75,8 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 </<?php echo $tagName; ?>>
 <?php // If there is no toggle split then ensure the drop down items are rendered inside the custom element ?>
 <?php if(!($toggleSplit ?? true) && isset($dropdownItems) && trim($dropdownItems) !== '') : ?>
-    <div class="dropdown-menu<?php echo ' ' . $direction; ?>">
-        <?php echo $dropdownItems; ?>
-    </div>
+	<div class="dropdown-menu<?php echo ' ' . $direction; ?>">
+		<?php echo $dropdownItems; ?>
+	</div>
 <?php endif; ?>
 </joomla-toolbar-button>
