@@ -34,7 +34,7 @@ class BodyendRenderer extends DocumentRenderer
 	public function render($name, $params = array(), $content = null)
 	{
 		$buffer  = '';
-		$content = Factory::getDocument()->getBodyEndHTML();
+		$content = Factory::getDocument()->getBodyEndQueue();
 
 		foreach ($content as $key => $value)
 		{

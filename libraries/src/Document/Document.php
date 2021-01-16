@@ -268,7 +268,7 @@ class Document
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $bodyEndQue = [];
+	protected $bodyEndQueue = [];
 
 	/**
 	 * Class constructor.
@@ -400,13 +400,13 @@ class Document
 	 */
 	public function enqueueBodyEnd($content): Document
 	{
-		$this->bodyEndQue[] = $content;
+		$this->bodyEndQueue[] = $content;
 
 		return $this;
 	}
 
 	/**
-	 * Set the bodyBottom queue
+	 * Set the queue for the chunks to be placed at the end of the body
 	 *
 	 * @param   array  $content  The content to be enqueued
 	 *
@@ -414,9 +414,9 @@ class Document
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setBodyEndHTML($content): Document
+	public function setBodyEndQueue($content): Document
 	{
-		$this->bodyEndQue = $content;
+		$this->bodyEndQueue = $content;
 
 		return $this;
 	}
@@ -428,9 +428,9 @@ class Document
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getBodyEndHTML(): array
+	public function getBodyEndQueue(): array
 	{
-		return $this->bodyEndQue;
+		return $this->bodyEndQueue;
 	}
 
 	/**
