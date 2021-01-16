@@ -38,7 +38,7 @@ $text     = isset($displayData['text']) ? $displayData['text'] : '';
 	<button
 		class="btn btn-primary"
 		type="button"
-        data-bs-target="#modal_<?php echo $selector; ?>"
+		data-bs-target="#modal_<?php echo $selector; ?>"
 		data-bs-toggle="modal">
 		<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 		<?php echo $text; ?>
