@@ -239,8 +239,6 @@ class ExportModel extends BaseDatabaseModel
 
 			return false;
 		}
-
-		return true;
 	}
 
 	/**

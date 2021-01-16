@@ -39,6 +39,7 @@
 			name="user_id"
 			type="user"
 			label="COM_CONTACT_FIELD_LINKED_USER_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -88,6 +89,7 @@
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -126,6 +128,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field

@@ -53,7 +53,6 @@ class DisplayController extends BaseController
 			case 'levels':
 			case 'level':
 				return $canDo->get('core.admin');
-				break;
 
 			// Default permissions.
 			default:
