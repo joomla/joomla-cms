@@ -21,6 +21,10 @@ $switcher-height: 28px;
   cursor: pointer;
   opacity: 0;
 
+  // This property used to exist in BS4 but removed in BS5. Joomla currently needs it
+  // for selenium tests to pass. However in the future we should refactor our tests and remove it!
+  overflow: visible;
+
   [dir=rtl] & {
     right: 0;
     left: auto;
