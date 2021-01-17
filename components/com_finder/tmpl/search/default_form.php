@@ -31,7 +31,7 @@ if ($this->params->get('show_autosuggest', 1))
 			<?php echo Text::_('COM_FINDER_SEARCH_FORM_LEGEND'); ?>
 		</legend>
 		<div class="form-inline">
-			<label for="q" class="mr-2">
+			<label for="q" class="me-2">
 				<?php echo Text::_('COM_FINDER_SEARCH_TERMS'); ?>
 			</label>
 			<div class="input-group">

@@ -97,7 +97,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 <header id="header" class="header">
 	<div class="d-flex">
-		<div class="header-title d-flex mr-auto">
+		<div class="header-title d-flex me-auto">
 			<div class="d-flex align-items-center">
 				<div class="logo">
 					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
@@ -106,7 +106,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<jdoc:include type="modules" name="title"/>
 		</div>
-		<div class="header-items d-flex ml-auto">
+		<div class="header-items d-flex ms-auto">
 			<jdoc:include type="modules" name="status" style="header-element"/>
 		</div>
 	</div>

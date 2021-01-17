@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 $lang = Factory::getLanguage(); ?>
 
 <nav class="pagenavigation">
-	<ul class="pagination ml-0">
+	<ul class="pagination ms-0">
 	<?php if ($row->prev) :
 		$direction = $lang->isRtl() ? 'right' : 'left'; ?>
 		<li class="previous page-item">

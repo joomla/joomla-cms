@@ -47,7 +47,7 @@ use Joomla\CMS\Language\Text;
 					<?php else : ?>
 						<form action="<?php echo $user->logoutLink; ?>" method="post" name="adminForm">
 							<?php echo Text::_('JSITE'); ?>
-							<button type="submit" class="mr-2 btn btn-danger btn-sm">
+							<button type="submit" class="me-2 btn btn-danger btn-sm">
 								<?php echo Text::_('JLOGOUT'); ?>
 							</button>
 						</form>

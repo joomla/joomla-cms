@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 <ul class="list-group list-group-flush stats-module">
 	<?php foreach ($list as $item) : ?>
 		<li class="list-group-item">
-			<span class="mr-2 icon-<?php echo $item->icon; ?> icon-fw" aria-hidden="true"></span> <?php echo $item->title; ?>
+			<span class="me-2 icon-<?php echo $item->icon; ?> icon-fw" aria-hidden="true"></span> <?php echo $item->title; ?>
 
 			<?php if(isset($item->link)) : ?>
 				<a class="btn btn-info btn-sm js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>

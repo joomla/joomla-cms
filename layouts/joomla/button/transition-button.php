@@ -37,14 +37,14 @@ if ($tip)
 }
 ?>
 <?php if ($only_icon || $disabled) : ?>
-	<span class="tbody-icon mr-1 align-self-start <?php echo $tip ? 'hasPopover' : ''; ?> disabled"
+	<span class="tbody-icon me-1 align-self-start <?php echo $tip ? 'hasPopover' : ''; ?> disabled"
 			title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
 			data-bs-content="<?php echo HTMLHelper::_('tooltipText', $tipContent, '', 0); ?>"
 			data-bs-placement="top"
 		>
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 	</span>
-	<div class="mr-auto">
+	<div class="me-auto">
 		<?php echo $options['title']; ?>
 		<?php if ($tipContent) : ?>
 		<span class="visually-hidden"><?php echo $tipContent; ?></span>
@@ -52,7 +52,7 @@ if ($tip)
 	</div>
 <?php else : ?>
 	<?php HTMLHelper::_('bootstrap.popover', '.hasPopover'); ?>
-	<button type="button" class="tbody-icon align-self-start mr-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
+	<button type="button" class="tbody-icon align-self-start me-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
 		title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
 		data-bs-content="<?php echo HTMLHelper::_('tooltipText', $tipContent, '', 0); ?>"
 		data-bs-placement="top"
@@ -61,7 +61,7 @@ if ($tip)
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 		<span class="visually-hidden"><?php echo Text::_('JWORKFLOW_SHOW_TRANSITIONS_FOR_THIS_ITEM'); ?></span>
 	</button>
-	<div class="mr-auto">
+	<div class="me-auto">
 		<?php echo $options['title']; ?>
 		<?php if ($tipContent) : ?>
 		<span class="visually-hidden"><?php echo $tipContent; ?></span>

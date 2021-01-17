@@ -26,19 +26,19 @@ use Joomla\CMS\Router\Route;
 	<fieldset class="com-content-archive__filters filters">
 	<div class="filter-search form-inline">
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
-		<div class="mr-2">
+		<div class="me-2">
 			<label class="filter-search-lbl visually-hidden" for="filter-search"><?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL') . '&#160;'; ?></label>
 			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox col-md-2" onchange="document.getElementById('adminForm').submit();" placeholder="<?php echo Text::_('COM_CONTENT_TITLE_FILTER_LABEL'); ?>">
 		</div>
 		<?php endif; ?>
 
-		<div class="mr-2">
+		<div class="me-2">
 		<?php echo $this->form->monthField; ?>
 		</div>
-		<div class="mr-2">
+		<div class="me-2">
 		<?php echo $this->form->yearField; ?>
 		</div>
-		<div class="mr-2">
+		<div class="me-2">
 		<?php echo $this->form->limitField; ?>
 		</div>
 

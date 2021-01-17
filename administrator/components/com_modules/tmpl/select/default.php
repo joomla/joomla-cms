@@ -36,7 +36,7 @@ endif;
 				<label class="visually-hidden" for="comModulesSelectSearch">
 					<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
 				</label>
-				<div class="input-group mb-5 mr-sm-2">
+				<div class="input-group mb-5 me-sm-2">
 					<input type="text" value=""
 						   class="form-control" id="comModulesSelectSearch"
 						   placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
