@@ -217,3 +217,8 @@ meter {
   border-bottom-right-radius: .25rem;
   border-bottom-left-radius: 0;
 }
+
+// Bootstrap 4 b/c
+.sr-only {
+  @extend .visually-hidden;
+}

@@ -227,3 +227,8 @@ summary {
 meter {
   width: 100%;
 }
+
+// Bootstrap 4 b/c
+.sr-only {
+  @extend .visually-hidden;
+}
