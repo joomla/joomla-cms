@@ -232,7 +232,7 @@ Joomla = window.Joomla || {};
 				}
 
 				if ($(target).hasClass('subform-repeatable-group')) {
-					var $row = $(row),
+					var $row = $(target),
 						$elements = $row.find('[data-showon]'),
 						baseName = $row.data('baseName'),
 						group = $row.data('group'),
