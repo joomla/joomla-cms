@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 -------------------- Joomla! Credits ---------------------
 
 The current list of contributors is available on GitHub at:
-https://github.com/joomla/joomla-cms/graphs/contributors 
+https://github.com/joomla/joomla-cms/graphs/contributors
 
 The list of contributors before migrating to GitHub is available at:
-https://docs.joomla.org/Special:MyLanguage/Joomla:Joomla_Version_Credits 
+https://docs.joomla.org/Special:MyLanguage/Joomla:Joomla_Version_Credits
