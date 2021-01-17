@@ -172,7 +172,7 @@ Joomla = window.Joomla || {};
 		 *
 		 * @param {HTMLElement} container
 		 */
-		Joomla.setUpShowon = function (container) {
+		function setUpShowon(container) {
 			container = container || document;
 
 			var $showonFields = $(container).find('[data-showon]');
@@ -209,31 +209,47 @@ Joomla = window.Joomla || {};
 			}
 		}
 
+		// Provide a public API
+		if (!Joomla.Showon) {
+			Joomla.Showon = {
+				initilise: setUpShowon
+			}
+		}
+
 		/**
 		 * Initialize 'showon' feature
 		 */
 		$(document).ready(function() {
-			Joomla.setUpShowon();
+			Joomla.Showon.initilise(document);
 
-            // Setup showon feature in the subform field
-			$(document).on('subform-row-add', function(event, row) {
-				var $row      = $(row),
-					$elements = $row.find('[data-showon]'),
-					baseName  = $row.data('baseName'),
-					group     = $row.data('group'),
-					search    = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
-					replace   = '[' + baseName + '][' + group + ']',
-					$elm, showon;
+            // Setup showon feature in the modified container
+			$(document).on('subform-row-add joomla:updated', function(event, row) {
 
-				// Fix showon field names in a current group
-				for (var i = 0, l = $elements.length; i < l; i++) {
-					$elm   = $($elements[i]);
-					showon = $elm.attr('data-showon').replace(search, replace);
-
-					$elm.attr('data-showon', showon);
+				// Check for target
+				var target = row;
+				if (event.type === 'joomla:updated') {
+					target = event.target;
 				}
 
-				Joomla.setUpShowon(row);
+				if ($(target).hasClass('subform-repeatable-group')) {
+					var $row = $(row),
+						$elements = $row.find('[data-showon]'),
+						baseName = $row.data('baseName'),
+						group = $row.data('group'),
+						search = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
+						replace = '[' + baseName + '][' + group + ']',
+						$elm, showon;
+
+					// Fix showon field names in a current group
+					for (var i = 0, l = $elements.length; i < l; i++) {
+						$elm = $($elements[i]);
+						showon = $elm.attr('data-showon').replace(search, replace);
+
+						$elm.attr('data-showon', showon);
+					}
+				}
+
+				Joomla.Showon.initilise(target);
 			});
 		});
 
