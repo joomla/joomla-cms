@@ -67,7 +67,7 @@ if (isset($params['keyboard']))
 if (isset($params['url']))
 {
 	$url        = 'data-url="' . $params['url'] . '"';
-	$iframeHtml = htmlspecialchars(LayoutHelper::render('libraries.html.bootstrap.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
+	$iframeHtml = htmlspecialchars(LayoutHelper::render('joomla.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
 }
 ?>
 <div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
@@ -77,16 +77,16 @@ if (isset($params['url']))
 				// Header
 				if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
 				{
-					echo LayoutHelper::render('libraries.html.bootstrap.modal.header', $displayData);
+					echo LayoutHelper::render('joomla.modal.header', $displayData);
 				}
 
 				// Body
-				echo LayoutHelper::render('libraries.html.bootstrap.modal.body', $displayData);
+				echo LayoutHelper::render('joomla.modal.body', $displayData);
 
 				// Footer
 				if (isset($params['footer']))
 				{
-					echo LayoutHelper::render('libraries.html.bootstrap.modal.footer', $displayData);
+					echo LayoutHelper::render('joomla.modal.footer', $displayData);
 				}
 			?>
 		</div>
