@@ -212,7 +212,7 @@ Joomla = window.Joomla || {};
 		// Provide a public API
 		if (!Joomla.Showon) {
 			Joomla.Showon = {
-				initilise: setUpShowon
+				initialise: setUpShowon
 			}
 		}
 
@@ -220,7 +220,7 @@ Joomla = window.Joomla || {};
 		 * Initialize 'showon' feature
 		 */
 		$(document).ready(function() {
-			Joomla.Showon.initilise(document);
+			Joomla.Showon.initialise(document);
 
 			// Setup showon feature in the modified container
 			$(document).on('subform-row-add joomla:updated', function(event, row) {
@@ -249,7 +249,7 @@ Joomla = window.Joomla || {};
 					}
 				}
 
-				Joomla.Showon.initilise(target);
+				Joomla.Showon.initialise(target);
 			});
 		});
 
