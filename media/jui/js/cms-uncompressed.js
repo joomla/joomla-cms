@@ -222,7 +222,7 @@ Joomla = window.Joomla || {};
 		$(document).ready(function() {
 			Joomla.Showon.initilise(document);
 
-            // Setup showon feature in the modified container
+			// Setup showon feature in the modified container
 			$(document).on('subform-row-add joomla:updated', function(event, row) {
 
 				// Check for target
