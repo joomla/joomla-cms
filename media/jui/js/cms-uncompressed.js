@@ -182,11 +182,11 @@ Joomla = window.Joomla || {};
 				// Use anonymous function to capture arguments
 				(function($target) {
 					// Set up only once
-					if ($target.data('showonInitialised')) {
+					if ($target[0].hasAttribute('data-showon-initialised')) {
 						return;
 					}
 
-					$target.data('showonInitialised', true);
+					$target[0].setAttribute('data-showon-initialised', '');
 
 					var jsondata = $target.data('showon') || [],
 						field, $fields = $();
