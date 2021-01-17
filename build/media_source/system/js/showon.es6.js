@@ -215,7 +215,7 @@
 
   if (!Joomla.Showon) {
     Joomla.Showon = {
-      initilise: (container) => new Showon(container)
+      initialise: (container) => new Showon(container)
     }
   }
 
@@ -223,7 +223,7 @@
    * Initialize 'showon' feature at an initial page load
    */
   document.addEventListener('DOMContentLoaded', () => {
-    Joomla.Showon.initilise(document);
+    Joomla.Showon.initialise(document);
   });
 
   /**
@@ -243,6 +243,6 @@
       });
     }
 
-    Joomla.Showon.initilise(target);
+    Joomla.Showon.initialise(target);
   });
 })(document);
