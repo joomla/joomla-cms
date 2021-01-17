@@ -29,6 +29,12 @@
       if (this.showonFields.length) {
         // @todo refactor this, dry
         this.showonFields.forEach((field) => {
+          // Set up only once
+          if (field.hasAttribute('data-showon-initialised')) {
+            return;
+          }
+          field.setAttribute('data-showon-initialised', '');
+
           const jsondata = field.getAttribute('data-showon') || '';
           const showonData = JSON.parse(jsondata);
           let localFields;
@@ -204,12 +210,20 @@
     }
   }
 
+  // Provide a public API
+  window.Joomla = window.Joomla || {};
+
+  if (!Joomla.Showon) {
+    Joomla.Showon = {
+      initilise: (container) => new Showon(container)
+    }
+  }
+
   /**
    * Initialize 'showon' feature at an initial page load
    */
   document.addEventListener('DOMContentLoaded', () => {
-    // eslint-disable-next-line no-new
-    new Showon(document);
+    Joomla.Showon.initilise(document);
   });
 
   /**
@@ -229,7 +243,6 @@
       });
     }
 
-    // eslint-disable-next-line no-new
-    new Showon(target);
+    Joomla.Showon.initilise(target);
   });
 })(document);
