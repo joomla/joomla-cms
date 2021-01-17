@@ -14,8 +14,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 Factory::getDocument()->getWebAssetManager()
-		->useScript('core')
-		->useScript('webcomponent.toolbar-button');
+	->useScript('core')
+	->useScript('webcomponent.toolbar-button');
 
 extract($displayData, EXTR_OVERWRITE);
 
