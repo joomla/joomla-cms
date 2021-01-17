@@ -19,6 +19,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 /**
  * Script file of Joomla CMS
@@ -6517,6 +6518,9 @@ class JoomlaInstallerScript
 			return true;
 		}
 
+		// Add new Cors settings
+		$this->addCorsSettings();
+
 		// Update UCM content types.
 		$this->updateContentTypes();
 
@@ -6934,6 +6938,39 @@ class JoomlaInstallerScript
 
 			// Execute the query.
 			$db->execute();
+		}
+	}
+
+	/**
+	 * Adds CORS settings.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function addCorsSettings(): void
+	{
+		$registry = new Registry(new \JConfig);
+
+		// Cors settings.
+		$registry->set('cors', false);
+		$registry->set('cors_allow_origin', '*');
+		$registry->set('cors_allow_headers', 'Content-Type,X-Joomla-Token');
+		$registry->set('cors_allow_methods', '');
+
+		// Set the configuration file path.
+		$file = JPATH_CONFIGURATION . '/configuration.php';
+
+		// Attempt to write the configuration file as a PHP class named JConfig.
+		$configuration = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+
+		try
+		{
+			File::write($file, $configuration);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Do nothing
 		}
 	}
 }
