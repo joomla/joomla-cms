@@ -35,9 +35,10 @@
     }
   }
 
-  &.form-select-color-state {
+  // All class names are duplicated custom select and form select for b/c with bootstrap 4
+  &.custom-select-color-state, &.form-select-color-state {
 
-    &.form-select-success {
+    &.custom-select-success, &.form-select-success {
       color: $success;
       background-color: $success;
 
@@ -47,7 +48,7 @@
       }
     }
 
-    &.form-select-danger {
+    &.custom-select-danger, &.form-select-danger {
       color: $danger;
       background-color: $danger;
 

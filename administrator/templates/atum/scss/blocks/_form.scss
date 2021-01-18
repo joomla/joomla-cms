@@ -176,11 +176,6 @@ legend {
   margin-right: 1px;
 }
 
-// Backwards compat with BS4
-.custom-select {
-  @extend .form-select;
-}
-
 .form-group {
   @extend .mb-3;
 }
