@@ -29,12 +29,14 @@
 					label="MOD_RANDOM_IMAGE_FIELD_TYPE_LABEL"
 					default="jpg"
 				/>
-
 				<field
 					name="folder"
-					type="text"
+					type="folderlist"
 					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
-					validate="filePath"
+					directory="images"
+					hide_none="true"
+					hide_default="true"
+					recursive="true"
 				/>
 
 				<field
@@ -44,18 +46,11 @@
 				/>
 
 				<field
-					name="width"
-					type="number"
-					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
-					default="100"
-					filter="integer"
-				/>
-
-				<field
-					name="height"
-					type="number"
-					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
-					filter="integer"
+					name="class"
+					type="text"
+					hint="img-fluid"
+					label="MOD_RANDOM_IMAGE_FIELD_CLASS_LABEL"
+					validate="CssIdentifier"
 				/>
 
 			</fieldset>

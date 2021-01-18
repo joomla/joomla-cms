@@ -31,9 +31,6 @@ class RandomImageHelper
 	 */
 	public static function getRandomImage(&$params, $images)
 	{
-		$width  = $params->get('width', 100);
-		$height = $params->get('height', null);
-
 		$i = \count($images);
 
 		if ($i === 0)
@@ -43,36 +40,6 @@ class RandomImageHelper
 
 		$random = mt_rand(0, $i - 1);
 		$image  = $images[$random];
-		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
-
-		if ($size[0] < $width)
-		{
-			$width = $size[0];
-		}
-
-		$coeff = $size[0] / $size[1];
-
-		if ($height === null)
-		{
-			$height = (int) ($width / $coeff);
-		}
-		else
-		{
-			$newheight = min($height, (int) ($width / $coeff));
-
-			if ($newheight < $height)
-			{
-				$height = $newheight;
-			}
-			else
-			{
-				$width = $height * $coeff;
-			}
-		}
-
-		$image->width  = $width;
-		$image->height = $height;
-		$image->folder = str_replace('\\', '/', $image->folder);
 
 		return $image;
 	}
@@ -91,7 +58,7 @@ class RandomImageHelper
 		$files  = [];
 		$images = [];
 
-		$dir = JPATH_BASE . '/' . $folder;
+		$dir = JPATH_BASE . '/images/' . $folder;
 
 		// Check if directory exists
 		if (is_dir($dir))

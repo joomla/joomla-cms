@@ -12,19 +12,25 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-if (!count($images))
+if (empty($images))
 {
 	echo Text::_('MOD_RANDOM_IMAGE_NO_IMAGES');
 
 	return;
 }
+
+$img =  'images/' . $image->folder . '/' . htmlspecialchars($image->name, ENT_COMPAT, 'UTF-8');
+
+$attribs = ['class' => $params->get('class', 'img-fluid')];
 ?>
 
 <div class="mod-randomimage random-image">
 <?php if ($link) : ?>
 <a href="<?php echo htmlspecialchars($link, ENT_QUOTES, 'UTF-8'); ?>">
 <?php endif; ?>
-	<?php echo HTMLHelper::_('image', $image->folder . '/' . htmlspecialchars($image->name, ENT_COMPAT, 'UTF-8'), '', array('width' => $image->width, 'height' => $image->height)); ?>
+
+<?php echo HTMLHelper::_('image', $img, '', $attribs); ?>
+
 <?php if ($link) : ?>
 </a>
 <?php endif; ?>
