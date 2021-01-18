@@ -10,18 +10,6 @@
 		/>
 	</fieldset>
 	<fieldset name="basic">
-		<!--<field
-			name="ftp_enable"
-			type="radio"
-			label="INSTL_FTP_ENABLE_LABEL"
-			class="btn-group btn-group-reverse"
-			default="0"
-			filter="int"
-			required="true"
-			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>-->
 		<field
 			name="ftp_user"
 			type="text"

@@ -125,6 +125,23 @@ class InstallationController extends JSONController
 	}
 
 	/**
+	 * Skip setting FTP credentials
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function skipftp()
+	{
+		$session = Factory::getSession();
+		$session->set('setup.skipftp', true);
+
+		$r = new \stdClass;
+
+		$this->sendJsonResponse($r);
+	}
+
+	/**
 	 * Database check task.
 	 *
 	 * @return  void
@@ -271,6 +288,38 @@ class InstallationController extends JSONController
 		if (!$model->setup())
 		{
 			$r->view = 'setup';
+		}
+
+		if (!$model->createConfiguration())
+		{
+			$r->view = 'configuration';
+		}
+
+		$this->sendJsonResponse($r);
+	}
+
+	/**
+	 * Check for the configuration.php task.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function checkConfigFile()
+	{
+		// If the app has already been installed, default to the remove view
+		if (file_exists(JPATH_CONFIGURATION . '/configuration.php')
+			&& filesize(JPATH_CONFIGURATION . '/configuration.php') > 10)
+		{
+			$r = new \stdClass;
+			$r->view = 'remove';
+			$r->valid = true;
+		}
+		else
+		{
+			$r = new \Exception(Text::_('INSTL_CONFIGURATION_PHP_MISSING'));
+			$r->view = 'configuration';
+			$r->valid = false;
 		}
 
 		$this->sendJsonResponse($r);

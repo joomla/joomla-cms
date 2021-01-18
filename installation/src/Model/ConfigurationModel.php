@@ -71,12 +71,6 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Attempt to create the configuration.
-		if (!$this->createConfiguration($options))
-		{
-			return false;
-		}
-
 		$serverType = $db->getServerType();
 
 		// Attempt to update the table #__schema.
@@ -378,14 +372,61 @@ class ConfigurationModel extends BaseInstallationModel
 	/**
 	 * Method to create the configuration file
 	 *
-	 * @param   \stdClass  $options  The session options
-	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 */
-	public function createConfiguration($options)
+	public function createConfiguration()
 	{
+		// Get the options as an object for easier handling.
+		$options = ArrayHelper::toObject($this->getOptions());
+
+		$registry = $this->getSiteConfiguration($options);
+
+		// Generate the configuration class string buffer.
+		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+
+		// Build the configuration file path.
+		$path = JPATH_CONFIGURATION . '/configuration.php';
+
+		Factory::getApplication()->setCfg($registry->toArray());
+
+		// Determine if the configuration file path is writable.
+		if (file_exists($path))
+		{
+			$canWrite = is_writable($path);
+		}
+		else
+		{
+			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
+		}
+
+		// Get the session
+		$session = Factory::getSession();
+
+		if ($canWrite || (isset($options->ftp_enable) && $options->ftp_enable))
+		{
+			$return = File::write($path, $buffer);
+
+			if ($return)
+			{
+				$session->set('setup.config', null);
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public function getSiteConfiguration($options = null)
+	{
+		// Get the options as an object for easier handling.
+		if (is_null($options))
+		{
+			$options = ArrayHelper::toObject($this->getOptions());
+		}
+
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
 
@@ -481,40 +522,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('shared_session', false);
 		$registry->set('session_metadata', true);
 
-		// Generate the configuration class string buffer.
-		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
-
-		// Build the configuration file path.
-		$path = JPATH_CONFIGURATION . '/configuration.php';
-
-		Factory::getApplication()->setCfg($registry->toArray());
-
-		// Determine if the configuration file path is writable.
-		if (file_exists($path))
-		{
-			$canWrite = is_writable($path);
-		}
-		else
-		{
-			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
-		}
-
-		// Get the session
-		$session = Factory::getSession();
-
-		if ($canWrite || $options->ftp_enable)
-		{
-			$return = File::write($path, $buffer);
-
-			if ($return)
-			{
-				$session->set('setup.config', null);
-
-				return true;
-			}
-		}
-
-		return false;
+		return $registry;
 	}
 
 	/**

@@ -213,14 +213,16 @@ class ChecksModel extends BaseInstallationModel
 		$options[] = $option;
 
 		// Check for configuration file writable.
+		$session  = Factory::getSession();
 		$iOptions = $this->getOptions();
 		$writable = (is_writable(JPATH_CONFIGURATION . '/configuration.php')
 			|| (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
 
-		if (!$writable
+		if ((!$writable
 			&& isset($iOptions['ftp_enable'])
 			&& $iOptions['ftp_enable']
-			&& $iOptions['ftp_user']
+			&& $iOptions['ftp_user'])
+			|| $session->get('setup.skipftp', false)
 		)
 		{
 			$writable = true;

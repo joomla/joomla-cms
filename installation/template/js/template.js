@@ -213,6 +213,10 @@
           return false;
         }
 
+        if (response.data.view) {
+          Joomla.goToPage('configuration');
+        }
+
         spinnerElement.parentNode.removeChild(spinnerElement);
         Joomla.install(tasks, form);
       },

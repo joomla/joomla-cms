@@ -162,6 +162,34 @@ Joomla.verifyFtp = function() {
   });
 };
 
+/**
+ * Method to detect the FTP root via AJAX request.
+ */
+Joomla.skipFtp = function() {
+  document.body.appendChild(document.createElement('joomla-core-loader'));
+
+  Joomla.request({
+    method: "POST",
+    url : Joomla.installationBaseUrl + '?task=installation.skipftp&format=json',
+    perform: true,
+    onSuccess: function(response, xhr){
+      Joomla.goToPage('setup');
+    },
+    onError:   function(xhr){
+      Joomla.renderMessages([['', Joomla.JText._('JLIB_FTP_ERROR_FTP_CONNECT', 'A FTP error occurred.')]]);
+      var loaderElement = document.querySelector('joomla-core-loader');
+      loaderElement.parentNode.removeChild(loaderElement);
+
+      try {
+        var r = JSON.parse(xhr.responseText);
+        Joomla.replaceTokens(r.token);
+        alert(r.message);
+      } catch (e) {
+      }
+    }
+  });
+};
+
 (function() {
   // Merge options from the session storage
   if (sessionStorage && sessionStorage.getItem('installation-data')) {
