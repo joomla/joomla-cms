@@ -101,14 +101,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php if ($item->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary" title="<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->home; ?></span>
+												<span class="badge bg-secondary" title="<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->home; ?></span>
 											<?php endif; ?>
 										</a>
 									<?php else : ?>
 										<?php if ($item->image) : ?>
 											<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 										<?php else : ?>
-											<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->home; ?></span>
+											<span class="badge bg-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->home; ?></span>
 										<?php endif; ?>
 									<?php endif; ?>
 								</td>

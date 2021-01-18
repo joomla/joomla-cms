@@ -102,7 +102,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php endif; ?>
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
-										<span class="badge badge-warning">
+										<span class="badge bg-warning text-dark">
 											<span class="hasPopover"
 												  title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
 												  data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
@@ -119,10 +119,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo $item->type_translated; ?>
 									</td>
 									<td>
-										<span class="badge badge-warning"><?php echo $item->current_version; ?></span>
+										<span class="badge bg-warning text-dark"><?php echo $item->current_version; ?></span>
 									</td>
 									<td>
-										<span class="badge badge-success"><?php echo $item->version; ?></span>
+										<span class="badge bg-success"><?php echo $item->version; ?></span>
 									</td>
 									<td class="d-none d-md-table-cell text-center">
 										<?php if (!empty($item->changelogurl)) : ?>

@@ -109,12 +109,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<br>
 									<span class="small break-word">
 										<?php if ($item->downloadKey['valid']) : ?>
-										<span class="badge badge-info">
+										<span class="badge bg-info">
 											<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
 										</span>
 										<code><?php echo $item->downloadKey['value']; ?></code>
 										<?php elseif ($item->downloadKey['supported']) : ?>
-										<span class="badge badge-warning">
+										<span class="badge bg-warning text-dark">
 											<span class="hasPopover"
 													title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
 													data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"

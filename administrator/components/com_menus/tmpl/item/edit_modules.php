@@ -110,35 +110,35 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 			<td id="menus-<?php echo $module->id; ?>">
 				<?php if (is_null($module->menuid)) : ?>
 					<?php if ($module->except) : ?>
-						<span class="badge badge-success">
+						<span class="badge bg-success">
 							<?php echo Text::_('JYES'); ?>
 						</span>
 					<?php else : ?>
-						<span class="badge badge-danger">
+						<span class="badge bg-danger">
 							<?php echo Text::_('JNO'); ?>
 						</span>
 					<?php endif; ?>
 				<?php elseif ($module->menuid > 0) : ?>
-					<span class="badge badge-success">
+					<span class="badge bg-success">
 						<?php echo Text::_('JYES'); ?>
 					</span>
 				<?php elseif ($module->menuid < 0) : ?>
-					<span class="badge badge-danger">
+					<span class="badge bg-danger">
 						<?php echo Text::_('JNO'); ?>
 					</span>
 				<?php else : ?>
-					<span class="badge badge-info">
+					<span class="badge bg-info">
 						<?php echo Text::_('JALL'); ?>
 					</span>
 				<?php endif; ?>
 			</td>
 			<td id="status-<?php echo $module->id; ?>">
 				<?php if ($module->published) : ?>
-					<span class="badge badge-success">
+					<span class="badge bg-success">
 						<?php echo Text::_('JYES'); ?>
 					</span>
 				<?php else : ?>
-					<span class="badge badge-danger">
+					<span class="badge bg-danger">
 						<?php echo Text::_('JNO'); ?>
 					</span>
 				<?php endif; ?>

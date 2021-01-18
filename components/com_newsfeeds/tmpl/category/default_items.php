@@ -30,7 +30,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->params->get('filter_field') !== 'hide' && $this->params->get('filter_field') == '1') : ?>
 						<div class="btn-group">
 							<label class="filter-search-lbl visually-hidden" for="filter-search">
-								<span class="badge badge-warning">
+								<span class="badge bg-warning text-dark">
 									<?php echo Text::_('JUNPUBLISHED'); ?>
 								</span>
 								<?php echo Text::_('COM_NEWSFEEDS_FILTER_LABEL') . '&#160;'; ?>
@@ -56,7 +56,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<li class="cat-list-row<?php echo $i % 2; ?>">
 					<?php endif; ?>
 					<?php if ($this->params->get('show_articles')) : ?>
-						<span class="list-hits badge badge-info float-end">
+						<span class="list-hits badge bg-info float-end">
 							<?php echo Text::sprintf('COM_NEWSFEEDS_NUM_ARTICLES_COUNT', $item->numarticles); ?>
 						</span>
 					<?php endif; ?>
@@ -68,7 +68,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</div>
 					</span>
 					<?php if ($this->items[$i]->published == 0) : ?>
-						<span class="badge badge-warning">
+						<span class="badge bg-warning text-dark">
 							<?php echo Text::_('JUNPUBLISHED'); ?>
 						</span>
 					<?php endif; ?>

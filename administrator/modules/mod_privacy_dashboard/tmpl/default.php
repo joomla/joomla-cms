@@ -43,7 +43,7 @@ $activeRequests = 0;
 					<?php echo HTMLHelper::_('privacy.statusLabel', $item->status); ?>
 				</td>
 				<td>
-					<span class="badge badge-info"><?php echo $item->count; ?></span>
+					<span class="badge bg-info"><?php echo $item->count; ?></span>
 				</td>
 			</tr>
 			<?php endforeach; ?>

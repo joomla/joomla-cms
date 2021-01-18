@@ -105,14 +105,14 @@ $this->document->getWebAssetManager()
 												<?php if ($link->language_image) : ?>
 													<?php echo HTMLHelper::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
 												<?php else : ?>
-													<?php echo '<span class="badge badge-secondary" title="' . $link->language_title . '">' . $link->language_sef . '</span>'; ?>
+													<?php echo '<span class="badge bg-secondary" title="' . $link->language_title . '">' . $link->language_sef . '</span>'; ?>
 												<?php endif; ?>
 											<?php endif; ?>
 											<?php if ($link->published == 0) : ?>
-												<?php echo ' <span class="badge badge-secondary">' . Text::_('JUNPUBLISHED') . '</span>'; ?>
+												<?php echo ' <span class="badge bg-secondary">' . Text::_('JUNPUBLISHED') . '</span>'; ?>
 											<?php endif; ?>
 											<?php if ($uselessMenuItem) : ?>
-												<?php echo ' <span class="badge badge-secondary">' . Text::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
+												<?php echo ' <span class="badge bg-secondary">' . Text::_('COM_MODULES_MENU_ITEM_' . strtoupper($link->type)) . '</span>'; ?>
 											<?php endif; ?>
 										</label>
 									</div>

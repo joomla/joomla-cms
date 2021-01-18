@@ -129,7 +129,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									</div>
 									<?php echo HTMLHelper::_('users.notesModal', $item->note_count, $item->id); ?>
 									<?php if ($item->requireReset == '1') : ?>
-										<span class="badge badge-warning"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+										<span class="badge bg-warning text-dark"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 									<?php endif; ?>
 								</th>
 								<td class="text-center btns d-none d-md-table-cell">

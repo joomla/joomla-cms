@@ -14,7 +14,7 @@ use Joomla\CMS\Router\Route;
 
 ?>
 <nav role="navigation" aria-label="<?php echo $module->title; ?>">
-	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb">
+	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb px-3 py-2">
 		<?php if ($params->get('showHere', 1)) : ?>
 			<li class="mod-breadcrumbs__here float-start">
 				<?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;

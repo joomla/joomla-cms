@@ -95,7 +95,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				<?php if ($language->image) : ?>
 					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 				<?php else : ?>
-					<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
+					<span class="badge bg-secondary"><?php echo strtoupper($language->sef); ?></span>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>

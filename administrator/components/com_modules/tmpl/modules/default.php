@@ -149,11 +149,11 @@ if ($saveOrder && !empty($this->items))
 						</th>
 						<td class="d-none d-md-table-cell">
 							<?php if ($item->position) : ?>
-								<span class="badge badge-info">
+								<span class="badge bg-info">
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
-								<span class="badge badge-secondary">
+								<span class="badge bg-secondary">
 									<?php echo Text::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>

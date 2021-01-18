@@ -137,7 +137,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 						<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<jdoc:include type="message" />
 						<blockquote class="blockquote">
-							<span class="badge badge-secondary"><?php echo $this->error->getCode(); ?></span>
+							<span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span>
 							<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 						</blockquote>
 						<?php if ($this->debug) : ?>

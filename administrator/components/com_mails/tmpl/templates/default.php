@@ -89,7 +89,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 											<?php if ($language->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
+												<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
 											<?php endif; ?>
 										<?php endif; ?>
 									<?php endforeach; ?>
@@ -100,7 +100,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 											<?php if ($language->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary"><?php echo $language->lang_code; ?></span>
+												<span class="badge bg-secondary"><?php echo $language->lang_code; ?></span>
 											<?php endif; ?>
 										<?php endif; ?>
 									<?php endforeach; ?>

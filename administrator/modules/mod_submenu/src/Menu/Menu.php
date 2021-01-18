@@ -182,7 +182,7 @@ abstract class Menu
 					}
 					elseif (substr($iconImage, 0, 6) === 'image:')
 					{
-						$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
+						$iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
 					}
 
 					$item->iconImage = $iconImage;

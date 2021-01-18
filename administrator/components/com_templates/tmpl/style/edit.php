@@ -40,7 +40,7 @@ $user = Factory::getUser();
 					</h2>
 					<div class="card-body">
 						<div class="info-labels">
-							<span class="badge badge-secondary">
+							<span class="badge bg-secondary">
 								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
 							</span>
 						</div>

@@ -55,7 +55,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo Text::sprintf('COM_CHECKIN_TABLE', $table); ?>
 									</th>
 									<td>
-										<span class="badge badge-secondary"><?php echo $count; ?></span>
+										<span class="badge bg-secondary"><?php echo $count; ?></span>
 									</td>
 								</tr>
 								<?php $i++; ?>

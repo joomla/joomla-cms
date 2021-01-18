@@ -55,10 +55,10 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 								?>
 								</h2>
 								<div class="info-labels mb-1">
-									<span class="badge badge-secondary">
+									<span class="badge bg-secondary">
 										<?php echo $this->form->getValue('folder'); ?>
 									</span> /
-									<span class="badge badge-secondary">
+									<span class="badge bg-secondary">
 										<?php echo $this->form->getValue('element'); ?>
 									</span>
 								</div>

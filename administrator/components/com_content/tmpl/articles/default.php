@@ -357,18 +357,18 @@ $assoc = Associations::isEnabled();
 									?>
 								</td>
 								<td class="d-none d-lg-table-cell text-center">
-									<span class="badge badge-info">
+									<span class="badge bg-info">
 										<?php echo (int) $item->hits; ?>
 									</span>
 								</td>
 								<?php if ($this->vote) : ?>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge badge-success">
+										<span class="badge bg-success">
 										<?php echo (int) $item->rating_count; ?>
 										</span>
 									</td>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge badge-warning">
+										<span class="badge bg-warning text-dark">
 										<?php echo (int) $item->rating; ?>
 										</span>
 									</td>
