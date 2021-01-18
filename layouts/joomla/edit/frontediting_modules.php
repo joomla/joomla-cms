@@ -49,22 +49,26 @@ $moduleHtml = preg_replace(
 );
 
 // // If menu editing is enabled and allowed and it's a menu module add link for editing
-// if ($menusEditing && $mod->module === 'mod_menu')
-// {
-// 	$menuitemEditUrl = Uri::base() . 'administrator/index.php?option=com_menus&view=item&client_id=0&layout=edit&id=' . (int) $menuItemid;
+if ($menusEditing && $mod->module === 'mod_menu')
+{
+// find the menu item id
+	$regex = '/\bitem-(\d+)\b/';
 
-// for each li find the ItemId from the item-nnn class as $menuItemid
-// then use the $menuItemid to build the link and append it to the existing link
-
-// <li class="nav-item item-101 default"><a href="/joomla-cms/index.php" tabindex="0">Home</a></li>
-
-// 	$moduleHtml = preg_match(
-// 		// Get menu ItemId from the item-nnn class of the li element of the menu
-// 		'$menuItemid = /\bitem-(\d+)\b/'
-
-// 		// add the editing link and tooltip
-// 		<a class="btn btn-link jmodedit" href="' . $menuitemEditUrl . '" target="' . $target . '"><span class="icon-edit" aria-hidden="true"></span>' . Text::_('JGLOBAL_EDIT') . '</a>
-// 		<div role="tooltip" id="menutip-' . (int) $menuItemid . '">' . Text::_('JLIB_HTML_EDIT_MENU_ITEM') . '<br>' . htmlspecialchars($mod->title, ENT_COMPAT, 'UTF-8') . '<br>'. sprintf(Text::_('JLIB_HTML_EDIT_MENU_ITEM_ID'), (int) .$menuItemid) . '</div>',
-
-// 	)
-// }
+	preg_match_all($regex, $moduleHtml, $menuItemids);
+	if ($menuItemids)
+	{
+		foreach ($menuItemids[1] as $menuItemid)
+			{
+				$menuitemEditUrl = Uri::base() . 'administrator/index.php?option=com_menus&view=item&client_id=0&layout=edit&id=' . (int) $menuItemid;
+				$moduleHtml = preg_replace(
+					// Find the link
+					'/(<li.*?\bitem-'. $menuItemid .'.*?\/a>)/',
+					// Create and add the edit link and tooltip
+					'\\1 <a class="small" href="' . $menuitemEditUrl . '" target="' . $target . '">
+					<span class="icon-edit" aria-hidden="true"></span>' . Text::_('JGLOBAL_EDIT') . '</a>
+					<div role="tooltip" id="menutip-' . (int) $menuItemid . '">' . Text::_('JLIB_HTML_EDIT_MENU_ITEM') . '<br>' . sprintf(Text::_('JLIB_HTML_EDIT_MENU_ITEM_ID'), (int) $menuItemid) . '</div>',
+					$moduleHtml
+				);
+			}
+	}
+}
