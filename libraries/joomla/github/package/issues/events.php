@@ -26,18 +26,18 @@ class JGithubPackageIssuesEvents extends JGithubPackage
 	/**
 	 * List events for an issue.
 	 *
-	 * @param   string   $owner         The name of the owner of the GitHub repository.
-	 * @param   string   $repo          The name of the GitHub repository.
-	 * @param   integer  $issue_number  The issue number.
-	 * @param   integer  $page          The page number from which to get items.
-	 * @param   integer  $limit         The number of items on a page.
+	 * @param   string   $owner        The name of the owner of the GitHub repository.
+	 * @param   string   $repo         The name of the GitHub repository.
+	 * @param   integer  $issueNumber  The issue number.
+	 * @param   integer  $page         The page number from which to get items.
+	 * @param   integer  $limit        The number of items on a page.
 	 *
 	 * @return object
 	 */
-	public function getList($owner, $repo, $issue_number, $page = 0, $limit = 0)
+	public function getList($owner, $repo, $issueNumber, $page = 0, $limit = 0)
 	{
 		// Build the request path.
-		$path = '/repos/' . $owner . '/' . $repo . '/issues/' . (int) $issue_number . '/events';
+		$path = '/repos/' . $owner . '/' . $repo . '/issues/' . (int) $issueNumber . '/events';
 
 		// Send the request.
 		return $this->processResponse(

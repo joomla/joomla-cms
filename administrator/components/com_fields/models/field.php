@@ -383,15 +383,15 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Method to change the title & name.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $name         The name.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $name        The name.
+	 * @param   string   $title       The title.
 	 *
 	 * @return  array  Contains the modified title and name.
 	 *
 	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $name, $title)
+	protected function generateNewTitle($categoryId, $name, $title)
 	{
 		// Alter the title & name
 		$table = $this->getTable();
@@ -877,6 +877,32 @@ class FieldsModelField extends JModelAdmin
 	}
 
 	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.23
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		if (!JFactory::getUser()->authorise('core.admin', 'com_fields'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
+	}
+
+	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
 	 * @param   JForm   $form   A JForm object.
@@ -976,14 +1002,14 @@ class FieldsModelField extends JModelAdmin
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$context = JFactory::getApplication()->input->get('context');
 

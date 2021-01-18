@@ -2036,6 +2036,23 @@ class JoomlaInstallerScript
 
 			// Joomla! 3.9.21
 			'/.github/SECURITY.md',
+
+			// Joomla! 3.9.23
+			'/.drone.jsonnet',
+
+			// Joomla! added by the 3.9.23-rc1
+			'/libraries/vendor/bin/lessify',
+			'/libraries/vendor/bin/lessify.bat',
+			'/libraries/vendor/bin/plessc',
+			'/libraries/vendor/bin/plessc.bat',
+			'/libraries/vendor/joomla/archive/.drone.jsonnet',
+			'/libraries/vendor/joomla/archive/.drone.yml',
+			'/libraries/vendor/joomla/string/.drone.jsonnet',
+			'/libraries/vendor/joomla/string/.drone.yml',
+			'/libraries/vendor/leafo/lessphp/.drone.yml',
+			'/libraries/vendor/leafo/lessphp/phpunit.xml.dist',
+			'/libraries/vendor/leafo/lessphp/ruleset.xml',
+
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode

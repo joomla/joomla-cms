@@ -166,7 +166,7 @@ class User extends Table
 	 */
 	public function check()
 	{
-		// Set user id to null istead of 0, if needed
+		// Set user id to null instead of 0, if needed
 		if ($this->id === 0)
 		{
 			$this->id = null;
