@@ -38,7 +38,7 @@
 
                 elem.classList.add('float-end');
                 elem.classList.add('badge');
-                elem.classList.add('bg-warning text-dark');
+                elem.classList.add('bg-warning', 'text-dark');
                 elem.innerHTML = response.data;
 
                 element.parentNode.replaceChild(elem, element);
