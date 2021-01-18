@@ -38,7 +38,7 @@ if ($parameters->get('redirect_edit', 'site') === 'site')
 $count = 0;
 $moduleHtml = preg_replace(
 	// Find first tag of module
-	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|nav|address|article) [^>]*>)/',
+	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|address|article) [^>]*>)/',
 	// Create and add the edit link and tooltip
 	'\\1 <a class="btn btn-link jmodedit" href="' . $editUrl . '" target="' . $target . '" aria-describedby="tip-' . (int) $mod->id . '">
 	<span class="icon-edit" aria-hidden="true"></span>' . Text::_('JGLOBAL_EDIT') . '</a>
@@ -56,6 +56,7 @@ $moduleHtml = preg_replace(
 // for each li find the ItemId from the item-nnn class as $menuItemid
 // then use the $menuItemid to build the link and append it to the existing link
 
+// <li class="nav-item item-101 default"><a href="/joomla-cms/index.php" tabindex="0">Home</a></li>
 
 // 	$moduleHtml = preg_match(
 // 		// Get menu ItemId from the item-nnn class of the li element of the menu
