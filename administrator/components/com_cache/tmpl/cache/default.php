@@ -58,7 +58,7 @@ $wa->useScript('keepalive')
 							<th scope="col" class="w-10 text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" class="w-10 text-right">
+							<th scope="col" class="w-10 text-end">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -78,7 +78,7 @@ $wa->useScript('keepalive')
 								<td class="text-center">
 									<?php echo $item->count; ?>
 								</td>
-								<td class="text-right">
+								<td class="text-end">
 									<?php echo '&#x200E;' . HTMLHelper::_('number.bytes', $item->size); ?>
 								</td>
 							</tr>

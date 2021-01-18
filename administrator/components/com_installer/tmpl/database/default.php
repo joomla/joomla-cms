@@ -56,7 +56,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										<th scope="col" class="w-10 d-none d-md-table-cell">
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
-										<th scope="col" class="w-10 d-none d-md-table-cell text-right">
+										<th scope="col" class="w-10 d-none d-md-table-cell text-end">
 											<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 										</th>
 										<th scope="col" class="w-10 d-none d-md-table-cell">
@@ -100,7 +100,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 													<ul><li><?php echo implode('</li><li>', $item['errorsMessage']); ?></li></ul>
 												</div>
 											</td>
-											<td class="d-none d-md-table-cell text-right">
+											<td class="d-none d-md-table-cell text-end">
 												<?php echo $extension->version_id; ?>
 											</td>
 											<td class="d-none d-md-table-cell">

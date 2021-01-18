@@ -92,7 +92,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" class="w-10 text-right">
+					<th scope="col" class="w-10 text-end">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>
@@ -132,7 +132,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 					<td class="d-none d-md-table-cell">
 						<?php echo htmlspecialchars($item->editor); ?>
 					</td>
-					<td class="text-right">
+					<td class="text-end">
 						<?php echo number_format((int) $item->character_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?>
 					</td>
 				</tr>

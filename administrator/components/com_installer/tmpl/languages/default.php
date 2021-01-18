@@ -47,7 +47,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-10 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-15 text-right d-none d-md-table-cell">
+								<th scope="col" class="w-15 text-end d-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th scope="col" class="w-35 d-none d-md-table-cell">
@@ -82,13 +82,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="text-center">
 									<?php echo $language->code; ?>
 								</td>
-								<td class="text-right d-none d-md-table-cell">
+								<td class="text-end d-none d-md-table-cell">
 										<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 										<?php // Display a Note if language pack version is not equal to Joomla version ?>
 										<?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
 											<span class="badge bg-warning text-dark"><?php echo $language->version; ?></span>
 											<span class="icon-info-circle" aria-hidden="true" tabindex="0"></span>
-											<div role="tooltip" class="text-left" id="tip<?php echo $language->code; ?>">
+											<div role="tooltip" class="text-start" id="tip<?php echo $language->code; ?>">
 											<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>
 											</div>
 										<?php else : ?>
