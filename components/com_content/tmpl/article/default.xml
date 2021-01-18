@@ -22,7 +22,8 @@
 				select="true"
 				new="true"
 				edit="true"
-				clear="true"
+				clear="false"
+				change="true"
 			/>
 		</fieldset>
 	</fields>

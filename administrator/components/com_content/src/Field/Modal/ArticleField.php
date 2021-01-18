@@ -48,6 +48,7 @@ class ArticleField extends FormField
 		$allowClear     = ((string) $this->element['clear'] != 'false');
 		$allowSelect    = ((string) $this->element['select'] != 'false');
 		$allowPropagate = ((string) $this->element['propagate'] == 'true');
+		$allowChange    = ((string) $this->element['change'] == 'true');
 
 		$languages = LanguageHelper::getContentLanguages(array(0, 1), false);
 
@@ -67,7 +68,7 @@ class ArticleField extends FormField
 		$wa->useScript('field.modal-fields');
 
 		// Script to proxy the select modal function to the modal-fields.js file.
-		if ($allowSelect)
+		if ($allowSelect || $allowChange)
 		{
 			static $scriptSelect = null;
 
@@ -136,14 +137,14 @@ class ArticleField extends FormField
 		// The current article display field.
 		$html  = '';
 
-		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
+		if ($allowSelect || $allowNew || $allowEdit || $allowClear || $allowchange)
 		{
 			$html .= '<span class="input-group">';
 		}
 
 		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" readonly size="35">';
 
-		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
+		if ($allowSelect || $allowNew || $allowEdit || $allowClear || $allowChange)
 		{
 			$html .= '<span class="input-group-append">';
 		}
@@ -187,6 +188,19 @@ class ArticleField extends FormField
 				. '</button>';
 		}
 
+		// Change article button
+		if ($allowChange)
+		{
+			$html .= '<button'
+				. ' class="btn btn-primary' . ($value ? '' : ' hidden') . '"'
+				. ' id="' . $this->id . '_change"'
+				. ' data-toggle="modal"'
+				. ' type="button"'
+				. ' data-target="#ModalSelect' . $modalId . '">'
+				. '<span class="fas fa-file" aria-hidden="true"></span> ' . Text::_('JCHANGE')
+				. '</button>';
+		}
+
 		// Clear article button
 		if ($allowClear)
 		{
@@ -216,13 +230,13 @@ class ArticleField extends FormField
 			. '</button>';
 		}
 
-		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
+		if ($allowSelect || $allowNew || $allowEdit || $allowClear || $allowChange)
 		{
 			$html .= '</span></span>';
 		}
 
 		// Select article modal
-		if ($allowSelect)
+		if ($allowSelect || $allowChange)
 		{
 			$html .= HTMLHelper::_(
 				'bootstrap.renderModal',
