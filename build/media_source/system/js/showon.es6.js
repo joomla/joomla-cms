@@ -215,8 +215,8 @@
 
   if (!Joomla.Showon) {
     Joomla.Showon = {
-      initialise: (container) => new Showon(container)
-    }
+      initialise: (container) => new Showon(container),
+    };
   }
 
   /**
