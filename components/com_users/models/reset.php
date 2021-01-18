@@ -437,7 +437,8 @@ class UsersModelReset extends JModelForm
 
 			$body = JText::sprintf(
 				'COM_USERS_REMIND_SUPERADMIN_BODY',
-				$data['sitename']
+				$data['sitename'],
+				$interpretBackSlashes = false
 			);
 
 			// Send the password reset request email.
