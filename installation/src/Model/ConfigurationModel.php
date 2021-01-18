@@ -419,6 +419,15 @@ class ConfigurationModel extends BaseInstallationModel
 		return false;
 	}
 
+	/**
+	 * Method to get a registry object of the site configuration
+	 *
+	 * @param   \stdClass  $options  Array of options
+	 *
+	 * @return  Registry
+	 *
+	 * @since   4.0.0
+	 */
 	public function getSiteConfiguration($options = null)
 	{
 		// Get the options as an object for easier handling.
