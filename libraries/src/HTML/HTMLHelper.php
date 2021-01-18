@@ -766,7 +766,7 @@ abstract class HTMLHelper
 	}
 
 	/**
-	 * Returns formated date according to a given format and time zone.
+	 * Returns formatted date according to a given format and time zone.
 	 *
 	 * @param   string   $input      String in a format accepted by date(), defaults to "now".
 	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date}).
