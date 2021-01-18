@@ -301,7 +301,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		// Find the path to the temp directory and the local package.
 		$config   = JFactory::getConfig();
-		$tempdir  = $config->get('tmp_path');
+		$tempdir  = $config->get('tmp_path', 'path');
 		$target   = $tempdir . '/' . $basename;
 		$response = array();
 
