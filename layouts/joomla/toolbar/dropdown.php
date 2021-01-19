@@ -32,7 +32,7 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $toggleSplit
  */
 
-$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
+$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 
 ?>
 

@@ -31,7 +31,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		</div>
 		<span class="icon-angle-down" aria-hidden="true"></span>
 	</button>
-	<div class="dropdown-menu dropdown-menu-right">
+	<div class="dropdown-menu dropdown-menu-end">
 		<div class="dropdown-header">
 			<span class="icon-user-circle icon-fw" aria-hidden="true"></span>
 			<?php echo Text::sprintf('MOD_USER_TITLE', $user->name); ?>
