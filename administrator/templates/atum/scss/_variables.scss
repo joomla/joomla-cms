@@ -1,5 +1,4 @@
 // Variables
-@import "../../../../media/vendor/bootstrap/scss/functions";
 
 $white:                            #fff;
 $whiteoffset:                      #fefefe;
@@ -125,7 +124,8 @@ $content-font-size:                .875rem;
 $label-font-size:                  1rem;
 $danger-bg:                        #900;
 $badge-font-size:                  .75rem;
-$fa-css-prefix:                    fa;
+$jicon-css-prefix:                 icon !default;
+$fa-css-prefix:                    fa !default;
 $fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
 
@@ -154,10 +154,6 @@ $dropdown-border-width:            1px;
 $dropdown-item-padding-y:          .5rem;
 $dropdown-item-padding-x:          .75rem;
 $dropdown-spacer:                  0;
-
-// Tabs
-$nav-tabs-border-width:            0;
-$nav-tabs-link-active-bg:          rgba($gray-100, .2); // Used by bootstrap tabs
 
 // Cards
 $card-border-width:                0;

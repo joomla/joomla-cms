@@ -43,6 +43,7 @@
 				label="JGLOBAL_BLOG_CLASS_LEADING"
 				useglobal="true"
 				size="3"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -51,6 +52,7 @@
 				label="JGLOBAL_BLOG_CLASS"
 				useglobal="true"
 				size="3"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -76,6 +78,23 @@
 
 			<field
 				name="spacer1"
+				type="spacer"
+				hr="true"
+			/>
+
+			<field
+				name="link_intro_image"
+				type="list"
+				label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="spacer2"
 				type="spacer"
 				hr="true"
 			/>

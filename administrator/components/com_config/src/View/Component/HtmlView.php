@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,12 +80,6 @@ class HtmlView extends BaseHtmlView
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
-		}
-
-		// Bind the form to the data.
-		if ($form)
-		{
-			$form->bind($component->getParams());
 		}
 
 		$this->fieldsets   = $form ? $form->getFieldsets() : null;

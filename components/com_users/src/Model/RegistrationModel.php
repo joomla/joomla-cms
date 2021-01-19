@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,7 @@ use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -150,20 +151,6 @@ class RegistrationModel extends FormModel
 			$data['mailfrom'] = $app->get('mailfrom');
 			$data['sitename'] = $app->get('sitename');
 			$user->setParam('activate', 1);
-			$emailSubject = Text::sprintf(
-				'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_SUBJECT',
-				$data['name'],
-				$data['sitename']
-			);
-
-			$emailBody = Text::sprintf(
-				'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_BODY',
-				$data['sitename'],
-				$data['name'],
-				$data['email'],
-				$data['username'],
-				$data['activate']
-			);
 
 			// Get all admin users
 			$db = $this->getDbo();
@@ -195,7 +182,10 @@ class RegistrationModel extends FormModel
 				{
 					try
 					{
-						$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+						$mailer = new MailTemplate('com_users.registration.admin.verification_request', $app->getLanguage()->getTag());
+						$mailer->addTemplateData($data);
+						$mailer->addRecipient($row->email);
+						$return = $mailer->send();
 					}
 					catch (\Exception $exception)
 					{
@@ -236,22 +226,13 @@ class RegistrationModel extends FormModel
 			$data['mailfrom'] = $app->get('mailfrom');
 			$data['sitename'] = $app->get('sitename');
 			$data['siteurl'] = Uri::base();
-			$emailSubject = Text::sprintf(
-				'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
-				$data['name'],
-				$data['sitename']
-			);
-
-			$emailBody = Text::sprintf(
-				'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_BODY',
-				$data['name'],
-				$data['siteurl'],
-				$data['username']
-			);
+			$mailer = new MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
+			$mailer->addTemplateData($data);
+			$mailer->addRecipient($data['email']);
 
 			try
 			{
-				$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+				$return = $mailer->send();
 			}
 			catch (\Exception $exception)
 			{
@@ -541,35 +522,7 @@ class RegistrationModel extends FormModel
 				true
 			);
 
-			$emailSubject = Text::sprintf(
-				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
-				$data['name'],
-				$data['sitename']
-			);
-
-			if ($sendpassword)
-			{
-				$emailBody = Text::sprintf(
-					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY',
-					$data['name'],
-					$data['sitename'],
-					$data['activate'],
-					$data['siteurl'],
-					$data['username'],
-					$data['password_clear']
-				);
-			}
-			else
-			{
-				$emailBody = Text::sprintf(
-					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY_NOPW',
-					$data['name'],
-					$data['sitename'],
-					$data['activate'],
-					$data['siteurl'],
-					$data['username']
-				);
-			}
+			$mailtemplate = 'com_users.registration.user.admin_activation';
 		}
 		elseif ($useractivation == 1)
 		{
@@ -584,70 +537,25 @@ class RegistrationModel extends FormModel
 				true
 			);
 
-			$emailSubject = Text::sprintf(
-				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
-				$data['name'],
-				$data['sitename']
-			);
-
-			if ($sendpassword)
-			{
-				$emailBody = Text::sprintf(
-					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY',
-					$data['name'],
-					$data['sitename'],
-					$data['activate'],
-					$data['siteurl'],
-					$data['username'],
-					$data['password_clear']
-				);
-			}
-			else
-			{
-				$emailBody = Text::sprintf(
-					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY_NOPW',
-					$data['name'],
-					$data['sitename'],
-					$data['activate'],
-					$data['siteurl'],
-					$data['username']
-				);
-			}
+			$mailtemplate = 'com_users.registration.user.self_activation';
 		}
 		else
 		{
-			$emailSubject = Text::sprintf(
-				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
-				$data['name'],
-				$data['sitename']
-			);
+			$mailtemplate = 'com_users.registration.user.registration_mail';
+		}
 
-			if ($sendpassword)
-			{
-				$emailBody = Text::sprintf(
-					'COM_USERS_EMAIL_REGISTERED_BODY',
-					$data['name'],
-					$data['sitename'],
-					$data['siteurl'],
-					$data['username'],
-					$data['password_clear']
-				);
-			}
-			else
-			{
-				$emailBody = Text::sprintf(
-					'COM_USERS_EMAIL_REGISTERED_BODY_NOPW',
-					$data['name'],
-					$data['sitename'],
-					$data['siteurl']
-				);
-			}
+		if ($sendpassword)
+		{
+			$mailtemplate .= '_w_pw';
 		}
 
 		// Try to send the registration email.
 		try
 		{
-			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			$mailer = new MailTemplate($mailtemplate, $app->getLanguage()->getTag());
+			$mailer->addTemplateData($data);
+			$mailer->addRecipient($data['email']);
+			$return = $mailer->send();
 		}
 		catch (\Exception $exception)
 		{
@@ -670,19 +578,6 @@ class RegistrationModel extends FormModel
 		// Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
 		{
-			$emailSubject = Text::sprintf(
-				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
-				$data['name'],
-				$data['sitename']
-			);
-
-			$emailBodyAdmin = Text::sprintf(
-				'COM_USERS_EMAIL_REGISTERED_NOTIFICATION_TO_ADMIN_BODY',
-				$data['name'],
-				$data['username'],
-				$data['siteurl']
-			);
-
 			// Get all admin users
 			$query->clear()
 				->select($db->quoteName(array('name', 'email', 'sendEmail')))
@@ -708,7 +603,10 @@ class RegistrationModel extends FormModel
 			{
 				try
 				{
-					$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+					$mailer = new MailTemplate('com_users.registration.admin.new_notification', $app->getLanguage()->getTag());
+					$mailer->addTemplateData($data);
+					$mailer->addRecipient($row->email);
+					$return = $mailer->send();
 				}
 				catch (\Exception $exception)
 				{

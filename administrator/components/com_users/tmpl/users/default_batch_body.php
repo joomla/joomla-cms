@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -25,6 +25,10 @@ $resetOptions = array(
 	HTMLHelper::_('select.option', 'no', Text::_('JNO'))
 );
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('joomla.batch-copymove');
+
 ?>
 
 <div class="container">
@@ -41,10 +45,10 @@ $resetOptions = array(
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="control-label" for="batch-password-reset_id">
-				<?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?>
-			</label>
 			<fieldset id="batch-password-reset_id">
+				<legend>
+					<?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?>
+				</legend>
 				<?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
 			</fieldset>
 		</div>

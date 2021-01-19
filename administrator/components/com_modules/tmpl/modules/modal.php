@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ if (!empty($editor))
 
 		<?php if ($this->total > 0) : ?>
 		<table class="table" id="moduleList">
-			<caption id="captionTable" class="sr-only">
+			<caption class="sr-only">
 				<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -79,10 +79,10 @@ if (!empty($editor))
 			<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'fas fa-trash',
-					0  => 'fas fa-times',
-					1  => 'fas fa-check',
-					2  => 'fas fa-folder',
+					-2 => 'icon-trash',
+					0  => 'icon-times',
+					1  => 'icon-check',
+					2  => 'icon-folder',
 				);
 				foreach ($this->items as $i => $item) :
 				?>

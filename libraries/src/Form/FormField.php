@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,6 +109,15 @@ abstract class FormField
 	 * @since  4.0.0
 	 */
 	protected $hiddenLabel = false;
+
+	/**
+	 * Should the description be hidden when rendering the form field? This may be useful if you have the
+	 * description rendering in your form field itself for e.g. note fields.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $hiddenDescription = false;
 
 	/**
 	 * True to translate the field label string.
@@ -1027,9 +1036,28 @@ abstract class FormField
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->hiddenLabel)
+		if (empty($options['hiddenLabel']))
 		{
-			$options['hiddenLabel'] = true;
+			if ($this->getAttribute('hiddenLabel'))
+			{
+				$options['hiddenLabel'] = $this->getAttribute('hiddenLabel') == 'true';
+			}
+			else
+			{
+				$options['hiddenLabel'] = $this->hiddenLabel;
+			}
+		}
+
+		if (empty($options['hiddenDescription']))
+		{
+			if ($this->getAttribute('hiddenDescription'))
+			{
+				$options['hiddenDescription'] = $this->getAttribute('hiddenDescription') == 'true';
+			}
+			else
+			{
+				$options['hiddenDescription'] = $this->hiddenDescription;
+			}
 		}
 
 		if ($this->showon)
@@ -1106,6 +1134,18 @@ abstract class FormField
 			if ($this instanceof SubformField)
 			{
 				$subForm = $this->loadSubForm();
+
+				// Subform field may have a default value, that is a JSON string
+				if ($value && is_string($value))
+				{
+					$value = json_decode($value, true);
+
+					// The string is invalid json
+					if (!$value)
+					{
+						return null;
+					}
+				}
 
 				if ($this->multiple)
 				{

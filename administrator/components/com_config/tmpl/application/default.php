@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ Text::script('MESSAGE');
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-3">
 			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-				<span class="fas fa-align-justify" aria-hidden="true"></span>
+				<span class="icon-align-justify" aria-hidden="true"></span>
 				<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
 			<div class="sidebar-nav bg-light p-2 my-2">
@@ -48,7 +48,6 @@ Text::script('MESSAGE');
 				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-system', Text::_('COM_CONFIG_SYSTEM')); ?>
-					<?php echo $this->loadTemplate('system'); ?>
 					<?php echo $this->loadTemplate('debug'); ?>
 					<?php echo $this->loadTemplate('cache'); ?>
 					<?php echo $this->loadTemplate('session'); ?>
@@ -57,10 +56,16 @@ Text::script('MESSAGE');
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-server', Text::_('COM_CONFIG_SERVER')); ?>
 					<?php echo $this->loadTemplate('server'); ?>
 					<?php echo $this->loadTemplate('locale'); ?>
+					<?php echo $this->loadTemplate('webservices'); ?>
 					<?php echo $this->loadTemplate('ftp'); ?>
 					<?php echo $this->loadTemplate('proxy'); ?>
 					<?php echo $this->loadTemplate('database'); ?>
 					<?php echo $this->loadTemplate('mail'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
+
+				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-logging', Text::_('COM_CONFIG_LOGGING')); ?>
+					<?php echo $this->loadTemplate('logging'); ?>
+					<?php echo $this->loadTemplate('logging_custom'); ?>
 				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-filters', Text::_('COM_CONFIG_TEXT_FILTERS')); ?>

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   get termKey() { return this.getAttribute('term-key') || 'term'; }
 
-  get minTermLength() { return parseInt(this.getAttribute('min-term-length')) || 1; }
+  get minTermLength() { return parseInt(this.getAttribute('min-term-length'), 10) || 1; }
 
   get newItemPrefix() { return this.getAttribute('new-item-prefix') || ''; }
 
@@ -117,6 +117,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     }
 
     // Init Choices
+    // eslint-disable-next-line no-undef
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
       searchPlaceholderValue: this.searchPlaceholder,
@@ -245,8 +246,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
         event.target.value = null;
         this.choicesInstance.hideDropdown();
-
-        return false;
       });
     }
 
@@ -283,7 +282,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   requestLookup() {
-    let url = this.url;
+    let { url } = this;
     url += (url.indexOf('?') === -1 ? '?' : '&');
     url += `${encodeURIComponent(this.termKey)}=${encodeURIComponent(this.choicesInstance.input.value)}`;
 
@@ -293,7 +292,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     }
 
     this.activeXHR = Joomla.request({
-      url: url,
+      url,
       onSuccess: (response) => {
         this.activeXHR = null;
         const items = response ? JSON.parse(response) : [];
@@ -323,7 +322,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       },
       onError: () => {
         this.activeXHR = null;
-      }
+      },
     });
   }
 

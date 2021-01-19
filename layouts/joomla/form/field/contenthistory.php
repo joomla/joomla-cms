@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,6 +71,6 @@ echo HTMLHelper::_(
 	onclick="document.getElementById('versionsModal').open()"
 	class="btn btn-secondary"
 	data-toggle="modal"<?php echo $dataAttribute; ?>>
-		<span class="fas fa-code-branch" aria-hidden="true"></span>
+		<span class="icon-code-branch" aria-hidden="true"></span>
 		<?php echo $label; ?>
 </button>

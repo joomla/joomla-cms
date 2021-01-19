@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,8 +47,9 @@ extract($displayData);
  * @var   array    $translateLabel         Should the label be translated?
  * @var   array    $translateDescription   Should the description be translated?
  * @var   array    $translateHint          Should the hint be translated?
- * @var   array    $privacyArticle         The Article ID holding the Privacy Article
- * @var   object   $article                The Article object
+ * @var   array    $privacyArticle         The Article ID holding the Privacy Article.
+ * @var   object   $article                The Article object.
+ * @var   object   $privacyLink            Link to the privacy article or menu item.
  */
 
 // Get the label text from the XML element, defaulting to the element name.
@@ -82,20 +83,20 @@ if (Factory::getLanguage()->isRtl())
 	$label .= ' data-placement="left"';
 }
 
-if ($article)
+if ($privacyLink)
 {
 	$attribs = [
 		'data-toggle' => 'modal',
 		'data-target' => '#consentModal',
 	];
 
-	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+	$link = HTMLHelper::_('link', Route::_($privacyLink . '&tmpl=component'), $text, $attribs);
 
 	echo HTMLHelper::_(
 		'bootstrap.renderModal',
 		'consentModal',
 		[
-			'url'    => Route::_($article->link . '&tmpl=component'),
+			'url'    => Route::_($privacyLink . '&tmpl=component'),
 			'title'  => $text,
 			'height' => '100%',
 			'width'  => '100%',

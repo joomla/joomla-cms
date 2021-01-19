@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -268,15 +268,15 @@ class AdministratorApplication extends CMSApplication
 		$template->params = new Registry($template->params);
 
 		// Fallback template
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')
-			&& !file_exists(JPATH_THEMES . '/' . $template->parent . '/index.php'))
+		if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')
+			&& !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 		{
 			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
 			$template->template = 'atum';
 
 			// Check, the data were found and if template really exists
-			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
 				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
 			}

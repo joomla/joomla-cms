@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -761,7 +761,7 @@ class HtmlDocument extends Document
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory . '/' . $filename))
+		if (is_file($directory . '/' . $filename))
 		{
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
@@ -771,20 +771,6 @@ class HtmlDocument extends Document
 			require $directory . '/' . $filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
-		}
-
-		// Try to find a favicon by checking the template and root folder
-		$icon = '/favicon.ico';
-
-		foreach (array(JPATH_BASE, $directory) as $dir)
-		{
-			if (file_exists($dir . $icon))
-			{
-				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(Uri::base(true) . $path . $icon);
-				break;
-			}
 		}
 
 		return $contents;
@@ -809,22 +795,22 @@ class HtmlDocument extends Document
 		$inherits = $params['templateInherits'] ?? '';
 		$baseDir = $directory . '/' . $template;
 
-		if (!empty($inherits)
-			&& !file_exists($directory . '/' . $template . '/' . $file)
-			&& file_exists($directory . '/' . $inherits . '/' . $file)
-		)
+		if (!is_file($directory . '/' . $template . '/' . $file))
 		{
-			$baseDir = $directory . '/' . $inherits;
-		}
+			if ($inherits !== '' && is_file($directory . '/' . $inherits . '/' . $file))
+			{
+				$baseDir = $directory . '/' . $inherits;
+			}
+			else
+			{
+				$baseDir  = $directory . '/system';
+				$template = 'system';
 
-		if (!file_exists($baseDir . '/' . $file))
-		{
-			$template = 'system';
-		}
-
-		if (!file_exists($baseDir . '/' . $file))
-		{
-			$file = 'index.php';
+				if ($file !== 'index.php' && !is_file($baseDir . '/' . $file))
+				{
+					$file = 'index.php';
+				}
+			}
 		}
 
 		// Load the language file for the template
@@ -832,7 +818,7 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE)
-			|| $lang->load('tpl_' . $inherits, $directory . '/' . $inherits)
+			|| ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
 			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables

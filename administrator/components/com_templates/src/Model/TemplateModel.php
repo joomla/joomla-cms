@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -319,8 +319,6 @@ class TemplateModel extends FormModel
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -1046,6 +1044,14 @@ class TemplateModel extends FormModel
 		// Make sure EOL is Unix
 		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
 
+		// If the asset file for the template ensure we have valid template so we don't instantly destroy it
+		if ($fileName === '/joomla.asset.json' && json_decode($data['source']) === null)
+		{
+			$this->setError(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_INVALID_JSON'));
+
+			return false;
+		}
+
 		$return = File::write($filePath, $data['source']);
 
 		if (!$return)
@@ -1381,7 +1387,7 @@ class TemplateModel extends FormModel
 
 			if (!$return)
 			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_FAIL'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
 
 				return false;
 			}
@@ -1439,7 +1445,7 @@ class TemplateModel extends FormModel
 	/**
 	 * Upload new file.
 	 *
-	 * @param   string  $file      The name of the file.
+	 * @param   array   $file      The uploaded file array.
 	 * @param   string  $location  Location for the new file.
 	 *
 	 * @return   boolean  True if file uploaded successfully, false otherwise
@@ -1547,7 +1553,7 @@ class TemplateModel extends FormModel
 
 			if (!$return)
 			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_DELETE_ERROR'), 'error');
 
 				return false;
 			}
@@ -1665,12 +1671,26 @@ class TemplateModel extends FormModel
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
-			$JImage   = new Image($path);
 
 			try
 			{
-				$image = $JImage->crop($w, $h, $x, $y, true);
-				$image->toFile($path);
+				$image      = new Image($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->crop($w, $h, $x, $y, false);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}
@@ -1701,12 +1721,25 @@ class TemplateModel extends FormModel
 			$relPath = base64_decode($file);
 			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			$JImage = new Image($path);
-
 			try
 			{
-				$image = $JImage->resize($width, $height, true, 1);
-				$image->toFile($path);
+				$image      = new Image($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->resize($width, $height, false, Image::SCALE_FILL);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,16 +116,25 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
+		$this->setDispatcher($dispatcher ?: $container->get(\Joomla\Event\DispatcherInterface::class));
+
+		if (!$container->has('session'))
+		{
+			$container->alias('session', 'session.cli')
+				->alias('JSession', 'session.cli')
+				->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+		}
+
+		\JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+		$extensionLoader = new \JNamespacePsr4Map;
+		$extensionLoader->load();
 
 		$this->input    = new \Joomla\CMS\Input\Cli;
 		$this->language = Factory::getLanguage();
 		$this->output   = $output ?: new Stdout;
 		$this->cliInput = $cliInput ?: new CliInput;
-
-		if ($dispatcher)
-		{
-			$this->setDispatcher($dispatcher);
-		}
 
 		parent::__construct($config);
 

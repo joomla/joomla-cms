@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -35,12 +35,12 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table" id="moduleList">
-				<caption id="captionTable" class="sr-only">
+				<caption class="sr-only">
 					<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -73,10 +73,10 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 				<tbody>
 					<?php
 					$iconStates = array(
-						-2 => 'fas fa-trash',
-						0  => 'fas fa-times',
-						1  => 'fas fa-check',
-						2  => 'fas fa-folder',
+						-2 => 'icon-trash',
+						0  => 'icon-times',
+						1  => 'icon-check',
+						2  => 'icon-folder',
 					);
 					foreach ($this->items as $i => $item) :
 					?>

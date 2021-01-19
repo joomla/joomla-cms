@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ $wa->addInlineStyle('.CodeMirror { height: 100%}');
 			?>
 			<li class="<?php echo $class; ?>">
 				<details style="margin: initial">
-					<summary class="folder-url"><span class="fas fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?></summary>
+					<summary class="folder-url"><span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', $key); echo $this->escape(end($explodeArray)); ?></summary>
 					<?php echo $this->directoryTree($value); ?>
 				</details>
 			</li>
@@ -64,7 +64,7 @@ $wa->addInlineStyle('.CodeMirror { height: 100%}');
 		<?php if (is_object($value)) : ?>
 			<li>
 				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>' style="background:transparent; border:0; color: var(--atum-link-color)">
-					<span class="fas fa-file-alt fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
+					<span class="icon-file-alt" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
 				</a>
 			</li>
 		<?php endif; ?>
