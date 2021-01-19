@@ -1,0 +1,60 @@
+{
+    "_group": {
+        "description": "COM_AKEEBA_CONFIG_HEADER_QUOTA"
+    },
+    "akeeba.quota.remote": {
+        "default": "0",
+        "type": "none",
+        "protected": "1"
+    },
+    "akeeba.quota.maxage.enable": {
+        "default": "0",
+        "type": "none",
+        "protected": "1"
+    },
+    "akeeba.quota.obsolete_quota": {
+        "default": "50",
+        "type": "integer",
+        "min": "0",
+        "max": "500",
+        "shortcuts": "1|10|20|30|40|50",
+        "scale": "1",
+        "uom": "items",
+        "title": "COM_AKEEBA_CONFIG_OBSOLETEQUOTA_ENABLE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_OBSOLETEQUOTA_ENABLE_DESCRIPTION"
+    },
+    "akeeba.quota.enable_size_quota": {
+        "default": "0",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_SIZEQUOTA_ENABLE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_SIZEQUOTA_ENABLE_DESCRIPTION"
+    },
+    "akeeba.quota.size_quota": {
+        "default": "15728640",
+        "type": "integer",
+        "min": "1",
+        "max": "4604090368",
+        "shortcuts": "15728640|52428800|104857600|268435456|536870912|1073741824|2147483648",
+        "scale": "1048576",
+        "uom": "MB",
+        "title": "COM_AKEEBA_CONFIG_SIZEQUOTA_VALUE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_SIZEQUOTA_VALUE_DESCRIPTION"
+    },
+    "akeeba.quota.enable_count_quota": {
+        "default": "1",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_COUNTQUOTA_ENABLE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_COUNTQUOTA_ENABLE_DESCRIPTION"
+    },
+    "akeeba.quota.count_quota": {
+        "default": "3",
+        "type": "integer",
+        "min": "1",
+        "max": "200",
+        "shortcuts": "1|5|10|50|100|200",
+        "scale": "1",
+        "uom": "",
+        "title": "COM_AKEEBA_CONFIG_COUNTQUOTA_VALUE_TITLE",
+        "description": "COM_AKEEBA_CONFIG_COUNTQUOTA_VALUE_DESCRIPTION"
+    }
+}

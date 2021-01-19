@@ -1,0 +1,3 @@
+window.akeeba=window.akeeba||{};
+(function(h,r){function m(){n=!0;p()}function p(){n&&null===f&&(f=setInterval(t,200))}function q(a){a=a.split(".");for(var b=window,c=0;c<a.length;c++){if("object"!==typeof b||"undefined"===typeof b[a[c]])return!1;b=b[a[c]]}return!0}function t(){if(!k)if(d.length){k=!0;for(var a=[],b=0;b<d.length;b++){var c=d[b],e=c[0];c=c[1];if("string"===typeof e)var g=q(e);else{g=!0;for(var l=0;l<e.length;l++)g=g&&q(e[l])}g?c():a[a.length]=[e,c]}d=a;k=!1}else clearInterval(f),f=null}var n=!1,d=[],f=null,k=!1;h.Loader=
+h.Loader||{};h.Loader.add=function(a,b){d[d.length]=[a,b];p()};r.addEventListener("DOMContentLoaded",m,!1);window.addEventListener("load",m,!1)})(akeeba,document); //# sourceMappingURL=loader.map

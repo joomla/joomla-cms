@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package   akeebabackup
+  ~ @copyright Copyright (c)2006-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+<metadata>
+	<layout title="COM_AKEEBA_VIEW_MANAGE_TITLE">
+		<message>
+			<![CDATA[COM_AKEEBA_VIEW_MANAGE_DESC]]>
+		</message>
+	</layout>
+</metadata>

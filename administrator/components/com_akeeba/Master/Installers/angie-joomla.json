@@ -1,0 +1,13 @@
+{
+    "angie": {
+        "name": "ANGIE for Joomla! Sites",
+        "package": "angie.jpa,angie-joomla.jpa",
+        "language": "language-angie.jpa,language-joomla.jpa",
+        "installerroot": "installation",
+        "sqlroot": "installation\/sql",
+        "databasesini": "1",
+        "readme": "1",
+        "extrainfo": "1",
+        "password": "1"
+    }
+}

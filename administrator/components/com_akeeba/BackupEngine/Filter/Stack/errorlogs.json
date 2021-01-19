@@ -1,0 +1,9 @@
+{
+    "core.filters.errorlogs.enabled": {
+        "default": "1",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_OPTIONALFILTERS_ERRORLOGS_ENABLED_TITLE",
+        "description": "COM_AKEEBA_CONFIG_OPTIONALFILTERS_ERRORLOGS_ENABLED_DESCRIPTION",
+        "bold": "1"
+    }
+}

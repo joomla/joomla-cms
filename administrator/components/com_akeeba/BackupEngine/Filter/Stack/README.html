@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Akeeba Engine
+  ~
+  ~ @package   akeebaengine
+  ~ @copyright Copyright (c)2006-2021 Nicholas K. Dionysopoulos / Akeeba Ltd
+  ~ @license   GNU General Public License version 3, or later
+  -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>AkeebaBackup :: Filter Stack</title>
+</head>
+<body>
+<h1>What is this directory?</h1>
+
+<p>In this directory, Akeeba Backup and Akeeba Solo store the optional filters (Optional Filters in the Configuration
+    page). Unlike regular filters which are always loaded, optional filters are only loaded when the user chooses to
+    enable them. Each filter consists of two files: <var>filtername</var>.ini and <var>filtername</var>.php. The former
+    contains the filter-specific configuration options and the later contains the actual filter code.</p>
+
+<p>
+    If you want to create new optional filters, put them in here. Do note that the INI file must always contain a
+    boolean key named core.filters.<var>filtername</var>.enabled which controls the loading of this particular filter.
+</p>
+
+<p>
+    Optional filters are always named Akeeba\Engine\Filter\Stack\Stack<var>Filtername</var> so that the autoloader can
+    find them. For the same reason their filename must be Stack<var>Filtername</var>.php   Please watch out for the
+    letter case in the names, it's important.
+</p>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+    "_information": {
+        "title": "COM_AKEEBA_CONFIG_ENGINE_POSTPROC_EMAIL_TITLE",
+        "description": "COM_AKEEBA_CONFIG_ENGINE_POSTPROC_EMAIL_DESCRIPTION"
+    },
+    "engine.postproc.common.after_part": {
+        "default": "0",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_POSTPROCPARTS_TITLE",
+        "description": "COM_AKEEBA_CONFIG_POSTPROCPARTS_DESCRIPTION"
+    },
+    "engine.postproc.common.delete_after": {
+        "default": "1",
+        "type": "bool",
+        "title": "COM_AKEEBA_CONFIG_DELETEAFTER_TITLE",
+        "description": "COM_AKEEBA_CONFIG_DELETEAFTER_DESCRIPTION"
+    },
+    "engine.postproc.email.address": {
+        "default": "",
+        "type": "string",
+        "title": "COM_AKEEBA_CONFIG_PROCEMAIL_ADDRESS_TITLE",
+        "description": "COM_AKEEBA_CONFIG_PROCEMAIL_ADDRESS_DESCRIPTION"
+    },
+    "engine.postproc.email.subject": {
+        "default": "",
+        "type": "string",
+        "title": "COM_AKEEBA_CONFIG_PROCEMAIL_SUBJECT_TITLE",
+        "description": "COM_AKEEBA_CONFIG_PROCEMAIL_SUBJECT_DESCRIPTION"
+    }
+}
