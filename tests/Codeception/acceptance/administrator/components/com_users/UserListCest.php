@@ -148,7 +148,8 @@ class UserListCest
 		$I->waitForText('Global Configuration', $I->getConfig('timeout'), ['css' => '.page-title']);
 		$I->comment('I open the Server Tab');
 		$I->click('Server');
-		$I->comment('I wait for error reporting dropdown');
+		$I->comment('I wait for send mail radio button');
+		$I->wait(0.5);
 		$I->click(['xpath' => "//input[@type='radio' and @value=0 and @name='jform[mailonline]']"]);
 		$I->comment('I click on save');
 		$I->clickToolbarButton("Save");
