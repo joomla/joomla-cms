@@ -489,14 +489,14 @@ class Update extends \JObject
 	/**
 	 * Loads an XML file from a URL.
 	 *
-	 * @param   string  $url                The URL.
-	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see Updater}
+	 * @param   string  $url               The URL.
+	 * @param   int     $minimumStability  The minimum stability required for updating the extension {@see Updater}
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.7.0
 	 */
-	public function loadFromXml($url, $minimum_stability = Updater::STABILITY_STABLE)
+	public function loadFromXml($url, $minimumStability = Updater::STABILITY_STABLE)
 	{
 		$version    = new Version;
 		$httpOption = new Registry;
@@ -520,7 +520,7 @@ class Update extends \JObject
 			return false;
 		}
 
-		$this->minimum_stability = $minimum_stability;
+		$this->minimum_stability = $minimumStability;
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);

@@ -467,7 +467,7 @@ abstract class FinderIndexer
 	 * @param   string   $format   The format of the input.
 	 * @param   integer  $count    The number of tokens processed so far.
 	 *
-	 * @return  integer  Cummulative number of tokens extracted from the input so far.
+	 * @return  integer  Cumulative number of tokens extracted from the input so far.
 	 *
 	 * @since   3.7.0
 	 */

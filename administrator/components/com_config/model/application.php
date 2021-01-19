@@ -20,6 +20,14 @@ use Joomla\Utilities\ArrayHelper;
 class ConfigModelApplication extends ConfigModelForm
 {
 	/**
+	 * Array of protected password fields from the configuration.php
+	 *
+	 * @var    array
+	 * @since  3.9.23
+	 */
+	private $protectedConfigurationFields = array('password', 'secret', 'ftp_pass', 'smtppass', 'redis_server_auth', 'session_redis_server_auth');
+
+	/**
 	 * Method to get a form object.
 	 *
 	 * @param   array    $data      Data for the form.
@@ -101,13 +109,23 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		$app = JFactory::getApplication();
 		$dispatcher = JEventDispatcher::getInstance();
+		$config = JFactory::getConfig();
+
+		// Try to load the values from the configuration file
+		foreach ($this->protectedConfigurationFields as $fieldKey)
+		{
+			if (!isset($data[$fieldKey]))
+			{
+				$data[$fieldKey] = $config->get($fieldKey);
+			}
+		}
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => JFactory::getConfig()->get('password'),
+			'password' => $data['password'],
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
@@ -884,12 +902,12 @@ class ConfigModelApplication extends ConfigModelForm
 	public function sendTestMail()
 	{
 		// Set the new values to test with the current settings
-		$app = JFactory::getApplication();
-		$input = $app->input;
+		$app      = JFactory::getApplication();
+		$input    = $app->input;
+		$smtppass = $input->get('smtppass', null, 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
-		$app->set('smtppass', $input->get('smtppass', '', 'RAW'));
 		$app->set('smtphost', $input->get('smtphost'));
 		$app->set('smtpsecure', $input->get('smtpsecure'));
 		$app->set('smtpport', $input->get('smtpport'));
@@ -897,6 +915,12 @@ class ConfigModelApplication extends ConfigModelForm
 		$app->set('fromname', $input->get('fromname', '', 'STRING'));
 		$app->set('mailer', $input->get('mailer'));
 		$app->set('mailonline', $input->get('mailonline'));
+
+		// Use smtppass only if it was submitted
+		if ($smtppass !== null)
+		{
+			$app->set('smtppass', $smtppass);
+		}
 
 		$mail = JFactory::getMailer();
 

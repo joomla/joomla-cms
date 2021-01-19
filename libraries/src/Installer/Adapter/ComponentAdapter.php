@@ -884,13 +884,13 @@ class ComponentAdapter extends InstallerAdapter
 	/**
 	 * Method to build menu database entries for a component
 	 *
-	 * @param   int|null  $component_id  The component ID for which I'm building menus
+	 * @param   int|null  $componentId  The component ID for which I'm building menus
 	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.1
 	 */
-	protected function _buildAdminMenus($component_id = null)
+	protected function _buildAdminMenus($componentId = null)
 	{
 		$db     = $this->parent->getDbo();
 
@@ -933,7 +933,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		// Only try to detect the component ID if it's not provided
-		if (empty($component_id))
+		if (empty($componentId))
 		{
 			// Lets find the extension id
 			$query->clear()
@@ -943,7 +943,7 @@ class ComponentAdapter extends InstallerAdapter
 				->where('e.element = ' . $db->quote($option));
 
 			$db->setQuery($query);
-			$component_id = $db->loadResult();
+			$componentId = $db->loadResult();
 		}
 
 		// Ok, now its time to handle the menus.  Start with the component root menu, then handle submenus.
@@ -974,7 +974,7 @@ class ComponentAdapter extends InstallerAdapter
 			$data['type'] = 'component';
 			$data['published'] = 1;
 			$data['parent_id'] = 1;
-			$data['component_id'] = $component_id;
+			$data['component_id'] = $componentId;
 			$data['img'] = ((string) $menuElement->attributes()->img) ?: 'class:component';
 			$data['home'] = 0;
 			$data['path'] = '';
@@ -1008,7 +1008,7 @@ class ComponentAdapter extends InstallerAdapter
 			$data['type'] = 'component';
 			$data['published'] = 1;
 			$data['parent_id'] = 1;
-			$data['component_id'] = $component_id;
+			$data['component_id'] = $componentId;
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
 			$data['path'] = '';
@@ -1043,7 +1043,7 @@ class ComponentAdapter extends InstallerAdapter
 			$data['type'] = 'component';
 			$data['published'] = 1;
 			$data['parent_id'] = $parent_id;
-			$data['component_id'] = $component_id;
+			$data['component_id'] = $componentId;
 			$data['img'] = ((string) $child->attributes()->img) ?: 'class:component';
 			$data['home'] = 0;
 
@@ -1101,7 +1101,7 @@ class ComponentAdapter extends InstallerAdapter
 			 * Since we have created a menu item, we add it to the installation step stack
 			 * so that if we have to rollback the changes we can undo it.
 			 */
-			$this->parent->pushStep(array('type' => 'menu', 'id' => $component_id));
+			$this->parent->pushStep(array('type' => 'menu', 'id' => $componentId));
 		}
 
 		return true;
@@ -1162,28 +1162,28 @@ class ComponentAdapter extends InstallerAdapter
 	 * Method to update menu database entries for a component in case the component has been uninstalled before.
 	 * NOTE: This will not update admin menus. Use _updateMenus() instead to update admin menus ase well.
 	 *
-	 * @param   int|null  $component_id  The component ID.
+	 * @param   int|null  $componentId  The component ID.
 	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.4.2
 	 */
-	protected function _updateSiteMenus($component_id = null)
+	protected function _updateSiteMenus($componentId = null)
 	{
-		return $this->_updateMenus($component_id, 0);
+		return $this->_updateMenus($componentId, 0);
 	}
 
 	/**
 	 * Method to update menu database entries for a component in case if the component has been uninstalled before.
 	 *
-	 * @param   int|null  $component_id  The component ID.
-	 * @param   int       $clientId      The client id
+	 * @param   int|null  $componentId  The component ID.
+	 * @param   int       $clientId     The client id
 	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.7.0
 	 */
-	protected function _updateMenus($component_id, $clientId = null)
+	protected function _updateMenus($componentId, $clientId = null)
 	{
 		$db     = $this->parent->getDbo();
 		$option = $this->get('element');
@@ -1192,7 +1192,7 @@ class ComponentAdapter extends InstallerAdapter
 		// to use the new component id.
 		$query = $db->getQuery(true)
 			->update('#__menu')
-			->set('component_id = ' . $db->quote($component_id))
+			->set('component_id = ' . $db->quote($componentId))
 			->where('type = ' . $db->quote('component'))
 			->where('('
 				. 'link LIKE ' . $db->quote('index.php?option=' . $option) . ' OR '

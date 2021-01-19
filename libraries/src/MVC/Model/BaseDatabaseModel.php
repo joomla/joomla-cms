@@ -76,6 +76,7 @@ abstract class BaseDatabaseModel extends \JObject
 	 *
 	 * @var    MVCFactoryInterface
 	 * @since  3.10.0
+	 * @deprecated  4.0  This is a temporary property that will be moved into a trait in Joomla 4
 	 */
 	protected $factory;
 
@@ -492,17 +493,17 @@ abstract class BaseDatabaseModel extends \JObject
 	/**
 	 * Method to load a row for editing from the version history table.
 	 *
-	 * @param   integer  $version_id  Key to the version history table.
-	 * @param   \JTable  &$table      Content table object being loaded.
+	 * @param   integer  $versionId  Key to the version history table.
+	 * @param   \JTable  &$table     Content table object being loaded.
 	 *
 	 * @return  boolean  False on failure or error, true otherwise.
 	 *
 	 * @since   3.2
 	 */
-	public function loadHistory($version_id, \JTable &$table)
+	public function loadHistory($versionId, \JTable &$table)
 	{
 		// Only attempt to check the row in if it exists, otherwise do an early exit.
-		if (!$version_id)
+		if (!$versionId)
 		{
 			return false;
 		}
@@ -510,7 +511,7 @@ abstract class BaseDatabaseModel extends \JObject
 		// Get an instance of the row to checkout.
 		$historyTable = \JTable::getInstance('Contenthistory');
 
-		if (!$historyTable->load($version_id))
+		if (!$historyTable->load($versionId))
 		{
 			$this->setError($historyTable->getError());
 
@@ -588,20 +589,20 @@ abstract class BaseDatabaseModel extends \JObject
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$conf = \JFactory::getConfig();
 
 		$options = array(
 			'defaultgroup' => $group ?: (isset($this->option) ? $this->option : \JFactory::getApplication()->input->get('option')),
-			'cachebase' => $client_id ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
+			'cachebase' => $clientId ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'),
 			'result' => true,
 		);
 

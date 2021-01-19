@@ -31,7 +31,7 @@ abstract class JModelDatabase extends JModelBase
 	 * Instantiate the model.
 	 *
 	 * @param   Registry         $state  The model state.
-	 * @param   JDatabaseDriver  $db     The database adpater.
+	 * @param   JDatabaseDriver  $db     The database adapter.
 	 *
 	 * @since   3.0.0
 	 */

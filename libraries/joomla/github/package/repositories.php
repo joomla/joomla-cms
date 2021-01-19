@@ -181,26 +181,26 @@ class JGithubPackageRepositories extends JGithubPackage
 	 * Create a new repository for the authenticated user or an organization.
 	 * OAuth users must supply repo scope.
 	 *
-	 * @param   string   $name                The repository name.
-	 * @param   string   $org                 The organization name (if needed).
-	 * @param   string   $description         The repository description.
-	 * @param   string   $homepage            The repository homepage.
-	 * @param   boolean  $private             Set true to create a private repository, false to create a public one.
-	 *                                          Creating private repositories requires a paid GitHub account.
-	 * @param   boolean  $has_issues          Set true to enable issues for this repository, false to disable them.
-	 * @param   boolean  $has_wiki            Set true to enable the wiki for this repository, false to disable it.
-	 * @param   boolean  $has_downloads       Set true to enable downloads for this repository, false to disable them.
-	 * @param   integer  $team_id             The id of the team that will be granted access to this repository.
-	 *                                        This is only valid when creating a repo in an organization.
-	 * @param   boolean  $auto_init           true to create an initial commit with empty README.
-	 * @param   string   $gitignore_template  Desired language or platform .gitignore template to apply.
-	 *                                         Use the name of the template without the extension. For example,
-	 *                                        “Haskell” Ignored if auto_init parameter is not provided.
+	 * @param   string   $name               The repository name.
+	 * @param   string   $org                The organization name (if needed).
+	 * @param   string   $description        The repository description.
+	 * @param   string   $homepage           The repository homepage.
+	 * @param   boolean  $private            Set true to create a private repository, false to create a public one.
+	 *                                       Creating private repositories requires a paid GitHub account.
+	 * @param   boolean  $hasIssues          Set true to enable issues for this repository, false to disable them.
+	 * @param   boolean  $hasWiki            Set true to enable the wiki for this repository, false to disable it.
+	 * @param   boolean  $hasDownloads       Set true to enable downloads for this repository, false to disable them.
+	 * @param   integer  $teamId             The id of the team that will be granted access to this repository.
+	 *                                       This is only valid when creating a repo in an organization.
+	 * @param   boolean  $autoInit           true to create an initial commit with empty README.
+	 * @param   string   $gitignoreTemplate  Desired language or platform .gitignore template to apply.
+	 *                                       Use the name of the template without the extension. For example,
+	 *                                       “Haskell” Ignored if auto_init parameter is not provided.
 	 *
 	 * @return object
 	 */
-	public function create($name, $org = '', $description = '', $homepage = '', $private = false, $has_issues = false,
-		$has_wiki = false, $has_downloads = false, $team_id = 0, $auto_init = false, $gitignore_template = '')
+	public function create($name, $org = '', $description = '', $homepage = '', $private = false, $hasIssues = false,
+		$hasWiki = false, $hasDownloads = false, $teamId = 0, $autoInit = false, $gitignoreTemplate = '')
 	{
 		$path = ($org)
 			// Create a repository for an organization
@@ -213,12 +213,12 @@ class JGithubPackageRepositories extends JGithubPackage
 			'description'        => $description,
 			'homepage'           => $homepage,
 			'private'            => $private,
-			'has_issues'         => $has_issues,
-			'has_wiki'           => $has_wiki,
-			'has_downloads'      => $has_downloads,
-			'team_id'            => $team_id,
-			'auto_init'          => $auto_init,
-			'gitignore_template' => $gitignore_template,
+			'has_issues'         => $hasIssues,
+			'has_wiki'           => $hasWiki,
+			'has_downloads'      => $hasDownloads,
+			'team_id'            => $teamId,
+			'auto_init'          => $autoInit,
+			'gitignore_template' => $gitignoreTemplate,
 		);
 
 		// Send the request.
@@ -250,22 +250,22 @@ class JGithubPackageRepositories extends JGithubPackage
 	/**
 	 * Edit a repository.
 	 *
-	 * @param   string   $owner           Repository owner.
-	 * @param   string   $repo            Repository name.
-	 * @param   string   $name            The repository name.
-	 * @param   string   $description     The repository description.
-	 * @param   string   $homepage        The repository homepage.
-	 * @param   boolean  $private         Set true to create a private repository, false to create a public one.
-	 *                                    Creating private repositories requires a paid GitHub account.
-	 * @param   boolean  $has_issues      Set true to enable issues for this repository, false to disable them.
-	 * @param   boolean  $has_wiki        Set true to enable the wiki for this repository, false to disable it.
-	 * @param   boolean  $has_downloads   Set true to enable downloads for this repository, false to disable them.
-	 * @param   string   $default_branch  Update the default branch for this repository
+	 * @param   string   $owner          Repository owner.
+	 * @param   string   $repo           Repository name.
+	 * @param   string   $name           The repository name.
+	 * @param   string   $description    The repository description.
+	 * @param   string   $homepage       The repository homepage.
+	 * @param   boolean  $private        Set true to create a private repository, false to create a public one.
+	 *                                   Creating private repositories requires a paid GitHub account.
+	 * @param   boolean  $hasIssues      Set true to enable issues for this repository, false to disable them.
+	 * @param   boolean  $hasWiki        Set true to enable the wiki for this repository, false to disable it.
+	 * @param   boolean  $hasDownloads   Set true to enable downloads for this repository, false to disable them.
+	 * @param   string   $defaultBranch  Update the default branch for this repository
 	 *
 	 * @return object
 	 */
-	public function edit($owner, $repo, $name, $description = '', $homepage = '', $private = false, $has_issues = false,
-		$has_wiki = false, $has_downloads = false, $default_branch = '')
+	public function edit($owner, $repo, $name, $description = '', $homepage = '', $private = false, $hasIssues = false,
+		$hasWiki = false, $hasDownloads = false, $defaultBranch = '')
 	{
 		$path = '/repos/' . $owner . '/' . $repo;
 
@@ -274,10 +274,10 @@ class JGithubPackageRepositories extends JGithubPackage
 			'description'    => $description,
 			'homepage'       => $homepage,
 			'private'        => $private,
-			'has_issues'     => $has_issues,
-			'has_wiki'       => $has_wiki,
-			'has_downloads'  => $has_downloads,
-			'default_branch' => $default_branch,
+			'has_issues'     => $hasIssues,
+			'has_wiki'       => $hasWiki,
+			'has_downloads'  => $hasDownloads,
+			'default_branch' => $defaultBranch,
 		);
 
 		// Send the request.

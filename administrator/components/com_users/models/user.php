@@ -663,22 +663,22 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Batch flag users as being required to reset their passwords
 	 *
-	 * @param   array   $user_ids  An array of user IDs on which to operate
-	 * @param   string  $action    The action to perform
+	 * @param   array   $userIds  An array of user IDs on which to operate
+	 * @param   string  $action   The action to perform
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since   3.2
 	 */
-	public function batchReset($user_ids, $action)
+	public function batchReset($userIds, $action)
 	{
-		$user_ids = ArrayHelper::toInteger($user_ids);
+		$userIds = ArrayHelper::toInteger($userIds);
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
 		// Non-super super user cannot work with super-admin user.
-		if (!$iAmSuperAdmin && JUserHelper::checkSuperUserInUsers($user_ids))
+		if (!$iAmSuperAdmin && JUserHelper::checkSuperUserInUsers($userIds))
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
 
@@ -696,9 +696,9 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Prune out the current user if they are in the supplied user ID array
-		$user_ids = array_diff($user_ids, array(JFactory::getUser()->id));
+		$userIds = array_diff($userIds, array(JFactory::getUser()->id));
 
-		if (empty($user_ids))
+		if (empty($userIds))
 		{
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
 
@@ -708,14 +708,14 @@ class UsersModelUser extends JModelAdmin
 		// Get the DB object
 		$db = $this->getDbo();
 
-		$user_ids = ArrayHelper::toInteger($user_ids);
+		$userIds = ArrayHelper::toInteger($userIds);
 
 		$query = $db->getQuery(true);
 
 		// Update the reset flag
 		$query->update($db->quoteName('#__users'))
 			->set($db->quoteName('requireReset') . ' = ' . $value)
-			->where($db->quoteName('id') . ' IN (' . implode(',', $user_ids) . ')');
+			->where($db->quoteName('id') . ' IN (' . implode(',', $userIds) . ')');
 
 		$db->setQuery($query);
 
@@ -736,23 +736,23 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Perform batch operations
 	 *
-	 * @param   integer  $group_id  The group ID which assignments are being edited
-	 * @param   array    $user_ids  An array of user IDs on which to operate
-	 * @param   string   $action    The action to perform
+	 * @param   integer  $groupId  The group ID which assignments are being edited
+	 * @param   array    $userIds  An array of user IDs on which to operate
+	 * @param   string   $action   The action to perform
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since   1.6
 	 */
-	public function batchUser($group_id, $user_ids, $action)
+	public function batchUser($groupId, $userIds, $action)
 	{
-		$user_ids = ArrayHelper::toInteger($user_ids);
+		$userIds = ArrayHelper::toInteger($userIds);
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
 		// Non-super super user cannot work with super-admin user.
-		if (!$iAmSuperAdmin && JUserHelper::checkSuperUserInUsers($user_ids))
+		if (!$iAmSuperAdmin && JUserHelper::checkSuperUserInUsers($userIds))
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_BATCH_SUPERUSER'));
 
@@ -760,7 +760,7 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Non-super admin cannot work with super-admin group.
-		if ((!$iAmSuperAdmin && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)
+		if ((!$iAmSuperAdmin && JAccess::checkGroup($groupId, 'core.admin')) || $groupId < 1)
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
 
@@ -797,12 +797,12 @@ class UsersModelUser extends JModelAdmin
 
 			// Remove users from the group
 			$query->delete($db->quoteName('#__user_usergroup_map'))
-				->where($db->quoteName('user_id') . ' IN (' . implode(',', $user_ids) . ')');
+				->where($db->quoteName('user_id') . ' IN (' . implode(',', $userIds) . ')');
 
 			// Only remove users from selected group
 			if ($doDelete == 'group')
 			{
-				$query->where($db->quoteName('group_id') . ' = ' . (int) $group_id);
+				$query->where($db->quoteName('group_id') . ' = ' . (int) $groupId);
 			}
 
 			$db->setQuery($query);
@@ -827,7 +827,7 @@ class UsersModelUser extends JModelAdmin
 			// First, we need to check if the user is already assigned to a group
 			$query->select($db->quoteName('user_id'))
 				->from($db->quoteName('#__user_usergroup_map'))
-				->where($db->quoteName('group_id') . ' = ' . (int) $group_id);
+				->where($db->quoteName('group_id') . ' = ' . (int) $groupId);
 			$db->setQuery($query);
 			$users = $db->loadColumn();
 
@@ -835,11 +835,11 @@ class UsersModelUser extends JModelAdmin
 			$query->clear();
 			$groups = false;
 
-			foreach ($user_ids as $id)
+			foreach ($userIds as $id)
 			{
 				if (!in_array($id, $users))
 				{
-					$query->values($id . ',' . $group_id);
+					$query->values($id . ',' . $groupId);
 					$groups = true;
 				}
 			}
@@ -943,15 +943,15 @@ class UsersModelUser extends JModelAdmin
 	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
 	 * configuration for a particular user.
 	 *
-	 * @param   integer  $user_id  The numeric ID of the user
+	 * @param   integer  $userId  The numeric ID of the user
 	 *
 	 * @return  stdClass  An object holding the OTP configuration for this user
 	 *
 	 * @since   3.2
 	 */
-	public function getOtpConfig($user_id = null)
+	public function getOtpConfig($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		// Initialise
 		$otpConfig = (object) array(
@@ -968,7 +968,7 @@ class UsersModelUser extends JModelAdmin
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__users'))
-			->where($db->qn('id') . ' = ' . (int) $user_id);
+			->where($db->qn('id') . ' = ' . (int) $userId);
 		$db->setQuery($query);
 		$item = $db->loadObject();
 
@@ -1010,7 +1010,7 @@ class UsersModelUser extends JModelAdmin
 				->update($db->qn('#__users'))
 				->set($db->qn('otep') . '=' . $db->q($encryptedOtep))
 				->set($db->qn('otpKey') . '=' . $db->q($otpKey))
-				->where($db->qn('id') . ' = ' . $db->q($user_id));
+				->where($db->qn('id') . ' = ' . $db->q($userId));
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -1068,19 +1068,19 @@ class UsersModelUser extends JModelAdmin
 	 * configuration for a particular user. The $otpConfig object is the same as
 	 * the one returned by the getOtpConfig method.
 	 *
-	 * @param   integer   $user_id    The numeric ID of the user
+	 * @param   integer   $userId     The numeric ID of the user
 	 * @param   stdClass  $otpConfig  The OTP configuration object
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
 	 */
-	public function setOtpConfig($user_id, $otpConfig)
+	public function setOtpConfig($userId, $otpConfig)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		$updates = (object) array(
-			'id'     => $user_id,
+			'id'     => $userId,
 			'otpKey' => '',
 			'otep'   => ''
 		);
@@ -1121,42 +1121,42 @@ class UsersModelUser extends JModelAdmin
 	 * Gets the configuration forms for all two-factor authentication methods
 	 * in an array.
 	 *
-	 * @param   integer  $user_id  The user ID to load the forms for (optional)
+	 * @param   integer  $userId  The user ID to load the forms for (optional)
 	 *
 	 * @return  array
 	 *
 	 * @since   3.2
 	 */
-	public function getTwofactorform($user_id = null)
+	public function getTwofactorform($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
-		$otpConfig = $this->getOtpConfig($user_id);
+		$otpConfig = $this->getOtpConfig($userId);
 
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');
 
-		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $userId));
 	}
 
 	/**
 	 * Generates a new set of One Time Emergency Passwords (OTEPs) for a given user.
 	 *
-	 * @param   integer  $user_id  The user ID
-	 * @param   integer  $count    How many OTEPs to generate? Default: 10
+	 * @param   integer  $userId  The user ID
+	 * @param   integer  $count   How many OTEPs to generate? Default: 10
 	 *
 	 * @return  array  The generated OTEPs
 	 *
 	 * @since   3.2
 	 */
-	public function generateOteps($user_id, $count = 10)
+	public function generateOteps($userId, $count = 10)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		// Initialise
 		$oteps = array();
 
 		// Get the OTP configuration for the user
-		$otpConfig = $this->getOtpConfig($user_id);
+		$otpConfig = $this->getOtpConfig($userId);
 
 		// If two factor authentication is not enabled, abort
 		if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
@@ -1186,7 +1186,7 @@ class UsersModelUser extends JModelAdmin
 		$otpConfig->otep = $oteps;
 
 		// Save the now modified OTP configuration
-		$this->setOtpConfig($user_id, $otpConfig);
+		$this->setOtpConfig($userId, $otpConfig);
 
 		return $oteps;
 	}
@@ -1210,20 +1210,20 @@ class UsersModelUser extends JModelAdmin
 	 *					authentication method enabled.
 	 * warn_irq_msg		The string to use for the warn_if_not_req warning
 	 *
-	 * @param   integer  $user_id    The user's numeric ID
-	 * @param   string   $secretkey  The secret key you want to check
+	 * @param   integer  $userId     The user's numeric ID
+	 * @param   string   $secretKey  The secret key you want to check
 	 * @param   array    $options    Options; see above
 	 *
 	 * @return  boolean  True if it's a valid secret key for this user.
 	 *
 	 * @since   3.2
 	 */
-	public function isValidSecretKey($user_id, $secretkey, $options = array())
+	public function isValidSecretKey($userId, $secretKey, $options = array())
 	{
 		// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 		if (!array_key_exists('otp_config', $options))
 		{
-			$otpConfig = $this->getOtpConfig($user_id);
+			$otpConfig = $this->getOtpConfig($userId);
 			$options['otp_config'] = $otpConfig;
 		}
 		else
@@ -1257,7 +1257,7 @@ class UsersModelUser extends JModelAdmin
 
 			// Warn the user if they are using a secret code but they have not
 			// enabled two factor auth in their account.
-			if (!empty($secretkey) && $warn)
+			if (!empty($secretKey) && $warn)
 			{
 				try
 				{
@@ -1276,7 +1276,7 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		$credentials = array(
-			'secretkey' => $secretkey,
+			'secretkey' => $secretKey,
 		);
 
 		// Try to validate the OTP
@@ -1302,7 +1302,7 @@ class UsersModelUser extends JModelAdmin
 		// Fall back to one time emergency passwords
 		if (!$check)
 		{
-			$check = $this->isValidOtep($user_id, $secretkey, $otpConfig);
+			$check = $this->isValidOtep($userId, $secretKey, $otpConfig);
 		}
 
 		return $check;
@@ -1313,7 +1313,7 @@ class UsersModelUser extends JModelAdmin
 	 * (OTEP) for this user. If it is it will be automatically removed from the
 	 * user's list of OTEPs.
 	 *
-	 * @param   integer  $user_id    The user ID against which you are checking
+	 * @param   integer  $userId     The user ID against which you are checking
 	 * @param   string   $otep       The string you want to test for validity
 	 * @param   object   $otpConfig  Optional; the two factor authentication configuration (automatically fetched if not set)
 	 *
@@ -1322,11 +1322,11 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @since   3.2
 	 */
-	public function isValidOtep($user_id, $otep, $otpConfig = null)
+	public function isValidOtep($userId, $otep, $otpConfig = null)
 	{
 		if (is_null($otpConfig))
 		{
-			$otpConfig = $this->getOtpConfig($user_id);
+			$otpConfig = $this->getOtpConfig($userId);
 		}
 
 		// Did the user use an OTEP instead?
@@ -1362,7 +1362,7 @@ class UsersModelUser extends JModelAdmin
 			// Remove the OTEP from the array
 			$otpConfig->otep = array_diff($otpConfig->otep, array($otep));
 
-			$this->setOtpConfig($user_id, $otpConfig);
+			$this->setOtpConfig($userId, $otpConfig);
 
 			// Return true; the OTEP was a valid one
 			$check = true;

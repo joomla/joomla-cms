@@ -689,7 +689,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On after save user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is stored into the database
 	 *
 	 * @param   string   $context  The context
 	 * @param   JTable   $table    DataBase Table object
@@ -701,6 +701,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onUserAfterSaveGroup($context, $table, $isNew)
 	{
+		// Override context (com_users.group) with the component context (com_users) to pass the checkLoggable
 		$context = $this->app->input->get('option');
 
 		if (!$this->checkLoggable($context))
@@ -733,7 +734,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On deleting user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is deleted from the database
 	 *
 	 * @param   array    $group    Holds the group data
 	 * @param   boolean  $success  True if user was successfully stored in the database
@@ -814,10 +815,24 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedInUser = User::getInstance($response['username']);
+		// Get the user id for the given username
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'username')))
+			->from($this->db->quoteName('#__users'))
+			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($response['username']));
+		$this->db->setQuery($query);
+
+		try
+		{
+			$loggedInUser = $this->db->loadObject();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return;
+		}
 
 		// Not a valid user, return
-		if (!$loggedInUser->id)
+		if (!isset($loggedInUser->id))
 		{
 			return;
 		}
@@ -1066,10 +1081,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	{
 		$context = $this->app->input->get('option');
 		$user    = JFactory::getUser();
-		
+
 		if (empty($oldVersion))
-		{			
-			$oldVersion = JText::_('JLIB_UNKNOWN');	
+		{
+			$oldVersion = JText::_('JLIB_UNKNOWN');
 		}
 
 		$message = array(
