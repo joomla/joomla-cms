@@ -438,7 +438,7 @@ class UsersModelReset extends JModelForm
 			$body = JText::sprintf(
 				'COM_USERS_REMIND_SUPERADMIN_BODY',
 				$data['sitename'],
-				$interpretBackSlashes = false
+				'https://docs.joomla.org/Special:MyLanguage/How_do_you_recover_or_reset_your_admin_password%3F'
 			);
 
 			// Send the password reset request email.
