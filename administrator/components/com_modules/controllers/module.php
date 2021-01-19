@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -256,6 +256,17 @@ class ModulesControllerModule extends JControllerForm
 		$jinput   = $app->input;
 		$clientId = $jinput->getValue('client_id');
 		$position = $jinput->getValue('position');
+		$moduleId = $jinput->getValue('module_id');
+
+		// Access check.
+		if (!JFactory::getUser()->authorise('core.create', 'com_modules')
+			&& !JFactory::getUser()->authorise('core.edit.state', 'com_modules')
+			&& ($moduleId && !JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $moduleId)))
+		{
+			$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 'error');
+			echo new JResponseJson;
+			$app->close();
+		}
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)

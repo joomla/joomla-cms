@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -140,14 +140,14 @@ class RouterViewConfiguration
 	/**
 	 * Set the parent view of this view
 	 *
-	 * @param   RouterViewconfiguration  $parent      Parent view object
-	 * @param   string                   $parent_key  Key of the parent view in this context
+	 * @param   RouterViewconfiguration  $parent     Parent view object
+	 * @param   string                   $parentKey  Key of the parent view in this context
 	 *
 	 * @return  RouterViewconfiguration  This object for chaining
 	 *
 	 * @since   3.5
 	 */
-	public function setParent(RouterViewconfiguration $parent, $parent_key = false)
+	public function setParent(RouterViewconfiguration $parent, $parentKey = false)
 	{
 		if ($this->parent)
 		{
@@ -171,11 +171,11 @@ class RouterViewConfiguration
 		$this->path   = $parent->path;
 		$this->path[] = $this->name;
 
-		$this->parent_key = $parent_key;
+		$this->parent_key = $parentKey;
 
-		if ($parent_key)
+		if ($parentKey)
 		{
-			$parent->child_keys[] = $parent_key;
+			$parent->child_keys[] = $parentKey;
 		}
 
 		return $this;
