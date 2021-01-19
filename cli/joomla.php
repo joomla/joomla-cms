@@ -74,14 +74,14 @@ $container->alias('session', 'session.cli')
 $app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
 \Joomla\CMS\Factory::$application = $app;
 
-try 
+try
 {
- 	$app->execute();
+	$app->execute();
 }
 catch (Exception $error)
-{ 
+{
 	echo $error->getMessage() . PHP_EOL;
-	
+
 	if (JDEBUG)
 	{
 		echo $error->getTraceAsString() . PHP_EOL;
