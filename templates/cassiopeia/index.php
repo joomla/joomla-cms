@@ -128,6 +128,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu')) : ?>
+				<?php HTMLHelper::_('bootstrap.collapse'); ?>
 					<nav class="navbar navbar-expand-md">
 						<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
 							<span class="icon-menu" aria-hidden="true"></span>
