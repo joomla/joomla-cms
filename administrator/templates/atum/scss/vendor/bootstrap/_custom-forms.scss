@@ -1,5 +1,9 @@
 // Custom Forms
 
+.custom-select {
+  @extend .form-select;
+}
+
 .form-select {
   max-width: $input-max-width;
   cursor: pointer;
@@ -30,29 +34,27 @@
     }
   }
 
-  // All class names are duplicated custom select and form select for b/c with bootstrap 4
-  &.custom-select-color-state, &.form-select-color-state {
+  &.form-select-success,
+  &.custom-select-success {
+    color: var(--success);
+    background-color: var(--success);
+    border-color: var(--success);
 
-    &.custom-select-success, &.form-select-success {
-      color: var(--success);
-      background-color: var(--success);
-      border-color: var(--success);
-
-      option {
-        color: $form-select-color;
-        background-color: var(--white-offset);
-      }
+    option {
+      color: $form-select-color;
+      background-color: var(--white-offset);
     }
+  }
 
-    &.custom-select-danger, &.form-select-danger {
-      color: var(--danger);
-      background-color: var(--danger);
-      border-color: var(--danger);
+  &.form-select-danger,
+  &.custom-select-danger {
+    color: var(--danger);
+    background-color: var(--danger);
+    border-color: var(--danger);
 
-      option {
-        color: $form-select-color;
-        background-color: var(--white-offset);
-      }
+    option {
+      color: $form-select-color;
+      background-color: var(--white-offset);
     }
   }
 
@@ -73,9 +75,4 @@
     color: var(--atum-text-dark);
     background-color: $white;
   }
-}
-
-// Backwards compat with BS4
-.custom-select {
-  @extend .form-select;
 }

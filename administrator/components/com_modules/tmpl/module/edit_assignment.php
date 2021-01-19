@@ -26,7 +26,7 @@ $this->document->getWebAssetManager()
 <div class="control-group">
 	<label id="jform_menus-lbl" class="control-label" for="jform_assignment"><?php echo Text::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 	<div id="jform_menus" class="controls">
-		<select class="custom-select" name="jform[assignment]" id="jform_assignment">
+		<select class="form-select" name="jform[assignment]" id="jform_assignment">
 			<?php echo HTMLHelper::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
 		</select>
 	</div>

@@ -52,7 +52,7 @@ HTMLHelper::_('behavior.core');
 				<h4 class="page-header"><?php echo Text::_('JSEARCH_FILTER_LABEL'); ?></h4>
 				<?php foreach ($displayData->filters as $filter) : ?>
 					<label for="<?php echo $filter['name']; ?>" class="visually-hidden"><?php echo $filter['label']; ?></label>
-					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="custom-select" onchange="this.form.submit()">
+					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="form-select" onchange="this.form.submit()">
 						<?php if (!$filter['noDefault']) : ?>
 							<option value=""><?php echo $filter['label']; ?></option>
 						<?php endif; ?>

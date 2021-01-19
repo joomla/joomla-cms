@@ -40,7 +40,7 @@ $params = array('params' => json_encode($param));
 	<input type="hidden" name="task" value="">
 	<?php echo HTMLHelper::_('form.token'); ?>
 	<label for="eid" class="me-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
-	<?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'custom-select'), 'value', 'text', $this->eid, 'eid'); ?>
+	<?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-select'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
 <?php if ($this->eid == $this->joomlaFilesExtensionId) : ?>

@@ -425,7 +425,7 @@ class Filter
 			$html .= '<div class="controls">';
 			$html .= HTMLHelper::_(
 				'select.genericlist',
-				$branches[$bk]->nodes, 't[]', 'class="custom-select advancedSelect"', 'id', 'title', $active,
+				$branches[$bk]->nodes, 't[]', 'class="form-select advancedSelect"', 'id', 'title', $active,
 				'tax-' . OutputFilter::stringURLSafe($bv->title)
 			);
 			$html .= '</div>';

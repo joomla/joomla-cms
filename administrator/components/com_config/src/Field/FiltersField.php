@@ -139,7 +139,7 @@ class FiltersField extends FormField
 				. ' id="' . $this->id . $group->value . '_filter_type"'
 				. ' data-parent="' . ($group->parent) . '" '
 				. ' data-id="' . ($group->value) . '" '
-				. ' class="novalidate custom-select"'
+				. ' class="novalidate form-select"'
 				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
 				. Text::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';

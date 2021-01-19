@@ -148,7 +148,7 @@ class GroupedlistField extends FormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="custom-select ' . $this->class . '"' : ' class="custom-select"';
+		$attr .= !empty($this->class) ? ' class="form-select ' . $this->class . '"' : ' class="form-select"';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
 		$attr .= $this->required ? ' required' : '';

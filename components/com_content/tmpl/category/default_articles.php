@@ -78,7 +78,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 						<?php echo Text::_('JOPTION_SELECT_TAG'); ?>
 					</label>
 				</span>
-				<select name="filter_tag" id="filter-search" class="custom-select" onchange="document.adminForm.submit();" >
+				<select name="filter_tag" id="filter-search" class="form-select" onchange="document.adminForm.submit();" >
 					<option value=""><?php echo Text::_('JOPTION_SELECT_TAG'); ?></option>
 					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', array('filter.published' => array(1), 'filter.language' => $langFilter), true), 'value', 'text', $this->state->get('filter.tag')); ?>
 				</select>
@@ -88,7 +88,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 						<?php echo Text::_('JOPTION_SELECT_MONTH'); ?>
 					</label>
 				</span>
-				<select name="filter-search" id="filter-search" class="custom-select" onchange="document.adminForm.submit();">
+				<select name="filter-search" id="filter-search" class="form-select" onchange="document.adminForm.submit();">
 					<option value=""><?php echo Text::_('JOPTION_SELECT_MONTH'); ?></option>
 					<?php echo HtmlHelper::_('select.options', HtmlHelper::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
 				</select>
