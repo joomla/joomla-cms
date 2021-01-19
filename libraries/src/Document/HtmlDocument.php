@@ -841,8 +841,8 @@ class HtmlDocument extends Document
 	 */
 	protected function _parseTemplate()
 	{
-		$matches         = [];
-		$this->_template = str_replace('</body>', '<jdoc:include type="bodyend" /></body>', $this->_template);
+		$matches    = [];
+		$hasBodyEnd = false;
 
 		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
@@ -870,6 +870,17 @@ class HtmlDocument extends Document
 				{
 					$template_tags_last[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
 				}
+
+				if ($type === 'bodyend')
+				{
+					$hasBodyEnd = true;
+				}
+			}
+
+			if (!$hasBodyEnd)
+			{
+				$this->_template = str_replace('</body>', '<jdoc:include type="bodyend" /></body>', $this->_template);
+				$template_tags_last = ['<jdoc:include type="bodyend" />' => ['type' => 'bodyend', 'name' => '', 'attribs' => []]] + $template_tags_last;
 			}
 
 			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
