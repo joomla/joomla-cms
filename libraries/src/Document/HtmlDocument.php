@@ -880,7 +880,8 @@ class HtmlDocument extends Document
 			if (!$hasBodyEnd)
 			{
 				$this->_template    = str_replace('</body>', '<jdoc:include type="bodyend" /></body>', $this->_template);
-				$template_tags_last = ['<jdoc:include type="bodyend" />' => ['type' => 'bodyend', 'name' => '', 'attribs' => []]] + $template_tags_last;
+				$template_tags_last = ['<jdoc:include type="bodyend" />' => ['type' => 'bodyend', 'name' => '', 'attribs' => []]]
+					+ $template_tags_last;
 			}
 
 			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
