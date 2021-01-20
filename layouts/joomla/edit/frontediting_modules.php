@@ -38,7 +38,7 @@ if ($parameters->get('redirect_edit', 'site') === 'site')
 $count = 0;
 $moduleHtml = preg_replace(
 	// Find first tag of module
-	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|address|article) [^>]*>)/',
+	'/^(\s*<(?:div|span|nav|ul|ol|h\d|section|aside|address|article|form) [^>]*>)/',
 	// Create and add the edit link and tooltip
 	'\\1 <a class="btn btn-link jmodedit" href="' . $editUrl . '" target="' . $target . '" aria-describedby="tip-' . (int) $mod->id . '">
 	<span class="icon-edit" aria-hidden="true"></span>' . Text::_('JGLOBAL_EDIT') . '</a>
