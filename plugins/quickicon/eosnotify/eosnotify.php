@@ -11,7 +11,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
- * Joomla! udpate notification plugin
+ * Joomla! update notification plugin
  *
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomla
