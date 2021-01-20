@@ -63,10 +63,9 @@ if ($menusEditing && $mod->module === 'mod_menu')
 				$moduleHtml = preg_replace(
 					// Find the link
 					'/(<li.*?\bitem-'. $menuItemid .'.*?\/a>)/',
-					// Create and add the edit link and tooltip
-					'\\1 <a class="small" href="' . $menuitemEditUrl . '" target="' . $target . '">
-					<span class="icon-edit" aria-hidden="true"></span>' . Text::_('JGLOBAL_EDIT') . '</a>
-					<div role="tooltip" id="menutip-' . (int) $menuItemid . '">' . Text::_('JLIB_HTML_EDIT_MENU_ITEM') . '<br>' . sprintf(Text::_('JLIB_HTML_EDIT_MENU_ITEM_ID'), (int) $menuItemid) . '</div>',
+					// Create and add the edit link
+					'\\1 <a class="small" href="' . $menuitemEditUrl . '" target="' . $target . '" aria-label="' . Text::_('JLIB_HTML_EDIT_MENU_ITEM') . ' ' . sprintf(Text::_('JLIB_HTML_EDIT_MENU_ITEM_ID'), (int) $menuItemid) . '">
+					<span class="icon-edit" aria-hidden="true"></span>' . Text::_('JGLOBAL_EDIT') . '</a>',
 					$moduleHtml
 				);
 			}
