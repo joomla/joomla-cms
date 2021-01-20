@@ -63,7 +63,7 @@ if ($menusEditing && $mod->module === 'mod_menu')
 					// Find the link
 					'/(<li.*?\bitem-'. $menuItemid .'.*?>)/',
 					// Create and add the edit link
-					'\\1 <a class="small" href="' . $menuitemEditUrl . '" target="' . $target . '" title="' . Text::_('JLIB_HTML_EDIT_MENU_ITEM') . ' ' . sprintf(Text::_('JLIB_HTML_EDIT_MENU_ITEM_ID'), (int) $menuItemid) . '">
+					'\\1 <a class="jmenuedit small" href="' . $menuitemEditUrl . '" target="' . $target . '" title="' . Text::_('JLIB_HTML_EDIT_MENU_ITEM') . ' ' . sprintf(Text::_('JLIB_HTML_EDIT_MENU_ITEM_ID'), (int) $menuItemid) . '">
 					<span class="icon-edit" aria-hidden="true"></span></a>',
 					$moduleHtml
 				);
