@@ -98,7 +98,7 @@ abstract class Grid
 	{
 		HTMLHelper::_('behavior.core');
 
-		return '<input autocomplete="off" type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
+		return '<input class="form-check-input" autocomplete="off" type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
 	}
 
 	/**
