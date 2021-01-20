@@ -48,7 +48,7 @@ $moduleHtml = preg_replace(
 	$count
 );
 
-// // If menu editing is enabled and allowed and it's a menu module add link for editing
+// If menu editing is enabled and allowed and it's a menu module add link for editing
 if ($menusEditing && $mod->module === 'mod_menu')
 {
 // find the menu item id
