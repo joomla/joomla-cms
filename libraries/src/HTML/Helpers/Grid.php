@@ -122,7 +122,7 @@ abstract class Grid
 		{
 			return $checkedOut ? '' : '<label for="' . $stub . $rowNum . '"><span class="visually-hidden">' . Text::_('JSELECT')
 				. ' ' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '</span></label>'
-				. '<input type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
+				. '<input class="form-check-input" type="checkbox" id="' . $stub . $rowNum . '" name="' . $name . '[]" value="' . $recId
 				. '" onclick="Joomla.isChecked(this.checked, \'' . $formId . '\');">';
 		}
 
