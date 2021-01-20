@@ -13,8 +13,6 @@
       font-weight: $font-weight-normal;
       color: var(--atum-link-color);
       white-space: nowrap;
-      border-top: 0;
-      border-bottom: 0;
 
       @include media-breakpoint-down(md) {
         white-space: normal;
@@ -46,6 +44,13 @@
       &:focus,
       &:active {
         background-color: $table-hover-bg;
+      }
+
+      &:last-of-type {
+        th,
+        td {
+          border-bottom: 0;
+        }
       }
     }
 

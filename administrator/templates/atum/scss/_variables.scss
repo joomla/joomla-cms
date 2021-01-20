@@ -154,6 +154,11 @@ $body-color:                       var(--atum-text-dark); //only used in bootstr
 
 // Tables
 $table-bg:                         var(--white);
+$table-cell-padding-y:             .75rem !default;
+$table-cell-padding-x:             .75rem !default;
+$table-cell-padding-y-sm:          .3rem !default;
+$table-cell-padding-x-sm:          .3rem !default;
+$table-group-separator-color:      $gray-300;
 
 // Dropdowns
 $dropdown-padding-y:               0;
