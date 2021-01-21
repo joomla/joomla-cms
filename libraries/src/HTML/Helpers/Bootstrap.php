@@ -250,6 +250,7 @@ abstract class Bootstrap
 			// Tooltip + popover are combined
 			$script = $script === 'tooltip' ? 'popover' : $script;
 
+			// Register the ES2017+ script with an attribute type="module"
 			Factory::getApplication()
 				->getDocument()
 				->getWebAssetManager()
@@ -259,26 +260,26 @@ abstract class Bootstrap
 					[
 						'dependencies' => [],
 						'attributes' => [
-							'type' => 'module'
+							'type' => 'module',
 						]
 					]
 				)
-				->useScript('bootstrap.' . $script . '.ES6');
+				->useScript('bootstrap.' . $script . '.ES6')
 
-			/**
-			 * @todo es5 for IE 11 will be one bundled file bootstrap+popper
-			 *	->registerScript(
-			 *		'bootstrap.ES5',
-			 *		'vendor/bs5/bootstrap.min.js',
-			 *		[
-			 *			'dependencies' => [],
-			 *			'attributes' => [
-			 *				'nomodule' => ''
-			 *			]
-			 *		]
-			 *	)
-			 *	->useScript('bootstrap.' . $script . '.ES6')
-			 */
+				// Register the ES5 script with an attribute nomodule
+				->registerScript(
+					'bootstrap.legacy',
+					'vendor/bs5/bootstrap.min.js',
+					[
+						'dependencies' => [],
+						'attributes' => [
+							'nomodule' => '',
+							'defer' => '',
+						]
+					]
+				)
+				->useScript('bootstrap.legacy');
+
 			array_push(static::$loadedScripts, $script);
 		}
 	}
@@ -610,12 +611,17 @@ abstract class Bootstrap
 		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
 			'data-bs-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
+		$ariaExpanded = $in === 'show' ? true : false;
 
 		return <<<HTMLSTR
-<div class="card$class">
-	<a class="card-header$collapsed" href="#$id" data-bs-toggle="collapse" role="tab" $parent>$text</a>
-	<div class="collapse$in" id="$id" role="tabpanel">
-		<div class="card-body">
+<div class="accordion-item $class">
+  <h2 class="accordion-header" id="headingOne">
+    <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id" role="tab">
+		$text
+    </button>
+  </h2>
+  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="headingOne" $parent role="tabpanel">
+    <div class="accordion-body">
 HTMLSTR;
 
 	}

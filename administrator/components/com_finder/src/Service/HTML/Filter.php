@@ -113,7 +113,7 @@ class Filter
 		}
 
 		$branch_keys = array_keys($branches);
-		$html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
+		$html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', array('active' => 'accordion-' . $branch_keys[0])
 		);
 
 		// Load plugin language files.
