@@ -390,7 +390,7 @@ class InstallerModelInstall extends JModelLegacy
 
 		if (!in_array($uri->getScheme(), ['http', 'https']))
 		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEMA'));
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'));
 
 			return false;
 		}
