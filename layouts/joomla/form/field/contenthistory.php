@@ -68,9 +68,9 @@ echo HTMLHelper::_(
 ?>
 <button
 	type="button"
-	onclick="document.getElementById('versionsModal').open()"
 	class="btn btn-secondary"
-	data-bs-toggle="modal"<?php echo $dataAttribute; ?>>
+	data-bs-toggle="modal"
+	data-bs-target="#versionsModal">
 		<span class="icon-code-branch" aria-hidden="true"></span>
 		<?php echo $label; ?>
 </button>
