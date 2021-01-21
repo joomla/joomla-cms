@@ -78,7 +78,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 			<thead>
 				<tr>
 					<td class="w-1 text-center">
-						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
+						<input class="form-check-input" type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
 					</td>
 					<th scope="col" class="w-15">
 						<?php echo Text::_('JDATE'); ?>
