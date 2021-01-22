@@ -40,8 +40,8 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 	<?php // If there is a toggle split then render the items. Else render the parent button which has the items in the custom element.  ?>
 	<?php if ($toggleSplit ?? true): ?>
 		<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-' . ($name ?? '')); ?>
-	<div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group">
-		<?php echo $button; ?>
+		<div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group">
+			<?php echo $button; ?>
 
 			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"
 				data-bs-toggle="dropdown" data-bs-target="#<?php echo $id; ?>" data-bs-display="static" aria-haspopup="true" aria-expanded="false">
@@ -49,11 +49,11 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 				<span class="icon-chevron-down" aria-hidden="true"></span>
 			</button>
 
-		<?php if (trim($dropdownItems) !== ''): ?>
-			<div class="dropdown-menu <?php echo $direction; ?>">
-				<?php echo $dropdownItems; ?>
-			</div>
-		<?php endif; ?>
+			<?php if (trim($dropdownItems) !== ''): ?>
+				<div class="dropdown-menu <?php echo $direction; ?>">
+					<?php echo $dropdownItems; ?>
+				</div>
+			<?php endif; ?>
 	</div>
 	<?php else: ?>
 		<?php echo $button; ?>

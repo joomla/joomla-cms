@@ -19,7 +19,7 @@
 
   Array.from(document.querySelectorAll('.modal')).forEach((modalEl) => {
     modalEl.addEventListener('hidden.bs.modal', () => {
-    setTimeout(() => { window.parent.location.reload(); }, 1000);
+      setTimeout(() => { window.parent.location.reload(); }, 1000);
     });
   });
 })(Joomla);
