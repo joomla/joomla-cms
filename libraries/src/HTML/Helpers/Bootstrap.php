@@ -142,7 +142,7 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
+		// Include Bootstrap Carousel
 		HTMLHelper::_('bootstrap.loadComponent', 'carousel');
 
 		// Setup options object
@@ -296,11 +296,9 @@ abstract class Bootstrap
 	 */
 	public static function framework($debug = null) :void
 	{
-		Log::add(
-			'Bootstrap is using modular scripts in Joomla 4. Nothing loaded!',
-			Log::WARNING,
-			'deprecated'
-		);
+		array_map(function($script) {
+			HTMLHelper::_('bootstrap.loadComponent', $script);
+		}, static::$scripts);
 	}
 
 	/**
