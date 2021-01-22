@@ -75,7 +75,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-right' : '';
 </<?php echo $tagName; ?>>
 <?php // If there is no toggle split then ensure the drop down items are rendered inside the custom element ?>
 <?php if(!($toggleSplit ?? true) && isset($dropdownItems) && trim($dropdownItems) !== '') : ?>
-	<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown'); ?>
+	<?php HTMLHelper::_('bootstrap.dropdown', '.js-dropdown'); ?>
 	<div class="dropdown-menu<?php echo ' ' . $direction; ?>">
 		<?php echo $dropdownItems; ?>
 	</div>

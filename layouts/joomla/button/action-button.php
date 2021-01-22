@@ -10,8 +10,6 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Utilities\ArrayHelper;
 
-HTMLHelper::_('bootstrap.popover');
-
 extract($displayData, EXTR_OVERWRITE);
 
 /**
@@ -31,25 +29,29 @@ $tip = !empty($options['tip']);
 $tipTitle = $options['tip_title'];
 $attr = [
 	'type' => 'submit',
-	'class' => 'tbody-icon data-state-' . $this->escape($value ?? ''),
+	'class' => 'tbody-icon data-state-' . $this->escape($value ?? '') . ($tip ? ' hasPopover' : ''),
 	'title' => HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0),
-	'data-bs-toggle' => 'popover',
 ];
 
-if ($tip)
-{
-	HTMLHelper::_('bootstrap.popover');
-
-	$attr['data-bs-toggle'] = 'popover';
-	$attr['data-bs-trigger'] = 'focus hover';
-	$attr['data-bs-placement'] = 'top';
-	$attr['data-bs-content'] = HTMLHelper::_('tooltipText', $title, '', 0);
+if ($tip) {
+	HTMLHelper::_(
+			'bootstrap.popover',
+			'.hasPopover',
+			[
+					'trigger' => 'hover',
+					'placement' => 'top',
+					'content' => HTMLHelper::_('tooltipText', $title, '', 0)
+			]
+	);
 }
 if (!empty($task) && empty($disabled))
 {
 	$attr['onclick'] = 'return Joomla.listItemTask(\'' . $checkboxName . $this->escape($row ?? '') . '\', \'' . $this->escape(isset($task) ? $taskPrefix . $task : '') . '\')';
 }
-
+if (!empty($disabled))
+{
+	$attr['disabled'] = '';
+}
 ?>
 <button <?php echo ArrayHelper::toString($attr); ?>>
 	<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
