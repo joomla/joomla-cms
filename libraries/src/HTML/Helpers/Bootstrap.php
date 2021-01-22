@@ -269,12 +269,12 @@ abstract class Bootstrap
 				// Register the ES5 script with an attribute nomodule
 				->registerScript(
 					'bootstrap.legacy',
-					'vendor/bootstrap/bootstrap.min.js',
+					'vendor/bootstrap/bootstrap.es5.min.js',
 					[
 						'dependencies' => [],
 						'attributes' => [
 							'nomodule' => '',
-							'defer' => '',
+							'defer' => 'defer',
 						]
 					]
 				)
