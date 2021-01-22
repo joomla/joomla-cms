@@ -60,13 +60,26 @@
           bottom: -1.1rem;
           font-size: ($font-size-base * .75);
           text-align: right;
+
+          [dir=rtl] & {
+            right: auto;
+            left: 0;
+            text-align: left;
+          }
         }
+
         .form-control-hint {
           position: absolute;
           top: .3rem;
           right: 0;
           font-size: ($font-size-base * .75);
           text-align: right;
+
+          [dir=rtl] & {
+            right: auto;
+            left: 0;
+            text-align: left;
+          }
         }
       }
     }
