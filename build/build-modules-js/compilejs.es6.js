@@ -46,7 +46,7 @@ module.exports.compileJS = (options, path) => {
           (files) => {
             files.forEach(
               (file) => {
-                if (file.contains(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) {
+                if (file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) {
                   return;
                 }
                 HandleFile.run(file);
