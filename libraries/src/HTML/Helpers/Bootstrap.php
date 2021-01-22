@@ -320,7 +320,7 @@ abstract class Bootstrap
 	 * - focus        boolean  true  Closes the modal when escape key is pressed
 	 */
 	public static function modal($selector = '.modal', $options = []) :void
-		{
+	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
 		{
@@ -739,7 +739,7 @@ HTMLSTR;
 		}
 	}
 
-		/**
+	/**
 	 * Add javascript support for Bootstrap toasts
 	 *
 	 * @param   string  $selector  Common class for the toasts
@@ -750,7 +750,7 @@ HTMLSTR;
 	 * @throws \Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
-		 */
+	 */
 	public static function toast($selector = '.toast', $options = []) :void
 	{
 		// Only load once
