@@ -129,7 +129,7 @@ Text::script('JGLOBAL_WARNCOOKIES');
 	</div>
 
 	<?php // Sidebar ?>
-	<div id="sidebar-wrapper" class="sidebar-wrapper order-0">
+	<div id="sidebar-wrapper" class="sidebar-wrapper order-0 px-3">
 		<div id="main-brand" class="main-brand">
 			<h1><?php echo $app->get('sitename'); ?></h1>
 			<h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>

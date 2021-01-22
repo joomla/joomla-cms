@@ -11,11 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-HTMLHelper::_('bootstrap.framework');
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
-	<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<caption class="visually-hidden"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
 			<th scope="col" class="w-50">
@@ -49,7 +47,7 @@ HTMLHelper::_('bootstrap.framework');
 					<?php else : ?>
 						<form action="<?php echo $user->logoutLink; ?>" method="post" name="adminForm">
 							<?php echo Text::_('JSITE'); ?>
-							<button type="submit" class="mr-2 btn btn-danger btn-sm">
+							<button type="submit" class="me-2 btn btn-danger btn-sm">
 								<?php echo Text::_('JLOGOUT'); ?>
 							</button>
 						</form>

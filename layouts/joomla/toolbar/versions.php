@@ -49,7 +49,7 @@ echo HTMLHelper::_(
 		'width'  => '100%',
 		'modalWidth'  => '80',
 		'bodyHeight'  => '60',
-		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+		'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
 			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 	)
 );
@@ -58,8 +58,8 @@ echo HTMLHelper::_(
 	<button
 		class="btn btn-primary"
 		type="button"
-		onclick="document.getElementById('versionsModal').open()"
-		data-toggle="modal">
+		data-bs-target="#versionsModal"
+		data-bs-toggle="modal">
 		<span class="icon-code-branch" aria-hidden="true"></span>
 		<?php echo $title; ?>
 	</button>

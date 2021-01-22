@@ -1149,7 +1149,7 @@ class ApplicationModel extends FormModel
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
 		{
-			$result['class'] = 'badge badge-success';
+			$result['class'] = 'badge bg-success';
 			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
@@ -1160,13 +1160,13 @@ class ApplicationModel extends FormModel
 			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 			}
 			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 			else
 			{
-				$result['class'] = 'badge badge-success';
+				$result['class'] = 'badge bg-success';
 				$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
@@ -1181,13 +1181,13 @@ class ApplicationModel extends FormModel
 			// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED');
 			}
 			// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
-				$result['class'] = 'badge badge-success';
+				$result['class'] = 'badge bg-success';
 				$result['text']  = Text::_('JLIB_RULES_ALLOWED');
 			}
 
@@ -1196,7 +1196,7 @@ class ApplicationModel extends FormModel
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
 
@@ -1207,7 +1207,7 @@ class ApplicationModel extends FormModel
 			 */
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}

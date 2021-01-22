@@ -37,7 +37,7 @@ if ($saveOrder && !empty($this->items))
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
 			<table class="table" id="moduleList">
-				<caption class="sr-only">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -149,11 +149,11 @@ if ($saveOrder && !empty($this->items))
 						</th>
 						<td class="d-none d-md-table-cell">
 							<?php if ($item->position) : ?>
-								<span class="badge badge-info">
+								<span class="badge bg-info">
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
-								<span class="badge badge-secondary">
+								<span class="badge bg-secondary">
 									<?php echo Text::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>

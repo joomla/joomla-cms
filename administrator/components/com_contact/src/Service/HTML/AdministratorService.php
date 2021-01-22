@@ -93,7 +93,7 @@ class AdministratorService
 						$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
 						$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-						$classes = 'badge badge-secondary';
+						$classes = 'badge bg-secondary';
 
 						$item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
 							. '<div role="tooltip" id="tip-' . (int) $contactid . '-' . (int) $item->id . '">' . $tooltip . '</div>';

@@ -15,13 +15,13 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
-// Load Bootstrap JS for dropdowns.
-HTMLHelper::_('bootstrap.framework');
+// Load the Bootstrap Dropdown
+HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 <div class="header-item-content dropdown header-profile d-flex">
-	<button class="dropdown-toggle d-flex flex-column align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button" <?php echo ($hideLinks ? 'disabled' : ''); ?>
+	<button class="dropdown-toggle d-flex flex-column align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>"  data-bs-toggle="dropdown" type="button" <?php echo ($hideLinks ? 'disabled' : ''); ?>
 		title="<?php echo Text::_('MOD_USER_MENU'); ?>">
 		<div class="d-flex align-items-end mx-auto">
 			<span class="icon-user-circle" aria-hidden="true"></span>
@@ -31,7 +31,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		</div>
 		<span class="icon-angle-down" aria-hidden="true"></span>
 	</button>
-	<div class="dropdown-menu dropdown-menu-right">
+	<div class="dropdown-menu dropdown-menu-end">
 		<div class="dropdown-header">
 			<span class="icon-user-circle icon-fw" aria-hidden="true"></span>
 			<?php echo Text::sprintf('MOD_USER_TITLE', $user->name); ?>

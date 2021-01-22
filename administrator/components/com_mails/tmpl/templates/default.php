@@ -29,7 +29,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="templateList">
-						<caption class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -64,7 +64,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="break-word">
 									<div class="dropdown">
-										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
 										</a>
 										<div class="dropdown-menu" aria-labelledby="mTemplate<?php echo $i; ?>">
@@ -89,7 +89,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 											<?php if ($language->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
+												<span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
 											<?php endif; ?>
 										<?php endif; ?>
 									<?php endforeach; ?>
@@ -100,7 +100,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 											<?php if ($language->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary"><?php echo $language->lang_code; ?></span>
+												<span class="badge bg-secondary"><?php echo $language->lang_code; ?></span>
 											<?php endif; ?>
 										<?php endif; ?>
 									<?php endforeach; ?>

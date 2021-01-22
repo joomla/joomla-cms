@@ -48,7 +48,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<div class="j-header-help">
 					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
 						<span class="icon-lightbulb" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
+						<span class="visually-hidden"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 					</a>
 				</div>
 			</header>

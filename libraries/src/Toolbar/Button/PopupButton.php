@@ -171,8 +171,8 @@ JS
 			Factory::getDocument()->addScriptDeclaration(
 				<<<JS
 window.addEventListener('DOMContentLoaded', function() {
-	jQuery('#{$options['selector']}').on('hide.bs.modal', function () {
-	    {$options['onclose']}
+	document.querySelector('#{$options['selector']}').addEventListener('hide.bs.modal', function() {
+	    new Function({$options['onclose']});
 	});
 });
 JS

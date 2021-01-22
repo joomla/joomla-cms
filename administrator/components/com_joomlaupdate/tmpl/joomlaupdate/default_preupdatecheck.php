@@ -53,7 +53,7 @@ $compatibilityTypes = array(
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 			</legend>
 				<table class="table" id="preupdatecheck">
-					<caption class="sr-only">
+					<caption class="visually-hidden">
 						<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_CAPTION'); ?>
 					</caption>
 					<thead>
