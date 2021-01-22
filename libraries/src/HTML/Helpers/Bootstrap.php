@@ -448,13 +448,18 @@ abstract class Bootstrap
 		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
+		$ariaExpanded = $in === 'show' ? true : false;
 
-		$html = '<div class="card' . $class . '">'
-			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
-			. $text
-			. '</a>'
-			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
-			. '<div class="card-body">';
+		return <<<HTMLSTR
+<div class="accordion-item $class">
+  <h2 class="accordion-header" id="headingOne">
+    <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id" role="tab">
+		$text
+    </button>
+  </h2>
+  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="headingOne" $parent role="tabpanel">
+    <div class="accordion-body">
+HTMLSTR;
 
 		return $html;
 	}
@@ -468,7 +473,11 @@ abstract class Bootstrap
 	 */
 	public static function endSlide()
 	{
-		return '</div></div></div>';
+		return <<<HTMLSTR
+		</div>
+	</div>
+</div>
+HTMLSTR;
 	}
 
 	/**
