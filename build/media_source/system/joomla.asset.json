@@ -317,28 +317,6 @@
       "type": "script",
       "uri": "vendor/joomla-custom-elements/joomla-tab.min.js",
       "webcomponent": true
-    },
-    {
-      "name": "joomla.frontediting",
-      "type": "style",
-      "uri": "system/frontediting.css"
-    },
-    {
-      "name": "joomla.frontediting",
-      "type": "script",
-      "dependencies": [],
-      "uri": "system/frontediting.min.js",
-      "attributes": {
-        "defer": true
-      }
-    },
-    {
-      "name": "joomla.frontediting",
-      "type": "preset",
-      "dependencies": [
-        "joomla.frontediting#style",
-        "joomla.frontediting#script"
-      ]
     }
   ]
 }
