@@ -42,12 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const editableMenus = Array.from(document.querySelectorAll('.jmoddiv[data-jmenuedittip] .nav li,.jmoddiv[data-jmenuedittip].nav li,.jmoddiv[data-jmenuedittip] .nav .nav-child li,.jmoddiv[data-jmenuedittip].nav .nav-child li'));
   const attachMenusListeners = (element) => {
     // Get menu ItemId from the item-nnn class of the li element of the menu:
-    const itemids = /\bitem-(\d+)\b/.exec(ev.target.getAttribute('class'));
+    const itemids = /\bitem-(\d+)\b/.exec(element.getAttribute('class'));
     let menuitemEditUrl;
     let enclosingModuleDiv;
     if (typeof itemids[1] === 'string') {
       // Find module editing URL from enclosing module:
-      enclosingModuleDiv = ev.target.closest('.jmoddiv');
+      enclosingModuleDiv = element.closest('.jmoddiv');
       // Transform module editing URL into Menu Item editing url:
       menuitemEditUrl = enclosingModuleDiv.data('jmodediturl').replace(
         /\/index.php\?option=com_config&view=modules([^\d]+).+$/,
