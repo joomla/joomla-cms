@@ -89,9 +89,11 @@ class PlgButtonImage extends CMSPlugin
 			$button->link    = $link;
 			$button->text    = Text::_('PLG_IMAGE_BUTTON_IMAGE');
 			$button->name    = 'pictures';
-			$button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M4 8v20h28v-20h-28zM30 24.667l-4-6.667-4.533 3.778-3.46'
-								. '7-5.778-12 10v-16h24v14.667zM8 15c0-1.657 1.343-3 3-3s3 1.343 3 3v0c0 1.657-1.343 3-3 3s-3-1.343-3-3v0zM28 4h-'
-								. '28v20h2v-18h26z"></path></svg>';
+			$button->iconSVG = '<svg width="24" height="24" viewBox="0 0 512 512"><path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48'
+								. ' 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm-6 336H54a6 6 0 0 1-6-6V118a6 6 0 0 1 6-6h404a6 6'
+								. ' 0 0 1 6 6v276a6 6 0 0 1-6 6zM128 152c-22.091 0-40 17.909-40 40s17.909 40 40 40 40-17.909 40-40-17.909-40-40-40'
+								. 'zM96 352h320v-80l-87.515-87.515c-4.686-4.686-12.284-4.686-16.971 0L192 304l-39.515-39.515c-4.686-4.686-12.284-4'
+								. '.686-16.971 0L96 304v48z"></path></svg>';
 			$button->options = [
 				'height'     => '400px',
 				'width'      => '800px',

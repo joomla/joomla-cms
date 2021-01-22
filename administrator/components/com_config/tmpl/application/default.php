@@ -32,7 +32,7 @@ Text::script('MESSAGE');
 				<span class="icon-align-justify" aria-hidden="true"></span>
 				<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
-			<div class="sidebar-nav bg-light p-2 my-2">
+			<div id="sidebar-nav" class="sidebar-nav bg-light p-2 my-2">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
 		</div>
