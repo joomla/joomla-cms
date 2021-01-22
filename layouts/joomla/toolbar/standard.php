@@ -51,6 +51,7 @@ elseif (!empty($onclick))
 {
 	$htmlAttributes .= ' onclick="' . $onclick . '"';
 }
+
 ?>
 
 <joomla-toolbar-button <?php echo $idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
