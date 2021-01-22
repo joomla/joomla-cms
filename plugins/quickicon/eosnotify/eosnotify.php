@@ -56,11 +56,8 @@ class PlgQuickiconEosnotify extends JPlugin
 
 		if ($this->app->input->get('option') == 'com_cpanel')
 		{
-			$this->app->enqueueMessage(
-				Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_MESSAGE_START)
-				. ' <a href="https://www.joomla.org/" target="_blank"> ' . Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_CLICK_WORD)
-				. ' </a> ' . Text::_(PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_MESSAGE_END), 'warning'
-			);
+			$this->app->enqueueMessage(Text::sprintf('PLG_QUICKICON_EOSNOTIFY_CLICK_FOR_INFORMATION_MESSAGE', 'href="https://www.joomla.org/" target="_blank"'), 'warning');
+
 		}
 
 		return array(array(

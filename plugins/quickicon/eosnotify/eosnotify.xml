@@ -2,7 +2,7 @@
 <extension version="3.10" type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_eosnotifier</name>
 	<author>Joomla! Project</author>
-	<creationDate>Jan 2021</creationDate>
+	<creationDate>January 2021</creationDate>
 	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
