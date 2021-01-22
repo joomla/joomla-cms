@@ -86,7 +86,7 @@ if (Factory::getLanguage()->isRtl())
 if ($privacyLink)
 {
 	$attribs = [
-		'data-toggle' => 'modal',
+		'data-bs-toggle' => 'modal',
 		'data-bs-target' => '#consentModal',
 	];
 

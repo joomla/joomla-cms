@@ -61,11 +61,13 @@
             </th>
           </tr>
         </thead>
-        <media-browser-item-row
-          v-for="item in items"
-          :key="item.path"
-          :item="item"
-        />
+        <tbody>
+          <media-browser-item-row
+            v-for="item in items"
+            :key="item.path"
+            :item="item"
+          />
+        </tbody>
       </table>
       <div
         v-else-if="listView === 'grid'"

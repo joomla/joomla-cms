@@ -86,7 +86,7 @@ class TosField extends RadioField
 		if ($tosArticle)
 		{
 			$attribs                = [];
-			$attribs['data-toggle'] = 'modal';
+			$attribs['data-bs-toggle'] = 'modal';
 			$attribs['data-bs-target'] = '#tosModal';
 
 			$db    = Factory::getDbo();
