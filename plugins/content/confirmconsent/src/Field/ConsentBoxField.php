@@ -163,7 +163,7 @@ class ConsentBoxField extends CheckboxesField
 
 		if ($hasLink)
 		{
-			$attribs['data-toggle'] = 'modal';
+			$attribs['data-bs-toggle'] = 'modal';
 
 			$data['label'] = HTMLHelper::_(
 				'link',

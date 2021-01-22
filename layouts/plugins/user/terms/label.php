@@ -86,7 +86,7 @@ if (Factory::getLanguage()->isRtl())
 if ($article)
 {
 	$attribs = [
-		'data-toggle' => 'modal',
+		'data-bs-toggle' => 'modal',
 		'data-bs-target' => '#tosModal',
 	];
 
