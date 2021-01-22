@@ -82,3 +82,16 @@ select.form-control {
     min-width: 100%;
   }
 }
+
+// Bootstrap 4 b/c
+.form-inline .form-select, .form-inline .custom-select, .form-inline .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+@include media-breakpoint-down(md) {
+  .form-inline .form-select, .form-inline .custom-select, .form-inline .form-control {
+    width: 100%;
+  }
+}
+

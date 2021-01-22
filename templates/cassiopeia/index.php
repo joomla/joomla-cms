@@ -140,9 +140,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 				<?php endif; ?>
 				<?php if ($this->countModules('search')) : ?>
 					<div class="container-search">
-						<div class="form-inline">
-							<jdoc:include type="modules" name="search" style="none" />
-						</div>
+                        <jdoc:include type="modules" name="search" style="none" />
 					</div>
 				<?php endif; ?>
 			</div>
