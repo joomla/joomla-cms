@@ -46,13 +46,11 @@ Text::script('JHIDEPASSWORD');
 			<div class="controls">
 				<div class="input-group">
 					<input name="username" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
-					<span class="input-group-append">
-						<span class="input-group-text">
-							<span class="icon-user icon-fw" aria-hidden="true"></span>
-							<label for="mod-login-username" class="sr-only">
-								<?php echo Text::_('JGLOBAL_USERNAME'); ?>
-							</label>
-						</span>
+					<span class="input-group-text">
+						<span class="icon-user icon-fw" aria-hidden="true"></span>
+						<label for="mod-login-username" class="visually-hidden">
+							<?php echo Text::_('JGLOBAL_USERNAME'); ?>
+						</label>
 					</span>
 				</div>
 			</div>
@@ -61,12 +59,10 @@ Text::script('JHIDEPASSWORD');
 			<div class="controls">
 				<div class="input-group">
 					<input name="passwd" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
-					<span class="input-group-append">
-						<button type="button" class="btn btn-secondary input-password-toggle">
-							<span class="icon-eye icon-fw" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
-						</button>
-					</span>
+					<button type="button" class="btn btn-secondary input-password-toggle">
+						<span class="icon-eye icon-fw" aria-hidden="true"></span>
+						<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -75,13 +71,11 @@ Text::script('JHIDEPASSWORD');
 				<div class="controls">
 					<div class="input-group">
 						<input name="secretkey" autocomplete="one-time-code" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
-						<span class="input-group-append">
-							<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-								<span class="icon-star" aria-hidden="true"></span>
-								<label for="mod-login-secretkey" class="sr-only">
-									<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
-								</label>
-							</span>
+						<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
+							<span class="icon-star" aria-hidden="true"></span>
+							<label for="mod-login-secretkey" class="visually-hidden">
+								<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
+							</label>
 						</span>
 					</div>
 				</div>

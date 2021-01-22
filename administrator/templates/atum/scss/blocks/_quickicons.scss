@@ -28,7 +28,9 @@
       }
     }
 
-    @include hover-focus-active {
+    &:hover,
+    &:focus,
+    &:active {
       color: $white;
       text-decoration: none;
       background: var(--atum-link-color);
@@ -67,7 +69,7 @@
       max-width: calc(100% - 1rem);
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
@@ -111,7 +113,7 @@
       max-width: calc(100% - 1rem);
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
@@ -185,7 +187,9 @@
         color: $danger-txt;
       }
 
-      @include hover-focus-active {
+      &:hover,
+      &:focus,
+      &:active {
         color: var(--white);
         background: var(--danger);
 
@@ -211,7 +215,9 @@
         background-clip: text;
       }
 
-      @include hover-focus-active {
+      &:hover,
+      &:focus,
+      &:active {
         color: var(--white);
         background: var(--success);
 
@@ -226,7 +232,9 @@
       }
     }
 
-    @include hover-focus-active {
+    &:hover,
+    &:focus,
+    &:active {
       color: $white;
       text-decoration: none;
       background: var(--atum-bg-dark);

@@ -39,6 +39,6 @@ class Select
 		$options[] = HTMLHelper::_('select.option', 'hybrid', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_HYBRID'));
 		$options[] = HTMLHelper::_('select.option', 'ftp', Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_FTP'));
 
-		return HTMLHelper::_('select.genericlist', $options, $name, 'class="custom-select"', 'value', 'text', $default, $id);
+		return HTMLHelper::_('select.genericlist', $options, $name, 'class="form-select"', 'value', 'text', $default, $id);
 	}
 }

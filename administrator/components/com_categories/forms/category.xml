@@ -112,7 +112,7 @@
 		type="list"
 		label="JSTATUS"
 		default="1"
-		class="custom-select-color-state"
+		class="form-select-color-state"
 		size="1"
 		validate="options"
 		>
@@ -235,7 +235,7 @@
 					name="category_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					view="category"
 					useglobal="true"
 				/>

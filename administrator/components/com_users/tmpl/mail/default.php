@@ -35,9 +35,7 @@ $comUserParams = ComponentHelper::getParams('com_users');
 							<?php echo $this->form->getLabel('subject'); ?>
 							<span class="input-group">
 								<?php if (!empty($comUserParams->get('mailSubjectPrefix'))) : ?>
-									<span class="input-group-prepend">
-										<span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
-									</span>
+									<span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
 								<?php endif; ?>
 								<?php echo $this->form->getInput('subject'); ?>
 							</span>

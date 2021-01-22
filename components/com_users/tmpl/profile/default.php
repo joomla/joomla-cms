@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
 	<?php endif; ?>
 
 	<?php if (Factory::getUser()->id == $this->data->id) : ?>
-		<ul class="com-users-profile__edit btn-toolbar float-right">
+		<ul class="com-users-profile__edit btn-toolbar float-end">
 			<li class="btn-group">
 				<a class="btn" href="<?php echo Route::_('index.php?option=com_users&task=profile.edit&user_id=' . (int) $this->data->id); ?>">
 					<span class="icon-user" aria-hidden="true"></span> <?php echo Text::_('COM_USERS_EDIT_PROFILE'); ?>

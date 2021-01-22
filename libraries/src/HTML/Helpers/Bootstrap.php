@@ -93,7 +93,7 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function carousel($selector = 'carousel', $params = array())
+	public static function carousel($selector = '.carousel', $params = array())
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -122,7 +122,7 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function dropdown($selector = 'dropdown-toggle')
+	public static function dropdown($selector = '.dropdown-toggle')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -226,7 +226,7 @@ abstract class Bootstrap
 	 *                  Options for the popover can be:
 	 *                      animation    boolean          apply a css fade transition to the popover
 	 *                      container    string|boolean   Appends the popover to a specific element: { container: 'body' }
-	 *                      content      string|function  default content value if `data-content` attribute isn't present
+	 *                      content      string|function  default content value if `data-bs-content` attribute isn't present
 	 *                      delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
 	 *                                                    If a number is supplied, delay is applied to both hide/show
 	 *                                                    Object structure is: delay: { show: 500, hide: 100 }
@@ -448,13 +448,18 @@ abstract class Bootstrap
 		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
+		$ariaExpanded = $in === 'show' ? true : false;
 
-		$html = '<div class="card' . $class . '">'
-			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
-			. $text
-			. '</a>'
-			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
-			. '<div class="card-body">';
+		return <<<HTMLSTR
+<div class="accordion-item $class">
+  <h2 class="accordion-header" id="headingOne">
+    <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id" role="tab">
+		$text
+    </button>
+  </h2>
+  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="headingOne" $parent role="tabpanel">
+    <div class="accordion-body">
+HTMLSTR;
 
 		return $html;
 	}
@@ -468,7 +473,11 @@ abstract class Bootstrap
 	 */
 	public static function endSlide()
 	{
-		return '</div></div></div>';
+		return <<<HTMLSTR
+		</div>
+	</div>
+</div>
+HTMLSTR;
 	}
 
 	/**

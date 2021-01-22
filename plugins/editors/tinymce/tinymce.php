@@ -611,7 +611,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 				'toolbar_sticky'     => true,
-				'toolbar_mode'       => 'sliding',
+				'toolbar_mode'       => $levelParams->get('toolbar_mode', 'sliding'),
 
 				// Image plugin options
 				'a11y_advanced_options' => true,

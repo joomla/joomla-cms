@@ -48,7 +48,7 @@ $wa->useScript('keepalive')
 						<button class="btn btn-secondary filter-toggle-all" type="button">
 							<span class="icon-square" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
-						<button class="btn btn-secondary float-right" type="button" id="expandAccordion"><?php echo Text::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
+						<button class="btn btn-secondary float-end" type="button" id="expandAccordion"><?php echo Text::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 						<hr>
 					<?php endif; ?>
 

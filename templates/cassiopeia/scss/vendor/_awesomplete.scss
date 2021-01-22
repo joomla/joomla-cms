@@ -4,7 +4,7 @@
   flex-wrap: nowrap;
   .awesomplete {
     input {
-      @include border-right-radius(0);
+      @include border-end-radius(0);
     }
   }
   .input-group-append button {

@@ -22,12 +22,6 @@ $extension-types: (
     margin: 1px;
   }
 
-  @each $color, $value in $extension-types {
-    .badge-#{$color} {
-      @include badge-variant($value);
-    }
-  }
-
   .fader {
     position: absolute;
     top: 0;

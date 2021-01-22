@@ -138,7 +138,7 @@
   }
 }
 
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-down(sm) {
   .toggler-toolbar {
     top: 20px;
     z-index: $zindex-alerts;

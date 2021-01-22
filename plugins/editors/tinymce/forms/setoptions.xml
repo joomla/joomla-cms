@@ -36,6 +36,19 @@
 	/>
 
 	<field
+		name="toolbar_mode"
+		type="list"
+		label="PLG_TINY_FIELD_TOOLBAR_MODE_LABEL"
+		default="sliding"
+		validate="options"
+		>
+		<option value="floating">PLG_TINY_FIELD_VALUE_FLOATING</option>
+		<option value="scrolling">PLG_TINY_FIELD_VALUE_SCROLLING</option>
+		<option value="sliding">PLG_TINY_FIELD_VALUE_SLIDING</option>
+		<option value="wrap">PLG_TINY_FIELD_VALUE_WRAP</option>
+	</field>
+
+	<field
 		name="drag_drop"
 		type="radio"
 		label="PLG_TINY_FIELD_DRAG_DROP_LABEL"

@@ -91,7 +91,7 @@
           overflow: hidden;
           border-right: 1px solid $gray-400;
 
-          @include media-breakpoint-down(sm) {
+          @include media-breakpoint-down(md) {
             width: auto;
             height: 1px;
             border-bottom: 1px solid $gray-400;
@@ -213,7 +213,7 @@
           top: 0;
           box-shadow: none;
 
-          @include media-breakpoint-down(md) {
+          @include media-breakpoint-down(lg) {
             width: 100%;
           }
         }
