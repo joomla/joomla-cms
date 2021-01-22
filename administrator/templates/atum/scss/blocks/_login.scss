@@ -49,41 +49,12 @@
       }
     }
 
-    #form-login .form-group {
-      position: relative;
-      margin-bottom: 1.85rem;
-
-      .form-control-feedback {
-        position: absolute;
-        right: 0;
-        bottom: -1.1rem;
-        font-size: ($font-size-base * .75);
-        text-align: right;
-
-        [dir=rtl] & {
-          right: auto;
-          left: 0;
-          text-align: left;
-        }
-      }
-
-      .form-control-hint {
-        position: absolute;
-        top: .3rem;
-        right: 0;
-        font-size: ($font-size-base * .75);
-        text-align: right;
-
-        [dir=rtl] & {
-          right: auto;
-          left: 0;
-          text-align: left;
-        }
-      }
-    }
   }
 
   .form-group {
+    position: relative;
+    margin-bottom: 1.85rem;
+
     label {
       span {
         font-size: ($font-size-base * .9);
@@ -96,6 +67,34 @@
           font-size: ($font-size-base * .75);
           color: var(--atum-special-color);
         }
+      }
+    }
+
+    .form-control-feedback {
+      position: absolute;
+      right: 0;
+      bottom: -1.1rem;
+      font-size: ($font-size-base * .75);
+      text-align: right;
+
+      [dir=rtl] & {
+        right: auto;
+        left: 0;
+        text-align: left;
+      }
+    }
+
+    .form-control-hint {
+      position: absolute;
+      top: .3rem;
+      right: 0;
+      font-size: ($font-size-base * .75);
+      text-align: right;
+
+      [dir=rtl] & {
+        right: auto;
+        left: 0;
+        text-align: left;
       }
     }
   }
