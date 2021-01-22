@@ -127,7 +127,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<?php endif; ?>
 				<?php if ($this->countModules('search')) : ?>
 					<div class="container-search">
-                        <jdoc:include type="modules" name="search" style="none" />
+						<jdoc:include type="modules" name="search" style="none" />
 					</div>
 				<?php endif; ?>
 			</div>
