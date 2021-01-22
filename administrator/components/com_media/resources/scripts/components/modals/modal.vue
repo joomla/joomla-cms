@@ -25,8 +25,7 @@
                 class="btn-close"
                 aria-label="Close"
                 @click="close()"
-              >
-              </button>
+              />
             </div>
             <div class="modal-body">
               <slot name="body" />
