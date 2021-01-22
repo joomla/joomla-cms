@@ -102,7 +102,7 @@
         && Joomla.Bootstrap.Instances
         && Joomla.Bootstrap.Instances.Modal
         && Joomla.Bootstrap.Instances.Modal.get(this.modalElement) === undefined) {
-        Joomla.Bootstrap.Methods.initModal(this.modalElement);
+        Joomla.Bootstrap.Initialise.Modal(this.modalElement);
       }
 
       if (this.buttonClearEl) {
@@ -141,9 +141,9 @@
       try {
         await Joomla.getImage(Joomla.selectedMediaFile, this.inputElement, this);
       } catch (err) {
-        Joomla.renderMessages({
-          error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
-        });
+          Joomla.renderMessages({
+            error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
+          });
       }
 
       Joomla.selectedMediaFile = {};

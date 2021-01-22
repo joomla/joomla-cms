@@ -32,6 +32,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	</select>
 	</form>
 <?php elseif ($params->get('dropdown', 0) && $params->get('dropdownimage', 1)) : ?>
+	<?php HTMLHelper::_('bootstrap.dropdown'); ?>
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>

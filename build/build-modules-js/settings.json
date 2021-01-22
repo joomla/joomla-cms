@@ -602,6 +602,12 @@
             ]
           }
         ]
+      },
+      "ttc-bs5": {
+        "name": "bs5",
+        "filesExtra": {
+          "dist": ""
+        }
       }
     },
     "errorPages": {
