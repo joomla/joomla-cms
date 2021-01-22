@@ -33,7 +33,7 @@ endif;
 	<div class="row">
 		<div class="col-sm-6 offset-sm-2 col-md-4 offset-sm-4 offset-md-5 offset-lg-4">
 			<label class="visually-hidden" for="comModulesSelectSearch">
-					<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
+				<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
 			</label>
 			<div class="input-group mb-5 me-sm-2">
 				<input type="text" value=""
