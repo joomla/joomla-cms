@@ -37,8 +37,8 @@ endif;
 			</label>
 			<div class="input-group mb-5 me-sm-2">
 				<input type="text" value=""
-					   class="form-control" id="comModulesSelectSearch"
-					   placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
+					class="form-control" id="comModulesSelectSearch"
+					placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
 				>
 				<div class="input-group-text">
 					<span class="icon-search" aria-hidden="true"></span>

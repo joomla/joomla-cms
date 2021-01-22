@@ -71,6 +71,7 @@ td .form-control {
 
 // set up hidden tooltip
 [role="tooltip"]:not(.show) {
+  right: 5em;
   z-index: $zindex-tooltip;
   display: none;
   max-width: 100%;

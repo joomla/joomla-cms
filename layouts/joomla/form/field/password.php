@@ -81,7 +81,7 @@ if ($lock)
 	Text::script('JCANCEL');
 
 	$disabled = true;
-	$hint = str_repeat('&#x2022;', strlen($value));
+	$hint = str_repeat('&#x2022;', 10);
 	$value = '';
 }
 
