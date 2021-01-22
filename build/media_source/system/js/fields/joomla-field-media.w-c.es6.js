@@ -141,9 +141,9 @@
       try {
         await Joomla.getImage(Joomla.selectedMediaFile, this.inputElement, this);
       } catch (err) {
-        Joomla.renderMessages({
-          error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
-        });
+          Joomla.renderMessages({
+            error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
+          });
       }
 
       Joomla.selectedMediaFile = {};

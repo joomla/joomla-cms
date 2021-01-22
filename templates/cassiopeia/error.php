@@ -67,11 +67,11 @@ $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alte
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Logo file or site title param
-if ($this->params->get('logoFile'))
+if ($params->get('logoFile'))
 {
 	$logo = '<img src="' . Uri::root() . htmlspecialchars($params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
 }
-elseif ($this->params->get('siteTitle'))
+elseif ($params->get('siteTitle'))
 {
 	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
@@ -127,8 +127,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<?php endif; ?>
 				<?php if ($this->countModules('search')) : ?>
 					<div class="container-search">
-                        <jdoc:include type="modules" name="search" style="none" />
-					</div>
+							<jdoc:include type="modules" name="search" style="none" />
+						</div>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
