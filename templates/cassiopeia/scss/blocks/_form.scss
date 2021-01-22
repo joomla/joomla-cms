@@ -25,7 +25,9 @@
   max-width: $input-max-width;
 }
 
+// Bootstrap 4 b/c on form-inline
 .form-inline .form-select {
+  display: inline-block;
   width: auto;
 }
 
