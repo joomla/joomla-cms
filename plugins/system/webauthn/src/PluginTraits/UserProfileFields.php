@@ -93,11 +93,11 @@ trait UserProfileFields
 	 */
 	public function onContentPrepareForm(Form $form, $data)
 	{
-		// This feature only applies to HTTPS sites.
-		if (!Uri::getInstance()->isSsl())
-		{
-			return true;
-		}
+//		// This feature only applies to HTTPS sites.
+//		if (!Uri::getInstance()->isSsl())
+//		{
+//			return true;
+//		}
 
 		$name = $form->getName();
 

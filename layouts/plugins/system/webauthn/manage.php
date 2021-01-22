@@ -92,7 +92,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 	<?php endif; ?>
 
 	<table class="table table-striped">
-		<thead class="thead-dark">
+		<thead class="table-dark">
 		<tr>
 			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
 			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
