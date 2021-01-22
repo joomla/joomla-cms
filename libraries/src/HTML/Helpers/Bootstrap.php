@@ -285,9 +285,11 @@ abstract class Bootstrap
 	}
 
 	/**
-	 * Method is EMPTY!!!
+	 * Method to load the ALL the Bootstrap Components
 	 *
-	 * @param   mixed $debug Is debugging mode on?
+	 * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
+	 *
+	 * @param   mixed  $debug  Is debugging mode on? [optional]
 	 *
 	 * @return  void
 	 *
