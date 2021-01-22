@@ -256,7 +256,7 @@ abstract class Bootstrap
 				->getWebAssetManager()
 				->registerScript(
 					'bootstrap.' . $script . '.ES6',
-					'vendor/bs5/' . $script . '.es6.min.js',
+					'vendor/bootstrap/' . $script . '.es6.min.js',
 					[
 						'dependencies' => [],
 						'attributes' => [
@@ -269,7 +269,7 @@ abstract class Bootstrap
 				// Register the ES5 script with an attribute nomodule
 				->registerScript(
 					'bootstrap.legacy',
-					'vendor/bs5/bootstrap.min.js',
+					'vendor/bootstrap/bootstrap.min.js',
 					[
 						'dependencies' => [],
 						'attributes' => [
