@@ -54,14 +54,6 @@ ul {
   margin-left: 0;
 }
 
-.menu-toggle-icon::before {
-  content: "\f054";
-
-  .closed & {
-    content: "\f053";
-  }
-}
-
 // Status
 .status {
   margin-right: 250px;
