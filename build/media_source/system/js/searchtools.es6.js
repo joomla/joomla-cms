@@ -249,7 +249,12 @@ Joomla = window.Joomla || {};
         self.getFilterFields().forEach((i) => {
           i.value = '';
           self.checkFilter(i);
+
+          // Trigger an update
           i.dispatchEvent(new Event('change'));
+          if (window.jQuery && window.jQuery.chosen) {
+            window.jQuery(i).trigger('chosen:updated');
+          }
         });
       }
 
@@ -257,15 +262,25 @@ Joomla = window.Joomla || {};
         self.getListFields().forEach((i) => {
           i.value = '';
           self.checkFilter(i);
+
+          // Trigger an update
           i.dispatchEvent(new Event('change'));
+          if (window.jQuery && window.jQuery.chosen) {
+            window.jQuery(i).trigger('chosen:updated');
+          }
         });
 
         // Special case to limit box to the default config limit
         document.querySelector('#list_limit').value = self.options.defaultLimit;
 
-        const el = document.getElementById('list_limit');
-        if (el) {
-          el.dispatchEvent(new Event('change'));
+        // Trigger an update
+        const listLimitEl = document.getElementById('list_limit');
+        if (listLimitEl) {
+          listLimitEl.dispatchEvent(new Event('change'));
+        }
+
+        if (window.jQuery && window.jQuery.chosen) {
+          window.jQuery('#list_limit').trigger('chosen:updated');
         }
       }
 
@@ -466,9 +481,10 @@ Joomla = window.Joomla || {};
           }
         });
 
-        const orderField = document.querySelector(this.orderField);
-        if (orderField) {
-          orderField.dispatchEvent(new Event('change'));
+        // Trigger an update
+        this.orderField.dispatchEvent(new Event('change'));
+        if (window.jQuery && window.jQuery.chosen) {
+          window.jQuery(this.orderField).trigger('chosen:updated');
         }
       }
 
@@ -509,6 +525,9 @@ Joomla = window.Joomla || {};
 
         // Trigger an update
         field.dispatchEvent(new Event('change'));
+        if (window.jQuery && window.jQuery.chosen) {
+          field.trigger('chosen:updated');
+        }
       }
     }
 
