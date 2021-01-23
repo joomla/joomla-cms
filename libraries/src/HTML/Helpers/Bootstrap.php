@@ -298,9 +298,12 @@ abstract class Bootstrap
 	 */
 	public static function framework($debug = null) :void
 	{
-		array_map(function($script) {
-			HTMLHelper::_('bootstrap.loadComponent', $script);
-		}, static::$scripts);
+		array_map(
+			function ($script) {
+				HTMLHelper::_('bootstrap.loadComponent', $script);
+			},
+			static::$scripts
+		);
 	}
 
 	/**
