@@ -9,6 +9,11 @@
 }
 
 a.jmenuedit {
-  padding: .5rem;
+  padding-right: .5rem;
+
+  [dir=rtl] & {
+    padding-right: 0;
+    padding-left: .5rem;
+  }
 }
 
