@@ -63,12 +63,12 @@
             Joomla.renderMessages(response.messages);
           }
 
-          document.body.scrollIntoView({behavior: 'smooth'});
+          document.body.scrollIntoView({ behavior: 'smooth' });
         },
         onError: (xhr) => {
           Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
 
-          document.body.scrollIntoView({behavior: 'smooth'});
+          document.body.scrollIntoView({ behavior: 'smooth' });
         },
       });
     }
