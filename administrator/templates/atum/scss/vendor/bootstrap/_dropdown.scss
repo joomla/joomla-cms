@@ -7,10 +7,7 @@
 
   joomla-toolbar-button {
     border: 0;
-
-    [dir=rtl] & {
-      text-align: right;
-    }
+    text-align: start;
   }
 }
 
