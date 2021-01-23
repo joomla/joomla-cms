@@ -211,18 +211,3 @@ ul {
 .btn-group > .btn-group:not(:first-child) {
   @include border-end-radius(0);
 }
-
-// Target blank icon
-a[target=_blank] {
-  &::before {
-    content: "";
-  }
-
-  &::after {
-    padding-left: 3px;
-    font-family: "Font Awesome 5 Free";
-    font-size: 14px;
-    font-weight: 900;
-    content: "";
-  }
-}
