@@ -6,11 +6,8 @@
   box-shadow: $dropdown-box-shadow;
 
   joomla-toolbar-button {
+    text-align: start;
     border: 0;
-
-    [dir=rtl] & {
-      text-align: right;
-    }
   }
 }
 

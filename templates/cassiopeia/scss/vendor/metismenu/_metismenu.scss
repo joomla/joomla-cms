@@ -199,15 +199,6 @@
       }
 
       li.parent {
-        .mm-toggler {
-          display: inline-flex;
-          text-align: left;
-
-          [dir="rtl"] & {
-            text-align: right;
-          }
-        }
-
         > ul {
           position: relative;
           top: 0;
