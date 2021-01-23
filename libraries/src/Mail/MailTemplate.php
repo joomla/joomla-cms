@@ -232,7 +232,7 @@ class MailTemplate
 			// If the Plain template is empty try to convert the HTML template to a Plain text
 			if (!$plainBody)
 			{
-				$plainBody = strip_tags(str_replace(['<br>', '<br />'], "\n", $htmlBody));
+				$plainBody = strip_tags(str_replace(['<br>', '<br />', '<br/>'], "\n", $htmlBody));
 			}
 
 			$this->mailer->setBody($plainBody);
