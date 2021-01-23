@@ -122,7 +122,13 @@ class HtmlView extends BaseHtmlView
 			->url(Route::_('index.php?option=com_banners&view=download&tmpl=component'))
 			->text('JTOOLBAR_EXPORT')
 			->selector('downloadModal')
-			->icon('icon-download');
+			->icon('icon-download')
+			->footer('<button class="btn btn-secondary" data-bs-dismiss="modal" type="button"'
+				. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
+				. Text::_('COM_BANNERS_CANCEL') . '</button>'
+				. '<button class="btn btn-success" type="button"'
+				. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#exportBtn\'})">'
+				. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>');
 
 		if ($canDo->get('core.delete'))
 		{
