@@ -26,6 +26,7 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $title
  */
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 
