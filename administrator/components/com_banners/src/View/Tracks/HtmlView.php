@@ -128,7 +128,8 @@ class HtmlView extends BaseHtmlView
 				. Text::_('COM_BANNERS_CANCEL') . '</button>'
 				. '<button class="btn btn-success" type="button"'
 				. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#exportBtn\'})">'
-				. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>');
+				. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>'
+			);
 
 		if ($canDo->get('core.delete'))
 		{
