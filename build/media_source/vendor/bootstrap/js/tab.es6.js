@@ -6,19 +6,19 @@ Joomla.Bootstrap.Initialise = Joomla.Bootstrap.Initialise || {};
 Joomla.Bootstrap.Instances = Joomla.Bootstrap.Instances || {};
 Joomla.Bootstrap.Instances.Tab = new WeakMap();
 
-const tabs = Joomla.getOptions('bootstrap.tab');
-
-// Force Vanilla mode!
-if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-  document.body.dataset.bsNoJquery = '';
-}
-
-if (tabs) {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const tabSelector of tabs) {
-    const nSelector = tabSelector.split('.')[1];
+/**
+ * Initialise the Tabs interactivity
+ *
+ * @param {HTMLElement} el The element that will become an collapse
+ * @param {object} options The options for this collapse
+ */
+Joomla.Bootstrap.Initialise.Tab = (el, options) => {
+  if (!(el instanceof Element) && options.isJoomla) {
+    const nSelector = el.split('.')[1];
+    if (!nSelector) {
+      throw new Error('The selector is invalid, check your PHP side');
+    }
     const tab = document.querySelector(`#${nSelector}Content`);
-
     if (tab) {
       const related = Array.from(tab.children);
 
@@ -45,7 +45,7 @@ if (tabs) {
             link.setAttribute('aria-controls', element.dataset.id);
             link.setAttribute('aria-selected', element.dataset.id);
 
-            link.innerHTML = element.dataset.title; // Not safe!!!
+            link.innerHTML = element.dataset.title;
 
             const li = document.createElement('li');
             li.classList.add('nav-item');
@@ -57,9 +57,35 @@ if (tabs) {
         });
       }
 
+      if (Joomla.Bootstrap.Instances.Tab.get(tab) && tab.dispose) {
+        tab.dispose();
+      }
+
       Joomla.Bootstrap.Instances.Tab.set(tab, new Tab(tab));
     }
+  } else {
+    if (!(el instanceof Element)) {
+      return;
+    }
+    if (Joomla.Bootstrap.Instances.Tab.get(el) && el.dispose) {
+      el.dispose();
+    }
+
+    Joomla.Bootstrap.Instances.Tab.set(el, new Tab(el, options));
   }
+};
+
+const tabs = Joomla.getOptions('bootstrap.tabs');
+
+// Force Vanilla mode!
+if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
+  document.body.dataset.bsNoJquery = '';
+}
+
+if (tabs) {
+  Object.keys(tabs).forEach((tab) => {
+    Joomla.Bootstrap.Initialise.Tab(tab, tabs[tab]);
+  });
 }
 
 export default Tab;

@@ -234,79 +234,6 @@ abstract class Bootstrap
 	}
 
 	/**
-	 * Method to load the static assets for a given component
-	 *
-	 * @param   string $script The component name
-	 *
-	 * @throws \Exception
-	 *
-	 * @return  void
-	 */
-	public static function loadComponent(string $script) :void
-	{
-		if (!in_array($script, static::$loadedScripts)
-			&& in_array($script, static::$scripts))
-		{
-			// Tooltip + popover are combined
-			$script = $script === 'tooltip' ? 'popover' : $script;
-
-			// Register the ES2017+ script with an attribute type="module"
-			Factory::getApplication()
-				->getDocument()
-				->getWebAssetManager()
-				->registerScript(
-					'bootstrap.' . $script . '.ES6',
-					'vendor/bootstrap/' . $script . '.es6.min.js',
-					[
-						'dependencies' => [],
-						'attributes' => [
-							'type' => 'module',
-						]
-					]
-				)
-				->useScript('bootstrap.' . $script . '.ES6')
-
-				// Register the ES5 script with an attribute nomodule
-				->registerScript(
-					'bootstrap.legacy',
-					'vendor/bootstrap/bootstrap.es5.min.js',
-					[
-						'dependencies' => [],
-						'attributes' => [
-							'nomodule' => '',
-							'defer' => 'defer',
-						]
-					]
-				)
-				->useScript('bootstrap.legacy');
-
-			array_push(static::$loadedScripts, $script);
-		}
-	}
-
-	/**
-	 * Method to load the ALL the Bootstrap Components
-	 *
-	 * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
-	 *
-	 * @param   mixed  $debug  Is debugging mode on? [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 * @deprecated 5.0
-	 */
-	public static function framework($debug = null) :void
-	{
-		array_map(
-			function ($script) {
-				HTMLHelper::_('bootstrap.loadComponent', $script);
-			},
-			static::$scripts
-		);
-	}
-
-	/**
 	 * Method to render a Bootstrap modal
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
@@ -341,51 +268,6 @@ abstract class Bootstrap
 		Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
-	}
-
-	/**
-	 * Method to render a Bootstrap modal
-	 *
-	 * @param   string  $selector  The ID selector for the modal.
-	 * @param   array   $options   An array of options for the modal.
-	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the URL option is set
-	 *
-	 * @return  string  HTML markup for a modal
-	 *
-	 * @since   3.0
-	 *
-	 * Options for the modal can be:
-	 * - backdrop     string|  true   Includes a modal-backdrop element. Alternatively, specify static
-	 *                boolean          for a backdrop which doesn't close the modal on click.
-	 * - keyboard     boolean  true   Closes the modal when escape key is pressed
-	 * - focus        boolean  true   Closes the modal when escape key is pressed
-	 * - title        string   null   The modal title
-	 * - closeButton  boolean  true   Display modal close button (default = true)
-	 * - footer       string   null   Optional markup for the modal footer
-	 * - url          string   null   URL of a resource to be inserted as an `<iframe>` inside the modal body
-	 * - height       string   null   Height of the `<iframe>` containing the remote resource
-	 * - width        string   null   Width of the `<iframe>` containing the remote resource
-	 */
-	public static function renderModal($selector = '.modal', $options = [], $body = '') :string
-	{
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__][$selector]))
-		{
-			return '';
-		}
-
-		// Include Basic Bootstrap component
-		HTMLHelper::_('bootstrap.modal', '#' . preg_replace('/^\.?#/', '', $selector), $options);
-
-		$layoutData = [
-			'selector' => $selector,
-			'params'   => $options,
-			'body'     => $body,
-		];
-
-		static::$loaded[__METHOD__][$selector] = true;
-
-		return LayoutHelper::render('libraries.html.bootstrap.modal.main', $layoutData);
 	}
 
 	/**
@@ -481,6 +363,34 @@ abstract class Bootstrap
 	}
 
 	/**
+	 * Add javascript support for Bootstrap tab
+	 *
+	 * @param   string  $selector  Common class for the tabs
+	 * @param   array   $options   Options for the tabs
+	 *
+	 * @return  void
+	 *
+	 * @throws \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function tab($selector = '.myTab', $options = []) :void
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include the Bootstrap component Tab
+		HTMLHelper::_('bootstrap.loadComponent', 'tab');
+
+		Factory::getDocument()->addScriptOptions('bootstrap.tabs', [$selector => (object) $options]);
+
+		static::$loaded[__METHOD__][$selector] = true;
+	}
+
+	/**
 	 * Add javascript support for Bootstrap tooltips
 	 *
 	 * Add a title attribute to any element in the form
@@ -544,6 +454,132 @@ abstract class Bootstrap
 	}
 
 	/**
+	 * Add javascript support for Bootstrap toasts
+	 *
+	 * @param   string  $selector  Common class for the toasts
+	 * @param   array   $options   Options for the toasts
+	 *
+	 * @return  void
+	 *
+	 * @throws \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function toast($selector = '.toast', $options = []) :void
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include Bootstrap component
+		HTMLHelper::_('bootstrap.loadComponent', 'toast');
+
+		// Setup options object
+		$opt['animation'] = isset($options['animation']) ? (string) $options['animation'] : null;
+		$opt['autohide']  = isset($options['autohide']) ? (boolean) $options['autohide'] : true;
+		$opt['delay']     = isset($options['delay']) ? (int) $options['delay'] : 5000;
+
+		Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter((array) $opt)]);
+
+		static::$loaded[__METHOD__][$selector] = true;
+	}
+
+	/**
+	 * Method to load the static assets for a given component
+	 *
+	 * @param   string $script The component name
+	 *
+	 * @throws \Exception
+	 *
+	 * @return  void
+	 */
+	public static function loadComponent(string $script) :void
+	{
+		if (!in_array($script, static::$loadedScripts)
+			&& in_array($script, static::$scripts))
+		{
+			// Tooltip + popover are combined
+			$script = $script === 'tooltip' ? 'popover' : $script;
+
+			// Register the ES2017+ script with an attribute type="module"
+			Factory::getApplication()
+				->getDocument()
+				->getWebAssetManager()
+				->registerScript(
+					'bootstrap.' . $script . '.ES6',
+					'vendor/bootstrap/' . $script . '.es6.min.js',
+					[
+						'dependencies' => [],
+						'attributes' => [
+							'type' => 'module',
+						]
+					]
+				)
+				->useScript('bootstrap.' . $script . '.ES6')
+
+				// Register the ES5 script with attributes: nomodule, defer
+				->registerScript(
+					'bootstrap.legacy',
+					'vendor/bootstrap/bootstrap.es5.min.js',
+					[
+						'dependencies' => [],
+						'attributes' => [
+							'nomodule' => '',
+							'defer' => 'defer',
+						]
+					]
+				)
+				->useScript('bootstrap.legacy');
+
+			array_push(static::$loadedScripts, $script);
+		}
+	}
+
+	/**
+	 * Method to load the ALL the Bootstrap Components
+	 *
+	 * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
+	 *
+	 * @param   mixed  $debug  Is debugging mode on? [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 * @deprecated 5.0
+	 */
+	public static function framework($debug = null) :void
+	{
+		array_map(
+			function ($script) {
+				HTMLHelper::_('bootstrap.' . $script);
+			},
+			static::$scripts
+		);
+	}
+
+	/**
+	 * Loads CSS files needed by Bootstrap
+	 *
+	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
+	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
+	 * @param   array    $attribs         Optional array of attributes to be passed to HTMLHelper::_('stylesheet')
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function loadCss($includeMainCss = true, $direction = 'ltr', $attribs = []) :void
+	{
+		// Load Bootstrap main CSS
+		if ($includeMainCss)
+		{
+			Factory::getDocument()->getWebAssetManager()->useStyle('bootstrap.css');
+		}
+	}
+
+	/**
 	 * Add javascript support for Bootstrap accordions and insert the accordion
 	 *
 	 * @param   string  $selector  The ID selector for the tooltip.
@@ -575,6 +611,9 @@ abstract class Bootstrap
 			($options['parent'] == true ? '#' . preg_replace('/^\.?#/', '', $selector) : $options['parent']) : '';
 		$opt['toggle'] = isset($options['toggle']) ? (boolean) $options['toggle'] : !($opt['parent'] === false || isset($options['active']));
 		$opt['active'] = isset($options['active']) ? (string) $options['active'] : '';
+
+		// Initialise with the Joomla specifics
+		$opt['isJoomla'] = true;
 
 		Factory::getDocument()->addScriptOptions('bootstrap.accordion', [$selector => (object) array_filter((array) $opt)]);
 
@@ -618,12 +657,12 @@ abstract class Bootstrap
 
 		return <<<HTMLSTR
 <div class="accordion-item $class">
-  <h2 class="accordion-header" id="headingOne">
+  <h2 class="accordion-header" id="$id-heading">
     <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id" role="tab">
 		$text
     </button>
   </h2>
-  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="headingOne" $parent role="tabpanel">
+  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="$id-heading" $parent role="tabpanel">
     <div class="accordion-body">
 HTMLSTR;
 
@@ -646,6 +685,55 @@ HTMLSTR;
 	}
 
 	/**
+	 * Method to render a Bootstrap modal
+	 *
+	 * @param   string  $selector  The ID selector for the modal.
+	 * @param   array   $options   An array of options for the modal.
+	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the URL option is set
+	 *
+	 * @return  string  HTML markup for a modal
+	 *
+	 * @since   3.0
+	 *
+	 * Options for the modal can be:
+	 * - backdrop     string|  true   Includes a modal-backdrop element. Alternatively, specify static
+	 *                boolean          for a backdrop which doesn't close the modal on click.
+	 * - keyboard     boolean  true   Closes the modal when escape key is pressed
+	 * - focus        boolean  true   Closes the modal when escape key is pressed
+	 * - title        string   null   The modal title
+	 * - closeButton  boolean  true   Display modal close button (default = true)
+	 * - footer       string   null   Optional markup for the modal footer
+	 * - url          string   null   URL of a resource to be inserted as an `<iframe>` inside the modal body
+	 * - height       string   null   Height of the `<iframe>` containing the remote resource
+	 * - width        string   null   Width of the `<iframe>` containing the remote resource
+	 */
+	public static function renderModal($selector = '.modal', $options = [], $body = '') :string
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$selector]))
+		{
+			return '';
+		}
+
+		// Initialise with the Joomla specifics
+		$options['isJoomla'] = true;
+
+		// Include Basic Bootstrap component
+		HTMLHelper::_('bootstrap.modal', '#' . preg_replace('/^\.?#/', '', $selector), $options);
+
+		$layoutData = [
+			'selector' => $selector,
+			'params'   => $options,
+			'body'     => $body,
+		];
+
+		static::$loaded[__METHOD__][$selector] = true;
+
+		return LayoutHelper::render('libraries.html.bootstrap.modal.main', $layoutData);
+	}
+
+
+	/**
 	 * Creates a tab pane
 	 *
 	 * @param   string  $selector  The pane identifier.
@@ -661,13 +749,14 @@ HTMLSTR;
 
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
-			// Include Bootstrap component
-			HTMLHelper::_('bootstrap.loadComponent', 'tab');
-
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			Factory::getDocument()->addScriptOptions('bootstrap.tab', [$selector => $opt]);
+			// Initialise with the Joomla specifics
+			$opt['isJoomla'] = true;
+
+			// Include the Bootstrap Tab Component
+			HTMLHelper::_('bootstrap.tab', $selector, $opt);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
@@ -720,58 +809,5 @@ HTMLSTR;
 	public static function endTab() :string
 	{
 		return LayoutHelper::render('libraries.html.bootstrap.tab.endtab');
-	}
-
-	/**
-	 * Loads CSS files needed by Bootstrap
-	 *
-	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
-	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
-	 * @param   array    $attribs         Optional array of attributes to be passed to HTMLHelper::_('stylesheet')
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public static function loadCss($includeMainCss = true, $direction = 'ltr', $attribs = []) :void
-	{
-		// Load Bootstrap main CSS
-		if ($includeMainCss)
-		{
-			Factory::getDocument()->getWebAssetManager()->useStyle('bootstrap.css');
-		}
-	}
-
-	/**
-	 * Add javascript support for Bootstrap toasts
-	 *
-	 * @param   string  $selector  Common class for the toasts
-	 * @param   array   $options   Options for the toasts
-	 *
-	 * @return  void
-	 *
-	 * @throws \Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function toast($selector = '.toast', $options = []) :void
-	{
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__][$selector]))
-		{
-			return;
-		}
-
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'toast');
-
-		// Setup options object
-		$opt['animation'] = isset($options['animation']) ? (string) $options['animation'] : null;
-		$opt['autohide']  = isset($options['autohide']) ? (boolean) $options['autohide'] : true;
-		$opt['delay']     = isset($options['delay']) ? (int) $options['delay'] : 5000;
-
-		Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter((array) $opt)]);
-
-		static::$loaded[__METHOD__][$selector] = true;
 	}
 }

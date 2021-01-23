@@ -35,7 +35,7 @@ if (scrollspys) {
     const options = {
       offset: opt.offset ? opt.offset : 10,
       method: opt.method ? opt.method : 'auto',
-      // method: opt.method ? opt.method : null,
+      target: opt.target ? opt.target : null,
     };
 
     Array.from(document.querySelector(scrollspy))
