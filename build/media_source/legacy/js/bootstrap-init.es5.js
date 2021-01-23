@@ -191,11 +191,14 @@ Joomla = window.Joomla || {};
 			$.each(tabs, function(index, value) {
 
 				$.each($('#' + index + 'Content').children('.tab-pane'), function(i, v) {
-					if ($(v).data('node')) {
-						var attribs = $(v).data('node').split('['),
-						    classLink = (attribs[0] != '') ? 'class="nav-link ' + attribs[0] + '"' : 'class="nav-link"';
+					var titleAttribute = $(v).data('title');
+					var activeAttribute = $(v).data('active');
+					var idAttribute = $(v).data('id');
 
-						$('#' + index + 'Tabs').append('<li class="nav-item"><a ' + classLink + ' href="#' + attribs[1] + '" data-toggle="tab">' + attribs[2] + '</a></li>');
+					if (titleAttribute) {
+						var classLink = (activeAttribute != '') ? 'class="nav-link ' + activeAttribute + '"' : 'class="nav-link"';
+
+						$('#' + index + 'Tabs').append('<li class="nav-item"><a ' + classLink + ' href="#' + idAttribute + '" data-bs-toggle="tab">' + titleAttribute + '</a></li>');
 					}
 				});
 			});
