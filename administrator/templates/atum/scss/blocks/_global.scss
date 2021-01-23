@@ -166,8 +166,9 @@ body .container-main {
   text-align: end !important;
 }
 
-// extern links with icons
+// external links with icons
 a[target="_blank"]::before {
+  display: inline-block;
   padding-right: 3px;
   font-family: "Font Awesome 5 Free";
   font-size: 14px;
