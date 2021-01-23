@@ -249,10 +249,7 @@ Joomla = window.Joomla || {};
         self.getFilterFields().forEach((i) => {
           i.value = '';
           self.checkFilter(i);
-
-          if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('chosen:updated');
-          }
+          i.dispatchEvent(new Event('change'));
         });
       }
 
@@ -260,17 +257,15 @@ Joomla = window.Joomla || {};
         self.getListFields().forEach((i) => {
           i.value = '';
           self.checkFilter(i);
-
-          if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('chosen:updated');
-          }
+          i.dispatchEvent(new Event('change'));
         });
 
         // Special case to limit box to the default config limit
         document.querySelector('#list_limit').value = self.options.defaultLimit;
 
-        if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery('#list_limit').trigger('chosen:updated');
+        const el = document.getElementById('list_limit');
+        if (el) {
+          el.dispatchEvent(new Event('change'));
         }
       }
 
@@ -471,8 +466,9 @@ Joomla = window.Joomla || {};
           }
         });
 
-        if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery(this.orderField).trigger('chosen:updated');
+        const orderField = document.querySelector(this.orderField);
+        if (orderField) {
+          orderField.dispatchEvent(new Event('change'));
         }
       }
 
@@ -510,10 +506,9 @@ Joomla = window.Joomla || {};
         }
 
         field.value = newValue;
-        // Trigger the chosen update
-        if (window.jQuery && window.jQuery.chosen) {
-          field.trigger('chosen:updated');
-        }
+
+        // Trigger an update
+        field.dispatchEvent(new Event('change'));
       }
     }
 
