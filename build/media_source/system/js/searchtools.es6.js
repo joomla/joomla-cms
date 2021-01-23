@@ -250,8 +250,6 @@ Joomla = window.Joomla || {};
           i.value = '';
           self.checkFilter(i);
 
-          // Trigger an update
-          i.dispatchEvent(new Event('change'));
           if (window.jQuery && window.jQuery.chosen) {
             window.jQuery(i).trigger('chosen:updated');
           }
@@ -263,8 +261,6 @@ Joomla = window.Joomla || {};
           i.value = '';
           self.checkFilter(i);
 
-          // Trigger an update
-          i.dispatchEvent(new Event('change'));
           if (window.jQuery && window.jQuery.chosen) {
             window.jQuery(i).trigger('chosen:updated');
           }
@@ -272,12 +268,6 @@ Joomla = window.Joomla || {};
 
         // Special case to limit box to the default config limit
         document.querySelector('#list_limit').value = self.options.defaultLimit;
-
-        // Trigger an update
-        const listLimitEl = document.getElementById('list_limit');
-        if (listLimitEl) {
-          listLimitEl.dispatchEvent(new Event('change'));
-        }
 
         if (window.jQuery && window.jQuery.chosen) {
           window.jQuery('#list_limit').trigger('chosen:updated');
@@ -481,8 +471,6 @@ Joomla = window.Joomla || {};
           }
         });
 
-        // Trigger an update
-        this.orderField.dispatchEvent(new Event('change'));
         if (window.jQuery && window.jQuery.chosen) {
           window.jQuery(this.orderField).trigger('chosen:updated');
         }
@@ -522,9 +510,7 @@ Joomla = window.Joomla || {};
         }
 
         field.value = newValue;
-
-        // Trigger an update
-        field.dispatchEvent(new Event('change'));
+        // Trigger the chosen update
         if (window.jQuery && window.jQuery.chosen) {
           field.trigger('chosen:updated');
         }
