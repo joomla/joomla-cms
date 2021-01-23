@@ -169,7 +169,7 @@ body .container-main {
 // external links with icons
 a[target="_blank"]::before {
   display: inline-block;
-  padding-right: 3px;
+  padding-inline-end: 3px;
   font-family: "Font Awesome 5 Free";
   font-size: 14px;
   font-weight: 900;
