@@ -16,20 +16,21 @@ Joomla.Bootstrap.Initialise.Carousel = (el, options) => {
   if (!(el instanceof Element)) {
     return;
   }
-  if (Joomla.Bootstrap.Instances.Carousel.get(el)) {
+  if (Joomla.Bootstrap.Instances.Carousel.get(el) && el.dispose) {
     el.dispose();
   }
   Joomla.Bootstrap.Instances.Carousel.set(el, new Carousel(el, options));
 };
 
+// Get the elements/configurations from the PHP
 const carousels = Joomla.getOptions('bootstrap.carousel');
 
 // Force Vanilla mode!
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
   document.body.dataset.bsNoJquery = '';
 }
-
-if (carousels) {
+// Initialise the elements
+if (typeof carousels === 'object' && carousels !== null) {
   Object.keys(carousels).forEach((carousel) => {
     const opt = carousels[carousel];
     const options = {
@@ -41,8 +42,10 @@ if (carousels) {
       touch: opt.touch ? opt.touch : true,
     };
 
-    Array.from(document.querySelectorAll(carousel))
-      .map((el) => Joomla.Bootstrap.Initialise.Carousel(el, options));
+    const elements = Array.from(document.querySelectorAll(carousel));
+    if (elements.length) {
+      elements.map((el) => Joomla.Bootstrap.Initialise.Carousel(el, options));
+    }
   });
 }
 

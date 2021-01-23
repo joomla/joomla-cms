@@ -15,19 +15,20 @@ Joomla.Bootstrap.Initialise.Alert = (el) => {
   if (!(el instanceof Element)) {
     return;
   }
-  if (Joomla.Bootstrap.Instances.Alert.get(el)) {
+  if (Joomla.Bootstrap.Instances.Alert.get(el) && el.dispose) {
     el.dispose();
   }
   Joomla.Bootstrap.Instances.Alert.set(el, new Alert(el));
 };
 
-const alerts = Joomla.getOptions('bootstrap.alert');
-
-// Force Vanilla mode!
+// Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
   document.body.dataset.bsNoJquery = '';
 }
 
+// Get the elements/configurations from the PHP
+const alerts = Joomla.getOptions('bootstrap.alert');
+// Initialise the elements
 if (alerts && alerts.length) {
   alerts.forEach((selector) => {
     Array.from(document.querySelectorAll(selector))

@@ -75,14 +75,15 @@ Joomla.Bootstrap.Initialise.Tab = (el, options) => {
   }
 };
 
-const tabs = Joomla.getOptions('bootstrap.tabs');
-
-// Force Vanilla mode!
+// Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
   document.body.dataset.bsNoJquery = '';
 }
 
-if (tabs) {
+// Get the elements/configurations from the PHP
+const tabs = Joomla.getOptions('bootstrap.tabs');
+// Initialise the elements
+if (typeof tabs === 'object' && tabs !== null) {
   Object.keys(tabs).forEach((tab) => {
     Joomla.Bootstrap.Initialise.Tab(tab, tabs[tab]);
   });

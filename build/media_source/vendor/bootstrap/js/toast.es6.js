@@ -16,20 +16,21 @@ Joomla.Bootstrap.Initialise.Toast = (el, options) => {
   if (!(el instanceof Element)) {
     return;
   }
-  if (Joomla.Bootstrap.Instances.Toast.get(el)) {
+  if (Joomla.Bootstrap.Instances.Toast.get(el) && el.dispose) {
     el.dispose();
   }
   Joomla.Bootstrap.Instances.Toast.set(el, new Toast(el, options));
 };
 
-const toasts = Joomla.getOptions('bootstrap.toast');
-
-// Force Vanilla mode!
+// Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
   document.body.dataset.bsNoJquery = '';
 }
 
-if (toasts) {
+// Get the elements/configurations from the PHP
+const toasts = Joomla.getOptions('bootstrap.toast');
+// Initialise the elements
+if (typeof toasts === 'object' && toasts !== null) {
   Object.keys(toasts).forEach((toast) => {
     const opt = toasts[toast];
     const options = {
@@ -38,8 +39,10 @@ if (toasts) {
       delay: opt.delay ? opt.delay : 5000,
     };
 
-    Array.from(document.querySelectorAll(toast))
-      .map((el) => Joomla.Bootstrap.Initialise.Toast(el, options));
+    const elements = Array.from(document.querySelectorAll(toast));
+    if (elements.length) {
+      elements.map((el) => Joomla.Bootstrap.Initialise.Toast(el, options));
+    }
   });
 }
 

@@ -16,20 +16,21 @@ Joomla.Bootstrap.Initialise.Dropdown = (el, options) => {
   if (!(el instanceof Element)) {
     return;
   }
-  if (Joomla.Bootstrap.Instances.Dropdown.get(el)) {
+  if (Joomla.Bootstrap.Instances.Dropdown.get(el) && el.dispose) {
     el.dispose();
   }
   Joomla.Bootstrap.Instances.Dropdown.set(el, new Dropdown(el, options));
 };
 
-const dropdowns = Joomla.getOptions('bootstrap.dropdown');
-
-// Force Vanilla mode!
+// Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
   document.body.dataset.bsNoJquery = '';
 }
 
-if (dropdowns) {
+// Get the elements/configurations from the PHP
+const dropdowns = Joomla.getOptions('bootstrap.dropdown');
+// Initialise the elements
+if (typeof dropdowns === 'object' && dropdowns !== null) {
   Object.keys(dropdowns).forEach((dropdown) => {
     const opt = dropdowns[dropdown];
     const options = {
@@ -37,8 +38,10 @@ if (dropdowns) {
       pause: opt.pause ? opt.pause : 'hover',
     };
 
-    Array.from(document.querySelectorAll(dropdown))
-      .map((el) => Joomla.Bootstrap.Initialise.Dropdown(el, options));
+    const elements = Array.from(document.querySelectorAll(dropdown));
+    if (elements.length) {
+      elements.map((el) => Joomla.Bootstrap.Initialise.Dropdown(el, options));
+    }
   });
 }
 

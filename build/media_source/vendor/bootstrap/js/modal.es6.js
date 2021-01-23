@@ -10,7 +10,7 @@ Joomla.Bootstrap.Initialise.Modal = (modal, options) => {
   if (!(modal instanceof Element)) {
     return;
   }
-  if (Joomla.Bootstrap.Instances.Modal.get(modal)) {
+  if (Joomla.Bootstrap.Instances.Modal.get(modal) && modal.dispose) {
     modal.dispose();
   }
   Joomla.Bootstrap.Instances.Modal.set(modal, new Modal(modal, options));
@@ -135,15 +135,15 @@ Joomla.iframeButtonClick = (options) => {
   }
 };
 
-// Initialise all the modals
-const modals = Joomla.getOptions('bootstrap.modal');
-
-// Force Vanilla mode!
+// Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
   document.body.dataset.bsNoJquery = '';
 }
 
-if (modals) {
+// Get the elements/configurations from the PHP
+const modals = Joomla.getOptions('bootstrap.modal');
+// Initialise the elements
+if (typeof modals === 'object' && modals !== null) {
   Object.keys(modals).forEach((modal) => {
     const modalEl = document.querySelector(modal);
     const opt = modals[modal];

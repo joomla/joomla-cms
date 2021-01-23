@@ -345,6 +345,8 @@ abstract class Bootstrap
 	 *
 	 * Options for the Scrollspy can be:
 	 * - offset  number  Pixels to offset from top when calculating position of scroll.
+	 * - method  string  Finds which section the spied element is in.
+	 * - target  string  Specifies element to apply Scrollspy plugin.
 	 */
 	public static function scrollspy($selector = '[data-bs-spy="scroll"]', $options = []) :void
 	{
@@ -354,10 +356,15 @@ abstract class Bootstrap
 			return;
 		}
 
+		// Setup options object
+		$opt['offset']         = isset($options['offset']) ? (int) $options['offset'] : 10;
+		$opt['method']         = isset($options['method']) ? $options['method'] : 'auto';
+		$opt['target']           = isset($options['target']) ? $options['target'] : null;
+
 		// Include Bootstrap component
 		HTMLHelper::_('bootstrap.loadComponent', 'scrollspy');
 
-		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => $options]);
+		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}

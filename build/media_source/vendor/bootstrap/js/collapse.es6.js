@@ -16,20 +16,21 @@ Joomla.Bootstrap.Initialise.Collapse = (el, options) => {
   if (!(el instanceof Element)) {
     return;
   }
-  if (Joomla.Bootstrap.Instances.Collapse.get(el)) {
+  if (Joomla.Bootstrap.Instances.Collapse.get(el) && el.dispose) {
     el.dispose();
   }
   Joomla.Bootstrap.Instances.Collapse.set(el, new Collapse(el, options));
 };
 
-const collapses = { ...Joomla.getOptions('bootstrap.collapse'), ...Joomla.getOptions('bootstrap.accordion') };
-
-// Force Vanilla mode!
+// Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
   document.body.dataset.bsNoJquery = '';
 }
 
-if (collapses) {
+// Get the elements/configurations from the PHP
+const collapses = { ...Joomla.getOptions('bootstrap.collapse'), ...Joomla.getOptions('bootstrap.accordion') };
+// Initialise the elements
+if (typeof collapses === 'object' && collapses !== null) {
   Object.keys(collapses).forEach((collapse) => {
     const opt = collapses[collapse];
     const options = {
@@ -40,8 +41,10 @@ if (collapses) {
       options.parent = opt.parent;
     }
 
-    Array.from(document.querySelectorAll(collapse))
-      .map((el) => Joomla.Bootstrap.Initialise.Collapse(el, options));
+    const elements = Array.from(document.querySelectorAll(collapse));
+    if (elements.length) {
+      elements.map((el) => Joomla.Bootstrap.Initialise.Collapse(el, options));
+    }
   });
 }
 

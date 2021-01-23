@@ -16,20 +16,21 @@ Joomla.Bootstrap.Initialise.Scrollspy = (el, options) => {
   if (!(el instanceof Element)) {
     return;
   }
-  if (Joomla.Bootstrap.Instances.Scrollspy.get(el)) {
+  if (Joomla.Bootstrap.Instances.Scrollspy.get(el) && el.dispose) {
     el.dispose();
   }
   Joomla.Bootstrap.Instances.Scrollspy.set(el, new Scrollspy(el, options));
 };
 
-const scrollspys = Joomla.getOptions('bootstrap.scrollspy');
-
-// Force Vanilla mode!
+// Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
   document.body.dataset.bsNoJquery = '';
 }
 
-if (scrollspys) {
+// Get the elements/configurations from the PHP
+const scrollspys = Joomla.getOptions('bootstrap.scrollspy');
+// Initialise the elements
+if (typeof scrollspys === 'object' && scrollspys !== null) {
   Object.keys(scrollspys).forEach((scrollspy) => {
     const opt = scrollspys[scrollspy];
     const options = {
@@ -41,8 +42,10 @@ if (scrollspys) {
       options.target = opt.target;
     }
 
-    Array.from(document.querySelector(scrollspy))
-      .map((el) => Joomla.Bootstrap.Initialise.Scrollspy(el, options));
+    const elements = Array.from(document.querySelectorAll(scrollspy));
+    if (elements.length) {
+      elements.map((el) => Joomla.Bootstrap.Initialise.Scrollspy(el, options));
+    }
   });
 }
 

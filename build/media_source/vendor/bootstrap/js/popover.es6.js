@@ -18,7 +18,7 @@ Joomla.Bootstrap.Initialise.Popover = (el, options) => {
   if (!(el instanceof Element)) {
     return;
   }
-  if (Joomla.Bootstrap.Instances.Popover.get(el)) {
+  if (Joomla.Bootstrap.Instances.Popover.get(el) && el.dispose) {
     el.dispose();
   }
   Joomla.Bootstrap.Instances.Popover.set(el, new Popover(el, options));
@@ -31,21 +31,22 @@ Joomla.Bootstrap.Initialise.Popover = (el, options) => {
  * @param {object} options The options for this tooltip
  */
 Joomla.Bootstrap.Initialise.Tooltip = (el, options) => {
-  if (Joomla.Bootstrap.Instances.Tooltip.get(el)) {
+  if (Joomla.Bootstrap.Instances.Tooltip.get(el) && el.dispose) {
     el.dispose();
   }
   Joomla.Bootstrap.Instances.Tooltip.set(el, new Tooltip(el, options));
 };
 
-const tooltips = Joomla.getOptions('bootstrap.tooltip');
-const popovers = Joomla.getOptions('bootstrap.popover');
-
-// Force Vanilla mode!
+// Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
   document.body.dataset.bsNoJquery = '';
 }
 
-if (popovers) {
+// Get the elements/configurations from the PHP
+const tooltips = Joomla.getOptions('bootstrap.tooltip');
+const popovers = Joomla.getOptions('bootstrap.popover');
+// Initialise the elements
+if (typeof popovers === 'object' && popovers !== null) {
   Object.keys(popovers).forEach((popover) => {
     const opt = popovers[popover];
     const options = {
@@ -74,12 +75,14 @@ if (popovers) {
       options.allowList = opt.allowList;
     }
 
-    Array.from(document.querySelectorAll(popover))
-      .map((el) => Joomla.Bootstrap.Initialise.Popover(el, options));
+    const elements = Array.from(document.querySelectorAll(popover));
+    if (elements.length) {
+      elements.map((el) => Joomla.Bootstrap.Initialise.Popover(el, options));
+    }
   });
 }
-
-if (tooltips) {
+// Initialise the elements
+if (typeof tooltips === 'object' && tooltips !== null) {
   Object.keys(tooltips).forEach((tooltip) => {
     const opt = tooltips[tooltip];
     const options = {
@@ -108,8 +111,10 @@ if (tooltips) {
       options.allowList = opt.allowList;
     }
 
-    Array.from(document.querySelectorAll(tooltip))
-      .map((el) => Joomla.Bootstrap.Initialise.Tooltip(el, options));
+    const elements = Array.from(document.querySelectorAll(tooltip));
+    if (elements.length) {
+      elements.map((el) => Joomla.Bootstrap.Initialise.Tooltip(el, options));
+    }
   });
 }
 
