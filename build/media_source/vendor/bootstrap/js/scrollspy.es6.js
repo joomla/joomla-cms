@@ -35,8 +35,11 @@ if (scrollspys) {
     const options = {
       offset: opt.offset ? opt.offset : 10,
       method: opt.method ? opt.method : 'auto',
-      target: opt.target ? opt.target : null,
     };
+
+    if (opt.target) {
+      options.target = opt.target;
+    }
 
     Array.from(document.querySelector(scrollspy))
       .map((el) => Joomla.Bootstrap.Initialise.Scrollspy(el, options));
