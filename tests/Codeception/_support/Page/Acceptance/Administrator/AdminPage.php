@@ -187,13 +187,13 @@ class AdminPage extends AcceptanceTester
 	 */
 	public function selectOptionInChosenById($selectId, $option)
 	{
-		$chosenSelectID = $selectId;
+		$chosenSelectID = $selectId . '_chzn';
 
 		$I = $this;
 		$I->comment("I open the $chosenSelectID chosen selector");
-		$I->click(['xpath' => "//select[@id='$chosenSelectID']"]);
+		$I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
 		$I->comment("I select $option");
-		$I->click(['xpath' => "//select[@id='$chosenSelectID']//option[text()='$option']"]);
+		$I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
 
 		// Gives time to chosen to close
 		$I->wait(1);
