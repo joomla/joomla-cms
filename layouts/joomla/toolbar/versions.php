@@ -26,9 +26,12 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $title
  */
 
-Factory::getDocument()->getWebAssetManager()
-	->useScript('core')
-	->useScript('webcomponent.toolbar-button');
+$wa = Factory::getDocument()->getWebAssetManager();
+$wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
+
+$wa->useScript('core')
+	->useScript('webcomponent.toolbar-button')
+	->useScript('com_contenthistory.admin-history-versions');
 
 echo HTMLHelper::_(
 	'bootstrap.renderModal',

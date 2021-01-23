@@ -18,10 +18,8 @@ use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 $wa->useScript('keepalive')
-	->useScript('form.validate')
-	->useScript('com_contenthistory.admin-history-versions');
+	->useScript('form.validate');
 
 $app   = Factory::getApplication();
 $input = $app->input;
