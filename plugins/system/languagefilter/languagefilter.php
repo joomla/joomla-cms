@@ -287,7 +287,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$path = $uri->getPath();
 			$parts = explode('/', $path);
 
-			$sef = $parts[0];
+			$sef = StringHelper::strtolower($parts[0]);
 
 			// Do we have a URL Language Code ?
 			if (!isset($this->sefs[$sef]))
@@ -775,8 +775,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// Load component associations.
 			$option = $this->app->input->get('option');
-			$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+			$cName = ucfirst(substr($option, 4)) . 'HelperAssociation';
+			JLoader::register($cName, JPath::clean(JPATH_SITE . '/components/' . $option . '/helpers/association.php'));
 
 			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 			{
@@ -784,7 +784,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			}
 
 			// For each language...
-			foreach ($languages as $i => &$language)
+			foreach ($languages as $i => $language)
 			{
 				switch (true)
 				{
@@ -833,7 +833,7 @@ class PlgSystemLanguageFilter extends JPlugin
 									= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
 				}
 
-				foreach ($languages as $i => &$language)
+				foreach ($languages as $i => $language)
 				{
 					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
 				}

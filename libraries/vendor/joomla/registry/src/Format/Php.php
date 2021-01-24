@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,7 @@ class Php extends AbstractRegistryFormat
 			{
 				$vars .= "\tpublic $" . $k . " = '" . addcslashes($v, '\\\'') . "';\n";
 			}
-			elseif (is_array($v) || is_object($v))
+			elseif (\is_array($v) || \is_object($v))
 			{
 				$vars .= "\tpublic $" . $k . ' = ' . $this->getArrayString((array) $v) . ";\n";
 			}
@@ -103,7 +103,7 @@ class Php extends AbstractRegistryFormat
 			$s .= $i ? ', ' : '';
 			$s .= '"' . $k . '" => ';
 
-			if (is_array($v) || is_object($v))
+			if (\is_array($v) || \is_object($v))
 			{
 				$s .= $this->getArrayString((array) $v);
 			}

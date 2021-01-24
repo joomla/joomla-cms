@@ -27,7 +27,7 @@ function twofactorauth_postinstall_condition()
 		->select('*')
 		->from($db->qn('#__extensions'))
 		->where($db->qn('type') . ' = ' . $db->q('plugin'))
-		->where($db->qn('enabled') . ' = ' . $db->q('1'))
+		->where($db->qn('enabled') . ' = 1')
 		->where($db->qn('folder') . ' = ' . $db->q('twofactorauth'));
 	$db->setQuery($query);
 	$enabled_plugins = $db->loadObjectList();
@@ -51,11 +51,14 @@ function twofactorauth_postinstall_action()
 
 	$query = $db->getQuery(true)
 		->update($db->qn('#__extensions'))
-		->set($db->qn('enabled') . ' = ' . $db->q(1))
+		->set($db->qn('enabled') . ' = 1')
 		->where($db->qn('type') . ' = ' . $db->q('plugin'))
 		->where($db->qn('folder') . ' = ' . $db->q('twofactorauth'));
 	$db->setQuery($query);
 	$db->execute();
+
+	// Clean cache.
+	JFactory::getCache()->clean('com_plugins');
 
 	// Redirect the user to their profile editor page
 	$url = 'index.php?option=com_users&task=user.edit&id=' . JFactory::getUser()->id;

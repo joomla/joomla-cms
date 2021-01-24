@@ -177,6 +177,8 @@
 			showon="cache_handler:redis"
 			autocomplete="off"
 			size="30"
+			hint="***************"
+			lock="true"
 		/>
 
 		<field
@@ -266,6 +268,17 @@
 			required="true"
 			filter="string"
 			size="30"
+		/>
+
+		<field
+			name="password"
+			type="password"
+			label="COM_CONFIG_FIELD_DATABASE_PASSWORD_LABEL"
+			description="COM_CONFIG_FIELD_DATABASE_PASSWORD_DESC"
+			filter="raw"
+			autocomplete="off"
+			size="30"
+			lock="true"
 		/>
 
 		<field
@@ -395,6 +408,7 @@
 			showon="ftp_enable:1"
 			autocomplete="off"
 			size="25"
+			lock="true"
 		/>
 
 		<field
@@ -470,6 +484,7 @@
 			showon="proxy_enable:1"
 			autocomplete="off"
 			size="25"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -662,6 +677,7 @@
 			filter="raw"
 			autocomplete="off"
 			size="30"
+			lock="true"
 		/>
 
 	</fieldset>
@@ -982,6 +998,7 @@
 			showon="session_handler:redis"
 			autocomplete="off"
 			size="30"
+			lock="true"
 		/>
 
 		<field

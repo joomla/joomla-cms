@@ -24,7 +24,6 @@
 	<files folder="site">
 		<filename>contact.php</filename>
 		<filename>controller.php</filename>
-		<filename>metadata.xml</filename>
 		<filename>router.php</filename>
 		<folder>helpers</folder>
 		<folder>models</folder>
@@ -52,7 +51,6 @@
 			<filename>contact.php</filename>
 			<filename>controller.php</filename>
 			<folder>controllers</folder>
-			<folder>elements</folder>
 			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>tables</folder>

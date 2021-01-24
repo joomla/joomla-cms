@@ -323,13 +323,13 @@ abstract class UserHelper
 	 *
 	 * @param   string   $password  The plaintext password to check.
 	 * @param   string   $hash      The hash to verify against.
-	 * @param   integer  $user_id   ID of the user if the password hash should be updated
+	 * @param   integer  $userId    ID of the user if the password hash should be updated
 	 *
 	 * @return  boolean  True if the password and hash match, false otherwise
 	 *
 	 * @since   3.2.1
 	 */
-	public static function verifyPassword($password, $hash, $user_id = 0)
+	public static function verifyPassword($password, $hash, $userId = 0)
 	{
 		$passwordAlgorithm = PASSWORD_BCRYPT;
 
@@ -399,9 +399,9 @@ abstract class UserHelper
 		}
 
 		// If we have a match and rehash = true, rehash the password with the current algorithm.
-		if ((int) $user_id > 0 && $match && $rehash)
+		if ((int) $userId > 0 && $match && $rehash)
 		{
-			$user = new User($user_id);
+			$user = new User($userId);
 			$user->password = static::hashPassword($password, $passwordAlgorithm);
 			$user->save();
 		}
@@ -412,22 +412,22 @@ abstract class UserHelper
 	/**
 	 * Formats a password using the old encryption methods.
 	 *
-	 * @param   string   $plaintext     The plaintext password to encrypt.
-	 * @param   string   $salt          The salt to use to encrypt the password. []
-	 *                                  If not present, a new salt will be
-	 *                                  generated.
-	 * @param   string   $encryption    The kind of password encryption to use.
-	 *                                  Defaults to md5-hex.
-	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
-	 *                                  encryption to the crypted password ({SHA},
-	 *                                  etc). Defaults to false.
+	 * @param   string   $plaintext    The plaintext password to encrypt.
+	 * @param   string   $salt         The salt to use to encrypt the password. []
+	 *                                 If not present, a new salt will be
+	 *                                 generated.
+	 * @param   string   $encryption   The kind of password encryption to use.
+	 *                                 Defaults to md5-hex.
+	 * @param   boolean  $showEncrypt  Some password systems prepend the kind of
+	 *                                 encryption to the crypted password ({SHA},
+	 *                                 etc). Defaults to false.
 	 *
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   1.7.0
 	 * @deprecated  4.0
 	 */
-	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
+	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $showEncrypt = false)
 	{
 		// Get the salt to use.
 		$salt = static::getSalt($encryption, $salt, $plaintext);
@@ -441,28 +441,28 @@ abstract class UserHelper
 			case 'sha':
 				$encrypted = base64_encode(mhash(MHASH_SHA1, $plaintext));
 
-				return ($show_encrypt) ? '{SHA}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{SHA}' . $encrypted : $encrypted;
 
 			case 'crypt':
 			case 'crypt-des':
 			case 'crypt-md5':
 			case 'crypt-blowfish':
-				return ($show_encrypt ? '{crypt}' : '') . crypt($plaintext, $salt);
+				return ($showEncrypt ? '{crypt}' : '') . crypt($plaintext, $salt);
 
 			case 'md5-base64':
 				$encrypted = base64_encode(mhash(MHASH_MD5, $plaintext));
 
-				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{MD5}' . $encrypted : $encrypted;
 
 			case 'ssha':
 				$encrypted = base64_encode(mhash(MHASH_SHA1, $plaintext . $salt) . $salt);
 
-				return ($show_encrypt) ? '{SSHA}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{SSHA}' . $encrypted : $encrypted;
 
 			case 'smd5':
 				$encrypted = base64_encode(mhash(MHASH_MD5, $plaintext . $salt) . $salt);
 
-				return ($show_encrypt) ? '{SMD5}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{SMD5}' . $encrypted : $encrypted;
 
 			case 'aprmd5':
 				$length = strlen($plaintext);
@@ -519,13 +519,13 @@ abstract class UserHelper
 			case 'sha256':
 				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) . ':' . $salt : hash('sha256', $plaintext);
 
-				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
+				return ($showEncrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
 
 			case 'md5-hex':
 			default:
 				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
 
-				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
+				return ($showEncrypt) ? '{MD5}' . $encrypted : $encrypted;
 		}
 	}
 
