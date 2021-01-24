@@ -106,7 +106,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 									</td>
 								<?php endif; ?>
 								<th scope="row" class="has-context">
-									<div class="float-start break-word">
+									<div class="break-word">
 										<?php if (isset($item->level)) : ?>
 											<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 										<?php endif; ?>
