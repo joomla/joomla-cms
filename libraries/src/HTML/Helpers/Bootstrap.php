@@ -570,11 +570,11 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 *
-	 *                             Options for the tooltip can be:
-	 *                             - parent  selector  If selector then all collapsible elements under the specified parent will be closed when this
-	 *                                                 collapsible item is shown. (similar to traditional accordion behavior)
-	 *                             - toggle  boolean   Toggles the collapsible element on invocation
-	 *                             - active  string    Sets the active slide during load
+	 * Options for the tooltip can be:
+	 * - parent  selector  If selector then all collapsible elements under the specified parent will be closed when this
+	 *                     collapsible item is shown. (similar to traditional accordion behavior)
+	 * - toggle  boolean   Toggles the collapsible element on invocation
+	 * - active  string    Sets the active slide during load
 	 */
 	public static function startAccordion($selector = '.myAccordian', $options = []) :string
 	{
@@ -582,6 +582,12 @@ abstract class Bootstrap
 		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return '';
+		}
+
+		// For B/C
+		if (substr($selector, 0, 1) !== '.')
+		{
+			$selector = '.' . $selector;
 		}
 
 		// Include Bootstrap component
@@ -632,6 +638,12 @@ abstract class Bootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '') :string
 	{
+		// For B/C
+		if (substr($selector, 0, 1) !== '.')
+		{
+			$selector = '.' . $selector;
+		}
+
 		$in        = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
 		$collapsed = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
 		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
@@ -699,6 +711,12 @@ HTMLSTR;
 			return '';
 		}
 
+		// For B/C
+		if (substr($selector, 0, 1) !== '.')
+		{
+			$selector = '.' . $selector;
+		}
+
 		// Initialise with the Joomla specifics
 		$options['isJoomla'] = true;
 
@@ -732,6 +750,12 @@ HTMLSTR;
 
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
+			// For B/C
+			if (substr($selector, 0, 1) !== '.')
+			{
+				$selector = '.' . $selector;
+			}
+
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
@@ -775,6 +799,12 @@ HTMLSTR;
 	public static function addTab($selector, $id, $title) :string
 	{
 		static $tabLayout = null;
+
+		// For B/C
+		if (substr($selector, 0, 1) !== '.')
+		{
+			$selector = '.' . $selector;
+		}
 
 		$tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
