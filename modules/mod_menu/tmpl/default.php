@@ -13,7 +13,8 @@ use Joomla\CMS\Helper\ModuleHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
-$wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['defer' => true]);
+$wa->registerAndUseScript('mod_menu', 'mod_menu/menu.es6.min.js', [], ['type' => 'module']);
+$wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['nomodule' => '', 'defer' => true]);
 
 $id = '';
 

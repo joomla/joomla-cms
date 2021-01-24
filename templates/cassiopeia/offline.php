@@ -75,6 +75,17 @@ else
 	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
+// Get the Fontawesome css URL
+$faScriptUri = $wa->getAsset('style', 'fontawesome')->getUri();
+// Code to defer the loading of the Icon Font
+$faScript = <<<JS
+document.addEventListener('DOMContentLoaded', function() {
+	var css = document.createElement('link');
+	css.href = "$faScriptUri";
+	css.rel = 'stylesheet';
+	document.head.appendChild(css);
+});
+JS;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -137,5 +148,7 @@ else
 			</div>
 		</div>
 	</div>
+	<script><?php echo $faScript; ?></script>
+	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 </body>
 </html>

@@ -84,6 +84,18 @@ else
 $wrapper = $params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+
+// Get the Fontawesome css URL
+$faScriptUri = $wa->getAsset('style', 'fontawesome')->getUri();
+// Code to defer the loading of the Icon Font
+$faScript = <<<JS
+document.addEventListener('DOMContentLoaded', function() {
+	var css = document.createElement('link');
+	css.href = "$faScriptUri";
+	css.rel = 'stylesheet';
+	document.head.appendChild(css);
+});
+JS;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -188,6 +200,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
-
+	<script><?php echo $faScript; ?></script>
+	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 </body>
 </html>
