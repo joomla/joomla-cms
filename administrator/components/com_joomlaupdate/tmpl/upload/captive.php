@@ -20,6 +20,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
+	->useScript('jquery')
 	->useScript('form.validate')
 	->useScript('keepalive')
 	->useScript('field.passwordview');
