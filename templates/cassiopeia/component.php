@@ -19,6 +19,7 @@ $wa  = $this->getWebAssetManager();
 
 // Template path
 $templatePath = 'templates/' . $this->template;
+$nonce        = $this->cspNonce ? ' nonce="' . $this->cspNonce . '"' : '';
 
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
@@ -72,7 +73,7 @@ JS;
 <body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
-	<script><?php echo $faScript; ?></script>
+	<script<?php echo $nonce; ?>><?php echo $faScript; ?></script>
 	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 </body>
 </html>
