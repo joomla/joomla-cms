@@ -37,10 +37,23 @@ $params = $app->getTemplate(true)->params;
 $templatePath = 'templates/' . $this->template;
 
 // Color Theme
-$paramsColorName = $params->get('colorName', 'colors_standard');
-$assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
-$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
+$inlineCSSRoot = '';
+try
+{
+	$inlineCSSRoot = file_get_contents(
+			JPATH_ROOT . '/' . $templatePath . '/css/global/'
+			. $this->params->get('colorName', 'colors_standard') . '.min.css'
+	);
+}
+catch (Exception $e)
+{
+	// Nothing
+}
+
+if (!empty($inlineCSSRoot))
+{
+	$wa->addInlineStyle($inlineCSSRoot);
+}
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $params->get('useFontScheme', false);
@@ -89,20 +102,14 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // Get the Fontawesome css URL
 $faScriptUri = $wa->getAsset('style', 'fontawesome')->getUri();
 // Code to defer the loading of the Icon Font
-$faScript = <<<JS
-document.addEventListener('DOMContentLoaded', function() {
-	var css = document.createElement('link');
-	css.href = "$faScriptUri";
-	css.rel = 'stylesheet';
-	document.head.appendChild(css);
-});
-JS;
+$wa->addInlineScript("document.addEventListener('DOMContentLoaded', function() { var css = document.createElement('link'); css.href = \"$faScriptUri\"; css.rel = 'stylesheet'; document.head.appendChild(css); });");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 	<jdoc:include type="scripts" />
 </head>
 
@@ -201,7 +208,5 @@ JS;
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
-	<script<?php echo $nonce; ?>><?php echo $faScript; ?></script>
-	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 </body>
 </html>

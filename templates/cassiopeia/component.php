@@ -22,10 +22,23 @@ $templatePath = 'templates/' . $this->template;
 $nonce        = $this->cspNonce ? ' nonce="' . $this->cspNonce . '"' : '';
 
 // Color Theme
-$paramsColorName = $this->params->get('colorName', 'colors_standard');
-$assetColorName  = 'theme.' . $paramsColorName;
-$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
-$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
+$inlineCSSRoot = '';
+try
+{
+	$inlineCSSRoot = file_get_contents(
+			JPATH_ROOT . '/' . $templatePath . '/css/global/'
+			. $this->params->get('colorName', 'colors_standard') . '.min.css'
+	);
+}
+catch (Exception $e)
+{
+	// Nothing
+}
+
+if (!empty($inlineCSSRoot))
+{
+	$wa->addInlineStyle($inlineCSSRoot);
+}
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
@@ -55,25 +68,17 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 // Get the Fontawesome css URL
 $faScriptUri = $wa->getAsset('style', 'fontawesome')->getUri();
 // Code to defer the loading of the Icon Font
-$faScript = <<<JS
-document.addEventListener('DOMContentLoaded', function() {
-	var css = document.createElement('link');
-	css.href = "$faScriptUri";
-	css.rel = 'stylesheet';
-	document.head.appendChild(css);
-});
-JS;
+$wa->addInlineScript("document.addEventListener('DOMContentLoaded', function() { var css = document.createElement('link'); css.href = \"$faScriptUri\"; css.rel = 'stylesheet'; document.head.appendChild(css); });");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<jdoc:include type="head" />
+	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 </head>
 <body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
-	<script<?php echo $nonce; ?>><?php echo $faScript; ?></script>
-	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 </body>
 </html>
