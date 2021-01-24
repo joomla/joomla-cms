@@ -1,5 +1,5 @@
 const {
-  readdir, readFile, rename, writeFile, rm,
+  readdir, readFile, rename, writeFile, unlink,
 } = require('fs').promises;
 const { resolve } = require('path');
 const { minify } = require('terser');
@@ -119,7 +119,7 @@ const buildLegacy = async () => {
 
   try {
     await build(resolve(inputFolder, 'index.es6.js'));
-    await rm(resolve(outputFolder, 'index.es6.js'));
+    await unlink(resolve(outputFolder, 'index.es6.js'));
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
