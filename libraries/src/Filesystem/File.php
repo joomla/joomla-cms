@@ -82,7 +82,7 @@ class File
 		// Remove any trailing dots, as those aren't ever valid file names.
 		$file = rtrim($file, '.');
 
-		// Try transiterating the file name using the native php function
+		// Try transliterating the file name using the native php function
 		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
 		{
 			// Using iconv to ignore characters that can't be transliterated

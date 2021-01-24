@@ -404,6 +404,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'autolink',
 			'lists',
 			'importcss',
+			'quickbars',
 		);
 
 		// Allowed elements
@@ -577,6 +578,11 @@ class PlgEditorTinymce extends CMSPlugin
 
 				'plugins'  => implode(',', array_unique($plugins)),
 
+				// Quickbars
+				'quickbars_image_toolbar'     => false,
+				'quickbars_insert_toolbar'    => false,
+				'quickbars_selection_toolbar' => 'bold italic underline | H2 H3 | link blockquote',
+
 				// Cleanup/Output
 				'inline_styles'    => true,
 				'gecko_spellcheck' => true,
@@ -605,7 +611,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 				'toolbar_sticky'     => true,
-				'toolbar_mode'       => 'sliding',
+				'toolbar_mode'       => $levelParams->get('toolbar_mode', 'sliding'),
 
 				// Image plugin options
 				'a11y_advanced_options' => true,

@@ -21,16 +21,18 @@
   width: 23.75rem;
 }
 
-.custom-select {
+.form-select {
   max-width: $input-max-width;
 }
 
-.form-inline .custom-select {
+// Bootstrap 4 b/c on form-inline
+.form-inline .form-select {
+  display: inline-block;
   width: auto;
 }
 
-@include media-breakpoint-down(sm) {
-  .form-inline .custom-select {
+@include media-breakpoint-down(md) {
+  .form-inline .form-select {
     width: 100%;
   }
 }
@@ -69,6 +71,7 @@ td .form-control {
 
 // set up hidden tooltip
 [role="tooltip"]:not(.show) {
+  right: 5em;
   z-index: $zindex-tooltip;
   display: none;
   max-width: 100%;

@@ -12,7 +12,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 
 /**
- * Class JNamespaceMap
+ * Class JNamespacePsr4Map
  *
  * @since  4.0.0
  */

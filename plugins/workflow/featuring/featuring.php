@@ -212,7 +212,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			return true;
 		}
 
-		// List of releated batch functions we need to hide
+		// List of related batch functions we need to hide
 		$states = [
 			'featured',
 			'unfeatured'

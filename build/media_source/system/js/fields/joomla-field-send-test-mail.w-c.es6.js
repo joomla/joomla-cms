@@ -35,7 +35,7 @@
         mailonline: document.getElementById('jform_mailonline1').checked ? 1 : 0,
       };
 
-      const smtppass = this.querySelector('[name="jform[smtpsecure]"]');
+      const smtppass = this.querySelector('[name="jform[smtppass]"]');
 
       if (smtppass.disabled === false) {
         emailData.smtppass = smtppass.value;
