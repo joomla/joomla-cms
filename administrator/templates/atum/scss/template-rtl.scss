@@ -211,3 +211,9 @@ ul {
 .btn-group > .btn-group:not(:first-child) {
   @include border-end-radius(0);
 }
+
+.modal-header {
+  .btn-close {
+    margin: -.5rem auto -.5rem -.5rem;
+  }
+}
