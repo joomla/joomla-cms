@@ -85,7 +85,7 @@ Joomla = window.Joomla || {};
             if (!tmpRow.classList.contains('unpublished') || tmpRow.classList.length === 0) { tmpRow.classList.add('unpublished'); }
           }
           if (parseInt(updStatus, 10) === -2) {
-            tmpStatus.innerHTML = `<span class="badge bg-default">${Joomla.JText._('JTRASHED')}</span>`;
+            tmpStatus.innerHTML = `<span class="badge bg-secondary">${Joomla.JText._('JTRASHED')}</span>`;
             if (!tmpRow.classList.contains('unpublished') || tmpRow.classList.length === 0) { tmpRow.classList.add('unpublished'); }
           }
           if (document.formvalidator.isValid(document.getElementById('module-form'))) {
