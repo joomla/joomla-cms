@@ -73,7 +73,7 @@ $compatibilityTypes = array(
 								<?php echo $option->label; ?>
 							</th>
 							<td>
-								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
+								<span class="badge bg-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 									<?php if ($option->notice) : ?>
 										<span class="icon-info-circle icon-white" title="<?php echo $option->notice; ?>"></span>
@@ -119,7 +119,7 @@ $compatibilityTypes = array(
 								<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</td>
 							<td>
-								<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+								<span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 									<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
 								</span>
 							</td>
