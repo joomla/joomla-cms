@@ -152,7 +152,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<hr>
 				<p><?php echo Text::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 				<blockquote>
-					<span class="badge badge-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+					<span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 				</blockquote>
 				<?php if ($this->debug) : ?>
 					<div>
