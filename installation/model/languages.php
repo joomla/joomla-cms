@@ -225,16 +225,16 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Finds the URL of the package to download.
 	 *
-	 * @param   string  $remote_manifest  URL to the manifest XML file of the remote package.
+	 * @param   string  $remoteManifest  URL to the manifest XML file of the remote package.
 	 *
 	 * @return  string|boolean
 	 *
 	 * @since   3.1
 	 */
-	protected function getPackageUrl($remote_manifest)
+	protected function getPackageUrl($remoteManifest)
 	{
 		$update = new JUpdate;
-		$update->loadFromXml($remote_manifest);
+		$update->loadFromXml($remoteManifest);
 
 		return trim($update->get('downloadurl', false)->_data);
 	}
@@ -295,17 +295,17 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Get Languages item data.
 	 *
-	 * @param   string  $cms_client  Name of the cms client.
+	 * @param   string  $clientName  Name of the cms client.
 	 *
 	 * @return  array
 	 *
 	 * @since   3.1
 	 */
-	protected function getInstalledlangs($cms_client = 'administrator')
+	protected function getInstalledlangs($clientName = 'administrator')
 	{
 		// Get information.
 		$path     = $this->getPath();
-		$client   = $this->getClient($cms_client);
+		$client   = $this->getClient($clientName);
 		$langlist = $this->getLanguageList($client->id);
 
 		// Compute all the languages.
@@ -352,13 +352,13 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Get installed languages data.
 	 *
-	 * @param   integer  $client_id  The client ID to retrieve data for.
+	 * @param   integer  $clientId  The client ID to retrieve data for.
 	 *
 	 * @return  object  The language data.
 	 *
 	 * @since   3.1
 	 */
-	protected function getLanguageList($client_id = 1)
+	protected function getLanguageList($clientId = 1)
 	{
 		// Create a new db object.
 		$db    = JFactory::getDbo();
@@ -370,7 +370,7 @@ class InstallationModelLanguages extends JModelBase
 			->where($db->qn('type') . ' = ' . $db->q('language'))
 			->where($db->qn('state') . ' = 0')
 			->where($db->qn('enabled') . ' = 1')
-			->where($db->qn('client_id') . ' = ' . (int) $client_id);
+			->where($db->qn('client_id') . ' = ' . (int) $clientId);
 
 		$db->setQuery($query);
 
@@ -432,15 +432,15 @@ class InstallationModelLanguages extends JModelBase
 	 * Set the default language.
 	 *
 	 * @param   string  $language    The language to be set as default.
-	 * @param   string  $cms_client  The name of the CMS client.
+	 * @param   string  $clientName  The name of the CMS client.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function setDefault($language, $cms_client = 'administrator')
+	public function setDefault($language, $clientName = 'administrator')
 	{
-		$client = $this->getClient($cms_client);
+		$client = $this->getClient($clientName);
 
 		$params = JComponentHelper::getParams('com_languages');
 		$params->set($client->name, $language);

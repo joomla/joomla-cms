@@ -15,8 +15,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Class to manipulate an image.
  *
- * @since       1.7.3
- * @deprecated  5.0 Use the class \Joomla\Image\Image instead
+ * @since  1.7.3
  */
 class Image extends \Joomla\Image\Image
 {
@@ -30,8 +29,6 @@ class Image extends \Joomla\Image\Image
 	 */
 	public function __construct($source = null)
 	{
-		Log::add('Joomla\CMS\Image\Image is deprecated, use Joomla\Image\Image instead.', Log::WARNING, 'deprecated');
-
 		// Inject the PSR-3 compatible logger in for forward compatibility
 		$this->setLogger(Log::createDelegatedLogger());
 

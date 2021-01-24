@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -87,23 +87,19 @@ class Xml extends AbstractRegistryFormat
 				$value = (string) $node;
 
 				return (int) $value;
-				break;
 
 			case 'string':
 				return (string) $node;
-				break;
 
 			case 'boolean':
 				$value = (string) $node;
 
 				return (bool) $value;
-				break;
 
 			case 'double':
 				$value = (string) $node;
 
 				return (float) $value;
-				break;
 
 			case 'array':
 				$value = array();
@@ -149,13 +145,13 @@ class Xml extends AbstractRegistryFormat
 			{
 				$n = $node->addChild($nodeName, $v);
 				$n->addAttribute('name', $k);
-				$n->addAttribute('type', gettype($v));
+				$n->addAttribute('type', \gettype($v));
 			}
 			else
 			{
 				$n = $node->addChild($nodeName);
 				$n->addAttribute('name', $k);
-				$n->addAttribute('type', gettype($v));
+				$n->addAttribute('type', \gettype($v));
 
 				$this->getXmlChildren($n, $v, $nodeName);
 			}
