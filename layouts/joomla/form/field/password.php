@@ -81,7 +81,7 @@ if ($lock)
 	Text::script('JCANCEL');
 
 	$disabled = true;
-	$hint = str_repeat('•', strlen($value));
+	$hint = str_repeat('•', 10);
 	$value = '';
 }
 
