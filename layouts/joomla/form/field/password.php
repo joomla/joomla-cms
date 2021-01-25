@@ -159,9 +159,9 @@ if ($rules && !empty($description))
 			<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 		</button>
 		<?php else: ?>
-		<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify">
-			<?php echo Text::_('JMODIFY'); ?>
-		</button>
+			<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify">
+				<?php echo Text::_('JMODIFY'); ?>
+			</button>
 		<?php endif; ?>
 	</div>
 </div>
