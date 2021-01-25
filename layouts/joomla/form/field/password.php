@@ -148,20 +148,20 @@ if ($rules && !empty($description))
 <div class="password-group">
 	<div class="input-group">
 		<input
-				type="password"
-				name="<?php echo $name; ?>"
-				id="<?php echo $id; ?>"
-				value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-				<?php echo implode(' ', $attributes); ?>>
+			type="password"
+			name="<?php echo $name; ?>"
+			id="<?php echo $id; ?>"
+			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo implode(' ', $attributes); ?>>
 		<?php if (!$lock): ?>
-			<button type="button" class="btn btn-secondary input-password-toggle">
-				<span class="icon-eye icon-fw" aria-hidden="true"></span>
-				<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
-			</button>
+		<button type="button" class="btn btn-secondary input-password-toggle">
+			<span class="icon-eye icon-fw" aria-hidden="true"></span>
+			<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+		</button>
 		<?php else: ?>
-			<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify">
-				<?php echo Text::_('JMODIFY'); ?>
-			</button>
+		<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify">
+			<?php echo Text::_('JMODIFY'); ?>
+		</button>
 		<?php endif; ?>
 	</div>
 </div>
