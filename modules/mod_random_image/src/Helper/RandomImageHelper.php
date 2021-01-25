@@ -40,6 +40,7 @@ class RandomImageHelper
 
 		$random = mt_rand(0, $i - 1);
 		$image  = $images[$random];
+		$image->folder = str_replace('\\', '/', $image->folder);
 
 		return $image;
 	}
@@ -58,7 +59,7 @@ class RandomImageHelper
 		$files  = [];
 		$images = [];
 
-		$dir = JPATH_BASE . '/images/' . $folder;
+		$dir = JPATH_BASE . '/' . $folder;
 
 		// Check if directory exists
 		if (is_dir($dir))

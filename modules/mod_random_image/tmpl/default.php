@@ -19,7 +19,7 @@ if (empty($images))
 	return;
 }
 
-$img =  'images/' . $image->folder . '/' . htmlspecialchars($image->name, ENT_COMPAT, 'UTF-8');
+$img =  $image->folder . '/' . htmlspecialchars($image->name, ENT_COMPAT, 'UTF-8');
 
 $attribs = ['class' => $params->get('class', 'img-fluid')];
 ?>
