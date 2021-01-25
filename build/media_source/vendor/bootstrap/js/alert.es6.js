@@ -1,7 +1,7 @@
 import Alert from '../../../../../node_modules/bootstrap/js/src/alert';
 
 window.bootstrap = window.bootstrap || {};
-window.Bootstrap.Alert = Alert;
+window.bootstrap.Alert = Alert;
 
 // Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
