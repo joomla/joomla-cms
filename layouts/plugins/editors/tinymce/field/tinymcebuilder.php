@@ -79,7 +79,7 @@ $doc->addScriptOptions('plg_editors_tinymce_builder',
 	]
 );
 
-HTMLHelper::_('bootstrap.tab', '#set-tabs')
+HTMLHelper::_('bootstrap.tab', '#setTabs')
 ?>
 <div id="joomla-tinymce-builder">
 
@@ -108,7 +108,7 @@ HTMLHelper::_('bootstrap.tab', '#set-tabs')
 			$isActive = $num === $setsAmount - 1;
 		?>
 		<li class="nav-item" role="presentation">
-			<a class="nav-link <?php echo $isActive ? 'active' : ''; ?>" data-bs-toggle="tab" href="#set-<?php echo $num; ?>" role="tab" aria-controls="set-<?php echo $num; ?>">
+			<a class="nav-link <?php echo $isActive ? 'active' : ''; ?>" id="set-<?php echo $num; ?>-tab" data-bs-toggle="tab" href="#set-<?php echo $num; ?>" role="tab" aria-controls="set-<?php echo $num; ?>">
 				<?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>
@@ -149,7 +149,7 @@ HTMLHelper::_('bootstrap.tab', '#set-tabs')
 			$valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
 			$valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
 		?>
-			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" role="tabpanel" id="set-<?php echo $num; ?>">
+			<div class="tab-pane <?php echo $num === $setsAmount - 1 ? 'active' : ''; ?>" role="tabpanel" id="set-<?php echo $num; ?>" aria-labelledby="set-<?php echo $num; ?>-tab">
 				<div class="btn-toolbar float-end">
 					<div class="btn-group btn-group-sm">
 
