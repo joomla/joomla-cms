@@ -21,7 +21,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<div class="d-flex align-items-end mx-auto">
 				<span class="icon-bell" aria-hidden="true"></span>
 				<?php if (count($messages) > 0) : ?>
-					<span class="badge badge-danger"><?php echo count($messages); ?></span>
+					<span class="badge bg-danger"><?php echo count($messages); ?></span>
 				<?php endif; ?>
 			</div>
 			<div class="tiny">

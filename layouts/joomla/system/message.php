@@ -50,7 +50,7 @@ if (is_array($msgList) && !empty($msgList)) :
 		if (!empty($msgs)) :
 			$msgOutput .= '<div class="alert-heading">';
 			$msgOutput .= '<span class="' . $type . '"></span>';
-			$msgOutput .= '<span class="sr-only">' . Text::_($type) . '</span>';
+			$msgOutput .= '<span class="visually-hidden">' . Text::_($type) . '</span>';
 			$msgOutput .= '</div>';
 			$msgOutput .= '<div class="alert-wrapper">';
 			foreach ($msgs as $msg) :

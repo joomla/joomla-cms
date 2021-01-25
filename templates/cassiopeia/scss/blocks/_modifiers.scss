@@ -284,8 +284,8 @@
       border: 1px solid $gray-300;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-      @include border-bottom-left-radius($border-radius);
-      @include border-bottom-right-radius($border-radius);
+      @include border-bottom-start-radius($border-radius);
+      @include border-bottom-end-radius($border-radius);
       box-shadow: $cassiopeia-box-shadow;
 
       figure {
