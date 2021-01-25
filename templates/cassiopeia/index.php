@@ -113,7 +113,16 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 // Get the Fontawesome css URL
 $faScriptUri = $wa->getAsset('style', 'fontawesome')->getUri();
 // Code to defer the loading of the Icon Font
-$wa->addInlineScript("document.addEventListener('DOMContentLoaded', function() { var css = document.createElement('link'); css.href = \"$faScriptUri\"; css.rel = 'stylesheet'; document.head.appendChild(css); });");
+$wa->addInlineScript(
+	<<<JS
+document.addEventListener('DOMContentLoaded', function() {
+  var css = document.createElement('link');
+  css.href = "$faScriptUri";
+  css.rel = 'stylesheet';
+  document.head.appendChild(css);
+});
+JS
+);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
