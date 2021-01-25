@@ -44,7 +44,7 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
 					<?php endif; ?>
 				</th>
 				<td>
-					<span class="badge badge-<?php echo $hits_class; ?>"><?php echo $item->hits; ?></span>
+					<span class="badge bg-<?php echo $hits_class; ?>"><?php echo $item->hits; ?></span>
 				</td>
 				<td>
 					<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
