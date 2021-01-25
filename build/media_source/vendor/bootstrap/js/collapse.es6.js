@@ -8,10 +8,10 @@ if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) 
   document.body.dataset.bsNoJquery = '';
 }
 
-// Get the elements/configurations from the PHP
-const collapses = { ...Joomla.getOptions('bootstrap.collapse'), ...Joomla.getOptions('bootstrap.accordion') };
-// Initialise the elements
-if (typeof collapses === 'object' && collapses !== null) {
+if (Joomla && Joomla.getOptions) {
+  // Get the elements/configurations from the PHP
+  const collapses = { ...Joomla.getOptions('bootstrap.collapse'), ...Joomla.getOptions('bootstrap.accordion') };
+  // Initialise the elements
   Object.keys(collapses).forEach((collapse) => {
     const opt = collapses[collapse];
     const options = {

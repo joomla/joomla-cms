@@ -1,5 +1,6 @@
 import Tab from '../../../../../node_modules/bootstrap/js/src/tab';
 
+window.Joomla = window.Joomla || {};
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Tab = Tab;
 
@@ -67,16 +68,18 @@ Joomla.initialiseTabs = (el, options) => {
   }
 };
 
-// Ensure vanilla mode, for consistency of the events
-if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-  document.body.dataset.bsNoJquery = '';
-}
+if (Joomla && Joomla.getOptions) {
+  // Ensure vanilla mode, for consistency of the events
+  if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
+    document.body.dataset.bsNoJquery = '';
+  }
 
-// Get the elements/configurations from the PHP
-const tabs = Joomla.getOptions('bootstrap.tabs');
-// Initialise the elements
-if (typeof tabs === 'object' && tabs !== null) {
-  Object.keys(tabs).map((tab) => Joomla.initialiseTabs(tab, tabs[tab]));
+  // Get the elements/configurations from the PHP
+  const tabs = Joomla.getOptions('bootstrap.tabs');
+  // Initialise the elements
+  if (typeof tabs === 'object' && tabs !== null) {
+    Object.keys(tabs).map((tab) => Joomla.initialiseTabs(tab, tabs[tab]));
+  }
 }
 
 export default Tab;

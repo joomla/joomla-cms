@@ -138,21 +138,23 @@ if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) 
   document.body.dataset.bsNoJquery = '';
 }
 
-// Get the elements/configurations from the PHP
-const modals = Joomla.getOptions('bootstrap.modal');
-// Initialise the elements
-if (typeof modals === 'object' && modals !== null) {
-  Object.keys(modals).forEach((modal) => {
-    const opt = modals[modal];
-    const options = {
-      backdrop: opt.backdrop ? opt.backdrop : true,
-      keyboard: opt.keyboard ? opt.keyboard : true,
-      focus: opt.focus ? opt.focus : true,
-    };
+if (Joomla && Joomla.getOptions) {
+  // Get the elements/configurations from the PHP
+  const modals = Joomla.getOptions('bootstrap.modal');
+  // Initialise the elements
+  if (typeof modals === 'object' && modals !== null) {
+    Object.keys(modals).forEach((modal) => {
+      const opt = modals[modal];
+      const options = {
+        backdrop: opt.backdrop ? opt.backdrop : true,
+        keyboard: opt.keyboard ? opt.keyboard : true,
+        focus: opt.focus ? opt.focus : true,
+      };
 
-    Array.from(document.querySelectorAll(modal))
-      .map((modalEl) => Joomla.initialiseModal(modalEl, options));
-  });
+      Array.from(document.querySelectorAll(modal))
+        .map((modalEl) => Joomla.initialiseModal(modalEl, options));
+    });
+  }
 }
 
 export default Modal;
