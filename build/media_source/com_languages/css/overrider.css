@@ -18,7 +18,7 @@
 #more-results.show,
 #results-container.show,
 #language-results.show {
-	display: block;
+	display: grid;
 }
 
 #overrider-spinner-btn.show {

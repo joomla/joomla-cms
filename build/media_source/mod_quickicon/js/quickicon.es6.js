@@ -9,7 +9,7 @@
   /**
    * Every quickicon with an ajax request url loads data and set them into the counter element
    * Also the data name is set as singular or plural.
-   * A SR-only text ist added
+   * A SR-only text is added
    * The class pulse gets 'warning', 'success' or 'error', depending on the retrieved data.
    */
   document.addEventListener('DOMContentLoaded', () => {

@@ -280,7 +280,8 @@ class BaseController implements ControllerInterface
 
 		if (\is_array($command))
 		{
-			$command = $filter->clean(array_pop(array_keys($command)), 'cmd');
+			$keys = array_keys($command);
+			$command = $filter->clean(array_pop($keys), 'cmd');
 		}
 		else
 		{

@@ -24,7 +24,7 @@ $wa->useScript('keepalive')
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" aria-label="<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_FORM_' . ( (int) $this->item->key === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 	<div class="row mt-3">
 		<div class="col-md-6">
 			<fieldset id="fieldset-override" class="options-form">
@@ -50,7 +50,7 @@ $wa->useScript('keepalive')
 				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
 				<div>
 				<div class="alert alert-info">
-					<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
 				</div>
 				<?php echo $this->form->renderField('searchtype'); ?>
@@ -61,11 +61,9 @@ $wa->useScript('keepalive')
 					<div class="controls">
 						<div class="input-group">
 							<?php echo $this->form->getInput('searchstring'); ?>
-							<span class="input-group-append">
-								<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
-									<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
-								</button>
-							</span>
+							<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
+								<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
+							</button>
 							<span id="refresh-status" class="form-text">
 								<span class="icon-sync icon-spin" aria-hidden="true"></span>
 								<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>

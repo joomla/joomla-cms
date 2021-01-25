@@ -955,15 +955,12 @@ class Image
 		{
 			case IMAGETYPE_GIF:
 				return imagegif($this->getHandle(), $path);
-				break;
 
 			case IMAGETYPE_PNG:
 				return imagepng($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 0);
-				break;
 
 			case IMAGETYPE_WEBP:
 				return imagewebp($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
-				break;
 		}
 
 		// Case IMAGETYPE_JPEG & default
@@ -1055,7 +1052,6 @@ class Image
 
 			default:
 				throw new \InvalidArgumentException('Invalid scale method.');
-				break;
 		}
 
 		return $dimensions;

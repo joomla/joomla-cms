@@ -42,7 +42,7 @@
               const updateInfo = updateInfoList.shift();
 
               if (updateInfo.version !== options.version) {
-                update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light"> \u200E ${updateInfo.version}</span>`));
+                update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge bg-light"> \u200E ${updateInfo.version}</span>`));
               } else {
                 update('success', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE'));
               }
