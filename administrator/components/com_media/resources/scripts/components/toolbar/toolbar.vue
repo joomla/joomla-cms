@@ -28,7 +28,7 @@
     >
       <label
         for="media_search"
-        class="sr-only"
+        class="visually-hidden"
       >{{ translate('COM_MEDIA_SEARCH') }}</label>
       <input
         id="media_search"

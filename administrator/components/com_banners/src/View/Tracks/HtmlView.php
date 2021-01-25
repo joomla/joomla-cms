@@ -118,19 +118,18 @@ class HtmlView extends BaseHtmlView
 
 		$bar = Toolbar::getInstance('toolbar');
 
-		// Instantiate a new FileLayout instance and render the export button
-		$layout = new FileLayout('joomla.toolbar.modal');
-
-		$dHtml = $layout->render(
-			[
-				'selector' => 'downloadModal',
-				'icon'     => 'icon-download',
-				'text'     => Text::_('JTOOLBAR_EXPORT'),
-				'doTask'   => Route::_('index.php?option=com_banners&view=download&tmpl=component'),
-			]
-		);
-
-		$bar->appendButton('Custom', $dHtml, 'download');
+		$bar->popupButton()
+			->url(Route::_('index.php?option=com_banners&view=download&tmpl=component'))
+			->text('JTOOLBAR_EXPORT')
+			->selector('downloadModal')
+			->icon('icon-download')
+			->footer('<button class="btn btn-secondary" data-bs-dismiss="modal" type="button"'
+				. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
+				. Text::_('COM_BANNERS_CANCEL') . '</button>'
+				. '<button class="btn btn-success" type="button"'
+				. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#downloadModal\', buttonSelector: \'#exportBtn\'})">'
+				. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>'
+			);
 
 		if ($canDo->get('core.delete'))
 		{

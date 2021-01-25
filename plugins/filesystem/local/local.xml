@@ -29,8 +29,8 @@
 					label="PLG_FILESYSTEM_LOCAL_DIRECTORIES_LABEL"
 					multiple="true"
 					layout="joomla.form.field.subform.repeatable-table"
-					buttons="add,remove,move"
-					default='{"directories0":{"directory":"images"}}'
+					buttons="add,remove"
+					default='[{"directory":"images"}]'
 				>
 					<form>
 						<field

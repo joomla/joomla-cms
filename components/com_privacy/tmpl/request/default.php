@@ -48,7 +48,7 @@ HTMLHelper::_('behavior.formvalidator');
 		</form>
 	<?php else : ?>
 		<div class="alert alert-warning">
-			<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+			<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
 			<?php echo Text::_('COM_PRIVACY_WARNING_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'); ?>
 		</div>
 	<?php endif; ?>

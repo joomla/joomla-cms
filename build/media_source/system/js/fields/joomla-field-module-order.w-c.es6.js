@@ -94,7 +94,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
     const clientId = this.getAttribute('data-client-id');
     const originalOrder = this.getAttribute('data-ordering');
     const name = this.getAttribute('data-name');
-    const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'custom-select';
+    const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'form-select';
     const id = `${this.getAttribute('data-id')}`;
     const orders = [];
     const that = this;

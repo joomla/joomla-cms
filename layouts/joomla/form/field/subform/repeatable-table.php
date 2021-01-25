@@ -84,7 +84,7 @@ else
 			repeatable-element=".subform-repeatable-group"
 			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 		<table class="table table-responsive" id="subfieldList">
-			<caption class="sr-only">
+			<caption class="visually-hidden">
 				<?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
 			</caption>
 			<thead>
