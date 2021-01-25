@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,13 +14,13 @@ use Joomla\CMS\Router\Route;
 
 ?>
 <nav role="navigation" aria-label="<?php echo $module->title; ?>">
-	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb">
+	<ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb px-3 py-2">
 		<?php if ($params->get('showHere', 1)) : ?>
-			<li class="mod-breadcrumbs__here float-left">
+			<li class="mod-breadcrumbs__here float-start">
 				<?php echo Text::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
 			</li>
 		<?php else : ?>
-			<li class="mod-breadcrumbs__divider float-left">
+			<li class="mod-breadcrumbs__divider float-start">
 				<span class="divider icon-location" aria-hidden="true"></span>
 			</li>
 		<?php endif; ?>

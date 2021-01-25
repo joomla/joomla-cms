@@ -8,7 +8,7 @@ const nodePath = require('path');
 // and it will receive the state as the first argument.
 
 // The grid item sizes
-const gridItemSizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+const gridItemSizes = ['sm', 'md', 'lg', 'xl'];
 
 export default {
 

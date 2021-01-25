@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -598,7 +598,7 @@ abstract class ToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function preferences($component, $height = '550', $width = '875', $alt = 'JToolbar_Options', $path = '')
+	public static function preferences($component, $height = 550, $width = 875, $alt = 'JToolbar_Options', $path = '')
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
@@ -709,7 +709,7 @@ abstract class ToolbarHelper
 	{
 		$title = Text::_($alt);
 
-		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn ' . $class . '">
+		$dhtml = '<joomla-toolbar-button><button data-bs-toggle="modal" data-bs-target="#' . $targetModalId . '" class="btn ' . $class . '">
 			<span class="' . $icon . ' icon-fw" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');

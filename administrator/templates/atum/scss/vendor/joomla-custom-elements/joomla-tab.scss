@@ -57,7 +57,7 @@ joomla-tab {
         margin: -1px;
         background-color: $white;
         background-image: none;
-        border: 1px solid var(--bluegray);
+        border: 2px solid var(--bluegray);
         border-bottom: solid 1px #fff;
         border-radius: 0;
         box-shadow: none;
@@ -189,7 +189,7 @@ joomla-tab {
     #permissions-sliders section[active] {
       padding: 0 !important;
 
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         [dir=ltr] & .respTable {
           text-align: right;
         }
@@ -259,7 +259,7 @@ joomla-tab[orientation=vertical] {
     border-radius: 0;
     box-shadow: none;
 
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       flex: 0 0 100%;
       max-width: 100%;
     }

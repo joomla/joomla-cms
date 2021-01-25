@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 <div class="accordion d-none d-sm-block" id="accordion1">
 	<div class="accordion-heading">
-		<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#batch" aria-expanded="false" aria-controls="batch">
+		<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#batch" aria-expanded="false" aria-controls="batch">
 			<?php echo Text::_('COM_REDIRECT_BATCH_UPDATE_WITH_NEW_URL'); ?>
 		</button>
 	</div>

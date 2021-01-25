@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -27,6 +27,11 @@ $layout = $input->get('layout', 'default');
 $task   = $input->get('task', 'display');
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
+
+// Browsers support SVG favicons
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
+$this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
@@ -92,7 +97,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 <header id="header" class="header">
 	<div class="d-flex">
-		<div class="header-title d-flex mr-auto">
+		<div class="header-title d-flex me-auto">
 			<div class="d-flex align-items-center">
 				<div class="logo">
 					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
@@ -101,7 +106,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<jdoc:include type="modules" name="title"/>
 		</div>
-		<div class="header-items d-flex ml-auto">
+		<div class="header-items d-flex ms-auto">
 			<jdoc:include type="modules" name="status" style="header-element"/>
 		</div>
 	</div>
@@ -132,7 +137,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 						<h1><?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 						<jdoc:include type="message" />
 						<blockquote class="blockquote">
-							<span class="badge badge-secondary"><?php echo $this->error->getCode(); ?></span>
+							<span class="badge bg-secondary"><?php echo $this->error->getCode(); ?></span>
 							<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 						</blockquote>
 						<?php if ($this->debug) : ?>

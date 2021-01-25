@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ if (is_array($msgList) && !empty($msgList)) :
 		if (!empty($msgs)) :
 			$msgOutput .= '<div class="alert-heading">';
 			$msgOutput .= '<span class="' . $type . '"></span>';
-			$msgOutput .= '<span class="sr-only">' . Text::_($type) . '</span>';
+			$msgOutput .= '<span class="visually-hidden">' . Text::_($type) . '</span>';
 			$msgOutput .= '</div>';
 			$msgOutput .= '<div class="alert-wrapper">';
 			foreach ($msgs as $msg) :

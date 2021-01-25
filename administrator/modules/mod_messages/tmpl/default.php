@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_messages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()
 			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
 		</div>
 		<?php if ($countUnread > 0) : ?>
-			<span class="badge badge-danger"><?php echo $countUnread; ?></span>
+			<span class="badge bg-danger"><?php echo $countUnread; ?></span>
 		<?php endif; ?>
 	</a>
 </div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_mails&layout=edit&template_id=' . $this->item->template_id . '&language=' . $this->item->language); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_mails&layout=edit&template_id=' . $this->item->template_id . '&language=' . $this->item->language); ?>" method="post" name="adminForm" id="item-form" aria-label="<?php echo Text::_('COM_MAILS_FORM_EDIT'); ?>" class="form-validate">
 	<div>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
 

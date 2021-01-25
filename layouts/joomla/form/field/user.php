@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,12 +113,10 @@ if (!$readonly)
 	<div class="input-group">
 		<input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?>	 readonly>
 		<?php if (!$readonly) : ?>
-			<span class="input-group-append">
-				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
-					<span class="icon-user icon-white" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
-				</button>
-			</span>
+			<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
+				<span class="icon-user icon-white" aria-hidden="true"></span>
+				<span class="visually-hidden"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
+			</button>
 		<?php endif; ?>
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
@@ -137,7 +135,7 @@ if (!$readonly)
 				'width'       => '100%',
 				'modalWidth'  => 80,
 				'bodyHeight'  => 60,
-				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
+				'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
 			)
 		); ?>
 	<?php endif; ?>

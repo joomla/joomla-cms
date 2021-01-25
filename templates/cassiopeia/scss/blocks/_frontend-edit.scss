@@ -1,7 +1,14 @@
 // Frontend Editing
 
-.jmodedit {
+.btn.jmodedit {
   position: absolute;
-  top: 10px;
   right: 10px;
+  background-color: $white;
+  border: 1px solid #dfe3e7;
+  border-radius: .25rem;
 }
+
+a.jmenuedit {
+  padding: .5rem;
+}
+

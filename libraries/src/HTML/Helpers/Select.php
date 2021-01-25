@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -137,8 +137,8 @@ abstract class Select
 		$id = $options['id'] !== false ? $options['id'] : $name;
 		$id = str_replace(array('[', ']', ' '), '', $id);
 
-		// If if the selectbox contains "custom-select-color-state" then load the JS file
-		if (strpos($attribs, 'custom-select-color-state') !== false)
+		// If the selectbox contains "form-select-color-state" then load the JS file
+		if (strpos($attribs, 'form-select-color-state') !== false)
 		{
 			HTMLHelper::_('script', 'system/fields/select-colour.min.js', array('version' => 'auto', 'relative' => true));
 		}

@@ -102,12 +102,12 @@ legend {
 
 // Validation
 .invalid {
-  color: theme-color("danger");
-  border-color: theme-color("danger");
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 .valid {
-  border-color: theme-color("success");
+  border-color: var(--success);
 }
 
 .form-control-feedback {
@@ -174,4 +174,8 @@ legend {
 
 .input-group > .form-control[readonly] {
   margin-right: 1px;
+}
+
+.form-group {
+  @extend .mb-3;
 }

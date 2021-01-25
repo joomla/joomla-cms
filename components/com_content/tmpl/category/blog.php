@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,7 +122,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php if (($this->params->def('show_pagination', 1) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 		<div class="com-content-category-blog__navigation w-100">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-				<p class="com-content-category-blog__counter counter float-right pt-3 pr-2">
+				<p class="com-content-category-blog__counter counter float-end pt-3 pr-2">
 					<?php echo $this->pagination->getPagesCounter(); ?>
 				</p>
 			<?php endif; ?>

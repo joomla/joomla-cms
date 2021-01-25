@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class UsersComponent extends MVCComponent implements BootableExtensionInterface,
 	 *
 	 * @return  string|null  The new section or null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validateSection($section, $item = null)
 	{
@@ -85,7 +85,7 @@ class UsersComponent extends MVCComponent implements BootableExtensionInterface,
 	 *
 	 * @return  array  Associative array with contexts as keys and translated strings as values
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContexts(): array
 	{

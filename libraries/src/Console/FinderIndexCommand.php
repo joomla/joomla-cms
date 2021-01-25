@@ -2,7 +2,7 @@
 /**
  * Joomla! CLI
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -220,7 +221,7 @@ EOF;
 
 		$this->ioStyle->newline(1);
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**

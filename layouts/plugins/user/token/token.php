@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,11 +39,9 @@ Factory::getApplication()->getDocument()->getWebAssetManager()
 		id="<?php echo $id; ?>"
 		readonly
 		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
-	<div class="input-group-append">
-		<button
-			class="btn btn-primary"
-			type="button"
-			id="token-copy"
-			title="<?php echo Text::_('PLG_USER_TOKEN_COPY_DESC'); ?>"><?php echo Text::_('PLG_USER_TOKEN_COPY'); ?></button>
-	</div>
+	<button
+		class="btn btn-primary"
+		type="button"
+		id="token-copy"
+		title="<?php echo Text::_('PLG_USER_TOKEN_COPY_DESC'); ?>"><?php echo Text::_('PLG_USER_TOKEN_COPY'); ?></button>
 </div>
