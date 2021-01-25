@@ -1,41 +1,9 @@
 import Popover from '../../../../../node_modules/bootstrap/js/src/popover';
 import Tooltip from '../../../../../node_modules/bootstrap/js/src/tooltip';
 
-Joomla = Joomla || {};
-Joomla.Bootstrap = Joomla.Bootstrap || {};
-Joomla.Bootstrap.Initialise = Joomla.Bootstrap.Initialise || {};
-Joomla.Bootstrap.Instances = Joomla.Bootstrap.Instances || {};
-Joomla.Bootstrap.Instances.Popover = new WeakMap();
-Joomla.Bootstrap.Instances.Tooltip = new WeakMap();
-
-/**
- * Initialise the Popover iteractivity
- *
- * @param {HTMLElement} el The element that will become an popover
- * @param {object} options The options for this popover
- */
-Joomla.Bootstrap.Initialise.Popover = (el, options) => {
-  if (!(el instanceof Element)) {
-    return;
-  }
-  if (Joomla.Bootstrap.Instances.Popover.get(el) && el.dispose) {
-    el.dispose();
-  }
-  Joomla.Bootstrap.Instances.Popover.set(el, new Popover(el, options));
-};
-
-/**
- * Initialise the Tooltip iteractivity
- *
- * @param {HTMLElement} el The element that will become an tooltip
- * @param {object} options The options for this tooltip
- */
-Joomla.Bootstrap.Initialise.Tooltip = (el, options) => {
-  if (Joomla.Bootstrap.Instances.Tooltip.get(el) && el.dispose) {
-    el.dispose();
-  }
-  Joomla.Bootstrap.Instances.Tooltip.set(el, new Tooltip(el, options));
-};
+window.bootstrap = window.bootstrap || {};
+window.bootstrap.Popover = Popover;
+window.bootstrap.Tooltip = Tooltip;
 
 // Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
@@ -77,7 +45,7 @@ if (typeof popovers === 'object' && popovers !== null) {
 
     const elements = Array.from(document.querySelectorAll(popover));
     if (elements.length) {
-      elements.map((el) => Joomla.Bootstrap.Initialise.Popover(el, options));
+      elements.map((el) => new window.bootstrap.Popover(el, options));
     }
   });
 }
@@ -113,7 +81,7 @@ if (typeof tooltips === 'object' && tooltips !== null) {
 
     const elements = Array.from(document.querySelectorAll(tooltip));
     if (elements.length) {
-      elements.map((el) => Joomla.Bootstrap.Initialise.Tooltip(el, options));
+      elements.map((el) => new window.bootstrap.Tooltip(el, options));
     }
   });
 }

@@ -1,26 +1,7 @@
 import Collapse from '../../../../../node_modules/bootstrap/js/src/collapse';
 
-Joomla = Joomla || {};
-Joomla.Bootstrap = Joomla.Bootstrap || {};
-Joomla.Bootstrap.Initialise = Joomla.Bootstrap.Initialise || {};
-Joomla.Bootstrap.Instances = Joomla.Bootstrap.Instances || {};
-Joomla.Bootstrap.Instances.Collapse = new WeakMap();
-
-/**
- * Initialise the Collapse iteractivity
- *
- * @param {HTMLElement} el The element that will become an collapse
- * @param {object} options The options for this collapse
- */
-Joomla.Bootstrap.Initialise.Collapse = (el, options) => {
-  if (!(el instanceof Element)) {
-    return;
-  }
-  if (Joomla.Bootstrap.Instances.Collapse.get(el) && el.dispose) {
-    el.dispose();
-  }
-  Joomla.Bootstrap.Instances.Collapse.set(el, new Collapse(el, options));
-};
+window.bootstrap = window.bootstrap || {};
+window.bootstrap.Collapse = Collapse;
 
 // Ensure vanilla mode, for consistency of the events
 if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
@@ -43,7 +24,7 @@ if (typeof collapses === 'object' && collapses !== null) {
 
     const elements = Array.from(document.querySelectorAll(collapse));
     if (elements.length) {
-      elements.map((el) => Joomla.Bootstrap.Initialise.Collapse(el, options));
+      elements.map((el) => new window.bootstrap.Collapse(el, options));
     }
   });
 }
