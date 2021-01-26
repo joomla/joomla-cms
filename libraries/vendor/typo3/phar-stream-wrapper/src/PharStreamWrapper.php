@@ -500,7 +500,15 @@ class PharStreamWrapper
 
     private function restoreInternalSteamWrapper()
     {
-        stream_wrapper_restore('phar');
+        if (PHP_VERSION_ID < 70324
+            || PHP_VERSION_ID >= 70400 && PHP_VERSION_ID < 70412) {
+            stream_wrapper_restore('phar');
+        } else  {
+            // with https://github.com/php/php-src/pull/6183 (PHP #76943) the
+            // behavior of `stream_wrapper_restore()` did change for
+            // PHP 8.0-RC1, 7.4.12 and 7.3.24
+            @stream_wrapper_restore('phar');
+        }
     }
 
     private function registerStreamWrapper()
