@@ -16,16 +16,9 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		var form = document.getElementById("adminForm");
 
-		// do field validation 
-		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
-			alert("' . JText::_('PLG_INSTALLER_URLINSTALLER_NO_URL', true) . '");
-		}
-		else
-		{
-			JoomlaInstaller.showLoading();
-			form.installtype.value = "url"
-			form.submit();
-		}
+		JoomlaInstaller.showLoading();
+		form.installtype.value = "url"
+		form.submit();
 	};
 ');
 ?>
