@@ -27,16 +27,6 @@ ul {
 
 // Header
 .header {
-  .page-title {
-    [class^="#{$jicon-css-prefix}-"],
-    [class*=" #{$jicon-css-prefix}-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      margin-right: 0;
-      margin-left: 15px;
-    }
-  }
-
   .logo svg,
   .logo img {
     margin-right: .8rem;
