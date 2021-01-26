@@ -19,7 +19,6 @@ $wa  = $this->getWebAssetManager();
 
 // Template path
 $templatePath = 'templates/' . $this->template;
-$nonce        = $this->cspNonce ? ' nonce="' . $this->cspNonce . '"' : '';
 
 // Color Theme
 $inlineCSSRoot = '';

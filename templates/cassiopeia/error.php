@@ -28,7 +28,6 @@ $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
-$nonce     = $this->cspNonce ? ' nonce="' . $this->cspNonce . '"' : '';
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;
