@@ -29,12 +29,14 @@
 					label="MOD_RANDOM_IMAGE_FIELD_TYPE_LABEL"
 					default="jpg"
 				/>
+
 				<field
 					name="folder"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
 					validate="filePath"
 				/>
+
 				<field
 					name="link"
 					type="text"
