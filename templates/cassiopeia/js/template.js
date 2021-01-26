@@ -28,6 +28,10 @@ Joomla = window.Joomla || {};
         }
       }
     }
+  }
+
+  document.addEventListener('DOMContentLoaded', function (event) {
+    initTemplate(event);
 
     /**
      * Back to top
@@ -46,10 +50,6 @@ Joomla = window.Joomla || {};
       css.rel = 'stylesheet';
       document.head.appendChild(css);
     }
-  }
-
-  document.addEventListener('DOMContentLoaded', function (event) {
-    initTemplate(event);
   });
 
   /**
