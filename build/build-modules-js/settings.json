@@ -295,12 +295,12 @@
         "js": {
           "dist/js/joomla-alert.js": "js/joomla-alert.js",
           "dist/js/joomla-alert.min.js": "js/joomla-alert.min.js",
-          "dist/js/joomla-alert-es5.js": "js/joomla-alert.es5.js",
-          "dist/js/joomla-alert-es5.min.js": "js/joomla-alert.es5.min.js",
+          "dist/js/joomla-alert-es5.js": "js/joomla-alert-es5.js",
+          "dist/js/joomla-alert-es5.min.js": "js/joomla-alert-es5.min.js",
           "dist/js/joomla-tab.js": "js/joomla-tab.js",
           "dist/js/joomla-tab.min.js": "js/joomla-tab.min.js",
-          "dist/js/joomla-tab-es5.js": "js/joomla-tab.es5.js",
-          "dist/js/joomla-tab-es5.min.js": "js/joomla-tab.es5.min.js"
+          "dist/js/joomla-tab-es5.js": "js/joomla-tab-es5.js",
+          "dist/js/joomla-tab-es5.min.js": "js/joomla-tab-es5.min.js"
         },
         "css": {
           "dist/css/joomla-alert.css": "css/joomla-alert.css",
@@ -327,7 +327,7 @@
           {
             "name": "webcomponent.joomla-tab",
             "type": "script",
-            "uri": "joomla-tab.es5.min.js"
+            "uri": "joomla-tab.min.js"
           }
         ],
         "dependencies": [],
