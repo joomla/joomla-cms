@@ -199,7 +199,9 @@
       "name": "webcomponent.field-fancy-select",
       "type": "script",
       "uri": "system/fields/joomla-field-fancy-select.min.js",
-      "webcomponent": true,
+      "attributes": {
+        "type": "module"
+      },
       "dependencies": [
         "choicesjs"
       ]
@@ -207,116 +209,136 @@
     {
       "name": "webcomponent.field-media",
       "type": "style",
-      "uri": "system/fields/joomla-field-media.min.css",
-      "webcomponent": true
+      "uri": "system/fields/joomla-field-media.min.css"
     },
     {
       "name": "webcomponent.image-select",
       "type": "style",
-      "uri": "system/fields/joomla-image-select.min.css",
-      "webcomponent": true
+      "uri": "system/fields/joomla-image-select.min.css"
     },
     {
       "name": "webcomponent.image-select",
       "type": "script",
       "uri": "system/fields/joomla-image-select.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.field-media",
       "type": "script",
       "uri": "system/fields/joomla-field-media.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.field-module-order",
       "type": "script",
       "uri": "system/fields/joomla-field-module-order.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.field-permissions",
       "type": "style",
-      "uri": "system/fields/joomla-field-permissions.min.css",
-      "webcomponent": true
+      "uri": "system/fields/joomla-field-permissions.min.css"
     },
     {
       "name": "webcomponent.field-permissions",
       "type": "script",
       "uri": "system/fields/joomla-field-permissions.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.field-send-test-mail",
       "type": "script",
       "uri": "system/fields/joomla-field-send-test-mail.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.field-simple-color",
       "type": "style",
-      "uri": "system/fields/joomla-field-simple-color.min.css",
-      "webcomponent": true
+      "uri": "system/fields/joomla-field-simple-color.min.css"
     },
     {
       "name": "webcomponent.field-simple-color",
       "type": "script",
       "uri": "system/fields/joomla-field-simple-color.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.field-subform",
       "type": "script",
       "uri": "system/fields/joomla-field-subform.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.field-user",
       "type": "script",
       "uri": "system/fields/joomla-field-user.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.core-loader",
       "type": "script",
       "uri": "system/joomla-core-loader.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.hidden-mail",
       "type": "script",
       "uri": "system/joomla-hidden-mail.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.toolbar-button",
       "type": "script",
       "uri": "system/joomla-toolbar-button.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.joomla-alert",
       "type": "style",
-      "uri": "vendor/joomla-custom-elements/joomla-alert.min.css",
-      "webcomponent": true
+      "uri": "vendor/joomla-custom-elements/joomla-alert.min.css"
     },
     {
       "name": "webcomponent.joomla-alert",
       "type": "script",
       "uri": "vendor/joomla-custom-elements/joomla-alert.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "webcomponent.joomla-tab",
       "type": "style",
-      "uri": "vendor/joomla-custom-elements/joomla-tab.min.css",
-      "webcomponent": true
+      "uri": "vendor/joomla-custom-elements/joomla-tab.min.css"
     },
     {
       "name": "webcomponent.joomla-tab",
       "type": "script",
       "uri": "vendor/joomla-custom-elements/joomla-tab.min.js",
-      "webcomponent": true
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }

@@ -62,8 +62,7 @@ class PlgEditorNone extends CMSPlugin
 		Factory::getDocument()->getWebAssetManager()
 			->registerAndUseScript(
 				'webcomponent.editor-none',
-				'plg_editors_none/joomla-editor-none.min.js',
-				['webcomponent' => true]
+				'plg_editors_none/joomla-editor-none.min.js'
 			);
 
 		return '<joomla-editor-none>'

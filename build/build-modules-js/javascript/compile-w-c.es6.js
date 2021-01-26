@@ -64,8 +64,8 @@ const createJsFiles = (inputFile, es6FileContents) => {
   const outputFiles = [
     inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.js'),
     inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.min.js'),
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '-es5.js'),
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '-es5.min.js'),
+    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.es5.js'),
+    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.es5.min.js'),
   ];
 
   settings.forEach((setting, index) => {
