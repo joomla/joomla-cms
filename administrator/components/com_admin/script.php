@@ -5006,7 +5006,8 @@ class JoomlaInstallerScript
 			'/templates/system/images/j_button2_pagebreak.png',
 			'/templates/system/images/j_button2_readmore.png',
 			'/templates/system/images/j_button2_right.png',
-			'/templates/system/images/selector-arrow.png',			// Joomla 4.0 Beta 3
+			'/templates/system/images/selector-arrow.png',
+			// Joomla 4.0 Beta 3
 			'/administrator/templates/atum/images/logo.svg',
 			'/administrator/templates/atum/images/logo-blue.svg',
 			'/administrator/templates/atum/images/logo-joomla-blue.svg',
