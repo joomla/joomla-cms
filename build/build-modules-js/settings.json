@@ -23,7 +23,10 @@
           {
             "name": "awesomplete",
             "type": "script",
-            "uri": "awesomplete.min.js"
+            "uri": "awesomplete.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "awesomplete",
@@ -129,7 +132,10 @@
           {
             "name": "choicesjs",
             "type": "script",
-            "uri": "choices.min.js"
+            "uri": "choices.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "choicesjs",
@@ -362,7 +368,10 @@
           {
             "name": "punycode",
             "type": "script",
-            "uri": "punycode.js"
+            "uri": "punycode.js",
+            "attributes": {
+              "defer": true
+            }
           }
         ],
         "dependencies": [],
