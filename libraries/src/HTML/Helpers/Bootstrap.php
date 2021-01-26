@@ -524,7 +524,6 @@ abstract class Bootstrap
 						]
 					]
 				)
-				->useScript('bootstrap.' . $script . '.ES6')
 
 				// Register the ES5 script with attributes: nomodule, defer
 				->registerScript(
@@ -538,6 +537,9 @@ abstract class Bootstrap
 						]
 					]
 				)
+
+				->useScript('core')
+				->useScript('bootstrap.' . $script . '.ES6')
 				->useScript('bootstrap.legacy');
 
 			array_push(static::$loadedScripts, $script);
