@@ -166,9 +166,10 @@ body .container-main {
   text-align: end !important;
 }
 
-// extern links with icons
+// external links with icons
 a[target="_blank"]::before {
-  padding-right: 3px;
+  display: inline-block;
+  padding-inline-end: 3px;
   font-family: "Font Awesome 5 Free";
   font-size: 14px;
   font-weight: 900;
@@ -177,7 +178,7 @@ a[target="_blank"]::before {
 
 #wrapper {
   &.d-flex {
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       display: block !important;
     }
   }
@@ -226,4 +227,9 @@ summary {
 // meter element
 meter {
   width: 100%;
+}
+
+// Bootstrap 4 b/c
+.sr-only {
+  @extend .visually-hidden;
 }

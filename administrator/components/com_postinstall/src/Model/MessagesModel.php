@@ -11,6 +11,8 @@ namespace Joomla\Component\Postinstall\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -115,6 +117,7 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
+		Factory::getCache()->clean('com_postinstall');
 	}
 
 	/**
@@ -126,10 +129,15 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItems()
 	{
+		// Add a forced extension filtering to the list
+		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
+		$published = (int) $this->getState('published', 1);
+
+		// Build a cache ID for the resulting data object
+		$cacheId = $eid . '.' . $published;
+
 		$db = $this->getDbo();
-
 		$query = $db->getQuery(true);
-
 		$query->select(
 			[
 				$db->quoteName('postinstall_message_id'),
@@ -149,20 +157,32 @@ class MessagesModel extends BaseDatabaseModel
 			]
 		)
 			->from($db->quoteName('#__postinstall_messages'));
-
-		// Add a forced extension filtering to the list
-		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
 		$query->where($db->quoteName('extension_id') . ' = :eid')
 			->bind(':eid', $eid, ParameterType::INTEGER);
 
 		// Force filter only enabled messages
-		$published = (int) $this->getState('published', 1);
 		$query->where($db->quoteName('enabled') . ' = :published')
 			->bind(':published', $published, ParameterType::INTEGER);
-
 		$db->setQuery($query);
 
-		$result = $db->loadObjectList();
+		try
+		{
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+
+			$result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
+		}
+		catch (\RuntimeException $e)
+		{
+			$app = Factory::getApplication();
+			$app->getLogger()->warning(
+				Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
+				array('category' => 'jerror')
+			);
+
+			return array();
+		}
 
 		$this->onProcessList($result);
 
@@ -242,7 +262,10 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':eid', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
-		return $db->execute();
+		$result = $db->execute();
+		Factory::getCache()->clean('com_postinstall');
+
+		return $result;
 	}
 
 	/**
@@ -266,7 +289,10 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':eid', $eid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
-		return $db->execute();
+		$result = $db->execute();
+		Factory::getCache()->clean('com_postinstall');
+
+		return $result;
 	}
 
 	/**
@@ -637,6 +663,7 @@ class MessagesModel extends BaseDatabaseModel
 		// Insert the new row
 		$options = (object) $options;
 		$db->insertObject($tableName, $options);
+		Factory::getCache()->clean('com_postinstall');
 
 		return $this;
 	}

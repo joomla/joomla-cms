@@ -52,7 +52,7 @@ class VcfView extends AbstractView
 		// Compute lastname, firstname and middlename
 		$item->name = trim($item->name);
 
-		// "Lastname, Firstname Midlename" format support
+		// "Lastname, Firstname Middlename" format support
 		// e.g. "de Gaulle, Charles"
 		$namearray = explode(',', $item->name);
 

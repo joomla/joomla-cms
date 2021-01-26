@@ -38,7 +38,7 @@ $wa->useScript('joomla.batch-copymove');
 				<?php echo Text::_('COM_USERS_BATCH_GROUP'); ?>
 			</label>
 			<div id="batch-choose-action" class="combo controls">
-				<select class="custom-select" name="batch[group_id]" id="batch-group-id">
+				<select class="form-select" name="batch[group_id]" id="batch-group-id">
 					<option value=""><?php echo Text::_('JSELECT'); ?></option>
 					<?php echo HTMLHelper::_('select.options', HTMLHelper::_('user.groups')); ?>
 				</select>

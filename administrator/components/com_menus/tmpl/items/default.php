@@ -47,7 +47,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 				<?php if (!empty($this->items)) : ?>
 					<table class="table" id="itemList">
-						<caption class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -178,27 +178,31 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<span class="small">
-									<?php if ($item->type != 'url') : ?>
-										<?php if (empty($item->note)) : ?>
-											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-										<?php else : ?>
-											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
-										<?php endif; ?>
-									<?php elseif ($item->type == 'url' && $item->note) : ?>
-										<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
-									<?php endif; ?>
-									</span>
 									<?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
+									<div>
+										<?php echo $prefix; ?>
+										<span class="small">
+										<?php if ($item->type != 'url') : ?>
+											<?php if (empty($item->note)) : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+											<?php else : ?>
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+											<?php endif; ?>
+										<?php elseif ($item->type == 'url' && $item->note) : ?>
+											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>
+										<?php endif; ?>
+										</span>
+									</div>
 									<div title="<?php echo $this->escape($item->path); ?>">
 										<?php echo $prefix; ?>
 										<span class="small"
 											  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
-											<?php echo $this->escape($item->item_type); ?></span>
+											<?php echo $this->escape($item->item_type); ?>
+										</span>
 									</div>
 									<?php if ($item->type === 'component' && !$item->enabled) : ?>
 										<div>
-											<span class="badge badge-secondary">
+											<span class="badge bg-secondary">
 												<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
 											</span>
 										</div>
@@ -217,7 +221,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 													<?php if ($item->language_image) : ?>
 														<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 													<?php else : ?>
-														<span class="badge badge-secondary"
+														<span class="badge bg-secondary"
 															  title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language; ?></span>
 													<?php endif; ?>
 												</a>
@@ -225,7 +229,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 												<?php if ($item->language_image) : ?>
 													<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 												<?php else : ?>
-													<span class="badge badge-secondary"
+													<span class="badge bg-secondary"
 														  title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
 												<?php endif; ?>
 											<?php endif; ?>

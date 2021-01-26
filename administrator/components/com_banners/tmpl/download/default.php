@@ -29,7 +29,7 @@ HTMLHelper::_('behavior.formvalidator');
 			<?php echo $this->form->renderField($field->fieldname); ?>
 		<?php endforeach; ?>
 
-		<button class="sr-only"
+		<button class="visually-hidden"
 			id="exportBtn"
 			type="button"
 			onclick="this.form.submit();window.top.setTimeout('window.parent.Joomla.Modal.getCurrent().close()', 700);">

@@ -52,7 +52,7 @@ if ($clientId == 1)
 					<label id="batch-choose-action-lbl" for="batch-menu-id">
 						<?php echo Text::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
 					</label>
-					<select class="custom-select" name="batch[menu_id]" id="batch-menu-id">
+					<select class="form-select" name="batch[menu_id]" id="batch-menu-id">
 						<option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 						<?php
 						$opts     = array(

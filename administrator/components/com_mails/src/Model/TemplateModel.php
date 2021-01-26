@@ -122,7 +122,7 @@ class TemplateModel extends AdminModel
 		else
 		{
 			$field = $form->getField('attachments');
-			$subform = new \SimpleXmlElement($field->formsource);
+			$subform = new \SimpleXMLElement($field->formsource);
 			$files = $subform->xpath('field[@name="file"]');
 			$files[0]->addAttribute('directory', JPATH_ROOT . '/' . $params->get('attachment_folder'));
 			$form->load('<form><field name="attachments" type="subform" '
@@ -278,7 +278,7 @@ class TemplateModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validate($form, $data, $group = null)
 	{
