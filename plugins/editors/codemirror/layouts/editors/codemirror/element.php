@@ -39,7 +39,9 @@ Factory::getDocument()->getWebAssetManager()
 	->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons.css', [], [], ['codemirror.lib.main'])
 	->registerAndUseScript(
 		'webcomponent.editor-codemirror',
-		'plg_editors_codemirror/joomla-editor-codemirror.min.js'
+		'plg_editors_codemirror/joomla-editor-codemirror.min.js',
+			[],
+			['type' => 'module']
 	);
 
 ?>
