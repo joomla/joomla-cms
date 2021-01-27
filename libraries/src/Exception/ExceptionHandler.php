@@ -100,7 +100,7 @@ class ExceptionHandler
 					ob_end_clean();
 				}
 
-				// This is needed to ensure the test suite can still get the output buffer 
+				// This is needed to ensure the test suite can still get the output buffer
 				ob_start();
 
 				$document->setTitle(Text::_('ERROR') . ': ' . $error->getCode());
@@ -169,21 +169,6 @@ class ExceptionHandler
 		echo $message;
 
 		jexit(1);
-	}
-
-	/**
-	 * Returns name of function, that called current routine or false on failure. Current routine is
-	 * routine, calling {@see getCallerMethod}.
-	 *
-	 * @return  string|false
-	 *
-	 * @since   3.10.0
-	 */
-	protected static function getCallerFunctionName()
-	{
-		$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-
-		return isset($backtrace[2]['function']) ? $backtrace[2]['function'] : false;
 	}
 
 	/**
