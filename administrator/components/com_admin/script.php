@@ -6280,6 +6280,8 @@ class JoomlaInstallerScript
 			}
 		}
 
+		$this->fixFilenameCasing();
+
 		if ($suppressOutput === false && \count($status['folders_errors']))
 		{
 			echo implode('<br/>', $status['folders_errors']);
@@ -6289,8 +6291,6 @@ class JoomlaInstallerScript
 		{
 			echo implode('<br/>', $status['files_errors']);
 		}
-
-		$this->fixFilenameCasing();
 
 		return $status;
 	}
@@ -7155,9 +7155,11 @@ class JoomlaInstallerScript
 	protected function fixFilenameCasing()
 	{
 		$files = array(
+			// 3.10 changes
 			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
-			'libraries/vendor/paragonie/sodium_compat/src/Core/Xsalsa20.php' => 'libraries/vendor/paragonie/sodium_compat/src/Core/XSalsa20.php',
-			'media/mod_languages/images/si_LK.gif' => 'media/mod_languages/images/si_lk.gif',
+			'libraries/src/Form/Rule/SubFormRule.php' => 'libraries/src/Form/Rule/SubformRule.php',
+			// __DEPLOY_VERSION__
+			'media/vendor/skipto/js/skipTo.js' => 'media/vendor/skipto/js/skipto.js',
 		);
 
 		foreach ($files as $old => $expected)
