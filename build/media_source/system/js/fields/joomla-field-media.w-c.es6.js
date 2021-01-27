@@ -98,11 +98,10 @@
 
       // Bootstrap modal init
       if (this.modalElement
-        && Joomla.Bootstrap
-        && Joomla.Bootstrap.Instances
-        && Joomla.Bootstrap.Instances.Modal
-        && Joomla.Bootstrap.Instances.Modal.get(this.modalElement) === undefined) {
-        Joomla.Bootstrap.Initialise.Modal(this.modalElement, { isJoomla: true });
+        && bootstrap
+        && bootstrap.Modal
+        && bootstrap.Modal.getInstance(this.modalElement) === undefined) {
+        Joomla.initialiseModal(this.modalElement, { isJoomla: true });
       }
 
       if (this.buttonClearEl) {

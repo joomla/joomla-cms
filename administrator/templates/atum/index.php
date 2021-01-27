@@ -126,6 +126,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
+	<?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
 		<button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -147,6 +148,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 	<div class="container-fluid container-main">
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
+			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
 			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>

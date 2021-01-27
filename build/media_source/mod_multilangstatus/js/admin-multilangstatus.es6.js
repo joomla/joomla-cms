@@ -21,7 +21,7 @@
       document.body.appendChild(clone);
 
       // Modal was moved so it needs to be re initialised
-      Joomla.Bootstrap.Initialise.Modal(clone);
+      Joomla.initialiseModal(clone);
     }
   });
 })();
