@@ -6292,6 +6292,8 @@ class JoomlaInstallerScript
 			echo implode('<br/>', $status['files_errors']);
 		}
 
+		$this->fixFilenameCasing();
+
 		return $status;
 	}
 
@@ -7145,7 +7147,7 @@ class JoomlaInstallerScript
 		}
 	}
 
-	/*
+	/**
 	 * Renames or removes incorrectly cased files.
 	 *
 	 * @return  void

@@ -88,11 +88,11 @@ HTMLHelper::_('bootstrap.tab', '#setTabs')
 	<div class="tox tox-tinymce">
 		<div class="tox-editor-container">
 
-			<div class="tox-menubar timymce-builder-menu source" data-group="menu"
+			<div class="tox-menubar tinymce-builder-menu source" data-group="menu"
 				data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 			</div>
 
-			<div class="tox-toolbar timymce-builder-toolbar source" data-group="toolbar"
+			<div class="tox-toolbar tinymce-builder-toolbar source" data-group="toolbar"
 				data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 			</div>
 
@@ -172,15 +172,15 @@ HTMLHelper::_('bootstrap.tab', '#setTabs')
 
 				<div class="tox tox-tinymce mb-3">
 					<div class="tox-editor-container">
-						<div class="tox-menubar timymce-builder-menu target"
+						<div class="tox-menubar tinymce-builder-menu target"
 							data-group="menu" data-set="<?php echo $num; ?>"
 							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
 						</div>
-						<div class="tox-toolbar timymce-builder-toolbar target"
+						<div class="tox-toolbar tinymce-builder-toolbar target"
 						    data-group="toolbar1" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
 						</div>
-						<div class="tox-toolbar timymce-builder-toolbar target"
+						<div class="tox-toolbar tinymce-builder-toolbar target"
 						    data-group="toolbar2" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
 						</div>
