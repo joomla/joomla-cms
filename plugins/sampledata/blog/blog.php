@@ -1373,14 +1373,16 @@ class PlgSampledataBlog extends CMSPlugin
 		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
 		$access = (int) $this->app->get('access', 1);
 
+		// Get previously entered Data from UserStates.
+		$articleIds = $this->app->getUserState('sampledata.blog.articles');
+
 		// Get previously entered Data from UserStates
 		$menuTypes = $this->app->getUserState('sampledata.blog.menutypes');
 
 		$catIds        = $this->app->getUserState('sampledata.blog.articles.catIds');
-		$menuIdsLevel1 = $this->app->getUserState('sampledata.blog.menuIdsLevel1');
 
 		// Link to article "typography" in banner module
-		$headerLink = 'index.php?Itemid=' . $menuIdsLevel1[4];
+		$headerLink = 'index.php?option=com_content&view=article&id=' . (int) $articleIds[10] . '&catid=' . (int) $catIds[3];
 
 		$modules = array(
 			array(
