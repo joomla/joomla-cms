@@ -437,7 +437,18 @@
           "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js"
         },
         "dependencies": [],
-        "licenseFilename": "LICENSE.md"
+        "licenseFilename": "LICENSE.md",
+        "provideAssets": [
+          {
+            "name": "wcpolyfill",
+            "type": "script",
+            "uri": "webcomponents-sd-ce-pf.js",
+            "attributes": {
+              "nomodule": ""
+            },
+            "dependencies": ["core"]
+          }
+        ]
       },
       "chosen-js": {
         "name": "chosen",

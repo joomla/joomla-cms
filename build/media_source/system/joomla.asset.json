@@ -203,6 +203,7 @@
         "type": "module"
       },
       "dependencies": [
+        "wcpolyfill",
         "choicesjs"
       ]
     },
@@ -222,7 +223,10 @@
       "uri": "system/fields/joomla-image-select.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-media",
@@ -230,7 +234,10 @@
       "uri": "system/fields/joomla-field-media.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-module-order",
@@ -238,7 +245,10 @@
       "uri": "system/fields/joomla-field-module-order.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-permissions",
@@ -251,7 +261,10 @@
       "uri": "system/fields/joomla-field-permissions.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-send-test-mail",
@@ -259,7 +272,10 @@
       "uri": "system/fields/joomla-field-send-test-mail.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-simple-color",
@@ -272,7 +288,10 @@
       "uri": "system/fields/joomla-field-simple-color.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-subform",
@@ -280,7 +299,10 @@
       "uri": "system/fields/joomla-field-subform.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-user",
@@ -288,7 +310,10 @@
       "uri": "system/fields/joomla-field-user.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.core-loader",
@@ -296,7 +321,10 @@
       "uri": "system/joomla-core-loader.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.hidden-mail",
@@ -304,7 +332,10 @@
       "uri": "system/joomla-hidden-mail.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.toolbar-button",
@@ -312,7 +343,10 @@
       "uri": "system/joomla-toolbar-button.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.joomla-alert",
@@ -325,7 +359,10 @@
       "uri": "vendor/joomla-custom-elements/joomla-alert.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.joomla-tab",
@@ -338,7 +375,10 @@
       "uri": "vendor/joomla-custom-elements/joomla-tab.min.js",
       "attributes": {
         "type": "module"
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     }
   ]
 }
