@@ -395,6 +395,16 @@ class InstallModel extends BaseDatabaseModel
 			return false;
 		}
 
+		// We only allow http & https here
+		$uri = new JUri($url);
+
+		if (!in_array($uri->getScheme(), ['http', 'https']))
+		{
+			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'));
+
+			return false;
+		}
+
 		// Handle updater XML file case:
 		if (preg_match('/\.xml\s*$/', $url))
 		{
