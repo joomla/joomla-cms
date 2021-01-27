@@ -23,7 +23,7 @@ $app->getDocument()->getWebAssetManager()
 
 ?>
 <div class="header-item-content multilanguage">
-	<a class="d-flex align-items-stretch" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
+	<a class="d-flex align-items-stretch" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-bs-toggle="modal" role="button">
 		<div class="d-flex align-items-end mx-auto">
 			<span class="icon-language" aria-hidden="true"></span>
 		</div>
@@ -42,7 +42,7 @@ $app->getDocument()->getWebAssetManager()
 			'width'      => '800px',
 			'bodyHeight' => 70,
 			'modalWidth' => 80,
-			'footer'     => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JTOOLBAR_CLOSE') . '</button>',
+			'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JTOOLBAR_CLOSE') . '</button>',
 		)
 	); ?>
 </div>

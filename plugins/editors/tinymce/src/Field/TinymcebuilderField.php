@@ -83,6 +83,7 @@ class TinymcebuilderField extends FormField
 			'format' => array('label' => 'Format'),
 			'table'  => array('label' => 'Table'),
 			'tools'  => array('label' => 'Tools'),
+			'help'   => array('label' => 'Help'),
 		);
 
 		$data['menus']         = $menus;

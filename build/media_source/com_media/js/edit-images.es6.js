@@ -91,7 +91,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       // Move the container to the correct tab
       const mediaContainer = document.getElementById('media-manager-edit-container');
       const tab = document.getElementById(link.id.replace('tab-', ''));
-      tab.insertAdjacentElement('afterbegin', mediaContainer);
+      tab.insertAdjacentElement('beforeend', mediaContainer);
 
       activate(link.id.replace('tab-attrib-', ''), data);
     });
@@ -278,7 +278,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
           // Move the container to the correct tab
           const tab = document.getElementById(target.id.replace('tab-', ''));
-          tab.insertAdjacentElement('afterbegin', container);
+          tab.insertAdjacentElement('beforeend', container);
 
           activate(target.id.replace('tab-attrib-', ''), data);
         });

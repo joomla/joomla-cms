@@ -26,7 +26,7 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 	<?php endif; ?>
 
 	<table class="table">
-		<caption id="captionTable" class="sr-only">
+		<caption class="visually-hidden">
 			<?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_CAPTION'); ?>
 		</caption>
 		<thead>

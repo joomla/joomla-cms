@@ -136,5 +136,5 @@ abstract class Manifest
 	 *
 	 * @since   3.1
 	 */
-	abstract protected function loadManifestFromData(\SimpleXmlElement $xml);
+	abstract protected function loadManifestFromData(\SimpleXMLElement $xml);
 }

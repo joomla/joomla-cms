@@ -46,17 +46,17 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
-			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
-			$view->ftp = &$ftp;
+			ClientHelper::setCredentialsFromRequest('ftp');
 
 			// Get the model for the view.
 			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
+			/** @var ?\Joomla\Component\Installer\Administrator\Model\WarningsModel $warningsModel */
 			$warningsModel = $this->app->bootComponent('com_installer')
 				->getMVCFactory()->createModel('Warnings', 'Administrator', ['ignore_request' => true]);
 
-			if (is_object($warningsModel))
+			if ($warningsModel !== null)
 			{
 				$view->setModel($warningsModel, false);
 			}

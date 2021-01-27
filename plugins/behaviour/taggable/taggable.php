@@ -13,6 +13,7 @@ use Joomla\CMS\Event as CmsEvent;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\Event\DispatcherInterface;
 
 /**
@@ -56,31 +57,29 @@ class PlgBehaviourTaggable extends CMSPlugin
 		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		// If the tags table doesn't implement the interface bail
+		if (!($table instanceof TaggableTableInterface))
 		{
 			return;
 		}
 
 		// If the table already has a tags helper we have nothing to do
-		if (property_exists($table, 'tagsHelper'))
+		if (!is_null($table->getTagsHelper()))
 		{
 			return;
 		}
 
-		$table->tagsHelper = new TagsHelper;
-		$table->tagsHelper->typeAlias = $table->typeAlias;
+		$tagsHelper = new TagsHelper;
+		$tagsHelper->typeAlias = $table->typeAlias;
+		$table->setTagsHelper($tagsHelper);
 
 		// This is required because getTagIds overrides the tags property of the Tags Helper.
-		$cloneHelper = clone $table->tagsHelper;
-		$tagIds = $cloneHelper->getTagIds($table->getId(), $typeAlias);
+		$cloneHelper = clone $table->getTagsHelper();
+		$tagIds = $cloneHelper->getTagIds($table->getId(), $table->getTypeAlias());
 
 		if (!empty($tagIds))
 		{
-			$table->tagsHelper->tags = explode(',', $tagIds);
+			$table->getTagsHelper()->tags = explode(',', $tagIds);
 		}
 	}
 
@@ -99,24 +98,21 @@ class PlgBehaviourTaggable extends CMSPlugin
 		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		// If the tags table doesn't implement the interface bail
+		if (!($table instanceof TaggableTableInterface))
 		{
 			return;
 		}
 
 		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
+		if (is_null($table->getTagsHelper()))
 		{
 			return;
 		}
 
 		/** @var TagsHelper $tagsHelper */
-		$tagsHelper            = $table->tagsHelper;
-		$tagsHelper->typeAlias = $typeAlias;
+		$tagsHelper            = $table->getTagsHelper();
+		$tagsHelper->typeAlias = $table->getTypeAlias();
 
 		$newTags = $table->newTags ?? array();
 
@@ -151,30 +147,21 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		if (!is_object($table) || !($table instanceof TableInterface))
-		{
-			return;
-		}
-
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		if (!is_object($table) || !($table instanceof TaggableTableInterface))
 		{
 			return;
 		}
 
 		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
+		if (is_null($table->getTagsHelper()))
 		{
 			return;
 		}
 
 		// Get the Tags helper and assign the parsed alias
 		/** @var TagsHelper $tagsHelper */
-		$tagsHelper            = $table->tagsHelper;
-		$tagsHelper->typeAlias = $typeAlias;
+		$tagsHelper            = $table->getTagsHelper();
+		$tagsHelper->typeAlias = $table->getTypeAlias();
 
 		$newTags = $table->newTags ?? array();
 
@@ -213,25 +200,22 @@ class PlgBehaviourTaggable extends CMSPlugin
 		$table			= $event['subject'];
 		$pk				= $event['pk'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		// If the tags table doesn't implement the interface bail
+		if (!($table instanceof TaggableTableInterface))
 		{
 			return;
 		}
 
 		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
+		if (is_null($table->getTagsHelper()))
 		{
 			return;
 		}
 
 		// Get the Tags helper and assign the parsed alias
-		$table->tagsHelper->typeAlias = $typeAlias;
+		$table->getTagsHelper()->typeAlias = $table->getTypeAlias();
 
-		$table->tagsHelper->deleteTagData($table, $pk);
+		$table->getTagsHelper()->deleteTagData($table, $pk);
 	}
 
 	/**
@@ -251,25 +235,22 @@ class PlgBehaviourTaggable extends CMSPlugin
 		$newTags		= $event['newTags'];
 		$replaceTags	= $event['replaceTags'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		// If the tags table doesn't implement the interface bail
+		if (!($table instanceof TaggableTableInterface))
 		{
 			return;
 		}
 
 		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
+		if (is_null($table->getTagsHelper()))
 		{
 			return;
 		}
 
 		// Get the Tags helper and assign the parsed alias
 		/** @var TagsHelper $tagsHelper */
-		$tagsHelper            = $table->tagsHelper;
-		$tagsHelper->typeAlias = $typeAlias;
+		$tagsHelper            = $table->getTagsHelper();
+		$tagsHelper->typeAlias = $table->getTypeAlias();
 
 		if (!$tagsHelper->postStoreProcess($table, $newTags, $replaceTags))
 		{
@@ -292,21 +273,20 @@ class PlgBehaviourTaggable extends CMSPlugin
 		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		// If the tags table doesn't implement the interface bail
+		if (!($table instanceof TaggableTableInterface))
 		{
 			return;
 		}
 
-		$table->tagsHelper = new TagsHelper;
-		$table->tagsHelper->typeAlias = $table->typeAlias;
+		// Parse the type alias
+		$tagsHelper = new TagsHelper;
+		$tagsHelper->typeAlias = $table->getTypeAlias();
+		$table->setTagsHelper($tagsHelper);
 	}
 
 	/**
-	 * Runs when an existing table object is reset
+	 * Runs when an existing table object has been loaded
 	 *
 	 * @param   CmsEvent\Table\AfterLoadEvent  $event  The event to handle
 	 *
@@ -320,61 +300,58 @@ class PlgBehaviourTaggable extends CMSPlugin
 		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		// If the tags table doesn't implement the interface bail
+		if (!($table instanceof TaggableTableInterface))
 		{
 			return;
 		}
 
 		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
+		if (is_null($table->getTagsHelper()))
 		{
 			return;
 		}
 
 		// This is required because getTagIds overrides the tags property of the Tags Helper.
-		$cloneHelper = clone $table->tagsHelper;
-		$tagIds = $cloneHelper->getTagIds($table->getId(), $typeAlias);
+		$cloneHelper = clone $table->getTagsHelper();
+		$tagIds = $cloneHelper->getTagIds($table->getId(), $table->getTypeAlias());
 
 		if (!empty($tagIds))
 		{
-			$table->tagsHelper->tags = explode(',', $tagIds);
+			$table->getTagsHelper()->tags = explode(',', $tagIds);
 		}
 	}
 
 	/**
-	 * Internal method
-	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
+	 * Runs when an existing table object has been loaded
 	 *
-	 * @param   TableInterface  $table  The table
+	 * @param   CmsEvent\Model\BeforeBatchEvent $event The event to handle
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since   4.0.0
-	 *
-	 * @internal
 	 */
-	protected function parseTypeAlias(TableInterface &$table)
+	public function onBeforeBatch(CmsEvent\Model\BeforeBatchEvent $event)
 	{
-		if (!isset($table->typeAlias))
+		/** @var TableInterface $oldTable */
+		$sourceTable = $event['src'];
+
+		if (!($sourceTable instanceof TaggableTableInterface))
 		{
-			return null;
+			return;
 		}
 
-		if (empty($table->typeAlias))
+		if ($event['type'] === 'copy')
 		{
-			return null;
+			$sourceTable->newTags = $sourceTable->getTagsHelper()->tags;
 		}
-
-		return preg_replace_callback('/{([^}]+)}/',
-			function ($matches) use ($table)
-			{
-				return $table->{$matches[1]};
-			},
-			$table->typeAlias
-		);
+		else
+		{
+			/**
+			 * All other batch actions we don't want the tags to be modified so clear the helper - that way no actions
+			 * will be performed on store
+			 */
+			$sourceTable->clearTagsHelper();
+		}
 	}
 }

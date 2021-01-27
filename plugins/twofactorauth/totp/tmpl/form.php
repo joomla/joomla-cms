@@ -19,11 +19,16 @@ $js = "
 {
 	document.addEventListener('DOMContentLoaded', function()
 	{
-		var qr = qrcode(0, 'H');
-		qr.addData('" . $url . "');
-		qr.make();
+		var totpQrCodeElement = document.getElementById('totp-qrcode');
 
-		document.getElementById('totp-qrcode').innerHTML = qr.createImgTag(4);
+		// There's no QR Code element on the view profile page so ensure we don't get any errors
+		if (totpQrCodeElement) {
+			var qr = qrcode(0, 'H');
+			qr.addData('" . $url . "');
+			qr.make();
+	
+			totpQrCodeElement.innerHTML = qr.createImgTag(4);
+		}
 	});
 })(document);
 ";
@@ -58,7 +63,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 		</li>
 	</ul>
 	<div class="alert alert-warning">
-		<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+		<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?>
 	</div>
 </fieldset>
@@ -101,7 +106,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 	</div>
 
 	<div class="alert alert-info">
-		<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+		<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?>
 	</div>
 </fieldset>

@@ -51,7 +51,7 @@ $html = array();
 $attr = '';
 
 // Initialize the field attributes.
-$attr .= !empty($class) ? ' class="custom-select ' . $class . '"' : ' class="custom-select"';
+$attr .= !empty($class) ? ' class="form-select ' . $class . '"' : ' class="form-select"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';

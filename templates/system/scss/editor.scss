@@ -1,0 +1,65 @@
+/**
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1rem;
+  line-height: 1.3em;
+  color: #22262a;
+  background: #fff;
+}
+
+h1, h2, h3, h4 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 1.857rem;
+}
+
+h2 {
+  font-size: 1.571rem;
+}
+
+h3 {
+  font-size: 1.286rem;
+}
+
+a:link, a:visited {
+  font-weight: normal;
+  color: #1b57b1;
+  text-decoration: none;
+}
+
+a:hover {
+  font-weight: normal;
+  color: #00c;
+  text-decoration: underline;
+}
+
+div.caption {
+  padding: 0 10px;
+}
+
+div.caption img {
+  border: 1px solid #ccc;
+}
+
+div.caption p {
+  font-size: .9em;
+  color: #666;
+  text-align: center;
+}
+
+/* STYLES FOR JOOMLA! EDITOR */
+hr#system-readmore {
+  color: #f00;
+  border: #f00 dashed 1px;
+}
+
+hr.system-pagebreak {
+  color: #808080;
+  border: #808080 dashed 1px;
+}

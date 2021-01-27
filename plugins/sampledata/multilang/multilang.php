@@ -1160,7 +1160,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			return false;
 		}
 
-		$workflow = new Workflow(['extension' => 'com_content.article']);
+		$workflow = new Workflow('com_content.article');
 
 		try
 		{

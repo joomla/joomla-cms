@@ -25,6 +25,8 @@ $input = Factory::getApplication()->input;
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 
+// Fieldsets to not automatically render by /layouts/joomla/edit/params.php
+$this->useCoreUI = true;
 ?>
 <form
 	action="<?php echo Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>"
@@ -35,14 +37,7 @@ $fieldsets = $this->form->getFieldsets();
 	class="form-validate"
 >
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'user_details']); ?>
-	<?php foreach ($fieldsets as $fieldset) : ?>
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $fieldset->name, Text::_($fieldset->label)); ?>
-		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
-			<?php echo $field->renderField(); ?>
-		<?php endforeach; ?>
-		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-	<?php endforeach; ?>
-
+	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 	<?php if (!empty($this->twofactorform) && $this->item->id) : ?>
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_ADMIN_PROFILE_TWO_FACTOR_AUTH')); ?>
 	<div class="control-group">
@@ -52,7 +47,7 @@ $fieldsets = $this->form->getFieldsets();
 			</label>
 		</div>
 		<div class="controls">
-			<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', ['onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'custom-select'], 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+			<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', ['onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'form-select'], 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 		</div>
 	</div>
 	<div id="com_users_twofactor_forms_container">
@@ -69,12 +64,12 @@ $fieldsets = $this->form->getFieldsets();
 			<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS'); ?>
 		</legend>
 		<div class="alert alert-info">
-			<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS_DESC'); ?>
 		</div>
 		<?php if (empty($this->otpConfig->otep)) : ?>
 			<div class="alert alert-warning">
-				<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+				<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS_WAIT_DESC'); ?>
 			</div>
 		<?php else : ?>
@@ -88,7 +83,7 @@ $fieldsets = $this->form->getFieldsets();
 
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php endif; ?>
-	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="return" value="<?php echo $input->get('return', '', 'BASE64'); ?>">
