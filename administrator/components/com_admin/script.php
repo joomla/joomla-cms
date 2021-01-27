@@ -7159,7 +7159,7 @@ class JoomlaInstallerScript
 			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
 			'libraries/src/Form/Rule/SubFormRule.php' => 'libraries/src/Form/Rule/SubformRule.php',
 			// __DEPLOY_VERSION__
-			'media/vendor/skipto/js/skipTo.js' => '/media/vendor/skipto/js/skipto.js',
+			'media/vendor/skipto/js/skipTo.js' => 'media/vendor/skipto/js/skipto.js',
 		);
 
 		foreach ($files as $old => $expected)
