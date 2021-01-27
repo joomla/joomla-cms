@@ -2668,14 +2668,14 @@ class JoomlaInstallerScript
 	protected function fixFilenameCasing()
 	{
 		$files = array(
-			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
-			'libraries/vendor/paragonie/sodium_compat/src/Core/Xsalsa20.php' => 'libraries/vendor/paragonie/sodium_compat/src/Core/XSalsa20.php',
-			'media/mod_languages/images/si_LK.gif' => 'media/mod_languages/images/si_lk.gif',
+			'/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
+			'/libraries/vendor/paragonie/sodium_compat/src/Core/Xsalsa20.php' => '/libraries/vendor/paragonie/sodium_compat/src/Core/XSalsa20.php',
+			'/media/mod_languages/images/si_LK.gif' => '/media/mod_languages/images/si_lk.gif',
 		);
 
 		foreach ($files as $old => $expected)
 		{
-			$oldRealpath = realpath(JPATH_ROOT . '/' . $old);
+			$oldRealpath = realpath(JPATH_ROOT . $old);
 
 			// On Unix without incorrectly cased file.
 			if ($oldRealpath === false)
@@ -2684,7 +2684,7 @@ class JoomlaInstallerScript
 			}
 
 			$oldBasename      = basename($oldRealpath);
-			$newRealpath      = realpath(JPATH_ROOT . '/' . $expected);
+			$newRealpath      = realpath(JPATH_ROOT . $expected);
 			$newBasename      = basename($newRealpath);
 			$expectedBasename = basename($expected);
 
@@ -2692,8 +2692,8 @@ class JoomlaInstallerScript
 			if ($newBasename !== $expectedBasename)
 			{
 				// Rename the file.
-				rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
-				rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 
 				continue;
 			}
@@ -2708,14 +2708,14 @@ class JoomlaInstallerScript
 					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
 					{
 						// Rename the file.
-						rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
-						rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 					}
 				}
 				else
 				{
 					// On Unix with both files: Delete the incorrectly cased file.
-					unlink(JPATH_ROOT . '/' . $old);
+					unlink(JPATH_ROOT . $old);
 				}
 			}
 		}
