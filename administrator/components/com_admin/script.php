@@ -6292,8 +6292,6 @@ class JoomlaInstallerScript
 			echo implode('<br/>', $status['files_errors']);
 		}
 
-		$this->fixFilenameCasing();
-
 		return $status;
 	}
 
