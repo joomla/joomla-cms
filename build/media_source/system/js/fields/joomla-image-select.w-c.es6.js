@@ -256,9 +256,7 @@
   <div class="">
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
         <input class="form-control" type="text" id="${this.parentId}-alt" />
       </div>
     </div>
@@ -277,25 +275,19 @@
     </div>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-classes">${this.classestext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-classes">${this.classestext}</label>
         <input class="form-control" type="text" id="${this.parentId}-classes" />
       </div>
     </div>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-figclasses">${this.figclassestext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-figclasses">${this.figclassestext}</label>
         <input class="form-control" type="text" id="${this.parentId}-figclasses" />
       </div>
     </div>
     <div class="form-group">
       <div class="input-group">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
-        </div>
+        <label class="input-group-text" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
         <input class="form-control" type="text" id="${this.parentId}-figcaption" />
       </div>
     </div>
@@ -363,27 +355,3 @@
 
   customElements.define('joomla-field-mediamore', JoomlaFieldMediaOptions);
 })(customElements, Joomla);
-
-// Patch the opening of the modal for XTD buttons
-((Joomla) => {
-  'use strict';
-
-  if (!Joomla) {
-    throw new Error('Joomla API is not properly initiated');
-  }
-
-  if (window.jQuery) {
-    const MediaXTDElements = Joomla.getOptions('xtdImageModal');
-
-    if (MediaXTDElements.length) {
-      MediaXTDElements.forEach((element) => {
-        window.jQuery(`#${element}`).on('show.bs.modal', (ev) => {
-          const addData = ev.target.querySelector('joomla-field-mediamore');
-          if (addData) {
-            addData.parentNode.removeChild(addData);
-          }
-        });
-      });
-    }
-  }
-})(Joomla);

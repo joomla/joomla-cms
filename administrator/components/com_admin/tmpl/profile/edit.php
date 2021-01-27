@@ -47,7 +47,7 @@ $this->useCoreUI = true;
 			</label>
 		</div>
 		<div class="controls">
-			<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', ['onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'custom-select'], 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
+			<?php echo HTMLHelper::_('select.genericlist', UsersHelper::getTwoFactorMethods(), 'jform[twofactor][method]', ['onchange' => 'Joomla.twoFactorMethodChange();', 'class' => 'form-select'], 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 		</div>
 	</div>
 	<div id="com_users_twofactor_forms_container">
@@ -64,12 +64,12 @@ $this->useCoreUI = true;
 			<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS'); ?>
 		</legend>
 		<div class="alert alert-info">
-			<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS_DESC'); ?>
 		</div>
 		<?php if (empty($this->otpConfig->otep)) : ?>
 			<div class="alert alert-warning">
-				<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+				<span class="icon-exclamation-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_ADMIN_PROFILE_OTEPS_WAIT_DESC'); ?>
 			</div>
 		<?php else : ?>

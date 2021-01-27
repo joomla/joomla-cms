@@ -32,20 +32,16 @@ endif;
 <div class="container d-none" id="comModulesSelectSearchContainer">
 	<div class="row">
 		<div class="col-sm-6 offset-sm-2 col-md-4 offset-sm-4 offset-md-5 offset-lg-4">
-			<div class="form-inline">
-				<label class="sr-only" for="comModulesSelectSearch">
-					<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
-				</label>
-				<div class="input-group mb-5 mr-sm-2">
-					<input type="text" value=""
-						   class="form-control" id="comModulesSelectSearch"
-						   placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
-					>
-					<div class="input-group-append" aria-hidden="true">
-						<div class="input-group-text">
-							<span class="icon-search" aria-hidden="true"></span>
-						</div>
-					</div>
+			<label class="visually-hidden" for="comModulesSelectSearch">
+				<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
+			</label>
+			<div class="input-group mb-5 me-sm-2">
+				<input type="text" value=""
+					class="form-control" id="comModulesSelectSearch"
+					placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
+				>
+				<div class="input-group-text">
+					<span class="icon-search" aria-hidden="true"></span>
 				</div>
 			</div>
 		</div>

@@ -38,9 +38,9 @@ endif;
 	<?php // The following statement has been concatenated purposely to remove whitespace. ?>
 	<?php // Please leave as is. ?>
 	<?php if (!empty($data->title)) : ?><span><?php echo Text::_($data->title); ?></span><?php endif; ?><span
-		class="ml-1 <?php echo $icon; ?>"
+		class="ms-1 <?php echo $icon; ?>"
 		aria-hidden="true"></span>
-	<span class="sr-only">
+	<span class="visually-hidden">
 		<?php echo Text::_('JGLOBAL_SORT_BY'); ?>
 		<?php echo (!empty($data->title)) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING'); ?>
 	</span>

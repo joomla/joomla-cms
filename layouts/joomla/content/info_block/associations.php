@@ -26,7 +26,7 @@ use Joomla\CMS\Router\Route;
 			<?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
 			&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 		<?php else : ?>
-			<?php $class = 'badge badge-secondary badge-' . $association['language']->sef; ?>
+			<?php $class = 'badge bg-secondary badge-' . $association['language']->sef; ?>
 			&nbsp;<a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 		<?php endif; ?>
 	<?php endforeach; ?>

@@ -52,6 +52,12 @@ class PlgSystemAccessibility extends CMSPlugin
 			return;
 		}
 
+		// Are we in a modal?
+		if ($this->app->input->get('tmpl', '', 'cmd') === 'component')
+		{
+			return;
+		}
+
 		// Load language file.
 		$this->loadLanguage();
 

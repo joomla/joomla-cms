@@ -71,7 +71,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			default="1"
 			>
@@ -102,6 +102,7 @@
 			name="created_by"
 			type="user"
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -130,6 +131,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -278,7 +280,7 @@
 					name="article_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 					useglobal="true"
 					extension="com_content"
 					view="article"
@@ -310,7 +312,7 @@
 					name="show_tags"
 					type="list"
 					label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					validate="options"
 					>
@@ -322,7 +324,7 @@
 					name="show_intro"
 					type="list"
 					label="JGLOBAL_SHOW_INTRO_LABEL"
-					class="custom-select-color"
+					class="form-select-color"
 					useglobal="true"
 					validate="options"
 					>

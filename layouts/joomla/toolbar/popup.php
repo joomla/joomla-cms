@@ -34,8 +34,8 @@ Factory::getDocument()->getWebAssetManager()
 
 $tagName = $tagName ?? 'button';
 
-$modalAttrs['data-toggle'] = 'modal';
-$modalAttrs['data-target'] = '#' . $selector;
+$modalAttrs['data-bs-toggle'] = 'modal';
+$modalAttrs['data-bs-target'] = '#' . $selector;
 
 $idAttr   = !empty($id)        ? ' id="' . $id . '"' : '';
 $listAttr = !empty($listCheck) ? ' list-selection' : '';

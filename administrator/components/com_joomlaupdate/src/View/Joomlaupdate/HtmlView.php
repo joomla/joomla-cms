@@ -28,6 +28,15 @@ use Joomla\Database\ParameterType;
 class HtmlView extends BaseHtmlView
 {
 	/**
+	 * Holds an array with the configured FTP options.
+	 *
+	 * @var    array
+	 *
+	 * @since  4.0.0
+	 */
+	protected $ftp = null;
+
+	/**
 	 * An array with the Joomla! update information.
 	 *
 	 * @var    array

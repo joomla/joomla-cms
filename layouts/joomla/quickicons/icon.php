@@ -70,7 +70,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 				<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
 					<span class="icon-spinner" aria-hidden="true"></span>
 				</div>
-				<div class="quickicon-sr-desc sr-only"></div>
+				<div class="quickicon-sr-desc visually-hidden"></div>
 			<?php endif; ?>
 			<?php // Name indicates the component
 			if (isset($displayData['name'])): ?>
@@ -88,7 +88,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	</li>
 	<?php // Add the link to the edit-form
 	if (isset($displayData['linkadd'])): ?>
-		<li class="btn-block quickicon-linkadd j-links-link d-flex">
+		<li class="quickicon-linkadd j-links-link d-flex">
 			<a class="d-flex align-items-center" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
 				<span class="icon-plus" aria-hidden="true"></span>
 			</a>

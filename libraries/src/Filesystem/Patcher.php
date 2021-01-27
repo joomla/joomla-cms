@@ -447,7 +447,7 @@ class Patcher
 
 					if (!isset($src_lines))
 					{
-						throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXISING_SOURCE', $src));
+						throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXISTING_SOURCE', $src));
 					}
 				}
 

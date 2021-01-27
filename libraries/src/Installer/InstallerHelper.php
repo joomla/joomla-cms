@@ -285,9 +285,6 @@ abstract class InstallerHelper
 
 		Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
 
-		// Free up memory.
-		unset($xml);
-
 		return false;
 	}
 

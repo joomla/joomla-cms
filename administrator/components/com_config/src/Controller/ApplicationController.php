@@ -80,6 +80,8 @@ class ApplicationController extends BaseController
 			return false;
 		}
 
+		$this->app->setUserState('com_config.config.global.data', null);
+
 		// Set FTP credentials, if given.
 		ClientHelper::setCredentialsFromRequest('ftp');
 

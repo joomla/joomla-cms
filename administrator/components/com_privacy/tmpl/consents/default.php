@@ -37,12 +37,12 @@ $stateMsgs  = array(
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table" id="consentList">
-				<caption id="captionTable" class="sr-only">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -86,7 +86,7 @@ $stateMsgs  = array(
 							</td>
 							<td class="tbody-icon">
 								<span class="icon-<?php echo $stateIcons[$item->state]; ?>" aria-hidden="true" title="<?php echo $stateMsgs[$item->state]; ?>"></span>
-								<span class="sr-only"><?php echo $stateMsgs[$item->state]; ?>"></span>
+								<span class="visually-hidden"><?php echo $stateMsgs[$item->state]; ?>"></span>
 							</td>
 							<th scope="row">
 								<?php echo $item->username; ?>
