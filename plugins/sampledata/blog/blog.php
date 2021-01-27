@@ -988,7 +988,7 @@ class PlgSampledataBlog extends CMSPlugin
 				// Typography
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_14_TITLE'),
-				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[10],
+				'link'         => 'index.php?option=com_content&view=article&id=' . (int) $articleIds[10] . '&catid=' . (int) $catIds[3],
 				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'show_title'            => 0,
@@ -1347,6 +1347,9 @@ class PlgSampledataBlog extends CMSPlugin
 	public function onAjaxSampledataApplyStep3()
 	{
 		$app = Factory::getApplication();
+
+		// Get previously entered categories ids
+		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
 
 		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
