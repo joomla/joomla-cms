@@ -120,6 +120,25 @@ abstract class QuickIconHelper
 				self::$buttons[$key][] = $tmp;
 			}
 
+			if ($params->get('show_tags'))
+			{
+				$tmp = [
+					'image'   => 'icon-tag-alt',
+					'link'    => Route::_('index.php?option=com_tags&view=tags'),
+					'linkadd' => Route::_('index.php?option=com_tags&task=tag.edit'),
+					'name'    => 'MOD_QUICKICON_tags_MANAGER',
+					'access'  => array('core.manage', 'com_tags', 'core.create', 'com_content'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+
+				if ($params->get('show_articles') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconTags&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
 			if ($params->get('show_categories'))
 			{
 				$tmp = [
