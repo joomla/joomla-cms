@@ -13,6 +13,9 @@ namespace Joomla\Component\Mails\Administrator\Model;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
@@ -119,7 +122,7 @@ class TemplateModel extends AdminModel
 		else
 		{
 			$field = $form->getField('attachments');
-			$subform = new \SimpleXmlElement($field->formsource);
+			$subform = new \SimpleXMLElement($field->formsource);
 			$files = $subform->xpath('field[@name="file"]');
 			$files[0]->addAttribute('directory', JPATH_ROOT . '/' . $params->get('attachment_folder'));
 			$form->load('<form><field name="attachments" type="subform" '
@@ -264,6 +267,31 @@ class TemplateModel extends AdminModel
 		$this->preprocessData('com_mails.template', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   Form    $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		$validLanguages = LanguageHelper::getContentLanguages(array(0, 1));
+
+		if (!array_key_exists($data['language'], $validLanguages))
+		{
+			$this->setError(Text::_('COM_MAILS_FIELD_LANGUAGE_CODE_INVALID'));
+
+			return false;
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 
 	/**

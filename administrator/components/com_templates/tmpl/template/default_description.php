@@ -17,7 +17,7 @@ use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 ?>
 
 <div class="clearfix">
-	<div class="float-left mr-3 text-center">
+	<div class="float-start me-3 text-center">
 		<?php echo HTMLHelper::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
 		<?php echo HTMLHelper::_('templates.thumbModal', $this->template->element, $this->template->client_id); ?>
 	</div>

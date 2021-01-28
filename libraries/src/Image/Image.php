@@ -186,7 +186,7 @@ class Image
 
 		if (!$info)
 		{
-			throw new \RuntimeException('Unable to get properties for the image.');
+			throw new Exception\UnparsableImageException('Unable to get properties for the image.');
 		}
 
 		// Build the response object.
@@ -315,7 +315,7 @@ class Image
 	}
 
 	/**
-	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or croppping the original image.
+	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
 	 *
 	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create cropping
@@ -955,15 +955,12 @@ class Image
 		{
 			case IMAGETYPE_GIF:
 				return imagegif($this->getHandle(), $path);
-				break;
 
 			case IMAGETYPE_PNG:
 				return imagepng($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 0);
-				break;
 
 			case IMAGETYPE_WEBP:
 				return imagewebp($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
-				break;
 		}
 
 		// Case IMAGETYPE_JPEG & default
@@ -1055,7 +1052,6 @@ class Image
 
 			default:
 				throw new \InvalidArgumentException('Invalid scale method.');
-				break;
 		}
 
 		return $dimensions;

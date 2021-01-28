@@ -123,6 +123,10 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 				'security' => '2021-11-28',
 				'eos'      => '2022-11-28',
 			),
+			'8.0' => array(
+				'security' => '2022-11-26',
+				'eos'      => '2023-11-26',
+			),
 		);
 
 		// Fill our return array with default values

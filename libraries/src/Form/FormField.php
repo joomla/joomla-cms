@@ -822,7 +822,7 @@ abstract class FormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -1134,6 +1134,18 @@ abstract class FormField
 			if ($this instanceof SubformField)
 			{
 				$subForm = $this->loadSubForm();
+
+				// Subform field may have a default value, that is a JSON string
+				if ($value && is_string($value))
+				{
+					$value = json_decode($value, true);
+
+					// The string is invalid json
+					if (!$value)
+					{
+						return null;
+					}
+				}
 
 				if ($this->multiple)
 				{

@@ -11,13 +11,11 @@ namespace Joomla\CMS\Tag;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 
 /**
  * Defines the trait for a Taggable Table Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.10.0
  */
 trait TaggableTableTrait
 {
@@ -25,7 +23,7 @@ trait TaggableTableTrait
 	 * The tags helper property
 	 *
 	 * @var    TagsHelper
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @note   The tags helper property is set to public for backwards compatibility for Joomla 4.0. It will be made a
 	 *         protected property in Joomla 5.0
 	 */
@@ -36,7 +34,7 @@ trait TaggableTableTrait
 	 *
 	 * @return  TagsHelper  The tags helper object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getTagsHelper(): ?TagsHelper
 	{
@@ -50,7 +48,7 @@ trait TaggableTableTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setTagsHelper(TagsHelper $tagsHelper): void
 	{
@@ -62,7 +60,7 @@ trait TaggableTableTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function clearTagsHelper(): void
 	{

@@ -91,6 +91,8 @@ function clean_checkout(string $dir)
 
 	// testing sampledata
 	system('rm -rf plugins/sampledata/testing');
+	system('rm -rf images/sampledata/parks');
+	system('rm -rf images/sampledata/fruitshop');
 
 	// paragonie/random_compat
 	system('rm -rf libraries/vendor/paragonie/random_compat/other');
@@ -300,35 +302,25 @@ $filesArray = array(
  */
 $doNotPackage = array(
 	'.appveyor.yml',
-	'.babelrc',
-	'.drone.jsonnet',
 	'.drone.yml',
 	'.editorconfig',
-	'.eslintignore',
-	'.eslintrc',
 	'.github',
 	'.gitignore',
 	'.php_cs.dist',
 	'CODE_OF_CONDUCT.md',
-	'Gemfile',
-	'Gemfile.lock',
 	'README.md',
-	'RoboFile.php',
 	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
-	'build.js',
 	'build.xml',
 	'codeception.yml',
 	'composer.json',
 	'composer.lock',
 	'crowdin.yml',
-	'drone-package.json',
 	'package-lock.json',
 	'package.json',
 	'phpunit-pgsql.xml.dist',
 	'phpunit.xml.dist',
-	'scss-lint.yml',
 	'selenium.log',
 	'tests',
 	// Media Manager Node Assets

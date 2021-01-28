@@ -366,6 +366,6 @@ class GetConfigurationCommand extends AbstractCommand
 			return self::CONFIG_GET_SUCCESSFUL;
 		}
 
-		return self::CONFIG_GET_FAILED;
+		return self::CONFIG_GET_OPTION_NOT_FOUND;
 	}
 }

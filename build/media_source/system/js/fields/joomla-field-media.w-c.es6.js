@@ -94,11 +94,15 @@
         throw new Error('Misconfiguaration...');
       }
 
-      if (Joomla.Bootstrap && Joomla.Bootstrap.initModal && typeof Joomla.Bootstrap.initModal === 'function') {
-        Joomla.Bootstrap.initModal(this.modalElement);
-      }
-
       this.button.addEventListener('click', this.show);
+
+      // Bootstrap modal init
+      if (this.modalElement
+        && bootstrap
+        && bootstrap.Modal
+        && bootstrap.Modal.getInstance(this.modalElement) === undefined) {
+        Joomla.initialiseModal(this.modalElement, { isJoomla: true });
+      }
 
       if (this.buttonClearEl) {
         this.buttonClearEl.addEventListener('click', this.clearValue);
@@ -132,19 +136,17 @@
       this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
     }
 
-    modalClose() {
-      Joomla.getImage(Joomla.selectedMediaFile, this.inputElement, this)
-        .then(() => {
-          Joomla.Modal.getCurrent().close();
-          Joomla.selectedMediaFile = {};
-        })
-        .catch(() => {
-          Joomla.Modal.getCurrent().close();
-          Joomla.selectedMediaFile = {};
-          Joomla.renderMessages({
-            error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
-          });
+    async modalClose() {
+      try {
+        await Joomla.getImage(Joomla.selectedMediaFile, this.inputElement, this);
+      } catch (err) {
+        Joomla.renderMessages({
+          error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
         });
+      }
+
+      Joomla.selectedMediaFile = {};
+      Joomla.Modal.getCurrent().close();
     }
 
     setValue(value) {

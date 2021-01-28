@@ -286,15 +286,6 @@ class ApplicationModel extends FormModel
 			}
 		}
 
-		// Unset all protected config fields to empty
-		foreach ($this->protectedConfigurationFields as $fieldKey)
-		{
-			if (isset($data[$fieldKey]))
-			{
-				$data[$fieldKey] = '';
-			}
-		}
-
 		return $data;
 	}
 
@@ -314,7 +305,7 @@ class ApplicationModel extends FormModel
 		// Try to load the values from the configuration file
 		foreach ($this->protectedConfigurationFields as $fieldKey)
 		{
-			if (isset($data[$fieldKey]) && empty($data[$fieldKey]))
+			if (!isset($data[$fieldKey]))
 			{
 				$data[$fieldKey] = $app->get($fieldKey, '');
 			}
@@ -325,7 +316,7 @@ class ApplicationModel extends FormModel
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => $app->get('password'),
+			'password' => $data['password'],
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix'],
 		);
@@ -1158,7 +1149,7 @@ class ApplicationModel extends FormModel
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
 		{
-			$result['class'] = 'badge badge-success';
+			$result['class'] = 'badge bg-success';
 			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
@@ -1169,13 +1160,13 @@ class ApplicationModel extends FormModel
 			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 			}
 			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 			else
 			{
-				$result['class'] = 'badge badge-success';
+				$result['class'] = 'badge bg-success';
 				$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
 			}
 
@@ -1190,13 +1181,13 @@ class ApplicationModel extends FormModel
 			// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED');
 			}
 			// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 			elseif ($assetRule === true)
 			{
-				$result['class'] = 'badge badge-success';
+				$result['class'] = 'badge bg-success';
 				$result['text']  = Text::_('JLIB_RULES_ALLOWED');
 			}
 
@@ -1205,7 +1196,7 @@ class ApplicationModel extends FormModel
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
 
@@ -1216,7 +1207,7 @@ class ApplicationModel extends FormModel
 			 */
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
-				$result['class'] = 'badge badge-danger';
+				$result['class'] = 'badge bg-danger';
 				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
@@ -1249,7 +1240,7 @@ class ApplicationModel extends FormModel
 		$app = Factory::getApplication();
 		$user = Factory::getUser();
 		$input = $app->input->json;
-		$smtppass = $input->get('smtppass', '', 'RAW');
+		$smtppass = $input->get('smtppass', null, 'RAW');
 
 		$app->set('smtpauth', $input->get('smtpauth'));
 		$app->set('smtpuser', $input->get('smtpuser', '', 'STRING'));
@@ -1262,7 +1253,7 @@ class ApplicationModel extends FormModel
 		$app->set('mailonline', $input->get('mailonline'));
 
 		// Use smtppass only if it was submitted
-		if ($smtppass)
+		if ($smtppass !== null)
 		{
 			$app->set('smtppass', $smtppass);
 		}

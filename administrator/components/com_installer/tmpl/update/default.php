@@ -37,12 +37,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
 						</div>
 					<?php else : ?>
 						<table class="table">
-							<caption id="captionTable" class="sr-only">
+							<caption class="visually-hidden">
 								<?php echo Text::_('COM_INSTALLER_UPDATE_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -102,10 +102,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php endif; ?>
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
-										<span class="badge badge-warning">
+										<?php HTMLHelper::_('bootstrap.popover', 'span.hasPopover'); ?>
+										<span class="badge bg-warning text-dark">
 											<span class="hasPopover"
 												  title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
-												  data-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
+												  data-bs-content="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
 											>
 												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
 												</span>
@@ -119,14 +120,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo $item->type_translated; ?>
 									</td>
 									<td>
-										<span class="badge badge-warning"><?php echo $item->current_version; ?></span>
+										<span class="badge bg-warning text-dark"><?php echo $item->current_version; ?></span>
 									</td>
 									<td>
-										<span class="badge badge-success"><?php echo $item->version; ?></span>
+										<span class="badge bg-success"><?php echo $item->version; ?></span>
 									</td>
 									<td class="d-none d-md-table-cell text-center">
 										<?php if (!empty($item->changelogurl)) : ?>
-										<a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-xs changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-toggle="modal">
+										<a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-xs changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-bs-toggle="modal">
 											<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
 										</a>
 										<?php
