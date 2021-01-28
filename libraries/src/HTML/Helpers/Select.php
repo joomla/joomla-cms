@@ -140,7 +140,7 @@ abstract class Select
 		// If the selectbox contains "form-select-color-state" then load the JS file
 		if (strpos($attribs, 'form-select-color-state') !== false)
 		{
-			HTMLHelper::_('script', 'system/fields/select-colour.min.js', array('version' => 'auto', 'relative' => true));
+			HTMLHelper::_('script', 'system/fields/select-colour.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		}
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
