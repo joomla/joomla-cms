@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
+use Joomla\CMS\Filter\InputFilter;
+
 /**
  * Joomla! update overview Model
  *
