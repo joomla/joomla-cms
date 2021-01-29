@@ -117,6 +117,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu')) : ?>
 					<nav class="navbar navbar-expand-md">
+						<?php HTMLHelper::_('bootstrap.collapse', '.navbar-toggler'); ?>
 						<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
 							<span class="icon-menu" aria-hidden="true"></span>
 						</button>

@@ -242,7 +242,7 @@ class HtmlView extends BaseHtmlView
 		// Try the update only if we have an extension id
 		if ($joomlaUpdateComponentId != 0)
 		{
-			// Allways force to check for an update!
+			// Always force to check for an update!
 			$cache_timeout = 0;
 
 			$updater = Updater::getInstance();

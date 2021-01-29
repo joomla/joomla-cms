@@ -96,11 +96,12 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
     const name = this.getAttribute('data-name');
     const attr = this.getAttribute('data-client-attr') ? this.getAttribute('data-client-attr') : 'form-select';
     const id = `${this.getAttribute('data-id')}`;
+    const moduleId = `${this.getAttribute('data-module-id')}`;
     const orders = [];
     const that = this;
 
     Joomla.request({
-      url: `${url}&client_id=${clientId}&position=${originalPosition}`,
+      url: `${url}&client_id=${clientId}&position=${originalPosition}&module_id=${moduleId}`,
       method: 'GET',
       perform: true,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

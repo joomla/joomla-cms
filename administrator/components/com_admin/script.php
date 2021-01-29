@@ -5006,7 +5006,8 @@ class JoomlaInstallerScript
 			'/templates/system/images/j_button2_pagebreak.png',
 			'/templates/system/images/j_button2_readmore.png',
 			'/templates/system/images/j_button2_right.png',
-			'/templates/system/images/selector-arrow.png',			// Joomla 4.0 Beta 3
+			'/templates/system/images/selector-arrow.png',
+			// Joomla 4.0 Beta 3
 			'/administrator/templates/atum/images/logo.svg',
 			'/administrator/templates/atum/images/logo-blue.svg',
 			'/administrator/templates/atum/images/logo-joomla-blue.svg',
@@ -6279,6 +6280,8 @@ class JoomlaInstallerScript
 			}
 		}
 
+		$this->fixFilenameCasing();
+
 		if ($suppressOutput === false && \count($status['folders_errors']))
 		{
 			echo implode('<br/>', $status['folders_errors']);
@@ -7139,6 +7142,71 @@ class JoomlaInstallerScript
 				'params' => $params,
 			);
 			$configModel->save($data);
+		}
+	}
+
+	/**
+	 * Renames or removes incorrectly cased files.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function fixFilenameCasing()
+	{
+		$files = array(
+			// 3.10 changes
+			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
+			'libraries/src/Form/Rule/SubFormRule.php' => 'libraries/src/Form/Rule/SubformRule.php',
+			// __DEPLOY_VERSION__
+			'media/vendor/skipto/js/skipTo.js' => 'media/vendor/skipto/js/skipto.js',
+		);
+
+		foreach ($files as $old => $expected)
+		{
+			$oldRealpath = realpath(JPATH_ROOT . '/' . $old);
+
+			// On Unix without incorrectly cased file.
+			if ($oldRealpath === false)
+			{
+				continue;
+			}
+
+			$oldBasename      = basename($oldRealpath);
+			$newRealpath      = realpath(JPATH_ROOT . '/' . $expected);
+			$newBasename      = basename($newRealpath);
+			$expectedBasename = basename($expected);
+
+			// On Windows or Unix with only the incorrectly cased file.
+			if ($newBasename !== $expectedBasename)
+			{
+				// Rename the file.
+				rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
+				rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+
+				continue;
+			}
+
+			// There might still be an incorrectly cased file on other OS than Windows.
+			if ($oldBasename === basename($old))
+			{
+				// Check if case-insensitive file system, eg on OSX.
+				if (fileinode($oldRealpath) === fileinode($newRealpath))
+				{
+					// Check deeper because even realpath or glob might not return the actual case.
+					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
+					{
+						// Rename the file.
+						rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
+						rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+					}
+				}
+				else
+				{
+					// On Unix with both files: Delete the incorrectly cased file.
+					unlink(JPATH_ROOT . '/' . $old);
+				}
+			}
 		}
 	}
 }

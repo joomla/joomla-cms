@@ -55,11 +55,10 @@
 
       // Bootstrap modal init
       if (this.modal
-        && Joomla.Bootstrap
-        && Joomla.Bootstrap.Instances
-        && Joomla.Bootstrap.Instances.Modal
-        && Joomla.Bootstrap.Instances.Modal.get(this.modal) === undefined) {
-        Joomla.Bootstrap.Initialise.Modal(this.modal, { isJoomla: true });
+        && bootstrap
+        && bootstrap.Modal
+        && bootstrap.Modal.getInstance(this.modal) === undefined) {
+        Joomla.initialiseModal(this.modal, { isJoomla: true });
       }
 
       if (this.buttonSelect) {

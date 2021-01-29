@@ -344,8 +344,9 @@
 		<field
 			name="cors_allow_origin"
 			type="text"
-			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_LABEL"
+			label="Access-Control-Allow-Origin"
 			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_ORIGIN_DESC"
+			translate_label="false"
 			default="*"
 			showon="cors:1"
 		/>
@@ -353,8 +354,9 @@
 		<field
 			name="cors_allow_headers"
 			type="text"
-			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_LABEL"
+			label="Access-Control-Allow-Headers"
 			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_HEADERS_DESC"
+			translate_label="false"
 			default="Content-Type,X-Joomla-Token"
 			showon="cors:1"
 		/>
@@ -362,8 +364,9 @@
 		<field
 			name="cors_allow_methods"
 			type="text"
-			label="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_LABEL"
+			label="Access-Control-Allow-Methods"
 			description="COM_CONFIG_FIELD_WEBSERVICES_CORS_ALLOW_METHODS_DESC"
+			translate_label="false"
 			showon="cors:1"
 		/>
 	</fieldset>
