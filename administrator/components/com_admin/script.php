@@ -2692,10 +2692,8 @@ class JoomlaInstallerScript
 			if ($newBasename !== $expectedBasename)
 			{
 				// Rename the file.
-				if (rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp'))
-				{
-					rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
-				}
+				rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+				rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 
 				continue;
 			}
@@ -2710,10 +2708,8 @@ class JoomlaInstallerScript
 					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
 					{
 						// Rename the file.
-						if (rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp'))
-						{
-							rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
-						}
+						rename(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+						rename(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
 					}
 				}
 				else
