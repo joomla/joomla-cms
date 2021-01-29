@@ -92,6 +92,7 @@
 					<option value="1">JSHOW</option>
 					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
+
 				<field
 					name="show_tags"
 					type="list"
@@ -103,6 +104,7 @@
 					<option value="1">JSHOW</option>
 					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
+
 				<field
 					name="show_modules"
 					type="list"

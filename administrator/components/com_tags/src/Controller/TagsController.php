@@ -13,6 +13,7 @@ namespace Joomla\Component\Tags\Administrator\Controller;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -77,7 +78,7 @@ class TagsController extends AdminController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getQuickiconTags()
+	public function getQuickiconContent()
 	{
 		$model = $this->getModel('tags');
 
