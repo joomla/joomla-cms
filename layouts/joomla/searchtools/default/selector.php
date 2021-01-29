@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $data = $displayData;
 ?>
 <div class="js-stools-field-selector">
-	<div class="sr-only">
+	<div class="visually-hidden">
 		<?php echo $data['view']->filterForm->getField($data['options']['selectorFieldName'])->label; ?>
 	</div>
 	<?php echo $data['view']->filterForm->getField($data['options']['selectorFieldName'])->input; ?>

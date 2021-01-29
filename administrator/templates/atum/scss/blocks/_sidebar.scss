@@ -70,7 +70,7 @@
     transition: all .3s ease;
   }
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     &.sidebar-menu {
       top: auto;
     }
@@ -93,7 +93,7 @@
 .main-nav {
   width: $sidebar-width;
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     width: 100%;
   }
 
@@ -233,7 +233,7 @@
 }
 
 // Mobile
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-down(sm) {
   #menu-collapse {
     display: none;
     background: var(--atum-bg-dark-50);

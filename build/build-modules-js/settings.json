@@ -23,7 +23,10 @@
           {
             "name": "awesomplete",
             "type": "script",
-            "uri": "awesomplete.min.js"
+            "uri": "awesomplete.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "awesomplete",
@@ -39,13 +42,6 @@
       },
       "bootstrap": {
         "name": "bootstrap",
-        "js": {
-          "dist/js/bootstrap.js": "js/bootstrap.js",
-          "dist/js/bootstrap.min.js": "js/bootstrap.min.js",
-          "dist/js/bootstrap.bundle.js": "js/bootstrap.bundle.js",
-          "dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
-          "dist/js/bootstrap.bundle.min.js.map": "js/bootstrap.bundle.min.js.map"
-        },
         "css": {
           "dist/css/bootstrap.css": "css/bootstrap.css",
           "dist/css/bootstrap.min.css": "css/bootstrap.min.css",
@@ -75,22 +71,6 @@
             "uri": "bootstrap-grid.min.css",
             "dependencies": [
               "bootstrap.css"
-            ]
-          },
-          {
-            "name": "bootstrap.js",
-            "type": "script",
-            "uri": "bootstrap.min.js",
-            "dependencies": [
-              "jquery"
-            ]
-          },
-          {
-            "name": "bootstrap.js.bundle",
-            "type": "script",
-            "uri": "bootstrap.bundle.min.js",
-            "dependencies": [
-              "jquery"
             ]
           }
         ],
@@ -152,7 +132,10 @@
           {
             "name": "choicesjs",
             "type": "script",
-            "uri": "choices.min.js"
+            "uri": "choices.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "choicesjs",
@@ -329,26 +312,22 @@
           {
             "name": "webcomponent.joomla-alert",
             "type": "style",
-            "uri": "joomla-alert.min.css",
-            "webcomponent": true
+            "uri": "joomla-alert.min.css"
           },
           {
             "name": "webcomponent.joomla-tab",
             "type": "style",
-            "uri": "joomla-tab.min.css",
-            "webcomponent": true
+            "uri": "joomla-tab.min.css"
           },
           {
             "name": "webcomponent.joomla-alert",
             "type": "script",
-            "uri": "joomla-alert.min.js",
-            "webcomponent": true
+            "uri": "joomla-alert.min.js"
           },
           {
             "name": "webcomponent.joomla-tab",
             "type": "script",
-            "uri": "joomla-tab.min.js",
-            "webcomponent": true
+            "uri": "joomla-tab.min.js"
           }
         ],
         "dependencies": [],
@@ -389,7 +368,10 @@
           {
             "name": "punycode",
             "type": "script",
-            "uri": "punycode.js"
+            "uri": "punycode.js",
+            "attributes": {
+              "defer": true
+            }
           }
         ],
         "dependencies": [],
@@ -455,7 +437,18 @@
           "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js"
         },
         "dependencies": [],
-        "licenseFilename": "LICENSE.md"
+        "licenseFilename": "LICENSE.md",
+        "provideAssets": [
+          {
+            "name": "wcpolyfill",
+            "type": "script",
+            "uri": "webcomponents-sd-ce-pf.js",
+            "attributes": {
+              "nomodule": ""
+            },
+            "dependencies": ["core"]
+          }
+        ]
       },
       "chosen-js": {
         "name": "chosen",

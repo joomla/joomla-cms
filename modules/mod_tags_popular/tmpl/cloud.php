@@ -21,7 +21,7 @@ $maxsize = $params->get('maxsize', 2);
 <?php
 if (!count($list)) : ?>
 	<div class="alert alert-info">
-		<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+		<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 		<?php echo Text::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?>
 	</div>
 <?php else :
@@ -52,7 +52,7 @@ if (!count($list)) : ?>
 			<a class="tag-name" style="font-size: <?php echo $fontsize . 'em'; ?>" href="<?php echo Route::_(RouteHelper::getTagRoute($item->tag_id . ':' . $item->alias)); ?>">
 				<?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?></a>
 			<?php if ($display_count) : ?>
-				<span class="tag-count badge badge-info"><?php echo $item->count; ?></span>
+				<span class="tag-count badge bg-info"><?php echo $item->count; ?></span>
 			<?php endif; ?>
 		</span>
 	<?php endforeach; ?>
