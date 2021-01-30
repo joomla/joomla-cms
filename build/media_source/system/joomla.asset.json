@@ -200,9 +200,13 @@
       "type": "script",
       "uri": "system/fields/joomla-field-fancy-select-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill",
+        "choicesjs"
+      ]
     },
     {
       "name": "webcomponent.field-fancy-select",
@@ -212,7 +216,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "choicesjs",
         "webcomponent.field-fancy-select-legacy"
       ]
@@ -232,9 +235,12 @@
       "type": "script",
       "uri": "system/fields/joomla-image-select-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.image-select",
@@ -244,7 +250,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.image-select-legacy"
       ]
     },
@@ -253,9 +258,12 @@
       "type": "script",
       "uri": "system/fields/joomla-field-media-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-media",
@@ -265,7 +273,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.field-media-legacy"
       ]
     },
@@ -274,9 +281,12 @@
       "type": "script",
       "uri": "system/fields/joomla-field-module-order-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-module-order",
@@ -286,7 +296,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.field-module-order-legacy"
       ]
     },
@@ -300,9 +309,12 @@
       "type": "script",
       "uri": "system/fields/joomla-field-permissions-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-permissions",
@@ -312,7 +324,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.field-permissions-legacy"
       ]
     },
@@ -321,9 +332,12 @@
       "type": "script",
       "uri": "system/fields/joomla-field-send-test-mail-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-send-test-mail",
@@ -333,7 +347,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.field-send-test-mail-legacy"
       ]
     },
@@ -347,9 +360,12 @@
       "type": "script",
       "uri": "system/fields/joomla-field-simple-color-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-simple-color",
@@ -359,7 +375,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.field-simple-color-legacy"
       ]
     },
@@ -368,9 +383,12 @@
       "type": "script",
       "uri": "system/fields/joomla-field-subform-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-subform",
@@ -380,7 +398,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.field-subform-legacy"
       ]
     },
@@ -389,9 +406,12 @@
       "type": "script",
       "uri": "system/fields/joomla-field-user-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.field-user",
@@ -401,7 +421,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.field-user-legacy"
       ]
     },
@@ -410,9 +429,12 @@
       "type": "script",
       "uri": "system/joomla-core-loader-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.core-loader",
@@ -422,7 +444,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.core-loader-legacy"
       ]
     },
@@ -431,9 +452,12 @@
       "type": "script",
       "uri": "system/joomla-hidden-mail-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.hidden-mail",
@@ -443,7 +467,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.hidden-mail-legacy"
       ]
     },
@@ -452,9 +475,12 @@
       "type": "script",
       "uri": "system/joomla-toolbar-button-es5.min.js",
       "attributes": {
-        "nomodule": "",
+        "nomodule": true,
         "defer": true
-      }
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ]
     },
     {
       "name": "webcomponent.toolbar-button",
@@ -464,7 +490,6 @@
         "type": "module"
       },
       "dependencies": [
-        "wcpolyfill",
         "webcomponent.toolbar-button-legacy"
       ]
     }
