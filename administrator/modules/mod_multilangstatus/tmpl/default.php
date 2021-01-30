@@ -18,6 +18,20 @@ if (!$multilanguageEnabled)
 	return;
 }
 
+$modalHTML = HTMLHelper::_(
+	'bootstrap.renderModal',
+	'multiLangModal',
+	array(
+		'title'      => Text::_('MOD_MULTILANGSTATUS'),
+		'url'        => Route::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
+		'height'     => '400px',
+		'width'      => '800px',
+		'bodyHeight' => 70,
+		'modalWidth' => 80,
+		'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JTOOLBAR_CLOSE') . '</button>',
+	)
+);
+
 $app->getDocument()->getWebAssetManager()
 	->registerAndUseScript('mod_multilangstatus.admin', 'mod_multilangstatus/admin-multilangstatus.min.js', [], ['defer' => true]);
 
@@ -32,17 +46,5 @@ $app->getDocument()->getWebAssetManager()
 		</div>
 	</a>
 
-	<?php echo HTMLHelper::_(
-		'bootstrap.renderModal',
-		'multiLangModal',
-		array(
-			'title'      => Text::_('MOD_MULTILANGSTATUS'),
-			'url'        => Route::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
-			'height'     => '400px',
-			'width'      => '800px',
-			'bodyHeight' => 70,
-			'modalWidth' => 80,
-			'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JTOOLBAR_CLOSE') . '</button>',
-		)
-	); ?>
+	<?php echo $modalHTML; ?>
 </div>
