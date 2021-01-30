@@ -467,58 +467,6 @@
         "wcpolyfill",
         "webcomponent.toolbar-button-legacy"
       ]
-    },
-    {
-      "name": "webcomponent.joomla-alert",
-      "type": "style",
-      "uri": "vendor/joomla-custom-elements/joomla-alert.min.css"
-    },
-    {
-      "name": "webcomponent.joomla-alert-legacy",
-      "type": "script",
-      "uri": "vendor/joomla-custom-elements/joomla-alert-es5.min.js",
-      "attributes": {
-        "nomodule": "",
-        "defer": true
-      }
-    },
-    {
-      "name": "webcomponent.joomla-alert",
-      "type": "script",
-      "uri": "vendor/joomla-custom-elements/joomla-alert.min.js",
-      "attributes": {
-        "type": "module"
-      },
-      "dependencies": [
-        "wcpolyfill",
-        "webcomponent.joomla-alert-legacy"
-      ]
-    },
-    {
-      "name": "webcomponent.joomla-tab",
-      "type": "style",
-      "uri": "vendor/joomla-custom-elements/joomla-tab.min.css"
-    },
-    {
-      "name": "webcomponent.joomla-tab-legacy",
-      "type": "script",
-      "uri": "vendor/joomla-custom-elements/joomla-tab-es5.min.js",
-      "attributes": {
-        "nomodule": "",
-        "defer": true
-      }
-    },
-    {
-      "name": "webcomponent.joomla-tab",
-      "type": "script",
-      "uri": "vendor/joomla-custom-elements/joomla-tab.min.js",
-      "attributes": {
-        "type": "module"
-      },
-      "dependencies": [
-        "wcpolyfill",
-        "webcomponent.joomla-tab-legacy"
-      ]
     }
   ]
 }
