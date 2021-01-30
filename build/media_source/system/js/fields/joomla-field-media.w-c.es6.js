@@ -1,4 +1,4 @@
-((customElements, Joomla, bootstrap) => {
+((customElements, Joomla) => {
   'use strict';
 
   if (!Joomla) {
@@ -98,9 +98,9 @@
 
       // Bootstrap modal init
       if (this.modalElement
-        && bootstrap
-        && bootstrap.Modal
-        && bootstrap.Modal.getInstance(this.modalElement) === undefined) {
+        && window.bootstrap
+        && window.bootstrap.Modal
+        && window.bootstrap.Modal.getInstance(this.modalElement) === undefined) {
         Joomla.initialiseModal(this.modalElement, { isJoomla: true });
       }
 
@@ -189,4 +189,4 @@
     }
   }
   customElements.define('joomla-field-media', JoomlaFieldMedia);
-})(customElements, Joomla, bootstrap);
+})(customElements, Joomla);
