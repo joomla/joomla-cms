@@ -72,6 +72,94 @@
             "dependencies": [
               "bootstrap.css"
             ]
+          },
+          {
+            "name": "bootstrap.es5",
+            "type": "script",
+            "uri": "bootstrap.es5.js",
+            "dependencies": [
+              "core"
+            ]
+          },
+          {
+            "name": "bootstrap.alert",
+            "type": "script",
+            "uri": "alert.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
+          },
+          {
+            "name": "bootstrap.button",
+            "type": "script",
+            "uri": "button.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
+          },
+          {
+            "name": "bootstrap.carousel",
+            "type": "script",
+            "uri": "button.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
+          },
+          {
+            "name": "bootstrap.collapse",
+            "type": "script",
+            "uri": "collapse.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
+          },
+          {
+            "name": "bootstrap.dropdown",
+            "type": "script",
+            "uri": "dropdown.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
+          },
+          {
+            "name": "bootstrap.modal",
+            "type": "script",
+            "uri": "modal.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
+          },
+          {
+            "name": "bootstrap.popover",
+            "type": "script",
+            "uri": "popover.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
+          },
+          {
+            "name": "bootstrap.scrollspy",
+            "type": "script",
+            "uri": "scrollspy.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
+          },
+          {
+            "name": "bootstrap.tab",
+            "type": "script",
+            "uri": "tab.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
+          },
+          {
+            "name": "bootstrap.toast",
+            "type": "script",
+            "uri": "toast.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ]
           }
         ],
         "dependencies": [],
