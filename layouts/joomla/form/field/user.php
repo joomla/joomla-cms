@@ -50,8 +50,25 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
+$modalHTML = '';
+
 if (!$readonly)
 {
+	$modalHTML = HTMLHelper::_(
+		'bootstrap.renderModal',
+		'userModal_' . $id,
+		array(
+			'url'         => $uri,
+			'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
+			'closeButton' => true,
+			'height'      => '100%',
+			'width'       => '100%',
+			'modalWidth'  => 80,
+			'bodyHeight'  => 60,
+			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
+		)
+	);
+
 	Factory::getDocument()->getWebAssetManager()
 		->useScript('webcomponent.field-user');
 }
@@ -124,19 +141,6 @@ if (!$readonly)
 		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"
 			class="field-user-input <?php echo $class ? (string) $class : ''?>"
 			data-onchange="<?php echo $this->escape($onchange); ?>">
-		<?php echo HTMLHelper::_(
-			'bootstrap.renderModal',
-			'userModal_' . $id,
-			array(
-				'url'         => $uri,
-				'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
-				'closeButton' => true,
-				'height'      => '100%',
-				'width'       => '100%',
-				'modalWidth'  => 80,
-				'bodyHeight'  => 60,
-				'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-			)
-		); ?>
+		<?php echo $modalHTML; ?>
 	<?php endif; ?>
 </joomla-field-user>
