@@ -76,10 +76,14 @@
           {
             "name": "bootstrap.es5",
             "type": "script",
-            "uri": "bootstrap.es5.js",
+            "uri": "bootstrap.es5.min.js",
             "dependencies": [
               "core"
-            ]
+            ],
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            }
           },
           {
             "name": "bootstrap.alert",
@@ -87,7 +91,10 @@
             "uri": "alert.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "bootstrap.button",
@@ -95,7 +102,10 @@
             "uri": "button.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "bootstrap.carousel",
@@ -103,7 +113,10 @@
             "uri": "button.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "bootstrap.collapse",
@@ -111,7 +124,10 @@
             "uri": "collapse.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "bootstrap.dropdown",
@@ -119,7 +135,10 @@
             "uri": "dropdown.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "bootstrap.modal",
@@ -127,7 +146,10 @@
             "uri": "modal.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "bootstrap.popover",
@@ -135,7 +157,10 @@
             "uri": "popover.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "bootstrap.scrollspy",
@@ -143,7 +168,10 @@
             "uri": "scrollspy.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "bootstrap.tab",
@@ -151,7 +179,10 @@
             "uri": "tab.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           },
           {
             "name": "bootstrap.toast",
@@ -159,7 +190,10 @@
             "uri": "toast.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
-            ]
+            ],
+            "attributes": {
+              "type": "module"
+            }
           }
         ],
         "dependencies": [],
