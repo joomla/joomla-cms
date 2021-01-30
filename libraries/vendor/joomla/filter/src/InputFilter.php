@@ -1011,11 +1011,11 @@ class InputFilter
 			return preg_replace('~/+~', '/', $source);
 		}
 
-		$windowsPattern = '/^([A-Za-z]:\\\\)?[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*(\\\\+[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+		$windowsPattern = '/^([A-Za-z]:(\\\\|\/))?[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*((\\\\|\/)+[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
 
 		if (preg_match($windowsPattern, $source))
 		{
-			return preg_replace('~\\\\+~', '\\', $source);
+			return preg_replace('~(\\\\|\/)+~', '\\', $source);
 		}
 
 		return '';
