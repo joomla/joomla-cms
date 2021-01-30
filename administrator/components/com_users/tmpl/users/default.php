@@ -103,7 +103,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
 									<?php if ($canEdit || $canChange) : ?>
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->name); ?>
 									<?php endif; ?>
 								</td>
 								<th scope="row">

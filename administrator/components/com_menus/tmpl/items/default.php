@@ -137,7 +137,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 								item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
 								level="<?php echo $item->level; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<?php if ($menuType) : ?>
 									<td class="text-center d-none d-md-table-cell">

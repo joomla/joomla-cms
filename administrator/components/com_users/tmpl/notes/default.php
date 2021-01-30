@@ -71,7 +71,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center checklist">
-								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $subject); ?>
 							</td>
 							<td class="text-center">
 								<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
