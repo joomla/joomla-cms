@@ -1,4 +1,4 @@
-((customElements, Joomla) => {
+((customElements, Joomla, bootstrap) => {
   'use strict';
 
   if (!Joomla) {
@@ -189,4 +189,4 @@
     }
   }
   customElements.define('joomla-field-media', JoomlaFieldMedia);
-})(customElements, Joomla);
+})(customElements, Joomla, bootstrap);
