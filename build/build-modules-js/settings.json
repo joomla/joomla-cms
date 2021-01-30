@@ -334,7 +334,6 @@
               "type": "module"
             },
             "dependencies": [
-              "wcpolyfill",
               "webcomponent.joomla-alert-legacy"
             ]
           },
@@ -363,7 +362,6 @@
               "type": "module"
             },
             "dependencies": [
-              "wcpolyfill",
               "webcomponent.joomla-tab-legacy"
             ]
           }
