@@ -91,7 +91,7 @@ if ($saveOrder)
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php
