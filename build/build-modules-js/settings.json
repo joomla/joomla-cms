@@ -482,7 +482,8 @@
             "type": "script",
             "uri": "webcomponents-sd-ce-pf.js",
             "attributes": {
-              "nomodule": ""
+              "nomodule": true,
+              "defer": true
             },
             "dependencies": ["core"]
           }
