@@ -60,9 +60,6 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'alert');
-
 		$doc           = Factory::getDocument();
 		$scriptOptions = $doc->getScriptOptions('bootstrap.alert');
 		$options       = [$selector];
@@ -71,6 +68,13 @@ abstract class Bootstrap
 		{
 			$options = array_merge($scriptOptions, $options);
 		}
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.alert')
+			->useScript('bootstrap.es5');
 
 		$doc->addScriptOptions('bootstrap.alert', $options, false);
 
@@ -96,9 +100,6 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'button');
-
 		$doc           = Factory::getDocument();
 		$scriptOptions = $doc->getScriptOptions('bootstrap.button');
 		$options       = [$selector];
@@ -107,6 +108,13 @@ abstract class Bootstrap
 		{
 			$options = array_merge($scriptOptions, $options);
 		}
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.button')
+			->useScript('bootstrap.es5');
 
 		$doc->addScriptOptions('bootstrap.button', $options, false);
 
@@ -142,9 +150,6 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap Carousel
-		HTMLHelper::_('bootstrap.loadComponent', 'carousel');
-
 		// Setup options object
 		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
 		$opt['keyboard'] = isset($params['keyboard']) ? (bool) $params['keyboard'] : true;
@@ -152,6 +157,13 @@ abstract class Bootstrap
 		$opt['slide']    = isset($params['slide']) ? (bool) $params['slide'] : false;
 		$opt['wrap']     = isset($params['wrap']) ? (bool) $params['wrap'] : true;
 		$opt['touch']    = isset($params['touch']) ? (bool) $params['touch'] : true;
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.carousel')
+			->useScript('bootstrap.es5');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter((array) $opt)]);
 
@@ -182,12 +194,16 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'collapse');
-
 		// Setup options object
 		$opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
 		$opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.collapse')
+			->useScript('bootstrap.es5');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter((array) $opt)]);
 
@@ -218,15 +234,19 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'dropdown');
-
 		// Setup options object
 		$opt['flip'] = isset($params['flip']) ? $params['flip'] : true;
 		$opt['boundary'] = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
 		$opt['reference'] = isset($params['reference']) ? $params['reference'] : 'toggle';
 		$opt['display'] = isset($params['display']) ? $params['display'] : 'dynamic';
 		$opt['popperConfig'] = isset($params['popperConfig']) ? (bool) $params['popperConfig'] : true;
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.dropdown')
+			->useScript('bootstrap.es5');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter((array) $opt)]);
 
@@ -262,8 +282,12 @@ abstract class Bootstrap
 		$opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
 		$opt['focus']    = isset($options['focus']) ? (bool) $options['focus'] : true;
 
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'modal');
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.modal')
+			->useScript('bootstrap.es5');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
 
@@ -325,8 +349,12 @@ abstract class Bootstrap
 		$opt['sanitize']          = isset($options['sanitize']) ? (bool) $options['sanitize'] : null;
 		$opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
 
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'popover');
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.popover')
+			->useScript('bootstrap.es5');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
 
@@ -361,8 +389,12 @@ abstract class Bootstrap
 		$opt['method']         = isset($options['method']) ? $options['method'] : 'auto';
 		$opt['target']           = isset($options['target']) ? $options['target'] : null;
 
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'scrollspy');
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.scrollspy')
+			->useScript('bootstrap.es5');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
 
@@ -389,8 +421,12 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include the Bootstrap component Tab
-		HTMLHelper::_('bootstrap.loadComponent', 'tab');
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.tab')
+			->useScript('bootstrap.es5');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.tabs', [$selector => (object) $options]);
 
@@ -435,8 +471,12 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'tooltip');
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.popover')
+			->useScript('bootstrap.es5');
 
 		// Setup options object
 		$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
@@ -480,8 +520,12 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'toast');
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.toast')
+			->useScript('bootstrap.es5');
 
 		// Setup options object
 		$opt['animation'] = isset($options['animation']) ? (string) $options['animation'] : null;
@@ -491,59 +535,6 @@ abstract class Bootstrap
 		Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
-	}
-
-	/**
-	 * Method to load the static assets for a given component
-	 *
-	 * @param   string $script The component name
-	 *
-	 * @throws \Exception
-	 *
-	 * @return  void
-	 */
-	public static function loadComponent(string $script) :void
-	{
-		if (!in_array($script, static::$loadedScripts)
-			&& in_array($script, static::$scripts))
-		{
-			// Tooltip + popover are combined
-			$script = $script === 'tooltip' ? 'popover' : $script;
-
-			// Register the ES2017+ script with an attribute type="module"
-			Factory::getApplication()
-				->getDocument()
-				->getWebAssetManager()
-				->registerScript(
-					'bootstrap.' . $script . '.ES6',
-					'vendor/bootstrap/' . $script . '.es6.min.js',
-					[
-						'dependencies' => [],
-						'attributes' => [
-							'type' => 'module',
-						]
-					]
-				)
-
-				// Register the ES5 script with attributes: nomodule, defer
-				->registerScript(
-					'bootstrap.legacy',
-					'vendor/bootstrap/bootstrap.es5.min.js',
-					[
-						'dependencies' => [],
-						'attributes' => [
-							'nomodule' => '',
-							'defer' => 'defer',
-						]
-					]
-				)
-
-				->useScript('core')
-				->useScript('bootstrap.' . $script . '.ES6')
-				->useScript('bootstrap.legacy');
-
-			array_push(static::$loadedScripts, $script);
-		}
 	}
 
 	/**
@@ -740,7 +731,6 @@ HTMLSTR;
 
 		return LayoutHelper::render('libraries.html.bootstrap.modal.main', $layoutData);
 	}
-
 
 	/**
 	 * Creates a tab pane
