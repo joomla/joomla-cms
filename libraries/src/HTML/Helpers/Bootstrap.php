@@ -30,18 +30,6 @@ abstract class Bootstrap
 	protected static $loaded = [];
 
 	/**
-	 * @var    array  Array containing the available components
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $scripts = ['alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'popover', 'scrollspy', 'tab', 'toast', 'tooltip'];
-
-	/**
-	 * @var    array  Array containing the components loaded
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $loadedScripts = [];
-
-	/**
 	 * Add javascript support for Bootstrap alerts
 	 *
 	 * @param   string  $selector  Common class for the alerts
@@ -73,8 +61,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.alert')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.alert');
 
 		$doc->addScriptOptions('bootstrap.alert', $options, false);
 
@@ -113,8 +100,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.button')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.button');
 
 		$doc->addScriptOptions('bootstrap.button', $options, false);
 
@@ -162,8 +148,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.carousel')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.carousel');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter((array) $opt)]);
 
@@ -202,8 +187,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.collapse')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.collapse');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter((array) $opt)]);
 
@@ -245,8 +229,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.dropdown')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.dropdown');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter((array) $opt)]);
 
@@ -286,8 +269,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.modal')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.modal');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
 
@@ -353,8 +335,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.popover')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.popover');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
 
@@ -393,8 +374,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.scrollspy')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.scrollspy');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
 
@@ -425,8 +405,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.tab')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.tab');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.tabs', [$selector => (object) $options]);
 
@@ -475,8 +454,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.popover')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.popover');
 
 		// Setup options object
 		$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
@@ -524,8 +502,7 @@ abstract class Bootstrap
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
-			->useScript('bootstrap.toast')
-			->useScript('bootstrap.es5');
+			->useScript('bootstrap.toast');
 
 		// Setup options object
 		$opt['animation'] = isset($options['animation']) ? (string) $options['animation'] : null;
