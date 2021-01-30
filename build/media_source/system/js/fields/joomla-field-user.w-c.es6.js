@@ -1,4 +1,4 @@
-(() => {
+((customElements, Joomla, bootstrap) => {
   class JoomlaFieldUser extends HTMLElement {
     constructor() {
       super();
@@ -145,4 +145,4 @@
   }
 
   customElements.define('joomla-field-user', JoomlaFieldUser);
-})();
+})(customElements, Joomla, bootstrap);
