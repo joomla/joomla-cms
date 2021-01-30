@@ -1,4 +1,4 @@
-((customElements, Joomla, bootstrap) => {
+((customElements, Joomla) => {
   class JoomlaFieldUser extends HTMLElement {
     constructor() {
       super();
@@ -55,9 +55,9 @@
 
       // Bootstrap modal init
       if (this.modal
-        && bootstrap
-        && bootstrap.Modal
-        && bootstrap.Modal.getInstance(this.modal) === undefined) {
+        && window.bootstrap
+        && window.bootstrap.Modal
+        && window.bootstrap.Modal.getInstance(this.modal) === undefined) {
         Joomla.initialiseModal(this.modal, { isJoomla: true });
       }
 
@@ -145,4 +145,4 @@
   }
 
   customElements.define('joomla-field-user', JoomlaFieldUser);
-})(customElements, Joomla, bootstrap);
+})(customElements, Joomla);
