@@ -61,7 +61,7 @@ abstract class Bootstrap
 		}
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'alert');
+		static::loadComponent('alert');
 
 		$doc           = Factory::getDocument();
 		$scriptOptions = $doc->getScriptOptions('bootstrap.alert');
@@ -97,7 +97,7 @@ abstract class Bootstrap
 		}
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'button');
+		static::loadComponent('button');
 
 		$doc           = Factory::getDocument();
 		$scriptOptions = $doc->getScriptOptions('bootstrap.button');
@@ -143,7 +143,7 @@ abstract class Bootstrap
 		}
 
 		// Include Bootstrap Carousel
-		HTMLHelper::_('bootstrap.loadComponent', 'carousel');
+		static::loadComponent('carousel');
 
 		// Setup options object
 		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
@@ -183,7 +183,7 @@ abstract class Bootstrap
 		}
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'collapse');
+		static::loadComponent('collapse');
 
 		// Setup options object
 		$opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
@@ -219,7 +219,7 @@ abstract class Bootstrap
 		}
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'dropdown');
+		static::loadComponent('dropdown');
 
 		// Setup options object
 		$opt['flip'] = isset($params['flip']) ? $params['flip'] : true;
@@ -263,7 +263,7 @@ abstract class Bootstrap
 		$opt['focus']    = isset($options['focus']) ? (bool) $options['focus'] : true;
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'modal');
+		static::loadComponent('modal');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
 
@@ -326,7 +326,7 @@ abstract class Bootstrap
 		$opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'popover');
+		static::loadComponent('popover');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
 
@@ -362,7 +362,7 @@ abstract class Bootstrap
 		$opt['target']           = isset($options['target']) ? $options['target'] : null;
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'scrollspy');
+		static::loadComponent('scrollspy');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
 
@@ -390,7 +390,7 @@ abstract class Bootstrap
 		}
 
 		// Include the Bootstrap component Tab
-		HTMLHelper::_('bootstrap.loadComponent', 'tab');
+		static::loadComponent('tab');
 
 		Factory::getDocument()->addScriptOptions('bootstrap.tabs', [$selector => (object) $options]);
 
@@ -436,7 +436,7 @@ abstract class Bootstrap
 		}
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'tooltip');
+		static::loadComponent('tooltip');
 
 		// Setup options object
 		$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
@@ -481,7 +481,7 @@ abstract class Bootstrap
 		}
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'toast');
+		static::loadComponent('toast');
 
 		// Setup options object
 		$opt['animation'] = isset($options['animation']) ? (string) $options['animation'] : null;
@@ -502,7 +502,7 @@ abstract class Bootstrap
 	 *
 	 * @return  void
 	 */
-	public static function loadComponent(string $script) :void
+	private static function loadComponent(string $script) :void
 	{
 		if (!in_array($script, static::$loadedScripts)
 			&& in_array($script, static::$scripts))
@@ -613,7 +613,7 @@ abstract class Bootstrap
 		}
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'collapse');
+		static::loadComponent('collapse');
 
 		// Setup options object
 		$opt['parent'] = isset($options['parent']) ?
