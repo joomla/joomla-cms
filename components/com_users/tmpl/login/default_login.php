@@ -79,7 +79,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				<div class="com-users-login__submit control-group">
 					<div class="controls">
 						<button type="button"
-								class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+								class="btn btn-secondary w-100 <?php echo $button['class'] ?? '' ?>"
 								<?php foreach ($dataAttributeKeys as $key): ?>
 								<?php echo $key ?>="<?php echo $button[$key] ?>"
 								<?php endforeach; ?>
@@ -92,11 +92,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 							<?php if (!empty($button['icon'])): ?>
 								<span class="<?php echo $button['icon'] ?>"></span>
 							<?php elseif (!empty($button['image'])): ?>
-								<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
-									'class' => 'icon',
-								], true) ?>
-							<?php elseif (!empty($button['svg'])): ?>
-								<?php echo $button['svg']; ?>
+								<?php echo $button['image']; ?>
 							<?php endif; ?>
 							<?php echo Text::_($button['label']) ?>
 						</button>
