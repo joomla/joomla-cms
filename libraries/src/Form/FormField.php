@@ -1100,7 +1100,8 @@ abstract class FormField
 		}
 
 		// Objects need to be converted to arrays for filtering
-		if (is_object($value)) {
+		if (is_object($value))
+		{
 			return (object) $this->filter((array)$value, $group, $input);
 		}
 
