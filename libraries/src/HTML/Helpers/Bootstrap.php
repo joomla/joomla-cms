@@ -528,11 +528,15 @@ abstract class Bootstrap
 	 */
 	public static function framework($debug = null) :void
 	{
+		$wa = Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager();
+
 		array_map(
-			function ($script) {
-				HTMLHelper::_('bootstrap.' . $script);
+			function ($script) use ($wa) {
+				$wa->useScript('bootstrap.' . $script);
 			},
-			static::$scripts
+			['alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'popover', 'scrollspy', 'tab', 'toast']
 		);
 	}
 
