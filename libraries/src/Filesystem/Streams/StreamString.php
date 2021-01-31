@@ -10,7 +10,7 @@ namespace Joomla\CMS\Filesystem\Streams;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Filesystem\Support\Stringcontroller;
+use Joomla\CMS\Filesystem\Support\StringController;
 
 /**
  * String Stream Wrapper
