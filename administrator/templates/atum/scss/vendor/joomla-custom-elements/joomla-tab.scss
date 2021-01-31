@@ -158,6 +158,10 @@ joomla-tab {
           height: auto;
           background-color: var(--atum-bg-dark);
         }
+
+        .text-muted {
+          color: var(--atum-text-light)!important;
+        }
       }
     }
 
