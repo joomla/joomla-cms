@@ -581,7 +581,10 @@ abstract class Bootstrap
 		}
 
 		// Include Bootstrap component
-		HTMLHelper::_('bootstrap.loadComponent', 'collapse');
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.collapse');
 
 		// Setup options object
 		$opt['parent'] = isset($options['parent']) ?
