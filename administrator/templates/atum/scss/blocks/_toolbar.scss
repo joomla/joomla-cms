@@ -20,6 +20,10 @@
     box-shadow: none;
   }
 
+  .btn-group > joomla-toolbar-button {
+    margin-inline-start: 0;
+  }
+
   joomla-toolbar-button,
   .btn-group {
     margin-inline-start: .75rem;
@@ -30,7 +34,6 @@
   }
 
   joomla-toolbar-button {
-
     .btn > span,
     .dropdown-item > span {
       margin-inline-end: .5rem;
