@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /** @var JoomlaupdateViewDefault $this */
 
 // JText::script doesn't have a sprintf equivalent so work around this
-JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>', true) . "';");
-JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up large-icon" style="font-size:0.85rem"></span>', true) . "';");
+JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>', true) . "';");
+JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up large-icon" style="font-size:0.85rem"></span>', true) . "';");
 
 JFactory::getDocument()->addScriptDeclaration("var nonCoreCriticalPlugins = '" . json_encode($this->nonCoreCriticalPlugins) . "';");
 
@@ -69,7 +69,7 @@ $compatibilityTypes = array(
 				<?php
 				echo $labelClass === 'important' ? JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED');
 				?>
-				<div class="settingstoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+				<div class="settingstoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
 			</h3>
 		</legend>
 		<div class="settingsInfo hidden" >
@@ -121,7 +121,7 @@ $compatibilityTypes = array(
 				<?php
 				echo $labelClass === 'warning' ? JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED');
 				?>
-				<div class="settingstoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+				<div class="settingstoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
 			</h3>
 		</legend>
 		<div class="settingsInfo hidden" >
@@ -176,7 +176,7 @@ $compatibilityTypes = array(
 				<legend class="label <?php echo $compatibilityDisplayClass;?>">
 					<h3>
 						<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
-						<div class="compatibilitytoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+						<div class="compatibilitytoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
 						<?php endif; ?>
 						<?php echo JText::_($compatibilityType); ?>
 					</h3>
@@ -193,14 +193,14 @@ $compatibilityTypes = array(
 							<th class="extype span4">
 								<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
 							</th>
-							<th class="upcomp hidden">
-								<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_UPDATE_COMPATIBLE'); ?>
-							</th>
-							<th class="currcomp hidden">
-								<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_CURRENTLY_COMPATIBLE'); ?>
-							</th>
 							<th class="instver hidden">
 								<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
+							</th>
+							<th class="upcomp hidden">
+								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION); ?>
+							</th>
+							<th class="currcomp hidden">
+								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->updateInfo['latest']); ?>
 							</th>
 						</tr>
 					</thead>
@@ -215,16 +215,16 @@ $compatibilityTypes = array(
 									<td class="extype span4">
 										<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 									</td>
+									<td class="instver hidden">
+										<?php echo $extension->version; ?>
+									</td>
+									<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden"/>
 									<td
 										class="extension-check upcomp hidden"
 										data-extension-id="<?php echo $extension->extension_id; ?>"
 										data-extension-current-version="<?php echo $extension->version; ?>"
 									>
 										<img src="../media/jui/images/ajax-loader.gif" />
-									</td>
-									<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden"/>
-									<td class="instver hidden">
-										<?php echo $extension->version; ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>

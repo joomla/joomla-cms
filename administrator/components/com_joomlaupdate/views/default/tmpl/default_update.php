@@ -151,7 +151,7 @@ defined('_JEXEC') or die;
 				</label>
 			</td>
 		</tr>
-		<tr>
+		<tr id="preupdatecheckheadings">
 			<td colspan="2">
 				<table class="table table-striped">
 					<thead>

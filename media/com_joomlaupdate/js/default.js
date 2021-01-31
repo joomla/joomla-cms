@@ -63,13 +63,13 @@ function extractionMethodHandler(target, prefix)
 			if($(this).data('state') == 'closed')
 			{
 				$(this).data('state', 'open');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_COMPATIBILITY_INFORMATION);
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION);
 				settingsfieldset.find('.settingsInfo').removeClass('hidden');
 			}
 			else
 			{
 				$(this).data('state', 'closed');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION);
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION);
 				settingsfieldset.find('.settingsInfo').addClass('hidden');
 			}
 		});
@@ -111,12 +111,12 @@ function extractionMethodHandler(target, prefix)
 			if($(this).data('state') == 'closed')
 			{
 				$(this).data('state', 'open');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_COMPATIBILITY_INFORMATION);
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION);
 				compatibilitytypes.find('.exname').removeClass('span8').addClass('span4');
-				compatibilitytypes.find('.extype').removeClass('span4').addClass('span2');
-				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('span2');
-				compatibilitytypes.find('.currcomp').removeClass('hidden').addClass('span2');
-				compatibilitytypes.find('.instver').removeClass('hidden').addClass('span2');
+				compatibilitytypes.find('.extype').removeClass('span4').addClass('span1');
+				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('span3');
+				compatibilitytypes.find('.currcomp').removeClass('hidden').addClass('span3');
+				compatibilitytypes.find('.instver').removeClass('hidden').addClass('span1');
 
 				if (PreUpdateChecker.showyellowwarning)
 				{
@@ -130,12 +130,12 @@ function extractionMethodHandler(target, prefix)
 			else
 			{
 				$(this).data('state', 'closed');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_COMPATIBILITY_INFORMATION);
+				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION);
 				compatibilitytypes.find('.exname').addClass('span8').removeClass('span4');
-				compatibilitytypes.find('.extype').addClass('span4').removeClass('span2');
-				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('span2');
-				compatibilitytypes.find('.currcomp').addClass('hidden').removeClass('span2');
-				compatibilitytypes.find('.instver').addClass('hidden').removeClass('span2');
+				compatibilitytypes.find('.extype').addClass('span4').removeClass('span1');
+				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('span3');
+				compatibilitytypes.find('.currcomp').addClass('hidden').removeClass('span3');
+				compatibilitytypes.find('.instver').addClass('hidden').removeClass('span1');
 
 				compatibilitytypes.find("#updateyellowwarning").addClass('hidden');
 				compatibilitytypes.find("#updateorangewarning").addClass('hidden');
@@ -277,6 +277,11 @@ function extractionMethodHandler(target, prefix)
 			}
 		}
 
+		// Have we finished running through the potentially critical plugins - if so we can hide the warning before all the checks are completed
+		if ($('#preupdatecheckheadings table td').length == 0) {
+			$('#preupdatecheckheadings').css('display', 'none');
+		}
+
 		// Have we finished?
 		if ($('#compatibilitytype0 tbody td').length == 0) {
 			$('#compatibilitytype0').css('display', 'none');
@@ -313,7 +318,7 @@ function extractionMethodHandler(target, prefix)
 			}
 			if (PreUpdateChecker.nonCoreCriticalPlugins.length == 0)
 			{
-				$('#preupdateCheckWarning, #preupdateconfirmation, #preupdatecheckbox').css('display', 'none');
+				$('#preupdateCheckWarning, #preupdateconfirmation, #preupdatecheckbox, #preupdatecheckheadings').css('display', 'none');
 				$('#preupdatecheckbox #noncoreplugins').prop('checked', true);
 				$('button.submitupdate').removeClass('disabled');
 				$('button.submitupdate').prop('disabled', false);
