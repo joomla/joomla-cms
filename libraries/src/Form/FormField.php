@@ -1099,6 +1099,11 @@ abstract class FormField
 			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
 
+		// Objects need to be converted to arrays for filtering
+		if (is_object($value)) {
+			return (object) $this->filter((array)$value, $group, $input);
+		}
+
 		// Get the field filter type.
 		$filter = (string) $this->element['filter'];
 
