@@ -80,7 +80,7 @@ if (!empty($editor))
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif; ?>
-						<th scope="col" class="w-5 d-none d-md-table-cell">
+						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="w-1 d-none d-md-table-cell">
