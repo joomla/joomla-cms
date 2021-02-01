@@ -71,7 +71,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 								<th scope="col" class="w-15">
 									<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 								</th>
-								<th scope="col" class="w-5">
+								<th scope="col" class="w-15">
 									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 								</th>
 								<th scope="col" class="w-15">
