@@ -136,12 +136,12 @@ joomla-tab {
       position: relative;
       display: block;
       padding: .75em 1em;
+      margin: -1px 0;
       color: var(--atum-special-color);
       text-decoration: none;
       border-top: 1px solid #fff;
       border-bottom: 1px solid $gray-300;
       box-shadow: none;
-      margin: -1px 0;
 
       &[active],
       &:hover {
