@@ -1174,7 +1174,7 @@ class Document
 	 * @param   boolean  $cache   If true, cache the output
 	 * @param   array    $params  Associative array of attributes
 	 *
-	 * @return  void  The rendered data
+	 * @return  string  The rendered data
 	 *
 	 * @since   1.7.0
 	 */
@@ -1200,6 +1200,8 @@ class Document
 		{
 			$this->preloadAssets();
 		}
+
+		return '';
 	}
 
 	/**
