@@ -72,6 +72,128 @@
             "dependencies": [
               "bootstrap.css"
             ]
+          },
+          {
+            "name": "bootstrap.es5",
+            "type": "script",
+            "uri": "bootstrap.es5.min.js",
+            "dependencies": [
+              "core"
+            ],
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            }
+          },
+          {
+            "name": "bootstrap.alert",
+            "type": "script",
+            "uri": "alert.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.button",
+            "type": "script",
+            "uri": "button.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.carousel",
+            "type": "script",
+            "uri": "button.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.collapse",
+            "type": "script",
+            "uri": "collapse.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.dropdown",
+            "type": "script",
+            "uri": "dropdown.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.modal",
+            "type": "script",
+            "uri": "modal.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.popover",
+            "type": "script",
+            "uri": "popover.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.scrollspy",
+            "type": "script",
+            "uri": "scrollspy.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.tab",
+            "type": "script",
+            "uri": "tab.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.toast",
+            "type": "script",
+            "uri": "toast.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
           }
         ],
         "dependencies": [],
@@ -315,19 +437,55 @@
             "uri": "joomla-alert.min.css"
           },
           {
+            "name": "webcomponent.joomla-alert-legacy",
+            "type": "script",
+            "uri": "joomla-alert-es5.min.js",
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            },
+            "dependencies": [
+              "wcpolyfill"
+            ]
+          },
+          {
+            "name": "webcomponent.joomla-alert",
+            "type": "script",
+            "uri": "joomla-alert.min.js",
+            "attributes": {
+              "type": "module"
+            },
+            "dependencies": [
+              "webcomponent.joomla-alert-legacy"
+            ]
+          },
+          {
             "name": "webcomponent.joomla-tab",
             "type": "style",
             "uri": "joomla-tab.min.css"
           },
           {
-            "name": "webcomponent.joomla-alert",
+            "name": "webcomponent.joomla-tab-legacy",
             "type": "script",
-            "uri": "joomla-alert.min.js"
+            "uri": "joomla-tab-es5.min.js",
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            },
+            "dependencies": [
+              "wcpolyfill"
+            ]
           },
           {
             "name": "webcomponent.joomla-tab",
             "type": "script",
-            "uri": "joomla-tab.min.js"
+            "uri": "joomla-tab.min.js",
+            "attributes": {
+              "type": "module"
+            },
+            "dependencies": [
+              "webcomponent.joomla-tab-legacy"
+            ]
           }
         ],
         "dependencies": [],
@@ -444,7 +602,8 @@
             "type": "script",
             "uri": "webcomponents-sd-ce-pf.js",
             "attributes": {
-              "nomodule": ""
+              "nomodule": true,
+              "defer": true
             },
             "dependencies": ["core"]
           }

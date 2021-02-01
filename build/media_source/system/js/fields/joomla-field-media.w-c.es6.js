@@ -98,9 +98,9 @@
 
       // Bootstrap modal init
       if (this.modalElement
-        && bootstrap
-        && bootstrap.Modal
-        && bootstrap.Modal.getInstance(this.modalElement) === undefined) {
+        && window.bootstrap
+        && window.bootstrap.Modal
+        && window.bootstrap.Modal.getInstance(this.modalElement) === undefined) {
         Joomla.initialiseModal(this.modalElement, { isJoomla: true });
       }
 
