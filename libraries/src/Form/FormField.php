@@ -1241,7 +1241,7 @@ abstract class FormField
 		if ($valid !== false && $this instanceof SubformField)
 		{
 			// Load the subform validation rule.
-			$rule = FormHelper::loadRuleType('SubForm');
+			$rule = FormHelper::loadRuleType('Subform');
 
 			try
 			{
