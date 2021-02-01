@@ -297,16 +297,14 @@
 
 .mod-list {
   padding-left: 0;
-  list-style-position: inside;
+  list-style: none;
 
   [dir=rtl] & {
     padding-right: 0;
   }
-}
 
-.mod-menu.nav {
   li {
-    padding: ($cassiopeia-grid-gutter/2) 0;
+    padding: .25em 0;
 
     a {
       text-decoration: none;
