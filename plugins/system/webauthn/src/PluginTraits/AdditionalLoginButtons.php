@@ -162,7 +162,7 @@ trait AdditionalLoginButtons
 				'id'                 => $randomId,
 				'data-webauthn-form' => $form,
 				'data-webauthn-url'  => $url,
-				'image'              => $image,
+				'svg'                => $image,
 				'class'              => 'plg_system_webauthn_login_button',
 			],
 		];

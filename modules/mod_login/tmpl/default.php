@@ -120,6 +120,8 @@ Text::script('JHIDEPASSWORD');
 						<span class="<?php echo $button['icon'] ?>"></span>
 					<?php elseif (!empty($button['image'])): ?>
 						<?php echo $button['image']; ?>
+					<?php elseif (!empty($button['svg'])): ?>
+						<?php echo $button['svg']; ?>
 					<?php endif; ?>
 					<?php echo Text::_($button['label']) ?>
 				</button>
