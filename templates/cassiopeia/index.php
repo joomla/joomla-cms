@@ -79,12 +79,12 @@ else
 
 $hasClass = '';
 
-if ($this->countModules('sidebar-left'))
+if ($this->countModules('sidebar-left', true))
 {
 	$hasClass .= ' has-sidebar-left';
 }
 
-if ($this->countModules('sidebar-right'))
+if ($this->countModules('sidebar-right', true))
 {
 	$hasClass .= ' has-sidebar-right';
 }
@@ -165,7 +165,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('sidebar-left')) : ?>
+	<?php if ($this->countModules('sidebar-left', true)) : ?>
 	<div class="grid-child container-sidebar-left">
 		<jdoc:include type="modules" name="sidebar-left" style="card" />
 	</div>
@@ -181,7 +181,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<jdoc:include type="modules" name="main-bottom" style="card" />
 	</div>
 
-	<?php if ($this->countModules('sidebar-right')) : ?>
+	<?php if ($this->countModules('sidebar-right', true)) : ?>
 	<div class="grid-child container-sidebar-right">
 		<jdoc:include type="modules" name="sidebar-right" style="card" />
 	</div>
