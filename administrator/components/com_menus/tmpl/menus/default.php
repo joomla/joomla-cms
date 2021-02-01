@@ -225,7 +225,7 @@ $wa->useScript('com_menus.admin-menus');
 											); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-lg-table-cell text-center">
+								<td class="d-none d-lg-table-cell">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>
