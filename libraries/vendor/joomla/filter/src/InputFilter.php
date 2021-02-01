@@ -229,25 +229,27 @@ class InputFilter
 	/**
 	 * Cleans the given input source based on the instance configuration and specified data type
 	 *
-	 * @param   string|string[]  $source  Input string/array-of-string to be 'cleaned'
-	 * @param   string           $type    The return type for the variable:
-	 *                                    INT:       An integer
-	 *                                    UINT:      An unsigned integer
-	 *                                    FLOAT:     A floating point number
-	 *                                    BOOLEAN:   A boolean value
-	 *                                    WORD:      A string containing A-Z or underscores only (not case sensitive)
-	 *                                    ALNUM:     A string containing A-Z or 0-9 only (not case sensitive)
-	 *                                    CMD:       A string containing A-Z, 0-9, underscores, periods or hyphens (not case sensitive)
-	 *                                    BASE64:    A string containing A-Z, 0-9, forward slashes, plus or equals (not case sensitive)
-	 *                                    STRING:    A fully decoded and sanitised string (default)
-	 *                                    HTML:      A sanitised string
-	 *                                    ARRAY:     An array
-	 *                                    PATH:      A sanitised file path
-	 *                                    TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
-	 *                                    USERNAME:  Do not use (use an application specific filter)
-	 *                                    RAW:       The raw string is returned with no filtering
-	 *                                    unknown:   An unknown filter will act like STRING. If the input is an array it will return an
-	 *                                               array of fully decoded and sanitised strings.
+	 * @param   string|string[]|object  $source  Input string/array-of-string/object to be 'cleaned'
+	 * @param   string                  $type    The return type for the variable:
+	 *                                           INT:       An integer
+	 *                                           UINT:      An unsigned integer
+	 *                                           FLOAT:     A floating point number
+	 *                                           BOOLEAN:   A boolean value
+	 *                                           WORD:      A string containing A-Z or underscores only (not case sensitive)
+	 *                                           ALNUM:     A string containing A-Z or 0-9 only (not case sensitive)
+	 *                                           CMD:       A string containing A-Z, 0-9, underscores, periods or hyphens (not case
+	 *                                                      sensitive)
+	 *                                           BASE64:    A string containing A-Z, 0-9, forward slashes, plus or equals (not case
+	 *                                                      sensitive)
+	 *                                           STRING:    A fully decoded and sanitised string (default)
+	 *                                           HTML:      A sanitised string
+	 *                                           ARRAY:     An array
+	 *                                           PATH:      A sanitised file path
+	 *                                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
+	 *                                           USERNAME:  Do not use (use an application specific filter)
+	 *                                           RAW:       The raw string is returned with no filtering
+	 *                                           unknown:   An unknown filter will act like STRING. If the input is an array it will
+	 *                                                      return an array of fully decoded and sanitised strings.
 	 *
 	 * @return  mixed  'Cleaned' version of the `$source` parameter
 	 *
@@ -277,6 +279,16 @@ class InputFilter
 			}
 
 			return $result;
+		}
+
+		if (\is_object($source))
+		{
+			foreach (get_object_vars($source) as $key => $value)
+			{
+				$source->$key = $this->clean($value, $type);
+			}
+
+			return $source;
 		}
 
 		$method = 'clean' . $type;

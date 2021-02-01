@@ -534,16 +534,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "bb3058c2e06ea2dbd4b9f5a165ad8993388a39ff"
+                "reference": "df3403c90cd8718895122ed7be27a85d842dcb7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/bb3058c2e06ea2dbd4b9f5a165ad8993388a39ff",
-                "reference": "bb3058c2e06ea2dbd4b9f5a165ad8993388a39ff",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/df3403c90cd8718895122ed7be27a85d842dcb7f",
+                "reference": "df3403c90cd8718895122ed7be27a85d842dcb7f",
                 "shasum": ""
             },
             "require": {
@@ -594,7 +594,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-01-30T13:10:52+00:00"
+            "time": "2021-01-31T22:55:23+00:00"
         },
         {
             "name": "joomla/image",
