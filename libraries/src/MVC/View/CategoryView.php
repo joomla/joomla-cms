@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\View;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
@@ -42,7 +43,7 @@ class CategoryView extends HtmlView
 	/**
 	 * The category model object for this category
 	 *
-	 * @var    \JModelCategory
+	 * @var    CategoryNode
 	 * @since  3.2
 	 */
 	protected $category;

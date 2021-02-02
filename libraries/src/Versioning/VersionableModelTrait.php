@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Versioning;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Defines the trait for a Versionable Model Class.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 trait VersionableModelTrait
 {

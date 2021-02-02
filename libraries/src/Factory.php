@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -841,38 +841,38 @@ abstract class Factory
 	/**
 	 * Creates a new stream object with appropriate prefix
 	 *
-	 * @param   boolean  $use_prefix   Prefix the connections for writing
-	 * @param   boolean  $use_network  Use network if available for writing; use false to disable (e.g. FTP, SCP)
-	 * @param   string   $ua           UA User agent to use
-	 * @param   boolean  $uamask       User agent masking (prefix Mozilla)
+	 * @param   boolean  $usePrefix        Prefix the connections for writing
+	 * @param   boolean  $useNetwork       Use network if available for writing; use false to disable (e.g. FTP, SCP)
+	 * @param   string   $userAgentSuffix  String to append to user agent
+	 * @param   boolean  $maskUserAgent    User agent masking (prefix Mozilla)
 	 *
-	 * @return  \JStream
+	 * @return  Stream
 	 *
-	 * @see     \JStream
+	 * @see     Stream
 	 * @since   1.7.0
 	 */
-	public static function getStream($use_prefix = true, $use_network = true, $ua = 'Joomla', $uamask = false)
+	public static function getStream($usePrefix = true, $useNetwork = true, $userAgentSuffix = 'Joomla', $maskUserAgent = false)
 	{
 		// Setup the context; Joomla! UA and overwrite
 		$context = array();
 		$version = new Version;
 
 		// Set the UA for HTTP and overwrite for FTP
-		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
+		$context['http']['user_agent'] = $version->getUserAgent($userAgentSuffix, $maskUserAgent);
 		$context['ftp']['overwrite'] = true;
 
-		if ($use_prefix)
+		if ($usePrefix)
 		{
 			$FTPOptions = ClientHelper::getCredentials('ftp');
 			$SCPOptions = ClientHelper::getCredentials('scp');
 
-			if ($FTPOptions['enabled'] == 1 && $use_network)
+			if ($FTPOptions['enabled'] == 1 && $useNetwork)
 			{
 				$prefix = 'ftp://' . $FTPOptions['user'] . ':' . $FTPOptions['pass'] . '@' . $FTPOptions['host'];
 				$prefix .= $FTPOptions['port'] ? ':' . $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
 			}
-			elseif ($SCPOptions['enabled'] == 1 && $use_network)
+			elseif ($SCPOptions['enabled'] == 1 && $useNetwork)
 			{
 				$prefix = 'ssh2.sftp://' . $SCPOptions['user'] . ':' . $SCPOptions['pass'] . '@' . $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':' . $SCPOptions['port'] : '';

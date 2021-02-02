@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,8 +112,8 @@ class Users
 
 		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
 
-		return '<button  type="button" data-target="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId
-			. '" data-toggle="modal" class="dropdown-item"><span class="icon-eye" aria-hidden="true"></span> ' . $title . '</button>';
+		return '<button  type="button" data-bs-target="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId
+			. '" data-bs-toggle="modal" class="dropdown-item"><span class="icon-eye" aria-hidden="true"></span> ' . $title . '</button>';
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Users
 		}
 
 		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
-		$footer = '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+		$footer = '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
 			. Text::_('JTOOLBAR_CLOSE') . '</button>';
 
 		return HTMLHelper::_(

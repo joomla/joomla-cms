@@ -23,7 +23,10 @@
           {
             "name": "awesomplete",
             "type": "script",
-            "uri": "awesomplete.min.js"
+            "uri": "awesomplete.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "awesomplete",
@@ -39,13 +42,6 @@
       },
       "bootstrap": {
         "name": "bootstrap",
-        "js": {
-          "dist/js/bootstrap.js": "js/bootstrap.js",
-          "dist/js/bootstrap.min.js": "js/bootstrap.min.js",
-          "dist/js/bootstrap.bundle.js": "js/bootstrap.bundle.js",
-          "dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
-          "dist/js/bootstrap.bundle.min.js.map": "js/bootstrap.bundle.min.js.map"
-        },
         "css": {
           "dist/css/bootstrap.css": "css/bootstrap.css",
           "dist/css/bootstrap.min.css": "css/bootstrap.min.css",
@@ -78,20 +74,126 @@
             ]
           },
           {
-            "name": "bootstrap.js",
+            "name": "bootstrap.es5",
             "type": "script",
-            "uri": "bootstrap.min.js",
+            "uri": "bootstrap.es5.min.js",
             "dependencies": [
-              "jquery"
-            ]
+              "core"
+            ],
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            }
           },
           {
-            "name": "bootstrap.js.bundle",
+            "name": "bootstrap.alert",
             "type": "script",
-            "uri": "bootstrap.bundle.min.js",
+            "uri": "alert.es6.min.js",
             "dependencies": [
-              "jquery"
-            ]
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.button",
+            "type": "script",
+            "uri": "button.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.carousel",
+            "type": "script",
+            "uri": "button.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.collapse",
+            "type": "script",
+            "uri": "collapse.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.dropdown",
+            "type": "script",
+            "uri": "dropdown.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.modal",
+            "type": "script",
+            "uri": "modal.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.popover",
+            "type": "script",
+            "uri": "popover.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.scrollspy",
+            "type": "script",
+            "uri": "scrollspy.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.tab",
+            "type": "script",
+            "uri": "tab.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
+            "name": "bootstrap.toast",
+            "type": "script",
+            "uri": "toast.es6.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
           }
         ],
         "dependencies": [],
@@ -152,7 +254,10 @@
           {
             "name": "choicesjs",
             "type": "script",
-            "uri": "choices.min.js"
+            "uri": "choices.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "choicesjs",
@@ -329,26 +434,58 @@
           {
             "name": "webcomponent.joomla-alert",
             "type": "style",
-            "uri": "joomla-alert.min.css",
-            "webcomponent": true
+            "uri": "joomla-alert.min.css"
           },
           {
-            "name": "webcomponent.joomla-tab",
-            "type": "style",
-            "uri": "joomla-tab.min.css",
-            "webcomponent": true
+            "name": "webcomponent.joomla-alert-legacy",
+            "type": "script",
+            "uri": "joomla-alert-es5.min.js",
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            },
+            "dependencies": [
+              "wcpolyfill"
+            ]
           },
           {
             "name": "webcomponent.joomla-alert",
             "type": "script",
             "uri": "joomla-alert.min.js",
-            "webcomponent": true
+            "attributes": {
+              "type": "module"
+            },
+            "dependencies": [
+              "webcomponent.joomla-alert-legacy"
+            ]
+          },
+          {
+            "name": "webcomponent.joomla-tab",
+            "type": "style",
+            "uri": "joomla-tab.min.css"
+          },
+          {
+            "name": "webcomponent.joomla-tab-legacy",
+            "type": "script",
+            "uri": "joomla-tab-es5.min.js",
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            },
+            "dependencies": [
+              "wcpolyfill"
+            ]
           },
           {
             "name": "webcomponent.joomla-tab",
             "type": "script",
             "uri": "joomla-tab.min.js",
-            "webcomponent": true
+            "attributes": {
+              "type": "module"
+            },
+            "dependencies": [
+              "webcomponent.joomla-tab-legacy"
+            ]
           }
         ],
         "dependencies": [],
@@ -389,7 +526,10 @@
           {
             "name": "punycode",
             "type": "script",
-            "uri": "punycode.js"
+            "uri": "punycode.js",
+            "attributes": {
+              "defer": true
+            }
           }
         ],
         "dependencies": [],
@@ -455,7 +595,19 @@
           "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js"
         },
         "dependencies": [],
-        "licenseFilename": "LICENSE.md"
+        "licenseFilename": "LICENSE.md",
+        "provideAssets": [
+          {
+            "name": "wcpolyfill",
+            "type": "script",
+            "uri": "webcomponents-sd-ce-pf.js",
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            },
+            "dependencies": ["core"]
+          }
+        ]
       },
       "chosen-js": {
         "name": "chosen",
@@ -548,30 +700,15 @@
         "name": "skipto",
         "licenseFilename": "LICENSE.md",
         "js": {
-          "src/js/skipTo.js": "js/skipTo.js",
-          "src/js/dropMenu.js": "js/dropMenu.js"
-        },
-        "css": {
-          "src/css/SkipTo.css": "css/SkipTo.css"
+          "compiled/js/skipto.js": "js/skipto.js",
+          "compiled/js/skipto.min.js": "js/skipto.min.js",
+          "compiled/js/skipto.min.js.map": "js/skipto.min.js.map"
         },
         "provideAssets": [
           {
             "name": "skipto",
-            "type": "style",
-            "uri": "SkipTo.css"
-          },
-          {
-            "name": "skipto.dropmenu",
             "type": "script",
-            "uri": "dropMenu.js",
-            "attributes": {
-              "defer": true
-            }
-          },
-          {
-            "name": "skipto",
-            "type": "script",
-            "uri": "skipTo.js",
+            "uri": "skipto.min.js",
             "attributes": {
               "defer": true
             }

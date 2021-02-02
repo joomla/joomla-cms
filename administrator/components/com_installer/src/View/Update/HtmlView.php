@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,9 +113,9 @@ class HtmlView extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::custom('update.update', 'upload', 'upload', 'COM_INSTALLER_TOOLBAR_UPDATE', true);
-		ToolbarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false);
-		ToolbarHelper::custom('update.purge', 'purge', 'purge', 'COM_INSTALLER_TOOLBAR_PURGE', false);
+		ToolbarHelper::custom('update.update', 'upload', '', 'COM_INSTALLER_TOOLBAR_UPDATE', true);
+		ToolbarHelper::custom('update.find', 'refresh', '', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false);
+		ToolbarHelper::custom('update.purge', 'purge', '', 'COM_INSTALLER_TOOLBAR_PURGE', false);
 		ToolbarHelper::divider();
 
 		parent::addToolbar();

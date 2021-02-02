@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,10 +48,13 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
+ * @var   boolean  $lock            Is this field locked.
  */
 
+$document = Factory::getApplication()->getDocument();
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa = $document->getWebAssetManager();
 
 if ($meter)
 {
@@ -72,8 +75,18 @@ Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
 
+if ($lock)
+{
+	Text::script('JMODIFY');
+	Text::script('JCANCEL');
+
+	$disabled = true;
+	$hint = str_repeat('&#x2022;', 10);
+	$value = '';
+}
+
 $attributes = array(
-	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
@@ -140,11 +153,15 @@ if ($rules && !empty($description))
 			id="<?php echo $id; ?>"
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
-		<span class="input-group-append">
-			<button type="button" class="btn btn-secondary input-password-toggle">
-				<span class="icon-eye icon-fw" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+		<?php if (!$lock): ?>
+		<button type="button" class="btn btn-secondary input-password-toggle">
+			<span class="icon-eye icon-fw" aria-hidden="true"></span>
+			<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+		</button>
+		<?php else: ?>
+			<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info input-password-modify">
+				<?php echo Text::_('JMODIFY'); ?>
 			</button>
-		</span>
+		<?php endif; ?>
 	</div>
 </div>

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -376,10 +376,10 @@ class MailTemplate
 	 * Insert a new mail template into the system
 	 *
 	 * @param   string  $key       Mail template key
-	 * @param   string  $subject   A default subject (normally a translateable string)
-	 * @param   string  $body      A default body (normally a translateable string)
+	 * @param   string  $subject   A default subject (normally a translatable string)
+	 * @param   string  $body      A default body (normally a translatable string)
 	 * @param   array   $tags      Associative array of tags to replace
-	 * @param   string  $htmlbody  A default htmlbody (normally a translateable string)
+	 * @param   string  $htmlbody  A default htmlbody (normally a translatable string)
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
@@ -406,10 +406,10 @@ class MailTemplate
 	 * Update an existing mail template
 	 *
 	 * @param   string  $key       Mail template key
-	 * @param   string  $subject   A default subject (normally a translateable string)
-	 * @param   string  $body      A default body (normally a translateable string)
+	 * @param   string  $subject   A default subject (normally a translatable string)
+	 * @param   string  $body      A default body (normally a translatable string)
 	 * @param   array   $tags      Associative array of tags to replace
-	 * @param   string  $htmlbody  A default htmlbody (normally a translateable string)
+	 * @param   string  $htmlbody  A default htmlbody (normally a translatable string)
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *

@@ -2,18 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Utility class for Bootstrap elements.
@@ -26,7 +27,7 @@ abstract class Bootstrap
 	 * @var    array  Array containing information for loaded files
 	 * @since  3.0
 	 */
-	protected static $loaded = array();
+	protected static $loaded = [];
 
 	/**
 	 * Add javascript support for Bootstrap alerts
@@ -35,9 +36,11 @@ abstract class Bootstrap
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
+	 *
 	 * @since   3.0
 	 */
-	public static function alert($selector = 'alert')
+	public static function alert($selector = '.alert') :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -45,10 +48,22 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		$doc           = Factory::getDocument();
+		$scriptOptions = $doc->getScriptOptions('bootstrap.alert');
+		$options       = [$selector];
 
-		Factory::getDocument()->addScriptOptions('bootstrap.alert', array($selector => ''));
+		if (is_array($scriptOptions))
+		{
+			$options = array_merge($scriptOptions, $options);
+		}
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.alert');
+
+		$doc->addScriptOptions('bootstrap.alert', $options, false);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -60,9 +75,11 @@ abstract class Bootstrap
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
+	 *
 	 * @since   3.1
 	 */
-	public static function button($selector = 'button')
+	public static function button($selector = '.button') :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -70,10 +87,22 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		$doc           = Factory::getDocument();
+		$scriptOptions = $doc->getScriptOptions('bootstrap.button');
+		$options       = [$selector];
 
-		Factory::getDocument()->addScriptOptions('bootstrap.button', array($selector));
+		if (is_array($scriptOptions))
+		{
+			$options = array_merge($scriptOptions, $options);
+		}
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.button');
+
+		$doc->addScriptOptions('bootstrap.button', $options, false);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -83,17 +112,23 @@ abstract class Bootstrap
 	 *
 	 * @param   string  $selector  Common class for the carousels.
 	 * @param   array   $params    An array of options for the carousel.
-	 *                             Options for the carousel can be:
-	 *                             - interval  number  The amount of time to delay between automatically cycling an item.
-	 *                                                 If false, carousel will not automatically cycle.
-	 *                             - pause     string  Pauses the cycling of the carousel on mouseenter and resumes the cycling
-	 *                                                 of the carousel on mouseleave.
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
+	 *
 	 * @since   3.0
+	 *
+	 * Options for the carousel can be:
+	 * - interval  number   5000   The amount of time to delay between automatically cycling an item.
+	 *                             If false, carousel will not automatically cycle.
+	 * - keyboard  boolean  true   Whether the carousel should react to keyboard events.
+	 * - pause     string|  hover  Pauses the cycling of the carousel on mouseenter and resumes the cycling
+	 *             boolean         of the carousel on mouseleave.
+	 * - slide     string|  false  Autoplays the carousel after the user manually cycles the first item.
+	 *             boolean         If "carousel", autoplays the carousel on load.
 	 */
-	public static function carousel($selector = 'carousel', $params = array())
+	public static function carousel($selector = '.carousel', $params = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -101,14 +136,60 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
-
 		// Setup options object
 		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
+		$opt['keyboard'] = isset($params['keyboard']) ? (bool) $params['keyboard'] : true;
 		$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
+		$opt['slide']    = isset($params['slide']) ? (bool) $params['slide'] : false;
+		$opt['wrap']     = isset($params['wrap']) ? (bool) $params['wrap'] : true;
+		$opt['touch']    = isset($params['touch']) ? (bool) $params['touch'] : true;
 
-		Factory::getDocument()->addScriptOptions('bootstrap.carousel', array($selector => $opt));
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.carousel');
+
+		Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter((array) $opt)]);
+
+		static::$loaded[__METHOD__][$selector] = true;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap collapse
+	 *
+	 * @param   string  $selector  Common class for the collapse
+	 *
+	 * @return  void
+	 *
+	 * @throws \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * Options for the collapse can be:
+	 * - parent    string   false  If parent is provided, then all collapsible elements under the specified parent will
+	 *                             be closed when this collapsible item is shown.
+	 * - toggle    boolean  true   Toggles the collapsible element on invocation
+	 */
+	public static function collapse($selector = '.collapse') :void
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Setup options object
+		$opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
+		$opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.collapse');
+
+		Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -117,12 +198,19 @@ abstract class Bootstrap
 	 * Add javascript support for Bootstrap dropdowns
 	 *
 	 * @param   string  $selector  Common class for the dropdowns
+	 * @param   string  $options   The options for the dropdowns
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * Options for the collapse can be:
+	 * - flip       boolean  true          Allow Dropdown to flip in case of an overlapping on the reference element
+	 * - boundary   string   scrollParent  Overflow constraint boundary of the dropdown menu
+	 * - reference  string   toggle        Reference element of the dropdown menu. Accepts 'toggle' or 'parent'
+	 * - display    string   dynamic       By default, we use Popper for dynamic positioning. Disable this with static
 	 */
-	public static function dropdown($selector = 'dropdown-toggle')
+	public static function dropdown($selector = '.dropdown-toggle', $options = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -130,90 +218,62 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		// Setup options object
+		$opt['flip'] = isset($params['flip']) ? $params['flip'] : true;
+		$opt['boundary'] = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
+		$opt['reference'] = isset($params['reference']) ? $params['reference'] : 'toggle';
+		$opt['display'] = isset($params['display']) ? $params['display'] : 'dynamic';
+		$opt['popperConfig'] = isset($params['popperConfig']) ? (bool) $params['popperConfig'] : true;
 
-		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', array($selector));
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.dropdown');
+
+		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
-	}
-
-	/**
-	 * Method to load the Bootstrap JavaScript framework into the document head
-	 *
-	 * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
-	 *
-	 * @param   mixed  $debug  Is debugging mode on? [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public static function framework($debug = null)
-	{
-		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-
-		if ($wa->assetExists('script', 'bootstrap.init.legacy') && $wa->isAssetActive('script', 'bootstrap.init.legacy'))
-		{
-			return;
-		}
-
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		$wa
-			->registerScript('bootstrap.init.legacy', 'legacy/bootstrap-init.min.js', ['dependencies' => ['core', 'bootstrap.js.bundle']])
-			->useScript('bootstrap.init.legacy');
-
-		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
 	 * Method to render a Bootstrap modal
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
-	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
-	 *                             - title        string   The modal title
-	 *                             - backdrop     mixed    A boolean select if a modal-backdrop element should be included (default = true)
-	 *                                                     The string 'static' includes a backdrop which doesn't close the modal on click.
-	 *                             - keyboard     boolean  Closes the modal when escape key is pressed (default = true)
-	 *                             - closeButton  boolean  Display modal close button (default = true)
-	 *                             - animation    boolean  Fade in from the top of the page (default = true)
-	 *                             - footer       string   Optional markup for the modal footer
-	 *                             - url          string   URL of a resource to be inserted as an `<iframe>` inside the modal body
-	 *                             - height       string   height of the `<iframe>` containing the remote resource
-	 *                             - width        string   width of the `<iframe>` containing the remote resource
-	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the URL option is set
+	 * @param   array   $options   An array of options for the modal.
 	 *
-	 * @return  string  HTML markup for a modal
+	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * Options for the modal can be:
+	 * - backdrop     string|  true  Includes a modal-backdrop element. Alternatively, specify static
+	 *                boolean         for a backdrop which doesn't close the modal on click.
+	 * - keyboard     boolean  true  Closes the modal when escape key is pressed
+	 * - focus        boolean  true  Closes the modal when escape key is pressed
 	 */
-	public static function renderModal($selector = 'modal', $params = array(), $body = '')
+	public static function modal($selector = '.modal', $options = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
 		{
-			return '';
+			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		// Setup options object
+		$opt['backdrop'] = isset($options['backdrop']) ? (bool) $options['backdrop'] : true;
+		$opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
+		$opt['focus']    = isset($options['focus']) ? (bool) $options['focus'] : true;
 
-		$layoutData = array(
-			'selector' => $selector,
-			'params'   => $params,
-			'body'     => $body,
-		);
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.modal');
+
+		Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
-
-		return LayoutHelper::render('joomla.modal.main', $layoutData);
 	}
 
 	/**
@@ -222,29 +282,31 @@ abstract class Bootstrap
 	 * Use element's Title as popover content
 	 *
 	 * @param   string  $selector  Selector for the popover
-	 * @param   array   $params    An array of options for the popover.
-	 *                  Options for the popover can be:
-	 *                      animation    boolean          apply a css fade transition to the popover
-	 *                      container    string|boolean   Appends the popover to a specific element: { container: 'body' }
-	 *                      content      string|function  default content value if `data-content` attribute isn't present
-	 *                      delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
-	 *                                                    If a number is supplied, delay is applied to both hide/show
-	 *                                                    Object structure is: delay: { show: 500, hide: 100 }
-	 *                      html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
-	 *                                                    content into the dom.
-	 *                      placement    string|function  how to position the popover - top | bottom | left | right
-	 *                      selector     string           If a selector is provided, popover objects will be delegated to the specified targets.
-	 *                      template     string           Base HTML to use when creating the popover.
-	 *                      title        string|function  default title value if `title` tag isn't present
-	 *                      trigger      string           how popover is triggered - hover | focus | manual
-	 *                      constraints  array            An array of constraints - passed through to Popper.
-	 *                      offset       string           Offset of the popover relative to its target.
+	 * @param   array   $options   The options for the popover
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * - Options for the popover can be:
+	 * - animation    boolean  true   Apply a CSS fade transition to the popover
+	 * - container    string|  false  Appends the popover to a specific element. Eg.: 'body'
+	 *                boolean
+	 * - content      string   null   Default content value if data-bs-content attribute isn't present
+	 * - delay        number   0      Delay showing and hiding the popover (ms)
+	 *                                 does not apply to manual trigger type
+	 * - html         boolean  true   Insert HTML into the popover. If false, innerText property will be used
+	 *                                 to insert content into the DOM.
+	 * - placement    string   right  How to position the popover - auto | top | bottom | left | right.
+	 *                                 When auto is specified, it will dynamically reorient the popover
+	 * - selector     string   false  If a selector is provided, popover objects will be delegated to the
+	 *                                 specified targets.
+	 * - template     string   null   Base HTML to use when creating the popover.
+	 * - title        string   null   Default title value if `title` tag isn't present
+	 * - trigger      string   click  How popover is triggered - click | hover | focus | manual
+	 * - offset       integer  0      Offset of the popover relative to its target.
 	 */
-	public static function popover($selector = '.hasPopover', $params = array())
+	public static function popover($selector = '[data-bs-toggle="popover"]', $options = []) :void
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -252,42 +314,50 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		// Setup options object
+		$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
+		$opt['container']         = isset($options['container']) ? $options['container'] : 'body';
+		$opt['content']           = isset($options['content']) ? $options['content'] : null;
+		$opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : 0;
+		$opt['html']              = isset($options['html']) ? (bool) $options['html'] : true;
+		$opt['placement']         = isset($options['placement']) ? $options['placement'] : null;
+		$opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
+		$opt['template']          = isset($options['template']) ? $options['template'] : null;
+		$opt['title']             = isset($options['title']) ? $options['title'] : null;
+		$opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'click';
+		$opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
+		$opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'scrollParent';
+		$opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
+		$opt['sanitize']          = isset($options['sanitize']) ? (bool) $options['sanitize'] : null;
+		$opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
 
-		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
-		$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
-		$opt['content']     = isset($params['content']) ? $params['content'] : null;
-		$opt['delay']       = isset($params['delay']) ? $params['delay'] : null;
-		$opt['html']        = isset($params['html']) ? $params['html'] : true;
-		$opt['placement']   = isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector']    = isset($params['selector']) ? $params['selector'] : null;
-		$opt['template']    = isset($params['template']) ? $params['template'] : null;
-		$opt['title']       = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
-		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.popover');
 
-		$opt     = (object) array_filter((array) $opt);
-
-		Factory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $opt));
+		Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
 
 	/**
-	 * Add javascript support for Bootstrap ScrollSpy
+	 * Add javascript support for Bootstrap Scrollspy
 	 *
 	 * @param   string  $selector  The ID selector for the ScrollSpy element.
-	 * @param   array   $params    An array of options for the ScrollSpy.
-	 *                             Options for the ScrollSpy can be:
-	 *                             - offset  number  Pixels to offset from top when calculating position of scroll.
+	 * @param   array   $options   An array of options for the ScrollSpy.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * Options for the Scrollspy can be:
+	 * - offset  number  Pixels to offset from top when calculating position of scroll.
+	 * - method  string  Finds which section the spied element is in.
+	 * - target  string  Specifies element to apply Scrollspy plugin.
 	 */
-	public static function scrollspy($selector = 'navbar', $params = array())
+	public static function scrollspy($selector = '[data-bs-spy="scroll"]', $options = []) :void
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -295,10 +365,49 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		// Setup options object
+		$opt['offset']         = isset($options['offset']) ? (int) $options['offset'] : 10;
+		$opt['method']         = isset($options['method']) ? $options['method'] : 'auto';
+		$opt['target']           = isset($options['target']) ? $options['target'] : null;
 
-		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', array($selector => $params));
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.scrollspy');
+
+		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
+
+		static::$loaded[__METHOD__][$selector] = true;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap tab
+	 *
+	 * @param   string  $selector  Common class for the tabs
+	 * @param   array   $options   Options for the tabs
+	 *
+	 * @return  void
+	 *
+	 * @throws \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function tab($selector = '.myTab', $options = []) :void
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.tab');
+
+		Factory::getDocument()->addScriptOptions('bootstrap.tabs', [$selector => (object) $options]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -310,29 +419,30 @@ abstract class Bootstrap
 	 * title="title::text"
 	 *
 	 * @param   string  $selector  The ID selector for the tooltip.
-	 * @param   array   $params    An array of options for the tooltip.
-	 *                             Options for the tooltip can be:
-	 *                                animation    boolean          apply a css fade transition to the popover
-	 *                                container    string|boolean   Appends the popover to a specific element: { container: 'body' }
-	 *                                delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
-	 *                                                              If a number is supplied, delay is applied to both hide/show
-	 *                                                              Object structure is: delay: { show: 500, hide: 100 }
-	 *                                html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
-	 *                                                              content into the dom.
-	 *                                placement    string|function  how to position the popover - top | bottom | left | right
-	 *                                selector     string           If a selector is provided, popover objects will be
-	 *                                                              delegated to the specified targets.
-	 *                                template     string           Base HTML to use when creating the popover.
-	 *                                title        string|function  default title value if `title` tag isn't present
-	 *                                trigger      string           how popover is triggered - hover | focus | manual
-	 *                                constraints  array            An array of constraints - passed through to Popper.
-	 *                                offset       string           Offset of the popover relative to its target.
+	 * @param   array   $options   An array of options for the tooltip.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 *                             Options for the tooltip can be:
+	 * - animation    boolean          apply a css fade transition to the popover
+	 * - container    string|boolean   Appends the popover to a specific element: { container: 'body' }
+	 * - delay        number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
+	 *                                                              If a number is supplied, delay is applied to both hide/show
+	 *                                                              Object structure is: delay: { show: 500, hide: 100 }
+	 * - html         boolean          Insert HTML into the popover. If false, jQuery's text method will be used to
+	 *                                 insert content into the dom.
+	 * - placement    string|function  how to position the popover - top | bottom | left | right
+	 * - selector     string           If a selector is provided, popover objects will be
+	 *                                                              delegated to the specified targets.
+	 * - template     string           Base HTML to use when creating the popover.
+	 * - title        string|function  default title value if `title` tag isn't present
+	 * - trigger      string           how popover is triggered - hover | focus | manual
+	 * - constraints  array            An array of constraints - passed through to Popper.
+	 * - offset       string           Offset of the popover relative to its target.
 	 */
-	public static function tooltip($selector = '.hasTooltip', $params = array())
+	public static function tooltip($selector = '[data-bs-toggle=tooltip]', $options = []) :void
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -340,57 +450,133 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.popover');
 
 		// Setup options object
-		$opt['animation']   = isset($params['animation']) ? $params['animation'] : null;
-		$opt['container']   = isset($params['container']) ? $params['container'] : 'body';
-		$opt['delay']       = isset($params['delay']) ? $params['delay'] : null;
-		$opt['html']        = isset($params['html']) ? $params['html'] : true;
-		$opt['placement']   = isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector']    = isset($params['selector']) ? $params['selector'] : null;
-		$opt['template']    = isset($params['template']) ? $params['template'] : null;
-		$opt['title']       = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger']     = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
-		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0 0';
-		$onShow             = isset($params['onShow']) ? (string) $params['onShow'] : null;
-		$onShown            = isset($params['onShown']) ? (string) $params['onShown'] : null;
-		$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;
-		$onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+		$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
+		$opt['container']         = isset($options['container']) ? $options['container'] : 'body';
+		$opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : 0;
+		$opt['html']              = isset($options['html']) ? (bool) $options['html'] : true;
+		$opt['placement']         = isset($options['placement']) ? $options['placement'] : null;
+		$opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
+		$opt['template']          = isset($options['template']) ? $options['template'] : null;
+		$opt['title']             = isset($options['title']) ? $options['title'] : null;
+		$opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'hover focus';
+		$opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
+		$opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'clippingParents';
+		$opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
+		$opt['sanitize']          = isset($options['sanitize']) ? (bool) $options['sanitize'] : true;
+		$opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
 
-		$opt     = (object) array_filter((array) $opt);
-
-		Factory::getDocument()->addScriptOptions('bootstrap.tooltip', array($selector => $opt));
+		Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => (object) array_filter((array) $opt)]);
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
 	}
 
 	/**
+	 * Add javascript support for Bootstrap toasts
+	 *
+	 * @param   string  $selector  Common class for the toasts
+	 * @param   array   $options   Options for the toasts
+	 *
+	 * @return  void
+	 *
+	 * @throws \Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function toast($selector = '.toast', $options = []) :void
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include the Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.toast');
+
+		// Setup options object
+		$opt['animation'] = isset($options['animation']) ? (string) $options['animation'] : null;
+		$opt['autohide']  = isset($options['autohide']) ? (boolean) $options['autohide'] : true;
+		$opt['delay']     = isset($options['delay']) ? (int) $options['delay'] : 5000;
+
+		Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter((array) $opt)]);
+
+		static::$loaded[__METHOD__][$selector] = true;
+	}
+
+	/**
+	 * Method to load the ALL the Bootstrap Components
+	 *
+	 * If debugging mode is on an uncompressed version of Bootstrap is included for easier debugging.
+	 *
+	 * @param   mixed  $debug  Is debugging mode on? [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 * @deprecated 5.0
+	 */
+	public static function framework($debug = null) :void
+	{
+		$wa = Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager();
+
+		array_map(
+			function ($script) use ($wa) {
+				$wa->useScript('bootstrap.' . $script);
+			},
+			['alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'popover', 'scrollspy', 'tab', 'toast']
+		);
+	}
+
+	/**
+	 * Loads CSS files needed by Bootstrap
+	 *
+	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
+	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
+	 * @param   array    $attribs         Optional array of attributes to be passed to HTMLHelper::_('stylesheet')
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function loadCss($includeMainCss = true, $direction = 'ltr', $attribs = []) :void
+	{
+		// Load Bootstrap main CSS
+		if ($includeMainCss)
+		{
+			Factory::getDocument()->getWebAssetManager()->useStyle('bootstrap.css');
+		}
+	}
+
+	/**
 	 * Add javascript support for Bootstrap accordions and insert the accordion
 	 *
 	 * @param   string  $selector  The ID selector for the tooltip.
-	 * @param   array   $params    An array of options for the tooltip.
+	 * @param   array   $options   An array of options for the tooltip.
+	 *
+	 * @return  string  HTML for the accordion
+	 *
+	 * @since   3.0
+	 *
 	 *                             Options for the tooltip can be:
 	 *                             - parent  selector  If selector then all collapsible elements under the specified parent will be closed when this
 	 *                                                 collapsible item is shown. (similar to traditional accordion behavior)
 	 *                             - toggle  boolean   Toggles the collapsible element on invocation
 	 *                             - active  string    Sets the active slide during load
-	 *
-	 *                             - onShow    function  This event fires immediately when the show instance method is called.
-	 *                             - onShown   function  This event is fired when a collapse element has been made visible to the user
-	 *                                                   (will wait for css transitions to complete).
-	 *                             - onHide    function  This event is fired immediately when the hide method has been called.
-	 *                             - onHidden  function  This event is fired when a collapse element has been hidden from the user
-	 *                                                   (will wait for css transitions to complete).
-	 *
-	 * @return  string  HTML for the accordion
-	 *
-	 * @since   3.0
 	 */
-	public static function startAccordion($selector = 'myAccordian', $params = array())
+	public static function startAccordion($selector = '.myAccordian', $options = []) :string
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -398,19 +584,22 @@ abstract class Bootstrap
 			return '';
 		}
 
-		// Include Bootstrap framework
-		HTMLHelper::_('bootstrap.framework');
+		// Include Bootstrap component
+		Factory::getApplication()
+			->getDocument()
+			->getWebAssetManager()
+			->useScript('bootstrap.collapse');
 
 		// Setup options object
-		$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : '';
-		$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : !($opt['parent'] === false || isset($params['active']));
-		$opt['onShow'] = isset($params['onShow']) ? (string) $params['onShow'] : null;
-		$opt['onShown'] = isset($params['onShown']) ? (string) $params['onShown'] : null;
-		$opt['onHide'] = isset($params['onHide']) ? (string) $params['onHide'] : null;
-		$opt['onHidden'] = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
-		$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
+		$opt['parent'] = isset($options['parent']) ?
+			($options['parent'] == true ? '#' . preg_replace('/^\.?#/', '', $selector) : $options['parent']) : '';
+		$opt['toggle'] = isset($options['toggle']) ? (boolean) $options['toggle'] : !($opt['parent'] === false || isset($options['active']));
+		$opt['active'] = isset($options['active']) ? (string) $options['active'] : '';
 
-		Factory::getDocument()->addScriptOptions('bootstrap.accordion', array($selector => $opt));
+		// Initialise with the Joomla specifics
+		$opt['isJoomla'] = true;
+
+		Factory::getDocument()->addScriptOptions('bootstrap.accordion', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = $opt;
 
@@ -424,7 +613,7 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function endAccordion()
+	public static function endAccordion() :string
 	{
 		return '</div>';
 	}
@@ -441,22 +630,26 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function addSlide($selector, $text, $id, $class = '')
+	public static function addSlide($selector, $text, $id, $class = '') :string
 	{
 		$in        = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
 		$collapsed = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
 		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
-			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
+			'data-bs-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
+		$ariaExpanded = $in === 'show' ? true : false;
 
-		$html = '<div class="card' . $class . '">'
-			. '<a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="card-header' . $collapsed . '" role="tab">'
-			. $text
-			. '</a>'
-			. '<div class="collapse' . $in . '" id="' . $id . '" role="tabpanel">'
-			. '<div class="card-body">';
+		return <<<HTMLSTR
+<div class="accordion-item $class">
+  <h2 class="accordion-header" id="$id-heading">
+    <button class="accordion-button $collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#$id" aria-expanded="$ariaExpanded" aria-controls="$id" role="tab">
+		$text
+    </button>
+  </h2>
+  <div id="$id" class="accordion-collapse collapse $in" aria-labelledby="$id-heading" $parent role="tabpanel">
+    <div class="accordion-body">
+HTMLSTR;
 
-		return $html;
 	}
 
 	/**
@@ -466,9 +659,61 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function endSlide()
+	public static function endSlide() :string
 	{
-		return '</div></div></div>';
+		return <<<HTMLSTR
+		</div>
+	</div>
+</div>
+HTMLSTR;
+	}
+
+	/**
+	 * Method to render a Bootstrap modal
+	 *
+	 * @param   string  $selector  The ID selector for the modal.
+	 * @param   array   $options   An array of options for the modal.
+	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the URL option is set
+	 *
+	 * @return  string  HTML markup for a modal
+	 *
+	 * @since   3.0
+	 *
+	 * Options for the modal can be:
+	 * - backdrop     string|  true   Includes a modal-backdrop element. Alternatively, specify static
+	 *                boolean          for a backdrop which doesn't close the modal on click.
+	 * - keyboard     boolean  true   Closes the modal when escape key is pressed
+	 * - focus        boolean  true   Closes the modal when escape key is pressed
+	 * - title        string   null   The modal title
+	 * - closeButton  boolean  true   Display modal close button (default = true)
+	 * - footer       string   null   Optional markup for the modal footer
+	 * - url          string   null   URL of a resource to be inserted as an `<iframe>` inside the modal body
+	 * - height       string   null   Height of the `<iframe>` containing the remote resource
+	 * - width        string   null   Width of the `<iframe>` containing the remote resource
+	 */
+	public static function renderModal($selector = '.modal', $options = [], $body = '') :string
+	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__][$selector]))
+		{
+			return '';
+		}
+
+		// Initialise with the Joomla specifics
+		$options['isJoomla'] = true;
+
+		// Include Basic Bootstrap component
+		HTMLHelper::_('bootstrap.modal', '#' . preg_replace('/^\.?#/', '', $selector), $options);
+
+		$layoutData = [
+			'selector' => $selector,
+			'params'   => $options,
+			'body'     => $body,
+		];
+
+		static::$loaded[__METHOD__][$selector] = true;
+
+		return LayoutHelper::render('libraries.html.bootstrap.modal.main', $layoutData);
 	}
 
 	/**
@@ -481,26 +726,27 @@ abstract class Bootstrap
 	 *
 	 * @since   3.1
 	 */
-	public static function startTabSet($selector = 'myTab', $params = array())
+	public static function startTabSet($selector = '.myTab', $params = []) :string
 	{
-		$sig = md5(serialize(array($selector, $params)));
+		$sig = md5(serialize([$selector, $params]));
 
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
-			// Include Bootstrap framework
-			HTMLHelper::_('bootstrap.framework');
-
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			Factory::getDocument()->addScriptOptions('bootstrap.tabs', array($selector => $opt));
+			// Initialise with the Joomla specifics
+			$opt['isJoomla'] = true;
+
+			// Include the Bootstrap Tab Component
+			HTMLHelper::_('bootstrap.tab', $selector, $opt);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
 			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
-		}
 
-		return LayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
+			return LayoutHelper::render('libraries.html.bootstrap.tab.starttabset', ['selector' => $selector]);
+		}
 	}
 
 	/**
@@ -510,9 +756,9 @@ abstract class Bootstrap
 	 *
 	 * @since   3.1
 	 */
-	public static function endTabSet()
+	public static function endTabSet() :string
 	{
-		return LayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
+		return LayoutHelper::render('libraries.html.bootstrap.tab.endtabset');
 	}
 
 	/**
@@ -526,21 +772,14 @@ abstract class Bootstrap
 	 *
 	 * @since   3.1
 	 */
-	public static function addTab($selector, $id, $title)
+	public static function addTab($selector, $id, $title) :string
 	{
-		static $tabScriptLayout = null;
 		static $tabLayout = null;
 
-		$tabScriptLayout = $tabScriptLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
-		$tabLayout = $tabLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtab') : $tabLayout;
-
+		$tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
-		// Inject tab into UL
-		Factory::getDocument()
-			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector, 'id' => $id, 'active' => $active, 'title' => $title)));
-
-		return $tabLayout->render(array('id' => $id, 'active' => $active, 'title' => $title));
+		return $tabLayout->render(['id' => str_replace('.', '', $id), 'active' => $active, 'title' => $title]);
 	}
 
 	/**
@@ -550,38 +789,8 @@ abstract class Bootstrap
 	 *
 	 * @since   3.1
 	 */
-	public static function endTab()
+	public static function endTab() :string
 	{
-		return LayoutHelper::render('libraries.cms.html.bootstrap.endtab');
-	}
-
-	/**
-	 * Loads CSS files needed by Bootstrap
-	 *
-	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
-	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
-	 * @param   array    $attribs         Optional array of attributes to be passed to HTMLHelper::_('stylesheet')
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public static function loadCss($includeMainCss = true, $direction = 'ltr', $attribs = array())
-	{
-		// Load Bootstrap main CSS
-		if ($includeMainCss)
-		{
-			Factory::getDocument()->getWebAssetManager()->useStyle('bootstrap.css');
-		}
-
-		/**
-		 * BOOTSTRAP RTL - WILL SORT OUT LATER DOWN THE LINE
-		 * Load Bootstrap RTL CSS
-		 * if ($direction === 'rtl')
-		 * {
-		 *  HTMLHelper::_('stylesheet', 'jui/bootstrap-rtl.css', array('version' => 'auto', 'relative' => true), $attribs);
-		 * }
-		 */
-
+		return LayoutHelper::render('libraries.html.bootstrap.tab.endtab');
 	}
 }

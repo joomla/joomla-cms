@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ $n = count($this->items);
 		<div class="com-tags-tag-list__description category-desc">
 			<?php $images = json_decode($this->item[0]->images); ?>
 			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) : ?>
-				<img src="<?php echo htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8'); ?>">
+				<img src="<?php echo htmlspecialchars($images->image_fulltext, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
 				<?php echo HTMLHelper::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
@@ -48,7 +48,7 @@ $n = count($this->items);
 			<?php $alt = empty($this->params->get('tag_list_image_alt')) && empty($this->params->get('tag_list_image_alt_empty'))
 			? ''
 			: 'alt="' . htmlspecialchars($this->params->get('tag_list_image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
-			<img src="<?php echo $this->params->get('tag_list_image'); ?>" <?php echo $alt; ?>>
+			<img src="<?php echo htmlspecialchars($this->params->get('tag_list_image'), ENT_QUOTES, 'UTF-8'); ?>" <?php echo $alt; ?>>
 		<?php endif; ?>
 		<?php if ($this->params->get('tag_list_description', '') > '') : ?>
 			<?php echo HTMLHelper::_('content.prepare', $this->params->get('tag_list_description'), '', 'com_tags.tag'); ?>

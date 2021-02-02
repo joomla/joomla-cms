@@ -41,6 +41,7 @@
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -72,6 +73,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -257,7 +259,7 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			validate="options"
 		>

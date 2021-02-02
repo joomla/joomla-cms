@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ abstract class LoginHelper
 
 		array_unshift($languages, HTMLHelper::_('select.option', '', Text::_('JDEFAULTLANGUAGE')));
 
-		return HTMLHelper::_('select.genericlist', $languages, 'lang', 'class="custom-select"', 'value', 'text', null);
+		return HTMLHelper::_('select.genericlist', $languages, 'lang', 'class="form-select"', 'value', 'text', null);
 	}
 
 	/**
