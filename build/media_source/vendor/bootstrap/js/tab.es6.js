@@ -1,4 +1,3 @@
-import nojQueryMode from './nojquerymode.es6';
 import Tab from '../../../../../node_modules/bootstrap/js/src/tab';
 
 window.Joomla = window.Joomla || {};
@@ -69,7 +68,7 @@ Joomla.initialiseTabs = (el, options) => {
   }
 };
 
-if (nojQueryMode && Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
   const tabs = Joomla.getOptions('bootstrap.tabs');
   // Initialise the elements

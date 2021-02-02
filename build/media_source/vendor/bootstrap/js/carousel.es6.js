@@ -1,10 +1,9 @@
-import nojQueryMode from './nojquerymode.es6';
 import Carousel from '../../../../../node_modules/bootstrap/js/src/carousel';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Carousel = Carousel;
 
-if (nojQueryMode && Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
   const carousels = Joomla.getOptions('bootstrap.carousel');
   // Initialise the elements

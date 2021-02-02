@@ -1,10 +1,9 @@
-import nojQueryMode from './nojquerymode.es6';
 import Alert from '../../../../../node_modules/bootstrap/js/src/alert';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Alert = Alert;
 
-if (nojQueryMode && Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
   const alerts = Joomla.getOptions('bootstrap.alert');
   // Initialise the elements

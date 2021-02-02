@@ -59,7 +59,6 @@ const build = async () => {
         'node_modules/bootstrap/js/src/dom/manipulator.js',
         'node_modules/bootstrap/js/src/dom/selector-engine.js',
         'node_modules/bootstrap/js/src/util/index.js',
-        'build/media_source/vendor/bootstrap/js/nojquerymode.es6.js',
       ],
     },
   });
