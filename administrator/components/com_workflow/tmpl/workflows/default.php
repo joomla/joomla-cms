@@ -108,7 +108,7 @@ $userId = $user->id;
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="0">
 								<td class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">
 									<?php

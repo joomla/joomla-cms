@@ -86,7 +86,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php if($item->isMissingDownloadKey): ?>
 										<span class="icon-ban"></span>
 										<?php else: ?>
-										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id, false, 'cid', 'cb', $item->name); ?>
 										<?php endif; ?>
 									</td>
 									<th scope="row">
