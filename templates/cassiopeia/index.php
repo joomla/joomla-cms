@@ -95,7 +95,6 @@ $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-sta
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -130,7 +129,8 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 			<div class="grid-child container-nav">
 				<?php if ($this->countModules('menu')) : ?>
 					<nav class="navbar navbar-expand-md">
-						<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+						<?php HTMLHelper::_('bootstrap.collapse', '.navbar-toggler'); ?>
+						<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
 							<span class="icon-menu" aria-hidden="true"></span>
 						</button>
 						<div class="collapse navbar-collapse" id="navbar">
@@ -140,9 +140,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 				<?php endif; ?>
 				<?php if ($this->countModules('search')) : ?>
 					<div class="container-search">
-						<div class="form-inline">
-							<jdoc:include type="modules" name="search" style="none" />
-						</div>
+						<jdoc:include type="modules" name="search" style="none" />
 					</div>
 				<?php endif; ?>
 			</div>

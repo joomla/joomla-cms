@@ -160,6 +160,7 @@ const copyFiles = (options) => {
 
       concatFiles(
         [
+          'media/vendor/codemirror/addon/display/autorefresh.js',
           'media/vendor/codemirror/addon/display/fullscreen.js',
           'media/vendor/codemirror/addon/display/panel.js',
           'media/vendor/codemirror/addon/edit/closebrackets.js',

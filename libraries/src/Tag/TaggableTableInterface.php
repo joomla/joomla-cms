@@ -16,7 +16,7 @@ use Joomla\CMS\Table\TableInterface;
 /**
  * Interface for a taggable Table class
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 interface TaggableTableInterface extends TableInterface
 {

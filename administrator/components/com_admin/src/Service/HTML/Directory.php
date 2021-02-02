@@ -31,10 +31,10 @@ class Directory
 	{
 		if ($writable)
 		{
-			return '<span class="badge badge-success">' . Text::_('COM_ADMIN_WRITABLE') . '</span>';
+			return '<span class="badge bg-success">' . Text::_('COM_ADMIN_WRITABLE') . '</span>';
 		}
 
-		return '<span class="badge badge-danger">' . Text::_('COM_ADMIN_UNWRITABLE') . '</span>';
+		return '<span class="badge bg-danger">' . Text::_('COM_ADMIN_UNWRITABLE') . '</span>';
 	}
 
 	/**

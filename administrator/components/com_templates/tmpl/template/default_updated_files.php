@@ -64,13 +64,13 @@ $input = Factory::getApplication()->input;
 									</td>
 									<td>
 										<?php if (is_null($value->modified_date)) : ?>
-											<span class="badge badge-warning"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
+											<span class="badge bg-warning text-dark"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
 										<?php else : ?>
 											<?php echo HTMLHelper::_('date', $value->modified_date, Text::_('DATE_FORMAT_FILTER_DATETIME')); ?>
 										<?php endif; ?>
 									</td>
 									<td>
-										<span class="badge badge-info"><?php echo $value->action; ?></span>
+										<span class="badge bg-info"><?php echo $value->action; ?></span>
 									</td>
 								</tr>
 							<?php endforeach; ?>
@@ -81,7 +81,7 @@ $input = Factory::getApplication()->input;
 					<?php echo HTMLHelper::_('form.token'); ?>
 				<?php else : ?>
 					<div class="alert alert-success">
-						<span class="icon-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
+						<span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('NOTICE'); ?></span>
 						<?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
 					</div>
 				<?php endif; ?>

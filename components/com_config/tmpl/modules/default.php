@@ -67,10 +67,10 @@ if (Multilanguage::isEnabled())
 
 			<div>
 				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
-				<span class="badge badge-secondary"><?php echo $this->item['title']; ?></span>
+				<span class="badge bg-secondary"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
 				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
-				<span class="badge badge-secondary"><?php echo $this->item['module']; ?></span>
+				<span class="badge bg-secondary"><?php echo $this->item['module']; ?></span>
 			</div>
 			<hr>
 

@@ -296,7 +296,7 @@ abstract class JGrid
 	 *                          and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
 	 *                          These pairs determine which values are displayed.
 	 *
-	 * @return  string  The HTML markup
+	 * @return  array  The array of standard published state filter options
 	 *
 	 * @since   1.6
 	 */

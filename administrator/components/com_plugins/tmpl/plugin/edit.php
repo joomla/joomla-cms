@@ -29,7 +29,7 @@ $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_plugins&view=plugin&layout=' . $layout . $tmpl . '&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" aria-label="<?php echo Text::_('COM_PLUGINS_FORM_EDIT'); ?>" class="form-validate">
 	<div>
 
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
@@ -55,10 +55,10 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 								?>
 								</h2>
 								<div class="info-labels mb-1">
-									<span class="badge badge-secondary">
+									<span class="badge bg-secondary">
 										<?php echo $this->form->getValue('folder'); ?>
 									</span> /
-									<span class="badge badge-secondary">
+									<span class="badge bg-secondary">
 										<?php echo $this->form->getValue('element'); ?>
 									</span>
 								</div>
@@ -96,7 +96,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							<?php endif; ?>
 							<?php else : ?>
 								<div class="alert alert-danger">
-								<span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+								<span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('ERROR'); ?></span>
 									<?php echo Text::_('COM_PLUGINS_XML_ERR'); ?>
 								</div>
 							<?php endif; ?>

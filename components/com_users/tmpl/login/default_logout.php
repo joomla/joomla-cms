@@ -35,7 +35,7 @@ use Joomla\CMS\Router\Route;
 		<?php $alt = empty($this->params->get('logout_image_alt')) && empty($this->params->get('logout_image_alt_empty'))
 			? ''
 			: 'alt="' . htmlspecialchars($this->params->get('logout_image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
-		<img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="com-users-logout__image thumbnail float-right logout-image" <?php echo $alt; ?>>
+		<img src="<?php echo $this->escape($this->params->get('logout_image')); ?>" class="com-users-logout__image thumbnail float-end logout-image" <?php echo $alt; ?>>
 	<?php endif; ?>
 
 	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
