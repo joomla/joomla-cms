@@ -164,7 +164,7 @@ abstract class Bootstrap
 	 *
 	 * @throws \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * Options for the collapse can be:
 	 * - parent    string   false  If parent is provided, then all collapsible elements under the specified parent will
@@ -202,7 +202,7 @@ abstract class Bootstrap
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * Options for the collapse can be:
 	 * - flip       boolean  true          Allow Dropdown to flip in case of an overlapping on the reference element
@@ -244,7 +244,7 @@ abstract class Bootstrap
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * Options for the modal can be:
 	 * - backdrop     string|  true  Includes a modal-backdrop element. Alternatively, specify static
@@ -391,7 +391,7 @@ abstract class Bootstrap
 	 *
 	 * @throws \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function tab($selector = '.myTab', $options = []) :void
 	{
@@ -488,7 +488,7 @@ abstract class Bootstrap
 	 *
 	 * @throws \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function toast($selector = '.toast', $options = []) :void
 	{
