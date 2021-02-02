@@ -1,14 +1,10 @@
+import nojQueryMode from './nojquerymode.es6';
 import Dropdown from '../../../../../node_modules/bootstrap/js/src/dropdown';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Dropdown = Dropdown;
 
-// Ensure vanilla mode, for consistency of the events
-if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-  document.body.dataset.bsNoJquery = '';
-}
-
-if (Joomla && Joomla.getOptions) {
+if (nojQueryMode && Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
   const dropdowns = Joomla.getOptions('bootstrap.dropdown');
   // Initialise the elements

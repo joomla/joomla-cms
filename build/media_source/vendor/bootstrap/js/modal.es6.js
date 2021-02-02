@@ -1,3 +1,4 @@
+import nojQueryMode from './nojquerymode.es6';
 import Modal from '../../../../../node_modules/bootstrap/js/src/modal';
 
 Joomla = Joomla || {};
@@ -133,12 +134,7 @@ Joomla.iframeButtonClick = (options) => {
   }
 };
 
-// Ensure vanilla mode, for consistency of the events
-if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-  document.body.dataset.bsNoJquery = '';
-}
-
-if (Joomla && Joomla.getOptions) {
+if (nojQueryMode && Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
   const modals = Joomla.getOptions('bootstrap.modal');
   // Initialise the elements
