@@ -1,3 +1,4 @@
+import nojQueryMode from './nojquerymode.es6';
 import Popover from '../../../../../node_modules/bootstrap/js/src/popover';
 import Tooltip from '../../../../../node_modules/bootstrap/js/src/tooltip';
 
@@ -5,12 +6,7 @@ window.bootstrap = window.bootstrap || {};
 window.bootstrap.Popover = Popover;
 window.bootstrap.Tooltip = Tooltip;
 
-// Ensure vanilla mode, for consistency of the events
-if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-  document.body.dataset.bsNoJquery = '';
-}
-
-if (Joomla && Joomla.getOptions) {
+if (nojQueryMode && Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
   const tooltips = Joomla.getOptions('bootstrap.tooltip');
   const popovers = Joomla.getOptions('bootstrap.popover');

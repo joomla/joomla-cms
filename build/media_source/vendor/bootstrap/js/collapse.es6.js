@@ -1,14 +1,10 @@
+import nojQueryMode from './nojquerymode.es6';
 import Collapse from '../../../../../node_modules/bootstrap/js/src/collapse';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Collapse = Collapse;
 
-// Ensure vanilla mode, for consistency of the events
-if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-  document.body.dataset.bsNoJquery = '';
-}
-
-if (Joomla && Joomla.getOptions) {
+if (nojQueryMode && Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
   const collapses = { ...Joomla.getOptions('bootstrap.collapse'), ...Joomla.getOptions('bootstrap.accordion') };
   // Initialise the elements

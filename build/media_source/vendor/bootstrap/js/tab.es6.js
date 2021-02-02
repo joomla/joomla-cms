@@ -1,3 +1,4 @@
+import nojQueryMode from './nojquerymode.es6';
 import Tab from '../../../../../node_modules/bootstrap/js/src/tab';
 
 window.Joomla = window.Joomla || {};
@@ -68,7 +69,7 @@ Joomla.initialiseTabs = (el, options) => {
   }
 };
 
-if (Joomla && Joomla.getOptions) {
+if (nojQueryMode && Joomla && Joomla.getOptions) {
   // Ensure vanilla mode, for consistency of the events
   if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
     document.body.dataset.bsNoJquery = '';
