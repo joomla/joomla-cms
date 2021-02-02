@@ -1,10 +1,9 @@
-import nojQueryMode from './nojquerymode.es6';
 import Scrollspy from '../../../../../node_modules/bootstrap/js/src/scrollspy';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Scrollspy = Scrollspy;
 
-if (nojQueryMode && Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
   const scrollspys = Joomla.getOptions('bootstrap.scrollspy');
   // Initialise the elements

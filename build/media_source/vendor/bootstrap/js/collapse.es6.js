@@ -1,10 +1,9 @@
-import nojQueryMode from './nojquerymode.es6';
 import Collapse from '../../../../../node_modules/bootstrap/js/src/collapse';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Collapse = Collapse;
 
-if (nojQueryMode && Joomla && Joomla.getOptions) {
+if (Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
   const collapses = { ...Joomla.getOptions('bootstrap.collapse'), ...Joomla.getOptions('bootstrap.accordion') };
   // Initialise the elements
