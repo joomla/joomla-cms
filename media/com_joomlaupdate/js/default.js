@@ -74,6 +74,26 @@ function extractionMethodHandler(target, prefix)
 			}
 		});
 
+		PreUpdateChecker.nonCoreCriticalPlugins = typeof nonCoreCriticalPlugins !== 'undefined' ? Object.values(JSON.parse(nonCoreCriticalPlugins)) : [];
+
+		// If there are no non Core Critical Plugins installed then disable the warnings upfront
+		if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0)
+		{
+			$('#preupdateCheckWarning, #preupdateconfirmation, #preupdatecheckbox, #preupdatecheckheadings').css('display', 'none');
+			$('#preupdatecheckbox #noncoreplugins').prop('checked', true);
+			$('button.submitupdate').removeClass('disabled');
+			$('button.submitupdate').prop('disabled', false);
+		}
+
+		// Grab all extensions based on the selector set in the config object
+		var $extensions = $(PreUpdateChecker.config.selector);
+
+		// If there are no extensions to be checked we can exit here
+		if ($extensions.length === 0)
+		{
+			return;
+		}
+
 		$('#preupdatecheckbox #noncoreplugins').on('change', function ()
 		{
 			if ($('#preupdatecheckbox #noncoreplugins').is(':checked')) {
@@ -92,9 +112,7 @@ function extractionMethodHandler(target, prefix)
 
 		});
 
-		PreUpdateChecker.nonCoreCriticalPlugins = typeof nonCoreCriticalPlugins !== 'undefined' ? Object.values(JSON.parse(nonCoreCriticalPlugins)) : [];
-
-        // Get version of the available joomla update
+		// Get version of the available joomla update
         PreUpdateChecker.joomlaTargetVersion = window.joomlaTargetVersion;
         PreUpdateChecker.joomlaCurrentVersion = window.joomlaCurrentVersion;
 
@@ -141,8 +159,7 @@ function extractionMethodHandler(target, prefix)
 				compatibilitytypes.find("#updateorangewarning").addClass('hidden');
 			}
 		});
-        // Grab all extensions based on the selector set in the config object
-        var $extensions = $(PreUpdateChecker.config.selector);
+
         $extensions.each(function () {
             // Check compatibility for each extension, pass jQuery object and a callback
             // function after completing the request
