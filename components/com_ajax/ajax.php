@@ -63,8 +63,6 @@ elseif ($input->get('module'))
 
 	if ($moduleId && $table->load($moduleId) && $table->enabled)
 	{
-		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
-
 		if (strpos($module, '_'))
 		{
 			$parts = explode('_', $module);
@@ -73,21 +71,34 @@ elseif ($input->get('module'))
 		{
 			$parts = explode('-', $module);
 		}
-
-		if ($parts)
+		else
 		{
-			$class = 'Mod';
+			$parts = [$module];
+		}
 
-			foreach ($parts as $part)
-			{
-				$class .= ucfirst($part);
-			}
+		$xmlFile = JPATH_BASE . '/modules/mod_' . $module . '/mod_' . $module . '.xml';
 
-			$class .= 'Helper';
+		if (is_file($xmlFile) && $xml = simplexml_load_file($xmlFile))
+		{
+			$namespace = (string) $xml->namespace;
+			$src       = $xml->namespace->attributes('src') ?: 'src';
 		}
 		else
 		{
-			$class = 'Mod' . ucfirst($module) . 'Helper';
+			$namespace = '';
+			$src       = '';
+		}
+
+		if ($namespace)
+		{
+			$helperClassName = implode('', array_map('ucfirst', $parts)) . 'Helper';
+			$helperFile      = JPATH_BASE . '/modules/mod_' . $module . '/' . $src . '/Helper/' . $helperClassName . '.php';
+			$class           = $namespace . '\\' . ucfirst($app->getName()) . '\\Helper\\' . $helperClassName;
+		}
+		else
+		{
+			$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
+			$class      = 'Mod' . implode('', array_map('ucfirst', $parts));
 		}
 
 		$method = $input->get('method') ?: 'get';
@@ -102,11 +113,12 @@ elseif ($input->get('module'))
 				$basePath = JPATH_BASE;
 				$lang     = Factory::getLanguage();
 				$lang->load('mod_' . $module, $basePath)
-				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
+				|| $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
 				try
 				{
 					$results = call_user_func($class . '::' . $method . 'Ajax');
+
 				}
 				catch (Exception $e)
 				{
@@ -122,7 +134,16 @@ elseif ($input->get('module'))
 		// The helper file does not exist
 		else
 		{
-			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
+			if ($namespace)
+			{
+				$moduleHelperFile = 'mod_' . $module . '/' . $src . '/Helper/' . $helperClassName . '.php';
+			}
+			else
+			{
+				$moduleHelperFile = 'mod_' . $module . '/helper.php';
+			}
+
+			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', $moduleHelperFile), 404);
 		}
 	}
 	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
