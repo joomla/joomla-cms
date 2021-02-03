@@ -128,7 +128,7 @@ $saveOrder = $listOrder == 'a.id';
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
-									<td class="text-center d-none d-md-table-cell">
+									<td class="d-none d-md-table-cell">
 										<?php echo $item->id; ?>
 									</td>
 								</tr>

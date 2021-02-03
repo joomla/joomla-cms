@@ -437,19 +437,55 @@
             "uri": "joomla-alert.min.css"
           },
           {
+            "name": "webcomponent.joomla-alert-legacy",
+            "type": "script",
+            "uri": "joomla-alert-es5.min.js",
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            },
+            "dependencies": [
+              "wcpolyfill"
+            ]
+          },
+          {
+            "name": "webcomponent.joomla-alert",
+            "type": "script",
+            "uri": "joomla-alert.min.js",
+            "attributes": {
+              "type": "module"
+            },
+            "dependencies": [
+              "webcomponent.joomla-alert-legacy"
+            ]
+          },
+          {
             "name": "webcomponent.joomla-tab",
             "type": "style",
             "uri": "joomla-tab.min.css"
           },
           {
-            "name": "webcomponent.joomla-alert",
+            "name": "webcomponent.joomla-tab-legacy",
             "type": "script",
-            "uri": "joomla-alert.min.js"
+            "uri": "joomla-tab-es5.min.js",
+            "attributes": {
+              "nomodule": true,
+              "defer": true
+            },
+            "dependencies": [
+              "wcpolyfill"
+            ]
           },
           {
             "name": "webcomponent.joomla-tab",
             "type": "script",
-            "uri": "joomla-tab.min.js"
+            "uri": "joomla-tab.min.js",
+            "attributes": {
+              "type": "module"
+            },
+            "dependencies": [
+              "webcomponent.joomla-tab-legacy"
+            ]
           }
         ],
         "dependencies": [],
@@ -566,7 +602,8 @@
             "type": "script",
             "uri": "webcomponents-sd-ce-pf.js",
             "attributes": {
-              "nomodule": ""
+              "nomodule": true,
+              "defer": true
             },
             "dependencies": ["core"]
           }
