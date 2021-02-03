@@ -21,23 +21,10 @@ $wa  = $this->getWebAssetManager();
 $templatePath = 'templates/' . $this->template;
 
 // Color Theme
-$inlineCSSRoot = '';
-try
-{
-	$inlineCSSRoot = file_get_contents(
-			JPATH_ROOT . '/' . $templatePath . '/css/global/'
-			. $this->params->get('colorName', 'colors_standard') . '.min.css'
-	);
-}
-catch (Exception $e)
-{
-	// Nothing
-}
-
-if (!empty($inlineCSSRoot))
-{
-	$wa->addInlineStyle($inlineCSSRoot);
-}
+$paramsColorName = $this->params->get('colorName', 'colors_standard');
+$assetColorName  = 'theme.' . $paramsColorName;
+$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
