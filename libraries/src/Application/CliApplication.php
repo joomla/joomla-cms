@@ -127,10 +127,6 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 				->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 		}
 
-		\JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
-		$extensionLoader = new \JNamespacePsr4Map;
-		$extensionLoader->load();
-
 		$this->input    = new \Joomla\CMS\Input\Cli;
 		$this->language = Factory::getLanguage();
 		$this->output   = $output ?: new Stdout;
@@ -243,6 +239,11 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function execute()
 	{
+		// Load the namespace map early but not in constructor as the file write operation needs an application
+		\JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+		$extensionLoader = new \JNamespacePsr4Map;
+		$extensionLoader->load();
+
 		// Trigger the onBeforeExecute event
 		$this->triggerEvent('onBeforeExecute');
 
