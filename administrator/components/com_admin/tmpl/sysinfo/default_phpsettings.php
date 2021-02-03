@@ -167,6 +167,14 @@ use Joomla\CMS\Language\Text;
 					<?php echo (int) $this->phpSettings['max_input_vars']; ?>
 				</td>
 			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_GMP_ENABLED'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['gmp']); ?>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 </div>

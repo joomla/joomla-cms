@@ -263,6 +263,7 @@ class SysinfoModel extends BaseDatabaseModel
 			'mbstring'            => extension_loaded('mbstring'),
 			'iconv'               => function_exists('iconv'),
 			'max_input_vars'      => ini_get('max_input_vars'),
+			'gmp'                 => extension_loaded('gmp'),
 		);
 
 		return $this->php_settings;
