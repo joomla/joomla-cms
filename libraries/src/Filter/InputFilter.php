@@ -351,24 +351,7 @@ class InputFilter extends BaseInputFilter
 
 				break;
 			case 'PATH':
-				$pattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-
-				if (is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? (string) $matches[0] : '';
-					}
-				}
-				else
-				{
-					preg_match($pattern, $source, $matches);
-					$result = isset($matches[0]) ? (string) $matches[0] : '';
-				}
+				$result = parent::clean($source, 'path');
 
 				break;
 			case 'TRIM':
