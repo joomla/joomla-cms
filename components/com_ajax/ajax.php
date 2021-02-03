@@ -118,7 +118,6 @@ elseif ($input->get('module'))
 				try
 				{
 					$results = call_user_func($class . '::' . $method . 'Ajax');
-
 				}
 				catch (Exception $e)
 				{
