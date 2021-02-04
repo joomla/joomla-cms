@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -284,7 +284,11 @@ class SysinfoModel extends BaseDatabaseModel
 
 		$registry = new Registry(new \JConfig);
 		$this->config = $registry->toArray();
-		$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass',);
+		$hidden = array(
+			'host', 'user', 'password', 'ftp_user', 'ftp_pass',
+			'smtpuser', 'smtppass', 'redis_server_auth', 'session_redis_server_auth',
+			'proxy_user', 'proxy_pass', 'secret'
+		);
 
 		foreach ($hidden as $key)
 		{

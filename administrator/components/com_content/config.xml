@@ -9,7 +9,7 @@
 			name="article_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_content"
 			view="article"
@@ -222,7 +222,7 @@
 
 		<field
 			name="show_vote"
-			type="radio"
+			type="voteradio"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
@@ -266,7 +266,6 @@
 			name="show_tags"
 			type="radio"
 			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-			id="show_tags"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -497,7 +496,7 @@
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 		/>
 
-		<field 
+		<field
 			name="float_intro"
 			type="text"
 			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
@@ -522,7 +521,7 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_content"
 			view="category"
@@ -715,6 +714,22 @@
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 		>
+		<field
+			name="blog_class_leading"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS_LEADING"
+			size="3"
+			validate="CssIdentifier"
+		/>
+
+		<field
+			name="blog_class"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS"
+			size="3"
+			validate="CssIdentifier"
+		/>
+
 		<field
 			name="num_leading_articles"
 			type="number"

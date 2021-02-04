@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,7 +105,12 @@ class ModuleAdapter extends InstallerAdapter
 				if (!$this->parent->copyFiles(array($path)))
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_MANIFEST'));
+					throw new \RuntimeException(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_MANIFEST',
+							Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+						)
+					);
 				}
 			}
 		}
@@ -196,7 +201,12 @@ class ModuleAdapter extends InstallerAdapter
 			if (!$this->parent->copyManifest(-1))
 			{
 				// Install failed, rollback changes
-				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_COPY_SETUP'));
+				throw new \RuntimeException(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+					)
+				);
 			}
 		}
 	}
@@ -539,7 +549,7 @@ class ModuleAdapter extends InstallerAdapter
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		// Get the module's manifest objecct
+		// Get the module's manifest object
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file.
 		$this->parent->findManifest();
 		$this->setManifest($this->parent->getManifest());

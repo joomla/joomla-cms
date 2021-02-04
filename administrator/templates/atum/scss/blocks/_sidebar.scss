@@ -38,7 +38,10 @@
       min-height: 44px;
       font-size: .9rem;
 
-      .fas {
+      [class^="#{$jicon-css-prefix}-"],
+      [class*=" #{$jicon-css-prefix}-"],
+      [class^="#{$fa-css-prefix}-"],
+      [class*=" #{$fa-css-prefix}-"] {
         margin: 0 .85rem;
         transform: scale(1.3);
       }
@@ -67,7 +70,7 @@
     transition: all .3s ease;
   }
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     &.sidebar-menu {
       top: auto;
     }
@@ -90,7 +93,7 @@
 .main-nav {
   width: $sidebar-width;
 
-  @include media-breakpoint-down(xs) {
+  @include media-breakpoint-down(sm) {
     width: 100%;
   }
 
@@ -230,7 +233,7 @@
 }
 
 // Mobile
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-down(sm) {
   #menu-collapse {
     display: none;
     background: var(--atum-bg-dark-50);

@@ -64,6 +64,7 @@
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
 				filter="intarray"
+				validate="options"
 			/>
 
 			<field

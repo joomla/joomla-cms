@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,9 @@ use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.multiselect');
+
+// Just for the tests :(
+HTMLHelper::_('jquery.framework');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
@@ -102,12 +105,12 @@ $assoc = Associations::isEnabled();
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table itemList" id="articleList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -118,7 +121,7 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
 								</th>
 								<?php if ($workflow_enabled) : ?>
 								<th scope="col" class="w-1 text-center">
@@ -207,7 +210,7 @@ $assoc = Associations::isEnabled();
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
-										<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+										<span class="icon-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
 										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
@@ -232,6 +235,7 @@ $assoc = Associations::isEnabled();
 								<td class="text-center d-none d-md-table-cell">
 								<?php
 									$options = [
+										'task_prefix' => 'articles.',
 										'disabled' => $workflow_featured || !$canChange
 									];
 
@@ -356,18 +360,18 @@ $assoc = Associations::isEnabled();
 									?>
 								</td>
 								<td class="d-none d-lg-table-cell text-center">
-									<span class="badge badge-info">
+									<span class="badge bg-info">
 										<?php echo (int) $item->hits; ?>
 									</span>
 								</td>
 								<?php if ($this->vote) : ?>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge badge-success">
+										<span class="badge bg-success">
 										<?php echo (int) $item->rating_count; ?>
 										</span>
 									</td>
 									<td class="d-none d-md-table-cell text-center">
-										<span class="badge badge-warning">
+										<span class="badge bg-warning text-dark">
 										<?php echo (int) $item->rating; ?>
 										</span>
 									</td>

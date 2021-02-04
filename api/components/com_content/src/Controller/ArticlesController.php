@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,7 +67,7 @@ class ArticlesController extends ApiController
 
 		if (array_key_exists('state', $apiFilterInfo))
 		{
-			$this->modelState->set('filter.condition', $filter->clean($apiFilterInfo['state'], 'INT'));
+			$this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
 		}
 
 		if (array_key_exists('language', $apiFilterInfo))

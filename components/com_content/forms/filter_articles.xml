@@ -82,13 +82,14 @@
 		<field
 			name="tag"
 			type="tag"
-			label="JOPTION_FILTER_TAG"
-			description="JOPTION_FILTER_TAG_DESC"
+			label="JTAG"
 			multiple="true"
-			class="multipleTags"
 			mode="nested"
+			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			onchange="this.form.submit();"
 		/>
+
 	</fields>
 	<fields name="list">
 		<field

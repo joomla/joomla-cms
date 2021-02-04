@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla, document) => {
@@ -36,14 +36,14 @@
     const sidebarState = localStorage.getItem('atum-sidebar');
     if (sidebarState === 'open' || sidebarState === null) {
       wrapper.classList.remove('closed');
-      menuToggleIcon.classList.remove('fa-toggle-off');
-      menuToggleIcon.classList.add('fa-toggle-on');
+      menuToggleIcon.classList.remove('icon-toggle-off');
+      menuToggleIcon.classList.add('icon-toggle-on');
       localStorage.setItem('atum-sidebar', 'open');
       Joomla.Event.dispatch('joomla:menu-toggle', 'open');
     } else {
       wrapper.classList.add('closed');
-      menuToggleIcon.classList.remove('fa-toggle-on');
-      menuToggleIcon.classList.add('fa-toggle-off');
+      menuToggleIcon.classList.remove('icon-toggle-on');
+      menuToggleIcon.classList.add('icon-toggle-off');
       localStorage.setItem('atum-sidebar', 'closed');
       Joomla.Event.dispatch('joomla:menu-toggle', 'closed');
     }
@@ -77,8 +77,8 @@
     // Toggle menu
     menuToggle.addEventListener('click', () => {
       wrapper.classList.toggle('closed');
-      menuToggleIcon.classList.toggle('fa-toggle-on');
-      menuToggleIcon.classList.toggle('fa-toggle-off');
+      menuToggleIcon.classList.toggle('icon-toggle-on');
+      menuToggleIcon.classList.toggle('icon-toggle-off');
 
       const listItems = [].slice.call(document.querySelectorAll('.main-nav > li'));
       listItems.forEach((item) => {
@@ -151,9 +151,9 @@
 
         wrapper.classList.remove('closed');
         localStorage.setItem('atum-sidebar', 'open');
-        if (menuToggleIcon.classList.contains('fa-toggle-off')) {
-          menuToggleIcon.classList.toggle('fa-toggle-off');
-          menuToggleIcon.classList.toggle('fa-toggle-on');
+        if (menuToggleIcon.classList.contains('icon-toggle-off')) {
+          menuToggleIcon.classList.toggle('icon-toggle-off');
+          menuToggleIcon.classList.toggle('icon-toggle-on');
         }
         mainNav.classList.add('child-open');
 

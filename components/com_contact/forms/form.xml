@@ -41,6 +41,7 @@
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -72,6 +73,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -97,7 +99,6 @@
 			name="contenthistory"
 			type="contenthistory"
 			label="JTOOLBAR_VERSIONS"
-			id="contenthistory"
 			data-typeAlias="com_contact.contact"
 		/>
 
@@ -258,8 +259,7 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			id="published"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			validate="options"
 		>
@@ -305,7 +305,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 	</fieldset>
 

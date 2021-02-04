@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,8 @@ Factory::getDocument()->getWebAssetManager()
 	->registerAndUseScript(
 		'webcomponent.editor-codemirror',
 		'plg_editors_codemirror/joomla-editor-codemirror.min.js',
-		['webcomponent' => true]
+			[],
+			['type' => 'module']
 	);
 
 ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Cms
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,7 @@ class ListView extends HtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var  \Joomla\CMS\Pagination\Pagination
 	 */
 	protected $pagination;
 
@@ -58,7 +58,7 @@ class ListView extends HtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -239,8 +239,8 @@ class ListView extends HtmlView
 
 			if (isset($this->items[0]->featured))
 			{
-				ToolbarHelper::custom($viewName . '.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-				ToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
+				ToolbarHelper::custom($viewName . '.featured', 'featured', '', 'JFEATURE', true);
+				ToolbarHelper::custom($viewName . '.unfeatured', 'unfeatured', '', 'JUNFEATURE', true);
 			}
 
 			ToolbarHelper::archiveList($viewName . '.archive');

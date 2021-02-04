@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 ?>
 <a href="<?php echo $link; ?>" class="mod-syndicate syndicate-module">
 	<?php echo HTMLHelper::_('image', 'system/livemarks.png', '', null, true); ?>
-	<?php $class = $params->get('display_text', 1) ? '' : 'class="sr-only"'; ?>
+	<?php $class = $params->get('display_text', 1) ? '' : 'class="visually-hidden"'; ?>
 	<span <?php echo $class; ?>>
 		<?php if (str_replace(' ', '', $text) !== '') : ?>
 			<?php echo $text; ?>
