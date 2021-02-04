@@ -16,7 +16,6 @@ const RootPath = process.cwd();
  * @returns {Promise}
  */
 const copyFilesTo = async (files, srcDir, destDir) => {
-  const filesResult = [];
   const copyPromises = [];
 
   async function doTheCopy(source, dest) {
@@ -28,12 +27,9 @@ const copyFilesTo = async (files, srcDir, destDir) => {
   // eslint-disable-next-line no-restricted-syntax,guard-for-in
   for (const srcFile in files) {
     copyPromises.push(doTheCopy(join(srcDir, srcFile), join(destDir, files[srcFile])));
-    filesResult.push(join(destDir, files[srcFile]));
   }
 
-  await Promise.all(filesResult);
-
-  return filesResult;
+  return Promise.all(copyPromises);
 };
 
 /**
