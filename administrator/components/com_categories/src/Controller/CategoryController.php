@@ -153,6 +153,18 @@ class CategoryController extends FormController
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
+
+		// In case edit category, we should get extension of that category in database instead of getting from request
+		if ($recordId > 0)
+		{
+			$table = $this->getModel('Category')->getTable();
+
+			if ($table->load($recordId))
+			{
+				$this->extension = $table->extension;
+			}
+		}
+
 		$append .= '&extension=' . $this->extension;
 
 		return $append;
