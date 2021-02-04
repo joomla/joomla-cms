@@ -320,21 +320,8 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
-
+		$this->setDocumentTitle($title);
+		
 		$pathway->addItem($title);
 
 		foreach ($this->item as $itemElement)
