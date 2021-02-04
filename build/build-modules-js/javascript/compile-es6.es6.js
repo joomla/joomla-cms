@@ -99,17 +99,23 @@ module.exports.compileFile = async (file) => {
 
   // Get the contents of the ES-XXXX file
   let es6File = await readFile(file, { encoding: 'utf8' });
+  let es6FileAsync = [];
   const es6Subdir = file.replace('es6.js', 'es6');
+  const coreWeirdFolderExists = await folderExists(es6Subdir);
 
-  if (await folderExists(es6Subdir)) {
+  if (coreWeirdFolderExists) {
     const allCorefilesPromises = [];
     const concatenateFileContents = async (es6SubFile) => {
-      es6File += await readFile(`${es6Subdir}/${es6SubFile}`, { encoding: 'utf8' });
+      es6FileAsync.push(await readFile(`${es6Subdir}/${es6SubFile}`, { encoding: 'utf8' }));
     };
     const es6SubFiles = await readdir(es6Subdir);
     es6SubFiles.sort();
     es6SubFiles.map((es6SubFile) => allCorefilesPromises.push(concatenateFileContents(es6SubFile)));
     await Promise.all(allCorefilesPromises);
+  }
+
+  if (es6FileAsync.length) {
+    es6File += es6FileAsync.join('');
   }
 
   const jobs = [];
