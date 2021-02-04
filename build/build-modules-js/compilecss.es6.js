@@ -61,6 +61,11 @@ module.exports.stylesheets = async (options, path) => {
   // Loop to get the files that should be compiled via parameter
   // eslint-disable-next-line no-restricted-syntax
   for (const file of computedFilesFlat) {
+    // Bail out for non Joomla convention folders, eg: scss
+    if (!(file.match(/\/scss\//) || file.match(/\\scss\\/))) {
+      return;
+    }
+
     // Don't take files with "_" but "file" has the full path, so check via match
     if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
       files.push(file);
