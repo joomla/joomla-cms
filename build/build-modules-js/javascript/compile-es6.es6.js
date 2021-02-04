@@ -41,20 +41,6 @@ const settings = [
     presets: [
       ['@babel/preset-env', {
         targets: {
-          browsers: ['ie 11'],
-        },
-        modules: false,
-      }],
-    ],
-    plugins: [
-      ['@babel/plugin-transform-classes'],
-    ],
-    comments: false,
-  },
-  {
-    presets: [
-      ['@babel/preset-env', {
-        targets: {
           browsers: ['> 5%', 'not ie 11'],
         },
         modules: false,
@@ -65,18 +51,6 @@ const settings = [
     ],
     comments: true,
   },
-  {
-    presets: [
-      ['@babel/preset-env', {
-        targets: {
-          browsers: ['> 5%', 'not ie 11'],
-        },
-        modules: false,
-      }],
-    ],
-    plugins: [],
-    comments: false,
-  },
 ];
 
 /**
@@ -84,18 +58,16 @@ const settings = [
  *
  * @param file the full path to the file + filename + extension
  */
-module.exports.compileFile = async (file) => {
+module.exports.handleESMFile = async (file) => {
   const filePath = file.slice(0, -7);
   const newPath = filePath.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const outputFiles = [
     `${newPath}.js`,
-    `${newPath}.min.js`,
     `${newPath}.es6.js`,
-    `${newPath}.es6.min.js`,
   ];
 
   // Ensure that the directories exist or create them
-  ensureDir(dirname(file).replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`), {});
+  ensureDir(dirname(file.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`)));
 
   // Get the contents of the ES-XXXX file
   let es6File = await readFile(file, { encoding: 'utf8' });

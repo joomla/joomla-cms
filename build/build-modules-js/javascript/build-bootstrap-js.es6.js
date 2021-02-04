@@ -68,6 +68,9 @@ const build = async () => {
     sourcemap: false,
     dir: outputFolder,
   });
+
+  // closes the bundle
+  await bundle.close();
 };
 
 const buildLegacy = async () => {
@@ -112,9 +115,12 @@ const buildLegacy = async () => {
     name: 'Bootstrap',
     file: resolve(outputFolder, 'bootstrap.es5.js'),
   });
+
+  // closes the bundle
+  await bundle.close();
 };
 
-(async () => {
+module.exports.bootstrapJs = async () => {
   rimraf.sync(resolve(outputFolder));
 
   try {
@@ -152,4 +158,4 @@ const buildLegacy = async () => {
     console.error(error);
     process.exit(1);
   }
-})();
+};

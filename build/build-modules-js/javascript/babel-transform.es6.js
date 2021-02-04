@@ -1,7 +1,20 @@
-const { writeFile } = require('fs');
+const { writeFile } = require('fs').promises;
 const Babel = require('@babel/core');
 const FsExtra = require('fs-extra');
 const { dirname } = require('path');
+const { minify } = require('terser');
+
+/**
+ * Create the minified file as well
+ *
+ * @returns {Promise<void>}
+ * @param fileName {string}
+ * @param data {string}
+ */
+const createMinified = async (fileName, data) => {
+  const mini = await minify(data);
+  await writeFile(fileName, mini.code, { encoding: 'utf8' });
+};
 
 /**
  *
@@ -35,4 +48,6 @@ module.exports.BabelTransform = async (fileContents, settings, output) => {
       }
     },
   );
+
+  await createMinified(output.replace('.js', '.min.js'), transformedData.code);
 };

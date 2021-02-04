@@ -10,6 +10,7 @@
  * node build.js --copy-assets  === will clean the media/vendor folder and then will populate the folder from node_modules
  * node build.js --compile-js   === will transpile ES6 files and also uglify the ES6,ES5 files
  * node build.js --compile-css  === will compile all the scss defined files and also create a minified version of the css
+ * node build.js --compile-bs   === will compile all the Bootstrap javascript components
  * node build.js --gzip         === will create gzip files for all the minified stylesheets and scripts.'
  */
 
@@ -21,7 +22,8 @@ const semver = require('semver');
 // Joomla Build modules
 const { createErrorPages } = require('./build-modules-js/error-pages.es6.js');
 const { stylesheets } = require('./build-modules-js/compilecss.es6.js');
-const { compileJS } = require('./build-modules-js/compilejs.es6.js');
+const { scripts } = require('./build-modules-js/compilejs.es6.js');
+const { bootstrapJs } = require('./build-modules-js/javascript/build-bootstrap-js.es6.js');
 const { localisePackages } = require('./build-modules-js/init/localise-packages.es6.js');
 const { minifyVendor } = require('./build-modules-js/init/minify-vendor.es6.js');
 const { patchPackages } = require('./build-modules-js/init/patches.es6.js');
@@ -70,6 +72,7 @@ Program
   .option('--build-pages', 'Creates the error pages for unsupported PHP version & incomplete environment')
   .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
+  .option('--compile-bs', 'Compiles all the Bootstrap component scripts.')
   .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
@@ -114,13 +117,18 @@ if (Program.compileCss) {
 
 // Compress/transpile the javascript files
 if (Program.compileJs) {
-  Promise.all([compileJS(options, Program.args[0])])
+  Promise.all([scripts(options, Program.args[0])])
     .catch((err) => handleError(err, 1));
 }
 
 // Compress/transpile the javascript files
 if (Program.watch) {
   watching();
+}
+
+// Gzip js/css files
+if (Program.compileBs) {
+  bootstrapJs();
 }
 
 // Gzip js/css files
@@ -142,15 +150,16 @@ if (Program.prepare) {
         minifyVendor(),
         createErrorPages(options),
         stylesheets(options, Program.args[0]),
-        compileJS(options, Program.args[0]),
+        scripts(options, Program.args[0]),
+        bootstrapJs(),
       ]);
+      bench.stop();
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
       process.exit(-1);
     }
 
-    bench.stop();
     process.exit(0);
   })();
 }

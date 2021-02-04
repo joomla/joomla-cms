@@ -19,9 +19,9 @@ module.exports.cleanVendors = async () => {
 
   if (await mediaFolder.isDirectory()) {
     // Remove the vendor folder
-    await remove(join(RootPath, 'media'));
+    // await remove(join(RootPath, 'media'));
     // eslint-disable-next-line no-console
-    console.error('/media has been removed.');
+    // console.error('/media has been removed.');
 
     // Recreate the media folder
     await mkdir(join(RootPath, 'media/vendor/debugbar'), { recursive: true });
