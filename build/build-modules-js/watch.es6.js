@@ -15,7 +15,7 @@ const RootPath = process.cwd();
 // eslint-disable-next-line max-len, no-param-reassign, no-return-assign
 const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(interval, interval = setTimeout(callback, time, ...args));
 
-module.exports.run = () => {
+module.exports.watching = () => {
   watch.createMonitor(Path.join(RootPath, 'build/media_source'), (monitor) => {
     monitor.on('created', (file) => {
       if (file.match(/\.js/) && (file.match(/\.es5\.js/) || file.match(/\.es6\.js/) || file.match(/\.w-c\.es6\.js/))) {

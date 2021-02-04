@@ -3,7 +3,7 @@ const CssNano = require('cssnano');
 const Fs = require('fs');
 const Postcss = require('postcss');
 const Sass = require('sass');
-const Babel = require('./babel-transform.es6.js');
+const { BabelTransform } = require('./babel-transform.es6.js');
 
 const createJsFiles = (inputFile, es6FileContents) => {
   // Define some settings
@@ -69,7 +69,7 @@ const createJsFiles = (inputFile, es6FileContents) => {
   ];
 
   settings.forEach((setting, index) => {
-    Babel.run(es6FileContents, setting, outputFiles[index]);
+    BabelTransform(es6FileContents, setting, outputFiles[index]);
   });
 };
 

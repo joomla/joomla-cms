@@ -1,10 +1,24 @@
-const Fs = require('fs');
-const Path = require('path');
-const FsExtra = require('fs-extra');
-const Babel = require('./babel-transform.es6.js');
+const { lstat, readdir, readFile } = require('fs').promises;
+const { dirname, sep } = require('path');
+const { ensureDir } = require('fs-extra');
+const { BabelTransform } = require('./babel-transform.es6.js');
 
 const headerText = `PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
 OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.`;
+
+/**
+ * Check if a file exists
+ *
+ * @param file
+ * @returns {Promise<boolean>}
+ */
+const folderExists = async (folder) => {
+  try {
+    return (await lstat(folder)).isDirectory();
+  } catch (e) {
+    return false;
+  }
+};
 
 // Predefine some settings
 const settings = [
@@ -31,7 +45,6 @@ const settings = [
         },
         modules: false,
       }],
-      ['minify', { builtIns: false }],
     ],
     plugins: [
       ['@babel/plugin-transform-classes'],
@@ -60,7 +73,6 @@ const settings = [
         },
         modules: false,
       }],
-      ['minify', { builtIns: false }],
     ],
     plugins: [],
     comments: false,
@@ -72,48 +84,40 @@ const settings = [
  *
  * @param file the full path to the file + filename + extension
  */
-module.exports.compileFile = (file) => {
-  Promise.resolve()
-    .then(() => {
-      const filePath = file.slice(0, -7);
+module.exports.compileFile = async (file) => {
+  const filePath = file.slice(0, -7);
+  const newPath = filePath.replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
+  const outputFiles = [
+    `${newPath}.js`,
+    `${newPath}.min.js`,
+    `${newPath}.es6.js`,
+    `${newPath}.es6.min.js`,
+  ];
 
-      const outputFiles = [
-        `${filePath.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\')}.js`,
-        `${filePath.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\')}.min.js`,
-        `${filePath.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\')}.es6.js`,
-        `${filePath.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\')}.es6.min.js`,
-      ];
+  // Ensure that the directories exist or create them
+  ensureDir(dirname(file).replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`), {});
 
-      // Ensure that the directories exist or create them
-      FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
+  // Get the contents of the ES-XXXX file
+  let es6File = await readFile(file, { encoding: 'utf8' });
+  const es6Subdir = file.replace('es6.js', 'es6');
 
-      // Get the contents of the ES-XXXX file
-      let es6File = Fs.readFileSync(file, 'utf8');
-      const es6Subdir = file.replace('es6.js', 'es6');
+  if (await folderExists(es6Subdir)) {
+    const allCorefilesPromises = [];
+    const concatenateFileContents = async (es6SubFile) => {
+      es6File += await readFile(`${es6Subdir}/${es6SubFile}`, { encoding: 'utf8' });
+    };
+    const es6SubFiles = await readdir(es6Subdir);
+    es6SubFiles.sort();
+    es6SubFiles.map((es6SubFile) => allCorefilesPromises.push(concatenateFileContents(es6SubFile)));
+    await Promise.all(allCorefilesPromises);
+  }
 
-      if (Fs.existsSync(es6Subdir)) {
-        const stats = Fs.lstatSync(es6Subdir);
-
-        if (stats.isDirectory()) {
-          const es6SubFiles = Fs.readdirSync(es6Subdir);
-          es6SubFiles.sort();
-          es6SubFiles.forEach((es6SubFile) => {
-            es6File += Fs.readFileSync(`${es6Subdir}/${es6SubFile}`, 'utf8');
-          });
-        }
-      }
-
-      settings.forEach((setting, index) => {
-      // eslint-disable-next-line no-console
-        console.error(`Transpiling ES6 file: ${file}`);
-        Babel.run(es6File, setting, outputFiles[index]);
-      });
-    })
-
-  // Handle errors
-    .catch((error) => {
+  const jobs = [];
+  settings.forEach((setting, index) => {
     // eslint-disable-next-line no-console
-      console.error(`${error}`);
-      process.exit(1);
-    });
+    console.error(`Transpiling ES6 file: ${file}`);
+    jobs.push(BabelTransform(es6File, setting, outputFiles[index]));
+  });
+
+  return Promise.all(jobs);
 };
