@@ -13,6 +13,8 @@ const RootPath = process.cwd();
 const dir = `${RootPath}/installation/language`;
 const srcPath = `${RootPath}/build/warning_page`;
 
+/* global globalThis */
+
 /**
  * Will produce 4 .html files
  * Expects three files:

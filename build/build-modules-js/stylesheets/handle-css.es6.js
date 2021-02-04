@@ -1,4 +1,6 @@
-const { copy, readFile, writeFile, ensureDir } = require('fs-extra');
+const {
+  copy, readFile, writeFile, ensureDir,
+} = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
 const Autoprefixer = require('autoprefixer');

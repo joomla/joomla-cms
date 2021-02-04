@@ -20,32 +20,32 @@ module.exports.compile = async (file) => {
   }
 
   // forked.on('message', async (msg) => {
-    // console.log('Message from child', msg);
+  // console.log('Message from child', msg);
 
-    // Auto prefixing
-    const cleaner = Postcss([Autoprefixer()]);
-    const res = await cleaner.process(compiled.css.toString(), { from: undefined });
+  // Auto prefixing
+  const cleaner = Postcss([Autoprefixer()]);
+  const res = await cleaner.process(compiled.css.toString(), { from: undefined });
 
-    // Ensure the folder exists or create it
-    await FsExtra.mkdirs(dirname(cssFile), {});
-    await Fs.writeFile(
-      cssFile,
-      res.css.toString(),
-      { encoding: 'utf8', mode: 0o2644 },
-    );
+  // Ensure the folder exists or create it
+  await FsExtra.mkdirs(dirname(cssFile), {});
+  await Fs.writeFile(
+    cssFile,
+    res.css.toString(),
+    { encoding: 'utf8', mode: 0o2644 },
+  );
 
-    const cssMin = await Postcss([CssNano]).process(res.css.toString(), { from: undefined });
+  const cssMin = await Postcss([CssNano]).process(res.css.toString(), { from: undefined });
 
-    // Ensure the folder exists or create it
-    FsExtra.mkdirs(dirname(cssFile.replace('.css', '.min.css')), {});
-    await Fs.writeFile(
-      cssFile.replace('.css', '.min.css'),
-      cssMin.css.toString(),
-      { encoding: 'utf8', mode: 0o2644 },
-    );
+  // Ensure the folder exists or create it
+  FsExtra.mkdirs(dirname(cssFile.replace('.css', '.min.css')), {});
+  await Fs.writeFile(
+    cssFile.replace('.css', '.min.css'),
+    cssMin.css.toString(),
+    { encoding: 'utf8', mode: 0o2644 },
+  );
 
-    // eslint-disable-next-line no-console
-    console.log(`SCSS File compiled: ${cssFile}`);
+  // eslint-disable-next-line no-console
+  console.log(`SCSS File compiled: ${cssFile}`);
   // });
 
   // forked.send({ file });

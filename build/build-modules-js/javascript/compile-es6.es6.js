@@ -99,7 +99,7 @@ module.exports.compileFile = async (file) => {
 
   // Get the contents of the ES-XXXX file
   let es6File = await readFile(file, { encoding: 'utf8' });
-  let es6FileAsync = [];
+  const es6FileAsync = [];
   const es6Subdir = file.replace('es6.js', 'es6');
   const coreWeirdFolderExists = await folderExists(es6Subdir);
 
