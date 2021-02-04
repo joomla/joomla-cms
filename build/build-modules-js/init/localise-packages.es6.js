@@ -2,8 +2,8 @@ const {
   existsSync, copy, writeFile, mkdir, mkdirs, ensureDir,
 } = require('fs-extra');
 const { dirname, join } = require('path');
-const { codeMirror } = require('./excemptions/codemirror.es6.js');
-const { tinyMCE } = require('./excemptions/tinymce.es6.js');
+const { codeMirror } = require('./exemptions/codemirror.es6.js');
+const { tinyMCE } = require('./exemptions/tinymce.es6.js');
 
 const RootPath = process.cwd();
 
