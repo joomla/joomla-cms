@@ -1,0 +1,25 @@
+const { getFiles } = require('@dgrammatiko/compress/src/getFiles.js');
+const { compressFile } = require('@dgrammatiko/compress/src/compressFile.js');
+
+/**
+ * Method that will pre compress (gzip) all .css/.js files
+ * in the templates and in the media folder
+ */
+module.exports.compressFiles = async (enableBrotli = false) => {
+  const paths = [
+    `${process.cwd()}/media`,
+    `${process.cwd()}/installation/template`,
+    `${process.cwd()}/templates`,
+    `${process.cwd()}/administrator/templates`,
+  ];
+
+  const tasks = [];
+  const compressTasks = [];
+  paths.map((path) => tasks.push(getFiles(`${path}/`)));
+
+  const files = await Promise.all(tasks);
+  files.flat().map((file) => compressTasks.push(compressFile(file, enableBrotli)));
+
+  await Promise.all(compressTasks);
+  console.log('Done 👍');
+};

@@ -32,8 +32,11 @@
     "not ie < 11"
   ],
   "dependencies": {
+    "-": "0.0.1",
     "@claviska/jquery-minicolors": "^2.3.5",
+    "@dgrammatiko/compress": "^1.0.4",
     "@fortawesome/fontawesome-free": "^5.15.2",
+    "@popperjs/core": "^2.6.0",
     "@webcomponents/webcomponentsjs": "^2.5.0",
     "accessibility": "^3.0.10",
     "awesomplete": "1.1.5",
@@ -42,6 +45,7 @@
     "chosen-js": "^1.8.7",
     "codemirror": "^5.59.2",
     "cropperjs": "^1.5.9",
+    "d": "^1.0.1",
     "diff": "^4.0.2",
     "dragula": "3.7.2",
     "file-saver": "^2.0.5",
@@ -51,7 +55,6 @@
     "jquery-migrate": "^3.3.2",
     "mediaelement": "^4.2.16",
     "metismenujs": "^1.2.1",
-    "@popperjs/core": "^2.6.0",
     "punycode": "1.4.1",
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",

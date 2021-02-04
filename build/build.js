@@ -28,6 +28,7 @@ const { patchPackages } = require('./build-modules-js/init/patches.es6.js');
 const { cleanVendors } = require('./build-modules-js/init/cleanup-media.es6.js');
 const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.es6');
 const { watching } = require('./build-modules-js/watch.es6.js');
+const { compressFiles } = require('./build-modules-js/compress.es6.js');
 
 // The settings
 const options = require('../package.json');
@@ -124,7 +125,7 @@ if (Program.watch) {
 
 // Gzip js/css files
 if (Program.gzip) {
-  // gzipFiles();
+  compressFiles();
 }
 
 // Prepare the repo for dev work
