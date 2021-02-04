@@ -4,7 +4,6 @@ const { handleWCFile } = require('./javascript/compile-w-c.es6.js');
 const { handleESMFile } = require('./javascript/compile-es6.es6.js');
 const { handleES5File } = require('./javascript/handle-es5.es6.js');
 
-
 const RootPath = process.cwd();
 
 /**

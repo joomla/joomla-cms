@@ -1,4 +1,3 @@
-const Fs = require('fs');
 const { stat } = require('fs-extra');
 const { sep } = require('path');
 const recursive = require('recursive-readdir');

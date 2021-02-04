@@ -21,5 +21,6 @@ module.exports.compressFiles = async (enableBrotli = false) => {
   files.flat().map((file) => compressTasks.push(compressFile(file, enableBrotli)));
 
   await Promise.all(compressTasks);
+  // eslint-disable-next-line no-console
   console.log('Done 👍');
 };
