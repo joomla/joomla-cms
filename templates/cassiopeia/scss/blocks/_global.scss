@@ -166,6 +166,17 @@ figcaption {
   color: $gray-600;
 }
 
+pre,
+code {
+  white-space: pre-wrap;
+}
+
+pre {
+  code {
+    white-space: pre-wrap;
+  }
+}
+
 .mod-menu {
   flex-direction: column;
 }
