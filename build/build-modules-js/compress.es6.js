@@ -18,7 +18,7 @@ module.exports.compressFiles = async (enableBrotli = false) => {
   paths.map((path) => tasks.push(getFiles(`${path}/`)));
 
   const files = await Promise.all(tasks);
-  files.flat().map((file) => compressTasks.push(compressFile(file, enableBrotli)));
+  [].concat(...files).map((file) => compressTasks.push(compressFile(file, enableBrotli)));
 
   await Promise.all(compressTasks);
   // eslint-disable-next-line no-console

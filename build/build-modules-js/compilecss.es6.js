@@ -58,7 +58,7 @@ module.exports.stylesheets = async (options, path) => {
   const scssFilesPromises = [];
 
   // Loop to get the files that should be compiled via parameter
-  computedFiles.flat().forEach((file) => {
+  [].concat(...computedFiles).forEach((file) => {
     // Bail out for non Joomla convention folders, eg: scss
     if (!(file.match(/\/scss\//) || file.match(/\\scss\\/))) {
       return;
