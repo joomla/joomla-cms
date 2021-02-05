@@ -53,14 +53,12 @@ module.exports.stylesheets = async (options, path) => {
   }
 
   const computedFiles = await Promise.all(folderPromises);
-  const computedFilesFlat = computedFiles.flat();
 
   const cssFilesPromises = [];
   const scssFilesPromises = [];
 
   // Loop to get the files that should be compiled via parameter
-  // eslint-disable-next-line no-restricted-syntax
-  for (const file of computedFilesFlat) {
+  computedFiles.flat().forEach((file) => {
     // Bail out for non Joomla convention folders, eg: scss
     if (!(file.match(/\/scss\//) || file.match(/\\scss\\/))) {
       return;
@@ -74,7 +72,7 @@ module.exports.stylesheets = async (options, path) => {
     if (file.match(/\.css$/) && !file.match(/\.min\.css$/)) {
       cssFilesPromises.push(handleCssFile(file));
     }
-  }
+  });
 
   // eslint-disable-next-line no-restricted-syntax
   for (const file of files) {
@@ -85,6 +83,5 @@ module.exports.stylesheets = async (options, path) => {
     scssFilesPromises.push(handleScssFile(file, outputFile));
   }
 
-  await Promise.all(cssFilesPromises);
-  await Promise.all(scssFilesPromises);
+  await Promise.all([...cssFilesPromises, ...scssFilesPromises]);
 };
