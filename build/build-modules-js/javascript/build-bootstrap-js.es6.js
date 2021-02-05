@@ -15,7 +15,7 @@ const outputFolder = 'media/vendor/bootstrap/js';
 
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const mini = await minify(initial);
+  const mini = await minify(initial, { sourceMap: false, format: { comments: false } });
   await rename(resolve(outputFolder, file), resolve(outputFolder, `${file.split('-')[0]}.es6.js`));
   await writeFile(resolve(outputFolder, `${file.split('-')[0]}.es6.min.js`), mini.code, { encoding: 'utf8' });
 };
@@ -149,7 +149,7 @@ module.exports.bootstrapJs = async () => {
   try {
     await buildLegacy(inputFolder, 'index.es6.js');
     const es5File = await readFile(resolve(outputFolder, 'bootstrap.es5.js'), { encoding: 'utf8' });
-    const mini = await minify(es5File);
+    const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
     await writeFile(resolve(outputFolder, 'bootstrap.es5.min.js'), mini.code, { encoding: 'utf8' });
     // eslint-disable-next-line no-console
     console.log('Legacy done! ✅');

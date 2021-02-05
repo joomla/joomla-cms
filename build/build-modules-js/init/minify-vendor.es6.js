@@ -70,7 +70,7 @@ const minifyJS = async (file) => {
   if (isMinified || needsDotJS) {
     minified = content;
   } else {
-    minified = (await minify(content, { sourceMap: false })).code;
+    minified = (await minify(content, { sourceMap: false, format: { comments: false } })).code;
   }
 
   const newFile = needsDotJS ? file.replace('.min.js', '.js') : file.replace('.js', '.min.js');
