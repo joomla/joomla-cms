@@ -12,7 +12,6 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
