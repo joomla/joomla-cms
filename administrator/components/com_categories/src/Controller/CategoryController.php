@@ -154,8 +154,8 @@ class CategoryController extends FormController
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
 
-		// In case edit category, we should get extension of that category in database instead of getting from request
-		if ($recordId > 0)
+		// In case extension is not passed in the URL, get it directly from category instead of default to com_content
+		if (!$this->input->exists('extension') && $recordId > 0)
 		{
 			$table = $this->getModel('Category')->getTable();
 
