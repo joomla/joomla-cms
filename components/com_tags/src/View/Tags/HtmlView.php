@@ -97,9 +97,6 @@ class HtmlView extends BaseHtmlView
 		// Flag indicates to not add limitstart=0 to URL
 		$this->pagination->hideEmptyLimitstart = true;
 
-		// Check whether access level allows access.
-		// @todo: Should already be computed in $item->params->get('access-view')
-
 		if (!empty($this->items))
 		{
 			foreach ($this->items as $itemElement)
