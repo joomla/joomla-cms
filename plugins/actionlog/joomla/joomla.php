@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -634,6 +634,13 @@ class PlgActionlogJoomla extends ActionLogPlugin
 				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_RESET_COMPLETE';
 				$action             = 'resetcomplete';
 			}
+
+			// Registration Activation
+			if ($task === 'registration.activate')
+			{
+				$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_REGISTRATION_ACTIVATE';
+				$action             = 'activaterequest';
+			}
 		}
 		elseif ($isnew)
 		{
@@ -700,7 +707,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On after save user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is stored into the database
 	 *
 	 * @param   string   $context  The context
 	 * @param   JTable   $table    DataBase Table object
@@ -712,6 +719,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onUserAfterSaveGroup($context, $table, $isNew): void
 	{
+		// Override context (com_users.group) with the component context (com_users) to pass the checkLoggable
 		$context = $this->app->input->get('option');
 
 		if (!$this->checkLoggable($context))
@@ -744,7 +752,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On deleting user group data logging method
 	 *
-	 * Method is called after user data is deleted from the database
+	 * Method is called after user group is deleted from the database
 	 *
 	 * @param   array    $group    Holds the group data
 	 * @param   boolean  $success  True if user was successfully stored in the database
@@ -830,10 +838,24 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedInUser = User::getInstance($response['username']);
+		// Get the user id for the given username
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'username')))
+			->from($this->db->quoteName('#__users'))
+			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($response['username']));
+		$this->db->setQuery($query);
+
+		try
+		{
+			$loggedInUser = $this->db->loadObject();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return;
+		}
 
 		// Not a valid user, return
-		if (!$loggedInUser->id)
+		if (!isset($loggedInUser->id))
 		{
 			return;
 		}
@@ -1111,5 +1133,41 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'url'         => htmlspecialchars(urldecode($this->app->get('uri.route')), ENT_QUOTES, 'UTF-8'),
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_API', $context, $user->id);
+	}
+
+	/**
+	 * On after CMS Update
+	 *
+	 * Method is called after user update the CMS.
+	 *
+	 * @param   string  $oldVersion  The Joomla version before the update
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.21
+	 */
+	public function onJoomlaAfterUpdate($oldVersion = null)
+	{
+		$context = $this->app->input->get('option');
+		$user    = Factory::getUser();
+
+		if (empty($oldVersion))
+		{
+			$oldVersion = JText::_('JLIB_UNKNOWN');
+		}
+
+		$message = array(
+			'action'      => 'joomlaupdate',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'version'     => JVERSION,
+			'oldversion'  => $oldVersion,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
 	}
 }

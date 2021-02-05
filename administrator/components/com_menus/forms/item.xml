@@ -67,8 +67,7 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			id="published"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			default="1"
 			filter="integer"
@@ -83,7 +82,6 @@
 			name="publish_up"
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
-			id="publish_up"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -95,7 +93,6 @@
 			name="publish_down"
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
-			id="publish_down"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -112,7 +109,7 @@
 			clientid="0"
 			size="1"
 			>
-			<option value="1">COM_MENUS_ITEM_ROOT</option>
+			<option value="1">JGLOBAL_ROOT_PARENT</option>
 		</field>
 
 		<field
@@ -146,8 +143,9 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			filter="integer"
-			/>
+			filter="UINT"
+			validate="options"
+		/>
 
 		<field
 			name="template_style_id"

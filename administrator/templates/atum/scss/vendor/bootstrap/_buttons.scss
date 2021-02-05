@@ -9,7 +9,9 @@
   background-color: var(--atum-link-color);
   border-color: var(--atum-link-color);
 
-  @include hover-focus-active {
+  &:hover,
+  &:focus,
+  &:active {
     background-color: var(--atum-bg-dark-70);
     border-color: var(--atum-bg-dark-90);
   }

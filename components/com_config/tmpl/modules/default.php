@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,10 +67,10 @@ if (Multilanguage::isEnabled())
 
 			<div>
 				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
-				<span class="badge badge-secondary"><?php echo $this->item['title']; ?></span>
+				<span class="badge bg-secondary"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
 				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
-				<span class="badge badge-secondary"><?php echo $this->item['module']; ?></span>
+				<span class="badge bg-secondary"><?php echo $this->item['module']; ?></span>
 			</div>
 			<hr>
 

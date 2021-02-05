@@ -11,12 +11,9 @@
     th,
     td {
       font-weight: $font-weight-normal;
-      color: var(--atum-link-color);
       white-space: nowrap;
-      border-top: 0;
-      border-bottom: 0;
 
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(md) {
         white-space: normal;
       }
     }
@@ -33,7 +30,7 @@
 
     .actions,
     .actions-th1 {
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(md) {
         width: 28%;
       }
 
@@ -42,8 +39,17 @@
 
   tbody {
     tr {
-      @include hover-focus-active {
+      &:hover,
+      &:focus,
+      &:active {
         background-color: $table-hover-bg;
+      }
+
+      &:last-of-type {
+        th,
+        td {
+          border-bottom: 0;
+        }
       }
     }
 

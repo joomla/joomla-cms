@@ -1,4 +1,5 @@
 const Fs = require('fs');
+const { sep } = require('path');
 const Recurs = require('recursive-readdir');
 const HandleFile = require('./javascript/handle-file.es6.js');
 
@@ -45,6 +46,9 @@ module.exports.compileJS = (options, path) => {
           (files) => {
             files.forEach(
               (file) => {
+                if (file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) {
+                  return;
+                }
                 HandleFile.run(file);
               },
               (error) => {

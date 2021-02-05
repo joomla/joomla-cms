@@ -3,7 +3,7 @@
  * Bootstrap file for the Joomla! CMS [with legacy libraries].
  * Including this file into your application will make Joomla libraries available for use.
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -56,7 +56,7 @@ require_once JPATH_LIBRARIES . '/classmap.php';
 $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
 
 // Register the error handler which processes E_USER_DEPRECATED errors
-set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
 
 // Suppress phar stream wrapper for non .phar files
 $behavior = new \TYPO3\PharStreamWrapper\Behavior;
