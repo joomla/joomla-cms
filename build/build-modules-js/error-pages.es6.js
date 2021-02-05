@@ -14,7 +14,7 @@ const dir = `${RootPath}/installation/language`;
 const srcPath = `${RootPath}/build/warning_page`;
 
 /**
- * Will produce 4 .html files
+ * Will produce as many .html files defined in settings.json
  * Expects three files:
  *     build/warning_page/template.css
  *     build/warning_page/template.html
