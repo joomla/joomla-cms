@@ -1,7 +1,7 @@
 const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
-const Fs = require('fs').promises;
-const FsExtra = require('fs-extra');
+const { writeFile } = require('fs').promises;
+const { ensureDir } = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
 const Sass = require('sass');
@@ -25,20 +25,20 @@ module.exports.handleScssFile = async (file) => {
   const res = await cleaner.process(compiled.css.toString(), { from: undefined });
 
   // Ensure the folder exists or create it
-  await FsExtra.ensureDir(dirname(cssFile), {});
-  await Fs.writeFile(
+  await ensureDir(dirname(cssFile), {});
+  await writeFile(
     cssFile,
-    res.css.toString(),
+    res.css,
     { encoding: 'utf8', mode: 0o2644 },
   );
 
-  const cssMin = await Postcss([CssNano]).process(res.css.toString(), { from: undefined });
+  const cssMin = await Postcss([CssNano]).process(res.css, { from: undefined });
 
   // Ensure the folder exists or create it
-  await FsExtra.ensureDir(dirname(cssFile.replace('.css', '.min.css')), {});
-  await Fs.writeFile(
+  await ensureDir(dirname(cssFile.replace('.css', '.min.css')), {});
+  await writeFile(
     cssFile.replace('.css', '.min.css'),
-    cssMin.css.toString(),
+    cssMin.css,
     { encoding: 'utf8', mode: 0o2644 },
   );
 
