@@ -12,7 +12,7 @@ const { minify } = require('terser');
  * @param data {string}
  */
 const createMinified = async (fileName, data) => {
-  const mini = await minify(data, { format: { comments: false } });
+  const mini = await minify(data, { sourceMap: false, format: { comments: false } });
   await writeFile(fileName, mini.code, { encoding: 'utf8' });
 };
 
