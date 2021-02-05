@@ -49,7 +49,7 @@ class Dispatcher extends ComponentDispatcher
 			|| $this->input->get('layout') !== 'modal'
 			|| !$this->app->getIdentity()->authorise('core.create', 'com_menus'))
 		{
-			throw new NotAllowed;
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 
