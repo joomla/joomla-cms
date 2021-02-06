@@ -16,8 +16,10 @@ $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['tar
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
 
 if (isset($displayData['ajaxurl'])) {
+	$size = 'small';
 	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
 } else {
+	$size = '';
 	$dataUrl = '';
 }
 
@@ -60,7 +62,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 			<?php if (isset($displayData['image'])): ?>
-				<div class="quickicon-icon d-flex align-items-end">
+				<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
 					<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 				</div>
 			<?php endif; ?>

@@ -5,7 +5,7 @@
 
   .nav {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     grid-gap: 1rem;
   }
 
@@ -39,6 +39,10 @@
           background: var(--icon-color);
           background-clip: text;
         }
+
+        &.small > * {
+          font-size: $quickicon-icon-size-sm;
+        }
       }
 
       &:hover,
@@ -59,10 +63,13 @@
       }
   
       .quickicon-amount {
-        padding: .3rem;
         margin-top: .3rem !important;
         font-size: $display1-size;
         font-weight: $bold-weight;
+
+        ~ .quickicon-name {
+          padding-top: 0;
+        }
   
         > .#{$jicon-css-prefix}-spinner,
         > .#{$fa-css-prefix}-spinner {
