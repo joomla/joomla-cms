@@ -14,7 +14,7 @@ function updateUrlPath(path) {
     // eslint-disable-next-line no-param-reassign
     path = '';
   }
-  const url = window.location.href;
+  const url = (window.top !== window ? window.top : window).location.href;
   const pattern = new RegExp('\\b(path=).*?(&|$)');
 
   if (url.search(pattern) >= 0) {
