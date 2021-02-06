@@ -75,6 +75,7 @@
   }
 
   .card {
+    background-color: rgba(255,255,255);
 
     p:first-of-type {
       margin-top: 0;
@@ -101,7 +102,7 @@
   }
 
   .card-header {
-    min-height: 2.5rem;
+    padding: 1rem 1rem 0;
     font-weight: $font-weight-bold;
     color: var(--atum-bg-dark);
     background: var(--card-bg);
@@ -205,5 +206,6 @@
 
   h2 {
     font-size: $h4-font-size;
+    margin-bottom: 0;
   }
 }

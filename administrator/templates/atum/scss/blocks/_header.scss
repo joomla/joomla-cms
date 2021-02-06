@@ -162,12 +162,13 @@
       }
     }
 
-    .tiny {
+    .header-item-text {
       display: block;
       min-width: 4rem;
       max-width: 5rem;
       margin-top: .3rem;
       overflow: hidden;
+      font-size: .75rem;
       line-height: .8rem;
       text-align: center;
       text-overflow: ellipsis;
@@ -180,7 +181,7 @@
   [class*=" #{$jicon-css-prefix}-"],
   [class^="#{$fa-css-prefix}-"],
   [class*=" #{$fa-css-prefix}-"] {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     vertical-align: middle;
     transition: all .2s ease-in-out;
   }

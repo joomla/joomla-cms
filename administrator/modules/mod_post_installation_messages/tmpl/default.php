@@ -24,7 +24,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					<span class="badge bg-danger"><?php echo count($messages); ?></span>
 				<?php endif; ?>
 			</div>
-			<div class="tiny">
+			<div class="header-item-text">
 				<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
 			</div>
 		</a>

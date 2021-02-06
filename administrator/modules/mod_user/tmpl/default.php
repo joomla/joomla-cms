@@ -26,7 +26,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<div class="d-flex align-items-end mx-auto">
 			<span class="icon-user-circle" aria-hidden="true"></span>
 		</div>
-		<div class="tiny">
+		<div class="header-item-text">
 			<?php echo Text::_('MOD_USER_MENU'); ?>
 		</div>
 		<span class="icon-angle-down" aria-hidden="true"></span>

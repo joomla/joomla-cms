@@ -4,7 +4,7 @@
   z-index: $zindex-sidebar;
   min-height: calc(100vh - 69px);
   background-color: var(--atum-sidebar-bg);
-  box-shadow: $atum-box-shadow;
+  box-shadow: 0px 0 20px -10px var(--atum-bg-dark-50);
 
   .sidebar-sticky {
     position: sticky;

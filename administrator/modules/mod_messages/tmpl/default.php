@@ -23,7 +23,7 @@ $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()
 		<div class="d-flex align-items-end mx-auto">
 			<span class="icon-envelope" aria-hidden="true"></span>
 		</div>
-		<div class="tiny">
+		<div class="header-item-text">
 			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
 		</div>
 		<?php if ($countUnread > 0) : ?>

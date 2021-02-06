@@ -21,14 +21,12 @@
   }
 
   .login {
-    align-self: flex-start;
     width: 25rem;
-    padding: 15px;
-    margin-top: 9rem;
+    padding: 30px;
     color: var(--atum-text-dark);
     background: var(--white);
-    border-radius: 3px;
-    box-shadow: 0 0 10px 0 #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px -10px var(--atum-bg-dark-50);
 
     @include media-breakpoint-down(lg) {
       margin-top: 2rem;
@@ -39,6 +37,10 @@
       padding: 15px;
     }
 
+    .logo {
+      padding: 0 20px 20px;
+    }
+
     svg.joomla-logo {
       width: 2.4rem;
       height: 4.4rem;
@@ -47,6 +49,13 @@
       path {
         fill: var(--atum-bg-dark);
       }
+    }
+
+    &-watermark {
+      position: absolute;
+      z-index: -1;
+      transform: rotate(12deg) translate(40%, 10%);
+      max-width: 500px;
     }
 
   }
@@ -105,16 +114,19 @@
     box-shadow: inset 0 0 1px 1px var(--atum-contrast);
   }
 
+  h1,
+  h2 {
+    color: white;
+  }
+
   h1 {
-    padding-bottom: 1rem;
-    margin: 0;
-    font-weight: $font-weight-bold;
-    color: var(--atum-bg-dark);
+    margin-bottom: .25rem;
     text-align: center;
   }
 
   h2 {
-    color: var(--atum-text-dark);
+    font-weight: $font-weight-normal;
+    opacity: .75;;
   }
 
   .btn {
@@ -130,11 +142,12 @@
     max-width: none;
   }
 
-  #sidebar-wrapper {
+  .sidebar-wrapper {
     display: flex;
-    flex: 1 0 33%;
+    flex: 1 0 400px;
     flex-direction: column;
-    max-width: $sidebar-width-login;
+    max-width: none;
+    background-color: #1c395e;
 
     @include media-breakpoint-down(md) {
       order: 2;

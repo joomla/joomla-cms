@@ -41,7 +41,7 @@ $headerClass = $headerClass ? ' ' . htmlspecialchars($headerClass, ENT_QUOTES, '
 
 ?>
 <div class="<?php echo $moduleClass; ?> module-wrapper">
-	<<?php echo $moduleTag; ?> class="card mb-5<?php echo $moduleClassSfx; ?>">
+	<<?php echo $moduleTag; ?> class="card pt-3<?php echo $moduleClassSfx; ?>">
 		<?php if ($canEdit || $canChange) : ?>
 			<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'start' : 'end'; ?>
 			<div class="module-actions dropdown">

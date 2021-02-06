@@ -41,7 +41,7 @@ $app->getDocument()->getWebAssetManager()
 		<div class="d-flex align-items-end mx-auto">
 			<span class="icon-language" aria-hidden="true"></span>
 		</div>
-		<div class="tiny">
+		<div class="header-item-text">
 			<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>
 		</div>
 	</a>
