@@ -85,7 +85,7 @@
       }
   
       &.success {
-        --text-color: var(--success);
+        --text-color: $white;
         --bg-color: var(--white);
         --icon-color: linear-gradient(var(--success), #159c1e);
         --bg-color-hvr: var(--success);
@@ -97,10 +97,27 @@
     .quickicon-linkadd {
       width: 2rem;
       background-color: var(--atum-bg-light);
+      font-size: 1.3rem;
 
       a {
         justify-content: center;
         width: 100%;
+        
+        > * {
+          color: transparent;
+          background: linear-gradient(var(--atum-link-color),var(--atum-link-hover-color));
+          background-clip: text;
+        }
+
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--atum-bg-dark);
+
+          * {
+            color: $white;
+          }
+        }
       }
     }
   }
