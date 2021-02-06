@@ -234,7 +234,7 @@ export default {
       // TODO should we use relative urls here?
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
-      window.location.href = fileBaseUrl + this.item.path;
+      (window.top !== window ? window.top : window).location.href = fileBaseUrl + this.item.path;
     },
     /* Open modal for share url */
     openShareUrlModal() {
