@@ -25,6 +25,7 @@
       flex-direction: column;
       justify-content: space-around;
       align-items: center;
+      height: 100%;
       background-color: var(--bg-color);
       text-align: center;
       color: var(--text-color);
@@ -34,8 +35,8 @@
   
         > * {
           font-size: $quickicon-icon-size;
-          color: var(--icon-color);
-          background: var(--icon-color-hvr);
+          color: transparent;
+          background: var(--icon-color);
           background-clip: text;
         }
       }
