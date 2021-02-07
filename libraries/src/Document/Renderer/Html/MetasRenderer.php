@@ -48,7 +48,6 @@ class MetasRenderer extends DocumentRenderer
 		/** @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = Factory::getApplication();
 		$wa  = $this->_doc->getWebAssetManager();
-		$wc  = $this->_doc->getScriptOptions('webcomponents');
 
 		// Check for AttachBehavior and web components
 		foreach ($wa->getAssets('script', true) as $asset)
@@ -57,16 +56,6 @@ class MetasRenderer extends DocumentRenderer
 			{
 				$asset->onAttachCallback($this->_doc);
 			}
-
-			if ($asset->getOption('webcomponent'))
-			{
-				$wc[] = $asset->getUri();
-			}
-		}
-
-		if ($wc)
-		{
-			$this->_doc->addScriptOptions('webcomponents', array_unique($wc));
 		}
 
 		// Trigger the onBeforeCompileHead event

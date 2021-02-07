@@ -10,6 +10,7 @@ namespace Joomla\CMS\Updater;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Adapter\AdapterInstance;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
@@ -18,14 +19,12 @@ use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
-\JLoader::import('joomla.base.adapterinstance');
-
 /**
  * UpdateAdapter class.
  *
  * @since  1.7.0
  */
-abstract class UpdateAdapter extends \JAdapterInstance
+abstract class UpdateAdapter extends AdapterInstance
 {
 	/**
 	 * Resource handle for the XML Parser

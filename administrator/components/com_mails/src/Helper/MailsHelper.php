@@ -45,7 +45,7 @@ abstract class MailsHelper
 		foreach ($mail->params['tags'] as $tag)
 		{
 			$html .= '<li class="list-group-item">'
-				. '<a href="#" class="edit-action-add-tag" data-tag="{' . strtoupper($tag) . '}" data-target="' . $fieldname . '"'
+				. '<a href="#" class="edit-action-add-tag" data-tag="{' . strtoupper($tag) . '}" data-bs-target="' . $fieldname . '"'
 					. ' title="' . $tag . '">' . $tag . '</a>'
 				. '</li>';
 		}

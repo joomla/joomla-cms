@@ -79,7 +79,7 @@ class Form
 	protected static $forms = array();
 
 	/**
-	 * Alows extensions to implement repeating elements
+	 * Allows extensions to implement repeating elements
 	 *
 	 * @var    boolean
 	 * @since  3.2

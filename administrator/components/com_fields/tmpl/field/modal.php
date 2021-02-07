@@ -24,7 +24,7 @@ $this->useCoreUI = true;
 ?>
 <div class="container-popup">
 
-	<div class="float-right">
+	<div class="float-end">
 		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.apply');"><?php echo Text::_('JTOOLBAR_APPLY') ?></button>
 		<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('field.save');"><?php echo Text::_('JTOOLBAR_SAVE') ?></button>
 		<button class="btn" type="button" onclick="Joomla.submitbutton('field.cancel');"><?php echo Text::_('JCANCEL') ?></button>

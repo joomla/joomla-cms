@@ -277,6 +277,17 @@ class ModuleController extends FormController
 
 		$clientId = $this->input->getValue('client_id');
 		$position = $this->input->getValue('position');
+		$moduleId = $this->input->getValue('module_id');
+
+		// Access check.
+		if (!Factory::getUser()->authorise('core.create', 'com_modules')
+			&& !Factory::getUser()->authorise('core.edit.state', 'com_modules')
+			&& ($moduleId && !Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $moduleId)))
+		{
+			$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 'error');
+			echo new JsonResponse;
+			$app->close();
+		}
 
 		$db    = Factory::getDbo();
 		$clientId = (int) $clientId;

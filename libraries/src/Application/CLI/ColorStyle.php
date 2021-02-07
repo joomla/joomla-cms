@@ -209,8 +209,6 @@ final class ColorStyle
 
 				default:
 					throw new \RuntimeException('Invalid option: ' . $subParts[0]);
-
-					break;
 			}
 		}
 

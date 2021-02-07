@@ -822,7 +822,7 @@ abstract class FormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -1241,7 +1241,7 @@ abstract class FormField
 		if ($valid !== false && $this instanceof SubformField)
 		{
 			// Load the subform validation rule.
-			$rule = FormHelper::loadRuleType('SubForm');
+			$rule = FormHelper::loadRuleType('Subform');
 
 			try
 			{
