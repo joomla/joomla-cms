@@ -1379,7 +1379,7 @@ class PlgSampledataBlog extends CMSPlugin
 		// Get previously entered Data from UserStates
 		$menuTypes = $this->app->getUserState('sampledata.blog.menutypes');
 
-		$catIds        = $this->app->getUserState('sampledata.blog.articles.catIds');
+		$catIds = $this->app->getUserState('sampledata.blog.articles.catIds');
 
 		// Link to article "typography" in banner module
 		$headerLink = 'index.php?option=com_content&view=article&id=' . (int) $articleIds[10] . '&catid=' . (int) $catIds[3];
