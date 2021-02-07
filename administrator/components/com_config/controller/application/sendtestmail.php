@@ -30,7 +30,7 @@ class ConfigControllerApplicationSendtestmail extends JControllerBase
 		$this->app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!JSession::checkToken('get'))
+		if (!JSession::checkToken())
 		{
 			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 			echo new JResponseJson;
