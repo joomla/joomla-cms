@@ -201,7 +201,23 @@ class ComponentController extends FormController
 		// Clear session data.
 		$this->app->setUserState("$this->option.edit.$this->context.$component.data", null);
 
-		$this->setRedirect(Route::_('index.php?option=' . $component, false));
+		// Calculate redirect URL
+		$returnUri = $this->input->post->get('return', null, 'base64');
+
+		$redirect = 'index.php?option=' . $component;
+
+		if (!empty($returnUri))
+		{
+			$redirect = base64_decode($returnUri);
+		}
+
+		// Don't redirect to an external URL.
+		if (!Uri::isInternal($redirect))
+		{
+			$redirect = Uri::base();
+		}
+
+		$this->setRedirect(Route::_($redirect, false));
 
 		return true;
 	}
