@@ -182,7 +182,7 @@ abstract class Bootstrap
 	 *                             be closed when this collapsible item is shown.
 	 * - toggle    boolean  true   Toggles the collapsible element on invocation
 	 */
-	public static function collapse($selector = '.collapse') :void
+	public static function collapse($selector = '') :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -224,7 +224,7 @@ abstract class Bootstrap
 	 * - reference  string   toggle        Reference element of the dropdown menu. Accepts 'toggle' or 'parent'
 	 * - display    string   dynamic       By default, we use Popper for dynamic positioning. Disable this with static
 	 */
-	public static function dropdown($selector = '.dropdown-toggle', $options = []) :void
+	public static function dropdown($selector = '', $options = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -269,7 +269,7 @@ abstract class Bootstrap
 	 * - keyboard     boolean  true  Closes the modal when escape key is pressed
 	 * - focus        boolean  true  Closes the modal when escape key is pressed
 	 */
-	public static function modal($selector = '.modal', $options = []) :void
+	public static function modal($selector = '', $options = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
