@@ -1,5 +1,5 @@
 const {
-  stat, mkdir, copy, remove
+  stat, mkdir, copy, remove,
 } = require('fs-extra');
 const { join } = require('path');
 
