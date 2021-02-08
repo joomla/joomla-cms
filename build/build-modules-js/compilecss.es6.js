@@ -63,13 +63,13 @@ module.exports.stylesheets = async (options, path) => {
       cssFilesPromises.push(handleCssFile(file));
     }
 
-    // Bail out for non Joomla convention folders, eg: scss
-    if (!(file.match(/\/scss\//) || file.match(/\\scss\\/))) {
-      return;
-    }
-
     // Don't take files with "_" but "file" has the full path, so check via match
-    if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
+    if (file.endsWith('.scss') && !file.match(/(\/|\\)_[^/\\]+$/)) {
+      // Bail out for non Joomla convention folders, eg: scss
+      if (!(file.match(/\/scss\//) || file.match(/\\scss\\/))) {
+        return;
+      }
+
       files.push(file);
     }
   });
