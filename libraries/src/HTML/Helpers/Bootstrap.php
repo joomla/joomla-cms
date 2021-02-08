@@ -398,7 +398,6 @@ abstract class Bootstrap
 			Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
 		}
 
-
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
