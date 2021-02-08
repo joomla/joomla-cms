@@ -10,8 +10,6 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('bootstrap.popover');
-
 extract($displayData, EXTR_OVERWRITE);
 
 /**
