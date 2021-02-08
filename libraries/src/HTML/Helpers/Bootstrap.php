@@ -40,7 +40,7 @@ abstract class Bootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function alert($selector = '.alert') :void
+	public static function alert($selector = '') :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -48,13 +48,19 @@ abstract class Bootstrap
 			return;
 		}
 
-		$doc           = Factory::getDocument();
-		$scriptOptions = $doc->getScriptOptions('bootstrap.alert');
-		$options       = [$selector];
+		$doc = Factory::getDocument();
 
-		if (is_array($scriptOptions))
+		if ($selector !== '')
 		{
-			$options = array_merge($scriptOptions, $options);
+			$scriptOptions = $doc->getScriptOptions('bootstrap.alert');
+			$options       = [$selector];
+
+			if (is_array($scriptOptions))
+			{
+				$options = array_merge($scriptOptions, $options);
+			}
+
+			$doc->addScriptOptions('bootstrap.alert', $options, false);
 		}
 
 		// Include the Bootstrap component
@@ -62,8 +68,6 @@ abstract class Bootstrap
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.alert');
-
-		$doc->addScriptOptions('bootstrap.alert', $options, false);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -79,7 +83,7 @@ abstract class Bootstrap
 	 *
 	 * @since   3.1
 	 */
-	public static function button($selector = '.button') :void
+	public static function button($selector = '') :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -88,12 +92,18 @@ abstract class Bootstrap
 		}
 
 		$doc           = Factory::getDocument();
-		$scriptOptions = $doc->getScriptOptions('bootstrap.button');
-		$options       = [$selector];
 
-		if (is_array($scriptOptions))
+		if ($selector !== '')
 		{
-			$options = array_merge($scriptOptions, $options);
+			$scriptOptions = $doc->getScriptOptions('bootstrap.button');
+			$options       = [$selector];
+
+			if (is_array($scriptOptions))
+			{
+				$options = array_merge($scriptOptions, $options);
+			}
+
+			$doc->addScriptOptions('bootstrap.button', $options, false);
 		}
 
 		// Include the Bootstrap component
@@ -101,8 +111,6 @@ abstract class Bootstrap
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.button');
-
-		$doc->addScriptOptions('bootstrap.button', $options, false);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -128,7 +136,7 @@ abstract class Bootstrap
 	 * - slide     string|  false  Autoplays the carousel after the user manually cycles the first item.
 	 *             boolean         If "carousel", autoplays the carousel on load.
 	 */
-	public static function carousel($selector = '.carousel', $params = []) :void
+	public static function carousel($selector = '', $params = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -136,21 +144,24 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Setup options object
-		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
-		$opt['keyboard'] = isset($params['keyboard']) ? (bool) $params['keyboard'] : true;
-		$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
-		$opt['slide']    = isset($params['slide']) ? (bool) $params['slide'] : false;
-		$opt['wrap']     = isset($params['wrap']) ? (bool) $params['wrap'] : true;
-		$opt['touch']    = isset($params['touch']) ? (bool) $params['touch'] : true;
+		if ($selector !== '')
+		{
+			// Setup options object
+			$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
+			$opt['keyboard'] = isset($params['keyboard']) ? (bool) $params['keyboard'] : true;
+			$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
+			$opt['slide']    = isset($params['slide']) ? (bool) $params['slide'] : false;
+			$opt['wrap']     = isset($params['wrap']) ? (bool) $params['wrap'] : true;
+			$opt['touch']    = isset($params['touch']) ? (bool) $params['touch'] : true;
+
+			Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter((array) $opt)]);
+		}
 
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.carousel');
-
-		Factory::getDocument()->addScriptOptions('bootstrap.carousel', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -179,17 +190,20 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Setup options object
-		$opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
-		$opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
+		if ($selector !== '')
+		{
+			// Setup options object
+			$opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
+			$opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
+
+			Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter((array) $opt)]);
+		}
 
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.collapse');
-
-		Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -218,20 +232,23 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Setup options object
-		$opt['flip'] = isset($params['flip']) ? $params['flip'] : true;
-		$opt['boundary'] = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
-		$opt['reference'] = isset($params['reference']) ? $params['reference'] : 'toggle';
-		$opt['display'] = isset($params['display']) ? $params['display'] : 'dynamic';
-		$opt['popperConfig'] = isset($params['popperConfig']) ? (bool) $params['popperConfig'] : true;
+		if ($selector !== '')
+		{
+			// Setup options object
+			$opt['flip'] = isset($params['flip']) ? $params['flip'] : true;
+			$opt['boundary'] = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
+			$opt['reference'] = isset($params['reference']) ? $params['reference'] : 'toggle';
+			$opt['display'] = isset($params['display']) ? $params['display'] : 'dynamic';
+			$opt['popperConfig'] = isset($params['popperConfig']) ? (bool) $params['popperConfig'] : true;
+
+			Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter((array) $opt)]);
+		}
 
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.dropdown');
-
-		Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -260,18 +277,21 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Setup options object
-		$opt['backdrop'] = isset($options['backdrop']) ? (bool) $options['backdrop'] : true;
-		$opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
-		$opt['focus']    = isset($options['focus']) ? (bool) $options['focus'] : true;
+		if ($selector !== '')
+		{
+			// Setup options object
+			$opt['backdrop'] = isset($options['backdrop']) ? (bool) $options['backdrop'] : true;
+			$opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
+			$opt['focus']    = isset($options['focus']) ? (bool) $options['focus'] : true;
+
+			Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
+		}
 
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.modal');
-
-		Factory::getDocument()->addScriptOptions('bootstrap.modal', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -306,7 +326,7 @@ abstract class Bootstrap
 	 * - trigger      string   click  How popover is triggered - click | hover | focus | manual
 	 * - offset       integer  0      Offset of the popover relative to its target.
 	 */
-	public static function popover($selector = '[data-bs-toggle="popover"]', $options = []) :void
+	public static function popover($selector = '', $options = []) :void
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -314,30 +334,33 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Setup options object
-		$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
-		$opt['container']         = isset($options['container']) ? $options['container'] : 'body';
-		$opt['content']           = isset($options['content']) ? $options['content'] : null;
-		$opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : 0;
-		$opt['html']              = isset($options['html']) ? (bool) $options['html'] : true;
-		$opt['placement']         = isset($options['placement']) ? $options['placement'] : null;
-		$opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
-		$opt['template']          = isset($options['template']) ? $options['template'] : null;
-		$opt['title']             = isset($options['title']) ? $options['title'] : null;
-		$opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'click';
-		$opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
-		$opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'scrollParent';
-		$opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
-		$opt['sanitize']          = isset($options['sanitize']) ? (bool) $options['sanitize'] : null;
-		$opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
+		if ($selector !== '')
+		{
+			// Setup options object
+			$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
+			$opt['container']         = isset($options['container']) ? $options['container'] : 'body';
+			$opt['content']           = isset($options['content']) ? $options['content'] : null;
+			$opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : 0;
+			$opt['html']              = isset($options['html']) ? (bool) $options['html'] : true;
+			$opt['placement']         = isset($options['placement']) ? $options['placement'] : null;
+			$opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
+			$opt['template']          = isset($options['template']) ? $options['template'] : null;
+			$opt['title']             = isset($options['title']) ? $options['title'] : null;
+			$opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'click';
+			$opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
+			$opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'scrollParent';
+			$opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
+			$opt['sanitize']          = isset($options['sanitize']) ? (bool) $options['sanitize'] : null;
+			$opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
+
+			Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
+		}
 
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.popover');
-
-		Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -357,7 +380,7 @@ abstract class Bootstrap
 	 * - method  string  Finds which section the spied element is in.
 	 * - target  string  Specifies element to apply Scrollspy plugin.
 	 */
-	public static function scrollspy($selector = '[data-bs-spy="scroll"]', $options = []) :void
+	public static function scrollspy($selector = '', $options = []) :void
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -365,18 +388,22 @@ abstract class Bootstrap
 			return;
 		}
 
-		// Setup options object
-		$opt['offset']         = isset($options['offset']) ? (int) $options['offset'] : 10;
-		$opt['method']         = isset($options['method']) ? $options['method'] : 'auto';
-		$opt['target']           = isset($options['target']) ? $options['target'] : null;
+		if ($selector !== '')
+		{
+			// Setup options object
+			$opt['offset']         = isset($options['offset']) ? (int) $options['offset'] : 10;
+			$opt['method']         = isset($options['method']) ? $options['method'] : 'auto';
+			$opt['target']           = isset($options['target']) ? $options['target'] : null;
+
+			Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
+		}
+
 
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.scrollspy');
-
-		Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -393,7 +420,7 @@ abstract class Bootstrap
 	 *
 	 * @since   4.0.0
 	 */
-	public static function tab($selector = '.myTab', $options = []) :void
+	public static function tab($selector = '', $options = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -401,13 +428,16 @@ abstract class Bootstrap
 			return;
 		}
 
+		if ($selector !== '')
+		{
+			Factory::getDocument()->addScriptOptions('bootstrap.tabs', [$selector => (object) $options]);
+		}
+
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.tab');
-
-		Factory::getDocument()->addScriptOptions('bootstrap.tabs', [$selector => (object) $options]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -442,7 +472,7 @@ abstract class Bootstrap
 	 * - constraints  array            An array of constraints - passed through to Popper.
 	 * - offset       string           Offset of the popover relative to its target.
 	 */
-	public static function tooltip($selector = '[data-bs-toggle=tooltip]', $options = []) :void
+	public static function tooltip($selector = '', $options = []) :void
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -450,29 +480,32 @@ abstract class Bootstrap
 			return;
 		}
 
+		if ($selector !== '')
+		{
+			// Setup options object
+			$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
+			$opt['container']         = isset($options['container']) ? $options['container'] : 'body';
+			$opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : 0;
+			$opt['html']              = isset($options['html']) ? (bool) $options['html'] : true;
+			$opt['placement']         = isset($options['placement']) ? $options['placement'] : null;
+			$opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
+			$opt['template']          = isset($options['template']) ? $options['template'] : null;
+			$opt['title']             = isset($options['title']) ? $options['title'] : null;
+			$opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'hover focus';
+			$opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
+			$opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'clippingParents';
+			$opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
+			$opt['sanitize']          = isset($options['sanitize']) ? (bool) $options['sanitize'] : true;
+			$opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
+
+			Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => (object) array_filter((array) $opt)]);
+		}
+
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.popover');
-
-		// Setup options object
-		$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
-		$opt['container']         = isset($options['container']) ? $options['container'] : 'body';
-		$opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : 0;
-		$opt['html']              = isset($options['html']) ? (bool) $options['html'] : true;
-		$opt['placement']         = isset($options['placement']) ? $options['placement'] : null;
-		$opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
-		$opt['template']          = isset($options['template']) ? $options['template'] : null;
-		$opt['title']             = isset($options['title']) ? $options['title'] : null;
-		$opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'hover focus';
-		$opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
-		$opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'clippingParents';
-		$opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
-		$opt['sanitize']          = isset($options['sanitize']) ? (bool) $options['sanitize'] : true;
-		$opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
-
-		Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => (object) array_filter((array) $opt)]);
 
 		// Set static array
 		static::$loaded[__METHOD__][$selector] = true;
@@ -490,7 +523,7 @@ abstract class Bootstrap
 	 *
 	 * @since   4.0.0
 	 */
-	public static function toast($selector = '.toast', $options = []) :void
+	public static function toast($selector = '', $options = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -498,18 +531,21 @@ abstract class Bootstrap
 			return;
 		}
 
+		if ($selector !== '')
+		{
+			// Setup options object
+			$opt['animation'] = isset($options['animation']) ? (string) $options['animation'] : null;
+			$opt['autohide']  = isset($options['autohide']) ? (boolean) $options['autohide'] : true;
+			$opt['delay']     = isset($options['delay']) ? (int) $options['delay'] : 5000;
+
+			Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter((array) $opt)]);
+		}
+
 		// Include the Bootstrap component
 		Factory::getApplication()
 			->getDocument()
 			->getWebAssetManager()
 			->useScript('bootstrap.toast');
-
-		// Setup options object
-		$opt['animation'] = isset($options['animation']) ? (string) $options['animation'] : null;
-		$opt['autohide']  = isset($options['autohide']) ? (boolean) $options['autohide'] : true;
-		$opt['delay']     = isset($options['delay']) ? (int) $options['delay'] : 5000;
-
-		Factory::getDocument()->addScriptOptions('bootstrap.toast', [$selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}
@@ -563,20 +599,20 @@ abstract class Bootstrap
 	/**
 	 * Add javascript support for Bootstrap accordions and insert the accordion
 	 *
-	 * @param   string  $selector  The ID selector for the tooltip.
+	 * @param   string  $selector  The ID selector for the tooltip. Expects a valid ID without the #!
 	 * @param   array   $options   An array of options for the tooltip.
 	 *
 	 * @return  string  HTML for the accordion
 	 *
 	 * @since   3.0
 	 *
-	 *                             Options for the tooltip can be:
-	 *                             - parent  selector  If selector then all collapsible elements under the specified parent will be closed when this
-	 *                                                 collapsible item is shown. (similar to traditional accordion behavior)
-	 *                             - toggle  boolean   Toggles the collapsible element on invocation
-	 *                             - active  string    Sets the active slide during load
+	 * Options for the tooltip can be:
+	 * - parent  selector  If selector then all collapsible elements under the specified parent will be closed when this
+	 *                     collapsible item is shown. (similar to traditional accordion behavior)
+	 * - toggle  boolean   Toggles the collapsible element on invocation
+	 * - active  string    Sets the active slide during load
 	 */
-	public static function startAccordion($selector = '.myAccordian', $options = []) :string
+	public static function startAccordion($selector = 'myAccordian', $options = []) :string
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -599,7 +635,7 @@ abstract class Bootstrap
 		// Initialise with the Joomla specifics
 		$opt['isJoomla'] = true;
 
-		Factory::getDocument()->addScriptOptions('bootstrap.accordion', [$selector => (object) array_filter((array) $opt)]);
+		Factory::getDocument()->addScriptOptions('bootstrap.accordion', ['#' . $selector => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = $opt;
 
@@ -671,7 +707,7 @@ HTMLSTR;
 	/**
 	 * Method to render a Bootstrap modal
 	 *
-	 * @param   string  $selector  The ID selector for the modal.
+	 * @param   string  $selector  The ID selector for the modal. Expects a valid ID without the #!
 	 * @param   array   $options   An array of options for the modal.
 	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the URL option is set
 	 *
@@ -691,7 +727,7 @@ HTMLSTR;
 	 * - height       string   null   Height of the `<iframe>` containing the remote resource
 	 * - width        string   null   Width of the `<iframe>` containing the remote resource
 	 */
-	public static function renderModal($selector = '.modal', $options = [], $body = '') :string
+	public static function renderModal($selector = 'modal', $options = [], $body = '') :string
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -719,14 +755,14 @@ HTMLSTR;
 	/**
 	 * Creates a tab pane
 	 *
-	 * @param   string  $selector  The pane identifier.
+	 * @param   string  $selector  The pane identifier. Expects a valid ID without the #!
 	 * @param   array   $params    The parameters for the pane
 	 *
 	 * @return  string
 	 *
 	 * @since   3.1
 	 */
-	public static function startTabSet($selector = '.myTab', $params = []) :string
+	public static function startTabSet($selector = 'myTab', $params = []) :string
 	{
 		$sig = md5(serialize([$selector, $params]));
 
@@ -739,7 +775,7 @@ HTMLSTR;
 			$opt['isJoomla'] = true;
 
 			// Include the Bootstrap Tab Component
-			HTMLHelper::_('bootstrap.tab', $selector, $opt);
+			HTMLHelper::_('bootstrap.tab', '#' . preg_replace('/^\.?#/', '', $selector), $opt);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
@@ -764,8 +800,8 @@ HTMLSTR;
 	/**
 	 * Begins the display of a new tab content panel.
 	 *
-	 * @param   string  $selector  Identifier of the panel.
-	 * @param   string  $id        The ID of the div element
+	 * @param   string  $selector  Identifier of the panel. Expects a valid ID without the #!
+	 * @param   string  $id        The ID of the div element. Expects a valid ID without the #!
 	 * @param   string  $title     The title text for the new UL tab
 	 *
 	 * @return  string  HTML to start a new panel
@@ -779,7 +815,7 @@ HTMLSTR;
 		$tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
-		return $tabLayout->render(['id' => str_replace('.', '', $id), 'active' => $active, 'title' => $title]);
+		return $tabLayout->render(['id' => preg_replace('/^\.?#/', '', $id), 'active' => $active, 'title' => $title]);
 	}
 
 	/**
