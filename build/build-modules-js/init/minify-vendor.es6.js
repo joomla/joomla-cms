@@ -13,7 +13,7 @@ const allFiles = [
   'media/vendor/codemirror/lib/codemirror-ce.js',
   'media/vendor/debugbar/debugbar.js',
   'media/vendor/debugbar/openhandler.js',
-  'media/vendor/debugbar/widget.js',
+  'media/vendor/debugbar/widgets.js',
   'media/vendor/punycode/js/punycode.js',
   'media/vendor/qrcode/js/qrcode.js',
   'media/vendor/qrcode/js/qrcode_SJIS.js',
