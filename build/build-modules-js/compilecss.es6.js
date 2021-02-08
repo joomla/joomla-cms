@@ -41,6 +41,7 @@ module.exports.stylesheets = async (options, path) => {
       `${RootPath}/templates`,
       `${RootPath}/administrator/templates`,
       `${RootPath}/installation/template`,
+      `${RootPath}/media/vendor/debugbar`,
     ];
   }
 
