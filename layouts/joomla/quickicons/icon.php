@@ -16,8 +16,10 @@ $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['tar
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
 
 if (isset($displayData['ajaxurl'])) {
+	$size = 'small';
 	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
 } else {
+	$size = '';
 	$dataUrl = '';
 }
 
