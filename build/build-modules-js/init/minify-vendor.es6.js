@@ -1,29 +1,21 @@
-const { readFile, writeFile } = require('fs-extra');
-const { lstat } = require('fs').promises;
+const { lstat, readFile, writeFile } = require('fs-extra');
 const { sep } = require('path');
+const recursive = require('recursive-readdir');
 const { minify } = require('terser');
 
 const RootPath = process.cwd();
 
-const allFiles = [
-  'media/vendor/accessibility/js/accessibility.min.js',
-  'media/vendor/chosen/js/chosen.jquery.js',
-  'media/vendor/codemirror/lib/addons.js',
-  'media/vendor/codemirror/lib/addons.js',
-  'media/vendor/codemirror/lib/codemirror-ce.js',
-  'media/vendor/debugbar/debugbar.js',
-  'media/vendor/debugbar/openhandler.js',
-  'media/vendor/debugbar/widgets.js',
-  'media/vendor/punycode/js/punycode.js',
-  'media/vendor/qrcode/js/qrcode.js',
-  'media/vendor/qrcode/js/qrcode_SJIS.js',
-  'media/vendor/qrcode/js/qrcode_UTF8.js',
-  'media/vendor/short-and-sweet/js/short-and-sweet.min.js',
-  'media/vendor/webcomponentsjs/js/webcomponents-ce.js',
-  'media/vendor/webcomponentsjs/js/webcomponents-sd.js',
-  'media/vendor/webcomponentsjs/js/webcomponents-sd-ce.js',
-  'media/vendor/webcomponentsjs/js/webcomponents-sd-ce-pf.js',
+const folders = [
+  'media/vendor/accessibility/js',
+  'media/vendor/chosen/js',
+  'media/vendor/debugbar',
+  'media/vendor/punycode/js',
+  'media/vendor/qrcode/js',
+  'media/vendor/short-and-sweet/js',
+  'media/vendor/webcomponentsjs/js',
 ];
+
+let allFiles = [];
 
 const noMinified = [
   'media/vendor/accessibility/js/accessibility.min.js',
@@ -92,8 +84,13 @@ const minifyJS = async (file) => {
  */
 module.exports.minifyVendor = async () => {
   // return;
+  const folderPromises = [];
   const filesPromises = [];
 
+  folders.map((folder) => folderPromises.push(recursive(folder, ['!*.+(js)'])));
+
+  const computedFiles = await Promise.all(folderPromises);
+  allFiles = [...allFiles, ...computedFiles];
   allFiles.map((file) => filesPromises.push(minifyJS(file)));
 
   return Promise.all(filesPromises);
