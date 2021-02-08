@@ -59,6 +59,10 @@ module.exports.stylesheets = async (options, path) => {
 
   // Loop to get the files that should be compiled via parameter
   [].concat(...computedFiles).forEach((file) => {
+    if (file.endsWith('.css') && !file.endsWith('.min.css')) {
+      cssFilesPromises.push(handleCssFile(file));
+    }
+
     // Bail out for non Joomla convention folders, eg: scss
     if (!(file.match(/\/scss\//) || file.match(/\\scss\\/))) {
       return;
@@ -67,10 +71,6 @@ module.exports.stylesheets = async (options, path) => {
     // Don't take files with "_" but "file" has the full path, so check via match
     if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
       files.push(file);
-    }
-
-    if (file.match(/\.css$/) && !file.match(/\.min\.css$/)) {
-      cssFilesPromises.push(handleCssFile(file));
     }
   });
 
