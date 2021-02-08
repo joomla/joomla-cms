@@ -252,6 +252,9 @@ class JoomlaInstallerScript
 			return;
 		}
 
+		// Ensure the FieldsHelper class is loaded for the Repeatable fields plugin we're about to remove
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
 		try
 		{
 			$db->transactionStart();
