@@ -90,7 +90,7 @@ module.exports.minifyVendor = async () => {
   folders.map((folder) => folderPromises.push(recursive(folder, ['!*.+(js)'])));
 
   const computedFiles = await Promise.all(folderPromises);
-  allFiles = [...allFiles, ...computedFiles];
+  allFiles = [...allFiles, ...[].concat(...computedFiles)];
   allFiles.map((file) => filesPromises.push(minifyJS(file)));
 
   return Promise.all(filesPromises);
