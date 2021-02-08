@@ -19,6 +19,7 @@
 				label="COM_WRAPPER_FIELD_URL_LABEL"
 				size="30"
 				required="true"
+				filter="url"
 				validate="url"
 			/>
 		</fieldset>
