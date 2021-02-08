@@ -51,6 +51,10 @@ const minifiedExists = async (file) => {
  * @returns {Promise}
  */
 const minifyJS = async (file) => {
+  if (file.endsWith('.min.js')) {
+    return;
+  }
+
   // eslint-disable-next-line no-console
   console.log(`Processing Vendor file: ${file}`);
 
