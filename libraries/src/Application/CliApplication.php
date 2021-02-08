@@ -35,7 +35,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Output object
@@ -239,10 +239,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function execute()
 	{
-		// Load the namespace map early but not in constructor as the file write operation needs an application
-		\JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
-		$extensionLoader = new \JNamespacePsr4Map;
-		$extensionLoader->load();
+		$this->createExtensionNamespaceMap();
 
 		// Trigger the onBeforeExecute event
 		$this->triggerEvent('onBeforeExecute');
