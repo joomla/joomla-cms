@@ -716,7 +716,7 @@ class FOFModel extends FOFUtilsObject
 
 			if (method_exists($app, 'getCfg'))
 			{
-				$default_limit = $app->getCfg('list_limit');
+				$default_limit = $app->get('list_limit');
 			}
 			else
 			{
