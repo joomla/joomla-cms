@@ -15,8 +15,7 @@
 
 			<field
 				name="url"
-				type="url"
-				validate="url"
+				type="text"
 				label="COM_WRAPPER_FIELD_URL_LABEL"
 				size="30"
 				required="true"
