@@ -318,7 +318,7 @@ abstract class Bootstrap
 		$opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
 		$opt['container']         = isset($options['container']) ? $options['container'] : 'body';
 		$opt['content']           = isset($options['content']) ? $options['content'] : null;
-		$opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : [ "show" => 50, "hide" => 200 ];
+		$opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : [ 'show' => 50, 'hide' => 200 ];
 		$opt['html']              = isset($options['html']) ? (bool) $options['html'] : true;
 		$opt['placement']         = isset($options['placement']) ? $options['placement'] : null;
 		$opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
