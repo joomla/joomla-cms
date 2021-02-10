@@ -110,7 +110,7 @@
           {
             "name": "bootstrap.carousel",
             "type": "script",
-            "uri": "button.es6.min.js",
+            "uri": "carousel.es6.min.js",
             "dependencies": [
               "bootstrap.es5"
             ],
