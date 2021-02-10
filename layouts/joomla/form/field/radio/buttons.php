@@ -79,7 +79,7 @@ if ($dataAttribute)
 }
 ?>
 <fieldset id="<?php echo $id; ?>" >
-	<legend class="radio__legend visually-hidden">
+	<legend class="visually-hidden">
 		<?php echo $label; ?>
 	</legend>
 	<div <?php echo implode(' ', $attribs); ?>>
