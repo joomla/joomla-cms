@@ -48,6 +48,10 @@ $isBtnYesNo  = strpos(trim($class), 'btn-group-yesno') !== false;
 $classToggle = $isBtnGroup ? ' class="btn-check"' : '';
 $btnClass    = $isBtnGroup ? 'btn btn-outline-secondary' : 'form-check';
 
+// make sure both `btn-group` and `btn-group-yesno` class attribute values
+// both use same `btn-group` class, the .btn-group-yesno class does not exist
+$class = $isBtnYesNo ? str_replace('-yesno','', $class) : $class;
+
 // Add the attributes of the fieldset in an array
 $attribs = ['class="' . trim(
 		$class . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : '')
