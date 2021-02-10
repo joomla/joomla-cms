@@ -36,7 +36,7 @@ class RedirectField extends ListField
 	 *
 	 * @var    object
 	 * @since  3.4
-	 * @link   http://www.iana.org/assignments/http-status-codes/
+	 * @link   https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
 	 */
 	protected $responseMap = array(
 		100 => 'HTTP/1.1 100 Continue',
@@ -107,7 +107,7 @@ class RedirectField extends ListField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  array	The field input markup.
 	 *
 	 * @since   3.4
 	 */

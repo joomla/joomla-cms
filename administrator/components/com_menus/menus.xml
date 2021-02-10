@@ -36,4 +36,7 @@
 			<language tag="en-GB">language/en-GB/com_menus.sys.ini</language>
 		</languages>
 	</administration>
+	<dashboards>
+		<dashboard title="COM_MENUS_DASHBOARD_TITLE" icon="icon-list">menus</dashboard>
+	</dashboards>
 </extension>

@@ -34,7 +34,7 @@ $wa->useScript('com_menus.admin-item-modal');
 					<?php $menutype = base64_encode(json_encode($menutype)); ?>
 					<a class="choose_type list-group-item list-group-item-action" href="#"
 						onclick="Joomla.setMenuType('<?php echo $menutype; ?>', '<?php echo $tmpl; ?>')">
-						<div class="pr-2">
+						<div class="pe-2">
 							<?php echo $title; ?>
 						</div>
 						<small class="text-muted">

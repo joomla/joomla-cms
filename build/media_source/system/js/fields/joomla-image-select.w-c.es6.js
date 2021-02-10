@@ -29,18 +29,30 @@
     const currentModal = Joomla.Modal.getCurrent();
     const container = currentModal.querySelector('.modal-body');
 
-    // No extra attributes (lazy, alt) for fields
-    if (container.closest('joomla-field-media')) {
-      return;
-    }
-
     const optionsEl = container.querySelector('joomla-field-mediamore');
     if (optionsEl) {
       optionsEl.parentNode.removeChild(optionsEl);
     }
 
+    // No extra attributes (lazy, alt) for fields
+    if (container.closest('joomla-field-media')) {
+      return;
+    }
+
     if (Joomla.selectedMediaFile.path) {
-      container.insertAdjacentHTML('afterbegin', `<joomla-field-mediamore parent-id="${currentModal.id}" lazy-label="${Joomla.Text._('JFIELD_MEDIA_LAZY_LABEL')}" alt-label="${Joomla.Text._('JFIELD_MEDIA_ALT_LABEL')}"></joomla-field-mediamore>`);
+      container.insertAdjacentHTML('afterbegin', `
+<joomla-field-mediamore
+  parent-id="${currentModal.id}"
+  summary-label="${Joomla.Text._('JFIELD_MEDIA_SUMMARY_LABEL')}"
+  lazy-label="${Joomla.Text._('JFIELD_MEDIA_LAZY_LABEL')}"
+  alt-label="${Joomla.Text._('JFIELD_MEDIA_ALT_LABEL')}"
+  alt-check-label="${Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_LABEL')}"
+  alt-check-desc-label="${Joomla.Text._('JFIELD_MEDIA_ALT_CHECK_DESC_LABEL')}"
+  classes-label="${Joomla.Text._('JFIELD_MEDIA_CLASS_LABEL')}"
+  figure-classes-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CLASS_LABEL')}"
+  figure-caption-label="${Joomla.Text._('JFIELD_MEDIA_FIGURE_CAPTION_LABEL')}"
+></joomla-field-mediamore>
+`);
     }
   });
 
@@ -113,21 +125,42 @@
       }
 
       if (Joomla.selectedMediaFile.url) {
+        let attribs;
         let isLazy = '';
         let alt = '';
+        let appendAlt = '';
+        let classes = '';
+        let figClasses = '';
+        let figCaption = '';
+        let imageElement = '';
 
         if (!isElement(editor)) {
           const currentModal = fieldClass.closest('.modal-content');
-          const attribs = currentModal.querySelector('joomla-field-mediamore');
+          attribs = currentModal.querySelector('joomla-field-mediamore');
           if (attribs) {
-            alt = attribs.getAttribute('alt-value') ? ` alt="${attribs.getAttribute('alt-value')}"` : '';
+            if (attribs.getAttribute('alt-check') === 'true') {
+              appendAlt = ' alt=""';
+            }
+            alt = attribs.getAttribute('alt-value') ? ` alt="${attribs.getAttribute('alt-value')}"` : appendAlt;
+            classes = attribs.getAttribute('img-classes') ? ` class="${attribs.getAttribute('img-classes')}"` : '';
+            figClasses = attribs.getAttribute('fig-classes') ? ` class="${attribs.getAttribute('fig-classes')}"` : '';
+            figCaption = attribs.getAttribute('fig-caption') ? `${attribs.getAttribute('fig-caption')}` : '';
             if (attribs.getAttribute('is-lazy') === 'true') {
               isLazy = ` loading="lazy" width="${Joomla.selectedMediaFile.width}" height="${Joomla.selectedMediaFile.height}"`;
             }
+          }
+
+          if (figCaption) {
+            imageElement = `<figure${figClasses}><img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt}/><figcaption>${figCaption}</figcaption></figure>`;
+          } else {
+            imageElement = `<img src="${Joomla.selectedMediaFile.url}"${classes}${isLazy}${alt}/>`;
+          }
+
+          if (attribs) {
             attribs.parentNode.removeChild(attribs);
           }
 
-          Joomla.editors.instances[editor].replaceSelection(`<img src="${Joomla.selectedMediaFile.url}"${isLazy}${alt}/>`);
+          Joomla.editors.instances[editor].replaceSelection(imageElement);
         } else {
           const val = appendParam(Joomla.selectedMediaFile.url, 'joomla_image_width', Joomla.selectedMediaFile.width);
           editor.value = appendParam(val, 'joomla_image_height', Joomla.selectedMediaFile.height);
@@ -190,10 +223,12 @@
     constructor() {
       super();
 
-      this.adjustedHeight = false;
       this.lazyInputFn = this.lazyInputFn.bind(this);
       this.altInputFn = this.altInputFn.bind(this);
-      this.adjustHeight = this.adjustHeight.bind(this);
+      this.altCheckFn = this.altCheckFn.bind(this);
+      this.imgClassesFn = this.imgClassesFn.bind(this);
+      this.figclassesFn = this.figclassesFn.bind(this);
+      this.figcaptionFn = this.figcaptionFn.bind(this);
     }
 
     get parentId() { return this.getAttribute('parent-id'); }
@@ -202,46 +237,93 @@
 
     get alttext() { return this.getAttribute('alt-label'); }
 
+    get altchecktext() { return this.getAttribute('alt-check-label'); }
+
+    get altcheckdesctext() { return this.getAttribute('alt-check-desc-label'); }
+
+    get classestext() { return this.getAttribute('classes-label'); }
+
+    get figclassestext() { return this.getAttribute('figure-classes-label'); }
+
+    get figcaptiontext() { return this.getAttribute('figure-caption-label'); }
+
+    get summarytext() { return this.getAttribute('summary-label'); }
+
     connectedCallback() {
       this.innerHTML = `
-<div class="form-row align-items-center">
-  <div class="col-auto">
-    <div class="input-group">
-      <div class="input-group-prepend">
+<details open>
+  <summary>${this.summarytext}</summary>
+  <div class="">
+    <div class="form-group">
+      <div class="input-group">
         <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
+        <input class="form-control" type="text" id="${this.parentId}-alt" />
       </div>
-      <input class="form-control" type="text" id="${this.parentId}-alt" />
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="${this.parentId}-alt-check">
+        <label class="form-check-label" for="${this.parentId}-alt-check">${this.altchecktext}</label>
+        <div><small class="form-text text-muted">${this.altcheckdesctext}</small></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="${this.parentId}-lazy" checked>
+        <label class="form-check-label" for="${this.parentId}-lazy">${this.lazytext}</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <label class="input-group-text" for="${this.parentId}-classes">${this.classestext}</label>
+        <input class="form-control" type="text" id="${this.parentId}-classes" />
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <label class="input-group-text" for="${this.parentId}-figclasses">${this.figclassestext}</label>
+        <input class="form-control" type="text" id="${this.parentId}-figclasses" />
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <label class="input-group-text" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
+        <input class="form-control" type="text" id="${this.parentId}-figcaption" />
+      </div>
     </div>
   </div>
-  <div class="col-auto">
-    <div class="form-check mb-2">
-      <input class="form-check-input" type="checkbox" id="${this.parentId}-lazy" checked>
-      <label class="form-check-label" for="${this.parentId}-lazy">${this.lazytext}</label>
-    </div>
-  </div>
-</div>`;
+</details>`;
 
       // Add event listeners
       this.lazyInput = this.querySelector(`#${this.parentId}-lazy`);
       this.lazyInput.addEventListener('change', this.lazyInputFn);
       this.altInput = this.querySelector(`#${this.parentId}-alt`);
       this.altInput.addEventListener('input', this.altInputFn);
+      this.altCheck = this.querySelector(`#${this.parentId}-alt-check`);
+      this.altCheck.addEventListener('input', this.altCheckFn);
+      this.imgClasses = this.querySelector(`#${this.parentId}-classes`);
+      this.imgClasses.addEventListener('input', this.imgClassesFn);
+      this.figClasses = this.querySelector(`#${this.parentId}-figclasses`);
+      this.figClasses.addEventListener('input', this.figclassesFn);
+      this.figCaption = this.querySelector(`#${this.parentId}-figcaption`);
+      this.figCaption.addEventListener('input', this.figcaptionFn);
 
       // Set initial values
       this.setAttribute('is-lazy', !!this.lazyInput.checked);
       this.setAttribute('alt-value', '');
-
-      // Reduce iframe height
-      if (!this.adjustedHeight) {
-        requestAnimationFrame(this.adjustHeight);
-      }
+      this.setAttribute('alt-check', false);
+      this.setAttribute('img-classes', '');
+      this.setAttribute('fig-classes', '');
+      this.setAttribute('fig-caption', '');
     }
 
     disconnectedCallback() {
-      this.lazyInput.removeEventListener('click', this.lazyInputFn);
-      if (this.enableAltField) {
-        this.altInput.removeEventListener('click', this.altInputFn);
-      }
+      this.lazyInput.removeEventListener('input', this.lazyInputFn);
+      this.altInput.removeEventListener('input', this.altInputFn);
+      this.altCheck.removeEventListener('input', this.altCheckFn);
+      this.imgClasses.removeEventListener('input', this.imgClassesFn);
+      this.figClasses.removeEventListener('input', this.figclassesFn);
+      this.figCaption.removeEventListener('input', this.figcaptionFn);
 
       this.innerHTML = '';
     }
@@ -254,15 +336,20 @@
       this.setAttribute('alt-value', e.target.value.replace(/"/g, '&quot;'));
     }
 
-    adjustHeight() {
-      const that = this;
-      const parentEl = this.parentNode;
-      const nextEl = this.nextElementSibling;
-      requestAnimationFrame(() => {
-        const height = `${parentEl.getBoundingClientRect().height - (that.getBoundingClientRect().height + 40)}`;
-        nextEl.style.height = `${height}px`;
-        that.adjustedHeight = true;
-      });
+    altCheckFn(e) {
+      this.setAttribute('alt-check', !!e.target.checked);
+    }
+
+    imgClassesFn(e) {
+      this.setAttribute('img-classes', e.target.value);
+    }
+
+    figclassesFn(e) {
+      this.setAttribute('fig-classes', e.target.value);
+    }
+
+    figcaptionFn(e) {
+      this.setAttribute('fig-caption', e.target.value);
     }
   }
 

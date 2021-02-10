@@ -100,7 +100,7 @@ else
 				<p><?php echo Text::_('JOFFLINE_MESSAGE'); ?></p>
 			<?php endif; ?>
 			<div class="logo-icon">
-				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+				<svg version="1.1" xmlns="https://www.w3.org/2000/svg" x="0px" y="0px"
 					 viewBox="0 0 74.8 74.8" enable-background="new 0 0 74.8 74.8" xml:space="preserve">
 					<g id="brandmark">
 						<path id="j-green" fill="#1C3D5C" d="M13.5,37.7L12,36.3c-4.5-4.5-5.8-10.8-4.2-16.5c-4.5-1-7.8-5-7.8-9.8c0-5.5,4.5-10,10-10 c5,0,9.1,3.6,9.9,8.4c5.4-1.3,11.3,0.2,15.5,4.4l0.6,0.6l-7.4,7.4l-0.6-0.6c-2.4-2.4-6.3-2.4-8.7,0c-2.4,2.4-2.4,6.3,0,8.7l1.4,1.4 l7.4,7.4l7.8,7.8l-7.4,7.4l-7.8-7.8L13.5,37.7L13.5,37.7z"/>

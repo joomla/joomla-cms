@@ -80,6 +80,8 @@ class ApplicationController extends BaseController
 			return false;
 		}
 
+		$this->app->setUserState('com_config.config.global.data', null);
+
 		// Set FTP credentials, if given.
 		ClientHelper::setCredentialsFromRequest('ftp');
 
@@ -266,7 +268,7 @@ class ApplicationController extends BaseController
 		$this->app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!Session::checkToken('get'))
+		if (!Session::checkToken())
 		{
 			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
 			echo new JsonResponse;

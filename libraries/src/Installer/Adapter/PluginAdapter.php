@@ -109,7 +109,7 @@ class PluginAdapter extends InstallerAdapter
 					// Install failed, rollback changes
 					throw new \RuntimeException(
 						Text::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_MANIFEST',
+							'JLIB_INSTALLER_ABORT_MANIFEST',
 							Text::_('JLIB_INSTALLER_' . $this->route)
 						)
 					);
@@ -182,8 +182,8 @@ class PluginAdapter extends InstallerAdapter
 				// Install failed, rollback changes
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_COPY_SETUP',
-						Text::_('JLIB_INSTALLER_' . $this->route)
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 					)
 				);
 			}
@@ -465,7 +465,7 @@ class PluginAdapter extends InstallerAdapter
 				// Install failed, roll back changes
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS',
+						'JLIB_INSTALLER_ABORT_ALREADY_EXISTS',
 						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->name
 					)

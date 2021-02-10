@@ -587,19 +587,19 @@ class MenusHelper extends ContentHelper
 
 			if (!$table->bind($record))
 			{
-				throw new \Exception('Bind failed: ' . $table->getError());
+				throw new \Exception($table->getError());
 			}
 
 			$table->setLocation($item->getParent()->id, 'last-child');
 
 			if (!$table->check())
 			{
-				throw new \Exception('Check failed: ' . $table->getError());
+				throw new \Exception($table->getError());
 			}
 
 			if (!$table->store())
 			{
-				throw new \Exception('Saved failed: ' . $table->getError());
+				throw new \Exception($table->getError());
 			}
 
 			$item->id = $table->get('id');

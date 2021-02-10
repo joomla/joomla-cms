@@ -65,7 +65,12 @@ class FeedView extends CategoryFeedView
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			// URL link to article
-			$link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
+			$link = Route::_(
+				RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language),
+				true,
+				$app->get('force_ssl') == 2 ? \JRoute::TLS_FORCE : \JRoute::TLS_IGNORE,
+				true
+			);
 
 			$item->description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
 				. Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';

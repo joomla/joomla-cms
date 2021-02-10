@@ -34,7 +34,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 		<div class="page-header">
 			<h2>
 				<?php if ($this->item->published == 0) : ?>
-					<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
+					<span class="badge bg-warning text-dark"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
 			</h2>
@@ -43,7 +43,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 
 	<?php if ($canEdit) : ?>
 		<div class="icons">
-			<div class="float-right">
+			<div class="float-end">
 				<div>
 					<?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?>
 				</div>
@@ -93,7 +93,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 		<?php echo '<h3>' . Text::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
 
 		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
-			<div class="com-contact__thumbnail thumbnail float-right">
+			<div class="com-contact__thumbnail thumbnail float-end">
 				<?php echo HTMLHelper::_(
 					'image',
 					$this->item->image,
@@ -154,8 +154,8 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 			<dl class="dl-horizontal">
 				<dt>
 					<?php if (!$this->params->get('marker_misc')) : ?>
-						<span class="icon-tags" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span>
+						<span class="visually-hidden"><?php echo Text::_('COM_CONTACT_OTHER_INFORMATION'); ?></span>
 					<?php else : ?>
 						<span class="<?php echo $this->params->get('marker_class'); ?>">
 							<?php echo $this->params->get('marker_misc'); ?>

@@ -18,12 +18,26 @@ if (!$multilanguageEnabled)
 	return;
 }
 
+$modalHTML = HTMLHelper::_(
+	'bootstrap.renderModal',
+	'multiLangModal',
+	array(
+		'title'      => Text::_('MOD_MULTILANGSTATUS'),
+		'url'        => Route::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
+		'height'     => '400px',
+		'width'      => '800px',
+		'bodyHeight' => 70,
+		'modalWidth' => 80,
+		'footer'     => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JTOOLBAR_CLOSE') . '</button>',
+	)
+);
+
 $app->getDocument()->getWebAssetManager()
 	->registerAndUseScript('mod_multilangstatus.admin', 'mod_multilangstatus/admin-multilangstatus.min.js', [], ['defer' => true]);
 
 ?>
 <div class="header-item-content multilanguage">
-	<a class="d-flex align-items-stretch" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
+	<a class="d-flex align-items-stretch" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-bs-toggle="modal" role="button">
 		<div class="d-flex align-items-end mx-auto">
 			<span class="icon-language" aria-hidden="true"></span>
 		</div>
@@ -32,17 +46,5 @@ $app->getDocument()->getWebAssetManager()
 		</div>
 	</a>
 
-	<?php echo HTMLHelper::_(
-		'bootstrap.renderModal',
-		'multiLangModal',
-		array(
-			'title'      => Text::_('MOD_MULTILANGSTATUS'),
-			'url'        => Route::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
-			'height'     => '400px',
-			'width'      => '800px',
-			'bodyHeight' => 70,
-			'modalWidth' => 80,
-			'footer'     => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JTOOLBAR_CLOSE') . '</button>',
-		)
-	); ?>
+	<?php echo $modalHTML; ?>
 </div>

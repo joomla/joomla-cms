@@ -12,7 +12,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$published = $this->state->get('filter.published');
+$published = (int) $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
 
 ?>

@@ -115,11 +115,28 @@ $wam->useScript('webcomponent.image-select');
 Text::script('JFIELD_MEDIA_LAZY_LABEL');
 Text::script('JFIELD_MEDIA_ALT_LABEL');
 Text::script('JFIELD_MEDIA_CONFIRM_TEXT');
+Text::script('JLIB_APPLICATION_ERROR_SERVER');
+Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
+
+$modalHTML = HTMLHelper::_('bootstrap.renderModal',
+		'imageModal_'. $id,
+		array(
+				'url'         => $url,
+				'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
+				'closeButton' => true,
+				'height'      => '100%',
+				'width'       => '100%',
+				'modalWidth'  => '80',
+				'bodyHeight'  => '60',
+				'footer'      => '<button type="button" class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button>'
+						. '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
+		)
+);
 
 $wam->useStyle('webcomponent.field-media')
 	->useScript('webcomponent.field-media');
 
-Text::script('JLIB_APPLICATION_ERROR_SERVER');
+
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
@@ -138,25 +155,7 @@ Text::script('JLIB_APPLICATION_ERROR_SERVER');
 		preview-width="<?php echo $previewWidth; ?>"
 		preview-height="<?php echo $previewHeight; ?>"
 >
-	<?php
-	// Render the modal
-	echo HTMLHelper::_('bootstrap.renderModal',
-		'imageModal_'. $id,
-		array(
-			'url'         => $url,
-			'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
-			'closeButton' => true,
-			'height' => '100%',
-			'width'  => '100%',
-			'modalWidth'  => '80',
-			'bodyHeight'  => '60',
-			'footer'      => '<button type="button" class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button>'
-				. '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-		)
-	);
-
-	Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
-	?>
+	<?php echo $modalHTML; ?>
 	<?php if ($showPreview) : ?>
 		<div class="field-media-preview">
 			<?php echo ' ' . $previewImgEmpty; ?>
@@ -166,10 +165,8 @@ Text::script('JLIB_APPLICATION_ERROR_SERVER');
 	<div class="input-group">
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
-			<div class="input-group-append">
-				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
-				<button type="button" class="btn btn-secondary button-clear"><span class="icon-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
-			</div>
+			<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
+			<button type="button" class="btn btn-secondary button-clear"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 		<?php endif; ?>
 	</div>
 </joomla-field-media>

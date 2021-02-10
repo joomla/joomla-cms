@@ -79,12 +79,12 @@ else
 
 $hasClass = '';
 
-if ($this->countModules('sidebar-left'))
+if ($this->countModules('sidebar-left', true))
 {
 	$hasClass .= ' has-sidebar-left';
 }
 
-if ($this->countModules('sidebar-right'))
+if ($this->countModules('sidebar-right', true))
 {
 	$hasClass .= ' has-sidebar-right';
 }
@@ -95,7 +95,6 @@ $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-sta
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -126,11 +125,12 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 				<?php endif; ?>
 			</div>
 		</div>
-		<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
+		<?php if ($this->countModules('menu', true) || $this->countModules('search', true)) : ?>
 			<div class="grid-child container-nav">
-				<?php if ($this->countModules('menu')) : ?>
+				<?php if ($this->countModules('menu', true)) : ?>
 					<nav class="navbar navbar-expand-md">
-						<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+						<?php HTMLHelper::_('bootstrap.collapse', '.navbar-toggler'); ?>
+						<button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
 							<span class="icon-menu" aria-hidden="true"></span>
 						</button>
 						<div class="collapse navbar-collapse" id="navbar">
@@ -138,36 +138,34 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 						</div>
 					</nav>
 				<?php endif; ?>
-				<?php if ($this->countModules('search')) : ?>
+				<?php if ($this->countModules('search', true)) : ?>
 					<div class="container-search">
-						<div class="form-inline">
-							<jdoc:include type="modules" name="search" style="none" />
-						</div>
+						<jdoc:include type="modules" name="search" style="none" />
 					</div>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
 	</header>
 
-	<?php if ($this->countModules('banner')) : ?>
+	<?php if ($this->countModules('banner', true)) : ?>
 		<div class="container-banner full-width">
 			<jdoc:include type="modules" name="banner" style="none" />
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('top-a')) : ?>
+	<?php if ($this->countModules('top-a', true)) : ?>
 	<div class="grid-child container-top-a">
 		<jdoc:include type="modules" name="top-a" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('top-b')) : ?>
+	<?php if ($this->countModules('top-b', true)) : ?>
 	<div class="grid-child container-top-b">
 		<jdoc:include type="modules" name="top-b" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('sidebar-left')) : ?>
+	<?php if ($this->countModules('sidebar-left', true)) : ?>
 	<div class="grid-child container-sidebar-left">
 		<jdoc:include type="modules" name="sidebar-left" style="card" />
 	</div>
@@ -183,25 +181,25 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 		<jdoc:include type="modules" name="main-bottom" style="card" />
 	</div>
 
-	<?php if ($this->countModules('sidebar-right')) : ?>
+	<?php if ($this->countModules('sidebar-right', true)) : ?>
 	<div class="grid-child container-sidebar-right">
 		<jdoc:include type="modules" name="sidebar-right" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('bottom-a')) : ?>
+	<?php if ($this->countModules('bottom-a', true)) : ?>
 	<div class="grid-child container-bottom-a">
 		<jdoc:include type="modules" name="bottom-a" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('bottom-b')) : ?>
+	<?php if ($this->countModules('bottom-b', true)) : ?>
 	<div class="grid-child container-bottom-b">
 		<jdoc:include type="modules" name="bottom-b" style="card" />
 	</div>
 	<?php endif; ?>
 
-	<?php if ($this->countModules('footer')) : ?>
+	<?php if ($this->countModules('footer', true)) : ?>
 	<footer class="container-footer footer full-width">
 		<div class="grid-child">
 			<jdoc:include type="modules" name="footer" style="none" />

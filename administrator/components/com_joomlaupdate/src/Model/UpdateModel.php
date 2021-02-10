@@ -752,7 +752,12 @@ ENDDATA;
 		{
 			if ($manifestClass->preflight('update', $installer) === false)
 			{
-				$installer->abort(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				$installer->abort(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+						Text::_('JLIB_INSTALLER_INSTALL')
+					)
+				);
 
 				return false;
 			}
@@ -867,7 +872,12 @@ ENDDATA;
 			if ($manifestClass->update($installer) === false)
 			{
 				// Install failed, rollback changes.
-				$installer->abort(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				$installer->abort(
+					Text::sprintf(
+						'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+						Text::_('JLIB_INSTALLER_INSTALL')
+					)
+				);
 
 				return false;
 			}
@@ -958,10 +968,13 @@ ENDDATA;
 		}
 
 		// Unset the update filename from the session.
-		Factory::getApplication()->setUserState('com_joomlaupdate.file', null);
+		$app = Factory::getApplication();
+		$app->setUserState('com_joomlaupdate.file', null);
+		$oldVersion = $app->getUserState('com_joomlaupdate.oldversion');
 
 		// Trigger event after joomla update.
-		Factory::getApplication()->triggerEvent('onJoomlaAfterUpdate');
+		$app->triggerEvent('onJoomlaAfterUpdate', array($oldVersion));
+		$app->setUserState('com_joomlaupdate.oldversion', null);
 	}
 
 	/**

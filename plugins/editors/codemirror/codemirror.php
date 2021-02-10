@@ -161,6 +161,8 @@ class PlgEditorCodemirror extends CMSPlugin
 			$options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
 			$autofocused = $options->autofocus;
 		}
+		// Set autorefresh to true - fixes issue when editor is not loaded in a focused tab
+		$options->autoRefresh = true;
 
 		$options->lineWrapping = (boolean) $this->params->get('lineWrapping', 1);
 

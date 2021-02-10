@@ -150,7 +150,6 @@ class HtmlView extends CategoryView
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$app    = Factory::getApplication();
 		$active = $app->getMenu()->getActive();
 
 		if ($active
@@ -169,26 +168,12 @@ class HtmlView extends CategoryView
 			$this->params->set('page_title', $title);
 		}
 
-		// Check for empty title and add site name if param is set
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
 		if (empty($title))
 		{
 			$title = $this->category->title;
 		}
 
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($title);
 
 		if ($this->category->metadesc)
 		{
