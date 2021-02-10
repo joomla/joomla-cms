@@ -35,6 +35,7 @@
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_FOLDER_DESC"
+					validate="filePath"
 				/>
 
 				<field

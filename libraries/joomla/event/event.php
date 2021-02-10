@@ -67,7 +67,7 @@ abstract class JEvent extends JObject
 		 */
 		if (method_exists($this, $event))
 		{
-			return call_user_func_array(array($this, $event), $args);
+			return call_user_func_array(array($this, $event), array_values($args));
 		}
 	}
 }

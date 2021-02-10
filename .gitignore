@@ -70,6 +70,7 @@ Desktop.ini
 # Extra files installed by Composer not needed in the CMS environment
 # This should only ignore files like unit testing or READMEs, production
 # code must remain to ensure all libraries properly function
+/libraries/vendor/bin
 /libraries/vendor/brumann/polyfill-unserialize/.gitattributes
 /libraries/vendor/brumann/polyfill-unserialize/.gitignore
 /libraries/vendor/brumann/polyfill-unserialize/.travis.yml
@@ -97,6 +98,8 @@ Desktop.ini
 /libraries/vendor/joomla/*/.github
 /libraries/vendor/joomla/*/.gitignore
 /libraries/vendor/joomla/*/.gitmodules
+/libraries/vendor/joomla/*/.drone.jsonnet
+/libraries/vendor/joomla/*/.drone.yml
 /libraries/vendor/joomla/*/docs
 /libraries/vendor/joomla/*/Tests
 /libraries/vendor/joomla/*/vendor
@@ -118,12 +121,15 @@ Desktop.ini
 /libraries/vendor/joomla/session/Joomla/Session/ruleset.xml
 /libraries/vendor/leafo/lessphp/docs
 /libraries/vendor/leafo/lessphp/tests
+/libraries/vendor/leafo/lessphp/.drone.yml
 /libraries/vendor/leafo/lessphp/.gitignore
 /libraries/vendor/leafo/lessphp/.travis.yml
 /libraries/vendor/leafo/lessphp/composer.json
 /libraries/vendor/leafo/lessphp/Makefile
 /libraries/vendor/leafo/lessphp/package.sh
+/libraries/vendor/leafo/lessphp/phpunit.xml.dist
 /libraries/vendor/leafo/lessphp/README.md
+/libraries/vendor/leafo/lessphp/ruleset.xml
 /libraries/vendor/paragonie/random_compat/.gitignore
 /libraries/vendor/paragonie/random_compat/.scrutinizer.yml
 /libraries/vendor/paragonie/random_compat/.travis.yml
