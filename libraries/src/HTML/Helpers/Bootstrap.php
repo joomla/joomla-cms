@@ -325,6 +325,7 @@ abstract class Bootstrap
 		$opt['template']          = isset($options['template']) ? $options['template'] : null;
 		$opt['title']             = isset($options['title']) ? $options['title'] : null;
 		$opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'click';
+		$opt['offset']            = isset($options['offset']) ? $options['offset'] : [0, 0];
 		$opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
 		$opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'scrollParent';
 		$opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
