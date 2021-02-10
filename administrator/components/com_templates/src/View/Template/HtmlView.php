@@ -263,7 +263,7 @@ class HtmlView extends BaseHtmlView
 
 				if ( (string) $templateXML->namespace === null || (string) $templateXML->namespace === '' )
 				{
-					ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+					ToolbarHelper::modal('copyModal', 'fas fa-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 				}
 			}
 		}
