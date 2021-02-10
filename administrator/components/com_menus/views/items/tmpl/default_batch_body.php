@@ -12,8 +12,8 @@ $options = array(
 	JHtml::_('select.option', 'c', JText::_('JLIB_HTML_BATCH_COPY')),
 	JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
 );
-$published = $this->state->get('filter.published');
-$clientId  = $this->state->get('filter.client_id');
+$published = (int) $this->state->get('filter.published');
+$clientId  = (int) $this->state->get('filter.client_id');
 $menuType  = JFactory::getApplication()->getUserState('com_menus.items.menutype');
 if ($clientId == 1) :
 	JFactory::getDocument()->addScriptDeclaration(

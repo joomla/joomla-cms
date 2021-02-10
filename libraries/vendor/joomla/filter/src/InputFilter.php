@@ -25,7 +25,7 @@ class InputFilter
 	 *
 	 * @var         integer
 	 * @since       1.3.0
-	 * @deprecated  2.0
+	 * @deprecated  2.0  Use the `InputFilter::ONLY_ALLOW_DEFINED_TAGS` constant instead
 	 */
 	const TAGS_WHITELIST = 0;
 
@@ -34,7 +34,7 @@ class InputFilter
 	 *
 	 * @var         integer
 	 * @since       1.3.0
-	 * @deprecated  2.0
+	 * @deprecated  2.0  Use the `InputFilter::ONLY_BLOCK_DEFINED_TAGS` constant instead
 	 */
 	const TAGS_BLACKLIST = 1;
 
@@ -43,7 +43,7 @@ class InputFilter
 	 *
 	 * @var         integer
 	 * @since       1.3.0
-	 * @deprecated  2.0
+	 * @deprecated  2.0  Use the `InputFilter::ONLY_ALLOW_DEFINED_ATTRIBUTES` constant instead
 	 */
 	const ATTR_WHITELIST = 0;
 
@@ -52,7 +52,7 @@ class InputFilter
 	 *
 	 * @var         integer
 	 * @since       1.3.0
-	 * @deprecated  2.0
+	 * @deprecated  2.0  Use the `InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES` constant instead
 	 */
 	const ATTR_BLACKLIST = 1;
 
@@ -60,15 +60,15 @@ class InputFilter
 	 * Defines the InputFilter instance should only allow the supplied list of HTML tags.
 	 *
 	 * @var    integer
-	 * @since  1.3.0
+	 * @since  1.4.0
 	 */
 	const ONLY_ALLOW_DEFINED_TAGS = 0;
 
 	/**
-	 * Defines the InputFilter instance should block the defined list of tags and allow all others.
+	 * Defines the InputFilter instance should block the defined list of HTML tags and allow all others.
 	 *
 	 * @var    integer
-	 * @since  1.3.0
+	 * @since  1.4.0
 	 */
 	const ONLY_BLOCK_DEFINED_TAGS = 1;
 
@@ -76,15 +76,15 @@ class InputFilter
 	 * Defines the InputFilter instance should only allow the supplied list of attributes.
 	 *
 	 * @var    integer
-	 * @since  1.3.0
+	 * @since  1.4.0
 	 */
 	const ONLY_ALLOW_DEFINED_ATTRIBUTES = 0;
 
 	/**
-	 * Defines the InputFilter instance should use a block all attributes.
+	 * Defines the InputFilter instance should block the defined list of attributes and allow all others.
 	 *
 	 * @var    integer
-	 * @since  1.3.0
+	 * @since  1.4.0
 	 */
 	const ONLY_BLOCK_DEFINED_ATTRIBUTES = 1;
 
@@ -93,7 +93,7 @@ class InputFilter
 	 *
 	 * @var    InputFilter[]
 	 * @since  1.0
-	 * @deprecated  1.2.0
+	 * @deprecated  2.0
 	 */
 	protected static $instances = array();
 
@@ -138,11 +138,11 @@ class InputFilter
 	public $xssAuto;
 
 	/**
-	 * The list of the default blocked tags.
+	 * The list the blocked tags for the instance.
 	 *
-	 * @var    array
+	 * @var    string[]
 	 * @since  1.0
-	 * @notes  This property will be renamed to $blockedTags in version 2.0
+	 * @note   This property will be renamed to $blockedTags in version 2.0
 	 */
 	public $tagBlacklist = array(
 		'applet',
@@ -171,11 +171,11 @@ class InputFilter
 	);
 
 	/**
-	 * The list of the default blacklisted tag attributes. All event handlers implicit.
+	 * The list of blocked tag attributes for the instance.
 	 *
-	 * @var    array
+	 * @var    string[]
 	 * @since  1.0
-	 * @notes  This property will be renamed to $blockedAttributes in version 2.0
+	 * @note   This property will be renamed to $blockedAttributes in version 2.0
 	 */
 	public $attrBlacklist = array(
 		'action',
@@ -187,9 +187,9 @@ class InputFilter
 	);
 
 	/**
-	 * A special list of blocked chars
+	 * A special list of blocked characters.
 	 *
-	 * @var    array
+	 * @var    string[]
 	 * @since  1.3.3
 	 */
 	private $blockedChars = array(
@@ -202,16 +202,16 @@ class InputFilter
 	/**
 	 * Constructor for InputFilter class.
 	 *
-	 * @param   array    $tagsArray   List of user-defined tags
-	 * @param   array    $attrArray   List of user-defined attributes
-	 * @param   integer  $tagsMethod  The constant static::ONLY_ALLOW_DEFINED_TAGS or static::BLOCK_DEFINED_TAGS
-	 * @param   integer  $attrMethod  The constant static::ONLY_ALLOW_DEFINED_ATTRIBUTES or static::BLOCK_DEFINED_ATTRIBUTES
+	 * @param   array    $tagsArray   List of permitted HTML tags
+	 * @param   array    $attrArray   List of permitted HTML tag attributes
+	 * @param   integer  $tagsMethod  Method for filtering tags, should be one of the `ONLY_*_DEFINED_TAGS` constants
+	 * @param   integer  $attrMethod  Method for filtering attributes, should be one of the `ONLY_*_DEFINED_ATTRIBUTES` constants
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blocked tags/attributes = 1
 	 *
 	 * @since   1.0
 	 */
-	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = self::TAGS_WHITELIST, $attrMethod = self::ATTR_WHITELIST,
-		$xssAuto = 1
+	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = self::ONLY_ALLOW_DEFINED_TAGS,
+		$attrMethod = self::ONLY_ALLOW_DEFINED_ATTRIBUTES, $xssAuto = 1
 	)
 	{
 		// Make sure user defined arrays are in lowercase
@@ -227,352 +227,86 @@ class InputFilter
 	}
 
 	/**
-	 * Method to be called by another php script. Processes for XSS and
-	 * specified bad code.
+	 * Cleans the given input source based on the instance configuration and specified data type
 	 *
-	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
-	 * @param   string  $type    The return type for the variable:
-	 *                           INT:       An integer, or an array of integers,
-	 *                           UINT:      An unsigned integer, or an array of unsigned integers,
-	 *                           FLOAT:     A floating point number, or an array of floating point numbers,
-	 *                           BOOLEAN:   A boolean value,
-	 *                           WORD:      A string containing A-Z or underscores only (not case sensitive),
-	 *                           ALNUM:     A string containing A-Z or 0-9 only (not case sensitive),
-	 *                           CMD:       A string containing A-Z, 0-9, underscores, periods or hyphens (not case sensitive),
-	 *                           BASE64:    A string containing A-Z, 0-9, forward slashes, plus or equals (not case sensitive),
-	 *                           STRING:    A fully decoded and sanitised string (default),
-	 *                           HTML:      A sanitised string,
-	 *                           ARRAY:     An array,
-	 *                           PATH:      A sanitised file path, or an array of sanitised file paths,
-	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
-	 *                           USERNAME:  Do not use (use an application specific filter),
-	 *                           RAW:       The raw string is returned with no filtering,
-	 *                           unknown:   An unknown filter will act like STRING. If the input is an array it will return an
-	 *                                      array of fully decoded and sanitised strings.
+	 * @param   string|string[]|object  $source  Input string/array-of-string/object to be 'cleaned'
+	 * @param   string                  $type    The return type for the variable:
+	 *                                           INT:       An integer
+	 *                                           UINT:      An unsigned integer
+	 *                                           FLOAT:     A floating point number
+	 *                                           BOOLEAN:   A boolean value
+	 *                                           WORD:      A string containing A-Z or underscores only (not case sensitive)
+	 *                                           ALNUM:     A string containing A-Z or 0-9 only (not case sensitive)
+	 *                                           CMD:       A string containing A-Z, 0-9, underscores, periods or hyphens (not case
+	 *                                                      sensitive)
+	 *                                           BASE64:    A string containing A-Z, 0-9, forward slashes, plus or equals (not case
+	 *                                                      sensitive)
+	 *                                           STRING:    A fully decoded and sanitised string (default)
+	 *                                           HTML:      A sanitised string
+	 *                                           ARRAY:     An array
+	 *                                           PATH:      A sanitised file path
+	 *                                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
+	 *                                           USERNAME:  Do not use (use an application specific filter)
+	 *                                           RAW:       The raw string is returned with no filtering
+	 *                                           unknown:   An unknown filter will act like STRING. If the input is an array it will
+	 *                                                      return an array of fully decoded and sanitised strings.
 	 *
-	 * @return  mixed  'Cleaned' version of input parameter
+	 * @return  mixed  'Cleaned' version of the `$source` parameter
 	 *
 	 * @since   1.0
 	 */
 	public function clean($source, $type = 'string')
 	{
-		// Handle the type constraint cases
-		switch (strtoupper($type))
+		$type = ucfirst(strtolower($type));
+
+		if ($type === 'Array')
 		{
-			case 'INT':
-			case 'INTEGER':
-				$pattern = '/[-+]?[0-9]+/';
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? (int) $matches[0] : 0;
-					}
-				}
-				else
-				{
-					preg_match($pattern, (string) $source, $matches);
-					$result = isset($matches[0]) ? (int) $matches[0] : 0;
-				}
-
-				break;
-
-			case 'UINT':
-				$pattern = '/[-+]?[0-9]+/';
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? abs((int) $matches[0]) : 0;
-					}
-				}
-				else
-				{
-					preg_match($pattern, (string) $source, $matches);
-					$result = isset($matches[0]) ? abs((int) $matches[0]) : 0;
-				}
-
-				break;
-
-			case 'FLOAT':
-			case 'DOUBLE':
-				$pattern = '/[-+]?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/';
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? (float) $matches[0] : 0;
-					}
-				}
-				else
-				{
-					preg_match($pattern, (string) $source, $matches);
-					$result = isset($matches[0]) ? (float) $matches[0] : 0;
-				}
-
-				break;
-
-			case 'BOOL':
-			case 'BOOLEAN':
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						$result[] = (bool) $eachString;
-					}
-				}
-				else
-				{
-					$result = (bool) $source;
-				}
-
-				break;
-
-			case 'WORD':
-				$pattern = '/[^A-Z_]/i';
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						$result[] = (string) preg_replace($pattern, '', $eachString);
-					}
-				}
-				else
-				{
-					$result = (string) preg_replace($pattern, '', $source);
-				}
-
-				break;
-
-			case 'ALNUM':
-				$pattern = '/[^A-Z0-9]/i';
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						$result[] = (string) preg_replace($pattern, '', $eachString);
-					}
-				}
-				else
-				{
-					$result = (string) preg_replace($pattern, '', $source);
-				}
-
-				break;
-
-			case 'CMD':
-				$pattern = '/[^A-Z0-9_\.-]/i';
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						$cleaned  = (string) preg_replace($pattern, '', $eachString);
-						$result[] = ltrim($cleaned, '.');
-					}
-				}
-				else
-				{
-					$result = (string) preg_replace($pattern, '', $source);
-					$result = ltrim($result, '.');
-				}
-
-				break;
-
-			case 'BASE64':
-				$pattern = '/[^A-Z0-9\/+=]/i';
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						$result[] = (string) preg_replace($pattern, '', $eachString);
-					}
-				}
-				else
-				{
-					$result = (string) preg_replace($pattern, '', $source);
-				}
-
-				break;
-
-			case 'STRING':
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						$result[] = (string) $this->remove($this->decode((string) $eachString));
-					}
-				}
-				else
-				{
-					$result = (string) $this->remove($this->decode((string) $source));
-				}
-
-				break;
-
-			case 'HTML':
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						$result[] = (string) $this->remove((string) $eachString);
-					}
-				}
-				else
-				{
-					$result = (string) $this->remove((string) $source);
-				}
-
-				break;
-
-			case 'ARRAY':
-				$result = (array) $source;
-
-				break;
-
-			case 'PATH':
-				$pattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? (string) $matches[0] : '';
-					}
-				}
-				else
-				{
-					preg_match($pattern, $source, $matches);
-					$result = isset($matches[0]) ? (string) $matches[0] : '';
-				}
-
-				break;
-
-			case 'TRIM':
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						$cleaned  = (string) trim($eachString);
-						$cleaned  = StringHelper::trim($cleaned, \chr(0xE3) . \chr(0x80) . \chr(0x80));
-						$result[] = StringHelper::trim($cleaned, \chr(0xC2) . \chr(0xA0));
-					}
-				}
-				else
-				{
-					$result = (string) trim($source);
-					$result = StringHelper::trim($result, \chr(0xE3) . \chr(0x80) . \chr(0x80));
-					$result = StringHelper::trim($result, \chr(0xC2) . \chr(0xA0));
-				}
-
-				break;
-
-			case 'USERNAME':
-				$pattern = '/[\x00-\x1F\x7F<>"\'%&]/';
-
-				if (\is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						$result[] = (string) preg_replace($pattern, '', $eachString);
-					}
-				}
-				else
-				{
-					$result = (string) preg_replace($pattern, '', $source);
-				}
-
-				break;
-
-			case 'RAW':
-				$result = $source;
-
-				break;
-
-			default:
-				// Are we dealing with an array?
-				if (\is_array($source))
-				{
-					foreach ($source as $key => $value)
-					{
-						// Filter element for XSS and other 'bad' code etc.
-						if (\is_string($value))
-						{
-							$source[$key] = $this->remove($this->decode($value));
-						}
-					}
-
-					$result = $source;
-				}
-				else
-				{
-					// Or a string?
-					if (\is_string($source) && !empty($source))
-					{
-						// Filter source for XSS and other 'bad' code etc.
-						$result = $this->remove($this->decode($source));
-					}
-					else
-					{
-						// Not an array or string... return the passed parameter
-						$result = $source;
-					}
-				}
-
-				break;
+			return (array) $source;
 		}
 
-		return $result;
+		if ($type === 'Raw')
+		{
+			return $source;
+		}
+
+		if (\is_array($source))
+		{
+			$result = array();
+
+			foreach ($source as $key => $value)
+			{
+				$result[$key] = $this->clean($value, $type);
+			}
+
+			return $result;
+		}
+
+		if (\is_object($source))
+		{
+			foreach (get_object_vars($source) as $key => $value)
+			{
+				$source->$key = $this->clean($value, $type);
+			}
+
+			return $source;
+		}
+
+		$method = 'clean' . $type;
+
+		if (method_exists($this, $method))
+		{
+			return $this->$method((string) $source);
+		}
+
+		// Unknown filter method
+		if (\is_string($source) && !empty($source))
+		{
+			// Filter source for XSS and other 'bad' code etc.
+			return $this->cleanString($source);
+		}
+
+		// Not an array or string... return the passed parameter
+		return $source;
 	}
 
 	/**
@@ -618,7 +352,7 @@ class InputFilter
 	}
 
 	/**
-	 * Internal method to strip a string of certain tags
+	 * Internal method to strip a string of disallowed tags
 	 *
 	 * @param   string  $source  Input string to be 'cleaned'
 	 *
@@ -676,7 +410,7 @@ class InputFilter
 
 			if (($tagOpenNested !== false) && ($tagOpenNested < $tagOpenEnd))
 			{
-				$preTag .= StringHelper::substr($postTag, 0, ($tagOpenNested + 1));
+				$preTag       .= StringHelper::substr($postTag, 0, ($tagOpenNested + 1));
 				$postTag      = StringHelper::substr($postTag, ($tagOpenNested + 1));
 				$tagOpenStart = StringHelper::strpos($postTag, '<');
 
@@ -862,7 +596,7 @@ class InputFilter
 	}
 
 	/**
-	 * Internal method to strip a tag of certain attributes
+	 * Internal method to strip a tag of disallowed attributes
 	 *
 	 * @param   array  $attrSet  Array of attribute pairs to filter
 	 *
@@ -1092,5 +826,240 @@ class InputFilter
 		}
 
 		return $source;
+	}
+
+	/**
+	 * Integer filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  integer  The filtered value
+	 */
+	private function cleanInt($source)
+	{
+		$pattern = '/[-+]?[0-9]+/';
+
+		preg_match($pattern, $source, $matches);
+
+		return isset($matches[0]) ? (int) $matches[0] : 0;
+	}
+
+	/**
+	 * Alias for cleanInt()
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  integer  The filtered value
+	 */
+	private function cleanInteger($source)
+	{
+		return $this->cleanInt($source);
+	}
+
+	/**
+	 * Unsigned integer filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  integer  The filtered value
+	 */
+	private function cleanUint($source)
+	{
+		$pattern = '/[-+]?[0-9]+/';
+
+		preg_match($pattern, $source, $matches);
+
+		return isset($matches[0]) ? abs((int) $matches[0]) : 0;
+	}
+
+	/**
+	 * Float filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  float  The filtered value
+	 */
+	private function cleanFloat($source)
+	{
+		$pattern = '/[-+]?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/';
+
+		preg_match($pattern, $source, $matches);
+
+		return isset($matches[0]) ? (float) $matches[0] : 0.0;
+	}
+
+	/**
+	 * Alias for cleanFloat()
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  float  The filtered value
+	 */
+	private function cleanDouble($source)
+	{
+		return $this->cleanFloat($source);
+	}
+
+	/**
+	 * Boolean filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  boolean  The filtered value
+	 */
+	private function cleanBool($source)
+	{
+		return (bool) $source;
+	}
+
+	/**
+	 * Alias for cleanBool()
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  boolean  The filtered value
+	 */
+	private function cleanBoolean($source)
+	{
+		return $this->cleanBool($source);
+	}
+
+	/**
+	 * Word filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  string  The filtered string
+	 */
+	private function cleanWord($source)
+	{
+		$pattern = '/[^A-Z_]/i';
+
+		return preg_replace($pattern, '', $source);
+	}
+
+	/**
+	 * Alphanumerical filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  string  The filtered string
+	 */
+	private function cleanAlnum($source)
+	{
+		$pattern = '/[^A-Z0-9]/i';
+
+		return preg_replace($pattern, '', $source);
+	}
+
+	/**
+	 * Command filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  string  The filtered string
+	 */
+	private function cleanCmd($source)
+	{
+		$pattern = '/[^A-Z0-9_\.-]/i';
+
+		$result = preg_replace($pattern, '', $source);
+		$result = ltrim($result, '.');
+
+		return $result;
+	}
+
+	/**
+	 * Base64 filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  string  The filtered string
+	 */
+	private function cleanBase64($source)
+	{
+		$pattern = '/[^A-Z0-9\/+=]/i';
+
+		return preg_replace($pattern, '', $source);
+	}
+
+	/**
+	 * String filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  string  The filtered string
+	 */
+	private function cleanString($source)
+	{
+		return $this->remove($this->decode($source));
+	}
+
+	/**
+	 * HTML filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  string  The filtered string
+	 */
+	private function cleanHtml($source)
+	{
+		return $this->remove($source);
+	}
+
+	/**
+	 * Path filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  string  The filtered string
+	 */
+	private function cleanPath($source)
+	{
+		$linuxPattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/]+[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+
+		if (preg_match($linuxPattern, $source))
+		{
+			return preg_replace('~/+~', '/', $source);
+		}
+
+		$windowsPattern = '/^([A-Za-z]:(\\\\|\/))?[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*((\\\\|\/)+[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+
+		if (preg_match($windowsPattern, $source))
+		{
+			return preg_replace('~(\\\\|\/)+~', '\\', $source);
+		}
+
+		return '';
+	}
+
+	/**
+	 * Trim filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  string  The filtered string
+	 */
+	private function cleanTrim($source)
+	{
+		$result = trim($source);
+		$result = StringHelper::trim($result, \chr(0xE3) . \chr(0x80) . \chr(0x80));
+		$result = StringHelper::trim($result, \chr(0xC2) . \chr(0xA0));
+
+		return $result;
+	}
+
+	/**
+	 * Username filter
+	 *
+	 * @param   string  $source  The string to be filtered
+	 *
+	 * @return  string  The filtered string
+	 */
+	private function cleanUsername($source)
+	{
+		$pattern = '/[\x00-\x1F\x7F<>"\'%&]/';
+
+		return preg_replace($pattern, '', $source);
 	}
 }
