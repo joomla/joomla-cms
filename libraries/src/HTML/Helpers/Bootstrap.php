@@ -634,7 +634,7 @@ abstract class Bootstrap
 		// Initialise with the Joomla specifics
 		$opt['isJoomla'] = true;
 
-		Factory::getDocument()->addScriptOptions('bootstrap.accordion', ['#' . $selector => (object) array_filter((array) $opt)]);
+		Factory::getDocument()->addScriptOptions('bootstrap.accordion', ['#' . preg_replace('/^[\.#]/', '', $selector) => (object) array_filter((array) $opt)]);
 
 		static::$loaded[__METHOD__][$selector] = $opt;
 

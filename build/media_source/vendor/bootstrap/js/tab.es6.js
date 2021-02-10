@@ -12,7 +12,7 @@ window.bootstrap.Tab = Tab;
  */
 Joomla.initialiseTabs = (el, options) => {
   if (!(el instanceof Element) && options.isJoomla) {
-    const tab = document.querySelector(`#${el}Content`);
+    const tab = document.querySelector(`${el}Content`);
     if (tab) {
       const related = Array.from(tab.children);
 
@@ -24,7 +24,7 @@ Joomla.initialiseTabs = (el, options) => {
           }
 
           const isActive = element.dataset.active !== '';
-          const ul = document.querySelector(`#${el}Tabs`);
+          const ul = document.querySelector(`${el}Tabs`);
 
           if (ul) {
             const link = document.createElement('a');
