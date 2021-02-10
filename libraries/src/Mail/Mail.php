@@ -50,7 +50,7 @@ class Mail extends \PHPMailer
 		// PHPMailer has an issue using the relative path for its language files
 		$this->setLanguage('en_gb', __DIR__ . '/language/');
 
-		// Configure a callback function to handle errors when $this->edebug() is called
+		// Configure a callback function to handle errors when $this->debug() is called
 		$this->Debugoutput = function ($message, $level)
 		{
 			Log::add(sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
