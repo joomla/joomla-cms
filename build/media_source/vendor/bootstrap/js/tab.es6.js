@@ -24,7 +24,7 @@ Joomla.initialiseTabs = (el, options) => {
           }
 
           const isActive = element.dataset.active !== '';
-          const ul = document.querySelector(`#${nSelector}Tabs`);
+          const ul = document.querySelector(`#${el}Tabs`);
 
           if (ul) {
             const link = document.createElement('a');
