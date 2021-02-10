@@ -5,7 +5,7 @@
 
   .nav {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     grid-gap: 1rem;
   }
 
@@ -15,12 +15,12 @@
   }
 
   .quickicon {
-    --text-color: inherit;
+    --text-color: var(--atum-link-color);
     --bg-color: var(--toolbar-bg);
     --icon-color: linear-gradient(var(--atum-link-color), var(--atum-link-hover-color));
     --bg-color-hvr: var(--atum-bg-dark);
 
-    a {     
+    a {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -85,14 +85,14 @@
 
       &.warning,
       &.danger {
-        --text-color: $danger-txt;
+        --text-color: var(--white);
         --bg-color: var(--danger);
-        --icon-color: linear-gradient(var(--atum-link-color), var(--atum-link-hover-color));
-        --bg-color-hvr: var(--atum-bg-dark);
+        --icon-color: var(--white);
+        --bg-color-hvr: var(--danger);
       }
 
       &.success {
-        --text-color: $white;
+        --text-color: var(--success);
         --bg-color: var(--white);
         --icon-color: linear-gradient(var(--success), #159c1e);
         --bg-color-hvr: var(--success);
@@ -115,10 +115,10 @@
         background-clip: text;
       }
 
-    &:hover,
-    &:focus,
-    &:active {
-      background: var(--atum-bg-dark);
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--atum-bg-dark);
 
         * {
           color: $white;
