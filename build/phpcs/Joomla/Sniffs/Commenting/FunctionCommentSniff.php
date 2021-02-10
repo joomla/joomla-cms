@@ -56,7 +56,7 @@ class Joomla_Sniffs_Commenting_FunctionCommentSniff implements PHP_CodeSniffer_S
     private $_methodName = '';
 
     /**
-     * The position in the stack where the fucntion token was found.
+     * The position in the stack where the function token was found.
      *
      * @var int
      */

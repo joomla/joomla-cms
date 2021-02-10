@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -182,7 +182,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		// Try the update only if we have an extension id
 		if ($joomlaUpdateComponentId != 0)
 		{
-			// Allways force to check for an update!
+			// Always force to check for an update!
 			$cache_timeout = 0;
 
 			$updater = JUpdater::getInstance();

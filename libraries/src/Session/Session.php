@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,7 +126,7 @@ class Session implements \IteratorAggregate
 		// Set the session handler
 		$this->_handler = $handlerInterface instanceof \JSessionHandlerInterface ? $handlerInterface : new \JSessionHandlerJoomla($options);
 
-		// Initialize the data variable, let's avoid fatal error if the session is not corretly started (ie in CLI).
+		// Initialize the data variable, let's avoid fatal error if the session is not correctly started (ie in CLI).
 		$this->data = new \Joomla\Registry\Registry;
 
 		// Clear any existing sessions

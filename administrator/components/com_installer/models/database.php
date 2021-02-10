@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,7 +70,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		/*
 		 * Finally, if the schema updates succeeded, make sure the database is
-		 * converted to utf8mb4 or, if not suported by the server, compatible to it.
+		 * converted to utf8mb4 or, if not supported by the server, compatible to it.
 		 */
 		$statusArray = $changeSet->getStatus();
 

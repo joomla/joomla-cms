@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_search
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT,
 
 if ($imagebutton)
 {
-	$img = ModSearchHelper::getSearchImage($button_text);
+	$img = ModSearchHelper::getSearchImage();
 }
 
 require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));

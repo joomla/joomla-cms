@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -467,7 +467,7 @@ abstract class FinderIndexer
 	 * @param   string   $format   The format of the input.
 	 * @param   integer  $count    The number of tokens processed so far.
 	 *
-	 * @return  integer  Cummulative number of tokens extracted from the input so far.
+	 * @return  integer  Cumulative number of tokens extracted from the input so far.
 	 *
 	 * @since   3.7.0
 	 */

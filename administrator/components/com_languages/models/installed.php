@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ class LanguagesModelInstalled extends JModelList
 	protected $user = null;
 
 	/**
-	 * @var boolean|JExeption True, if FTP settings should be shown, or an exeption
+	 * @var boolean|JExeption True, if FTP settings should be shown, or an exception
 	 */
 	protected $ftp = null;
 

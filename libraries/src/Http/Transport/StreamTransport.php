@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -170,7 +170,7 @@ class StreamTransport implements TransportInterface
 			)
 		);
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
 		{
 			$uri->setUser($this->options->get('userauth'));

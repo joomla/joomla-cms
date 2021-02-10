@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile version="3.9" client="installation">
 	<name>Slovenčina (Slovak)</name>
-	<version>3.9.12</version>
-	<creationDate>September 2019</creationDate>
+	<version>3.9.17</version>
+	<creationDate>March 2020</creationDate>
 	<author>Slovak translation team : Peter Michnica</author>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. Všetky práva vyhradené.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. Všetky práva vyhradené.</copyright>
 	<license>GNU General Public License verzie 2 alebo neskoršej; Pozrite si súbor LICENSE.txt</license>
 	<files>
 		<filename>sk-SK.ini</filename>

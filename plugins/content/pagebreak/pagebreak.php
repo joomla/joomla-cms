@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class PlgContentPagebreak extends JPlugin
 	 * The navigation list with all page objects if parameter 'multipage_toc' is active.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.2
 	 */
 	protected $list = array();
 
@@ -154,9 +154,9 @@ class PlgContentPagebreak extends JPlugin
 			$hasToc = $this->params->get('multipage_toc', 1);
 
 			// Adds heading or title to <site> Title.
-			if ($title && $page && isset($matches[$page - 1], $matches[$page - 1][2]))
+			if ($title && $page && isset($matches[$page - 1][0]))
 			{
-				$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
+				$attrs = JUtility::parseAttributes($matches[$page - 1][0]);
 
 				if (isset($attrs['title']))
 				{
