@@ -627,7 +627,7 @@ abstract class Bootstrap
 
 		// Setup options object
 		$opt['parent'] = isset($options['parent']) ?
-			($options['parent'] == true ? '#' . preg_replace('/^\.?#/', '', $selector) : $options['parent']) : '';
+			($options['parent'] == true ? '#' . preg_replace('/^[\.#]/', '', $selector) : $options['parent']) : '';
 		$opt['toggle'] = isset($options['toggle']) ? (boolean) $options['toggle'] : !($opt['parent'] === false || isset($options['active']));
 		$opt['active'] = isset($options['active']) ? (string) $options['active'] : '';
 
@@ -738,7 +738,7 @@ HTMLSTR;
 		$options['isJoomla'] = true;
 
 		// Include Basic Bootstrap component
-		HTMLHelper::_('bootstrap.modal', '#' . preg_replace('/^\.?#/', '', $selector), $options);
+		HTMLHelper::_('bootstrap.modal', '#' . preg_replace('/^[\.#]/', '', $selector), $options);
 
 		$layoutData = [
 			'selector' => $selector,
@@ -774,7 +774,7 @@ HTMLSTR;
 			$opt['isJoomla'] = true;
 
 			// Include the Bootstrap Tab Component
-			HTMLHelper::_('bootstrap.tab', '#' . preg_replace('/^\.?#/', '', $selector), $opt);
+			HTMLHelper::_('bootstrap.tab', '#' . preg_replace('/^[\.#]/', '', $selector), $opt);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
@@ -814,7 +814,7 @@ HTMLSTR;
 		$tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
 		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
-		return $tabLayout->render(['id' => preg_replace('/^\.?#/', '', $id), 'active' => $active, 'title' => $title]);
+		return $tabLayout->render(['id' => preg_replace('/^[\.#]/', '', $id), 'active' => $active, 'title' => $title]);
 	}
 
 	/**
