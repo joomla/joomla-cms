@@ -1,5 +1,4 @@
 // Variables
-@import "../../../../media/vendor/bootstrap/scss/functions";
 
 $white:                            #fff;
 $whiteoffset:                      #fefefe;
@@ -20,7 +19,7 @@ $light-blue:                       #2a69b8; //is the atum-link-color
 $focusshadow:                      0 0 0 .2rem #eaeaea;
 
 // BS Colours
-$blue:                             hsl(213, 63, 44%); // base color for calculation, Primary-color
+$blue:                             hsl(213, 63%, 44%); // base color for calculation, Primary-color
 $indigo:                           #0377be; //used in bootstrap
 $purple:                           #6f42c1; //used in bootstrap
 $pink:                             #971250; //used in bootstrap
@@ -34,18 +33,23 @@ $cyan:                             #107d8e; //used in bootstrap
 $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
+// Atum colours defined as scss variables for use in scss functions
+$atum-text-dark:                   $gray-700;
+$success:                          $green;
+$danger:                           $red;
+
 $theme-colors: ();
 $theme-colors: map-merge((
   primary:                         $base-color, //used only in bootstrap, please use $atum-bg-dark
   secondary:                       $gray-700, //used for btn-secondary
-  success:                         $green,
+  success:                         $success,
   info:                            $light-blue,
   warning:                         $yellow,
-  danger:                          $red,
+  danger:                          $danger,
   light:                           $gray-100, //used in bootstrap
   dark:                            $gray-900,  //used in bootstrap and for table-border
   atum-link-color:                 $light-blue,
-  atum-text-dark:                  $gray-700,
+  atum-text-dark:                  $atum-text-dark,
   atum-bg-dark:                    $base-color, //standard background color
   action:                          $base-color,
   error:                           $red-dark,
@@ -57,12 +61,13 @@ $colors: (
   bluegray:                        $bluegray,
   lightbluegray:                   #f6f9fc,
   toolbar-bg:                      $white,
-  success-border:                  theme-color("success"),
-  info-border:                     theme-color("info"),
-  warning-border:                  theme-color("warning"),
-  danger-border:                   theme-color("danger"),
+  success-border:                  var(--success),
+  info-border:                     var(--info),
+  warning-border:                  var(--warning),
+  danger-border:                   var(--danger),
   login-main-bg:                   darken($base-color, 8%), //used on login
   border:                          $gray-400,
+  "white":                         $white, // the key here must be in quotes to avoid scss compilation warnings.
   white-offset:                    $whiteoffset,
   focus:                           $focuscolor,
   focus-shadow:                    $focusshadow,
@@ -76,15 +81,15 @@ $colors: (
   atum-link-color:                 $light-blue,
   atum-link-hover-color:           darken($light-blue, 20%),
   atum-contrast:                   $light-blue,
-  atum-bg-dark-5:                  adjust-color($base-color, $hue: -6%, $saturation: -85%, $lightness: +65.1%),
-  atum-bg-dark-10:                 adjust-color($base-color, $hue: -6%, $saturation: -80%, $lightness: +59.4%),
-  atum-bg-dark-20:                 adjust-color($base-color, $hue: -6%, $saturation: -75%, $lightness: +47.3%),
-  atum-bg-dark-30:                 adjust-color($base-color, $hue: -5%, $saturation: -55%, $lightness: +34.3%),
-  atum-bg-dark-40:                 adjust-color($base-color, $hue: -3%, $saturation: -40%, $lightness: +21.4%),
-  atum-bg-dark-50:                 adjust-color($base-color, $hue: -1%, $saturation: -15%, $lightness: +10%),
-  atum-bg-dark-70:                 adjust-color($base-color, $hue: +4%, $lightness: -6%),
-  atum-bg-dark-80:                 adjust-color($base-color, $hue: +7%, $lightness: -11.5%),
-  atum-bg-dark-90:                 adjust-color($base-color, $hue: +10%, $saturation: -1%, $lightness: -17%)
+  atum-bg-dark-5:                  adjust-color($base-color, $hue: -6, $saturation: -85%, $lightness: +65.1%),
+  atum-bg-dark-10:                 adjust-color($base-color, $hue: -6, $saturation: -80%, $lightness: +59.4%),
+  atum-bg-dark-20:                 adjust-color($base-color, $hue: -6, $saturation: -75%, $lightness: +47.3%),
+  atum-bg-dark-30:                 adjust-color($base-color, $hue: -5, $saturation: -55%, $lightness: +34.3%),
+  atum-bg-dark-40:                 adjust-color($base-color, $hue: -3, $saturation: -40%, $lightness: +21.4%),
+  atum-bg-dark-50:                 adjust-color($base-color, $hue: -1, $saturation: -15%, $lightness: +10%),
+  atum-bg-dark-70:                 adjust-color($base-color, $hue: +4, $lightness: -6%),
+  atum-bg-dark-80:                 adjust-color($base-color, $hue: +7, $lightness: -11.5%),
+  atum-bg-dark-90:                 adjust-color($base-color, $hue: +10, $saturation: -1%, $lightness: -17%)
 );
 
 // Alerts
@@ -99,6 +104,9 @@ $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
 $input-max-width:                  100%;
 $btn-disabled-opacity:             .4;
+
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$variable-prefix:                  "";
 
 // Toolbar
 $atum-toolbar-line-height:         2.45rem;
@@ -125,7 +133,8 @@ $content-font-size:                .875rem;
 $label-font-size:                  1rem;
 $danger-bg:                        #900;
 $badge-font-size:                  .75rem;
-$fa-css-prefix:                    fa;
+$jicon-css-prefix:                 icon !default;
+$fa-css-prefix:                    fa !default;
 $fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
 
@@ -145,6 +154,11 @@ $body-color:                       var(--atum-text-dark); //only used in bootstr
 
 // Tables
 $table-bg:                         var(--white);
+$table-cell-padding-y:             .75rem;
+$table-cell-padding-x:             .75rem;
+$table-cell-padding-y-sm:          .3rem;
+$table-cell-padding-x-sm:          .3rem;
+$table-group-separator-color:      $gray-300;
 
 // Dropdowns
 $dropdown-padding-y:               0;
@@ -154,10 +168,6 @@ $dropdown-border-width:            1px;
 $dropdown-item-padding-y:          .5rem;
 $dropdown-item-padding-x:          .75rem;
 $dropdown-spacer:                  0;
-
-// Tabs
-$nav-tabs-border-width:            0;
-$nav-tabs-link-active-bg:          rgba($gray-100, .2); // Used by bootstrap tabs
 
 // Cards
 $card-border-width:                0;
@@ -198,9 +208,12 @@ $warning-txt:                      #000;
 $danger-bg:                        #900;
 $danger-txt:                       #fff;
 
+$info-bg:                          $gray-300;
+$info-txt:                         $white;
+
 // Input Group
 $input-group-addon-color:          var(--white);
-$input-group-addon-bg:             var(--atum-bg-dark);
+$input-group-addon-bg:             $base-color;
 $input-group-addon-border-color:   var(--atum-bg-dark);
 
 // Treeselect
@@ -216,18 +229,19 @@ $input-btn-padding-x-sm-submenu:    1.625rem;
 $input-btn-submenu-icon-distance:   1rem;
 
 // Custom form
-$custom-select-indicator-padding:    3rem;
-$custom-select-bg:                   var(--atum-bg-light);
-$custom-select-bg-size:              116rem;
-$custom-select-indicator:            url("../images/select-bg.svg");
-$custom-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
-$custom-select-indicator-active:     url("../../../images/select-bg.svg");
-$custom-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
-$custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$custom-select-background-rtl:       $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
-$custom-select-box-shadow:           $atum-box-shadow;
-$custom-select-bg-size-sm:           75rem;
-$custom-select-multiple-padding-y:   .3rem;
+$form-select-indicator-padding:    3rem;
+$form-select-bg:                   var(--atum-bg-light);
+$form-select-bg-size:              116rem;
+$form-select-indicator:            url("../images/select-bg.svg");
+$form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
+$form-select-indicator-active:     url("../../../images/select-bg.svg");
+$form-select-indicator-active-rtl: url("../../../images/select-bg-rtl.svg");
+$form-select-background:           $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-background-rtl:       $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$form-select-box-shadow:           $atum-box-shadow;
+$form-select-bg-size-sm:           75rem;
+$form-select-multiple-padding-y:   .3rem;
+$form-file-button-color:           var(--white);
 
 //input
 $input-padding:                    .6rem 1rem;
@@ -241,8 +255,8 @@ $quickicon-bg:                     var(--white);
 $quickicon-box-shadow-success:     0 0 3px 0 var(--success);
 $quickicon-box-shadow-danger:      0 0 3px 0 var(--danger);
 $quickicon-box-shadow-warning:     0 0 3px 0 var(--warning);
-$quickicon-icon-size:              1.3rem;
-$quickicon-icon-size-big:          2rem;
+$quickicon-icon-size:              2rem;
+$quickicon-icon-size-sm:           1.3rem;
 
 // Gutter
 $grid-gutter-width:                2rem;

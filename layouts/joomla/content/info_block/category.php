@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 ?>
 <dd class="category-name">
-	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'fa-folder-open fa-fw']); ?>
+	<?php echo LayoutHelper::render('joomla.icon.iconclass', ['icon' => 'icon-folder-open icon-fw']); ?>
 	<?php $title = $this->escape($displayData['item']->category_title); ?>
 	<?php if ($displayData['params']->get('link_category') && !empty($displayData['item']->catid)) : ?>
 		<?php $url = '<a href="' . Route::_(

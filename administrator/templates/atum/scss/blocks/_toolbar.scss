@@ -34,6 +34,8 @@
     .btn > span,
     .dropdown-item > span {
       margin-inline-end: .5rem;
+      width: 1.25em;
+      text-align: center;
     }
   }
 
@@ -138,7 +140,7 @@
   }
 }
 
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-down(sm) {
   .toggler-toolbar {
     top: 20px;
     z-index: $zindex-alerts;

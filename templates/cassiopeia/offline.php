@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,6 +24,26 @@ $wa               = $this->getWebAssetManager();
 
 $fullWidth = 1;
 
+// Template path
+$templatePath = 'templates/' . $this->template;
+
+// Color Theme
+$paramsColorName = $this->params->get('colorName', 'colors_standard');
+$assetColorName  = 'theme.' . $paramsColorName;
+$wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
+$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
+
+// Use a font scheme if set in the template style options
+$paramsFontScheme = $this->params->get('useFontScheme', false);
+
+if ($paramsFontScheme)
+{
+	// Prefetch the stylesheet for the font scheme, actually we need to prefetch the font(s)
+	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
+	$wa->registerAndUseStyle($assetFontScheme, $templatePath . '/css/global/' . $paramsFontScheme . '.css');
+	$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
+}
+
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.offline')
@@ -37,18 +57,24 @@ $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($th
 // Logo file or site title param
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
+// Browsers support SVG favicons
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
+$this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
+
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
 }
 elseif ($this->params->get('siteTitle'))
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle')) . '</span>';
+	$logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
-	$logo = '<span class="site-title">' . $sitename . '</span>';
+	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -65,8 +91,8 @@ else
 			<?php else : ?>
 				<h1><?php echo $sitename; ?></h1>
 			<?php endif; ?>
-			<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
-				<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo $sitename; ?>">
+			<?php if ($app->get('offline_image')) : ?>
+				<?php echo HTMLHelper::_('image', $app->get('offline_image'), $sitename, [], false, 0); ?>
 			<?php endif; ?>
 			<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 				<p><?php echo $app->get('offline_message'); ?></p>
@@ -74,7 +100,7 @@ else
 				<p><?php echo Text::_('JOFFLINE_MESSAGE'); ?></p>
 			<?php endif; ?>
 			<div class="logo-icon">
-				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+				<svg version="1.1" xmlns="https://www.w3.org/2000/svg" x="0px" y="0px"
 					 viewBox="0 0 74.8 74.8" enable-background="new 0 0 74.8 74.8" xml:space="preserve">
 					<g id="brandmark">
 						<path id="j-green" fill="#1C3D5C" d="M13.5,37.7L12,36.3c-4.5-4.5-5.8-10.8-4.2-16.5c-4.5-1-7.8-5-7.8-9.8c0-5.5,4.5-10,10-10 c5,0,9.1,3.6,9.9,8.4c5.4-1.3,11.3,0.2,15.5,4.4l0.6,0.6l-7.4,7.4l-0.6-0.6c-2.4-2.4-6.3-2.4-8.7,0c-2.4,2.4-2.4,6.3,0,8.7l1.4,1.4 l7.4,7.4l7.8,7.8l-7.4,7.4l-7.8-7.8L13.5,37.7L13.5,37.7z"/>

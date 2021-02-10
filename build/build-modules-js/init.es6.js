@@ -160,6 +160,7 @@ const copyFiles = (options) => {
 
       concatFiles(
         [
+          'media/vendor/codemirror/addon/display/autorefresh.js',
           'media/vendor/codemirror/addon/display/fullscreen.js',
           'media/vendor/codemirror/addon/display/panel.js',
           'media/vendor/codemirror/addon/edit/closebrackets.js',
@@ -327,10 +328,10 @@ const recreateMediaFolder = () => {
   console.log('Recreating the media folder...');
 
   Copydir.sync(Path.join(RootPath, 'build/media_source'), Path.join(RootPath, 'media'), (stat, filepath, filename) => {
-    if (stat === 'file' && (filepath.match(/\.es6\.js/) || filepath.match(/\.scss/) || filepath.match(/\.es5\.js/))) {
+    if (stat === 'file' && filename.match(/\.(es6\.js|es5\.js|scss)$/)) {
       return false;
     }
-    if (stat === 'directory' && (filename.match(/webcomponent/) || filename.match(/scss/))) {
+    if (stat === 'directory' && filename.match(/^(core\.es6|scss)$/)) {
       return false;
     }
     return true;

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -91,7 +91,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
       // Move the container to the correct tab
       const mediaContainer = document.getElementById('media-manager-edit-container');
       const tab = document.getElementById(link.id.replace('tab-', ''));
-      tab.insertAdjacentElement('afterbegin', mediaContainer);
+      tab.insertAdjacentElement('beforeend', mediaContainer);
 
       activate(link.id.replace('tab-attrib-', ''), data);
     });
@@ -157,6 +157,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         Joomla.MediaManager.Edit.Reset(true);
         break;
       case 'save':
+        // eslint-disable-next-line func-names
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
           if (this.readyState === XMLHttpRequest.DONE) {
             if (window.self !== window.top) {
@@ -277,7 +278,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
           // Move the container to the correct tab
           const tab = document.getElementById(target.id.replace('tab-', ''));
-          tab.insertAdjacentElement('afterbegin', container);
+          tab.insertAdjacentElement('beforeend', container);
 
           activate(target.id.replace('tab-attrib-', ''), data);
         });

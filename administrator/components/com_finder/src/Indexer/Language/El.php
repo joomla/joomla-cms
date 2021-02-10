@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * The Greek stemmer was adapted for Joomla! 4 by Nicholas K. Dionysopoulos <nicholas@akeebabackup.com>. This is
@@ -39,7 +39,7 @@ class El extends Language
 	 */
 	public function __construct($locale = null)
 	{
-		// Override parent constructor since we don't need to load an externel stemmer
+		// Override parent constructor since we don't need to load an external stemmer
 	}
 
 	/**
@@ -97,7 +97,7 @@ class El extends Language
 	 */
 	public function stem($token)
 	{
-		$token = $this->toUpperCase($token, $w_CASE);
+		$token = $this->toUpperCase($token, $wCase);
 
 		// Stop-word removal
 		$stop_words = '/^(ΕΚΟ|ΑΒΑ|ΑΓΑ|ΑΓΗ|ΑΓΩ|ΑΔΗ|ΑΔΩ|ΑΕ|ΑΕΙ|ΑΘΩ|ΑΙ|ΑΙΚ|ΑΚΗ|ΑΚΟΜΑ|ΑΚΟΜΗ|ΑΚΡΙΒΩΣ|ΑΛΑ|ΑΛΗΘΕΙΑ|ΑΛΗΘΙΝΑ|ΑΛΛΑΧΟΥ|ΑΛΛΙΩΣ|ΑΛΛΙΩΤΙΚΑ|'
@@ -132,7 +132,7 @@ class El extends Language
 
 		if (preg_match($stop_words, $token))
 		{
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Vowels
@@ -162,7 +162,7 @@ class El extends Language
 				$token = $token . 'IΖ';
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step S2. 7 stems
@@ -178,7 +178,7 @@ class El extends Language
 				$token = $token . 'ΩΝ';
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step S3. 7 stems
@@ -207,7 +207,7 @@ class El extends Language
 				$token = $token . 'ΙΣ';
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step S4. 7 stems
@@ -223,7 +223,7 @@ class El extends Language
 				$token = $token . 'Ι';
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step S5. 11 stems
@@ -245,7 +245,7 @@ class El extends Language
 				$token = $token . 'Ι';
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step S6. 6 stems
@@ -279,7 +279,7 @@ class El extends Language
 				$token = str_replace('ΙΝ', "", $token);
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step S7. 4 stems
@@ -295,7 +295,7 @@ class El extends Language
 				$token = $token . "AΡΑΚ";
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step S8. 8 stems
@@ -326,7 +326,7 @@ class El extends Language
 				$token = $token . "ΙΤΣ";
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step S9. 3 stems
@@ -348,7 +348,7 @@ class El extends Language
 				$token = $token . "ΙΔ";
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step S10. 4 stems
@@ -364,7 +364,7 @@ class El extends Language
 				$token = $token . "ΙΣΚ";
 			}
 
-			return $this->toLowerCase($token, $w_CASE);
+			return $this->toLowerCase($token, $wCase);
 		}
 
 		// Step 1
@@ -832,23 +832,23 @@ class El extends Language
 			$token = $match[1];
 		}
 
-		return $this->toLowerCase($token, $w_CASE);
+		return $this->toLowerCase($token, $wCase);
 	}
 
 	/**
-	 * Converts the token to uppercase, suppressing accents and diaeresis. The array $w_CASE contains a special map of
+	 * Converts the token to uppercase, suppressing accents and diaeresis. The array $wCase contains a special map of
 	 * the uppercase rule used to convert each character at each position.
 	 *
-	 * @param   string  $token    Token to process
-	 * @param   array   &$w_CASE  Map of uppercase rules
+	 * @param   string  $token   Token to process
+	 * @param   array   &$wCase  Map of uppercase rules
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	protected function toUpperCase($token, &$w_CASE)
+	protected function toUpperCase($token, &$wCase)
 	{
-		$w_CASE      = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
+		$wCase      = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
 		$caseConvert = array(
 			"α" => 'Α',
 			"β" => 'Β',
@@ -904,21 +904,21 @@ class El extends Language
 			$upperCase = $caseConvert[$char];
 			$newToken  .= $upperCase;
 
-			$w_CASE[$i] = 1;
+			$wCase[$i] = 1;
 
 			if (in_array($char, ['ά', 'έ', 'ή', 'ί', 'ό', 'ύ', 'ώ', 'ς']))
 			{
-				$w_CASE[$i] = 2;
+				$wCase[$i] = 2;
 			}
 
 			if (in_array($char, ['ϊ', 'ϋ']))
 			{
-				$w_CASE[$i] = 3;
+				$wCase[$i] = 3;
 			}
 
 			if (in_array($char, ['ΐ', 'ΰ']))
 			{
-				$w_CASE[$i] = 4;
+				$wCase[$i] = 4;
 			}
 		}
 
@@ -926,18 +926,18 @@ class El extends Language
 	}
 
 	/**
-	 * Converts the suppressed uppercase token back to lowercase, using the $w_CASE map to add back the accents,
+	 * Converts the suppressed uppercase token back to lowercase, using the $wCase map to add back the accents,
 	 * diaeresis and handle the special case of final sigma (different lowercase glyph than the regular sigma, only
 	 * used at the end of words).
 	 *
-	 * @param   string  $token   Token to process
-	 * @param   array   $w_CASE  Map of lowercase rules
+	 * @param   string  $token  Token to process
+	 * @param   array   $wCase  Map of lowercase rules
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	protected function toLowerCase($token, $w_CASE)
+	protected function toLowerCase($token, $wCase)
 	{
 		$newToken    = '';
 
@@ -945,8 +945,8 @@ class El extends Language
 		{
 			$char    = mb_substr($token, $i, 1);
 
-			// Is $w_CASE not set at this position? We assume no case conversion ever took place.
-			if (!isset($w_CASE[$i]))
+			// Is $wCase not set at this position? We assume no case conversion ever took place.
+			if (!isset($wCase[$i]))
 			{
 				$newToken .= $char;
 
@@ -954,7 +954,7 @@ class El extends Language
 			}
 
 			// The character was not case-converted
-			if ($w_CASE[$i] == 0)
+			if ($wCase[$i] == 0)
 			{
 				$newToken .= $char;
 
@@ -962,7 +962,7 @@ class El extends Language
 			}
 
 			// Case 1: Unaccented letter
-			if ($w_CASE[$i] == 1)
+			if ($wCase[$i] == 1)
 			{
 				$newToken .= mb_strtolower($char);
 
@@ -970,7 +970,7 @@ class El extends Language
 			}
 
 			// Case 2: Vowel with accent (tonos); or the special case of final sigma
-			if ($w_CASE[$i] == 2)
+			if ($wCase[$i] == 2)
 			{
 				$charMap = [
 					'Α' => 'ά',
@@ -989,7 +989,7 @@ class El extends Language
 			}
 
 			// Case 3: vowels with diaeresis (dialytika)
-			if ($w_CASE[$i] == 3)
+			if ($wCase[$i] == 3)
 			{
 				$charMap = [
 					'Ι' => 'ϊ',
@@ -1002,7 +1002,7 @@ class El extends Language
 			}
 
 			// Case 4: vowels with both diaeresis (dialytika) and accent (tonos)
-			if ($w_CASE[$i] == 4)
+			if ($wCase[$i] == 4)
 			{
 				$charMap = [
 					'Ι' => 'ΐ',
