@@ -63,7 +63,7 @@ endif;
 						<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 						<?php
 						$opts     = array(
-							'published' => $published,
+							'published' => $this->state->get('filter.published'),
 							'checkacl'  => (int) $this->state->get('menutypeid'),
 							'clientid'  => (int) $clientId,
 						);
