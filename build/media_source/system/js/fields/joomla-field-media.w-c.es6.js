@@ -152,6 +152,11 @@
     setValue(value) {
       this.inputElement.value = value;
       this.updatePreview();
+
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value },
+        bubbles: true,
+      }));
     }
 
     clearValue() {
