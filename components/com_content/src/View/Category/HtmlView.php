@@ -175,8 +175,6 @@ class HtmlView extends CategoryView
 
 		$this->setDocumentTitle($title);
 
-		$this->document->setTitle($title);
-
 		if ($this->category->metadesc)
 		{
 			$this->document->setDescription($this->category->metadesc);

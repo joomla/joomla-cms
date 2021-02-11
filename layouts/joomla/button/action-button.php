@@ -29,7 +29,7 @@ $tipTitle = $options['tip_title'];
 
 if ($tip)
 {
-	HTMLHelper::_('bootstrap.popover', '.hasPopover');
+	HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
 }
 ?>
 <button type="submit" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?><?php echo $tip ? ' hasPopover' : ''; ?>"

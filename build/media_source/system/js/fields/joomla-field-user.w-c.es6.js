@@ -140,7 +140,10 @@
       this.input.setAttribute('value', value);
       this.inputName.setAttribute('value', name || value);
       // trigger change event
-      this.input.dispatchEvent(new Event('change'));
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value, name },
+        bubbles: true,
+      }));
     }
   }
 
