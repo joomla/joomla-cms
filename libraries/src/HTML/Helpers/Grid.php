@@ -287,4 +287,3 @@ abstract class Grid
 		return $hover . HTMLHelper::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
 	}
 }
-
