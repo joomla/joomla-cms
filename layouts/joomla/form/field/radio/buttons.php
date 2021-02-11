@@ -79,6 +79,9 @@ if ($dataAttribute)
 }
 ?>
 <fieldset id="<?php echo $id; ?>" >
+	<legend class="visually-hidden">
+		<?php echo $label; ?>
+	</legend>
 	<div <?php echo implode(' ', $attribs); ?>>
 		<?php foreach ($options as $i => $option) : ?>
 			<?php
@@ -104,7 +107,6 @@ if ($dataAttribute)
 				$optionClass = trim($optionClass . ' ' . $disabled);
 			}
 			$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
-			$optionClass .= $checked ? ' active' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
@@ -116,8 +118,8 @@ if ($dataAttribute)
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required'; ?>
 			<?php endif; ?>
+			<input<?php echo $classToggle; ?> type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
 			<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass . ' ' . $style); ?>">
-				<input<?php echo $classToggle; ?> type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
 				<?php echo $option->text; ?>
 			</label>
 		<?php endforeach; ?>
