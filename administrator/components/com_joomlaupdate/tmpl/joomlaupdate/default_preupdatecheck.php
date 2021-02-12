@@ -208,7 +208,8 @@ $compatibilityTypes = array(
 		<h3>
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 		</h3>
-		<div class="alert alert-no-items">
+		<div class="alert alert-info">
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
 		</div>
 	</div>
