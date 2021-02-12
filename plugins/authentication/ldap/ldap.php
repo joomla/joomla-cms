@@ -122,11 +122,8 @@ class PlgAuthenticationLdap extends JPlugin
 				if ($success)
 				{
 					$userdetails = $this->searchByString(
-						str_replace(
-							'[search]',
-							str_replace(';', '\3b', $ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER)),
-							$this->params->get('search_string')
-						),
+						$ldap_uid .'='.
+						str_replace(';', '\3b', $ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER)),
 						$ldap
 					);
 				}
