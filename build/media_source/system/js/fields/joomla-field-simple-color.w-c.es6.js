@@ -365,6 +365,11 @@
       this.icon.setAttribute('class', clss);
       this.icon.style.backgroundColor = bgcolor;
 
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value: color },
+        bubbles: true,
+      }));
+
       // Hide the panel
       this.hide();
 
