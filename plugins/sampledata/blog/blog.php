@@ -1560,7 +1560,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 0,
-					'layout'          => '_:default',
+					'layout'          => 'cassiopeia:dropdown-metismenu',
 					'cache'           => 1,
 					'cache_time'      => 900,
 					'cachemode'       => 'itemid',
