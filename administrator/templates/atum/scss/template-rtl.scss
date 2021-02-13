@@ -124,6 +124,11 @@ ul {
   direction: ltr;
 }
 
+// skipto
+.skip-to [role="separator"] {
+    text-align: right !important;
+}
+
 // SearchTools rounded corners
 .input-group > .input-group-prepend > .btn,
 .input-group > .input-group-prepend > .input-group-text,
