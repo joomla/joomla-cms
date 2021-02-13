@@ -259,7 +259,7 @@ class HtmlView extends BaseHtmlView
 			elseif ($this->type === 'home')
 			{
 				$templatesPath = (int) $this->template->client_id === 1 ? JPATH_SITE.'/administrator/templates/' : JPATH_SITE.'/templates/';
-				$templateDetails = $templatesPath.($this->template->name).'/templateDetails.xml';
+				$templateDetails = $templatesPath . $this->template->name . '/templateDetails.xml';
 				$templateXML = simplexml_load_file($templateDetails);
 				if ((string) $templateXML->namespace === '' || $templateXML->namespace === null) {
 					ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
