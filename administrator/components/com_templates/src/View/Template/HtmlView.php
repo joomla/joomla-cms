@@ -258,11 +258,10 @@ class HtmlView extends BaseHtmlView
 			// Add a copy template button
 			elseif ($this->type === 'home')
 			{
-				$templateDetails = JPATH_SITE.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.($this->template->name).DIRECTORY_SEPARATOR.'templateDetails.xml';
+				$templatesPath = (int) $this->template->client_id === 1 ? JPATH_SITE.'/administrator/templates/' : JPATH_SITE.'/templates/';
+				$templateDetails = $templatesPath.($this->template->name).'/templateDetails.xml';
 				$templateXML = simplexml_load_file($templateDetails);
-
-				if ($templateXML->namespace === null || (string) $templateXML->namespace === '')
-				{
+				if ((string) $templateXML->namespace === '' || $templateXML->namespace === null) {
 					ToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 				}
 			}
