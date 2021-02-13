@@ -258,7 +258,7 @@ class HtmlView extends BaseHtmlView
 			// Add a copy template button
 			elseif ($this->type === 'home')
 			{
-				$templatesPath = JPATH_SITE . ((int) $this->template->client_id === 1 ? '/administrator' : '') . '/templates/';
+				$templatesPath =  ((int) $this->template->client_id === 1 ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/';
 				$templateDetails = $templatesPath . $this->template->name . '/templateDetails.xml';
 				$templateXML = simplexml_load_file($templateDetails);
 				if ((string) $templateXML->namespace === '' || $templateXML->namespace === null) {
