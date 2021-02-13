@@ -245,18 +245,16 @@ class AbstractMenu
 	 * @param   mixed    $attributes  The field name(s).
 	 * @param   mixed    $values      The value(s) of the field. If an array, need to match field names
 	 *                                each attribute may have multiple values to lookup for.
-	 * @param   boolean  $firstonly   If true, only returns the first item found
+	 * @param   boolean  $firstOnly   If true, only returns the first item found
 	 *
 	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
 	 * @since   1.5
 	 */
-	public function getItems($attributes, $values, $firstonly = false)
+	public function getItems($attributes, $values, $firstOnly = false)
 	{
-		$items = array();
-		$attributes = (array) $attributes;
-		$values = (array) $values;
-		$count = count($attributes);
+		$items      = array();
+		$attributes = array_combine((array) $attributes, (array) $values);
 
 		foreach ($this->_items as $item)
 		{
@@ -265,37 +263,52 @@ class AbstractMenu
 				continue;
 			}
 
-			$test = true;
+			$isSuitableItem = true;
 
-			for ($i = 0; $i < $count; $i++)
+			foreach ($attributes as $attribute => $value)
 			{
-				if (is_array($values[$i]))
+				// Check if parent item has access
+				if ($attribute == 'access')
 				{
-					if (!in_array($item->{$attributes[$i]}, $values[$i]))
+					$parentItem = $this->getItem($item->parent_id);
+
+					while (!is_null($parentItem))
 					{
-						$test = false;
-						break;
+						if (is_array($value) && !in_array($parentItem->{$attribute}, $value))
+						{
+							$isSuitableItem = false;
+							break 2;
+						}
+
+						if (!is_array($value) && $parentItem->{$attribute} != $value)
+						{
+							$isSuitableItem = false;
+							break 2;
+						}
+
+						$parentItem = $this->getItem($parentItem->parent_id);
 					}
 				}
-				else
+
+				if (is_array($value) && !in_array($item->{$attribute}, $value))
 				{
-					if ($item->{$attributes[$i]} != $values[$i])
-					{
-						$test = false;
-						break;
-					}
+					$isSuitableItem = false;
+					break;
+				}
+
+				if (!is_array($value) && $item->{$attribute} != $value)
+				{
+					$isSuitableItem = false;
+					break;
 				}
 			}
 
-			if ($test)
+			if ($isSuitableItem && $firstOnly)
 			{
-				if ($firstonly)
-				{
-					return $item;
-				}
-
-				$items[] = $item;
+				return $item;
 			}
+
+			$isSuitableItem && $items[] = $item;
 		}
 
 		return $items;
