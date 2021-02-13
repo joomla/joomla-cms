@@ -27,12 +27,12 @@ $app->getDocument()->addScriptOptions(
 );
 ?>
 <?php if ($items) : ?>
-	<ul id="sample-data-wrapper" class="list-group list-group-flush">
+	<ul id="sample-data-wrapper" class="list-group list-group-flush sample-data">
 		<?php foreach($items as $i => $item) : ?>
 			<li class="list-group-item sampledata-<?php echo $item->name; ?>">
 				<div class="d-flex justify-content-between align-items-center">
-					<div class="me-2">
-						<span class="icon-<?php echo $item->icon; ?>" aria-hidden="true"></span>
+					<div class="sample-data__title me-2">
+						<span class="sample-data__icon icon-<?php echo $item->icon; ?> me-1" aria-hidden="true"></span>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
 					<button type="button" class="btn btn-secondary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
@@ -40,7 +40,7 @@ $app->getDocument()->addScriptOptions(
 						<span class="visually-hidden"><?php echo $item->title; ?></span>
 					</button>
 				</div>
-				<p class="small mt-1"><?php echo $item->description; ?></p>
+				<p class="sample-data__desc small mt-1"><?php echo $item->description; ?></p>
 			</li>
 			<?php // Progress bar ?>
 			<li class="list-group-item sampledata-progress-<?php echo $item->name; ?> d-none">

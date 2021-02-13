@@ -19,7 +19,7 @@ $wa->registerAndUseScript('mod_quickicon', 'mod_quickicon/quickicon.min.js', [],
 $html = HTMLHelper::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
-	<nav class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL') . ' ' . $module->title; ?>">
+	<nav class="quick-icons p-3" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL') . ' ' . $module->title; ?>">
 		<ul class="nav flex-wrap">
 			<?php echo $html; ?>
 		</ul>

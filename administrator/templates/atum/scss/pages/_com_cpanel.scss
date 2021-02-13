@@ -71,7 +71,7 @@
 .com_cpanel {
 
   .content {
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 
   .card {
@@ -106,6 +106,10 @@
     font-weight: $font-weight-bold;
     color: var(--atum-bg-dark);
     background: var(--card-bg);
+  }
+
+  .card-body {
+    padding: 0;
   }
 
   .module-actions {
@@ -208,4 +212,26 @@
     font-size: $h4-font-size;
     margin-bottom: 0;
   }
+}
+
+.sample-data {
+  .list-group-item {
+    padding: 1rem;
+  }
+}
+
+.sample-data__title {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.sample-data__icon {
+  width: 1.3rem;
+  text-align: center;
+}
+
+.sample-data__desc {
+  border-left: 4px solid #d4dff0;
+  padding-left: 1rem;
+  margin-left: 8px;
 }
