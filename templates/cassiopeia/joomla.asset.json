@@ -31,6 +31,7 @@
     },
     {
       "name": "template.active.language",
+      "description": "A dummy asset to allow language specific css to use it as a dependency to the active template",
       "type": "style",
       "uri": "",
       "class": "LangActiveAssetItem",
