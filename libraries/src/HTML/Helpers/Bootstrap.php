@@ -194,7 +194,7 @@ abstract class Bootstrap
 		if ($selector !== '')
 		{
 			// Setup options object
-      $opt = [];
+			$opt = [];
 			$opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
 			$opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
 
@@ -237,7 +237,7 @@ abstract class Bootstrap
 		if ($selector !== '')
 		{
 			// Setup options object
-      $opt = [];
+			$opt = [];
 			$opt['flip'] = isset($params['flip']) ? $params['flip'] : true;
 			$opt['boundary'] = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
 			$opt['reference'] = isset($params['reference']) ? $params['reference'] : 'toggle';
