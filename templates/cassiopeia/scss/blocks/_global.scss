@@ -218,6 +218,12 @@ meter {
   border-bottom-left-radius: 0;
 }
 
+.article-index {
+  .toclink.active {
+    color: currentColor;
+  }
+}
+
 // Bootstrap 4 b/c
 .sr-only {
   @extend .visually-hidden;

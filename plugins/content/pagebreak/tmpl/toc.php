@@ -22,7 +22,7 @@ use Joomla\CMS\Router\Route;
 		<ul class="nav flex-column">
 		<?php foreach ($list as $listItem) : ?>
 			<?php $class = $listItem->active ? ' active' : ''; ?>
-			<li>
+			<li class="py-1">
 				<a href="<?php echo Route::_($listItem->link); ?>" class="toclink<?php echo $class; ?>">
 					<?php echo $listItem->title; ?>
 				</a>
