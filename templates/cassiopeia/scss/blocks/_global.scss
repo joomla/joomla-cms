@@ -179,7 +179,8 @@ meter {
   width: 100%;
 }
 
-.pagenavigation {
+.pagenavigation,
+.pager {
   clear: both;
   .pagination {
     justify-content: space-between;
@@ -201,6 +202,12 @@ meter {
   color: var(--cassiopeia-color-link);
   &:hover {
     color: var(--cassiopeia-color-link);
+  }
+}
+
+.pager {
+  .pagination {
+    justify-content: center;
   }
 }
 
