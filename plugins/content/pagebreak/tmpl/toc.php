@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 
 ?>
-<div class="card float-end article-index">
+<div class="card float-end article-index ms-3 mb-3">
 	<div class="card-body">
 
 		<?php if ($headingtext) : ?>
