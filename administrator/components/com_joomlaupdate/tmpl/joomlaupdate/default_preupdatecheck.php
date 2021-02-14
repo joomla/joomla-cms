@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
@@ -188,7 +189,8 @@ $compatibilityTypes = array(
 										data-extension-id="<?php echo $extension->extension_id; ?>"
 										data-extension-current-version="<?php echo $extension->version; ?>"
 									>
-										<img src="../media/jui/images/ajax-loader.gif" />
+										<img src="<?php echo Uri::root(true); ?>/media/system/images/ajax-loader.gif">
+
 									</td>
 									<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden" />
 									<td class="instver hidden">
