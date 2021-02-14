@@ -16,10 +16,10 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 ?>
 <?php if ($this->params->get('show_articles')) : ?>
 <div class="com-contact__articles contact-articles">
-	<ul class="nav flex-column">
+	<ul class="list-unstyled">
 		<?php foreach ($this->item->articles as $article) : ?>
-			<li class="nav-item">
-				<?php echo HTMLHelper::_('link', Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)), htmlspecialchars($article->title, ENT_COMPAT, 'UTF-8'), array('class' => 'nav-link')); ?>
+			<li>
+				<?php echo HTMLHelper::_('link', Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)), htmlspecialchars($article->title, ENT_COMPAT, 'UTF-8')); ?>
 			</li>
 		<?php endforeach; ?>
 	</ul>
