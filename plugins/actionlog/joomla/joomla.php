@@ -96,13 +96,6 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			$context = $this->contextAliases[$context];
 		}
 
-		$option = $this->app->input->getCmd('option');
-
-		if (!$this->checkLoggable($option))
-		{
-			return;
-		}
-
 		$params = ActionlogsHelper::getLogContentTypeParams($context);
 
 		// Not found a valid content type, don't process further
@@ -111,7 +104,12 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		list(, $contentType) = explode('.', $params->type_alias);
+		list($option, $contentType) = explode('.', $params->type_alias);
+
+		if (!$this->checkLoggable($option))
+		{
+			return;
+		}
 
 		if ($isNew)
 		{

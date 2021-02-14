@@ -92,7 +92,7 @@ if ($saveOrder)
 							?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php
@@ -111,7 +111,8 @@ if ($saveOrder)
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
-										<?php endif; ?>									</td>
+										<?php endif; ?>
+									</td>
 									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'transitions.', $canChange); ?>
 									</td>

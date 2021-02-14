@@ -415,10 +415,7 @@ class TemplateController extends BaseController
 			return;
 		}
 
-		if ($model->createOverride($override))
-		{
-			$this->setMessage(Text::_('COM_TEMPLATES_OVERRIDE_SUCCESS'));
-		}
+		$model->createOverride($override);
 
 		// Redirect back to the edit screen.
 		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;

@@ -57,7 +57,7 @@ joomla-tab {
         margin: -1px;
         background-color: $white;
         background-image: none;
-        border: 2px solid var(--bluegray);
+        border: 1px solid var(--bluegray);
         border-bottom: solid 1px #fff;
         border-radius: 0;
         box-shadow: none;
@@ -136,9 +136,10 @@ joomla-tab {
       position: relative;
       display: block;
       padding: .75em 1em;
+      margin: -1px 0;
       color: var(--atum-special-color);
       text-decoration: none;
-      border: 0;
+      border-top: 1px solid transparent;
       border-bottom: 1px solid $gray-300;
       box-shadow: none;
 
@@ -157,6 +158,10 @@ joomla-tab {
           width: 5px;
           height: auto;
           background-color: var(--atum-bg-dark);
+        }
+
+        .text-muted {
+          color: var(--atum-text-light) !important;
         }
       }
     }

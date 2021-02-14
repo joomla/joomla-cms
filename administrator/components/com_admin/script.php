@@ -252,6 +252,9 @@ class JoomlaInstallerScript
 			return;
 		}
 
+		// Ensure the FieldsHelper class is loaded for the Repeatable fields plugin we're about to remove
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
 		try
 		{
 			$db->transactionStart();
@@ -7150,7 +7153,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function fixFilenameCasing()
 	{
@@ -7158,7 +7161,7 @@ class JoomlaInstallerScript
 			// 3.10 changes
 			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
 			'libraries/src/Form/Rule/SubFormRule.php' => 'libraries/src/Form/Rule/SubformRule.php',
-			// __DEPLOY_VERSION__
+			// 4.0.0
 			'media/vendor/skipto/js/skipTo.js' => 'media/vendor/skipto/js/skipto.js',
 		);
 

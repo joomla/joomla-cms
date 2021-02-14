@@ -32,11 +32,11 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 	</select>
 	</form>
 <?php elseif ($params->get('dropdown', 0) && $params->get('dropdownimage', 1)) : ?>
-	<?php HTMLHelper::_('bootstrap.dropdown'); ?>
+	<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle'); ?>
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
-				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
+				<a href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle">
 					<span class="caret"></span>
 					<?php if ($language->image) : ?>
 						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>

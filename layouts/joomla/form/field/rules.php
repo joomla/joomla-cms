@@ -105,15 +105,15 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 				<table class="table respTable">
 					<thead>
 						<tr>
-							<th style="width: 30%" class="actions" id="actions-th<?php echo $group->value; ?>">
+							<th class="actions w-30" id="actions-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_ACTION'); ?></span>
 							</th>
 
-							<th style="width: 40%" class="settings" id="settings-th<?php echo $group->value; ?>">
+							<th class="settings w-40" id="settings-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?></span>
 							</th>
 
-							<th style="width: 30%" id="aclaction-th<?php echo $group->value; ?>">
+							<th class="w-30" id="aclaction-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_CALCULATED_SETTING'); ?></span>
 							</th>
 						</tr>

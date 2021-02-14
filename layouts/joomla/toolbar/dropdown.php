@@ -40,7 +40,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 	<?php // If there is a toggle split then render the items. Else render the parent button which has the items in the custom element.  ?>
 	<?php if ($toggleSplit ?? true): ?>
 		<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown'); ?>
-		<?php // @todo use a class intead of the inline style.
+		<?php // @todo use a class instead of the inline style.
 			 //  Reverse order solves a console err for dropdown ?>
 		<div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group" style="flex-direction: row-reverse;">
 			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"

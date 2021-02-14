@@ -365,6 +365,13 @@
       this.icon.setAttribute('class', clss);
       this.icon.style.backgroundColor = bgcolor;
 
+      // trigger change event both on the select and on the custom element
+      this.select.dispatchEvent(new Event('change'));
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value: color },
+        bubbles: true,
+      }));
+
       // Hide the panel
       this.hide();
 

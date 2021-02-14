@@ -70,7 +70,7 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 						<?php foreach ($this->items as $key => $text) : ?>
 							<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $key); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $key, false, 'cid', 'cb', $key); ?>
 								</td>
 								<th scope="row">
 									<?php if ($canEdit) : ?>

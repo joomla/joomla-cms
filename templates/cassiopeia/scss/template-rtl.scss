@@ -1,4 +1,5 @@
 @import "template";
+@import "vendor/bootstrap/bootstrap-rtl";
 
 body,
 .dropdown-item {
@@ -57,9 +58,9 @@ body,
   }
 }
 
-.me-2 {
-  margin-right: 0 !important;
-  margin-left: .5rem;
+// skipto
+.skip-to [role="separator"] {
+  text-align: right !important;
 }
 
 // SearchTools rounded corners
