@@ -35,6 +35,11 @@ $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id              = $name . '-desc';
 $hide            = empty($options['hiddenLabel']) ? '' : ' visually-hidden';
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
+
+if($display) {
+	$class .= ' ' . $display;
+}
+
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>

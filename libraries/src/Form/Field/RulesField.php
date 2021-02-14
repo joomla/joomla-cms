@@ -66,6 +66,13 @@ class RulesField extends FormField
 	protected $assetField;
 
 	/**
+	 * The display of the field
+	 *
+	 * @var  string
+	 */
+	protected $display;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.
