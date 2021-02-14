@@ -40,7 +40,7 @@
     },
     {
       "name": "template.user",
-      "description": "The name of a file where a user can add their own css.",
+      "description": "A file where a user can add their own css.",
       "type": "style",
       "uri": "user.css",
       "dependencies": [
