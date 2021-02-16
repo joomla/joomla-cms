@@ -34,7 +34,7 @@
 			type="list"
 			label="JSTATUS"
 			default="1"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			size="1"
 			validate="options"
 			>
@@ -131,6 +131,7 @@
 			name="created_by"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -159,6 +160,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -265,6 +267,13 @@
 				/>
 
 				<field
+					name="image_first_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
+				/>
+
+				<field
 					name="image_first_caption"
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
@@ -300,6 +309,13 @@
 					type="text"
 					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
 					size="20"
+				/>
+
+				<field
+					name="image_second_alt_empty"
+					type="checkbox"
+					label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_LABEL"
+					description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_EMPTY_DESC"
 				/>
 
 				<field
@@ -387,7 +403,7 @@
 				name="newsfeed_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
-				class="custom-select"
+				class="form-select"
 				extension="com_newsfeeds"
 				view="newsfeed"
 				useglobal="true"

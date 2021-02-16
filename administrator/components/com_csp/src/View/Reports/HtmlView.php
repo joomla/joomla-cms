@@ -144,8 +144,8 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('reports.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('reports.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::publish('reports.publish', 'JTOOLBAR_ENABLE', true);
+			ToolbarHelper::unpublish('reports.unpublish', 'JTOOLBAR_DISABLE', true);
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))

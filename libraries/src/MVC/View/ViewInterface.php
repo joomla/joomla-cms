@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+
 \defined('JPATH_PLATFORM') or die;
 
 /**

@@ -216,6 +216,38 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
+	 * Ensure several core system input variables are not arrays.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9
+	 */
+	private function sanityCheckSystemVariables()
+	{
+		$input = $this->input;
+
+		// Get invalid input variables
+		$invalidInputVariables = array_filter(
+			array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
+			function ($systemVariable) use ($input) {
+				return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
+			}
+		);
+
+		// Unset invalid system variables
+		foreach ($invalidInputVariables as $systemVariable)
+		{
+			$input->set($systemVariable, null);
+		}
+
+		// Abort when there are invalid variables
+		if ($invalidInputVariables)
+		{
+			throw new \RuntimeException('Invalid input, aborting application.');
+		}
+	}
+
+	/**
 	 * Execute the application.
 	 *
 	 * @return  void
@@ -226,6 +258,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	{
 		try
 		{
+			$this->sanityCheckSystemVariables();
 			$this->setupLogging();
 			$this->createExtensionNamespaceMap();
 
@@ -233,7 +266,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->doExecute();
 
 			// If we have an application document object, render it.
-			if ($this->document instanceof \JDocument)
+			if ($this->document instanceof \Joomla\CMS\Document\Document)
 			{
 				// Render the application output.
 				$this->render();
@@ -263,7 +296,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			// Trigger the onError event.
 			$this->triggerEvent('onError', $event);
 
-			ExceptionHandler::render($event->getError());
+			ExceptionHandler::handleException($event->getError());
 		}
 
 		// Send the application response.

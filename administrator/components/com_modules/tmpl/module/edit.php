@@ -52,7 +52,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&client_id=' . $this->form->getValue('client_id') . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&client_id=' . $this->form->getValue('client_id') . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" aria-label="<?php echo Text::_('COM_MODULES_FORM_TITLE_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -80,7 +80,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 									?>
 								</h2>
 								<div class="info-labels">
-									<span class="badge badge-secondary">
+									<span class="badge bg-secondary">
 										<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
 									</span>
 								</div>
@@ -88,7 +88,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 									<?php
 									$this->fieldset    = 'description';
 									$short_description = Text::_($this->item->xml->description);
-									$this->fieldset    = 'description';
 									$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
 									if (!$long_description)
@@ -119,7 +118,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							<?php endif; ?>
 						<?php else : ?>
 							<div class="alert alert-danger">
-								<span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+								<span class="icon-exclamation-triangle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('ERROR'); ?></span>
 								<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
 							</div>
 						<?php endif; ?>

@@ -35,7 +35,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Output object
@@ -116,16 +116,21 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
+		$this->setDispatcher($dispatcher ?: $container->get(\Joomla\Event\DispatcherInterface::class));
+
+		if (!$container->has('session'))
+		{
+			$container->alias('session', 'session.cli')
+				->alias('JSession', 'session.cli')
+				->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\Session::class, 'session.cli')
+				->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+		}
 
 		$this->input    = new \Joomla\CMS\Input\Cli;
 		$this->language = Factory::getLanguage();
 		$this->output   = $output ?: new Stdout;
 		$this->cliInput = $cliInput ?: new CliInput;
-
-		if ($dispatcher)
-		{
-			$this->setDispatcher($dispatcher);
-		}
 
 		parent::__construct($config);
 
@@ -234,6 +239,8 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function execute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Trigger the onBeforeExecute event
 		$this->triggerEvent('onBeforeExecute');
 

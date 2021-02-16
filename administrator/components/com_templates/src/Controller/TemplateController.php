@@ -415,10 +415,7 @@ class TemplateController extends BaseController
 			return;
 		}
 
-		if ($model->createOverride($override))
-		{
-			$this->setMessage(Text::_('COM_TEMPLATES_OVERRIDE_SUCCESS'));
-		}
+		$model->createOverride($override);
 
 		// Redirect back to the edit screen.
 		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -453,6 +450,12 @@ class TemplateController extends BaseController
 		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(Route::_($url, false));
+		}
+		elseif (base64_decode(urldecode($file)) == '/joomla.asset.json')
+		{
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_DELETE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(Route::_($url, false));
 		}
@@ -696,6 +699,12 @@ class TemplateController extends BaseController
 		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(Route::_($url, false));
+		}
+		elseif (base64_decode(urldecode($file)) == '/joomla.asset.json')
+		{
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_ASSET_FILE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(Route::_($url, false));
 		}

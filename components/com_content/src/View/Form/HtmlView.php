@@ -193,12 +193,10 @@ class HtmlView extends BaseHtmlView
 	protected function _prepareDocument()
 	{
 		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = $app->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -211,19 +209,9 @@ class HtmlView extends BaseHtmlView
 
 		$title = $this->params->def('page_title', Text::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 
-		if ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
+		$this->setDocumentTitle($title);
 
-		$this->document->setTitle($title);
-
-		$pathway = $app->getPathway();
-		$pathway->addItem($title, '');
+		$app->getPathway()->addItem($title);
 
 		if ($this->params->get('menu-meta_description'))
 		{

@@ -577,7 +577,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt_empty'     => '',
 					'image_intro_caption'       => '',
 					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa1-400.jpg',
-					'float_fulltext'            => 'float-left',
+					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
 					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
@@ -595,7 +595,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
 					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa2-400.jpg',
-					'float_fulltext'            => 'float-left',
+					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
 					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
@@ -614,7 +614,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
 					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa3-400.jpg',
-					'float_fulltext'            => 'float-left',
+					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_4_FULLTEXTIMAGE_ALT'),
 					'image_fulltext_alt_empty'  => '',
 					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
@@ -632,7 +632,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
 					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg',
-					'float_fulltext'            => 'float-left',
+					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
 					'image_fulltext_caption' => 'www.nasa.gov/multimedia/imagegallery'
@@ -682,7 +682,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt_empty'     => '',
 					'image_intro_caption'       => '',
 					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg',
-					'float_fulltext'            => 'float-right',
+					'float_fulltext'            => 'float-end',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
 					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery'
@@ -1105,6 +1105,25 @@ class PlgSampledataBlog extends CMSPlugin
 					'menu_text'         => 1,
 					'menu_show'         => 1,
 					'secure'            => 0,
+				),
+			),
+			array(
+				// Hidden menuItem search
+				'menutype'     => $menuTypes[2],
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_15_TITLE'),
+				'link'         => 'index.php?option=com_finder&view=search',
+				'type'         => 'component',
+				'component_id' => ExtensionHelper::getExtensionRecord('com_finder', 'component')->extension_id,
+				'params'       => array(
+					'show_date_filters' => '1',
+					'show_advanced'         => '',
+					'expand_advanced'       => '1',
+					'show_taxonomy'         => '1',
+					'show_date'             => '1',
+					'show_url'              => '1',
+					'menu_text'             => 0,
+					'menu_show'             => 0,
+					'secure'                => 0,
 				),
 			),
 		);
@@ -1530,10 +1549,11 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle' => 0,
 				'params'    => array(
 					'menutype'        => $menuTypes[2],
+					'class_sfx'       => 'menu-horizontal',
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 0,
-					'layout'          => '_:default',
+					'layout'          => 'cassiopeia:dropdown-metismenu',
 					'cache'           => 1,
 					'cache_time'      => 900,
 					'cachemode'       => 'itemid',

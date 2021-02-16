@@ -69,7 +69,8 @@ class TosField extends RadioField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' data-content="' . htmlspecialchars(
+			HTMLHelper::_('bootstrap.popover', '.hasPopover');
+			$label .= ' data-bs-content="' . htmlspecialchars(
 				$this->translateDescription ? Text::_($this->description) : $this->description,
 				ENT_COMPAT,
 				'UTF-8'
@@ -77,7 +78,7 @@ class TosField extends RadioField
 
 			if (Factory::getLanguage()->isRtl())
 			{
-				$label .= ' data-placement="left"';
+				$label .= ' data-bs-placement="left"';
 			}
 		}
 
@@ -86,8 +87,8 @@ class TosField extends RadioField
 		if ($tosArticle)
 		{
 			$attribs                = [];
-			$attribs['data-toggle'] = 'modal';
-			$attribs['data-target'] = '#tosModal';
+			$attribs['data-bs-toggle'] = 'modal';
+			$attribs['data-bs-target'] = '#tosModal';
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
@@ -132,7 +133,7 @@ class TosField extends RadioField
 					'width'  => '100%',
 					'modalWidth'  => '800',
 					'bodyHeight'  => '500',
-					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+					'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
 						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 				]
 			);

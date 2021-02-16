@@ -14,6 +14,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\Finder\Administrator\Table\FilterTable;
 
 /**
  * Filter model class for Finder.
@@ -41,22 +42,22 @@ class FilterModel extends AdminModel
 	/**
 	 * Custom clean cache method.
 	 *
-	 * @param   string   $group      The component name. [optional]
-	 * @param   integer  $client_id  The client ID. [optional]
+	 * @param   string   $group     The component name. [optional]
+	 * @param   integer  $clientId  The client ID. [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function cleanCache($group = 'com_finder', $client_id = 1)
+	protected function cleanCache($group = 'com_finder', $clientId = 1)
 	{
-		parent::cleanCache($group, $client_id);
+		parent::cleanCache($group, $clientId);
 	}
 
 	/**
 	 * Method to get the filter data.
 	 *
-	 * @return  \Joomla\Component\Finder\Administrator\Table\Filter|boolean  The filter data or false on a failure.
+	 * @return  FilterTable|boolean  The filter data or false on a failure.
 	 *
 	 * @since   2.5
 	 */

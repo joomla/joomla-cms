@@ -34,6 +34,7 @@
 					name="folder"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
+					validate="filePath"
 				/>
 
 				<field
@@ -63,7 +64,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 				/>
 
 				<field

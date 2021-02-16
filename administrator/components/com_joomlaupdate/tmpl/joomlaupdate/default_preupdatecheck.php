@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
@@ -53,7 +54,7 @@ $compatibilityTypes = array(
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 			</legend>
 				<table class="table" id="preupdatecheck">
-					<caption class="sr-only">
+					<caption class="visually-hidden">
 						<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_CHECK_CAPTION'); ?>
 					</caption>
 					<thead>
@@ -73,7 +74,7 @@ $compatibilityTypes = array(
 								<?php echo $option->label; ?>
 							</th>
 							<td>
-								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
+								<span class="badge bg-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 									<?php if ($option->notice) : ?>
 										<span class="icon-info-circle icon-white" title="<?php echo $option->notice; ?>"></span>
@@ -119,7 +120,7 @@ $compatibilityTypes = array(
 								<?php echo Text::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</td>
 							<td>
-								<span class="badge badge-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+								<span class="badge bg-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 									<?php echo Text::_($setting->state ? 'JON' : 'JOFF'); ?>
 								</span>
 							</td>
@@ -188,7 +189,8 @@ $compatibilityTypes = array(
 										data-extension-id="<?php echo $extension->extension_id; ?>"
 										data-extension-current-version="<?php echo $extension->version; ?>"
 									>
-										<img src="../media/jui/images/ajax-loader.gif" />
+										<img src="<?php echo Uri::root(true); ?>/media/system/images/ajax-loader.gif">
+
 									</td>
 									<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden" />
 									<td class="instver hidden">
@@ -208,7 +210,8 @@ $compatibilityTypes = array(
 		<h3>
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 		</h3>
-		<div class="alert alert-no-items">
+		<div class="alert alert-info">
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
 		</div>
 	</div>

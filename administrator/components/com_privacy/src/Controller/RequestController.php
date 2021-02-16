@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Privacy\Administrator\Model\ExportModel;
 use Joomla\Component\Privacy\Administrator\Model\RemoveModel;
@@ -145,6 +144,9 @@ class RequestController extends FormController
 	 */
 	public function emailexport()
 	{
+		// Check for request forgeries.
+		$this->checkToken('get');
+
 		/** @var ExportModel $model */
 		$model = $this->getModel('Export');
 

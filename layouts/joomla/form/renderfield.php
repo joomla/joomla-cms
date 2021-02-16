@@ -38,7 +38,7 @@ $hideDescription = empty($options['hiddenDescription']) ? false : $options['hidd
 ?>
 <div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<?php if ($hideLabel) : ?>
-		<div class="sr-only"><?php echo $label; ?></div>
+		<div class="visually-hidden"><?php echo $label; ?></div>
 	<?php else : ?>
 		<div class="control-label"><?php echo $label; ?></div>
 	<?php endif; ?>
