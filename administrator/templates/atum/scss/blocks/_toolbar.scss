@@ -122,16 +122,15 @@
   }
 
   .btn-group:not(:last-child) > .dropdown-toggle-split {
+    order: 1;
     margin-inline-start: -$border-radius;
 
     [dir="ltr"] & {
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
+      border-radius: 0 $border-radius $border-radius 0;
     }
 
     [dir="rtl"] & {
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
+      border-radius: $border-radius 0 0 $border-radius;
     }
   }
 
