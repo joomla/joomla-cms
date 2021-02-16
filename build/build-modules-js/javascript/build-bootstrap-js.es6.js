@@ -13,11 +13,14 @@ const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
 const outputFolder = 'media/vendor/bootstrap/js';
 
+const getCurrentUnixTime = Math.round((new Date()).getTime() / 1000);
+
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const mini = await minify(initial, { sourceMap: false, format: { comments: false } });
-  await rename(resolve(outputFolder, file), resolve(outputFolder, `${file.split('-')[0]}.es6.js`));
-  await writeFile(resolve(outputFolder, `${file.split('-')[0]}.es6.min.js`), mini.code, { encoding: 'utf8' });
+  const code = initial.replace('./dom.js', `./dom.js?${getCurrentUnixTime}`).replace('./popper.js', `./popper.js?${getCurrentUnixTime}`);
+  const mini = await minify(code, { sourceMap: false, format: { comments: false } });
+  await writeFile(resolve(outputFolder, file), code, { encoding: 'utf8' });
+  await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8' });
 };
 
 const build = async () => {
@@ -67,6 +70,7 @@ const build = async () => {
     format: 'es',
     sourcemap: false,
     dir: outputFolder,
+    chunkFileNames: '[name].js',
   });
 
   // closes the bundle
