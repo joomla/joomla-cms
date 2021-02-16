@@ -76,7 +76,7 @@
           {
             "name": "bootstrap.es5",
             "type": "script",
-            "uri": "bootstrap.es5.min.js",
+            "uri": "bootstrap-es5.min.js",
             "dependencies": [
               "core"
             ],

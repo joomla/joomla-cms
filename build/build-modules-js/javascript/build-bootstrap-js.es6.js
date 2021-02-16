@@ -116,7 +116,7 @@ const buildLegacy = async () => {
     format: 'iife',
     sourcemap: false,
     name: 'Bootstrap',
-    file: resolve(outputFolder, 'bootstrap.es5.js'),
+    file: resolve(outputFolder, 'bootstrap-es5.js'),
   });
 
   // closes the bundle
