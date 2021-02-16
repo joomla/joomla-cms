@@ -665,6 +665,7 @@
         "licenseFilename": "LICENSE",
         "js": {
           "dist/metismenujs.js": "js/metismenujs.js",
+          "dist/metismenujs.js.map": "js/metismenujs.js.map",
           "dist/metismenujs.min.js": "js/metismenujs.min.js",
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
         },
@@ -701,8 +702,7 @@
         "licenseFilename": "LICENSE.md",
         "js": {
           "compiled/js/skipto.js": "js/skipto.js",
-          "compiled/js/skipto.min.js": "js/skipto.min.js",
-          "compiled/js/skipto.min.js.map": "js/skipto.min.js.map"
+          "compiled/js/skipto.min.js": "js/skipto.min.js"
         },
         "provideAssets": [
           {
