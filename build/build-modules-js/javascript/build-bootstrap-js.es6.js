@@ -1,5 +1,5 @@
 const {
-  readdir, readFile, rename, writeFile, unlink,
+  readdir, readFile, writeFile, unlink,
 } = require('fs').promises;
 const { resolve } = require('path');
 const { minify } = require('terser');
