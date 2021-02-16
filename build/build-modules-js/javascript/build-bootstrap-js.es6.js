@@ -17,9 +17,8 @@ const getCurrentUnixTime = Math.round((new Date()).getTime() / 1000);
 
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const code = initial.replace('./dom.js', `./dom.min.js?${getCurrentUnixTime}`).replace('./popper.js', `./popper.min.js?${getCurrentUnixTime}`);
-  const mini = await minify(code, { sourceMap: false, format: { comments: false } });
-  await writeFile(resolve(outputFolder, file), code, { encoding: 'utf8' });
+  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${getCurrentUnixTime}`), { sourceMap: false, format: { comments: false } });
+  await writeFile(resolve(outputFolder, file), initial.replace('./dom.js', `./dom.min.js?${getCurrentUnixTime}`), { encoding: 'utf8' });
   await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8' });
 };
 
