@@ -68,7 +68,7 @@ $attr .= $dataAttribute;
 
 ?>
 <fieldset <?php echo $attr; ?>>
-	<legend class="switcher__legend sr-only">
+	<legend class="visually-hidden">
 		<?php echo $label; ?>
 	</legend>
 	<div class="switcher<?php echo ($readonly || $disabled ? ' disabled' : ''); ?>">

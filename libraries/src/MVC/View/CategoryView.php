@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\View;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
@@ -42,7 +43,7 @@ class CategoryView extends HtmlView
 	/**
 	 * The category model object for this category
 	 *
-	 * @var    \JModelCategory
+	 * @var    CategoryNode
 	 * @since  3.2
 	 */
 	protected $category;
@@ -58,7 +59,7 @@ class CategoryView extends HtmlView
 	/**
 	 * Pagination object
 	 *
-	 * @var    \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 * @since  3.2
 	 */
 	protected $pagination;

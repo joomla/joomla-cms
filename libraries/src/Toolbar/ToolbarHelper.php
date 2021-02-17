@@ -709,7 +709,7 @@ abstract class ToolbarHelper
 	{
 		$title = Text::_($alt);
 
-		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn ' . $class . '">
+		$dhtml = '<joomla-toolbar-button><button data-bs-toggle="modal" data-bs-target="#' . $targetModalId . '" class="btn ' . $class . '">
 			<span class="' . $icon . ' icon-fw" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');

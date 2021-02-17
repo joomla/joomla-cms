@@ -19,7 +19,7 @@ if (isset($displayData['ajaxurl'])) {
 	$size = 'small';
 	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
 } else {
-	$size = 'big';
+	$size = '';
 	$dataUrl = '';
 }
 
@@ -53,11 +53,11 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 ?>
 <?php // If it is a button with two links: make it a list
 	if (isset($displayData['linkadd'])): ?>
-		<li class="quickicon-group col mb-3 d-flex">
+		<li class="quickicon-group d-flex">
 		<ul class="list-unstyled d-flex w-100">
 			<li class="quickicon flex-grow-1">
 	<?php else: ?>
-		<li class="quickicon quickicon-single col mb-3">
+		<li class="quickicon quickicon-single">
 	<?php endif; ?>
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
@@ -70,7 +70,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 				<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
 					<span class="icon-spinner" aria-hidden="true"></span>
 				</div>
-				<div class="quickicon-sr-desc sr-only"></div>
+				<div class="quickicon-sr-desc visually-hidden"></div>
 			<?php endif; ?>
 			<?php // Name indicates the component
 			if (isset($displayData['name'])): ?>
@@ -88,7 +88,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	</li>
 	<?php // Add the link to the edit-form
 	if (isset($displayData['linkadd'])): ?>
-		<li class="btn-block quickicon-linkadd j-links-link d-flex">
+		<li class="quickicon-linkadd j-links-link d-flex">
 			<a class="d-flex align-items-center" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
 				<span class="icon-plus" aria-hidden="true"></span>
 			</a>

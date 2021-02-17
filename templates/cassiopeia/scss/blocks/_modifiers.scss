@@ -115,6 +115,7 @@
   display: flex;
   flex-direction: column;
   padding: 0 ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter;
+  overflow: hidden;
 
   .boxed & {
     background-color: $white;
@@ -223,6 +224,7 @@
     column-gap: $cassiopeia-grid-gutter;
 
     .blog-item {
+      display: inline-flex;
       margin-bottom: $cassiopeia-grid-gutter;
       page-break-inside: avoid;
       break-inside: avoid;
@@ -284,8 +286,8 @@
       border: 1px solid $gray-300;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-      @include border-bottom-left-radius($border-radius);
-      @include border-bottom-right-radius($border-radius);
+      @include border-bottom-start-radius($border-radius);
+      @include border-bottom-end-radius($border-radius);
       box-shadow: $cassiopeia-box-shadow;
 
       figure {
@@ -297,16 +299,14 @@
 
 .mod-list {
   padding-left: 0;
-  list-style-position: inside;
+  list-style: none;
 
   [dir=rtl] & {
     padding-right: 0;
   }
-}
 
-.mod-menu.nav {
   li {
-    padding: ($cassiopeia-grid-gutter/2) 0;
+    padding: .25em 0;
 
     a {
       text-decoration: none;

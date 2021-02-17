@@ -103,6 +103,10 @@
             svg.setAttribute('viewBox', `0 0 ${svg.getAttribute('height')} ${svg.getAttribute('width')}`);
           }
 
+          // SVG needs to have a role of presentation and focusable set to false
+          svg.setAttribute('role', 'presentation');
+          svg.setAttribute('focusable', 'false');
+
           // Replace image with new SVG
           img.parentElement.replaceChild(svg, img);
         },

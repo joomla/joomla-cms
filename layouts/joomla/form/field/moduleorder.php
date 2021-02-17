@@ -56,6 +56,7 @@ $attributes['data-ordering'] = 'data-ordering="' . $ordering . '"';
 $attributes['data-position-element'] = 'data-position-element="' . $element . '"';
 $attributes['data-client-id'] = 'data-client-id="' . $clientId . '"';
 $attributes['data-name'] = 'data-name="' . $name . '"';
+$attributes['data-module-id'] = 'data-module-id="' . $moduleId . '"';
 
 if ($disabled)
 {

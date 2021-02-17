@@ -84,8 +84,8 @@ a {
   margin-bottom: $cassiopeia-grid-gutter;
   > .input-group-append {
     > .btn-primary {
-      @include border-right-radius($border-radius);
-      @include border-left-radius(0);
+      @include border-end-radius($border-radius);
+      @include border-start-radius(0);
     }
     > .btn-secondary {
       margin-left: $cassiopeia-grid-gutter/2;
@@ -95,16 +95,16 @@ a {
   > input {
     padding: $cassiopeia-grid-gutter/2;
     border: 1px solid $gray-400;
-    @include border-left-radius($border-radius);
-    @include border-right-radius(0);
+    @include border-start-radius($border-radius);
+    @include border-end-radius(0);
   }
 }
 
 [dir="rtl"] .btn-group {
   > .input-group-append {
     > .btn-primary {
-      @include border-left-radius($border-radius);
-      @include border-right-radius(0);
+      @include border-start-radius($border-radius);
+      @include border-end-radius(0);
     }
 
     > .btn-secondary {
@@ -114,8 +114,8 @@ a {
   }
 
   > input {
-    @include border-right-radius($border-radius);
-    @include border-left-radius(0);
+    @include border-end-radius($border-radius);
+    @include border-start-radius(0);
   }
 }
 
@@ -145,17 +145,17 @@ th dd {
 
 figure {
   margin: 0 0 ($cassiopeia-grid-gutter*2);
-  &.float-left {
+  &.float-start {
     margin-right: $cassiopeia-grid-gutter;
   }
-  &.float-right {
+  &.float-end {
     margin-left: $cassiopeia-grid-gutter;
   }
-  [dir="rtl"] &.float-left {
+  [dir="rtl"] &.float-start {
     margin-right: 0;
     margin-left: $cassiopeia-grid-gutter;
   }
-  [dir="rtl"] &.float-right {
+  [dir="rtl"] &.float-end {
     margin-right: $cassiopeia-grid-gutter;
     margin-left: 0;
   }
@@ -179,7 +179,8 @@ meter {
   width: 100%;
 }
 
-.pagenavigation {
+.pagenavigation,
+.pager {
   clear: both;
   .pagination {
     justify-content: space-between;
@@ -204,6 +205,12 @@ meter {
   }
 }
 
+.pager {
+  .pagination {
+    justify-content: center;
+  }
+}
+
 [dir="rtl"] li.next .page-link {
   border-top-left-radius: .25rem;
   border-top-right-radius: 0;
@@ -216,4 +223,15 @@ meter {
   border-top-right-radius: .25rem;
   border-bottom-right-radius: .25rem;
   border-bottom-left-radius: 0;
+}
+
+.article-index {
+  .toclink.active {
+    color: currentColor;
+  }
+}
+
+// Bootstrap 4 b/c
+.sr-only {
+  @extend .visually-hidden;
 }

@@ -266,7 +266,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->doExecute();
 
 			// If we have an application document object, render it.
-			if ($this->document instanceof \JDocument)
+			if ($this->document instanceof \Joomla\CMS\Document\Document)
 			{
 				// Render the application output.
 				$this->render();
