@@ -243,6 +243,7 @@ class MediaListCest
 
 	/**
 	 * Test that it's possible to navigate to a subfolder using breadcrumb.
+	 * requires mobile window size to view breadcrumbs
 	 *
 	 * @param   Media  $I
 	 *
@@ -254,11 +255,14 @@ class MediaListCest
 	{
 		$I->wantToTest('that it is possible to navigate to a subfolder using breadcrumb.');
 		$I->amOnPage(MediaListPage::$url . 'banners');
+		$I->resizeWindow(320, 480);
 		$I->waitForMediaLoaded();
 		$I->clickOnLinkInBreadcrumb('images');
 		$I->waitForMediaLoaded();
 		$I->seeInCurrentUrl(MediaListPage::$url);
 		$I->seeContents($this->contents['root']);
+		$I->resizeWindow(1920, 1080);
+		$I->waitForMediaLoaded();
 	}
 
 	/**
