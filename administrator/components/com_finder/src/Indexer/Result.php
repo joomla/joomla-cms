@@ -377,7 +377,7 @@ class Result implements \Serializable
 	 *
 	 * @return  void
 	 *
-	 * @since 4.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function setImage($url, ?string $alt)
 	{
@@ -392,7 +392,7 @@ class Result implements \Serializable
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getImage()
 	{
