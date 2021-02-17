@@ -106,7 +106,8 @@ $grid-breakpoints: (
   sm:                                 36em,
   md:                                 48em,
   lg:                                 62em,
-  xl:                                 75em
+  xl:                                 75em,
+  xxl:                                87.5em
 );
 
 // Grid containers
@@ -114,7 +115,8 @@ $container-max-widths: (
   sm:                                 33.75em,
   md:                                 45em,
   lg:                                 60em,
-  xl:                                 71.25em
+  xl:                                 71.25em,
+  xxl:                                82.5em
 );
 
 // Grid columns
