@@ -379,7 +379,7 @@ class Result implements \Serializable
 	 *
 	 * @since 4.0
 	 */
-	public function addImage($url, ?string $alt)
+	public function setImage($url, ?string $alt)
 	{
 		$image         = new \stdClass;
 		$image->url    = $url;
