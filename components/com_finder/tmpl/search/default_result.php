@@ -53,7 +53,7 @@ $show_image = $this->params->get('show_image', 0) && !empty($this->result->getIm
 
 if ($show_image)
 {
-    $resultImageObject = $this->result->getImage();
+	$resultImageObject = $this->result->getImage();
 	$imageclass = $this->params->get('image_class', '');
 	$image      = HTMLHelper::cleanImageURL($resultImageObject->url);
 
