@@ -388,6 +388,18 @@ class Result implements \Serializable
 	}
 
 	/**
+	 * Get the item's image.
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	public function getImage()
+	{
+		return $this->image;
+	}
+
+	/**
 	 * Method to get the taxonomy maps for an item.
 	 *
 	 * @param   string  $branch  The taxonomy branch to get. [optional]
