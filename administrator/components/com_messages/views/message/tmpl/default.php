@@ -43,7 +43,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php echo JText::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
 			</div>
 			<div class="controls">
-				<?php echo $this->item->message; ?>
+				<?php echo $this->escape($this->item->message); ?>
 			</div>
 		</div>
 		<input type="hidden" name="task" value="" />
