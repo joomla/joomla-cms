@@ -16,6 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 $user = Factory::getUser();
 
@@ -48,6 +49,22 @@ if ($show_description)
 	$description = HTMLHelper::_('string.truncate', StringHelper::substr($full_description, $start), $desc_length, true);
 }
 
+$show_image = $this->params->get('show_image', 0) && !empty($this->result->getImage()) ? true : false;
+
+if ($show_image)
+{
+    $resultImageObject = $this->result->getImage();
+	$imageclass = $this->params->get('image_class', '');
+	$image      = HTMLHelper::cleanImageURL($resultImageObject->url);
+
+	// Set lazyloading only for images which have width and height attributes
+	if ((isset($image->attributes['width']) && (int) $image->attributes['width'] > 0)
+		&& (isset($image->attributes['height']) && (int) $image->attributes['height'] > 0))
+	{
+		$extraAttr = ArrayHelper::toString($image->attributes) . ' loading="lazy"';
+	}
+}
+
 $icon = '';
 if (!empty($this->result->mime)) :
 	$icon = '<span class="icon-file-' . $this->result->mime . '" aria-hidden="true"></span> ';
@@ -72,6 +89,14 @@ endif;
 			<?php echo $this->result->title; ?>
 		<?php endif; ?>
 	</p>
+	<?php if ($show_image && isset($image)) : ?>
+        <figure class="<?php echo htmlspecialchars($imageclass, ENT_COMPAT, 'UTF-8'); ?> result__image">
+            <img src="<?php echo htmlspecialchars($image->url, ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo $alt; ?>
+			<?php echo $extraAttr; ?>
+            />
+        </figure>
+	<?php endif; ?>
 	<?php if ($show_description && $description !== '') : ?>
 		<p class="result__description">
 			<?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
