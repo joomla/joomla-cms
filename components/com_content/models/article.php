@@ -269,7 +269,7 @@ class ContentModelArticle extends JModelItem
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
-			// Meke sure we don't allow IP overrides
+			// Make sure we don't allow IP overrides
 			IpHelper::setAllowIpOverrides(false);
 
 			$userIP = IpHelper::getIp();
