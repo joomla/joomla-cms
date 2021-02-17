@@ -295,6 +295,15 @@ class PlgFinderContent extends Adapter
 			$item->title = $title;
 		}
 
+		$images = json_decode($item->images);
+
+		// Add the image.
+		if (!empty($images) && $images->image_intro)
+		{
+			$alt = $images->image_intro_alt ?? '';
+			$item->addImage($images->image_intro, $alt);
+		}
+
 		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
