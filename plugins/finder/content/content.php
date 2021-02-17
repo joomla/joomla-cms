@@ -301,7 +301,7 @@ class PlgFinderContent extends Adapter
 		if (!empty($images) && $images->image_intro)
 		{
 			$alt = $images->image_intro_alt ?? '';
-			$item->addImage($images->image_intro, $alt);
+			$item->setImage($images->image_intro, $alt);
 		}
 
 		// Add the meta author.
