@@ -63,7 +63,7 @@ class Result implements \Serializable
 	 * The image object
 	 *
 	 * @var array
-	 * @since version
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $image;
 
