@@ -49,6 +49,15 @@
 		</field>
 
 		<field
+				name="image_class"
+				type="text"
+				label="COM_FINDER_CONFIG_IMAGE_CLASS_LABEL"
+				description="COM_FINDER_CONFIG_IMAGE_CLASS_DESCRIPTION"
+				size="20"
+				showon="show_image:1"
+		/>
+
+		<field
 			name="show_date"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
