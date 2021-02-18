@@ -56,6 +56,7 @@ if ($show_image)
 	$resultImageObject = $this->result->getImage();
 	$imageclass        = $this->params->get('image_class', '');
 	$image             = HTMLHelper::cleanImageURL($resultImageObject->url);
+	$extraAttr         = '';
 
 	// Set lazyloading only for images which have width and height attributes
 	if ((isset($image->attributes['width']) && (int) $image->attributes['width'] > 0)
