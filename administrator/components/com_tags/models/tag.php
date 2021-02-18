@@ -281,12 +281,9 @@ class TagsModelTag extends JModelAdmin
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
-			else
+			elseif ($data['alias'] == $origTable->alias)
 			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
+				$data['alias'] = '';
 			}
 
 			$data['published'] = 0;
