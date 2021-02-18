@@ -748,13 +748,13 @@ class ApplicationModel extends FormModel
 
 		$path = Path::clean($path);
 
-		// Give a warning if the tmp-folder can not be opened
-		if (@opendir($path) == false)
+		// Give a warning if the tmp-folder is not valid or not writable
+		if (!is_dir($path) || !is_writable($path))
 		{
 			$error = true;
 
 			// If a custom path is in use, try using the system default tmp path
-			if ($path !== $defaultTmpPath && @opendir($defaultTmpPath) != false)
+			if ($path !== $defaultTmpPath && is_dir($defaultTmpPath) && is_writable($defaultTmpPath))
 			{
 				try
 				{
@@ -811,13 +811,13 @@ class ApplicationModel extends FormModel
 
 		$path = Path::clean($path);
 
-		// Give a warning if the log-folder can not be opened
-		if (@opendir($path) == false)
+		// Give a warning if the log-folder is not valid or not writable
+		if (!is_dir($path) || !is_writable($path))
 		{
 			$error = true;
 
 			// If a custom path is in use, try using the system default log path
-			if ($path !== $defaultLogPath && @opendir($defaultLogPath) != false)
+			if ($path !== $defaultLogPath && is_dir($defaultLogPath) && is_writable($defaultLogPath))
 			{
 				try
 				{
