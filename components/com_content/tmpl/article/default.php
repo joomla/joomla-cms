@@ -54,7 +54,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 	<div class="page-header">
 		<<?php echo $tag = $this->params->get('show_page_heading') ? 'h2' : 'h1' ?> itemprop="headline">
 			<?php echo $this->escape($this->item->title); ?>
-		</<?php echo $tag ?>>
+		</<?php echo $tag; ?>>
 		<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 			<span class="badge bg-warning text-dark"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
