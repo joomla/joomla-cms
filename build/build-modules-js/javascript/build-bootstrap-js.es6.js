@@ -1,5 +1,5 @@
 const {
-  readdir, readFile, rename, writeFile, unlink,
+  readdir, readFile, writeFile, unlink,
 } = require('fs').promises;
 const { resolve } = require('path');
 const { minify } = require('terser');
@@ -13,11 +13,13 @@ const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
 const outputFolder = 'media/vendor/bootstrap/js';
 
+const getCurrentUnixTime = Math.round((new Date()).getTime() / 1000);
+
 const createMinified = async (file) => {
   const initial = await readFile(resolve(outputFolder, file), { encoding: 'utf8' });
-  const mini = await minify(initial);
-  await rename(resolve(outputFolder, file), resolve(outputFolder, `${file.split('-')[0]}.es6.js`));
-  await writeFile(resolve(outputFolder, `${file.split('-')[0]}.es6.min.js`), mini.code, { encoding: 'utf8' });
+  const mini = await minify(initial.replace('./popper.js', `./popper.min.js?${getCurrentUnixTime}`).replace('./dom.js', `./dom.min.js?${getCurrentUnixTime}`), { sourceMap: false, format: { comments: false } });
+  await writeFile(resolve(outputFolder, file), initial.replace('./popper.js', `./popper.js?${getCurrentUnixTime}`).replace('./dom.js', `./dom.js?${getCurrentUnixTime}`), { encoding: 'utf8' });
+  await writeFile(resolve(outputFolder, file.replace('.js', '.min.js')), mini.code, { encoding: 'utf8' });
 };
 
 const build = async () => {
@@ -67,7 +69,11 @@ const build = async () => {
     format: 'es',
     sourcemap: false,
     dir: outputFolder,
+    chunkFileNames: '[name].js',
   });
+
+  // closes the bundle
+  await bundle.close();
 };
 
 const buildLegacy = async () => {
@@ -110,11 +116,14 @@ const buildLegacy = async () => {
     format: 'iife',
     sourcemap: false,
     name: 'Bootstrap',
-    file: resolve(outputFolder, 'bootstrap.es5.js'),
+    file: resolve(outputFolder, 'bootstrap-es5.js'),
   });
+
+  // closes the bundle
+  await bundle.close();
 };
 
-(async () => {
+module.exports.bootstrapJs = async () => {
   rimraf.sync(resolve(outputFolder));
 
   try {
@@ -142,9 +151,9 @@ const buildLegacy = async () => {
 
   try {
     await buildLegacy(inputFolder, 'index.es6.js');
-    const es5File = await readFile(resolve(outputFolder, 'bootstrap.es5.js'), { encoding: 'utf8' });
-    const mini = await minify(es5File);
-    await writeFile(resolve(outputFolder, 'bootstrap.es5.min.js'), mini.code, { encoding: 'utf8' });
+    const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
+    const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
+    await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8' });
     // eslint-disable-next-line no-console
     console.log('Legacy done! ✅');
   } catch (error) {
@@ -152,4 +161,4 @@ const buildLegacy = async () => {
     console.error(error);
     process.exit(1);
   }
-})();
+};
