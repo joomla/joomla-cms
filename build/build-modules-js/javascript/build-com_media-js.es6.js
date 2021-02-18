@@ -83,6 +83,21 @@ module.exports.mediaManager = async () => {
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
+      babel({
+        exclude: 'node_modules/core-js/**',
+        babelHelpers: 'bundled',
+        babelrc: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: {
+                esmodules: true,
+              },
+            },
+          ],
+        ],
+      }),
     ],
   });
 

@@ -24,12 +24,20 @@ const folderExists = async (folder) => {
 const settings = [
   {
     presets: [
-      ['@babel/preset-env', {
-        targets: {
-          browsers: ['ie 11'],
+      [
+        '@babel/preset-env',
+        {
+          corejs: '3.8',
+          useBuiltIns: 'usage',
+          targets: {
+            chrome: '58',
+            ie: '11',
+          },
+          loose: true,
+          bugfixes: true,
+          modules: false,
         },
-        modules: false,
-      }],
+      ],
     ],
     plugins: [
       ['add-header-comment', { header: [headerText] }],
@@ -39,12 +47,14 @@ const settings = [
   },
   {
     presets: [
-      ['@babel/preset-env', {
-        targets: {
-          browsers: ['> 5%', 'not ie 11'],
+      [
+        '@babel/preset-env',
+        {
+          targets: {
+            esmodules: true,
+          },
         },
-        modules: false,
-      }],
+      ],
     ],
     plugins: [
       ['add-header-comment', { header: [headerText] }],

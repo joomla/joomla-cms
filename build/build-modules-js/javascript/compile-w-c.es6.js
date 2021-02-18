@@ -11,21 +11,33 @@ const createJsFiles = async (inputFile, es6FileContents) => {
   const settings = [
     {
       presets: [
-        ['@babel/preset-env', {
-          targets: {
-            browsers: ['last 1 Chrome version'],
+        [
+          '@babel/preset-env',
+          {
+            targets: {
+              esmodules: true,
+            },
           },
-        }],
+        ],
       ],
       comments: true,
     },
     {
       presets: [
-        ['@babel/preset-env', {
-          targets: {
-            browsers: ['ie 11'],
+        [
+          '@babel/preset-env',
+          {
+            corejs: '3.8',
+            useBuiltIns: 'usage',
+            targets: {
+              chrome: '58',
+              ie: '11',
+            },
+            loose: true,
+            bugfixes: true,
+            modules: false,
           },
-        }],
+        ],
       ],
       plugins: [
         '@babel/plugin-transform-classes',
