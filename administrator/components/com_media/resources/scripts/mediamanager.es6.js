@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Lock from 'vue-focus-lock';
+import Lock from 'vue-focus-lock/src/index';
 import Event from './app/Event.es6';
 import App from './components/app.vue';
 import Disk from './components/tree/disk.vue';
