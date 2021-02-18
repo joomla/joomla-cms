@@ -272,9 +272,24 @@ class TagsModelTag extends JModelAdmin
 		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-			$data['title']       = $title;
-			$data['alias']       = $alias;
+			$origTable = $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if ($data['title'] == $origTable->title)
+			{
+				list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+				$data['title'] = $title;
+				$data['alias'] = $alias;
+			}
+			else
+			{
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+			}
+
+			$data['published'] = 0;
 		}
 
 		// Bind the data.
