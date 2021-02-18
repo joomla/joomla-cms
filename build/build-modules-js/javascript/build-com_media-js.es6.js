@@ -21,6 +21,7 @@ const buildLegacy = async (file) => {
   const bundle = await rollup.rollup({
     input: file,
     plugins: [
+      nodeResolve(),
       babel({
         exclude: 'node_modules/core-js/**',
         babelHelpers: 'bundled',
@@ -32,7 +33,6 @@ const buildLegacy = async (file) => {
               corejs: '3.8',
               useBuiltIns: 'usage',
               targets: {
-                chrome: '58',
                 ie: '11',
               },
               loose: true,
@@ -69,17 +69,12 @@ module.exports.mediaManager = async () => {
   const bundle = await rollup.rollup({
     input: resolve(inputJS),
     plugins: [
-      alias({
-        vue: 'vue/dist/vue.esm.js',
-      }),
       VuePlugin({
         target: 'browser',
         css: false,
         compileTemplate: true,
       }),
-      nodeResolve({
-        browser: true,
-      }),
+      nodeResolve(),
       replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),

@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from 'vue/dist/vue.runtime.esm';
 import Lock from 'vue-focus-lock/src/index';
 import Event from './app/Event.es6';
 import App from './components/app.vue';
