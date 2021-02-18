@@ -52,7 +52,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 
 	<?php if ($params->get('show_title')) : ?>
 	<div class="page-header">
-		<<?php echo $tag = $this->params->get('show_page_heading') ? 'h2' : 'h1' ?> itemprop="headline">
+		<<?php echo $tag = $this->params->get('show_page_heading') ? 'h2' : 'h1'; ?> itemprop="headline">
 			<?php echo $this->escape($this->item->title); ?>
 		</<?php echo $tag; ?>>
 		<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
