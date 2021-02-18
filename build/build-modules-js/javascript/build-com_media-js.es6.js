@@ -6,7 +6,7 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const VuePlugin = require('rollup-plugin-vue');
-const alias = require('@rollup/plugin-alias');
+const commonjs = require('@rollup/plugin-commonjs');
 
 const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
 
@@ -22,6 +22,7 @@ const buildLegacy = async (file) => {
     input: file,
     plugins: [
       nodeResolve(),
+      commonjs(),
       babel({
         exclude: 'node_modules/core-js/**',
         babelHelpers: 'bundled',
