@@ -52,7 +52,7 @@
 			name="image_class"
 			type="text"
 			label="COM_FINDER_CONFIG_IMAGE_CLASS_LABEL"
-			size="20"
+			validate="CssIdentifier"
 			showon="show_image:1"
 		/>
 
