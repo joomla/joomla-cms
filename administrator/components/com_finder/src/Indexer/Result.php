@@ -62,7 +62,7 @@ class Result implements \Serializable
 	/**
 	 * The image object
 	 *
-	 * @var array
+	 * @var \stdClass
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $image;
@@ -390,7 +390,7 @@ class Result implements \Serializable
 	/**
 	 * Get the item's image.
 	 *
-	 * @return array
+	 * @return \stdClass
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
