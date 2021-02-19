@@ -464,7 +464,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$row->blocked_uri = "'$row->blocked_uri'";
 			}
 
-			// Whitelist the blocked_uri for the given directive
+			// Allow the blocked_uri for the given directive
 			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
 		}
 
@@ -536,7 +536,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderValue .= " 'strict-dynamic' ";
 			}
 
-			// By default we should whitelist 'self' on any directive
+			// By default we should allow 'self' on any directive
 			$automaticCspHeader[] = $cspHeaderkey . " 'self' " . trim($cspHeaderValue);
 		}
 

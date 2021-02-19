@@ -152,6 +152,13 @@
     setValue(value) {
       this.inputElement.value = value;
       this.updatePreview();
+
+      // trigger change event both on the input and on the custom element
+      this.inputElement.dispatchEvent(new Event('change'));
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value },
+        bubbles: true,
+      }));
     }
 
     clearValue() {

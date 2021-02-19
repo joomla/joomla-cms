@@ -56,12 +56,6 @@
 
 }
 
-.control-group {
-  .switcher__legend {
-    font-size: $label-font-size;
-  }
-}
-
 .spacer {
   hr {
     width: 380px;
@@ -148,12 +142,6 @@ legend {
 .container-popup [id="filter[search]-desc"] {
   top: 100%;
   bottom: auto;
-}
-
-.switcher__legend {
-  margin-bottom: 0;
-  font-size: $label-font-size;
-  color: var(--atum-special-color);
 }
 
 .input-group-append {

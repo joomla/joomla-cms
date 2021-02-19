@@ -42,7 +42,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 		<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown'); ?>
 		<?php // @todo use a class instead of the inline style.
 			 //  Reverse order solves a console err for dropdown ?>
-		<div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group" style="flex-direction: row-reverse;">
+		<div id="<?php echo $id; ?>" class="btn-group dropdown-<?php echo $name ?? ''; ?>" role="group">
 			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"
 				data-bs-toggle="dropdown" data-bs-target=".dropdown-menu" data-bs-display="static" aria-haspopup="true" aria-expanded="false">
 				<span class="visually-hidden"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>

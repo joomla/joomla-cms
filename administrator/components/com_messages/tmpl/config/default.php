@@ -17,7 +17,7 @@ HTMLHelper::_('behavior.keepalive');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form" class="form-validate">
-	<div class="col-lg-8 col-xl-6">
+	<div class="form-grid">
 		<div class="card">
 			<div class="card-body">
 				<?php echo $this->form->renderField('lock'); ?>

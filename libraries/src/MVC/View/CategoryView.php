@@ -59,7 +59,7 @@ class CategoryView extends HtmlView
 	/**
 	 * Pagination object
 	 *
-	 * @var    \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 * @since  3.2
 	 */
 	protected $pagination;
