@@ -61,11 +61,11 @@ body,
 // skipto
 .skip-to {
   &.popup {
-    left: 0 !important;
     right: -3000em;
+    left: 0 !important;
     &.focus {
-      left: 0 !important;
       right: 46%;
+      left: 0 !important;
     }
   }
   [role="separator"] {
