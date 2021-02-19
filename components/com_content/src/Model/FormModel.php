@@ -220,6 +220,24 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		{
 			$form->setFieldAttribute('catid', 'default', $params->get('catid'));
 			$form->setFieldAttribute('catid', 'readonly', 'true');
+
+			if (Multilanguage::isEnabled())
+			{
+				$db    = $this->getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('language'))
+					->from($db->quoteName('#__categories'))
+					->where($db->quoteName('id') . ' = ' . $db->quote($params->get('catid')));
+				$db->setQuery($query);
+
+				$result = $db->loadResult();
+
+				if ($result != '*')
+				{
+					$form->setFieldAttribute('language', 'readonly', 'true');
+					$form->setFieldAttribute('language', 'default', $result);
+				}
+			}
 		}
 
 		if (!Multilanguage::isEnabled())
