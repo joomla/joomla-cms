@@ -28,8 +28,6 @@ steps:
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
-      - npm install selenium-standalone@6.23.0
-#      - cd tests && npm ci --unsafe-perm // JS Tests
 
   - name: php72-unit
     depends_on: [ phpcs ]
