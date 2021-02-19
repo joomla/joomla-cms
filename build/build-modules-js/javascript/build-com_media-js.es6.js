@@ -39,6 +39,7 @@ const buildLegacy = async (file) => {
               loose: true,
               bugfixes: true,
               modules: false,
+              ignoreBrowserslistConfig: true,
             },
           ],
         ],
@@ -74,6 +75,9 @@ module.exports.mediaManager = async () => {
         target: 'browser',
         css: false,
         compileTemplate: true,
+        template: {
+          isProduction: true,
+        },
       }),
       nodeResolve(),
       replace({
@@ -90,6 +94,9 @@ module.exports.mediaManager = async () => {
               targets: {
                 esmodules: true,
               },
+              loose: true,
+              bugfixes: false,
+              ignoreBrowserslistConfig: true,
             },
           ],
         ],

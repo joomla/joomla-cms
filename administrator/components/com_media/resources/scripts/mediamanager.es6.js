@@ -1,5 +1,5 @@
-import Vue from 'vue/dist/vue.runtime.esm';
-import Lock from 'vue-focus-lock/src/index';
+import Vue from 'vue/dist/vue.esm.browser.min.js';
+import Lock from 'vue-focus-lock/src/index.js';
 import Event from './app/Event.es6';
 import App from './components/app.vue';
 import Disk from './components/tree/disk.vue';
