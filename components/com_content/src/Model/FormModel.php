@@ -17,6 +17,7 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -223,11 +224,14 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 
 			if (Multilanguage::isEnabled())
 			{
+				$categoryId = (int) $params->get('catid');
+
 				$db    = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('language'))
 					->from($db->quoteName('#__categories'))
-					->where($db->quoteName('id') . ' = ' . $db->quote($params->get('catid')));
+					->where($db->quoteName('id') . ' = :categoryId')
+					->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 				$db->setQuery($query);
 
 				$result = $db->loadResult();
