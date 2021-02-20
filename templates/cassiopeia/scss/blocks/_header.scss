@@ -228,7 +228,7 @@
     max-width: 100%;
 
     > label {
-      @include a11y-visually-hidden();
+      @include visually-hidden();
     }
   }
 }
