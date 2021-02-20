@@ -484,8 +484,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$user = Factory::getApplication()->getIdentity();
-
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -494,7 +492,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			return false;
 		}
 
+		// Object uses for checking edit state permission of article
+		$record = new \stdClass;
+
 		$id = (int) $this->getState('article.id');
+
+		$record->id = $id;
 
 		// For new articles we load the potential state + associations
 		if ($id == 0 && $formField = $form->getField('catid'))
@@ -526,12 +529,13 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$form->setFieldAttribute('catid', 'refresh-enabled', true);
 			$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
 			$form->setFieldAttribute('catid', 'refresh-section', 'article');
+
+			// Store ID of the category uses for edit state permission check
+			$record->catid = $assignedCatids;
 		}
 
-		// Check for existing article.
 		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+		if (!$this->canEditState($record))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
