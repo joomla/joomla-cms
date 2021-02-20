@@ -336,10 +336,10 @@ class Date extends \DateTime
 			}
 		}
 
-		if ($local == false)
-		{
-			parent::setTimezone($this->tz);
-		}
+		if ($local == false && $this->tz !== null)
+{
+	parent::setTimezone($this->tz);
+}
 
 		return $return;
 	}
