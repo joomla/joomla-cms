@@ -335,12 +335,11 @@ class Date extends \DateTime
 				$return = str_replace(self::MONTH_NAME, $this->monthToString(parent::format('n')), $return);
 			}
 		}
-
-		if ($local == false)
-		{
-			parent::setTimezone($this->tz);
-		}
-
+                if ($local == false && $this->tz !== null)
+                {
+	                parent::setTimezone($this->tz);
+                }
+		
 		return $return;
 	}
 
