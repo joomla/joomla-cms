@@ -499,7 +499,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// For new articles we load the potential state + associations
 		if ($id == 0 && $formField = $form->getField('catid'))
 		{
-			$assignedCatids = (int) $data['catid'] ?? $form->getValue('catid');
+			$assignedCatids = $data['catid'] ?? $form->getValue('catid');
 
 			$assignedCatids = is_array($assignedCatids)
 				? (int) reset($assignedCatids)
