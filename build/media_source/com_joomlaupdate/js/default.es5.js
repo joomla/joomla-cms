@@ -315,10 +315,10 @@ Joomla = window.Joomla || {};
 
 		if (compatType)
 		{
-			extensionData.element.closest('tr').appendChild(compatType);
+			compatType.appendChild(extensionData.element.closest('tr'));
 		}
-		$('#compatibilitytype' + extensionData.compatibilityData.resultGroup).css('display', 'block');
 
+		document.getElementById('compatibilitytype' + extensionData.compatibilityData.resultGroup).style.display = 'block';
 		document.getElementById('compatibilitytype0').style.display = 'block';
 
 		// Have we finished?
