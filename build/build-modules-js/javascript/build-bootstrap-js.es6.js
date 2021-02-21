@@ -8,6 +8,8 @@ const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
+const commonjs = require('@rollup/plugin-commonjs');
+const { Timer } = require('../utils/timer.es6.js');
 
 const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
@@ -98,6 +100,7 @@ const buildLegacy = async () => {
   const bundle = await rollup.rollup({
     input: resolve(inputFolder, 'index.es6.js'),
     plugins: [
+      commonjs(),
       nodeResolve(),
       replace({
         'process.env.NODE_ENV': '\'production\'',
@@ -130,7 +133,7 @@ const buildLegacy = async () => {
   await bundle.write({
     format: 'iife',
     sourcemap: false,
-    name: 'Bootstrap',
+    name: 'bootstrap',
     file: resolve(outputFolder, 'bootstrap-es5.js'),
   });
 
@@ -139,11 +142,11 @@ const buildLegacy = async () => {
 };
 
 module.exports.bootstrapJs = async () => {
+  const bench = new Timer('Bootstrap Js components');
   rimraf.sync(resolve(outputFolder));
 
   try {
     await build(resolve(inputFolder, 'index.es6.js'));
-    await unlink(resolve(outputFolder, 'index.es6.js'));
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
@@ -165,10 +168,12 @@ module.exports.bootstrapJs = async () => {
   console.log('ES6 components ready ✅');
 
   try {
-    await buildLegacy(inputFolder, 'index.es6.js');
+    await buildLegacy(resolve(outputFolder, 'index.es6.js'));
     const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
     const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
     await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8' });
+    await unlink(resolve(outputFolder, 'index.es6.js'));
+    await unlink(resolve(outputFolder, 'index.es6.min.js'));
     // eslint-disable-next-line no-console
     console.log('Legacy done! ✅');
   } catch (error) {
@@ -176,4 +181,6 @@ module.exports.bootstrapJs = async () => {
     console.error(error);
     process.exit(1);
   }
+
+  bench.stop();
 };

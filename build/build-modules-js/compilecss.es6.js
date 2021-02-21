@@ -84,5 +84,5 @@ module.exports.stylesheets = async (options, path) => {
     scssFilesPromises.push(handleScssFile(file, outputFile));
   }
 
-  await Promise.all([...cssFilesPromises, ...scssFilesPromises]);
+  return Promise.all([...cssFilesPromises, ...scssFilesPromises]);
 };

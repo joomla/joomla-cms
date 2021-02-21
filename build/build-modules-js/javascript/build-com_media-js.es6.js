@@ -7,6 +7,7 @@ const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const VuePlugin = require('rollup-plugin-vue');
 const commonjs = require('@rollup/plugin-commonjs');
+const { Timer } = require('../utils/timer.es6.js');
 
 const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
 
@@ -65,6 +66,8 @@ const buildLegacy = async (file) => {
 };
 
 module.exports.mediaManager = async () => {
+  const bench = new Timer('Media Manager Js components');
+
   // eslint-disable-next-line no-console
   console.log('Building Media Manager ES Module...');
 
@@ -117,4 +120,6 @@ module.exports.mediaManager = async () => {
   // eslint-disable-next-line no-console
   console.log('ES2017 Media Manager ready ✅');
   await buildLegacy(resolve('media/com_media/js/media-manager.js'));
+
+  bench.stop();
 };

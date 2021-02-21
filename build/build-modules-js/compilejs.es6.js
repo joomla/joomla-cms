@@ -74,5 +74,5 @@ module.exports.scripts = async (options, path) => {
     }
   });
 
-  await Promise.all([...jsFilesPromises, ...wcFilesPromises, ...esmFilesPromises]);
+  return Promise.all([...jsFilesPromises, ...wcFilesPromises, ...esmFilesPromises]);
 };

@@ -155,7 +155,7 @@ module.exports.createErrorPages = async (options) => {
 
   Object.keys(options.settings.errorPages).forEach((name) => processPages.push(processPage(name)));
 
-  await Promise.all(processPages).catch((err) => {
+  return Promise.all(processPages).catch((err) => {
     // eslint-disable-next-line no-console
     console.error(err);
     process.exit(-1);
