@@ -2,7 +2,6 @@ import { api } from '../app/Api.es6';
 import * as types from './mutation-types.es6';
 import translate from '../plugins/translate.es6';
 import { notifications } from '../app/Notifications.es6';
-import * as FileSaver from '../../../../../../node_modules/file-saver/src/FileSaver';
 
 // Actions are similar to mutations, the difference being that:
 // - Instead of mutating the state, actions commit mutations.
@@ -81,7 +80,7 @@ export const download = (context, payload) => {
     .then((contents) => {
       const file = contents.files[0];
 
-      // Converte the base 64 encoded string to a blob
+      // Convert the base 64 encoded string to a blob
       const byteCharacters = atob(file.content);
       const byteArrays = [];
 
@@ -99,8 +98,14 @@ export const download = (context, payload) => {
         byteArrays.push(byteArray);
       }
 
-      // Open the save as file dialog
-      FileSaver.saveAs(new Blob(byteArrays, { type: file.mime_type }), file.name);
+      // Download file
+      const blobURL = URL.createObjectURL(new Blob(byteArrays, { type: file.mime_type }));
+      const a = document.createElement('a');
+      a.href = blobURL;
+      a.download = file.name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     })
     .catch((error) => {
       // eslint-disable-next-line no-console

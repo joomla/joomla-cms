@@ -6,12 +6,14 @@
  * npm ci
  *
  * For dedicated tasks, please run:
- * node build.js --build-pages  === will create the error pages (for incomplete repo build PHP+NPM)
- * node build.js --copy-assets  === will clean the media/vendor folder and then will populate the folder from node_modules
- * node build.js --compile-js   === will transpile ES6 files and also uglify the ES6,ES5 files
- * node build.js --compile-css  === will compile all the scss defined files and also create a minified version of the css
- * node build.js --compile-bs   === will compile all the Bootstrap javascript components
- * node build.js --gzip         === will create gzip files for all the minified stylesheets and scripts.'
+ * node build.js --build-pages      will create the error pages (for incomplete repo build PHP+NPM)
+ * node build.js --copy-assets      will clean the media/vendor folder and then will populate the folder from node_modules
+ * node build.js --compile-js       will transpile ES6 files and also uglify the ES6,ES5 files
+ * node build.js --compile-css      will compile all the scss defined files and also create a minified version of the css
+ * node build.js --compile-bs       will compile all the Bootstrap javascript components
+ * node build.js --com-media        will compile the media manager Vue application
+ * node build.js --watch-com-media  will compile the media manager Vue application
+ * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -30,6 +32,7 @@ const { patchPackages } = require('./build-modules-js/init/patches.es6.js');
 const { cleanVendors } = require('./build-modules-js/init/cleanup-media.es6.js');
 const { recreateMediaFolder } = require('./build-modules-js/init/recreate-media.es6');
 const { watching } = require('./build-modules-js/watch.es6.js');
+const { mediaManager } = require('./build-modules-js/javascript/build-com_media-js.es6');
 const { compressFiles } = require('./build-modules-js/compress.es6.js');
 
 // The settings
@@ -74,6 +77,8 @@ Program
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
   .option('--compile-bs', 'Compiles all the Bootstrap component scripts.')
   .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
+  .option('--com-media', 'Compile the Media Manager client side App.')
+  .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
   .on('--help', () => {
@@ -134,6 +139,17 @@ if (Program.compileBs) {
 // Gzip js/css files
 if (Program.gzip) {
   compressFiles();
+}
+
+// Compile the media manager
+if (Program.comMedia) {
+  // false indicates "no watch"
+  mediaManager(false);
+}
+
+// Watch & Compile the media manager
+if (Program.watchComMedia) {
+  mediaManager(true);
 }
 
 // Prepare the repo for dev work

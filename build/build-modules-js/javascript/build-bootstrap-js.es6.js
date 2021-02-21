@@ -33,6 +33,21 @@ const build = async () => {
       replace({
         'process.env.NODE_ENV': '\'production\'',
       }),
+      babel({
+        exclude: 'node_modules/core-js/**',
+        babelHelpers: 'bundled',
+        babelrc: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: {
+                esmodules: true,
+              },
+            },
+          ],
+        ],
+      }),
     ],
     external: [
       './base-component.js',
