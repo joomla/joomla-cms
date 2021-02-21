@@ -116,7 +116,7 @@ Joomla = window.Joomla || {};
 	 */
 	PreUpdateChecker.config = {
 		serverUrl: 'index.php?option=com_joomlaupdate&task=update.fetchextensioncompatibility',
-		selector: '.extension-check'
+		selector: '.extension-check',
 	};
 
 	/**
@@ -146,7 +146,6 @@ Joomla = window.Joomla || {};
 		// The currently processing line should show until it’s finished
 		$('#compatibilitytype0').css('display', 'block');
 		$('.compatibilitytoggle').css('float', 'right').css('cursor', 'pointer');
-
 
 		$('.compatibilitytoggle').on('click', function(toggle, index)
 		{
@@ -214,7 +213,7 @@ Joomla = window.Joomla || {};
 			url: PreUpdateChecker.config.serverUrl
 				+ '&joomla-target-version=' + encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
 				+ 'joomla-current-version=' + PreUpdateChecker.joomlaCurrentVersion
-				+ 'extension-version=' + node.data('extension-current-version')
+				+ 'extension-version=' + node.getAttribute('data-extension-current-version')
 				+ '&extension-id=' + encodeURIComponent(node.getAttribute('data-extension-id')),
 			onSuccess(data) {
 				var response = JSON.parse(data);
@@ -303,10 +302,15 @@ Joomla = window.Joomla || {};
 			}
 		}
 		// Insert the generated html
-		var extensionId = extensionData.$element.data('extensionId');
+		var extensionId = extensionData.element.getAttribute('data-extension-id');
 		document.getElementById('available-version-' + extensionId ).innerHTML = html;
 
-		extensionData.$element.closest('tr').appendTo($('#compatibilitytype' + extensionData.compatibilityData.resultGroup + ' tbody'));
+		var compatType = document.querySelector('#compatibilitytype' + extensionData.compatibilityData.resultGroup + ' tbody')
+
+		if (compatType)
+		{
+			extensionData.element.closest('tr').appendChild(compatType);
+		}
 		$('#compatibilitytype' + extensionData.compatibilityData.resultGroup).css('display', 'block');
 
 		document.getElementById('compatibilitytype0').style.display = 'block';
