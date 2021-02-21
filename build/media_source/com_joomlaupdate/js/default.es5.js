@@ -128,7 +128,7 @@ Joomla = window.Joomla || {};
 		INCOMPATIBLE: 0,
 		COMPATIBLE: 1,
 		MISSING_COMPATIBILITY_TAG: 2,
-		SERVER_ERROR: 3
+		SERVER_ERROR: 3,
 	};
 
 	/**
@@ -142,10 +142,16 @@ Joomla = window.Joomla || {};
 
 		// No point creating and loading a component stylesheet for 4 settings
 		$('.compatibilitytypes img').css('height', '20px');
-		$('.compatibilitytypes').css('display', 'none').css('margin-left', 0);
+		[].slice.call(document.querySelectorAll('.compatibilitytypes')).forEach((el) => {
+			el.style.display = 'none';
+			el.style.marginLeft = 0;
+		});
 		// The currently processing line should show until it’s finished
-		$('#compatibilitytype0').css('display', 'block');
-		$('.compatibilitytoggle').css('float', 'right').css('cursor', 'pointer');
+		document.getElementById('compatibilitytype0').style.display = 'block';
+		[].slice.call(document.querySelectorAll('.compatibilitytoggle')).forEach((el) => {
+			el.style.float = 'right';
+			el.style.cursor = 'pointer';
+		});
 
 		$('.compatibilitytoggle').on('click', function(toggle, index)
 		{
@@ -317,7 +323,7 @@ Joomla = window.Joomla || {};
 
 		// Have we finished?
 		if ($('#compatibilitytype0 tbody td').length == 0) {
-			$('#compatibilitytype0').css('display', 'none');
+			document.getElementById('compatibilitytype0').style.display = 'none';
 		}
 	}
     // Run PreUpdateChecker on document ready
