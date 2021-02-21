@@ -332,11 +332,11 @@ abstract class FormField
 	protected $showon;
 
 	/**
-	 * The display of the field
+	 * The parent class of the field
 	 *
 	 * @var  string
 	 */
-	protected $display;
+	protected $parentclass;
 
 	/**
 	 * The count value for generated name field
@@ -457,7 +457,7 @@ abstract class FormField
 			case 'spellcheck':
 			case 'validationtext':
 			case 'showon':
-			case 'display':
+			case 'parentclass':
 				return $this->$name;
 
 			case 'input':
@@ -522,7 +522,7 @@ abstract class FormField
 			case 'validationtext':
 			case 'group':
 			case 'showon':
-			case 'display':
+			case 'parentclass':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -689,7 +689,7 @@ abstract class FormField
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
-		$this->display = isset($this->element['display']) ? (string) $this->element['display'] : $this->display;
+		$this->parentclass = isset($this->element['parentclass']) ? (string) $this->element['parentclass'] : $this->parentclass;
 
 		// Add required to class list if field is required.
 		if ($this->required)
@@ -1350,7 +1350,7 @@ abstract class FormField
 			'value'          => $this->value,
 			'dataAttribute'  => $this->renderDataAttributes(),
 			'dataAttributes' => $this->dataAttributes,
-			'display'     	 => $this->display,
+			'parentclass'    => $this->parentclass,
 		];
 	}
 

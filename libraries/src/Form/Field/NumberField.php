@@ -66,11 +66,11 @@ class NumberField extends FormField
 	protected $layout = 'joomla.form.field.number';
 
 	/**
-	 * The display of the field
+	 * The parent class of the field
 	 *
 	 * @var  string
 	 */
-	protected $display;
+	protected $parentclass;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.

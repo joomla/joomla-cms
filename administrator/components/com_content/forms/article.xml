@@ -280,7 +280,7 @@
 					name="article_layout"
 					type="componentlayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="form-select"
+					class="form-select stack"
 					useglobal="true"
 					extension="com_content"
 					view="article"

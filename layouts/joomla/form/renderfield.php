@@ -36,8 +36,8 @@ $id              = $name . '-desc';
 $hide            = empty($options['hiddenLabel']) ? '' : ' visually-hidden';
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
 
-if($display) {
-	$class .= ' ' . $display;
+if($parentclass) {
+	$class .= ' ' . $parentclass;
 }
 
 ?>
