@@ -154,11 +154,11 @@ Joomla = window.Joomla || {};
 			{
 				$(this).data('state', 'open');
 				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION);
-				compatibilitytypes.find('.exname').removeClass('span8').addClass('span4');
-				compatibilitytypes.find('.extype').removeClass('span4').addClass('span2');
-				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('span2');
-				compatibilitytypes.find('.currcomp').removeClass('hidden').addClass('span2');
-				compatibilitytypes.find('.instver').removeClass('hidden').addClass('span2');
+				compatibilitytypes.find('.exname').removeClass('col-md-8').addClass('col-md-4');
+				compatibilitytypes.find('.extype').removeClass('col-md-4').addClass('col-md-2');
+				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('col-md-2');
+				compatibilitytypes.find('.currcomp').removeClass('hidden').addClass('col-md-2');
+				compatibilitytypes.find('.instver').removeClass('hidden').addClass('col-md-2');
 
 				if (PreUpdateChecker.showyellowwarning)
 				{
@@ -173,11 +173,11 @@ Joomla = window.Joomla || {};
 			{
 				$(this).data('state', 'closed');
 				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION);
-				compatibilitytypes.find('.exname').addClass('span8').removeClass('span4');
-				compatibilitytypes.find('.extype').addClass('span4').removeClass('span2');
-				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('span2');
-				compatibilitytypes.find('.currcomp').addClass('hidden').removeClass('span2');
-				compatibilitytypes.find('.instver').addClass('hidden').removeClass('span2');
+				compatibilitytypes.find('.exname').addClass('col-md-8').removeClass('col-md-4');
+				compatibilitytypes.find('.extype').addClass('col-md-4').removeClass('col-md-2');
+				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('col-md-2');
+				compatibilitytypes.find('.currcomp').addClass('hidden').removeClass('col-md-2');
+				compatibilitytypes.find('.instver').addClass('hidden').removeClass('col-md-2');
 
 				compatibilitytypes.find("#updateyellowwarning").addClass('hidden');
 				compatibilitytypes.find("#updateorangewarning").addClass('hidden');

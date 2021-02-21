@@ -141,7 +141,7 @@ $compatibilityTypes = array(
 			<?php foreach ($compatibilityTypes as $compatibilityType => $compatibilityData) : ?>
 				<?php $compatibilityDisplayClass = $compatibilityData['class']; ?>
 				<?php $compatibilityDisplayNotes = $compatibilityData['notes']; ?>
-				<fieldset id="compatibilitytype<?php echo $compatibilityTypeCount;?>" class="span12 compatibilitytypes">
+				<fieldset id="compatibilitytype<?php echo $compatibilityTypeCount;?>" class="col-md-12 compatibilitytypes">
 					<legend class="label <?php echo $compatibilityDisplayClass;?>">
 						<h3>
 							<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
@@ -156,10 +156,10 @@ $compatibilityTypes = array(
 					<table class="table">
 						<thead class="row-fluid">
 							<tr>
-								<th class="exname span8">
+								<th class="exname col-md-8">
 									<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 								</th>
-								<th class="extype span4">
+								<th class="extype col-md-4">
 									<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
 								</th>
 								<th class="upcomp hidden">
@@ -178,10 +178,10 @@ $compatibilityTypes = array(
 						<?php if ($compatibilityType == "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
 							<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 								<tr>
-									<td class="exname span8">
+									<td class="exname col-md-8">
 										<?php echo Text::_($extension->name); ?>
 									</td>
-									<td class="extype span4">
+									<td class="extype col-md-4">
 										<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 									</td>
 									<td
