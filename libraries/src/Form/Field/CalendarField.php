@@ -82,11 +82,12 @@ class CalendarField extends FormField
 	protected $layout = 'joomla.form.field.calendar';
 
 	/**
-	 * The parent class of the field
+	 * The display of the field
 	 *
 	 * @var  string
+	 * @since __DEPLOY_VERSION__
 	 */
-	protected $parentclass;
+	protected $display;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
