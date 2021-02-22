@@ -189,7 +189,7 @@ class MailTemplate
 
 		/** @var Registry $params */
 		$params = $mail->params;
-		$app = Factory::getApplication();
+		$app    = Factory::getApplication();
 
 		if ($config->get('alternative_mailconfig'))
 		{
@@ -220,29 +220,41 @@ class MailTemplate
 
 		$app->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
 
-		$mail->subject = $this->replaceTags(Text::_($mail->subject), $this->data);
-		$this->mailer->setSubject($mail->subject);
+		$subject = $this->replaceTags(Text::_($mail->subject), $this->data);
+		$this->mailer->setSubject($subject);
 
-		if ($config->get('mail_style', 'plaintext') === 'plaintext')
+		$mailStyle = $config->get('mail_style', 'plaintext');
+		$plainBody = $this->replaceTags(Text::_($mail->body), $this->data);
+		$htmlBody  = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
+
+		if ($mailStyle === 'plaintext' || $mailStyle === 'both')
 		{
-			$mail->body = $this->replaceTags(Text::_($mail->body), $this->data);
-			$this->mailer->setBody($mail->body);
+			// If the Plain template is empty try to convert the HTML template to a Plain text
+			if (!$plainBody)
+			{
+				$plainBody = strip_tags(str_replace(['<br>', '<br />', '<br/>'], "\n", $htmlBody));
+			}
+
+			$this->mailer->setBody($plainBody);
+
+			// Set alt body, use $mailer->Body directly because it was filtered by $mailer->setBody()
+			if ($mailStyle === 'both')
+			{
+				$this->mailer->AltBody = $this->mailer->Body;
+			}
 		}
 
-		if ($config->get('mail_style', 'plaintext') === 'html')
+		if ($mailStyle === 'html' || $mailStyle === 'both')
 		{
 			$this->mailer->IsHTML(true);
-			$mail->htmlbody = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
-			$this->mailer->setBody($mail->htmlbody);
-		}
 
-		if ($config->get('mail_style', 'plaintext') === 'both')
-		{
-			$this->mailer->IsHTML(true);
-			$mail->htmlbody = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
-			$this->mailer->setBody($mail->htmlbody);
-			$mail->body = $this->replaceTags(Text::_($mail->body), $this->data);
-			$this->mailer->AltBody = $mail->body;
+			// If HTML body is empty try to convert the Plain template to html
+			if (!$htmlBody)
+			{
+				$htmlBody = nl2br($plainBody);
+			}
+
+			$this->mailer->setBody($htmlBody);
 		}
 
 		if ($config->get('copy_mails') && $params->get('copyto'))

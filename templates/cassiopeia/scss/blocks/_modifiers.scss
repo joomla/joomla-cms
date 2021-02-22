@@ -115,6 +115,7 @@
   display: flex;
   flex-direction: column;
   padding: 0 ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter;
+  overflow: hidden;
 
   .boxed & {
     background-color: $white;
@@ -223,6 +224,7 @@
     column-gap: $cassiopeia-grid-gutter;
 
     .blog-item {
+      display: inline-flex;
       margin-bottom: $cassiopeia-grid-gutter;
       page-break-inside: avoid;
       break-inside: avoid;
