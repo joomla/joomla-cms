@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from 'vue/dist/vue.esm.browser.min.js';
 
 /**
  * Media Event bus - used for communication between joomla and vue

@@ -7,7 +7,6 @@
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {
-
 	"sourceType": "module"
   },
   // ESLint will not look in parent folders for eslint configs
@@ -21,7 +20,8 @@
   // Additional global variables your script accesses during execution
   "globals": {
     "Joomla": true,
-	"MediaManager" : true
+	"MediaManager" : true,
+	"bootstrap": true
   },
   // Rule overrides
   "rules": {
@@ -32,6 +32,8 @@
     // Allow strict mode (we are not dealing with modules)
     "strict": [0],
     // Disable alert rule till we have a CE in place
-    "no-alert": 0
+    "no-alert": 0,
+	// Allow extensions on imports
+	"import/extensions": 0
   }
 }

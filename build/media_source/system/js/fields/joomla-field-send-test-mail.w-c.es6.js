@@ -35,7 +35,7 @@
         mailonline: document.getElementById('jform_mailonline1').checked ? 1 : 0,
       };
 
-      const smtppass = this.querySelector('[name="jform[smtpsecure]"]');
+      const smtppass = this.querySelector('[name="jform[smtppass]"]');
 
       if (smtppass.disabled === false) {
         emailData.smtppass = smtppass.value;
@@ -62,9 +62,13 @@
           if (typeof response.messages === 'object' && response.messages !== null) {
             Joomla.renderMessages(response.messages);
           }
+
+          document.body.scrollIntoView({ behavior: 'smooth' });
         },
         onError: (xhr) => {
           Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+
+          document.body.scrollIntoView({ behavior: 'smooth' });
         },
       });
     }

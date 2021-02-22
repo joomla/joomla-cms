@@ -3,7 +3,7 @@
 @import "../../../../../media/vendor/bootstrap/scss/mixins";
 
 // choices.js
-@import "../../../../../node_modules/choices.js/src/styles/choices";
+@import "../../../../../media/vendor/choicesjs/scss/choices";
 
 // Cassiopea Variables, Functions and Mixins
 @import "../../tools/tools";
@@ -118,11 +118,11 @@
     padding-inline-end: 3rem;
     cursor: pointer;
     background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
-    background-color: $custom-select-bg;
+    background-color: $form-select-bg;
 
     [dir="rtl"] & {
       background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
-      background-color: $custom-select-bg;
+      background-color: $form-select-bg;
     }
   }
 }

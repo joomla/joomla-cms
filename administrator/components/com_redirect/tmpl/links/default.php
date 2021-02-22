@@ -40,10 +40,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'closeButton' => false,
 					'backdrop'    => 'static',
 					'keyboard'    => false,
-					'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
+					'footer'      => '<button type="button" class="btn" data-bs-dismiss="modal"'
 						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-						. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+						. '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 						. Text::_("JSAVE") . '</button>'
 						. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
 						. Text::_("JAPPLY") . '</button>'
@@ -53,12 +53,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table">
-				<caption class="sr-only">
+				<caption class="visually-hidden">
 					<?php echo Text::_('COM_REDIRECTS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -101,7 +101,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+							<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->old_url); ?>
 						</td>
 						<td class="text-center">
 							<div class="btn-group">

@@ -35,7 +35,7 @@ $input = Factory::getApplication()->input;
 							</div>
 							<div class="form-group">
 								<label for="type"><?php echo Text::_('COM_TEMPLATES_NEW_FILE_TYPE'); ?></label>
-								<select class="custom-select" data-chosen="true" name="type" id="type" required >
+								<select class="form-select" data-chosen="true" name="type" id="type" required >
 									<option value="">- <?php echo Text::_('COM_TEMPLATES_NEW_FILE_SELECT'); ?> -</option>
 									<option value="css">.css</option>
 									<option value="php">.php</option>
@@ -61,9 +61,7 @@ $input = Factory::getApplication()->input;
 							<div class="input-group">
 								<input type="file" name="files" aria-labelledby="upload" class="form-control" required>
 								<?php echo HTMLHelper::_('form.token'); ?>
-								<span class="input-group-append">
-									<button type="submit" class="btn btn-primary" id="upload"><?php echo Text::_('COM_TEMPLATES_BUTTON_UPLOAD'); ?></button>
-								</span>
+								<button type="submit" class="btn btn-primary" id="upload"><?php echo Text::_('COM_TEMPLATES_BUTTON_UPLOAD'); ?></button>
 							</div>
 							<?php $cMax    = $this->state->get('params')->get('upload_limit'); ?>
 							<?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize($cMax . 'MB')); ?>

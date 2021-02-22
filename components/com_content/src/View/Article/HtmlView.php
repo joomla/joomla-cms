@@ -268,15 +268,13 @@ class HtmlView extends BaseHtmlView
 	protected function _prepareDocument()
 	{
 		$app     = Factory::getApplication();
-		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
-		$title   = null;
 
 		/**
 		 * Because the application sets a default page title,
 		 * we need to get it from the menu item itself
 		 */
-		$menu = $menus->getActive();
+		$menu = $app->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -302,7 +300,7 @@ class HtmlView extends BaseHtmlView
 			$category = Categories::getInstance('Content')->get($this->item->catid);
 
 			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article'
-				|| $id != $category->id) && $category->id > 1)
+				|| $id !== (int) $category->id) && (int) $category->id > 1)
 			{
 				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
@@ -316,26 +314,12 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// Check for empty title and add site name if param is set
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
 		if (empty($title))
 		{
 			$title = $this->item->title;
 		}
 
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($title);
 
 		if ($this->item->metadesc)
 		{
@@ -371,7 +355,7 @@ class HtmlView extends BaseHtmlView
 		if (!empty($this->item->page_title))
 		{
 			$this->item->title = $this->item->title . ' - ' . $this->item->page_title;
-			$this->document->setTitle(
+			$this->setDocumentTitle(
 				$this->item->page_title . ' - ' . Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1)
 			);
 		}

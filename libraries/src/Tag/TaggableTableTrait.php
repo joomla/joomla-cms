@@ -11,13 +11,11 @@ namespace Joomla\CMS\Tag;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 
 /**
  * Defines the trait for a Taggable Table Class.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 trait TaggableTableTrait
 {

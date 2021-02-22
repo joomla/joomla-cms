@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseInterface;

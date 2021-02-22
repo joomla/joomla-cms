@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -17,6 +18,8 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -250,6 +253,9 @@ class JoomlaInstallerScript
 			return;
 		}
 
+		// Ensure the FieldsHelper class is loaded for the Repeatable fields plugin we're about to remove
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
 		try
 		{
 			$db->transactionStart();
@@ -468,10 +474,24 @@ class JoomlaInstallerScript
 	/**
 	 * Delete files that should not exist
 	 *
-	 * @return  void
+	 * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
+	 * @param bool  $suppressOutput   Set to true to supress echoing any errors, and just return the $status array
+	 *
+	 * @return  array
 	 */
-	public function deleteUnexistingFiles()
+	public function deleteUnexistingFiles($dryRun = false, $suppressOutput = false)
 	{
+		$status = [
+			'files_exist'     => [],
+			'folders_exist'   => [],
+			'files_deleted'   => [],
+			'folders_deleted' => [],
+			'files_errors'    => [],
+			'folders_errors'  => [],
+			'folders_checked' => [],
+			'files_checked'   => [],
+		];
+
 		$files = array(
 			// Joomla 4.0 Beta 1
 			'/administrator/components/com_actionlogs/actionlogs.php',
@@ -4990,7 +5010,8 @@ class JoomlaInstallerScript
 			'/templates/system/images/j_button2_pagebreak.png',
 			'/templates/system/images/j_button2_readmore.png',
 			'/templates/system/images/j_button2_right.png',
-			'/templates/system/images/selector-arrow.png',			// Joomla 4.0 Beta 3
+			'/templates/system/images/selector-arrow.png',
+			// Joomla 4.0 Beta 3
 			'/administrator/templates/atum/images/logo.svg',
 			'/administrator/templates/atum/images/logo-blue.svg',
 			'/administrator/templates/atum/images/logo-joomla-blue.svg',
@@ -5027,7 +5048,6 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
 		);
 
-		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
 			// Joomla 4.0 Beta 1
 			'/templates/system/images',
@@ -6214,23 +6234,69 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/controller',
 			// Joomla 4.0 Beta 5
 			'/plugins/content/imagelazyload',
+			// Joomla 4.0 Beta 6
+			'/media/vendor/skipto/js/skipTo.js',
+			'/media/vendor/skipto/js/dropMenu.js',
+			'/media/vendor/skipto/css/SkipTo.css'
 		);
+
+		$status['files_checked'] = $files;
+		$status['folders_checked'] = $folders;
 
 		foreach ($files as $file)
 		{
-			if (File::exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
+			if ($fileExists = File::exists(JPATH_ROOT . $file))
 			{
-				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
+				$status['files_exist'][] = $file;
+
+				if ($dryRun === false)
+				{
+					if (File::delete(JPATH_ROOT . $file))
+					{
+						$status['files_deleted'][] = $file;
+					}
+					else
+					{
+						$status['files_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file);
+					}
+				}
 			}
 		}
 
 		foreach ($folders as $folder)
 		{
-			if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder))
+			if ($folderExists = Folder::exists(JPATH_ROOT . $folder))
 			{
-				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
+				$status['folders_exist'][] = $folder;
+
+				if ($dryRun === false)
+				{
+					// TODO There is an issue while deleting folders using the ftp mode
+					if (Folder::delete(JPATH_ROOT . $folder))
+					{
+						$status['folders_deleted'][] = $folder;
+					}
+					else
+					{
+						$status['folders_errors'][] = Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder);
+					}
+				}
 			}
 		}
+
+		$this->fixFilenameCasing();
+
+		if ($suppressOutput === false && \count($status['folders_errors']))
+		{
+			echo implode('<br/>', $status['folders_errors']);
+		}
+
+		if ($suppressOutput === false && \count($status['files_errors']))
+		{
+			echo implode('<br/>', $status['files_errors']);
+		}
+
+		return $status;
 	}
 
 	/**
@@ -6578,6 +6644,8 @@ class JoomlaInstallerScript
 				return false;
 			}
 		}
+
+		$this->convertBlogLayouts();
 
 		return true;
 	}
@@ -6938,6 +7006,214 @@ class JoomlaInstallerScript
 
 			// Execute the query.
 			$db->execute();
+		}
+	}
+
+	/*
+	 * Converts layout parameters for blog / featured views into the according CSS classes.
+	 *
+	 * @return void
+	 *
+	 * @since 4.0.0
+	 */
+	private function convertBlogLayouts()
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				[
+					$db->quoteName('m.id'),
+					$db->quoteName('m.link'),
+					$db->quoteName('m.params'),
+				]
+			)
+			->from($db->quoteName('#__menu', 'm'))
+			->leftJoin($db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('m.component_id'))
+			->where($db->quoteName('e.element') . ' = ' . $db->quote('com_content'));
+
+		$menuItems = $db->setQuery($query)->loadAssocList('id');
+		$contentParams = ComponentHelper::getParams('com_content');
+
+		foreach ($menuItems as $id => $menuItem)
+		{
+			$view = Uri::getInstance($menuItem['link'])->getVar('view');
+
+			if (!in_array($view, ['category', 'categories', 'featured']))
+			{
+				continue;
+			}
+
+			$params = json_decode($menuItem['params'], true);
+
+			// Don't update parameters if num_columns is unset.
+			if (!isset($params['num_columns']))
+			{
+				continue;
+			}
+
+			$useLocalCols = $params['num_columns'] !== '';
+
+			if ($useLocalCols)
+			{
+				$nColumns = (int) $params['num_columns'];
+			}
+			else
+			{
+				$nColumns = (int) $contentParams->get('num_columns', '1');
+			}
+
+			unset($params['num_columns']);
+
+			$order = 0;
+			$useLocalOrder = false;
+
+			if (isset($params['multi_column_order']))
+			{
+				if ($params['multi_column_order'] !== '')
+				{
+					$useLocalOrder = true;
+					$order = (int) $params['multi_column_order'];
+				}
+				else
+				{
+					$order = (int) $contentParams->get('multi_column_order', '0');
+				}
+
+				unset($params['multi_column_order']);
+			}
+
+			// Only add CSS class if columns > 1 and a local value was set for columns or order.
+			if ($nColumns > 1 && ($useLocalOrder || $useLocalCols))
+			{
+				// Convert to the according CSS class depending on order = "down" or "across".
+				$layout = ($order === 0) ? 'masonry-' : 'columns-';
+
+				if (strpos($params['blog_class'], $layout) === false)
+				{
+					$params['blog_class'] .= ' ' . $layout . $nColumns;
+				}
+			}
+
+			$newParams = json_encode($params);
+
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('params') . ' = :params')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':params', $newParams, ParameterType::STRING)
+				->bind(':id', $id, ParameterType::INTEGER);
+
+			$db->setQuery($query)->execute();
+		}
+
+		// Update global parameters for com_content.
+		$nColumns = $contentParams->get('num_columns');
+
+		if ($nColumns !== null || true)
+		{
+			$nColumns = (int) $nColumns;
+			$order  = (int) $contentParams->get('multi_column_order', '0');
+			$params = $contentParams->toArray();
+
+			if (!isset($params['blog_class']))
+			{
+				$params['blog_class'] = '';
+			}
+
+			// Convert to the according CSS class depending on order = "down" or "across".
+			$layout = ($order === 0) ? 'masonry-' : 'columns-';
+
+			if (strpos($params['blog_class'], $layout) === false && $nColumns > 1)
+			{
+				$params['blog_class'] .= ' ' . $layout . $nColumns;
+			}
+
+			unset($params['num_columns']);
+
+			$app = Factory::getApplication();
+			/** @var ComponentModel $configModel */
+			$configModel = $app->bootComponent('com_config')
+				->getMVCFactory()
+				->createModel('Component', 'Administrator', ['ignore_request' => true]);
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('element') . ' = ' . $db->quote('com_content'));
+
+			$componentId = $db->setQuery($query)->loadResult();
+
+			$data = array(
+				'id'     => $componentId,
+				'option' => 'com_content',
+				'params' => $params,
+			);
+			$configModel->save($data);
+		}
+	}
+
+	/**
+	 * Renames or removes incorrectly cased files.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	protected function fixFilenameCasing()
+	{
+		$files = array(
+			// 3.10 changes
+			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
+			'libraries/src/Form/Rule/SubFormRule.php' => 'libraries/src/Form/Rule/SubformRule.php',
+			// 4.0.0
+			'media/vendor/skipto/js/skipTo.js' => 'media/vendor/skipto/js/skipto.js',
+		);
+
+		foreach ($files as $old => $expected)
+		{
+			$oldRealpath = realpath(JPATH_ROOT . '/' . $old);
+
+			// On Unix without incorrectly cased file.
+			if ($oldRealpath === false)
+			{
+				continue;
+			}
+
+			$oldBasename      = basename($oldRealpath);
+			$newRealpath      = realpath(JPATH_ROOT . '/' . $expected);
+			$newBasename      = basename($newRealpath);
+			$expectedBasename = basename($expected);
+
+			// On Windows or Unix with only the incorrectly cased file.
+			if ($newBasename !== $expectedBasename)
+			{
+				// Rename the file.
+				rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
+				rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+
+				continue;
+			}
+
+			// There might still be an incorrectly cased file on other OS than Windows.
+			if ($oldBasename === basename($old))
+			{
+				// Check if case-insensitive file system, eg on OSX.
+				if (fileinode($oldRealpath) === fileinode($newRealpath))
+				{
+					// Check deeper because even realpath or glob might not return the actual case.
+					if (!in_array($expectedBasename, scandir(dirname($newRealpath))))
+					{
+						// Rename the file.
+						rename(JPATH_ROOT . '/' . $old, JPATH_ROOT . '/' . $old . '.tmp');
+						rename(JPATH_ROOT . '/' . $old . '.tmp', JPATH_ROOT . '/' . $expected);
+					}
+				}
+				else
+				{
+					// On Unix with both files: Delete the incorrectly cased file.
+					unlink(JPATH_ROOT . '/' . $old);
+				}
+			}
 		}
 	}
 

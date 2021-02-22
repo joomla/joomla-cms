@@ -1,10 +1,14 @@
 // Custom Forms
 
 .custom-select {
+  @extend .form-select;
+}
+
+.form-select {
   max-width: $input-max-width;
   cursor: pointer;
-  background: $custom-select-background;
-  background-color: $custom-select-bg;
+  background: $form-select-background;
+  background-color: $form-select-bg;
   border: $input-border;
   // var needed
   box-shadow: $input-box-shadow;
@@ -15,9 +19,9 @@
   }
 
   [dir=rtl] & {
-    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-    background: $custom-select-background-rtl;
-    background-color: $custom-select-bg;
+    padding: $form-select-padding-y $form-select-padding-x $form-select-padding-y ($form-select-padding-x + $form-select-indicator-padding);
+    background: $form-select-background-rtl;
+    background-color: $form-select-bg;
   }
 
   &[multiple] {
@@ -25,7 +29,7 @@
     background-color: $white;
 
     option {
-      padding: $custom-select-multiple-padding-y $custom-select-padding-x;
+      padding: $form-select-multiple-padding-y $form-select-padding-x;
       background-color: $white;
 
       &:checked {
@@ -35,26 +39,25 @@
     }
   }
 
-  &.custom-select-color-state {
+  &.form-select-success,
+  &.custom-select-success {
+    color: $success;
+    background-color: $success;
 
-    &.custom-select-success {
-      color: $success;
-      background-color: $success;
-
-      option {
-        color: $custom-select-color;
-        background-color: $white;
-      }
+    option {
+      color: $form-select-color;
+      background-color: $white;
     }
+  }
 
-    &.custom-select-danger {
-      color: $danger;
-      background-color: $danger;
+  &.form-select-danger,
+  &.custom-select-danger {
+    color: $danger;
+    background-color: $danger;
 
-      option {
-        color: $custom-select-color;
-        background-color: $white;
-      }
+    option {
+      color: $form-select-color;
+      background-color: $white;
     }
   }
 
@@ -63,4 +66,9 @@
     color: var(--dark);
     background-color: $white;
   }
+}
+
+// Backwards compat with BS4
+.form-group {
+  @extend .mb-3;
 }

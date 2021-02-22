@@ -10,7 +10,9 @@ namespace Joomla\CMS\Error\Renderer;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Error\AbstractRenderer;
+use Joomla\CMS\Factory;
 
 /**
  * JSON error page renderer
@@ -49,6 +51,20 @@ class JsonRenderer extends AbstractRenderer
 		if (JDEBUG)
 		{
 			$data['trace'] = $error->getTraceAsString();
+		}
+
+		$app = Factory::getApplication();
+
+		if ($app instanceof WebApplicationInterface)
+		{
+			$errorCode = 500;
+
+			if ($error->getCode() > 0)
+			{
+				$errorCode = $error->getCode();
+			}
+
+			$app->setHeader('status', $errorCode);
 		}
 
 		// Push the data object into the document

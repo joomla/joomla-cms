@@ -27,6 +27,7 @@ use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
  * An example custom privacyconsent plugin.

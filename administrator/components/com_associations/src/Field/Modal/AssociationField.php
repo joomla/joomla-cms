@@ -66,10 +66,10 @@ class AssociationField extends FormField
 			. ' type="button"'
 			. ' id="select-change"'
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
-			. ' data-toggle="modal"'
+			. ' data-bs-toggle="modal"'
 			. ' data-select="' . Text::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . Text::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
-			. ' data-target="#associationSelect' . $this->id . 'Modal">'
+			. ' data-bs-target="#associationSelect' . $this->id . 'Modal">'
 			. '<span class="icon-file" aria-hidden="true"></span> '
 			. '<span id="select-change-text"></span>'
 			. '</button>';
@@ -97,7 +97,7 @@ class AssociationField extends FormField
 				'width'       => '800px',
 				'bodyHeight'  => 70,
 				'modalWidth'  => 80,
-				'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+				'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
 						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
 			)
 		);
