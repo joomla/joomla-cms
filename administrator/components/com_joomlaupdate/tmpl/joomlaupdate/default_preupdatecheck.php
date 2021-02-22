@@ -22,19 +22,19 @@ Factory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_
 
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
-		'class' => 'label-default',
+		'class' => 'alert-default',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES'
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION' => array(
-		'class' => 'label-important',
+		'class' => 'alert-important',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION_NOTES'
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE' => array(
-		'class' => 'label-warning',
+		'class' => 'alert-warning',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE_NOTES'
 	),
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE' => array(
-		'class' => 'label-success',
+		'class' => 'alert-success',
 		'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE_NOTES'
 	),
 );
@@ -141,8 +141,8 @@ $compatibilityTypes = array(
 			<?php foreach ($compatibilityTypes as $compatibilityType => $compatibilityData) : ?>
 				<?php $compatibilityDisplayClass = $compatibilityData['class']; ?>
 				<?php $compatibilityDisplayNotes = $compatibilityData['notes']; ?>
-				<fieldset id="compatibilitytype<?php echo $compatibilityTypeCount;?>" class="span12 compatibilitytypes">
-					<legend class="label <?php echo $compatibilityDisplayClass;?>">
+				<fieldset id="compatibilitytype<?php echo $compatibilityTypeCount;?>" class="col-md-12 compatibilitytypes">
+					<legend class="alert <?php echo $compatibilityDisplayClass;?>">
 						<h3>
 							<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
 								<div class="compatibilitytoggle" data-state="closed"><?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
@@ -156,10 +156,10 @@ $compatibilityTypes = array(
 					<table class="table">
 						<thead class="row-fluid">
 							<tr>
-								<th class="exname span8">
+								<th class="exname col-md-8">
 									<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 								</th>
-								<th class="extype span4">
+								<th class="extype col-md-4">
 									<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
 								</th>
 								<th class="upcomp hidden">
@@ -178,10 +178,10 @@ $compatibilityTypes = array(
 						<?php if ($compatibilityType == "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
 							<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 								<tr>
-									<td class="exname span8">
+									<td class="exname col-md-8">
 										<?php echo Text::_($extension->name); ?>
 									</td>
-									<td class="extype span4">
+									<td class="extype col-md-4">
 										<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 									</td>
 									<td
