@@ -58,7 +58,7 @@
 					format="hue"
 					control="slider"
 					preview="true"
-					saveFormat="hsl"
+					saveFormat="hue"
 					default="hsl(214,63%,20%)"
 				/>
 				<field

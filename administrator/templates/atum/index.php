@@ -35,8 +35,6 @@ $a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
 $a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
 $a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
 
-require_once __DIR__ . '/Service/HTML/Atum.php';
-
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
@@ -61,7 +59,16 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 	->useStyle('template.active.language')
-	->useStyle('template.user');
+	->useStyle('template.user')
+	->addInlineStyle(':root {
+		--hue: ' . $this->params->get('hue', '214') . ';
+		--atum-bg-light: ' . $this->params->get('bg-light', '--atum-bg-light') . ';
+		--atum-text-dark: ' . $this->params->get('text-dark', '--atum-text-dark') . ';
+		--atum-text-light: ' . $this->params->get('text-light', '--atum-text-light') . ';
+		--atum-link-color: ' . $this->params->get('link-color', '--atum-link-color') . ';
+		--atum-special-color: ' . $this->params->get('special-color', '--atum-special-color') . ';
+		--atum-sidebar-link-color: ' . $this->params->get('sidebar-link-color', '--atum-sidebar-link-color') . ';
+	}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -72,9 +79,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 $this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
-
-HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
-HTMLHelper::_('atum.rootcolors', $this->params);
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
