@@ -59,7 +59,7 @@
 					control="slider"
 					preview="true"
 					saveFormat="hue"
-					default="hsl(214,63%,20%)"
+					default="214"
 				/>
 				<field
 					name="bg-light"
