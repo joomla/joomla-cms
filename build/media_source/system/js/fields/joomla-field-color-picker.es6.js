@@ -20,7 +20,7 @@
 			this.removeAttribute('value');
 			// set internals
 			this.format = this.getAttribute('format');
-			this.color = window.tinycolor( this.value, {format: this.format} );
+			this.color = new window.tinycolor( this.value, {format: this.format} );
 			this.dragElement = null;
 			this.isOpen = false;
 			this.isMobile = 'ontouchstart' in document && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -323,7 +323,7 @@ input.color-input-hex {
 			if ( this.format !== 'hsl' ) {
 				const hue = Math.floor( this.controlPositions.c2y / this.height2 * 360 );
 
-				this.ctx1.fillStyle = window.tinycolor(`hsl(${hue},100%,50%)`).toRgbString();
+				this.ctx1.fillStyle = new window.tinycolor(`hsl(${hue},100%,50%)`).toRgbString();
 				this.ctx1.fillRect(0, 0, this.width1, this.height1);
 
 				const whiteGrad = this.ctx2.createLinearGradient(0, 0, this.width1, 0);
@@ -354,13 +354,13 @@ input.color-input-hex {
 				const hueGrad = this.ctx1.createLinearGradient(0, 0, this.width1, 0),
 					saturation = Math.round( (1 - this.controlPositions.c2y / this.height2) * 100 );
 
-				hueGrad.addColorStop(0, window.tinycolor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
-				hueGrad.addColorStop(0.17, window.tinycolor('rgb(255, 255, 0)').desaturate(100 - saturation).toRgbString());
-				hueGrad.addColorStop(0.34, window.tinycolor('rgb(0, 255, 0)').desaturate(100 - saturation).toRgbString());
-				hueGrad.addColorStop(0.51, window.tinycolor('rgb(0, 255, 255)').desaturate(100 - saturation).toRgbString());
-				hueGrad.addColorStop(0.68, window.tinycolor('rgb(0, 0, 255)').desaturate(100 - saturation).toRgbString());
-				hueGrad.addColorStop(0.85, window.tinycolor('rgb(255, 0, 255)').desaturate(100 - saturation).toRgbString());
-				hueGrad.addColorStop(1, window.tinycolor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
+				hueGrad.addColorStop(0, new window.tinycolor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
+				hueGrad.addColorStop(0.17, new window.tinycolor('rgb(255, 255, 0)').desaturate(100 - saturation).toRgbString());
+				hueGrad.addColorStop(0.34, new window.tinycolor('rgb(0, 255, 0)').desaturate(100 - saturation).toRgbString());
+				hueGrad.addColorStop(0.51, new window.tinycolor('rgb(0, 255, 255)').desaturate(100 - saturation).toRgbString());
+				hueGrad.addColorStop(0.68, new window.tinycolor('rgb(0, 0, 255)').desaturate(100 - saturation).toRgbString());
+				hueGrad.addColorStop(0.85, new window.tinycolor('rgb(255, 0, 255)').desaturate(100 - saturation).toRgbString());
+				hueGrad.addColorStop(1, new window.tinycolor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
 				this.ctx1.fillStyle = hueGrad;
 				this.ctx1.fill();
 	
@@ -377,7 +377,7 @@ input.color-input-hex {
 				this.ctx1.fillRect(0, 0, this.width1, this.height1);
 
 				const saturationGrad = this.ctx2.createLinearGradient(0, 0, 0, this.height2),
-					incolor = window.tinycolor( this.color.toRgbString() ).greyscale().toRgb();
+					incolor = new window.tinycolor( this.color.toRgbString() ).greyscale().toRgb();
 
 				saturationGrad.addColorStop(0, 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')' );
 				saturationGrad.addColorStop(1, 'rgb(' + incolor.r + ',' + incolor.g + ',' + incolor.b + ')' );
@@ -487,7 +487,7 @@ input.color-input-hex {
 					: self.format === 'hsl' ? `hsla(${inputs[0].value||this.hue},${inputs[1].value}%,${inputs[2].value}%,${inputs[3].value})`
 					: `rgba(${inputs.map(x=>x.value).join(',')})`;
 
-				self.color = window.tinycolor(colorSource, {format: this.format});
+				self.color = new window.tinycolor(colorSource, {format: this.format});
 				self.setControlPositions();
 				self.updateInputs();
 				self.updateControls();
@@ -530,7 +530,7 @@ input.color-input-hex {
 				colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
 
 			// new color
-			this.color = window.tinycolor( `${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, {format: this.format} );
+			this.color = new window.tinycolor( `${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, {format: this.format} );
 			// new positions
 			this.controlPositions.c1x = offsetX;
 			this.controlPositions.c1y = offsetY;
@@ -554,7 +554,7 @@ input.color-input-hex {
 				colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
 
 			// new color
-			this.color = window.tinycolor( `${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, {format: this.format} );
+			this.color = new window.tinycolor( `${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, {format: this.format} );
 			// new position
 			this.controlPositions.c2y = offsetY;
 			// update color picker
