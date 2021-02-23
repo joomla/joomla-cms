@@ -85,10 +85,10 @@ class Router extends RouterView
 		$this->categoryFactory = $categoryFactory;
 		$this->db              = $db;
 
-		$params = ComponentHelper::getParams('com_content');
-		$this->noIDs = (bool) $params->get('sef_ids');
+		$params             = ComponentHelper::getParams('com_content');
+		$this->noIDs        = (bool) $params->get('sef_ids');
 		$this->legacyStrict = (bool) $params->get('legacy_strict');
-		$categories = new RouterViewConfiguration('categories');
+		$categories         = new RouterViewConfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
 		$category = new RouterViewConfiguration('category');
