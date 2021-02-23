@@ -42,6 +42,7 @@ class Router extends RouterView
 	 * Flag to set Legacy Router in Strict or Loose mode
 	 *
 	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $legacyStrict = false;
 
