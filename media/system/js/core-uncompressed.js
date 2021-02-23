@@ -960,7 +960,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 					xhr.setRequestHeader('X-CSRF-Token', token);
 				}
 
-				if (!options.headers || !options.headers['Content-Type']) {
+				if (typeof(options.data) === 'string' && (!options.headers || !options.headers['Content-Type'])) {
 					xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				}
 			}
