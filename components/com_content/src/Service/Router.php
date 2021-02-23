@@ -291,8 +291,8 @@ class Router extends RouterView
 				->from($this->db->quoteName('#__content'))
 				->where(
 					[
-						$this->db->quoteName('alias') . ' = :alias',
 						$this->db->quoteName('id') . ' = :id',
+						$this->db->quoteName('alias') . ' = :alias',
 					]
 				)
 				->bind(':id', $id)
