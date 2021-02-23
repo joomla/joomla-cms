@@ -29,8 +29,6 @@ $task       = $input->get('task', 'display');
 $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
 
-require_once __DIR__ . '/Service/HTML/Atum.php';
-
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
@@ -73,8 +71,6 @@ if (!$htmlRegistry->hasService('atum'))
 {
 	$htmlRegistry->register('atum', 'JHtmlAtum');
 }
-
-HTMLHelper::_('atum.rootcolors', $this->params);
 
 ?>
 <!DOCTYPE html>

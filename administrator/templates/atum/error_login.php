@@ -26,8 +26,6 @@ $view   = $input->get('view', '');
 $layout = $input->get('layout', 'default');
 $task   = $input->get('task', 'display');
 
-require_once __DIR__ . '/Service/HTML/Atum.php';
-
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
@@ -76,8 +74,6 @@ if (!$htmlHelperRegistry->hasService('atum'))
 {
 	$htmlHelperRegistry->register('atum', 'JHtmlAtum');
 }
-
-HTMLHelper::_('atum.rootcolors', $this->params);
 
 ?>
 <!DOCTYPE html>
