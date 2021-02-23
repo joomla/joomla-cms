@@ -335,6 +335,7 @@ abstract class FormField
 	 * The parent class of the field
 	 *
 	 * @var  string
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $parentclass;
 
