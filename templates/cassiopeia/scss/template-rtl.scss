@@ -59,8 +59,18 @@ body,
 }
 
 // skipto
-.skip-to [role="separator"] {
-  text-align: right !important;
+.skip-to {
+  &.popup {
+    right: -3000em;
+    left: 0 !important;
+    &.focus {
+      right: 46%;
+      left: 0 !important;
+    }
+  }
+  [role="separator"] {
+    text-align: right !important;
+  }
 }
 
 // SearchTools rounded corners
