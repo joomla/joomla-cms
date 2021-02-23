@@ -295,7 +295,7 @@ class Router extends RouterView
 						$this->db->quoteName('alias') . ' = :alias',
 					]
 				)
-				->bind(':id', $id)
+				->bind(':id', $id, ParameterType::INTEGER)
 				->bind(':alias', $alias);
 			$this->db->setQuery($dbquery);
 
