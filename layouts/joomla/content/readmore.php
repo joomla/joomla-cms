@@ -20,7 +20,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 
 <p class="readmore">
 	<?php if (!$params->get('access-view')) : ?>
-		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>"  aria-label="<?php echo Text::_('JGLOBAL_REGISTER_TO_READ_MORE') . ' ' . $this->escape($item->title); ?>">
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" aria-label="<?php echo Text::_('JGLOBAL_REGISTER_TO_READ_MORE') . ' ' . $this->escape($item->title); ?>">
 			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 			<?php echo Text::_('JGLOBAL_REGISTER_TO_READ_MORE'); ?>
 		</a>
