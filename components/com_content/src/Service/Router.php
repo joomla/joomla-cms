@@ -39,6 +39,13 @@ class Router extends RouterView
 	protected $noIDs = false;
 
 	/**
+	 * Flag to set Legacy Router in Strict or Loose mode
+	 *
+	 * @var    boolean
+	 */
+	protected $legacyStrict = false;
+
+	/**
 	 * The category factory
 	 *
 	 * @var CategoryFactoryInterface
@@ -80,6 +87,7 @@ class Router extends RouterView
 
 		$params = ComponentHelper::getParams('com_content');
 		$this->noIDs = (bool) $params->get('sef_ids');
+		$this->legacyStrict = (bool) $params->get('legacy_strict');
 		$categories = new RouterViewConfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
@@ -269,6 +277,26 @@ class Router extends RouterView
 				)
 				->bind(':alias', $segment)
 				->bind(':catid', $query['id'], ParameterType::INTEGER);
+			$this->db->setQuery($dbquery);
+
+			return (int) $this->db->loadResult();
+		}
+
+		if ($this->legacyStrict)
+		{
+			[$id, $alias] = explode('-', $segment, 2);
+
+			$dbquery = $this->db->getQuery(true);
+			$dbquery->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__content'))
+				->where(
+					[
+						$this->db->quoteName('id') . ' = :id',
+						$this->db->quoteName('alias') . ' = :alias',
+					]
+				)
+				->bind(':id', $id, ParameterType::INTEGER)
+				->bind(':alias', $alias);
 			$this->db->setQuery($dbquery);
 
 			return (int) $this->db->loadResult();
