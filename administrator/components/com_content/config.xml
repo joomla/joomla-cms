@@ -1048,6 +1048,19 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
+			<field
+				name="legacy_strict"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				label="JGLOBAL_SEF_STRICTMODE_LABEL"
+				description="JGLOBAL_SEF_STRICTMODE_DESC"
+				filter="integer"
+				showon="sef_ids:0"
+				>
+				<option value="0">Loose</option>
+				<option value="1">Strict</option>
+			</field>
 		</fieldset>
 		<fieldset
 			name="integration_customfields"
