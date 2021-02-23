@@ -284,8 +284,7 @@ class Router extends RouterView
 
 		if ($this->legacyStrict)
 		{
-			$id    = (int) $segment;
-			$alias = ltrim(str_replace($id, '', $segment), '-');
+			[$id, $alias] = explode('-', $segment, 2);
 
 			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($this->db->quoteName('id'))
