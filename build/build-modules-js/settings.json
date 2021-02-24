@@ -542,14 +542,14 @@
       "@ctrl/tinycolor": {
         "name": "tinycolor",
         "js": {
-          "tinycolor.js": "js/tinycolor.js",
-          "tinycolor.min.js": "js/tinycolor.min.js"
+          "dist/index.js": "js/tinycolor.js"
         },
+        "dependencies": [],
         "provideAssets": [
           {
             "name": "tinycolor",
             "type": "script",
-            "uri": "tinycolor.min.js",
+            "uri": "dist/index.js",
             "attributes": {
               "defer": true
             }

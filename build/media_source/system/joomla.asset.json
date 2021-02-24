@@ -94,7 +94,7 @@
     {
       "name": "tinycolor",
       "type": "script",
-      "uri": "system/fields/tinycolor.es5.min.js",
+      "uri": "system/fields/tinycolor.min.js",
       "attributes": {
         "defer": true
       },

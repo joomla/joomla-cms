@@ -1,22 +1,22 @@
 /**
- * Joomla Color Picker Web Component
- * Implements TinyColor https://github.com/scttcper/tinycolor
- * 
- * Copyright Dimitris Grammatikogiannis & Dan Partac
- * License MIT
- * 
- * Quick Usage
- * -----------
- * Markup - see layouts/joomla/form/field/color/advanced.php for reference
- * <color-picker format="hex">
- *  <input type="hidden" id="joomla_field_id" value="field_value">
- *  <template name="hex-form"><input></template>
- *  <template name="rgb-form"><input><input><input><input></template>
- *  <template name="hsl-form"><input><input><input><input></template>
- * </color-picker>
- * -----------
- * Events - this component fires 'joomla.colorpicker.change' when a new valid color is "picked"
-**/
+  * Joomla Color Picker Web Component
+  * Implements TinyColor https://github.com/scttcper/tinycolor
+  * 
+  * Copyright Dimitris Grammatikogiannis & Dan Partac
+  * License MIT
+  * 
+  * Quick Usage
+  * -----------
+  * Markup - see layouts/joomla/form/field/color/advanced.php for reference
+  * <color-picker format="hex">
+  *  <input type="hidden" id="joomla_field_id" value="field_value">
+  *  <template name="hex-form"><input></template>
+  *  <template name="rgb-form"><input><input><input><input></template>
+  *  <template name="hsl-form"><input><input><input><input></template>
+  * </color-picker>
+  * -----------
+  * Events - this component fires 'joomla.colorpicker.change' when a new valid color is "picked"
+  */
 
 (function() {
   class ColorPicker extends HTMLElement {
@@ -29,7 +29,7 @@
       // set internals
       this.format = this.getAttribute('format');
       this.placeholder = this.getAttribute('placeholder');
-      this.color = new window.tinycolor( this.value, {format: this.format} );
+      this.color = new window.tinycolor( this.value, { format: this.format } );
       this.dragElement = null;
       this.isOpen = false;
       this.isMobile = 'ontouchstart' in document && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
