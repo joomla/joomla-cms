@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ $articleId = $displayData['item']->id;
 
 <?php if ($canEdit) : ?>
 	<div class="icons">
-		<div class="float-right">
+		<div class="float-end">
 			<div>
 				<?php echo HTMLHelper::_('icon.edit', $displayData['item'], $displayData['params']); ?>
 			</div>

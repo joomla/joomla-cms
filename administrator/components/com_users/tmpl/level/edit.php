@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ HTMLHelper::_('behavior.keepalive');
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_users&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_users&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" aria-label="<?php echo Text::_('COM_USERS_LEVEL_FORM_' . ( (int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
 	<fieldset class="options-form mt-4">
 		<legend><?php echo Text::_('COM_USERS_LEVEL_DETAILS'); ?></legend>
 		<div>

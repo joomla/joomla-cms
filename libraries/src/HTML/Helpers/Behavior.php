@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\HTML\Helpers;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
@@ -123,8 +123,6 @@ abstract class Behavior
 	public static function keepalive()
 	{
 		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('keepalive');
-
-		return;
 	}
 
 	/**
@@ -161,7 +159,7 @@ abstract class Behavior
 			return;
 		}
 
-		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 		$wa
@@ -194,8 +192,6 @@ abstract class Behavior
 		);
 
 		static::$loaded[__METHOD__][$sig] = true;
-
-		return;
 	}
 
 	/**
@@ -229,7 +225,7 @@ abstract class Behavior
 			$scriptOptions = array('version' => 'auto', 'relative' => true);
 			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+			/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 			$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 			$wa->registerAndUseScript('polyfill.' . $polyfillType, 'vendor/polyfills/polyfill-' . $polyfillType . '.js', $scriptOptions);
 

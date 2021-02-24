@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
@@ -162,9 +163,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		$this->workflowCleanupBatchMove($oldId, $newId);
 
-		// Register FieldsHelper
-		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
 		$oldItem = $this->getTable();
 		$oldItem->load($oldId);
 		$fields = FieldsHelper::getFields('com_content.article', $oldItem, true);
@@ -261,6 +259,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			// Set the new category ID
 			$this->table->catid = $categoryId;
 
+			// We don't want to modify tags - so remove the associated tags helper
+			if ($this->table instanceof TaggableTableInterface)
+			{
+				$this->table->clearTagsHelper();
+			}
+
 			// Check the row.
 			if (!$this->table->check())
 			{
@@ -298,7 +302,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || ($record->state != -2 && !Factory::getApplication()->isClient('api')))
+		if (empty($record->id) || ($record->state != -2))
 		{
 			return false;
 		}
@@ -480,8 +484,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app  = Factory::getApplication();
-		$user = $app->getIdentity();
+		$user = Factory::getApplication()->getIdentity();
 
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
@@ -491,61 +494,38 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			return false;
 		}
 
-		$jinput = $app->input;
+		$id = (int) $this->getState('article.id');
 
-		/*
-		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
-		 * The back end uses id so we use that the rest of the time and set it to 0 by default.
-		 */
-		$id = $jinput->get('a_id', $jinput->get('id', 0));
-
-		// Determine correct permissions to check.
-		if ($id = $this->getState('article.id', $id))
+		// For new articles we load the potential state + associations
+		if ($id == 0 && $formField = $form->getField('catid'))
 		{
-			if ($app->isClient('site'))
-			// Existing record. We can't edit the category in frontend if not edit.state.
+			$assignedCatids = $data['catid'] ?? $form->getValue('catid');
+
+			$assignedCatids = is_array($assignedCatids)
+				? (int) reset($assignedCatids)
+				: (int) $assignedCatids;
+
+			// Try to get the category from the category field
+			if (empty($assignedCatids))
 			{
-				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
-					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+				$assignedCatids = $formField->getAttribute('default', null);
+
+				if (!$assignedCatids)
 				{
-					$form->setFieldAttribute('catid', 'readonly', 'true');
-					$form->setFieldAttribute('catid', 'filter', 'unset');
-				}
-			}
-		}
-		else
-		{
-			// For new articles we load the potential state + associations
-			if ($formField = $form->getField('catid'))
-			{
-				$assignedCatids = (int) ($data['catid'] ?? $form->getValue('catid'));
+					// Choose the first category available
+					$catOptions = $formField->options;
 
-				$assignedCatids = is_array($assignedCatids)
-					? (int) reset($assignedCatids)
-					: (int) $assignedCatids;
-
-				// Try to get the category from the category field
-				if (empty($assignedCatids))
-				{
-					$assignedCatids = $formField->getAttribute('default', null);
-
-					if (!$assignedCatids)
+					if ($catOptions && !empty($catOptions[0]->value))
 					{
-						// Choose the first category available
-						$catOptions = $formField->options;
-
-						if ($catOptions && !empty($catOptions[0]->value))
-						{
-							$assignedCatids = (int) $catOptions[0]->value;
-						}
+						$assignedCatids = (int) $catOptions[0]->value;
 					}
 				}
-
-				// Activate the reload of the form when category is changed
-				$form->setFieldAttribute('catid', 'refresh-enabled', true);
-				$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
-				$form->setFieldAttribute('catid', 'refresh-section', 'article');
 			}
+
+			// Activate the reload of the form when category is changed
+			$form->setFieldAttribute('catid', 'refresh-enabled', true);
+			$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
+			$form->setFieldAttribute('catid', 'refresh-section', 'article');
 		}
 
 		// Check for existing article.
@@ -571,24 +551,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$form->setFieldAttribute('publish_up', 'filter', 'unset');
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
-		}
-
-		// Prevent messing with article language and category when editing existing article with associations
-		$assoc = Associations::isEnabled();
-
-		// Check if article is associated
-		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
-		{
-			$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
-
-			// Make fields read only
-			if (!empty($associations))
-			{
-				$form->setFieldAttribute('language', 'readonly', 'true');
-				$form->setFieldAttribute('catid', 'readonly', 'true');
-				$form->setFieldAttribute('language', 'filter', 'unset');
-				$form->setFieldAttribute('catid', 'filter', 'unset');
-			}
 		}
 
 		return $form;
@@ -623,7 +585,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					)
 				);
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
-				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+
+				if ($app->isClient('administrator'))
+				{
+					$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				}
+
 				$data->set('access',
 					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
@@ -670,6 +637,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
+		if (!Factory::getUser()->authorise('core.admin', 'com_content'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
 		return parent::validate($form, $data, $group);
 	}
 
@@ -710,6 +685,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		// Create new category, if needed.
 		$createCategory = true;
+
+		if (is_null($data['catid']))
+		{
+			// When there is no catid passed don't try to create one
+			$createCategory = false;
+		}
 
 		// If category ID is provided, check if it's valid.
 		if (is_numeric($data['catid']) && $data['catid'])
@@ -1102,14 +1083,14 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	/**
 	 * Custom clean the cache of com_content and content modules
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		parent::cleanCache('com_content');
 		parent::cleanCache('mod_articles_archive');
@@ -1129,7 +1110,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function hit()
 	{
-		return;
 	}
 
 	/**
@@ -1172,12 +1152,4 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		return $return;
 	}
-
-	/**
-	 * Load the assigned workflow information by a given category ID
-	 *
-	 * @param   integer  $catId  The given category
-	 *
-	 * @return  integer|boolean  If found, the workflow ID, otherwise false
-	 */
 }

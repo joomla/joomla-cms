@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Actionlogs\Administrator\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -59,7 +59,7 @@ class PlugininfoField extends FormField
 		);
 
 		return '<div class="alert alert-info">'
-			. '<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only">'
+			. '<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden">'
 			. Text::_('INFO')
 			. '</span>'
 			. Text::sprintf('PLG_SYSTEM_ACTIONLOGS_JOOMLA_ACTIONLOG_DISABLED_REDIRECT', $link)

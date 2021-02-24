@@ -9,7 +9,6 @@
 				name="address1"
 				type="text"
 				label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
-				id="address1"
 				filter="string"
 				size="30"
 			/>
@@ -18,7 +17,6 @@
 				name="address2"
 				type="text"
 				label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
-				id="address2"
 				filter="string"
 				size="30"
 			/>
@@ -27,7 +25,6 @@
 				name="city"
 				type="text"
 				label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
-				id="city"
 				filter="string"
 				size="30"
 			/>
@@ -36,7 +33,6 @@
 				name="region"
 				type="text"
 				label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
-				id="region"
 				filter="string"
 				size="30"
 			/>
@@ -45,7 +41,6 @@
 				name="country"
 				type="text"
 				label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
-				id="country"
 				filter="string"
 				size="30"
 			/>
@@ -54,7 +49,6 @@
 				name="postal_code"
 				type="text"
 				label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
-				id="postal_code"
 				filter="string"
 				size="30"
 			/>
@@ -63,7 +57,6 @@
 				name="phone"
 				type="tel"
 				label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
-				id="phone"
 				filter="string"
 				size="30"
 			/>
@@ -72,7 +65,6 @@
 				name="website"
 				type="url"
 				label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
-				id="website"
 				filter="url"
 				size="30"
 				validate="url"

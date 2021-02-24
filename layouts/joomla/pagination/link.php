@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,26 +20,26 @@ switch ((string) $item->text)
 {
 	// Check for "Start" item
 	case Text::_('JLIB_HTML_START') :
-		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-double-right' : 'fas fa-angle-double-left';
+		$icon = $app->getLanguage()->isRtl() ? 'icon-angle-double-right' : 'icon-angle-double-left';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Prev" item
 	case $item->text === Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
-		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-right' : 'fas fa-angle-left';
+		$icon = $app->getLanguage()->isRtl() ? 'icon-angle-right' : 'icon-angle-left';
 		$aria =Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Next" item
 	case Text::_('JNEXT') :
-		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-left' : 'fas fa-angle-right';
+		$icon = $app->getLanguage()->isRtl() ? 'icon-angle-left' : 'icon-angle-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "End" item
 	case Text::_('JLIB_HTML_END') :
-		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-double-left' : 'fas fa-angle-double-right';
+		$icon = $app->getLanguage()->isRtl() ? 'icon-angle-double-left' : 'icon-angle-double-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 

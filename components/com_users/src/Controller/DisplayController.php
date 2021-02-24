@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,22 +97,8 @@ class DisplayController extends BaseController
 					$model = $this->getModel($vName);
 					break;
 
-				case 'reset':
-					// If the user is already logged in, redirect to the profile page.
-					$user = Factory::getUser();
-
-					if ($user->get('guest') != 1)
-					{
-						// Redirect to profile page.
-						$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
-
-						return;
-					}
-
-					$model = $this->getModel($vName);
-					break;
-
 				case 'remind':
+				case 'reset':
 					// If the user is already logged in, redirect to the profile page.
 					$user = Factory::getUser();
 

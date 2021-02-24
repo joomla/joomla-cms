@@ -37,7 +37,7 @@
 			multiple="true"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
-			<option value="">JALL</option>
+			<option value="0">JALL</option>
 			<option value="-1">JNONE</option>
 		</field>
 
@@ -87,7 +87,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			default="1"
 			size="1"
 			validate="options"
@@ -114,6 +114,7 @@
 			name="created_user_id"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -133,6 +134,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -183,13 +185,14 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
 			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"
-			id="rules"
 			translate_label="false"
 			filter="rules"
 			validate="rules"
@@ -219,6 +222,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -226,6 +230,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -248,6 +253,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -267,6 +273,7 @@
 					label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
 					size="40"
 					showon="showlabel:1"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -300,7 +307,7 @@
 					name="layout"
 					type="fieldLayout"
 					label="COM_FIELDS_FIELD_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 				/>
 
 				<field

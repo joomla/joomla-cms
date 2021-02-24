@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,16 +67,16 @@ else
 }
 
 // set attributes
-$disabled			= $disabled ? ' disabled' : '';
-$readonly			= $readonly ? ' readonly' : '';
-$class				=  $class . ' ' . $format;
-$class				=  $class . ' ' . ($validate === 'color' ? '' : ' invalid');
-$class				= ' class="' . trim($class) . '"';
-$format				= ' format="' . $format . '"';
-$hint					= ' placeholder="' . (strlen($hint) ?  $this->escape($hint) : $placeholder) . '"';
-$autocomplete	= ' autocomplete="' . (!empty($autocomplete) ?  $autocomplete : 'off') . '"';
-$tabindex			= ' tabindex="' . (!empty($tabindex) ?  $tabindex : '0') . '"';
-$spellcheck		= ' spellcheck="' . (!empty($spellcheck) ?  $spellcheck : 'false') . '"';
+$disabled     = $disabled ? ' disabled' : '';
+$readonly     = $readonly ? ' readonly' : '';
+$class        =  $class . ' ' . $format;
+$class        =  $class . ' ' . ($validate === 'color' ? '' : ' invalid');
+$class        = ' class="' . trim($class) . '"';
+$format       = ' format="' . $format . '"';
+$hint         = ' placeholder="' . (strlen($hint) ?  $this->escape($hint) : $placeholder) . '"';
+$autocomplete = ' autocomplete="' . (!empty($autocomplete) ?  $autocomplete : 'off') . '"';
+$tabindex     = ' tabindex="' . (!empty($tabindex) ?  $tabindex : '0') . '"';
+$spellcheck   = ' spellcheck="' . (!empty($spellcheck) ?  $spellcheck : 'false') . '"';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRtl() ? ' dir="ltr"' : '';

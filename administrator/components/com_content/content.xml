@@ -3,7 +3,7 @@
 	<name>com_content</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
-	<copyright>(C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -38,4 +38,7 @@
 			<language tag="en-GB">language/en-GB/com_content.sys.ini</language>
 		</languages>
 	</administration>
+	<dashboards>
+		<dashboard title="COM_CONTENT_DASHBOARD_TITLE" icon="icon-file-alt">content</dashboard>
+	</dashboards>
 </extension>

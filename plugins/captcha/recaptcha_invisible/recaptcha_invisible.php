@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,7 +81,8 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 		// Load assets, the callback should be first
 		$this->app->getDocument()->getWebAssetManager()
 			->registerAndUseScript('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha.min.js', [], ['defer' => true])
-			->registerAndUseScript('plg_captcha_recaptchainvisible.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptchainvisible']);
+			->registerAndUseScript('plg_captcha_recaptchainvisible.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptchainvisible'])
+			->registerAndUseStyle('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha_invisible.css');
 
 		return true;
 	}

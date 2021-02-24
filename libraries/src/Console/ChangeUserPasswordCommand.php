@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -87,7 +88,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		{
 			$this->ioStyle->error("The user " . $this->username . " does not exist!");
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		$user = User::getInstance($userId);
@@ -99,12 +100,12 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		{
 			$this->ioStyle->error($user->getError());
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		$this->ioStyle->success("Password changed!");
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**
