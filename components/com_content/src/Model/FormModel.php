@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -270,6 +271,27 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 		{
 			$form->setFieldAttribute('catid', 'default', $params->get('catid'));
 			$form->setFieldAttribute('catid', 'readonly', 'true');
+
+			if (Multilanguage::isEnabled())
+			{
+				$categoryId = (int) $params->get('catid');
+
+				$db    = $this->getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('language'))
+					->from($db->quoteName('#__categories'))
+					->where($db->quoteName('id') . ' = :categoryId')
+					->bind(':categoryId', $categoryId, ParameterType::INTEGER);
+				$db->setQuery($query);
+
+				$result = $db->loadResult();
+
+				if ($result != '*')
+				{
+					$form->setFieldAttribute('language', 'readonly', 'true');
+					$form->setFieldAttribute('language', 'default', $result);
+				}
+			}
 		}
 
 		if (!Multilanguage::isEnabled())

@@ -585,7 +585,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					)
 				);
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
-				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+
+				if ($app->isClient('administrator'))
+				{
+					$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				}
+
 				$data->set('access',
 					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
