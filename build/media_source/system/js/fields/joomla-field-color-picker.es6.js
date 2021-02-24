@@ -22,7 +22,9 @@
       this.isMobile = 'ontouchstart' in document && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       this.keyTimer = null;
       // control positions
-      this.controlPositions = { c1x: 0, c1y: 0, c2y: 0, c3y: 0 };
+      this.controlPositions = {
+        c1x: 0, c1y: 0, c2y: 0, c3y: 0,
+      };
 
       // set main input
       this.input = this.querySelector('input[type="hidden"]');
@@ -31,13 +33,12 @@
       this.inputsTemplate = this.querySelector(`[name="${this.format}-form"]`).innerHTML;
 
       // make the controls smaller on mobile
-      const cv1w = this.isMobile ? 150 : 230,
-        cvh = this.isMobile ? 150 : 230,
-        dropClass = this.isMobile ? ' mobile' : '',
-        alphaControlViz = this.format === 'hex' ? ' visually-hidden' : '';
-      
-      this.controlsTemplate = 
-`<div class="color-control">
+      const cv1w = this.isMobile ? 150 : 230;
+      const cvh = this.isMobile ? 150 : 230;
+      const dropClass = this.isMobile ? ' mobile' : '';
+      const alphaControlViz = this.format === 'hex' ? ' visually-hidden' : '';
+
+      this.controlsTemplate = `<div class="color-control">
   <canvas class="color-control1" height="${cvh}" width="${cv1w}"></canvas>
   <div class="color-pointer"></div>
 </div>
@@ -53,8 +54,7 @@
       // set the main template
       this.template = document.createElement('template');
 
-      this.template.innerHTML = 
-`<style>
+      this.template.innerHTML = `<style>
 .picker-box {
   position: relative;
   display: flex
@@ -216,7 +216,7 @@ input.color-input-hex {
 
       // Patch shadow DOM
       if (window.ShadyCSS) {
-        window.ShadyCSS.styleElement(this)
+        window.ShadyCSS.styleElement(this);
       }
 
       // set main elements
@@ -258,19 +258,19 @@ input.color-input-hex {
         ? { down: 'touchstart', move: 'touchmove', up: 'touchend' }
         : { down: 'mousedown', move: 'mousemove', up: 'mouseup' };
 
-      this.controls.map(x => x[action](pointerEvents.down, this.pointerDown));
+      this.controls.map((x) => x[action](pointerEvents.down, this.pointerDown));
 
-      window[action]( 'scroll', this.handleScroll);
+      window[action]('scroll', this.handleScroll);
 
       Array.from(this.inputs).concat(this.preview)
-        .map(x => x[action]('change', this.changeHandler) );
-      
-      document[action]( pointerEvents.move, this.pointerMove );
-      document[action]( pointerEvents.up, this.pointerUp );
-      window[action]( 'keyup', this.keyHandler );
+        .map((x) => x[action]('change', this.changeHandler));
+
+      document[action](pointerEvents.move, this.pointerMove);
+      document[action](pointerEvents.up, this.pointerUp);
+      window[action]('keyup', this.keyHandler);
     }
 
-    connectedCallback() {	
+    connectedCallback() {
       this.observeInputs();
       this.setControlPositions();
       this.updateInputs(1); // don't trigger change in this context
@@ -283,7 +283,7 @@ input.color-input-hex {
     disconnectedCallback() {
       // detach main event
       this.toggleEvents();
-    }   
+    }
 
     render() {
       const rgb = this.color.toRgb();
@@ -299,13 +299,13 @@ input.color-input-hex {
         whiteGrad.addColorStop(1, 'rgba(255,255,255,0)');
         this.ctx1.fillStyle = whiteGrad;
         this.ctx1.fillRect(0, 0, this.width1, this.height1);
-  
+
         const blackGrad = this.ctx2.createLinearGradient(0, 0, 0, this.height1);
         blackGrad.addColorStop(0, 'rgba(0,0,0,0)');
         blackGrad.addColorStop(1, 'rgba(0,0,0,1)');
         this.ctx1.fillStyle = blackGrad;
         this.ctx1.fillRect(0, 0, this.width1, this.height1);
-  
+
         const hueGrad = this.ctx2.createLinearGradient(0, 0, 0, this.height1);
         hueGrad.addColorStop(0, 'rgba(255, 0, 0, 1)');
         hueGrad.addColorStop(0.17, 'rgba(255, 255, 0, 1)');
@@ -316,11 +316,9 @@ input.color-input-hex {
         hueGrad.addColorStop(1, 'rgba(255, 0, 0, 1)');
         this.ctx2.fillStyle = hueGrad;
         this.ctx2.fill();
-
       } else {
-
-        const hueGrad = this.ctx1.createLinearGradient(0, 0, this.width1, 0),
-          saturation = Math.round((1 - this.controlPositions.c2y / this.height2) * 100);
+        const hueGrad = this.ctx1.createLinearGradient(0, 0, this.width1, 0);
+        const saturation = Math.round((1 - this.controlPositions.c2y / this.height2) * 100);
 
         hueGrad.addColorStop(0, new window.tinycolor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
         hueGrad.addColorStop(0.17, new window.tinycolor('rgb(255, 255, 0)').desaturate(100 - saturation).toRgbString());
@@ -331,24 +329,24 @@ input.color-input-hex {
         hueGrad.addColorStop(1, new window.tinycolor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
         this.ctx1.fillStyle = hueGrad;
         this.ctx1.fill();
-  
+
         const whiteGrad = this.ctx1.createLinearGradient(0, 0, 0, this.height1);
         whiteGrad.addColorStop(0, 'rgba(255,255,255,1)');
         whiteGrad.addColorStop(0.5, 'rgba(255,255,255,0)');
         this.ctx1.fillStyle = whiteGrad;
         this.ctx1.fillRect(0, 0, this.width1, this.height1);
-  
+
         const blackGrad = this.ctx1.createLinearGradient(0, 0, 0, this.height1);
         blackGrad.addColorStop(0.5, 'rgba(0,0,0,0)');
         blackGrad.addColorStop(1, 'rgba(0,0,0,1)');
         this.ctx1.fillStyle = blackGrad;
         this.ctx1.fillRect(0, 0, this.width1, this.height1);
 
-        const saturationGrad = this.ctx2.createLinearGradient(0, 0, 0, this.height2),
-          incolor = new window.tinycolor(this.color.toRgbString()).greyscale().toRgb();
+        const saturationGrad = this.ctx2.createLinearGradient(0, 0, 0, this.height2);
+        const incolor = new window.tinycolor(this.color.toRgbString()).greyscale().toRgb();
 
-        saturationGrad.addColorStop(0, 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')' );
-        saturationGrad.addColorStop(1, 'rgb(' + incolor.r + ',' + incolor.g + ',' + incolor.b + ')' );
+        saturationGrad.addColorStop(0, `rgb(${rgb.r},${rgb.g},${rgb.b})`);
+        saturationGrad.addColorStop(1, `rgb(${incolor.r},${incolor.g},${incolor.b})`);
 
         this.ctx2.fillStyle = saturationGrad;
         this.ctx2.fillRect(0, 0, this.width3, this.height3);
@@ -358,16 +356,16 @@ input.color-input-hex {
       if (this.format !== 'hex') {
         this.ctx3.clearRect(0, 0, this.width3, this.height3);
         const alphaGrad = this.ctx3.createLinearGradient(0, 0, 0, this.height3);
-        alphaGrad.addColorStop(0, 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',1)');
-        alphaGrad.addColorStop(1, 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0)');
+        alphaGrad.addColorStop(0, `rgba(${rgb.r},${rgb.g},${rgb.b},1)`);
+        alphaGrad.addColorStop(1, `rgba(${rgb.r},${rgb.g},${rgb.b},0)`);
         this.ctx3.fillStyle = alphaGrad;
         this.ctx3.fillRect(0, 0, this.width3, this.height3);
       }
     }
 
-    handleScroll(e){
-      const self = document.querySelector( 'color-picker.open' );
-      
+    handleScroll(e) {
+      const self = document.querySelector('color-picker.open');
+
       if (self) {
         // prevent scroll when updating controls on mobile
         if (self.isMobile && self.dragElement) {
@@ -380,61 +378,61 @@ input.color-input-hex {
     }
 
     pointerDown(e) {
-      const eTarget = e.target, self = eTarget.getRootNode().host,
+      const eTarget = e.target; const self = eTarget.getRootNode().host;
 
-        controlRect = eTarget.getBoundingClientRect(),
-        pageX = e.type === 'touchstart'
-          ? e.touches[0].pageX 
-          : e.pageX,
-        pageY = e.type === 'touchstart'
-          ? e.touches[0].pageY 
-          : e.pageY,
-        offsetX = pageX - window.pageXOffset - controlRect.left,
-        offsetY = pageY - window.pageYOffset - controlRect.top;
-      
-      if ( eTarget === self.controls[0] || eTarget === self.control1 ) {
+      const controlRect = eTarget.getBoundingClientRect();
+      const pageX = e.type === 'touchstart'
+        ? e.touches[0].pageX
+        : e.pageX;
+      const pageY = e.type === 'touchstart'
+        ? e.touches[0].pageY
+        : e.pageY;
+      const offsetX = pageX - window.pageXOffset - controlRect.left;
+      const offsetY = pageY - window.pageYOffset - controlRect.top;
+
+      if (eTarget === self.controls[0] || eTarget === self.control1) {
         self.dragElement = self.controls[0];
-        self.changeControl1({offsetX,offsetY});
-      } else if ( eTarget === self.controls[1] || eTarget === self.control2 ) {
+        self.changeControl1({ offsetX, offsetY });
+      } else if (eTarget === self.controls[1] || eTarget === self.control2) {
         self.dragElement = self.controls[1];
-        self.changeControl2({offsetY});
-      } else if ( self.format !== 'hex' && (eTarget === self.controls[2] || eTarget === self.control3) ) {
+        self.changeControl2({ offsetY });
+      } else if (self.format !== 'hex' && (eTarget === self.controls[2] || eTarget === self.control3)) {
         self.dragElement = self.controls[2];
-        self.changeAlpha({offsetY});
+        self.changeAlpha({ offsetY });
       }
-      e.preventDefault()
+      e.preventDefault();
     }
 
     pointerUp(e) {
       const self = document.querySelector('color-picker.open');
 
-      if ( !self.dragElement && !document.getSelection().toString().length && !self.contains(e.target) ) {
+      if (!self.dragElement && !document.getSelection().toString().length && !self.contains(e.target)) {
         self.hide();
       }
-      
+
       self.dragElement = null;
     }
 
     pointerMove(e) {
-      const self = document.querySelector('color-picker.open'),
-        controlInFocus = self.dragElement;
+      const self = document.querySelector('color-picker.open');
+      const controlInFocus = self.dragElement;
 
       if (!controlInFocus) return;
 
-      const controlRect = controlInFocus.getBoundingClientRect(),
-            pageX = e.type === 'touchmove'
-              ? e.touches[0].pageX 
-              : e.pageX,
-            pageY = e.type === 'touchmove'
-              ? e.touches[0].pageY 
-              : e.pageY,
-            offsetX = pageX - window.pageXOffset - controlRect.left,
-            offsetY = pageY - window.pageYOffset - controlRect.top;
+      const controlRect = controlInFocus.getBoundingClientRect();
+      const pageX = e.type === 'touchmove'
+        ? e.touches[0].pageX
+        : e.pageX;
+      const pageY = e.type === 'touchmove'
+        ? e.touches[0].pageY
+        : e.pageY;
+      const offsetX = pageX - window.pageXOffset - controlRect.left;
+      const offsetY = pageY - window.pageYOffset - controlRect.top;
 
       if (controlInFocus === self.controls[0]) {
-        self.changeControl1({ offsetX,offsetY });
+        self.changeControl1({ offsetX, offsetY });
       }
-      
+
       if (controlInFocus === self.controls[1]) {
         self.changeControl2({ offsetY });
       }
@@ -444,16 +442,16 @@ input.color-input-hex {
       }
     }
 
-    changeHandler(e){
-      const self = document.querySelector('color-picker.open'),
-            activeEl = self.shadowRoot.activeElement, 
-            inputs = Array.from(self.inputs);
+    changeHandler(e) {
+      const self = document.querySelector('color-picker.open');
+      const activeEl = self.shadowRoot.activeElement;
+      const inputs = Array.from(self.inputs);
 
       if (activeEl === self.preview || (self.isOpen && inputs.includes(activeEl))) {
-        const colorSource = activeEl === self.preview ? self.preview.value 
+        const colorSource = activeEl === self.preview ? self.preview.value
           : self.format === 'hex' ? inputs[0].value
-          : self.format === 'hsl' ? `hsla(${inputs[0].value},${inputs[1].value}%,${inputs[2].value}%,${inputs[3].value})`
-          : `rgba(${inputs.map(x=>x.value).join(',')})`;
+            : self.format === 'hsl' ? `hsla(${inputs[0].value},${inputs[1].value}%,${inputs[2].value}%,${inputs[3].value})`
+              : `rgba(${inputs.map((x) => x.value).join(',')})`;
 
         self.color = new window.tinycolor(colorSource, { format: self.format });
         self.setControlPositions();
@@ -463,11 +461,11 @@ input.color-input-hex {
       }
     }
 
-    keyHandler(e){
-      const self = document.querySelector( 'color-picker.open' );
+    keyHandler(e) {
+      const self = document.querySelector('color-picker.open');
 
       if (self.isOpen) {
-        if ( e.which === 27 ) {
+        if (e.which === 27) {
           self.hide();
           return;
         }
@@ -476,28 +474,28 @@ input.color-input-hex {
         self.keyTimer = setTimeout(() => {
           const focusedInput = Array.from(self.inputs)
             .concat(self.preview)
-            .find(x => x === self.shadowRoot.activeElement);
+            .find((x) => x === self.shadowRoot.activeElement);
 
           if (focusedInput && focusedInput.value && focusedInput.value !== self.value) {
-            focusedInput.dispatchEvent(new Event('change'))
+            focusedInput.dispatchEvent(new Event('change'));
           }
-        }, 700)
+        }, 700);
       }
     }
 
     changeControl1(e) {
-      const offsetX = e.offsetX <= 0 ? 0 : e.offsetX > this.width1 ? this.width1 : e.offsetX,
-            offsetY = e.offsetY <= 0 ? 0 : e.offsetY > this.height1 ? this.height1 : e.offsetY,
+      const offsetX = e.offsetX <= 0 ? 0 : e.offsetX > this.width1 ? this.width1 : e.offsetX;
+      const offsetY = e.offsetY <= 0 ? 0 : e.offsetY > this.height1 ? this.height1 : e.offsetY;
 
-        hue = this.format !== 'hsl' 
-          ? Math.floor(this.controlPositions.c2y / this.height2 * 360) 
-          : Math.floor(offsetX / this.width1 * 360),
-        saturation = this.format !== 'hsl' 
-          ? Math.floor(offsetX / this.width1 * 100)
-          : Math.floor((1 - this.controlPositions.c2y / this.height2) * 100),
-        lightness = Math.floor((1 - offsetY / this.height1) * 100),
-        alpha = this.format !== 'hex' ? Math.floor((1 -  this.controlPositions.c3y / this.height3) * 100) / 100 : 1,
-        colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
+      const hue = this.format !== 'hsl'
+        ? Math.floor(this.controlPositions.c2y / this.height2 * 360)
+        : Math.floor(offsetX / this.width1 * 360);
+      const saturation = this.format !== 'hsl'
+        ? Math.floor(offsetX / this.width1 * 100)
+        : Math.floor((1 - this.controlPositions.c2y / this.height2) * 100);
+      const lightness = Math.floor((1 - offsetY / this.height1) * 100);
+      const alpha = this.format !== 'hex' ? Math.floor((1 - this.controlPositions.c3y / this.height3) * 100) / 100 : 1;
+      const colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
 
       // new color
       this.color = new window.tinycolor(`${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, { format: this.format });
@@ -511,17 +509,17 @@ input.color-input-hex {
     }
 
     changeControl2(e) {
-      const offsetY = e.offsetY <= 0 ? 0 : e.offsetY > this.height2 ? this.height2 : e.offsetY,
+      const offsetY = e.offsetY <= 0 ? 0 : e.offsetY > this.height2 ? this.height2 : e.offsetY;
 
-        hue = this.format !== 'hsl' 
-          ? Math.floor(offsetY / this.height2 * 360) 
-          : Math.floor(this.controlPositions.c1x / this.width1 * 360),
-        saturation = this.format !== 'hsl' 
-          ? Math.floor(this.controlPositions.c1x / this.width1 * 100)
-          : Math.floor((1 - offsetY / this.height2 ) * 100),
-        lightness = Math.floor((1 - this.controlPositions.c1y / this.height1) * 100),
-        alpha = this.format !== 'hex' ? Math.floor((1 -  this.controlPositions.c3y / this.height3) * 100) / 100 : 1,
-        colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
+      const hue = this.format !== 'hsl'
+        ? Math.floor(offsetY / this.height2 * 360)
+        : Math.floor(this.controlPositions.c1x / this.width1 * 360);
+      const saturation = this.format !== 'hsl'
+        ? Math.floor(this.controlPositions.c1x / this.width1 * 100)
+        : Math.floor((1 - offsetY / this.height2) * 100);
+      const lightness = Math.floor((1 - this.controlPositions.c1y / this.height1) * 100);
+      const alpha = this.format !== 'hex' ? Math.floor((1 - this.controlPositions.c3y / this.height3) * 100) / 100 : 1;
+      const colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
 
       // new color
       this.color = new window.tinycolor(`${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, { format: this.format });
@@ -537,7 +535,7 @@ input.color-input-hex {
       const offsetY = e.offsetY <= 0 ? 0 : e.offsetY > this.height3 ? this.height3 : e.offsetY;
 
       // update color alpha
-      this.color.setAlpha(Math.floor( ( 1 - offsetY / this.height3 ) * 100 ) / 100)
+      this.color.setAlpha(Math.floor((1 - offsetY / this.height3) * 100) / 100);
       // update position
       this.controlPositions.c3y = offsetY;
       // update color picker
@@ -551,34 +549,34 @@ input.color-input-hex {
       // this.updateInputs()
     }
 
-    updateDropdown(e){
-      const self = !e ? this : document.querySelector( 'color-picker.open' ),
-        elRect = self.preview.parentElement.getBoundingClientRect(),
-        elHeight = self.preview.parentElement.offsetHeight,
-        windowHeight = document.documentElement.clientHeight,
-        dropHeight = self.dropdown.offsetHeight,
-        distanceBottom =  windowHeight - elRect.bottom, 
-        distanceTop = elRect.top,
-        bottomExceed = elRect.top  + dropHeight + elHeight > windowHeight, // show
-        topExceed = elRect.top - dropHeight < 0; // show-top
+    updateDropdown(e) {
+      const self = !e ? this : document.querySelector('color-picker.open');
+      const elRect = self.preview.parentElement.getBoundingClientRect();
+      const elHeight = self.preview.parentElement.offsetHeight;
+      const windowHeight = document.documentElement.clientHeight;
+      const dropHeight = self.dropdown.offsetHeight;
+      const distanceBottom = windowHeight - elRect.bottom;
+      const distanceTop = elRect.top;
+      const bottomExceed = elRect.top + dropHeight + elHeight > windowHeight; // show
+      const topExceed = elRect.top - dropHeight < 0; // show-top
 
       if (self.dropdown.classList.contains('show') && distanceBottom < distanceTop && bottomExceed) {
         self.dropdown.classList.remove('show');
         self.dropdown.classList.add('show-top');
-      } 
-      if ( self.dropdown.classList.contains('show-top') && distanceBottom > distanceTop && topExceed ) {
+      }
+      if (self.dropdown.classList.contains('show-top') && distanceBottom > distanceTop && topExceed) {
         self.dropdown.classList.remove('show-top');
         self.dropdown.classList.add('show');
-      } 
+      }
     }
 
-    setControlPositions(){
-      const hsv = this.color.toHsv(),
-        hsl = this.color.toHsl(),
-        hue = hsl.h,
-        saturation = this.format !== 'hsl' ? hsv.s : hsl.s,
-        lightness = this.format !== 'hsl' ? hsv.v : hsl.l,
-        alpha = hsv.a;
+    setControlPositions() {
+      const hsv = this.color.toHsv();
+      const hsl = this.color.toHsl();
+      const hue = hsl.h;
+      const saturation = this.format !== 'hsl' ? hsv.s : hsl.s;
+      const lightness = this.format !== 'hsl' ? hsv.v : hsl.l;
+      const alpha = hsv.a;
 
       this.controlPositions.c1x = this.format !== 'hsl'
         ? saturation * this.width1
@@ -590,12 +588,12 @@ input.color-input-hex {
         ? hue / 360 * this.height2
         : (1 - saturation) * this.height2;
 
-      if (this.format !== 'hex'){
-        this.controlPositions.c3y = (1 - alpha) * this.height3
+      if (this.format !== 'hex') {
+        this.controlPositions.c3y = (1 - alpha) * this.height3;
       }
     }
 
-    updateControls(){
+    updateControls() {
       this.control1.style.left = `${this.controlPositions.c1x - 3}px`;
       this.control1.style.top = `${this.controlPositions.c1y - 3}px`;
       this.control2.style.top = `${this.controlPositions.c2y - 3}px`;
@@ -609,13 +607,14 @@ input.color-input-hex {
       const OriginalCustomEvent = new CustomEvent(eventName);
       OriginalCustomEvent.relatedTarget = this;
       this.dispatchEvent(OriginalCustomEvent);
-      this.removeEventListener(eventName,this);
+      this.removeEventListener(eventName, this);
     }
 
     updateInputs(isInit) {
       const oldColor = this.preview.value;
 
-      let newColor = '', hsl, rgb;
+      let newColor = ''; let hsl; let
+        rgb;
 
       if (this.format === 'hex') {
         newColor = this.color.toHexString();
@@ -638,7 +637,7 @@ input.color-input-hex {
       // update the main input
       this.value = newColor;
 
-      [this.input,this.preview].map( x => {
+      [this.input, this.preview].map((x) => {
         if (x) {
           x.value = newColor;
           if (x === this.preview) {
@@ -650,11 +649,11 @@ input.color-input-hex {
 
       // don't trigger the custom event unless it's really changed
       if (!isInit && newColor !== oldColor) {
-        this.dispatchCustomEvent('joomla.colorpicker.change')
+        this.dispatchCustomEvent('joomla.colorpicker.change');
       }
     }
 
-    show(e){
+    show(e) {
       const current = document.querySelector('color-picker.open');
       current && current.hide();
 
@@ -664,22 +663,21 @@ input.color-input-hex {
         self.dropdown.classList.add('show');
         self.updateDropdown();
         self.classList.add('open');
-        self.toggleEventsOnShown(1)
-        self.isOpen = true
+        self.toggleEventsOnShown(1);
+        self.isOpen = true;
       }
     }
 
-    hide(){
+    hide() {
       if (this.isOpen) {
         this.toggleEventsOnShown();
         this.isOpen = false;
 
         this.classList.remove('open');
-        ['show', 'show-top'].map(x => this.dropdown.classList.remove(x));
+        ['show', 'show-top'].map((x) => this.dropdown.classList.remove(x));
       }
     }
   }
 
-  customElements.define('color-picker',ColorPicker);
-
+  customElements.define('color-picker', ColorPicker);
 })();
