@@ -69,14 +69,14 @@ else
 // set attributes
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
-$class				=  $class . ' ' . $format;
-$class				=  $class . ' ' . ($validate === 'color' ? '' : ' invalid');
+$class        =  $class . ' ' . $format;
+$class        =  $class . ' ' . ($validate === 'color' ? '' : ' invalid');
 $class        = ' class="' . trim($class) . '"';
 $format       = ' format="' . $format . '"';
 $hint         = ' placeholder="' . (strlen($hint) ?  $this->escape($hint) : $placeholder) . '"';
 $autocomplete = ' autocomplete="' . (!empty($autocomplete) ?  $autocomplete : 'off') . '"';
-$tabindex 		= ' tabindex="' . (!empty($tabindex) ?  $tabindex : '0') . '"';
-$spellcheck 	= ' spellcheck="' . (!empty($spellcheck) ?  $spellcheck : 'false') . '"';
+$tabindex     = ' tabindex="' . (!empty($tabindex) ?  $tabindex : '0') . '"';
+$spellcheck   = ' spellcheck="' . (!empty($spellcheck) ?  $spellcheck : 'false') . '"';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRtl() ? ' dir="ltr"' : '';
