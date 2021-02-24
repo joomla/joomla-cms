@@ -111,7 +111,11 @@ $wa->usePreset('tinycolor')
 	?>/>
 
 	<template name="hex-form">
-		<label for="<?php echo $id; ?>_hex" class="hex-label">HEX:<span class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HEX'); ?></span></label>
+		<label for="<?php echo $id; ?>_hex" class="hex-label">HEX:
+			<span class="visually-hidden">
+				<?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HEX'); ?>
+			</span>
+		</label>
 		<input id="<?php echo $id; ?>_hex" name="<?php echo $id; ?>_hex" value="#000"<?php echo $hint; ?> class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">
 	</template>
 
