@@ -57,7 +57,7 @@ if ($validate !== 'color' && $format === 'rgb')
 {
 	$placeholder = 'rgba(0, 0, 0, 0.5) / rgb(0, 0, 0)';
 }
-else if ($validate !== 'color' && $format === 'hsl')
+elseif ($validate !== 'color' && $format === 'hsl')
 {
 	$placeholder = 'hsla(0, 0%, 0%, 0.5) / hsl(0, 50%, 50%)';
 }
