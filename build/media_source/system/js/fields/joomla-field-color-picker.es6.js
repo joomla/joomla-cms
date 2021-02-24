@@ -4,22 +4,31 @@
  * 
  * Copyright Dimitris Grammatikogiannis & Dan Partac
  * License MIT
+ * 
+ * Quick Usage
+ * -----------
+ * Markup - see layouts/joomla/form/field/color/advanced.php for reference
+ * <color-picker format="hex">
+ *  <input type="hidden" id="joomla_field_id" value="field_value">
+ *  <template name="hex-form"><input></template>
+ *  <template name="rgb-form"><input><input><input><input></template>
+ *  <template name="hsl-form"><input><input><input><input></template>
+ * </color-picker>
+ * -----------
+ * Events - this component fires 'joomla.colorpicker.change' when a new valid color is "picked"
 **/
 
 (function() {
 	class ColorPicker extends HTMLElement {
 		constructor() {
 			super();
-			// self = this;
 			// all instances must have a unique ID
-			const elementID = this.getAttribute('id') || `color-picker-${Math.floor(Math.random() * 999)}`;
+			const elementID = `${this.getAttribute('id')}_color-picker` || `color-picker-${Math.floor(Math.random() * 999)}`;
 			this.value = this.getAttribute('value') || 'rgba(0,0,0,1)';
-			// move attributes to input
 			// Joomla will likely want to read a form input
-			this.removeAttribute('id');
-			this.removeAttribute('value');
 			// set internals
 			this.format = this.getAttribute('format');
+			this.placeholder = this.getAttribute('placeholder');
 			this.color = new window.tinycolor( this.value, {format: this.format} );
 			this.dragElement = null;
 			this.isOpen = false;
@@ -33,47 +42,17 @@
 				c3y: 0 // rgb/hsl
 			};
 
-			// set templates
-			this.inputsTemplate = '';
+			// set main input
+			this.input = this.querySelector('input[type="hidden"]');
 
-			if ( this.format === 'rgb' ) {
-				const rgb = this.color.toRgb();
-
-				this.inputsTemplate =
-`<label for="#${elementID}-red">R</label>
-<input id="${elementID}-red" value="${rgb.r}" class="color-input" type="number" placeholder="Red" min="0" max="255" autocomplete="off" spellcheck="false">
-<label for="#${elementID}-green">G</label>
-<input id="${elementID}-green" value="${rgb.g}" class="color-input" type="number" placeholder="Green" min="0" max="255" autocomplete="off" spellcheck="false">
-<label for="#${elementID}-blue">B</label>
-<input id="${elementID}-blue" value="${rgb.b}" class="color-input" type="number" placeholder="Blue" min="0" max="255" autocomplete="off" spellcheck="false">
-<label for="#${elementID}-alpha">A</label>
-<input id="${elementID}-alpha" value="${rgb.a}" class="color-input" type="number" placeholder="Alpha" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
-			}
-
-			if ( this.format === 'hsl' ) {
-				const hsl = this.color.toHsl();
-
-				this.inputsTemplate = 
-`<label for="#${elementID}-hue">H</label>
-<input id="${elementID}-hue" value="${hsl.h}" class="color-input" type="number" placeholder="Hue" min="0" max="360" autocomplete="off" spellcheck="false">
-<label for="#${elementID}-saturation">S</label>
-<input id="${elementID}-saturation" value="${hsl.s}" class="color-input" type="number" placeholder="Saturation" min="0" max="100" autocomplete="off" spellcheck="false">
-<label for="#${elementID}-lightness">L</label>
-<input id="${elementID}-lightness" value="${hsl.l}" class="color-input" type="number" placeholder="Lightness" min="0" max="100" autocomplete="off" spellcheck="false">
-<label for="#${elementID}-alpha">A</label>
-<input id="${elementID}-alpha" value="${hsl.a}" class="color-input" type="number" placeholder="Alpha" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
-			}
-
-			if ( this.format === 'hex' ) {
-				this.inputsTemplate =
-`<label for="#${elementID}-hex" class="hex-label">Hex</label>
-<input id="${elementID}-hex" value="${this.color.toHexString()}" placeholder="Hex" class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">`;
-			}
+			// get template parts
+			this.inputsTemplate = this.querySelector(`[name="${this.format}-form"]`).innerHTML;
 
 			// make the controls smaller on mobile
 			const cv1w = this.isMobile ? 150 : 230,
 				cvh = this.isMobile ? 150 : 230,
-				dropClass = this.isMobile ? ' mobile' : '';
+				dropClass = this.isMobile ? ' mobile' : '',
+				alphaControlViz = this.format === 'hex' ? ' visually-hidden' : '';
 			
 			this.controlsTemplate = 
 `<div class="color-control">
@@ -83,24 +62,22 @@
 <div class="color-control">
 	<canvas class="color-control2" height="${cvh}" width="21" ></canvas>
 	<div class="color-slider"></div>
-</div>`;
-
-			if (this.format !== 'hex') {
-				this.controlsTemplate +=
-`<div class="color-control">
+</div>
+<div class="color-control${alphaControlViz}">
 	<canvas class="color-control3" height="${cvh}" width="21"></canvas>
 	<div class="color-slider"></div>
 </div>`;
-			}
 
+			// set the main template
 			this.template = document.createElement('template');
 
 			this.template.innerHTML = 
 `<style>
 .picker-box {
 	position: relative;
-	user-select: none;
+	display: flex
 }
+
 .color-dropdown {
 	width: 280px;
 	background: rgba(0,0,0,0.75);
@@ -113,7 +90,7 @@
 	left:0;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	z-index: 1
+	z-index: 50
 }
 
 [format="hex"] + .color-dropdown {
@@ -142,10 +119,13 @@
 	border: 0;
 	outline: none;
 	box-shadow: 0 0 1px 1px rgba(120,120,120,0.33) inset;
-	line-height: 1rem;
-	height: 1rem;
-	border-radius: 3px;
-	padding: 0.5rem 0.75rem
+	height: 1.5rem;
+	line-height: 1.5;
+	font-size: 1rem;
+	border-radius: 0.25rem;
+	padding: 0.6rem 1rem;
+	appearance: none;
+	width: 100%
 }
 
 .color-form {
@@ -228,12 +208,12 @@ input.color-input-hex {
 	left: 0;
 	width: calc(100% - 2px);
 }
+
+.visually-hidden { display: none }
 </style>
-<label for="#${elementID}">Select a color: </label>
 
 <div class="picker-box">
-	<input id="${elementID}" value="${this.value}" format="${this.format}" type="text" class="color-preview" autocomplete="off" tabindex="0" spellcheck="false">
-
+	<input id="${elementID}" value="${this.value}" format="${this.format}" placeholder="${this.placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
 	<div class="color-dropdown${dropClass}">
 		${this.controlsTemplate}
 		<div class="color-form">
@@ -256,8 +236,8 @@ input.color-input-hex {
 			}
 
 			// set main elements
+			this.preview = this.shadowRoot.querySelector('.color-preview');
 			this.inputs = this.shadowRoot.querySelectorAll('.color-input');
-			this.input = this.shadowRoot.querySelector('.color-preview');
 			this.dropdown = this.shadowRoot.querySelector('.color-dropdown');
 			this.control1 = this.shadowRoot.querySelector('.color-pointer');
 			this.control2 = this.shadowRoot.querySelectorAll('.color-slider')[0];
@@ -281,14 +261,11 @@ input.color-input-hex {
 				this.ctx3 = this.controls[2].getContext('2d');
 				this.ctx3.rect(0, 0, this.width3, this.height3);
 			}
-
-			// attach main event
-			this.toggleEvents(1);
 		}
 
 		toggleEvents(action) {
 			action = action ? 'addEventListener' : 'removeEventListener';
-			this.input[action]( 'focusin', this.show );
+			this.preview[action]( 'focusin', this.show );
 		}
 
 		toggleEventsOnShown(action) {
@@ -301,7 +278,7 @@ input.color-input-hex {
 
 			window[action]( 'scroll', this.handleScroll);
 
-			Array.from(this.inputs).concat(this.input)
+			Array.from(this.inputs).concat(this.preview)
 				.map(x => x[action]( 'change', this.changeHandler ) );
 			
 			document[action]( pointerEvents.move, this.pointerMove );
@@ -309,13 +286,20 @@ input.color-input-hex {
 			window[action]( 'keyup', this.keyHandler );
 		}
 
-		connectedCallback() {		 
+		connectedCallback() {	
 			this.observeInputs();
 			this.setControlPositions();
 			this.updateInputs(1); // don't trigger change in this context
 			this.updateControls();
 			this.render();
+			// attach main event
+			this.toggleEvents(1);
 		}
+
+    disconnectedCallback() {
+			// detach main event
+			this.toggleEvents();
+    }   
 
 		render() {
 			const rgb = this.color.toRgb();
@@ -481,13 +465,13 @@ input.color-input-hex {
 						activeEl = self.shadowRoot.activeElement, 
 						inputs = Array.from(self.inputs);
 
-			if ( activeEl === self.input || ( self.isOpen && inputs.includes(activeEl) ) ) {
-				const colorSource = activeEl === self.input ? self.input.value 
+			if ( activeEl === self.preview || ( self.isOpen && inputs.includes(activeEl) ) ) {
+				const colorSource = activeEl === self.preview ? self.preview.value 
 					: self.format === 'hex' ? inputs[0].value
-					: self.format === 'hsl' ? `hsla(${inputs[0].value||this.hue},${inputs[1].value}%,${inputs[2].value}%,${inputs[3].value})`
+					: self.format === 'hsl' ? `hsla(${inputs[0].value},${inputs[1].value}%,${inputs[2].value}%,${inputs[3].value})`
 					: `rgba(${inputs.map(x=>x.value).join(',')})`;
 
-				self.color = new window.tinycolor(colorSource, {format: this.format});
+				self.color = new window.tinycolor(colorSource, {format: self.format});
 				self.setControlPositions();
 				self.updateInputs();
 				self.updateControls();
@@ -507,11 +491,13 @@ input.color-input-hex {
 				clearTimeout(self.keyTimer);
 				self.keyTimer = setTimeout(() => {
 					const focusedInput = Array.from( self.inputs )
-						.concat( self.input )
-						.find( x => x === self.shadowRoot.activeElement )
+						.concat( self.preview )
+						.find( x => x === self.shadowRoot.activeElement );
 
-					focusedInput && focusedInput.dispatchEvent( new Event('change') )
-				}, 500)
+					if ( focusedInput && focusedInput.value && focusedInput.value !== self.value ) {
+						focusedInput.dispatchEvent( new Event('change') )
+					}
+				}, 700)
 			}
 		}
 
@@ -583,8 +569,8 @@ input.color-input-hex {
 
 		updateDropdown(e){
 			const self = !e ? this : document.querySelector( 'color-picker.open' ),
-				elRect = self.input.parentElement.getBoundingClientRect(),
-				elHeight = self.input.parentElement.offsetHeight,
+				elRect = self.preview.parentElement.getBoundingClientRect(),
+				elHeight = self.preview.parentElement.offsetHeight,
 				windowHeight = document.documentElement.clientHeight,
 				dropHeight = self.dropdown.offsetHeight,
 				distanceBottom =  windowHeight - elRect.bottom, 
@@ -643,7 +629,8 @@ input.color-input-hex {
 		}
 
 		updateInputs(isInit) {
-			const oldColor = this.input.value;
+			const oldColor = this.preview.value;
+
 			let newColor = '', hsl, rgb;
 
 			if ( this.format === 'hex' ) {
@@ -665,9 +652,17 @@ input.color-input-hex {
 				this.inputs[3].value = rgb.a;
 			}
 			// update the main input
-			this.input.value = newColor;
-			this.input.style.background = newColor;
-			this.input.style.color = !this.color.isDark() || this.color.getAlpha() < 0.45 ? '#000' : '#fff';
+			this.value = newColor;
+
+			[this.input,this.preview].map( x => {
+				if ( x ) {
+					x.value = newColor;
+					if ( x === this.preview ) {
+						x.style.background = newColor;
+						x.style.color = !this.color.isDark() || this.color.getAlpha() < 0.45 ? '#000' : '#fff';
+					}
+				}
+			});
 
 			// don't trigger the custom event unless it's really changed
 			if ( !isInit && newColor !== oldColor ) {
