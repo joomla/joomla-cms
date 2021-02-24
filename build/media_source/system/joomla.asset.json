@@ -113,7 +113,7 @@
     {
       "name": "field.color-picker",
       "type": "script",
-      "uri": "system/fields/joomla-field-color-picker.es6.min.js",
+      "uri": "system/fields/joomla-field-color-picker.min.js",
       "attributes": {
         "defer": true
       },
