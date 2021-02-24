@@ -405,7 +405,7 @@
           {
             "name": "tinycolor",
             "type": "script",
-            "uri": "tinycolor.es5.min.js",
+            "uri": "tinycolor.min.js",
             "attributes": {
               "defer": true
             }
