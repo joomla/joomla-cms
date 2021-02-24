@@ -5045,6 +5045,9 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/html/layouts/chromes/cardGrey.php',
 			'/templates/cassiopeia/html/layouts/chromes/default.php',
 			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
+			// Joomla 4.0 Beta 8
+			'administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
+			'templates/cassiopeia/scss/vendor/_minicolors.scss',
 		);
 
 		$folders = array(
