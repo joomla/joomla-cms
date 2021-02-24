@@ -122,7 +122,7 @@ if (Program.compileCss) {
 
 // Compress/transpile the javascript files
 if (Program.compileJs) {
-  Promise.all([scripts(options, Program.args[0])])
+  Promise.all([scripts(options, Program.args[0], 'both')])
     .catch((err) => handleError(err, 1));
 }
 
@@ -168,6 +168,7 @@ if (Program.prepare) {
         stylesheets(options, Program.args[0]),
         scripts(options, Program.args[0]),
         bootstrapJs(),
+        mediaManager(true),
       ]);
       bench.stop();
     } catch (err) {
