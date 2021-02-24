@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
@@ -42,56 +43,133 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $checked         Is this field checked?
- * @var   array    $position        Is this field checked?
- * @var   array    $control         Is this field checked?
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
-if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true))
+// set hsla / rgba to short format
+// both tinycolor and <color-picker> handle alpha automatically
+// an invalid format defaults to 'hex'
+$format = in_array($format, array('hex', 'rgb', 'hsl', 'rgba', 'hsla'), true) ? str_replace('a', '', $format) : 'hex';
+
+// set a generic placeholder
+if ($validate !== 'color' && $format === 'rgb')
 {
-	$alpha = ($format === 'rgba');
-	$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
+  $placeholder = 'rgba(0, 0, 0, 0.5) / rgb(0, 0, 0)';
+}
+else if ($validate !== 'color' && $format === 'hsl')
+{
+  $placeholder = 'hsla(0, 0%, 0%, 0.5) / hsl(0, 50%, 50%)';
 }
 else
 {
-	$placeholder = '#rrggbb';
+  $placeholder = '#ff0000';
 }
 
-$inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'), true)) ? ' keywords' : ' ' . $format;
-$class        = ' class="form-control ' . trim('minicolors ' . $class) . ($validate === 'color' ? 'form-control ' : $inputclass) . '"';
-$control      = $control ? ' data-control="' . $control . '"' : '';
-$format       = $format ? ' data-format="' . $format . '"' : '';
-$keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
-$colors       = $colors ? ' data-colors="' . $colors . '"' : '';
-$validate     = $validate ? ' data-validate="' . $validate . '"' : '';
+// set attributes
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
-$hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : ' placeholder="' . $placeholder . '"';
-$autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
+$class				=  $class . ' ' . $format;
+$class				=  $class . ' ' . ($validate === 'color' ? '' : ' invalid');
+$class        = ' class="' . trim($class) . '"';
+$format       = ' format="' . $format . '"';
+$hint         = ' placeholder="' . (strlen($hint) ?  $this->escape($hint) : $placeholder) . '"';
+$autocomplete = ' autocomplete="' . (!empty($autocomplete) ?  $autocomplete : 'off') . '"';
+$tabindex 		= ' tabindex="' . (!empty($tabindex) ?  $tabindex : '0') . '"';
+$spellcheck 	= ' spellcheck="' . (!empty($spellcheck) ?  $spellcheck : 'false') . '"';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
-$direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
+$direction = $lang->isRtl() ? ' dir="ltr"' : '';
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->usePreset('minicolors')
-	->useScript('field.color-adv');
+
+$wa->usePreset('tinycolor')
+  ->useScript('field.color-picker');
+
+// the color-picker requires value, format and placeholder (hint)
+// the color-form component of the color-picker requires labels
 ?>
-<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $this->escape($color); ?>"<?php
-	echo $hint,
-		$class,
-		$position,
-		$control,
-		$readonly,
-		$disabled,
-		$required,
-		$onchange,
-		$autocomplete,
-		$autofocus,
-		$format,
-		$keywords,
-		$direction,
-		$validate,
-		$dataAttribute;
-?>/>
+
+<color-picker value="<?php echo $this->escape($color); ?>"<?php echo $format, $hint; ?>>
+  <input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $this->escape($color); ?>"
+  <?php
+    echo $hint,
+      $class,
+      $readonly,
+      $disabled,
+      $required,
+      $onchange,
+      $autocomplete,
+      $autofocus,
+      $format,
+      $direction,
+      $validate,
+      $tabindex,
+      $spellcheck,
+      $dataAttribute;
+  ?>/>
+
+  <template name="hex-form">
+    <label for="<?php echo $id; ?>_hex" class="hex-label">HEX:<span class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HEX'); ?></span></label>
+    <input id="<?php echo $id; ?>_hex" name="<?php echo $id; ?>_hex" value="#000"<?php echo $hint; ?> class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">
+  </template>
+
+  <template name="rgb-form">
+    <label for="<?php echo $id; ?>_red">R:
+      <span class="visually-hidden">
+        <?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ', Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_RED'); ?>
+      </span>
+    </label>
+    <input id="<?php echo $id; ?>_red" name="<?php echo $id; ?>_red" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
+
+    <label for="<?php echo $id; ?>_green">G:
+      <span class="visually-hidden"><?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ', Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_GREEN'); ?></span>
+    </label>
+    <input id="<?php echo $id; ?>_green" name="<?php echo $id; ?>_green" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
+
+    <label for="<?php echo $id; ?>_blue">B:
+      <span class="visually-hidden">
+        <?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ', Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_BLUE'); ?>
+      </span>
+    </label>
+    <input id="<?php echo $id; ?>_blue" name="<?php echo $id; ?>_blue" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
+
+    <label for="<?php echo $id; ?>_alpha">A:
+      <span class="visually-hidden">
+        <?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ', Text::_('JFIELD_COLOR_ADVANCED_ALPHA'); ?>
+      </span>
+    </label>
+    <input id="<?php echo $id; ?>_alpha" name="<?php echo $id; ?>_alpha" value="0" class="color-input" type="number" placeholder="[0-1]" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">
+  </template>
+
+  <template name="hsl-form">
+    <label for="<?php echo $id; ?>_hue">H:
+      <span class="visually-hidden">
+        <?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL') . ' - ', Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL_HUE'); ?>
+      </span>
+    </label>
+    <input id="<?php echo $id; ?>_hue" name="<?php echo $id; ?>_hue" value="0" class="color-input" type="number" placeholder="[0-360]" min="0" max="360" autocomplete="off" spellcheck="false">
+
+    <label for="<?php echo $id; ?>_saturation">S:
+      <span class="visually-hidden">
+        <?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL') . ' - ', Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL_SATURATION'); ?>
+      </span>
+    </label>
+    <input id="<?php echo $id; ?>_saturation" name="<?php echo $id; ?>_saturation" value="0" class="color-input" type="number" placeholder="[0-100]" min="0" max="100" autocomplete="off" spellcheck="false">
+
+    <label for="<?php echo $id; ?>_lightness">L:
+      <span class="visually-hidden">
+        <?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL') . ' - ', Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL_LIGHTNESS'); ?>
+      </span>
+    </label>
+    <input id="<?php echo $id; ?>_lightness" name="<?php echo $id; ?>_lightness" value="0" class="color-input" type="number" placeholder="[0-100]" min="0" max="100" autocomplete="off" spellcheck="false">
+
+    <label for="<?php echo $id; ?>_alpha">A:
+      <span class="visually-hidden">
+        <?php echo Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL') . ' - ', Text::_('JFIELD_COLOR_ADVANCED_ALPHA'); ?>
+      </span>
+    </label>
+    <input id="<?php echo $id; ?>_alpha" name="<?php echo $id; ?>_alpha" value="0" class="color-input" type="number" placeholder="[0-1]" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">
+  </template>
+</color-picker>
