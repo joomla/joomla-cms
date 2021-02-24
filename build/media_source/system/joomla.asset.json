@@ -92,14 +92,33 @@
       "uri": "system/fields/validate.min.js"
     },
     {
-      "name": "field.color-adv",
+      "name": "tinycolor",
       "type": "script",
-      "uri": "system/fields/color-field-adv-init.min.js",
+      "uri": "system/fields/tinycolor.es5.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "@ctrl/tinycolor",
+      "version": "3.4.0"
+    },
+    {
+      "name": "tinycolor",
+      "type": "preset",
+      "dependencies": [
+        "tinycolor#script"
+      ],
+      "package": "@ctrl/tinycolor",
+      "version": "3.4.0"
+    },    
+    {
+      "name": "field.color-picker",
+      "type": "script",
+      "uri": "system/fields/joomla-field-color-picker.min.js",
       "attributes": {
         "defer": true
       },
       "dependencies": [
-        "minicolors"
+        "tinycolor"
       ]
     },
     {
