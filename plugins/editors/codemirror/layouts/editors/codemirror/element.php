@@ -31,8 +31,9 @@ $fskeys[]        = $params->get('fullScreen', 'F10');
 $fullScreenCombo = implode('-', $fskeys);
 $fsCombo         = 'fs-combo=' . json_encode($fullScreenCombo);
 $option          = 'options=\'' . json_encode($options) . '\'';
-$editor          = 'editor="' . ltrim(HTMLHelper::_('script',  $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '"';
-$addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '"';
+$mediaVersion    = Factory::getDocument()->getMediaVersion();
+$editor          = 'editor="' . ltrim(HTMLHelper::_('script',  $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
+$addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 
 Factory::getDocument()->getWebAssetManager()
 	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')

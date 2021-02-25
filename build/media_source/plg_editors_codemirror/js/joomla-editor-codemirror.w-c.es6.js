@@ -3,23 +3,11 @@ class CodemirrorEditor extends HTMLElement {
     super();
 
     this.instance = '';
-    this.cm = '';
     this.host = window.location.origin;
     this.element = this.querySelector('textarea');
     this.refresh = this.refresh.bind(this);
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
     this.closeFullScreen = this.closeFullScreen.bind(this);
-
-    // Append the editor script
-    if (!document.head.querySelector('#cm-editor')) {
-      const cmPath = this.getAttribute('editor');
-      const script1 = document.createElement('script');
-
-      script1.src = `${this.host}/${cmPath}`;
-      script1.id = 'cm-editor';
-      script1.setAttribute('async', false);
-      document.head.insertBefore(script1, this.file);
-    }
   }
 
   static get observedAttributes() {
@@ -49,25 +37,20 @@ class CodemirrorEditor extends HTMLElement {
 
     import(`${this.host}/${cmPath}`)
       .then(() => {
+        this.instance = window.CodeMirror;
         import(`${this.host}/${addonsPath}`)
           .then(() => {
-            // Check if instance exists to avoid duplication on resize
-            if (this.instance !== '') {
-              Joomla.editors.instances[this.element.id] = this.instance;
-              return;
-            }
-
             // For mode autoloading.
-            window.CodeMirror.modeURL = this.getAttribute('mod-path');
+            this.instance.modeURL = this.getAttribute('mod-path');
 
             // Fire this function any time an editor is created.
-            window.CodeMirror.defineInitHook((editor) => {
+            this.instance.defineInitHook((editor) => {
               // Try to set up the mode
-              const mode = window.CodeMirror.findModeByName(editor.options.mode || '')
-                || window.CodeMirror.findModeByName(editor.options.mode || '')
-                || window.CodeMirror.findModeByExtension(editor.options.mode || '');
+              const mode = this.instance.findModeByName(editor.options.mode || '')
+                || this.instance.findModeByName(editor.options.mode || '')
+                || this.instance.findModeByExtension(editor.options.mode || '');
 
-              window.CodeMirror.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
+              this.instance.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
 
               if (mode && mode.mime) {
                 editor.setOption('mode', mode.mime);
@@ -100,7 +83,7 @@ class CodemirrorEditor extends HTMLElement {
             });
 
             // Register Editor
-            this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
+            this.instance.fromTextArea(this.element, this.options);
             this.instance.disable = (disabled) => this.instance.setOption('readOnly', disabled ? 'nocursor' : false);
             Joomla.editors.instances[this.element.id] = this.instance;
           });
@@ -113,7 +96,7 @@ class CodemirrorEditor extends HTMLElement {
   }
 
   refresh(element) {
-    this.instance = window.CodeMirror.fromTextArea(element, this.options);
+    this.instance.fromTextArea(element, this.options);
   }
 
   /* eslint-enable */
