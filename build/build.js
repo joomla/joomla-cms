@@ -14,7 +14,7 @@
  * node build.js --com-media        will compile the media manager Vue application
  * node build.js --watch-com-media  will compile the media manager Vue application
  * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts
- * node build.js --prepare-build    will run all the needed tasks to prepare a release
+ * node build.js --prepare-build    will run all the tasks needed to prepare a release
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
