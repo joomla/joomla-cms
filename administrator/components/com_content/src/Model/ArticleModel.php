@@ -755,8 +755,21 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable = $this->getTable();
+
+			if (Factory::getApplication()->isClient('site'))
+			{
+				$id = $input->getInt('a_id');
+
+				// For frontend, alias is not entered, we set it to empty to have Alias generated base on title of article
+				$data['alias'] = '';
+			}
+			else
+			{
+				$id = $input->getInt('id');
+			}
+
+			$origTable->load($id);
 
 			if ($data['title'] == $origTable->title)
 			{
@@ -764,12 +777,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
-			else
+			elseif($data['alias'] == $origTable->alias)
 			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
+				$data['alias'] = '';
 			}
 		}
 

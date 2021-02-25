@@ -181,6 +181,19 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
+		// If the article is being edited and the current user has permission to create article
+		if ($this->item->id
+			&& ($user->authorise('core.create', 'com_content') || \count($user->getAuthorisedCategories('com_content', 'core.create'))))
+		{
+			$showSaveAsCopy = true;
+		}
+		else
+		{
+			$showSaveAsCopy = false;
+		}
+
+		$this->showSaveAsCopy = $showSaveAsCopy;
+
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}
