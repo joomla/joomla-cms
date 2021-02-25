@@ -3,7 +3,6 @@ const { sep } = require('path');
 const recursive = require('recursive-readdir');
 const { handleES5File } = require('./javascript/handle-es5.es6.js');
 const { handleESMFile } = require('./javascript/compile-to-es2017.es6.js');
-const { handleESMToLegacy } = require('./javascript/compile-to-es5.es6.js');
 
 const RootPath = process.cwd();
 
@@ -57,7 +56,6 @@ module.exports.scripts = async (options, path, mode = 'esm') => {
   const computedFilesFlat = [].concat(...computedFiles);
   const jsFilesPromises = [];
   const esmFilesPromises = [];
-  const es5FilesPromises = [];
 
   // Loop to get the files that should be compiled via parameter
   computedFilesFlat.forEach((file) => {
@@ -68,16 +66,9 @@ module.exports.scripts = async (options, path, mode = 'esm') => {
     if (file.match(/\.es5\.js$/)) {
       jsFilesPromises.push(handleES5File(file));
     } else if (file.match(/\.es6\.js$/) || file.match(/\.w-c\.es6\.js$/)) {
-      const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
-      if (['es5', 'both'].includes(mode)) {
-        es5FilesPromises.push(handleESMToLegacy(`${newPath}.js`));
-      }
-      if (['esm', 'both'].includes(mode)) {
-        esmFilesPromises.push(handleESMFile(file));
-      }
+      esmFilesPromises.push(handleESMFile(file));
     }
   });
 
-  return Promise.all([...jsFilesPromises, ...esmFilesPromises])
-    .then(() => Promise.all(es5FilesPromises));
+  Promise.all([...jsFilesPromises, ...esmFilesPromises]);
 };
