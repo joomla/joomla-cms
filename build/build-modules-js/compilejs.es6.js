@@ -21,7 +21,7 @@ const RootPath = process.cwd();
  * @param { string } path    The folder that needs to be compiled, optional
  * @param { string } mode    esm for ES2017, es5 for ES5, both for both
  */
-module.exports.scripts = async (options, path, mode = 'esm') => {
+module.exports.scripts = async (options, path) => {
   const files = [];
   let folders = [];
 
