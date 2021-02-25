@@ -37,10 +37,16 @@ $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/a
 Factory::getDocument()->getWebAssetManager()
 	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')
 	->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons.css', [], [], ['codemirror.lib.main'])
+	->registerScript(
+			'webcomponent.editor-codemirror-es5',
+			'plg_editors_codemirror/joomla-editor-codemirror-es5.min.js',
+			['dependencies' => ['wcpolyfill']],
+			['defer' => true, 'nomodule' => true]
+	)
 	->registerAndUseScript(
 		'webcomponent.editor-codemirror',
 		'plg_editors_codemirror/joomla-editor-codemirror.min.js',
-			[],
+			['dependencies' => ['webcomponent.editor-codemirror-es5']],
 			['type' => 'module']
 	);
 ?>
