@@ -562,7 +562,7 @@
             ]
           }
         ],
-        "licenseFilename": "LICENSE.md"
+        "licenseFilename": "LICENSE"
       },
       "codemirror": {
         "name": "codemirror",
