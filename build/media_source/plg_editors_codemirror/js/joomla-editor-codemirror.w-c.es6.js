@@ -28,96 +28,98 @@ class CodemirrorEditor extends HTMLElement {
     }
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     const cmPath = this.getAttribute('editor');
     const addonsPath = this.getAttribute('addons');
 
-    import(`${this.host}/${cmPath}`)
-      .then(() => {
-        import(`${this.host}/${addonsPath}`)
-          .then(() => {
-            const that = this;
-            // For mode autoloading.
-            window.CodeMirror.modeURL = this.getAttribute('mod-path');
+    await import(`${this.host}/${cmPath}`);
 
-            // Fire this function any time an editor is created.
-            window.CodeMirror.defineInitHook((editor) => {
-              // Try to set up the mode
-              const mode = window.CodeMirror.findModeByName(editor.options.mode || '')
-                || window.CodeMirror.findModeByName(editor.options.mode || '')
-                || window.CodeMirror.findModeByExtension(editor.options.mode || '');
+    if (this.options.keyMapUrl) {
+      await import(`${this.host}/${this.options.keyMapUrl}`);
+    }
+    await import(`${this.host}/${addonsPath}`);
 
-              window.CodeMirror.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
+    const that = this;
 
-              if (mode && mode.mime) {
-                editor.setOption('mode', mode.mime);
-              }
+    // For mode autoloading.
+    window.CodeMirror.modeURL = this.getAttribute('mod-path');
 
-              const toggleFullScreen = () => {
-                that.instance.setOption('fullScreen', !that.instance.getOption('fullScreen'));
-                const header = document.getElementById('subhead');
-                if (header) {
-                  const header1 = document.getElementById('header');
-                  header1.classList.toggle('hidden');
-                  header.classList.toggle('hidden');
-                  that.instance.display.wrapper.style.top = `${header.getBoundingClientRect().height}px`;
-                }
-              };
+    // Fire this function any time an editor is created.
+    window.CodeMirror.defineInitHook((editor) => {
+      // Try to set up the mode
+      const mode = window.CodeMirror.findModeByName(editor.options.mode || '')
+        || window.CodeMirror.findModeByName(editor.options.mode || '')
+        || window.CodeMirror.findModeByExtension(editor.options.mode || '');
 
-              const closeFullScreen = () => {
-                that.instance.getOption('fullScreen');
-                that.instance.setOption('fullScreen', false);
+      window.CodeMirror.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
 
-                if (!that.instance.getOption('fullScreen')) {
-                  const header = document.getElementById('subhead');
-                  if (header) {
-                    const header1 = document.getElementById('header');
-                    header.classList.toggle('hidden');
-                    header1.classList.toggle('hidden');
-                    that.instance.display.wrapper.style.top = `${header.getBoundingClientRect().height}px`;
-                  }
-                }
-              };
+      if (mode && mode.mime) {
+        editor.setOption('mode', mode.mime);
+      }
 
-              const map = {
-                'Ctrl-Q': toggleFullScreen,
-                [that.getAttribute('fs-combo')]: toggleFullScreen,
-                Esc: closeFullScreen,
-              };
+      const toggleFullScreen = () => {
+        that.instance.setOption('fullScreen', !that.instance.getOption('fullScreen'));
+        const header = document.getElementById('subhead');
+        if (header) {
+          const header1 = document.getElementById('header');
+          header1.classList.toggle('hidden');
+          header.classList.toggle('hidden');
+          that.instance.display.wrapper.style.top = `${header.getBoundingClientRect().height}px`;
+        }
+      };
 
-              editor.addKeyMap(map);
+      const closeFullScreen = () => {
+        that.instance.getOption('fullScreen');
+        that.instance.setOption('fullScreen', false);
 
-              const makeMarker = () => {
-                const marker = document.createElement('div');
-                marker.className = 'CodeMirror-markergutter-mark';
+        if (!that.instance.getOption('fullScreen')) {
+          const header = document.getElementById('subhead');
+          if (header) {
+            const header1 = document.getElementById('header');
+            header.classList.toggle('hidden');
+            header1.classList.toggle('hidden');
+            that.instance.display.wrapper.style.top = `${header.getBoundingClientRect().height}px`;
+          }
+        }
+      };
 
-                return marker;
-              };
+      const map = {
+        'Ctrl-Q': toggleFullScreen,
+        [that.getAttribute('fs-combo')]: toggleFullScreen,
+        Esc: closeFullScreen,
+      };
 
-              // Handle gutter clicks (place or remove a marker).
-              editor.on('gutterClick', (ed, n, gutter) => {
-                if (gutter !== 'CodeMirror-markergutter') {
-                  return;
-                }
+      editor.addKeyMap(map);
 
-                const info = ed.lineInfo(n);
-                const hasMarker = !!info.gutterMarkers && !!info.gutterMarkers['CodeMirror-markergutter'];
-                ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : makeMarker());
-              });
+      const makeMarker = () => {
+        const marker = document.createElement('div');
+        marker.className = 'CodeMirror-markergutter-mark';
 
-              /* Some browsers do something weird with the fieldset which doesn't
-                work well with CodeMirror. Fix it. */
-              if (that.parentNode.tagName.toLowerCase() === 'fieldset') {
-                that.parentNode.style.minWidth = 0;
-              }
-            });
+        return marker;
+      };
 
-            // Register Editor
-            this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
-            this.instance.disable = (disabled) => this.setOption('readOnly', disabled ? 'nocursor' : false);
-            Joomla.editors.instances[this.element.id] = this.instance;
-          });
-      }).catch((error) => { throw new Error(error); });
+      // Handle gutter clicks (place or remove a marker).
+      editor.on('gutterClick', (ed, n, gutter) => {
+        if (gutter !== 'CodeMirror-markergutter') {
+          return;
+        }
+
+        const info = ed.lineInfo(n);
+        const hasMarker = !!info.gutterMarkers && !!info.gutterMarkers['CodeMirror-markergutter'];
+        ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : makeMarker());
+      });
+
+      /* Some browsers do something weird with the fieldset which doesn't
+        work well with CodeMirror. Fix it. */
+      if (that.parentNode.tagName.toLowerCase() === 'fieldset') {
+        that.parentNode.style.minWidth = 0;
+      }
+    });
+
+    // Register Editor
+    this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
+    this.instance.disable = (disabled) => this.setOption('readOnly', disabled ? 'nocursor' : false);
+    Joomla.editors.instances[this.element.id] = this.instance;
   }
 
   disconnectedCallback() {
@@ -129,4 +131,5 @@ class CodemirrorEditor extends HTMLElement {
     this.instance.fromTextArea(element, this.options);
   }
 }
+
 customElements.define('joomla-editor-codemirror', CodemirrorEditor);
