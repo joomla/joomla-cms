@@ -27,7 +27,7 @@ module.exports.handleESMToLegacy = async (file) => {
             '@babel/preset-env',
             {
               corejs: '3.8',
-              useBuiltIns: 'entry', //usage
+              useBuiltIns: 'entry', // usage
               targets: {
                 ie: '11',
               },

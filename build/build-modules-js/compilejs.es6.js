@@ -1,10 +1,9 @@
-const { stat,readFile, writeFile } = require('fs-extra');
+const { stat } = require('fs-extra');
 const { sep } = require('path');
 const recursive = require('recursive-readdir');
 const { handleES5File } = require('./javascript/handle-es5.es6.js');
 const { handleESMFile } = require('./javascript/compile-to-es2017.es6.js');
 const { handleESMToLegacy } = require('./javascript/compile-to-es5.es6.js');
-
 
 const RootPath = process.cwd();
 

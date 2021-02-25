@@ -13,7 +13,8 @@
  * node build.js --compile-bs       will compile all the Bootstrap javascript components
  * node build.js --com-media        will compile the media manager Vue application
  * node build.js --watch-com-media  will compile the media manager Vue application
- * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
+ * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts
+ * node build.js --prepare-build    will run all the needed tasks to prepare a release
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -81,6 +82,7 @@ Program
   .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
+  .option('--prepare-release', 'Run all the needed tasks to prepare a release')
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);

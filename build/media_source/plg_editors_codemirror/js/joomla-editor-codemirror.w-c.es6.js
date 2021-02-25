@@ -1,5 +1,3 @@
-import * as cm from '../../../../media/vendor/codemirror/lib/codemirror-ce';
-
 class CodemirrorEditor extends HTMLElement {
   constructor() {
     super();

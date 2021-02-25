@@ -43,7 +43,6 @@ Factory::getDocument()->getWebAssetManager()
 			[],
 			['type' => 'module']
 	);
-
 ?>
 <joomla-editor-codemirror <?php echo $editor . ' ' . $addons . ' ' . $modPath . ' ' . $fsCombo . ' ' . $option; ?>>
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>

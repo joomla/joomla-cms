@@ -18,8 +18,8 @@ use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'com_users/two-factor-switcher.js', ['version' => 'auto', 'relative' => true], ['type' => 'module']);
-HTMLHelper::_('script', 'com_users/two-factor-switcher-es5.js', ['version' => 'auto', 'relative' => true], ['defer' => true, 'nomodule' => true]);
+HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', ['version' => 'auto', 'relative' => true], ['type' => 'module']);
+HTMLHelper::_('script', 'com_users/two-factor-switcher-es5.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true, 'nomodule' => true]);
 
 $input = Factory::getApplication()->input;
 

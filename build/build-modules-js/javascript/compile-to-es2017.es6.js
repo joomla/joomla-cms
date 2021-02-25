@@ -1,12 +1,8 @@
-const { ensureDir } = require('fs-extra');
-const {
-  access, readdir, readFile, writeFile, unlink,
-} = require('fs/promises');
+const { access } = require('fs/promises');
 const { constants } = require('fs');
 const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
 const { basename, sep, resolve } = require('path');
-const { minify } = require('terser');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
