@@ -37,29 +37,28 @@ class CodemirrorEditor extends HTMLElement {
 
     import(`${this.host}/${cmPath}`)
       .then(() => {
-        this.instance = window.CodeMirror;
         import(`${this.host}/${addonsPath}`)
           .then(() => {
             // For mode autoloading.
-            this.instance.modeURL = this.getAttribute('mod-path');
+            window.CodeMirror.modeURL = this.getAttribute('mod-path');
 
             // Fire this function any time an editor is created.
-            this.instance.defineInitHook((editor) => {
+            window.CodeMirror.defineInitHook((editor) => {
               // Try to set up the mode
-              const mode = this.instance.findModeByName(editor.options.mode || '')
-                || this.instance.findModeByName(editor.options.mode || '')
-                || this.instance.findModeByExtension(editor.options.mode || '');
+              const mode = window.CodeMirror.findModeByName(editor.options.mode || '')
+                || window.CodeMirror.findModeByName(editor.options.mode || '')
+                || window.CodeMirror.findModeByExtension(editor.options.mode || '');
 
-              this.instance.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
+              window.CodeMirror.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
 
               if (mode && mode.mime) {
                 editor.setOption('mode', mode.mime);
               }
 
               const map = {
-                'Ctrl-Q': that.toggleFullScreen,
-                [that.getAttribute('fs-combo')]: that.toggleFullScreen,
-                Esc: that.closeFullScreen,
+                'Ctrl-Q': this.toggleFullScreen,
+                [this.getAttribute('fs-combo')]: this.toggleFullScreen,
+                Esc: this.closeFullScreen,
               };
 
               editor.addKeyMap(map);
@@ -83,7 +82,7 @@ class CodemirrorEditor extends HTMLElement {
             });
 
             // Register Editor
-            this.instance.fromTextArea(this.element, this.options);
+            this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
             this.instance.disable = (disabled) => this.instance.setOption('readOnly', disabled ? 'nocursor' : false);
             Joomla.editors.instances[this.element.id] = this.instance;
           });
