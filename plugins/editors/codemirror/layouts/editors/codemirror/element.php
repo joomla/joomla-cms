@@ -41,13 +41,15 @@ Factory::getDocument()->getWebAssetManager()
 			'webcomponent.editor-codemirror-es5',
 			'plg_editors_codemirror/joomla-editor-codemirror-es5.min.js',
 			['dependencies' => ['wcpolyfill']],
-			['defer' => true, 'nomodule' => true]
+			['defer' => true, 'nomodule' => true],
+			['wcpolyfill']
 	)
 	->registerAndUseScript(
 		'webcomponent.editor-codemirror',
 		'plg_editors_codemirror/joomla-editor-codemirror.min.js',
-			['dependencies' => ['webcomponent.editor-codemirror-es5']],
-			['type' => 'module']
+			[],
+			['type' => 'module'],
+			['webcomponent.editor-codemirror-es5']
 	);
 ?>
 <joomla-editor-codemirror <?php echo $editor . ' ' . $addons . ' ' . $modPath . ' ' . $fsCombo . ' ' . $option; ?>>
