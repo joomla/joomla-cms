@@ -50,7 +50,6 @@ class CodemirrorEditor extends HTMLElement {
       const mode = window.CodeMirror.findModeByName(editor.options.mode || '')
         || window.CodeMirror.findModeByExtension(editor.options.mode || '');
 
-      console.log(mode);
       window.CodeMirror.autoLoadMode(editor, typeof mode === 'object' ? mode.mode : editor.options.mode);
 
       if (mode && mode.mime) {
