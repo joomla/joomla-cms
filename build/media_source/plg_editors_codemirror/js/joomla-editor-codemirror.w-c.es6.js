@@ -1,4 +1,6 @@
-customElements.define('joomla-editor-codemirror', class extends HTMLElement {
+import * as cm from '../../../../media/vendor/codemirror/lib/codemirror-ce';
+
+class CodemirrorEditor extends HTMLElement {
   constructor() {
     super();
 
@@ -44,20 +46,12 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
   connectedCallback() {
     const that = this;
-    this.checkElement('CodeMirror')
+    const cmPath = this.getAttribute('editor');
+    const addonsPath = this.getAttribute('addons');
+
+    import(`${this.host}/${cmPath}`)
       .then(() => {
-        // Append the addons script
-        if (!document.head.querySelector('#cm-addons')) {
-          const addonsPath = this.getAttribute('addons');
-          const script2 = document.createElement('script');
-
-          script2.src = `${this.host}/${addonsPath}`;
-          script2.id = 'cm-addons';
-          script2.setAttribute('async', false);
-          document.head.insertBefore(script2, this.file);
-        }
-
-        this.checkElement('CodeMirror', 'findModeByName')
+        import(`${this.host}/${addonsPath}`)
           .then(() => {
             // Check if instance exists to avoid duplication on resize
             if (this.instance !== '') {
@@ -72,8 +66,8 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
             window.CodeMirror.defineInitHook((editor) => {
               // Try to set up the mode
               const mode = window.CodeMirror.findModeByName(editor.options.mode || '')
-              || window.CodeMirror.findModeByName(editor.options.mode || '')
-              || window.CodeMirror.findModeByExtension(editor.options.mode || '');
+                || window.CodeMirror.findModeByName(editor.options.mode || '')
+                || window.CodeMirror.findModeByExtension(editor.options.mode || '');
 
               window.CodeMirror.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
 
@@ -112,7 +106,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
             this.instance.disable = (disabled) => this.instance.setOption('readOnly', disabled ? 'nocursor' : false);
             Joomla.editors.instances[this.element.id] = this.instance;
           });
-      });
+      }).catch((error) => { throw new Error(error); });
   }
 
   disconnectedCallback() {
@@ -122,25 +116,6 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
   refresh(element) {
     this.instance = window.CodeMirror.fromTextArea(element, this.options);
-  }
-
-  /* eslint-disable */
-  rafAsync() {
-    return new Promise(resolve => requestAnimationFrame(resolve));
-  }
-
-  async checkElement(string1, string2) {
-    if (string2) {
-      while (typeof window[string1][string2] !== 'function') {
-        await this.rafAsync();
-      }
-    } else {
-      while (typeof window[string1] !== 'function') {
-        await this.rafAsync();
-      }
-    }
-
-    return true;
   }
 
   /* eslint-enable */
@@ -168,4 +143,5 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
     marker.className = 'CodeMirror-markergutter-mark';
     return marker;
   }
-});
+}
+customElements.define('joomla-editor-codemirror', CodemirrorEditor);

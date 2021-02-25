@@ -166,7 +166,7 @@ if (Program.prepare) {
         minifyVendor(),
         createErrorPages(options),
         stylesheets(options, Program.args[0]),
-        scripts(options, Program.args[0]),
+        scripts(options, Program.args[0], 'both'),
         bootstrapJs(),
         mediaManager(true),
       ]);

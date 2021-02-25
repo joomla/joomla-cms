@@ -8,7 +8,7 @@ const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
-
+const commonjs = require('@rollup/plugin-commonjs');
 const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
 const outputFolder = 'media/vendor/bootstrap/js';
@@ -98,6 +98,7 @@ const buildLegacy = async () => {
   const bundle = await rollup.rollup({
     input: resolve(inputFolder, 'index.es6.js'),
     plugins: [
+      commonjs(),
       nodeResolve(),
       replace({
         'process.env.NODE_ENV': '\'production\'',
@@ -151,9 +152,7 @@ module.exports.bootstrapJs = async () => {
   }
 
   (await readdir(outputFolder)).forEach((file) => {
-    if (!(file.startsWith('dom-') || file.startsWith('popper-'))) {
-      tasks.push(createMinified(file));
-    }
+    tasks.push(createMinified(file));
   });
 
   return Promise.all(tasks).then(async () => {

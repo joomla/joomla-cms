@@ -1,10 +1,10 @@
-const { stat } = require('fs-extra');
+const { stat,readFile, writeFile } = require('fs-extra');
 const { sep } = require('path');
 const recursive = require('recursive-readdir');
 const { handleES5File } = require('./javascript/handle-es5.es6.js');
 const { handleESMFile } = require('./javascript/compile-to-es2017.es6.js');
-const { handleWCFile } = require('./javascript/compile-w-c.es6.js');
 const { handleESMToLegacy } = require('./javascript/compile-to-es5.es6.js');
+
 
 const RootPath = process.cwd();
 
@@ -56,9 +56,6 @@ module.exports.scripts = async (options, path, mode = 'esm') => {
 
   const computedFiles = await Promise.all(folderPromises);
   const computedFilesFlat = [].concat(...computedFiles);
-
-  const es6JsFilesTranspile = [];
-  const es5JsFilesTranspile = [];
   const jsFilesPromises = [];
   const esmFilesPromises = [];
   const es5FilesPromises = [];

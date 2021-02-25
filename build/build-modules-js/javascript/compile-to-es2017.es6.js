@@ -13,6 +13,7 @@ const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const Postcss = require('postcss');
 const { renderSync } = require('sass');
+const { minifyJs } = require('./minify.es6.js');
 
 const getWcMinifiedCss = async (file) => {
   let scssFileExists = false;
@@ -52,10 +53,9 @@ const getWcMinifiedCss = async (file) => {
  */
 module.exports.handleESMFile = async (file) => {
   // eslint-disable-next-line no-console
-  console.log(`Building ES: ${basename(file).replace('.es6.js', '.js')}...`);
+  console.log(`Tranpiling ES2017 file: ${basename(file).replace('.es6.js', '.js')}...`);
   const newPath = file.replace(/\.w-c\.es6\.js$/, '').replace(/\.es6\.js$/, '').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
   const minifiedCss = await getWcMinifiedCss(file);
-
   const bundle = await rollup.rollup({
     input: resolve(file),
     plugins: [
@@ -92,4 +92,8 @@ module.exports.handleESMFile = async (file) => {
     sourcemap: false,
     file: resolve(`${newPath}.js`),
   });
+
+  // eslint-disable-next-line no-console
+  console.log(`ES2017 file: ${basename(file).replace('.es6.js', '.js')}: transpiled ✅`);
+  minifyJs(resolve(`${newPath}.js`));
 };

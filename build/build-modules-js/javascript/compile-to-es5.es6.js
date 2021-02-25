@@ -1,13 +1,9 @@
-const { ensureDir } = require('fs-extra');
-const {
-  lstat, readdir, readFile, writeFile, unlink,
-} = require('fs').promises;
-const { basename, sep, resolve } = require('path');
-const { minify } = require('terser');
+const { basename, resolve } = require('path');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
+const commonjs = require('@rollup/plugin-commonjs');
+const { minifyJs } = require('./minify.es6.js');
 
 /**
  * Compiles es6 files to es5.
@@ -16,45 +12,44 @@ const { babel } = require('@rollup/plugin-babel');
  */
 module.exports.handleESMToLegacy = async (file) => {
   // eslint-disable-next-line no-console
-  console.log(`Building Legacy: ${basename(file).replace('.js', '-es5.js')}...`);
-
+  console.log(`Transpiling ES5 file: ${basename(file).replace('.js', '-es5.js')}...`);
   const bundleLegacy = await rollup.rollup({
     input: resolve(file),
     plugins: [
-      nodeResolve({
-        preferBuiltins: false,
-      }),
-      replace({
-        'process.env.NODE_ENV': '\'production\'',
-      }),
+      nodeResolve(),
+      commonjs(),
       babel({
-        exclude: 'node_modules/core-js/**',
-        babelHelpers: 'bundled',
+        exclude: ['node_modules/core-js/**', 'media/system/js/core.js'],
+        babelHelpers: 'bundled', // runtime
         babelrc: false,
         presets: [
           [
             '@babel/preset-env',
             {
               corejs: '3.8',
-              useBuiltIns: 'usage',
+              useBuiltIns: 'entry', //usage
               targets: {
-                chrome: '58',
                 ie: '11',
               },
               loose: true,
-              bugfixes: true,
+              bugfixes: false,
               modules: false,
             },
           ],
         ],
+        // plugins: ['@babel/plugin-transform-runtime'],
       }),
     ],
-    external: [],
   });
 
   await bundleLegacy.write({
-    format: 'es',
+    format: 'iife',
     sourcemap: false,
     file: resolve(`${file.replace(/\.js$/, '')}-es5.js`),
   });
+
+  // eslint-disable-next-line no-console
+  console.log(`ES5 file: ${basename(file).replace('.js', '-es5.js')}: transpiled ✅`);
+
+  minifyJs(resolve(`${file.replace(/\.js$/, '')}-es5.js`));
 };
