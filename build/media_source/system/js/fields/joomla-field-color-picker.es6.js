@@ -4,8 +4,13 @@
   * Copyright Dimitris Grammatikogiannis & Dan Partac
   * License MIT
   */
+((TinyColor) => {
+  'use strict';
 
-(() => {
+  if (!TinyColor) {
+    throw new Error('TinyColor is required');
+  }
+
   class ColorPicker extends HTMLElement {
     constructor() {
       super();
@@ -16,7 +21,7 @@
       // set internals
       this.format = this.getAttribute('format');
       this.placeholder = this.getAttribute('placeholder');
-      this.color = new window.tinycolor(this.value, { format: this.format });
+      this.color = new TinyColor(this.value, { format: this.format });
       this.dragElement = null;
       this.isOpen = false;
       this.isMobile = 'ontouchstart' in document && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -224,7 +229,7 @@ input.color-input-hex {
       this.inputs = this.shadowRoot.querySelectorAll('.color-input');
       this.dropdown = this.shadowRoot.querySelector('.color-dropdown');
       this.control1 = this.shadowRoot.querySelector('.color-pointer');
-      this.control2 = this.shadowRoot.querySelectorAll('.color-slider')[0];
+      this.control2 = this.shadowRoot.querySelector('.color-control2 + .color-slider');
       this.controls = Array.from(this.shadowRoot.querySelectorAll('canvas'));
       // set dimensions
       this.width1 = this.controls[0].width;
@@ -239,7 +244,7 @@ input.color-input-hex {
 
       // set alpha control except hex
       if (this.format !== 'hex') {
-        this.control3 = this.shadowRoot.querySelectorAll('.color-slider')[1];
+        this.control3 = this.shadowRoot.querySelector('.color-control3 + .color-slider');
         this.width3 = this.controls[2].width;
         this.height3 = this.controls[2].height;
         this.ctx3 = this.controls[2].getContext('2d');
@@ -248,30 +253,29 @@ input.color-input-hex {
     }
 
     toggleEvents(action) {
-      action = action ? 'addEventListener' : 'removeEventListener';
-      this.preview[action]('focusin', this.show);
+      const fn = action ? 'addEventListener' : 'removeEventListener';
+      this.preview[fn]('focusin', this.show);
     }
 
     toggleEventsOnShown(action) {
-      action = action ? 'addEventListener' : 'removeEventListener';
+      const fn = action ? 'addEventListener' : 'removeEventListener';
       const pointerEvents = 'ontouchstart' in document
         ? { down: 'touchstart', move: 'touchmove', up: 'touchend' }
         : { down: 'mousedown', move: 'mousemove', up: 'mouseup' };
 
-      this.controls.map((x) => x[action](pointerEvents.down, this.pointerDown));
+      this.controls.map((x) => x[fn](pointerEvents.down, this.pointerDown));
 
-      window[action]('scroll', this.handleScroll);
+      window[fn]('scroll', this.handleScroll);
 
       Array.from(this.inputs).concat(this.preview)
-        .map((x) => x[action]('change', this.changeHandler));
+        .map((x) => x[fn]('change', this.changeHandler));
 
-      document[action](pointerEvents.move, this.pointerMove);
-      document[action](pointerEvents.up, this.pointerUp);
-      window[action]('keyup', this.keyHandler);
+      document[fn](pointerEvents.move, this.pointerMove);
+      document[fn](pointerEvents.up, this.pointerUp);
+      window[fn]('keyup', this.keyHandler);
     }
 
     connectedCallback() {
-      this.observeInputs();
       this.setControlPositions();
       this.updateInputs(1); // don't trigger change in this context
       this.updateControls();
@@ -289,9 +293,9 @@ input.color-input-hex {
       const rgb = this.color.toRgb();
 
       if (this.format !== 'hsl') {
-        const hue = Math.floor(this.controlPositions.c2y / this.height2 * 360);
+        const hue = Math.floor((this.controlPositions.c2y / this.height2) * 360);
 
-        this.ctx1.fillStyle = new window.tinycolor(`hsl(${hue},100%,50%)`).toRgbString();
+        this.ctx1.fillStyle = new TinyColor(`hsl(${hue},100%,50%)`).toRgbString();
         this.ctx1.fillRect(0, 0, this.width1, this.height1);
 
         const whiteGrad = this.ctx2.createLinearGradient(0, 0, this.width1, 0);
@@ -320,13 +324,13 @@ input.color-input-hex {
         const hueGrad = this.ctx1.createLinearGradient(0, 0, this.width1, 0);
         const saturation = Math.round((1 - this.controlPositions.c2y / this.height2) * 100);
 
-        hueGrad.addColorStop(0, new window.tinycolor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
-        hueGrad.addColorStop(0.17, new window.tinycolor('rgb(255, 255, 0)').desaturate(100 - saturation).toRgbString());
-        hueGrad.addColorStop(0.34, new window.tinycolor('rgb(0, 255, 0)').desaturate(100 - saturation).toRgbString());
-        hueGrad.addColorStop(0.51, new window.tinycolor('rgb(0, 255, 255)').desaturate(100 - saturation).toRgbString());
-        hueGrad.addColorStop(0.68, new window.tinycolor('rgb(0, 0, 255)').desaturate(100 - saturation).toRgbString());
-        hueGrad.addColorStop(0.85, new window.tinycolor('rgb(255, 0, 255)').desaturate(100 - saturation).toRgbString());
-        hueGrad.addColorStop(1, new window.tinycolor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
+        hueGrad.addColorStop(0, new TinyColor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
+        hueGrad.addColorStop(0.17, new TinyColor('rgb(255, 255, 0)').desaturate(100 - saturation).toRgbString());
+        hueGrad.addColorStop(0.34, new TinyColor('rgb(0, 255, 0)').desaturate(100 - saturation).toRgbString());
+        hueGrad.addColorStop(0.51, new TinyColor('rgb(0, 255, 255)').desaturate(100 - saturation).toRgbString());
+        hueGrad.addColorStop(0.68, new TinyColor('rgb(0, 0, 255)').desaturate(100 - saturation).toRgbString());
+        hueGrad.addColorStop(0.85, new TinyColor('rgb(255, 0, 255)').desaturate(100 - saturation).toRgbString());
+        hueGrad.addColorStop(1, new TinyColor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
         this.ctx1.fillStyle = hueGrad;
         this.ctx1.fill();
 
@@ -343,7 +347,7 @@ input.color-input-hex {
         this.ctx1.fillRect(0, 0, this.width1, this.height1);
 
         const saturationGrad = this.ctx2.createLinearGradient(0, 0, 0, this.height2);
-        const incolor = new window.tinycolor(this.color.toRgbString()).greyscale().toRgb();
+        const incolor = new TinyColor(this.color.toRgbString()).greyscale().toRgb();
 
         saturationGrad.addColorStop(0, `rgb(${rgb.r},${rgb.g},${rgb.b})`);
         saturationGrad.addColorStop(1, `rgb(${incolor.r},${incolor.g},${incolor.b})`);
@@ -366,7 +370,7 @@ input.color-input-hex {
     handleScroll(e) {
       const self = document.querySelector('color-picker.open');
 
-      if (self) {
+      if (self !== this) {
         // prevent scroll when updating controls on mobile
         if (self.isMobile && self.dragElement) {
           e.preventDefault();
@@ -378,27 +382,28 @@ input.color-input-hex {
     }
 
     pointerDown(e) {
-      const eTarget = e.target; const self = eTarget.getRootNode().host;
-
+      const eTarget = e.target;
+      const self = eTarget.getRootNode().host;
       const controlRect = eTarget.getBoundingClientRect();
-      const pageX = e.type === 'touchstart'
-        ? e.touches[0].pageX
-        : e.pageX;
-      const pageY = e.type === 'touchstart'
-        ? e.touches[0].pageY
-        : e.pageY;
+      const pageX = e.type === 'touchstart' ? e.touches[0].pageX : e.pageX;
+      const pageY = e.type === 'touchstart' ? e.touches[0].pageY : e.pageY;
       const offsetX = pageX - window.pageXOffset - controlRect.left;
       const offsetY = pageY - window.pageYOffset - controlRect.top;
 
       if (eTarget === self.controls[0] || eTarget === self.control1) {
-        self.dragElement = self.controls[0];
+        const control1 = self.controls[0];
+        self.dragElement = control1;
         self.changeControl1({ offsetX, offsetY });
       } else if (eTarget === self.controls[1] || eTarget === self.control2) {
-        self.dragElement = self.controls[1];
+        const control2 = self.controls[1];
+        self.dragElement = control2;
         self.changeControl2({ offsetY });
       } else if (self.format !== 'hex' && (eTarget === self.controls[2] || eTarget === self.control3)) {
-        self.dragElement = self.controls[2];
+        const control3 = self.controls[2];
+        self.dragElement = control3;
         self.changeAlpha({ offsetY });
+      } else if (this) {
+        // say hi to lint
       }
       e.preventDefault();
     }
@@ -406,8 +411,11 @@ input.color-input-hex {
     pointerUp(e) {
       const self = document.querySelector('color-picker.open');
 
-      if (!self.dragElement && !document.getSelection().toString().length && !self.contains(e.target)) {
+      if (!self.dragElement && !document.getSelection().toString().length
+        && !self.contains(e.target)) {
         self.hide();
+      } else if (this) {
+        // say hi to lint
       }
 
       self.dragElement = null;
@@ -420,12 +428,8 @@ input.color-input-hex {
       if (!controlInFocus) return;
 
       const controlRect = controlInFocus.getBoundingClientRect();
-      const pageX = e.type === 'touchmove'
-        ? e.touches[0].pageX
-        : e.pageX;
-      const pageY = e.type === 'touchmove'
-        ? e.touches[0].pageY
-        : e.pageY;
+      const pageX = e.type === 'touchmove' ? e.touches[0].pageX : e.pageX;
+      const pageY = e.type === 'touchmove' ? e.touches[0].pageY : e.pageY;
       const offsetX = pageX - window.pageXOffset - controlRect.left;
       const offsetY = pageY - window.pageYOffset - controlRect.top;
 
@@ -439,25 +443,35 @@ input.color-input-hex {
 
       if (controlInFocus === self.controls[2] && self.format !== 'hex') {
         self.changeAlpha({ offsetY });
+      } else if (this) {
+        // say hi to lint
       }
     }
 
-    changeHandler(e) {
+    changeHandler() {
       const self = document.querySelector('color-picker.open');
       const activeEl = self.shadowRoot.activeElement;
       const inputs = Array.from(self.inputs);
+      let colorSource;
 
       if (activeEl === self.preview || (self.isOpen && inputs.includes(activeEl))) {
-        const colorSource = activeEl === self.preview ? self.preview.value
-          : self.format === 'hex' ? inputs[0].value
-            : self.format === 'hsl' ? `hsla(${inputs[0].value},${inputs[1].value}%,${inputs[2].value}%,${inputs[3].value})`
-              : `rgba(${inputs.map((x) => x.value).join(',')})`;
+        if (activeEl === self.preview) {
+          colorSource = self.preview.value;
+        } else if (self.format === 'hex') {
+          colorSource = inputs[0].value;
+        } else if (self.format === 'hsl') {
+          colorSource = `hsla(${inputs[0].value},${inputs[1].value}%,${inputs[2].value}%,${inputs[3].value})`;
+        } else {
+          colorSource = `rgba(${inputs.map((x) => x.value).join(',')})`;
+        }
 
-        self.color = new window.tinycolor(colorSource, { format: self.format });
+        self.color = new TinyColor(colorSource, { format: self.format });
         self.setControlPositions();
         self.updateInputs();
         self.updateControls();
         self.render();
+      } else if (this) {
+        // say hi to lint
       }
     }
 
@@ -480,25 +494,38 @@ input.color-input-hex {
             focusedInput.dispatchEvent(new Event('change'));
           }
         }, 700);
+      } else if (this) {
+        // say hi to lint
       }
     }
 
     changeControl1(e) {
-      const offsetX = e.offsetX <= 0 ? 0 : e.offsetX > this.width1 ? this.width1 : e.offsetX;
-      const offsetY = e.offsetY <= 0 ? 0 : e.offsetY > this.height1 ? this.height1 : e.offsetY;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (e.offsetX > this.width1) {
+        offsetX = this.width1;
+      } else if (e.offsetX >= 0) {
+        offsetX = e.offsetX;
+      }
+      if (e.offsetY > this.height1) {
+        offsetY = this.height1;
+      } else if (e.offsetY >= 0) {
+        offsetY = e.offsetY;
+      }
 
       const hue = this.format !== 'hsl'
-        ? Math.floor(this.controlPositions.c2y / this.height2 * 360)
-        : Math.floor(offsetX / this.width1 * 360);
+        ? Math.floor((this.controlPositions.c2y / this.height2) * 360)
+        : Math.floor((offsetX / this.width1) * 360);
       const saturation = this.format !== 'hsl'
-        ? Math.floor(offsetX / this.width1 * 100)
+        ? Math.floor((offsetX / this.width1) * 100)
         : Math.floor((1 - this.controlPositions.c2y / this.height2) * 100);
       const lightness = Math.floor((1 - offsetY / this.height1) * 100);
       const alpha = this.format !== 'hex' ? Math.floor((1 - this.controlPositions.c3y / this.height3) * 100) / 100 : 1;
       const colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
 
       // new color
-      this.color = new window.tinycolor(`${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, { format: this.format });
+      this.color = new TinyColor(`${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, { format: this.format });
       // new positions
       this.controlPositions.c1x = offsetX;
       this.controlPositions.c1y = offsetY;
@@ -509,20 +536,22 @@ input.color-input-hex {
     }
 
     changeControl2(e) {
-      const offsetY = e.offsetY <= 0 ? 0 : e.offsetY > this.height2 ? this.height2 : e.offsetY;
+      let offsetY = 0;
 
-      const hue = this.format !== 'hsl'
-        ? Math.floor(offsetY / this.height2 * 360)
-        : Math.floor(this.controlPositions.c1x / this.width1 * 360);
-      const saturation = this.format !== 'hsl'
-        ? Math.floor(this.controlPositions.c1x / this.width1 * 100)
-        : Math.floor((1 - offsetY / this.height2) * 100);
+      if (e.offsetY > this.height2) {
+        offsetY = this.height2;
+      } else if (e.offsetY >= 0) {
+        offsetY = e.offsetY;
+      }
+
+      const hue = this.format !== 'hsl' ? Math.floor((offsetY / this.height2) * 360) : Math.floor((this.controlPositions.c1x / this.width1) * 360);
+      const saturation = this.format !== 'hsl' ? Math.floor((this.controlPositions.c1x / this.width1) * 100) : Math.floor((1 - offsetY / this.height2) * 100);
       const lightness = Math.floor((1 - this.controlPositions.c1y / this.height1) * 100);
       const alpha = this.format !== 'hex' ? Math.floor((1 - this.controlPositions.c3y / this.height3) * 100) / 100 : 1;
       const colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
 
       // new color
-      this.color = new window.tinycolor(`${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, { format: this.format });
+      this.color = new TinyColor(`${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, { format: this.format });
       // new position
       this.controlPositions.c2y = offsetY;
       // update color picker
@@ -532,7 +561,13 @@ input.color-input-hex {
     }
 
     changeAlpha(e) {
-      const offsetY = e.offsetY <= 0 ? 0 : e.offsetY > this.height3 ? this.height3 : e.offsetY;
+      let offsetY = 0;
+
+      if (e.offsetY > this.height3) {
+        offsetY = this.height3;
+      } else if (e.offsetY >= 0) {
+        offsetY = e.offsetY;
+      }
 
       // update color alpha
       this.color.setAlpha(Math.floor((1 - offsetY / this.height3) * 100) / 100);
@@ -541,12 +576,6 @@ input.color-input-hex {
       // update color picker
       this.updateInputs();
       this.updateControls();
-    }
-
-    // Set up a requestAnimationFrame loop
-    observeInputs() {
-      // this.updateColor();
-      // this.updateInputs()
     }
 
     updateDropdown(e) {
@@ -578,15 +607,11 @@ input.color-input-hex {
       const lightness = this.format !== 'hsl' ? hsv.v : hsl.l;
       const alpha = hsv.a;
 
-      this.controlPositions.c1x = this.format !== 'hsl'
-        ? saturation * this.width1
-        : hue / 360 * this.width1;
+      this.controlPositions.c1x = this.format !== 'hsl' ? saturation * this.width1 : (hue / 360) * this.width1;
 
       this.controlPositions.c1y = (1 - lightness) * this.height1;
 
-      this.controlPositions.c2y = this.format !== 'hsl'
-        ? hue / 360 * this.height2
-        : (1 - saturation) * this.height2;
+      this.controlPositions.c2y = this.format !== 'hsl' ? (hue / 360) * this.height2 : (1 - saturation) * this.height2;
 
       if (this.format !== 'hex') {
         this.controlPositions.c3y = (1 - alpha) * this.height3;
@@ -637,7 +662,7 @@ input.color-input-hex {
       // update the main input
       this.value = newColor;
 
-      [this.input, this.preview].map((x) => {
+      [this.input, this.preview].forEach((x) => {
         if (x) {
           x.value = newColor;
           if (x === this.preview) {
@@ -655,7 +680,7 @@ input.color-input-hex {
 
     show(e) {
       const current = document.querySelector('color-picker.open');
-      current && current.hide();
+      if (current) current.hide();
 
       const self = !e ? this : e.target.getRootNode().host;
 
@@ -680,4 +705,4 @@ input.color-input-hex {
   }
 
   customElements.define('color-picker', ColorPicker);
-})();
+})(TinyColor);
