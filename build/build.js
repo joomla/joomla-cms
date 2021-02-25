@@ -82,7 +82,7 @@ Program
   .option('--watch-com-media', 'Watch and Compile the Media Manager client side App.')
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
-  .option('--prepare-release', 'Run all the needed tasks to prepare a release')
+  .option('--prepare-release', 'Run all the tasks needed  to prepare a release')
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
