@@ -5,9 +5,15 @@
   * License MIT
   */
 
-import TinyColor from '@ctrl/tinycolor';
+// import TinyColor from '@ctrl/tinycolor';
 
-(() => {
+((customElements, TinyColor, Joomla) => {
+  'use strict';
+
+  if (!Joomla) {
+    throw new Error('Joomla API is not properly initiated');
+  }
+
   class ColorPicker extends HTMLElement {
     constructor() {
       super();
@@ -84,6 +90,9 @@ import TinyColor from '@ctrl/tinycolor';
 
       // init color
       this.color = new TinyColor(this.value, { format: this.format });
+
+      // give the <color-picker> a unique id
+      const pickerID = `color-picker-${Math.round(Math.random() * 999)}`;
 
       // make the controls smaller on mobile
       const cv1w = this.isMobile ? 150 : 230;
@@ -252,7 +261,8 @@ input.color-input-hex {
 </style>
 
 <div class="picker-box">
-  <input value="${this.value}" format="${this.format}" placeholder="${this.placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
+  <label for="${pickerID}" class="visually-hidden">${Joomla.Text._('JFIELD_COLOR_SELECT', 'Select a colour')}</label>
+  <input id="${pickerID}" name="${pickerID}" value="${this.value}" format="${this.format}" placeholder="${this.placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
   <div class="color-dropdown${dropClass}">
     ${this.controlsTemplate}
     <div class="color-form">
@@ -724,4 +734,4 @@ input.color-input-hex {
     }
   }
   customElements.define('color-picker', ColorPicker);
-})();
+})(customElements, TinyColor, Joomla);
