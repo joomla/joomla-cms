@@ -58,8 +58,8 @@
 					format="hue"
 					control="slider"
 					preview="true"
-					saveFormat="hue"
-					default="214"
+					saveFormat="hsl"
+					default="hsl(214,63%,20%)"
 				/>
 				<field
 					name="bg-light"

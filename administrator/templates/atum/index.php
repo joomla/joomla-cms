@@ -55,13 +55,15 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 	? ''
 	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
 
+// Get the hue value
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214,63%,20%)'), $matches);
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-	->useStyle('template.active.language')
-	->useStyle('template.user')
-	->addInlineStyle(':root {
-		--hue: ' . $this->params->get('hue', '214') . ';
+		->useStyle('template.active.language')
+		->useStyle('template.user')
+		->addInlineStyle(':root {
+		--hue: ' . $matches[1] . ';
 		--atum-bg-light: ' . $this->params->get('bg-light', '--atum-bg-light') . ';
 		--atum-text-dark: ' . $this->params->get('text-dark', '--atum-text-dark') . ';
 		--atum-text-light: ' . $this->params->get('text-light', '--atum-text-light') . ';
