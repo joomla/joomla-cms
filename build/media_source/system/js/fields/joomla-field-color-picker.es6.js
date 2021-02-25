@@ -4,26 +4,21 @@
   * Copyright Dimitris Grammatikogiannis & Dan Partac
   * License MIT
   */
-((TinyColor) => {
-  'use strict';
 
-  if (!TinyColor) {
-    throw new Error('TinyColor is required');
-  }
+import TinyColor from '@ctrl/tinycolor';
 
+(() => {
   class ColorPicker extends HTMLElement {
     constructor() {
       super();
-      // all instances must have a unique ID
-      const elementID = `${this.getAttribute('id')}_color-picker` || `color-picker-${Math.floor(Math.random() * 999)}`;
+
+      // set essentials
       this.value = this.getAttribute('value') || 'rgba(0,0,0,1)';
-      // Joomla will likely want to read a form input
-      // set internals
       this.format = this.getAttribute('format');
       this.placeholder = this.getAttribute('placeholder');
-      this.color = new TinyColor(this.value, { format: this.format });
       this.dragElement = null;
       this.isOpen = false;
+      this.isDisconnected = false;
       this.isMobile = 'ontouchstart' in document && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       this.keyTimer = null;
       // control positions
@@ -31,11 +26,64 @@
         c1x: 0, c1y: 0, c2y: 0, c3y: 0,
       };
 
-      // set main input
+      // bind events
+      this.show = this.show.bind(this);
+      this.pointerDown = this.pointerDown.bind(this);
+      this.pointerMove = this.pointerMove.bind(this);
+      this.pointerUp = this.pointerUp.bind(this);
+      this.handleScroll = this.handleScroll.bind(this);
+      this.changeHandler = this.changeHandler.bind(this);
+      this.keyHandler = this.keyHandler.bind(this);
+      this.updateDropdown = this.updateDropdown.bind(this);
+    }
+
+    connectedCallback() {
+      // Make sure TinyColor is loaded
+      if (window.TinyColor || document.readyState === 'complete') {
+        this.doConnect();
+      } else {
+        const callback = () => {
+          this.doConnect();
+          window.removeEventListener('load', callback);
+        };
+        window.addEventListener('load', callback);
+      }
+    }
+
+    disconnectedCallback() {
+      this.isDisconnected = true;
+      this.toggleEvents();
+    }
+
+    doConnect() {
+      // get the main input
       this.input = this.querySelector('input[type="hidden"]');
 
-      // get template parts
-      this.inputsTemplate = this.querySelector(`[name="${this.format}-form"]`).innerHTML;
+      if (!this.input) {
+        throw new Error('ColorPicker requires a child <input type="hidden"> form element');
+      }
+
+      // get template part(s)
+      this.inputsTemplate = this.querySelector(`[name="${this.format}-form"]`);
+
+      if (!this.inputsTemplate) {
+        throw new Error(`ColorPicker requires a <template name="${this.format}-form"> fragment`);
+      }
+
+      // The element was already initialised previously and perhaps was detached from DOM
+      if (this.color) {
+        if (this.isDisconnected) {
+          // re-attach events
+          this.toggleEvents(1);
+          this.isDisconnected = false;
+        }
+        return;
+      }
+
+      this.isDisconnected = false;
+
+      // init color
+      this.color = new TinyColor(this.value, { format: this.format });
 
       // make the controls smaller on mobile
       const cv1w = this.isMobile ? 150 : 230;
@@ -46,15 +94,15 @@
       this.controlsTemplate = `<div class="color-control">
   <canvas class="color-control1" height="${cvh}" width="${cv1w}"></canvas>
   <div class="color-pointer"></div>
-</div>
-<div class="color-control">
+  </div>
+  <div class="color-control">
   <canvas class="color-control2" height="${cvh}" width="21" ></canvas>
   <div class="color-slider"></div>
-</div>
-<div class="color-control${alphaControlViz}">
+  </div>
+  <div class="color-control${alphaControlViz}">
   <canvas class="color-control3" height="${cvh}" width="21"></canvas>
   <div class="color-slider"></div>
-</div>`;
+  </div>`;
 
       // set the main template
       this.template = document.createElement('template');
@@ -136,10 +184,12 @@
   max-width: 7.5%;
   width: 7.5%
 }
+
 label.hex-label {
   max-width: 12.5%;
   width: 12.5%
 }
+
 input.color-input-hex {
   max-width: 87.5%;
   width: 87.5%
@@ -202,11 +252,11 @@ input.color-input-hex {
 </style>
 
 <div class="picker-box">
-  <input id="${elementID}" value="${this.value}" format="${this.format}" placeholder="${this.placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
+  <input value="${this.value}" format="${this.format}" placeholder="${this.placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
   <div class="color-dropdown${dropClass}">
     ${this.controlsTemplate}
     <div class="color-form">
-      ${this.inputsTemplate}
+      ${this.inputsTemplate.innerHTML}
     </div>
   </div>
 </div>`;
@@ -250,6 +300,14 @@ input.color-input-hex {
         this.ctx3 = this.controls[2].getContext('2d');
         this.ctx3.rect(0, 0, this.width3, this.height3);
       }
+
+      // update color picker
+      this.setControlPositions();
+      this.updateInputs(1); // don't trigger change in this context
+      this.updateControls();
+      this.render();
+      // attach main event
+      this.toggleEvents(1);
     }
 
     toggleEvents(action) {
@@ -273,20 +331,6 @@ input.color-input-hex {
       document[fn](pointerEvents.move, this.pointerMove);
       document[fn](pointerEvents.up, this.pointerUp);
       window[fn]('keyup', this.keyHandler);
-    }
-
-    connectedCallback() {
-      this.setControlPositions();
-      this.updateInputs(1); // don't trigger change in this context
-      this.updateControls();
-      this.render();
-      // attach main event
-      this.toggleEvents(1);
-    }
-
-    disconnectedCallback() {
-      // detach main event
-      this.toggleEvents();
     }
 
     render() {
@@ -347,7 +391,7 @@ input.color-input-hex {
         this.ctx1.fillRect(0, 0, this.width1, this.height1);
 
         const saturationGrad = this.ctx2.createLinearGradient(0, 0, 0, this.height2);
-        const incolor = new TinyColor(this.color.toRgbString()).greyscale().toRgb();
+        const incolor = this.color.clone().greyscale().toRgb();
 
         saturationGrad.addColorStop(0, `rgb(${rgb.r},${rgb.g},${rgb.b})`);
         saturationGrad.addColorStop(1, `rgb(${incolor.r},${incolor.g},${incolor.b})`);
@@ -368,62 +412,50 @@ input.color-input-hex {
     }
 
     handleScroll(e) {
-      const self = document.querySelector('color-picker.open');
-
-      if (self !== this) {
-        // prevent scroll when updating controls on mobile
-        if (self.isMobile && self.dragElement) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        // update color-dropdown position
-        self.updateDropdown(e);
+      // prevent scroll when updating controls on mobile
+      if (this.isMobile && this.dragElement) {
+        e.preventDefault();
+        e.stopPropagation();
       }
+      // update color-dropdown position
+      this.updateDropdown(e);
     }
 
     pointerDown(e) {
       const eTarget = e.target;
-      const self = eTarget.getRootNode().host;
       const controlRect = eTarget.getBoundingClientRect();
       const pageX = e.type === 'touchstart' ? e.touches[0].pageX : e.pageX;
       const pageY = e.type === 'touchstart' ? e.touches[0].pageY : e.pageY;
       const offsetX = pageX - window.pageXOffset - controlRect.left;
       const offsetY = pageY - window.pageYOffset - controlRect.top;
 
-      if (eTarget === self.controls[0] || eTarget === self.control1) {
-        const control1 = self.controls[0];
-        self.dragElement = control1;
-        self.changeControl1({ offsetX, offsetY });
-      } else if (eTarget === self.controls[1] || eTarget === self.control2) {
-        const control2 = self.controls[1];
-        self.dragElement = control2;
-        self.changeControl2({ offsetY });
-      } else if (self.format !== 'hex' && (eTarget === self.controls[2] || eTarget === self.control3)) {
-        const control3 = self.controls[2];
-        self.dragElement = control3;
-        self.changeAlpha({ offsetY });
-      } else if (this) {
-        // say hi to lint
+      if (eTarget === this.controls[0] || eTarget === this.control1) {
+        const control1 = this.controls[0];
+        this.dragElement = control1;
+        this.changeControl1({ offsetX, offsetY });
+      } else if (eTarget === this.controls[1] || eTarget === this.control2) {
+        const control2 = this.controls[1];
+        this.dragElement = control2;
+        this.changeControl2({ offsetY });
+      } else if (this.format !== 'hex' && (eTarget === this.controls[2] || eTarget === this.control3)) {
+        const control3 = this.controls[2];
+        this.dragElement = control3;
+        this.changeAlpha({ offsetY });
       }
       e.preventDefault();
     }
 
     pointerUp(e) {
-      const self = document.querySelector('color-picker.open');
-
-      if (!self.dragElement && !document.getSelection().toString().length
-        && !self.contains(e.target)) {
-        self.hide();
-      } else if (this) {
-        // say hi to lint
+      if (!this.dragElement && !document.getSelection().toString().length
+        && !this.contains(e.target)) {
+        this.hide();
       }
 
-      self.dragElement = null;
+      this.dragElement = null;
     }
 
     pointerMove(e) {
-      const self = document.querySelector('color-picker.open');
-      const controlInFocus = self.dragElement;
+      const controlInFocus = this.dragElement;
 
       if (!controlInFocus) return;
 
@@ -433,69 +465,60 @@ input.color-input-hex {
       const offsetX = pageX - window.pageXOffset - controlRect.left;
       const offsetY = pageY - window.pageYOffset - controlRect.top;
 
-      if (controlInFocus === self.controls[0]) {
-        self.changeControl1({ offsetX, offsetY });
+      if (controlInFocus === this.controls[0]) {
+        this.changeControl1({ offsetX, offsetY });
       }
 
-      if (controlInFocus === self.controls[1]) {
-        self.changeControl2({ offsetY });
+      if (controlInFocus === this.controls[1]) {
+        this.changeControl2({ offsetY });
       }
 
-      if (controlInFocus === self.controls[2] && self.format !== 'hex') {
-        self.changeAlpha({ offsetY });
-      } else if (this) {
-        // say hi to lint
+      if (controlInFocus === this.controls[2] && this.format !== 'hex') {
+        this.changeAlpha({ offsetY });
       }
     }
 
     changeHandler() {
-      const self = document.querySelector('color-picker.open');
-      const activeEl = self.shadowRoot.activeElement;
-      const inputs = Array.from(self.inputs);
+      const activeEl = this.shadowRoot.activeElement;
+      const inputs = Array.from(this.inputs);
       let colorSource;
 
-      if (activeEl === self.preview || (self.isOpen && inputs.includes(activeEl))) {
-        if (activeEl === self.preview) {
-          colorSource = self.preview.value;
-        } else if (self.format === 'hex') {
+      if (activeEl === this.preview || (this.isOpen && inputs.includes(activeEl))) {
+        if (activeEl === this.preview) {
+          colorSource = this.preview.value;
+        } else if (this.format === 'hex') {
           colorSource = inputs[0].value;
-        } else if (self.format === 'hsl') {
+        } else if (this.format === 'hsl') {
           colorSource = `hsla(${inputs[0].value},${inputs[1].value}%,${inputs[2].value}%,${inputs[3].value})`;
         } else {
           colorSource = `rgba(${inputs.map((x) => x.value).join(',')})`;
         }
 
-        self.color = new TinyColor(colorSource, { format: self.format });
-        self.setControlPositions();
-        self.updateInputs();
-        self.updateControls();
-        self.render();
-      } else if (this) {
-        // say hi to lint
+        this.color = new TinyColor(colorSource, { format: this.format });
+        this.setControlPositions();
+        this.updateInputs();
+        this.updateControls();
+        this.render();
       }
     }
 
     keyHandler(e) {
-      const self = document.querySelector('color-picker.open');
-
-      if (self.isOpen) {
+      if (this.isOpen) {
         if (e.which === 27) {
-          self.hide();
+          this.hide();
           return;
         }
 
-        clearTimeout(self.keyTimer);
-        self.keyTimer = setTimeout(() => {
-          const focusedInput = Array.from(self.inputs)
-            .concat(self.preview)
-            .find((x) => x === self.shadowRoot.activeElement);
+        clearTimeout(this.keyTimer);
+        this.keyTimer = setTimeout(() => {
+          const focusedInput = Array.from(this.inputs)
+            .concat(this.preview)
+            .find((x) => x === this.shadowRoot.activeElement);
 
-          if (focusedInput && focusedInput.value && focusedInput.value !== self.value) {
+          if (focusedInput && focusedInput.value && focusedInput.value !== this.value) {
             focusedInput.dispatchEvent(new Event('change'));
           }
         }, 700);
-      } else if (this) {
-        // say hi to lint
       }
     }
 
@@ -578,24 +601,23 @@ input.color-input-hex {
       this.updateControls();
     }
 
-    updateDropdown(e) {
-      const self = !e ? this : document.querySelector('color-picker.open');
-      const elRect = self.preview.parentElement.getBoundingClientRect();
-      const elHeight = self.preview.parentElement.offsetHeight;
+    updateDropdown() {
+      const elRect = this.preview.parentElement.getBoundingClientRect();
+      const elHeight = this.preview.parentElement.offsetHeight;
       const windowHeight = document.documentElement.clientHeight;
-      const dropHeight = self.dropdown.offsetHeight;
+      const dropHeight = this.dropdown.offsetHeight;
       const distanceBottom = windowHeight - elRect.bottom;
       const distanceTop = elRect.top;
       const bottomExceed = elRect.top + dropHeight + elHeight > windowHeight; // show
       const topExceed = elRect.top - dropHeight < 0; // show-top
 
-      if (self.dropdown.classList.contains('show') && distanceBottom < distanceTop && bottomExceed) {
-        self.dropdown.classList.remove('show');
-        self.dropdown.classList.add('show-top');
+      if (this.dropdown.classList.contains('show') && distanceBottom < distanceTop && bottomExceed) {
+        this.dropdown.classList.remove('show');
+        this.dropdown.classList.add('show-top');
       }
-      if (self.dropdown.classList.contains('show-top') && distanceBottom > distanceTop && topExceed) {
-        self.dropdown.classList.remove('show-top');
-        self.dropdown.classList.add('show');
+      if (this.dropdown.classList.contains('show-top') && distanceBottom > distanceTop && topExceed) {
+        this.dropdown.classList.remove('show-top');
+        this.dropdown.classList.add('show');
       }
     }
 
@@ -678,18 +700,16 @@ input.color-input-hex {
       }
     }
 
-    show(e) {
+    show() {
       const current = document.querySelector('color-picker.open');
       if (current) current.hide();
 
-      const self = !e ? this : e.target.getRootNode().host;
-
-      if (!self.isOpen) {
-        self.dropdown.classList.add('show');
-        self.updateDropdown();
-        self.classList.add('open');
-        self.toggleEventsOnShown(1);
-        self.isOpen = true;
+      if (!this.isOpen) {
+        this.dropdown.classList.add('show');
+        this.updateDropdown();
+        this.classList.add('open');
+        this.toggleEventsOnShown(1);
+        this.isOpen = true;
       }
     }
 
@@ -703,6 +723,5 @@ input.color-input-hex {
       }
     }
   }
-
   customElements.define('color-picker', ColorPicker);
-})(TinyColor);
+})();

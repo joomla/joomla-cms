@@ -96,7 +96,8 @@
       "type": "script",
       "uri": "system/fields/tinycolor.min.js",
       "attributes": {
-        "defer": true
+        "defer": true,
+        "type": "module"
       },
       "package": "@ctrl/tinycolor",
       "version": "3.4.0"
@@ -115,7 +116,7 @@
       "type": "script",
       "uri": "system/fields/joomla-field-color-picker.min.js",
       "attributes": {
-        "defer": true
+        "type": "module"
       },
       "dependencies": [
         "tinycolor"
