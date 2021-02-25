@@ -48,13 +48,18 @@ class CodemirrorEditor extends HTMLElement {
     window.CodeMirror.defineInitHook((editor) => {
       // Try to set up the mode
       const mode = window.CodeMirror.findModeByName(editor.options.mode || '')
-        || window.CodeMirror.findModeByName(editor.options.mode || '')
         || window.CodeMirror.findModeByExtension(editor.options.mode || '');
 
-      window.CodeMirror.autoLoadMode(editor, mode ? mode.mode : editor.options.mode);
+      console.log(mode);
+      window.CodeMirror.autoLoadMode(editor, typeof mode === 'object' ? mode.mode : editor.options.mode);
 
       if (mode && mode.mime) {
-        editor.setOption('mode', mode.mime);
+        // Fix the x-php error
+        if (['text/x-php', 'application/x-httpd-php', 'application/x-httpd-php-open'].includes(mode.mime)) {
+          editor.setOption('mode', 'php');
+        } else {
+          editor.setOption('mode', mode.mime);
+        }
       }
 
       const toggleFullScreen = () => {
