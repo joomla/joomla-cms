@@ -6,8 +6,6 @@ class CodemirrorEditor extends HTMLElement {
     this.host = window.location.origin;
     this.element = this.querySelector('textarea');
     this.refresh = this.refresh.bind(this);
-    this.toggleFullScreen = this.toggleFullScreen.bind(this);
-    this.closeFullScreen = this.closeFullScreen.bind(this);
   }
 
   static get observedAttributes() {
@@ -38,6 +36,7 @@ class CodemirrorEditor extends HTMLElement {
       .then(() => {
         import(`${this.host}/${addonsPath}`)
           .then(() => {
+            const that = this;
             // For mode autoloading.
             window.CodeMirror.modeURL = this.getAttribute('mod-path');
 
@@ -54,13 +53,46 @@ class CodemirrorEditor extends HTMLElement {
                 editor.setOption('mode', mode.mime);
               }
 
+              const toggleFullScreen = () => {
+                that.instance.setOption('fullScreen', !that.instance.getOption('fullScreen'));
+                const header = document.getElementById('subhead');
+                if (header) {
+                  const header1 = document.getElementById('header');
+                  header1.classList.toggle('hidden');
+                  header.classList.toggle('hidden');
+                  that.instance.display.wrapper.style.top = `${header.getBoundingClientRect().height}px`;
+                }
+              };
+
+              const closeFullScreen = () => {
+                that.instance.getOption('fullScreen');
+                that.instance.setOption('fullScreen', false);
+
+                if (!that.instance.getOption('fullScreen')) {
+                  const header = document.getElementById('subhead');
+                  if (header) {
+                    const header1 = document.getElementById('header');
+                    header.classList.toggle('hidden');
+                    header1.classList.toggle('hidden');
+                    that.instance.display.wrapper.style.top = `${header.getBoundingClientRect().height}px`;
+                  }
+                }
+              };
+
               const map = {
-                'Ctrl-Q': this.toggleFullScreen,
-                [this.getAttribute('fs-combo')]: this.toggleFullScreen,
-                Esc: this.closeFullScreen,
+                'Ctrl-Q': toggleFullScreen,
+                [that.getAttribute('fs-combo')]: toggleFullScreen,
+                Esc: closeFullScreen,
               };
 
               editor.addKeyMap(map);
+
+              const makeMarker = () => {
+                const marker = document.createElement('div');
+                marker.className = 'CodeMirror-markergutter-mark';
+
+                return marker;
+              };
 
               // Handle gutter clicks (place or remove a marker).
               editor.on('gutterClick', (ed, n, gutter) => {
@@ -70,19 +102,19 @@ class CodemirrorEditor extends HTMLElement {
 
                 const info = ed.lineInfo(n);
                 const hasMarker = !!info.gutterMarkers && !!info.gutterMarkers['CodeMirror-markergutter'];
-                ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : this.constructor.makeMarker());
+                ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : makeMarker());
               });
 
               /* Some browsers do something weird with the fieldset which doesn't
                 work well with CodeMirror. Fix it. */
-              if (this.parentNode.tagName.toLowerCase() === 'fieldset') {
-                this.parentNode.style.minWidth = 0;
+              if (that.parentNode.tagName.toLowerCase() === 'fieldset') {
+                that.parentNode.style.minWidth = 0;
               }
             });
 
             // Register Editor
             this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
-            this.instance.disable = (disabled) => this.instance.setOption('readOnly', disabled ? 'nocursor' : false);
+            this.instance.disable = (disabled) => this.setOption('readOnly', disabled ? 'nocursor' : false);
             Joomla.editors.instances[this.element.id] = this.instance;
           });
       }).catch((error) => { throw new Error(error); });
@@ -95,32 +127,6 @@ class CodemirrorEditor extends HTMLElement {
 
   refresh(element) {
     this.instance.fromTextArea(element, this.options);
-  }
-
-  /* eslint-enable */
-  toggleFullScreen() {
-    this.instance.setOption('fullScreen', !this.instance.getOption('fullScreen'));
-
-    const header = document.getElementById('header');
-    if (header) {
-      header.classList.toggle('hidden');
-    }
-  }
-
-  closeFullScreen() {
-    this.instance.getOption('fullScreen');
-    this.instance.setOption('fullScreen', false);
-
-    const header = document.getElementById('header');
-    if (header) {
-      header.classList.remove('hidden');
-    }
-  }
-
-  static makeMarker() {
-    const marker = document.createElement('div');
-    marker.className = 'CodeMirror-markergutter-mark';
-    return marker;
   }
 }
 customElements.define('joomla-editor-codemirror', CodemirrorEditor);
