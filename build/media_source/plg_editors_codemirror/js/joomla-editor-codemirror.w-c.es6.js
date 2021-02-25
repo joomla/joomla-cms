@@ -31,7 +31,6 @@ class CodemirrorEditor extends HTMLElement {
   }
 
   connectedCallback() {
-    const that = this;
     const cmPath = this.getAttribute('editor');
     const addonsPath = this.getAttribute('addons');
 
