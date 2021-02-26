@@ -777,7 +777,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
-			elseif($data['alias'] == $origTable->alias)
+			elseif ($data['alias'] == $origTable->alias)
 			{
 				$data['alias'] = '';
 			}
