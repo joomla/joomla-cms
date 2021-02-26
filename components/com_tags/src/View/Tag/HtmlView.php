@@ -312,7 +312,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $title ?: $this->params->get('page_title', $menu->title);
-
 		}
 
 		$this->setDocumentTitle($title);
