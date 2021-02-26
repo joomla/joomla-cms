@@ -29,6 +29,8 @@ $beforeDisplayContent = trim(implode("\n", $results));
 $results = $app->triggerEvent('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
 $afterDisplayContent = trim(implode("\n", $results));
 
+$htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
+
 ?>
 <div class="com-content-category-blog blog" itemscope itemtype="https://schema.org/Blog">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -38,9 +40,9 @@ $afterDisplayContent = trim(implode("\n", $results));
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_category_title', 1): ?>
-	<h2>
+	<<?php echo $htag; ?>>
 		<?php echo $this->category->title; ?>
-	</h2>
+	</<?php echo $htag; ?>>
 	<?php endif; ?>
 	<?php echo $afterDisplayTitle; ?>
 
