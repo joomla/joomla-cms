@@ -5,9 +5,9 @@
   * License MIT
   */
 
-// import TinyColor from '@ctrl/tinycolor';
+import TinyColor from '@ctrl/tinycolor';
 
-((customElements, TinyColor, Joomla) => {
+((customElements, Joomla) => {
   'use strict';
 
   if (!Joomla) {
@@ -734,4 +734,4 @@ input.color-input-hex {
     }
   }
   customElements.define('color-picker', ColorPicker);
-})(customElements, TinyColor, Joomla);
+})(customElements, Joomla);
