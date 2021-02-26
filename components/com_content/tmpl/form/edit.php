@@ -162,10 +162,10 @@ if (!$editoroptions)
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<?php if ($this->showSaveAsCopy) : ?>
-                <button type="button" class="btn btn-primary" data-submit-task="article.save">
-                    <span class="icon-check" aria-hidden="true"></span>
+				<button type="button" class="btn btn-primary" data-submit-task="article.save">
+					<span class="icon-check" aria-hidden="true"></span>
 					<?php echo Text::_('JSAVEASCOPY'); ?>
-                </button>
+				</button>
 			<?php endif; ?>
 			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
 				<span class="icon-times" aria-hidden="true"></span>
