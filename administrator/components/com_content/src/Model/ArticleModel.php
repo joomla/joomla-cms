@@ -484,7 +484,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$user = Factory::getApplication()->getIdentity();
+		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
 
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
@@ -494,7 +495,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			return false;
 		}
 
-		$id = (int) $this->getState('article.id');
+		// Get ID of the article from input, for frontend, we use a_id while backend uses id
+		$articleIdFromInput = $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
+
+		// On edit article, we get get ID of article from article.id state, but on save, we use data from input
+		$id = (int) $this->getState('article.id', $articleIdFromInput);
 
 		// For new articles we load the potential state + associations
 		if ($id == 0 && $formField = $form->getField('catid'))
