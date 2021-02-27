@@ -59,13 +59,14 @@ abstract class Menu
 	/**
 	 * Filter and perform other preparatory tasks for loaded menu items based on access rights and module configurations for display
 	 *
-	 * @param   MenuItem  $parent  A menu item to process
+	 * @param   MenuItem  $parent              A menu item to process
+	 * @param   array     $disabledExtensions  Names of disabled extensions, that shall be removed from the result
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public static function preprocess($parent, array $disabledExtensions)
+	public static function preprocess($parent, array $disabledExtensions = [])
 	{
 		$app      = Factory::getApplication();
 		$user     = $app->getIdentity();
