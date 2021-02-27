@@ -666,8 +666,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	{
 		$input  = Factory::getApplication()->input;
 		$filter = \JFilterInput::getInstance();
-		$db     = $this->getDbo();
-		$user	= Factory::getUser();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -778,6 +776,13 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 			if ($data['title'] == $origTable->title)
 			{
+				// If user did not change title before press Save as Copy in frontend, set Alias to original article
+				// alias to have the system generates Title and Alias automatically for the creating article
+				if (Factory::getApplication()->isClient('site'))
+				{
+					$data['alias'] = $origTable->alias;
+				}
+
 				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 				$data['title'] = $title;
 				$data['alias'] = $alias;

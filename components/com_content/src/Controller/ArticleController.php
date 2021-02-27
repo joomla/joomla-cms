@@ -368,6 +368,7 @@ class ArticleController extends FormController
 	{
 		$result    = parent::save($key, $urlVar);
 		$app       = Factory::getApplication();
+		$task      = $this->getTask();
 		$articleId = $app->input->getInt('a_id');
 
 		// Load the parameters.
@@ -390,6 +391,10 @@ class ArticleController extends FormController
 			{
 				$this->setRedirect(Route::_('index.php?Itemid=' . $menuitem . $lang, false));
 			}
+		}
+		elseif ($task == 'save2copy')
+		{
+			// Redirect to the article page, use the redirect url set from parent controller
 		}
 		else
 		{
