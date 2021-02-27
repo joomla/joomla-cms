@@ -36,7 +36,7 @@ if ($root && $root->hasChildren())
 		true
 	);
 
-	Menu::preprocess($root);
+	Menu::preprocess($root, Menu::disabledExtensions());
 
 	// Render the module layout
 	require ModuleHelper::getLayoutPath('mod_submenu', $params->get('layout', 'default'));

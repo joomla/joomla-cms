@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
 
@@ -26,6 +27,35 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class Menu
 {
+
+	/**
+	 * Return the disabled extensions so that they can be hidden from the menu
+	 *
+	 * @return  array An array of names of disabled extensions
+	 *
+	 * @since   4.0.0
+	 */
+	public static function disabledExtensions(): array
+	{
+		$db    = Factory::getContainer()->get(DatabaseInterface::class);
+		$query = $db->getQuery(true);
+
+		// Prepare the query.
+		$query->select($db->quoteName('e.name'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->where($db->quoteName('e.enabled') . ' = 0');
+		$iterator = $db->setQuery($query)->getIterator();
+
+		$names = [];
+
+		foreach ($iterator as $item)
+		{
+			$names[] = $item->name;
+		}
+
+		return $names;
+	}
+
 	/**
 	 * Filter and perform other preparatory tasks for loaded menu items based on access rights and module configurations for display
 	 *
@@ -35,7 +65,7 @@ abstract class Menu
 	 *
 	 * @since   4.0.0
 	 */
-	public static function preprocess($parent)
+	public static function preprocess($parent, array $disabledExtensions)
 	{
 		$app      = Factory::getApplication();
 		$user     = $app->getIdentity();
@@ -51,6 +81,12 @@ abstract class Menu
 
 		foreach ($children as $item)
 		{
+			if ($item->type === 'component' && in_array($item->element, $disabledExtensions, true))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+
 			$itemParams = $item->getParams();
 
 			// Exclude item with menu item option set to exclude from menu modules
@@ -83,7 +119,7 @@ abstract class Menu
 					$item->addChild($c);
 				}
 
-				self::preprocess($item);
+				self::preprocess($item, $disabledExtensions);
 				$children = ArrayHelper::sortObjects($item->getChildren(), 'text', 1, false, true);
 
 				foreach ($children as $c)
@@ -191,7 +227,7 @@ abstract class Menu
 
 			if ($item->hasChildren())
 			{
-				self::preprocess($item);
+				self::preprocess($item, $disabledExtensions);
 			}
 
 			// Ok we passed everything, load language at last only
