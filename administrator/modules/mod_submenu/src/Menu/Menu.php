@@ -41,19 +41,21 @@ abstract class Menu
 		$query = $db->getQuery(true);
 
 		// Prepare the query.
-		$query->select($db->quoteName('e.name'))
+		$query->select($db->quoteName('e.element'))
 			->from($db->quoteName('#__extensions', 'e'))
+			->where($db->quoteName('e.type') . ' = ' . $db->quote('component'))
+			->where($db->quoteName('e.client_id') . ' = 1')
 			->where($db->quoteName('e.enabled') . ' = 0');
 		$iterator = $db->setQuery($query)->getIterator();
 
-		$names = [];
+		$extensions = [];
 
 		foreach ($iterator as $item)
 		{
-			$names[] = $item->name;
+			$extensions[] = $item->element;
 		}
 
-		return $names;
+		return $extensions;
 	}
 
 	/**
