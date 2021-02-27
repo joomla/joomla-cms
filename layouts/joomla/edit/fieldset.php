@@ -46,6 +46,11 @@ if (!empty($displayData->showOptions) || $displayData->get('show_options', 1))
 
 	foreach ($fieldSet as $field)
 	{
+		if (in_array($field->fieldname, $ignoreFields))
+		{
+			continue;
+		}
+
 		$html[] = $field->renderField();
 	}
 
