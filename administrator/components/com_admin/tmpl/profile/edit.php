@@ -27,6 +27,7 @@ $fieldsets = $this->form->getFieldsets();
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->useCoreUI = true;
+$this->ignore_fields = ['twofactor'];
 ?>
 <form
 	action="<?php echo Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>"
