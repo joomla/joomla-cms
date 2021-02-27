@@ -12,7 +12,6 @@ namespace Joomla\Component\Content\Site\View\Category;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
