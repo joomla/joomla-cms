@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Registry\Registry;
@@ -171,10 +172,16 @@ class CMSApplication extends WebApplication
 			return;
 		}
 
+		$inputFilter = InputFilter::getInstance(array(), array(), 1, 1);
+
+		// Build the message array and apply the HTML InputFilter with the default blacklist to the message
+		$message = array(
+			'message' => $inputFilter->clean($msg, 'html'),
+			'type'    => $inputFilter->clean(strtolower($type), 'cmd')
+		);
+
 		// For empty queue, if messages exists in the session, enqueue them first.
 		$messages = $this->getMessageQueue();
-
-		$message = array('message' => $msg, 'type' => strtolower($type));
 
 		if (!in_array($message, $this->_messageQueue))
 		{
