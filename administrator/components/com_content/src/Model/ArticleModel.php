@@ -484,6 +484,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app  = Factory::getApplication();
+
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -495,7 +497,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Object uses for checking edit state permission of article
 		$record = new \stdClass;
 
-		$id = (int) $this->getState('article.id');
+		// Get ID of the article from input, for frontend, we use a_id while backend uses id
+		$articleIdFromInput = $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
+
+		// On edit article, we get ID of article from article.id state, but on save, we use data from input
+		$id = (int) $this->getState('article.id', $articleIdFromInput);
 
 		$record->id = $id;
 
@@ -589,7 +595,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					)
 				);
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
-				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+
+				if ($app->isClient('administrator'))
+				{
+					$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				}
+
 				$data->set('access',
 					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);

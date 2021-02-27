@@ -322,9 +322,10 @@ Joomla = window.Joomla || {};
 
       // Add all active filters to the table caption for screen-readers
       const filteredByCaption = document.getElementById('filteredBy');
+      const isHidden = Object.prototype.hasOwnProperty.call(element.attributes, 'type') && element.attributes.type.value === 'hidden';
 
       // The caption won't exist if no items match the filters so check for the element first
-      if (filteredByCaption) {
+      if (filteredByCaption && !isHidden) {
         let captionContent = '';
 
         if (element.tagName.toLowerCase() === 'select') {
