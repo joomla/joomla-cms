@@ -92,26 +92,6 @@
       "uri": "system/fields/validate.min.js"
     },
     {
-      "name": "tinycolor",
-      "type": "script",
-      "uri": "system/fields/tinycolor.min.js",
-      "attributes": {
-        "defer": true,
-        "type": "module"
-      },
-      "package": "@ctrl/tinycolor",
-      "version": "3.4.0"
-    },
-    {
-      "name": "tinycolor",
-      "type": "preset",
-      "dependencies": [
-        "tinycolor#script"
-      ],
-      "package": "@ctrl/tinycolor",
-      "version": "3.4.0"
-    },    
-    {
       "name": "field.color-picker",
       "type": "script",
       "uri": "system/fields/joomla-field-color-picker.min.js",
