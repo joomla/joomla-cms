@@ -1,27 +1,22 @@
 /**
-  * Joomla Color Picker Web Component
-  * Implements TinyColor https://github.com/scttcper/tinycolor
-  * Copyright Dimitris Grammatikogiannis & Dan Partac
-  * License MIT
-  */
+* Joomla Color Picker Web Component
+* Implements TinyColor https://github.com/scttcper/tinycolor
+* Copyright Dimitris Grammatikogiannis & Dan Partac
+* License MIT
+*/
 
 import TinyColor from '@ctrl/tinycolor';
 
-((customElements, Joomla) => {
+(() => {
   'use strict';
 
-  if (!Joomla) {
-    throw new Error('Joomla API is not properly initiated');
-  }
+  const nonColors = ['transparent', 'currentColor', 'inherit'];
 
   class ColorPicker extends HTMLElement {
     constructor() {
       super();
 
       // set essentials
-      this.value = this.getAttribute('value') || 'rgba(0,0,0,1)';
-      this.format = this.getAttribute('format');
-      this.placeholder = this.getAttribute('placeholder');
       this.dragElement = null;
       this.isOpen = false;
       this.isDisconnected = false;
@@ -33,7 +28,9 @@ import TinyColor from '@ctrl/tinycolor';
       };
 
       // bind events
-      this.show = this.show.bind(this);
+      this.showPicker = this.showPicker.bind(this);
+      this.showMenu = this.showMenu.bind(this);
+      this.menuHandler = this.menuHandler.bind(this);
       this.pointerDown = this.pointerDown.bind(this);
       this.pointerMove = this.pointerMove.bind(this);
       this.pointerUp = this.pointerUp.bind(this);
@@ -44,7 +41,6 @@ import TinyColor from '@ctrl/tinycolor';
     }
 
     connectedCallback() {
-      // Make sure TinyColor is loaded
       if (window.TinyColor || document.readyState === 'complete') {
         this.doConnect();
       } else {
@@ -69,12 +65,8 @@ import TinyColor from '@ctrl/tinycolor';
         throw new Error('ColorPicker requires a child <input type="hidden"> form element');
       }
 
-      // get template part(s)
-      this.inputsTemplate = this.querySelector(`[name="${this.format}-form"]`);
-
-      if (!this.inputsTemplate) {
-        throw new Error(`ColorPicker requires a <template name="${this.format}-form"> fragment`);
-      }
+      // give the <color-picker> a unique id
+      const pickerID = `color-picker-${Math.round(Math.random() * 999)}`;
 
       // The element was already initialised previously and perhaps was detached from DOM
       if (this.color) {
@@ -86,13 +78,18 @@ import TinyColor from '@ctrl/tinycolor';
         return;
       }
 
+      // set new state
       this.isDisconnected = false;
+
+      // get input value, formatm direction and labels
+      this.value = this.input.getAttribute('value') || 'rgb(0,0,0)';
+      this.format = this.getAttribute('format');
+
+      const placeholder = this.input.getAttribute('placeholder');
+      const inputLabel = this.input.getAttribute('inputLabel');
 
       // init color
       this.color = new TinyColor(this.value, { format: this.format });
-
-      // give the <color-picker> a unique id
-      const pickerID = `color-picker-${Math.round(Math.random() * 999)}`;
 
       // make the controls smaller on mobile
       const cv1w = this.isMobile ? 150 : 230;
@@ -100,28 +97,86 @@ import TinyColor from '@ctrl/tinycolor';
       const dropClass = this.isMobile ? ' mobile' : '';
       const alphaControlViz = this.format === 'hex' ? ' visually-hidden' : '';
 
-      this.controlsTemplate = `<div class="color-control">
+      const controlsTemplate = `<div class="color-control">
   <canvas class="color-control1" height="${cvh}" width="${cv1w}"></canvas>
   <div class="color-pointer"></div>
-  </div>
-  <div class="color-control">
+</div>
+<div class="color-control">
   <canvas class="color-control2" height="${cvh}" width="21" ></canvas>
   <div class="color-slider"></div>
-  </div>
-  <div class="color-control${alphaControlViz}">
+</div>
+<div class="color-control${alphaControlViz}">
   <canvas class="color-control3" height="${cvh}" width="21"></canvas>
   <div class="color-slider"></div>
-  </div>`;
+</div>`;
+
+      // set inputs template
+      const inputLabels = this.input.getAttribute('inputLabels').split(',');
+
+      const hexForm = `<label for="${pickerID}_hex" class="hex-label">HEX: <span class="visually-hidden">${inputLabels[0]}</span></label>
+<input id="${pickerID}_hex" name="${pickerID}_hex" value="#000" placeholder="${this.placeholder}" class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">`;
+
+      const rgbForm = `<label for="${pickerID}_red">R: <span class="visually-hidden">${inputLabels[0]}</span></label>
+<input id="${pickerID}_red" name="${pickerID}_red" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
+
+<label for="${pickerID}_green">G: <span class="visually-hidden">${inputLabels[1]}</span></label>
+<input id="${pickerID}_green" name="${pickerID}_green" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
+
+<label for="${pickerID}_blue">B: <span class="visually-hidden">${inputLabels[2]}</span></label>
+<input id="${pickerID}_blue" name="${pickerID}_blue" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
+
+<label for="${pickerID}_alpha">A: <span class="visually-hidden">${inputLabels[3]}</span></label>
+<input id="${pickerID}_alpha" name="${pickerID}_alpha" value="1" class="color-input" type="number" placeholder="[0-1]" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
+
+      const hslForm = `<label for="${pickerID}_hue">H: <span class="visually-hidden">${inputLabels[0]}</span></label>
+<input id="${pickerID}_hue" name="${pickerID}_hue" value="0" class="color-input" type="number" placeholder="[0-360]" min="0" max="360" autocomplete="off" spellcheck="false">
+
+<label for="${pickerID}_saturation">S: <span class="visually-hidden">${inputLabels[1]}></span></label>
+<input id="${pickerID}_saturation" name="${pickerID}_saturation" value="0" class="color-input" type="number" placeholder="[0-100]" min="0" max="100" autocomplete="off" spellcheck="false">
+
+<label for="${pickerID}_lightness">L: <span class="visually-hidden">${inputLabels[2]}</span></label>
+<input id="${pickerID}_lightness" name="${pickerID}_lightness" value="0" class="color-input" type="number" placeholder="[0-100]" min="0" max="100" autocomplete="off" spellcheck="false">
+
+<label for="${pickerID}_alpha">A: <span class="visually-hidden">${inputLabels[3]}</span></label>
+<input id="${pickerID}_alpha" name="${pickerID}_alpha" value="1" class="color-input" type="number" placeholder="[0-1]" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
+
+      // set inputs template
+      let inputsTemplate = hexForm;
+
+      if (this.format === 'rgb') {
+        inputsTemplate = rgbForm;
+      } else if (this.format === 'hsl') {
+        inputsTemplate = hslForm;
+      }
+
+      // set color key menu template
+      this.keywords = false;
+      const colorKeysOption = this.input.getAttribute('keywords');
+      let menuTemplate = '';
+      let menuToggle = '';
+
+      if (colorKeysOption !== 'false') {
+        const colorKeys = colorKeysOption ? colorKeysOption.split(',') : nonColors;
+        this.keywords = colorKeys;
+        let colorOpsMarkup = '';
+        colorKeys.forEach((x) => { colorOpsMarkup += `<li>${x.trim()}</li>`; });
+        menuTemplate = `<ul class="color-menu">${colorOpsMarkup}</ul>`;
+        menuToggle = `<button class="menu-toggle">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+      <rect fill="rgba(0,0,0,.3)" width="100%" height="100%" x="0" y="0"></rect>
+      <path fill="#fff" d="M777.857 367.557c9.748 -9.605 25.41 -9.605 35.087 0s9.713 25.124 0 34.729L529.521 682.914c-9.677 9.605 -25.338 9.605 -35.087 0L211.011 402.286c-9.677 -9.605 -9.677 -25.123 0 -34.729c9.712 -9.605 25.41 -9.605 35.087 0l265.897 255.934L777.857 367.557z"></path>
+    </svg>
+</button>`;
+      }
 
       // set the main template
       this.template = document.createElement('template');
 
       this.template.innerHTML = `<style>
-.picker-box {
+:host {
   position: relative;
   display: flex
 }
-
 .color-dropdown {
   width: 280px;
   background: rgba(0,0,0,0.75);
@@ -132,46 +187,83 @@ import TinyColor from '@ctrl/tinycolor';
   border-radius: 0.5rem;
   display: none;
   left:0;
-  flex-wrap: wrap;
-  justify-content: space-between;
   z-index: 50
 }
-
-[format="hex"] + .color-dropdown {
+:host([format="hex"]) .color-dropdown {
   width: 255px
 }
-
 .color-dropdown.mobile {
   width: 210px
 }
-
-[format="hex"] + .color-dropdown.mobile {
+:host([format="hex"]) .color-dropdown.mobile {
   width: 180px
 }
-
 .color-dropdown.show {
   top: calc(100% + 5px);
-  display: flex
+  display: block
 }
 .color-dropdown.show-top {
   bottom: calc(100% + 5px);
-  display: flex;
+  display: block;
   top: auto
 }
-
+.color-controls {
+  display: none;
+  flex-wrap: wrap;
+  justify-content: space-between;  
+}
 .color-preview {
   border: 0;
   outline: none;
   box-shadow: 0 0 1px 1px rgba(120,120,120,0.33) inset;
-  height: 1.5rem;
   line-height: 1.5;
   font-size: 1rem;
   border-radius: 0.25rem;
-  padding: 0.6rem 1rem;
   appearance: none;
-  width: 100%
+  width: 100%;
+  height: 1.5rem;
+  padding: 0.6rem 1rem;
+  direction: ltr; /* color value can never be rtl */
 }
-
+.menu-toggle {
+  position: absolute;
+  height: 100%; width: 3rem;
+  top: 0; right: 0;
+  background: none;
+  border: 0;
+  outline: none;
+  border-radius: 0 .25rem .25rem 0;
+  background: rgba(0,0,0,0.2);
+  cursor: pointer
+}
+.menu-toggle svg {
+  width: auto;
+  height: 100%
+}
+.color-menu {
+  list-style: none;
+  padding-inline: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  flex-flow: column;
+  display: none
+}
+.color-dropdown.menu .color-menu,
+.color-dropdown.picker .color-controls {
+  display: flex
+}
+.color-dropdown.menu {
+  left: auto;
+  right: 0
+}
+li {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer
+}
+li:hover {
+  background: #fff;
+  color: #000
+}
 .color-form {
   font: 12px Arial;
   display: flex;
@@ -181,29 +273,24 @@ import TinyColor from '@ctrl/tinycolor';
   align-items: center;
   padding: 0.25rem 0
 }
-
-.color-form * {
+.color-form > * {
   flex: 1 0 0%;
   max-width: 17.5%;
   width: 17.5%
 }
-
 .color-form label {
   text-align: center;
   max-width: 7.5%;
   width: 7.5%
 }
-
 label.hex-label {
   max-width: 12.5%;
   width: 12.5%
 }
-
 input.color-input-hex {
   max-width: 87.5%;
   width: 87.5%
 }
-
 .color-input {
   background: transparent;
   border: 1px solid rgba(255,255,255,0.15);
@@ -211,65 +298,72 @@ input.color-input-hex {
   outline: none;
   color: inherit
 }
-
 .color-input:active,
 .color-input:focus {
   background: rgba(0,0,0,0.25);
   border: 1px solid rgba(255,255,255,0.33);
 }
-
 .color-control1 {
   cursor: crosshair;
 }
-
 .color-control2,
 .color-control3 {
   cursor: ns-resize;
 }
-
 .color-control {
   position:relative;
   display: inline-block
 }
-
 .color-control:focus canvas:active {
   cursor: none;
 }
-
 .color-pointer,
 .color-slider {
   position:absolute;
   background: #000;
-  border: 1px solid rgba(255,255,255,0.8);
+  border: 1px solid #fff;
   height: 5px;
   cursor: inherit;
   user-select: none;
   pointer-events: none
 }
-
 .color-pointer {
   width: 5px;
   border-radius: 5px
 }
-
 .color-slider {
   left: 0;
   width: calc(100% - 2px);
 }
-
 .visually-hidden { display: none }
+
+:host([dir="rtl"]) .color-preview { text-align: right }
+:host([dir="rtl"]) .menu-toggle,
+:host([dir="rtl"]) .color-dropdown.menu {
+  right: auto;
+  left: 0
+}
+:host([dir="rtl"]) .menu-toggle {
+  border-radius: .25rem 0 0 .25rem;
+}
+:host([dir="rtl"]) .color-dropdown.picker {
+  right: 0;
+  left: auto
+}
 </style>
 
-<div class="picker-box">
-  <label for="${pickerID}" class="visually-hidden">${Joomla.Text._('JFIELD_COLOR_SELECT', 'Select a colour')}</label>
-  <input id="${pickerID}" name="${pickerID}" value="${this.value}" format="${this.format}" placeholder="${this.placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
-  <div class="color-dropdown${dropClass}">
-    ${this.controlsTemplate}
+<label for="${pickerID}" class="visually-hidden">${inputLabel}</label>
+<input id="${pickerID}" name="${pickerID}" value="${this.value}" format="${this.format}" placeholder="${placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
+<div class="color-dropdown${dropClass}">
+  <div class="color-controls">
+    ${controlsTemplate}
     <div class="color-form">
-      ${this.inputsTemplate.innerHTML}
+      ${inputsTemplate}
     </div>
   </div>
-</div>`;
+  ${menuTemplate}
+</div>
+${menuToggle}`;
 
       // Patch shadow DOM
       if (window.ShadyCSS) {
@@ -286,6 +380,8 @@ input.color-input-hex {
 
       // set main elements
       this.preview = this.shadowRoot.querySelector('.color-preview');
+      this.menuToggle = this.shadowRoot.querySelector('.menu-toggle');
+      this.colorMenu = this.shadowRoot.querySelector('.color-menu');
       this.inputs = this.shadowRoot.querySelectorAll('.color-input');
       this.dropdown = this.shadowRoot.querySelector('.color-dropdown');
       this.control1 = this.shadowRoot.querySelector('.color-pointer');
@@ -322,7 +418,11 @@ input.color-input-hex {
 
     toggleEvents(action) {
       const fn = action ? 'addEventListener' : 'removeEventListener';
-      this.preview[fn]('focusin', this.show);
+      this.preview[fn]('focusin', this.showPicker);
+
+      if (this.menuToggle) {
+        this.menuToggle[fn]('click', this.showMenu);
+      }
     }
 
     toggleEventsOnShown(action) {
@@ -337,6 +437,10 @@ input.color-input-hex {
 
       Array.from(this.inputs).concat(this.preview)
         .map((x) => x[fn]('change', this.changeHandler));
+
+      if (this.colorMenu) {
+        this.colorMenu[fn]('click', this.menuHandler);
+      }
 
       document[fn](pointerEvents.move, this.pointerMove);
       document[fn](pointerEvents.up, this.pointerUp);
@@ -421,6 +525,20 @@ input.color-input-hex {
       }
     }
 
+    menuHandler(e) {
+      const newOption = e.target.innerText.trim();
+      const newColor = nonColors.includes(newOption) ? 'white' : newOption;
+      this.color = new TinyColor(newColor, { format: this.format });
+      this.setControlPositions();
+      this.updateInputs();
+      this.updateControls();
+      this.render();
+      if (nonColors.includes(newOption)) {
+        this.input.value = newOption;
+        this.preview.value = newOption;
+      }
+    }
+
     handleScroll(e) {
       // prevent scroll when updating controls on mobile
       if (this.isMobile && this.dragElement) {
@@ -489,13 +607,20 @@ input.color-input-hex {
     }
 
     changeHandler() {
+      let colorSource;
       const activeEl = this.shadowRoot.activeElement;
       const inputs = Array.from(this.inputs);
-      let colorSource;
+      const currentValue = this.preview.value;
+      const allowNonColor = this.keywords
+        && this.keywords.some((x) => nonColors.includes(x));
 
       if (activeEl === this.preview || (this.isOpen && inputs.includes(activeEl))) {
         if (activeEl === this.preview) {
-          colorSource = this.preview.value;
+          if (allowNonColor && nonColors.includes(currentValue)) {
+            colorSource = 'white';
+          } else {
+            colorSource = currentValue;
+          }
         } else if (this.format === 'hex') {
           colorSource = inputs[0].value;
         } else if (this.format === 'hsl') {
@@ -509,6 +634,12 @@ input.color-input-hex {
         this.updateInputs();
         this.updateControls();
         this.render();
+
+        // set nonColor keyword (inherit/transparent/currentColor)
+        if (allowNonColor && nonColors.includes(currentValue)) {
+          this.input.value = currentValue;
+          this.preview.value = currentValue;
+        }
       }
     }
 
@@ -541,6 +672,7 @@ input.color-input-hex {
       } else if (e.offsetX >= 0) {
         offsetX = e.offsetX;
       }
+
       if (e.offsetY > this.height1) {
         offsetY = this.height1;
       } else if (e.offsetY >= 0) {
@@ -612,8 +744,8 @@ input.color-input-hex {
     }
 
     updateDropdown() {
-      const elRect = this.preview.parentElement.getBoundingClientRect();
-      const elHeight = this.preview.parentElement.offsetHeight;
+      const elRect = this.preview.getBoundingClientRect();
+      const elHeight = this.preview.offsetHeight;
       const windowHeight = document.documentElement.clientHeight;
       const dropHeight = this.dropdown.offsetHeight;
       const distanceBottom = windowHeight - elRect.bottom;
@@ -669,9 +801,9 @@ input.color-input-hex {
 
     updateInputs(isInit) {
       const oldColor = this.preview.value;
-
-      let newColor = ''; let hsl; let
-        rgb;
+      let newColor = '';
+      let hsl;
+      let rgb;
 
       if (this.format === 'hex') {
         newColor = this.color.toHexString();
@@ -691,9 +823,11 @@ input.color-input-hex {
         this.inputs[2].value = rgb.b;
         this.inputs[3].value = rgb.a;
       }
-      // update the main input
+
+      // update this instance
       this.value = newColor;
 
+      // update the main inputs
       [this.input, this.preview].forEach((x) => {
         if (x) {
           x.value = newColor;
@@ -708,6 +842,20 @@ input.color-input-hex {
       if (!isInit && newColor !== oldColor) {
         this.dispatchCustomEvent('joomla.colorpicker.change');
       }
+    }
+
+    showPicker() {
+      this.dropdown.classList.add('picker');
+      if (this.colorMenu) {
+        this.dropdown.classList.remove('menu');
+      }
+      this.show();
+    }
+
+    showMenu() {
+      this.dropdown.classList.remove('picker');
+      this.dropdown.classList.add('menu');
+      this.show();
     }
 
     show() {
@@ -730,8 +878,13 @@ input.color-input-hex {
 
         this.classList.remove('open');
         ['show', 'show-top'].map((x) => this.dropdown.classList.remove(x));
+
+        if (!this.preview.value) {
+          this.preview.value = this.value;
+        }
       }
     }
   }
+
   customElements.define('color-picker', ColorPicker);
-})(customElements, Joomla);
+})();

@@ -116,10 +116,11 @@
       "type": "script",
       "uri": "system/fields/joomla-field-color-picker.min.js",
       "attributes": {
-        "type": "module"
+        "nomodule": true,
+        "defer": true
       },
       "dependencies": [
-        "tinycolor"
+        "wcpolyfill"
       ]
     },
     {

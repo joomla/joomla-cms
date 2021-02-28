@@ -539,31 +539,6 @@
         "dependencies": [],
         "licenseFilename": "LICENSE-MIT.txt"
       },
-      "@ctrl/tinycolor": {
-        "name": "tinycolor",
-        "js": {
-          "dist/index.js": "js/tinycolor.js"
-        },
-        "dependencies": [],
-        "provideAssets": [
-          {
-            "name": "tinycolor",
-            "type": "script",
-            "uri": "tinycolor.min.js",
-            "attributes": {
-              "defer": true
-            }
-          },
-          {
-            "name": "tinycolor",
-            "type": "preset",
-            "dependencies": [
-              "tinycolor#script"
-            ]
-          }
-        ],
-        "licenseFilename": "LICENSE"
-      },
       "codemirror": {
         "name": "codemirror",
         "licenseFilename": "LICENSE"
