@@ -163,7 +163,7 @@ import TinyColor from '@ctrl/tinycolor';
         const colorKeys = colorKeysOption ? colorKeysOption.split(',') : nonColors;
         this.keywords = colorKeys;
         let colorOpsMarkup = '';
-        colorKeys.forEach((x) => { colorOpsMarkup += `<li>${x.trim()}</li>`; });
+        colorKeys.forEach((x) => { colorOpsMarkup += `<li value="${x.trim()}">${x}</li>`; });
         menuTemplate = `<ul class="color-menu">${colorOpsMarkup}</ul>`;
         menuToggle = `<button class="menu-toggle">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
@@ -535,7 +535,7 @@ ${menuToggle}`;
     }
 
     menuHandler(e) {
-      const newOption = e.target.innerText.trim();
+      const newOption = e.target.getAttribute('value').trim();
       const newColor = nonColors.includes(newOption) ? 'white' : newOption;
       this.color = new TinyColor(newColor, { format: this.format });
       this.setControlPositions();
@@ -628,7 +628,7 @@ ${menuToggle}`;
       const allowNonColor = this.keywords
         && this.keywords.some((x) => nonColors.includes(x));
 
-      if (activeEl === this.preview || (this.isOpen && inputs.includes(activeEl))) {
+      if (activeEl === this.preview || inputs.includes(activeEl)) {
         if (activeEl === this.preview) {
           if (allowNonColor && nonColors.includes(currentValue)) {
             colorSource = 'white';
@@ -650,7 +650,7 @@ ${menuToggle}`;
         this.render();
 
         // set nonColor keyword (inherit/transparent/currentColor)
-        if (allowNonColor && nonColors.includes(currentValue)) {
+        if (activeEl === this.preview && allowNonColor && nonColors.includes(currentValue)) {
           this.input.value = currentValue;
           this.preview.value = currentValue;
         }
@@ -834,7 +834,7 @@ ${menuToggle}`;
       } else if (this.format === 'hsl') {
         newColor = this.color.toHslString();
         hsl = this.color.toHsl();
-        this.inputs[0].value = Math.floor(hsl.h);
+        this.inputs[0].value = Math.round(hsl.h);
         this.inputs[1].value = Math.round(hsl.s * 100);
         this.inputs[2].value = Math.round(hsl.l * 100);
         this.inputs[3].value = hsl.a;
@@ -887,9 +887,9 @@ ${menuToggle}`;
 
       if (!this.isOpen) {
         this.dropdown.classList.add('show');
+        this.classList.add('open');
         this.updateDropdownPosition();
         this.updateDropdownWidth();
-        this.classList.add('open');
         this.toggleEventsOnShown(1);
         this.isOpen = true;
       }
@@ -898,7 +898,6 @@ ${menuToggle}`;
     hide() {
       if (this.isOpen) {
         this.toggleEventsOnShown();
-        this.isOpen = false;
 
         this.classList.remove('open');
         ['show', 'show-top'].map((x) => this.dropdown.classList.remove(x));
@@ -906,6 +905,7 @@ ${menuToggle}`;
         if (!this.preview.value) {
           this.preview.value = this.value;
         }
+        this.isOpen = false;
       }
     }
   }
