@@ -110,11 +110,8 @@ class CategoriesView extends HtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-
 		// Because the application sets a default page title, we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = Factory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -125,22 +122,7 @@ class CategoriesView extends HtmlView
 			$this->params->def('page_heading', Text::_($this->pageHeading));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))
 		{

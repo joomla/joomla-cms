@@ -145,14 +145,6 @@ class CategoryView extends HtmlView
 
 		if (!\in_array($category->access, $groups))
 		{
-			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-
-		// Check whether category access level allows access.
-		$groups = $user->getAuthorisedViewLevels();
-
-		if (!\in_array($category->access, $groups))
-		{
 			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
@@ -276,12 +268,10 @@ class CategoryView extends HtmlView
 	protected function prepareDocument()
 	{
 		$app           = Factory::getApplication();
-		$menus         = $app->getMenu();
 		$this->pathway = $app->getPathway();
-		$title         = null;
 
 		// Because the application sets a default page title, we need to get it from the menu item itself
-		$this->menu = $menus->getActive();
+		$this->menu = $app->getMenu()->getActive();
 
 		if ($this->menu)
 		{
@@ -292,22 +282,7 @@ class CategoryView extends HtmlView
 			$this->params->def('page_heading', Text::_($this->defaultPageTitle));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))
 		{
