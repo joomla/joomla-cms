@@ -88,8 +88,8 @@
 }
 
 .ms-auto {
-  margin-right: 0 !important;
-  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-left: 0 !important;
 }
 
 .pe-0 {
@@ -142,3 +142,35 @@
   padding-left: 0 !important;
 }
 
+
+.input-group {
+  &:not(.has-validation) {
+    > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+    > .dropdown-toggle:nth-last-child(n + 3) {
+      @include border-end-radius($border-radius);
+    }
+  }
+
+  &.has-validation {
+    > :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu),
+    > .dropdown-toggle:nth-last-child(n + 4) {
+      @include border-end-radius(0);
+    }
+  }
+  $validation-messages: "";
+  @each $state in map-keys($form-validation-states) {
+    $validation-messages: $validation-messages + ":not(." + unquote($state) + "-tooltip)" + ":not(." + unquote($state) + "-feedback)";
+  }
+
+  > :not(:first-child):not(.dropdown-menu)#{$validation-messages} {
+    margin-left: -$input-border-width;
+    @include border-start-radius(0);
+    @include border-end-radius(0);
+  }
+
+  > :last-child:not(.dropdown-menu)#{$validation-messages} {
+    margin-left: -$input-border-width;
+    @include border-start-radius($border-radius);
+    @include border-end-radius(0);
+  }
+}

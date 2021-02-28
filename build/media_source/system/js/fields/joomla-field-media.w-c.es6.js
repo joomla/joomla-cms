@@ -98,11 +98,10 @@
 
       // Bootstrap modal init
       if (this.modalElement
-        && Joomla.Bootstrap
-        && Joomla.Bootstrap.Instances
-        && Joomla.Bootstrap.Instances.Modal
-        && Joomla.Bootstrap.Instances.Modal.get(this.modalElement) === undefined) {
-        Joomla.Bootstrap.Initialise.Modal(this.modalElement, { isJoomla: true });
+        && window.bootstrap
+        && window.bootstrap.Modal
+        && window.bootstrap.Modal.getInstance(this.modalElement) === undefined) {
+        Joomla.initialiseModal(this.modalElement, { isJoomla: true });
       }
 
       if (this.buttonClearEl) {
@@ -153,6 +152,13 @@
     setValue(value) {
       this.inputElement.value = value;
       this.updatePreview();
+
+      // trigger change event both on the input and on the custom element
+      this.inputElement.dispatchEvent(new Event('change'));
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value },
+        bubbles: true,
+      }));
     }
 
     clearValue() {

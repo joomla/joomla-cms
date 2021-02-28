@@ -106,13 +106,13 @@ $n         = count($this->items);
 					<span class="tag-body">
 						<?php if (!empty($images->image_intro)) : ?>
 							<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
-							<div class="float-<?php echo htmlspecialchars($imgfloat); ?> item-image">
+							<div class="float-<?php echo htmlspecialchars($imgfloat, ENT_QUOTES, 'UTF-8'); ?> item-image">
 								<img
 									<?php if ($images->image_intro_caption) : ?>
-										<?php echo 'class="caption" title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
+										<?php echo 'class="caption" title="' . htmlspecialchars($images->image_intro_caption, ENT_QUOTES, 'UTF-8') . '"'; ?>
 									<?php endif; ?>
-									src="<?php echo $images->image_intro; ?>"
-									alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+									src="<?php echo htmlspecialchars($images->image_intro, ENT_QUOTES, 'UTF-8'); ?>"
+									alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_QUOTES, 'UTF-8'); ?>">
 							</div>
 						<?php endif; ?>
 					</span>
@@ -146,7 +146,7 @@ $n         = count($this->items);
 		<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 			<div class="com-tags__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="counter float-end pt-3 pr-2">
+					<p class="counter float-end pt-3 pe-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>
 					</p>
 				<?php endif; ?>

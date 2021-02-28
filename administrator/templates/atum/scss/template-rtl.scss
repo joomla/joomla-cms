@@ -27,16 +27,6 @@ ul {
 
 // Header
 .header {
-  .page-title {
-    [class^="#{$jicon-css-prefix}-"],
-    [class*=" #{$jicon-css-prefix}-"],
-    [class^="#{$fa-css-prefix}-"],
-    [class*=" #{$fa-css-prefix}-"] {
-      margin-right: 0;
-      margin-left: 15px;
-    }
-  }
-
   .logo svg,
   .logo img {
     margin-right: .8rem;
@@ -132,6 +122,21 @@ ul {
 #jform_dbprefix {
   text-align: right;
   direction: ltr;
+}
+
+// skipto
+.skip-to {
+  &.popup {
+    right: -3000em;
+    left: 0 !important;
+    &.focus {
+      right: 46%;
+      left: 0 !important;
+    }
+  }
+  [role="separator"] {
+    text-align: right !important;
+  }
 }
 
 // SearchTools rounded corners

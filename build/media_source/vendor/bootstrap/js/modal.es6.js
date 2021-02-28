@@ -1,23 +1,21 @@
 import Modal from '../../../../../node_modules/bootstrap/js/src/modal';
 
 Joomla = Joomla || {};
-Joomla.Bootstrap = Joomla.Bootstrap || {};
-Joomla.Bootstrap.Initialise = Joomla.Bootstrap.Initialise || {};
-Joomla.Bootstrap.Instances = Joomla.Bootstrap.Instances || {};
-Joomla.Bootstrap.Instances.Modal = new WeakMap();
+Joomla.Modal = Joomla.Modal || {};
+window.bootstrap = window.bootstrap || {};
+window.bootstrap.Modal = Modal;
 
-Joomla.Bootstrap.Initialise.Modal = (modal, options) => {
+Joomla.initialiseModal = (modal, options) => {
   if (!(modal instanceof Element)) {
     return;
   }
-  if (Joomla.Bootstrap.Instances.Modal.get(modal) && modal.dispose) {
-    modal.dispose();
-  }
-  Joomla.Bootstrap.Instances.Modal.set(modal, new Modal(modal, options));
+
+  // eslint-disable-next-line no-new
+  new window.bootstrap.Modal(modal, options);
 
   // Comply with the Joomla API - Bound element.open/close
-  modal.open = () => { Joomla.Bootstrap.Instances.Modal.get(modal).show(modal); };
-  modal.close = () => { Joomla.Bootstrap.Instances.Modal.get(modal).hide(); };
+  modal.open = () => { window.bootstrap.Modal.getInstance(modal).show(modal); };
+  modal.close = () => { window.bootstrap.Modal.getInstance(modal).hide(); };
 
   // Do some Joomla specific changes
   modal.addEventListener('show.bs.modal', () => {
@@ -49,7 +47,8 @@ Joomla.Bootstrap.Initialise.Modal = (modal, options) => {
 
         if (!document.getElementById(idFieldArr[1])) {
           // eslint-disable-next-line no-new-func
-          el = new Function(idFieldArr[0]); // This is UNSAFE!!!!
+          const fn = new Function(`return ${idFieldArr[0]}`); // This is UNSAFE!!!!
+          el = fn.call(null);
         } else {
           el = document.getElementById(idFieldArr[1]).value;
         }
@@ -135,28 +134,23 @@ Joomla.iframeButtonClick = (options) => {
   }
 };
 
-// Ensure vanilla mode, for consistency of the events
-if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-  document.body.dataset.bsNoJquery = '';
-}
+if (Joomla && Joomla.getOptions) {
+  // Get the elements/configurations from the PHP
+  const modals = Joomla.getOptions('bootstrap.modal');
+  // Initialise the elements
+  if (typeof modals === 'object' && modals !== null) {
+    Object.keys(modals).forEach((modal) => {
+      const opt = modals[modal];
+      const options = {
+        backdrop: opt.backdrop ? opt.backdrop : true,
+        keyboard: opt.keyboard ? opt.keyboard : true,
+        focus: opt.focus ? opt.focus : true,
+      };
 
-// Get the elements/configurations from the PHP
-const modals = Joomla.getOptions('bootstrap.modal');
-// Initialise the elements
-if (typeof modals === 'object' && modals !== null) {
-  Object.keys(modals).forEach((modal) => {
-    const modalEl = document.querySelector(modal);
-    const opt = modals[modal];
-    const options = {
-      backdrop: opt.backdrop ? opt.backdrop : true,
-      keyboard: opt.keyboard ? opt.keyboard : true,
-      focus: opt.focus ? opt.focus : true,
-    };
-
-    if (modalEl) {
-      Joomla.Bootstrap.Initialise.Modal(modalEl, options);
-    }
-  });
+      Array.from(document.querySelectorAll(modal))
+        .map((modalEl) => Joomla.initialiseModal(modalEl, options));
+    });
+  }
 }
 
 export default Modal;

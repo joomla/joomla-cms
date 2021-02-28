@@ -55,7 +55,7 @@ class Nested extends Table
 	public $rgt;
 
 	/**
-	 * Object property holding the alias of this node used to constuct the full text path, forward-slash delimited.
+	 * Object property holding the alias of this node used to construct the full text path, forward-slash delimited.
 	 *
 	 * @var    string
 	 * @since  1.7.0
@@ -969,7 +969,7 @@ class Nested extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), $pks[0], $state, $userId));
+				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), $pks, $state, $userId));
 				$this->setError($e);
 
 				return false;

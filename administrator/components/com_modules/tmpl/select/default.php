@@ -67,7 +67,7 @@ endif;
 							<?php echo $desc; ?>
 						</p>
 					</div>
-					<a href="<?php echo Route::_($link); ?>" class="btn btn-primary <?php echo $function ? ' select-link" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
+					<a href="<?php echo Route::_($link); ?>" class="btn btn-primary stretched-link <?php echo $function ? ' select-link" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
 						<?php echo Text::_('JSELECT'); ?>
 					</a>
 				</div>
