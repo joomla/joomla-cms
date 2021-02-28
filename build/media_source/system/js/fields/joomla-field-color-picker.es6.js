@@ -242,7 +242,27 @@ import TinyColor from '@ctrl/tinycolor';
   margin: 0;
   flex-wrap: wrap;
   flex-flow: column;
-  display: none
+  display: none;
+  max-height: 160px;
+  overflow-y: auto
+}
+.color-menu::-webkit-scrollbar {
+  width: 10px;
+}
+.color-menu::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.color-menu::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 10px;
+  border: 0;
+  background-clip: content-box;
+}
+.color-menu:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.2);
+}
+.color-menu::-webkit-scrollbar-thumb:hover {
+  background-color: #fff;
 }
 .color-dropdown.menu .color-menu,
 .color-dropdown.picker .color-controls {
@@ -330,17 +350,12 @@ input.color-input-hex {
 .visually-hidden { display: none }
 
 :host([dir="rtl"]) .color-preview { text-align: right }
-:host([dir="rtl"]) .menu-toggle,
-:host([dir="rtl"]) .color-dropdown.menu {
+:host([dir="rtl"]) .menu-toggle {
   right: auto;
   left: 0
 }
 :host([dir="rtl"]) .menu-toggle {
   border-radius: .25rem 0 0 .25rem;
-}
-:host([dir="rtl"]) .color-dropdown.picker {
-  right: 0;
-  left: auto
 }
 </style>
 
