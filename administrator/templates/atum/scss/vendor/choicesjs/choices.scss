@@ -31,7 +31,6 @@
   font-size: 1rem;
   border: $input-border;
   border-radius: $border-radius;
-  box-shadow: $input-box-shadow;
 
   .is-focused & {
     border-color: $focuscolor;
