@@ -35,9 +35,11 @@ import TinyColor from '@ctrl/tinycolor';
       this.pointerMove = this.pointerMove.bind(this);
       this.pointerUp = this.pointerUp.bind(this);
       this.handleScroll = this.handleScroll.bind(this);
+      this.handleResize = this.handleResize.bind(this);
       this.changeHandler = this.changeHandler.bind(this);
       this.keyHandler = this.keyHandler.bind(this);
-      this.updateDropdown = this.updateDropdown.bind(this);
+      this.updateDropdownPosition = this.updateDropdownPosition.bind(this);
+      this.updateDropdownWidth = this.updateDropdownWidth.bind(this);
     }
 
     connectedCallback() {
@@ -91,9 +93,11 @@ import TinyColor from '@ctrl/tinycolor';
       // init color
       this.color = new TinyColor(this.value, { format: this.format });
 
+      // set initial controls dimensions
       // make the controls smaller on mobile
       const cv1w = this.isMobile ? 150 : 230;
       const cvh = this.isMobile ? 150 : 230;
+      const cv2w = 21;
       const dropClass = this.isMobile ? ' mobile' : '';
       const alphaControlViz = this.format === 'hex' ? ' visually-hidden' : '';
 
@@ -102,11 +106,11 @@ import TinyColor from '@ctrl/tinycolor';
   <div class="color-pointer"></div>
 </div>
 <div class="color-control">
-  <canvas class="color-control2" height="${cvh}" width="21" ></canvas>
+  <canvas class="color-control2" height="${cvh}" width="${cv2w}" ></canvas>
   <div class="color-slider"></div>
 </div>
 <div class="color-control${alphaControlViz}">
-  <canvas class="color-control3" height="${cvh}" width="21"></canvas>
+  <canvas class="color-control3" height="${cvh}" width="${cv2w}"></canvas>
   <div class="color-slider"></div>
 </div>`;
 
@@ -178,7 +182,8 @@ import TinyColor from '@ctrl/tinycolor';
   display: flex
 }
 .color-dropdown {
-  width: 280px;
+  width: 100%;
+  max-width: calc(100% - 1rem);
   background: rgba(0,0,0,0.75);
   color: rgba(255,255,255,0.8);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
@@ -188,15 +193,6 @@ import TinyColor from '@ctrl/tinycolor';
   display: none;
   left:0;
   z-index: 50
-}
-:host([format="hex"]) .color-dropdown {
-  width: 255px
-}
-.color-dropdown.mobile {
-  width: 210px
-}
-:host([format="hex"]) .color-dropdown.mobile {
-  width: 180px
 }
 .color-dropdown.show {
   top: calc(100% + 5px);
@@ -251,10 +247,6 @@ import TinyColor from '@ctrl/tinycolor';
 .color-dropdown.menu .color-menu,
 .color-dropdown.picker .color-controls {
   display: flex
-}
-.color-dropdown.menu {
-  left: auto;
-  right: 0
 }
 li {
   padding: 0.25rem 0.5rem;
@@ -434,6 +426,7 @@ ${menuToggle}`;
       this.controls.map((x) => x[fn](pointerEvents.down, this.pointerDown));
 
       window[fn]('scroll', this.handleScroll);
+      window[fn]('resize', this.handleResize);
 
       Array.from(this.inputs).concat(this.preview)
         .map((x) => x[fn]('change', this.changeHandler));
@@ -477,10 +470,10 @@ ${menuToggle}`;
         hueGrad.addColorStop(0.85, 'rgba(255, 0, 255, 1)');
         hueGrad.addColorStop(1, 'rgba(255, 0, 0, 1)');
         this.ctx2.fillStyle = hueGrad;
-        this.ctx2.fill();
+        this.ctx2.fillRect(0, 0, this.width2, this.height2);
       } else {
         const hueGrad = this.ctx1.createLinearGradient(0, 0, this.width1, 0);
-        const saturation = Math.round((1 - this.controlPositions.c2y / this.height2) * 100);
+        const saturation = Math.floor((1 - this.controlPositions.c2y / this.height2) * 100);
 
         hueGrad.addColorStop(0, new TinyColor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
         hueGrad.addColorStop(0.17, new TinyColor('rgb(255, 255, 0)').desaturate(100 - saturation).toRgbString());
@@ -489,8 +482,9 @@ ${menuToggle}`;
         hueGrad.addColorStop(0.68, new TinyColor('rgb(0, 0, 255)').desaturate(100 - saturation).toRgbString());
         hueGrad.addColorStop(0.85, new TinyColor('rgb(255, 0, 255)').desaturate(100 - saturation).toRgbString());
         hueGrad.addColorStop(1, new TinyColor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
+
         this.ctx1.fillStyle = hueGrad;
-        this.ctx1.fill();
+        this.ctx1.fillRect(0, 0, this.width1, this.height1);
 
         const whiteGrad = this.ctx1.createLinearGradient(0, 0, 0, this.height1);
         whiteGrad.addColorStop(0, 'rgba(255,255,255,1)');
@@ -546,7 +540,12 @@ ${menuToggle}`;
         e.stopPropagation();
       }
       // update color-dropdown position
-      this.updateDropdown(e);
+      this.updateDropdownPosition(e);
+    }
+
+    handleResize(e) {
+      // update color-dropdown position
+      this.updateDropdownWidth(e);
     }
 
     pointerDown(e) {
@@ -743,7 +742,16 @@ ${menuToggle}`;
       this.updateControls();
     }
 
-    updateDropdown() {
+    updateDropdownWidth() {
+      const dropPad = parseInt(getComputedStyle(this.dropdown).paddingLeft, 10);
+      this.width1 = this.offsetWidth - Math.floor((this.width2 + dropPad) * (this.format !== 'hex' ? 2.4 : 1.5));
+      this.controls[0].setAttribute('width', this.width1);
+      this.setControlPositions();
+      this.updateControls();
+      this.render();
+    }
+
+    updateDropdownPosition() {
       const elRect = this.preview.getBoundingClientRect();
       const elHeight = this.preview.offsetHeight;
       const windowHeight = document.documentElement.clientHeight;
@@ -864,7 +872,8 @@ ${menuToggle}`;
 
       if (!this.isOpen) {
         this.dropdown.classList.add('show');
-        this.updateDropdown();
+        this.updateDropdownPosition();
+        this.updateDropdownWidth();
         this.classList.add('open');
         this.toggleEventsOnShown(1);
         this.isOpen = true;
