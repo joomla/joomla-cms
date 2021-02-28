@@ -22,7 +22,7 @@ abstract class RouterBase implements RouterInterface
 	/**
 	 * Application object to use in the router
 	 *
-	 * @var    \JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.4
 	 */
 	public $app;
@@ -30,7 +30,7 @@ abstract class RouterBase implements RouterInterface
 	/**
 	 * Menu object to use in the router
 	 *
-	 * @var    \JMenu
+	 * @var    \Joomla\CMS\Menu\AbstractMenu
 	 * @since  3.4
 	 */
 	public $menu;
@@ -38,8 +38,8 @@ abstract class RouterBase implements RouterInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JApplicationCms  $app   Application-object that the router should use
-	 * @param   \JMenu            $menu  Menu-object that the router should use
+	 * @param   \Joomla\CMS\Application\CMSApplication  $app   Application-object that the router should use
+	 * @param   \Joomla\CMS\Menu\AbstractMenu           $menu  Menu-object that the router should use
 	 *
 	 * @since   3.4
 	 */

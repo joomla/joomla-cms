@@ -64,6 +64,9 @@ class PlgSystemAccessibility extends CMSPlugin
 		// Determine if it is an LTR or RTL language
 		$direction = Factory::getLanguage()->isRTL() ? 'right' : 'left';
 
+		// Detect the current active language
+		$lang = Factory::getLanguage()->getTag();
+
 		/**
 		* Add strings for translations in Javascript.
 		* Reference  https://ranbuch.github.io/accessibility/
@@ -99,6 +102,8 @@ class PlgSystemAccessibility extends CMSPlugin
 					'enabled' => true,
 					'helpTitles' => true,
 				],
+				'textToSpeechLang' => [$lang],
+				'speechToTextLang' => [$lang],
 			]
 		);
 

@@ -10,8 +10,6 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('bootstrap.popover');
-
 extract($displayData, EXTR_OVERWRITE);
 
 /**
@@ -33,7 +31,7 @@ $checkboxName = $options['checkbox_name'];
 
 if ($tip)
 {
-	HTMLHelper::_('bootstrap.popover', '.hasPopover');
+	HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']);
 }
 ?>
 <?php if ($only_icon || $disabled) : ?>
@@ -51,7 +49,7 @@ if ($tip)
 		<?php endif; ?>
 	</div>
 <?php else : ?>
-	<?php HTMLHelper::_('bootstrap.popover', '.hasPopover'); ?>
+	<?php HTMLHelper::_('bootstrap.popover', '.hasPopover', ['trigger' => 'hover focus']); ?>
 	<button type="button" class="tbody-icon align-self-start me-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
 		title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
 		data-bs-content="<?php echo HTMLHelper::_('tooltipText', $tipContent, '', 0); ?>"

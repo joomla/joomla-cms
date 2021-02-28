@@ -40,7 +40,7 @@ $this->useCoreUI = true;
 			<div class="card">
 				<div class="card-body">
 					<div class="row">
-						<div class="col-lg-8 col-xl-6">
+						<div class="form-grid">
 						<?php echo $this->form->renderFieldset('user_details'); ?>
 						</div>
 					</div>

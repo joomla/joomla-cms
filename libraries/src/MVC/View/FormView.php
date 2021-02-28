@@ -29,7 +29,7 @@ class FormView extends HtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 

@@ -481,7 +481,7 @@ class RegistrationModel extends FormModel
 		// Bind the data.
 		if (!$user->bind($data))
 		{
-			$this->setError(Text::sprintf('COM_USERS_REGISTRATION_BIND_FAILED', $user->getError()));
+			$this->setError($user->getError());
 
 			return false;
 		}

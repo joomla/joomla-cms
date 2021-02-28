@@ -1270,7 +1270,7 @@ class ComponentAdapter extends InstallerAdapter
 	{
 		$db = $this->parent->getDbo();
 
-		/** @var  \JTableMenu  $table */
+		/** @var  \Joomla\CMS\Table\Menu  $table */
 		$table = Table::getInstance('menu');
 
 		// Get the ids of the menu items
@@ -1530,7 +1530,7 @@ class ComponentAdapter extends InstallerAdapter
 	{
 		$db = $this->parent->getDbo();
 
-		/** @var  \JTableMenu  $table */
+		/** @var  \Joomla\CMS\Table\Menu  $table */
 		$table  = Table::getInstance('menu');
 
 		try
@@ -1584,7 +1584,7 @@ class ComponentAdapter extends InstallerAdapter
 			}
 			else
 			{
-				/** @var  \JTableMenu $temporaryTable */
+				/** @var  \Joomla\CMS\Table\Menu $temporaryTable */
 				$temporaryTable = Table::getInstance('menu');
 				$temporaryTable->delete($menu_id, true);
 				$temporaryTable->load($parentId);

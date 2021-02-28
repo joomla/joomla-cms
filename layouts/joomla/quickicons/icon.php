@@ -19,7 +19,7 @@ if (isset($displayData['ajaxurl'])) {
 	$size = 'small';
 	$dataUrl = 'data-url="' . $displayData['ajaxurl'] . '"';
 } else {
-	$size = 'big';
+	$size = '';
 	$dataUrl = '';
 }
 
@@ -53,11 +53,11 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 ?>
 <?php // If it is a button with two links: make it a list
 	if (isset($displayData['linkadd'])): ?>
-		<li class="quickicon-group col mb-3 d-flex">
+		<li class="quickicon-group d-flex">
 		<ul class="list-unstyled d-flex w-100">
 			<li class="quickicon flex-grow-1">
 	<?php else: ?>
-		<li class="quickicon quickicon-single col mb-3">
+		<li class="quickicon quickicon-single">
 	<?php endif; ?>
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>

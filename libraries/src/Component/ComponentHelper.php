@@ -133,19 +133,19 @@ class ComponentHelper
 
 		$filters = $config->get('filters');
 
-		$blackListTags       = array();
-		$blackListAttributes = array();
+		$forbiddenListTags       = array();
+		$forbiddenListAttributes = array();
 
 		$customListTags       = array();
 		$customListAttributes = array();
 
-		$whiteListTags       = array();
-		$whiteListAttributes = array();
+		$allowedListTags       = array();
+		$allowedListAttributes = array();
 
-		$whiteList  = false;
-		$blackList  = false;
-		$customList = false;
-		$unfiltered = false;
+		$allowedList    = false;
+		$forbiddenList  = false;
+		$customList     = false;
+		$unfiltered     = false;
 
 		// Cycle through each of the user groups the user is in.
 		// Remember they are included in the Public group as well.
@@ -172,7 +172,7 @@ class ComponentHelper
 			}
 			else
 			{
-				// Blacklist or whitelist.
+				// Forbidden list or allowed list.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -199,13 +199,13 @@ class ComponentHelper
 					}
 				}
 
-				// Collect the blacklist or whitelist tags and attributes.
+				// Collect the forbidden list or allowed list tags and attributes.
 				// Each list is cumulative.
 				if ($filterType === 'BL')
 				{
-					$blackList           = true;
-					$blackListTags       = array_merge($blackListTags, $tempTags);
-					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
+					$forbiddenList           = true;
+					$forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
+					$forbiddenListAttributes = array_merge($forbiddenListAttributes, $tempAttributes);
 				}
 				elseif ($filterType === 'CBL')
 				{
@@ -219,29 +219,29 @@ class ComponentHelper
 				}
 				elseif ($filterType === 'WL')
 				{
-					$whiteList           = true;
-					$whiteListTags       = array_merge($whiteListTags, $tempTags);
-					$whiteListAttributes = array_merge($whiteListAttributes, $tempAttributes);
+					$allowedList           = true;
+					$allowedListTags       = array_merge($allowedListTags, $tempTags);
+					$allowedListAttributes = array_merge($allowedListAttributes, $tempAttributes);
 				}
 			}
 		}
 
-		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
-		$blackListTags        = array_unique($blackListTags);
-		$blackListAttributes  = array_unique($blackListAttributes);
-		$customListTags       = array_unique($customListTags);
-		$customListAttributes = array_unique($customListAttributes);
-		$whiteListTags        = array_unique($whiteListTags);
-		$whiteListAttributes  = array_unique($whiteListAttributes);
+		// Remove duplicates before processing (because the forbidden list uses both sets of arrays).
+		$forbiddenListTags        = array_unique($forbiddenListTags);
+		$forbiddenListAttributes  = array_unique($forbiddenListAttributes);
+		$customListTags           = array_unique($customListTags);
+		$customListAttributes     = array_unique($customListAttributes);
+		$allowedListTags          = array_unique($allowedListTags);
+		$allowedListAttributes    = array_unique($allowedListAttributes);
 
 		if (!$unfiltered)
 		{
-			// Custom blacklist precedes Default blacklist
+			// Custom Forbidden list precedes Default forbidden list.
 			if ($customList)
 			{
 				$filter = InputFilter::getInstance(array(), array(), 1, 1);
 
-				// Override filter's default blacklist tags and attributes
+				// Override filter's default forbidden tags and attributes
 				if ($customListTags)
 				{
 					$filter->blockedTags = $customListTags;
@@ -252,37 +252,37 @@ class ComponentHelper
 					$filter->blockedAttributes = $customListAttributes;
 				}
 			}
-			// Blacklists take second precedence.
-			elseif ($blackList)
+			// Forbidden list takes second precedence.
+			elseif ($forbiddenList)
 			{
-				// Remove the whitelisted tags and attributes from the black-list.
-				$blackListTags       = array_diff($blackListTags, $whiteListTags);
-				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
+				// Remove the allowed tags and attributes from the forbidden list.
+				$forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
+				$forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
 
 				$filter = InputFilter::getInstance(
-					$blackListTags,
-					$blackListAttributes,
+					$forbiddenListTags,
+					$forbiddenListAttributes,
 					InputFilter::ONLY_BLOCK_DEFINED_TAGS,
 					InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
 				);
 
-				// Remove whitelisted tags from filter's default blacklist
-				if ($whiteListTags)
+				// Remove the allowed tags from filter's default forbidden list.
+				if ($allowedListTags)
 				{
-					$filter->blockedTags = array_diff($filter->blockedTags, $whiteListTags);
+					$filter->blockedTags = array_diff($filter->blockedTags, $allowedListTags);
 				}
 
-				// Remove whitelisted attributes from filter's default blacklist
-				if ($whiteListAttributes)
+				// Remove the allowed attributes from filter's default forbidden list.
+				if ($allowedListAttributes)
 				{
-					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $whiteListAttributes);
+					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
 				}
 			}
-			// Whitelists take third precedence.
-			elseif ($whiteList)
+			// Allowed lists take third precedence.
+			elseif ($allowedList)
 			{
 				// Turn off XSS auto clean
-				$filter = InputFilter::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else

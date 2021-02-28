@@ -81,12 +81,12 @@ if ($lock)
 	Text::script('JCANCEL');
 
 	$disabled = true;
-	$hint = str_repeat('&#x2022;', 10);
+	$hint = str_repeat('•', 10);
 	$value = '';
 }
 
 $attributes = array(
-	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',

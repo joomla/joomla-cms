@@ -22,6 +22,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Extension Manager Install Model
@@ -396,11 +397,11 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		// We only allow http & https here
-		$uri = new JUri($url);
+		$uri = new Uri($url);
 
 		if (!in_array($uri->getScheme(), ['http', 'https']))
 		{
-			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'));
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'), 'error');
 
 			return false;
 		}

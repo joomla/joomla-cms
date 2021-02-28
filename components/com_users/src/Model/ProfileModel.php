@@ -386,7 +386,7 @@ class ProfileModel extends FormModel
 		// Bind the data.
 		if (!$user->bind($data))
 		{
-			$this->setError(Text::sprintf('COM_USERS_PROFILE_BIND_FAILED', $user->getError()));
+			$this->setError($user->getError());
 
 			return false;
 		}
