@@ -7084,6 +7084,11 @@ class JoomlaInstallerScript
 				// Convert to the according CSS class depending on order = "down" or "across".
 				$layout = ($order === 0) ? 'masonry-' : 'columns-';
 
+				if (!isset($params['blog_class']))
+				{
+					$params['blog_class'] = '';
+				}
+
 				if (strpos($params['blog_class'], $layout) === false)
 				{
 					$params['blog_class'] .= ' ' . $layout . $nColumns;
@@ -7105,7 +7110,7 @@ class JoomlaInstallerScript
 		// Update global parameters for com_content.
 		$nColumns = $contentParams->get('num_columns');
 
-		if ($nColumns !== null || true)
+		if ($nColumns !== null)
 		{
 			$nColumns = (int) $nColumns;
 			$order  = (int) $contentParams->get('multi_column_order', '0');
