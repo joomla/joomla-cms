@@ -12,7 +12,7 @@ import TinyColor from '@ctrl/tinycolor';
 (() => {
   'use strict';
 
-  const nonColors = ['transparent', 'currentColor', 'inherit'];
+  const nonColors = ['transparent', 'currentColor', 'inherit', 'initial'];
 
   class ColorPicker extends HTMLElement {
     constructor() {
