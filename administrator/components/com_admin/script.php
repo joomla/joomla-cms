@@ -522,9 +522,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/models/profile.php',
 			'/administrator/components/com_admin/models/sysinfo.php',
 			'/administrator/components/com_admin/postinstall/eaccelerator.php',
-			'/administrator/components/com_admin/postinstall/htaccess.php',
 			'/administrator/components/com_admin/postinstall/joomla40checks.php',
-			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 			'/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql',
 			'/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql',
 			'/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql',
@@ -5047,6 +5045,9 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/html/layouts/chromes/cardGrey.php',
 			'/templates/cassiopeia/html/layouts/chromes/default.php',
 			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
+			// Joomla 4.0 Beta 8
+			'/administrator/components/com_admin/postinstall/htaccess.php',
+			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 		);
 
 		$folders = array(
