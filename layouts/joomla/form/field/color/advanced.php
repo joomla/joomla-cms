@@ -90,8 +90,7 @@ elseif ($format === 'hsl')
 // set attributes
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
-$direction		= $lang->isRtl() ? ' dir="rtl"' : '';
-$keywords			= !empty($keywords) ? ' keywords="' . $keywords . '"' : '';
+$keywords    = !empty($keywords) ? ' keywords="' . $keywords . '"' : '';
 $class        =  $class . ' ' . ($validate === 'color' ? '' : ' invalid');
 $class        = ' class="' . trim($class) . '"';
 $format       = ' format="' . $format . '"';
@@ -102,14 +101,16 @@ $spellcheck   = ' spellcheck="' . (!empty($spellcheck) ? $spellcheck : 'false') 
 $inputLabel		= ' inputLabel="' . Text::_('JFIELD_COLOR_SELECT', 'Select a colour') . '"';
 $inputLabels	= ' inputLabels="' . $inputLabels . '"';
 
+// Force LTR input value in RTL, due to display issues with rgba/hex colors
+$direction = $lang->isRtl() ? ' dir="rtl"' : '';
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 $wa->useScript('field.color-picker');
-
 ?>
 
-<color-picker<?php echo $direction, $format; ?>>
+<joomla-field-color-picker<?php echo $direction, $format; ?>>
 	<input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $this->escape($color); ?>"
 	<?php
 		echo $hint,
@@ -129,4 +130,4 @@ $wa->useScript('field.color-picker');
 			$spellcheck,
 			$dataAttribute;
 	?>/>
-</color-picker>
+</joomla-field-color-picker>

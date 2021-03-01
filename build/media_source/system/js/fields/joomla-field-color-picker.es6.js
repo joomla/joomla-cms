@@ -1,8 +1,10 @@
 /**
-* Joomla Color Picker Web Component
 * Implements TinyColor https://github.com/scttcper/tinycolor
-* Copyright Dimitris Grammatikogiannis & Dan Partac
-* License MIT
+*
+* Example
+* <joomla-field-color-picker>
+*   <input type="hidden">
+* </joomla-field-color-picker>
 */
 
 import TinyColor from '@ctrl/tinycolor';
@@ -118,7 +120,7 @@ import TinyColor from '@ctrl/tinycolor';
       const inputLabels = this.input.getAttribute('inputLabels').split(',');
 
       const hexForm = `<label for="${pickerID}_hex" class="hex-label">HEX: <span class="visually-hidden">${inputLabels[0]}</span></label>
-<input id="${pickerID}_hex" name="${pickerID}_hex" value="#000" placeholder="${this.placeholder}" class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">`;
+<input id="${pickerID}_hex" name="${pickerID}_hex" value="#000" placeholder="${placeholder}" class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">`;
 
       const rgbForm = `<label for="${pickerID}_red">R: <span class="visually-hidden">${inputLabels[0]}</span></label>
 <input id="${pickerID}_red" name="${pickerID}_red" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
@@ -361,6 +363,7 @@ input.color-input-hex {
 
 <label for="${pickerID}" class="visually-hidden">${inputLabel}</label>
 <input id="${pickerID}" name="${pickerID}" value="${this.value}" format="${this.format}" placeholder="${placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
+${menuToggle}
 <div class="color-dropdown${dropClass}">
   <div class="color-controls">
     ${controlsTemplate}
@@ -369,8 +372,7 @@ input.color-input-hex {
     </div>
   </div>
   ${menuTemplate}
-</div>
-${menuToggle}`;
+</div>`;
 
       // Patch shadow DOM
       if (window.ShadyCSS) {
@@ -910,5 +912,5 @@ ${menuToggle}`;
     }
   }
 
-  customElements.define('color-picker', ColorPicker);
+  customElements.define('joomla-field-color-picker', ColorPicker);
 })();
