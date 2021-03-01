@@ -6,11 +6,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `#__assets` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set parent.',
-  `lft` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
-  `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` int NOT NULL DEFAULT 0 COMMENT 'Nested set parent.',
+  `lft` int NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
+  `rgt` int NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
+  `level` int unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
@@ -110,25 +110,25 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 --
 
 CREATE TABLE IF NOT EXISTS `#__extensions` (
-  `extension_id` int(11) NOT NULL AUTO_INCREMENT,
-  `package_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Parent package ID for extensions installed as a package.',
+  `extension_id` int NOT NULL AUTO_INCREMENT,
+  `package_id` int NOT NULL DEFAULT 0 COMMENT 'Parent package ID for extensions installed as a package.',
   `name` varchar(100) NOT NULL,
   `type` varchar(20) NOT NULL,
   `element` varchar(100) NOT NULL,
   `changelogurl` text,
   `folder` varchar(100) NOT NULL,
-  `client_id` tinyint(3) NOT NULL,
-  `enabled` tinyint(3) NOT NULL DEFAULT 0,
-  `access` int(10) unsigned NOT NULL DEFAULT 1,
-  `protected` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.',
-  `locked` tinyint(3) NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.',
+  `client_id` tinyint NOT NULL,
+  `enabled` tinyint NOT NULL DEFAULT 0,
+  `access` int unsigned NOT NULL DEFAULT 1,
+  `protected` tinyint NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.',
+  `locked` tinyint NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.',
   `manifest_cache` text NOT NULL,
   `params` text NOT NULL,
   `custom_data` text NOT NULL,
-  `checked_out` int(10) unsigned,
+  `checked_out` int unsigned,
   `checked_out_time` datetime,
-  `ordering` int(11) DEFAULT 0,
-  `state` int(11) DEFAULT 0,
+  `ordering` int DEFAULT 0,
+  `state` int DEFAULT 0,
   `note` varchar(255),
   PRIMARY KEY (`extension_id`),
   KEY `element_clientid` (`element`,`client_id`),
@@ -391,8 +391,8 @@ SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, 1
 --
 
 CREATE TABLE IF NOT EXISTS `#__languages` (
-  `lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `lang_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `asset_id` int unsigned NOT NULL DEFAULT 0,
   `lang_code` char(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `title` varchar(50) NOT NULL,
   `title_native` varchar(50) NOT NULL,
@@ -402,9 +402,9 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   `metakey` text,
   `metadesc` text NOT NULL,
   `sitename` varchar(1024) NOT NULL DEFAULT '',
-  `published` int(11) NOT NULL DEFAULT 0,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `published` int NOT NULL DEFAULT 0,
+  `access` int unsigned NOT NULL DEFAULT 0,
+  `ordering` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`lang_id`),
   UNIQUE KEY `idx_sef` (`sef`),
   UNIQUE KEY `idx_langcode` (`lang_code`),
@@ -426,7 +426,7 @@ INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `se
 --
 
 CREATE TABLE IF NOT EXISTS `#__menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
@@ -434,22 +434,22 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
   `type` varchar(16) NOT NULL COMMENT 'The type of link: Component, URL, Alias, Separator',
-  `published` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'The published state of the menu link.',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'The parent menu item in the menu tree.',
-  `level` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'The relative level in the tree.',
-  `component_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to #__extensions.id',
-  `checked_out` int(10) unsigned COMMENT 'FK to #__users.id',
+  `published` tinyint NOT NULL DEFAULT 0 COMMENT 'The published state of the menu link.',
+  `parent_id` int unsigned NOT NULL DEFAULT 1 COMMENT 'The parent menu item in the menu tree.',
+  `level` int unsigned NOT NULL DEFAULT 0 COMMENT 'The relative level in the tree.',
+  `component_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'FK to #__extensions.id',
+  `checked_out` int unsigned COMMENT 'FK to #__users.id',
   `checked_out_time` datetime COMMENT 'The time the menu item was checked out.',
-  `browserNav` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'The click behaviour of the link.',
-  `access` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'The access level required to view the menu item.',
+  `browserNav` tinyint NOT NULL DEFAULT 0 COMMENT 'The click behaviour of the link.',
+  `access` int unsigned NOT NULL DEFAULT 0 COMMENT 'The access level required to view the menu item.',
   `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
-  `template_style_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `template_style_id` int unsigned NOT NULL DEFAULT 0,
   `params` text NOT NULL COMMENT 'JSON encoded data for the menu item.',
-  `lft` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
-  `home` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Indicates if this menu item is the home or default page.',
+  `lft` int NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
+  `rgt` int NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
+  `home` tinyint unsigned NOT NULL DEFAULT 0 COMMENT 'Indicates if this menu item is the home or default page.',
   `language` char(7) NOT NULL DEFAULT '',
-  `client_id` tinyint(4) NOT NULL DEFAULT 0,
+  `client_id` tinyint NOT NULL DEFAULT 0,
   `publish_up` datetime,
   `publish_down` datetime,
   PRIMARY KEY (`id`),
@@ -518,12 +518,12 @@ SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_conten
 --
 
 CREATE TABLE IF NOT EXISTS `#__menu_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `asset_id` int unsigned NOT NULL DEFAULT 0,
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '',
-  `client_id` int(11) NOT NULL DEFAULT 0,
+  `client_id` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_menutype` (`menutype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -542,23 +542,23 @@ INSERT IGNORE INTO `#__menu_types` (`id`, `asset_id`, `menutype`, `title`, `desc
 --
 
 CREATE TABLE IF NOT EXISTS `#__modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `id` int NOT NULL AUTO_INCREMENT,
+  `asset_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `content` text,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int NOT NULL DEFAULT 0,
   `position` varchar(50) NOT NULL DEFAULT '',
-  `checked_out` int(10) unsigned,
+  `checked_out` int unsigned,
   `checked_out_time` datetime,
   `publish_up` datetime,
   `publish_down` datetime,
-  `published` tinyint(1) NOT NULL DEFAULT 0,
+  `published` tinyint NOT NULL DEFAULT 0,
   `module` varchar(50) DEFAULT NULL,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `showtitle` tinyint(3) unsigned NOT NULL DEFAULT 1,
+  `access` int unsigned NOT NULL DEFAULT 0,
+  `showtitle` tinyint unsigned NOT NULL DEFAULT 1,
   `params` text NOT NULL,
-  `client_id` tinyint(4) NOT NULL DEFAULT 0,
+  `client_id` tinyint NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `published` (`published`,`access`),
@@ -614,8 +614,8 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 --
 
 CREATE TABLE IF NOT EXISTS `#__modules_menu` (
-  `moduleid` int(11) NOT NULL DEFAULT 0,
-  `menuid` int(11) NOT NULL DEFAULT 0,
+  `moduleid` int NOT NULL DEFAULT 0,
+  `menuid` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`moduleid`,`menuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -670,7 +670,7 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__schemas` (
-  `extension_id` int(11) NOT NULL,
+  `extension_id` int NOT NULL,
   `version_id` varchar(20) NOT NULL,
   PRIMARY KEY (`extension_id`,`version_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -683,11 +683,11 @@ CREATE TABLE IF NOT EXISTS `#__schemas` (
 
 CREATE TABLE IF NOT EXISTS `#__session` (
   `session_id` varbinary(192) NOT NULL,
-  `client_id` tinyint(3) unsigned DEFAULT NULL,
-  `guest` tinyint(3) unsigned DEFAULT 1,
-  `time` int(11) NOT NULL DEFAULT 0,
+  `client_id` tinyint unsigned DEFAULT NULL,
+  `guest` tinyint unsigned DEFAULT 1,
+  `time` int NOT NULL DEFAULT 0,
   `data` mediumtext,
-  `userid` int(11) DEFAULT 0,
+  `userid` int DEFAULT 0,
   `username` varchar(150) DEFAULT '',
   PRIMARY KEY (`session_id`),
   KEY `userid` (`userid`),
@@ -702,34 +702,34 @@ CREATE TABLE IF NOT EXISTS `#__session` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__tags` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `lft` int(11) NOT NULL DEFAULT 0,
-  `rgt` int(11) NOT NULL DEFAULT 0,
-  `level` int(10) unsigned NOT NULL DEFAULT 0,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int unsigned NOT NULL DEFAULT 0,
+  `lft` int NOT NULL DEFAULT 0,
+  `rgt` int NOT NULL DEFAULT 0,
+  `level` int unsigned NOT NULL DEFAULT 0,
   `path` varchar(400) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned,
+  `published` tinyint NOT NULL DEFAULT 0,
+  `checked_out` int unsigned,
   `checked_out_time` datetime,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` int unsigned NOT NULL DEFAULT 0,
   `params` text NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL DEFAULT '' COMMENT 'The keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_user_id` int unsigned NOT NULL DEFAULT 0,
   `created_time` datetime NOT NULL,
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-  `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_user_id` int unsigned NOT NULL DEFAULT 0,
   `modified_time` datetime NOT NULL,
   `images` text NOT NULL,
   `urls` text NOT NULL,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` int unsigned NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `version` int unsigned NOT NULL DEFAULT 1,
   `publish_up` datetime,
   `publish_down` datetime,
   PRIMARY KEY (`id`),
@@ -756,13 +756,13 @@ INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`
 --
 
 CREATE TABLE IF NOT EXISTS `#__template_overrides` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `template` varchar(50) NOT NULL DEFAULT '',
   `hash_id` varchar(255) NOT NULL DEFAULT '',
-  `extension_id` int(11) DEFAULT 0,
-  `state` tinyint(1) NOT NULL DEFAULT 0,
+  `extension_id` int DEFAULT 0,
+  `state` tinyint NOT NULL DEFAULT 0,
   `action` varchar(50) NOT NULL DEFAULT '',
-  `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `client_id` tinyint unsigned NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL,
   `modified_date` datetime,
   PRIMARY KEY (`id`),
@@ -777,12 +777,12 @@ CREATE TABLE IF NOT EXISTS `#__template_overrides` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__template_styles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `template` varchar(50) NOT NULL DEFAULT '',
-  `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `client_id` tinyint unsigned NOT NULL DEFAULT 0,
   `home` char(7) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `inheritable` tinyint(1) NOT NULL DEFAULT 0,
+  `inheritable` tinyint NOT NULL DEFAULT 0,
   `parent` varchar(50) DEFAULT '',
   `params` text NOT NULL,
   PRIMARY KEY (`id`),
@@ -806,15 +806,15 @@ INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`
 --
 
 CREATE TABLE IF NOT EXISTS `#__updates` (
-  `update_id` int(11) NOT NULL AUTO_INCREMENT,
-  `update_site_id` int(11) DEFAULT 0,
-  `extension_id` int(11) DEFAULT 0,
+  `update_id` int NOT NULL AUTO_INCREMENT,
+  `update_site_id` int DEFAULT 0,
+  `extension_id` int DEFAULT 0,
   `name` varchar(100) DEFAULT '',
   `description` text NOT NULL,
   `element` varchar(100) DEFAULT '',
   `type` varchar(20) DEFAULT '',
   `folder` varchar(20) DEFAULT '',
-  `client_id` tinyint(3) DEFAULT 0,
+  `client_id` tinyint DEFAULT 0,
   `version` varchar(32) DEFAULT '',
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
@@ -831,14 +831,14 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__update_sites` (
-  `update_site_id` int(11) NOT NULL AUTO_INCREMENT,
+  `update_site_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT '',
   `type` varchar(20) DEFAULT '',
   `location` text NOT NULL,
-  `enabled` int(11) DEFAULT 0,
-  `last_check_timestamp` bigint(20) DEFAULT 0,
+  `enabled` int DEFAULT 0,
+  `last_check_timestamp` bigint DEFAULT 0,
   `extra_query` varchar(1000) DEFAULT '',
-  `checked_out` int(10) unsigned,
+  `checked_out` int unsigned,
   `checked_out_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`update_site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Update Sites';
@@ -859,8 +859,8 @@ INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `en
 --
 
 CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
-  `update_site_id` int(11) NOT NULL DEFAULT 0,
-  `extension_id` int(11) NOT NULL DEFAULT 0,
+  `update_site_id` int NOT NULL DEFAULT 0,
+  `extension_id` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`update_site_id`,`extension_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Links extensions to update sites';
 
@@ -882,10 +882,10 @@ SELECT 3, `extension_id` FROM `#__extensions` WHERE `name` = 'com_joomlaupdate';
 --
 
 CREATE TABLE IF NOT EXISTS `#__usergroups` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Adjacency List Reference Id',
-  `lft` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'Adjacency List Reference Id',
+  `lft` int NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
+  `rgt` int NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
   `title` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`),
@@ -916,22 +916,22 @@ INSERT INTO `#__usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(400) NOT NULL DEFAULT '',
   `username` varchar(150) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `password` varchar(100) NOT NULL DEFAULT '',
-  `block` tinyint(4) NOT NULL DEFAULT 0,
-  `sendEmail` tinyint(4) DEFAULT 0,
+  `block` tinyint NOT NULL DEFAULT 0,
+  `sendEmail` tinyint DEFAULT 0,
   `registerDate` datetime NOT NULL,
   `lastvisitDate` datetime,
   `activation` varchar(100) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `lastResetTime` datetime COMMENT 'Date of last password reset',
-  `resetCount` int(11) NOT NULL DEFAULT 0 COMMENT 'Count of password resets since lastResetTime',
+  `resetCount` int NOT NULL DEFAULT 0 COMMENT 'Count of password resets since lastResetTime',
   `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys',
   `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords',
-  `requireReset` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'Require user to reset password on next login',
+  `requireReset` tinyint NOT NULL DEFAULT 0 COMMENT 'Require user to reset password on next login',
   PRIMARY KEY (`id`),
   KEY `idx_name` (`name`(100)),
   KEY `idx_block` (`block`),
@@ -946,7 +946,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_keys` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `user_id` varchar(150) NOT NULL,
   `token` varchar(255) NOT NULL,
   `series` varchar(191) NOT NULL,
@@ -964,17 +964,17 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_notes` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int unsigned NOT NULL DEFAULT 0,
+  `catid` int unsigned NOT NULL DEFAULT 0,
   `subject` varchar(100) NOT NULL DEFAULT '',
   `body` text NOT NULL,
-  `state` tinyint(3) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned,
+  `state` tinyint NOT NULL DEFAULT 0,
+  `checked_out` int unsigned,
   `checked_out_time` datetime,
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_user_id` int unsigned NOT NULL DEFAULT 0,
   `created_time` datetime NOT NULL,
-  `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_user_id` int unsigned NOT NULL DEFAULT 0,
   `modified_time` datetime NOT NULL,
   `review_time` datetime,
   `publish_up` datetime,
@@ -991,10 +991,10 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_profiles` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   `profile_key` varchar(100) NOT NULL,
   `profile_value` text NOT NULL,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int NOT NULL DEFAULT 0,
   UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Simple user profile storage table';
 
@@ -1005,8 +1005,8 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__users.id',
-  `group_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__usergroups.id',
+  `user_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__users.id',
+  `group_id` int unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__usergroups.id',
   PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -1017,9 +1017,9 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__viewlevels` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `title` varchar(100) NOT NULL DEFAULT '',
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int NOT NULL DEFAULT 0,
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
@@ -1043,20 +1043,20 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflows` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) DEFAULT 0,
-  `published` tinyint(1) NOT NULL DEFAULT 0,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `asset_id` int DEFAULT 0,
+  `published` tinyint NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `extension` varchar(50) NOT NULL,
-  `default` tinyint(1) NOT NULL  DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `default` tinyint NOT NULL  DEFAULT 0,
+  `ordering` int NOT NULL DEFAULT 0,
   `created` datetime NOT NULL,
-  `created_by` int(10) NOT NULL DEFAULT 0,
+  `created_by` int NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL,
-  `modified_by` int(10) NOT NULL DEFAULT 0,
+  `modified_by` int NOT NULL DEFAULT 0,
   `checked_out_time` datetime,
-  `checked_out` int(10) unsigned,
+  `checked_out` int unsigned,
   PRIMARY KEY (`id`),
   KEY `idx_asset_id` (`asset_id`),
   KEY `idx_title` (`title`(191)),
@@ -1083,8 +1083,8 @@ INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
-  `item_id` int(10) NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
-  `stage_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
+  `item_id` int NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
+  `stage_id` int NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
   `extension` varchar(50) NOT NULL,
   PRIMARY KEY (`item_id`, `extension`),
   KEY `idx_item_stage_extension` (`item_id`, `stage_id`, `extension`),
@@ -1100,16 +1100,16 @@ CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
-  `workflow_id` int(10) NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT 0,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `asset_id` int DEFAULT 0,
+  `ordering` int NOT NULL DEFAULT 0,
+  `workflow_id` int NOT NULL,
+  `published` tinyint NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `default` tinyint(1) NOT NULL DEFAULT 0,
+  `default` tinyint NOT NULL DEFAULT 0,
   `checked_out_time` datetime,
-  `checked_out` int(10) unsigned,
+  `checked_out` int unsigned,
   PRIMARY KEY (`id`),
   KEY `idx_workflow_id` (`workflow_id`),
   KEY `idx_checked_out` (`checked_out`),
@@ -1132,18 +1132,18 @@ INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `
 --
 
 CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
-  `workflow_id` int(10) NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT 0,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `asset_id` int DEFAULT 0,
+  `ordering` int NOT NULL DEFAULT 0,
+  `workflow_id` int NOT NULL,
+  `published` tinyint NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `from_stage_id` int(10) NOT NULL,
-  `to_stage_id` int(10) NOT NULL,
+  `from_stage_id` int NOT NULL,
+  `to_stage_id` int NOT NULL,
   `options` text NOT NULL,
   `checked_out_time` datetime,
-  `checked_out` int(10) unsigned,
+  `checked_out` int unsigned,
   PRIMARY KEY (`id`),
   KEY `idx_title` (`title`(191)),
   KEY `idx_asset_id` (`asset_id`),
