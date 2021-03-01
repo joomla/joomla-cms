@@ -1,5 +1,7 @@
 /**
-* Implements TinyColor https://github.com/scttcper/tinycolor
+* BASED ON: https://codepen.io/dgrammatiko/pen/zLvXwR
+* BASED ON: https://codepen.io/thednp/pen/yLVzZzW
+*
 *
 * Example
 * <joomla-field-color-picker>
