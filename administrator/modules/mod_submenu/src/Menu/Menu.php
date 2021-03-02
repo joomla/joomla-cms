@@ -51,7 +51,7 @@ abstract class Menu
 
 		foreach ($children as $item)
 		{
-			if ($item->element && (!ComponentHelper::isEnabled($item->element)))
+			if ($item->element && !ComponentHelper::isEnabled($item->element))
 			{
 				$parent->removeChild($item);
 				continue;
