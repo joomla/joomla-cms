@@ -100,7 +100,7 @@
     {
       "name": "fontawesome",
       "type": "style",
-      "uri": "media/system/css/joomla-fontawesome.min.css"
+      "uri": "system/css/joomla-fontawesome.min.css"
     }
   ]
 }
