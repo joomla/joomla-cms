@@ -368,6 +368,15 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
+		// Don't allow to change the users if not allowed to access com_users.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			if (isset($data['created_user_id']))
+			{
+				unset($data['created_user_id']);
+			}
+		}
+
 		if (!JFactory::getUser()->authorise('core.admin', $data['extension']))
 		{
 			if (isset($data['rules']))
