@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -75,7 +75,7 @@ abstract class JFormFieldPredefinedList extends JFormFieldList
 			foreach ($this->predefinedOptions as $value => $text)
 			{
 				$val = (string) $value;
-	
+
 				if (empty($filter) || in_array($val, $filter, true))
 				{
 					$text = $this->translate ? JText::_($text) : $text;

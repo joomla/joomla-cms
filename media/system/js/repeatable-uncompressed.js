@@ -1,6 +1,6 @@
 /**
  * @package		Joomla.JavaScript
- * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -483,7 +483,7 @@
         		$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 				jMediaRefreshPreview(inputId);
         	});
-		
+
 		// fix media field in ISIS Template
 		$row.find('.field-media-wrapper').each(function(){
 			var $el = $(this);

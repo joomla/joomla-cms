@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,7 @@ class ContentModelFeatured extends ContentModelArticles
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the parent categories.
-		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id, 
+		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id,
 								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
 			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 

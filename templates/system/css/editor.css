@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,13 +39,13 @@ h4 {
 }
 
 a:link, a:visited {
-	color: #1B57B1; 
+	color: #1B57B1;
 	text-decoration: none;
 	font-weight: normal;
 }
 
 a:hover {
-	color: #00c;	
+	color: #00c;
 	text-decoration: underline;
 	font-weight: normal;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,8 +43,8 @@ class JImageFilterBackgroundfillTest extends TestCase
 	 *
 	 * @since   3.4
 	 *
-	 * @note    Because GD2 uses 7bit alpha channel, results differ slightly 
-	 *          compared to 8bit systems like Adobe Photoshop. 
+	 * @note    Because GD2 uses 7bit alpha channel, results differ slightly
+	 *          compared to 8bit systems like Adobe Photoshop.
 	 *          Example: GD: 171, 45, 45, Photoshop: 172, 45, 45
 	 *
 	 * @note    To test alpha, use imagecolorsforindex($imageHandle, $color);
@@ -105,5 +105,5 @@ class JImageFilterBackgroundfillTest extends TestCase
 		$filter = new JImageFilterBackgroundfill($imageHandle);
 
 		$filter->execute(array());
-	}	
+	}
 }

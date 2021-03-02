@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,16 +50,16 @@ class JFormFieldFilters extends JFormField
 
 					if($(this).children("option:selected").val() === "NONE") {
 						var child = $("#filter-config select[data-parent=" + $(this).attr("data-id") + "]");
-					
+
 						while(child.length !== 0) {
 							if(child.children("option:selected").val() !== "NONE") {
 								alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
 								break;
 							}
-							
+
 							child = $("#filter-config select[data-parent=" + child.attr("data-id") + "]");
 						}
-						
+
 						return;
 					}
 
@@ -70,7 +70,7 @@ class JFormFieldFilters extends JFormField
 							alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
 							break;
 						}
-						
+
 						parent = $("#filter-config select[data-id=" + parent.attr("data-parent") + "]")
 					}
 				});

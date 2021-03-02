@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -306,7 +306,7 @@ class ContactModelContacts extends JModelList
 			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryTable = JTable::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
-		
+
 			foreach ($categoryId as $filter_catid)
 			{
 				$categoryTable->load($filter_catid);
@@ -315,7 +315,7 @@ class ContactModelContacts extends JModelList
 					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
 					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
 			}
-		
+
 			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,7 @@ class Module extends Table
 			return false;
 		}
 
-		// Prevent to save too large content > 65535 
+		// Prevent to save too large content > 65535
 		if ((strlen($this->content) > 65535) || (strlen($this->params) > 65535))
 		{
 			$this->setError(\JText::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));

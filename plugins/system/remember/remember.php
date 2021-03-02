@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.remember
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,7 +122,7 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		/*
-		 * But now, we need to do something 
+		 * But now, we need to do something
 		 * Delete all tokens for this user!
 		 */
 		$db = JFactory::getDbo();

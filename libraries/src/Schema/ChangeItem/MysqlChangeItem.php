@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -180,7 +180,7 @@ class MysqlChangeItem extends ChangeItem
 				{
 					$type = $this->fixInteger($wordArray[6], $wordArray[7]);
 				}
-				
+
 				// Detect changes in NULL and in DEFAULT column attributes
 				$changesArray = array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
@@ -408,7 +408,7 @@ class MysqlChangeItem extends ChangeItem
 
 		// Find DEFAULT keyword
 		$index = array_search('default', array_map('strtolower', $changesArray));
-	
+
 		// Create the check
 		if ($index !== false)
 		{

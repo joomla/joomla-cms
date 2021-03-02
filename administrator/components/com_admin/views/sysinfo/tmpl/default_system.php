@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 				<td>
 					<?php echo $this->info['dbserver']; ?>
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td>
 					<strong><?php echo JText::_('COM_ADMIN_DATABASE_VERSION'); ?></strong>

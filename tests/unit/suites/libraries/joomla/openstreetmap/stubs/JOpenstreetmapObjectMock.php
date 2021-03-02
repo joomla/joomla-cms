@@ -3,13 +3,13 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Mock JOpenstreetmapObject
- * 
+ *
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  * @since       3.2.0

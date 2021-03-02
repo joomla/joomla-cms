@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@
  */
 var JCaption = function(_selector) {
     var $, selector,
-    
+
     initialize = function(_selector) {
         $ = jQuery.noConflict();
         selector = _selector;
@@ -22,9 +22,9 @@ var JCaption = function(_selector) {
             createCaption(el);
         })
     },
-    
+
     createCaption = function(element) {
-        var $el = $(element), 
+        var $el = $(element),
         caption = $el.attr('title'),
         width = $el.attr("width") || element.width,
         align = $el.attr("align") || $el.css("float") || element.style.styleFloat || "none",

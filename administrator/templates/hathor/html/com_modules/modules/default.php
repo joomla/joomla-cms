@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -171,7 +171,7 @@ $saveOrder = $listOrder == 'ordering';
 							<button class="btn btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>">
 								<span class="icon-ban-circle" aria-hidden="true"></span>
 							</button>
-					<?php endif; ?>					
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo $item->position; ?>

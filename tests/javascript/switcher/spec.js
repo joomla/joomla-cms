@@ -2,7 +2,7 @@
  * @package     Joomla.Tests
  * @subpackage  JavaScript Tests
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * @since       3.6.3
@@ -10,7 +10,7 @@
  */
 
 define(['jquery', 'testsRoot/switcher/spec-setup', 'jasmineJquery'], function ($) {
-	
+
 	describe('Switcher ', function () {
 		describe('After running initializer code', function () {
 			it('Should bind click event to each toggler', function () {

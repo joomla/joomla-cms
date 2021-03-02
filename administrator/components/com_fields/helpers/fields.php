@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -90,7 +90,7 @@ class FieldsHelper
 	{
 		if (self::$fieldsCache === null)
 		{
-			// Load the model			
+			// Load the model
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 
 			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -160,7 +160,7 @@ class InstallationModelDatabase extends JModelBase
 
 		// Per default allowed DB hosts: localhost / 127.0.0.1 / ::1 (optionally with port)
 		$localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';
-		
+
 		// Check the security file if now switched off and the db_host is not one of the allowed hosts
 		if ($shouldCheckLocalhost && preg_match($localhost, $options->db_host) !== 1)
 		{

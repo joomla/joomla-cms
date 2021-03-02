@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -138,7 +138,7 @@ class InstallerModelManage extends InstallerModel
 			{
 				$table->enabled = $value;
 			}
-		
+
 			$context = $this->option . '.' . $this->name;
 			JPluginHelper::importPlugin('extension');
 			JEventDispatcher::getInstance()->trigger('onExtensionChangeState', array($context, $eid, $value));

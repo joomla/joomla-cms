@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -328,9 +328,9 @@ class InstallerModelUpdatesites extends InstallerModel
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where('(' 
-								. $db->quoteName('name') . ' = ' . $db->quote($manifest->name) 
-								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename) 
+							->where('('
+								. $db->quoteName('name') . ' = ' . $db->quote($manifest->name)
+								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename)
 								. ')' )
 							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
 							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')

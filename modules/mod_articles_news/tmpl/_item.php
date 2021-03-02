@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 	</<?php echo $item_heading; ?>>
 <?php endif; ?>
 
-<?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>	
+<?php if ($params->get('img_intro_full') !== 'none' && !empty($item->imageSrc)) : ?>
 	<figure class="newsflash-image">
 		<img src="<?php echo $item->imageSrc; ?>" alt="<?php echo $item->imageAlt; ?>">
 		<?php if (!empty($item->imageCaption)) : ?>

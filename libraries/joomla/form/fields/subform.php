@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -376,18 +376,18 @@ class JFormFieldSubform extends JFormField
 	private function loadSubFormData(Form &$subForm)
 	{
 		$value = $this->value ? (array) $this->value : array();
-		
+
 		// Simple form, just bind the data and return one row.
 		if (!$this->multiple)
 		{
 			$subForm->bind($value);
 			return array($subForm);
 		}
-		
+
 		// Multiple rows possible: Construct array and bind values to their respective forms.
 		$forms = array();
 		$value = array_values($value);
-		
+
 		// Show as many rows as we have values, but at least min and at most max.
 		$c = max($this->min, min(count($value), $this->max));
 

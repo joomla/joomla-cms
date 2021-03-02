@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -461,7 +461,7 @@ XML;
 	 * Tests the deleteElement method
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  array
 	 *
 	 * @since   3.2.0
@@ -496,7 +496,7 @@ XML;
 	 * Tests the deleteElement method - failure
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  array
 	 *
 	 * @since   3.2.0
@@ -529,7 +529,7 @@ XML;
 	 * Tests the historyOfElement method
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -561,7 +561,7 @@ XML;
 	 * Tests the historyOfElement method - failure
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -591,7 +591,7 @@ XML;
 	 * Tests the versionOfElement method
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -624,7 +624,7 @@ XML;
 	 * Tests the versionOfElement method - failure
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -690,7 +690,7 @@ XML;
 	 * Tests the multiFetchElements method
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -723,7 +723,7 @@ XML;
 	 * Tests the multiFetchElements method - failure
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -754,7 +754,7 @@ XML;
 	 * Tests the relationsForElement method
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -786,7 +786,7 @@ XML;
 	 * Tests the relationsForElement method - failure
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -905,7 +905,7 @@ XML;
 	 * Tests the fullElement method
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -937,7 +937,7 @@ XML;
 	 * Tests the fullElement method - failure
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -967,7 +967,7 @@ XML;
 	 * Tests the redaction method
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0
@@ -1000,7 +1000,7 @@ XML;
 	 * Tests the redaction method - failure
 	 *
 	 * @param   string  $element  Element type
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2.0

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -167,7 +167,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 		return $this->loadResult();
 
 	}
-	
+
 	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
@@ -205,7 +205,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 		$tableSub = $this->replacePrefix($table);
 
 		$defaultSchema = $this->getDefaultSchema();
-		
+
 		$this->setQuery('
 			SELECT a.attname AS "column_name",
 				pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
