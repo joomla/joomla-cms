@@ -43,7 +43,7 @@ if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	}
 }
 
-// Pre-Load configuration. Don't remove the Output Buffering due to BOM issues, see JCode 26026
+// Pre-Load configuration. Don't remove the Output Buffering due to BOM issues
 ob_start();
 require_once JPATH_CONFIGURATION . '/configuration.php';
 ob_end_clean();
