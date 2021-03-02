@@ -478,7 +478,7 @@ class BannersModelBanner extends JModelAdmin
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.26
 	 */
 	public function validate($form, $data, $group = null)
 	{
