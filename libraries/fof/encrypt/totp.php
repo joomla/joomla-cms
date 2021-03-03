@@ -23,7 +23,7 @@ class FOFEncryptTotp
 
 	/**
 	 * The length of the secret in bytes.
-	 * RFC 4226: "The length of the shared secret MUST be atleast 128 bits. This document RECOMMENDs a shared secret length of 160 bits."
+	 * RFC 4226: "The length of the shared secret MUST be at least 128 bits. This document RECOMMENDs a shared secret length of 160 bits."
 	 * The original value was 10 bytes (80 bits) this value has been increased to 20 (160 bits) with Joomla __DEPLOY_VERSION__
 	 *
 	 * @var integer
