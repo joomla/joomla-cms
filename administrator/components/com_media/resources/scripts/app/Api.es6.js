@@ -1,6 +1,5 @@
 import { notifications } from './Notifications.es6';
-
-const path = require('path');
+import { dirname } from './path';
 
 /**
  * Api class for communication with the server
@@ -230,7 +229,7 @@ class Api {
       item.files = [];
     }
 
-    item.directory = path.dirname(item.path);
+    item.directory = dirname(item.path);
 
     if (item.directory.indexOf(':', item.directory.length - 1) !== -1) {
       item.directory += '/';

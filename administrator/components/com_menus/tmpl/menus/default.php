@@ -96,7 +96,7 @@ $wa->useScript('com_menus.admin-menus');
 						?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<th scope="row">
 									<div class="name break-word">
@@ -225,7 +225,7 @@ $wa->useScript('com_menus.admin-menus');
 											); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-lg-table-cell text-center">
+								<td class="d-none d-lg-table-cell">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>

@@ -73,7 +73,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_NEWSFEEDS_CACHE_TIME_HEADING', 'a.cache_time', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($assoc) : ?>
-								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 								<?php endif; ?>
@@ -98,7 +98,7 @@ if ($saveOrder && !empty($this->items))
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->catid; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->name); ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">
 									<?php
@@ -151,7 +151,7 @@ if ($saveOrder && !empty($this->items))
 									<?php echo (int) $item->cache_time; ?>
 								</td>
 								<?php if ($assoc) : ?>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php if ($item->association) : ?>
 										<?php echo HTMLHelper::_('newsfeedsadministrator.association', $item->id); ?>
 									<?php endif; ?>

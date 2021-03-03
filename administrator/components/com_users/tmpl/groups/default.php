@@ -85,7 +85,7 @@ $wa->useScript('com_users.admin-users-groups');
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="text-center" data-usercount="<?php echo $item->user_count; ?>">
 									<?php if ($canEdit) : ?>
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 									<?php endif; ?>
 								</td>
 								<th scope="row">

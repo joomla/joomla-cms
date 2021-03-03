@@ -82,7 +82,7 @@ $stateMsgs  = array(
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr>
 							<td class="text-center">
-								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->username); ?>
 							</td>
 							<td class="tbody-icon">
 								<span class="icon-<?php echo $stateIcons[$item->state]; ?>" aria-hidden="true" title="<?php echo $stateMsgs[$item->state]; ?>"></span>

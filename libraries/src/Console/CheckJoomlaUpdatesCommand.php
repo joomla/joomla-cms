@@ -34,8 +34,9 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 
 	/**
 	 * Stores the Update Information
-	 * @var UpdateModel
-	 * @since 4.0
+	 *
+	 * @var    UpdateModel
+	 * @since  4.0
 	 */
 	private $updateInfo;
 

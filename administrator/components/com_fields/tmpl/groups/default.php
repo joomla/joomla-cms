@@ -98,7 +98,7 @@ $context = $this->escape($this->state->get('filter.context'));
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.fieldgroup.' . $item->id) && $canCheckin; ?>
 								<tr class="row<?php echo $i % 2; ?>" data-draggable-group="0" item-id="<?php echo $item->id; ?>">
 									<td class="text-center">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php $iconClass = ''; ?>

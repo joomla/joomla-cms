@@ -10,6 +10,7 @@ namespace Joomla\CMS\Installer;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -24,14 +25,12 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
-\JLoader::import('joomla.base.adapter');
-
 /**
  * Joomla base installer class
  *
  * @since  3.1
  */
-class Installer extends \JAdapter
+class Installer extends Adapter
 {
 	/**
 	 * Array of paths needed by the installer
@@ -2166,7 +2165,7 @@ class Installer extends \JAdapter
 							$container .= '/';
 						}
 
-						// Aappend the folder part
+						// Append the folder part
 						$container .= $part;
 
 						if (!\in_array($container, $containers))
