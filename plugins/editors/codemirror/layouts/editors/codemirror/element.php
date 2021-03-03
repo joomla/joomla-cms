@@ -40,7 +40,8 @@ Factory::getDocument()->getWebAssetManager()
 	->registerAndUseScript(
 		'webcomponent.editor-codemirror',
 		'plg_editors_codemirror/joomla-editor-codemirror.min.js',
-		['webcomponent' => true]
+			[],
+			['type' => 'module']
 	);
 
 ?>

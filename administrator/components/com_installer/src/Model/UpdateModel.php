@@ -447,7 +447,7 @@ class UpdateModel extends ListModel
 
 		if (empty($package))
 		{
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file), 'error');
 
 			return false;
 		}
