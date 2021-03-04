@@ -1,5 +1,5 @@
 DELETE FROM "#__postinstall_messages"
-WHERE "title_key"
+ WHERE "title_key"
     IN ('COM_CPANEL_MSG_EACCELERATOR_TITLE',
         'COM_CPANEL_MSG_HTACCESS_TITLE',
         'COM_CPANEL_MSG_JOOMLA40_PRE_CHECKS_TITLE',
