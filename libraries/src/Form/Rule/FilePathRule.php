@@ -64,7 +64,7 @@ class FilePathRule extends FormRule
 			return false;
 		}
 
-		// Append the root path
+		// Prepend the root path
 		$value = JPATH_ROOT . '/' . $value;
 
 		try
