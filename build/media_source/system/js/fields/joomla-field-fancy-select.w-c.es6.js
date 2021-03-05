@@ -23,6 +23,9 @@
  * min-term-length="1"   The minimum length a search value should be before choices are searched.
  * placeholder=""        The value of the inputs placeholder.
  * search-placeholder="" The value of the search inputs placeholder.
+ * 
+ * data-max-results="30" The maximum amount of search results to be displayed.
+ * data-max-render="30"  The maximum amount of items to be rendered, critical for large lists. 
  */
 window.customElements.define('joomla-field-fancy-select', class extends HTMLElement {
   // Attributes to monitor
@@ -33,6 +36,10 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   get url() { return this.getAttribute('url'); }
 
   get termKey() { return this.getAttribute('term-key') || 'term'; }
+
+  get maxResults() { return parseInt(this.dataset('maxResults')) || 30; }
+
+  get maxRender() { return parseInt(this.dataset('maxRender')) || 30; }
 
   get minTermLength() { return parseInt(this.getAttribute('min-term-length'), 10) || 1; }
 
@@ -123,7 +130,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       searchPlaceholderValue: this.searchPlaceholder,
       removeItemButton: true,
       searchFloor: this.minTermLength,
-      searchResultLimit: 10,
+      searchResultLimit: this.maxResults,
+      renderChoiceLimit: this.maxRender,
       shouldSort: false,
       fuseOptions: {
         threshold: 0.3, // Strict search
