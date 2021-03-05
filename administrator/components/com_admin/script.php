@@ -5047,7 +5047,7 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/js/dropMenu.js',
-			'/media/vendor/skipto/css/SkipTo.css'
+			'/media/vendor/skipto/css/SkipTo.css',
 		);
 
 		$folders = array(
@@ -6237,7 +6237,7 @@ class JoomlaInstallerScript
 			// Joomla 4.0 Beta 5
 			'/plugins/content/imagelazyload',
 			// Joomla 4.0 Beta 7
-			'/media/vendor/skipto/css'
+			'/media/vendor/skipto/css',
 		);
 
 		$status['files_checked'] = $files;
