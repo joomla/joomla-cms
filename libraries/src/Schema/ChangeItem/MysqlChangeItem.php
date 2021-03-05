@@ -235,7 +235,8 @@ class MysqlChangeItem extends ChangeItem
 	 * On MySQL 8 display length is not shown anymore.
 	 * This means we have to match e.g. both "int(10) unsigned" and
 	 * "int unsigned", or both "int(11)" and "int" and so on.
-	 * The same applies to tinyint.
+	 * The same applies to the other integer data types "tinyint",
+	 * "smallint", "mediumint" and "bigint".
 	 *
 	 * @param   string  $type1  the column type
 	 * @param   string  $type2  the column attributes
@@ -248,28 +249,14 @@ class MysqlChangeItem extends ChangeItem
 	{
 		$result = $type1;
 
+		if (preg_match('/^(?P<type>(big|medium|small|tiny)?int)(\([0-9]+\))?$/i', $type1, $matches))
+		{
+			$result = strtolower($matches['type']);
+		}
+
 		if (strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
-			if (strtolower(substr($type1, 0, 7)) === 'tinyint')
-			{
-				$result = 'tinyint unsigned';
-			}
-			elseif (strtolower(substr($type1, 0, 3)) === 'int')
-			{
-				$result = 'int unsigned';
-			}
-			else
-			{
-				$result = $type1 . ' unsigned';
-			}
-		}
-		elseif (strtolower(substr($type1, 0, 7)) === 'tinyint')
-		{
-			$result = 'tinyint';
-		}
-		elseif (strtolower(substr($type1, 0, 3)) === 'int')
-		{
-			$result = 'int';
+			$result .= ' unsigned';
 		}
 
 		return $result;
