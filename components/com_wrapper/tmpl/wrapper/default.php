@@ -35,6 +35,7 @@ $this->document->getWebAssetManager()
 		height="<?php echo $this->escape($this->params->get('height')); ?>"
 		scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
 		frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
+		loading="<?php echo $this->params->get('lazyloading', 1) ? 'lazy' : 'eager'; ?>"
 		<?php if ($this->escape($this->params->get('page_heading'))) : ?>
 			title="<?php echo $this->escape($this->params->get('page_heading')); ?>"
 		<?php else : ?>

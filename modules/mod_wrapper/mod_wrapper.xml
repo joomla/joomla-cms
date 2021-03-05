@@ -101,6 +101,18 @@
 					label="MOD_WRAPPER_FIELD_TARGET_LABEL"
 					size="30"
 				/>
+
+				<field
+					name="lazyloading"
+					type="radio"
+					label="MOD_WRAPPER_FIELD_LAZYLOADING_LABEL"
+					default="1"
+					layout="joomla.form.field.radio.switcher"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field

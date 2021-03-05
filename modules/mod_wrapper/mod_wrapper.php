@@ -23,5 +23,6 @@ $scroll      = htmlspecialchars($params->get('scrolling'), ENT_COMPAT, 'UTF-8');
 $frameborder = htmlspecialchars($params->get('frameborder'), ENT_COMPAT, 'UTF-8');
 $ititle      = $module->title;
 $id          = $module->id;
+$lazyloading = $params->get('lazyloading', 1) ? 'lazy' : 'eager';
 
 require ModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));
