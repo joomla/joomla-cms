@@ -37,10 +37,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   get termKey() { return this.getAttribute('term-key') || 'term'; }
 
-  get maxResults() { return parseInt(this.getAttribute('data-max-results'), 10) || 30; }
-
-  get maxRender() { return parseInt(this.getAttribute('data-max-render'), 10) || 30; }
-
   get minTermLength() { return parseInt(this.getAttribute('min-term-length'), 10) || 1; }
 
   get newItemPrefix() { return this.getAttribute('new-item-prefix') || ''; }
@@ -130,8 +126,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       searchPlaceholderValue: this.searchPlaceholder,
       removeItemButton: true,
       searchFloor: this.minTermLength,
-      searchResultLimit: this.maxResults,
-      renderChoiceLimit: this.maxRender,
+      searchResultLimit: parseInt(this.dataset.maxResults, 10) || 4,
+      renderChoiceLimit: parseInt(this.dataset.maxRender, 10) || -1,
       shouldSort: false,
       fuseOptions: {
         threshold: 0.3, // Strict search
