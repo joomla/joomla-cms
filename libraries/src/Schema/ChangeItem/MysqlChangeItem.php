@@ -308,6 +308,24 @@ class MysqlChangeItem extends ChangeItem
 		{
 			$typeCheck = 'UPPER(LEFT(type, 7)) = ' . $this->db->quote('TINYINT');
 		}
+		elseif ($uType === 'SMALLINT UNSIGNED')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 8)) = ' . $this->db->quote('SMALLINT')
+				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED');
+		}
+		elseif ($uType === 'SMALLINT')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 8)) = ' . $this->db->quote('SMALLINT');
+		}
+		elseif ($uType === 'MEDIUMINT UNSIGNED')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 9)) = ' . $this->db->quote('MEDIUMINT')
+				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED');
+		}
+		elseif ($uType === 'MEDIUMINT')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 9)) = ' . $this->db->quote('MEDIUMINT');
+		}
 		elseif ($uType === 'INT UNSIGNED')
 		{
 			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT')
@@ -316,6 +334,15 @@ class MysqlChangeItem extends ChangeItem
 		elseif ($uType === 'INT')
 		{
 			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT');
+		}
+		elseif ($uType === 'BIGINT UNSIGNED')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 6)) = ' . $this->db->quote('BIGINT')
+				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED');
+		}
+		elseif ($uType === 'BIGINT')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 6)) = ' . $this->db->quote('BIGINT');
 		}
 		elseif ($this->db->hasUTF8mb4Support())
 		{
