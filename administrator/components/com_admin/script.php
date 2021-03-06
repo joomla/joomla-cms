@@ -5050,7 +5050,7 @@ class JoomlaInstallerScript
 			'/media/vendor/skipto/css/SkipTo.css',
 			// Joomla 4.0 Beta 8
 			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
-			'/templates/cassiopeia/scss/vendor/_minicolors.scss'
+			'/templates/cassiopeia/scss/vendor/_minicolors.scss',
 		);
 
 		$folders = array(
