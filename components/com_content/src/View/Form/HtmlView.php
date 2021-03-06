@@ -164,7 +164,7 @@ class HtmlView extends BaseHtmlView
 		$this->user   = $user;
 
 		// Propose current language as default when creating new article
-		if (empty($this->item->id) && Multilanguage::isEnabled())
+		if (empty($this->item->id) && Multilanguage::isEnabled() && $params->get('enable_category') != 1)
 		{
 			$lang = Factory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);

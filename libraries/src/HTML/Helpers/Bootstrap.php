@@ -169,7 +169,8 @@ abstract class Bootstrap
 	/**
 	 * Add javascript support for Bootstrap collapse
 	 *
-	 * @param   string  $selector  Common class for the collapse
+	 * @param   string    $selector  Common class for the collapse
+	 * @param   string[]  $params    Additional parameters - see below
 	 *
 	 * @return  void
 	 *
@@ -182,7 +183,7 @@ abstract class Bootstrap
 	 *                             be closed when this collapsible item is shown.
 	 * - toggle    boolean  true   Toggles the collapsible element on invocation
 	 */
-	public static function collapse($selector = '') :void
+	public static function collapse($selector = '', $params = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -193,6 +194,7 @@ abstract class Bootstrap
 		if ($selector !== '')
 		{
 			// Setup options object
+			$opt = [];
 			$opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
 			$opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
 
@@ -212,7 +214,7 @@ abstract class Bootstrap
 	 * Add javascript support for Bootstrap dropdowns
 	 *
 	 * @param   string  $selector  Common class for the dropdowns
-	 * @param   string  $options   The options for the dropdowns
+	 * @param   string  $params    The options for the dropdowns
 	 *
 	 * @return  void
 	 *
@@ -224,7 +226,7 @@ abstract class Bootstrap
 	 * - reference  string   toggle        Reference element of the dropdown menu. Accepts 'toggle' or 'parent'
 	 * - display    string   dynamic       By default, we use Popper for dynamic positioning. Disable this with static
 	 */
-	public static function dropdown($selector = '', $options = []) :void
+	public static function dropdown($selector = '', $params = []) :void
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -235,6 +237,7 @@ abstract class Bootstrap
 		if ($selector !== '')
 		{
 			// Setup options object
+			$opt = [];
 			$opt['flip'] = isset($params['flip']) ? $params['flip'] : true;
 			$opt['boundary'] = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
 			$opt['reference'] = isset($params['reference']) ? $params['reference'] : 'toggle';
