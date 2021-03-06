@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -507,11 +508,8 @@ class PlgSampledataBlog extends CMSPlugin
 				$this->app->set('unicodeslugs', $unicode);
 			}
 
-			if (ComponentHelper::isEnabled('com_workflow') && $user->authorise('core.create', 'com_workflow') && $workflowId)
-			{
-				// Category 0 gets the workflow from above
-				$params = $i == 0 ? '{"workflow_id":"' . $workflowId . '"}' : '{}';
-			}
+			// Category 0 gets the workflow from above
+			$params = $i == 0 ? '{"workflow_id":"' . $workflowId . '"}' : '{}';
 
 			$category = [
 				'title'           => $categoryTitle . $langSuffix,
@@ -698,18 +696,6 @@ class PlgSampledataBlog extends CMSPlugin
 
 		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
 
-		// Set com_workflow enabled for com_content
-		$params = ComponentHelper::getParams('com_content');
-		$params->set('workflow_enabled', '1');
-
-		$query = $this->db->getQuery(true);
-
-		$query->update($this->db->quoteName('#__extensions'))
-			->set($this->db->quoteName('params') . '=' . $this->db->quote(json_encode($params)))
-			->where($this->db->quoteName('name') . '=' . $this->db->quote('com_content'));
-
-		$this->db->setQuery($query)->execute();
-
 		// Store the articles
 		foreach ($articles as $i => $article)
 		{
@@ -774,7 +760,10 @@ class PlgSampledataBlog extends CMSPlugin
 			// Get ID from article we just added
 			$ids[] = $articleModel->getItem()->id;
 
-			if ($article['featured'])
+			if ($article['featured']
+				&& ComponentHelper::isEnabled('com_workflow')
+				&& PluginHelper::isEnabled('workflow', 'featuring')
+				&& ComponentHelper::getParams('com_content')->get('workflow_enabled'))
 			{
 				// Set the article featured in #__content_frontpage
 				$query = $this->db->getQuery(true);
