@@ -5045,9 +5045,12 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/html/layouts/chromes/cardGrey.php',
 			'/templates/cassiopeia/html/layouts/chromes/default.php',
 			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
+			// Joomla 4.0 Beta 7
+			'/media/vendor/skipto/js/dropMenu.js',
+			'/media/vendor/skipto/css/SkipTo.css',
 			// Joomla 4.0 Beta 8
-			'administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
-			'templates/cassiopeia/scss/vendor/_minicolors.scss',
+			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
+			'/templates/cassiopeia/scss/vendor/_minicolors.scss',
 		);
 
 		$folders = array(
@@ -6236,10 +6239,10 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/controller',
 			// Joomla 4.0 Beta 5
 			'/plugins/content/imagelazyload',
-			// Joomla 4.0 Beta 6
-			'/media/vendor/skipto/js/skipTo.js',
-			'/media/vendor/skipto/js/dropMenu.js',
-			'/media/vendor/skipto/css/SkipTo.css'
+			// Joomla 4.0 Beta 7
+			'/media/vendor/skipto/css',
+      // Joomla 4.0 Beta 8
+      '/administrator/templates/atum/scss/vendor/minicolors'
 		);
 
 		$status['files_checked'] = $files;
@@ -7087,6 +7090,11 @@ class JoomlaInstallerScript
 				// Convert to the according CSS class depending on order = "down" or "across".
 				$layout = ($order === 0) ? 'masonry-' : 'columns-';
 
+				if (!isset($params['blog_class']))
+				{
+					$params['blog_class'] = '';
+				}
+
 				if (strpos($params['blog_class'], $layout) === false)
 				{
 					$params['blog_class'] .= ' ' . $layout . $nColumns;
@@ -7108,7 +7116,7 @@ class JoomlaInstallerScript
 		// Update global parameters for com_content.
 		$nColumns = $contentParams->get('num_columns');
 
-		if ($nColumns !== null || true)
+		if ($nColumns !== null)
 		{
 			$nColumns = (int) $nColumns;
 			$order  = (int) $contentParams->get('multi_column_order', '0');

@@ -222,9 +222,11 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 			return false;
 		}
 
-		$user = Factory::getApplication()->getIdentity();
+		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
 
-		$id = (int) $this->getState('article.id');
+		// On edit article, we get ID of article from article.id state, but on save, we use data from input
+		$id = (int) $this->getState('article.id', $app->input->getInt('a_id'));
 
 		// Existing record. We can't edit the category in frontend if not edit.state.
 		if ($id > 0 && !$user->authorise('core.edit.state', 'com_content.article.' . $id))
