@@ -5048,6 +5048,24 @@ class JoomlaInstallerScript
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/js/dropMenu.js',
 			'/media/vendor/skipto/css/SkipTo.css',
+			// Joomla 4.0 Beta 8
+			'/administrator/components/com_csp/access.xml',
+			'/administrator/components/com_csp/config.xml',
+			'/administrator/components/com_csp/csp.xml',
+			'/administrator/components/com_csp/forms/filter_reports.xml',
+			'/administrator/components/com_csp/services/provider.php',
+			'/administrator/components/com_csp/src/Controller/DisplayController.php',
+			'/administrator/components/com_csp/src/Controller/ReportsController.php',
+			'/administrator/components/com_csp/src/Helper/ReporterHelper.php',
+			'/administrator/components/com_csp/src/Model/ReportModel.php',
+			'/administrator/components/com_csp/src/Model/ReportsModel.php',
+			'/administrator/components/com_csp/src/Table/ReportTable.php',
+			'/administrator/components/com_csp/src/View/Reports/HtmlView.php',
+			'/administrator/components/com_csp/tmpl/reports/default.php',
+			'/administrator/components/com_csp/tmpl/reports/default.xml',
+			'/administrator/language/en-GB/com_csp.ini',
+			'/administrator/language/en-GB/com_csp.sys.ini',
+			'/components/com_csp/src/Controller/ReportController.php',
 		);
 
 		$folders = array(
@@ -6238,6 +6256,23 @@ class JoomlaInstallerScript
 			'/plugins/content/imagelazyload',
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/css',
+			// Joomla 4.0 Beta 8
+			'/components/com_csp/src/Controller',
+			'/components/com_csp/src',
+			'/components/com_csp',
+			'administrator/components/com_csp/forms',
+			'administrator/components/com_csp/services',
+			'administrator/components/com_csp/src/Controller',
+			'administrator/components/com_csp/src/Helper',
+			'administrator/components/com_csp/src/Model',
+			'administrator/components/com_csp/src/Table',
+			'administrator/components/com_csp/src/View/Reports',
+			'administrator/components/com_csp/src/View',
+			'administrator/components/com_csp/src/',
+			'administrator/components/com_csp/tmpl/reports',
+			'administrator/components/com_csp/tmpl',
+			'administrator/components/com_csp',
+
 		);
 
 		$status['files_checked'] = $files;
