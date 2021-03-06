@@ -6242,7 +6242,7 @@ class JoomlaInstallerScript
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/css',
 			// Joomla 4.0 Beta 8
-			'/administrator/templates/atum/scss/vendor/minicolors'
+			'/administrator/templates/atum/scss/vendor/minicolors',
 		);
 
 		$status['files_checked'] = $files;
