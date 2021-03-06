@@ -5050,7 +5050,7 @@ class JoomlaInstallerScript
 			'/media/vendor/skipto/css/SkipTo.css',
 			// Joomla 4.0 Beta 8
 			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
-			'/templates/cassiopeia/scss/vendor/_minicolors.scss',
+			'/templates/cassiopeia/scss/vendor/_minicolors.scss'
 		);
 
 		$folders = array(
@@ -6241,8 +6241,8 @@ class JoomlaInstallerScript
 			'/plugins/content/imagelazyload',
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/css',
-      // Joomla 4.0 Beta 8
-      '/administrator/templates/atum/scss/vendor/minicolors'
+			// Joomla 4.0 Beta 8
+			'/administrator/templates/atum/scss/vendor/minicolors'
 		);
 
 		$status['files_checked'] = $files;
