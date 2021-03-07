@@ -5,10 +5,10 @@
 
 Joomla = window.Joomla || {};
 
-(function (document, Joomla) {
+((Joomla, document) => {
   'use strict';
 
-  Joomla.extractionMethodHandler = function (element, prefix) {
+  Joomla.extractionMethodHandler = (element, prefix) => {
     const dom = [
       `${prefix}_hostname`,
       `${prefix}_port`,
@@ -24,11 +24,11 @@ Joomla = window.Joomla || {};
     }
   };
 
-  Joomla.submitbuttonUpload = function () {
+  Joomla.submitbuttonUpload = () => {
     const form = document.getElementById('uploadForm');
 
     // do field validation
-    if (form.install_package.value == '') {
+    if (form.install_package.value === '') {
       alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
     } else if (form.install_package.files[0].size > form.max_upload_size.value) {
       alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
@@ -37,14 +37,14 @@ Joomla = window.Joomla || {};
     }
   };
 
-  Joomla.installpackageChange = function () {
+  Joomla.installpackageChange = () => {
     const form = document.getElementById('uploadForm');
     const fileSize = form.install_package.files[0].size;
-    const fileSizeMB = fileSize * 1.0 / 1024.0 / 1024.0;
+    const fileSizeMB = (fileSize * 1.0) / 1024.0 / 1024.0;
     const fileSizeElement = document.getElementById('file_size');
     const warningElement = document.getElementById('max_upload_size_warn');
 
-    if (form.install_package.value == '') {
+    if (form.install_package.value === '') {
       fileSizeElement.classList.add('hidden');
       warningElement.classList.add('hidden');
     } else if (fileSize) {
@@ -85,39 +85,39 @@ Joomla = window.Joomla || {};
       });
     }
   });
-}(document, Joomla));
+})(Joomla, document);
 
-(function (document, Joomla) {
+((Joomla, document) => {
   /**
-	 * PreUpdateChecker
-	 *
-	 * @type {Object}
-	 */
+   * PreUpdateChecker
+   *
+   * @type {Object}
+   */
   const PreUpdateChecker = {};
 
   /**
-	 * Warning visibility flags
-	 *
-	 * @type {Boolean}
-	 */
+   * Warning visibility flags
+   *
+   * @type {Boolean}
+   */
   const showorangewarning = false;
   const showyellowwarning = false;
 
   /**
-	 * Config object
-	 *
-	 * @type {{serverUrl: string, selector: string}}
-	 */
+   * Config object
+   *
+   * @type {{serverUrl: string, selector: string}}
+   */
   PreUpdateChecker.config = {
     serverUrl: 'index.php?option=com_joomlaupdate&task=update.fetchextensioncompatibility',
     selector: '.extension-check',
   };
 
   /**
-	 * Extension compatibility states returned by the server.
-	 *
-	 * @type {{INCOMPATIBLE: number, COMPATIBLE: number, MISSING_COMPATIBILITY_TAG: number, SERVER_ERROR: number}}
-	 */
+   * Extension compatibility states returned by the server.
+   *
+   * @type {{INCOMPATIBLE: number, COMPATIBLE: number, MISSING_COMPATIBILITY_TAG: number, SERVER_ERROR: number}}
+   */
   PreUpdateChecker.STATE = {
     INCOMPATIBLE: 0,
     COMPATIBLE: 1,
@@ -126,9 +126,9 @@ Joomla = window.Joomla || {};
   };
 
   /**
-	 * Run the PreUpdateChecker.
-	 * Called by document ready, setup below.
-	 */
+   * Run the PreUpdateChecker.
+   * Called by document ready, setup below.
+   */
   PreUpdateChecker.run = function () {
     // Get version of the available joomla update
     PreUpdateChecker.joomlaTargetVersion = document.getElementById('joomlaupdate-wrapper').getAttribute('data-joomla-target-version');
@@ -235,12 +235,12 @@ Joomla = window.Joomla || {};
   };
 
   /**
-	 * Check the compatibility for a single extension.
-	 * Requests the server checking the compatibility based on the data set in the element's data attributes.
-	 *
-	 * @param {Object} extension
-	 * @param {callable} callback
-	 */
+   * Check the compatibility for a single extension.
+   * Requests the server checking the compatibility based on the data set in the element's data attributes.
+   *
+   * @param {Object} extension
+   * @param {callable} callback
+   */
   PreUpdateChecker.checkCompatibility = function (node, callback) {
     // Result object passed to the callback
     // Set to server error by default
@@ -273,10 +273,10 @@ Joomla = window.Joomla || {};
   };
 
   /**
-     * Set the result for a passed extensionData object containing state, jQuery object and compatible version
-     *
-     * @param {Object} extensionData
-     */
+   * Set the result for a passed extensionData object containing state, jQuery object and compatible version
+   *
+   * @param {Object} extensionData
+   */
   PreUpdateChecker.setResultView = function (extensionData) {
     let html = '';
     const direction = (document.dir !== undefined) ? document.dir : document.getElementsByTagName('html')[0].getAttribute('dir');
@@ -359,4 +359,4 @@ Joomla = window.Joomla || {};
   };
   // Run PreUpdateChecker on document ready
   document.addEventListener('DOMContentLoaded', PreUpdateChecker.run, false);
-}(document, Joomla));
+})(Joomla, document);
