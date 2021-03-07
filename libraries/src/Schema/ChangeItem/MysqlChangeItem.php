@@ -306,7 +306,7 @@ class MysqlChangeItem extends ChangeItem
 			case 'MEDIUMINT UNSIGNED':
 			case 'SMALLINT UNSIGNED':
 			case 'TINYINT UNSIGNED':
-				// Eg for "INT": "UPPER(type) REGEXP '^INT(\([0-9]+\))? UNSIGNED$'"
+				// Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])? UNSIGNED$'"
 				$typeCheck = 'UPPER(type) REGEXP ' . $this->db->quote('^' . str_replace(' ', '([(][0-9]+[)])? ', $uType) . '$');
 				break;
 
@@ -315,7 +315,7 @@ class MysqlChangeItem extends ChangeItem
 			case 'MEDIUMINT':
 			case 'SMALLINT':
 			case 'TINYINT':
-				// Eg for "INT": "UPPER(type) REGEXP '^INT(\([0-9]+\))?$'"
+				// Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])?$'"
 				$typeCheck = 'UPPER(type) REGEXP ' . $this->db->quote('^' . $uType . '([(][0-9]+[)])?$');
 				break;
 
