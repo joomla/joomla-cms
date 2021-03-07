@@ -223,6 +223,18 @@ class ColorPicker extends HTMLElement {
   padding: 0.6rem 1rem;
   direction: ltr; /* color value can never be rtl */
 }
+.color-preview.dark {
+  color: rgba(255,255,255,0.8);
+}
+.color-preview.dark::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+.color-preview.light {
+  color: rgba(0,0,0,0.8);
+}
+.color-preview.light::placeholder {
+  color: rgba(0,0,0,0.6);
+}
 .menu-toggle {
   position: absolute;
   height: 100%; width: 3rem;
@@ -541,12 +553,14 @@ ${menuToggle}
     const newColor = nonColors.includes(newOption) ? 'white' : newOption;
     this.color = new TinyColor(newColor, { format: this.format });
     this.setControlPositions();
-    this.updateInputs();
+    this.updateInputs(1);
     this.updateControls();
     this.render();
     if (nonColors.includes(newOption)) {
+      this.value = newOption;
       this.input.value = newOption;
       this.preview.value = newOption;
+      this.dispatchChange();
     }
   }
 
@@ -698,9 +712,11 @@ ${menuToggle}
     const hue = this.format !== 'hsl'
       ? Math.floor((this.controlPositions.c2y / this.height2) * 360)
       : Math.floor((offsetX / this.width1) * 360);
+
     const saturation = this.format !== 'hsl'
       ? Math.floor((offsetX / this.width1) * 100)
       : Math.floor((1 - this.controlPositions.c2y / this.height2) * 100);
+
     const lightness = Math.floor((1 - offsetY / this.height1) * 100);
     const alpha = this.format !== 'hex' ? Math.floor((1 - this.controlPositions.c3y / this.height3) * 100) / 100 : 1;
     const colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
@@ -817,16 +833,9 @@ ${menuToggle}
     }
   }
 
-  dispatchCustomEvent(eventName) {
-    const OriginalCustomEvent = new CustomEvent(eventName);
-    OriginalCustomEvent.relatedTarget = this;
-    this.dispatchEvent(OriginalCustomEvent);
-    this.removeEventListener(eventName, this);
-  }
-
-  updateInputs(isInit) {
-    const oldColor = this.preview.value;
-    let newColor = '';
+  updateInputs(isPrevented) {
+    const oldColor = this.value;
+    let newColor;
     let hsl;
     let rgb;
 
@@ -858,15 +867,32 @@ ${menuToggle}
         x.value = newColor;
         if (x === this.preview) {
           x.style.background = newColor;
-          x.style.color = !this.color.isDark() || this.color.getAlpha() < 0.45 ? '#000' : '#fff';
+          const isDark = this.color.isDark() || this.color.getAlpha() < 0.45;
+
+          // toggle dark/light classes will also style the placeholder
+          // dark sets color white, light sets color black
+          // isDark ? '#000' : '#fff'
+          if (!isDark) {
+            if (x.classList.contains('dark')) x.classList.remove('dark');
+            if (!x.classList.contains('light')) x.classList.add('light');
+          } else {
+            if (x.classList.contains('light')) x.classList.remove('light');
+            if (!x.classList.contains('dark')) x.classList.add('dark');
+          }
         }
       }
     });
 
     // don't trigger the custom event unless it's really changed
-    if (!isInit && newColor !== oldColor) {
-      this.dispatchCustomEvent('joomla.colorpicker.change');
+    if (!isPrevented && newColor !== oldColor) {
+      this.dispatchChange();
     }
+  }
+
+  dispatchChange() {
+    const changeEvent = new Event('change');
+    changeEvent.relatedTarget = this;
+    this.input.dispatchEvent(changeEvent);
   }
 
   showPicker() {

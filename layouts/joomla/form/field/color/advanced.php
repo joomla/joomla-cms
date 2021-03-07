@@ -70,11 +70,11 @@ else
 // set color form input labels
 if ($format === 'hex')
 {
-	$inputLabels =					Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HEX');
+	$inputLabels	=					Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HEX');
 }
 elseif ($format === 'rgb')
 {
-	$inputLabels =					Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_RED');
+	$inputLabels	=					Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_RED');
 	$inputLabels .=		',' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_GREEN');
 	$inputLabels .=		',' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_BLUE');
 	$inputLabels .=		',' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_ALPHA');
@@ -88,18 +88,19 @@ elseif ($format === 'hsl')
 }
 
 // set attributes
-$disabled     = $disabled ? ' disabled' : '';
-$readonly     = $readonly ? ' readonly' : '';
-$keywords    = !empty($keywords) ? ' keywords="' . $keywords . '"' : '';
-$class        =  $class . ' ' . ($validate === 'color' ? '' : ' invalid');
-$class        = ' class="' . trim($class) . '"';
+$disabled			= $disabled ? ' disabled' : '';
+$readonly			= $readonly ? ' readonly' : '';
+$keywords			= !empty($keywords) ? ' keywords="' . $this->escape($keywords) . '"' : '';
+$onchange			= !empty($onchange) ? ' onchange="' . $this->escape($onchange) . '"' : '';
+$class        = !empty($class) ? ' class="' . trim($class) . '"' : '';
 $format       = ' format="' . $format . '"';
 $hint         = ' placeholder="' . (strlen($hint) ?  $this->escape($hint) : $placeholder) . '"';
-$autocomplete = ' autocomplete="' . (!empty($autocomplete) ? $autocomplete : 'off') . '"';
+$autocomplete	= ' autocomplete="' . (!empty($autocomplete) ? $autocomplete : 'off') . '"';
 $tabindex     = ' tabindex="' . (!empty($tabindex) ? $tabindex : '0') . '"';
 $spellcheck   = ' spellcheck="' . (!empty($spellcheck) ? $spellcheck : 'false') . '"';
 $inputLabel		= ' inputLabel="' . Text::_('JFIELD_COLOR_SELECT', 'Select a colour') . '"';
 $inputLabels	= ' inputLabels="' . $inputLabels . '"';
+$value				= ' value="' . $this->escape($value) . '"';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRtl() ? ' dir="rtl"' : '';
@@ -111,14 +112,15 @@ $wa->useScript('field.color-picker');
 ?>
 
 <joomla-field-color-picker<?php echo $direction, $format; ?>>
-	<input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $this->escape($color); ?>"
+	<input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>"
 	<?php
 		echo $hint,
+			$value,
+			$onchange,
 			$class,
 			$readonly,
 			$disabled,
 			$required,
-			$onchange,
 			$autocomplete,
 			$autofocus,
 			$direction,
