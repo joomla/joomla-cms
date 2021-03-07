@@ -77,15 +77,15 @@ class ColorPicker extends HTMLElement {
     // set new state
     this.isDisconnected = false;
 
-    // get input value, formatm direction and labels
-    this.value = this.input.getAttribute('value') || 'rgb(0,0,0)';
+    // get input value, format, direction and labels
+    const colorValue = this.input.getAttribute('value') || 'rgb(0,0,0)';
     this.format = this.getAttribute('format');
 
     const placeholder = this.input.getAttribute('placeholder');
     const inputLabel = this.input.getAttribute('inputLabel');
 
     // init color
-    this.color = new TinyColor(this.value, { format: this.format });
+    this.color = new TinyColor((nonColors.includes(colorValue) ? '#fff' : colorValue), { format: this.format });
 
     // set initial controls dimensions
     // make the controls smaller on mobile
@@ -427,6 +427,13 @@ ${menuToggle}
     this.render();
     // attach main event
     this.toggleEvents(1);
+
+    // solve non-colors after settings save
+    if (this.keywords && nonColors.includes(colorValue)) {
+      this.value = colorValue;
+      this.input.value = colorValue;
+      this.preview.value = colorValue;
+    }
   }
 
   toggleEvents(action) {
