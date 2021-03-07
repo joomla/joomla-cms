@@ -100,8 +100,8 @@ Joomla = window.Joomla || {};
    *
    * @type {Boolean}
    */
-  const showorangewarning = false;
-  const showyellowwarning = false;
+  PreUpdateChecker.showorangewarning = false;
+  PreUpdateChecker.showyellowwarning = false;
 
   /**
    * Config object
@@ -228,7 +228,8 @@ Joomla = window.Joomla || {};
     });
 
     // Grab all extensions based on the selector set in the config object
-    [].slice.call(document.querySelectorAll(PreUpdateChecker.config.selector)).forEach((extension) => {
+    const extensions = [].slice.call(document.querySelectorAll(PreUpdateChecker.config.selector));
+    extensions.forEach((extension) => {
       // Check compatibility for each extension, pass an object and a callback
       // function after completing the request
       PreUpdateChecker.checkCompatibility(extension, PreUpdateChecker.setResultView);
@@ -237,7 +238,8 @@ Joomla = window.Joomla || {};
 
   /**
    * Check the compatibility for a single extension.
-   * Requests the server checking the compatibility based on the data set in the element's data attributes.
+   * Requests the server checking the compatibility based on the data set in the
+   * element's data attributes.
    *
    * @param {Object} extension
    * @param {callable} callback
@@ -274,7 +276,8 @@ Joomla = window.Joomla || {};
   };
 
   /**
-   * Set the result for a passed extensionData object containing state, jQuery object and compatible version
+   * Set the result for a passed extensionData object containing state, jQuery object
+   * and compatible version
    *
    * @param {Object} extensionData
    */
