@@ -320,22 +320,19 @@ class MysqlChangeItem extends ChangeItem
 				break;
 
 			case 'MEDIUMTEXT':
-				$typeCheck
-					= $this->db->hasUTF8mb4Support()
+				$typeCheck = $this->db->hasUTF8mb4Support()
 					? 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')'
 					: 'UPPER(type) = ' . $this->db->quote('MEDIUMTEXT');
 				break;
 
 			case 'TEXT':
-				$typeCheck
-					= $this->db->hasUTF8mb4Support()
+				$typeCheck = $this->db->hasUTF8mb4Support()
 					? 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')'
 					: 'UPPER(type) = ' . $this->db->quote('TEXT');
 				break;
 
 			case 'TINYTEXT':
-				$typeCheck
-					= $this->db->hasUTF8mb4Support()
+				$typeCheck = $this->db->hasUTF8mb4Support()
 					? 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')'
 					: 'UPPER(type) = ' . $this->db->quote('TINYTEXT');
 				break;
