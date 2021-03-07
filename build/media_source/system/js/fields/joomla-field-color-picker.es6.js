@@ -45,15 +45,7 @@ class ColorPicker extends HTMLElement {
   }
 
   connectedCallback() {
-    if (window.TinyColor || document.readyState === 'complete') {
-      this.doConnect();
-    } else {
-      const callback = () => {
-        this.doConnect();
-        window.removeEventListener('load', callback);
-      };
-      window.addEventListener('load', callback);
-    }
+    this.doConnect();
   }
 
   disconnectedCallback() {
