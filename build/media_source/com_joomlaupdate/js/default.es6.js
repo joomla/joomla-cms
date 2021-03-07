@@ -129,10 +129,11 @@ Joomla = window.Joomla || {};
    * Run the PreUpdateChecker.
    * Called by document ready, setup below.
    */
-  PreUpdateChecker.run = function () {
+  PreUpdateChecker.run = () => {
     // Get version of the available joomla update
-    PreUpdateChecker.joomlaTargetVersion = document.getElementById('joomlaupdate-wrapper').getAttribute('data-joomla-target-version');
-    PreUpdateChecker.joomlaCurrentVersion = document.getElementById('joomlaupdate-wrapper').getAttribute('data-joomla-current-version');
+    const joomlaUpdateWrapper = document.getElementById('joomlaupdate-wrapper');
+    PreUpdateChecker.joomlaTargetVersion = joomlaUpdateWrapper.getAttribute('data-joomla-target-version');
+    PreUpdateChecker.joomlaCurrentVersion = joomlaUpdateWrapper.getAttribute('data-joomla-current-version');
 
     // No point creating and loading a component stylesheet for 4 settings
     [].slice.call(document.querySelectorAll('.compatibilitytypes img')).forEach((el) => {
@@ -241,7 +242,7 @@ Joomla = window.Joomla || {};
    * @param {Object} extension
    * @param {callable} callback
    */
-  PreUpdateChecker.checkCompatibility = function (node, callback) {
+  PreUpdateChecker.checkCompatibility = (node, callback) => {
     // Result object passed to the callback
     // Set to server error by default
     const extension = {
@@ -277,7 +278,7 @@ Joomla = window.Joomla || {};
    *
    * @param {Object} extensionData
    */
-  PreUpdateChecker.setResultView = function (extensionData) {
+  PreUpdateChecker.setResultView = (extensionData) => {
     let html = '';
     const direction = (document.dir !== undefined) ? document.dir : document.getElementsByTagName('html')[0].getAttribute('dir');
 
