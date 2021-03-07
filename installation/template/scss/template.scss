@@ -236,3 +236,11 @@ caption {
 .table > :not(:last-child) > :last-child > * {
   border-bottom-color: $table-border-color;
 }
+
+.install-lang.active {
+  display: block;
+}
+
+.install-lang {
+  display: none;
+}

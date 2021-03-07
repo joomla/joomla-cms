@@ -47,9 +47,10 @@ if (document.getElementById('removeInstallationFolder')) {
 						customInstallation.parentNode.removeChild(customInstallation);
 						const removeInstallationTab = document.getElementById('removeInstallationTab');
 						removeInstallationTab.parentNode.removeChild(removeInstallationTab);
+						document.getElementById('langInstall').classList.remove('active');
 					},
 					onError: function (xhr) {
-            Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
+						Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
 					}
 					}
 				);
