@@ -126,7 +126,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       searchPlaceholderValue: this.searchPlaceholder,
       removeItemButton: true,
       searchFloor: this.minTermLength,
-      searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 4,
+      searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 10,
       renderChoiceLimit: parseInt(this.select.dataset.maxRender, 10) || -1,
       shouldSort: false,
       fuseOptions: {
