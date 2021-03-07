@@ -126,6 +126,7 @@ HTMLHelper::_('behavior.formvalidator');
 		</button>
 		<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
+		</div>
 	</fieldset>
 
 		<div id="installRecommended" class="j-install-step active">
