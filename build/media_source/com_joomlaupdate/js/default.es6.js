@@ -96,14 +96,6 @@ Joomla = window.Joomla || {};
   const PreUpdateChecker = {};
 
   /**
-   * Warning visibility flags
-   *
-   * @type {Boolean}
-   */
-  PreUpdateChecker.showorangewarning = false;
-  PreUpdateChecker.showyellowwarning = false;
-
-  /**
    * Config object
    *
    * @type {{serverUrl: string, selector: string}}
@@ -116,7 +108,11 @@ Joomla = window.Joomla || {};
   /**
    * Extension compatibility states returned by the server.
    *
-   * @type {{INCOMPATIBLE: number, COMPATIBLE: number, MISSING_COMPATIBILITY_TAG: number, SERVER_ERROR: number}}
+   * @type {{
+   * INCOMPATIBLE: number,
+   * COMPATIBLE: number,
+   * MISSING_COMPATIBILITY_TAG: number,
+   * SERVER_ERROR: number}}
    */
   PreUpdateChecker.STATE = {
     INCOMPATIBLE: 0,
@@ -153,6 +149,7 @@ Joomla = window.Joomla || {};
 
         if (el.dataset.state === 'closed') {
           el.dataset.state = 'open';
+          // eslint-disable-next-line max-len,no-undef
           el.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION;
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
@@ -189,6 +186,7 @@ Joomla = window.Joomla || {};
           }
         } else {
           el.dataset.state = 'closed';
+          // eslint-disable-next-line max-len,no-undef
           el.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION;
 
           [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
@@ -228,18 +226,18 @@ Joomla = window.Joomla || {};
     });
 
     // Grab all extensions based on the selector set in the config object
-    const extensions = [].slice.call(document.querySelectorAll(PreUpdateChecker.config.selector));
-    extensions.forEach((extension) => {
-      // Check compatibility for each extension, pass an object and a callback
-      // function after completing the request
-      PreUpdateChecker.checkCompatibility(extension, PreUpdateChecker.setResultView);
-    });
+    [].slice.call(document.querySelectorAll(PreUpdateChecker.config.selector))
+      .forEach((extension) => {
+        // Check compatibility for each extension, pass an object and a callback
+        // function after completing the request
+        PreUpdateChecker.checkCompatibility(extension, PreUpdateChecker.setResultView);
+      });
   };
 
   /**
    * Check the compatibility for a single extension.
-   * Requests the server checking the compatibility based on the data set in the
-   * element's data attributes.
+   * Requests the server checking the compatibility based
+   * on the data set in the element's data attributes.
    *
    * @param {Object} extension
    * @param {callable} callback
@@ -256,10 +254,10 @@ Joomla = window.Joomla || {};
     // Request the server to check the compatiblity for the passed extension and joomla version
     Joomla.request({
       url: `${PreUpdateChecker.config.serverUrl
-				 }&joomla-target-version=${encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
-				 }joomla-current-version=${PreUpdateChecker.joomlaCurrentVersion
-				 }extension-version=${node.getAttribute('data-extension-current-version')
-				 }&extension-id=${encodeURIComponent(node.getAttribute('data-extension-id'))}`,
+      }&joomla-target-version=${encodeURIComponent(PreUpdateChecker.joomlaTargetVersion)
+      }joomla-current-version=${PreUpdateChecker.joomlaCurrentVersion
+      }extension-version=${node.getAttribute('data-extension-current-version')
+      }&extension-id=${encodeURIComponent(node.getAttribute('data-extension-id'))}`,
       onSuccess(data) {
         const response = JSON.parse(data);
         // Extract the data from the JResponseJson object
@@ -276,14 +274,14 @@ Joomla = window.Joomla || {};
   };
 
   /**
-   * Set the result for a passed extensionData object containing state, jQuery object
-   * and compatible version
+   * Set the result for a passed extensionData object containing state compatible version
    *
    * @param {Object} extensionData
    */
   PreUpdateChecker.setResultView = (extensionData) => {
     let html = '';
-    const direction = (document.dir !== undefined) ? document.dir : document.getElementsByTagName('html')[0].getAttribute('dir');
+    // eslint-disable-next-line max-len
+    // const direction = (document.dir !== undefined) ? document.dir : document.getElementsByTagName('html')[0].getAttribute('dir');
 
     // Process Target Version Extension Compatibility
     if (extensionData.serverError) {
@@ -294,10 +292,14 @@ Joomla = window.Joomla || {};
       switch (extensionData.compatibilityData.upgradeCompatibilityStatus.state) {
         case PreUpdateChecker.STATE.COMPATIBLE:
           if (extensionData.compatibilityData.upgradeWarning) {
+            // eslint-disable-next-line max-len
             html = `<span class="label label-warning">${extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion}</span>`;
             PreUpdateChecker.showyellowwarning = true;
           } else {
-            html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
+            // eslint-disable-next-line max-len
+            html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion === false
+              ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
+              : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
           }
           break;
         case PreUpdateChecker.STATE.INCOMPATIBLE:
@@ -328,7 +330,10 @@ Joomla = window.Joomla || {};
       // Switch the compatibility state
       switch (extensionData.compatibilityData.currentCompatibilityStatus.state) {
         case PreUpdateChecker.STATE.COMPATIBLE:
-          html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion == false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
+          // eslint-disable-next-line max-len
+          html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion === false
+            ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION')
+            : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
           break;
         case PreUpdateChecker.STATE.INCOMPATIBLE:
           // No compatible version found -> display error label
