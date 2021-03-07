@@ -141,7 +141,9 @@ Joomla = window.Joomla || {};
 		PreUpdateChecker.joomlaCurrentVersion = document.getElementById('joomlaupdate-wrapper').getAttribute('data-joomla-current-version');
 
 		// No point creating and loading a component stylesheet for 4 settings
-		$('.compatibilitytypes img').css('height', '20px');
+		[].slice.call(document.querySelectorAll('.compatibilitytypes img')).forEach((el) => {
+			el.style.height = '20px';
+		});
 		[].slice.call(document.querySelectorAll('.compatibilitytypes')).forEach((el) => {
 			el.style.display = 'none';
 			el.style.marginLeft = 0;
@@ -151,43 +153,84 @@ Joomla = window.Joomla || {};
 		[].slice.call(document.querySelectorAll('.compatibilitytoggle')).forEach((el) => {
 			el.style.float = 'right';
 			el.style.cursor = 'pointer';
-		});
+			el.addEventListener('click', () => {
+				const compatibilitytypes = el.closest('fieldset.compatibilitytypes');
 
-		$('.compatibilitytoggle').on('click', function(toggle, index)
-		{
-			var compatibilitytypes = $(this).closest('fieldset.compatibilitytypes');
-			if($(this).data('state') == 'closed')
-			{
-				$(this).data('state', 'open');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION);
-				compatibilitytypes.find('.exname').removeClass('col-md-8').addClass('col-md-4');
-				compatibilitytypes.find('.extype').removeClass('col-md-4').addClass('col-md-2');
-				compatibilitytypes.find('.upcomp').removeClass('hidden').addClass('col-md-2');
-				compatibilitytypes.find('.currcomp').removeClass('hidden').addClass('col-md-2');
-				compatibilitytypes.find('.instver').removeClass('hidden').addClass('col-md-2');
+				if (el.dataset.state === 'closed') {
+					el.dataset.state = 'open';
+					el.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_LESS_EXTENSION_COMPATIBILITY_INFORMATION;
 
-				if (PreUpdateChecker.showyellowwarning)
-				{
-					compatibilitytypes.find("#updateyellowwarning").removeClass('hidden');
+					[].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
+						extension.classList.remove('col-md-8');
+						extension.classList.add('col-md-4');
+					});
+
+					[].slice.call(compatibilitytypes.querySelectorAll('.extype')).forEach((extension) => {
+						extension.classList.remove('col-md-4');
+						extension.classList.add('col-md-2');
+					});
+
+					[].slice.call(compatibilitytypes.querySelectorAll('.upcomp')).forEach((extension) => {
+						extension.classList.remove('hidden');
+						extension.classList.add('col-md-2');
+					});
+
+					[].slice.call(compatibilitytypes.querySelectorAll('.currcomp')).forEach((extension) => {
+						extension.classList.remove('hidden');
+						extension.classList.add('col-md-2');
+					});
+
+					[].slice.call(compatibilitytypes.querySelectorAll('.instver')).forEach((extension) => {
+						extension.classList.remove('hidden');
+						extension.classList.add('col-md-2');
+					});
+
+					if (PreUpdateChecker.showyellowwarning && compatibilitytypes.querySelector('#updateyellowwarning')) {
+						compatibilitytypes.querySelector('#updateyellowwarning').classList.remove('hidden');
+					}
+
+					if (PreUpdateChecker.showorangewarning && compatibilitytypes.querySelector('#updateorangewarning')) {
+						compatibilitytypes.querySelector('#updateorangewarning').classList.remove('hidden');
+					}
+				} else {
+					el.dataset.state = 'closed';
+					el.innerHTML = COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION;
+
+					[].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach((extension) => {
+						extension.classList.add('col-md-8');
+						extension.classList.remove('col-md-4');
+					});
+
+					[].slice.call(compatibilitytypes.querySelectorAll('.extype')).forEach((extension) => {
+						extension.classList.add('col-md-4');
+						extension.classList.remove('col-md-2');
+					});
+
+					[].slice.call(compatibilitytypes.querySelectorAll('.upcomp')).forEach((extension) => {
+						extension.classList.add('hidden');
+						extension.classList.remove('col-md-2');
+					});
+
+					[].slice.call(compatibilitytypes.querySelectorAll('.currcomp')).forEach((extension) => {
+						extension.classList.add('hidden');
+						extension.classList.remove('col-md-2');
+					});
+
+					[].slice.call(compatibilitytypes.querySelectorAll('.instver')).forEach((extension) => {
+						extension.classList.add('hidden');
+						extension.classList.remove('col-md-2');
+					});
+
+					if (PreUpdateChecker.showyellowwarning && compatibilitytypes.querySelector('#updateyellowwarning')) {
+						compatibilitytypes.querySelector('#updateyellowwarning').classList.add('hidden');
+					}
+
+					if (PreUpdateChecker.showorangewarning && compatibilitytypes.querySelector('#updateorangewarning')) {
+						compatibilitytypes.querySelector('#updateorangewarning').classList.add('hidden');
+					}
 				}
-				if (PreUpdateChecker.showorangewarning)
-				{
-					compatibilitytypes.find("#updateorangewarning").removeClass('hidden');
-				}
-			}
-			else
-			{
-				$(this).data('state', 'closed');
-				$(this).html( COM_JOOMLAUPDATE_VIEW_DEFAULT_SHOW_MORE_EXTENSION_COMPATIBILITY_INFORMATION);
-				compatibilitytypes.find('.exname').addClass('col-md-8').removeClass('col-md-4');
-				compatibilitytypes.find('.extype').addClass('col-md-4').removeClass('col-md-2');
-				compatibilitytypes.find('.upcomp').addClass('hidden').removeClass('col-md-2');
-				compatibilitytypes.find('.currcomp').addClass('hidden').removeClass('col-md-2');
-				compatibilitytypes.find('.instver').addClass('hidden').removeClass('col-md-2');
 
-				compatibilitytypes.find("#updateyellowwarning").addClass('hidden');
-				compatibilitytypes.find("#updateorangewarning").addClass('hidden');
-			}
+			});
 		});
 
 		// Grab all extensions based on the selector set in the config object
@@ -322,7 +365,7 @@ Joomla = window.Joomla || {};
 		document.getElementById('compatibilitytype0').style.display = 'block';
 
 		// Have we finished?
-		if ($('#compatibilitytype0 tbody td').length == 0) {
+		if (!document.querySelector('#compatibilitytype0 tbody td')) {
 			document.getElementById('compatibilitytype0').style.display = 'none';
 		}
 	}
