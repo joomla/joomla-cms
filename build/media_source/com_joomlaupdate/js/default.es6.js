@@ -140,8 +140,13 @@ Joomla = window.Joomla || {};
       el.style.marginLeft = 0;
     });
     // The currently processing line should show until it’s finished
-    document.getElementById('compatibilitytype0').style.display = 'block';
-    [].slice.call(document.querySelectorAll('.compatibilitytoggle')).forEach((el) => {
+	const compatibilityType0 = document.getElementById('compatibilitytype0');
+	
+	if (compatibilityType0) {
+      compatibilityType0.style.display = 'block';
+    }    
+    
+	[].slice.call(document.querySelectorAll('.compatibilitytoggle')).forEach((el) => {
       el.style.float = 'right';
       el.style.cursor = 'pointer';
       el.addEventListener('click', () => {
