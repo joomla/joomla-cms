@@ -120,7 +120,7 @@ $wa->useScript('field.color-picker');
 		$readonly,
 		$disabled,
 		$required,
-		$direction, 
+		$direction,
 		$autocomplete,
 		$autofocus,
 		$direction,
@@ -129,7 +129,7 @@ $wa->useScript('field.color-picker');
 		$keywords,
 		$inputLabel,
 		$spellcheck,
-		$dataAttribute; 
+		$dataAttribute;
 	?>>
 	<input type="hidden">
 </joomla-field-color-picker>
