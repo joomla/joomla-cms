@@ -6565,13 +6565,14 @@ class JoomlaInstallerScript
 	/**
 	 * Called after any type of action
 	 *
-	 * @param   string   $action  Which action is happening (install|uninstall|discover_install|update)
+	 * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
+	 * @param   Installer  $installer  The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   4.0.0
 	 */
-	public function postflight($action)
+	public function postflight($action, $installer)
 	{
 		if ($action !== 'update')
 		{
