@@ -271,7 +271,6 @@ class JoomlaInstallerScript
 					->where($db->quoteName('type') . ' = ' . $db->quote('repeatable'))
 			);
 
-
 			// Execute the query and iterate over the `repeatable` instances
 			foreach ($db->loadObjectList() as $row)
 			{
@@ -291,8 +290,10 @@ class JoomlaInstallerScript
 					'options' => [],
 				];
 
-				// This array is used to store the mapping between the name of form fields from Repeatable field
-				// with ID of the child-fields. It will then be used to migrate data later
+				/**
+				 * This array is used to store the mapping between the name of form fields from Repeatable field
+				 * with ID of the child-fields. It will then be used to migrate data later
+				 */
 				$mapping = [];
 
 				// If this repeatable fields actually had child-fields (normally this is always the case)
@@ -421,11 +422,13 @@ class JoomlaInstallerScript
 						continue;
 					}
 
-					// Here we will have to update the stored value of the field to new format
-					// The key for each row changes from repeatable to row, for example repeatable0 to row0, and so on
-					// The key for each sub-field change from name of field to field + ID of the new sub-field
-					// Example data format stored in J3: {"repeatable0":{"id":"1","username":"admin"}}
-					// Example data format stored in J4: {"row0":{"field1":"1","field2":"admin"}}
+					/**
+					 * Here we will have to update the stored value of the field to new format
+					 * The key for each row changes from repeatable to row, for example repeatable0 to row0, and so on
+					 * The key for each sub-field change from name of field to field + ID of the new sub-field
+					 * Example data format stored in J3: {"repeatable0":{"id":"1","username":"admin"}}
+					 * Example data format stored in J4: {"row0":{"field1":"1","field2":"admin"}}
+					 */
 					$newFieldValue = [];
 
 					// Convert to array to change key
