@@ -57,7 +57,7 @@ class JoomlaInstallerScript
 			{
 				$manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-				if ((array_key_exists('version', $manifestValues)))
+				if (array_key_exists('version', $manifestValues))
 				{
 					$this->fromVersion = $manifestValues['version'];
 
@@ -6572,7 +6572,7 @@ class JoomlaInstallerScript
 	 *
 	 * @since   4.0.0
 	 */
-	public function postflight($action, $installer)
+	public function postflight($action)
 	{
 		if ($action !== 'update')
 		{
