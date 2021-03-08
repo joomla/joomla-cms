@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0955d7ab2dd79ed25e7cb52e299b81ff",
+    "content-hash": "19772794cc68edcef1d5b83189f520b7",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -753,16 +753,16 @@
         },
         {
             "name": "joomla/console",
-            "version": "2.0.0-beta3",
+            "version": "2.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "972a0cb3d8498eb717e0f9b5fcb4584d41436bb9"
+                "reference": "355fb82d414e58e30ea9fd870fc211c29f3f6338"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/972a0cb3d8498eb717e0f9b5fcb4584d41436bb9",
-                "reference": "972a0cb3d8498eb717e0f9b5fcb4584d41436bb9",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/355fb82d414e58e30ea9fd870fc211c29f3f6338",
+                "reference": "355fb82d414e58e30ea9fd870fc211c29f3f6338",
                 "shasum": ""
             },
             "require": {
@@ -803,17 +803,7 @@
                 "framework",
                 "joomla"
             ],
-            "funding": [
-                {
-                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/joomla",
-                    "type": "github"
-                }
-            ],
-            "time": "2020-11-28T14:40:42+00:00"
+            "time": "2020-06-28T19:54:55+00:00"
         },
         {
             "name": "joomla/crypt",
@@ -1143,16 +1133,16 @@
         },
         {
             "name": "joomla/filter",
-            "version": "2.0.0-beta5",
+            "version": "2.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "8fbdae72ea6ceaece401f34c4ee179b4c01d2ee8"
+                "reference": "8d326ca1862c1cdb5b9b01d6719730b663e411c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/8fbdae72ea6ceaece401f34c4ee179b4c01d2ee8",
-                "reference": "8fbdae72ea6ceaece401f34c4ee179b4c01d2ee8",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/8d326ca1862c1cdb5b9b01d6719730b663e411c6",
+                "reference": "8d326ca1862c1cdb5b9b01d6719730b663e411c6",
                 "shasum": ""
             },
             "require": {
@@ -1163,7 +1153,7 @@
                 "joomla/language": "<2.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "^3.0@dev",
+                "joomla/coding-standards": "^2.0@alpha",
                 "joomla/language": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
@@ -1192,17 +1182,7 @@
                 "framework",
                 "joomla"
             ],
-            "funding": [
-                {
-                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/joomla",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-02-01T12:25:08+00:00"
+            "time": "2020-06-08T23:03:46+00:00"
         },
         {
             "name": "joomla/http",
@@ -4416,28 +4396,28 @@
         },
         {
             "name": "willdurand/negotiation",
-            "version": "v2.3.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "03436ededa67c6e83b9b12defac15384cb399dc9"
+                "reference": "04e14f38d4edfcc974114a07d2777d90c98f3d9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/03436ededa67c6e83b9b12defac15384cb399dc9",
-                "reference": "03436ededa67c6e83b9b12defac15384cb399dc9",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/04e14f38d4edfcc974114a07d2777d90c98f3d9c",
+                "reference": "04e14f38d4edfcc974114a07d2777d90c98f3d9c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=7.1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.5"
+                "symfony/phpunit-bridge": "^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -4464,7 +4444,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2017-05-14T17:21:12+00:00"
+            "time": "2020-09-25T08:01:41+00:00"
         }
     ],
     "packages-dev": [
@@ -8297,6 +8277,5 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2.5"
-    },
-    "plugin-api-version": "1.1.0"
+    }
 }
