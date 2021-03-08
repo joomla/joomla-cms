@@ -54,13 +54,13 @@ extract($displayData);
 $format = in_array($format, array('hex', 'rgb', 'hsl', 'rgba', 'hsla'), true) ? str_replace('a', '', $format) : 'hex';
 
 // set a generic placeholder
-if ($validate !== 'color' && $format === 'rgb')
+if ($format === 'rgb')
 {
-	$placeholder = 'rgba(0, 0, 0, 0.5) / rgb(0, 0, 0)';
+	$placeholder = 'rgba(0,0,0,0.5) / rgb(0,0,0)';
 }
-elseif ($validate !== 'color' && $format === 'hsl')
+elseif ($format === 'hsl')
 {
-	$placeholder = 'hsla(0, 100%, 50%, 0.5) / hsl(0, 100%, 50%)';
+	$placeholder = 'hsla(0,100%,50%,0.5) / hsl(0,100%,50%)';
 }
 else
 {
@@ -111,25 +111,25 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('field.color-picker');
 ?>
 
-<joomla-field-color-picker<?php echo $direction, $format; ?>>
-	<input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>"
-	<?php
-		echo $hint,
-			$value,
-			$onchange,
-			$class,
-			$readonly,
-			$disabled,
-			$required,
-			$autocomplete,
-			$autofocus,
-			$direction,
-			$validate,
-			$tabindex,
-			$inputLabels,
-			$keywords,
-			$inputLabel,
-			$spellcheck,
-			$dataAttribute;
-	?>/>
+<joomla-field-color-picker name="<?php echo $name; ?>" id="<?php echo $id; ?>"
+	<?php echo $hint,
+		$value,
+		$class,
+		$format,
+		$onchange,
+		$readonly,
+		$disabled,
+		$required,
+		$direction, 
+		$autocomplete,
+		$autofocus,
+		$direction,
+		$validate,
+		$inputLabels,
+		$keywords,
+		$inputLabel,
+		$spellcheck,
+		$dataAttribute; 
+	?>>
+	<input type="hidden">
 </joomla-field-color-picker>
