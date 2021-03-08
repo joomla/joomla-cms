@@ -57,7 +57,7 @@ class JoomlaInstallerScript
 			{
 				$manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-				if ((array_key_exists('version', $manifestValues)))
+				if (array_key_exists('version', $manifestValues))
 				{
 					$this->fromVersion = $manifestValues['version'];
 
