@@ -6565,8 +6565,7 @@ class JoomlaInstallerScript
 	/**
 	 * Called after any type of action
 	 *
-	 * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
-	 * @param   Installer  $installer  The class calling this method
+	 * @param   string   $action  Which action is happening (install|uninstall|discover_install|update)
 	 *
 	 * @return  boolean  True on success
 	 *
