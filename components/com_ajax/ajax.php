@@ -61,39 +61,53 @@ elseif ($input->get('module'))
 	$table    = Table::getInstance('extension');
 	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
 
-	if ($moduleId && $table->load($moduleId) && $table->enabled)
+	$parts   = [];
+	if (strpos($module, '_'))
+	{
+		$parts = explode('_', $module);
+	}
+	elseif (strpos($module, '-'))
+	{
+		$parts = explode('-', $module);
+	}
+
+	if ($parts)
+	{
+		$class = '';
+
+		foreach ($parts as $part)
+		{
+			$class .= ucfirst($part);
+		}
+
+		$class .= 'Helper';
+	}
+	else
+	{
+		$class = ucfirst($module) . 'Helper';
+	}
+
+	$method = $input->get('method') ?: 'get';
+
+	$results        = null;
+	$moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
+
+	if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface)
+	{
+		$helper = $moduleInstance->getHelper($class);
+		if ($helper)
+		{
+			$results = $helper->{$method . 'Ajax'}();
+		}
+	}
+
+	if ($results === null && $moduleId && $table->load($moduleId) && $table->enabled)
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-		if (strpos($module, '_'))
-		{
-			$parts = explode('_', $module);
-		}
-		elseif (strpos($module, '-'))
-		{
-			$parts = explode('-', $module);
-		}
-
-		if ($parts)
-		{
-			$class = 'Mod';
-
-			foreach ($parts as $part)
-			{
-				$class .= ucfirst($part);
-			}
-
-			$class .= 'Helper';
-		}
-		else
-		{
-			$class = 'Mod' . ucfirst($module) . 'Helper';
-		}
-
-		$method = $input->get('method') ?: 'get';
-
 		if (is_file($helperFile))
 		{
+			$class = 'Mod' . $class;
 			JLoader::register($class, $helperFile);
 
 			if (method_exists($class, $method . 'Ajax'))
@@ -126,7 +140,7 @@ elseif ($input->get('module'))
 		}
 	}
 	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
-	else
+	elseif ($results === null)
 	{
 		$results = new LogicException(Text::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
 	}
