@@ -194,7 +194,7 @@ class ContentModelCategory extends JModelList
 		}
 		else
 		{
-			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
+			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num', $app->get('list_limit')), 'uint');
 		}
 
 		$this->setState('list.limit', $limit);
@@ -229,27 +229,27 @@ class ContentModelCategory extends JModelList
 
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
-			$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
-			$model->setState('params', JFactory::getApplication()->getParams());
-			$model->setState('filter.category_id', $category->id);
-			$model->setState('filter.published', $this->getState('filter.published'));
-			$model->setState('filter.access', $this->getState('filter.access'));
-			$model->setState('filter.language', $this->getState('filter.language'));
-			$model->setState('filter.featured', $this->getState('filter.featured'));
-			$model->setState('list.ordering', $this->_buildContentOrderBy());
-			$model->setState('list.start', $this->getState('list.start'));
-			$model->setState('list.limit', $limit);
-			$model->setState('list.direction', $this->getState('list.direction'));
-			$model->setState('list.filter', $this->getState('list.filter'));
-			$model->setState('filter.tag', $this->getState('filter.tag'));
-
-			// Filter.subcategories indicates whether to include articles from subcategories in the list or blog
-			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
-			$model->setState('filter.max_category_levels', $this->getState('filter.max_category_levels'));
-			$model->setState('list.links', $this->getState('list.links'));
-
-			if ($limit >= 0)
+			if ($limit > 0)
 			{
+				$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+				$model->setState('params', JFactory::getApplication()->getParams());
+				$model->setState('filter.category_id', $category->id);
+				$model->setState('filter.published', $this->getState('filter.published'));
+				$model->setState('filter.access', $this->getState('filter.access'));
+				$model->setState('filter.language', $this->getState('filter.language'));
+				$model->setState('filter.featured', $this->getState('filter.featured'));
+				$model->setState('list.ordering', $this->_buildContentOrderBy());
+				$model->setState('list.start', $this->getState('list.start'));
+				$model->setState('list.limit', $limit);
+				$model->setState('list.direction', $this->getState('list.direction'));
+				$model->setState('list.filter', $this->getState('list.filter'));
+				$model->setState('filter.tag', $this->getState('filter.tag'));
+
+				// Filter.subcategories indicates whether to include articles from subcategories in the list or blog
+				$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
+				$model->setState('filter.max_category_levels', $this->getState('filter.max_category_levels'));
+				$model->setState('list.links', $this->getState('list.links'));
+
 				$this->_articles = $model->getItems();
 
 				if ($this->_articles === false)
