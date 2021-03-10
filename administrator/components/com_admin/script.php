@@ -57,7 +57,7 @@ class JoomlaInstallerScript
 			{
 				$manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-				if ((array_key_exists('version', $manifestValues)))
+				if (array_key_exists('version', $manifestValues))
 				{
 					$this->fromVersion = $manifestValues['version'];
 
@@ -5051,6 +5051,8 @@ class JoomlaInstallerScript
 			// Joomla 4.0 Beta 8
 			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
 			'/templates/cassiopeia/scss/vendor/_minicolors.scss',
+			'/administrator/components/com_admin/postinstall/htaccess.php',
+			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 		);
 
 		$folders = array(
