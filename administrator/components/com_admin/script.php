@@ -57,7 +57,7 @@ class JoomlaInstallerScript
 			{
 				$manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-				if ((array_key_exists('version', $manifestValues)))
+				if (array_key_exists('version', $manifestValues))
 				{
 					$this->fromVersion = $manifestValues['version'];
 
@@ -5066,6 +5066,8 @@ class JoomlaInstallerScript
 			'/administrator/language/en-GB/com_csp.ini',
 			'/administrator/language/en-GB/com_csp.sys.ini',
 			'/components/com_csp/src/Controller/ReportController.php',
+			'/administrator/components/com_admin/postinstall/htaccess.php',
+			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 		);
 
 		$folders = array(
