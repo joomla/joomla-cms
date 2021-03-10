@@ -61,6 +61,8 @@ class ColorPicker extends HTMLElement {
 
   get label() { return document.querySelector(`[for="${this.id}"]`); }
 
+  get isDark() { return this.color.isDark() && this.color.getAlpha() > 0.3; }
+
   get allowNonColor() { return this.keywords && this.keywords.some((x) => nonColors.includes(x)); }
 
   get willValidate() { return !this.getAttribute('disabled'); }
@@ -678,7 +680,7 @@ ${menuToggle}
     // toggle dark/light classes will also style the placeholder
     // dark sets color white, light sets color black
     // isDark ? '#000' : '#fff'
-    if (!(this.color.isDark() || this.color.getAlpha() < 0.45)) {
+    if (!this.isDark) {
       if (this.input.classList.contains('dark')) this.input.classList.remove('dark');
       if (!this.input.classList.contains('light')) this.input.classList.add('light');
     } else {
