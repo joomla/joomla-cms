@@ -49,7 +49,7 @@ class JGithubPackageIssuesAssignees extends JGithubPackage
 	 *
 	 * @param   string  $owner     The name of the owner of the GitHub repository.
 	 * @param   string  $repo      The name of the GitHub repository.
-	 * @param   string  $assignee  The assinees login name.
+	 * @param   string  $assignee  The assignees login name.
 	 *
 	 * @throws DomainException|Exception
 	 * @return boolean

@@ -104,6 +104,7 @@
 					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION"
 					default="h4"
 					showon="item_title:1"
+					validate="options"
 					>
 					<option value="h1">JH1</option>
 					<option value="h2">JH2</option>

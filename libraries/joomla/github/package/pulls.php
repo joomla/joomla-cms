@@ -139,7 +139,7 @@ class JGithubPackagePulls extends JGithubPackage
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/pulls/' . (int) $pullId;
 
-		// Craete the data object.
+		// Create the data object.
 		$data = new stdClass;
 
 		// If a title is set add it to the data object.

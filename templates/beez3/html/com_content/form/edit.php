@@ -23,6 +23,9 @@ $editoroptions = isset($params->show_publishing_options);
 if (!$editoroptions):
 	$params->show_urls_images_frontend = '0';
 endif;
+
+$ignoredFieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
+
 ?>
 
 <script type="text/javascript">
@@ -211,6 +214,18 @@ endif;
 	</fieldset>
 	<?php endif; ?>
 
+	<?php // Render additional fieldsets added by plugins. ?>
+	<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
+		<?php if (in_array($fieldset->name, $ignoredFieldsets)) : ?>
+			<?php continue; ?>
+		<?php endif; ?>
+		<fieldset>
+			<legend><?php echo JText::_($fieldset->label); ?></legend>
+			<?php $this->fieldset = $fieldset->name; ?>
+			<?php echo JLayoutHelper::render('joomla.edit.fieldset', $this); ?>
+		</fieldset>
+	<?php endforeach; ?>
+
 	<fieldset>
 		<legend><?php echo JText::_('COM_CONTENT_PUBLISHING'); ?></legend>
 			<div class="control-group">
@@ -236,16 +251,16 @@ endif;
 				<div class="controls">
 					<?php echo $this->form->getInput('note'); ?>
 				</div>
-			</div>			
+			</div>
 			<?php if ($params->get('save_history', 0)) : ?>
 				<div class="control-label">
 					<?php echo $this->form->getLabel('version_note'); ?>
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('version_note'); ?>
-				</div>		
+				</div>
 			<?php endif; ?>
-			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
+			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('created_by_alias'); ?>
@@ -272,7 +287,7 @@ endif;
 						<?php echo $this->form->getInput('featured'); ?>
 					</div>
 				</div>
-				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
+				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('publish_up'); ?>
@@ -322,7 +337,7 @@ endif;
 			</div>
 	</fieldset>
 
-	<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
+	<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 	<fieldset>
 		<legend><?php echo JText::_('COM_CONTENT_METADATA'); ?></legend>
 			<div class="control-group">

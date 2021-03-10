@@ -253,18 +253,6 @@ class ContactModelContacts extends JModelList
 			$query->where('(' . $db->quoteName('a.published') . ' = 0 OR ' . $db->quoteName('a.published') . ' = 1)');
 		}
 
-		// Filter by a single or group of categories.
-		$categoryId = $this->getState('filter.category_id');
-
-		if (is_numeric($categoryId))
-		{
-			$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
-		}
-		elseif (is_array($categoryId))
-		{
-			$query->where($db->quoteName('a.catid') . ' IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
-		}
-
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
 
@@ -303,8 +291,36 @@ class ContactModelContacts extends JModelList
 				);
 		}
 
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		// Filter by categories and by level
+		$categoryId = $this->getState('filter.category_id', array());
+		$level = $this->getState('filter.level');
+
+		if (!is_array($categoryId))
+		{
+			$categoryId = $categoryId ? array($categoryId) : array();
+		}
+
+		// Case: Using both categories filter and by level filter
+		if (count($categoryId))
+		{
+			$categoryId = ArrayHelper::toInteger($categoryId);
+			$categoryTable = JTable::getInstance('Category', 'JTable');
+			$subCatItemsWhere = array();
+		
+			foreach ($categoryId as $filter_catid)
+			{
+				$categoryTable->load($filter_catid);
+				$subCatItemsWhere[] = '(' .
+					($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+			}
+		
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
+		}
+
+		// Case: Using only the by level filter
+		elseif ($level)
 		{
 			$query->where('c.level <= ' . (int) $level);
 		}

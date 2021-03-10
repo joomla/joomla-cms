@@ -24,7 +24,7 @@ class ConfigControllerHelper
 	 * $options[1] is the name of the controller file,
 	 * $options[2] is the name of the folder found in the component controller folder for controllers
 	 * not prefixed with Config.
-	 * Additional options maybe added to parameterise the controller.
+	 * Additional options maybe added to parameterize the controller.
 	 *
 	 * @param   JApplicationBase  $app  An application object
 	 *

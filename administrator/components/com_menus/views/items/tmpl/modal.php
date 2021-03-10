@@ -47,7 +47,7 @@ if (!empty($editor))
 
 	<form action="<?php echo JRoute::_($link); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
@@ -119,7 +119,7 @@ if (!empty($editor))
 								</a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
-							<?php endif; ?>	
+							<?php endif; ?>
 							<span class="small">
 								<?php if (empty($item->note)) : ?>
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>

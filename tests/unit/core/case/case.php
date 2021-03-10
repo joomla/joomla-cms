@@ -331,7 +331,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	 * will also fail because we assume you were testing to see that an error did occur when it was
 	 * supposed to.
 	 *
-	 * If passed without argument, the array is initialized if it hsn't been already
+	 * If passed without argument, the array is initialized if it hasn't been already
 	 *
 	 * @param   mixed  $error  The JException object to expect.
 	 *
@@ -438,7 +438,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	/**
 	 * Sets the JError error handlers.
 	 *
-	 * @param   array  $errorHandlers  araay of values and options to set the handlers
+	 * @param   array  $errorHandlers  array of values and options to set the handlers
 	 *
 	 * @return  void
 	 *

@@ -392,7 +392,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 */
 	protected function getSetUpOperation()
 	{
-		// Required given the use of InnoDB contraints.
+		// Required given the use of InnoDB constraints.
 		return new PHPUnit_Extensions_Database_Operation_Composite(
 			array(
 				PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL(),
@@ -410,7 +410,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 */
 	protected function getTearDownOperation()
 	{
-		// Required given the use of InnoDB contraints.
+		// Required given the use of InnoDB constraints.
 		return PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL();
 	}
 
@@ -476,7 +476,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	/**
 	 * Sets the JError error handlers.
 	 *
-	 * @param   array  $errorHandlers  araay of values and options to set the handlers
+	 * @param   array  $errorHandlers  array of values and options to set the handlers
 	 *
 	 * @return  void
 	 *

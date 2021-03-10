@@ -79,7 +79,7 @@ class JFormFieldTextareaTest extends TestCase
 	}
 
 	/**
-	 * Tests rows and columns attribute setup by JFormFieldTextare::setup method
+	 * Tests rows and columns attribute setup by JFormFieldTextarea::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get

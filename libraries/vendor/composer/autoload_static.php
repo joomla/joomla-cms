@@ -209,6 +209,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
     );
 
     public static $classMap = array (
+        'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
         'Brumann\\Polyfill\\Unserialize' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/Unserialize.php',
         'CallbackFilterIterator' => __DIR__ . '/..' . '/joomla/compat/src/CallbackFilterIterator.php',
         'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
@@ -227,6 +228,8 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Application\\Web\\WebClient' => __DIR__ . '/..' . '/joomla/application/src/Web/WebClient.php',
         'Joomla\\Archive\\Archive' => __DIR__ . '/..' . '/joomla/archive/src/Archive.php',
         'Joomla\\Archive\\Bzip2' => __DIR__ . '/..' . '/joomla/archive/src/Bzip2.php',
+        'Joomla\\Archive\\Exception\\UnknownArchiveException' => __DIR__ . '/..' . '/joomla/archive/src/Exception/UnknownArchiveException.php',
+        'Joomla\\Archive\\Exception\\UnsupportedArchiveException' => __DIR__ . '/..' . '/joomla/archive/src/Exception/UnsupportedArchiveException.php',
         'Joomla\\Archive\\ExtractableInterface' => __DIR__ . '/..' . '/joomla/archive/src/ExtractableInterface.php',
         'Joomla\\Archive\\Gzip' => __DIR__ . '/..' . '/joomla/archive/src/Gzip.php',
         'Joomla\\Archive\\Tar' => __DIR__ . '/..' . '/joomla/archive/src/Tar.php',

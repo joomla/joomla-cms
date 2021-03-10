@@ -83,7 +83,7 @@ class BannersModelBanners extends JModelList
 			->where('a.state=1')
 			->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 			->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
-			->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
+			->where('(a.imptotal = 0 OR a.impmade < a.imptotal)');
 
 		if ($cid)
 		{

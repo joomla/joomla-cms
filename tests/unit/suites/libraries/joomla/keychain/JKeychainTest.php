@@ -89,7 +89,7 @@ class JKeychainTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * Try to load a keychain that liaosn't exist (this shouldn't cause an error)
+	 * Try to load a keychain that doesn't exist (this shouldn't cause an error)
 	 *
 	 * @expectedException         RuntimeException
 	 * @expectedExceptionMessage  Attempting to load non-existent keychain file

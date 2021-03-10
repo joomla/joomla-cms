@@ -111,9 +111,9 @@ class Profiler
 
 		$m = (object) array(
 			'prefix' => $this->prefix,
-			'time' => ($current > $this->previousTime ? '+' : '-') . (($current - $this->previousTime) * 1000),
+			'time' => ($current > $this->previousTime ? '+' : '') . (($current - $this->previousTime) * 1000),
 			'totalTime' => ($current * 1000),
-			'memory' => ($currentMem > $this->previousMem ? '+' : '-') . ($currentMem - $this->previousMem),
+			'memory' => ($currentMem > $this->previousMem ? '+' : '') . ($currentMem - $this->previousMem),
 			'totalMemory' => $currentMem,
 			'label' => $label,
 		);
@@ -123,9 +123,9 @@ class Profiler
 			'%s %.3f seconds (%.3f); %0.2f MB (%0.3f) - %s',
 			$m->prefix,
 			$m->totalTime / 1000,
-			$m->time / 1000,
+			$current - $this->previousTime,
 			$m->totalMemory,
-			$m->memory,
+			$currentMem - $this->previousMem,
 			$m->label
 		);
 		$this->buffer[] = $mark;

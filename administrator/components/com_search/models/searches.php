@@ -162,7 +162,7 @@ class SearchModelSearches extends JModelList
 	}
 
 	/**
-	 * Method to reset the seach log table.
+	 * Method to reset the search log table.
 	 *
 	 * @return  boolean
 	 *
