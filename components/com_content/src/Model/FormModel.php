@@ -49,18 +49,27 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	{
 		$app = Factory::getApplication();
 
+		// Load the parameters.
+		$params = $app->getParams();
+		$this->setState('params', $params);
+
+		if ($params && $params->get('enable_category') == 1 && $params->get('catid'))
+		{
+			$catId = $params->get('catid');
+		}
+		else
+		{
+			$catId = 0;
+		}
+
 		// Load state from the request.
 		$pk = $app->input->getInt('a_id');
 		$this->setState('article.id', $pk);
 
-		$this->setState('article.catid', $app->input->getInt('catid'));
+		$this->setState('article.catid', $app->input->getInt('catid', $catId));
 
 		$return = $app->input->get('return', null, 'base64');
 		$this->setState('return_page', base64_decode($return));
-
-		// Load the parameters.
-		$params = $app->getParams();
-		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->getString('layout'));
 	}
@@ -222,9 +231,11 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 			return false;
 		}
 
-		$user = Factory::getApplication()->getIdentity();
+		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
 
-		$id = (int) $this->getState('article.id');
+		// On edit article, we get ID of article from article.id state, but on save, we use data from input
+		$id = (int) $this->getState('article.id', $app->input->getInt('a_id'));
 
 		// Existing record. We can't edit the category in frontend if not edit.state.
 		if ($id > 0 && !$user->authorise('core.edit.state', 'com_content.article.' . $id))

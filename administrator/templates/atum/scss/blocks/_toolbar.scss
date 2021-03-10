@@ -134,7 +134,8 @@
     }
   }
 
-  .dropdown-menu joomla-toolbar-button {
+  .dropdown-menu joomla-toolbar-button,
+  .btn-group joomla-toolbar-button {
     margin-inline-start: 0;
   }
 }
