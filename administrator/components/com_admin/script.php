@@ -5048,6 +5048,9 @@ class JoomlaInstallerScript
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/js/dropMenu.js',
 			'/media/vendor/skipto/css/SkipTo.css',
+			// Joomla 4.0 Beta 8
+			'/administrator/components/com_admin/postinstall/htaccess.php',
+			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 		);
 
 		$folders = array(
