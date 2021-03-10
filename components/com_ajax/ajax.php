@@ -62,6 +62,7 @@ elseif ($input->get('module'))
 	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
 
 	$parts   = [];
+
 	if (strpos($module, '_'))
 	{
 		$parts = explode('_', $module);
@@ -94,8 +95,7 @@ elseif ($input->get('module'))
 
 	if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface)
 	{
-		$helper = $moduleInstance->getHelper($class);
-		if ($helper)
+		if ($helper = $moduleInstance->getHelper($class))
 		{
 			$results = $helper->{$method . 'Ajax'}();
 		}
