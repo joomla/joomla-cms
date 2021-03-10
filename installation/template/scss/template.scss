@@ -48,6 +48,11 @@ body {
   flex-direction: column;
   min-height: 100vh;
 
+  .header {
+    padding-bottom: 16px;
+    padding-top: 11px;
+  }
+
   img.logo-small,
   svg.logo-small {
     width: 2rem;
