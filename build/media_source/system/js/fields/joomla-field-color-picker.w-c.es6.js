@@ -29,7 +29,7 @@ class ColorPicker extends HTMLElement {
 
     // bind events
     this.showPicker = this.showPicker.bind(this);
-    this.showMenu = this.showMenu.bind(this);
+    this.toggleMenu = this.toggleMenu.bind(this);
     this.menuHandler = this.menuHandler.bind(this);
     this.pointerDown = this.pointerDown.bind(this);
     this.pointerMove = this.pointerMove.bind(this);
@@ -60,6 +60,15 @@ class ColorPicker extends HTMLElement {
   get input() { return this.shadowRoot.querySelector('.color-preview'); }
 
   get label() { return document.querySelector(`[for="${this.id}"]`); }
+
+  get allowNonColor() { return this.keywords && this.keywords.some((x) => nonColors.includes(x)); }
+
+  get willValidate() { return !this.getAttribute('disabled'); }
+
+  get checkValidity() {
+    return (this.allowNonColor && nonColors.includes(this.value))
+      || new TinyColor(this.value).isValid;
+  }
 
   disconnectedCallback() {
     this.isDisconnected = true;
@@ -156,7 +165,7 @@ class ColorPicker extends HTMLElement {
       const colorKeys = colorKeysOption ? colorKeysOption.split(',') : nonColors;
       this.keywords = colorKeys;
       let colorOpsMarkup = '';
-      colorKeys.forEach((x) => { colorOpsMarkup += `<li value="${x.trim()}">${x}</li>`; });
+      colorKeys.forEach((x) => { colorOpsMarkup += `<a href="#" value="${x.trim()}">${x}</a>`; });
       menuTemplate = `<ul class="color-menu">${colorOpsMarkup}</ul>`;
       menuToggle = `<button class="menu-toggle">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
@@ -168,207 +177,7 @@ class ColorPicker extends HTMLElement {
     // set the main template
     this.template = document.createElement('template');
 
-    this.template.innerHTML = `<style>
-:host {
-  position: relative;
-  display: flex
-}
-.color-dropdown {
-  width: 100%;
-  max-width: calc(100% - 1rem);
-  background: rgba(0,0,0,0.75);
-  color: rgba(255,255,255,0.8);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-  position: absolute;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  display: none;
-  left:0;
-  z-index: 50
-}
-.color-dropdown.show {
-  top: calc(100% + 5px);
-  display: block
-}
-.color-dropdown.show-top {
-  bottom: calc(100% + 5px);
-  display: block;
-  top: auto
-}
-.color-controls {
-  display: none;
-  flex-wrap: wrap;
-  justify-content: space-between;  
-}
-.color-preview {
-  border: 0;
-  outline: none;
-  box-shadow: 0 0 1px 1px rgba(120,120,120,0.33) inset;
-  line-height: 1.5;
-  font-size: 1rem;
-  border-radius: 0.25rem;
-  appearance: none;
-  width: 100%;
-  height: 1.5rem;
-  padding: 0.6rem 1rem;
-  direction: ltr; /* color value can never be rtl */
-}
-.color-preview.dark {
-  color: rgba(255,255,255,0.8);
-}
-.color-preview.dark::placeholder {
-  color: rgba(255,255,255,0.6);
-}
-.color-preview.light {
-  color: rgba(0,0,0,0.8);
-}
-.color-preview.light::placeholder {
-  color: rgba(0,0,0,0.6);
-}
-.menu-toggle {
-  position: absolute;
-  height: 100%; width: 3rem;
-  top: 0; right: 0;
-  background: none;
-  display: flex;
-  border: 0;
-  outline: none;
-  border-radius: 0 .25rem .25rem 0;
-  transition: all 0.33s ease;
-  cursor: pointer
-}
-.color-preview.light + .menu-toggle {
-  background: rgba(0,0,0,0.5);
-}
-.color-preview.dark + .menu-toggle {
-  background: rgba(255,255,255,0.33);
-}
-.menu-toggle svg {
-  width: auto;
-  height: 100%
-}
-.color-menu {
-  list-style: none;
-  padding-inline: 0;
-  margin: 0;
-  flex-wrap: wrap;
-  flex-flow: column;
-  display: none;
-  max-height: 160px;
-  overflow-y: auto
-}
-.color-menu::-webkit-scrollbar {
-  width: 10px;
-}
-.color-menu::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-.color-menu::-webkit-scrollbar-thumb {
-  background-color: transparent;
-  border-radius: 10px;
-  border: 0;
-  background-clip: content-box;
-}
-.color-menu:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(255,255,255,0.2);
-}
-.color-menu::-webkit-scrollbar-thumb:hover {
-  background-color: #fff;
-}
-.color-dropdown.menu .color-menu,
-.color-dropdown.picker .color-controls {
-  display: flex
-}
-li {
-  padding: 0.25rem 0.5rem;
-  cursor: pointer
-}
-li:hover {
-  background: #fff;
-  color: #000
-}
-.color-form {
-  font: 12px Arial;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: inherit;
-  width: 100%;
-  align-items: center;
-  padding: 0.25rem 0
-}
-.color-form > * {
-  flex: 1 0 0%;
-  max-width: 17.5%;
-  width: 17.5%
-}
-.color-form label {
-  text-align: center;
-  max-width: 7.5%;
-  width: 7.5%
-}
-label.hex-label {
-  max-width: 12.5%;
-  width: 12.5%
-}
-input.color-input-hex {
-  max-width: 87.5%;
-  width: 87.5%
-}
-.color-input {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.15);
-  text-align: right;
-  outline: none;
-  color: inherit
-}
-.color-input:active,
-.color-input:focus {
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.33);
-}
-.color-control1 {
-  cursor: crosshair;
-}
-.color-control2,
-.color-control3 {
-  cursor: ns-resize;
-}
-.color-control {
-  position:relative;
-  display: inline-block
-}
-.color-control:focus canvas:active {
-  cursor: none;
-}
-.color-pointer,
-.color-slider {
-  position:absolute;
-  background: #000;
-  border: 1px solid #fff;
-  height: 5px;
-  cursor: inherit;
-  user-select: none;
-  pointer-events: none
-}
-.color-pointer {
-  width: 5px;
-  border-radius: 5px
-}
-.color-slider {
-  left: 0;
-  width: calc(100% - 2px);
-}
-.visually-hidden { display: none }
-:host([dir="rtl"]) .color-preview { text-align: right }
-:host([dir="rtl"]) .menu-toggle {
-  right: auto;
-  left: 0
-}
-:host([dir="rtl"]) .menu-toggle {
-  border-radius: .25rem 0 0 .25rem;
-}
-</style>
-
+    this.template.innerHTML = `<style>{{CSS_CONTENTS_PLACEHOLDER}}</style>
 <input placeholder="${placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
 ${menuToggle}
 <div class="color-dropdown${dropClass}">
@@ -448,7 +257,7 @@ ${menuToggle}
     this.form[fn]('submit', this.handleSubmit);
 
     if (this.menuToggle) {
-      this.menuToggle[fn]('click', this.showMenu);
+      this.menuToggle[fn]('click', this.toggleMenu);
     }
   }
 
@@ -590,6 +399,7 @@ ${menuToggle}
   }
 
   menuHandler(e) {
+    e.preventDefault();
     const newOption = e.target.getAttribute('value').trim();
     const newColor = nonColors.includes(newOption) ? 'white' : newOption;
     this.color = new TinyColor(newColor, { format: this.format });
@@ -666,12 +476,11 @@ ${menuToggle}
     const activeEl = this.shadowRoot.activeElement;
     const inputs = Array.from(this.inputs);
     const currentValue = this.value;
-    const allowNonColor = this.keywords
-      && this.keywords.some((x) => nonColors.includes(x));
+    const isNonColorValue = this.allowNonColor && nonColors.includes(currentValue);
 
     if (activeEl === this.input || inputs.includes(activeEl)) {
       if (activeEl === this.input) {
-        if (allowNonColor && nonColors.includes(currentValue)) {
+        if (isNonColorValue) {
           colorSource = 'white';
         } else {
           colorSource = currentValue;
@@ -691,7 +500,7 @@ ${menuToggle}
       this.render();
 
       // set non-color keyword
-      if (activeEl === this.input && allowNonColor && nonColors.includes(currentValue)) {
+      if (activeEl === this.input && isNonColorValue) {
         this.value = currentValue;
       }
     }
@@ -891,10 +700,15 @@ ${menuToggle}
     this.show();
   }
 
-  showMenu() {
+  toggleMenu() {
     this.dropdown.classList.remove('picker');
-    this.dropdown.classList.add('menu');
-    this.show();
+
+    if (this.isOpen && this.dropdown.classList.contains('menu')) {
+      this.hide();
+    } else {
+      this.dropdown.classList.add('menu');
+      this.show();
+    }
   }
 
   show() {
@@ -918,8 +732,8 @@ ${menuToggle}
       this.classList.remove('open');
       ['show', 'show-top'].map((x) => this.dropdown.classList.remove(x));
 
-      if (!this.input.value) {
-        this.input.value = this.color.toString();
+      if (!this.checkValidity) {
+        this.value = this.color.toString();
       }
       this.isOpen = false;
     }

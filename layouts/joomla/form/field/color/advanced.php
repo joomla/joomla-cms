@@ -122,7 +122,6 @@ $wa->useScript('field.color-picker');
 		$required,
 		$direction,
 		$autocomplete,
-		$autofocus,
 		$direction,
 		$validate,
 		$inputLabels,

@@ -1,0 +1,273 @@
+
+:host {
+  position: relative;
+  display: flex;
+}
+
+.color-dropdown {
+  position: absolute;
+  left: 0;
+  z-index: 50;
+  display: none;
+  width: 100%;
+  max-width: calc(100% - 1rem);
+  padding: .5rem;
+  color: rgba(255,255,255,.8);
+  background: rgba(0,0,0,.75);
+  border-radius: .5rem;
+  box-shadow: 0 6px 12px rgba(0,0,0,.4);
+}
+
+.color-dropdown.show {
+  top: calc(100% + 5px);
+  display: block;
+}
+
+.color-dropdown.show-top {
+  top: auto;
+  bottom: calc(100% + 5px);
+  display: block;
+}
+
+.color-controls {
+  display: none;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.color-preview {
+  width: 100%;
+  height: 1.5rem;
+  padding: .6rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border: 0;
+  border-radius: .25rem;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(120, 120, 120, .33) inset;
+  appearance: none;
+  direction: ltr;
+  /* color value can never be rtl */
+}
+
+.color-preview.dark {
+  color: rgba(255, 255, 255, .8);
+}
+
+.color-preview.dark:focus {
+  box-shadow: 0 0 0 1px rgb(255, 255, 255) inset, 0 0 0 3px rgba(0, 0, 0, .15);
+}
+
+.color-preview.dark::placeholder {
+  color: rgba(255, 255, 255, .6);
+}
+
+.color-preview.light {
+  color: rgba(0, 0, 0, .8);
+}
+
+.color-preview.light:focus {
+  color: rgba(0, 0, 0, .8);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .5) inset, 0 0 0 3px rgba(0, 0, 0, .15);
+}
+
+.color-preview.light::placeholder {
+  color: rgba(0, 0, 0, .6);
+}
+
+.menu-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  width: 3rem;
+  height: 100%;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  border-radius: 0 .25rem .25rem 0;
+  outline: none;
+  transition: all .33s ease;
+}
+
+.color-preview.light+.menu-toggle {
+  background: rgba(0, 0, 0, .5);
+}
+
+.color-preview.light+.menu-toggle:hover,
+.color-preview.light+.menu-toggle:focus {
+  background: rgba(0, 0, 0, .7);
+}
+
+.color-preview.dark+.menu-toggle {
+  background: rgba(255, 255, 255, .33);
+}
+
+.color-preview.dark+.menu-toggle:focus,
+.color-preview.dark+.menu-toggle:hover {
+  background: rgba(255, 255, 255, .5);
+}
+
+.color-preview+.menu-toggle:focus,
+.color-preview+.menu-toggle:hover {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, .15);
+}
+
+.menu-toggle svg {
+  width: auto;
+  height: 100%;
+}
+
+.color-menu {
+  display: none;
+  flex-wrap: wrap;
+  flex-flow: column;
+  max-height: 160px;
+  margin: 0;
+  overflow-y: auto;
+  list-style: none;
+  padding-inline: 0;
+}
+
+.color-menu::-webkit-scrollbar {
+  width: 10px;
+}
+
+.color-menu::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.color-menu::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  background-clip: content-box;
+  border: 0;
+  border-radius: 10px;
+}
+
+.color-menu:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, .2);
+}
+
+.color-menu::-webkit-scrollbar-thumb:hover {
+  background-color: #fff;
+}
+
+.color-dropdown.menu .color-menu,
+.color-dropdown.picker .color-controls {
+  display: flex;
+}
+
+a {
+  padding: .25rem .5rem;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover,
+a:focus {
+  color: #000;
+  background: #fff;
+}
+
+.color-form {
+  display: flex;
+  flex-direction: inherit;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  padding: .25rem 0;
+  font: 12px Arial;
+}
+
+.color-form>* {
+  flex: 1 0 0%;
+  width: 17.5%;
+  max-width: 17.5%;
+}
+
+.color-form label {
+  width: 7.5%;
+  max-width: 7.5%;
+  text-align: center;
+}
+
+label.hex-label {
+  width: 12.5%;
+  max-width: 12.5%;
+}
+
+input.color-input-hex {
+  width: 87.5%;
+  max-width: 87.5%;
+}
+
+.color-input {
+  color: inherit;
+  text-align: right;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, .15);
+  outline: none;
+}
+
+.color-input:active,
+.color-input:focus {
+  background: rgba(0, 0, 0, .25);
+  border: 1px solid rgba(255, 255, 255, .33);
+}
+
+.color-control1 {
+  cursor: crosshair;
+}
+
+.color-control2,
+.color-control3 {
+  cursor: ns-resize;
+}
+
+.color-control {
+  position: relative;
+  display: inline-block;
+}
+
+.color-control:focus canvas:active {
+  cursor: none;
+}
+
+.color-pointer,
+.color-slider {
+  position: absolute;
+  height: 5px;
+  pointer-events: none;
+  cursor: inherit;
+  user-select: none;
+  background: #000;
+  border: 1px solid #fff;
+}
+
+.color-pointer {
+  width: 5px;
+  border-radius: 5px;
+}
+
+.color-slider {
+  left: 0;
+  width: calc(100% - 2px);
+}
+
+.visually-hidden {
+  display: none;
+}
+
+:host([dir="rtl"]) .color-preview {
+  text-align: right;
+}
+
+:host([dir="rtl"]) .menu-toggle {
+  right: auto;
+  left: 0;
+}
+
+:host([dir="rtl"]) .menu-toggle {
+  border-radius: .25rem 0 0 .25rem;
+}
