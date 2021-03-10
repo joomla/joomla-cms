@@ -523,20 +523,6 @@
       },
       "punycode": {
         "name": "punycode",
-        "js": {
-          "punycode.js": "js/punycode.js"
-        },
-        "provideAssets": [
-          {
-            "name": "punycode",
-            "type": "script",
-            "uri": "punycode.js",
-            "attributes": {
-              "defer": true
-            }
-          }
-        ],
-        "dependencies": [],
         "licenseFilename": "LICENSE-MIT.txt"
       },
       "codemirror": {
