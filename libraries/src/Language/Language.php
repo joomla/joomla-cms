@@ -1032,6 +1032,20 @@ class Language
 	}
 
 	/**
+	 * Getter for the language sef
+	 *
+	 * @return string  The language sef.
+	 *
+	 * @since 1.0
+	 */
+	public function getSef()
+	{
+		$languages = LanguageHelper::getLanguages('lang_code');
+
+		return $languages[$this->getTag()]->sef;
+	}
+
+	/**
 	 * Getter for the language tag (as defined in RFC 3066)
 	 *
 	 * @return  string  The language tag.
