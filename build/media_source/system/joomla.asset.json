@@ -95,8 +95,7 @@
       "type": "script",
       "uri": "system/fields/joomla-field-color-picker.min.js",
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
       "dependencies": [
         "wcpolyfill"
