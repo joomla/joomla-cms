@@ -57,7 +57,7 @@
       if (this.modal
         && window.bootstrap
         && window.bootstrap.Modal
-        && window.bootstrap.Modal.getInstance(this.modal) === null) {
+        && !window.bootstrap.Modal.getInstance(this.modal)) {
         Joomla.initialiseModal(this.modal, { isJoomla: true });
       }
 
