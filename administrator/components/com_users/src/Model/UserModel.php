@@ -256,7 +256,7 @@ class UserModel extends AdminModel
 			}
 		}
 
-		// Handle the two factor authentication setup
+		// Handle the 2 factor authentication setup
 		if (isset($data['twofactor']['method']))
 		{
 			$twoFactorMethod = $data['twofactor']['method'];
