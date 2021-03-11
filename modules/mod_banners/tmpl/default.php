@@ -13,7 +13,7 @@ JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx; ?>">
 <?php if ($headerText) : ?>
-	<div class"bannerheader">
+	<div class="bannerheader">
 		<?php echo $headerText; ?>
 	</div>
 <?php endif; ?>
