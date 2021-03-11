@@ -115,7 +115,7 @@ class ContentModelCategory extends JModelList
 		$this->setState('category.id', $pk);
 
 		// Load the parameters. Merge Global and Menu Item params into new object
-		$params = $app->getParams();
+		$params     = $app->getParams();
 		$menuParams = new Registry;
 
 		if ($menu = $app->getMenu()->getActive())
@@ -127,7 +127,7 @@ class ContentModelCategory extends JModelList
 		$mergedParams->merge($params);
 
 		$this->setState('params', $mergedParams);
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
 
 		$asset = 'com_content';
 
@@ -136,7 +136,7 @@ class ContentModelCategory extends JModelList
 			$asset .= '.category.' . $pk;
 		}
 
-		if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset)))
+		if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset)))
 		{
 			// Limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
@@ -194,7 +194,8 @@ class ContentModelCategory extends JModelList
 		}
 		else
 		{
-			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num', $app->get('list_limit')), 'uint');
+			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit',
+				$params->get('display_num', $app->get('list_limit')), 'uint');
 		}
 
 		$this->setState('list.limit', $limit);
@@ -229,9 +230,10 @@ class ContentModelCategory extends JModelList
 
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
+			$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
 			if ($limit > 0)
 			{
-				$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 				$model->setState('params', JFactory::getApplication()->getParams());
 				$model->setState('filter.category_id', $category->id);
 				$model->setState('filter.published', $this->getState('filter.published'));
