@@ -27,4 +27,14 @@
       }
     }
   }
+
+  @include media-breakpoint-down(md) {
+    .grid-child {
+      flex-direction: column;
+
+      .mod-footer {
+        margin: .375rem 0;
+      }
+    }
+  }
 }
