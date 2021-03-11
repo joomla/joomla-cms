@@ -58,10 +58,11 @@ if (!$format)
 elseif ($input->get('module'))
 {
 	$module   = $input->get('module');
+	$method   = $input->get('method') ?: 'get';
 	$table    = Table::getInstance('extension');
 	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
-
-	$parts   = [];
+	$results  = null;
+	$parts    = [];
 
 	if (strpos($module, '_'))
 	{
@@ -88,17 +89,11 @@ elseif ($input->get('module'))
 		$class = ucfirst($module) . 'Helper';
 	}
 
-	$method = $input->get('method') ?: 'get';
-
-	$results        = null;
 	$moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
 
-	if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface)
+	if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper($class))
 	{
-		if ($helper = $moduleInstance->getHelper($class))
-		{
-			$results = $helper->{$method . 'Ajax'}();
-		}
+		$results = $helper->{$method . 'Ajax'}();
 	}
 
 	if ($results === null && $moduleId && $table->load($moduleId) && $table->enabled)

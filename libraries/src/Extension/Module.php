@@ -38,7 +38,7 @@ class Module implements ModuleInterface, HelperFactoryInterface
 	 *
 	 * @var HelperFactoryInterface
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $helperFactory;
 
