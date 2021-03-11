@@ -243,7 +243,7 @@
     }
 
     /**
-     * Fix names and id`s for field that are in the row
+     * Fix name and id for fields that are in the row
      * @param {HTMLElement} row
      * @param {Number} count
      */
