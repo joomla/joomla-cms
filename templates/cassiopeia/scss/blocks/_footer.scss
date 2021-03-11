@@ -30,7 +30,6 @@
 
   @include media-breakpoint-down(md) {
     .grid-child {
-      display: flex;
       flex-direction: column;
 
       .mod-footer {
