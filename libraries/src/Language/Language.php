@@ -1036,7 +1036,7 @@ class Language
 	 *
 	 * @return string  The language sef.
 	 *
-	 * @since 1.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getSef()
 	{
