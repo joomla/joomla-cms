@@ -110,12 +110,12 @@ class MediaField extends FormField
 	protected $layout = 'joomla.form.field.media';
 
 	/**
-	 * The parent class of the field
+	 * The control class of the field
 	 *
 	 * @var  string
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $parentclass;
+	protected $controlclass;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
