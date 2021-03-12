@@ -82,7 +82,7 @@
       }
     });
 
-    if (countOfMatchFound <= 0){
+    if (countOfMatchFound <= 0) {
       alert.classList.remove('d-none');
     } else {
       alert.classList.add('d-none');
