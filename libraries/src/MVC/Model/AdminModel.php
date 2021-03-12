@@ -327,7 +327,7 @@ abstract class AdminModel extends FormModel
 
 			if ($cmd === 'c')
 			{
-				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
+				$result = $this->batchCopy($commands[$this->batch_copymove], $pks);
 
 				if (\is_array($result))
 				{
@@ -441,13 +441,12 @@ abstract class AdminModel extends FormModel
 	 *
 	 * @param   integer  $value     The new category.
 	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
 	 *
 	 * @return  array|boolean  An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since	1.7
 	 */
-	protected function batchCopy($value, $pks, $contexts)
+	protected function batchCopy($value, $pks)
 	{
 		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
