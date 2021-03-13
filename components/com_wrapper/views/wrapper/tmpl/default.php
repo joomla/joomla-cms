@@ -30,8 +30,6 @@ JHtml::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto'
 		src="<?php echo $this->escape($this->wrapper->url); ?>"
 		width="<?php echo $this->escape($this->params->get('width')); ?>"
 		height="<?php echo $this->escape($this->params->get('height')); ?>"
-		scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
-		frameborder="<?php echo $this->escape($this->params->get('frameborder', 1)); ?>"
 		<?php if ($this->escape($this->params->get('page_heading'))) : ?>
 			title="<?php echo $this->escape($this->params->get('page_heading')); ?>"
 		<?php else : ?>
