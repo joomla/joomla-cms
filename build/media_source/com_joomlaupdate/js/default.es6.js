@@ -355,7 +355,7 @@ Joomla = window.Joomla || {};
     }
     // Insert the generated html
     const extensionId = extensionData.element.getAttribute('data-extension-id');
-    document.getElementById(`available-version-${extensionId}`).innerHTML = html;
+    document.getElementById(`available-version-${extensionId}`).innerText = html;
 
     const compatType = document.querySelector(`#compatibilitytype${extensionData.compatibilityData.resultGroup} tbody`);
 
