@@ -62,7 +62,7 @@ abstract class QuickIconHelper
 			$application->getLanguage()->load('mod_quickicon');
 
 			self::$buttons[$key] = [];
-
+      
 			if ($params->get('show_users'))
 			{
 				$tmp = [
@@ -120,6 +120,24 @@ abstract class QuickIconHelper
 				self::$buttons[$key][] = $tmp;
 			}
 
+			if ($params->get('show_featured'))
+			{
+				$tmp = [
+					'image'   => 'icon-star featured',
+					'link'    => Route::_('index.php?option=com_content&view=featured'),
+					'name'    => 'MOD_QUICKICON_FEATURED_MANAGER',
+					'access'  => array('core.manage', 'com_content'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+
+				if ($params->get('show_featured') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;view=featured.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+ 
 			if ($params->get('show_categories'))
 			{
 				$tmp = [
@@ -139,6 +157,25 @@ abstract class QuickIconHelper
 				self::$buttons[$key][] = $tmp;
 			}
 
+			if ($params->get('show_workflow'))
+			{
+				$tmp = [
+					'image'   => 'icon-file-alt contact',
+					'link'    => Route::_('index.php?option=com_workflow&view=workflows&extension=com_content.article'),
+					'linkadd' => Route::_('index.php?option=com_workflow&view=workflow&layout=edit&extension=com_content.article'),
+					'name'    => 'MOD_QUICKICON_WORKFLOW_MANAGER',
+					'access'  => array('core.manage', 'com_workflow', 'core.create', 'com_workflow'),
+					'group'   => 'MOD_QUICKICON_SITE',
+				];
+
+				if ($params->get('show_workflow') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content.article.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+      
 			if ($params->get('show_media'))
 			{
 				self::$buttons[$key][] = [
@@ -150,6 +187,156 @@ abstract class QuickIconHelper
 				];
 			}
 
+			if ($params->get('show_banners'))
+			{
+				$tmp = [
+					'image'   => 'icon-bookmark banners',
+					'link'    => Route::_('index.php?option=com_banners&view=banners'),
+					'linkadd' => Route::_('index.php?option=com_banners&view=banner&layout=edit'),
+					'name'    => 'MOD_QUICKICON_BANNER_MANAGER',
+					'access'  => array('core.manage', 'com_banners', 'core.create', 'com_banners'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_banners') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_banners&amp;task=banner.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_tags'))
+			{
+				$tmp = [
+					'image'   => 'icon-tags',
+					'link'    => Route::_('index.php?option=com_tags&view=tags'),
+					'linkadd' => Route::_('index.php?option=com_tags&view=tag&layout=edit'),
+					'name'    => 'MOD_QUICKICON_TAGS_MANAGER',
+					'access'  => array('core.manage', 'com_tags', 'core.create', 'com_tags'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_tags') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_contact'))
+			{
+				$tmp = [
+					'image'   => 'icon-address-book contact',
+					'link'    => Route::_('index.php?option=com_contact&view=contacts'),
+					'linkadd' => Route::_('index.php?option=com_contact&view=contact&layout=edit'),
+					'name'    => 'MOD_QUICKICON_CONTACT_MANAGER',
+					'access'  => array('core.manage', 'com_contact', 'core.create', 'com_contact'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_contact') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_contact&amp;task=contact.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_newsfeeds'))
+			{
+				$tmp = [
+					'image'   => 'icon-rss newsfeeds',
+					'link'    => Route::_('index.php?option=com_newsfeeds&view=newsfeeds'),
+					'linkadd' => Route::_('index.php?option=com_newsfeeds&view=newsfeed&layout=edit'),
+					'name'    => 'MOD_QUICKICON_NEWSFEEDS_MANAGER',
+					'access'  => array('core.manage', 'com_newsfeeds', 'core.create', 'com_newsfeeds'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_newsfeeds') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_newsfeeds&amp;task=newsfeeds.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_redirect'))
+			{
+				$tmp = [
+					'image'   => 'icon-map-signs redirect',
+					'link'    => Route::_('index.php?option=com_redirect&view=links'),
+					'linkadd' => Route::_('index.php?option=com_redirect&view=link&layout=edit'),
+					'name'    => 'MOD_QUICKICON_REDIRECT_MANAGER',
+					'access'  => array('core.manage', 'com_redirect', 'core.create', 'com_redirect'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_redirect') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_redirect&amp;view=links.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+
+			if ($params->get('show_finder'))
+			{
+				$tmp = [
+					'image'   => 'icon-search-plus finder',
+					'link'    => Route::_('index.php?option=com_finder&view=index'),
+					'name'    => 'MOD_QUICKICON_FINDER_MANAGER',
+					'access'  => array('core.manage', 'com_finder'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_finder') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_finder&amp;task=finder.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}
+      
+			if ($params->get('show_associations'))
+			{
+				$tmp = [
+					'image'   => 'icon-language',
+					'link'    => Route::_('index.php?option=com_associations&view=associations'),
+					'name'    => 'MOD_QUICKICON_ASSOCIATIONS_MANAGER',
+					'access'  => array('core.manage', 'com_associations'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_finder') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_associations&amp;task=associations.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+
+			}      
+			if ($params->get('show_languages'))
+			{
+				$tmp = [
+					'image'   => 'icon-comments langmanager',
+					'link'    => Route::_('index.php?option=com_languages&view=installed'),
+					'linkadd' => Route::_('index.php?option=com_installer&view=languages'),
+					'name'    => 'MOD_QUICKICON_LANGUAGES_MANAGER',
+					'access'  => array('core.manage', 'com_languages'),
+					'group'   => 'MOD_QUICKICON_SITE'
+				];
+
+				if ($params->get('show_languages') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_languages&amp;view=installed.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
+			}      
+      
 			if ($params->get('show_modules'))
 			{
 				$tmp = [
@@ -168,7 +355,7 @@ abstract class QuickIconHelper
 
 				self::$buttons[$key][] = $tmp;
 			}
-
+			      
 			if ($params->get('show_plugins'))
 			{
 				$tmp = [
