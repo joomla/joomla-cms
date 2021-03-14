@@ -96,7 +96,6 @@ abstract class MailsHelper
 					$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
 				}
 				break;
-
 		}
 
 		$lang->load($extension, JPATH_ADMINISTRATOR)
