@@ -9,7 +9,6 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const commonjs = require('@rollup/plugin-commonjs');
-const { Timer } = require('../utils/timer.es6.js');
 
 const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
@@ -154,33 +153,28 @@ module.exports.bootstrapJs = async () => {
   }
 
   (await readdir(outputFolder)).forEach((file) => {
-    if (!(file.startsWith('dom-') || file.startsWith('popper-'))) {
-      tasks.push(createMinified(file));
-    }
+    tasks.push(createMinified(file));
   });
 
-  await Promise.all(tasks).catch((er) => {
+  return Promise.all(tasks).then(async () => {
+    // eslint-disable-next-line no-console
+    console.log('ES6 components ready ✅');
+
+    try {
+      await buildLegacy(inputFolder, 'index.es6.js');
+      const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
+      const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
+      await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8' });
+      // eslint-disable-next-line no-console
+      console.log('Legacy done! ✅');
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      process.exit(1);
+    }
+  }).catch((er) => {
     // eslint-disable-next-line no-console
     console.log(er);
     process.exit(1);
   });
-  // eslint-disable-next-line no-console
-  console.log('ES6 components ready ✅');
-
-  try {
-    await buildLegacy(resolve(outputFolder, 'index.es6.js'));
-    const es5File = await readFile(resolve(outputFolder, 'bootstrap-es5.js'), { encoding: 'utf8' });
-    const mini = await minify(es5File, { sourceMap: false, format: { comments: false } });
-    await writeFile(resolve(outputFolder, 'bootstrap-es5.min.js'), mini.code, { encoding: 'utf8' });
-    await unlink(resolve(outputFolder, 'index.es6.js'));
-    await unlink(resolve(outputFolder, 'index.es6.min.js'));
-    // eslint-disable-next-line no-console
-    console.log('Legacy done! ✅');
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    process.exit(1);
-  }
-
-  bench.stop();
 };

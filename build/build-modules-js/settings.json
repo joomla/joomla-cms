@@ -523,20 +523,6 @@
       },
       "punycode": {
         "name": "punycode",
-        "js": {
-          "punycode.js": "js/punycode.js"
-        },
-        "provideAssets": [
-          {
-            "name": "punycode",
-            "type": "script",
-            "uri": "punycode.js",
-            "attributes": {
-              "defer": true
-            }
-          }
-        ],
-        "dependencies": [],
         "licenseFilename": "LICENSE-MIT.txt"
       },
       "@claviska/jquery-minicolors": {
@@ -763,7 +749,6 @@
     },
     "errorPages": {
       "incomplete": {
-        "phpVersionReplaceble": "",
         "title": "Joomla: Environment Setup Incomplete",
         "header": "Environment Setup Incomplete",
         "text": "It looks like you are trying to run Joomla! from our git repository. To do so requires you complete a couple of extra steps first.",
@@ -772,13 +757,28 @@
         "destFile": "/templates/system/build_incomplete.html"
       },
       "unsupported": {
-        "phpVersionReplaceble": "data-php-version=\"{{PHP_VERSION}}\"",
         "title": "Joomla: unsupported PHP version",
         "header": "Sorry, your PHP version is not supported",
-        "text": "Your host needs to use PHP version {{PHP_VERSION}} or newer to run this version of Joomla!",
+        "text": "Your host needs to use PHP version {{phpversion}} or newer to run this version of Joomla!",
         "link": "J4.x:Unsupported_PHP_Version",
         "linkText": "Help me resolve this",
         "destFile": "/templates/system/incompatible.html"
+      },
+      "noxml": {
+        "title": "Joomla: Missing PHP-XML library",
+        "header": "Sorry, your PHP is missing a vital library",
+        "text": "Your host needs to use PHP with support for the XML library to run this version of Joomla!",
+        "link": "J4.x:Missing_XML_Library",
+        "linkText": "Help me resolve this",
+        "destFile": "/media/system/html/noxml.html"
+      },
+      "fatal": {
+        "title": "An Error Occurred: {{statusText}}",
+        "header": "Sorry, there was a problem we could not recover from.",
+        "text": "The server returned a \"{{statusCode_statusText}}\"",
+        "link": "J4.x:FatalError",
+        "linkText": "Help me resolve this",
+        "destFile": "/templates/system/fatal-error.html"
       }
     }
   }
