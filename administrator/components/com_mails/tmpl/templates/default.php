@@ -38,7 +38,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" class="w-25" style="min-width:100px">
+								<th scope="col" class="w-20" style="min-width:100px">
 									<?php echo Text::_('JGLOBAL_TITLE'); ?>
 								</th>
 								<th scope="col" class="w-15 d-none d-md-table-cell">
@@ -47,13 +47,13 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-10 d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" class="w-25 d-none d-md-table-cell text-center">
+								<th scope="col" class="w-25 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
+								<th scope="col" class="w-20 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.template_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -64,7 +64,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							$sub_id = str_replace('.', '_', $sub_id);
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td class="break-word text-center">
+								<td class="break-word">
 									<div class="dropdown">
 										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
@@ -82,10 +82,10 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 										</div>
 									</div>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component); ?>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
 										<?php if (in_array($language->lang_code, $item->languages)) : ?>
 											<?php if ($language->image) : ?>
@@ -96,7 +96,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 										<?php endif; ?>
 									<?php endforeach; ?>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
 										<?php if (!in_array($language->lang_code, $item->languages)) : ?>
 											<?php if ($language->image) : ?>
@@ -107,10 +107,10 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 										<?php endif; ?>
 									<?php endforeach; ?>
 								</td>
-								<td class="d-none d-md-table-cell text-justify">
+								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
 								</td>
-								<td class="d-none d-md-table-cell text-break text-center">
+								<td class="d-none d-md-table-cell text-break">
 									<?php echo $item->template_id; ?>
 								</td>
 							</tr>
