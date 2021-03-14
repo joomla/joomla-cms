@@ -170,6 +170,12 @@ class TemplatesModel extends ListModel
 				->bind(':language', $language);
 		}
 
+		// Add the list ordering clause
+		$listOrdering  = $this->state->get('list.ordering', 'a.template_id');
+		$orderDirn     = $this->state->get('list.direction', 'ASC');
+
+		$query->order($db->escape($listOrdering) . ' ' . $db->escape($orderDirn));
+
 		return $query;
 	}
 
