@@ -141,7 +141,6 @@ const buildLegacy = async () => {
 };
 
 module.exports.bootstrapJs = async () => {
-  const bench = new Timer('Bootstrap Js components');
   rimraf.sync(resolve(outputFolder));
 
   try {
