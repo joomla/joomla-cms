@@ -38,22 +38,22 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" class="w-25" style="min-width:100px">
+								<th scope="col" class="w-20">
 									<?php echo Text::_('JGLOBAL_TITLE'); ?>
 								</th>
 								<th scope="col" class="w-15 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_COMPONENT'); ?>
 								</th>
-								<th scope="col" class="w-10 d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" class="w-30 d-none d-md-table-cell">
+								<th scope="col" class="w-25 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
+								<th scope="col" class="w-20 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.template_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -110,7 +110,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
 								</td>
-								<td class="d-none d-md-table-cell">
+								<td class="d-none d-md-table-cell text-break">
 									<?php echo $item->template_id; ?>
 								</td>
 							</tr>
