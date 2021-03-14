@@ -45,7 +45,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('COM_MAILS_HEADING_COMPONENT'); ?>
 								</th>
 								<th scope="col" class="w-10 d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES', 'a.language', $listDirn, $listOrder); ?>
+									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
