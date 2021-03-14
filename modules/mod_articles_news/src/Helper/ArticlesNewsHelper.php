@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
@@ -50,7 +49,7 @@ abstract class ArticlesNewsHelper
 		$model->setState('params', $appParams);
 
 		$model->setState('list.start', 0);
-		$model->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+		$model->setState('filter.published', 1);
 
 		// Set the filters based on the module params
 		$model->setState('list.limit', (int) $params->get('count', 5));
@@ -69,7 +68,7 @@ abstract class ArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		// Filer by tag
+		// Filter by tag
 		$model->setState('filter.tag', $params->get('tag', array()));
 
 		// Featured switch

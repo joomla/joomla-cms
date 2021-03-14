@@ -3,18 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Frontpage Component Model
@@ -79,11 +80,11 @@ class FeaturedModel extends ArticlesModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
 		}
 		else
 		{
-			$this->setState('filter.condition', array(ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED));
+			$this->setState('filter.published', [ContentComponent::CONDITION_UNPUBLISHED, ContentComponent::CONDITION_PUBLISHED]);
 		}
 
 		// Process show_noauth parameter
@@ -168,7 +169,7 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_array($featuredCategories) && !in_array('', $featuredCategories))
 		{
-			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
+			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($featuredCategories)) . ')');
 		}
 
 		return $query;

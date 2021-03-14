@@ -3,7 +3,7 @@
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -29,6 +29,7 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_MODE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_MODE_DESC"
 					default="normal"
+					validate="options"
 					>
 					<option value="normal">MOD_ARTICLES_CATEGORY_OPTION_NORMAL_VALUE</option>
 					<option value="dynamic">MOD_ARTICLES_CATEGORY_OPTION_DYNAMIC_VALUE</option>
@@ -535,7 +536,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 				/>
 
 				<field
@@ -543,6 +544,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -551,6 +553,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

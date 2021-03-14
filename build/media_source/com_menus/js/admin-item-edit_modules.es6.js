@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,8 +69,8 @@ Joomla = window.Joomla || {};
 
   if (linkElements.length) {
     linkElements.forEach((linkElement) => {
-      linkElement.addEventListener('click', (event) => {
-        const link = baseLink + event.target.getAttribute('data-module-id');
+      linkElement.addEventListener('click', ({ target }) => {
+        const link = baseLink + target.getAttribute('data-module-id');
         const modal = document.getElementById('moduleEditModal');
         const body = modal.querySelector('.modal-body');
         const iFrame = document.createElement('iframe');
@@ -87,13 +87,13 @@ Joomla = window.Joomla || {};
 
   if (elements.length) {
     elements.forEach((element) => {
-      element.addEventListener('click', (event) => {
-        const target = event.target.getAttribute('data-target');
+      element.addEventListener('click', ({ target }) => {
+        const dataTarget = target.getAttribute('data-bs-target');
 
-        if (target) {
+        if (dataTarget) {
           const iframe = document.querySelector('#moduleEditModal iframe');
           const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-          iframeDocument.querySelector(target).click();
+          iframeDocument.querySelector(dataTarget).click();
         }
       });
     });

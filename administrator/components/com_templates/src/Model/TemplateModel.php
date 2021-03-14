@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Templates\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -80,7 +80,7 @@ class TemplateModel extends FormModel
 	 * @param   string    $name      The file name.
 	 * @param   stdClass  $template  The std class object of template.
 	 *
-	 * @return  object  StdClass object.
+	 * @return  object  stdClass object.
 	 *
 	 * @since   4.0.0
 	 */
@@ -245,12 +245,6 @@ class TemplateModel extends FormModel
 			{
 				$this->prepareCoreFiles($path, $element, $template);
 			}
-			else
-			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
-
-				return false;
-			}
 		}
 
 		// Sort list of stdClass array.
@@ -309,8 +303,6 @@ class TemplateModel extends FormModel
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -742,7 +734,45 @@ class TemplateModel extends FormModel
 			}
 
 			// Copy all files from $fromName template to $newName folder
-			if (!Folder::copy($fromPath, $toPath) || !$this->fixTemplateName())
+			if (!Folder::copy($fromPath, $toPath))
+			{
+				return false;
+			}
+
+			// Check manifest for additional files
+			$manifest = simplexml_load_file($toPath . '/templateDetails.xml');
+
+			// Copy language files from global folder
+			if ($languages = $manifest->languages)
+			{
+				$folder        = (string) $languages->attributes()->folder;
+				$languageFiles = $languages->language;
+
+				Folder::create($toPath . '/' . $folder . '/' . $languageFiles->attributes()->tag);
+
+				foreach ($languageFiles as $languageFile)
+				{
+					$src = Path::clean($client->path . '/language/' . $languageFile);
+					$dst = Path::clean($toPath . '/' . $folder . '/' . $languageFile);
+
+					if (File::exists($src))
+					{
+						File::copy($src, $dst);
+					}
+				}
+			}
+
+			// Copy media files
+			if ($media = $manifest->media)
+			{
+				$folder      = (string) $media->attributes()->folder;
+				$destination = (string) $media->attributes()->destination;
+
+				Folder::copy(JPATH_SITE . '/media/' . $destination, $toPath . '/' . $folder);
+			}
+
+			// Adjust to new template name
+			if (!$this->fixTemplateName())
 			{
 				return false;
 			}
@@ -787,7 +817,7 @@ class TemplateModel extends FormModel
 		// Rename Language files
 		// Get list of language files
 		$result   = true;
-		$files    = Folder::files($this->getState('to_path'), '.ini', true, true);
+		$files    = Folder::files($this->getState('to_path'), '\.ini$', true, true);
 		$newName  = strtolower($this->getState('new_name'));
 		$template = $this->getTemplate();
 		$oldName  = $template->element;
@@ -809,6 +839,8 @@ class TemplateModel extends FormModel
 			$replace[] = '<name>' . $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
+			$pattern[] = '#<media(.*)' . $oldName . '(.*)>#';
+			$replace[] = '<media${1}' . $newName . '${2}>';
 			$contents = preg_replace($pattern, $replace, $contents);
 			$result = File::write($xmlFile, $contents) && $result;
 		}
@@ -979,6 +1011,14 @@ class TemplateModel extends FormModel
 
 		// Make sure EOL is Unix
 		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
+
+		// If the asset file for the template ensure we have valid template so we don't instantly destroy it
+		if ($fileName === '/joomla.asset.json' && json_decode($data['source']) === null)
+		{
+			$this->setError(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_INVALID_JSON'));
+
+			return false;
+		}
 
 		$return = File::write($filePath, $data['source']);
 
@@ -1315,7 +1355,7 @@ class TemplateModel extends FormModel
 
 			if (!$return)
 			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_FAIL'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
 
 				return false;
 			}
@@ -1373,7 +1413,7 @@ class TemplateModel extends FormModel
 	/**
 	 * Upload new file.
 	 *
-	 * @param   string  $file      The name of the file.
+	 * @param   array   $file      The uploaded file array.
 	 * @param   string  $location  Location for the new file.
 	 *
 	 * @return   boolean  True if file uploaded successfully, false otherwise
@@ -1481,7 +1521,7 @@ class TemplateModel extends FormModel
 
 			if (!$return)
 			{
-				$app->enqueueMessage(Text::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_FOLDER_DELETE_ERROR'), 'error');
 
 				return false;
 			}
@@ -1599,12 +1639,26 @@ class TemplateModel extends FormModel
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
-			$JImage   = new Image($path);
 
 			try
 			{
-				$image = $JImage->crop($w, $h, $x, $y, true);
-				$image->toFile($path);
+				$image      = new Image($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->crop($w, $h, $x, $y, false);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}
@@ -1635,12 +1689,25 @@ class TemplateModel extends FormModel
 			$relPath = base64_decode($file);
 			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			$JImage = new Image($path);
-
 			try
 			{
-				$image = $JImage->resize($width, $height, true, 1);
-				$image->toFile($path);
+				$image      = new Image($path);
+				$properties = $image->getImageFileProperties($path);
+
+				switch ($properties->mime)
+				{
+					case 'image/png':
+						$imageType = \IMAGETYPE_PNG;
+						break;
+					case 'image/gif':
+						$imageType = \IMAGETYPE_GIF;
+						break;
+					default:
+						$imageType = \IMAGETYPE_JPEG;
+				}
+
+				$image->resize($width, $height, false, Image::SCALE_FILL);
+				$image->toFile($path, $imageType);
 
 				return true;
 			}

@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Associations\Administrator\View\Associations;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Selected item type properties.
 	 *
-	 * @var    Registry
+	 * @var    \Joomla\Registry\Registry
 	 *
 	 * @since  3.7.0
 	 */
@@ -237,8 +237,8 @@ class HtmlView extends BaseHtmlView
 		{
 			if (!isset($this->typeName))
 			{
-				ToolbarHelper::custom('associations.purge', 'purge', 'purge', 'COM_ASSOCIATIONS_PURGE', false, false);
-				ToolbarHelper::custom('associations.clean', 'refresh', 'refresh', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
+				ToolbarHelper::custom('associations.purge', 'purge', '', 'COM_ASSOCIATIONS_PURGE', false, false);
+				ToolbarHelper::custom('associations.clean', 'refresh', '', 'COM_ASSOCIATIONS_DELETE_ORPHANS', false, false);
 			}
 
 			ToolbarHelper::preferences('com_associations');

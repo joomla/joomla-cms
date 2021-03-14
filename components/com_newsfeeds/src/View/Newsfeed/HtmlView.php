@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
@@ -95,19 +95,6 @@ class HtmlView extends BaseHtmlView
 		// Get model data.
 		$state = $this->get('State');
 		$item  = $this->get('Item');
-
-		if ($item)
-		{
-			// Get Category Model data
-			$categoryModel = $app->bootComponent('com_newsfeeds')
-				->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => true]);
-			$categoryModel->setState('category.id', $item->catid);
-			$categoryModel->setState('list.ordering', 'a.name');
-			$categoryModel->setState('list.direction', 'asc');
-
-			// @TODO: $items is not used. Remove this line?
-			$items = $categoryModel->getItems();
-		}
 
 		// Check for errors.
 		// @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
@@ -253,13 +240,11 @@ class HtmlView extends BaseHtmlView
 	protected function _prepareDocument()
 	{
 		$app     = Factory::getApplication();
-		$menus   = $app->getMenu();
 		$pathway = $app->getPathway();
-		$title   = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = $app->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -304,23 +289,10 @@ class HtmlView extends BaseHtmlView
 
 		if (empty($title))
 		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		if (empty($title))
-		{
 			$title = $this->item->name;
 		}
 
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($title);
 
 		if ($this->item->metadesc)
 		{

@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Administrator\Service\HTML;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -89,11 +89,11 @@ class AdministratorService
 				{
 					if (in_array($item->lang_code, $content_languages))
 					{
-						$text = strtoupper($item->lang_sef);
+						$text = $item->lang_code;
 						$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
 						$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-						$classes = 'badge badge-secondary';
+						$classes = 'badge bg-secondary';
 
 						$item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
 							. '<div role="tooltip" id="tip-' . (int) $contactid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
@@ -127,17 +127,18 @@ class AdministratorService
 	{
 		// Array of image, task, title, action
 		$states = array(
-			0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
-			1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
+			0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_ITEM_FEATURE'),
+			1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_ITEM_UNFEATURE'),
 		);
 		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-		$icon  = $state[0];
+		$icon = $state[0] === 'featured' ? 'star featured' : 'star';
 
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
-				. ($value == 1 ? ' active' : '') . '" title="' . Text::_($state[3])
-				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
+				. ($value == 1 ? ' active' : '') . '" aria-labelledby="cb' . $i . '-desc">'
+				. '<span class="icon-' . $icon . '" aria-hidden="true"></span></a>'
+				. '<div role="tooltip" id="cb' . $i . '-desc">' . Text::_($state[3]);
 		}
 		else
 		{

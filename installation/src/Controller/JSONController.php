@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Response\JsonResponse;
@@ -61,7 +61,7 @@ abstract class JSONController extends BaseController
 	}
 
 	/**
-	 * Checks for a form token, if it is invalid a JSOn response with the error code 403 is sent.
+	 * Checks for a form token, if it is invalid a JSON response with the error code 403 is sent.
 	 *
 	 * @return  void
 	 *
@@ -71,6 +71,11 @@ abstract class JSONController extends BaseController
 	public function checkValidToken()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or $this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+		if (!Session::checkToken())
+		{
+			$this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			$this->app->close();
+		}
 	}
 }

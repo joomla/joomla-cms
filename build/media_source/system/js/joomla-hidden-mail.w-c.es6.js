@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
@@ -61,6 +61,6 @@ window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
   }
 
   static b64DecodeUnicode(str) {
-    return decodeURIComponent(Array.prototype.map.call(atob(str), c => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`).join(''));
+    return decodeURIComponent(Array.prototype.map.call(atob(str), (c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`).join(''));
   }
 });

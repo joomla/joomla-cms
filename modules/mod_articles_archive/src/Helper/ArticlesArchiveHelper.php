@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,19 +38,15 @@ class ArticlesArchiveHelper
 	{
 		$app       = Factory::getApplication();
 		$db        = Factory::getDbo();
-		$condition = ContentComponent::CONDITION_ARCHIVED;
 		$query     = $db->getQuery(true);
 
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from($db->quoteName('#__content', 'c'))
-			->innerJoin($db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('c.id'))
-			->innerJoin($db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'))
-			->where($db->quoteName('ws.condition') . ' = :condition')
+			->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
 			->group($query->year($db->quoteName('c.created')) . ', ' . $query->month($db->quoteName('c.created')))
-			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC')
-			->bind(':condition', $condition, ParameterType::INTEGER);
+			->order($query->year($db->quoteName('c.created')) . ' DESC, ' . $query->month($db->quoteName('c.created')) . ' DESC');
 
 		// Filter by language
 		if ($app->getLanguageFilter())

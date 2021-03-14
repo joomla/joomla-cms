@@ -9,11 +9,12 @@ html {
 }
 
 body {
-  min-height: 100%;
   display: flex;
+  flex-direction: column;
+  min-height: 100%;
   padding: 0;
   margin: 0;
-  flex-direction: column;
+  text-align: start;
 
   &.monochrome {
     filter: grayscale(1);
@@ -124,7 +125,6 @@ body .container-main {
 
 
 .content {
-  padding: 2vw;
   border-radius: $border-radius;
 
   > .row {
@@ -158,44 +158,36 @@ body .container-main {
 
 .item-associations li {
   display: inline-block;
+  margin-bottom: 3px;
   list-style: none;
 }
 
 // Quickicon specific
 .message-alert {
-  text-align: right !important;
+  text-align: end !important;
 }
 
-// dashboard items
-.menu-quicktask,
-.menu-badge {
-  float: right;
-  min-width: 1rem;
-}
-
-// extern links with icons
+// external links with icons
 a[target="_blank"]::before {
-  font: normal normal normal 14px/1 'Font Awesome 5 Free';
-  content: "\f35d  ";
+  display: inline-block;
+  padding-inline-end: 3px;
+  font-family: "Font Awesome 5 Free";
+  font-size: 14px;
+  font-weight: 900;
+  content: "\f35d";
 }
 
 #wrapper {
   &.d-flex {
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-down(sm) {
       display: block !important;
     }
   }
 }
 
 .text-muted {
-  color: var(--atum-text-dark);
-}
-
-// dashboard items
-.menu-quicktask,
-.menu-badge {
-  float: right;
-  min-width: 1rem;
+  color: var(--atum-text-dark) !important;
+  opacity: .7;
 }
 
 .card-columns {
@@ -231,4 +223,14 @@ details {
 
 summary {
   color: var(--atum-link-color);
+}
+
+// meter element
+meter {
+  width: 100%;
+}
+
+// Bootstrap 4 b/c
+.sr-only {
+  @extend .visually-hidden;
 }

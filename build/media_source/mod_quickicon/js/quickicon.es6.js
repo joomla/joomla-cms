@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -9,7 +9,7 @@
   /**
    * Every quickicon with an ajax request url loads data and set them into the counter element
    * Also the data name is set as singular or plural.
-   * A SR-only text ist added
+   * A SR-only text is added
    * The class pulse gets 'warning', 'success' or 'error', depending on the retrieved data.
    */
   document.addEventListener('DOMContentLoaded', () => {

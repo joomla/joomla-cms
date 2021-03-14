@@ -23,19 +23,13 @@
 		/>
 
 		<field
-			name="spacer1"
-			type="spacer"
-			label="COM_MEDIA_FOLDERS_PATH_LABEL"
-			class="text"
-		/>
-
-		<field
 			name="file_path"
 			type="text"
 			label="COM_MEDIA_FIELD_PATH_FILE_FOLDER_LABEL"
 			description="COM_MEDIA_FIELD_PATH_FILE_FOLDER_DESC"
 			size="50"
 			default="images"
+			validate="filePath"
 		/>
 
 		<field
@@ -45,6 +39,7 @@
 			description="COM_MEDIA_FIELD_PATH_IMAGE_FOLDER_DESC"
 			size="50"
 			default="images"
+			validate="filePath"
 		/>
 
 		<field

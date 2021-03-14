@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
@@ -52,7 +52,7 @@ class ArchiveModel extends ArticlesModel
 		$params = $this->state->get('params');
 
 		// Filter on archived articles
-		$this->setState('filter.condition', ContentComponent::CONDITION_ARCHIVED);
+		$this->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
 
 		// Filter on month, year
 		$this->setState('filter.month', $app->input->getInt('month'));
@@ -199,20 +199,8 @@ class ArchiveModel extends ArticlesModel
 		$years   = $query->year($db->quoteName('c.created'));
 
 		$query->select('DISTINCT ' . $years)
-			->from(
-				[
-					$db->quoteName('#__content', 'c'),
-					$db->quoteName('#__workflow_associations', 'wa'),
-					$db->quoteName('#__workflow_stages', 'ws'),
-				]
-			)
-			->where(
-				[
-					$db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'),
-					$db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'),
-					$db->quoteName('ws.condition') . ' = ' . ContentComponent::CONDITION_ARCHIVED,
-				]
-			)
+			->from($db->quoteName('#__content', 'c'))
+			->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_ARCHIVED)
 			->extendWhere(
 				'AND',
 				[

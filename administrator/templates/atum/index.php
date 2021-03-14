@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -18,7 +18,6 @@ use Joomla\CMS\Uri\Uri;
 /** @var JDocumentHtml $this */
 
 $app   = Factory::getApplication();
-$lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
@@ -27,10 +26,8 @@ $option     = $input->get('option', '');
 $view       = $input->get('view', '');
 $layout     = $input->get('layout', 'default');
 $task       = $input->get('task', 'display');
-$itemid     = $input->get('Itemid', '');
-$cpanel     = $option === 'com_cpanel';
+$cpanel     = $option === 'com_cpanel' || ($option === 'com_admin' && $view === 'help');
 $hiddenMenu = $app->input->get('hidemainmenu');
-$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 // Getting user accessibility settings
 $a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
@@ -40,16 +37,26 @@ $a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
-// Template params
-$siteLogo  = $this->params->get('siteLogo')
-	? Uri::root() . htmlspecialchars($this->params->get('siteLogo'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
-$smallLogo = $this->params->get('smallLogo')
-	? Uri::root() . htmlspecialchars($this->params->get('smallLogo'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+// Browsers support SVG favicons
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
+$this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
-$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
-$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+// Template params
+$logoBrandLarge  = $this->params->get('logoBrandLarge')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-large.svg';
+$logoBrandSmall = $this->params->get('logoBrandSmall')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
+
+$logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
+$logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
+
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -63,13 +70,13 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->getWebAssetManager()
-	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
+
+Text::script('TPL_ATUM_MORE_ELEMENTS');
 
 ?>
 <!DOCTYPE html>
@@ -96,14 +103,14 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
 					<div class="logo">
-					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
-					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
+					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 					</div>
 				<?php else : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 						aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-						<img src="<?php echo $siteLogo; ?>" alt="">
-						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
+						<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 					</a>
 				<?php endif; ?>
 			</div>
@@ -119,15 +126,16 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
-		<button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+	<?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
+		<button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
 		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-			<div id="sidebarmenu">
-				<div class="sidebar-toggle">
+			<div id="sidebarmenu" class="sidebar-sticky">
+				<div class="sidebar-toggle item item-level-1">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-						<span id="menu-collapse-icon" class="fas fa-toggle-off fa-fw" aria-hidden="true"></span>
+						<span id="menu-collapse-icon" class="icon-toggle-off icon-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
@@ -140,7 +148,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<div class="container-fluid container-main">
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-toggle="collapse" data-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
 			<div id="subhead" class="subhead mb-3">
@@ -158,6 +167,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div class="row">
 				<div class="col-md-12">
 					<main>
+						<jdoc:include type="message" />
 						<jdoc:include type="component" />
 					</main>
 				</div>
@@ -167,10 +177,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<?php // End Content ?>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message" />
-		</div>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />

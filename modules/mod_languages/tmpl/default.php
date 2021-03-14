@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 
 ?>
 <div class="mod-languages">
@@ -30,10 +32,11 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 	</select>
 	</form>
 <?php elseif ($params->get('dropdown', 0) && $params->get('dropdownimage', 1)) : ?>
+	<?php HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle'); ?>
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
-				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
+				<a href="#" data-bs-toggle="dropdown" class="btn dropdown-toggle">
 					<span class="caret"></span>
 					<?php if ($language->image) : ?>
 						&nbsp;<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
@@ -93,7 +96,7 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 				<?php if ($language->image) : ?>
 					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 				<?php else : ?>
-					<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
+					<span class="badge bg-secondary"><?php echo strtoupper($language->sef); ?></span>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>

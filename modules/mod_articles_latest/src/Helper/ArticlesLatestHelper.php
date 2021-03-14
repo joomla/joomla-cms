@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,24 +65,27 @@ abstract class ArticlesLatestHelper
 		// Category filter
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
+		// State filter
+		$model->setState('filter.condition', 1);
+
 		// User filter
 		$userId = $user->get('id');
 
 		switch ($params->get('user_id'))
 		{
-			case 'by_me' :
+			case 'by_me':
 				$model->setState('filter.author_id', (int) $userId);
 				break;
-			case 'not_me' :
+			case 'not_me':
 				$model->setState('filter.author_id', $userId);
 				$model->setState('filter.author_id.include', false);
 				break;
 
-			case 'created_by' :
+			case 'created_by':
 				$model->setState('filter.author_id', $params->get('author', array()));
 				break;
 
-			case '0' :
+			case '0':
 				break;
 
 			default:

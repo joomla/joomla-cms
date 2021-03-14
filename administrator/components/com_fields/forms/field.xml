@@ -37,7 +37,7 @@
 			multiple="true"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
-			<option value="">JALL</option>
+			<option value="0">JALL</option>
 			<option value="-1">JNONE</option>
 		</field>
 
@@ -87,9 +87,10 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
+			class="form-select-color-state"
 			default="1"
 			size="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -113,6 +114,7 @@
 			name="created_user_id"
 			type="user"
 			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
@@ -132,6 +134,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -182,13 +185,14 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
 			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"
-			id="rules"
 			translate_label="false"
 			filter="rules"
 			validate="rules"
@@ -218,6 +222,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -225,6 +230,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -232,6 +238,7 @@
 					type="list"
 					label="COM_FIELDS_FIELD_EDITABLE_IN_LABEL"
 					default=""
+					validate="options"
 					>
 					<option value="1">COM_FIELDS_FIELD_EDITABLE_IN_SITE</option>
 					<option value="2">COM_FIELDS_FIELD_EDITABLE_IN_ADMIN</option>
@@ -246,6 +253,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -265,6 +273,7 @@
 					label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
 					size="40"
 					showon="showlabel:1"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -272,6 +281,7 @@
 					type="list"
 					label="COM_FIELDS_FIELD_DISPLAY_LABEL"
 					default="2"
+					validate="options"
 					>
 					<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
 					<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
@@ -297,7 +307,7 @@
 					name="layout"
 					type="fieldLayout"
 					label="COM_FIELDS_FIELD_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 				/>
 
 				<field
@@ -305,6 +315,7 @@
 					type="list"
 					label="JFIELD_DISPLAY_READONLY_LABEL"
 					default="2"
+					validate="options"
 					>
 					<option value="2">JGLOBAL_INHERIT</option>
 					<option value="1">JYES</option>

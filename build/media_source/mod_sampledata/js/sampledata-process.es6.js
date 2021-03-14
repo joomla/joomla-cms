@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((window, document, Joomla) => {
@@ -148,7 +148,7 @@
     if (sampleDataWrapper) {
       const links = [].slice.call(sampleDataWrapper.querySelectorAll('.apply-sample-data'));
       links.forEach((link) => {
-        link.addEventListener('click', event => Joomla.sampledataApply(event.target));
+        link.addEventListener('click', ({ target }) => Joomla.sampledataApply(target));
       });
     }
 

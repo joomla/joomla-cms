@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Menus\Site\Dispatcher;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
@@ -45,11 +45,11 @@ class Dispatcher extends ComponentDispatcher
 	{
 		parent::checkAccess();
 
-		if ($this->input->get('view') === 'items'
-			&& $this->input->get('layout') === 'modal'
-			&& !$this->app->getIdentity()->authorise('core.create', 'com_menus'))
+		if ($this->input->get('view') !== 'items'
+			|| $this->input->get('layout') !== 'modal'
+			|| !$this->app->getIdentity()->authorise('core.create', 'com_menus'))
 		{
-			throw new NotAllowed;
+			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 	}
 

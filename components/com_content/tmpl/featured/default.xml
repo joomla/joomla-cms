@@ -43,6 +43,7 @@
 				label="JGLOBAL_BLOG_CLASS_LEADING"
 				useglobal="true"
 				size="3"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -51,6 +52,7 @@
 				label="JGLOBAL_BLOG_CLASS"
 				useglobal="true"
 				size="3"
+				validate="CssIdentifier"
 			/>
 
 			<field
@@ -81,10 +83,28 @@
 			/>
 
 			<field
+				name="link_intro_image"
+				type="list"
+				label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+				useglobal="true"
+				validate="options"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field
+				name="spacer2"
+				type="spacer"
+				hr="true"
+			/>
+
+			<field
 				name="orderby_pri"
 				type="list"
 				label="JGLOBAL_CATEGORY_ORDER_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="none">JGLOBAL_No_Order</option>
 				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
@@ -97,6 +117,7 @@
 				type="list"
 				label="JGLOBAL_ARTICLE_ORDER_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="front">COM_CONTENT_FEATURED_ORDER</option>
 				<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
@@ -121,6 +142,7 @@
 				type="list"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="created">JGLOBAL_CREATED</option>
 				<option value="modified">JGLOBAL_MODIFIED</option>
@@ -132,7 +154,8 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -144,7 +167,8 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -169,7 +193,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -181,7 +206,8 @@
 				type="list"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -193,7 +219,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -206,7 +233,8 @@
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 				default=""
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -219,7 +247,8 @@
 				type="list"
 				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option	value="0">JHIDE</option>
@@ -231,7 +260,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -243,7 +273,8 @@
 				type="list"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -255,7 +286,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -267,7 +299,8 @@
 				type="list"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -279,7 +312,7 @@
 				type="assoc"
 				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -290,7 +323,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -302,7 +336,8 @@
 				type="list"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -314,7 +349,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -326,7 +362,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -338,7 +375,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -350,7 +388,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -362,7 +401,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -375,7 +415,8 @@
 				label="JGLOBAL_SHOW_READMORE_LABEL"
 				description="JGLOBAL_SHOW_READMORE_DESC"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -386,7 +427,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -397,7 +439,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
@@ -409,7 +452,8 @@
 				type="list"
 				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -421,7 +465,8 @@
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
@@ -435,7 +480,8 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				useglobal="true"
-				class="custom-select-color-state"
+				class="form-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -446,6 +492,7 @@
 				type="list"
 				label="JGLOBAL_FEED_SUMMARY_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JGLOBAL_INTRO_TEXT</option>
 				<option value="1">JGLOBAL_FULL_TEXT</option>

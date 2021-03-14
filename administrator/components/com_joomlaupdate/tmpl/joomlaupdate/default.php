@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,21 +12,28 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
-/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
+/** @var HtmlView $this */
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto', 'relative' => true));
+/** @var WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('core')
+	->useScript('com_joomlaupdate.default');
+
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 Text::script('JYES');
 Text::script('JNO');
-Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
+$currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
 ?>
 
-<div id="joomlaupdate-wrapper" class="mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>">
+<div id="joomlaupdate-wrapper" class="mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
 	<?php if ($this->showUploadAndUpdate) : ?>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
 		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>

@@ -5,14 +5,14 @@
 			name="search"
 			type="text"
 			inputmode="search"
-			label="COM_ACTIONLOGS_FILTER_SEARCH_DESC"
-			description="COM_ACTIONLOGS_SEARCH_IN_NAME"
+			label="COM_ACTIONLOGS_FILTER_SEARCH_LABEL"
+			description="COM_ACTIONLOGS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
 			name="extension"
 			type="extension"
-			label="COM_ACTIONLOGS_SELECT_EXTENSION"
+			label="COM_ACTIONLOGS_EXTENSION"
 			onchange="this.form.submit()"
 			>
 			<option value="">COM_ACTIONLOGS_SELECT_EXTENSION</option>
@@ -20,7 +20,7 @@
 		<field
 			name="dateRange"
 			type="logsdaterange"
-			label="COM_ACTIONLOGS_OPTION_FILTER_DATE"
+			label="COM_ACTIONLOGS_DATE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_ACTIONLOGS_OPTION_FILTER_DATE</option>
@@ -28,7 +28,7 @@
 		<field
 			name="user"
 			type="logcreator"
-			label="COM_ACTIONLOGS_SELECT_USER"
+			label="COM_ACTIONLOGS_NAME"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_ACTIONLOGS_SELECT_USER</option>

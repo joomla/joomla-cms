@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla) => {
@@ -16,13 +16,13 @@
    * Handle the category toggle button click event
    * @param event
    */
-  const handleCategoryToggleButtonClick = (event) => {
-    const button = event.currentTarget;
+  const handleCategoryToggleButtonClick = ({ currentTarget }) => {
+    const button = currentTarget;
     const icon = button.querySelector('span');
 
     // Toggle icon class
-    icon.classList.toggle('fa-plus');
-    icon.classList.toggle('fa-minus');
+    icon.classList.toggle('icon-plus');
+    icon.classList.toggle('icon-minus');
 
     // Toggle aria label
     const ariaLabel = button.getAttribute('aria-label');

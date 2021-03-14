@@ -14,20 +14,15 @@
       "uri": "legacy/jquery-noconflict.min.js"
     },
     {
-      "name": "jquery.ui.core",
+      "name": "joomla.treeselectmenu",
       "type": "script",
       "dependencies": [
         "jquery"
       ],
-      "uri": "vendor/jquery-ui/jquery.ui.core.js"
-    },
-    {
-      "name": "jquery.ui.sortable",
-      "type": "script",
-      "dependencies": [
-        "jquery.ui.core"
-      ],
-      "uri": "vendor/jquery-ui/jquery.ui.sortable.js"
+      "uri": "legacy/treeselectmenu.min.js",
+      "attributes": {
+        "defer": true
+      }
     }
   ]
 }

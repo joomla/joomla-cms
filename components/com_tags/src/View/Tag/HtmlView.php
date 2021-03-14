@@ -3,16 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Tags\Site\View\Tag;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -153,9 +152,10 @@ class HtmlView extends BaseHtmlView
 			if (!empty($itemElement))
 			{
 				$temp = new Registry($itemElement->params);
-				$itemElement->params = clone $params;
+				$itemElement->params   = clone $params;
 				$itemElement->params->merge($temp);
-				$itemElement->params = (array) json_decode($itemElement->params);
+				$itemElement->params   = (array) json_decode($itemElement->params);
+				$itemElement->metadata = new Registry($itemElement->metadata);
 			}
 		}
 
@@ -319,21 +319,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
-
+		$this->setDocumentTitle($title);
 		$pathway->addItem($title);
 
 		foreach ($this->item as $itemElement)
@@ -353,8 +339,16 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// @TODO: create tag feed document
-		// Add alternative feed link
+		if (count($this->item) === 1)
+		{
+			foreach ($this->item[0]->metadata->toArray() as $k => $v)
+			{
+				if ($v)
+				{
+					$this->document->setMetadata($k, $v);
+				}
+			}
+		}
 
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{

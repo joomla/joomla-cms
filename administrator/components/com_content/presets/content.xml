@@ -47,7 +47,7 @@
 			title="COM_CONTENT_MENUS_WORKFLOW"
 			type="component"
 			element="com_workflow"
-			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content"
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content.article"
 		/>
 
 		<menuitem

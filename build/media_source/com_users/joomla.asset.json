@@ -1,0 +1,78 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_users",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_users.admin-users-groups.es5",
+      "type": "script",
+      "uri": "com_users/admin-users-groups-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_users.admin-users-groups",
+      "type": "script",
+      "uri": "com_users/admin-users-groups.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_users.admin-users-mail.es5",
+      "type": "script",
+      "uri": "com_users/admin-users-mail-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_users.admin-users-mail",
+      "type": "script",
+      "uri": "com_users/admin-users-mail.min.js",
+      "dependencies": [
+        "com_users.admin-users-mail.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_users.two-factor-switcher.es5",
+      "type": "script",
+      "uri": "com_users/two-factor-switcher-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_users.two-factor-switcher",
+      "type": "script",
+      "uri": "com_users/two-factor-switcher.min.js",
+      "dependencies": [
+        "com_users.two-factor-switcher.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    }
+  ]
+}

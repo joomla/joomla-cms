@@ -2,7 +2,6 @@
 
 .table {
 
-
   thead {
 
     th {
@@ -11,14 +10,10 @@
 
     th,
     td {
-      padding: 1rem;
       font-weight: $font-weight-normal;
-      color: var(--atum-link-color);
       white-space: nowrap;
-      border-top: 0;
-      border-bottom: 0;
 
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(md) {
         white-space: normal;
       }
     }
@@ -28,14 +23,14 @@
       color: var(--atum-link-color);
 
       &#sorted {
-        font-weight: 500;
+        font-weight: $medium-weight;
         color: $gray-800;
       }
     }
 
     .actions,
     .actions-th1 {
-      @include media-breakpoint-down(xs) {
+      @include media-breakpoint-down(md) {
         width: 28%;
       }
 
@@ -44,8 +39,17 @@
 
   tbody {
     tr {
-      @include hover-focus-active {
+      &:hover,
+      &:focus,
+      &:active {
         background-color: $table-hover-bg;
+      }
+
+      &:last-of-type {
+        th,
+        td {
+          border-bottom: 0;
+        }
       }
     }
 
@@ -60,23 +64,21 @@
     }
 
     th {
-      font-weight: 500;
+      font-weight: $medium-weight;
     }
   }
 
   th,
   td {
-    padding: 1rem;
-
     label {
       margin-bottom: 0;
     }
 
-    .inactive .fas,
-    .inactive .fab,
-    .inactive [class^=icon-] {
+    .inactive [class^="#{$jicon-css-prefix}-"],
+    .inactive [class*=" #{$jicon-css-prefix}-"],
+    .inactive [class^="#{$fa-css-prefix}-"],
+    .inactive [class*=" #{$fa-css-prefix}-"] {
       color: $gray-400;
     }
-
   }
 }

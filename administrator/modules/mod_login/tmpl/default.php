@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,22 +13,16 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('field.passwordview')
+	->registerAndUseScript('mod_login.admin', 'mod_login/admin-login.min.js', [], ['defer' => true], ['core', 'form.validate']);
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
-// Load JS message titles
-Text::script('ERROR');
-Text::script('WARNING');
-Text::script('NOTICE');
-Text::script('MESSAGE');
 ?>
-<form class="login-initial hidden form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
-	id="form-login">
+<form class="form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
 		<div class="form-group">
 			<label for="mod-login-username">
@@ -61,12 +55,10 @@ Text::script('MESSAGE');
 					required="required"
 					autocomplete="current-password"
 				>
-				<span class="input-group-append">
-					<button type="button" class="btn btn-secondary input-password-toggle">
-						<span class="fas fa-eye" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
-					</button>
-				</span>
+				<button type="button" class="btn btn-secondary input-password-toggle">
+					<span class="icon-eye icon-fw" aria-hidden="true"></span>
+					<span class="visually-hidden"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+				</button>
 
 			</div>
 		</div>
@@ -75,7 +67,7 @@ Text::script('MESSAGE');
 			<div class="form-group">
 				<label for="mod-login-secretkey">
 					<span class="label"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></span>
-					<span class="text-right">
+					<span class="form-control-hint">
 						<?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
 					</span>
 				</label>
@@ -83,7 +75,7 @@ Text::script('MESSAGE');
 
 					<input
 						name="secretkey"
-						autocomplete="off"
+						autocomplete="one-time-code"
 						id="mod-login-secretkey"
 						type="text"
 						class="form-control"
@@ -99,28 +91,36 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-		<?php foreach($extraButtons as $button): ?>
+		<?php foreach($extraButtons as $button):
+			$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
+				return substr($key, 0, 5) == 'data-';
+			});
+			?>
 		<div class="form-group">
 			<button type="button"
-			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
-			        onclick="<?= $button['onclick'] ?>"
-			        title="<?= Text::_($button['label']) ?>"
-			        id="<?= $button['id'] ?>"
+					class="btn btn-secondary w-100 mt-4 <?php echo $button['class'] ?? '' ?>"
+					<?php foreach ($dataAttributeKeys as $key): ?>
+					<?php echo $key ?>="<?php echo $button[$key] ?>"
+					<?php endforeach; ?>
+					<?php if ($button['onclick']): ?>
+					onclick="<?php echo $button['onclick'] ?>"
+					<?php endif; ?>
+					title="<?php echo Text::_($button['label']) ?>"
+					id="<?php echo $button['id'] ?>"
 			>
 				<?php if (!empty($button['icon'])): ?>
-					<span class="<?= $button['icon'] ?>"></span>
+					<span class="<?php echo $button['icon'] ?>"></span>
 				<?php elseif (!empty($button['image'])): ?>
-					<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
-						'class' => 'icon',
-					], true) ?>
+					<?php echo $button['image']; ?>
+				<?php elseif (!empty($button['svg'])): ?>
+					<?php echo $button['svg']; ?>
 				<?php endif; ?>
-				<?= Text::_($button['label']) ?>
+				<?php echo Text::_($button['label']) ?>
 			</button>
 		</div>
 		<?php endforeach; ?>
 		<div class="form-group">
-			<button class="btn btn-primary btn-block btn-lg mt-4"
-				id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
+			<button type="submit" id="btn-login-submit" class="btn btn-primary w-100 btn-lg mt-4"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">
@@ -130,9 +130,14 @@ Text::script('MESSAGE');
 </form>
 <div class="text-center">
 	<div>
-		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow"
-			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>">
-			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
-		</a>
+		<?php echo HTMLHelper::link(
+			Text::_('MOD_LOGIN_CREDENTIALS_LINK'),
+			Text::_('MOD_LOGIN_CREDENTIALS'),
+			[
+				'target' => '_blank',
+				'rel'    => 'noopener nofollow',
+				'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS'))
+			]
+		); ?>
 	</div>
 </div>

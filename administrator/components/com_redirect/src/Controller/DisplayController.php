@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Redirect\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -64,7 +64,7 @@ class DisplayController extends BaseController
 					'link',
 					'#plugin' . $redirectPluginId . 'Modal',
 					Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
-					'class="alert-link" data-toggle="modal" id="title-' . $redirectPluginId . '"'
+					'class="alert-link" data-bs-toggle="modal" id="title-' . $redirectPluginId . '"'
 				);
 
 				if ($pluginEnabled && !$collectUrlsEnabled)

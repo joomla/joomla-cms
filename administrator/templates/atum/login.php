@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -17,35 +17,42 @@ use Joomla\CMS\Uri\Uri;
 /** @var JDocumentHtml $this */
 
 $app   = Factory::getApplication();
-$lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option     = $input->get('option', '');
-$view       = $input->get('view', '');
-$layout     = $input->get('layout', 'default');
-$task       = $input->get('task', 'display');
-$itemid     = $input->get('Itemid', '');
-$cpanel     = $option === 'com_cpanel';
-$hiddenMenu = $app->input->get('hidemainmenu');
-$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
+$option = $input->get('option', '');
+$view   = $input->get('view', '');
+$layout = $input->get('layout', 'default');
+$task   = $input->get('task', 'display');
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
+// Browsers support SVG favicons
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
+$this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
+$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
+
 // Template params
-$siteLogo  = $this->params->get('siteLogo')
-	? Uri::root() . htmlspecialchars($this->params->get('siteLogo'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
+$logoBrandLarge  = $this->params->get('logoBrandLarge')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-large.svg';
 $loginLogo = $this->params->get('loginLogo')
 	? Uri::root() . $this->params->get('loginLogo')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
-$smallLogo = $this->params->get('smallLogo')
-	? Uri::root() . htmlspecialchars($this->params->get('smallLogo'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/login.svg';
+$logoBrandSmall = $this->params->get('logoBrandSmall')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
 
-$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
-$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+$logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
+$logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
+$loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
+	? ''
+	: 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt'), ENT_COMPAT, 'UTF-8') . '"';
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -59,8 +66,6 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->getWebAssetManager()
-	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -92,10 +97,9 @@ Text::script('JGLOBAL_WARNCOOKIES');
 	<div class="d-flex">
 		<div class="header-title d-flex">
 			<div class="d-flex align-items-center">
-				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
-					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
-					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
+					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>"  <?php echo $logoBrandSmallAlt; ?>>
 				</div>
 			</div>
 			<jdoc:include type="modules" name="title" />
@@ -110,24 +114,22 @@ Text::script('JGLOBAL_WARNCOOKIES');
 
 	<div class="container-fluid container-main order-1">
 		<section id="content" class="content h-100">
+			<div class="login_message">
+				<jdoc:include type="message" />
+			</div>
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
-					<div class="main-brand text-center">
-						<img src="<?php echo $loginLogo; ?>"
-							 alt="<?php echo htmlspecialchars($this->params->get('altLoginLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
+					<div class="main-brand logo text-center">
+						<img src="<?php echo $loginLogo; ?>" <?php echo $loginLogoAlt; ?>>
 					</div>
 					<jdoc:include type="component" />
 				</div>
 			</main>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message" />
-		</div>
 	</div>
 
 	<?php // Sidebar ?>
-	<div id="sidebar-wrapper" class="sidebar-wrapper order-0">
+	<div id="sidebar-wrapper" class="sidebar-wrapper px-3">
 		<div id="main-brand" class="main-brand">
 			<h1><?php echo $app->get('sitename'); ?></h1>
 			<h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>

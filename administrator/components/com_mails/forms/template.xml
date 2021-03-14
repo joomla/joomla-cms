@@ -151,6 +151,7 @@
 				default="mail"
 				filter="word"
 				showon="alternative_mailconfig:1"
+				validate="options"
 				>
 				<option value="mail">COM_MAILS_FIELD_VALUE_PHP_MAIL</option>
 				<option value="sendmail">COM_MAILS_FIELD_VALUE_SENDMAIL</option>
@@ -197,6 +198,7 @@
 				default="none"
 				showon="alternative_mailconfig:1[AND]mailer:smtp"
 				filter="word"
+				validate="options"
 				>
 				<option value="none">COM_MAILS_FIELD_VALUE_NONE</option>
 				<option value="ssl">COM_MAILS_FIELD_VALUE_SSL</option>

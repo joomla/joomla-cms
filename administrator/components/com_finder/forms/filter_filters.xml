@@ -13,7 +13,7 @@
 		<field
 			name="state"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			optionsFilter="0,1"
 			onchange="this.form.submit();"
 			>

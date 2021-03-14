@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -46,18 +46,17 @@ class TemplatesModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|bool    A JForm object on success, false on failure
+	 * @return  Form|bool    A JForm object on success, false on failure
 	 *
 	 * @since   3.2
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Get the form.
-		$form = $this->loadForm('com_config.templates', 'templates', array('control' => 'jform', 'load_data' => $loadData));
-
 		try
 		{
-			$form = new Form('com_config.templates');
+			// Get the form.
+			$form = $this->loadForm('com_config.templates', 'templates', array('load_data' => $loadData));
+
 			$data = array();
 			$this->preprocessForm($form, $data);
 
@@ -101,7 +100,7 @@ class TemplatesModel extends FormModel
 		$lang->load('tpl_' . $template, JPATH_BASE)
 		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template);
 
-		// Look for com_config.xml, which contains fileds to display
+		// Look for com_config.xml, which contains fields to display
 		$formFile = Path::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
 
 		if (!file_exists($formFile))

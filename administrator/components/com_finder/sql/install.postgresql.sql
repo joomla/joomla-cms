@@ -55,8 +55,9 @@ CREATE INDEX "#__finder_links_idx_published_list" on "#__finder_links" ("publish
 CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "sale_price");
 
 --
--- Table: #__finder_links_terms
+-- Table structure for table `#__finder_links_terms`
 --
+
 CREATE TABLE IF NOT EXISTS "#__finder_links_terms" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
@@ -82,7 +83,7 @@ CREATE INDEX "#__finder_logging_idx_md5sum" on "#__finder_logging" ("md5sum");
 CREATE INDEX "#__finder_logging_idx_searchterm" on "#__finder_logging" ("searchterm");
 
 --
--- Table: #__finder_taxonomy
+-- Table structure for table `#__finder_taxonomy`
 --
 
 CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
@@ -110,6 +111,7 @@ CREATE INDEX "#__finder_taxonomy_idx_parent_published" on "#__finder_taxonomy" (
 --
 -- Dumping data for table `#__finder_taxonomy`
 --
+
 INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "lft", "rgt", "level", "path", "title", "alias", "state", "access", "language") VALUES
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 
@@ -223,57 +225,57 @@ INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 ('should', 'en', 0),
 ('could', 'en', 0),
 ('ought', 'en', 0),
-('i\'m', 'en', 0),
-('you\'re', 'en', 0),
-('he\'s', 'en', 0),
-('she\'s', 'en', 0),
-('it\'s', 'en', 0),
-('we\'re', 'en', 0),
-('they\'re', 'en', 0),
-('i\'ve', 'en', 0),
-('you\'ve', 'en', 0),
-('we\'ve', 'en', 0),
-('they\'ve', 'en', 0),
-('i\'d', 'en', 0),
-('you\'d', 'en', 0),
-('he\'d', 'en', 0),
-('she\'d', 'en', 0),
-('we\'d', 'en', 0),
-('they\'d', 'en', 0),
-('i\'ll', 'en', 0),
-('you\'ll', 'en', 0),
-('he\'ll', 'en', 0),
-('she\'ll', 'en', 0),
-('we\'ll', 'en', 0),
-('they\'ll', 'en', 0),
-('isn\'t', 'en', 0),
-('aren\'t', 'en', 0),
-('wasn\'t', 'en', 0),
-('weren\'t', 'en', 0),
-('hasn\'t', 'en', 0),
-('haven\'t', 'en', 0),
-('hadn\'t', 'en', 0),
-('doesn\'t', 'en', 0),
-('don\'t', 'en', 0),
-('didn\'t', 'en', 0),
-('won\'t', 'en', 0),
-('wouldn\'t', 'en', 0),
-('shan\'t', 'en', 0),
-('shouldn\'t', 'en', 0),
-('can\'t', 'en', 0),
+('i''m', 'en', 0),
+('you''re', 'en', 0),
+('he''s', 'en', 0),
+('she''s', 'en', 0),
+('it''s', 'en', 0),
+('we''re', 'en', 0),
+('they''re', 'en', 0),
+('i''ve', 'en', 0),
+('you''ve', 'en', 0),
+('we''ve', 'en', 0),
+('they''ve', 'en', 0),
+('i''d', 'en', 0),
+('you''d', 'en', 0),
+('he''d', 'en', 0),
+('she''d', 'en', 0),
+('we''d', 'en', 0),
+('they''d', 'en', 0),
+('i''ll', 'en', 0),
+('you''ll', 'en', 0),
+('he''ll', 'en', 0),
+('she''ll', 'en', 0),
+('we''ll', 'en', 0),
+('they''ll', 'en', 0),
+('isn''t', 'en', 0),
+('aren''t', 'en', 0),
+('wasn''t', 'en', 0),
+('weren''t', 'en', 0),
+('hasn''t', 'en', 0),
+('haven''t', 'en', 0),
+('hadn''t', 'en', 0),
+('doesn''t', 'en', 0),
+('don''t', 'en', 0),
+('didn''t', 'en', 0),
+('won''t', 'en', 0),
+('wouldn''t', 'en', 0),
+('shan''t', 'en', 0),
+('shouldn''t', 'en', 0),
+('can''t', 'en', 0),
 ('cannot', 'en', 0),
-('couldn\'t', 'en', 0),
-('mustn\'t', 'en', 0),
-('let\'s', 'en', 0),
-('that\'s', 'en', 0),
-('who\'s', 'en', 0),
-('what\'s', 'en', 0),
-('here\'s', 'en', 0),
-('there\'s', 'en', 0),
-('when\'s', 'en', 0),
-('where\'s', 'en', 0),
-('why\'s', 'en', 0),
-('how\'s', 'en', 0),
+('couldn''t', 'en', 0),
+('mustn''t', 'en', 0),
+('let''s', 'en', 0),
+('that''s', 'en', 0),
+('who''s', 'en', 0),
+('what''s', 'en', 0),
+('here''s', 'en', 0),
+('there''s', 'en', 0),
+('when''s', 'en', 0),
+('where''s', 'en', 0),
+('why''s', 'en', 0),
+('how''s', 'en', 0),
 ('a', 'en', 0),
 ('an', 'en', 0),
 ('the', 'en', 0),

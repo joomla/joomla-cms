@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -70,7 +70,7 @@ $customOptions = array(
 	'selectorFieldName'   => $selectorFieldName,
 	'showSelector'        => $showSelector,
 	'orderFieldSelector'  => '#list_fullordering',
-	'showNoResults'       => !empty($noResultsText) ? true : false,
+	'showNoResults'       => !empty($noResultsText),
 	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
 	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',
 );
@@ -84,14 +84,14 @@ $filtersActiveClass = $hideActiveFilters ? '' : ' js-stools-container-filters-vi
 // Load search tools
 HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['options']);
 ?>
-<div class="js-stools d-flex flex-wrap" role="search">
+<div class="js-stools" role="search">
 	<?php // Add the itemtype and language selectors before the form filters. Do not display in modal. ?>
 	<?php $app = Factory::getApplication(); ?>
 	<?php if ($app->input->get('forcedItemType', '', 'string') == '') : ?>
 		<?php $itemTypeField = $data['view']->filterForm->getField('itemtype'); ?>
-		<div class="js-stools-container-selector-first">
+		<div class="js-stools-container-selector">
 			<div class="js-stools-field-selector js-stools-itemtype">
-				<div class="sr-only"><?php echo $itemTypeField->label; ?></div>
+				<div class="visually-hidden"><?php echo $itemTypeField->label; ?></div>
 				<?php echo $itemTypeField->input; ?>
 			</div>
 		</div>
@@ -100,7 +100,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 		<?php $languageField = $data['view']->filterForm->getField('language'); ?>
 		<div class="js-stools-container-selector">
 			<div class="js-stools-field-selector js-stools-language">
-				<div class="sr-only"><?php echo $languageField->label; ?></div>
+				<div class="visually-hidden"><?php echo $languageField->label; ?></div>
 				<?php echo $languageField->input; ?>
 			</div>
 		</div>
@@ -110,7 +110,7 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 		<?php echo LayoutHelper::render('joomla.searchtools.default.selector', $data); ?>
 	</div>
 	<?php endif; ?>
-	<div class="js-stools-container-bar ml-auto">
+	<div class="js-stools-container-bar ms-auto">
 		<div class="btn-toolbar">
 			<?php echo $this->sublayout('bar', $data); ?>
 			<?php echo $this->sublayout('list', $data); ?>

@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
 use Exception;
 use Joomla\CMS\Factory;
@@ -145,15 +145,25 @@ trait AdditionalLoginButtons
 
 		// Set up the JavaScript callback
 		$url = $uri->toString();
-		$onClick = "return plgSystemWebauthnLogin('{$form}', '{$url}')";
+
+		// Get local path to image
+		$image = HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true);
+
+		// If you can't find the image then skip it
+		$image = $image ? JPATH_ROOT . substr($image, strlen(Uri::root(true))) : '';
+
+		// Extract image if it exists
+		$image = file_exists($image) ? file_get_contents($image) : '';
 
 		return [
 			[
-				'label'   => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
-				'onclick' => $onClick,
-				'id'      => $randomId,
-				'image'   => 'plg_system_webauthn/webauthn-black.png',
-				'class'   => 'plg_system_webauthn_login_button',
+				'label'              => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
+				'tooltip'            => 'PLG_SYSTEM_WEBAUTHN_LOGIN_DESC',
+				'id'                 => $randomId,
+				'data-webauthn-form' => $form,
+				'data-webauthn-url'  => $url,
+				'svg'                => $image,
+				'class'              => 'plg_system_webauthn_login_button',
 			],
 		];
 	}
@@ -175,17 +185,21 @@ trait AdditionalLoginButtons
 		// Set the "don't load again" flag
 		$this->injectedCSSandJS = true;
 
-		// Load the CSS
-		HTMLHelper::_('stylesheet', 'plg_system_webauthn/button.css', [
-			'relative' => true,
-			]
-		);
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-		// Load the JavaScript
-		HTMLHelper::_('script', 'plg_system_webauthn/login.js', [
-			'relative'  => true,
-			]
-		);
+		if (!$wa->assetExists('style', 'plg_system_webauthn.button'))
+		{
+			$wa->registerStyle('plg_system_webauthn.button', 'plg_system_webauthn/button.css');
+		}
+
+		if (!$wa->assetExists('script', 'plg_system_webauthn.login'))
+		{
+			$wa->registerScript('plg_system_webauthn.login', 'plg_system_webauthn/login.js', [], ['defer' => true], ['core']);
+		}
+
+		$wa->useStyle('plg_system_webauthn.button')
+			->useScript('plg_system_webauthn.login');
 
 		// Load language strings client-side
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME');

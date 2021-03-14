@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 		$dataStr = file_get_contents($this->makeFilename($id));
 		$dataStr = str_replace('<?php die(); ?>#(^-^)#', '', $dataStr);
 
-		return json_decode($dataStr, true) ?: array();
+		return json_decode($dataStr, true) ?: [];
 	}
 
 	/**
@@ -78,10 +78,10 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 		{
 			if ($file->getExtension() == 'php')
 			{
-				$files[] = array(
+				$files[] = [
 					'time' => $file->getMTime(),
 					'id' => $file->getBasename('.php')
-				);
+				];
 			}
 		}
 

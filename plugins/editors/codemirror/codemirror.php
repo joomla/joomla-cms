@@ -3,15 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -44,7 +42,7 @@ class PlgEditorCodemirror extends CMSPlugin
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $basePath = 'media/vendor/codemirror/';
 
@@ -53,9 +51,17 @@ class PlgEditorCodemirror extends CMSPlugin
 	 *
 	 * @var  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $modePath = 'media/vendor/codemirror/mode/%N/%N';
+
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
 
 	/**
 	 * Initialises the Editor.
@@ -75,13 +81,13 @@ class PlgEditorCodemirror extends CMSPlugin
 		$done = true;
 
 		// Most likely need this later
-		$doc = Factory::getDocument();
+		$doc = $this->app->getDocument();
 
 		// Codemirror shall have its own group of plugins to modify and extend its behavior
 		PluginHelper::importPlugin('editors_codemirror');
 
 		// At this point, params can be modified by a plugin before going to the layout renderer.
-		Factory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params, &$this->basePath, &$this->modePath));
+		$this->app->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params, &$this->basePath, &$this->modePath));
 
 		$displayData = (object) array('params' => $this->params);
 		$font = $this->params->get('fontFamily', '0');
@@ -105,7 +111,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		LayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
 
-		Factory::getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params, &$this->basePath, &$this->modePath));
+		$this->app->triggerEvent('onCodeMirrorAfterInit', array(&$this->params, &$this->basePath, &$this->modePath));
 	}
 
 	/**
@@ -141,7 +147,8 @@ class PlgEditorCodemirror extends CMSPlugin
 		$height .= is_numeric($height) ? 'px' : '';
 
 		// Options for the CodeMirror constructor.
-		$options = new stdClass;
+		$options  = new stdClass;
+		$keyMapUrl = '';
 
 		// Is field readonly?
 		if (!empty($params['readonly']))
@@ -155,6 +162,8 @@ class PlgEditorCodemirror extends CMSPlugin
 			$options->autofocus = isset($params['autofocus']) ? (bool) $params['autofocus'] : false;
 			$autofocused = $options->autofocus;
 		}
+		// Set autorefresh to true - fixes issue when editor is not loaded in a focused tab
+		$options->autoRefresh = true;
 
 		$options->lineWrapping = (boolean) $this->params->get('lineWrapping', 1);
 
@@ -199,7 +208,8 @@ class PlgEditorCodemirror extends CMSPlugin
 		{
 			$options->theme = $theme;
 
-			HTMLHelper::_('stylesheet', $this->basePath . 'theme/' . $theme . '.css', array('version' => 'auto'));
+			$this->app->getDocument()->getWebAssetManager()
+				->registerAndUseStyle('codemirror.theme', $this->basePath . 'theme/' . $theme . '.css');
 		}
 
 		// Special options for tagged modes (xml/html).
@@ -233,10 +243,11 @@ class PlgEditorCodemirror extends CMSPlugin
 			$options->keyMap = $this->params->get('vimKeyBinding', 0) ? 'vim' : 'default';
 		}
 
-		if ($options->keyMap && $options->keyMap != 'default')
-		{
-			$this->loadKeyMap($options->keyMap);
+		if ($options->keyMap !== 'default') {
+			$keyMapUrl = $this->basePath . 'keymap/' . $options->keyMap . '.min.js';
 		}
+
+		$options->keyMapUrl = $keyMapUrl;
 
 		$displayData = (object) array(
 			'options'  => $options,
@@ -252,11 +263,11 @@ class PlgEditorCodemirror extends CMSPlugin
 		);
 
 		// At this point, displayData can be modified by a plugin before going to the layout renderer.
-		$results = Factory::getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
+		$results = $this->app->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
 
 		$results[] = LayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts');
 
-		foreach (Factory::getApplication()->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
+		foreach ($this->app->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
 		{
 			$results[] = $result;
 		}
@@ -310,18 +321,5 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
-	}
-
-	/**
-	 * Loads a keyMap file
-	 *
-	 * @param   string  $keyMap  The name of a keyMap file to load.
-	 *
-	 * @return  void
-	 */
-	protected function loadKeyMap($keyMap)
-	{
-		$ext = JDEBUG ? '.js' : '.min.js';
-		HTMLHelper::_('script', $this->basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
 	}
 }

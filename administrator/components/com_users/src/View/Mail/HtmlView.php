@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Users\Administrator\View\Mail;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -68,7 +68,7 @@ class HtmlView extends BaseHtmlView
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		ToolbarHelper::title(Text::_('COM_USERS_MASS_MAIL'), 'users massmail');
-		ToolbarHelper::custom('mail.send', 'envelope.png', 'send_f2.png', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
+		ToolbarHelper::custom('mail.send', 'envelope', '', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
 		ToolbarHelper::cancel('mail.cancel');
 		ToolbarHelper::divider();
 		ToolbarHelper::preferences('com_users');

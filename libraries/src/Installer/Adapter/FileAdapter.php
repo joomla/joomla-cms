@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,12 @@ class FileAdapter extends InstallerAdapter
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
-			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_COPY_SETUP'));
+			throw new \RuntimeException(
+				Text::sprintf(
+					'JLIB_INSTALLER_ABORT_COPY_SETUP',
+					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+				)
+			);
 		}
 
 		// If there is a manifest script, let's copy it.

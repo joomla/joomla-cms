@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS\Toolbar;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
@@ -447,13 +446,13 @@ trait CoreButtonsTrait
 	 *
 	 * @param   string  $component  The name of the component, eg, com_content.
 	 * @param   string  $text       The text of this button.
-	 * @param   string  $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string  $path       An alternative path for the configuration xml relative to JPATH_SITE.
 	 *
 	 * @return  LinkButton
 	 *
 	 * @since   4.0.0
 	 */
-	public function preferences(string $component, string $text = 'JToolbar_Options', string $path = ''): LinkButton
+	public function preferences(string $component, string $text = 'JTOOLBAR_OPTIONS', string $path = ''): LinkButton
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
@@ -485,18 +484,12 @@ trait CoreButtonsTrait
 		$lang = Factory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
-		/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-		$contentTypeTable = Table::getInstance('Contenttype');
-		$typeId           = $contentTypeTable->getTypeId($typeAlias);
-
 		// Options array for Layout
 		$options              = array();
 		$options['title']     = Text::_($text);
 		$options['height']    = $height;
 		$options['width']     = $width;
-		$options['itemId']    = $itemId;
-		$options['typeId']    = $typeId;
-		$options['typeAlias'] = $typeAlias;
+		$options['itemId']    = $typeAlias . '.' . $itemId;
 
 		$layout = new FileLayout('joomla.toolbar.versions');
 

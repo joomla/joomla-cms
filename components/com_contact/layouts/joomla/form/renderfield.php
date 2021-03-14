@@ -3,28 +3,29 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
 
 /**
  * Layout variables
- * ---------------------
- * 	$options         : (array)  Optional parameters
- * 	$label           : (string) The html code for the label (not required if $options['hiddenLabel'] is true)
- * 	$input           : (string) The input field html code
+ * -----------------
+ * @var   array   $options  Optional parameters
+ * @var   string  $label    The html code for the label (not required if $options['hiddenLabel'] is true)
+ * @var   string  $input    The input field html code
  */
 
 if (!empty($options['showonEnabled']))
 {
-	HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = $this->document->getWebAssetManager();
+	$wa->useScript('showon');
 }
 
 $class = empty($options['class']) ? '' : ' ' . $options['class'];

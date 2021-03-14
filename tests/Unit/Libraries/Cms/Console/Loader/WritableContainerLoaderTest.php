@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Console
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Tests\Unit\Libraries\Cms\Console\Loader;
@@ -11,8 +11,8 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Console\Loader;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Tests\Unit\UnitTestCase;
-use Psr\Container\ContainerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerInterface;
 
 /**
  * Test class for Joomla\CMS\Console\Loader\WritableContainerLoader.

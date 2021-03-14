@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Newsfeeds\Administrator\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
@@ -20,6 +20,8 @@ use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\Tag\TagServiceInterface;
+use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\Component\Newsfeeds\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
 
@@ -29,12 +31,16 @@ use Psr\Container\ContainerInterface;
  * @since  4.0.0
  */
 class NewsfeedsComponent extends MVCComponent implements
-	BootableExtensionInterface, CategoryServiceInterface, AssociationServiceInterface, RouterServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, AssociationServiceInterface, RouterServiceInterface,
+	TagServiceInterface
 {
-	use CategoryServiceTrait;
 	use AssociationServiceTrait;
 	use HTMLRegistryAwareTrait;
 	use RouterServiceTrait;
+	use CategoryServiceTrait, TagServiceTrait {
+		CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
+		CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+	}
 
 	/**
 	 * Booting the extension. This is the function to set up the environment of the extension like

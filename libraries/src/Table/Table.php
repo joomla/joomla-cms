@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\String\StringHelper;
 
 /**
  * Abstract Table class
@@ -126,7 +127,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  3.10.0
 	 */
 	protected $_supportNullValue = false;
 
@@ -954,7 +955,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				// Prepare the asset to be stored.
 				$asset->parent_id = $parentId;
 				$asset->name      = $name;
-				$asset->title     = $title;
+
+				// Respect the table field limits
+				$asset->title = StringHelper::substr($title, 0, 100);
 
 				if ($this->_rules instanceof Rules)
 				{
@@ -1294,11 +1297,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		$nullDate = $this->_supportNullValue ? 'NULL' : $this->_db->quote($this->_db->getNullDate());
+		$nullID   = $this->_supportNullValue ? 'NULL' : '0';
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($checkedOutField) . ' = 0')
+			->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
 			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
@@ -1307,8 +1311,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->$checkedOutField      = 0;
-		$this->$checkedOutTimeField = $nullDate === 'NULL' ? null : '';
+		$this->$checkedOutField     = $this->_supportNullValue ? null : 0;
+		$this->$checkedOutTimeField = $this->_supportNullValue ? null : '';
 
 		// Post-processing by observers
 		$event = AbstractEvent::create(
@@ -1971,7 +1975,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function setColumnAlias($column, $columnAlias)
 	{
-		// Santize the column name alias
+		// Sanitize the column name alias
 		$column = strtolower($column);
 		$column = preg_replace('#[^A-Z0-9_]#i', '', $column);
 

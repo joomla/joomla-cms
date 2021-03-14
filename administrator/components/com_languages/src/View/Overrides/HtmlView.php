@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Languages\Administrator\View\Overrides;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
 		// Get the results for each action
 		$canDo = ContentHelper::getActions('com_languages');
 
-		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments-2 langmanager');
+		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments langmanager');
 
 		if ($canDo->get('core.create'))
 		{
@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 
 		if (Factory::getUser()->authorise('core.admin'))
 		{
-			ToolbarHelper::custom('overrides.purge', 'refresh.png', 'refresh_f2.png', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
+			ToolbarHelper::custom('overrides.purge', 'refresh', '', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
 		}
 
 		if ($canDo->get('core.admin'))

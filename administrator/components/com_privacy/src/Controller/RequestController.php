@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -144,6 +144,9 @@ class RequestController extends FormController
 	 */
 	public function emailexport()
 	{
+		// Check for request forgeries.
+		$this->checkToken('get');
+
 		/** @var ExportModel $model */
 		$model = $this->getModel('Export');
 
@@ -305,6 +308,9 @@ class RequestController extends FormController
 	 */
 	public function remove()
 	{
+		// Check for request forgeries.
+		$this->checkToken('request');
+
 		/** @var RemoveModel $model */
 		$model = $this->getModel('Remove');
 

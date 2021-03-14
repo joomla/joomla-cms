@@ -3,20 +3,18 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
 
 /**
  * Language controller class for the Joomla Installer.
@@ -132,129 +130,6 @@ class LanguageController extends JSONController
 		{
 			// Create a response body.
 			$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_FRONTEND_SET_DEFAULT', $frontend_lang), 'message');
-		}
-
-		// Check if user has activated the multilingual site
-		$data = $this->input->post->get('jform', array(), 'array');
-
-		if ((int) $data['activateMultilanguage'])
-		{
-			if (count(LanguageHelper::getInstalledLanguages(0)) < 2)
-			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_MULTILANG'), 'warning');
-				$r = new \stdClass;
-
-				// Redirect to the same page.
-				$r->view = 'defaultlanguage';
-				$this->sendJsonResponse($r);
-			}
-
-			if (!$model->enablePlugin('plg_system_languagefilter'))
-			{
-				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang), 'warning');
-			}
-
-			// Activate optional ISO code Plugin
-			$activatePluginIsoCode = (int) $data['activatePluginLanguageCode'];
-
-			if ($activatePluginIsoCode && !$model->enablePlugin('plg_system_languagecode'))
-			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'), 'warning');
-			}
-
-			if (!$model->addModuleLanguageSwitcher())
-			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE'), 'warning');
-			}
-
-			// Add menus
-			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
-
-			$siteLanguages       = $model->getInstalledlangsFrontend();
-			$groupedAssociations = array();
-
-			foreach ($siteLanguages as $siteLang)
-			{
-				if (!$model->addMenuGroup($siteLang))
-				{
-					$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name), 'warning');
-
-					continue;
-				}
-
-				if (!$data['installLocalisedContent'])
-				{
-					if (!$tableMenuItem = $model->addFeaturedMenuItem($siteLang))
-					{
-						$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
-
-						continue;
-					}
-
-					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
-				}
-
-				if (!$tableMenuItem = $model->addAllCategoriesMenuItem($siteLang))
-				{
-					$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
-
-					continue;
-				}
-
-				$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
-
-				if (!$model->addModuleMenu($siteLang))
-				{
-					$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang), 'warning');
-
-					continue;
-				}
-
-				if ((int) $data['installLocalisedContent'])
-				{
-					if (!$tableCategory = $model->addCategory($siteLang))
-					{
-						$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang), 'warning');
-
-						continue;
-					}
-
-					$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
-
-					if (!$tableMenuItem = $model->addBlogMenuItem($siteLang, $tableCategory->id))
-					{
-						$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
-
-						continue;
-					}
-
-					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
-
-					if (!$tableArticle = $model->addArticle($siteLang, $tableCategory->id))
-					{
-						$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang), 'warning');
-
-						continue;
-					}
-
-					$groupedAssociations['com_content.item'][$siteLang->language] = $tableArticle->id;
-				}
-			}
-
-			if (!$model->addAssociations($groupedAssociations))
-			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ADD_ASSOCIATIONS'), 'warning');
-			}
-
-			if (!$model->disableModuleMainMenu())
-			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_UNPUBLISH_MOD_DEFAULTMENU'), 'warning');
-			}
-
-			if (!$model->enableModule('mod_multilangstatus'))
-			{
-				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_PUBLISH_MOD_MULTILANGSTATUS'), 'warning');
-			}
 		}
 
 		$r = new \stdClass;

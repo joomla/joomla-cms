@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
@@ -79,6 +79,8 @@ class ApplicationController extends BaseController
 
 			return false;
 		}
+
+		$this->app->setUserState('com_config.config.global.data', null);
 
 		// Set FTP credentials, if given.
 		ClientHelper::setCredentialsFromRequest('ftp');
@@ -266,7 +268,7 @@ class ApplicationController extends BaseController
 		$this->app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!Session::checkToken('get'))
+		if (!Session::checkToken())
 		{
 			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
 			echo new JsonResponse;

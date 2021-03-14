@@ -9,7 +9,7 @@
 			name="article_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_content"
 			view="article"
@@ -54,6 +54,7 @@
 			type="list"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
@@ -221,7 +222,7 @@
 
 		<field
 			name="show_vote"
-			type="radio"
+			type="voteradio"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
@@ -265,7 +266,6 @@
 			name="show_tags"
 			type="radio"
 			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-			id="show_tags"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -451,6 +451,7 @@
 			default="Parent"
 			filter="int"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			validate="options"
 			>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -465,6 +466,7 @@
 			default="Parent"
 			filter="int"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			validate="options"
 			>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -479,6 +481,7 @@
 			default="Parent"
 			filter="int"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			validate="options"
 			>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -495,25 +498,19 @@
 
 		<field
 			name="float_intro"
-			type="list"
-			label="COM_CONTENT_FLOAT_INTRO_LABEL"
+			type="text"
+			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
+			size="20"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
-			>
-			<option value="right">COM_CONTENT_RIGHT</option>
-			<option value="left">COM_CONTENT_LEFT</option>
-			<option value="none">COM_CONTENT_NONE</option>
-		</field>
+		/>
 
 		<field
 			name="float_fulltext"
-			type="list"
-			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
+			type="text"
+			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
+			size="20"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
-			>
-			<option value="right">COM_CONTENT_RIGHT</option>
-			<option value="left">COM_CONTENT_LEFT</option>
-			<option value="none">COM_CONTENT_NONE</option>
-		</field>
+		/>
 	</fieldset>
 	<fieldset
 		name="category"
@@ -524,7 +521,7 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_content"
 			view="category"
@@ -579,6 +576,7 @@
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
+			validate="options"
 			>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -665,6 +663,7 @@
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
+			validate="options"
 			>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -716,6 +715,22 @@
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 		>
 		<field
+			name="blog_class_leading"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS_LEADING"
+			size="3"
+			validate="CssIdentifier"
+		/>
+
+		<field
+			name="blog_class"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS"
+			size="3"
+			validate="CssIdentifier"
+		/>
+
+		<field
 			name="num_leading_articles"
 			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
@@ -747,6 +762,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -755,6 +771,23 @@
 			<option value="3">J3</option>
 			<option value="4">J4</option>
 			<option value="5">J5</option>
+		</field>
+
+		<field
+			name="spacer2"
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
+			name="link_intro_image"
+			type="radio"
+			label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 	<fieldset
@@ -779,6 +812,7 @@
 			type="list"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			default="hide"
+			validate="options"
 			>
 			<option value="hide">JHIDE</option>
 			<option value="title">JGLOBAL_TITLE</option>
@@ -804,6 +838,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_DATE_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="created">JGLOBAL_CREATED</option>
@@ -873,6 +908,7 @@
 			type="list"
 			label="JGLOBAL_CATEGORY_ORDER_LABEL"
 			default="none"
+			validate="options"
 			>
 			<option value="none">JGLOBAL_NO_ORDER</option>
 			<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
@@ -885,6 +921,7 @@
 			type="list"
 			label="JGLOBAL_ARTICLE_ORDER_LABEL"
 			default="rdate"
+			validate="options"
 			>
 			<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 			<option value="date">JGLOBAL_OLDEST_FIRST</option>
@@ -908,6 +945,7 @@
 			label="JGLOBAL_ORDERING_DATE_LABEL"
 			showon="orderby_sec:rdate,date"
 			default="published"
+			validate="options"
 			>
 			<option value="created">JGLOBAL_CREATED</option>
 			<option value="modified">JGLOBAL_MODIFIED</option>
@@ -919,6 +957,7 @@
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
 			default="2"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -942,6 +981,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
 			default="show"
+			validate="options"
 			>
 			<option value="show">JSHOW</option>
 			<option value="hide">JHIDE</option>
@@ -974,6 +1014,7 @@
 				label="JGLOBAL_FEED_SUMMARY_LABEL"
 				default="0"
 				showon="show_feed_link:1"
+				validate="options"
 				>
 				<option value="0">JGLOBAL_INTRO_TEXT</option>
 				<option value="1">JGLOBAL_FULL_TEXT</option>
@@ -1022,13 +1063,17 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-
+		</fieldset>
+		<fieldset
+			name="integration_workflows"
+			label="JWORKFLOW_TITLE"
+		>
 			<field
-				name="workflows_enable"
+				name="workflow_enabled"
 				type="radio"
-				label="JGLOBAL_WORKFLOWS_ENABLE_LABEL"
+				label="JWORKFLOW_ENABLED_LABEL"
 				layout="joomla.form.field.radio.switcher"
-				default="1"
+				default="0"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>

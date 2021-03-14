@@ -3,7 +3,7 @@
 	<name>mod_languages</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -27,6 +27,7 @@
 				type="list"
 				label="JFIELD_LANGUAGE_LABEL"
 				description="JFIELD_MODULE_LANGUAGE_DESC"
+				validate="options"
 				>
 				<option value="*">JALL</option>
 			</field>
@@ -145,7 +146,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
 				/>
 
 				<field
@@ -153,6 +154,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 			</fieldset>
 		</fields>

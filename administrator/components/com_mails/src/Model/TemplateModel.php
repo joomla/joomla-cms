@@ -3,16 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Mails\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
@@ -59,7 +62,7 @@ class TemplateModel extends AdminModel
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  \Joomla\CMS\Form\Form|bool  A JForm object on success, false on failure
@@ -119,7 +122,7 @@ class TemplateModel extends AdminModel
 		else
 		{
 			$field = $form->getField('attachments');
-			$subform = new \SimpleXmlElement($field->formsource);
+			$subform = new \SimpleXMLElement($field->formsource);
 			$files = $subform->xpath('field[@name="file"]');
 			$files[0]->addAttribute('directory', JPATH_ROOT . '/' . $params->get('attachment_folder'));
 			$form->load('<form><field name="attachments" type="subform" '
@@ -144,14 +147,14 @@ class TemplateModel extends AdminModel
 	 */
 	public function getItem($pk = null)
 	{
-		$template_id = $this->getState($this->getName() . '.template_id');
+		$templateId = $this->getState($this->getName() . '.template_id');
 		$language = $this->getState($this->getName() . '.language');
 		$table = $this->getTable('Template', 'Table');
 
-		if ($template_id != '' && $language != '')
+		if ($templateId != '' && $language != '')
 		{
 			// Attempt to load the row.
-			$return = $table->load(array('template_id' => $template_id, 'language' => $language));
+			$return = $table->load(array('template_id' => $templateId, 'language' => $language));
 
 			// Check for a table object error.
 			if ($return === false && $table->getError())
@@ -174,7 +177,7 @@ class TemplateModel extends AdminModel
 
 		if (!$item->template_id)
 		{
-			$item->template_id = $template_id;
+			$item->template_id = $templateId;
 		}
 
 		if (!$item->language)
@@ -264,6 +267,31 @@ class TemplateModel extends AdminModel
 		$this->preprocessData('com_mails.template', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   Form    $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		$validLanguages = LanguageHelper::getContentLanguages(array(0, 1));
+
+		if (!array_key_exists($data['language'], $validLanguages))
+		{
+			$this->setError(Text::_('COM_MAILS_FIELD_LANGUAGE_CODE_INVALID'));
+
+			return false;
+		}
+
+		return parent::validate($form, $data, $group);
 	}
 
 	/**

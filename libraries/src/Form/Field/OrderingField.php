@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,7 +122,7 @@ class OrderingField extends FormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="custom-select' . $this->class . '"' : ' class="custom-select"';
+		$attr .= !empty($this->class) ? ' class="form-select' . $this->class . '"' : ' class="form-select"';
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 

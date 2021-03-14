@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,10 +104,10 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	 */
 	public function getAssets()
 	{
-		return array(
+		return [
 			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.js',
 			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageErrors/widget.min.css',
-		);
+		];
 	}
 
 	/**

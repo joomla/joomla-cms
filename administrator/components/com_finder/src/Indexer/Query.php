@@ -3,14 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -1225,6 +1226,12 @@ class Query
 		{
 			// Tokenize the phrase.
 			$token = Helper::tokenize($phrases[$i], $lang, true);
+
+			if (!count($token))
+			{
+				continue;
+			}
+
 			$token = $this->getTokenData(array_shift($token));
 
 			if ($params->get('filter_commonwords', 0) && $token->common)

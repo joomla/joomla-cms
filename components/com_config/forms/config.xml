@@ -46,6 +46,7 @@
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			default="0"
 			filter="integer"
+			validate="options"
 			>
 			<option value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
@@ -84,7 +85,8 @@
 			type="accesslevel"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			default="1"
-			filter="integer"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field
@@ -93,6 +95,7 @@
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			default="20"
 			filter="integer"
+			validate="options"
 			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>

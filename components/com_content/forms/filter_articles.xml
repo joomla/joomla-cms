@@ -82,13 +82,14 @@
 		<field
 			name="tag"
 			type="tag"
-			label="JOPTION_FILTER_TAG"
-			description="JOPTION_FILTER_TAG_DESC"
+			label="JTAG"
 			multiple="true"
-			class="multipleTags"
 			mode="nested"
+			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			onchange="this.form.submit();"
 		/>
+
 	</fields>
 	<fields name="list">
 		<field
@@ -98,7 +99,7 @@
 			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.title ASC"
-		        validate="options"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

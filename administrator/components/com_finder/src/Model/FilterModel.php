@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\Finder\Administrator\Table\FilterTable;
 
 /**
  * Filter model class for Finder.
@@ -41,22 +42,22 @@ class FilterModel extends AdminModel
 	/**
 	 * Custom clean cache method.
 	 *
-	 * @param   string   $group      The component name. [optional]
-	 * @param   integer  $client_id  The client ID. [optional]
+	 * @param   string   $group     The component name. [optional]
+	 * @param   integer  $clientId  The client ID. [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function cleanCache($group = 'com_finder', $client_id = 1)
+	protected function cleanCache($group = 'com_finder', $clientId = 1)
 	{
-		parent::cleanCache($group, $client_id);
+		parent::cleanCache($group, $clientId);
 	}
 
 	/**
 	 * Method to get the filter data.
 	 *
-	 * @return  \Joomla\Component\Finder\Administrator\Table\Filter|boolean  The filter data or false on a failure.
+	 * @return  FilterTable|boolean  The filter data or false on a failure.
 	 *
 	 * @since   2.5
 	 */

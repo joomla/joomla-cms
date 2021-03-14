@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,6 @@
 
   const mobile = window.matchMedia('(max-width: 992px)');
   const small = window.matchMedia('(max-width: 575.98px)');
-  const smallLandscape = window.matchMedia('(max-width: 767.98px)');
   const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
 
   /**
@@ -46,9 +45,9 @@
    * @since   4.0.0
    */
   function toggleArrowIcon(positionTop) {
-    const navDropDownIcon = doc.querySelectorAll('.nav-item.dropdown span[class*="fa-angle-"]');
-    const remIcon = (positionTop) ? 'fa-angle-up' : 'fa-angle-down';
-    const addIcon = (positionTop) ? 'fa-angle-down' : 'fa-angle-up';
+    const navDropDownIcon = doc.querySelectorAll('.nav-item.dropdown span[class*="icon-angle-"]');
+    const remIcon = (positionTop) ? 'icon-angle-up' : 'icon-angle-down';
+    const addIcon = (positionTop) ? 'icon-angle-down' : 'icon-angle-up';
 
     if (!navDropDownIcon) {
       return;
@@ -104,6 +103,10 @@
             svg.setAttribute('viewBox', `0 0 ${svg.getAttribute('height')} ${svg.getAttribute('width')}`);
           }
 
+          // SVG needs to have a role of presentation and focusable set to false
+          svg.setAttribute('role', 'presentation');
+          svg.setAttribute('focusable', 'false');
+
           // Replace image with new SVG
           img.parentElement.replaceChild(svg, img);
         },
@@ -135,9 +138,9 @@
         const headerMoreBtn = document.createElement('button');
         headerMoreBtn.className = 'header-more-btn d-flex flex-column align-items-stretch';
         headerMoreBtn.setAttribute('type', 'button');
-        headerMoreBtn.setAttribute('title', 'More Elements');
+        headerMoreBtn.setAttribute('title', Joomla.Text._('TPL_ATUM_MORE_ELEMENTS'));
         const spanFa = document.createElement('span');
-        spanFa.className = 'fas fa-ellipsis-h';
+        spanFa.className = 'icon-ellipsis-h';
         spanFa.setAttribute('aria-hidden', 'true');
         const headerMoreMenu = document.createElement('div');
         headerMoreMenu.className = 'header-more-menu d-flex flex-wrap';
@@ -147,10 +150,14 @@
         headerMoreItem.appendChild(headerItemContent);
         headerMoreItem.appendChild(headerMoreMenu);
         headerWrapper.appendChild(headerMoreItem);
-
-        headerMoreBtn.addEventListener('click', () => {
+        headerMoreBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
           headerMoreItem.classList.toggle('active');
         });
+        window.onclick = () => {
+          headerMoreItem.classList.remove('active');
+        };
+
         headerItemsWidth += headerMoreItem.offsetWidth;
       }
 
@@ -193,6 +200,7 @@
     const sidebarNav = doc.querySelector('.sidebar-nav');
     const subhead = doc.querySelector('.subhead');
     const wrapper = doc.querySelector('.wrapper');
+    const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
 
     changeLogo('closed');
 
@@ -210,12 +218,14 @@
       wrapper.classList.add('closed');
     }
 
-    if (smallLandscape.matches) {
-      if (sidebarNav) sidebarNav.classList.add('mm-collapse');
-      if (subhead) subhead.classList.add('mm-collapse');
+    if (small.matches) {
+      if (sidebarNav) sidebarNav.classList.add('collapse');
+      if (subhead) subhead.classList.add('collapse');
+      if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
     } else {
-      if (sidebarNav) sidebarNav.classList.remove('mm-collapse');
-      if (subhead) subhead.classList.remove('mm-collapse');
+      if (sidebarNav) sidebarNav.classList.remove('collapse');
+      if (subhead) subhead.classList.remove('collapse');
+      if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
     }
   }
 
@@ -225,12 +235,18 @@
    * @since   4.0.0
    */
   function setDesktop() {
+    const sidebarNav = doc.querySelector('.sidebar-nav');
+    const subhead = doc.querySelector('.subhead');
     const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
     if (!sidebarWrapper) {
       changeLogo('closed');
     } else {
       changeLogo();
+      sidebarWrapper.classList.remove('collapse');
     }
+
+    if (sidebarNav) sidebarNav.classList.remove('collapse');
+    if (subhead) subhead.classList.remove('collapse');
 
     toggleArrowIcon('top');
   }
@@ -284,8 +300,8 @@
       if (!navigator.cookieEnabled) {
         Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
       }
-      window.addEventListener('joomla:menu-toggle', (event) => {
-        changeLogo(event.detail);
+      window.addEventListener('joomla:menu-toggle', ({ detail }) => {
+        changeLogo(detail);
       });
     }
   });

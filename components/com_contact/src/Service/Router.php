@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Site\Service;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\CategoryFactoryInterface;
@@ -52,7 +52,7 @@ class Router extends RouterView
 	 *
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $categoryCache = [];
 
@@ -186,7 +186,7 @@ class Router extends RouterView
 	 *
 	 * @return  array|string  The segments of this item
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getFormSegment($id, $query)
 	{
@@ -283,7 +283,7 @@ class Router extends RouterView
 	 *
 	 * @return  CategoryInterface  The object containing categories
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getCategories(array $options = []): CategoryInterface
 	{

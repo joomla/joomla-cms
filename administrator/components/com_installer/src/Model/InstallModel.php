@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
@@ -22,6 +22,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Extension Manager Install Model
@@ -127,7 +128,6 @@ class InstallModel extends BaseDatabaseModel
 					$app->setUserState('com_installer.message', Text::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
 
 					return false;
-					break;
 			}
 		}
 
@@ -149,6 +149,14 @@ class InstallModel extends BaseDatabaseModel
 			return false;
 		}
 
+		// Check if package was uploaded successfully.
+		if (!\is_array($package))
+		{
+			$app->enqueueMessage(Text::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+
+			return false;
+		}
+
 		// Get an installer instance.
 		$installer = Installer::getInstance();
 
@@ -159,7 +167,7 @@ class InstallModel extends BaseDatabaseModel
 		 * This must be done before the unpacked check because InstallerHelper::detectType() returns a boolean false since the manifest
 		 * can't be found in the expected location.
 		 */
-		if (is_array($package) && isset($package['dir']) && is_dir($package['dir']))
+		if (isset($package['dir']) && is_dir($package['dir']))
 		{
 			$installer->setPath('source', $package['dir']);
 
@@ -185,14 +193,14 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		// Was the package unpacked?
-		if (!$package || !$package['type'])
+		if (empty($package['type']))
 		{
 			if (in_array($installType, array('upload', 'url')))
 			{
 				InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
-			$app->enqueueMessage(Text::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'), 'error');
 
 			return false;
 		}
@@ -384,6 +392,16 @@ class InstallModel extends BaseDatabaseModel
 		if (!$url)
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL'), 'error');
+
+			return false;
+		}
+
+		// We only allow http & https here
+		$uri = new Uri($url);
+
+		if (!in_array($uri->getScheme(), ['http', 'https']))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL_SCHEME'), 'error');
 
 			return false;
 		}

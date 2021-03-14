@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 window.customElements.define('joomla-editor-none', class extends HTMLElement {
@@ -68,7 +68,7 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
       // eslint-disable-next-line no-return-assign
       getValue: () => this.editor.value,
       // eslint-disable-next-line no-return-assign
-      setValue: text => this.editor.value = text,
+      setValue: (text) => this.editor.value = text,
       // eslint-disable-next-line no-return-assign
       getSelection: () => this.getSelection(),
       // eslint-disable-next-line no-return-assign

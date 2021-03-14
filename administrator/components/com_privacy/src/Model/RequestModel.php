@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -17,6 +17,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
@@ -319,26 +320,23 @@ class RequestModel extends AdminModel
 
 			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$substitutions = [
-				'[SITENAME]' => $app->get('sitename'),
-				'[URL]'      => Uri::root(),
-				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
-				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
-				'[TOKEN]'    => $token,
-				'\\n'        => "\n",
+			$templateData = [
+				'sitename' => $app->get('sitename'),
+				'url'      => Uri::root(),
+				'tokenurl' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
+				'formurl'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
+				'token'    => $token,
 			];
 
 			switch ($table->request_type)
 			{
 				case 'export':
-					$emailSubject = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_SUBJECT_EXPORT_REQUEST');
-					$emailBody    = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_BODY_EXPORT_REQUEST');
+					$mailer = new MailTemplate('com_privacy.notification.admin.export', $app->getLanguage()->getTag());
 
 					break;
 
 				case 'remove':
-					$emailSubject = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_SUBJECT_REMOVE_REQUEST');
-					$emailBody    = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_BODY_REMOVE_REQUEST');
+					$mailer = new MailTemplate('com_privacy.notification.admin.remove', $app->getLanguage()->getTag());
 
 					break;
 
@@ -348,23 +346,10 @@ class RequestModel extends AdminModel
 					return false;
 			}
 
-			foreach ($substitutions as $k => $v)
-			{
-				$emailSubject = str_replace($k, $v, $emailSubject);
-				$emailBody    = str_replace($k, $v, $emailBody);
-			}
-
-			$mailer = Factory::getMailer();
-			$mailer->setSubject($emailSubject);
-			$mailer->setBody($emailBody);
+			$mailer->addTemplateData($templateData);
 			$mailer->addRecipient($table->email);
 
-			if ($mailer->Send() === false)
-			{
-				$this->setError($mailer->ErrorInfo);
-
-				return false;
-			}
+			$mailer->send();
 
 			return true;
 		}
@@ -391,7 +376,7 @@ class RequestModel extends AdminModel
 		$key   = $table->getKeyName();
 		$pk    = !empty($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 
-		if (!$pk && !Factory::getConfig()->get('mailonline', 1))
+		if (!$pk && !Factory::getApplication()->get('mailonline', 1))
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 
@@ -465,7 +450,7 @@ class RequestModel extends AdminModel
 	 */
 	private function getActionlogModel(): ActionlogModel
 	{
-		return Factory::getApplication()->bootComponent('Actionlogs')
+		return Factory::getApplication()->bootComponent('com_actionlogs')
 			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }

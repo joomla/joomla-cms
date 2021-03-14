@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\WebAsset\WebAssetItem;
 /**
  * Web Asset Item class for form.validate asset
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FormValidateAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterface
 {
@@ -30,7 +30,7 @@ class FormValidateAssetItem extends WebAssetItem implements WebAssetAttachBehavi
 	 *
 	 * @return void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAttachCallback(Document $doc)
 	{

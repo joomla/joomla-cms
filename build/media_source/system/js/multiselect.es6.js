@@ -1,24 +1,7 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// Helper function for IE11
-function getClosest(el, tag) {
-  // this is necessary since nodeName is always in upper case
-  const elementTag = tag.toUpperCase();
-  let element = el;
-  do {
-    if (element.nodeName === elementTag) {
-      // tag name is found! return
-      return element;
-    }
-    element = element.parentNode;
-  } while (element != null);
-
-  // Not found
-  return null;
-}
 
 /**
  * JavaScript behavior to allow shift select in administrator grids
@@ -65,17 +48,17 @@ function getClosest(el, tag) {
       }
     }
 
-    onCheckallToggleClick(event) {
-      const isChecked = event.target.checked;
+    onCheckallToggleClick({ target }) {
+      const isChecked = target.checked;
 
       this.rows.forEach((row) => {
         this.changeBg(row, isChecked);
       });
     }
 
-    onRowClick(event) {
+    onRowClick({ target, shiftKey }) {
       // Do not interfere with links or buttons
-      if (event.target.tagName && (event.target.tagName.toLowerCase() === 'a' || event.target.tagName.toLowerCase() === 'button')) {
+      if (target.tagName && (target.tagName.toLowerCase() === 'a' || target.tagName.toLowerCase() === 'button')) {
         return;
       }
 
@@ -83,14 +66,14 @@ function getClosest(el, tag) {
         return;
       }
 
-      const currentRowNum = this.rows.indexOf((navigator.userAgent.indexOf('MSIE ') > -1 || navigator.userAgent.indexOf('Trident/') > -1) ? getClosest(event.target, 'tr') : event.target.closest('tr'));
+      const currentRowNum = this.rows.indexOf(target.closest('tr'));
       const currentCheckBox = this.checkallToggle ? currentRowNum + 1 : currentRowNum;
       let isChecked = this.boxes[currentCheckBox].checked;
 
       if (currentCheckBox >= 0) {
-        if (!(event.target.id === this.boxes[currentCheckBox].id)) {
+        if (!(target.id === this.boxes[currentCheckBox].id)) {
           // We will prevent selecting text to prevent artifacts
-          if (event.shiftKey) {
+          if (shiftKey) {
             document.body.style['-webkit-user-select'] = 'none';
             document.body.style['-moz-user-select'] = 'none';
             document.body.style['-ms-user-select'] = 'none';
@@ -105,7 +88,7 @@ function getClosest(el, tag) {
         this.changeBg(this.rows[currentCheckBox - 1], isChecked);
 
         // Restore normality
-        if (event.shiftKey) {
+        if (shiftKey) {
           document.body.style['-webkit-user-select'] = 'none';
           document.body.style['-moz-user-select'] = 'none';
           document.body.style['-ms-user-select'] = 'none';

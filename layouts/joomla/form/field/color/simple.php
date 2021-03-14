@@ -3,16 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-extract($displayData, null);
+extract($displayData);
 
 /**
  * Layout variables
@@ -47,9 +47,11 @@ extract($displayData, null);
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
  * @var   array    $colors          The specified colors
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$class    = ' class="custom-select ' . trim($class) . '"';
+$class    = ' class="form-select ' . trim($class) . '"';
 $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
 
@@ -60,7 +62,7 @@ Factory::getDocument()->getWebAssetManager()
 ?>
 <joomla-field-simple-color text-select="<?php echo Text::_('JFIELD_COLOR_SELECT'); ?>" text-color="<?php echo Text::_('JFIELD_COLOR_VALUE'); ?>" text-close="<?php echo Text::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>" text-transparent="<?php echo Text::_('JFIELD_COLOR_TRANSPARENT'); ?>">
 	<select name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
-	echo $disabled; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
+	echo $disabled; ?><?php echo $readonly; ?><?php echo $dataAttribute; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
 	echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
 		<?php foreach ($colors as $i => $c) : ?>
 			<option<?php echo ($c === $color ? ' selected="selected"' : ''); ?> value="<?php echo $c; ?>"></option>

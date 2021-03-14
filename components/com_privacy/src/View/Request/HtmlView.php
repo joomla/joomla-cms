@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Site\View\Request;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 		$this->form            = $this->get('Form');
 		$this->state           = $this->get('State');
 		$this->params          = $this->state->params;
-		$this->sendMailEnabled = (bool) Factory::getConfig()->get('mailonline', 1);
+		$this->sendMailEnabled = (bool) Factory::getApplication()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -107,13 +107,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
-
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = Factory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -124,22 +120,7 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', Text::_('COM_PRIVACY_VIEW_REQUEST_PAGE_TITLE'));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class UserListCest
 	public function __construct()
 	{
 		$this->username = "testUser";
-		$this->password = "test";
+		$this->password = "joomla17082005";
 		$this->name     = "Test Bot";
 		$this->email    = "Testbot@example.com";
 	}
@@ -148,8 +148,8 @@ class UserListCest
 		$I->waitForText('Global Configuration', $I->getConfig('timeout'), ['css' => '.page-title']);
 		$I->comment('I open the Server Tab');
 		$I->click('Server');
-		$I->comment('I wait for error reporting dropdown');
-		$I->click(['xpath' => "//input[@type='radio' and @value=0 and @name='jform[mailonline]']"]);
+		$I->comment('I click on the switcher to disable sending mails');
+		$I->waitForJS('document.evaluate("//input[@type=\'radio\' and @value=0 and @name=\'jform[mailonline]\']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();return true;');
 		$I->comment('I click on save');
 		$I->clickToolbarButton("Save");
 		$I->comment('I wait for global configuration being saved');

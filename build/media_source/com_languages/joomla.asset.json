@@ -1,0 +1,91 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_languages",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_languages.admin-language-edit-change-flag.es5",
+      "type": "script",
+      "uri": "com_languages/admin-language-edit-change-flag-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_languages.admin-language-edit-change-flag",
+      "type": "script",
+      "uri": "com_languages/admin-language-edit-change-flag.min.js",
+      "dependencies": [
+        "com_languages.admin-language-edit-change-flag.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_languages.admin-override-edit-refresh-searchstring.es5",
+      "type": "script",
+      "uri": "com_languages/admin-override-edit-refresh-searchstring-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_languages.admin-override-edit-refresh-searchstring",
+      "type": "script",
+      "uri": "com_languages/admin-override-edit-refresh-searchstring.min.js",
+      "dependencies": [
+        "com_languages.admin-override-edit-refresh-searchstring.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_languages.overrider",
+      "type": "style",
+      "uri": "com_languages/overrider.min.css"
+    },
+    {
+      "name": "com_languages.overrider.es5",
+      "type": "script",
+      "uri": "com_languages/overrider-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_languages.overrider",
+      "type": "script",
+      "uri": "com_languages/overrider.min.js",
+      "dependencies": [
+        "com_languages.overrider.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_languages.overrider",
+      "type": "preset",
+      "dependencies": [
+        "com_languages.overrider#style",
+        "com_languages.overrider#script"
+      ]
+    }
+  ]
+}

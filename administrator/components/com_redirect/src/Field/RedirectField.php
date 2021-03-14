@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Redirect\Administrator\Field;
 
-defined('JPATH_BASE') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -36,7 +36,7 @@ class RedirectField extends ListField
 	 *
 	 * @var    object
 	 * @since  3.4
-	 * @link   http://www.iana.org/assignments/http-status-codes/
+	 * @link   https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
 	 */
 	protected $responseMap = array(
 		100 => 'HTTP/1.1 100 Continue',
@@ -107,7 +107,7 @@ class RedirectField extends ListField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  array	The field input markup.
 	 *
 	 * @since   3.4
 	 */

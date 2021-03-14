@@ -8,6 +8,7 @@
 				label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
+				validate="options"
 				>
 				<option value="http">HTTP</option>
 				<option value="https">HTTPS</option>
@@ -22,6 +23,7 @@
 				type="list"
 				label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
 				filter="integer"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>

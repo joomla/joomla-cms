@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Tags\Site\View\Tags;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -97,19 +97,10 @@ class HtmlView extends BaseHtmlView
 		// Flag indicates to not add limitstart=0 to URL
 		$this->pagination->hideEmptyLimitstart = true;
 
-		// Check whether access level allows access.
-		// @todo: Should already be computed in $item->params->get('access-view')
-		$groups = $this->user->getAuthorisedViewLevels();
-
 		if (!empty($this->items))
 		{
 			foreach ($this->items as $itemElement)
 			{
-				if (!in_array($itemElement->access, $groups))
-				{
-					unset($itemElement);
-				}
-
 				// Prepare the data.
 				$temp = new Registry($itemElement->params);
 				$itemElement->params = clone $this->params;
@@ -152,13 +143,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
-
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = Factory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -185,88 +172,8 @@ class HtmlView extends BaseHtmlView
 			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
-		// If this is not a single tag menu item, set the page title to the tag titles
-		$title = '';
-
-		if (!empty($this->item))
-		{
-			foreach ($this->item as $i => $itemElement)
-			{
-				if ($itemElement->title)
-				{
-					if ($i != 0)
-					{
-						$title .= ', ';
-					}
-
-					$title .= $itemElement->title;
-				}
-			}
-
-			if (empty($title))
-			{
-				$title = $app->get('sitename');
-			}
-			elseif ($app->get('sitename_pagetitles', 0) == 1)
-			{
-				$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-			}
-			elseif ($app->get('sitename_pagetitles', 0) == 2)
-			{
-				$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-			}
-
-			$this->document->setTitle($title);
-
-			foreach ($this->item as $itemElement)
-			{
-				if ($itemElement->metadesc)
-				{
-					$this->document->setDescription($this->item->metadesc);
-				}
-				elseif ($this->params->get('menu-meta_description'))
-				{
-					$this->document->setDescription($this->params->get('menu-meta_description'));
-				}
-
-				if ($this->params->get('robots'))
-				{
-					$this->document->setMetaData('robots', $this->params->get('robots'));
-				}
-
-				if ($app->get('MetaAuthor') == '1')
-				{
-					$this->document->setMetaData('author', $itemElement->created_user_id);
-				}
-
-				$mdata = $this->item->metadata->toArray();
-
-				foreach ($mdata as $k => $v)
-				{
-					if ($v)
-					{
-						$this->document->setMetaData($k, $v);
-					}
-				}
-			}
-		}
-
 		// Respect configuration Sitename Before/After for TITLE in views All Tags.
-		if (!$title && ($pos = $app->get('sitename_pagetitles', 0)))
-		{
-			$title = $this->document->getTitle();
-
-			if ($pos == 1)
-			{
-				$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-			}
-			else
-			{
-				$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-			}
-
-			$this->document->setTitle($title);
-		}
+		$this->setDocumentTitle($this->document->getTitle());
 
 		// Add alternative feed link
 		if ($this->params->get('show_feed_link', 1) == 1)

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,11 +48,11 @@ $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($
 		<?php if ($canEdit || $canChange || $headerIcon || $module->showtitle) : ?>
 			<div class="card-header">
 				<?php if ($canEdit || $canChange) : ?>
-					<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
+					<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'start' : 'end'; ?>
 					<div class="module-actions dropdown">
-						<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
-							<span class="fas fa-cog" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
+						<button type="button"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
+							<span class="icon-cog" aria-hidden="true"></span>
+							<span class="visually-hidden"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
 						</button>
 						<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
 							<?php if ($canEdit) : ?>

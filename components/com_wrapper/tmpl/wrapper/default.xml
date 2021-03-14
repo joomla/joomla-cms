@@ -15,10 +15,12 @@
 
 			<field
 				name="url"
-				type="text"
+				type="url"
 				label="COM_WRAPPER_FIELD_URL_LABEL"
 				size="30"
 				required="true"
+				filter="url"
+				validate="url"
 			/>
 		</fieldset>
 		<!-- Add fields to the parameters object for the layout. -->
@@ -30,6 +32,7 @@
 				type="list"
 				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
 				default="auto"
+				validate="options"
 				>
 				<option value="no">JNO</option>
 				<option value="yes">JYES</option>

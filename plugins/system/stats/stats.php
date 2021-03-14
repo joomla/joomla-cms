@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -143,7 +142,8 @@ class PlgSystemStats extends CMSPlugin
 			return;
 		}
 
-		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', ['version' => 'auto', 'relative' => true]);
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_system_stats.message', 'plg_system_stats/stats-message.js', [], ['defer' => true], ['core']);
 	}
 
 	/**

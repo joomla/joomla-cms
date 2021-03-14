@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Mails\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\LanguageHelper;
@@ -40,7 +40,8 @@ class TemplatesModel extends ListModel
 				'language', 'a.language',
 				'subject', 'a.subject',
 				'body', 'a.body',
-				'htmlbody', 'a.htmlbody'
+				'htmlbody', 'a.htmlbody',
+				'extension'
 			);
 		}
 

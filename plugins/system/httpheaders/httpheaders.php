@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.HttpHeaders
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
@@ -60,7 +59,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * The params of the com_csp component
 	 *
-	 * @var    Registry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  4.0.0
 	 */
 	private $comCspParams;
@@ -79,6 +78,57 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
+		'cross-origin-opener-policy',
+		'report-to',
+		'permissions-policy',
+	];
+
+	/**
+	 * The list of valid directives based on: https://www.w3.org/TR/CSP3/#csp-directives
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	private $validDirectives = [
+		'child-src',
+		'connect-src',
+		'default-src',
+		'font-src',
+		'frame-src',
+		'img-src',
+		'manifest-src',
+		'media-src',
+		'prefetch-src',
+		'object-src',
+		'script-src',
+		'script-src-elem',
+		'script-src-attr',
+		'style-src',
+		'style-src-elem',
+		'style-src-attr',
+		'worker-src',
+		'base-uri',
+		'plugin-types',
+		'sandbox',
+		'form-action',
+		'frame-ancestors',
+		'navigate-to',
+		'report-uri',
+		'report-to',
+		'block-all-mixed-content',
+		'upgrade-insecure-requests',
+		'require-sri-for',
+	];
+
+	/**
+	 * The list of directives without a value
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	private $noValueDirectives = [
+		'block-all-mixed-content',
+		'upgrade-insecure-requests',
 	];
 
 	/**
@@ -160,9 +210,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Generate the hashes for the script-src
 			$inlineScripts = is_array($headData['script']) ? $headData['script'] : [];
 
-			foreach ($inlineScripts as $type => $scriptContent)
+			foreach ($inlineScripts as $type => $scripts)
 			{
-				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+				foreach ($scripts as $hash => $scriptContent)
+				{
+					$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+				}
 			}
 		}
 
@@ -171,9 +224,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Generate the hashes for the style-src
 			$inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
 
-			foreach ($inlineStyles as $type => $styleContent)
+			foreach ($inlineStyles as $type => $styles)
 			{
-				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+				foreach ($styles as $hash => $styleContent)
+				{
+					$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+				}
 			}
 		}
 
@@ -223,9 +279,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$this->setStaticHeaders();
 
 		// Handle CSP Header configuration
-		$cspOptions = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
+		$cspEnabled = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
+		$cspClient  = (string) $this->comCspParams->get('contentsecuritypolicy_client', 'site');
 
-		if ($cspOptions)
+		// Check whether CSP is enabled and enabled by the current client
+		if ($cspEnabled && ($this->app->isClient($cspClient) || $cspClient === 'both'))
 		{
 			$this->setCspHeader();
 		}
@@ -246,11 +304,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// In detecting mode we set this default rule so any report gets collected by com_csp
 		if ($cspMode === 'detect')
 		{
-			$frontendUrl = str_replace('/administrator', '', Uri::base());
-
 			$this->app->setHeader(
 				'content-security-policy-report-only',
-				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
+				"default-src 'self'; report-uri " . Uri::root() . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
 			);
 
 			return;
@@ -279,6 +335,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$cspValues                 = $this->comCspParams->get('contentsecuritypolicy_values', []);
 		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
 		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$strictDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
 		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
 		$frameAncestorsSet         = false;
@@ -291,9 +348,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
+			// Handle non value directives
+			if (in_array($cspValue->directive, $this->noValueDirectives))
+			{
+				$newCspValues[] = trim($cspValue->directive);
+
+				continue;
+			}
+
 			// We can only use this if this is a valid entry
-			if (isset($cspValue->directive) && isset($cspValue->value)
-				&& !empty($cspValue->directive) && !empty($cspValue->value))
+			if (in_array($cspValue->directive, $this->validDirectives)
+				&& !empty($cspValue->value))
 			{
 				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
@@ -318,13 +383,21 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					$frameAncestorsSet = true;
 				}
 
+				// Add strict-dynamic to the script-src directive when enabled
+				if ($strictDynamicEnabled
+					&& $cspValue->directive === 'script-src'
+					&& strpos($cspValue->value, 'strict-dynamic') === false)
+				{
+					$cspValue->value .= " 'strict-dynamic' ";
+				}
+
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
 			}
 		}
 
 		if ($frameAncestorsSelfEnabled && !$frameAncestorsSet)
 		{
-			$newCspValues[] = 'frame-ancestors "self"';
+			$newCspValues[] = "frame-ancestors 'self'";
 		}
 
 		if (empty($newCspValues))
@@ -367,6 +440,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$cspHeaderCollection       = [];
 		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
 		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$strictDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
 		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
 
@@ -390,7 +464,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$row->blocked_uri = "'$row->blocked_uri'";
 			}
 
-			// Whitelist the blocked_uri for the given directive
+			// Allow the blocked_uri for the given directive
 			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
 		}
 
@@ -408,12 +482,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['script-src']) && $nonceEnabled)
+			if (!isset($cspHeaderCollection['script-src']) && ($scriptHashesEnabled || $nonceEnabled))
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['script-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['style-src']) && $nonceEnabled)
+			if (!isset($cspHeaderCollection['style-src']) && ($scriptHashesEnabled || $nonceEnabled))
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
 			}
@@ -421,6 +495,20 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
 		{
+			// Handle non value directives
+			if (in_array($cspHeaderkey, $this->noValueDirectives))
+			{
+				$automaticCspHeader[] = $cspHeaderkey;
+
+				continue;
+			}
+
+			// Make sure this is a valid directive
+			if (!in_array($cspHeaderkey, $this->validDirectives))
+			{
+				continue;
+			}
+
 			// Append the random $nonce for the script and style tags if enabled
 			if (in_array($cspHeaderkey, $this->nonceDirectives) && $nonceEnabled)
 			{
@@ -429,18 +517,26 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// Append the script hashes placeholder
-			if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
+			if ($scriptHashesEnabled && strpos($cspHeaderkey, 'script-src') === 0)
 			{
 				$cspHeaderValue = '{script-hashes} ' . $cspHeaderValue;
 			}
 
 			// Append the style hashes placeholder
-			if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
+			if ($styleHashesEnabled && strpos($cspHeaderkey, 'style-src') === 0)
 			{
 				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
 			}
 
-			// By default we should whitelist 'self' on any directive
+			// Add strict-dynamic to the script-src directive when enabled
+			if ($strictDynamicEnabled
+				&& $cspHeaderkey === 'script-src'
+				&& strpos($cspHeaderValue, 'strict-dynamic') === false)
+			{
+				$cspHeaderValue .= " 'strict-dynamic' ";
+			}
+
+			// By default we should allow 'self' on any directive
 			$automaticCspHeader[] = $cspHeaderkey . " 'self' " . trim($cspHeaderValue);
 		}
 
@@ -466,15 +562,23 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Referrer-policy
-		$referrerPolicy = (string) $this->params->get('referrerpolicy', 'no-referrer-when-downgrade');
+		$referrerPolicy = (string) $this->params->get('referrerpolicy', 'strict-origin-when-cross-origin');
 
 		if ($referrerPolicy !== 'disabled')
 		{
 			$staticHeaderConfiguration['referrer-policy#both'] = $referrerPolicy;
 		}
 
-		// Generate the strict-transport-security header
-		if ($this->params->get('hsts', 0) === 1)
+		// Cross-Origin-Opener-Policy
+		$coop = (string) $this->params->get('coop', 'same-origin');
+
+		if ($coop !== 'disabled')
+		{
+			$staticHeaderConfiguration['cross-origin-opener-policy#both'] = $coop;
+		}
+
+		// Generate the strict-transport-security header and make sure the site is SSL
+		if ($this->params->get('hsts', 0) === 1 && Uri::getInstance()->isSsl() === true)
 		{
 			$hstsOptions   = [];
 			$hstsOptions[] = 'max-age=' . (int) $this->params->get('hsts_maxage', 31536000);
@@ -497,12 +601,21 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		foreach ($additionalHttpHeaders as $additionalHttpHeader)
 		{
+			// Make sure we have a key and a value
 			if (empty($additionalHttpHeader->key) || empty($additionalHttpHeader->value))
 			{
 				continue;
 			}
 
+			// Make sure the header is a valid and supported header
 			if (!in_array(strtolower($additionalHttpHeader->key), $this->supportedHttpHeaders))
+			{
+				continue;
+			}
+
+			// Make sure we do not add one header twice but we support to set a different header per client.
+			if (isset($staticHeaderConfiguration[$additionalHttpHeader->key . '#' . $additionalHttpHeader->client])
+				|| isset($staticHeaderConfiguration[$additionalHttpHeader->key . '#both']))
 			{
 				continue;
 			}
