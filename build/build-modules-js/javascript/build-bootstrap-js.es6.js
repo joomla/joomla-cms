@@ -145,6 +145,7 @@ module.exports.bootstrapJs = async () => {
 
   try {
     await build(resolve(inputFolder, 'index.es6.js'));
+    await unlink(resolve(outputFolder, 'index.es6.js'));
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);
