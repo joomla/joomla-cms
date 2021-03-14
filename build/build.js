@@ -15,8 +15,6 @@
  * node build.js --watch-com-media  will compile the media manager Vue application
  * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts.
  * node build.js --versioning       will update all the joomla.assets.json files providing accurate versions for stylesheets and scripts.
- * node build.js --gzip             will create gzip files for all the minified stylesheets and scripts
- * node build.js --prepare-build    will run all the tasks needed to prepare a release
  */
 
 const Program = require('commander');
@@ -73,7 +71,6 @@ Program
   .option('--gzip', 'Compress all the minified stylesheets and scripts.')
   .option('--prepare', 'Run all the needed tasks to initialise the repo')
   .option('--versioning', 'Update all the .js/.css versions on their relative joomla.assets.json')
-  .option('--prepare-release', 'Run all the tasks needed  to prepare a release')
 
   .on('--help', () => {
     // eslint-disable-next-line no-console
