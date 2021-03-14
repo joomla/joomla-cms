@@ -60,8 +60,6 @@ const buildLegacy = async (file) => {
 };
 
 module.exports.mediaManager = async () => {
-  const bench = new Timer('Media Manager Js components');
-
   // eslint-disable-next-line no-console
   console.log('Building Media Manager ES Module...');
 
