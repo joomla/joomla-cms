@@ -62,7 +62,7 @@ abstract class QuickIconHelper
 			$application->getLanguage()->load('mod_quickicon');
 
 			self::$buttons[$key] = [];
-      
+
 			if ($params->get('show_users'))
 			{
 				$tmp = [
@@ -355,7 +355,7 @@ abstract class QuickIconHelper
 
 				self::$buttons[$key][] = $tmp;
 			}
-			      
+
 			if ($params->get('show_plugins'))
 			{
 				$tmp = [
