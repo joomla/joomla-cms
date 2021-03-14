@@ -38,7 +38,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" class="w-20" style="min-width:100px">
+								<th scope="col" class="w-20">
 									<?php echo Text::_('JGLOBAL_TITLE'); ?>
 								</th>
 								<th scope="col" class="w-15 d-none d-md-table-cell">
