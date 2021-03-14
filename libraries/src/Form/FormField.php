@@ -811,7 +811,7 @@ abstract class FormField
 		}
 
 		// Get the label text from the XML element, defaulting to the element name.
-		$title = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+		$title = isset($this->element['label']) && $this->element['label'] ? (string) $this->element['label'] : (isset($this->element['name']) && $this->element['name'] ? (string) $this->element['name'] : '');
 		$title = $this->translateLabel ? Text::_($title) : $title;
 
 		return $title;
@@ -1314,8 +1314,7 @@ abstract class FormField
 	protected function getLayoutData()
 	{
 		// Label preprocess
-		$label = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$label = $this->translateLabel ? Text::_($label) : $label;
+		$label = $this->getTitle();
 
 		// Description preprocess
 		$description = !empty($this->description) ? $this->description : null;
