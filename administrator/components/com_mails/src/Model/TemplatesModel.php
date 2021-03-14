@@ -174,6 +174,24 @@ class TemplatesModel extends ListModel
 	}
 
 	/**
+	 * Get list of extensions which are using mail templates
+	 *
+	 * @return array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getExtensions()
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select("DISTINCT SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS extension")
+			->from('#__mail_templates');
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
+
+	/**
 	 * Get a list of the current content languages
 	 *
 	 * @return  array
