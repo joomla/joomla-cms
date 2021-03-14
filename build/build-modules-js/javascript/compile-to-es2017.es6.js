@@ -1,4 +1,4 @@
-const { access } = require('fs/promises');
+const { access } = require('fs').promises;
 const { constants } = require('fs');
 const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
