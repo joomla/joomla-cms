@@ -184,8 +184,9 @@ class TemplatesModel extends ListModel
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select("DISTINCT SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS extension")
-			->from('#__mail_templates');
+			->select('DISTINCT SUBSTRING(' . $db->quoteName('template_id')
+				. ', 1, POSITION("." IN ' . $db->quoteName('template_id') . ') - 1) AS extension')
+			->from($db->quoteName('#__mail_templates'));
 		$db->setQuery($query);
 
 		return $db->loadColumn();
