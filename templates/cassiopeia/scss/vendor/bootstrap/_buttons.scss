@@ -24,3 +24,8 @@
     background-color: $gray-100;
   }
 }
+@media (max-width: 22.75rem) {  
+  .btn {
+    margin-bottom: .25rem;
+  }
+}
