@@ -12,6 +12,7 @@ namespace Joomla\Component\Contact\Api\Serializer;
 
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Serializer\JoomlaSerializer;
+use Joomla\CMS\Tag\TagApiSerializerTrait;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Relationship;
@@ -24,6 +25,8 @@ use Tobscure\JsonApi\Resource;
  */
 class ContactSerializer extends JoomlaSerializer
 {
+	use TagApiSerializerTrait;
+
 	/**
 	 * Build content relationships by associations
 	 *
@@ -87,32 +90,6 @@ class ContactSerializer extends JoomlaSerializer
 			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->created_by));
 
 		return new Relationship($resource);
-	}
-
-	/**
-	 * Build tags relationship
-	 *
-	 * @param   \stdClass  $model  Item model
-	 *
-	 * @return  Relationship
-	 *
-	 * @since 4.0
-	 */
-	public function tags($model)
-	{
-		$resources = [];
-
-		$serializer = new JoomlaSerializer('tags');
-
-		foreach ($model->tags as $id => $tagName)
-		{
-			$resources[] = (new Resource($id, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/tags/' . $id));
-		}
-
-		$collection = new Collection($resources, $serializer);
-
-		return new Relationship($collection);
 	}
 
 	/**

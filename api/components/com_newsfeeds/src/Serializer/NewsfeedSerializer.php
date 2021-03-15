@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Content\Api\Serializer;
+namespace Joomla\Component\Newsfeeds\Api\Serializer;
 
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Serializer\JoomlaSerializer;
+use Joomla\CMS\Tag\TagApiSerializerTrait;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Relationship;
@@ -22,8 +23,10 @@ use Tobscure\JsonApi\Resource;
  *
  * @since  4.0.0
  */
-class ContentSerializer extends JoomlaSerializer
+class NewsfeedSerializer extends JoomlaSerializer
 {
+	use TagApiSerializerTrait;
+
 	/**
 	 * Build content relationships by associations
 	 *
@@ -43,7 +46,7 @@ class ContentSerializer extends JoomlaSerializer
 		foreach ($model->associations as $association)
 		{
 			$resources[] = (new Resource($association, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/article/' . $association->id));
+				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/newsfeeds/feeds/' . $association->id));
 		}
 
 		$collection = new Collection($resources, $serializer);
@@ -65,7 +68,7 @@ class ContentSerializer extends JoomlaSerializer
 		$serializer = new JoomlaSerializer('categories');
 
 		$resource = (new Resource($model->catid, $serializer))
-			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/categories/' . $model->catid));
+			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/newfeeds/categories/' . $model->catid));
 
 		return new Relationship($resource);
 	}
