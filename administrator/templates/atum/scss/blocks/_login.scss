@@ -135,6 +135,7 @@
     flex: 1 0 33%;
     flex-direction: column;
     max-width: $sidebar-width-login;
+    order: 0;
 
     @include media-breakpoint-down(md) {
       order: 2;
@@ -181,6 +182,7 @@
     @include media-breakpoint-down(md) {
       flex: 1 0 100% !important;
       max-width: 100% !important;
+      min-height: auto;
     }
   }
 

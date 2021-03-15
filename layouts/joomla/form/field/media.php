@@ -114,7 +114,6 @@ $wam->useScript('webcomponent.image-select');
 
 Text::script('JFIELD_MEDIA_LAZY_LABEL');
 Text::script('JFIELD_MEDIA_ALT_LABEL');
-Text::script('JFIELD_MEDIA_CONFIRM_TEXT');
 Text::script('JLIB_APPLICATION_ERROR_SERVER');
 Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 
