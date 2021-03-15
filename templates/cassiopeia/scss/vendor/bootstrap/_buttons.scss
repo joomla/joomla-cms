@@ -24,3 +24,9 @@
     background-color: $gray-100;
   }
 }
+@media (max-width: 364px) {
+  
+  .btn-danger,.btn-primary {
+    margin-bottom: 5px;
+  }
+}
