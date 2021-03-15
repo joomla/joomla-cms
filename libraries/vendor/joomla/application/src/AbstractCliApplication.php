@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,7 +57,7 @@ abstract class AbstractCliApplication extends AbstractApplication
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
-		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
+		if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}

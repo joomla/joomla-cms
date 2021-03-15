@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,7 +47,10 @@ class Wincache extends Storage
 	 */
 	public function register()
 	{
-		ini_set('session.save_handler', 'wincache');
+		if (!headers_sent())
+		{
+			ini_set('session.save_handler', 'wincache');
+		}
 	}
 
 	/**
@@ -58,8 +61,8 @@ class Wincache extends Storage
 	 * @since   1.0
 	 * @deprecated  2.0
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
-		return (extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), "1"));
+		return \extension_loaded('wincache') && \function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
 	}
 }

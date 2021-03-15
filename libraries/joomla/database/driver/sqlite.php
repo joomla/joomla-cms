@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQLite database driver
  *
- * @link   https://secure.php.net/pdo
+ * @link   https://www.php.net/pdo
  * @since  3.0.0
  */
 class JDatabaseDriverSqlite extends JDatabaseDriverPdo

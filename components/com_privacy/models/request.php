@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
 
 /**
  * Request model class.
@@ -125,13 +127,13 @@ class PrivacyModelRequest extends JModelAdmin
 		{
 			$app = JFactory::getApplication();
 
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			$substitutions = array(
 				'[SITENAME]' => $app->get('sitename'),
 				'[URL]'      => JUri::root(),
-				'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode),
-				'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode),
+				'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
+				'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
 			);

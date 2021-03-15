@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Filter\InputFilter;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -114,12 +116,17 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 		else
 		{
-			$update_params = JComponentHelper::getParams('com_installer');
-			$cache_timeout = $update_params->get('cachetimeout', 6, 'int');
-			$cache_timeout = 3600 * $cache_timeout;
+			$cache_timeout = 3600 * JComponentHelper::getParams('com_installer')->get('cachetimeout', 6, 'int');
 		}
 
-		$updater = JUpdater::getInstance();
+		$updater               = JUpdater::getInstance();
+		$minimumStability      = JUpdater::STABILITY_STABLE;
+		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom')))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', JUpdater::STABILITY_STABLE);
+		}
 
 		$reflection = new ReflectionObject($updater);
 		$reflectionMethod = $reflection->getMethod('findUpdates');
@@ -128,11 +135,11 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		if (count($methodParameters) >= 4)
 		{
 			// Reinstall support is available in JUpdater
-			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE, true);
+			$updater->findUpdates(700, $cache_timeout, $minimumStability, true);
 		}
 		else
 		{
-			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE);
+			$updater->findUpdates(700, $cache_timeout, $minimumStability);
 		}
 	}
 
@@ -164,18 +171,41 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		if (is_null($updateObject))
 		{
+			// We have not found any update in the database we seem to run the latest version
 			$ret['latest'] = JVERSION;
 
 			return $ret;
 		}
 
-		$ret['latest']    = $updateObject->version;
-		$ret['hasUpdate'] = $updateObject->version != JVERSION;
+		// Check whether this is a valid update or not
+		if (version_compare($updateObject->version, JVERSION, '<'))
+		{
+			// This update points to an outdated version we should not offer to update to this
+			$ret['latest'] = JVERSION;
+
+			return $ret;
+		}
+
+		$ret['latest'] = $updateObject->version;
+
+		// Check whether this is an update or not.
+		if (version_compare($updateObject->version, JVERSION, '>'))
+		{
+			$ret['hasUpdate'] = true;
+		}
+
+		$minimumStability      = JUpdater::STABILITY_STABLE;
+		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom')))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', JUpdater::STABILITY_STABLE);
+		}
 
 		// Fetch the full update details from the update details URL.
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
-		$update->loadFromXML($updateObject->detailsurl);
+		$update->loadFromXML($updateObject->detailsurl, $minimumStability);
 
 		$ret['object'] = $update;
 
@@ -214,16 +244,18 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$db = $this->getDbo();
 
-		// Modify the database record
-		$update_site = new stdClass;
-		$update_site->last_check_timestamp = 0;
-		$update_site->enabled = 1;
-		$update_site->update_site_id = 1;
-		$db->updateObject('#__update_sites', $update_site, 'update_site_id');
+		// Reset the last update check timestamp
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('last_check_timestamp') . ' = 0');
+		$db->setQuery($query);
+		$db->execute();
 
+		// We should delete all core updates here
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
-			->where($db->quoteName('update_site_id') . ' = ' . $db->quote('1'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'));
 		$db->setQuery($query);
 
 		if ($db->execute())
@@ -271,7 +303,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		// Find the path to the temp directory and the local package.
 		$config   = JFactory::getConfig();
-		$tempdir  = $config->get('tmp_path');
+		$tempdir  = (string) InputFilter::getInstance(array(), array(), 1, 1)->clean($config->get('tmp_path'), 'path');
 		$target   = $tempdir . '/' . $basename;
 		$response = array();
 
@@ -327,7 +359,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 * @param   JUpdate  $updateObject  The Update Object
 	 *
 	 * @return  boolean  False in case the validation did not work; true in any other case.
-	 * 
+	 *
 	 * @note    This method has been forked from (JInstallerHelper::isChecksumValid) so it
 	 *          does not depend on an up-to-date InstallerHelper at the update time
 	 *
@@ -892,6 +924,11 @@ ENDDATA;
 
 		// Unset the update filename from the session.
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+		$oldVersion = JFactory::getApplication()->getUserState('com_joomlaupdate.oldversion');
+
+		// Trigger event after joomla update.
+		JFactory::getApplication()->triggerEvent('onJoomlaAfterUpdate', array($oldVersion));
+		JFactory::getApplication()->setUserState('com_joomlaupdate.oldversion', null);
 	}
 
 	/**
@@ -998,7 +1035,7 @@ ENDDATA;
 			return false;
 		}
 
-		// Make sure the user we're authorising is a Super User
+		// Make sure the user is authorised
 		if (!$user->authorise('core.admin'))
 		{
 			return false;

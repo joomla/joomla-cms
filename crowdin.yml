@@ -483,6 +483,12 @@ files:
   - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_readmore.sys.ini
     translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_readmore.sys.ini
     update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_weblink.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_editors-xtd_weblink.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_editors-xtd_weblink.sys.ini
+    update_option: update_as_unapproved
   - source: /administrator/language/en-GB/en-GB.plg_editors_codemirror.ini
     translation: /administrator/language/%locale%/%locale%.plg_editors_codemirror.ini
     update_option: update_as_unapproved
@@ -878,6 +884,12 @@ files:
     update_option: update_as_unapproved
   - source: /administrator/language/en-GB/en-GB.plg_system_updatenotification.sys.ini
     translation: /administrator/language/%locale%/%locale%.plg_system_updatenotification.sys.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_weblinks.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_weblinks.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_system_weblinks.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_system_weblinks.sys.ini
     update_option: update_as_unapproved
   - source: /administrator/language/en-GB/en-GB.plg_twofactorauth_totp.ini
     translation: /administrator/language/%locale%/%locale%.plg_twofactorauth_totp.ini

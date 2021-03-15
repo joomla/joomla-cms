@@ -442,7 +442,18 @@ class PharStreamWrapper
 
         $manager = Manager::instance();
         $this->invocation = $manager->resolve($path);
-        $manager->getCollection()->collect($this->invocation);
+        if ($this->invocation === null) {
+            throw new Exception(
+                'Expected invocation could not be resolved',
+                1556389591
+            );
+        }
+        // confirm, previous interceptor(s) validated invocation
+        $this->invocation->confirm();
+        $collection = $manager->getCollection();
+        if (!$collection->has($this->invocation)) {
+            $collection->collect($this->invocation);
+        }
     }
 
     /**
@@ -465,7 +476,7 @@ class PharStreamWrapper
     {
         $arguments = func_get_args();
         array_shift($arguments);
-        $silentExecution = $functionName{0} === '@';
+        $silentExecution = $functionName[0] === '@';
         $functionName = ltrim($functionName, '@');
         $this->restoreInternalSteamWrapper();
 
@@ -489,7 +500,15 @@ class PharStreamWrapper
 
     private function restoreInternalSteamWrapper()
     {
-        stream_wrapper_restore('phar');
+        if (PHP_VERSION_ID < 70324
+            || PHP_VERSION_ID >= 70400 && PHP_VERSION_ID < 70412) {
+            stream_wrapper_restore('phar');
+        } else  {
+            // with https://github.com/php/php-src/pull/6183 (PHP #76943) the
+            // behavior of `stream_wrapper_restore()` did change for
+            // PHP 8.0-RC1, 7.4.12 and 7.3.24
+            @stream_wrapper_restore('phar');
+        }
     }
 
     private function registerStreamWrapper()

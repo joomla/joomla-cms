@@ -549,7 +549,7 @@ abstract class ParagonIE_Sodium_Core_Util
          *
          * @var int
          */
-        $mask = -(($b >> $defaultSize) & 1);
+        $mask = -(($b >> ((int) $defaultSize)) & 1);
 
         /**
          * Ensure $b is a positive integer, without creating
@@ -912,7 +912,7 @@ abstract class ParagonIE_Sodium_Core_Util
         if ($mbstring === null) {
             $mbstring = extension_loaded('mbstring')
                 &&
-            (ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING);
+            ((int) (ini_get('mbstring.func_overload')) & MB_OVERLOAD_STRING);
         }
         /** @var bool $mbstring */
 

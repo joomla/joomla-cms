@@ -9,11 +9,9 @@ This document outlines security procedures and policies for the `Joomla! Project
 
 ## Reporting a Bug
 
-The `Joomla` team and community take all security bugs in `Joomla` seriously.
+The `Joomla` team and community take all security bugs in `Joomla` seriously. The Joomla! Security Strike Team (JSST) oversees the project's security issues and follows some specific procedures when dealing with these issues.
 
-The Joomla! Project takes security vulnerabilities very seriously. As such, the Joomla! Security Strike Team (JSST) oversees the project's security issues and follows some specific procedures when dealing with these issues.
-
-If you find a possible vulnerability, please report it to the JSST using the [online form](https://developer.joomla.org/security/contact-the-team.html) or via email at security@joomla.org 
+If you find a possible vulnerability, please report it to the JSST using the [online form](https://developer.joomla.org/security/contact-the-team.html) or via email at security@joomla.org
 
 We maintain a list of [GPG keys and addresses](https://developer.joomla.org/security/gpg-keys.html) for the security@joomla.org address and members of the JSST to allow signed and encrypted communications.
 
@@ -25,7 +23,7 @@ Thank you for improving the security of `Joomla`.
 
 ## Response Handling
 
-The JSST aims to ensure all issues are handled in a timely manner and for clear communication between the team and issue reporters. As such, we have established the following guidelines for responding to issue reports:
+The JSST aims to ensure all issues are handled in a timely manner and for clear communication between the team and issue reporters. We have established the following guidelines for responding to issue reports:
 
 * Within 24 hours every report gets acknowledged
 * Within 7 days every report gets a further response stating either

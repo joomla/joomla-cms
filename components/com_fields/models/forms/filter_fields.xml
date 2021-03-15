@@ -12,6 +12,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label=""
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
@@ -68,6 +69,7 @@
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.ordering ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
@@ -78,12 +80,12 @@
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.type ASC">COM_FIELDS_VIEW_FIELDS_SORT_TYPE_ASC</option>
 			<option value="a.type DESC">COM_FIELDS_VIEW_FIELDS_SORT_TYPE_DESC</option>
-			<option value="category_title ASC">COM_FIELDS_FIELD_GROUP_LABEL</option>
-			<option value="category_title DESC">COM_FIELDS_FIELD_GROUP_LABEL</option>
+			<option value="g.title ASC">COM_FIELDS_VIEW_FIELDS_SORT_GROUP_ASC</option>
+			<option value="g.title DESC">COM_FIELDS_VIEW_FIELDS_SORT_GROUP_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="a.language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

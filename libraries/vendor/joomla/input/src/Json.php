@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,12 +45,12 @@ class Json extends Input
 			$this->filter = new Filter\InputFilter;
 		}
 
-		if (is_null($source))
+		if ($source === null)
 		{
 			$this->raw = file_get_contents('php://input');
 
 			// This is a workaround for where php://input has already been read.
-			// See note under php://input on http://php.net/manual/en/wrappers.php.php
+			// See note under php://input on https://www.php.net/manual/en/wrappers.php.php
 			if (empty($this->raw) && isset($GLOBALS['HTTP_RAW_POST_DATA']))
 			{
 				$this->raw = $GLOBALS['HTTP_RAW_POST_DATA'];
@@ -58,7 +58,7 @@ class Json extends Input
 
 			$this->data = json_decode($this->raw, true);
 
-			if (!is_array($this->data))
+			if (!\is_array($this->data))
 			{
 				$this->data = array();
 			}

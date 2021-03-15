@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,11 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Prototype admin model.
@@ -124,7 +125,7 @@ abstract class AdminModel extends FormModel
 	protected $user = null;
 
 	/**
-	 * A JTable instance (of appropropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 * A JTable instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   3.8.2
@@ -408,6 +409,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$newIds = array();
+		$db     = $this->getDbo();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -433,6 +435,12 @@ abstract class AdminModel extends FormModel
 					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
+			}
+
+			// Check for asset_id
+			if ($this->table->hasField($this->table->getColumnAlias('asset_id')))
+			{
+				$oldAssetId = $this->table->asset_id;
 			}
 
 			$this->generateTitle($categoryId, $this->table);
@@ -487,6 +495,21 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
+			if (!empty($oldAssetId))
+			{
+				// Copy rules
+				$query = $db->getQuery(true);
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+
+				$db->setQuery($query)->execute();
+			}
+
 			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
 
 			// Add the new ID to the array
@@ -500,7 +523,7 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
 	 * @param   \JTableInterface  $table  The table object containing the newly created item
 	 * @param   integer           $newId  The id of the new item
@@ -902,22 +925,29 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
 	 * @since	1.7
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title & alias
-		$table = $this->getTable();
+		$table      = $this->getTable();
+		$aliasField = $table->getColumnAlias('alias');
+		$catidField = $table->getColumnAlias('catid');
+		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $categoryId)))
 		{
-			$title = StringHelper::increment($title);
+			if ($title === $table->$titleField)
+			{
+				$title = StringHelper::increment($title);
+			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -1194,6 +1224,7 @@ abstract class AdminModel extends FormModel
 		$dispatcher = \JEventDispatcher::getInstance();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
+		$app        = \JFactory::getApplication();
 
 		if (!empty($data['tags']) && $data['tags'][0] != '')
 		{
@@ -1293,7 +1324,7 @@ abstract class AdminModel extends FormModel
 			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && $table->language === '*')
 			{
-				\JFactory::getApplication()->enqueueMessage(
+				$app->enqueueMessage(
 					\JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
 					'warning'
 				);
@@ -1348,6 +1379,11 @@ abstract class AdminModel extends FormModel
 				$db->setQuery($query);
 				$db->execute();
 			}
+		}
+
+		if ($app->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
 		}
 
 		return true;
@@ -1531,9 +1567,11 @@ abstract class AdminModel extends FormModel
 	public function generateTitle($categoryId, $table)
 	{
 		// Alter the title & alias
-		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-		$table->title = $data['0'];
-		$table->alias = $data['1'];
+		$titleField         = $table->getColumnAlias('title');
+		$aliasField         = $table->getColumnAlias('alias');
+		$data               = $this->generateNewTitle($categoryId, $table->$aliasField, $table->$titleField);
+		$table->$titleField = $data['0'];
+		$table->$aliasField = $data['1'];
 	}
 
 	/**
@@ -1577,13 +1615,28 @@ abstract class AdminModel extends FormModel
 	 * @return  boolean  True if successful, false otherwise.
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
 	 */
 	public function editAssociations($data)
 	{
 		// Save the item
 		$this->save($data);
+	}
 
-		$app = \JFactory::getApplication();
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @throws \Exception
+	 * @since   3.9.17
+	 */
+	protected function redirectToAssociations($data)
+	{
+		$app = Factory::getApplication();
 		$id  = $data['id'];
 
 		// Deal with categories associations

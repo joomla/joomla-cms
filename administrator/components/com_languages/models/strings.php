@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,7 +111,7 @@ class LanguagesModelStrings extends JModelLegacy
 	/**
 	 * Method for searching language strings.
 	 *
-	 * @return  array  Array of resuls on success, Exception object otherwise.
+	 * @return  array  Array of results on success, Exception object otherwise.
 	 *
 	 * @since		2.5
 	 */

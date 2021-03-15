@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ use Joomla\Filter\InputFilter;
 /**
  * Custom session storage handler for PHP
  *
- * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @link        https://www.php.net/manual/en/function.session-set-save-handler.php
  * @since       1.0
  * @deprecated  2.0  The Storage class chain will be removed.
  */
@@ -53,7 +53,7 @@ abstract class Storage
 	public static function getInstance($name = 'none', $options = array())
 	{
 		$filter = new InputFilter;
-		$name = strtolower($filter->clean($name, 'word'));
+		$name   = strtolower($filter->clean($name, 'word'));
 
 		if (empty(self::$instances[$name]))
 		{
@@ -90,25 +90,31 @@ abstract class Storage
 	 */
 	public function register()
 	{
-		// Use this object as the session handler
-		session_set_save_handler(
-			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
-			array($this, 'destroy'), array($this, 'gc')
-		);
+		if (!headers_sent())
+		{
+			session_set_save_handler(
+				array($this, 'open'),
+				array($this, 'close'),
+				array($this, 'read'),
+				array($this, 'write'),
+				array($this, 'destroy'),
+				array($this, 'gc')
+			);
+		}
 	}
 
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @param   string  $save_path     The path to the session object.
-	 * @param   string  $session_name  The name of the session.
+	 * @param   string  $savePath     The path to the session object.
+	 * @param   string  $sessionName  The name of the session.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.0
 	 * @deprecated  2.0
 	 */
-	public function open($save_path, $session_name)
+	public function open($savePath, $sessionName)
 	{
 		return true;
 	}
@@ -145,15 +151,15 @@ abstract class Storage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param   string  $id            The session identifier.
-	 * @param   string  $session_data  The session data.
+	 * @param   string  $id           The session identifier.
+	 * @param   string  $sessionData  The session data.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.0
 	 * @deprecated  2.0
 	 */
-	public function write($id, $session_data)
+	public function write($id, $sessionData)
 	{
 		return true;
 	}

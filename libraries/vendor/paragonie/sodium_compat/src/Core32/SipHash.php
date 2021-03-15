@@ -202,7 +202,6 @@ class ParagonIE_Sodium_Core32_SipHash extends ParagonIE_Sodium_Core32_Util
             case 0:
                 break;
         }
-        // See docblock for why the 0th index gets the higher bits.
 
         # v3 ^= b;
         $v[3] = $v[3]->xorInt64($b);

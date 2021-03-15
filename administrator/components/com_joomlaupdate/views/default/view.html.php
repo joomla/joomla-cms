@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,8 +63,8 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->loadHelper('select');
 
 		// Assign view variables.
-		$ftp           = $model->getFTPOptions();
-		$defaultMethod = $ftp['enabled'] ? 'hybrid' : 'direct';
+		$this->ftp     = $model->getFTPOptions();
+		$defaultMethod = $this->ftp['enabled'] ? 'hybrid' : 'direct';
 
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);
@@ -75,9 +75,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		JToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
-		$user = JFactory::getUser();
-
-		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
+		if (JFactory::getUser()->authorise('core.admin'))
 		{
 			JToolbarHelper::preferences('com_joomlaupdate');
 		}
@@ -184,7 +182,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		// Try the update only if we have an extension id
 		if ($joomlaUpdateComponentId != 0)
 		{
-			// Allways force to check for an update!
+			// Always force to check for an update!
 			$cache_timeout = 0;
 
 			$updater = JUpdater::getInstance();

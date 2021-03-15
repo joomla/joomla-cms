@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,9 +96,9 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<?php endif; ?>
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
-			<tr class="info">
+			<tr class="warning">
 				<td>
-					<span class="icon-help" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('JHELP'); ?></span>
+					<span class="icon-pending" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
 				</td>
 				<td>
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>

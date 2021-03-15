@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -117,18 +117,17 @@ abstract class FieldsPlugin extends JPlugin
 			return;
 		}
 
-		// Check if the field should be displayed on the form
-		if (!FieldsHelper::displayFieldOnForm($field))
-		{
-			return;
-		}
-
 		// Merge the params from the plugin and field which has precedence
 		$fieldParams = clone $this->params;
 		$fieldParams->merge($field->fieldparams);
 
 		// Get the path for the layout file
 		$path = JPluginHelper::getLayoutPath('fields', $field->type, $field->type);
+
+		if (!file_exists($path))
+		{
+			$path = JPluginHelper::getLayoutPath('fields', $this->_name, $field->type);
+		}
 
 		// Render the layout
 		ob_start();

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Event
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,7 +67,7 @@ abstract class JEvent extends JObject
 		 */
 		if (method_exists($this, $event))
 		{
-			return call_user_func_array(array($this, $event), $args);
+			return call_user_func_array(array($this, $event), array_values($args));
 		}
 	}
 }

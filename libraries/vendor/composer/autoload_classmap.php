@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => $vendorDir . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
     'Brumann\\Polyfill\\Unserialize' => $vendorDir . '/brumann/polyfill-unserialize/src/Unserialize.php',
     'CallbackFilterIterator' => $vendorDir . '/joomla/compat/src/CallbackFilterIterator.php',
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
@@ -24,6 +25,8 @@ return array(
     'Joomla\\Application\\Web\\WebClient' => $vendorDir . '/joomla/application/src/Web/WebClient.php',
     'Joomla\\Archive\\Archive' => $vendorDir . '/joomla/archive/src/Archive.php',
     'Joomla\\Archive\\Bzip2' => $vendorDir . '/joomla/archive/src/Bzip2.php',
+    'Joomla\\Archive\\Exception\\UnknownArchiveException' => $vendorDir . '/joomla/archive/src/Exception/UnknownArchiveException.php',
+    'Joomla\\Archive\\Exception\\UnsupportedArchiveException' => $vendorDir . '/joomla/archive/src/Exception/UnsupportedArchiveException.php',
     'Joomla\\Archive\\ExtractableInterface' => $vendorDir . '/joomla/archive/src/ExtractableInterface.php',
     'Joomla\\Archive\\Gzip' => $vendorDir . '/joomla/archive/src/Gzip.php',
     'Joomla\\Archive\\Tar' => $vendorDir . '/joomla/archive/src/Tar.php',
@@ -92,6 +95,7 @@ return array(
     'Joomla\\Session\\Session' => $vendorDir . '/joomla/session/Joomla/Session/Session.php',
     'Joomla\\Session\\Storage' => $vendorDir . '/joomla/session/Joomla/Session/Storage.php',
     'Joomla\\Session\\Storage\\Apc' => $vendorDir . '/joomla/session/Joomla/Session/Storage/Apc.php',
+    'Joomla\\Session\\Storage\\Apcu' => $vendorDir . '/joomla/session/Joomla/Session/Storage/Apcu.php',
     'Joomla\\Session\\Storage\\Database' => $vendorDir . '/joomla/session/Joomla/Session/Storage/Database.php',
     'Joomla\\Session\\Storage\\Memcache' => $vendorDir . '/joomla/session/Joomla/Session/Storage/Memcache.php',
     'Joomla\\Session\\Storage\\Memcached' => $vendorDir . '/joomla/session/Joomla/Session/Storage/Memcached.php',
@@ -109,6 +113,7 @@ return array(
     'Joomla\\Uri\\UriInterface' => $vendorDir . '/joomla/uri/src/UriInterface.php',
     'Joomla\\Utilities\\ArrayHelper' => $vendorDir . '/joomla/utilities/src/ArrayHelper.php',
     'Joomla\\Utilities\\IpHelper' => $vendorDir . '/joomla/utilities/src/IpHelper.php',
+    'JsonException' => $vendorDir . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
     'JsonSerializable' => $vendorDir . '/joomla/compat/src/JsonSerializable.php',
     'PHPMailer' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
     'PHPMailerOAuth' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauth.php',

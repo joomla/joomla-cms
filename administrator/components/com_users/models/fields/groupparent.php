@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
@@ -75,7 +75,7 @@ class JFormFieldGroupParent extends JFormFieldList
 		}
 
 		// We should not remove any groups when we are creating a new group
-		if (!is_null($currentGroupId))
+		if ($currentGroupId !== null && $currentGroupId !== 0)
 		{
 			// Prevent parenting direct children and children of children of this item.
 			$options = $this->cleanOptionsChildrenByFather($options, $currentGroupId);

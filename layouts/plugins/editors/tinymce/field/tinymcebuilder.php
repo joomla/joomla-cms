@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ extract($displayData);
  * @var   array   $menubarSource   Menu items for builder
  * @var   array   $buttons         List of the buttons
  * @var   array   $buttonsSource   Buttons by group, for the builder
- * @var   array   $toolbarPreset   Toolbar presset (default values)
+ * @var   array   $toolbarPreset   Toolbar preset (default values)
  * @var   int     $setsAmount      Amount of sets
  * @var   array   $setsNames       List of Sets names
  * @var   JForm[] $setsForms       Form with extra options for an each set

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ class Mail extends \PHPMailer
 		// PHPMailer has an issue using the relative path for its language files
 		$this->setLanguage('en_gb', __DIR__ . '/language/');
 
-		// Configure a callback function to handle errors when $this->edebug() is called
+		// Configure a callback function to handle errors when $this->debug() is called
 		$this->Debugoutput = function ($message, $level)
 		{
 			Log::add(sprintf('Error in Mail API: %s', $message), Log::ERROR, 'mail');
@@ -64,6 +64,25 @@ class Mail extends \PHPMailer
 
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
+
+
+		/**
+		* Which validator to use by default when validating email addresses.
+		* Validation patterns supported:
+		* `auto` Pick best pattern automatically;
+		* `pcre8` Use the squiloople.com pattern, requires PCRE > 8.0;
+		* `pcre` Use old PCRE implementation;
+		* `php` Use PHP built-in FILTER_VALIDATE_EMAIL;
+		* `html5` Use the pattern given by the HTML5 spec for 'email' type form input elements.
+		* `noregex` Don't use a regex: super fast, really dumb.
+		*
+		* The default used by phpmailer is `php` but this does not support dotless domains so instead we use `html5`
+		*
+		* @see PHPMailer::validateAddress()
+		*
+		* @var string|callable
+		*/
+		\PHPMailer::$validator = 'html5';
 	}
 
 	/**

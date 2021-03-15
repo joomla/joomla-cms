@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class FinderControllerSuggestions extends JControllerLegacy
 {
 	/**
-	 * Method to find search query suggestions. Uses jQuery and autocopleter.js
+	 * Method to find search query suggestions. Uses jQuery and autocompleter.js
 	 *
 	 * @return  void
 	 *
@@ -25,8 +25,12 @@ class FinderControllerSuggestions extends JControllerLegacy
 	 */
 	public function suggest()
 	{
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = JFactory::getApplication();
 		$app->mimeType = 'application/json';
+
+		// Ensure caching is disabled as it depends on the query param in the model
+		$app->allowCache(false);
 
 		$suggestions = $this->getSuggestions();
 
@@ -50,8 +54,12 @@ class FinderControllerSuggestions extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = JFactory::getApplication();
 		$app->mimeType = 'application/json';
+
+		// Ensure caching is disabled as it depends on the query param in the model
+		$app->allowCache(false);
 
 		$suggestions = $this->getSuggestions();
 

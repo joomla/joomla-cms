@@ -213,17 +213,23 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
                 ) >> ($pos & 7);
             # b &= 1;
             $b &= 1;
+
             # swap ^= b;
             $swap ^= $b;
+
             # fe_cswap(x2,x3,swap);
             self::fe_cswap($x2, $x3, $swap);
+
             # fe_cswap(z2,z3,swap);
             self::fe_cswap($z2, $z3, $swap);
+
             # swap = b;
             /** @var int $swap */
             $swap = $b;
+
             # fe_sub(tmp0,x3,z3);
             $tmp0 = self::fe_sub($x3, $z3);
+
             # fe_sub(tmp1,x2,z2);
             $tmp1 = self::fe_sub($x2, $z2);
 
@@ -337,7 +343,7 @@ abstract class ParagonIE_Sodium_Core32_X25519 extends ParagonIE_Sodium_Core32_Cu
         $A = self::ge_scalarmult_base($e);
         if (
             !($A->Y instanceof ParagonIE_Sodium_Core32_Curve25519_Fe)
-            ||
+                ||
             !($A->Z instanceof ParagonIE_Sodium_Core32_Curve25519_Fe)
         ) {
             throw new TypeError('Null points encountered');

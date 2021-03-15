@@ -31,9 +31,9 @@ class Helper
         if (function_exists('opcache_reset')
             && function_exists('opcache_get_status')
         ) {
-            $status = opcache_get_status();
+            $status = @opcache_get_status();
             if (!empty($status['opcache_enabled'])) {
-                opcache_reset();
+                @opcache_reset();
             }
         }
     }
@@ -52,7 +52,7 @@ class Helper
 
         while (count($parts)) {
             $currentPath = implode('/', $parts);
-            if (@is_file($currentPath)) {
+            if (@is_file($currentPath) && realpath($currentPath) !== false) {
                 return $currentPath;
             }
             array_pop($parts);
@@ -93,7 +93,7 @@ class Helper
     public static function normalizePath($path)
     {
         return rtrim(
-            static::getCanonicalPath(
+            static::normalizeWindowsPath(
                 static::removePharPrefix($path)
             ),
             '/'
@@ -106,7 +106,7 @@ class Helper
      * @param string $path File path to process
      * @return string
      */
-    private static function normalizeWindowsPath($path)
+    public static function normalizeWindowsPath($path)
     {
         return str_replace('\\', '/', $path);
     }

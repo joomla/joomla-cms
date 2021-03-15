@@ -4,6 +4,7 @@
  * @subpackage  utils
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 defined('FOF_INCLUDED') or die;
@@ -102,7 +103,7 @@ class FOFUtilsIniParser
 			}
 
 			// Sections
-			if ($line{0} == '[')
+			if ($line[0] == '[')
 			{
 				$tmp = explode(']', $line);
 				$sections[] = trim(substr($tmp[0], 1));
@@ -125,7 +126,7 @@ class FOFUtilsIniParser
 				$tmp = explode(';', $value);
 				if (count($tmp) == 2)
 				{
-					if ((($value{0} != '"') && ($value{0} != "'")) ||
+					if ((($value[0] != '"') && ($value[0] != "'")) ||
 							preg_match('/^".*"\s*;/', $value) || preg_match('/^".*;[^"]*$/', $value) ||
 							preg_match("/^'.*'\s*;/", $value) || preg_match("/^'.*;[^']*$/", $value)
 					)
@@ -135,11 +136,11 @@ class FOFUtilsIniParser
 				}
 				else
 				{
-					if ($value{0} == '"')
+					if ($value[0] == '"')
 					{
 						$value = preg_replace('/^"(.*)".*/', '$1', $value);
 					}
-					elseif ($value{0} == "'")
+					elseif ($value[0] == "'")
 					{
 						$value = preg_replace("/^'(.*)'.*/", '$1', $value);
 					}

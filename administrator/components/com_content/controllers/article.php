@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ class ContentControllerArticle extends JControllerForm
 
 		if ($allow === null)
 		{
-			// In the absense of better information, revert to the component permissions.
+			// In the absence of better information, revert to the component permissions.
 			return parent::allowAdd();
 		}
 

@@ -67,7 +67,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Image\\' => 13,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Filesystem\\' => 18,
-            'Joomla\\Event\\Tests\\' => 19,
             'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
             'Joomla\\Data\\' => 12,
@@ -162,10 +161,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/filesystem/src',
         ),
-        'Joomla\\Event\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/event/Tests',
-        ),
         'Joomla\\Event\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/event/src',
@@ -214,6 +209,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
     );
 
     public static $classMap = array (
+        'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
         'Brumann\\Polyfill\\Unserialize' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/Unserialize.php',
         'CallbackFilterIterator' => __DIR__ . '/..' . '/joomla/compat/src/CallbackFilterIterator.php',
         'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
@@ -232,6 +228,8 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Application\\Web\\WebClient' => __DIR__ . '/..' . '/joomla/application/src/Web/WebClient.php',
         'Joomla\\Archive\\Archive' => __DIR__ . '/..' . '/joomla/archive/src/Archive.php',
         'Joomla\\Archive\\Bzip2' => __DIR__ . '/..' . '/joomla/archive/src/Bzip2.php',
+        'Joomla\\Archive\\Exception\\UnknownArchiveException' => __DIR__ . '/..' . '/joomla/archive/src/Exception/UnknownArchiveException.php',
+        'Joomla\\Archive\\Exception\\UnsupportedArchiveException' => __DIR__ . '/..' . '/joomla/archive/src/Exception/UnsupportedArchiveException.php',
         'Joomla\\Archive\\ExtractableInterface' => __DIR__ . '/..' . '/joomla/archive/src/ExtractableInterface.php',
         'Joomla\\Archive\\Gzip' => __DIR__ . '/..' . '/joomla/archive/src/Gzip.php',
         'Joomla\\Archive\\Tar' => __DIR__ . '/..' . '/joomla/archive/src/Tar.php',
@@ -300,6 +298,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Session\\Session' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Session.php',
         'Joomla\\Session\\Storage' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage.php',
         'Joomla\\Session\\Storage\\Apc' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Apc.php',
+        'Joomla\\Session\\Storage\\Apcu' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Apcu.php',
         'Joomla\\Session\\Storage\\Database' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Database.php',
         'Joomla\\Session\\Storage\\Memcache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Memcache.php',
         'Joomla\\Session\\Storage\\Memcached' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Memcached.php',
@@ -317,6 +316,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Uri\\UriInterface' => __DIR__ . '/..' . '/joomla/uri/src/UriInterface.php',
         'Joomla\\Utilities\\ArrayHelper' => __DIR__ . '/..' . '/joomla/utilities/src/ArrayHelper.php',
         'Joomla\\Utilities\\IpHelper' => __DIR__ . '/..' . '/joomla/utilities/src/IpHelper.php',
+        'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'JsonSerializable' => __DIR__ . '/..' . '/joomla/compat/src/JsonSerializable.php',
         'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
         'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',

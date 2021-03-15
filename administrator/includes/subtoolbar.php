@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,7 @@ abstract class JSubMenuHelper
 	 * @param   string   $label      Label for the menu item.
 	 * @param   string   $name       name for the filter. Also used as id.
 	 * @param   string   $options    options for the select field.
-	 * @param   boolean  $noDefault  Don't the label as the empty option
+	 * @param   boolean  $noDefault  Don't show the label as the empty option
 	 *
 	 * @return  void
 	 *

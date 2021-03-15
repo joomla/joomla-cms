@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -583,7 +583,7 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
-	 * Add javascript support for Bootstrap accordians and insert the accordian
+	 * Add javascript support for Bootstrap accordions and insert the accordion
 	 *
 	 * @param   string  $selector  The ID selector for the tooltip.
 	 * @param   array   $params    An array of options for the tooltip.

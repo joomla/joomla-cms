@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ final class ColorStyle
 		'blue'    => 4,
 		'magenta' => 5,
 		'cyan'    => 6,
-		'white'   => 7
+		'white'   => 7,
 	);
 
 	/**
@@ -100,7 +100,7 @@ final class ColorStyle
 	{
 		if ($fg)
 		{
-			if (false == array_key_exists($fg, static::$knownColors))
+			if (array_key_exists($fg, static::$knownColors) == false)
 			{
 				throw new \InvalidArgumentException(
 					sprintf('Invalid foreground color "%1$s" [%2$s]',
@@ -115,7 +115,7 @@ final class ColorStyle
 
 		if ($bg)
 		{
-			if (false == array_key_exists($bg, static::$knownColors))
+			if (array_key_exists($bg, static::$knownColors) == false)
 			{
 				throw new \InvalidArgumentException(
 					sprintf('Invalid background color "%1$s" [%2$s]',
@@ -130,7 +130,7 @@ final class ColorStyle
 
 		foreach ($options as $option)
 		{
-			if (false == array_key_exists($option, static::$knownOptions))
+			if (array_key_exists($option, static::$knownOptions) == false)
 			{
 				throw new \InvalidArgumentException(
 					sprintf('Invalid option "%1$s" [%2$s]',
@@ -170,8 +170,8 @@ final class ColorStyle
 	 */
 	public static function fromString($string)
 	{
-		$fg = '';
-		$bg = '';
+		$fg      = '';
+		$bg      = '';
 		$options = array();
 
 		$parts = explode(';', $string);
@@ -180,7 +180,7 @@ final class ColorStyle
 		{
 			$subParts = explode('=', $part);
 
-			if (count($subParts) < 2)
+			if (\count($subParts) < 2)
 			{
 				continue;
 			}
@@ -189,18 +189,22 @@ final class ColorStyle
 			{
 				case 'fg':
 					$fg = $subParts[1];
+
 					break;
 
 				case 'bg':
 					$bg = $subParts[1];
+
 					break;
 
 				case 'options':
 					$options = explode(',', $subParts[1]);
+
 					break;
 
 				default:
 					throw new \RuntimeException('Invalid option');
+
 					break;
 			}
 		}

@@ -94,6 +94,11 @@
 			filter="unset"
 		/>
 
+		<!-- Used to get the two factor authentication configuration -->
+		<field
+			name="twofactor"
+			type="hidden"
+		/>
 	</fieldset>
 
 	<fields name="params">
@@ -139,15 +144,6 @@
 				description="COM_ADMIN_USER_FIELD_EDITOR_DESC"
 				folder="editors"
 				useaccess="true"
-				>
-				<option value="">JOPTION_USE_DEFAULT</option>
-			</field>
-
-			<field
-				name="helpsite"
-				type="helpsite"
-				label="COM_ADMIN_USER_FIELD_HELPSITE_LABEL"
-				description="COM_ADMIN_USER_FIELD_HELPSITE_DESC"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
