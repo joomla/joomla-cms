@@ -74,10 +74,26 @@ class NomenuRules implements RulesInterface
 			if (isset($views[$segments[0]]))
 			{
 				$vars['view'] = array_shift($segments);
+				$view = $views[$vars['view']];
 
 				if (isset($views[$vars['view']]->key) && isset($segments[0]))
 				{
-					$vars[$views[$vars['view']]->key] = preg_replace('/-/', ':', array_shift($segments), 1);
+					if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
+					{
+						if ($this->router->app->input->get($view->parent_key))
+						{
+							$vars[$view->parent->key] = $this->router->app->input->get($view->parent_key);
+							$vars[$view->parent_key] = $this->router->app->input->get($view->parent_key);
+						}
+
+						$result = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segments[0], $vars));
+						array_shift($segments);
+						$vars[$view->key] = preg_replace('/-/', ':', $result, 1);
+					}
+					else
+					{
+						$vars[$view->key] = preg_replace('/-/', ':', array_shift($segments), 1);
+					}
 				}
 			}
 		}
