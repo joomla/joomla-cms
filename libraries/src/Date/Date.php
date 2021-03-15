@@ -336,7 +336,7 @@ class Date extends \DateTime
 			}
 		}
 
-		if ($local == false)
+		if ($local == false && $this->tz !== null)
 		{
 			parent::setTimezone($this->tz);
 		}
