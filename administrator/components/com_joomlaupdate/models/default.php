@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Filter\InputFilter;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -316,7 +317,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		// Find the path to the temp directory and the local package.
 		$config   = JFactory::getConfig();
-		$tempdir  = $config->get('tmp_path');
+		$tempdir  = (string) InputFilter::getInstance(array(), array(), 1, 1)->clean($config->get('tmp_path'), 'path');
 		$target   = $tempdir . '/' . $basename;
 		$response = array();
 

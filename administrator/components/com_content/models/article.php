@@ -382,13 +382,11 @@ class ContentModelArticle extends JModelAdmin
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
 		 * The back end uses id so we use that the rest of the time and set it to 0 by default.
 		 */
-		$id = $jinput->get('a_id', $jinput->get('id', 0));
+		$id = (int) $jinput->get('a_id', $jinput->get('id', 0));
 
 		// Determine correct permissions to check.
-		if ($this->getState('article.id'))
+		if ($id = $this->getState('article.id', $id))
 		{
-			$id = $this->getState('article.id');
-
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
@@ -404,6 +402,7 @@ class ContentModelArticle extends JModelAdmin
 					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
 				{
 					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'required', 'false');
 					$form->setFieldAttribute('catid', 'filter', 'unset');
 				}
 			}
@@ -519,16 +518,11 @@ class ContentModelArticle extends JModelAdmin
 	public function validate($form, $data, $group = null)
 	{
 		// Don't allow to change the users if not allowed to access com_users.
-		if (JFactory::getApplication()->isClient('administrator') && !JFactory::getUser()->authorise('core.manage', 'com_users'))
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
 		{
 			if (isset($data['created_by']))
 			{
 				unset($data['created_by']);
-			}
-
-			if (isset($data['modified_by']))
-			{
-				unset($data['modified_by']);
 			}
 		}
 
