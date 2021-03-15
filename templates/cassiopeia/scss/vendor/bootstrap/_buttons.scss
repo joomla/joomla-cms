@@ -24,9 +24,9 @@
     background-color: $gray-100;
   }
 }
-@media (max-width: 364px) {
+@media (max-width: 22.75rem) {
   
-  .btn-danger,.btn-primary {
-    margin-bottom: 5px;
+  .btn{
+    margin-bottom:0.25rem;
   }
 }
