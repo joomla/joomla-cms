@@ -37,8 +37,7 @@ You will need:
 - Git - for version management. Download from here https://git-scm.com/downloads (MacOS users can also use Brew and Linux users can use the built-in package manager, eg apt, yum, etc). 
 
 **Steps to setup the local environment:**
-- Clone the repository to server folder:
-For ex: C:\xampp\htdocs\
+- Clone the repository:
 ```bash
 git clone git@github.com:joomla/joomla-cms.git
 ```
