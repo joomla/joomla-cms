@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,20 +32,16 @@ endif;
 <div class="container d-none" id="comModulesSelectSearchContainer">
 	<div class="row">
 		<div class="col-sm-6 offset-sm-2 col-md-4 offset-sm-4 offset-md-5 offset-lg-4">
-			<div class="form-inline">
-				<label class="sr-only" for="comModulesSelectSearch">
-					<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
-				</label>
-				<div class="input-group mb-5 mr-sm-2">
-					<input type="text" value=""
-						   class="form-control" id="comModulesSelectSearch"
-						   placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
-					>
-					<div class="input-group-append" aria-hidden="true">
-						<div class="input-group-text">
-							<span class="fa fa-search"></span>
-						</div>
-					</div>
+			<label class="visually-hidden" for="comModulesSelectSearch">
+				<?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
+			</label>
+			<div class="input-group mb-5 me-sm-2">
+				<input type="text" value=""
+					class="form-control" id="comModulesSelectSearch"
+					placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
+				>
+				<div class="input-group-text">
+					<span class="icon-search" aria-hidden="true"></span>
 				</div>
 			</div>
 		</div>
@@ -54,6 +50,10 @@ endif;
 
 <div id="new-modules-list">
 	<div class="new-modules">
+		<div class="alert alert-info d-none">
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
+		</div>
 		<div class="card-columns">
 			<?php foreach ($this->items as &$item) : ?>
 				<div class="card mb-4 comModulesSelectCard">
@@ -71,7 +71,7 @@ endif;
 							<?php echo $desc; ?>
 						</p>
 					</div>
-					<a href="<?php echo Route::_($link); ?>" class="btn btn-primary <?php echo $function ? ' select-link" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
+					<a href="<?php echo Route::_($link); ?>" class="btn btn-primary stretched-link <?php echo $function ? ' select-link" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
 						<?php echo Text::_('JSELECT'); ?>
 					</a>
 				</div>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -220,7 +220,7 @@ class Language
 
 		while (!class_exists($class) && $path)
 		{
-			if (file_exists($path))
+			if (is_file($path))
 			{
 				require_once $path;
 			}
@@ -792,7 +792,7 @@ class Language
 		$strings = LanguageHelper::parseIniFile($fileName, $this->debug);
 
 		// Debug the ini file if needed.
-		if ($this->debug === true && file_exists($fileName))
+		if ($this->debug === true && is_file($fileName))
 		{
 			$this->debugFile($fileName);
 		}
@@ -813,7 +813,7 @@ class Language
 	public function debugFile($filename)
 	{
 		// Make sure our file actually exists
-		if (!file_exists($filename))
+		if (!is_file($filename))
 		{
 			throw new \InvalidArgumentException(
 				sprintf('Unable to locate file "%s" for debugging', $filename)

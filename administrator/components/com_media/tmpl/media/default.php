@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -37,13 +37,14 @@ if ($tmpl === 'component')
 
 // Populate the media config
 $config = array(
-	'apiBaseUrl'              => Uri::root() . 'administrator/index.php?option=com_media&format=json',
+	'apiBaseUrl'              => Uri::base() . 'index.php?option=com_media&format=json',
 	'csrfToken'               => Session::getFormToken(),
 	'filePath'                => $params->get('file_path', 'images'),
 	'fileBaseUrl'             => Uri::root() . $params->get('file_path', 'images'),
 	'fileBaseRelativeUrl'     => $params->get('file_path', 'images'),
-	'editViewUrl'             => Uri::root() . 'administrator/index.php?option=com_media&view=file' . (!empty($tmpl) ? ('&tmpl=' . $tmpl) : ''),
+	'editViewUrl'             => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : ''),
 	'allowedUploadExtensions' => $params->get('upload_extensions', ''),
+	'imagesExtensions'        => $params->get('image_extensions', ''),
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'providers'               => (array) $this->providers,
 	'currentPath'             => $this->currentPath,

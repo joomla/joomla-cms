@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,6 +109,15 @@ abstract class FormField
 	 * @since  4.0.0
 	 */
 	protected $hiddenLabel = false;
+
+	/**
+	 * Should the description be hidden when rendering the form field? This may be useful if you have the
+	 * description rendering in your form field itself for e.g. note fields.
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $hiddenDescription = false;
 
 	/**
 	 * True to translate the field label string.
@@ -323,6 +332,14 @@ abstract class FormField
 	protected $showon;
 
 	/**
+	 * The parent class of the field
+	 *
+	 * @var  string
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $parentclass;
+
+	/**
 	 * The count value for generated name field
 	 *
 	 * @var    integer
@@ -441,6 +458,7 @@ abstract class FormField
 			case 'spellcheck':
 			case 'validationtext':
 			case 'showon':
+			case 'parentclass':
 				return $this->$name;
 
 			case 'input':
@@ -505,6 +523,7 @@ abstract class FormField
 			case 'validationtext':
 			case 'group':
 			case 'showon':
+			case 'parentclass':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -671,6 +690,8 @@ abstract class FormField
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
+		$this->parentclass = isset($this->element['parentclass']) ? (string) $this->element['parentclass'] : $this->parentclass;
+
 		// Add required to class list if field is required.
 		if ($this->required)
 		{
@@ -813,7 +834,7 @@ abstract class FormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -1027,9 +1048,28 @@ abstract class FormField
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->hiddenLabel)
+		if (empty($options['hiddenLabel']))
 		{
-			$options['hiddenLabel'] = true;
+			if ($this->getAttribute('hiddenLabel'))
+			{
+				$options['hiddenLabel'] = $this->getAttribute('hiddenLabel') == 'true';
+			}
+			else
+			{
+				$options['hiddenLabel'] = $this->hiddenLabel;
+			}
+		}
+
+		if (empty($options['hiddenDescription']))
+		{
+			if ($this->getAttribute('hiddenDescription'))
+			{
+				$options['hiddenDescription'] = $this->getAttribute('hiddenDescription') == 'true';
+			}
+			else
+			{
+				$options['hiddenDescription'] = $this->hiddenDescription;
+			}
 		}
 
 		if ($this->showon)
@@ -1106,6 +1146,18 @@ abstract class FormField
 			if ($this instanceof SubformField)
 			{
 				$subForm = $this->loadSubForm();
+
+				// Subform field may have a default value, that is a JSON string
+				if ($value && is_string($value))
+				{
+					$value = json_decode($value, true);
+
+					// The string is invalid json
+					if (!$value)
+					{
+						return null;
+					}
+				}
 
 				if ($this->multiple)
 				{
@@ -1201,7 +1253,7 @@ abstract class FormField
 		if ($valid !== false && $this instanceof SubformField)
 		{
 			// Load the subform validation rule.
-			$rule = FormHelper::loadRuleType('SubForm');
+			$rule = FormHelper::loadRuleType('Subform');
 
 			try
 			{
@@ -1299,6 +1351,7 @@ abstract class FormField
 			'value'          => $this->value,
 			'dataAttribute'  => $this->renderDataAttributes(),
 			'dataAttributes' => $this->dataAttributes,
+			'parentclass'    => $this->parentclass,
 		];
 	}
 

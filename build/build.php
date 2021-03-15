@@ -16,7 +16,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,6 +91,8 @@ function clean_checkout(string $dir)
 
 	// testing sampledata
 	system('rm -rf plugins/sampledata/testing');
+	system('rm -rf images/sampledata/parks');
+	system('rm -rf images/sampledata/fruitshop');
 
 	// paragonie/random_compat
 	system('rm -rf libraries/vendor/paragonie/random_compat/other');
@@ -249,6 +251,13 @@ $version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
 $release     = Version::PATCH_VERSION;
 $fullVersion = (new Version)->getShortVersion();
 
+$previousRelease = Version::PATCH_VERSION - 1;
+
+if ($previousRelease < 0)
+{
+	$previousRelease = false;
+}
+
 chdir($tmp);
 system('mkdir diffdocs');
 system('mkdir diffconvert');
@@ -293,39 +302,27 @@ $filesArray = array(
  */
 $doNotPackage = array(
 	'.appveyor.yml',
-	'.babelrc',
 	'.drone.yml',
 	'.editorconfig',
-	'.eslintignore',
-	'.eslintrc',
 	'.github',
 	'.gitignore',
-	'.hound.yml',
 	'.php_cs.dist',
-	'.travis.yml',
 	'CODE_OF_CONDUCT.md',
-	'Gemfile',
-	'Gemfile.lock',
 	'README.md',
-	'RoboFile.php',
 	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
-	'build.js',
 	'build.xml',
 	'codeception.yml',
 	'composer.json',
 	'composer.lock',
 	'crowdin.yml',
-	'drone-package.json',
 	'package-lock.json',
 	'package.json',
 	'phpunit-pgsql.xml.dist',
 	'phpunit.xml.dist',
-	'scss-lint.yml',
 	'selenium.log',
 	'tests',
-	'travisci-phpunit.xml',
 	// Media Manager Node Assets
 	'administrator/components/com_media/webpack.config.js',
 	'administrator/components/com_media/resources',
@@ -386,7 +383,11 @@ for ($num = $release - 1; $num >= 0; $num--)
 	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
-		$fileName   = substr($file, 2);
+		if (substr($file, 0, 1) === 'R') {
+			$fileName   = substr($file, strrpos($file, "\t") + 1);
+		} else {
+			$fileName   = substr($file, 2);
+		}
 		$folderPath = explode('/', $fileName);
 		$baseFolderName = $folderPath[0];
 
@@ -608,5 +609,50 @@ foreach ($checksums as $packageName => $packageHashes)
 }
 
 file_put_contents('checksums.txt', $checksumsContent);
+
+echo "Generating github_release.txt file\n";
+
+$githubContent = array();
+$githubText = '';
+$releaseText = array(
+	'FULL' => 'New Joomla! Installations ',
+	'POINT' => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
+	'MINOR' => 'Update from Joomla! ' . $version . '.x ',
+	'UPGRADE' => 'Update from Joomla! 2.5 or previous 3.x releases ',
+);
+$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
+
+foreach ($checksums as $packageName => $packageHashes)
+{
+	$type = '';
+	if (strpos($packageName, 'Full_Package') !== false)
+	{
+		$type = 'FULL';
+	} elseif (strpos($packageName, 'Patch_Package') !== false) {
+		if (strpos($packageName, '.x_to') !== false) {
+			$type = 'MINOR';
+		} else {
+			$type = 'POINT';
+		}
+	} elseif (strpos($packageName, 'Update_Package') !== false) {
+		$type = 'UPGRADE';
+	}
+
+	$githubContent[$type][] = '[' . substr($packageName, strpos($packageName, 'Package') + 7) . '](' . $githubLink . $packageName . ')';
+}
+
+foreach($releaseText as $type => $text)
+{
+	if (empty($githubContent[$type])) {
+		continue;
+	}
+
+	$githubText .= $text;
+	$githubText .= implode(" | ", $githubContent[$type]);
+
+	$githubText .= "\n";
+}
+
+file_put_contents('github_release.txt', $githubText);
 
 echo "Build of version $fullVersion complete!\n";

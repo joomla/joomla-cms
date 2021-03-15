@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,9 +52,9 @@ class HtmlView extends BaseHtmlView
 	 * Configuration forms for all two-factor authentication methods
 	 *
 	 * @var    array
-	 * @since  4.0.0
+	 * @since  3.10.0
 	 */
-	protected $tfaform;
+	protected $twofactorform;
 
 	/**
 	 * Returns the one time password (OTP) – a.k.a. two factor authentication – configuration for the user.
@@ -78,11 +78,11 @@ class HtmlView extends BaseHtmlView
 		/** @var \Joomla\Component\Admin\Administrator\Model\ProfileModel $model */
 		$model = $this->getModel();
 
-		$this->form      = $model->getForm();
-		$this->item      = $model->getItem();
-		$this->state     = $model->getState();
-		$this->tfaform   = $model->getTwofactorform();
-		$this->otpConfig = $model->getOtpConfig();
+		$this->form          = $model->getForm();
+		$this->item          = $model->getItem();
+		$this->state         = $model->getState();
+		$this->twofactorform = $model->getTwofactorform();
+		$this->otpConfig     = $model->getOtpConfig();
 
 		// Check for errors.
 		if ($errors = $model->getErrors())

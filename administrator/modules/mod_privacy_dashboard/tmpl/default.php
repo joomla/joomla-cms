@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_dashboard
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ $activeRequests = 0;
 
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
-	<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<caption class="visually-hidden"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
 			<th scope="col" class="w-40"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></th>
@@ -43,7 +43,7 @@ $activeRequests = 0;
 					<?php echo HTMLHelper::_('privacy.statusLabel', $item->status); ?>
 				</td>
 				<td>
-					<span class="badge badge-info"><?php echo $item->count; ?></span>
+					<span class="badge bg-info"><?php echo $item->count; ?></span>
 				</td>
 			</tr>
 			<?php endforeach; ?>

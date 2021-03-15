@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Init on dom content loaded event
@@ -98,6 +98,7 @@ if (document.getElementById('defaultLanguagesButton')) {
           if (successresponse.messages) {
             Joomla.renderMessages(successresponse.messages, '#system-message-container');
           }
+          Joomla.loadOptions({'csrf.token': successresponse.token});
         },
         onError(xhr) {
           Joomla.renderMessages({ error: [xhr] }, '#system-message-container');

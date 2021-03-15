@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 Factory::getDocument()->getWebAssetManager()
@@ -32,8 +33,11 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   bool    $listCheck        Boolean, whether selection from a list is needed
  * @var   string  $form             CSS selector for a target form
  * @var   bool    $formValidation   Whether the form need to be validated before run the task
+ * @var   string  $dropdownItems    The dropdown HTML
+ * @var   string  $hasButtons
+ * @var   string  $caretClass
+ * @var   string  $toggleSplit
  */
-
 $tagName = $tagName ?? 'button';
 
 $taskAttr = '';
@@ -58,6 +62,7 @@ elseif (!empty($onclick))
 	$htmlAttributes .= ' onclick="' . $onclick . '"';
 }
 
+$direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 ?>
 <joomla-toolbar-button <?php echo $idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
 <<?php echo $tagName; ?>
@@ -68,4 +73,10 @@ elseif (!empty($onclick))
 	<span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
 	<?php echo $text ?? ''; ?>
 </<?php echo $tagName; ?>>
+<?php // If there is no toggle split then ensure the drop down items are rendered inside the custom element ?>
+<?php if(!($toggleSplit ?? true) && isset($dropdownItems) && trim($dropdownItems) !== '') : ?>
+	<div class="dropdown-menu<?php echo ' ' . $direction; ?>">
+		<?php echo $dropdownItems; ?>
+	</div>
+<?php endif; ?>
 </joomla-toolbar-button>

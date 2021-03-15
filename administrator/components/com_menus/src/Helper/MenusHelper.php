@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -587,19 +587,19 @@ class MenusHelper extends ContentHelper
 
 			if (!$table->bind($record))
 			{
-				throw new \Exception('Bind failed: ' . $table->getError());
+				throw new \Exception($table->getError());
 			}
 
 			$table->setLocation($item->getParent()->id, 'last-child');
 
 			if (!$table->check())
 			{
-				throw new \Exception('Check failed: ' . $table->getError());
+				throw new \Exception($table->getError());
 			}
 
 			if (!$table->store())
 			{
-				throw new \Exception('Saved failed: ' . $table->getError());
+				throw new \Exception($table->getError());
 			}
 
 			$item->id = $table->get('id');

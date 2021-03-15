@@ -68,8 +68,7 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
-			id="published"
+			class="form-select-color-state"
 			size="1"
 			default="1"
 			filter="integer"
@@ -89,7 +88,7 @@
 			clientid="1"
 			size="1"
 			>
-			<option value="1">COM_MENUS_ITEM_ROOT</option>
+			<option value="1">JGLOBAL_ROOT_PARENT</option>
 		</field>
 
 		<field
@@ -127,7 +126,6 @@
 		<field
 			name="access"
 			type="hidden"
-			id="access"
 			default="0"
 		/>
 

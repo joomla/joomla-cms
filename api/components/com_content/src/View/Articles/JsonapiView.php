@@ -3,7 +3,7 @@
  * @package     Joomla.API
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,8 +43,6 @@ class JsonapiView extends BaseApiView
 		'language',
 		'state',
 		'category',
-		'created',
-		'author',
 		'images',
 		'metakey',
 		'metadesc',
@@ -83,8 +81,6 @@ class JsonapiView extends BaseApiView
 		'language',
 		'state',
 		'category',
-		'created',
-		'author',
 		'images',
 		'metakey',
 		'metadesc',
@@ -115,7 +111,9 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $relationship = [
 		'category',
-		'author',
+		'created_by',
+		'tags',
+		'modified_by'
 	];
 
 	/**

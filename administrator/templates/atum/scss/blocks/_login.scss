@@ -4,7 +4,7 @@
 
   .container-main {
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -13,7 +13,7 @@
     }
 
     #content {
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         max-width: 98%;
         padding: 0;
       }
@@ -24,14 +24,14 @@
     align-self: flex-start;
     width: 25rem;
     padding: 15px;
-    margin-top: 10rem;
+    margin-top: 9rem;
     color: var(--atum-text-dark);
     background: var(--white);
     border-radius: 3px;
     box-shadow: 0 0 10px 0 #ccc;
 
-    @include media-breakpoint-down(md) {
-      margin-top: 3rem;
+    @include media-breakpoint-down(lg) {
+      margin-top: 2rem;
     }
 
     img {
@@ -49,35 +49,52 @@
       }
     }
 
-    #form-login {
-      .form-group {
-        position: relative;
-        margin-bottom: 1.85rem;
-
-        .form-control-feedback {
-          position: absolute;
-          right: 0;
-          bottom: -1.1rem;
-          font-size: .75rem;
-          text-align: right;
-        }
-      }
-    }
   }
 
   .form-group {
+    position: relative;
+    margin-bottom: 1.85rem;
+
     label {
       span {
-        font-size: .9rem;
+        font-size: ($font-size-base * .9);
 
-        @include media-breakpoint-down(xs) {
+        @include media-breakpoint-down(sm) {
           width: 100%;
         }
 
-        &.text-right {
-          font-size: .75rem;
+        &.text-end {
+          font-size: ($font-size-base * .75);
           color: var(--atum-special-color);
         }
+      }
+    }
+
+    .form-control-feedback {
+      position: absolute;
+      right: 0;
+      bottom: -1.5rem;
+      font-size: ($font-size-base * .75);
+      text-align: right;
+
+      [dir=rtl] & {
+        right: auto;
+        left: 0;
+        text-align: left;
+      }
+    }
+
+    .form-control-hint {
+      position: absolute;
+      top: .1rem;
+      right: 0;
+      font-size: ($font-size-base * .75);
+      text-align: right;
+
+      [dir=rtl] & {
+        right: auto;
+        left: 0;
+        text-align: left;
       }
     }
   }
@@ -104,12 +121,12 @@
 
     @include media-breakpoint-only(xs) {
       padding: 8px 10px;
-      font-size: 14px;
+      font-size: ($font-size-base * .875);
     }
   }
 
   .form-control,
-  .custom-select {
+  .form-select {
     max-width: none;
   }
 
@@ -118,8 +135,9 @@
     flex: 1 0 33%;
     flex-direction: column;
     max-width: $sidebar-width-login;
+    order: 0;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       order: 2;
     }
 
@@ -127,19 +145,19 @@
       margin-bottom: auto;
 
       a {
-        font-size: .875rem;
+        font-size: ($font-size-base * .875);
       }
     }
 
     .card-header {
-      font-size: 1.125rem;
+      font-size: ($font-size-base * 1.125);
     }
   }
 
   #sidebar {
     align-self: flex-end;
     width: 100%;
-    font-size: .875rem;
+    font-size: ($font-size-base * .875);
     color: var(--atum-text-light);
     text-align: center;
 
@@ -152,7 +170,7 @@
       }
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       position: relative;
       bottom: 0;
     }
@@ -161,15 +179,16 @@
   .container-main,
   .sidebar-wrapper {
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       flex: 1 0 100% !important;
       max-width: 100% !important;
+      min-height: auto;
     }
   }
 
   .d-flex {
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       display: flex !important;
       flex-wrap: wrap;
     }
@@ -194,7 +213,7 @@ label {
   margin-top: 100px;
   text-align: center;
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     margin-top: 10px;
   }
 }
@@ -211,19 +230,19 @@ label {
 
 .view-login {
   #wrapper.d-flex {
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       display: flex !important;
     }
   }
 
   #sidebar-wrapper:not(.show):not(.collapse) {
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       display: block;
     }
   }
 
   .invalid .form-control-feedback {
-    color: theme-color("danger");
+    color: var(--danger);
   }
 }
 
@@ -237,4 +256,8 @@ label {
   .ie11 {
     display: block;
   }
+}
+
+.login_message {
+  margin: 1rem 1rem 0;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -18,6 +19,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\ParameterType;
+use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
 
 /**
@@ -102,7 +104,7 @@ class Indexer
 	/**
 	 * Reusable Query Template. To be used with clone.
 	 *
-	 * @var    Joomla\Database\QueryInterface
+	 * @var    QueryInterface
 	 * @since  3.8.0
 	 */
 	protected $addTokensToDbQueryTemplate;
@@ -242,7 +244,7 @@ class Indexer
 	 * @return  integer  The ID of the record in the links table.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \Exception on database error.
 	 */
 	public function index($item, $format = 'html')
 	{
@@ -270,7 +272,7 @@ class Indexer
 
 		// Get the other item information.
 		$linkId = empty($link->link_id) ? null : $link->link_id;
-		$isNew = empty($link->link_id) ? true : false;
+		$isNew = empty($link->link_id);
 
 		// Check the signatures. If they match, the item is up to date.
 		if (!$isNew && $curSig == $oldSig)
@@ -834,7 +836,7 @@ class Indexer
 				// Parse, tokenise and add tokens to the database.
 				$count = $this->tokenizeToDbShort($string, $context, $lang, $format, $count);
 
-				unset($string, $tokens);
+				unset($string);
 			}
 
 			return $count;

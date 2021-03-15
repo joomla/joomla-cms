@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,12 +79,57 @@ class ContentSerializer extends JoomlaSerializer
 	 *
 	 * @since 4.0
 	 */
-	public function author($model)
+	public function createdBy($model)
 	{
 		$serializer = new JoomlaSerializer('users');
 
 		$resource = (new Resource($model->created_by, $serializer))
 			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->created_by));
+
+		return new Relationship($resource);
+	}
+
+	/**
+	 * Build tags relationship
+	 *
+	 * @param   \stdClass  $model  Item model
+	 *
+	 * @return  Relationship
+	 *
+	 * @since 4.0
+	 */
+	public function tags($model)
+	{
+		$resources = [];
+
+		$serializer = new JoomlaSerializer('tags');
+
+		foreach ($model->tags as $id => $tagName)
+		{
+			$resources[] = (new Resource($id, $serializer))
+				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/tags/' . $id));
+		}
+
+		$collection = new Collection($resources, $serializer);
+
+		return new Relationship($collection);
+	}
+
+	/**
+	 * Build editor relationship
+	 *
+	 * @param   \stdClass  $model  Item model
+	 *
+	 * @return  Relationship
+	 *
+	 * @since 4.0
+	 */
+	public function modifiedBy($model)
+	{
+		$serializer = new JoomlaSerializer('users');
+
+		$resource = (new Resource($model->modified_by, $serializer))
+			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->modified_by));
 
 		return new Relationship($resource);
 	}

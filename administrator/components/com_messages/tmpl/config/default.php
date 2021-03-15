@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ HTMLHelper::_('behavior.keepalive');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form" class="form-validate">
-	<div class="col-lg-8 col-xl-6">
+	<div class="form-grid">
 		<div class="card">
 			<div class="card-body">
 				<?php echo $this->form->renderField('lock'); ?>
