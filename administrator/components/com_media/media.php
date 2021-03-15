@@ -42,7 +42,7 @@ $mediaBaseDir = JPATH_ROOT . '/' . $params->get($path, 'images');
 
 if (!is_dir($mediaBaseDir))
 {
-	throw new \InvalidArgumentException(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 404);
+	throw new \InvalidArgumentException(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 500);
 }
 
 define('COM_MEDIA_BASE', $mediaBaseDir);
