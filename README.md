@@ -52,10 +52,17 @@ git checkout 4.0-dev
 - Install all the needed composer packages:
 ```bash
 composer install
+- If you do not have the PHP-LDAP locally installed and facing error:
+```bash
+composer install --ignore-platform-reqs
 ```
 - Install all the needed npm packages:
 ```bash
-npm ci
+npm ci 
+```
+-You need to have npm 5.7 or higher to run this. If you do not have then type the below command:
+```bash
+npm install -g npm@lts 
 ```
 
 **Things to be aware of when pulling:**
