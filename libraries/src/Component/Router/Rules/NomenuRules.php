@@ -76,19 +76,41 @@ class NomenuRules implements RulesInterface
 				$vars['view'] = array_shift($segments);
 				$view = $views[$vars['view']];
 
-				if (isset($views[$vars['view']]->key) && isset($segments[0]))
+				if (isset($view->key) && isset($segments[0]))
 				{
 					if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id')))
 					{
-						if ($this->router->app->input->get($view->parent_key))
+						if ($view->parent_key && $this->router->app->input->get($view->parent_key))
 						{
 							$vars[$view->parent->key] = $this->router->app->input->get($view->parent_key);
 							$vars[$view->parent_key] = $this->router->app->input->get($view->parent_key);
 						}
 
-						$result = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segments[0], $vars));
-						array_shift($segments);
-						$vars[$view->key] = preg_replace('/-/', ':', $result, 1);
+						if ($view->nestable)
+						{
+							$vars[$view->key] = 0;
+
+							while (count($segments))
+							{
+								$segment = array_shift($segments);
+								$result  = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+
+								if (!$result)
+								{
+									array_unshift($segments, $segment);
+									break;
+								}
+
+								$vars[$view->key] = preg_replace('/-/', ':', $result, 1);
+							}
+						}
+						else
+						{
+							$segment = array_shift($segments);
+							$result  = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+
+							$vars[$view->key] = preg_replace('/-/', ':', $result, 1);
+						}
 					}
 					else
 					{
@@ -137,7 +159,20 @@ class NomenuRules implements RulesInterface
 					if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Segment')))
 					{
 						$result = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
-						$segments[] = str_replace(':', '-', array_shift($result));
+
+						if ($view->nestable)
+						{
+							array_pop($result);
+
+							while (count($result))
+							{
+								$segments[] = str_replace(':', '-', array_pop($result));
+							}
+						}
+						else
+						{
+							$segments[] = str_replace(':', '-', array_pop($result));
+						}
 					}
 					else
 					{
