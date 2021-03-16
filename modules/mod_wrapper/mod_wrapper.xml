@@ -110,8 +110,8 @@
 					layout="joomla.form.field.radio.switcher"
 					validate="options"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="eager">JNO</option>
+					<option value="lazy">JYES</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
