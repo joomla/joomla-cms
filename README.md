@@ -37,20 +37,27 @@ You will need:
 - Git - for version management. Download from here https://git-scm.com/downloads (MacOS users can also use Brew and Linux users can use the built-in package manager, eg apt, yum, etc). 
 
 **Steps to setup the local environment via zip file on Windows:**
+```
 Download the latest package
-
+```
+```
 Extract it to xampp/htdocs (If using XAMPP server)
-
+```
+```
 copy the path till the root folder
-
+```
+```
 Go to Control Panel/System and Security/System
-
+```
+```
 Click on advanced system setting/Environment Variables
-
+```
+```
 Under system variables click on path/new
-
+```
+```
 Paste the path and click OK
-
+```
 **Steps to setup the local environment:**
 - Clone the repository:
 ```bash
