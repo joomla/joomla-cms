@@ -94,7 +94,7 @@
 				name="lazyloading"
 				type="radio"
 				label="COM_WRAPPER_FIELD_LAZYLOADING_LABEL"
-				default="1"
+				default="lazy"
 				layout="joomla.form.field.radio.switcher"
 				validate="options"
 				>
