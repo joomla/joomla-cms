@@ -24,6 +24,7 @@
     background-color: $gray-100;
   }
 }
+
 @include media-breakpoint-down(md) {
   .btn {
     margin-bottom: .25rem;
