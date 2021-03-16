@@ -120,24 +120,25 @@ abstract class QuickIconHelper
 				self::$buttons[$key][] = $tmp;
 			}
 
-			if ($params->get('show_featured'))
+			if ($params->get('show_tags'))
 			{
 				$tmp = [
-					'image'   => 'icon-star featured',
-					'link'    => Route::_('index.php?option=com_content&view=featured'),
-					'name'    => 'MOD_QUICKICON_FEATURED_MANAGER',
-					'access'  => array('core.manage', 'com_content'),
-					'group'   => 'MOD_QUICKICON_SITE',
+					'image'   => 'icon-tags',
+					'link'    => Route::_('index.php?option=com_tags&view=tags'),
+					'linkadd' => Route::_('index.php?option=com_tags&view=tag&layout=edit'),
+					'name'    => 'MOD_QUICKICON_TAGS_MANAGER',
+					'access'  => array('core.manage', 'com_tags', 'core.create', 'com_tags'),
+					'group'   => 'MOD_QUICKICON_SITE'
 				];
 
-				if ($params->get('show_featured') == 2)
+				if ($params->get('show_tags') == 2)
 				{
-					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=featured.getQuickiconContent&amp;format=json';
+					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
 				}
 
 				self::$buttons[$key][] = $tmp;
 			}
- 
+
 			if ($params->get('show_categories'))
 			{
 				$tmp = [
@@ -199,24 +200,19 @@ abstract class QuickIconHelper
 				self::$buttons[$key][] = $tmp;
 			}
 
-			if ($params->get('show_tags'))
+			if ($params->get('show_featured'))
 			{
 				$tmp = [
-					'image'   => 'icon-tags',
-					'link'    => Route::_('index.php?option=com_tags&view=tags'),
-					'linkadd' => Route::_('index.php?option=com_tags&view=tag&layout=edit'),
-					'name'    => 'MOD_QUICKICON_TAGS_MANAGER',
-					'access'  => array('core.manage', 'com_tags', 'core.create', 'com_tags'),
-					'group'   => 'MOD_QUICKICON_SITE'
+					'image'   => 'icon-star featured',
+					'link'    => Route::_('index.php?option=com_content&view=featured'),
+					'name'    => 'MOD_QUICKICON_FEATURED_MANAGER',
+					'access'  => array('core.manage', 'com_content'),
+					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-				if ($params->get('show_tags') == 2)
+				if ($params->get('show_featured') == 2)
 				{
-					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
-				}
-
-				self::$buttons[$key][] = $tmp;
-			}
+					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=featured.getQuickiconContent&amp;format=json';
 
 			if ($params->get('show_contact'))
 			{
