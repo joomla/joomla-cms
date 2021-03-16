@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 	<a class="d-flex" href="<?php echo Uri::root(); ?>"
 		title="<?php echo Text::sprintf('MOD_FRONTEND_PREVIEW', $sitename); ?>"
 		target="_blank">
-		<div class="header-item-icon d-flex align-items-end mx-auto">
+		<div class="header-item-icon">
 			<span class="icon-external-link-alt" aria-hidden="true"></span>
 		</div>
 		<div class="header-item-text align-items-center">

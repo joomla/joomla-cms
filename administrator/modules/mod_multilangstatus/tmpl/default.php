@@ -38,7 +38,7 @@ $app->getDocument()->getWebAssetManager()
 ?>
 <div class="header-item-content multilanguage">
 	<a class="d-flex align-items-stretch" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-bs-toggle="modal" role="button">
-		<div class="d-flex align-items-end mx-auto">
+		<div class="header-item-icon">
 			<span class="icon-language" aria-hidden="true"></span>
 		</div>
 		<div class="header-item-text">

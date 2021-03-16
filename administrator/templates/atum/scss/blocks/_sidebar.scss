@@ -154,7 +154,7 @@
   }
 
   a.mm-active {
-    background-color: $gray-300;
+    background-color: var(--atum-bg-dark-70);
   }
 
   .mm-active > .has-arrow::after {

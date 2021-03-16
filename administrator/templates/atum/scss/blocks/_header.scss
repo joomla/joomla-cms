@@ -3,7 +3,7 @@
   position: relative;
   z-index: $zindex-header;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 12px 26px 12px 5px;
   color: $white;
   background: var(--atum-bg-dark);
 
@@ -96,11 +96,32 @@
 
   .header-items {
     width: 50%;
+    justify-content: flex-end;
+    align-items: center;
+
+    .header-item-icon {
+      > * {
+        background-color: var(--atum-bg-dark-50);
+        border-radius: 16px;
+        width: 28px;
+        height: 28px;
+        margin: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        margin: 4px;
+      }
+
+    }
   }
 
   .header-item {
     position: relative;
-    max-width: 6.6rem;
+    margin: 0 4px;
 
     &:first-child {
       margin-left: auto;
@@ -112,12 +133,12 @@
     }
 
     .header-item-content {
-      > *:first-child {
-        flex-direction: column;
-        height: 100%;
-        padding: 0 .6rem;
-        color: $white;
-      }
+      display: flex;
+      align-items: center;
+      background-color: var(--atum-bg-dark-70);
+      border-radius: 22px;
+      color: $white;
+      line-height: 1rem;
 
       .text-muted {
         color: #fff !important;
@@ -126,6 +147,7 @@
 
       a,
       button {
+        color: $white;
         text-decoration: none;
 
         &:hover,
@@ -163,62 +185,13 @@
     }
 
     .header-item-text {
-      display: block;
-      min-width: 4rem;
-      max-width: 5rem;
-      margin-top: .3rem;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      padding: 0 8px 0 4px;
       font-size: .75rem;
-      line-height: .8rem;
-      text-align: center;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       transition: all .2s ease-in-out;
+      white-space: nowrap;
     }
-  }
-
-  [class^="#{$jicon-css-prefix}-"],
-  [class*=" #{$jicon-css-prefix}-"],
-  [class^="#{$fa-css-prefix}-"],
-  [class*=" #{$fa-css-prefix}-"] {
-    font-size: 1.25rem;
-    vertical-align: middle;
-    transition: all .2s ease-in-out;
-  }
-
-  .badge {
-    position: absolute;
-    top: 0;
-
-    [dir=ltr] & {
-      left: 50%;
-      margin-left: .4rem;
-    }
-
-    [dir=rtl] & {
-      right: 50%;
-      margin-right: .4rem;
-    }
-  }
-
-  .#{$jicon-css-prefix}-angle-down,
-  .#{$fa-css-prefix}-angle-down {
-    position: absolute;
-    top: .9rem;
-
-    [dir=ltr] & {
-      left: 50%;
-      margin-left: -1.8rem;
-    }
-
-    [dir=rtl] & {
-      right: 50%;
-      margin-right: -1.8rem;
-    }
-  }
-
-  .align-items-end {
-    min-height: 2rem;
   }
 
   a[target="_blank"]::before {
