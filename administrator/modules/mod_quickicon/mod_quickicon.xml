@@ -3,7 +3,7 @@
 	<name>mod_quickicon</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -103,15 +103,16 @@
 					<option value="1">JSHOW</option>
 					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
-        <field
+				<field
 					name="show_featured"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_FEATURED_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
 				<field
 					name="show_categories"
@@ -124,7 +125,7 @@
 					<option value="1">JSHOW</option>
 					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
-        <field
+				<field
 					name="show_workflow"
 					type="radio"
 					label="MOD_QUICKICON_SHOW_WORKFLOW_LABEL"
@@ -133,7 +134,7 @@
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>        
+				</field>
 				<field
 					name="show_media"
 					type="radio"
@@ -144,17 +145,18 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
-        <field
+				<field
 					name="show_banners"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_BANNERS_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>       
-        <field
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
+				</field>
+				<field
 					name="show_finder"
 					type="radio"
 					label="MOD_QUICKICON_SHOW_FINDER_LABEL"
@@ -163,28 +165,30 @@
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>  
-        <field
+				</field>
+				<field
 					name="show_newsfeeds"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_NEWSFEEDS_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>               
-        <field
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
+				</field>
+				<field
 					name="show_contact"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_CONTACT_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field> 
-        <field
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
+				</field>
+				<field
 					name="show_redirect"
 					type="radio"
 					label="MOD_QUICKICON_SHOW_REDIRECT_LABEL"
@@ -193,8 +197,8 @@
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>   
-        <field
+				</field>
+				<field
 					name="show_associations"
 					type="radio"
 					label="MOD_QUICKICON_SHOW_ASSOCIATIONS_LABEL"
@@ -203,17 +207,18 @@
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>                  
-        <field
+				</field>
+				<field
 					name="show_tags"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_TAGS_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>   
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
+				</field>
 				<field
 					name="show_modules"
 					type="list"
@@ -236,35 +241,38 @@
 					<option value="1">JSHOW</option>
 					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
-        <field
+				<field
 					name="show_languages"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_LANGUAGES_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>    
-        <field
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
+				</field>
+				<field
 					name="show_template_styles"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_TEMPLATE_STYLES_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
-				</field>    
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
+				</field>
 				<field
 					name="show_template_code"
-					type="radio"
+					type="list"
 					label="MOD_QUICKICON_SHOW_TEMPLATE_CODE_LABEL"
-					layout="joomla.form.field.radio.switcher"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
@@ -280,7 +288,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
-          validate="CssIdentifier"
+					validate="CssIdentifier"
 				/>
 
 				<field

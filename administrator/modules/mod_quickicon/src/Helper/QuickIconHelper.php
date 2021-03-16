@@ -132,7 +132,7 @@ abstract class QuickIconHelper
 
 				if ($params->get('show_featured') == 2)
 				{
-					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;view=featured.getQuickiconContent&amp;format=json';
+					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=featured.getQuickiconContent&amp;format=json';
 				}
 
 				self::$buttons[$key][] = $tmp;
@@ -159,7 +159,7 @@ abstract class QuickIconHelper
 
 			if ($params->get('show_workflow'))
 			{
-				$tmp = [
+				self::$buttons[$key][] = [
 					'image'   => 'icon-file-alt contact',
 					'link'    => Route::_('index.php?option=com_workflow&view=workflows&extension=com_content.article'),
 					'linkadd' => Route::_('index.php?option=com_workflow&view=workflow&layout=edit&extension=com_content.article'),
@@ -167,15 +167,8 @@ abstract class QuickIconHelper
 					'access'  => array('core.manage', 'com_workflow', 'core.create', 'com_workflow'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
-
-				if ($params->get('show_workflow') == 2)
-				{
-					$tmp['ajaxurl'] = 'index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content.article.getQuickiconContent&amp;format=json';
-				}
-
-				self::$buttons[$key][] = $tmp;
 			}
-      
+
 			if ($params->get('show_media'))
 			{
 				self::$buttons[$key][] = [
@@ -200,7 +193,7 @@ abstract class QuickIconHelper
 
 				if ($params->get('show_banners') == 2)
 				{
-					$tmp['ajaxurl'] = 'index.php?option=com_banners&amp;task=banner.getQuickiconContent&amp;format=json';
+					$tmp['ajaxurl'] = 'index.php?option=com_banners&amp;task=banners.getQuickiconContent&amp;format=json';
 				}
 
 				self::$buttons[$key][] = $tmp;
@@ -238,7 +231,7 @@ abstract class QuickIconHelper
 
 				if ($params->get('show_contact') == 2)
 				{
-					$tmp['ajaxurl'] = 'index.php?option=com_contact&amp;task=contact.getQuickiconContent&amp;format=json';
+					$tmp['ajaxurl'] = 'index.php?option=com_contact&amp;task=contacts.getQuickiconContent&amp;format=json';
 				}
 
 				self::$buttons[$key][] = $tmp;
@@ -265,7 +258,7 @@ abstract class QuickIconHelper
 
 			if ($params->get('show_redirect'))
 			{
-				$tmp = [
+				self::$buttons[$key][] = [
 					'image'   => 'icon-map-signs redirect',
 					'link'    => Route::_('index.php?option=com_redirect&view=links'),
 					'linkadd' => Route::_('index.php?option=com_redirect&view=link&layout=edit'),
@@ -273,51 +266,30 @@ abstract class QuickIconHelper
 					'access'  => array('core.manage', 'com_redirect', 'core.create', 'com_redirect'),
 					'group'   => 'MOD_QUICKICON_SITE'
 				];
-
-				if ($params->get('show_redirect') == 2)
-				{
-					$tmp['ajaxurl'] = 'index.php?option=com_redirect&amp;view=links.getQuickiconContent&amp;format=json';
-				}
-
-				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_finder'))
 			{
-				$tmp = [
+				self::$buttons[$key][] = [
 					'image'   => 'icon-search-plus finder',
 					'link'    => Route::_('index.php?option=com_finder&view=index'),
 					'name'    => 'MOD_QUICKICON_FINDER_MANAGER',
 					'access'  => array('core.manage', 'com_finder'),
 					'group'   => 'MOD_QUICKICON_SITE'
 				];
-
-				if ($params->get('show_finder') == 2)
-				{
-					$tmp['ajaxurl'] = 'index.php?option=com_finder&amp;task=finder.getQuickiconContent&amp;format=json';
-				}
-
-				self::$buttons[$key][] = $tmp;
 			}
-      
+
 			if ($params->get('show_associations'))
 			{
-				$tmp = [
+				self::$buttons[$key][] = [
 					'image'   => 'icon-language',
 					'link'    => Route::_('index.php?option=com_associations&view=associations'),
 					'name'    => 'MOD_QUICKICON_ASSOCIATIONS_MANAGER',
 					'access'  => array('core.manage', 'com_associations'),
 					'group'   => 'MOD_QUICKICON_SITE'
 				];
+			}
 
-				if ($params->get('show_finder') == 2)
-				{
-					$tmp['ajaxurl'] = 'index.php?option=com_associations&amp;task=associations.getQuickiconContent&amp;format=json';
-				}
-
-				self::$buttons[$key][] = $tmp;
-
-			}      
 			if ($params->get('show_languages'))
 			{
 				$tmp = [
@@ -331,12 +303,12 @@ abstract class QuickIconHelper
 
 				if ($params->get('show_languages') == 2)
 				{
-					$tmp['ajaxurl'] = 'index.php?option=com_languages&amp;view=installed.getQuickiconContent&amp;format=json';
+					$tmp['ajaxurl'] = 'index.php?option=com_languages&amp;task=languages.getQuickiconContent&amp;format=json';
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}      
-      
+			}
+
 			if ($params->get('show_modules'))
 			{
 				$tmp = [
@@ -355,7 +327,7 @@ abstract class QuickIconHelper
 
 				self::$buttons[$key][] = $tmp;
 			}
-
+			
 			if ($params->get('show_plugins'))
 			{
 				$tmp = [
@@ -376,24 +348,38 @@ abstract class QuickIconHelper
 
 			if ($params->get('show_template_styles'))
 			{
-				self::$buttons[$key][] = [
+				$tmp = [
 					'image'  => 'icon-paint-brush',
 					'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
 					'name'   => 'MOD_QUICKICON_TEMPLATE_STYLES',
 					'access' => array('core.admin', 'com_templates'),
 					'group'  => 'MOD_QUICKICON_SITE'
 				];
+
+				if ($params->get('show_template_styles') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_templates&amp;task=styles.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_template_code'))
 			{
-				self::$buttons[$key][] = [
+				$tmp = [
 					'image'  => 'icon-code',
 					'link'   => Route::_('index.php?option=com_templates&view=templates&client_id=0'),
 					'name'   => 'MOD_QUICKICON_TEMPLATE_CODE',
 					'access' => array('core.admin', 'com_templates'),
 					'group'  => 'MOD_QUICKICON_SITE'
 				];
+
+				if ($params->get('show_template_code') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_templates&amp;task=template.getQuickiconContent&amp;format=json';
+				}
+
+				self::$buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_checkin'))
@@ -421,7 +407,7 @@ abstract class QuickIconHelper
 					'link'    => Route::_('index.php?option=com_cache'),
 					'name'    => 'MOD_QUICKICON_CACHE',
 					'access'  => array('core.admin', 'com_cache'),
-					'group'   => 'MOD_QUICKICON_SYTEM'
+					'group'   => 'MOD_QUICKICON_SYSTEM'
 				];
 
 				if ($params->get('show_cache') == 2)

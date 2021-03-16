@@ -14,6 +14,7 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -147,5 +148,30 @@ class StylesController extends AdminController
 		}
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');
+	}
+
+	/**
+	 * Method to get the number of published styles for quickicons
+	 *
+	 * @return  string  The JSON-encoded amount of published styles
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('templates');
+
+		$model->setState('filter.published', 1);
+		$model->setState('filter.styles', 1);
+
+		$amount = (int) $model->getTotal();
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_TEMPLATES_STYLES_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_TEMPLATES_STYLES_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 }
