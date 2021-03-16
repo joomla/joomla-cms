@@ -47,7 +47,7 @@ if (Multilanguage::isEnabled())
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
 	<div class="row">
 		<div class="col-md-12">
-			<legend><b><h2><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></h2></b></legend>
+			<legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div>
 				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
