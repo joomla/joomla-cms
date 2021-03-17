@@ -110,7 +110,6 @@ class FeaturedController extends ArticlesController
 		$model->setState('filter.published', 1);
 		$model->setState('filter.featured', 1);
 
-
 		$amount = (int) $model->getTotal();
 
 		$result = [];
