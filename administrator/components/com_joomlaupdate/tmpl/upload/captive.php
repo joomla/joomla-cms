@@ -77,14 +77,14 @@ $twofactormethods = \Joomla\CMS\Helper\AuthenticationHelper::getTwoFactorMethods
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="controls">
-				<div class="btn-group">
+				<button type="button" class="btn">
 					<a tabindex="4" class="btn btn-danger" href="index.php?option=com_joomlaupdate">
 						<span class="icon-cancel icon-white" aria-hidden="true"></span> <?php echo JText::_('JCANCEL'); ?>
 					</a>
-					<button tabindex="5" class="btn btn-primary">
-						<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
-					</button>
-				</div>
+				</button>
+				<button type="submit" class="btn btn-primary">
+					<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
+				</button>
 			</div>
 		</div>
 
