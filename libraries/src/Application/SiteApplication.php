@@ -862,8 +862,8 @@ final class SiteApplication extends CMSApplication
 	/**
 	 * Overrides the default template that would be used
 	 *
-	 * @param \stdClass|string $template    The template name or definition
-	 * @param mixed            $styleParams The template style parameters
+	 * @param   \stdClass|string $template    The template name or definition
+	 * @param   mixed            $styleParams The template style parameters
 	 *
 	 * @return  void
 	 *
@@ -893,7 +893,7 @@ final class SiteApplication extends CMSApplication
 			$templateParent      = '';
 			$templateParams      = $styleParams;
 		}
-		
+
 		if (is_dir(JPATH_THEMES . '/' . $templateName))
 		{
 			$this->template = new \stdClass;
