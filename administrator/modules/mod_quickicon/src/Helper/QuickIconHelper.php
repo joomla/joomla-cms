@@ -459,7 +459,7 @@ abstract class QuickIconHelper
 							$icon = array_merge($default, $icon);
 
 							if (!\is_null($icon['link']) && !\is_null($icon['text']))
-					{
+							{
 								self::$buttons[$key][] = $icon;
 							}
 				}
