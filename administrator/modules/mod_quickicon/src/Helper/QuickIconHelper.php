@@ -74,10 +74,10 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-		if ($params->get('show_users') == 2)
-		{
+				if ($params->get('show_users') == 2)
+				{
 					$tmp['ajaxurl'] = 'index.php?option=com_users&amp;task=users.getQuickiconContent&amp;format=json';
-		}
+				}
 
 				self::$buttons[$key][] = $tmp;
 	}
@@ -93,10 +93,10 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_STRUCTURE',
 				];
 
-		if ($params->get('show_menuitems') == 2)
-		{
+				if ($params->get('show_menuitems') == 2)
+				{
 					$tmp['ajaxurl'] = 'index.php?option=com_menus&amp;task=items.getQuickiconContent&amp;format=json';
-		}
+				}
 
 				self::$buttons[$key][] = $tmp;
 	}
@@ -112,29 +112,28 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-		if ($params->get('show_articles') == 2)
-		{
+				if ($params->get('show_articles') == 2)
+				{
 					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=articles.getQuickiconContent&amp;format=json';
-		}
+				}
 
 				self::$buttons[$key][] = $tmp;
 	}
 
-	if ($params->get('show_tags'))
+	if ($params->get('show_featured'))
 	{
 				$tmp = [
-					'image'   => 'icon-tag',
-					'link'    => Route::_('index.php?option=com_tags&view=tags'),
-					'linkadd' => Route::_('index.php?option=com_tags&task=tag.edit'),
-					'name'    => 'MOD_QUICKICON_TAGS_MANAGER',
-					'access'  => array('core.manage', 'com_tags', 'core.create', 'com_tags'),
+					'image'   => 'icon-star featured',
+					'link'    => Route::_('index.php?option=com_content&view=featured'),
+					'name'    => 'MOD_QUICKICON_FEATURED_MANAGER',
+					'access'  => array('core.manage', 'com_content'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-		if ($params->get('show_tags') == 2)
-		{
-					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
-		}
+				if ($params->get('show_featured') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=featured.getQuickiconContent&amp;format=json';
+				}
 
 				self::$buttons[$key][] = $tmp;
 	}
@@ -150,10 +149,10 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-		if ($params->get('show_categories') == 2)
-		{
+				if ($params->get('show_categories') == 2)
+				{
 					$tmp['ajaxurl'] = 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json';
-		}
+				}
 
 				self::$buttons[$key][] = $tmp;
 	}
@@ -192,30 +191,35 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-		if ($params->get('show_banners') == 2)
-		{
+				if ($params->get('show_banners') == 2)
+				{
 					$tmp['ajaxurl'] = 'index.php?option=com_banners&amp;task=banners.getQuickiconContent&amp;format=json';
-		}
+				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-	if ($params->get('show_featured'))
+	if ($params->get('show_tags'))
 	{
 				$tmp = [
-					'image'   => 'icon-star featured',
-					'link'    => Route::_('index.php?option=com_content&view=featured'),
-					'name'    => 'MOD_QUICKICON_FEATURED_MANAGER',
-					'access'  => array('core.manage', 'com_content'),
+					'image'   => 'icon-tag',
+					'link'    => Route::_('index.php?option=com_tags&view=tags'),
+					'linkadd' => Route::_('index.php?option=com_tags&task=tag.edit'),
+					'name'    => 'MOD_QUICKICON_TAGS_MANAGER',
+					'access'  => array('core.manage', 'com_tags', 'core.create', 'com_tags'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-		if ($params->get('show_featured') == 2)
-		{
-					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=featured.getQuickiconContent&amp;format=json';
+				if ($params->get('show_tags') == 2)
+				{
+					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
+				}
 
-			if ($params->get('show_contact'))
-			{
+				self::$buttons[$key][] = $tmp;
+	}
+
+	if ($params->get('show_contact'))
+	{
 				$tmp = [
 					'image'   => 'icon-address-book contact',
 					'link'    => Route::_('index.php?option=com_contact&view=contacts'),
@@ -231,10 +235,10 @@ if (!isset(self::$buttons[$key]))
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-			if ($params->get('show_newsfeeds'))
-			{
+	if ($params->get('show_newsfeeds'))
+	{
 				$tmp = [
 					'image'   => 'icon-rss newsfeeds',
 					'link'    => Route::_('index.php?option=com_newsfeeds&view=newsfeeds'),
@@ -250,10 +254,10 @@ if (!isset(self::$buttons[$key]))
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-			if ($params->get('show_redirect'))
-			{
+	if ($params->get('show_redirect'))
+	{
 				self::$buttons[$key][] = [
 					'image'   => 'icon-map-signs redirect',
 					'link'    => Route::_('index.php?option=com_redirect&view=links'),
@@ -262,10 +266,10 @@ if (!isset(self::$buttons[$key]))
 					'access'  => array('core.manage', 'com_redirect', 'core.create', 'com_redirect'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
-			}
+	}
 
-			if ($params->get('show_finder'))
-			{
+	if ($params->get('show_finder'))
+	{
 				self::$buttons[$key][] = [
 					'image'   => 'icon-search-plus finder',
 					'link'    => Route::_('index.php?option=com_finder&view=index'),
@@ -273,10 +277,10 @@ if (!isset(self::$buttons[$key]))
 					'access'  => array('core.manage', 'com_finder'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
-			}
+	}
 
-			if ($params->get('show_associations'))
-			{
+	if ($params->get('show_associations'))
+	{
 				self::$buttons[$key][] = [
 					'image'   => 'icon-language',
 					'link'    => Route::_('index.php?option=com_associations&view=associations'),
@@ -284,10 +288,10 @@ if (!isset(self::$buttons[$key]))
 					'access'  => array('core.manage', 'com_associations'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
-			}
+	}
 
-			if ($params->get('show_languages'))
-			{
+	if ($params->get('show_languages'))
+	{
 				$tmp = [
 					'image'   => 'icon-comments langmanager',
 					'link'    => Route::_('index.php?option=com_languages&view=installed'),
@@ -303,10 +307,10 @@ if (!isset(self::$buttons[$key]))
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-			if ($params->get('show_modules'))
-			{
+	if ($params->get('show_modules'))
+	{
 				$tmp = [
 					'image'   => 'icon-cube',
 					'link'    => Route::_('index.php?option=com_modules&view=modules&client_id=0'),
@@ -322,10 +326,10 @@ if (!isset(self::$buttons[$key]))
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-			if ($params->get('show_plugins'))
-			{
+	if ($params->get('show_plugins'))
+	{
 				$tmp = [
 					'image'  => 'icon-plug',
 					'link'   => Route::_('index.php?option=com_plugins'),
@@ -340,10 +344,10 @@ if (!isset(self::$buttons[$key]))
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-			if ($params->get('show_template_styles'))
-			{
+	if ($params->get('show_template_styles'))
+	{
 				$tmp = [
 					'image'  => 'icon-paint-brush',
 					'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
@@ -358,10 +362,10 @@ if (!isset(self::$buttons[$key]))
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-			if ($params->get('show_template_code'))
-			{
+	if ($params->get('show_template_code'))
+	{
 				$tmp = [
 					'image'  => 'icon-code',
 					'link'   => Route::_('index.php?option=com_templates&view=templates&client_id=0'),
@@ -376,10 +380,10 @@ if (!isset(self::$buttons[$key]))
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-			if ($params->get('show_checkin'))
-			{
+	if ($params->get('show_checkin'))
+	{
 				$tmp = [
 					'image'   => 'icon-unlock-alt',
 					'link'    => Route::_('index.php?option=com_checkin'),
@@ -394,10 +398,10 @@ if (!isset(self::$buttons[$key]))
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-			if ($params->get('show_cache'))
-			{
+	if ($params->get('show_cache'))
+	{
 				$tmp = [
 					'image'   => 'icon-cloud',
 					'link'    => Route::_('index.php?option=com_cache'),
@@ -412,10 +416,10 @@ if (!isset(self::$buttons[$key]))
 				}
 
 				self::$buttons[$key][] = $tmp;
-			}
+	}
 
-			if ($params->get('show_global'))
-			{
+	if ($params->get('show_global'))
+	{
 				self::$buttons[$key][] = [
 					'image'  => 'icon-cog',
 					'link'   => Route::_('index.php?option=com_config'),
