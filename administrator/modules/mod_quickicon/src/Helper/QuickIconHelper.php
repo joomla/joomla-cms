@@ -63,8 +63,8 @@ if (!isset(self::$buttons[$key]))
 
 			self::$buttons[$key] = [];
 
-    if ($params->get('show_users'))
-    {
+	if ($params->get('show_users'))
+	{
 				$tmp = [
 					'image'   => 'icon-users',
 					'link'    => Route::_('index.php?option=com_users&view=users'),
@@ -74,16 +74,16 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-        if ($params->get('show_users') == 2)
-        {
+		if ($params->get('show_users') == 2)
+		{
 					$tmp['ajaxurl'] = 'index.php?option=com_users&amp;task=users.getQuickiconContent&amp;format=json';
-        }
+		}
 
 				self::$buttons[$key][] = $tmp;
-    }
+	}
 
-    if ($params->get('show_menuitems'))
-    {
+	if ($params->get('show_menuitems'))
+	{
 				$tmp = [
 					'image'   => 'icon-list',
 					'link'    => Route::_('index.php?option=com_menus&view=items&menutype='),
@@ -93,16 +93,16 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_STRUCTURE',
 				];
 
-        if ($params->get('show_menuitems') == 2)
-        {
+		if ($params->get('show_menuitems') == 2)
+		{
 					$tmp['ajaxurl'] = 'index.php?option=com_menus&amp;task=items.getQuickiconContent&amp;format=json';
-        }
+		}
 
 				self::$buttons[$key][] = $tmp;
-    }
+	}
 
-    if ($params->get('show_articles'))
-    {
+	if ($params->get('show_articles'))
+	{
 				$tmp = [
 					'image'   => 'icon-file-alt',
 					'link'    => Route::_('index.php?option=com_content&view=articles'),
@@ -112,16 +112,16 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-        if ($params->get('show_articles') == 2)
-        {
+		if ($params->get('show_articles') == 2)
+		{
 					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=articles.getQuickiconContent&amp;format=json';
-        }
+		}
 
 				self::$buttons[$key][] = $tmp;
-    }
+	}
 
-    if ($params->get('show_tags'))
-    {
+	if ($params->get('show_tags'))
+	{
 				$tmp = [
 					'image'   => 'icon-tag',
 					'link'    => Route::_('index.php?option=com_tags&view=tags'),
@@ -131,16 +131,16 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-        if ($params->get('show_tags') == 2)
-        {
+		if ($params->get('show_tags') == 2)
+		{
 					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
-        }
+		}
 
 				self::$buttons[$key][] = $tmp;
-    }
+	}
 
-    if ($params->get('show_categories'))
-    {
+	if ($params->get('show_categories'))
+	{
 				$tmp = [
 					'image'   => 'icon-folder-open',
 					'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
@@ -150,16 +150,16 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-        if ($params->get('show_categories') == 2)
-        {
+		if ($params->get('show_categories') == 2)
+		{
 					$tmp['ajaxurl'] = 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json';
-        }
+		}
 
 				self::$buttons[$key][] = $tmp;
-    }
+	}
 
-    if ($params->get('show_workflow'))
-    {
+	if ($params->get('show_workflow'))
+	{
 				self::$buttons[$key][] = [
 					'image'   => 'icon-file-alt contact',
 					'link'    => Route::_('index.php?option=com_workflow&view=workflows&extension=com_content.article'),
@@ -168,10 +168,10 @@ if (!isset(self::$buttons[$key]))
 					'access'  => array('core.manage', 'com_workflow', 'core.create', 'com_workflow'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
-    }
+ 	}
 
-    if ($params->get('show_media'))
-    {
+	if ($params->get('show_media'))
+	{
 				self::$buttons[$key][] = [
 					'image'  => 'icon-images',
 					'link'   => Route::_('index.php?option=com_media'),
@@ -179,10 +179,10 @@ if (!isset(self::$buttons[$key]))
 					'access' => array('core.manage', 'com_media'),
 					'group'  => 'MOD_QUICKICON_SITE',
 				];
-    }
+	}
 
-    if ($params->get('show_banners'))
-    {
+	if ($params->get('show_banners'))
+	{
 				$tmp = [
 					'image'   => 'icon-bookmark banners',
 					'link'    => Route::_('index.php?option=com_banners&view=banners'),
@@ -192,16 +192,16 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-        if ($params->get('show_banners') == 2)
-        {
+		if ($params->get('show_banners') == 2)
+		{
 					$tmp['ajaxurl'] = 'index.php?option=com_banners&amp;task=banners.getQuickiconContent&amp;format=json';
-        }
+		}
 
 				self::$buttons[$key][] = $tmp;
 			}
 
-    if ($params->get('show_featured'))
-    {
+	if ($params->get('show_featured'))
+	{
 				$tmp = [
 					'image'   => 'icon-star featured',
 					'link'    => Route::_('index.php?option=com_content&view=featured'),
@@ -210,8 +210,8 @@ if (!isset(self::$buttons[$key]))
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
 
-        if ($params->get('show_featured') == 2)
-        {
+		if ($params->get('show_featured') == 2)
+		{
 					$tmp['ajaxurl'] = 'index.php?option=com_content&amp;task=featured.getQuickiconContent&amp;format=json';
 
 			if ($params->get('show_contact'))
@@ -432,14 +432,14 @@ if (!isset(self::$buttons[$key]))
 				new QuickIconsEvent('onGetIcons', ['context' => $context])
 			);
 
-    foreach ($arrays as $response)
+	foreach ($arrays as $response)
 			{
-        if (!\is_array($response))
+		if (!\is_array($response))
 				{
 					continue;
-        }
+		}
 
-        foreach ($response as $icon)
+		foreach ($response as $icon)
 				{
 					$default = array(
 						'link'    => null,
@@ -454,14 +454,14 @@ if (!isset(self::$buttons[$key]))
 
 					$icon = array_merge($default, $icon);
 
-            if (!\is_null($icon['link']) && !\is_null($icon['text']))
+			if (!\is_null($icon['link']) && !\is_null($icon['text']))
 					{
 						self::$buttons[$key][] = $icon;
-            }
-        }
-    }
-                }
+			}
+		}
+	}
+				}
 
 		return self::$buttons[$key];
-            }
-        }
+			}
+		}
