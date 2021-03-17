@@ -35,7 +35,7 @@ $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
 // Template path
-$templatePath = 'templates/' . $this->template;
+$templatePath = Uri::root() . 'templates/' . $this->template;
 
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
