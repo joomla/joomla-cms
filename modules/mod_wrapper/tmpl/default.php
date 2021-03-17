@@ -24,6 +24,7 @@ $wa->registerAndUseScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.j
 	height="<?php echo $height; ?>"
 	scrolling="<?php echo $scroll; ?>"
 	frameborder="<?php echo $frameborder; ?>"
+	loading="<?php echo $lazyloading; ?>"
 	title="<?php echo $ititle; ?>"
 	class="mod-wrapper wrapper">
 	<?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
