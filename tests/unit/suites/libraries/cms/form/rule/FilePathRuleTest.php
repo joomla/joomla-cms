@@ -44,10 +44,10 @@ class FilePathRuleTest extends TestCase
 			array(false, $xml, '.\images'),
 			array(false, $xml, '../images'),
 			array(false, $xml, '.../images'),
-			array(true,	$xml, 'c:\images'),
+			array(true, $xml, 'c:\images'),
 			array(false, $xml, '\\images'), // Means \images
-			array(true,	$xml, 'ftp://images'),
-			array(true,	$xml, 'http://images'),
+			array(true, $xml, 'ftp://images'),
+			array(true, $xml, 'http://images'),
 			array(false, $xml, '/media'),
 			array(false, $xml, '/administrator'),
 			array(false, $xml, '/4711images'),
