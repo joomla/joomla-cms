@@ -18,7 +18,7 @@ module.exports.handleCssFile = async (file) => {
       await copy(file, outputFile, { preserveTimestamps: true, overwrite: true });
     }
 
-    const content = await readFile(file, { encoding: 'utf8' }); // , UrlVersion
+    const content = await readFile(file, { encoding: 'utf8' });
     const cssMin = await Postcss([
       Autoprefixer,
       CssNano,
