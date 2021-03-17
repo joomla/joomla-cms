@@ -116,7 +116,7 @@ class BannersController extends AdminController
 
 		$this->setRedirect('index.php?option=com_banners&view=banners');
 	}
-  
+
 	/**
 	 * Method to get the number of published banners for quickicons
 	 *
