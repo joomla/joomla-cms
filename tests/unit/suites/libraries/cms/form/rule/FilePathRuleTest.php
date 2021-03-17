@@ -39,6 +39,7 @@ class FilePathRuleTest extends TestCase
 		/>');
 
 		return array(
+			array(true, $xml, ''),
 			array(false, $xml, '.images'),
 			array(false, $xml, './images'),
 			array(false, $xml, '.\images'),
