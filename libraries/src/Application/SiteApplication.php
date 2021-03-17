@@ -875,6 +875,7 @@ final class SiteApplication extends CMSApplication
 		{
 			$this->template = new \stdClass;
 			$this->template->template = $template;
+			
 			$this->template->inheritable = 0;
 			$this->template->parent = '';
 
