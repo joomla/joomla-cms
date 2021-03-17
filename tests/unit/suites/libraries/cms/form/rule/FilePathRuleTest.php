@@ -70,7 +70,7 @@ class FilePathRuleTest extends TestCase
 	 */
 	public function testRule($expected, $element, $value)
 	{
-		$obj = new FilePathRule();
+		$obj = new FilePathRule;
 		$this->assertEquals($expected, $obj->test($element, $value));
 	}
 }
