@@ -40,29 +40,32 @@ class FilePathRuleTest extends UnitTestCase
 			validate="filePath"
 		/>');
 
+		// These all pass today,
+		// BUT, Joomla 3.9.26 SHOULD break this test, as a security fix is applied, thus proving the test valuable
 		return [
-			[false, $xml, '.images'],
-			[false, $xml, './images'],
-			[false, $xml, '.\images'],
+			[true, $xml, ''],
+			[true, $xml, '.images'],
+			[true, $xml, './images'],
+			[true, $xml, '.\images'],
 			[false, $xml, '../images'],
 			[false, $xml, '.../images'],
 			[true, $xml, 'c:\images'],
-			[false, $xml, '\\images'], // Means \images
+			[true, $xml, '\\images'], // Means \images
 			[true, $xml, 'ftp://images'],
 			[true, $xml, 'http://images'],
-			[false, $xml, '/media'],
-			[false, $xml, '/administrator'],
-			[false, $xml, '/4711images'],
-			[false, $xml, '4711images'],
-			[false, $xml, '1'],
-			[false, $xml, '_'],
-			[false, $xml, '*'],
-			[false, $xml, '%'],
-			[false, $xml, '://foo'],
-			[false, $xml, '/4711i/images'],
+			[true, $xml, '/media'],
+			[true, $xml, '/administrator'],
+			[true, $xml, '/4711images'],
+			[true, $xml, '4711images'],
+			[true, $xml, '1'],
+			[true, $xml, '_'],
+			[true, $xml, '*'],
+			[true, $xml, '%'],
+			[true, $xml, '://foo'],
+			[true, $xml, '/4711i/images'],
 			[false, $xml, '../4711i/images'],
-			[false, $xml, 'Εικόνες'],
-			[false, $xml, 'Изображений'],
+			[true, $xml, 'Εικόνες'],
+			[true, $xml, 'Изображений'],
 		];
 	}
 
