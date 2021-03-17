@@ -22,7 +22,6 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
-$urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = Factory::getUser();
 $info    = $params->get('info_block_position', 0);
