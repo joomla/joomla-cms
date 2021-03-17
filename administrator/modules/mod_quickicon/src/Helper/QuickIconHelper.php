@@ -167,7 +167,7 @@ abstract class QuickIconHelper
 					'access'  => array('core.manage', 'com_workflow', 'core.create', 'com_workflow'),
 					'group'   => 'MOD_QUICKICON_SITE',
 				];
- 			}
+			}
 
 			if ($params->get('show_media'))
 			{
@@ -427,24 +427,24 @@ abstract class QuickIconHelper
 					'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
 					'group'  => 'MOD_QUICKICON_SYSTEM',
 				];
-				}
+			}
 
 			PluginHelper::importPlugin('quickicon');
 
 			$arrays = (array) $application->triggerEvent(
 				'onGetIcons',
 				new QuickIconsEvent('onGetIcons', ['context' => $context])
-					);
+			);
 
-					foreach ($arrays as $response)
-					{
-						if (!\is_array($response))
-						{
+			foreach ($arrays as $response)
+			{
+				if (!\is_array($response))
+				{
 							continue;
-						}
+				}
 
-						foreach ($response as $icon)
-						{
+				foreach ($response as $icon)
+				{
 							$default = array(
 							'link'    => null,
 							'image'   => null,
@@ -458,12 +458,12 @@ abstract class QuickIconHelper
 
 							$icon = array_merge($default, $icon);
 
-							if (!\is_null($icon['link']) && !\is_null($icon['text']))
-							{
+					if (!\is_null($icon['link']) && !\is_null($icon['text']))
+					{
 								self::$buttons[$key][] = $icon;
-							}
-						}
 					}
+				}
+			}
 		}
 
 		return self::$buttons[$key];
