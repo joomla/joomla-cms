@@ -36,6 +36,7 @@ class FilePathRuleTest extends TestCase
 			size="50"
 			default="images"
 			validate="filePath"
+			exclude="administrator|media"
 		/>');
 
 		return array(
