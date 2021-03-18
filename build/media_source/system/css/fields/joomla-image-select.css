@@ -1,6 +1,8 @@
 joomla-field-mediamore details {
   position: absolute;
-  background: #ffffff;
+  background: #eee;
+  padding: 1rem;
+  border-radius: 1rem;
 }
 joomla-field-mediamore label.input-group-text {
   width: auto;
