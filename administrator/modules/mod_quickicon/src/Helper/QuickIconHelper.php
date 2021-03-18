@@ -213,7 +213,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_tags') == 2)
 				{
 					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
-				}
+ 				}
 
 				self::$buttons[$key][] = $tmp;
 			}
@@ -327,7 +327,7 @@ abstract class QuickIconHelper
 
 				self::$buttons[$key][] = $tmp;
 			}
-
+			
 			if ($params->get('show_plugins'))
 			{
 				$tmp = [
@@ -440,28 +440,28 @@ abstract class QuickIconHelper
 			{
 				if (!\is_array($response))
 				{
-							continue;
+			continue;
 				}
 
-				foreach ($response as $icon)
+			foreach ($response as $icon)
 				{
-							$default = array(
-							'link'    => null,
-							'image'   => null,
-							'text'    => null,
-							'name'    => null,
-							'linkadd' => null,
-							'access'  => true,
-							'class'   => null,
-							'group'   => 'MOD_QUICKICON',
-							);
+					$default = array(
+						'link'    => null,
+						'image'   => null,
+						'text'    => null,
+						'name'    => null,
+						'linkadd' => null,
+						'access'  => true,
+						'class'   => null,
+						'group'   => 'MOD_QUICKICON',
+				);
 
-							$icon = array_merge($default, $icon);
+					$icon = array_merge($default, $icon);
 
-							if (!\is_null($icon['link']) && !\is_null($icon['text']))
-							{
-								self::$buttons[$key][] = $icon;
-							}
+					if (!\is_null($icon['link']) && !\is_null($icon['text']))
+					{
+						self::$buttons[$key][] = $icon;
+					}
 				}
 			}
 		}
