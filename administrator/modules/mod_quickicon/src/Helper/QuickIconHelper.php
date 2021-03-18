@@ -213,7 +213,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_tags') == 2)
 				{
 					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
- 				}
+				}
 
 				self::$buttons[$key][] = $tmp;
 			}
@@ -327,7 +327,7 @@ abstract class QuickIconHelper
 
 				self::$buttons[$key][] = $tmp;
 			}
-			
+
 			if ($params->get('show_plugins'))
 			{
 				$tmp = [
