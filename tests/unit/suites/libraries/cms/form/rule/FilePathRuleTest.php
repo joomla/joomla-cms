@@ -52,6 +52,8 @@ class FilePathRuleTest extends TestCase
 			array(false, $xml, '/media'),
 			array(false, $xml, '/administrator'),
 			array(false, $xml, '/4711images'),
+			array(false, $xml, 'media'),
+			array(false, $xml, 'administrator'),
 			array(true, $xml, '4711images'),
 			array(true, $xml, '1'),
 			array(true, $xml, '_'),
