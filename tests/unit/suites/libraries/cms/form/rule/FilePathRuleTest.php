@@ -40,7 +40,7 @@ class FilePathRuleTest extends TestCase
 
 		return array(
 			array(true, $xml, ''),
-			array(false, $xml, '.images'),
+			array(true, $xml, '.images'),
 			array(false, $xml, './images'),
 			array(false, $xml, '.\images'),
 			array(false, $xml, '../images'),
@@ -52,16 +52,16 @@ class FilePathRuleTest extends TestCase
 			array(false, $xml, '/media'),
 			array(false, $xml, '/administrator'),
 			array(false, $xml, '/4711images'),
-			array(false, $xml, '4711images'),
-			array(false, $xml, '1'),
-			array(false, $xml, '_'),
-			array(false, $xml, '*'),
-			array(false, $xml, '%'),
-			array(false, $xml, '://foo'),
+			array(true, $xml, '4711images'),
+			array(true, $xml, '1'),
+			array(true, $xml, '_'),
+			array(true, $xml, '*'),
+			array(true, $xml, '%'),
+			array(true, $xml, '://foo'),
 			array(false, $xml, '/4711i/images'),
 			array(false, $xml, '../4711i/images'),
-			array(false, $xml, 'Εικόνες'),
-			array(false, $xml, 'Изображений'),
+			array(true, $xml, 'Εικόνες'),
+			array(true, $xml, 'Изображений'),
 		);
 	}
 
