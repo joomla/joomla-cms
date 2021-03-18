@@ -36,7 +36,7 @@ $params = $app->getTemplate(true)->params;
 $templatePath = 'templates/' . $this->template;
 
 // Color Theme
-$paramsColorName = $this->params->get('colorName', 'colors_standard');
+$paramsColorName = $params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
 $wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
 $this->getPreloadManager()->prefetch($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
