@@ -440,10 +440,10 @@ abstract class QuickIconHelper
 			{
 				if (!\is_array($response))
 				{
-			continue;
+					continue;
 				}
 
-			foreach ($response as $icon)
+				foreach ($response as $icon)
 				{
 					$default = array(
 						'link'    => null,
@@ -454,7 +454,7 @@ abstract class QuickIconHelper
 						'access'  => true,
 						'class'   => null,
 						'group'   => 'MOD_QUICKICON',
-				);
+					);
 
 					$icon = array_merge($default, $icon);
 
