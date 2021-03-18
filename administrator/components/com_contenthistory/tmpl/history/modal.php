@@ -102,7 +102,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 			<?php foreach ($this->items as $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="text-center">
-						<?php echo HTMLHelper::_('grid.id', $i, $item->version_id); ?>
+						<?php echo HTMLHelper::_('grid.id', $i, $item->version_id, false, 'cid', 'cb', $item->save_date); ?>
 					</td>
 					<th scope="row">
 						<a class="save-date" onclick="window.open(this.href,'win2','width=800,height=600,resizable=yes,scrollbars=yes'); return false;"

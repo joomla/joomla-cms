@@ -296,7 +296,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			)
 		);
 
-		// Release whitelist, the job is done
+		// Release allowed pks, the job is done
 		$this->app->set('plgWorkflowFeaturing.' . $context, []);
 
 		if ($eventResult->getArgument('abort'))
@@ -372,7 +372,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			return true;
 		}
 
-		// We have whitelisted the pks, so we're the one who triggered
+		// We have allowed the pks, so we're the one who triggered
 		// With onWorkflowBeforeTransition => free pass
 		if ($this->app->get('plgWorkflowFeaturing.' . $extension) === $pks)
 		{
@@ -513,7 +513,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function isSupported($context)
 	{
-		if (!$this->checkWhiteAndBlacklist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
+		if (!$this->checkAllowedAndForbiddenlist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
 		{
 			return false;
 		}

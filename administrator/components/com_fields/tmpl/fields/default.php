@@ -109,7 +109,7 @@ if ($saveOrder && !empty($this->items))
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.field.' . $item->id) && $canCheckin; ?>
 								<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->group_id; ?>" item-id="<?php echo $item->id; ?>">
 									<td class="text-center">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php $iconClass = ''; ?>

@@ -727,6 +727,131 @@ class ApplicationModel extends FormModel
 			}
 		}
 
+		/*
+		 * Look for a custom tmp_path
+		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
+		 */
+		$defaultTmpPath = JPATH_ROOT . '/tmp';
+
+		if (!empty($data['tmp_path']))
+		{
+			$path = $data['tmp_path'];
+		}
+		elseif (!empty($prev['tmp_path']))
+		{
+			$path = $prev['tmp_path'];
+		}
+		else
+		{
+			$path = $defaultTmpPath;
+		}
+
+		$path = Path::clean($path);
+
+		// Give a warning if the tmp-folder is not valid or not writable
+		if (!is_dir($path) || !is_writable($path))
+		{
+			$error = true;
+
+			// If a custom path is in use, try using the system default tmp path
+			if ($path !== $defaultTmpPath && is_dir($defaultTmpPath) && is_writable($defaultTmpPath))
+			{
+				try
+				{
+					Log::add(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_TEMP_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultTmpPath),
+						Log::WARNING,
+						'jerror'
+					);
+				}
+				catch (\RuntimeException $logException)
+				{
+					$app->enqueueMessage(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_TEMP_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultTmpPath),
+						'warning'
+					);
+				}
+
+				$error = false;
+
+				$data['tmp_path'] = $defaultTmpPath;
+			}
+
+			if ($error)
+			{
+				try
+				{
+					Log::add(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					$app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_TMP_PATH_NOTWRITABLE', $path), 'warning');
+				}
+			}
+		}
+
+		/*
+		 * Look for a custom log_path
+		 * First check if a path is given in the submitted data, then check if a path exists in the previous data, otherwise use the default
+		 */
+		$defaultLogPath = JPATH_ADMINISTRATOR . '/logs';
+
+		if (!empty($data['log_path']))
+		{
+			$path = $data['log_path'];
+		}
+		elseif (!empty($prev['log_path']))
+		{
+			$path = $prev['log_path'];
+		}
+		else
+		{
+			$path = $defaultLogPath;
+		}
+
+		$path = Path::clean($path);
+
+		// Give a warning if the log-folder is not valid or not writable
+		if (!is_dir($path) || !is_writable($path))
+		{
+			$error = true;
+
+			// If a custom path is in use, try using the system default log path
+			if ($path !== $defaultLogPath && is_dir($defaultLogPath) && is_writable($defaultLogPath))
+			{
+				try
+				{
+					Log::add(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_LOG_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultLogPath),
+						Log::WARNING,
+						'jerror'
+					);
+				}
+				catch (\RuntimeException $logException)
+				{
+					$app->enqueueMessage(
+						Text::sprintf('COM_CONFIG_ERROR_CUSTOM_LOG_PATH_NOTWRITABLE_USING_DEFAULT', $path, $defaultLogPath),
+						'warning'
+					);
+				}
+
+				$error = false;
+				$data['log_path'] = $defaultLogPath;
+			}
+
+			if ($error)
+			{
+				try
+				{
+					Log::add(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), Log::WARNING, 'jerror');
+				}
+				catch (\RuntimeException $exception)
+				{
+					$app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_LOG_PATH_NOTWRITABLE', $path), 'warning');
+				}
+			}
+		}
+
 		// Create the new configuration object.
 		$config = new Registry($data);
 

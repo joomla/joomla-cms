@@ -47,7 +47,8 @@ Joomla.initialiseModal = (modal, options) => {
 
         if (!document.getElementById(idFieldArr[1])) {
           // eslint-disable-next-line no-new-func
-          el = new Function(idFieldArr[0]); // This is UNSAFE!!!!
+          const fn = new Function(`return ${idFieldArr[0]}`); // This is UNSAFE!!!!
+          el = fn.call(null);
         } else {
           el = document.getElementById(idFieldArr[1]).value;
         }
@@ -132,11 +133,6 @@ Joomla.iframeButtonClick = (options) => {
     }
   }
 };
-
-// Ensure vanilla mode, for consistency of the events
-if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-  document.body.dataset.bsNoJquery = '';
-}
 
 if (Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP

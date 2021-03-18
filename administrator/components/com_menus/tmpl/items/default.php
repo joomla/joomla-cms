@@ -82,7 +82,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 								</th>
 							<?php endif; ?>
 							<?php if ($assoc) : ?>
-								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
@@ -137,7 +137,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 								item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
 								level="<?php echo $item->level; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
 								<?php if ($menuType) : ?>
 									<td class="text-center d-none d-md-table-cell">
@@ -242,7 +242,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									</td>
 								<?php endif; ?>
 								<?php if ($assoc) : ?>
-									<td class="small d-none d-md-table-cell text-center">
+									<td class="small d-none d-md-table-cell">
 										<?php if ($item->association) : ?>
 											<?php echo HTMLHelper::_('menus.association', $item->id); ?>
 										<?php endif; ?>

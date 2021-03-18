@@ -12,11 +12,7 @@ window.bootstrap.Tab = Tab;
  */
 Joomla.initialiseTabs = (el, options) => {
   if (!(el instanceof Element) && options.isJoomla) {
-    const nSelector = el.split('.')[1];
-    if (!nSelector) {
-      throw new Error('The selector is invalid, check your PHP side');
-    }
-    const tab = document.querySelector(`#${nSelector}Content`);
+    const tab = document.querySelector(`${el}Content`);
     if (tab) {
       const related = Array.from(tab.children);
 
@@ -28,7 +24,7 @@ Joomla.initialiseTabs = (el, options) => {
           }
 
           const isActive = element.dataset.active !== '';
-          const ul = document.querySelector(`#${nSelector}Tabs`);
+          const ul = document.querySelector(`${el}Tabs`);
 
           if (ul) {
             const link = document.createElement('a');
@@ -69,11 +65,6 @@ Joomla.initialiseTabs = (el, options) => {
 };
 
 if (Joomla && Joomla.getOptions) {
-  // Ensure vanilla mode, for consistency of the events
-  if (!Object.prototype.hasOwnProperty.call(document.body.dataset, 'bsNoJquery')) {
-    document.body.dataset.bsNoJquery = '';
-  }
-
   // Get the elements/configurations from the PHP
   const tabs = Joomla.getOptions('bootstrap.tabs');
   // Initialise the elements

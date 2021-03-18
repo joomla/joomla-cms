@@ -163,9 +163,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		$this->workflowCleanupBatchMove($oldId, $newId);
 
-		// Register FieldsHelper
-		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
-
 		$oldItem = $this->getTable();
 		$oldItem->load($oldId);
 		$fields = FieldsHelper::getFields('com_content.article', $oldItem, true);
@@ -488,7 +485,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	public function getForm($data = array(), $loadData = true)
 	{
 		$app  = Factory::getApplication();
-		$user = $app->getIdentity();
 
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
@@ -498,68 +494,54 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			return false;
 		}
 
-		$jinput = $app->input;
+		// Object uses for checking edit state permission of article
+		$record = new \stdClass;
 
-		/*
-		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
-		 * The back end uses id so we use that the rest of the time and set it to 0 by default.
-		 */
-		$id = $jinput->get('a_id', $jinput->get('id', 0));
+		// Get ID of the article from input, for frontend, we use a_id while backend uses id
+		$articleIdFromInput = $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
 
-		// Determine correct permissions to check.
-		if ($id = $this->getState('article.id', $id))
+		// On edit article, we get ID of article from article.id state, but on save, we use data from input
+		$id = (int) $this->getState('article.id', $articleIdFromInput);
+
+		$record->id = $id;
+
+		// For new articles we load the potential state + associations
+		if ($id == 0 && $formField = $form->getField('catid'))
 		{
-			if ($app->isClient('site'))
-			// Existing record. We can't edit the category in frontend if not edit.state.
+			$assignedCatids = $data['catid'] ?? $form->getValue('catid');
+
+			$assignedCatids = is_array($assignedCatids)
+				? (int) reset($assignedCatids)
+				: (int) $assignedCatids;
+
+			// Try to get the category from the category field
+			if (empty($assignedCatids))
 			{
-				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
-					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+				$assignedCatids = $formField->getAttribute('default', null);
+
+				if (!$assignedCatids)
 				{
-					$form->setFieldAttribute('catid', 'readonly', 'true');
-					$form->setFieldAttribute('catid', 'required', 'false');
-					$form->setFieldAttribute('catid', 'filter', 'unset');
-				}
-			}
-		}
-		else
-		{
-			// For new articles we load the potential state + associations
-			if ($formField = $form->getField('catid'))
-			{
-				$assignedCatids = (int) ($data['catid'] ?? $form->getValue('catid'));
+					// Choose the first category available
+					$catOptions = $formField->options;
 
-				$assignedCatids = is_array($assignedCatids)
-					? (int) reset($assignedCatids)
-					: (int) $assignedCatids;
-
-				// Try to get the category from the category field
-				if (empty($assignedCatids))
-				{
-					$assignedCatids = $formField->getAttribute('default', null);
-
-					if (!$assignedCatids)
+					if ($catOptions && !empty($catOptions[0]->value))
 					{
-						// Choose the first category available
-						$catOptions = $formField->options;
-
-						if ($catOptions && !empty($catOptions[0]->value))
-						{
-							$assignedCatids = (int) $catOptions[0]->value;
-						}
+						$assignedCatids = (int) $catOptions[0]->value;
 					}
 				}
-
-				// Activate the reload of the form when category is changed
-				$form->setFieldAttribute('catid', 'refresh-enabled', true);
-				$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
-				$form->setFieldAttribute('catid', 'refresh-section', 'article');
 			}
+
+			// Activate the reload of the form when category is changed
+			$form->setFieldAttribute('catid', 'refresh-enabled', true);
+			$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
+			$form->setFieldAttribute('catid', 'refresh-section', 'article');
+
+			// Store ID of the category uses for edit state permission check
+			$record->catid = $assignedCatids;
 		}
 
-		// Check for existing article.
 		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
-			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+		if (!$this->canEditState($record))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
@@ -579,24 +561,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$form->setFieldAttribute('publish_up', 'filter', 'unset');
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
-		}
-
-		// Prevent messing with article language and category when editing existing article with associations
-		$assoc = Associations::isEnabled();
-
-		// Check if article is associated
-		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
-		{
-			$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
-
-			// Make fields read only
-			if (!empty($associations))
-			{
-				$form->setFieldAttribute('language', 'readonly', 'true');
-				$form->setFieldAttribute('catid', 'readonly', 'true');
-				$form->setFieldAttribute('language', 'filter', 'unset');
-				$form->setFieldAttribute('catid', 'filter', 'unset');
-			}
 		}
 
 		return $form;
@@ -631,7 +595,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					)
 				);
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
-				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+
+				if ($app->isClient('administrator'))
+				{
+					$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+				}
+
 				$data->set('access',
 					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);

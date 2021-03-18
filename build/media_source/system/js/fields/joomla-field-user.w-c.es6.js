@@ -1,4 +1,4 @@
-(() => {
+((customElements, Joomla) => {
   class JoomlaFieldUser extends HTMLElement {
     constructor() {
       super();
@@ -55,9 +55,9 @@
 
       // Bootstrap modal init
       if (this.modal
-        && bootstrap
-        && bootstrap.Modal
-        && bootstrap.Modal.getInstance(this.modal) === undefined) {
+        && window.bootstrap
+        && window.bootstrap.Modal
+        && !window.bootstrap.Modal.getInstance(this.modal)) {
         Joomla.initialiseModal(this.modal, { isJoomla: true });
       }
 
@@ -139,10 +139,14 @@
     setValue(value, name) {
       this.input.setAttribute('value', value);
       this.inputName.setAttribute('value', name || value);
-      // trigger change event
+      // trigger change event both on the input and on the custom element
       this.input.dispatchEvent(new Event('change'));
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: { value, name },
+        bubbles: true,
+      }));
     }
   }
 
   customElements.define('joomla-field-user', JoomlaFieldUser);
-})();
+})(customElements, Joomla);

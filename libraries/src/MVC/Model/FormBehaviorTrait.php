@@ -47,7 +47,7 @@ trait FormBehaviorTrait
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
+	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = null)
 	{
 		// Handle the optional arguments.
 		$options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
