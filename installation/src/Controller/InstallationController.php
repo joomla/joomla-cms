@@ -292,6 +292,8 @@ class InstallationController extends JSONController
 
 		if (!$model->createConfiguration())
 		{
+			$r->error = true;
+			$r->message = JText::_('INSTL_ERROR_CONFIG_WRITE_FAILED');
 			$r->view = 'configuration';
 		}
 
