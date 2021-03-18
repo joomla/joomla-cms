@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			inputmode="search"
+			label="COM_BANNERS_CLIENTS_FILTER_SEARCH_LABEL"
+			description="COM_BANNERS_CLIENTS_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+		/>
+
+		<field
+			name="state"
+			type="status"
+			label="JSTATUS"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+			name="purchase_type"
+			type="list"
+			label="COM_BANNERS_HEADING_TYPE"
+			default="0"
+			onchange="this.form.submit();"
+			validate="options"
+			>
+			<option value="">COM_BANNERS_SELECT_TYPE</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
+			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
+			<option value="3">COM_BANNERS_FIELD_VALUE_MONTHLY</option>
+			<option value="4">COM_BANNERS_FIELD_VALUE_WEEKLY</option>
+			<option value="5">COM_BANNERS_FIELD_VALUE_DAILY</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			statuses="*,0,1,2,-2"
+			onchange="this.form.submit();"
+			default="a.name ASC"
+			validate="options"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.state ASC">JSTATUS_ASC</option>
+			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.name ASC">COM_BANNERS_HEADING_CLIENT_ASC</option>
+			<option value="a.name DESC">COM_BANNERS_HEADING_CLIENT_DESC</option>
+			<option value="a.contact ASC">COM_BANNERS_HEADING_CONTACT_ASC</option>
+			<option value="a.contact DESC">COM_BANNERS_HEADING_CONTACT_DESC</option>
+			<option value="a.purchase_type ASC">COM_BANNERS_HEADING_PURCHASETYPE_ASC</option>
+			<option value="a.purchase_type DESC">COM_BANNERS_HEADING_PURCHASETYPE_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

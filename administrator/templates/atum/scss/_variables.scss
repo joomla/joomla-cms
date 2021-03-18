@@ -1,0 +1,271 @@
+// Variables
+@import "../../../../media/vendor/bootstrap/scss/functions";
+
+$white:                            #fff;
+$whiteoffset:                      #fefefe;
+$gray-100:                         #f8f9fa;
+$gray-200:                         #e8e8e8;
+$gray-300:                         #dee2e6; //used for toolbar and badges
+$gray-400:                         #cdcdcd; //used for border-bottom sidebar-nav and toolbar normal border
+$gray-500:                         #adb5bd; //used in toolbar and buttons for border
+//$gray-600:                         #6f7780; //used for atum-text-dark and $secondary
+$gray-700:                         #495057; //used for atum-text-dark, secondary
+$gray-800:                         #343a40;
+$gray-900:                         #212529; //used for tree header
+$bluegray:                         #b2bfcd; // used for borders
+$black:                            #000;    //used for shadows
+$focuscolor:                       #39f;    //used for focus color
+$dark-blue:                        #001b4c; //is the atum-special-color
+$light-blue:                       #2a69b8; //is the atum-link-color
+$focusshadow:                      0 0 0 .2rem #eaeaea;
+
+// BS Colours
+$blue:                             hsl(213, 63, 44%); // base color for calculation, Primary-color
+$indigo:                           #0377be; //used in bootstrap
+$purple:                           #6f42c1; //used in bootstrap
+$pink:                             #971250; //used in bootstrap
+$red:                              #c52827; //used in bootstrap
+$red-dark:                         #3b0d0c; //used for alerts error
+$yellow:                           #ffb514; //used in bootstrap
+$green:                            #2f7d32; //used in bootstrap
+$green-dark:                       #0f2f21; //used for alert success
+$teal:                             #20c997; //used in bootstrap
+$cyan:                             #107d8e; //used in bootstrap
+$darkblue:                         #132f53;
+$base-color:                       $darkblue;
+
+$theme-colors: ();
+$theme-colors: map-merge((
+  primary:                         $base-color, //used only in bootstrap, please use $atum-bg-dark
+  secondary:                       $gray-700, //used for btn-secondary
+  success:                         $green,
+  info:                            $light-blue,
+  warning:                         $yellow,
+  danger:                          $red,
+  light:                           $gray-100, //used in bootstrap
+  dark:                            $gray-900,  //used in bootstrap and for table-border
+  atum-link-color:                 $light-blue,
+  atum-text-dark:                  $gray-700,
+  atum-bg-dark:                    $base-color, //standard background color
+  action:                          $base-color,
+  error:                           $red-dark,
+  alert-success:                   $green-dark
+), $theme-colors);
+
+$colors: (
+  card-bg:                         $white,
+  bluegray:                        $bluegray,
+  lightbluegray:                   #f6f9fc,
+  toolbar-bg:                      $white,
+  success-border:                  theme-color("success"),
+  info-border:                     theme-color("info"),
+  warning-border:                  theme-color("warning"),
+  danger-border:                   theme-color("danger"),
+  login-main-bg:                   darken($base-color, 8%), //used on login
+  border:                          $gray-400,
+  white-offset:                    $whiteoffset,
+  focus:                           $focuscolor,
+  focus-shadow:                    $focusshadow,
+  toggle-color:                    $white, //used in sidebar
+  atum-sidebar-bg:                 $white,
+  atum-sidebar-font-color:         $darkblue,
+  atum-sidebar-link-color:         $darkblue,
+  atum-bg-light:                   #f0f4fb, //light background color, frontend dashboard background
+  atum-text-light:                 $white,
+  atum-special-color:              $dark-blue,
+  atum-link-color:                 $light-blue,
+  atum-link-hover-color:           darken($light-blue, 20%),
+  atum-contrast:                   $light-blue,
+  atum-bg-dark-5:                  adjust-color($base-color, $hue: -6%, $saturation: -85%, $lightness: +65.1%),
+  atum-bg-dark-10:                 adjust-color($base-color, $hue: -6%, $saturation: -80%, $lightness: +59.4%),
+  atum-bg-dark-20:                 adjust-color($base-color, $hue: -6%, $saturation: -75%, $lightness: +47.3%),
+  atum-bg-dark-30:                 adjust-color($base-color, $hue: -5%, $saturation: -55%, $lightness: +34.3%),
+  atum-bg-dark-40:                 adjust-color($base-color, $hue: -3%, $saturation: -40%, $lightness: +21.4%),
+  atum-bg-dark-50:                 adjust-color($base-color, $hue: -1%, $saturation: -15%, $lightness: +10%),
+  atum-bg-dark-70:                 adjust-color($base-color, $hue: +4%, $lightness: -6%),
+  atum-bg-dark-80:                 adjust-color($base-color, $hue: +7%, $lightness: -11.5%),
+  atum-bg-dark-90:                 adjust-color($base-color, $hue: +10%, $saturation: -1%, $lightness: -17%)
+);
+
+// Alerts
+$alert-border-level:               0;
+$alert-color-level:                0;
+
+// Global
+$atum-box-shadow:                  0 2px 4px rgba(0, 0, 0, .16), 0 2px 4px rgba(0, 0, 0, .23);
+$enable-rounded:                   true;
+$input-box-shadow:                 inset 0 0 0 .1rem #e9e9e9;
+$input-btn-padding-y:              .6rem;
+$input-btn-padding-x:              1rem;
+$input-max-width:                  100%;
+$btn-disabled-opacity:             .4;
+
+// Toolbar
+$atum-toolbar-line-height:         2.45rem;
+
+// Sidebar
+$sidebar-width:                    18rem;
+$sidebar-width-login:              28.75rem;
+$sidebar-width-closed:             3rem;
+$main-brand-height:                3rem;
+
+// Fonts
+$font-family-sans-serif:           "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$h1-font-size:                     1.65rem;
+$h2-font-size:                     1.5rem;
+$h3-font-size:                     1.25rem;
+$h4-font-size:                     1rem;
+$h5-font-size:                     .9286rem;
+$h6-font-size:                     .8571rem;
+$font-size-sm:                     .8rem;
+$font-size-vsm:                    .6rem;
+$display1-size:                    1rem;
+$display2-size:                    .875rem;
+$content-font-size:                .875rem;
+$label-font-size:                  1rem;
+$danger-bg:                        #900;
+$badge-font-size:                  .75rem;
+$fa-css-prefix:                    fa;
+$fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
+$roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
+
+// Font weights
+$thin-weight:                      100;
+$extralight-weight:                200;
+$light-weight:                     300;
+$normal-weight:                    400;
+$medium-weight:                    500;
+$semibold-weight:                  600;
+$bold-weight:                      700;
+$extrabold-weight:                 800;
+$black-weight:                     900;
+
+// Text
+$body-color:                       var(--atum-text-dark); //only used in bootstrap, please use --atum-color-dark
+
+// Tables
+$table-bg:                         var(--white);
+
+// Dropdowns
+$dropdown-padding-y:               0;
+$dropdown-box-shadow:              0 1px 1px rgba($black, .15);
+$dropdown-link-hover-color:        var(--atum-text-dark);
+$dropdown-border-width:            1px;
+$dropdown-item-padding-y:          .5rem;
+$dropdown-item-padding-x:          .75rem;
+$dropdown-spacer:                  0;
+
+// Tabs
+$nav-tabs-border-width:            0;
+$nav-tabs-link-active-bg:          rgba($black, .2); //is it used?
+
+// Cards
+$card-border-width:                0;
+$card-border-color:                transparent;
+
+// Alerts
+$state-success-text:               var(--alert-success);
+$state-success-bg:                 lighten($green-dark, 70%);
+$state-success-border:             lighten($green-dark, 30%);
+
+$state-info-text:                  var(--white);
+$state-info-bg:                    var(--atum-bg-dark);
+$state-info-border:                var(--atum-bg-dark);
+
+$state-warning-text:               var(--atum-text-dark);
+$state-warning-bg:                 var(--warning);
+$state-warning-border:             var(--warning-border);
+
+$state-danger-text:                var(--white);
+$state-danger-bg:                  var(--danger);
+$state-danger-border:              var(--danger-border);
+
+$state-error-text:                 var(--error);
+$state-error-bg:                   lighten($red-dark, 70%);
+$state-error-border:               lighten($red-dark, 30%);
+
+// Badges
+$badge-padding-x:                  .2rem;
+$badge-padding-y:                  .3rem;
+$badge-border-radius:              .2rem;
+
+$success-bg:                       $green;
+$success-txt:                      $white;
+
+$warning-bg:                       #f9d71c;
+$warning-txt:                      #000;
+
+$danger-bg:                        #900;
+$danger-txt:                       #fff;
+
+// Input Group
+$input-group-addon-color:          var(--white);
+$input-group-addon-bg:             var(--atum-bg-dark);
+$input-group-addon-border-color:   var(--atum-bg-dark);
+
+// Treeselect
+$treeselect-line-height:           2.2rem;
+$treeselect-indent:                40px;
+
+// List
+$list-group-bg:                    var(--white-offset);
+
+// Buttons
+$input-btn-padding-y-sm-submenu:    0;
+$input-btn-padding-x-sm-submenu:    1.625rem;
+$input-btn-submenu-icon-distance:   1rem;
+
+// Custom form
+$custom-select-indicator-padding:    3rem;
+$custom-select-bg:                   var(--atum-bg-light);
+$custom-select-bg-size:              116rem;
+$custom-select-indicator:            url(../images/select-bg.svg);
+$custom-select-indicator-rtl:        url(../images/select-bg-rtl.svg);
+$custom-select-indicator-active:     url(../../../images/select-bg.svg);
+$custom-select-indicator-active-rtl: url(../../../images/select-bg-rtl.svg);
+$custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$custom-select-background-rtl:       $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$custom-select-box-shadow:           $atum-box-shadow;
+$custom-select-bg-size-sm:           75rem;
+$custom-select-multiple-padding-y:   .3rem;
+
+//input
+$input-padding:                    .6rem 1rem;
+$input-border:                     solid 1px  #c9c9c9;
+
+// Modals
+$modal-header-height:              2.875rem;
+
+// Quickicons
+$quickicon-bg:                     var(--white);
+$quickicon-box-shadow-success:     0 0 3px 0 var(--success);
+$quickicon-box-shadow-danger:      0 0 3px 0 var(--danger);
+$quickicon-box-shadow-warning:     0 0 3px 0 var(--warning);
+$quickicon-icon-size:              1.3rem;
+$quickicon-icon-size-big:          2rem;
+
+// Gutter
+$grid-gutter-width:                2rem;
+$grid-gutter-width-s:              15px;
+
+// Breadcrumbs
+$breadcrumb-bg:                    var(--white);
+
+// Links
+$link-color:                       var(--atum-link-color);
+$link-hover-color:                 var(--atum-link-hover-color);
+
+// Z-Index list
+$zindex-negative:                  -1;
+$zindex-actions:                   auto;
+$zindex-toolbar:                   1000;
+$zindex-sidebar:                   1010;
+$zindex-header:                    1020;
+$zindex-alerts:                    1030;
+$zindex-modal-backdrop:            1040;
+$zindex-modal:                     1050;
+$zindex-popover:                   1060;
+$zindex-tooltip:                   1070;
+$zindex-mobile-bottom:             8000;
+$zindex-mobile-toggle:             9999;
+$zindex-mobile-menu:               9000;

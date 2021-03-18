@@ -256,6 +256,7 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
             if (++$i > $maxLength) {
                 return;
             }
+            /** @psalm-suppress MixedOperand */
             $u[$uIdx] >>= 8;
         }
     }

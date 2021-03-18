@@ -8,7 +8,18 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+
 ?>
-<?php if (!empty($version)) : ?>
-	<p class="text-center"><?php echo $version; ?></p>
-<?php endif; ?>
+<div class="header-item-content">
+	<div class="joomlaversion d-flex text-muted">
+		<div class="d-flex align-items-end mx-auto">
+			<span class="fab fa-joomla" aria-hidden="true"></span>
+		</div>
+		<div class="tiny mx-auto">
+			<span class="sr-only"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_TEXT', $version); ?></span>
+			<span aria-hidden="true"><?php echo $version; ?></span>
+		</div>
+	</div>
+</div>

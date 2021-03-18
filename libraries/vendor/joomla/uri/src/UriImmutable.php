@@ -9,16 +9,18 @@
 namespace Joomla\Uri;
 
 /**
- * Uri Class
+ * UriImmutable Class
  *
- * This is an immutable version of the uri class.
+ * This is an immutable version of the AbstractUri class.
  *
  * @since  1.0
  */
 final class UriImmutable extends AbstractUri
 {
 	/**
-	 * @var    boolean  Has this class been instantiated yet.
+	 * Flag if the class been instantiated
+	 *
+	 * @var    boolean
 	 * @since  1.0
 	 */
 	private $constructed = false;

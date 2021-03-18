@@ -9,11 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
  * Layout variables
  * -----------------
+ *
  * @var   string   $autocomplete    Autocomplete attribute for the field.
  * @var   boolean  $autofocus       Is autofocus enabled?
  * @var   string   $class           Classes for the input.
@@ -42,35 +46,45 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   boolean  $charcounter     Does this field support a character counter?
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
-
 // Initialize some field attributes.
-$autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
+if ($charcounter)
+{
+	// Load the js file
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+	$wa->useScript('short-and-sweet');
+
+	// Set the css class to be used as the trigger
+	$charcounter = ' charcount';
+	// Set the text
+	$counterlabel = 'data-counter-label="' . $this->escape(Text::_('JFIELD_META_DESCRIPTION_COUNTER')) . '"';
+}
 
 $attributes = array(
 	$columns ?: '',
 	$rows ?: '',
-	!empty($class) ? 'class="' . $class . '"' : '',
+	!empty($class) ? 'class="form-control ' . $class . $charcounter . '"' : 'class="form-control' . $charcounter . '"',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
 	$onclick ? 'onclick="' . $onclick . '"' : '',
-	$required ? 'required aria-required="true"' : '',
-	$autocomplete,
+	$required ? 'required' : '',
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$maxlength ? $maxlength: ''
-
+	$maxlength ?: '',
+	!empty($counterlabel) ? $counterlabel : '',
+	$dataAttribute,
 );
 ?>
 <textarea name="<?php
 echo $name; ?>" id="<?php
 echo $id; ?>" <?php
 echo implode(' ', $attributes); ?> ><?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?></textarea>
-

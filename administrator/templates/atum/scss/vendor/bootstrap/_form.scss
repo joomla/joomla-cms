@@ -1,0 +1,79 @@
+// Form
+
+label {
+  margin-bottom: 0;
+}
+
+td .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+legend {
+  margin-bottom: 1.1rem;
+  font-size: 1rem;
+  font-weight: $font-weight-normal;
+}
+
+.checkboxes {
+  padding-top: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
+}
+
+.form-check {
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+
+.modal label {
+  width: 100%;
+}
+
+// Validation
+.invalid {
+  color: theme-color("danger");
+  border-color: theme-color("danger");
+}
+
+.valid {
+  border-color: theme-color("success");
+}
+
+.form-control-feedback {
+  display: block;
+}
+
+[aria-grabbed="true"] {
+  box-shadow: 0 0 2px 1px var(--atum-bg-dark);
+}
+
+select.form-control {
+  background-color: $custom-select-bg;
+}
+
+.field-media-wrapper {
+  display: block;
+  width: 100%;
+  max-width: calc(50vw - 5rem);
+
+  .field-media-preview {
+    width: 100%;
+    max-width: none;
+  }
+
+  .button-select {
+    background-color: darken(theme-color("success"), 8%);
+  }
+
+  .button-clear {
+    background-color: darken(theme-color("danger"), 8%);
+  }
+
+  @include media-breakpoint-down(md) {
+    min-width: 100%;
+  }
+}

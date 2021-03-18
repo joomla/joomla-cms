@@ -1,0 +1,137 @@
+// Utilities
+* {
+  box-sizing: border-box;
+}
+
+// Keep B/C
+.element-invisible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
+
+.hidden {
+  display: none;
+}
+
+.table-row {
+  display: table-row;
+}
+
+// Column Count
+
+[class^='column-'],
+[class*=' column-'] {
+  padding-bottom: 1rem;
+  column-gap: 2rem;
+
+  > div {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    break-inside: avoid;
+    page-break-inside: avoid;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .form-no-columns & {
+    column-count: auto;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .column-count-sm-2 {
+    column-count: 2;
+  }
+
+  .column-count-sm-3 {
+    column-count: 3;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .column-count-md-2 {
+    column-count: 2;
+  }
+
+  .column-count-md-3 {
+    column-count: 3;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .column-count-lg-2 {
+    column-count: 2;
+  }
+
+  .column-count-lg-3 {
+    column-count: 3;
+  }
+}
+
+// Sizing
+
+.w-1 {
+  width: 1%;
+}
+
+.w-3 {
+  width: 3%;
+}
+
+.w-5 {
+  width: 5%;
+}
+
+.w-6 {
+  width: 6%;
+}
+
+.w-7 {
+  width: 7%;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.w-12 {
+  width: 12%;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-35 {
+  width: 35%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-80 {
+  width: 80%;
+}

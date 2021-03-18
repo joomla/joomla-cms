@@ -8,9 +8,12 @@
 
 namespace Joomla\Application;
 
-use Joomla\Input\Input;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\EventInterface;
 use Joomla\Registry\Registry;
 use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -19,8 +22,10 @@ use Psr\Log\NullLogger;
  *
  * @since  1.0
  */
-abstract class AbstractApplication implements LoggerAwareInterface
+abstract class AbstractApplication implements ConfigurationAwareApplicationInterface, LoggerAwareInterface, DispatcherAwareInterface
 {
+	use LoggerAwareTrait, DispatcherAwareTrait;
+
 	/**
 	 * The application configuration object.
 	 *
@@ -30,36 +35,17 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	protected $config;
 
 	/**
-	 * The application input object.
-	 *
-	 * @var    Input
-	 * @since  1.0
-	 */
-	public $input;
-
-	/**
-	 * A logger.
-	 *
-	 * @var    LoggerInterface
-	 * @since  1.0
-	 */
-	private $logger;
-
-	/**
 	 * Class constructor.
 	 *
-	 * @param   Input     $input   An optional argument to provide dependency injection for the application's input object.  If the argument is an
-	 *                             Input object that object will become the application's input object, otherwise a default input object is created.
 	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's config object.  If the argument
 	 *                             is a Registry object that object will become the application's config object, otherwise a default config
 	 *                             object is created.
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(Input $input = null, Registry $config = null)
+	public function __construct(Registry $config = null)
 	{
-		$this->input  = $input instanceof Input ? $input : new Input;
-		$this->config = $config instanceof Registry ? $config : new Registry;
+		$this->config = $config ?: new Registry;
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -85,8 +71,33 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	}
 
 	/**
-	 * Method to run the application routines.  Most likely you will want to instantiate a controller
-	 * and execute it, or perform some sort of task directly.
+	 * Dispatches an application event if the dispatcher has been set.
+	 *
+	 * @param   string               $eventName  The event to dispatch.
+	 * @param   EventInterface|null  $event      The event object.
+	 *
+	 * @return  EventInterface|null  The dispatched event or null if no dispatcher is set
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function dispatchEvent(string $eventName, ?EventInterface $event = null): ?EventInterface
+	{
+		try
+		{
+			$dispatcher = $this->getDispatcher();
+		}
+		catch (\UnexpectedValueException $exception)
+		{
+			return null;
+		}
+
+		return $dispatcher->dispatch($eventName, $event ?: new Event\ApplicationEvent($eventName, $this));
+	}
+
+	/**
+	 * Method to run the application routines.
+	 *
+	 * Most likely you will want to instantiate a controller and execute it, or perform some sort of task directly.
 	 *
 	 * @return  mixed
 	 *
@@ -103,12 +114,19 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	 */
 	public function execute()
 	{
-		// @event onBeforeExecute
+		try
+		{
+			$this->dispatchEvent(ApplicationEvents::BEFORE_EXECUTE);
 
-		// Perform application routines.
-		$this->doExecute();
+			// Perform application routines.
+			$this->doExecute();
 
-		// @event onAfterExecute
+			$this->dispatchEvent(ApplicationEvents::AFTER_EXECUTE);
+		}
+		catch (\Throwable $throwable)
+		{
+			$this->dispatchEvent(ApplicationEvents::ERROR, new Event\ApplicationErrorEvent($throwable, $this));
+		}
 	}
 
 	/**
@@ -136,9 +154,9 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	public function getLogger()
 	{
 		// If a logger hasn't been set, use NullLogger
-		if (! ($this->logger instanceof LoggerInterface))
+		if (!($this->logger instanceof LoggerInterface))
 		{
-			$this->logger = new NullLogger;
+			$this->setLogger(new NullLogger);
 		}
 
 		return $this->logger;
@@ -182,29 +200,13 @@ abstract class AbstractApplication implements LoggerAwareInterface
 	 *
 	 * @param   Registry  $config  A registry object holding the configuration.
 	 *
-	 * @return  AbstractApplication  Returns itself to support chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
 	public function setConfiguration(Registry $config)
 	{
 		$this->config = $config;
-
-		return $this;
-	}
-
-	/**
-	 * Set the logger.
-	 *
-	 * @param   LoggerInterface  $logger  The logger.
-	 *
-	 * @return  AbstractApplication  Returns itself to support chaining.
-	 *
-	 * @since   1.0
-	 */
-	public function setLogger(LoggerInterface $logger)
-	{
-		$this->logger = $logger;
 
 		return $this;
 	}

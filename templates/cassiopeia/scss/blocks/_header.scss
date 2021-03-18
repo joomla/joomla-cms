@@ -1,0 +1,167 @@
+// Header
+
+.container-header {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 20px;
+  background-color: $cassiopeia-template-color;
+  background-image: $cassiopeia-header-grad;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, .03) inset;
+
+  @include media-breakpoint-down(sm) {
+    position: relative !important;
+  }
+
+  header {
+    width: 100%;
+    max-width: 1155px;
+    padding: 0 ($cassiopeia-grid-gutter / 2);
+    margin: 0 auto;
+
+  }
+
+  nav {
+    padding: 2.5rem ($cassiopeia-grid-gutter / 2);
+  }
+
+  .site-description {
+    font-size: 1rem;
+    color: $white-offset;
+  }
+
+  .navbar-brand {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    margin-right: auto;
+    font-size: 2rem;
+    color: $white-offset;
+
+    [dir=rtl] & {
+      margin-right: 0;
+      margin-left: auto;
+    }
+
+    img {
+      width: 290px;
+      min-width: 290px;
+    }
+
+    a {
+      color: $white;
+    }
+
+    &:hover,
+    &:focus {
+      color: darken($white-offset, 6%);
+    }
+  }
+
+  .mod-menu {
+    flex-direction: column !important;
+    margin-top: 20px;
+
+    @include media-breakpoint-up(md) {
+      flex-direction: row !important;
+      margin-top: 0;
+
+    }
+  }
+
+  .navbar-collapse {
+    flex-grow: 0;
+  }
+
+  .mod-menu li {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.75px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &::after {
+
+      @include media-breakpoint-up(md) {
+        position: absolute;
+        right: 50%;
+        bottom: 0;
+        left: 50%;
+        display: block;
+        height: 2px;
+        margin: auto;
+        content: "";
+        background: transparent;
+        opacity: .2;
+        transition: all .2s ease, background-color .2s ease;
+      }
+    }
+
+    &.active::after,
+    &:hover::after {
+      right: 2px;
+      left: 0;
+      background: $white;
+    }
+
+    a {
+      position: relative;
+      display: block;
+      padding: .25rem 0 0;
+      color: $white;
+      text-decoration: none;
+    }
+  }
+
+  .navbar-toggler {
+    color: $white-offset;
+    cursor: default;
+    border: 1px solid $white-offset;
+
+    .fas {
+      font-size: 24px;
+    }
+  }
+
+  .form-inline {
+    margin-left: 1.5rem;
+
+    @include media-breakpoint-down(md) {
+      margin: 1rem 0;
+    }
+  }
+
+}
+
+.container-title {
+  padding-top: 13px;
+  padding-bottom: 13px;
+  color: $white;
+  background-color: $cassiopeia-template-color;
+
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .page-title {
+    margin-bottom: 0;
+    font-size: 1.3rem;
+    font-weight: normal;
+
+    span {
+      position: relative;
+      top: 2px;
+      margin-right: 12px;
+      margin-left: 5px;
+      font-size: $h1-font-size;
+      color: lighten($cassiopeia-template-color, 10%);
+
+    }
+
+  }
+
+}

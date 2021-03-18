@@ -8,10 +8,11 @@
 
 namespace Joomla\CMS\Cache\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Factory;
 
 /**
  * Joomla! Cache page type object
@@ -69,7 +70,7 @@ class PageController extends CacheController
 
 			if ($etag == $id)
 			{
-				$browserCache = isset($this->options['browsercache']) ? $this->options['browsercache'] : false;
+				$browserCache = $this->options['browsercache'] ?? false;
 
 				if ($browserCache)
 				{
@@ -122,7 +123,7 @@ class PageController extends CacheController
 	 * @param   mixed    $data        The data to store
 	 * @param   string   $id          The cache data ID
 	 * @param   string   $group       The cache data group
-	 * @param   boolean  $wrkarounds  True to use workarounds
+	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean
 	 *
@@ -139,7 +140,7 @@ class PageController extends CacheController
 		// Get page data from the application object
 		if (!$data)
 		{
-			$data = \JFactory::getApplication()->getBody();
+			$data = Factory::getApplication()->getBody();
 
 			// Only attempt to store if page data exists.
 			if (!$data)
@@ -204,7 +205,7 @@ class PageController extends CacheController
 	 */
 	protected function _noChange()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Send not modified header and exit gracefully
 		$app->setHeader('Status', 304, true);
@@ -223,6 +224,6 @@ class PageController extends CacheController
 	 */
 	protected function _setEtag($etag)
 	{
-		\JFactory::getApplication()->setHeader('ETag', '"' . $etag . '"', true);
+		Factory::getApplication()->setHeader('ETag', '"' . $etag . '"', true);
 	}
 }

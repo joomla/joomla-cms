@@ -1,0 +1,55 @@
+// Custom Forms
+
+.custom-select {
+  max-width: $input-max-width;
+  cursor: pointer;
+  background: $custom-select-background;
+  background-color: $custom-select-bg;
+  border: $input-border;
+  // var needed
+  box-shadow: $input-box-shadow;
+
+  [dir=rtl] & {
+    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
+    background: $custom-select-background-rtl;
+    background-color: $custom-select-bg;
+  }
+
+  &[multiple] {
+    padding: 0;
+    background-color: var(--white-offset);
+
+    option {
+      padding: $custom-select-multiple-padding-y $custom-select-padding-x;
+      background-color: var(--white);
+
+      &:checked {
+        color: var(--white);
+        background-color: $cassiopeia-template-color-dark !important;
+      }
+    }
+  }
+
+  &.custom-select-color-state {
+
+    &.custom-select-success {
+      color: $white-offset;
+      background-color: theme-color("success");
+
+      option {
+        color: $custom-select-color;
+        background-color: $white-offset;
+      }
+    }
+
+    &.custom-select-danger {
+      color: $white-offset;
+      background-color: theme-color("danger");
+
+      option {
+        color: $custom-select-color;
+        background-color: $white-offset;
+      }
+    }
+  }
+}

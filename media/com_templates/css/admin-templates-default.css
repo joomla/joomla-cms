@@ -1,0 +1,101 @@
+/**
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.selected {
+	background: #08c;
+	color: #fff;
+}
+
+.selected:hover,
+.selected:focus {
+	background: #08c !important;
+	color: #fff;
+}
+
+#deleteFolder {
+	margin: 0;
+}
+
+#image-crop {
+	max-width: 100% !important;
+	width: auto;
+	height: auto;
+}
+
+.tree-holder {
+	overflow-x: auto;
+}
+
+.treeselect a {
+	display: block;
+}
+
+.diffview {
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	display: inline;
+	padding: 4px;
+	border-radius: .2em;
+}
+
+.diff-pane {
+	height: 350px;
+	border: 0.5px solid grey;
+	overflow: auto;
+	padding: 10px;
+	background-color: #FFF;
+}
+
+#diff-main.active {
+	display: block;
+}
+
+#diff-main {
+	display: none;
+}
+
+#core-pane.active {
+	display: block;
+}
+
+#core-pane {
+	display: none;
+}
+
+#core-pane .CodeMirror-code {
+	background-color: #F0F0EE;
+}
+
+#jform_show_core {
+	display: inline;
+}
+
+#jform_show_diff {
+	display: inline;
+	margin-left: 3.5em;
+}
+
+.switcher-label-0, .switcher-label-1 {
+	white-space: nowrap;
+}
+
+/* RTL overrides for templates editing*/
+[dir=rtl] .diff-pane {
+	text-align: left;
+}
+
+[dir=rtl] #core-pane textarea,
+#override-pane textarea {
+	text-align: left;
+}
+
+[dir=rtl] #core-pane joomla-editor-codemirror,
+#override-pane joomla-editor-codemirror {
+	text-align: left;
+}
+
+[dir=rtl] #toggle-buttons {
+	text-align: right !important;
+}

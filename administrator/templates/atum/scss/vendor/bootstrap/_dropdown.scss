@@ -1,0 +1,60 @@
+// Dropdown
+
+.btn-group .dropdown-menu {
+  min-width: 100%;
+  background: $white;
+  box-shadow: $dropdown-box-shadow;
+
+  joomla-toolbar-button {
+    border: 0;
+
+    [dir=rtl] & {
+      text-align: right;
+    }
+  }
+}
+
+.dropdown-menu {
+  box-shadow: $atum-box-shadow;
+}
+
+.dropdown-item {
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+
+  &:hover,
+  &:focus {
+    .btn-primary + .dropdown-menu & {
+      background-color: var(--atum-bg-dark);
+    }
+
+    .btn-secondary + .dropdown-menu & {
+      color: var(--atum-text-light);
+      background-color: theme-color("secondary");
+    }
+
+    .btn-danger + .dropdown-menu & {
+      background-color: theme-color("danger");
+    }
+
+    .btn-info + .dropdown-menu & {
+      background-color: theme-color("info");
+    }
+
+    .btn-group.show .dropdown-menu &:not(.disabled) {
+      color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark);
+    }
+  }
+
+  & + .dropdown-item {
+    border-top: 1px solid rgba(0, 0, 0, .1);
+  }
+
+  .dropdown-status-group .dropdown-menu &:not(.disabled) {
+    color: theme-color("action");
+  }
+
+  .dropdown-save-group .dropdown-menu &:not(.disabled) {
+    color: theme-color("success");
+  }
+}

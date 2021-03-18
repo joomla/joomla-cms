@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -33,17 +35,12 @@ extract($displayData);
  */
 ?>
 <div class="modal-header">
+	<?php if (isset($params['title'])) : ?>
+		<h3 class="modal-title"><?php echo $params['title']; ?></h3>
+	<?php endif; ?>
 	<?php if (!isset($params['closeButton']) || $params['closeButton']) : ?>
-		<button
-			type="button"
-			class="close novalidate"
-			data-dismiss="modal"
-			aria-label="<?php echo JText::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>"
-			>
+		<button type="button" class="close novalidate" data-dismiss="modal" aria-label="<?php echo Text::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>">
 			<span aria-hidden="true">&times;</span>
 		</button>
-	<?php endif; ?>
-	<?php if (isset($params['title'])) : ?>
-		<h3><?php echo $params['title']; ?></h3>
 	<?php endif; ?>
 </div>

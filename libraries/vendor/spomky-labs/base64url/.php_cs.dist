@@ -1,0 +1,61 @@
+<?php
+
+$header = 'The MIT License (MIT)
+
+Copyright (c) 2014-2018 Spomky-Labs
+
+This software may be modified and distributed under the terms
+of the MIT license.  See the LICENSE file for details.';
+
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__.'/src')
+    ->in(__DIR__.'/tests')
+;
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@PSR1' => true,
+        '@PSR2' => true,
+        '@Symfony' => true,
+        '@DoctrineAnnotation' => true,
+        '@PHP70Migration' => true,
+        '@PHP71Migration' => true,
+        'strict_param' => true,
+        'strict_comparison' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'array_indentation' => true,
+        'ordered_imports' => true,
+        'protected_to_private' => true,
+        'declare_strict_types' => true,
+        'native_function_invocation' => [
+            'include' => ['@compiler_optimized'],
+            'scope' => 'namespaced',
+        ],
+        'mb_str_functions' => true,
+        'method_chaining_indentation' => true,
+        'linebreak_after_opening_tag' => true,
+        'combine_consecutive_issets' => true,
+        'combine_consecutive_unsets' => true,
+        'compact_nullable_typehint' => true,
+        'no_superfluous_phpdoc_tags' => true,
+        'no_superfluous_elseif' => true,
+        'phpdoc_trim_consecutive_blank_line_separation' => true,
+        'phpdoc_order' => true,
+        'pow_to_exponentiation' => true,
+        'simplified_null_return' => true,
+        'header_comment' => [
+            'header' => $header,
+        ],
+        'align_multiline_comment' => [
+            'comment_type' => 'all_multiline',
+        ],
+        'php_unit_test_annotation' => [
+            'case' => 'snake',
+            'style' => 'annotation',
+        ],
+        'php_unit_test_case_static_method_calls' => true,
+    ])
+    ->setRiskyAllowed(true)
+    ->setUsingCache(true)
+    ->setFinder($finder)
+    ;

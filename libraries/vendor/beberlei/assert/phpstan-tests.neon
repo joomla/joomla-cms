@@ -1,0 +1,10 @@
+parameters:
+    ignoreErrors:
+        # The following errors are ignored as they are testing for errors and exceptions that static analysis correctly identifies as problems.
+        - '#Call to an undefined method Assert\\AssertionChain::unknownAssertion\(\)#'
+        - '#Call to an undefined static method Assert\\Assertion::nullOrAssertionDoesNotExist\(\)#'
+        - '#Class Foo not found#'
+        - '#Parameter \#1 $value of static method Assert\\Assertion::isCountable\(\) expects array|Countable|ResourceBundle|SimpleXMLElement, string given#'
+        - '#Parameter \#2 \$operator of static method Assert\\Assertion::version\(\) expects string, null given#'
+        - '#Static method Assert\\Assertion::allTrue\(\) invoked with 0 parameters, 1-3 required#'
+        - '#Static method Assert\\Assertion::nullOrMax\(\) invoked with 0 parameters, 2-4 required#'

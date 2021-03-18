@@ -8,8 +8,10 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -23,11 +25,11 @@ class Extension extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
 
@@ -45,25 +47,23 @@ class Extension extends Table
 	 */
 	public function check()
 	{
-		// Check for valid name
-		if (trim($this->name) == '' || trim($this->element) == '')
+		try
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
 
 			return false;
 		}
 
-		if (!$this->extension_id)
+		// Check for valid name
+		if (trim($this->name) == '' || trim($this->element) == '')
 		{
-			if (!$this->custom_data)
-			{
-				$this->custom_data = '';
-			}
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
-			if (!$this->system_data)
-			{
-				$this->system_data = '';
-			}
+			return false;
 		}
 
 		return true;
@@ -83,13 +83,13 @@ class Extension extends Table
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['control']) && is_array($array['control']))
+		if (isset($array['control']) && \is_array($array['control']))
 		{
 			$registry = new Registry($array['control']);
 			$array['control'] = (string) $registry;
@@ -109,7 +109,7 @@ class Extension extends Table
 	 */
 	public function find($options = array())
 	{
-		// Get the \JDatabaseQuery object
+		// Get the DatabaseQuery object
 		$query = $this->_db->getQuery(true);
 
 		foreach ($options as $col => $val)
@@ -157,7 +157,7 @@ class Extension extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -167,13 +167,13 @@ class Extension extends Table
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			$checkin = '';
 		}
 		else
 		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
+			$checkin = ' AND (checked_out IS NULL OR checked_out = ' . (int) $userId . ')';
 		}
 
 		// Update the publishing state for rows with the given primary keys.
@@ -185,7 +185,7 @@ class Extension extends Table
 		$this->_db->execute();
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && (\count($pks) == $this->_db->getAffectedRows()))
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)
@@ -195,7 +195,7 @@ class Extension extends Table
 		}
 
 		// If the Table instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
+		if (\in_array($this->$k, $pks))
 		{
 			$this->enabled = $state;
 		}

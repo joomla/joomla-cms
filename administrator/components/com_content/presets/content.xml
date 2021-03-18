@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<menu
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="urn:joomla.org"
+	xsi:schemaLocation="urn:joomla.org menu.xsd"
+	>
+	<menuitem
+		title="COM_CONTENT_MENUS"
+		type="heading"
+		icon="file-alt"
+		class="class:file-alt"
+		>
+		<menuitem
+			title="COM_CONTENT_MENUS_ARTICLE_MANAGER"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=articles"
+			quicktask="index.php?option=com_content&amp;task=article.add"
+			quicktask-title="COM_CONTENT_MENUS_NEW_ARTICLE"
+		/>
+
+		<menuitem
+			title="COM_CONTENT_MENUS_CATEGORY_MANAGER"
+			type="component"
+			element="com_categories"
+			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
+			quicktask="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
+			quicktask-title="COM_CONTENT_MENUS_NEW_CATEGORY"
+		/>
+
+		<menuitem
+			title="COM_CONTENT_MENUS_FEATURED"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=featured"
+			class="class:featured"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="COM_CONTENT_MENUS_MANAGE"
+		type="heading"
+		icon="cog"
+		class="class:file-alt"
+		>
+		<menuitem
+			title="COM_CONTENT_MENUS_WORKFLOW"
+			type="component"
+			element="com_workflow"
+			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content.article"
+		/>
+
+		<menuitem
+			title="MOD_MENU_FIELDS"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=fields&amp;context=com_content.article"
+		/>
+
+		<menuitem
+			title="MOD_MENU_FIELDS_GROUP"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="COM_CONTENT_MENUS_MISC"
+		type="heading"
+		icon="cubes"
+		class="class:file-alt"
+		dashboard="content"
+		>
+		<menuitem
+			title="MOD_MENU_MEDIA_MANAGER"
+			type="component"
+			element="com_media"
+			link="index.php?option=com_media"
+			class="class:image"
+		/>
+
+		<menuitem
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
+			type="component"
+			element="com_modules"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
+			quicktask="index.php?option=com_modules&amp;view=select&amp;client_id=0"
+			quicktask-title="COM_CONTENT_MENUS_NEW_SITE_MODULE"
+		/>
+
+		<menuitem
+			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
+			type="component"
+			element="com_modules"
+			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
+			quicktask="index.php?option=com_modules&amp;view=select&amp;client_id=1"
+			quicktask-title="COM_CONTENT_MENUS_NEW_ADMIN_MODULE"
+		/>
+	</menuitem>
+</menu>

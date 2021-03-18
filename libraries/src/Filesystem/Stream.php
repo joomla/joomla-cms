@@ -8,10 +8,10 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Joomla! Stream Interface
@@ -173,21 +173,22 @@ class Stream extends CMSObject
 	 *
 	 * @param   string    $filename              Filename
 	 * @param   string    $mode                  Mode string to use
-	 * @param   boolean   $useIncludePath        Use the PHP include path
+	 * @param   boolean   $use_include_path      Use the PHP include path
 	 * @param   resource  $context               Context to use when opening
-	 * @param   boolean   $usePrefix             Use a prefix to open the file
+	 * @param   boolean   $use_prefix            Use a prefix to open the file
 	 * @param   boolean   $relative              Filename is a relative path (if false, strips JPATH_ROOT to make it relative)
-	 * @param   boolean   $detectProcessingMode  Detect the processing method for the file and use the appropriate function
+	 * @param   boolean   $detectprocessingmode  Detect the processing method for the file and use the appropriate function
 	 *                                           to handle output automatically
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.7.0
 	 */
-	public function open($filename, $mode = 'r', $useIncludePath = false, $context = null,
-		$usePrefix = false, $relative = false, $detectProcessingMode = false)
+	public function open($filename, $mode = 'r', $use_include_path = false, $context = null,
+		$use_prefix = false, $relative = false, $detectprocessingmode = false
+	)
 	{
-		$filename = $this->_getFilename($filename, $mode, $usePrefix, $relative);
+		$filename = $this->_getFilename($filename, $mode, $use_prefix, $relative);
 
 		if (!$filename)
 		{
@@ -213,7 +214,7 @@ class Stream extends CMSObject
 			// We have a scheme! force the method to be f
 			$this->processingmethod = 'f';
 		}
-		elseif ($detectProcessingMode)
+		elseif ($detectprocessingmode)
 		{
 			$ext = strtolower(File::getExt($this->filename));
 
@@ -247,7 +248,7 @@ class Stream extends CMSObject
 		{
 			// Gzip doesn't support contexts or streams
 			case 'gz':
-				$this->fh = gzopen($filename, $mode, $useIncludePath);
+				$this->fh = gzopen($filename, $mode, $use_include_path);
 				break;
 
 			// Bzip2 is much like gzip except it doesn't use the include path
@@ -261,17 +262,17 @@ class Stream extends CMSObject
 				// One supplied at open; overrides everything
 				if ($context)
 				{
-					$this->fh = fopen($filename, $mode, $useIncludePath, $context);
+					$this->fh = fopen($filename, $mode, $use_include_path, $context);
 				}
 				// One provided at initialisation
 				elseif ($this->context)
 				{
-					$this->fh = fopen($filename, $mode, $useIncludePath, $this->context);
+					$this->fh = fopen($filename, $mode, $use_include_path, $this->context);
 				}
 				// No context; all defaults
 				else
 				{
-					$this->fh = fopen($filename, $mode, $useIncludePath);
+					$this->fh = fopen($filename, $mode, $use_include_path);
 				}
 
 				break;
@@ -610,14 +611,14 @@ class Stream extends CMSObject
 
 				if (!$this->eof())
 				{
-					$len = strlen($res);
+					$len = \strlen($res);
 					$remaining -= $len;
 				}
 				else
 				{
 					// If it's the end of the file then we've nothing left to read; reset remaining and len
 					$remaining = 0;
-					$length = strlen($retval);
+					$length = \strlen($retval);
 				}
 			}
 		}
@@ -747,9 +748,9 @@ class Stream extends CMSObject
 	 * JStream::set('chunksize', newsize);)
 	 * Note: This doesn't support gzip/bzip2 writing like reading does
 	 *
-	 * @param   string   &$string  Reference to the string to write.
-	 * @param   integer  $length   Length of the string to write.
-	 * @param   integer  $chunk    Size of chunks to write in.
+	 * @param   string   $string  Reference to the string to write.
+	 * @param   integer  $length  Length of the string to write.
+	 * @param   integer  $chunk   Size of chunks to write in.
 	 *
 	 * @return  boolean
 	 *
@@ -768,7 +769,7 @@ class Stream extends CMSObject
 		// If the length isn't set, set it to the length of the string.
 		if (!$length)
 		{
-			$length = strlen($string);
+			$length = \strlen($string);
 		}
 
 		// If the chunk isn't set, set it to the default.
@@ -921,7 +922,7 @@ class Stream extends CMSObject
 	public function _buildContext()
 	{
 		// According to the manual this always works!
-		if (count($this->contextOptions))
+		if (\count($this->contextOptions))
 		{
 			$this->context = @stream_context_create($this->contextOptions);
 		}
@@ -991,7 +992,7 @@ class Stream extends CMSObject
 				unset($this->contextOptions[$wrapper][$name]);
 
 				// Check that there are still items there
-				if (!count($this->contextOptions[$wrapper]))
+				if (!\count($this->contextOptions[$wrapper]))
 				{
 					// Clean up an empty wrapper context option
 					unset($this->contextOptions[$wrapper]);
@@ -1040,8 +1041,8 @@ class Stream extends CMSObject
 	 * Stream filters
 	 * Append a filter to the chain
 	 *
-	 * @param   string   $filterName  The key name of the filter.
-	 * @param   integer  $readWrite   Optional. Defaults to STREAM_FILTER_READ.
+	 * @param   string   $filtername  The key name of the filter.
+	 * @param   integer  $read_write  Optional. Defaults to STREAM_FILTER_READ.
 	 * @param   array    $params      An array of params for the stream_filter_append call.
 	 *
 	 * @return  mixed
@@ -1049,7 +1050,7 @@ class Stream extends CMSObject
 	 * @link    https://www.php.net/manual/en/function.stream-filter-append.php
 	 * @since   1.7.0
 	 */
-	public function appendFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
+	public function appendFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
 	{
 		$res = false;
 
@@ -1060,7 +1061,7 @@ class Stream extends CMSObject
 			$track_errors = ini_get('track_errors');
 			ini_set('track_errors', true);
 
-			$res = @stream_filter_append($this->fh, $filterName, $readWrite, $params);
+			$res = @stream_filter_append($this->fh, $filtername, $read_write, $params);
 
 			if (!$res && $php_errormsg)
 			{
@@ -1081,8 +1082,8 @@ class Stream extends CMSObject
 	/**
 	 * Prepend a filter to the chain
 	 *
-	 * @param   string   $filterName  The key name of the filter.
-	 * @param   integer  $readWrite   Optional. Defaults to STREAM_FILTER_READ.
+	 * @param   string   $filtername  The key name of the filter.
+	 * @param   integer  $read_write  Optional. Defaults to STREAM_FILTER_READ.
 	 * @param   array    $params      An array of params for the stream_filter_prepend call.
 	 *
 	 * @return  mixed
@@ -1090,7 +1091,7 @@ class Stream extends CMSObject
 	 * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
 	 * @since   1.7.0
 	 */
-	public function prependFilter($filterName, $readWrite = STREAM_FILTER_READ, $params = array())
+	public function prependFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
 	{
 		$res = false;
 
@@ -1100,7 +1101,7 @@ class Stream extends CMSObject
 			$php_errormsg = '';
 			$track_errors = ini_get('track_errors');
 			ini_set('track_errors', true);
-			$res = @stream_filter_prepend($this->fh, $filterName, $readWrite, $params);
+			$res = @stream_filter_prepend($this->fh, $filtername, $read_write, $params);
 
 			if (!$res && $php_errormsg)
 			{
@@ -1124,8 +1125,8 @@ class Stream extends CMSObject
 	 * Remove a filter, either by resource (handed out from the append or prepend function)
 	 * or via getting the filter list)
 	 *
-	 * @param   resource  &$resource  The resource.
-	 * @param   boolean   $byindex    The index of the filter.
+	 * @param   resource  $resource  The resource.
+	 * @param   boolean   $byindex   The index of the filter.
 	 *
 	 * @return  boolean   Result of operation
 	 *
@@ -1161,29 +1162,29 @@ class Stream extends CMSObject
 	/**
 	 * Copy a file from src to dest
 	 *
-	 * @param   string    $src        The file path to copy from.
-	 * @param   string    $dest       The file path to copy to.
-	 * @param   resource  $context    A valid context resource (optional) created with stream_context_create.
-	 * @param   boolean   $usePrefix  Controls the use of a prefix (optional).
-	 * @param   boolean   $relative   Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
+	 * @param   string    $src         The file path to copy from.
+	 * @param   string    $dest        The file path to copy to.
+	 * @param   resource  $context     A valid context resource (optional) created with stream_context_create.
+	 * @param   boolean   $use_prefix  Controls the use of a prefix (optional).
+	 * @param   boolean   $relative    Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
 	 * @return  mixed
 	 *
 	 * @since   1.7.0
 	 */
-	public function copy($src, $dest, $context = null, $usePrefix = true, $relative = false)
+	public function copy($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
-		$chmodDest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
+		$chmodDest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
 
 		// Since we're going to open the file directly we need to get the filename.
 		// We need to use the same prefix so force everything to write.
-		$src = $this->_getFilename($src, 'w', $usePrefix, $relative);
-		$dest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
+		$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
+		$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
 
 		if ($context)
 		{
@@ -1219,25 +1220,25 @@ class Stream extends CMSObject
 	/**
 	 * Moves a file
 	 *
-	 * @param   string    $src        The file path to move from.
-	 * @param   string    $dest       The file path to move to.
-	 * @param   resource  $context    A valid context resource (optional) created with stream_context_create.
-	 * @param   boolean   $usePrefix  Controls the use of a prefix (optional).
-	 * @param   boolean   $relative   Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
+	 * @param   string    $src         The file path to move from.
+	 * @param   string    $dest        The file path to move to.
+	 * @param   resource  $context     A valid context resource (optional) created with stream_context_create.
+	 * @param   boolean   $use_prefix  Controls the use of a prefix (optional).
+	 * @param   boolean   $relative    Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
 	 * @return  mixed
 	 *
 	 * @since   1.7.0
 	 */
-	public function move($src, $dest, $context = null, $usePrefix = true, $relative = false)
+	public function move($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
-		$src = $this->_getFilename($src, 'w', $usePrefix, $relative);
-		$dest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
+		$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
+		$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
 
 		if ($context)
 		{
@@ -1271,23 +1272,23 @@ class Stream extends CMSObject
 	/**
 	 * Delete a file
 	 *
-	 * @param   string    $filename   The file path to delete.
-	 * @param   resource  $context    A valid context resource (optional) created with stream_context_create.
-	 * @param   boolean   $usePrefix  Controls the use of a prefix (optional).
-	 * @param   boolean   $relative   Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
+	 * @param   string    $filename    The file path to delete.
+	 * @param   resource  $context     A valid context resource (optional) created with stream_context_create.
+	 * @param   boolean   $use_prefix  Controls the use of a prefix (optional).
+	 * @param   boolean   $relative    Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
 	 * @return  mixed
 	 *
 	 * @since   1.7.0
 	 */
-	public function delete($filename, $context = null, $usePrefix = true, $relative = false)
+	public function delete($filename, $context = null, $use_prefix = true, $relative = false)
 	{
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
 
-		$filename = $this->_getFilename($filename, 'w', $usePrefix, $relative);
+		$filename = $this->_getFilename($filename, 'w', $use_prefix, $relative);
 
 		if ($context)
 		{
@@ -1319,22 +1320,22 @@ class Stream extends CMSObject
 	/**
 	 * Upload a file
 	 *
-	 * @param   string    $src        The file path to copy from (usually a temp folder).
-	 * @param   string    $dest       The file path to copy to.
-	 * @param   resource  $context    A valid context resource (optional) created with stream_context_create.
-	 * @param   boolean   $usePrefix  Controls the use of a prefix (optional).
-	 * @param   boolean   $relative   Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
+	 * @param   string    $src         The file path to copy from (usually a temp folder).
+	 * @param   string    $dest        The file path to copy to.
+	 * @param   resource  $context     A valid context resource (optional) created with stream_context_create.
+	 * @param   boolean   $use_prefix  Controls the use of a prefix (optional).
+	 * @param   boolean   $relative    Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
 	 * @return  mixed
 	 *
 	 * @since   1.7.0
 	 */
-	public function upload($src, $dest, $context = null, $usePrefix = true, $relative = false)
+	public function upload($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
 		if (is_uploaded_file($src))
 		{
 			// Make sure it's an uploaded file
-			return $this->copy($src, $dest, $context, $usePrefix, $relative);
+			return $this->copy($src, $dest, $context, $use_prefix, $relative);
 		}
 		else
 		{
@@ -1348,7 +1349,7 @@ class Stream extends CMSObject
 	 * Writes a chunk of data to a file.
 	 *
 	 * @param   string  $filename  The file name.
-	 * @param   string  &$buffer   The data to write to the file.
+	 * @param   string  $buffer    The data to write to the file.
 	 *
 	 * @return  boolean
 	 *
@@ -1371,25 +1372,25 @@ class Stream extends CMSObject
 	/**
 	 * Determine the appropriate 'filename' of a file
 	 *
-	 * @param   string   $filename   Original filename of the file
-	 * @param   string   $mode       Mode string to retrieve the filename
-	 * @param   boolean  $usePrefix  Controls the use of a prefix
-	 * @param   boolean  $relative   Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
+	 * @param   string   $filename    Original filename of the file
+	 * @param   string   $mode        Mode string to retrieve the filename
+	 * @param   boolean  $use_prefix  Controls the use of a prefix
+	 * @param   boolean  $relative    Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
 	 * @return  string
 	 *
 	 * @since   1.7.0
 	 */
-	public function _getFilename($filename, $mode, $usePrefix, $relative)
+	public function _getFilename($filename, $mode, $use_prefix, $relative)
 	{
-		if ($usePrefix)
+		if ($use_prefix)
 		{
 			// Get rid of binary or t, should be at the end of the string
 			$tmode = trim($mode, 'btf123456789');
 
 			// Check if it's a write mode then add the appropriate prefix
 			// Get rid of JPATH_ROOT (legacy compat) along the way
-			if (in_array($tmode, FilesystemHelper::getWriteModes()))
+			if (\in_array($tmode, FilesystemHelper::getWriteModes()))
 			{
 				if (!$relative && $this->writeprefix)
 				{

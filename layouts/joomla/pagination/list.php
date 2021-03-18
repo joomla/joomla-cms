@@ -9,14 +9,21 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 $list = $displayData['list'];
+
 ?>
-<ul>
-	<li class="pagination-start"><?php echo $list['start']['data']; ?></li>
-	<li class="pagination-prev"><?php echo $list['previous']['data']; ?></li>
-	<?php foreach ($list['pages'] as $page) : ?>
-		<?php echo '<li>' . $page['data'] . '</li>'; ?>
-	<?php endforeach; ?>
-	<li class="pagination-next"><?php echo $list['next']['data']; ?></li>
-	<li class="pagination-end"><?php echo $list['end']['data']; ?></li>
-</ul>
+<nav role="navigation" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
+	<ul class="pagination ml-0 mb-4">
+		<?php echo $list['start']['data']; ?>
+		<?php echo $list['previous']['data']; ?>
+
+		<?php foreach ($list['pages'] as $page) : ?>
+			<?php echo $page['data']; ?>
+		<?php endforeach; ?>
+
+		<?php echo $list['next']['data']; ?>
+		<?php echo $list['end']['data']; ?>
+	</ul>
+</nav>

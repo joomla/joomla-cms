@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="administrator" method="upgrade">
+	<name>mod_loginsupport</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2019</creationDate>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>MOD_LOGINSUPPORT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Module\Loginsupport</namespace>
+	<files>
+		<filename module="mod_loginsupport">mod_loginsupport.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_loginsupport.ini</language>
+		<language tag="en-GB">en-GB.mod_loginsupport.sys.ini</language>
+	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_VERSION" />
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="forum_url"
+					type="url"
+					label="MOD_LOGINSUPPORT_FIELD_FORUM_URL_LABEL"
+					filter="url"
+					size="50"
+					default="https://forum.joomla.org/"
+				/>
+
+				<field
+					name="documentation_url"
+					type="url"
+					label="MOD_LOGINSUPPORT_FIELD_DOCUMENTATION_URL_LABEL"
+					filter="url"
+					size="50"
+					default="https://docs.joomla.org/"
+				/>
+
+				<field
+					name="news_url"
+					type="url"
+					label="MOD_LOGINSUPPORT_FIELD_NEWS_URL_LABEL"
+					filter="url"
+					size="50"
+					default="https://www.joomla.org/"
+				/>
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
+				/>
+
+				<field
+					name="automatic_title"
+					type="radio"
+					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+				/>
+
+				<field
+					name="cache"
+					type="list"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					default="0"
+					filter="integer"
+					validate="options"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_time"
+					type="number"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					default="0"
+					filter="integer"
+				/>
+
+				<field
+					name="cachemode"
+					type="hidden"
+					default="itemid"
+					>
+					<option value="itemid"></option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

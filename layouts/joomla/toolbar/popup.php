@@ -9,14 +9,43 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.core');
+use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 
-$doTask = $displayData['doTask'];
-$class  = $displayData['class'];
-$text   = $displayData['text'];
-$name   = $displayData['name'];
+Factory::getDocument()->getWebAssetManager()
+	->useScript('core')
+	->useScript('webcomponent.toolbar-button');
+
+/**
+ * @var  int     $id
+ * @var  string  $name
+ * @var  string  $doTask
+ * @var  string  $class
+ * @var  string  $text
+ * @var  string  $btnClass
+ * @var  string  $tagName
+ * @var  bool    $listCheck
+ * @var  string  $htmlAttributes
+ */
+extract($displayData, EXTR_OVERWRITE);
+
+$tagName = $tagName ?? 'button';
+
+$modalAttrs['data-toggle'] = 'modal';
+$modalAttrs['data-target'] = '#' . $selector;
+
+$idAttr   = !empty($id)        ? ' id="' . $id . '"' : '';
+$listAttr = !empty($listCheck) ? ' list-selection' : '';
+
 ?>
-<button value="<?php echo $doTask; ?>" class="btn btn-small modal" data-toggle="modal" data-target="#modal-<?php echo $name; ?>">
+<joomla-toolbar-button <?php echo $idAttr.$listAttr; ?>>
+<<?php echo $tagName; ?>
+	value="<?php echo $doTask; ?>"
+	class="<?php echo $btnClass; ?>"
+	<?php echo $htmlAttributes; ?>
+	<?php echo ArrayHelper::toString($modalAttrs); ?>
+>
 	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
-</button>
+</<?php echo $tagName; ?>>
+</joomla-toolbar-button>

@@ -12,6 +12,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Checks if the installation is affected by the issue with content languages access in 3.4.0
  *
@@ -24,7 +26,7 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_languageaccess340_condition()
 {
-	$db    = JFactory::getDbo();
+	$db    = Factory::getDbo();
 	$query = $db->getQuery(true)
 		->select($db->quoteName('access'))
 		->from($db->quoteName('#__languages'))

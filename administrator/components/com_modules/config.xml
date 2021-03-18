@@ -12,6 +12,7 @@
 			default="site"
 			label="COM_MODULES_REDIRECT_EDIT_LABEL"
 			description="COM_MODULES_REDIRECT_EDIT_DESC"
+			validate="options"
 			>
 			<option value="admin">JADMINISTRATOR</option>
 			<option value="site">JSITE</option>
@@ -27,12 +28,12 @@
 			type="radio"
 			label="COM_MODULES_ADMIN_LANG_FILTER_LABEL"
 			description="COM_MODULES_ADMIN_LANG_FILTER_DESC"
-			class="btn-group btn-group-yesno"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			filter="integer"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 

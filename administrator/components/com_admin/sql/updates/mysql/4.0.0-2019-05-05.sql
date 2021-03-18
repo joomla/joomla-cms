@@ -1,0 +1,11 @@
+UPDATE `#__menu` SET `link`='index.php?option=com_banners&view=banners' WHERE `id`=3;
+UPDATE `#__menu` SET `link`='index.php?option=com_categories&view=categories&extension=com_banners' WHERE `id`=4;
+UPDATE `#__menu` SET `link`='index.php?option=com_contact&view=contacts' WHERE `id`=8;
+UPDATE `#__menu` SET `link`='index.php?option=com_categories&view=categories&extension=com_contact' WHERE `id`=9;
+UPDATE `#__menu` SET `link`='index.php?option=com_newsfeeds&view=newsfeeds' WHERE `id`=14;
+UPDATE `#__menu` SET `link`='index.php?option=com_categories&view=categories&extension=com_newsfeeds' WHERE `id`=15;
+UPDATE `#__menu` SET `link`='index.php?option=com_redirect&view=links' WHERE `id`=16;
+UPDATE `#__menu` SET `link`='index.php?option=com_search&view=searches' WHERE `id`=17;
+UPDATE `#__menu` SET `link`='index.php?option=com_finder&view=index' WHERE `id`=18;
+UPDATE `#__menu` SET `link`='index.php?option=com_tags&view=tags' WHERE `id`=20;
+UPDATE `#__menu` SET `link`='index.php?option=com_associations&view=associations' WHERE `id`=22;

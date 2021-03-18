@@ -9,5 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('joomla.toolbar', 'legacy/toolbar.min.js', [], ['defer' => true], ['core']);
+
 ?>
-<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>" id="<?php echo $displayData['id']; ?>">
+<nav aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
+<div class="btn-toolbar d-flex" role="toolbar" id="<?php echo $displayData['id']; ?>">

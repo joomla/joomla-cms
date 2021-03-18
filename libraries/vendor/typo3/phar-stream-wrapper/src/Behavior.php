@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace TYPO3\PharStreamWrapper;
 
 /*
@@ -25,7 +26,7 @@ class Behavior implements Assertable
     /**
      * @var string[]
      */
-    private $availableCommands = array(
+    private $availableCommands = [
         self::COMMAND_DIR_OPENDIR,
         self::COMMAND_MKDIR,
         self::COMMAND_RENAME,
@@ -34,7 +35,7 @@ class Behavior implements Assertable
         self::COMMAND_STREAM_OPEN,
         self::COMMAND_UNLINK,
         self::COMMAND_URL_STAT,
-    );
+    ];
 
     /**
      * @var Assertable[]
@@ -43,12 +44,11 @@ class Behavior implements Assertable
 
     /**
      * @param Assertable $assertable
+     * @param string ...$commands
      * @return static
      */
-    public function withAssertion(Assertable $assertable)
+    public function withAssertion(Assertable $assertable, string ...$commands): self
     {
-        $commands = func_get_args();
-        array_shift($commands);
         $this->assertCommands($commands);
         $commands = $commands ?: $this->availableCommands;
 
@@ -64,7 +64,7 @@ class Behavior implements Assertable
      * @param string $command
      * @return bool
      */
-    public function assert($path, $command)
+    public function assert(string $path, string $command): bool
     {
         $this->assertCommand($command);
         $this->assertAssertionCompleteness();
@@ -90,7 +90,7 @@ class Behavior implements Assertable
         );
     }
 
-    private function assertCommand($command)
+    private function assertCommand(string $command)
     {
         if (in_array($command, $this->availableCommands, true)) {
             return;

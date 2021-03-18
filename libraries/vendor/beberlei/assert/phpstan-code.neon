@@ -1,0 +1,10 @@
+parameters:
+    autoload_files:
+        - bin/MethodDocGenerator.php
+    ignoreErrors:
+        # is_countable() is available only in PHP 7.3+
+        - '#Function is_countable not found#'
+
+        # Calling count() on ResourceBundle and SimpleXMLElement is valid from PHP 7.0+, but does not correctly advertise
+        # the fact, and so PHPStan has an issue with this. This will be fixed in PHP 7.4+
+        - '#Call to function count\(\) with argument type array|Countable|ResourceBundle|SimpleXMLElement will always result in number 1#'

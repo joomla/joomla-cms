@@ -8,10 +8,12 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Opensearch\OpensearchImage;
 use Joomla\CMS\Document\Opensearch\OpensearchUrl;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -71,12 +73,12 @@ class OpensearchDocument extends Document
 		$update = new OpensearchUrl;
 		$update->type = 'application/opensearchdescription+xml';
 		$update->rel = 'self';
-		$update->template = \JRoute::_(Uri::getInstance());
+		$update->template = Route::_(Uri::getInstance());
 		$this->addUrl($update);
 
 		// Add the favicon as the default image
 		// Try to find a favicon by checking the template and root folder
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$dirs = array(JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE);
 
 		foreach ($dirs as $dir)
@@ -126,7 +128,7 @@ class OpensearchDocument extends Document
 	{
 		$xml = new \DOMDocument('1.0', 'utf-8');
 
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$xml->formatOutput = true;
 		}
@@ -166,7 +168,7 @@ class OpensearchDocument extends Document
 			$elUrl->setAttribute('type', $url->type);
 
 			// Results is the default value so we don't need to add it
-			if ($url->rel != 'results')
+			if ($url->rel !== 'results')
 			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}

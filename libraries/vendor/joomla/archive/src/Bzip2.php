@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Archive Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ class Bzip2 implements ExtractableInterface
 	 * @var    array|\ArrayAccess
 	 * @since  1.0
 	 */
-	protected $options = array();
+	protected $options = [];
 
 	/**
 	 * Create a new Archive object.
@@ -42,7 +42,7 @@ class Bzip2 implements ExtractableInterface
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		if (!\is_array($options) && !($options instanceof \ArrayAccess))
 		{

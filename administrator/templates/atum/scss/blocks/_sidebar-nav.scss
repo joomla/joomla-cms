@@ -1,0 +1,68 @@
+// Sidebar
+
+.sidebar-nav {
+
+  // override bootstrap important
+  background: var(--atum-sidebar-bg) !important;
+  box-shadow: $atum-box-shadow;
+
+  ul {
+    padding-left: .5rem;
+  }
+
+  li {
+    margin-bottom: .5rem;
+    font-size: .9rem;
+    font-weight: $font-weight-bold;
+    border-bottom: solid 1px var(--atum-bg-light);
+
+    &.nav-header {
+      padding: .5rem 0 .2rem;
+      margin-bottom: .5rem;
+      font-size: .9rem;
+      color: var(--atum-text-dark);
+      border: 0;
+
+    }
+
+    &.divider {
+      margin: .3rem 0;
+      border-bottom: 0;
+
+    }
+
+    a {
+      position: relative;
+      display: block;
+      padding: .35rem .35rem .35rem 1.2rem;
+      overflow: hidden;
+      font-weight: $font-weight-normal;
+      color: var(--atum-text-dark);
+
+      &::before {
+        position: absolute;
+        top: .75rem;
+        left: 0;
+        display: inline-block;
+        width: .6em;
+        height: .6em;
+        content: "";
+        border-top: 1px solid var(--atum-link-color);
+        border-right: 1px solid var(--atum-link-color);
+        transform: rotate(45deg) skew(5deg, 5deg);
+
+      }
+    }
+
+    &:hover, &.active {
+      a {
+        color: var(--atum-text-light);
+        background-color: var(--atum-link-color);
+
+        &::before {
+          border-color: var(--atum-text-light);
+        }
+      }
+    }
+  }
+}

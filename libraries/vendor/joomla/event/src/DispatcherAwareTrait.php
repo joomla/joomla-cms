@@ -18,7 +18,7 @@ trait DispatcherAwareTrait
 	/**
 	 * Event Dispatcher
 	 *
-	 * @var    DispatcherInterface
+	 * @var    DispatcherInterface|null
 	 * @since  1.2.0
 	 */
 	private $dispatcher;

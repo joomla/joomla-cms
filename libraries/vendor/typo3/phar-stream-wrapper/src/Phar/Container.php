@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace TYPO3\PharStreamWrapper\Phar;
 
 /*
@@ -36,7 +37,7 @@ class Container
     /**
      * @return Stub
      */
-    public function getStub()
+    public function getStub(): Stub
     {
         return $this->stub;
     }
@@ -44,7 +45,7 @@ class Container
     /**
      * @return Manifest
      */
-    public function getManifest()
+    public function getManifest(): Manifest
     {
         return $this->manifest;
     }
@@ -52,7 +53,7 @@ class Container
     /**
      * @return string
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return $this->manifest->getAlias() ?: $this->stub->getMappedAlias();
     }

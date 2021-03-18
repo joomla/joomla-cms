@@ -1,0 +1,105 @@
+// Form
+
+.form-control {
+  max-width: $input-max-width;
+  background-color: $white-offset;
+
+  &.input-xlarge {
+    max-width: 350px;
+  }
+
+  &.input-xxlarge {
+    max-width: 550px;
+  }
+
+  &.input-full {
+    max-width: 100%;
+  }
+
+}
+
+.spacer hr {
+  width: 380px;
+}
+
+.custom-select {
+  max-width: $input-max-width;
+}
+
+.form-inline .custom-select {
+  width: auto;
+}
+
+@include media-breakpoint-down(sm) {
+  .form-inline .custom-select {
+    width: 100%;
+  }
+}
+
+td .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+.checkboxes {
+  padding-top: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
+
+}
+
+.modal label {
+  width: 100%;
+}
+
+// Validation
+.invalid {
+  color: theme-color("danger");
+  border-color: theme-color("danger");
+}
+
+.valid {
+  border-color: theme-color("success");
+}
+
+.form-control-feedback {
+  display: block;
+}
+
+// set up hidden tooltip
+[role="tooltip"]:not(.show) {
+  z-index: $zindex-tooltip;
+  display: none;
+  max-width: 100%;
+  padding: .25em;
+  margin: .25em;
+  color: $white;
+  background: $black;
+
+  [dir=ltr] & {
+    text-align: left;
+  }
+
+  [dir=rtl] & {
+    text-align: right;
+  }
+}
+
+// reveal associated tooltip on focus
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
+  position: absolute;
+  display: block;
+}
+
+[id="filter[search]-desc"] {
+  bottom: 100%;
+}
+
+.container-popup [id="filter[search]-desc"] {
+  top: 100%;
+  bottom: auto;
+}

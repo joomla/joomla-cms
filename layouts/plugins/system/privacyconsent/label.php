@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -46,7 +47,7 @@ extract($displayData);
  * @var   array    $translateLabel         Should the label be translated?
  * @var   array    $translateDescription   Should the description be translated?
  * @var   array    $translateHint          Should the hint be translated?
- * @var   array    $privacyArticle         The Article ID holding the Privacy Article
+ * @var   array    $privacyArticle         The Article ID holding the Privancy Article
  * $var   object   $article                The Article object
  */
 
@@ -56,8 +57,6 @@ $text = $translateLabel ? Text::_($text) : $text;
 
 // Set required to true as this field is not displayed at all if not required.
 $required = true;
-
-JHtml::_('behavior.modal');
 
 // Build the class for the label.
 $class = !empty($description) ? 'hasPopover' : '';
@@ -83,13 +82,29 @@ if (Factory::getLanguage()->isRtl())
 	$label .= ' data-placement="left"';
 }
 
-$attribs          = array();
-$attribs['class'] = 'modal';
-$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
 if ($article)
 {
-	$link = JHtml::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+	$attribs = [
+		'data-toggle' => 'modal',
+		'data-target' => '#consentModal',
+	];
+
+	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+
+	echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'consentModal',
+		[
+			'url'    => Route::_($article->link . '&tmpl=component'),
+			'title'  => $text,
+			'height' => '100%',
+			'width'  => '100%',
+			'modalWidth'  => '800',
+			'bodyHeight'  => '500',
+			'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+				. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+		]
+	);
 }
 else
 {

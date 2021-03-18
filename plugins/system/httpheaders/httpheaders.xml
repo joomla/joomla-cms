@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_httpheaders</name>
+	<author>Joomla! Project</author>
+	<creationDate>October 2017</creationDate>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_SYSTEM_HTTPHEADERS_XML_DESCRIPTION</description>
+	<files>
+		<folder>postinstall</folder>
+		<filename plugin="httpheaders">httpheaders.php</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="xframeoptions"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_XFRAMEOPTIONS"
+					layout="joomla.form.field.radio.switcher"
+					default="1"
+					filter="integer"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="referrerpolicy"
+					type="list"
+					label="PLG_SYSTEM_HTTPHEADERS_REFERRERPOLICY"
+					default="no-referrer-when-downgrade"
+					validate="options"
+					>
+					<option value="disabled">JDISABLED</option>
+					<option value="no-referrer">no-referrer</option>
+					<option value="no-referrer-when-downgrade">no-referrer-when-downgrade</option>
+					<option value="same-origin">same-origin</option>
+					<option value="origin">origin</option>
+					<option value="strict-origin">strict-origin</option>
+					<option value="origin-when-cross-origin">origin-when-cross-origin</option>
+					<option value="strict-origin-when-cross-origin">strict-origin-when-cross-origin</option>
+					<option value="unsafe-url">unsafe-url</option>
+				</field>
+				<field
+					name="coop"
+					type="list"
+					label="PLG_SYSTEM_HTTPHEADERS_COOP"
+					default="same-origin"
+					validate="options"
+					>
+					<option value="disabled">JDISABLED</option>
+					<option value="same-origin">same-origin</option>
+					<option value="same-origin-allow-popups">same-origin-allow-popups</option>
+					<option value="unsafe-none">unsafe-none</option>
+				</field>
+
+				<field
+					name="additional_httpheader"
+					type="subform"
+					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
+					multiple="true"
+					>
+					<form>
+						<field
+							name="key"
+							type="list"
+							label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_KEY"
+							validate="options"
+							class="col-md-4"
+							>
+							<option value="strict-transport-security">Strict-Transport-Security</option>
+							<option value="content-security-policy">Content-Security-Policy</option>
+							<option value="content-security-policy-report-only">Content-Security-Policy-Report-Only</option>
+							<option value="x-frame-options">X-Frame-Options</option>
+							<option value="referrer-policy">Referrer-Policy</option>
+							<option value="expect-ct">Expect-CT</option>
+							<option value="feature-policy">Feature-Policy</option>
+							<option value="cross-origin-opener-policy">Cross-Origin-Opener-Policy</option>
+						</field>
+						<field
+							name="value"
+							type="text"
+							label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_VALUE"
+							class="col-md-10"
+						/>
+						<field
+							name="client"
+							type="radio"
+							label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
+							default="site"
+							validate="options"
+							class="col-md-12"
+							>
+							<option value="site">JSITE</option>
+							<option value="administrator">JADMINISTRATOR</option>
+							<option value="both">PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT_BOTH</option>
+						</field>
+					</form>
+				</field>
+			</fieldset>
+			<fieldset name="hsts" label="Strict-Transport-Security (HSTS)">
+				<field
+					name="hsts"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					validate="options"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="hsts_maxage"
+					type="number"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_MAXAGE"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_MAXAGE_DESC"
+					default="31536000"
+					filter="integer"
+					validate="number"
+					min="300"
+					showon="hsts:1"
+				/>
+				<field
+					name="hsts_subdomains"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					validate="options"
+					showon="hsts:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="hsts_preload"
+					type="radio"
+					label="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD"
+					description="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD_NOTE_DESC"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					validate="options"
+					showon="hsts:1"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_httpheaders.ini</language>
+		<language tag="en-GB">en-GB.plg_system_httpheaders.sys.ini</language>
+	</languages>
+</extension>

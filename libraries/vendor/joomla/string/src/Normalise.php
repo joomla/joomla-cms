@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework String Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ abstract class Normalise
 	 * @param   string   $input    The string input (ASCII only).
 	 * @param   boolean  $grouped  Optionally allows splitting on groups of uppercase characters.
 	 *
-	 * @return  string  The space separated string.
+	 * @return  array|string  The space separated string, as an array if grouped.
 	 *
 	 * @since   1.0
 	 */
@@ -56,7 +56,7 @@ abstract class Normalise
 	public static function toCamelCase($input)
 	{
 		// Convert words to uppercase and then remove spaces.
-		$input = self::toSpaceSeparated($input);
+		$input = static::toSpaceSeparated($input);
 		$input = ucwords($input);
 		$input = str_ireplace(' ', '', $input);
 
@@ -75,9 +75,7 @@ abstract class Normalise
 	public static function toDashSeparated($input)
 	{
 		// Convert spaces and underscores to dashes.
-		$input = preg_replace('#[ \-_]+#', '-', $input);
-
-		return $input;
+		return preg_replace('#[ \-_]+#', '-', $input);
 	}
 
 	/**
@@ -92,9 +90,7 @@ abstract class Normalise
 	public static function toSpaceSeparated($input)
 	{
 		// Convert underscores and dashes to spaces.
-		$input = preg_replace('#[ \-_]+#', ' ', $input);
-
-		return $input;
+		return preg_replace('#[ \-_]+#', ' ', $input);
 	}
 
 	/**
@@ -109,9 +105,7 @@ abstract class Normalise
 	public static function toUnderscoreSeparated($input)
 	{
 		// Convert spaces and dashes to underscores.
-		$input = preg_replace('#[ \-_]+#', '_', $input);
-
-		return $input;
+		return preg_replace('#[ \-_]+#', '_', $input);
 	}
 
 	/**
@@ -125,8 +119,8 @@ abstract class Normalise
 	 */
 	public static function toVariable($input)
 	{
-		// Convert to camel case.
-		$input = self::toCamelCase($input);
+		// Remove dashes and underscores, then convert to camel case.
+		$input = static::toCamelCase($input);
 
 		// Remove leading digits.
 		$input = preg_replace('#^[0-9]+#', '', $input);
@@ -149,9 +143,6 @@ abstract class Normalise
 	public static function toKey($input)
 	{
 		// Remove spaces and dashes, then convert to lower case.
-		$input = self::toUnderscoreSeparated($input);
-		$input = strtolower($input);
-
-		return $input;
+		return strtolower(static::toUnderscoreSeparated($input));
 	}
 }

@@ -1,53 +1,66 @@
 /**
- * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+
+/**
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+(function (document) {
+  'use strict';
 
-jQuery(document).ready(function() {
-	var variables  = Joomla.getOptions('js-privacy-check'),
-	    plg_quickicon_privacycheck_ajax_url = variables.plg_quickicon_privacycheck_ajax_url,
-	    plg_quickicon_privacycheck_url = variables.plg_quickicon_privacycheck_url,
-	    plg_quickicon_privacycheck_text = variables.plg_quickicon_privacycheck_text;
-	var ajax_structure = {
-		success: function(data, textStatus, jqXHR) {
-			var link = jQuery('#plg_quickicon_privacycheck').find('span.j-links-link');
+  document.addEventListener('DOMContentLoaded', function () {
+    var variables = Joomla.getOptions('js-privacy-check');
+    var ajaxUrl = variables.plg_quickicon_privacycheck_ajax_url;
+    var url = variables.plg_quickicon_privacycheck_url;
+    var text = variables.plg_quickicon_privacycheck_text;
+    var quickicon = document.getElementById('plg_quickicon_privacycheck');
+    var link = quickicon.querySelector('span.j-links-link');
+    Joomla.request({
+      url: ajaxUrl,
+      method: 'GET',
+      data: '',
+      perform: true,
+      onSuccess: function onSuccess(response) {
+        try {
+          var request = JSON.parse(response);
 
-			try {
-				var requestList = jQuery.parseJSON(data);
-			} catch (e) {
-				// An error occurred
-				link.html(plg_quickicon_privacycheck_text.ERROR);
-			}
+          if (request.data.number_urgent_requests) {
+            // Quickicon on dashboard shows message
+            link.textContent = "".concat(text.REQUESTFOUND, " ").concat(request.data.number_urgent_requests); // Quickicon becomes red
 
-			if (requestList.data.number_urgent_requests == 0) {
-				// No requests
-				link.html(plg_quickicon_privacycheck_text.NOREQUEST);
-			} else {
-				// Requests
-				var msgString = '<span class="label label-important">'
-					+ requestList.data.number_urgent_requests + '</span>&nbsp;'
-					+ plg_quickicon_privacycheck_text.REQUESTFOUND_MESSAGE;
+            quickicon.classList.add('danger'); // Span in alert message
 
-				jQuery('#system-message-container').prepend(
-					'<div class="alert alert-error alert-joomlaupdate">'
-					+ msgString
-					+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_privacycheck_url + '\'">'
-					+ plg_quickicon_privacycheck_text.REQUESTFOUND_BUTTON + '</button>'
-					+ '</div>'
-				);
+            var countSpan = document.createElement('span');
+            countSpan.classList.add('label', 'label-important');
+            countSpan.textContent = request.data.number_urgent_requests; // Button in alert to 'view requests'
 
-				var msgString = plg_quickicon_privacycheck_text.REQUESTFOUND
-					+ '&nbsp;<span class="label label-important">'
-					+ requestList.data.number_urgent_requests + '</span>'
+            var requestButton = document.createElement('button');
+            requestButton.classList.add('btn', 'btn-primary');
+            requestButton.setAttribute('onclick', "document.location='".concat(url, "'"));
+            requestButton.textContent = text.REQUESTFOUND_BUTTON;
+            var div = document.createElement('div');
+            div.classList.add('alert', 'alert-error', 'alert-joomlaupdate');
+            div.appendChild(countSpan);
+            div.insertAdjacentText('beforeend', " ".concat(text.REQUESTFOUND_MESSAGE));
+            div.appendChild(requestButton); // Add elements to container for alert messages
 
-				link.html(msgString);
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			// An error occurred
-			jQuery('#plg_quickicon_privacycheck').find('span.j-links-link').html(plg_quickicon_privacycheck_text.ERROR);
-		},
-		url: plg_quickicon_privacycheck_ajax_url
-	};
-	ajax_object = new jQuery.ajax(ajax_structure);
-});
+            var container = document.querySelector('#system-message-container');
+            container.insertBefore(div, container.firstChild);
+          } else {
+            quickicon.classList.add('success');
+            link.textContent = text.NOREQUEST;
+          }
+        } catch (e) {
+          quickicon.classList.add('danger');
+          link.textContent = text.ERROR;
+        }
+      },
+      onError: function onError() {
+        quickicon.classList.add('danger');
+        link.textContent = text.ERROR;
+      }
+    });
+  });
+})(document);

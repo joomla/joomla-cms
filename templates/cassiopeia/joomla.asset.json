@@ -1,0 +1,103 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "cassiopeia",
+  "version": "4.0.0",
+  "description": "Cassiopeia is the default Joomla 4 site template",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "template.cassiopeia.ltr",
+      "type": "style",
+      "uri": "template.min.css",
+      "dependencies": [
+        "fontawesome",
+        "template.cassiopeia.googlefont"
+      ]
+    },
+    {
+      "name": "template.cassiopeia.rtl",
+      "type": "style",
+      "uri": "template-rtl.min.css",
+      "dependencies": [
+        "fontawesome",
+        "template.cassiopeia.googlefont"
+      ]
+    },
+    {
+      "name": "template.offline",
+      "type": "style",
+      "uri": "offline.css"
+    },
+    {
+      "name": "template.active.language",
+      "type": "style",
+      "uri": "",
+      "class": "LangActiveAssetItem",
+      "dependencies": [
+        "template.active"
+      ]
+    },
+    {
+      "name": "template.user",
+      "type": "style",
+      "uri": "user.css",
+      "dependencies": [
+        "template.active",
+        "template.active.language"
+      ]
+    },
+    {
+      "name": "template.cassiopeia.googlefont",
+      "type": "style",
+      "uri": "https://fonts.googleapis.com/css?family=Fira+Sans:400"
+    },
+    {
+      "name": "template.cassiopeia",
+      "type": "script",
+      "uri": "template.js",
+      "dependencies": [
+        "core",
+        "bootstrap.js.bundle"
+      ]
+    },
+    {
+      "name": "template.active",
+      "type": "script",
+      "uri": "",
+      "description": "A dummy asset to allow extensions to use it as a dependency to the active template",
+      "dependencies": [
+        "template.cassiopeia"
+      ]
+    },
+    {
+      "name": "template.user",
+      "type": "script",
+      "uri":  "user.js",
+      "dependencies": [
+        "template.active"
+      ]
+    },
+
+    {
+      "name": "template.cassiopeia.ltr",
+      "type": "preset",
+      "dependencies": [
+        "template.cassiopeia.ltr#style",
+        "template.cassiopeia#script"
+      ]
+    },
+    {
+      "name": "template.cassiopeia.rtl",
+      "type": "preset",
+      "dependencies": [
+        "template.cassiopeia.rtl#style",
+        "template.cassiopeia#script"
+      ]
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": "system/searchtools/searchtools.min.css"
+    }
+  ]
+}

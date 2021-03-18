@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace TYPO3\PharStreamWrapper\Interceptor;
 
 /*
@@ -25,7 +26,7 @@ class PharExtensionInterceptor implements Assertable
      * @return bool
      * @throws Exception
      */
-    public function assert($path, $command)
+    public function assert(string $path, string $command): bool
     {
         if ($this->baseFileContainsPharExtension($path)) {
             return true;
@@ -43,7 +44,7 @@ class PharExtensionInterceptor implements Assertable
      * @param string $path
      * @return bool
      */
-    private function baseFileContainsPharExtension($path)
+    private function baseFileContainsPharExtension(string $path): bool
     {
         $invocation = Manager::instance()->resolve($path);
         if ($invocation === null) {

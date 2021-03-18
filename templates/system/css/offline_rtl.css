@@ -4,11 +4,11 @@
  */
 
  /**
- * Joomla! 1.5 Offline RTL css file
+ * Joomla! 4.0 Offline RTL css file
  *
- * @package				Joomla
- * @since				1.5
- * @version				1.0
+ * @package	Joomla
+ * @since	1.5
+ * @version	1.0
  */
 
 #frame form{ text-align: right; }
@@ -23,5 +23,5 @@ fieldset.input p {clear: right;}
 .alert .close {
 	float: left;
 	left: -20px;
-	right: 0px;
+	right: 0;
 }

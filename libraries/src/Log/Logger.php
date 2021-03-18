@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Log;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Logger Base Class
@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class Logger
 {
 	/**
-	 * Options array for the JLog instance.
+	 * Options array for the Log instance.
 	 *
 	 * @var    array
 	 * @since  3.0.1

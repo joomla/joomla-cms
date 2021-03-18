@@ -9,11 +9,55 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.framework');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
+Factory::getDocument()->getWebAssetManager()
+	->useScript('core')
+	->useScript('webcomponent.toolbar-button');
+
+/**
+ * @var  string  $id
+ * @var  string  $itemId
+ * @var  string  $typeId
+ * @var  string  $typeAlias
+ * @var  string  $title
+ */
+extract($displayData, EXTR_OVERWRITE);
+
+echo HTMLHelper::_(
+	'bootstrap.renderModal',
+	'versionsModal',
+	array(
+		'url'    => 'index.php?' . http_build_query(
+			[
+				'option' => 'com_contenthistory',
+				'view' => 'history',
+				'layout' => 'modal',
+				'tmpl' => 'component',
+				'item_id' => $itemId,
+				Session::getFormToken() => 1
+			]
+		),
+		'title'  => $title,
+		'height' => '100%',
+		'width'  => '100%',
+		'modalWidth'  => '80',
+		'bodyHeight'  => '60',
+		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+	)
+);
 ?>
-<a rel="{handler: 'iframe', size: {x: <?php echo $displayData['height']; ?>, y: <?php echo $displayData['width']; ?>}}"
-	href="index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;item_id=<?php echo (int) $displayData['itemId']; ?>&amp;type_id=<?php echo $displayData['typeId']; ?>&amp;type_alias=<?php echo $displayData['typeAlias']; ?>&amp;<?php echo JSession::getFormToken(); ?>=1"
-	title="<?php echo $displayData['title']; ?>" class="btn btn-small modal_jform_contenthistory">
-	<span class="icon-archive" aria-hidden="true"></span> <?php echo $displayData['title']; ?>
-</a>
+<joomla-toolbar-button id="toolbar-versions">
+	<button
+		class="btn btn-sm btn-primary"
+		type="button"
+		onclick="document.getElementById('versionsModal').open()"
+		data-toggle="modal">
+		<span class="fas fa-code-branch" aria-hidden="true"></span>
+		<?php echo $title; ?>
+	</button>
+</joomla-toolbar-button>

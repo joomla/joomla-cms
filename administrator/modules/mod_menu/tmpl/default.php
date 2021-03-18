@@ -9,27 +9,27 @@
 
 defined('_JEXEC') or die;
 
-$doc       = JFactory::getDocument();
-$direction = $doc->direction == 'rtl' ? 'pull-right' : '';
-$class     = $enabled ? 'nav ' . $direction : 'nav disabled ' . $direction;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
+
+$doc       = $app->getDocument();
+$direction = $doc->direction === 'rtl' ? 'float-right' : '';
+$class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $doc->getWebAssetManager();
+$wa->useScript('metismenujs')
+	->registerAndUseScript('mod_menu.admin-menu', 'mod_menu/admin-menu.min.js', [], ['defer' => true], ['metismenujs'])
+	->registerAndUseScript('cpanel.system-loader', 'com_cpanel/admin-system-loader.js', [], ['defer' => true]);
 
 // Recurse through children of root node if they exist
-$menuTree = $menu->getTree();
-$root     = $menuTree->reset();
-
 if ($root->hasChildren())
 {
-	echo '<ul id="menu" class="' . $class . '">' . "\n";
+	echo '<nav class="main-nav-container" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
+	echo '<ul id="menu' . $module->id . '" class="' . $class . '">' . "\n";
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
-	$menu->renderSubmenu(JModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
+	$menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'), $root);
 
-	echo "</ul>\n";
-
-	echo '<ul id="nav-empty" class="dropdown-menu nav-empty hidden-phone"></ul>';
-
-	if ($css = $menuTree->getCss())
-	{
-		$doc->addStyleDeclaration(implode("\n", $css));
-	}
+	echo "</ul></nav>\n";
 }

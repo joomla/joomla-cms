@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS `#__session` (
+  `session_id` VARBINARY(128) NOT NULL,
+  `time` INTEGER UNSIGNED NOT NULL,
+  `data` BLOB NOT NULL,
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

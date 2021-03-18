@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace TYPO3\PharStreamWrapper\Interceptor;
 
 /*
@@ -35,7 +36,7 @@ class ConjunctionInterceptor implements Assertable
      * @return bool
      * @throws Exception
      */
-    public function assert($path, $command)
+    public function assert(string $path, string $command): bool
     {
         if ($this->invokeAssertions($path, $command)) {
             return true;
@@ -72,7 +73,7 @@ class ConjunctionInterceptor implements Assertable
      * @param string $command
      * @return bool
      */
-    private function invokeAssertions($path, $command)
+    private function invokeAssertions(string $path, string $command): bool
     {
         try {
             foreach ($this->assertions as $assertion) {

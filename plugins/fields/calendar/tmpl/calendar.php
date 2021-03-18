@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 $value = $field->value;
 
 if ($value == '')
@@ -23,4 +26,4 @@ if (is_array($value))
 
 $formatString =  $field->fieldparams->get('showtime', 0) ? 'DATE_FORMAT_LC5' : 'DATE_FORMAT_LC4';
 
-echo htmlentities(JHtml::_('date', $value, JText::_($formatString)));
+echo htmlentities(HTMLHelper::_('date', $value, Text::_($formatString)));

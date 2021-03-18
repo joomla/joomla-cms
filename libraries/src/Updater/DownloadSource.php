@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Updater;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Data object representing a download source given as part of an update's `<downloads>` element

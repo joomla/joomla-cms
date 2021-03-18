@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -42,86 +45,65 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
- * @var   boolean  $lock            Is this field locked.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 if ($meter)
 {
-	JHtml::_('script', 'system/passwordstrength.js', array('version' => 'auto', 'relative' => true, 'framework' => true));
+	$wa->useScript('field.passwordstrength');
 
-	// Load script on document load.
-	JFactory::getDocument()->addScriptDeclaration(
-		"
-		jQuery(document).ready(function() {
-			new Form.PasswordStrength('" . $id . "',
-				{
-					threshold: " . $threshold . ",
-					onUpdate: function(element, strength, threshold) {
-						element.set('data-passwordstrength', strength);
-					}
-				});
-		});"
-	);
+	$class = 'js-password-strength ' . $class;
+
+	if ($forcePassword)
+	{
+		$class = $class . ' meteredPassword';
+	}
 }
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+$wa->useScript('field.passwordview');
 
-if ($lock)
-{
-	// Load script on document load.
-	JFactory::getDocument()->addScriptDeclaration(
-			"
-		jQuery(document).ready(function() {
-			jQuery('#" . $id ."_lock').on('click', function() {
-				var lockButton = jQuery(this);
-				var passwordInput = jQuery('#" . $id . "');
-				var lock = lockButton.hasClass('active');
-
-				if (lock === true) {
-					lockButton.html('" . JText::_('JMODIFY', true) . "');
-					passwordInput.attr('disabled', true);
-					passwordInput.val('');
-				}
-				else
-				{
-					lockButton.html('" . JText::_('JCANCEL', true) . "');
-					passwordInput.attr('disabled', false);
-				}
-			});
-		});"
-	);
-
-	$disabled = true;
-	$hint = str_repeat('*', strlen($value));
-	$value = '';
-}
+Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
+Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	!$autocomplete ? 'autocomplete="off"' : '',
-	!empty($class) ? 'class="' . $class . '"' : '',
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
+	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
+	!empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
+	!empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',
+	!empty($minSymbols) ? 'data-min-symbols="' . $minSymbols . '"' : '',
+	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
+	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
+	!empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
+	$dataAttribute,
 );
 
 ?>
-<?php if ($lock): ?>
-	<span class="input-append">
-<?php endif; ?>
-<input
-	type="password"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>
-/>
-<?php if ($lock): ?>
-	<button type="button" id="<?php echo $id; ?>_lock" class="btn btn-info" data-toggle="button"><?php echo JText::_('JMODIFY'); ?></button>
-	</span>
-<?php endif; ?>
+<div class="password-group">
+	<div class="input-group">
+		<input
+			type="password"
+			name="<?php echo $name; ?>"
+			id="<?php echo $id; ?>"
+			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo implode(' ', $attributes); ?>>
+		<span class="input-group-append">
+			<button type="button" class="btn btn-secondary input-password-toggle">
+				<span class="fas fa-eye" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+			</button>
+		</span>
+	</div>
+</div>

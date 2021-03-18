@@ -1,0 +1,55 @@
+// Modals
+
+.modal {
+  .btn {
+    margin-right: .5rem;
+  }
+
+  .btn-primary:not([href]),
+  .btn-success:not([href]) {
+    color: #fff;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+.modal-header {
+  padding: 0 15px;
+
+  .close {
+    width: $modal-header-height;
+    margin-top: 0;
+    font-size: 2rem;
+    line-height: $modal-header-height;
+
+    [dir=ltr] & {
+      margin-right: -15px;
+      border-left: 1px solid $cassiopeia-border-color;
+    }
+
+    [dir=rtl] & {
+      margin-left: -15px;
+      border-right: 1px solid $cassiopeia-border-color;
+    }
+  }
+}
+
+.modal-body {
+  padding: 0;
+}
+
+.modal-title {
+  font-weight: normal;
+  line-height: $modal-header-height;
+}
+
+.contentpane {
+  padding: 15px;
+}
+
+// Content History
+.container-popup .mb-3 {
+  margin: 1rem;
+}

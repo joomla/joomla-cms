@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "joomla",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "jquery-noconflict",
+      "type": "script",
+      "dependencies": [
+        "jquery"
+      ],
+      "uri": "legacy/jquery-noconflict.min.js"
+    },
+    {
+      "name": "joomla.frontediting",
+      "type": "style",
+      "uri": "system/frontediting.css"
+    },
+    {
+      "name": "joomla.frontediting",
+      "type": "script",
+      "dependencies": [
+        "jquery"
+      ],
+      "uri": "legacy/frontediting.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "joomla.frontediting",
+      "type": "preset",
+      "dependencies": [
+        "joomla.frontediting#style",
+        "joomla.frontediting#script"
+      ]
+    }
+  ]
+}

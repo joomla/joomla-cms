@@ -8,16 +8,26 @@
  */
 
 defined('_JEXEC') or die;
-?>
 
-<?php
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+// Check if feed URL has been set
+if (empty ($rssurl))
+{
+	echo '<div>' . Text::_('MOD_FEED_ERR_NO_URL') . '</div>';
+
+	return;
+}
+
 if (!empty($feed) && is_string($feed))
 {
 	echo $feed;
 }
 else
 {
-	$lang      = JFactory::getLanguage();
+	$lang      = $app->getLanguage();
 	$myrtl     = $params->get('rssrtl', 0);
 	$direction = ' ';
 
@@ -54,23 +64,26 @@ else
 
 	if ($feed !== false)
 	{
+		// Image handling
+		$iUrl   = $feed->image ?? null;
+		$iTitle = $feed->imagetitle ?? null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important" class="feed<?php echo $moduleclass_sfx; ?>">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;" class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
 		<?php
 		// Feed description
 		if ($feed->title !== null && $params->get('rsstitle', 1))
 		{
 			?>
-					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
-						<?php echo $feed->title; ?></a>
-					</h2>
+				<h2 class="<?php echo $direction; ?>">
+					<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
+					<?php echo $feed->title; ?></a>
+				</h2>
 			<?php
 		}
 		// Feed date
 		if ($params->get('rssdate', 1)) : ?>
 			<h3>
-			<?php echo JHtml::_('date', $feed->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
+			<?php echo HtmlHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
 			</h3>
 		<?php endif;
 		// Feed description
@@ -81,16 +94,16 @@ else
 			<?php
 		}
 		// Feed image
-		if ($feed->image && $params->get('rssimage', 1)) :
+		if ($iUrl && $params->get('rssimage', 1)) :
 		?>
-			<img src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
+			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>">
 		<?php endif; ?>
 
 
 	<!-- Show items -->
 	<?php if (!empty($feed))
 	{ ?>
-		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
+		<ul class="newsfeed">
 		<?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
 			<?php
 				$uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
@@ -105,17 +118,19 @@ else
 					<?php else : ?>
 						<span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
 					<?php endif; ?>
+
 					<?php if ($params->get('rssitemdate', 0)) : ?>
 						<div class="feed-item-date">
-							<?php echo JHtml::_('date', $feed[$i]->publishedDate, JText::_('DATE_FORMAT_LC3')); ?>
+							<?php echo HtmlHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
 						</div>
 					<?php endif; ?>
+
 					<?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.
-							$text = JFilterOutput::stripImages($text);
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count', 0));
+							$text = OutputFilter::stripImages($text);
+							$text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0));
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>

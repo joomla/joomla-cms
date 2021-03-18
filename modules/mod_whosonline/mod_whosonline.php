@@ -9,21 +9,27 @@
 
 defined('_JEXEC') or die;
 
-// Include the whosonline functions only once
-JLoader::register('ModWhosonlineHelper', __DIR__ . '/helper.php');
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\Whosonline\Site\Helper\WhosonlineHelper;
 
-$showmode = $params->get('showmode', 0);
-
-if ($showmode == 0 || $showmode == 2)
+// Check if session metadata tracking is enabled
+if ($app->get('session_metadata', true))
 {
-	$count = ModWhosonlineHelper::getOnlineCount();
-}
+	$showmode = $params->get('showmode', 0);
 
-if ($showmode > 0)
+	if ($showmode == 0 || $showmode == 2)
+	{
+		$count = WhosonlineHelper::getOnlineCount();
+	}
+
+	if ($showmode > 0)
+	{
+		$names = WhosonlineHelper::getOnlineUserNames($params);
+	}
+
+	require ModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));
+}
+else
 {
-	$names = ModWhosonlineHelper::getOnlineUserNames($params);
+	require ModuleHelper::getLayoutPath('mod_whosonline', 'disabled');
 }
-
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-
-require JModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));

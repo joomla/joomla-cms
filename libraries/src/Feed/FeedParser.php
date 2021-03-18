@@ -8,10 +8,9 @@
 
 namespace Joomla\CMS\Feed;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
-use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Feed Parser class.
@@ -45,25 +44,15 @@ abstract class FeedParser
 	protected $stream;
 
 	/**
-	 * The InputFilter
-	 *
-	 * @var    InputFilter
-	 * @since  3.9.26
-	 */
-	protected $inputFilter;
-
-	/**
 	 * Constructor.
 	 *
-	 * @param   \XMLReader   $stream       The XMLReader stream object for the feed.
-	 * @param   InputFilter  $inputFilter  The InputFilter object to be used
+	 * @param   \XMLReader  $stream  The XMLReader stream object for the feed.
 	 *
 	 * @since   3.1.4
 	 */
-	public function __construct(\XMLReader $stream, InputFilter $inputFilter = null)
+	public function __construct(\XMLReader $stream)
 	{
-		$this->stream      = $stream;
-		$this->inputFilter = $inputFilter ? $inputFilter : InputFilter::getInstance(array(), array(), 1, 1);
+		$this->stream  = $stream;
 	}
 
 	/**
@@ -190,7 +179,7 @@ abstract class FeedParser
 		// Otherwise we treat it like any other element.
 
 		// First call the internal method.
-		if (is_callable(array($this, $method)))
+		if (\is_callable(array($this, $method)))
 		{
 			$this->$method($feed, $el);
 		}
@@ -220,7 +209,7 @@ abstract class FeedParser
 			return $this->namespaces[$prefix];
 		}
 
-		$className = get_class($this) . ucfirst($prefix);
+		$className = \get_class($this) . ucfirst($prefix);
 
 		if (class_exists($className))
 		{

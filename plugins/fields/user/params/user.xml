@@ -4,7 +4,6 @@
 		name="default_value"
 		type="user"
 		label="PLG_FIELDS_USER_DEFAULT_VALUE_LABEL"
-		description="PLG_FIELDS_USER_DEFAULT_VALUE_DESC"
 	/>
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="basic">

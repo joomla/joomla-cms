@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="quickicon" method="upgrade">
+	<name>plg_quickicon_overridecheck</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2018</creationDate>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_QUICKICON_OVERRIDECHECK_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="overridecheck">overridecheck.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_quickicon_overridecheck.ini</language>
+		<language tag="en-GB">en-GB.plg_quickicon_overridecheck.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="context"
+					type="text"
+					label="PLG_QUICKICON_OVERRIDECHECK_GROUP_LABEL"
+					description="PLG_QUICKICON_OVERRIDECHECK_GROUP_DESC"
+					default="update_quickicon"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

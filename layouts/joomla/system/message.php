@@ -9,27 +9,45 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 $msgList = $displayData['msgList'];
 
-?>
-<div id="system-message-container">
-	<?php if (is_array($msgList) && !empty($msgList)) : ?>
-		<div id="system-message">
-			<?php foreach ($msgList as $type => $msgs) : ?>
-				<div class="alert alert-<?php echo $type; ?>">
-					<?php // This requires JS so we should add it through JS. Progressive enhancement and stuff. ?>
-					<a class="close" data-dismiss="alert">×</a>
+$alert = [
+	CMSApplication::MSG_EMERGENCY => 'danger',
+	CMSApplication::MSG_ALERT     => 'danger',
+	CMSApplication::MSG_CRITICAL  => 'danger',
+	CMSApplication::MSG_ERROR     => 'danger',
+	CMSApplication::MSG_WARNING   => 'warning',
+	CMSApplication::MSG_NOTICE    => 'info',
+	CMSApplication::MSG_INFO      => 'info',
+	CMSApplication::MSG_DEBUG     => 'info',
+	'message'                     => 'success'
+];
 
+// Alerts progressive enhancement
+Factory::getDocument()->getWebAssetManager()
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('webcomponent.joomla-alert');
+
+?>
+<div id="system-message-container" aria-live="polite">
+	<div id="system-message">
+		<?php if (is_array($msgList) && !empty($msgList)) : ?>
+			<?php foreach ($msgList as $type => $msgs) : ?>
+				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
-						<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
+						<div class="alert-heading"><?php echo Text::_($type); ?></div>
 						<div>
 							<?php foreach ($msgs as $msg) : ?>
-								<div class="alert-message"><?php echo $msg; ?></div>
+								<p><?php echo $msg; ?></p>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>
-				</div>
+				</joomla-alert>
 			<?php endforeach; ?>
-		</div>
-	<?php endif; ?>
+		<?php endif; ?>
+	</div>
 </div>

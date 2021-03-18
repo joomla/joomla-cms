@@ -9,7 +9,10 @@
 # Disallow: /joomla/administrator/
 #
 # For more information about the robots.txt standard, see:
-# https://www.robotstxt.org/orig.html
+# http://www.robotstxt.org/orig.html
+#
+# For syntax checking, see:
+# http://tool.motoricerca.info/robots-checker.phtml
 
 User-agent: *
 Disallow: /administrator/

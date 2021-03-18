@@ -8,11 +8,16 @@
 
 namespace Joomla\CMS\Captcha;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Editor\Editor;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -21,31 +26,9 @@ use Joomla\Registry\Registry;
  * @abstract
  * @since  2.5
  */
-class Captcha extends \JObject
+class Captcha implements DispatcherAwareInterface
 {
-	/**
-	 * An array of Observer objects to notify
-	 *
-	 * @var    array
-	 * @since  2.5
-	 */
-	protected $_observers = array();
-
-	/**
-	 * The state of the observable object
-	 *
-	 * @var    mixed
-	 * @since  2.5
-	 */
-	protected $_state = null;
-
-	/**
-	 * A multi dimensional array of [function][] = key for observers
-	 *
-	 * @var    array
-	 * @since  2.5
-	 */
-	protected $_methods = array();
+	use DispatcherAwareTrait;
 
 	/**
 	 * Captcha Plugin object
@@ -83,6 +66,16 @@ class Captcha extends \JObject
 	public function __construct($captcha, $options)
 	{
 		$this->_name = $captcha;
+
+		if (!empty($options['dispatcher']) && $options['dispatcher'] instanceof DispatcherInterface)
+		{
+			$this->setDispatcher($options['dispatcher']);
+		}
+		else
+		{
+			$this->setDispatcher(Factory::getApplication()->getDispatcher());
+		}
+
 		$this->_load($options);
 	}
 
@@ -122,10 +115,9 @@ class Captcha extends \JObject
 	 */
 	public function initialise($id)
 	{
-		$args['id']    = $id;
-		$args['event'] = 'onInit';
+		$arg = ['id' => $id];
 
-		$this->_captcha->update($args);
+		$this->update('onInit', $arg);
 
 		return true;
 	}
@@ -137,7 +129,7 @@ class Captcha extends \JObject
 	 * @param   string  $id     The id for the control.
 	 * @param   string  $class  Value for the HTML class attribute
 	 *
-	 * @return  mixed  The return value of the function "onDisplay" of the selected Plugin.
+	 * @return  string  The return value of the function "onDisplay" of the selected Plugin.
 	 *
 	 * @since   2.5
 	 * @throws  \RuntimeException
@@ -147,21 +139,24 @@ class Captcha extends \JObject
 		// Check if captcha is already loaded.
 		if ($this->_captcha === null)
 		{
-			return;
+			return '';
 		}
 
 		// Initialise the Captcha.
 		if (!$this->initialise($id))
 		{
-			return;
+			return '';
 		}
 
-		$args['name']  = $name;
-		$args['id']    = $id ?: $name;
-		$args['class'] = $class;
-		$args['event'] = 'onDisplay';
+		$arg = [
+			'name'  => $name,
+			'id'    => $id ?: $name,
+			'class' => $class,
+		];
 
-		return $this->_captcha->update($args);
+		$result = $this->update('onDisplay', $arg);
+
+		return $result;
 	}
 
 	/**
@@ -179,13 +174,14 @@ class Captcha extends \JObject
 		// Check if captcha is already loaded
 		if ($this->_captcha === null)
 		{
-			return;
+			return false;
 		}
 
-		$args['code']  = $code;
-		$args['event'] = 'onCheckAnswer';
+		$arg = ['code'	=> $code];
 
-		return $this->_captcha->update($args);
+		$result = $this->update('onCheckAnswer', $arg);
+
+		return $result;
 	}
 
 	/**
@@ -204,14 +200,34 @@ class Captcha extends \JObject
 			return;
 		}
 
-		$args = array(
-			'event' => 'onSetupField',
+		$arg = [
 			'field' => $field,
 			'element' => $element,
-		);
+		];
 
-		// Forward to the captcha plugin
-		return $this->_captcha->update($args);
+		$result = $this->update('onSetupField', $arg);
+
+		return $result;
+	}
+
+	/**
+	 * Method to call the captcha callback if it exist.
+	 *
+	 * @param   string  $name   Callback name
+	 * @param   array   &$args  Arguments
+	 *
+	 * @return  mixed
+	 *
+	 * @since   4.0.0
+	 */
+	private function update($name, &$args)
+	{
+		if (method_exists($this->_captcha, $name))
+		{
+			return call_user_func_array(array($this->_captcha, $name), $args);
+		}
+
+		return null;
 	}
 
 	/**
@@ -227,12 +243,12 @@ class Captcha extends \JObject
 	private function _load(array $options = array())
 	{
 		// Build the path to the needed captcha plugin
-		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Require plugin file
@@ -243,7 +259,7 @@ class Captcha extends \JObject
 
 		if (!$plugin)
 		{
-			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Check for already loaded params
@@ -255,120 +271,7 @@ class Captcha extends \JObject
 
 		// Build captcha plugin classname
 		$name = 'PlgCaptcha' . $this->_name;
-		$this->_captcha = new $name($this, (array) $plugin, $options);
-	}
-
-	/**
-	 * Get the state of the Captcha object
-	 *
-	 * @return  mixed  The state of the object.
-	 *
-	 * @since   2.5
-	 */
-	public function getState()
-	{
-		return $this->_state;
-	}
-
-	/**
-	 * Attach an observer object
-	 *
-	 * @param   object  $observer  An observer object to attach
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function attach($observer)
-	{
-		if (is_array($observer))
-		{
-			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this array as an observer
-			foreach ($this->_observers as $check)
-			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
-				{
-					return;
-				}
-			}
-
-			$this->_observers[] = $observer;
-			end($this->_observers);
-			$methods = array($observer['event']);
-		}
-		else
-		{
-			if (!($observer instanceof Editor))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this object as an observer
-			$class = get_class($observer);
-
-			foreach ($this->_observers as $check)
-			{
-				if ($check instanceof $class)
-				{
-					return;
-				}
-			}
-
-			$this->_observers[] = $observer;
-			$methods = array_diff(get_class_methods($observer), get_class_methods('\JPlugin'));
-		}
-
-		$key = key($this->_observers);
-
-		foreach ($methods as $method)
-		{
-			$method = strtolower($method);
-
-			if (!isset($this->_methods[$method]))
-			{
-				$this->_methods[$method] = array();
-			}
-
-			$this->_methods[$method][] = $key;
-		}
-	}
-
-	/**
-	 * Detach an observer object
-	 *
-	 * @param   object  $observer  An observer object to detach.
-	 *
-	 * @return  boolean  True if the observer object was detached.
-	 *
-	 * @since   2.5
-	 */
-	public function detach($observer)
-	{
-		$retval = false;
-
-		$key = array_search($observer, $this->_observers);
-
-		if ($key !== false)
-		{
-			unset($this->_observers[$key]);
-			$retval = true;
-
-			foreach ($this->_methods as &$method)
-			{
-				$k = array_search($key, $method);
-
-				if ($k !== false)
-				{
-					unset($method[$k]);
-				}
-			}
-		}
-
-		return $retval;
+		$dispatcher     = $this->getDispatcher();
+		$this->_captcha = new $name($dispatcher, (array) $plugin, $options);
 	}
 }

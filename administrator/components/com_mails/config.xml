@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+		name="mails_options"
+		label="COM_MAILS_CONFIG_MAIL_OPTIONS" >
+
+		<field
+			name="mail_style"
+			type="list"
+			label="COM_MAILS_FIELD_MAIL_STYLE_LABEL"
+			default="plaintext"
+			validate="options"
+			>
+			<option value="plaintext">COM_MAILS_FIELD_OPTION_PLAINTEXT</option>
+			<option value="html">COM_MAILS_FIELD_OPTION_HTML</option>
+			<option value="both">COM_MAILS_FIELD_OPTION_BOTH</option>
+		</field>
+
+		<field
+			name="alternative_mailconfig"
+			type="radio"
+			label="COM_MAILS_CONFIG_FIELD_ALTERNATIVE_MAILCONFIG_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="copy_mails"
+			type="radio"
+			label="COM_MAILS_CONFIG_FIELD_COPY_MAILS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+
+		<field
+			name="attachment_folder"
+			type="text"
+			label="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_LABEL"
+			description="COM_MAILS_CONFIG_FIELD_ATTACHMENT_FOLDER_DESC"
+			size="40"
+		/>
+
+	</fieldset>
+
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_messages"
+			section="component"
+		/>
+	</fieldset>
+</config>

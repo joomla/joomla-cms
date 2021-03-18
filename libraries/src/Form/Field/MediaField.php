@@ -8,9 +8,10 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
 /**
@@ -69,7 +70,7 @@ class MediaField extends FormField
 	protected $height;
 
 	/**
-	 * The authorField.
+	 * The preview.
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -77,7 +78,7 @@ class MediaField extends FormField
 	protected $preview;
 
 	/**
-	 * The preview.
+	 * The directory.
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -87,7 +88,7 @@ class MediaField extends FormField
 	/**
 	 * The previewWidth.
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	protected $previewWidth;
@@ -95,7 +96,7 @@ class MediaField extends FormField
 	/**
 	 * The previewHeight.
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	protected $previewHeight;
@@ -171,7 +172,7 @@ class MediaField extends FormField
 	}
 
 	/**
-	 * Method to attach a JForm object to the field.
+	 * Method to attach a Form object to the field.
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed              $value    The form field value to validate.
@@ -238,7 +239,7 @@ class MediaField extends FormField
 
 		if ($asset === '')
 		{
-			$asset = \JFactory::getApplication()->input->get('option');
+			$asset = Factory::getApplication()->input->get('option');
 		}
 
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))

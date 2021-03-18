@@ -8,8 +8,10 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
 /**
@@ -23,11 +25,11 @@ class Update extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__updates', 'update_id', $db);
 	}
@@ -42,10 +44,21 @@ class Update extends Table
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Check for valid name
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
 			return false;
 		}
@@ -72,13 +85,13 @@ class Update extends Table
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['control']) && is_array($array['control']))
+		if (isset($array['control']) && \is_array($array['control']))
 		{
 			$registry = new Registry($array['control']);
 			$array['control'] = (string) $registry;

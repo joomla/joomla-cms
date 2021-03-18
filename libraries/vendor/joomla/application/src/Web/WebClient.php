@@ -56,79 +56,105 @@ class WebClient
 	const EDG           = 25;
 
 	/**
-	 * @var    integer  The detected platform on which the web client runs.
+	 * The detected platform on which the web client runs.
+	 *
+	 * @var    integer
 	 * @since  1.0
 	 */
 	protected $platform;
 
 	/**
-	 * @var    boolean  True if the web client is a mobile device.
+	 * True if the web client is a mobile device.
+	 *
+	 * @var    boolean
 	 * @since  1.0
 	 */
 	protected $mobile = false;
 
 	/**
-	 * @var    integer  The detected rendering engine used by the web client.
+	 * The detected rendering engine used by the web client.
+	 *
+	 * @var    integer
 	 * @since  1.0
 	 */
 	protected $engine;
 
 	/**
-	 * @var    integer  The detected browser used by the web client.
+	 * The detected browser used by the web client.
+	 *
+	 * @var    integer
 	 * @since  1.0
 	 */
 	protected $browser;
 
 	/**
-	 * @var    string  The detected browser version used by the web client.
+	 * The detected browser version used by the web client.
+	 *
+	 * @var    string
 	 * @since  1.0
 	 */
 	protected $browserVersion;
 
 	/**
-	 * @var    array  The priority order detected accepted languages for the client.
+	 * The priority order detected accepted languages for the client.
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
-	protected $languages = array();
+	protected $languages = [];
 
 	/**
-	 * @var    array  The priority order detected accepted encodings for the client.
+	 * The priority order detected accepted encodings for the client.
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
-	protected $encodings = array();
+	protected $encodings = [];
 
 	/**
-	 * @var    string  The web client's user agent string.
+	 * The web client's user agent string.
+	 *
+	 * @var    string
 	 * @since  1.0
 	 */
 	protected $userAgent;
 
 	/**
-	 * @var    string  The web client's accepted encoding string.
+	 * The web client's accepted encoding string.
+	 *
+	 * @var    string
 	 * @since  1.0
 	 */
 	protected $acceptEncoding;
 
 	/**
-	 * @var    string  The web client's accepted languages string.
+	 * The web client's accepted languages string.
+	 *
+	 * @var    string
 	 * @since  1.0
 	 */
 	protected $acceptLanguage;
 
 	/**
-	 * @var    boolean  True if the web client is a robot.
+	 * True if the web client is a robot.
+	 *
+	 * @var    boolean
 	 * @since  1.0
 	 */
 	protected $robot = false;
 
 	/**
-	 * @var    array  An array of flags determining whether or not a detection routine has been run.
+	 * An array of flags determining whether or not a detection routine has been run.
+	 *
+	 * @var    array
 	 * @since  1.0
 	 */
-	protected $detection = array();
+	protected $detection = [];
 
 	/**
-	 * @var    array  An array of headers sent by client
+	 * An array of headers sent by client.
+	 *
+	 * @var    array
 	 * @since  1.3.0
 	 */
 	protected $headers;
@@ -248,10 +274,16 @@ class WebClient
 		}
 
 		// Return the property if it exists.
-		if (isset($this->$name))
+		if (property_exists($this, $name))
 		{
 			return $this->$name;
 		}
+
+		$trace = debug_backtrace();
+		trigger_error(
+			'Undefined property via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
+			E_USER_NOTICE
+		);
 	}
 
 	/**
@@ -265,6 +297,8 @@ class WebClient
 	 */
 	protected function detectBrowser($userAgent)
 	{
+		$patternBrowser = '';
+
 		// Attempt to detect the browser type.  Obviously we are only worried about major browsers.
 		if ((stripos($userAgent, 'MSIE') !== false) && (stripos($userAgent, 'Opera') === false))
 		{
@@ -319,7 +353,7 @@ class WebClient
 			$pattern = '#(?<browser>Version|' . $patternBrowser . ')[/ :]+(?<version>[0-9.|a-zA-Z.]*)#';
 
 			// Attempt to find version strings in the user agent string.
-			$matches = array();
+			$matches = [];
 
 			if (preg_match_all($pattern, $userAgent, $matches))
 			{
@@ -441,14 +475,14 @@ class WebClient
 
 			if (preg_match('/Opera[\/| ]?([0-9.]+)/u', $userAgent, $match))
 			{
-				$version = \floatval($match[1]);
+				$version = (float) ($match[1]);
 			}
 
 			if (preg_match('/Version\/([0-9.]+)/u', $userAgent, $match))
 			{
-				if (\floatval($match[1]) >= 10)
+				if ((float) ($match[1]) >= 10)
 				{
-					$version = \floatval($match[1]);
+					$version = (float) ($match[1]);
 				}
 			}
 
@@ -564,7 +598,8 @@ class WebClient
 		{
 			$this->mobile   = true;
 			$this->platform = self::ANDROID;
-			/**
+
+			/*
 			 * Attempt to distinguish between Android phones and tablets
 			 * There is no totally foolproof method but certain rules almost always hold
 			 *   Android 3.x is only used for tablets
@@ -598,14 +633,7 @@ class WebClient
 	 */
 	protected function detectRobot($userAgent)
 	{
-		if (preg_match('/http|bot|bingbot|googlebot|robot|spider|slurp|crawler|curl|^$/i', $userAgent))
-		{
-			$this->robot = true;
-		}
-		else
-		{
-			$this->robot = false;
-		}
+		$this->robot = (bool) preg_match('/http|bot|robot|spider|crawler|curl|^$/i', $userAgent);
 
 		$this->detection['robot'] = true;
 	}
@@ -627,7 +655,7 @@ class WebClient
 		else
 		{
 			// Else we fill headers from $_SERVER variable
-			$this->headers = array();
+			$this->headers = [];
 
 			foreach ($_SERVER as $name => $value)
 			{

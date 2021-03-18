@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Feed;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\Registry\Registry;
@@ -55,7 +55,7 @@ class FeedFactory
 			{
 				$response = HttpFactory::getHttp($options)->get($uri);
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				throw new \RuntimeException('Unable to open the feed.', $e->getCode(), $e);
 			}
@@ -127,6 +127,18 @@ class FeedFactory
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Method to get the registered Parsers
+	 *
+	 * @return array
+	 *
+	 * @since   4.0
+	 */
+	public function getParsers()
+	{
+		return $this->parsers;
 	}
 
 	/**

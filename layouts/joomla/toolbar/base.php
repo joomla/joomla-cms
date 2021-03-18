@@ -9,7 +9,11 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @var  string  $action
+ * @var  array   $options
+ */
+extract($displayData, EXTR_OVERWRITE);
 ?>
-<div class="btn-wrapper" <?php echo $displayData['id']; ?>>
-	<?php echo $displayData['action']; ?>
-</div>
+
+<?php echo $action; ?>

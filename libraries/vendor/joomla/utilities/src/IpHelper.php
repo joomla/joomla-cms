@@ -97,7 +97,7 @@ final class IpHelper
 	 */
 	public static function isIPv6($ip)
 	{
-		return strstr($ip, ':');
+		return strpos($ip, ':') !== false;
 	}
 
 	/**

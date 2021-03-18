@@ -9,12 +9,16 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+
 /**
  * Plugin to check the PHP version and display a warning about its support status
  *
  * @since  3.7.0
  */
-class PlgQuickiconPhpVersionCheck extends JPlugin
+class PlgQuickiconPhpVersionCheck extends CMSPlugin
 {
 	/**
 	 * Constant representing the active PHP version being fully supported
@@ -43,7 +47,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.7.0
 	 */
 	protected $app;
@@ -61,7 +65,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 *
 	 * @param   string  $context  The calling context
 	 *
-	 * @return  void
+	 * @return  array
 	 *
 	 * @since   3.7.0
 	 */
@@ -69,7 +73,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	{
 		if (!$this->shouldDisplayMessage())
 		{
-			return;
+			return [];
 		}
 
 		$supportStatus = $this->getPhpSupport();
@@ -85,11 +89,13 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 					break;
 
 				case self::PHP_UNSUPPORTED:
-					$this->app->enqueueMessage($supportStatus['message'], 'error');
+					$this->app->enqueueMessage($supportStatus['message'], 'danger');
 
 					break;
 			}
 		}
+
+		return [];
 	}
 
 	/**
@@ -105,30 +111,6 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	private function getPhpSupport()
 	{
 		$phpSupportData = array(
-			'5.3' => array(
-				'security' => '2013-07-11',
-				'eos'      => '2014-08-14',
-			),
-			'5.4' => array(
-				'security' => '2014-09-14',
-				'eos'      => '2015-09-14',
-			),
-			'5.5' => array(
-				'security' => '2015-07-10',
-				'eos'      => '2016-07-21',
-			),
-			'5.6' => array(
-				'security' => '2017-01-19',
-				'eos'      => '2018-12-31',
-			),
-			'7.0' => array(
-				'security' => '2017-12-03',
-				'eos'      => '2018-12-03',
-			),
-			'7.1' => array(
-				'security' => '2018-12-01',
-				'eos'      => '2019-12-01',
-			),
 			'7.2' => array(
 				'security' => '2019-11-30',
 				'eos'      => '2020-11-30',
@@ -140,10 +122,6 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 			'7.4' => array(
 				'security' => '2021-11-28',
 				'eos'      => '2022-11-28',
-			),
-			'8.0' => array(
-				'security' => '2022-11-26',
-				'eos'      => '2023-11-26',
 			),
 		);
 
@@ -160,8 +138,8 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 		if (isset($phpSupportData[$activePhpVersion]))
 		{
 			// First check if the version has reached end of support
-			$today           = new JDate;
-			$phpEndOfSupport = new JDate($phpSupportData[$activePhpVersion]['eos']);
+			$today           = new Date;
+			$phpEndOfSupport = new Date($phpSupportData[$activePhpVersion]['eos']);
 
 			if ($phpNotSupported = $today > $phpEndOfSupport)
 			{
@@ -171,16 +149,16 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 				 */
 				foreach ($phpSupportData as $version => $versionData)
 				{
-					$versionEndOfSupport = new JDate($versionData['eos']);
+					$versionEndOfSupport = new Date($versionData['eos']);
 
 					if (version_compare($version, $activePhpVersion, 'ge') && ($today < $versionEndOfSupport))
 					{
 						$supportStatus['status']  = self::PHP_UNSUPPORTED;
-						$supportStatus['message'] = JText::sprintf(
+						$supportStatus['message'] = Text::sprintf(
 							'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
 							PHP_VERSION,
 							$version,
-							$versionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+							$versionEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
 						);
 
 						return $supportStatus;
@@ -189,7 +167,10 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 
 				// PHP version is not supported and we don't know of any supported versions.
 				$supportStatus['status']  = self::PHP_UNSUPPORTED;
-				$supportStatus['message'] = JText::sprintf('PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED_JOOMLA_OUTDATED', PHP_VERSION);
+				$supportStatus['message'] = Text::sprintf(
+					'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED_JOOMLA_OUTDATED',
+					PHP_VERSION
+				);
 
 				return $supportStatus;
 			}
@@ -201,8 +182,8 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 			if (!$phpNotSupported && $today > $securityWarningDate)
 			{
 				$supportStatus['status']  = self::PHP_SECURITY_ONLY;
-				$supportStatus['message'] = JText::sprintf(
-					'PLG_QUICKICON_PHPVERSIONCHECK_SECURITY_ONLY', PHP_VERSION, $phpEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+				$supportStatus['message'] = Text::sprintf(
+					'PLG_QUICKICON_PHPVERSIONCHECK_SECURITY_ONLY', PHP_VERSION, $phpEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
 				);
 			}
 		}
@@ -226,7 +207,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 		}
 
 		// Only if authenticated
-		if (JFactory::getUser()->guest)
+		if ($this->app->getIdentity()->guest)
 		{
 			return false;
 		}

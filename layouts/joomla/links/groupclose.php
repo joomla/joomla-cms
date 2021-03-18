@@ -10,4 +10,4 @@
 defined('_JEXEC') or die;
 
 ?>
-	</ul>
+</ul>

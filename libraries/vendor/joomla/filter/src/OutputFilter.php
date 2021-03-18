@@ -2,26 +2,36 @@
 /**
  * Part of the Joomla Framework Filter Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Filter;
 
 use Joomla\Language\Language;
+use Joomla\Language\Transliterate;
 use Joomla\String\StringHelper;
 
 /**
- * OutputFilter is a class for processing an output string for "safe" display
+ * OutputFilter
  *
  * @since  1.0
  */
 class OutputFilter
 {
 	/**
-	 * Makes an object safe to display in forms.
+	 * Language instance for making a string URL safe
 	 *
-	 * Object parameters that are non-string, array, object or start with underscore will be converted
+	 * @var    Language|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private static $language;
+
+	/**
+	 * Makes an object safe to display in forms
+	 *
+	 * Object parameters that are non-string, array, object or start with underscore
+	 * will be converted
 	 *
 	 * @param   object   $mixed        An object to be parsed
 	 * @param   integer  $quoteStyle   The optional quote style for the htmlspecialchars function
@@ -58,7 +68,7 @@ class OutputFilter
 	}
 
 	/**
-	 * Makes a string safe for XHTML output by escaping ampersands in links.
+	 * This method processes a string and replaces all instances of & with &amp; in links only.
 	 *
 	 * @param   string  $input  String to process
 	 *
@@ -81,10 +91,8 @@ class OutputFilter
 	}
 
 	/**
-	 * Generates a URL safe version of the specified string with language transliteration.
-	 *
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
-	 * ASCII-7 "equivalents"; whitespaces are replaced by hyphens and the string is lowercased.
+	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
 	 *
 	 * @param   string  $string    String to process
 	 * @param   string  $language  Language to transliterate to
@@ -98,9 +106,28 @@ class OutputFilter
 		// Remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
 
-		// Transliterate on the language requested (fallback to current language if not specified)
-		$lang = empty($language) ? Language::getInstance() : Language::getInstance($language);
-		$str  = $lang->transliterate($str);
+		if (self::$language)
+		{
+			/*
+			 * Transliterate on the language requested (fallback to current language if not specified)
+			 *
+			 * 1) If the language is empty, is an asterisk (used in the CMS for "All"), or the language matches, use the active Language instance
+			 * 2) If the language does not match the active Language instance, build a new one to get the right transliterator
+			 */
+			if (empty($language) || $language === '*' || self::$language->getLanguage() === $language)
+			{
+				$str = self::$language->transliterate($str);
+			}
+			else
+			{
+				$str = (new Language(self::$language->getBasePath(), $language, self::$language->getDebug()))->transliterate($str);
+			}
+		}
+		else
+		{
+			// Fallback behavior based on the Language package's en-GB LocaliseInterface implementation
+			$str = StringHelper::strtolower((new Transliterate)->utf8_latin_to_ascii($string));
+		}
 
 		// Trim white spaces at beginning and end of alias and make lowercase
 		$str = trim(StringHelper::strtolower($str));
@@ -115,7 +142,7 @@ class OutputFilter
 	}
 
 	/**
-	 * Generates a URL safe version of the specified string with unicode character replacement.
+	 * This method implements unicode slugs instead of transliteration.
 	 *
 	 * @param   string  $string  String to process
 	 *
@@ -149,7 +176,7 @@ class OutputFilter
 	}
 
 	/**
-	 * Makes a string safe for XHTML output by escaping ampersands.
+	 * Replaces &amp; with & for XHTML compliance
 	 *
 	 * @param   string  $text  Text to process
 	 *
@@ -163,7 +190,7 @@ class OutputFilter
 	}
 
 	/**
-	 * Cleans text of all formatting and scripting code.
+	 * Cleans text of all formatting and scripting code
 	 *
 	 * @param   string  $text  Text to clean
 	 *
@@ -187,7 +214,21 @@ class OutputFilter
 	}
 
 	/**
-	 * Strips `<img>` tags from a string.
+	 * Set a Language instance for use
+	 *
+	 * @param   Language  $language  The Language instance to use.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function setLanguage(Language $language): void
+	{
+		self::$language = $language;
+	}
+
+	/**
+	 * Strip img-tags from string
 	 *
 	 * @param   string  $string  Sting to be cleaned.
 	 *
@@ -201,7 +242,7 @@ class OutputFilter
 	}
 
 	/**
-	 * Strips `<iframe>` tags from a string.
+	 * Strip iframe-tags from string
 	 *
 	 * @param   string  $string  Sting to be cleaned.
 	 *

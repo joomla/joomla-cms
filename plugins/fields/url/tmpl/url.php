@@ -8,6 +8,9 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
+
 $value = $field->value;
 
 if ($value == '')
@@ -17,13 +20,23 @@ if ($value == '')
 
 $attributes = '';
 
-if (!JUri::isInternal($value))
+if (!Uri::isInternal($value))
 {
 	$attributes = ' rel="nofollow noopener noreferrer" target="_blank"';
+	$text       = Text::_('JVISIT_WEBSITE');
+}
+else
+{
+	$text       = Text::_('JVISIT_LINK');
+}
+
+if ($fieldParams->get('show_url', 0))
+{
+	$text = htmlspecialchars($value);
 }
 
 echo sprintf('<a href="%s"%s>%s</a>',
 	htmlspecialchars($value),
 	$attributes,
-	htmlspecialchars($value)
+	$text
 );

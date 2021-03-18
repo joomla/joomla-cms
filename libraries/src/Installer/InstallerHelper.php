@@ -8,15 +8,19 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Archive\Archive;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
-
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
-\JLoader::import('joomla.filesystem.path');
 
 /**
  * Installer helper class
@@ -72,22 +76,21 @@ abstract class InstallerHelper
 		// Load installer plugins, and allow URL and headers modification
 		$headers = array();
 		PluginHelper::importPlugin('installer');
-		$dispatcher = \JEventDispatcher::getInstance();
-		$dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
+		Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
 
 		try
 		{
-			$response = \JHttpFactory::getHttp()->get($url, $headers);
+			$response = HttpFactory::getHttp()->get($url, $headers);
 		}
 		catch (\RuntimeException $exception)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
 			return false;
 		}
 
-		// Convert keys of headers to lowercase, to accommodate for case variations
-		$headers = array_change_key_case($response->headers);
+		// Convert keys of headers to lowercase, to accomodate for case variations
+		$headers = array_change_key_case($response->headers, CASE_LOWER);
 
 		if (302 == $response->code && !empty($headers['location']))
 		{
@@ -95,20 +98,20 @@ abstract class InstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
 
 			return false;
 		}
 
 		// Parse the Content-Disposition header to get the file name
 		if (!empty($headers['content-disposition'])
-			&& preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'], $parts))
+			&& preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts))
 		{
 			$flds = explode(';', $parts[1]);
 			$target = trim($flds[0], '"');
 		}
 
-		$tmpPath = \JFactory::getConfig()->get('tmp_path');
+		$tmpPath = Factory::getApplication()->get('tmp_path');
 
 		// Set the target path if not given
 		if (!$target)
@@ -121,7 +124,7 @@ abstract class InstallerHelper
 		}
 
 		// Write buffer to file
-		\JFile::write($target, $response->body);
+		File::write($target, $response->body);
 
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
@@ -137,29 +140,29 @@ abstract class InstallerHelper
 	 * Unpacks a file and verifies it as a Joomla element package
 	 * Supports .gz .tar .tar.gz and .zip
 	 *
-	 * @param   string   $packageFilename    The uploaded package filename or install directory
+	 * @param   string   $p_filename         The uploaded package filename or install directory
 	 * @param   boolean  $alwaysReturnArray  If should return false (and leave garbage behind) or return $retval['type']=false
 	 *
 	 * @return  array|boolean  Array on success or boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public static function unpack($packageFilename, $alwaysReturnArray = false)
+	public static function unpack($p_filename, $alwaysReturnArray = false)
 	{
 		// Path to the archive
-		$archivename = $packageFilename;
+		$archivename = $p_filename;
 
 		// Temporary folder to extract the archive into
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = \JPath::clean(dirname($packageFilename) . '/' . $tmpdir);
-		$archivename = \JPath::clean($archivename);
+		$extractdir = Path::clean(\dirname($p_filename) . '/' . $tmpdir);
+		$archivename = Path::clean($archivename);
 
 		// Do the unpacking of the archive
 		try
 		{
-			$archive = new Archive(array('tmp_path' => \JFactory::getConfig()->get('tmp_path')));
+			$archive = new Archive(array('tmp_path' => Factory::getApplication()->get('tmp_path')));
 			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
@@ -204,13 +207,13 @@ abstract class InstallerHelper
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
-		$dirList = array_merge((array) \JFolder::files($extractdir, ''), (array) \JFolder::folders($extractdir, ''));
+		$dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
-		if (count($dirList) === 1)
+		if (\count($dirList) === 1)
 		{
-			if (\JFolder::exists($extractdir . '/' . $dirList[0]))
+			if (Folder::exists($extractdir . '/' . $dirList[0]))
 			{
-				$extractdir = \JPath::clean($extractdir . '/' . $dirList[0]);
+				$extractdir = Path::clean($extractdir . '/' . $dirList[0]);
 			}
 		}
 
@@ -239,20 +242,20 @@ abstract class InstallerHelper
 	/**
 	 * Method to detect the extension type from a package directory
 	 *
-	 * @param   string  $packageDirectory  Path to package directory
+	 * @param   string  $p_dir  Path to package directory
 	 *
 	 * @return  mixed  Extension type string or boolean false on fail
 	 *
 	 * @since   3.1
 	 */
-	public static function detectType($packageDirectory)
+	public static function detectType($p_dir)
 	{
 		// Search the install dir for an XML file
-		$files = \JFolder::files($packageDirectory, '\.xml$', 1, true);
+		$files = Folder::files($p_dir, '\.xml$', 1, true);
 
-		if (!$files || !count($files))
+		if (!$files || !\count($files))
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -280,7 +283,7 @@ abstract class InstallerHelper
 			return $type;
 		}
 
-		\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+		Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
 
 		// Free up memory.
 		unset($xml);
@@ -301,7 +304,7 @@ abstract class InstallerHelper
 	{
 		$default = uniqid();
 
-		if (!is_string($url) || strpos($url, '/') === false)
+		if (!\is_string($url) || strpos($url, '/') === false)
 		{
 			return $default;
 		}
@@ -332,51 +335,29 @@ abstract class InstallerHelper
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
-		$config = \JFactory::getConfig();
-
 		// Does the unpacked extension directory exist?
 		if ($resultdir && is_dir($resultdir))
 		{
-			\JFolder::delete($resultdir);
+			Folder::delete($resultdir);
 		}
 
 		// Is the package file a valid file?
 		if (is_file($package))
 		{
-			\JFile::delete($package);
+			File::delete($package);
 		}
-		elseif (is_file(\JPath::clean($config->get('tmp_path') . '/' . $package)))
+		elseif (is_file(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			\JFile::delete(\JPath::clean($config->get('tmp_path') . '/' . $package));
+			File::delete(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package));
 		}
-	}
-
-	/**
-	 * Splits contents of a sql file into array of discreet queries.
-	 * Queries need to be delimited with end of statement marker ';'
-	 *
-	 * @param   string  $query  The SQL statement.
-	 *
-	 * @return  array  Array of queries
-	 *
-	 * @since   3.1
-	 * @deprecated  4.0  Use \JDatabaseDriver::splitSql() directly
-	 * @codeCoverageIgnore
-	 */
-	public static function splitSql($query)
-	{
-		\JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', \JLog::WARNING, 'deprecated');
-		$db = \JFactory::getDbo();
-
-		return $db->splitSql($query);
 	}
 
 	/**
 	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
 	 *
-	 * @param   string   $packagefile   Location of the package to be installed
-	 * @param   JUpdate  $updateObject  The Update Object
+	 * @param   string  $packagefile   Location of the package to be installed
+	 * @param   Update  $updateObject  The Update Object
 	 *
 	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
 	 *
@@ -395,7 +376,7 @@ abstract class InstallerHelper
 				$hashRemote  = $updateObject->$hash->_data;
 				$hashOnFile  = true;
 
-				if ($hashPackage !== strtolower($hashRemote))	
+				if ($hashPackage !== $hashRemote)
 				{
 					return self::HASH_NOT_VALIDATED;
 				}

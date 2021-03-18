@@ -2,35 +2,14 @@
 /**
  * Part of the Joomla Framework String Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\String;
 
 // PHP mbstring and iconv local configuration
-if (version_compare(PHP_VERSION, '5.6', '>='))
-{
-	@ini_set('default_charset', 'UTF-8');
-}
-else
-{
-	// Check if mbstring extension is loaded and attempt to load it if not present except for windows
-	if (\extension_loaded('mbstring'))
-	{
-		@ini_set('mbstring.internal_encoding', 'UTF-8');
-		@ini_set('mbstring.http_input', 'UTF-8');
-		@ini_set('mbstring.http_output', 'UTF-8');
-	}
-
-	// Same for iconv
-	if (\function_exists('iconv'))
-	{
-		iconv_set_encoding('internal_encoding', 'UTF-8');
-		iconv_set_encoding('input_encoding', 'UTF-8');
-		iconv_set_encoding('output_encoding', 'UTF-8');
-	}
-}
+@ini_set('default_charset', 'UTF-8');
 
 /**
  * String handling class for UTF-8 data wrapping the phputf8 library. All functions assume the validity of UTF-8 strings.
@@ -45,16 +24,16 @@ abstract class StringHelper
 	 * @var    array
 	 * @since  1.3.0
 	 */
-	protected static $incrementStyles = array(
-		'dash' => array(
+	protected static $incrementStyles = [
+		'dash'    => [
 			'#-(\d+)$#',
 			'-%d',
-		),
-		'default' => array(
-			array('#\((\d+)\)$#', '#\(\d+\)$#'),
-			array(' (%d)', '(%d)'),
-		),
-	);
+		],
+		'default' => [
+			['#\((\d+)\)$#', '#\(\d+\)$#'],
+			[' (%d)', '(%d)'],
+		],
+	];
 
 	/**
 	 * Increments a trailing number in a string.
@@ -64,9 +43,9 @@ abstract class StringHelper
 	 * default: "Label" becomes "Label (2)"
 	 * dash:    "Label" becomes "Label-2"
 	 *
-	 * @param   string   $string  The source string.
-	 * @param   string   $style   The the style (default|dash).
-	 * @param   integer  $n       If supplied, this number is used for the copy, otherwise it is the 'next' number.
+	 * @param   string       $string  The source string.
+	 * @param   string|null  $style   The the style (default|dash).
+	 * @param   integer      $n       If supplied, this number is used for the copy, otherwise it is the 'next' number.
 	 *
 	 * @return  string  The incremented string.
 	 *
@@ -74,7 +53,7 @@ abstract class StringHelper
 	 */
 	public static function increment($string, $style = 'default', $n = 0)
 	{
-		$styleSpec = isset(static::$incrementStyles[$style]) ? static::$incrementStyles[$style] : static::$incrementStyles['default'];
+		$styleSpec = static::$incrementStyles[$style] ?? static::$incrementStyles['default'];
 
 		// Regular expression search and replace patterns.
 		if (\is_array($styleSpec[0]))
@@ -164,9 +143,9 @@ abstract class StringHelper
 	 *
 	 * Find position of first occurrence of a string.
 	 *
-	 * @param   string   $str     String being examined
-	 * @param   string   $search  String being searched for
-	 * @param   integer  $offset  Optional, specifies the position from which the search should be performed
+	 * @param   string                $str     String being examined
+	 * @param   string                $search  String being searched for
+	 * @param   integer|null|boolean  $offset  Optional, specifies the position from which the search should be performed
 	 *
 	 * @return  integer|boolean  Number of characters before the first match or FALSE on failure
 	 *
@@ -207,9 +186,9 @@ abstract class StringHelper
 	 *
 	 * Return part of a string given character offset (and optionally length).
 	 *
-	 * @param   string   $str     String being processed
-	 * @param   integer  $offset  Number of UTF-8 characters offset (from left)
-	 * @param   integer  $length  Optional length in UTF-8 characters from offset
+	 * @param   string                $str     String being processed
+	 * @param   integer               $offset  Number of UTF-8 characters offset (from left)
+	 * @param   integer|null|boolean  $length  Optional length in UTF-8 characters from offset
 	 *
 	 * @return  string|boolean
 	 *
@@ -288,10 +267,10 @@ abstract class StringHelper
 	 *
 	 * Case-insensitive version of str_replace()
 	 *
-	 * @param   string   $search   String to search
-	 * @param   string   $replace  Existing string to replace
-	 * @param   string   $str      New string to replace with
-	 * @param   integer  $count    Optional count value to be passed by referene
+	 * @param   string                $search   String to search
+	 * @param   string                $replace  Existing string to replace
+	 * @param   string                $str      New string to replace with
+	 * @param   integer|null|boolean  $count    Optional count value to be passed by referene
 	 *
 	 * @return  string  UTF-8 String
 	 *
@@ -337,7 +316,7 @@ abstract class StringHelper
 	 * @param   string   $str       UTF-8 encoded string to process
 	 * @param   integer  $splitLen  Number to characters to split string by
 	 *
-	 * @return  array
+	 * @return  array|string|boolean
 	 *
 	 * @link    https://www.php.net/str_split
 	 * @since   1.3.0
@@ -352,9 +331,9 @@ abstract class StringHelper
 	 *
 	 * A case insensitive string comparison.
 	 *
-	 * @param   string  $str1    string 1 to compare
-	 * @param   string  $str2    string 2 to compare
-	 * @param   mixed   $locale  The locale used by strcoll or false to use classical comparison
+	 * @param   string          $str1    string 1 to compare
+	 * @param   string          $str2    string 2 to compare
+	 * @param   string|boolean  $locale  The locale used by strcoll or false to use classical comparison
 	 *
 	 * @return  integer   < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
 	 *
@@ -365,43 +344,43 @@ abstract class StringHelper
 	 */
 	public static function strcasecmp($str1, $str2, $locale = false)
 	{
-		if ($locale)
+		if ($locale === false)
 		{
-			// Get current locale
-			$locale0 = setlocale(LC_COLLATE, 0);
-
-			if (!$locale = setlocale(LC_COLLATE, $locale))
-			{
-				$locale = $locale0;
-			}
-
-			// See if we have successfully set locale to UTF-8
-			if (!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m))
-			{
-				$encoding = 'CP' . $m[1];
-			}
-			elseif (stristr($locale, 'UTF-8') || stristr($locale, 'utf8'))
-			{
-				$encoding = 'UTF-8';
-			}
-			else
-			{
-				$encoding = 'nonrecodable';
-			}
-
-			// If we successfully set encoding it to utf-8 or encoding is sth weird don't recode
-			if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
-			{
-				return strcoll(utf8_strtolower($str1), utf8_strtolower($str2));
-			}
-
-			return strcoll(
-				static::transcode(utf8_strtolower($str1), 'UTF-8', $encoding),
-				static::transcode(utf8_strtolower($str2), 'UTF-8', $encoding)
-			);
+			return utf8_strcasecmp($str1, $str2);
 		}
 
-		return utf8_strcasecmp($str1, $str2);
+		// Get current locale
+		$locale0 = setlocale(LC_COLLATE, 0);
+
+		if (!$locale = setlocale(LC_COLLATE, $locale))
+		{
+			$locale = $locale0;
+		}
+
+		// See if we have successfully set locale to UTF-8
+		if (!stristr($locale, 'UTF-8') && stristr($locale, '_') && preg_match('~\.(\d+)$~', $locale, $m))
+		{
+			$encoding = 'CP' . $m[1];
+		}
+		elseif (stristr($locale, 'UTF-8') || stristr($locale, 'utf8'))
+		{
+			$encoding = 'UTF-8';
+		}
+		else
+		{
+			$encoding = 'nonrecodable';
+		}
+
+		// If we successfully set encoding it to utf-8 or encoding is sth weird don't recode
+		if ($encoding == 'UTF-8' || $encoding == 'nonrecodable')
+		{
+			return strcoll(utf8_strtolower($str1), utf8_strtolower($str2));
+		}
+
+		return strcoll(
+			static::transcode(utf8_strtolower($str1), 'UTF-8', $encoding),
+			static::transcode(utf8_strtolower($str2), 'UTF-8', $encoding)
+		);
 	}
 
 	/**
@@ -463,10 +442,10 @@ abstract class StringHelper
 	 *
 	 * Find length of initial segment not matching mask.
 	 *
-	 * @param   string   $str     The string to process
-	 * @param   string   $mask    The mask
-	 * @param   integer  $start   Optional starting character position (in characters)
-	 * @param   integer  $length  Optional length
+	 * @param   string           $str     The string to process
+	 * @param   string           $mask    The mask
+	 * @param   integer|boolean  $start   Optional starting character position (in characters)
+	 * @param   integer|boolean  $length  Optional length
 	 *
 	 * @return  integer  The length of the initial segment of str1 which does not contain any of the characters in str2
 	 *
@@ -497,7 +476,7 @@ abstract class StringHelper
 	 * @param   string  $str     The haystack
 	 * @param   string  $search  The needle
 	 *
-	 * @return string the sub string
+	 * @return  string|boolean
 	 *
 	 * @link    https://www.php.net/stristr
 	 * @since   1.3.0
@@ -529,10 +508,10 @@ abstract class StringHelper
 	 *
 	 * Find length of initial segment matching mask.
 	 *
-	 * @param   string   $str     The haystack
-	 * @param   string   $mask    The mask
-	 * @param   integer  $start   Start optional
-	 * @param   integer  $length  Length optional
+	 * @param   string        $str     The haystack
+	 * @param   string        $mask    The mask
+	 * @param   integer|null  $start   Start optional
+	 * @param   integer|null  $length  Length optional
 	 *
 	 * @return  integer
 	 *
@@ -559,10 +538,10 @@ abstract class StringHelper
 	 *
 	 * Replace text within a portion of a string.
 	 *
-	 * @param   string   $str     The haystack
-	 * @param   string   $repl    The replacement string
-	 * @param   integer  $start   Start
-	 * @param   integer  $length  Length (optional)
+	 * @param   string                $str     The haystack
+	 * @param   string                $repl    The replacement string
+	 * @param   integer               $start   Start
+	 * @param   integer|boolean|null  $length  Length (optional)
 	 *
 	 * @return  string
 	 *
@@ -586,8 +565,8 @@ abstract class StringHelper
 	 * Strip whitespace (or other characters) from the beginning of a string. You only need to use this if you are supplying the charlist
 	 * optional arg and it contains UTF-8 characters. Otherwise ltrim will work normally on a UTF-8 string.
 	 *
-	 * @param   string  $str       The string to be trimmed
-	 * @param   string  $charlist  The optional charlist of additional characters to trim
+	 * @param   string          $str       The string to be trimmed
+	 * @param   string|boolean  $charlist  The optional charlist of additional characters to trim
 	 *
 	 * @return  string  The trimmed string
 	 *
@@ -615,8 +594,8 @@ abstract class StringHelper
 	 * Strip whitespace (or other characters) from the end of a string. You only need to use this if you are supplying the charlist
 	 * optional arg and it contains UTF-8 characters. Otherwise rtrim will work normally on a UTF-8 string.
 	 *
-	 * @param   string  $str       The string to be trimmed
-	 * @param   string  $charlist  The optional charlist of additional characters to trim
+	 * @param   string          $str       The string to be trimmed
+	 * @param   string|boolean  $charlist  The optional charlist of additional characters to trim
 	 *
 	 * @return  string  The trimmed string
 	 *
@@ -644,8 +623,8 @@ abstract class StringHelper
 	 * Strip whitespace (or other characters) from the beginning and end of a string. You only need to use this if you are supplying the charlist
 	 * optional arg and it contains UTF-8 characters. Otherwise trim will work normally on a UTF-8 string
 	 *
-	 * @param   string  $str       The string to be trimmed
-	 * @param   string  $charlist  The optional charlist of additional characters to trim
+	 * @param   string          $str       The string to be trimmed
+	 * @param   string|boolean  $charlist  The optional charlist of additional characters to trim
 	 *
 	 * @return  string  The trimmed string
 	 *
@@ -672,9 +651,9 @@ abstract class StringHelper
 	 *
 	 * Make a string's first character uppercase or all words' first character uppercase.
 	 *
-	 * @param   string  $str           String to be processed
-	 * @param   string  $delimiter     The words delimiter (null means do not split the string)
-	 * @param   string  $newDelimiter  The new words delimiter (null means equal to $delimiter)
+	 * @param   string       $str           String to be processed
+	 * @param   string|null  $delimiter     The words delimiter (null means do not split the string)
+	 * @param   string|null  $newDelimiter  The new words delimiter (null means equal to $delimiter)
 	 *
 	 * @return  string  If $delimiter is null, return the string with first character as upper case (if applicable)
 	 *                  else consider the string of words separated by the delimiter, apply the ucfirst to each words
@@ -722,7 +701,7 @@ abstract class StringHelper
 	 * @param   string  $fromEncoding  The source encoding.
 	 * @param   string  $toEncoding    The target encoding.
 	 *
-	 * @return  mixed  The transcoded string, or null if the source was not a string.
+	 * @return  string|null  The transcoded string, or null if the source was not a string.
 	 *
 	 * @link    https://bugs.php.net/bug.php?id=48147
 	 *
@@ -730,17 +709,14 @@ abstract class StringHelper
 	 */
 	public static function transcode($source, $fromEncoding, $toEncoding)
 	{
-		if (\is_string($source))
+		switch (ICONV_IMPL)
 		{
-			switch (ICONV_IMPL)
-			{
-				case 'glibc':
-					return @iconv($fromEncoding, $toEncoding . '//TRANSLIT,IGNORE', $source);
+			case 'glibc':
+				return @iconv($fromEncoding, $toEncoding . '//TRANSLIT,IGNORE', $source);
 
-				case 'libiconv':
-				default:
-					return iconv($fromEncoding, $toEncoding . '//IGNORE//TRANSLIT', $source);
-			}
+			case 'libiconv':
+			default:
+				return iconv($fromEncoding, $toEncoding . '//IGNORE//TRANSLIT', $source);
 		}
 	}
 
@@ -799,7 +775,7 @@ abstract class StringHelper
 		{
 			return preg_replace_callback(
 				'/\\\\u([0-9a-fA-F]{4})/',
-				function ($match)
+				static function ($match)
 				{
 					return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
 				},
@@ -825,7 +801,7 @@ abstract class StringHelper
 		{
 			return preg_replace_callback(
 				'/\\\\u([0-9a-fA-F]{4})/',
-				function ($match)
+				static function ($match)
 				{
 					return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UTF-16BE');
 				},

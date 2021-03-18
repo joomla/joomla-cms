@@ -256,26 +256,9 @@
 
 	/** Method to show the calendar. */
 	JoomlaCalendar.prototype.show = function () {
-		/** This is needed for IE8 */
-		if (navigator.appName.indexOf("Internet Explorer")!==-1) {
-			var badBrowser = (
-				navigator.appVersion.indexOf("MSIE 9")===-1 &&
-				navigator.appVersion.indexOf("MSIE 1")===-1
-			);
-
-			if (badBrowser) {
-				if (window.jQuery && jQuery().chosen) {
-					var selItems = this.element.getElementsByTagName('select');
-					for (var i = 0; i < selItems.length; i++) {
-						jQuery(selItems[i]).chosen('destroy');
-					}
-				}
-			}
-		}
-
 		this.checkInputs();
 		this.inputField.focus();
-		this.dropdownElement.style.display = "block";
+		this.dropdownElement.classList.remove('hidden');
 		this.hidden = false;
 
 		document.addEventListener("keydown", this._calKeyEvent, true);
@@ -298,7 +281,7 @@
 		document.removeEventListener("keypress", this._calKeyEvent, true);
 		document.removeEventListener("mousedown", this._documentClick, true);
 
-		this.dropdownElement.style.display = "none";
+		this.dropdownElement.classList.add('hidden');
 		this.hidden = true;
 	};
 
@@ -564,7 +547,7 @@
 		div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
 		div.style.minWidth = this.inputField.width;
 		div.style.padding = '0';
-		div.style.display = "none";
+		div.classList.add('hidden');
 		div.style.left = "auto";
 		div.style.top = "auto";
 		div.style.zIndex = 1060;
@@ -942,10 +925,10 @@
 				}
 			}
 			if (!(hasdays || this.params.showsOthers)) {
-				row.style.display = 'none';
+				row.classList.add('hidden');
 				row.className = "emptyrow";
 			} else {
-				row.style.display = '';
+				row.classList.remove('hidden');
 			}
 		}
 
@@ -963,13 +946,13 @@
 
 			/* remove the selected class  for the hours*/
 			this.resetSelected(hoursEl);
-			if (!this.params.time24) 
-			{ 
-				hoursEl.value = (hrs == "00") ? "12" : hrs; 
-			} 
-			else 
-			{ 
-				hoursEl.value = hrs; 
+			if (!this.params.time24)
+			{
+				hoursEl.value = (hrs == "00") ? "12" : hrs;
+			}
+			else
+			{
+				hoursEl.value = hrs;
 			}
 
 			/* remove the selected class  for the minutes*/
@@ -1007,7 +990,7 @@
 			var calObj = JoomlaCalendar.getCalObject(this)._joomlaCalendar;
 
 			// If calendar is open we will handle the event elsewhere
-			if (calObj.dropdownElement.style.display === 'block') {
+			if (!calObj.dropdownElement.classList.contains('hidden')) {
 				event.preventDefault();
 				return;
 			}
@@ -1050,28 +1033,6 @@
 	var createElement = function (type, parent) { var el = null; el = document.createElement(type); if (typeof parent !== "undefined") { parent.appendChild(el); } return el; };
 	var isInt = function (input) { return !isNaN(input) && (function(x) { return (x | 0) === x; })(parseFloat(input)) };
 	var getBoundary = function (input, type) { var date = new Date(); var y = date.getLocalFullYear(type); return y + input; };
-	/**
-	 * IE8 polyfill for indexOf()
-	 */
-	if (!Array.prototype.indexOf) {
-		Array.prototype.indexOf = function(elt) {
-			var len = this.length >>> 0,
-				from = Number(arguments[1]) || 0;
-
-			from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-
-			if (from < 0) {
-				from += len;
-			}
-
-			for (; from < len; from++) {
-				if (from in this && this[from] === elt) {
-					return from;
-				}
-			}
-			return -1;
-		};
-	}
 
 	/** Method to get the active calendar element through any descendant element. */
 	JoomlaCalendar.getCalObject = function(element) {
@@ -1087,11 +1048,20 @@
 		return false;
 	};
 
-	/** Method to change input values with the data-alt-value values. **/
+	/**
+	 * Method to change input values with the data-alt-value values. This method is e.g. being called
+	 * by the onSubmit handler of the calendar fields form.
+	 */
 	JoomlaCalendar.prototype.setAltValue = function() {
 		var input = this.inputField;
 		if (input.getAttribute('disabled')) return;
-		input.value = input.getAttribute('data-alt-value') ? input.getAttribute('data-alt-value') : '';
+
+		// Set the value to the data-alt-value attribute, but only if it really has a value.
+		input.value = (
+			input.getAttribute('data-alt-value') && input.getAttribute('data-alt-value') !== '0000-00-00 00:00:00'
+			? input.getAttribute('data-alt-value')
+			: ''
+		);
 	};
 
 	/** Method to change the inputs before submit. **/
@@ -1155,23 +1125,20 @@
 
 	window.JoomlaCalendar = JoomlaCalendar;
 
-	/** Instantiate all the calendar fields when the document is ready */
-	document.addEventListener("DOMContentLoaded", function() {
-		var elements, i;
+	/**
+	 * Instantiate all the calendar fields when the document is ready/updated
+	 * @param {Event} event
+	 * @private
+	 */
+	function _initCalendars(event) {
+		var elements = event.target.querySelectorAll(".field-calendar");
 
-		elements = document.querySelectorAll(".field-calendar");
-
-		for (i = 0; i < elements.length; i++) {
+		for (var i = 0, l = elements.length; i < l; i++) {
 			JoomlaCalendar.init(elements[i]);
 		}
-
-		window.jQuery && jQuery(document).on("subform-row-add", function (event, row) {
-			elements = row.querySelectorAll(".field-calendar");
-
-			for (i = 0; i < elements.length; i++) {
-				JoomlaCalendar.init(elements[i]);
-			}
-		});
+	}
+	document.addEventListener("DOMContentLoaded", _initCalendars);
+	document.addEventListener("joomla:updated", _initCalendars);
 
 		/** B/C related code
 		 *  @deprecated 4.0
@@ -1246,5 +1213,5 @@
 			}
 			return null;
 		};
-	});
+
 })(window, document);

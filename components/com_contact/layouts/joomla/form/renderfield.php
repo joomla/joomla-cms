@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -21,8 +23,9 @@ extract($displayData);
 
 if (!empty($options['showonEnabled']))
 {
-	JHtml::_('jquery.framework');
-	JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = $this->document->getWebAssetManager();
+	$wa->useScript('showon');
 }
 
 $class = empty($options['class']) ? '' : ' ' . $options['class'];
@@ -40,7 +43,7 @@ $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
  */
 preg_match('/class=\"([^\"]+)\"/i', $input, $match);
 
-$required      = (strpos($input, 'aria-required="true"') !== false || (!empty($match[1]) && strpos($match[1], 'required') !== false));
+$required      = !empty($match[1]) && strpos($match[1], 'required') !== false;
 $typeOfSpacer  = (strpos($label, 'spacer-lbl') !== false);
 
 ?>
@@ -49,7 +52,7 @@ $typeOfSpacer  = (strpos($label, 'spacer-lbl') !== false);
 		<div class="control-label">
 			<?php echo $label; ?>
 			<?php if (!$required && !$typeOfSpacer) : ?>
-				<span class="optional"><?php echo JText::_('COM_CONTACT_OPTIONAL'); ?></span>
+				<span class="optional"><?php echo Text::_('COM_CONTACT_OPTIONAL'); ?></span>
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>

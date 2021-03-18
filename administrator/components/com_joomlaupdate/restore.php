@@ -124,11 +124,6 @@ function getQueryParam($key, $default = null)
 		$value = $_REQUEST[$key];
 	}
 
-	if (PHP_VERSION_ID < 50400 && get_magic_quotes_gpc() && !is_null($value))
-	{
-		$value = stripslashes($value);
-	}
-
 	return $value;
 }
 
@@ -874,7 +869,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	 */
 	public function __wakeup()
 	{
-		if ($this->currentPartNumber >= 0 && !empty($this->archiveList[$this->currentPartNumber]))
+		if ($this->currentPartNumber >= 0)
 		{
 			$this->fp = @fopen($this->archiveList[$this->currentPartNumber], 'rb');
 			if ((is_resource($this->fp)) && ($this->currentPartOffset > 0))
@@ -1355,7 +1350,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 		if ($directory != $rootDir)
 		{
 			// Is this an unwritable directory?
-			if (!is_writeable($directory))
+			if (!is_writable($directory))
 			{
 				$this->postProcEngine->chmod($directory, 0755);
 			}
@@ -1756,7 +1751,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 					}
 					else
 					{
-						// it's already absolute
+						// It's already absolute
 						$tempDir = $userdir;
 					}
 					// Does the directory exist?
@@ -2341,7 +2336,7 @@ class AKPostprocSFTP extends AKAbstractPostproc
 					}
 					else
 					{
-						// it's already absolute
+						// It's already absolute
 						$tempDir = $userdir;
 					}
 					// Does the directory exist?
@@ -3014,7 +3009,7 @@ class AKPostprocHybrid extends AKAbstractPostproc
 					}
 					else
 					{
-						// it's already absolute
+						// It's already absolute
 						$tempDir = $userdir;
 					}
 					// Does the directory exist?
@@ -4191,7 +4186,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 			}
 		}
 
-		$filename = isset($this->fileHeader->realFile) ? $this->fileHeader->realFile : $this->fileHeader->file;
+		$filename = $this->fileHeader->realFile ?? $this->fileHeader->file;
 
 		if (!AKFactory::get('kickstart.setup.dryrun', '0'))
 		{
@@ -8318,15 +8313,15 @@ if (!defined('KICKSTART'))
 					// opcode cache busting before including the filename
 					if (function_exists('opcache_invalidate'))
 					{
-						opcache_invalidate($filename);
+						\opcache_invalidate($filename);
 					}
 					if (function_exists('apc_compile_file'))
 					{
-						apc_compile_file($filename);
+						\apc_compile_file($filename);
 					}
 					if (function_exists('wincache_refresh_if_changed'))
 					{
-						wincache_refresh_if_changed(array($filename));
+						\wincache_refresh_if_changed(array($filename));
 					}
 					if (function_exists('xcache_asm'))
 					{

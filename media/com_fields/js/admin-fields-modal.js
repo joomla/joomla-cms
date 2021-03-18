@@ -1,30 +1,36 @@
 /**
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+
+/**
  * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+(function (Joomla) {
+  'use strict';
 
-Joomla = window.Joomla || {};
+  if (!window.parent.Joomla) {
+    throw new Error('core.js was not properly initialised');
+  }
 
-(function(Joomla) {
-	Joomla.fieldIns = function(id, editor) {
-		/** Use the API, if editor supports it **/
-		if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
-			window.parent.Joomla.editors.instances[editor].replaceSelection("{field " + id + "}")
-		} else {
-			window.parent.jInsertEditorText("{field " + id + "}", editor);
-		}
+  if (!Joomla) {
+    window.Joomla = {};
+  }
 
-		window.parent.jModalClose();
-	};
+  Joomla.fieldIns = function (id, editor) {
+    window.parent.Joomla.editors.instances[editor].replaceSelection("{field ".concat(id, "}"));
 
-	Joomla.fieldgroupIns = function(id, editor) {
-		/** Use the API, if editor supports it **/
-		if (window.parent.Joomla && window.parent.Joomla.editors && window.parent.Joomla.editors.instances && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
-			window.parent.Joomla.editors.instances[editor].replaceSelection("{fieldgroup " + id + "}")
-		} else {
-			window.parent.jInsertEditorText("{fieldgroup " + id + "}", editor);
-		}
+    if (window.parent.Joomla.Modal) {
+      window.parent.Joomla.Modal.getCurrent().close();
+    }
+  };
 
-		window.parent.jModalClose();
-	};
+  Joomla.fieldgroupIns = function (id, editor) {
+    window.parent.Joomla.editors.instances[editor].replaceSelection("{fieldgroup ".concat(id, "}"));
+
+    if (window.parent.Joomla.Modal) {
+      window.parent.Joomla.Modal.getCurrent().close();
+    }
+  };
 })(Joomla);

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
+
 extract($displayData);
 
 /**
@@ -43,33 +45,32 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
-
-$autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
-	$autocomplete,
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$multiple ? 'multiple' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
+	$dataAttribute,
 );
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
-
 ?>
-<input type="email" name="<?php
-echo $name; ?>"<?php
-echo !empty($class) ? ' class="validate-email ' . $class . '"' : ' class="validate-email"'; ?> id="<?php
-echo $id; ?>" value="<?php
-echo htmlspecialchars(JStringPunycode::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
-<?php echo implode(' ', $attributes); ?> />
+<input
+	type="email"
+	inputmode="email"
+	name="<?php echo $name; ?>"
+	<?php echo !empty($class) ? ' class="form-control validate-email ' . $class . '"' : ' class="form-control validate-email"'; ?>
+	id="<?php echo $id; ?>"
+	value="<?php echo htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
+	<?php echo implode(' ', $attributes); ?>>

@@ -1,0 +1,251 @@
+// Login page
+
+.view-login {
+
+  .container-main {
+
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 35vh);
+    }
+
+    #content {
+
+      @include media-breakpoint-down(sm) {
+        max-width: 98%;
+        padding: 0;
+      }
+    }
+  }
+
+  .login {
+    align-self: flex-start;
+    width: 25rem;
+    padding: 15px;
+    margin-top: 10rem;
+    color: var(--atum-text-dark);
+    background: var(--white);
+    border-radius: 3px;
+    box-shadow: 0 0 10px 0 #ccc;
+
+    @include media-breakpoint-down(md) {
+      margin-top: 3rem;
+    }
+
+    img {
+      height: 4.4rem;
+      padding: 15px;
+    }
+
+    svg.joomla-logo {
+      background-size: 4.4rem 2.4rem;
+      height: 4.4rem;
+      width: 2.4rem;
+
+      path {
+        fill: var(--atum-bg-dark);
+      }
+
+    }
+
+    #form-login {
+
+      .form-group {
+        position: relative;
+        margin-bottom: 1.85rem;
+
+        .form-control-feedback {
+          position: absolute;
+          right: 0;
+          bottom: -1.1rem;
+          font-size: .75rem;
+          text-align: right;
+        }
+      }
+
+    }
+
+    #btn-login-submit {
+      color: var(--atum-text-light);
+      background-color: var(--atum-link-color);
+      border-color: var(--atum-link-color);
+    }
+  }
+
+  .form-group {
+
+    label {
+      span {
+        font-size: .9rem;
+
+        @include media-breakpoint-down(xs) {
+          width: 100%;
+        }
+
+        &.text-right {
+          font-size: .75rem;
+          color: var(--atum-special-color);
+        }
+      }
+    }
+  }
+
+  input:focus,
+  select:focus {
+    background: $white;
+    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
+  }
+
+  h1 {
+    padding-bottom: 1rem;
+    margin: 0;
+    color: var(--atum-bg-dark);
+    font-weight: $font-weight-bold;
+    text-align: center;
+  }
+
+  h2 {
+    color: var(--atum-text-dark);
+  }
+
+  .btn {
+
+    @include media-breakpoint-only(xs) {
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+  }
+
+  .form-control,
+  .custom-select {
+    max-width: none;
+  }
+
+  #sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 33%;
+    max-width: $sidebar-width-login;
+
+    @include media-breakpoint-down(sm) {
+      order: 2;
+    }
+
+    #main-brand {
+      margin-bottom: auto;
+
+      a {
+        font-size: .875rem;
+      }
+    }
+
+    .card-header {
+      font-size: 1.125rem;
+    }
+  }
+
+  #sidebar {
+    align-self: flex-end;
+    width: 100%;
+    font-size: .875rem;
+    color: var(--atum-text-light);
+    text-align: center;
+
+    .card {
+      background: var(--atum-bg-dark);
+      box-shadow: none;
+
+      .module-body {
+        padding: .75rem 1.25rem;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      position: relative;
+      bottom: 0;
+    }
+  }
+
+  .container-main,
+  .sidebar-wrapper {
+
+    @include media-breakpoint-down(sm) {
+      flex: 1 0 100% !important;
+      max-width: 100% !important;
+    }
+  }
+
+  .d-flex {
+
+    @include media-breakpoint-down(sm) {
+      display: flex !important;
+      flex-wrap: wrap;
+    }
+  }
+
+  .header {
+    .logo {
+      &.small {
+        line-height: 2.5rem;
+      }
+    }
+  }
+}
+
+label {
+  color: $darkblue;
+}
+
+.com_login .sidebar-wrapper .main-brand {
+  flex: 1;
+  flex-basis: auto;
+  margin-top: 100px;
+  text-align: center;
+
+  @include media-breakpoint-down(sm) {
+    margin-top: 10px;
+  }
+}
+
+.com_login .sidebar-wrapper #sidebar p {
+  margin-bottom: .2rem;
+}
+
+.com_login .sidebar-wrapper .main-brand a,
+.com_login .sidebar-wrapper #sidebar,
+.com_login .sidebar-wrapper #sidebar a {
+  color: var(--atum-text-light);
+}
+
+.view-login {
+  #wrapper.d-flex {
+    @include media-breakpoint-down(sm) {
+      display: flex !important;
+    }
+  }
+
+  #sidebar-wrapper:not(.show):not(.collapse) {
+    @include media-breakpoint-down(sm) {
+      display: block;
+    }
+  }
+
+  .invalid .form-control-feedback {
+    color: theme-color("danger");
+  }
+}
+
+// Detect IE 10+ and display alert
+.ie11 {
+  display: none;
+}
+
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+  .ie11 {
+    display: block;
+  }
+}

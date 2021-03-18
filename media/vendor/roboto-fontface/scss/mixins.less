@@ -1,0 +1,20 @@
+@roboto-font-path: '../../../fonts';
+
+.roboto-font(@folder, @variant, @type, @weight, @style) {
+
+    @font-full-path: '@{roboto-font-path}/@{folder}/@{variant}';
+
+    @font-face {
+        font-family: '@{variant}';
+        src: url('@{font-full-path}-@{type}.woff2') format('woff2'),
+             url('@{font-full-path}-@{type}.woff') format('woff');
+        font-weight: @weight;
+        font-style: @style;
+    }
+
+    @font-face {
+        font-family: '@{variant}-@{type}';
+        src: url('@{font-full-path}-@{type}.woff2') format('woff2'),
+             url('@{font-full-path}-@{type}.woff') format('woff');
+    }
+}

@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<menu
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="urn:joomla.org"
+	xsi:schemaLocation="urn:joomla.org menu.xsd"
+	>
+	<menuitem
+		title="MOD_MENU_HELP_PARENT_FIND_HELP"
+		type="heading"
+		icon="question-circle"
+		permission="core.admin"
+		>
+		<menuitem
+			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM"
+			type="url"
+			target="_blank"
+			link="https://forum.joomla.org"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM"
+			type="component"
+			target="_blank"
+			link="index.php?option=com_admin&amp;view=help&amp;layout=langforum"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_JOOMLA"
+			type="component"
+			target="_blank"
+			link="index.php?option=com_admin&amp;view=help"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_XCHANGE"
+			type="url"
+			target="_blank"
+			link="https://joomla.stackexchange.com"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_HELP_PARENT_MEET_JOOMLERS"
+		type="heading"
+		icon="users"
+		>
+		<menuitem
+			title="MOD_MENU_HELP_RESOURCES"
+			type="url"
+			target="_blank"
+			link="https://resources.joomla.org"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_EVENTS"
+			type="url"
+			target="_blank"
+			link="https://community.joomla.org/events.html"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_USER_GROUPS"
+			type="url"
+			target="_blank"
+			link="https://community.joomla.org/user-groups.html"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_HELP_PARENT_NEWS"
+		type="heading"
+		icon="bullhorn"
+		>
+		<menuitem
+			title="MOD_MENU_HELP_COMMUNITY_NEWS"
+			type="url"
+			target="_blank"
+			link="https://www.joomla.org/announcements.html"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_COMMUNITY_NEWSLETTER"
+			type="url"
+			target="_blank"
+			link="https://community.joomla.org/general-newsletter.html"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_SECURITY"
+			type="url"
+			target="_blank"
+			link="https://developer.joomla.org/security-centre.html"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_HELP_PARENT_RESOURCES"
+		type="heading"
+		icon="cloud-download-alt"
+		permission="core.manage;com_installer"
+		>
+		<menuitem
+			title="MOD_MENU_HELP_DOCUMENTATION"
+			type="url"
+			target="_blank"
+			link="https://docs.joomla.org"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_DEVELOPER"
+			type="url"
+			target="_blank"
+			link="https://developer.joomla.org"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_TRANSLATIONS"
+			type="url"
+			target="_blank"
+			link="https://community.joomla.org/translations.html"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_EXTENSIONS"
+			type="url"
+			target="_blank"
+			link="https://extensions.joomla.org"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_SHOP"
+			type="url"
+			target="_blank"
+			link="https://community.joomla.org/the-joomla-shop.html"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="MOD_MENU_HELP_PARENT_GET_INVOLVED"
+		type="heading"
+		icon="handshake"
+		>
+		<menuitem
+			title="MOD_MENU_HELP_COMMUNITY"
+			type="url"
+			target="_blank"
+			link="https://community.joomla.org"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_ISSUES_TRACKER"
+			type="url"
+			target="_blank"
+			link="https://issues.joomla.org/"
+		/>
+
+		<menuitem
+			title="MOD_MENU_HELP_GITHUB"
+			type="url"
+			target="_blank"
+			link="https://github.com/joomla/joomla-cms/"
+		/>
+	</menuitem>
+</menu>

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Make thing clear
  *
@@ -21,33 +23,29 @@ extract($displayData);
 
 ?>
 
-<tr
-	class="subform-repeatable-group subform-repeatable-group-<?php echo $unique_subform_id; ?>"
-	data-base-name="<?php echo $basegroup; ?>"
-	data-group="<?php echo $group; ?>"
->
+<tr class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
 	<?php foreach ($form->getGroup('') as $field) : ?>
-	<td data-column="<?php echo strip_tags($field->label); ?>">
-		<?php echo $field->renderField(array('hiddenLabel' => true)); ?>
-	</td>
+		<td data-column="<?php echo strip_tags($field->label); ?>">
+			<?php echo $field->renderField(array('hiddenLabel' => true)); ?>
+		</td>
 	<?php endforeach; ?>
 	<?php if (!empty($buttons)) : ?>
 	<td>
 		<div class="btn-group">
 			<?php if (!empty($buttons['add'])) : ?>
-				<a class="btn btn-mini button btn-success group-add group-add-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>">
-					<span class="icon-plus" aria-hidden="true"></span>
-				</a>
+				<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+					<span class="fas fa-plus" aria-hidden="true"></span>
+				</button>
 			<?php endif; ?>
 			<?php if (!empty($buttons['remove'])) : ?>
-				<a class="btn btn-mini button btn-danger group-remove group-remove-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_REMOVE'); ?>">
-					<span class="icon-minus" aria-hidden="true"></span>
-				</a>
+				<button type="button" class="group-remove btn btn-sm btn-danger" aria-label="<?php echo Text::_('JGLOBAL_FIELD_REMOVE'); ?>">
+					<span class="fas fa-minus" aria-hidden="true"></span>
+				</button>
 			<?php endif; ?>
 			<?php if (!empty($buttons['move'])) : ?>
-				<a class="btn btn-mini button btn-primary group-move group-move-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_MOVE'); ?>">
-					<span class="icon-move" aria-hidden="true"></span>
-				</a>
+				<button type="button" class="group-move btn btn-sm btn-primary" aria-label="<?php echo Text::_('JGLOBAL_FIELD_MOVE'); ?>">
+					<span class="fas fa-arrows-alt" aria-hidden="true"></span>
+				</button>
 			<?php endif; ?>
 		</div>
 	</td>

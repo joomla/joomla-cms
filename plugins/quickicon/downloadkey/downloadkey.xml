@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ @package    joomla4
+  ~
+  ~ @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+  ~ @license    GNU General Public License version 2 or later; see LICENSE.txt
+  -->
+
+<extension version="4.0" type="plugin" group="quickicon" method="upgrade">
+	<name>plg_quickicon_downloadkey</name>
+	<author>Joomla! Project</author>
+	<creationDate>October 2019</creationDate>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_QUICKICON_DOWNLOADKEY_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="downloadkey">downloadkey.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_quickicon_downloadkey.ini</language>
+		<language tag="en-GB">en-GB.plg_quickicon_downloadkey.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="context"
+					type="text"
+					label="PLG_QUICKICON_DOWNLOADKEY_GROUP_LABEL"
+					description="PLG_QUICKICON_DOWNLOADKEY_GROUP_DESC"
+					default="update_quickicon"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

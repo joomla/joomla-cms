@@ -1,0 +1,273 @@
+// Quick Icons
+
+.quick-icons {
+  background-color: $white;
+
+
+  li {
+    padding: 0;
+  }
+
+  a {
+    width: 100%;
+    color: var(--atum-link-color);
+    transition: all .25s ease;
+
+
+    .fas,
+    .fab {
+      margin: 0 auto;
+      font-size: $quickicon-icon-size;
+      color: transparent;
+      background: linear-gradient(var(--atum-link-color), var(--atum-link-hover-color));
+      background-clip: text;
+
+      &.big {
+        font-size: $quickicon-icon-size-big;
+      }
+    }
+
+
+    @include hover-focus-active {
+      color: $white;
+      text-decoration: none;
+      background: var(--atum-link-color);
+
+      .fas,
+      .fab {
+        color: transparent;
+        background: linear-gradient(var(--atum-bg-light), $white);
+        background-clip: text;
+      }
+    }
+
+
+  }
+
+  // Group link to the overview and link to the edit form in a container
+  .quickicon-group {
+    flex: 1 1 calc(33.333% - 1rem);
+    width: calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
+    padding: 0;
+
+    > ul {
+      padding: 0;
+    }
+
+    @media (max-width: 1350px) {
+      flex: 1 1 calc(50% - 1rem);
+      width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+    }
+
+    @media (max-width: 1150px) {
+      flex: 1 1 calc(100% - 1rem);
+      width: calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex: 1 1 calc(50% - 1rem);
+      width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+    }
+
+    @media (max-width: 430px) {
+      flex: 1 1 calc(100% - 1rem);
+      width: calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
+    }
+
+    .quickicon-linkadd {
+      width: 2rem;
+      background-color: var(--atum-bg-light);
+    }
+  }
+
+  // Single icon
+  .quickicon-single {
+    flex: 1 1 calc(33.333% - 1rem);
+    width: calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
+    background: $quickicon-bg;
+  }
+
+  .quickicon-single,
+  .quickicon-group {
+    min-height: 5.7rem;
+    margin: .5rem;
+    border: 1px solid $bluegray;
+
+    @media (max-width: 1350px) {
+      flex: 1 1 calc(50% - 1rem);
+      width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+    }
+
+    @media (max-width: 1150px) {
+      flex: 1 1 calc(100% - 1rem);
+      width: calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex: 1 1 calc(50% - 1rem);
+      width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+    }
+
+    @media (max-width: 430px) {
+      flex: 1 1 calc(100% - 1rem);
+      width: calc(100% - 1rem);
+      max-width: calc(100% - 1rem);
+    }
+  }
+
+  .quickicon a {
+    display: inline-flex;
+    flex-direction: column;
+    align-self: baseline;
+    height: 100%;
+    line-height: 1.1;
+    text-align: center;
+    background-color: var(--toolbar-bg);
+
+    > div {
+      flex: 1 0 0;
+      margin: 0 auto;
+
+      &.quickicon-icon {
+        margin: .8rem auto 0;
+
+        &.big {
+
+          .fas,
+          .fab {
+            font-size: $quickicon-icon-size-big;
+          }
+        }
+      }
+    }
+
+    .quickicon-name {
+      padding: .2rem .2rem .6rem;
+      font-size: $display2-size;
+    }
+
+    .quickicon-amount {
+      padding: .3rem;
+      margin-top: .3rem !important;
+      font-size: $display1-size;
+      font-weight: $bold-weight;
+
+      > .fa-spinner {
+        font-size: $display1-size;
+      }
+    }
+
+    .j-links-link {
+      display: block;
+      padding: 0 .2rem;
+      line-height: 1.1;
+    }
+
+    &.warning,
+    &.danger {
+      color: $danger-txt;
+      background: var(--danger);
+      border: 1px solid lighten($danger-txt, 30%);
+
+      .fas,
+      .fab {
+        color: $danger-txt;
+      }
+
+      @include hover-focus-active {
+        color: var(--white);
+        background: var(--danger);
+
+        .fas,
+        .fab {
+          &::before {
+            color: var(--white);
+          }
+        }
+      }
+    }
+
+    &.success {
+      color: var(--success);
+      border: 1px solid lighten($success-txt, 20%);
+
+      .fas,
+      .fab {
+        color: var(--success);
+        background: linear-gradient(var(--success), #159c1e);
+        background-clip: text;
+        color: transparent;
+      }
+
+      @include hover-focus-active {
+        color: var(--white);
+        background: var(--success);
+
+        .fas,
+        .fab {
+          &::before {
+            color: var(--white);
+            background: linear-gradient($white, lighten($green, 40%));
+            background-clip: text;
+            color: transparent;
+          }
+        }
+      }
+    }
+
+    @include hover-focus-active {
+      color: $white;
+      text-decoration: none;
+      background: var(--atum-bg-dark);
+    }
+  }
+}
+
+#content {
+  .menu-quicktask {
+    position: absolute;
+
+    [dir=ltr] & {
+      right: 1.25rem;
+    }
+
+    [dir=rtl] & {
+      left: 1.25rem;
+    }
+  }
+}
+
+#wrapper.closed {
+  .quick-icons {
+
+    .quickicon-single,
+    .quickicon-group {
+      @media (max-width: 1180px) {
+        flex: 1 1 calc(50% - 1rem);
+        width: calc(50% - 1rem);
+        max-width: calc(50% - 1rem);
+      }
+
+      @media (max-width: 950px) {
+        flex: 1 1 calc(100% - 1rem);
+        width: calc(100% - 1rem);
+        max-width: calc(100% - 1rem);
+      }
+
+      @media (max-width: 767px) {
+        flex: 1 1 calc(33% - 1rem);
+        width: calc(33% - 1rem);
+        max-width: calc(33% - 1rem);
+      }
+    }
+  }
+}

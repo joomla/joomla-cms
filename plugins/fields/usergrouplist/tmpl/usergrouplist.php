@@ -8,14 +8,14 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+
 $value = $field->value;
 
 if ($value == '')
 {
 	return;
 }
-
-JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
 
 $value  = (array) $value;
 $texts  = array();

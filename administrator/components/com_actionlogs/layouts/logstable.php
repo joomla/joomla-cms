@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-Factory::getLanguage()->load("com_actionlogs", JPATH_ADMINISTRATOR, null, false, true);
+Factory::getLanguage()->load("com_actionlogs", JPATH_ADMINISTRATOR);
 
 $messages = $displayData['messages'];
 $showIpColumn = $displayData['showIpColumn'];

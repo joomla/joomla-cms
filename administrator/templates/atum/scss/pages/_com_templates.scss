@@ -1,0 +1,47 @@
+// com_templates
+.com_templates {
+
+  .menu-assignment {
+    position: relative;
+
+    .menu-links {
+      padding-left: 0;
+      margin-top: 15px;
+      margin-left: 0;
+      column-count: 3;
+      column-gap: 15px;
+
+      @include media-breakpoint-down(md) {
+        column-count: auto;
+      }
+
+      > li {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 15px;
+        vertical-align: top;
+        list-style: none;
+        backface-visibility: hidden;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        column-break-inside: avoid;
+      }
+    }
+
+    .menu-links-block {
+      padding: 15px;
+      background-color: var(--card-bg);
+      border-radius: 3px;
+      box-shadow: $atum-box-shadow;
+    }
+
+    label {
+      display: block;
+
+      input {
+        position: relative;
+        top: 2px;
+      }
+    }
+  }
+}

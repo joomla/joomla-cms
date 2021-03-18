@@ -8,20 +8,19 @@
 
 namespace Joomla\Input;
 
-use Joomla\Filter;
-
 /**
  * Joomla! Input JSON Class
  *
- * This class decodes a JSON string from the raw request data and makes it available via
- * the standard Input interface.
+ * This class decodes a JSON string from the raw request data and makes it available via the standard Input interface.
  *
  * @since  1.0
  */
 class Json extends Input
 {
 	/**
-	 * @var    string  The raw JSON string from the request.
+	 * The raw JSON string from the request.
+	 *
+	 * @var    string
 	 * @since  1.0
 	 */
 	private $raw;
@@ -34,17 +33,8 @@ class Json extends Input
 	 *
 	 * @since   1.0
 	 */
-	public function __construct($source = null, array $options = array())
+	public function __construct($source = null, array $options = [])
 	{
-		if (isset($options['filter']))
-		{
-			$this->filter = $options['filter'];
-		}
-		else
-		{
-			$this->filter = new Filter\InputFilter;
-		}
-
 		if ($source === null)
 		{
 			$this->raw = file_get_contents('php://input');
@@ -56,20 +46,15 @@ class Json extends Input
 				$this->raw = $GLOBALS['HTTP_RAW_POST_DATA'];
 			}
 
-			$this->data = json_decode($this->raw, true);
+			$source = json_decode($this->raw, true);
 
-			if (!\is_array($this->data))
+			if (!\is_array($source))
 			{
-				$this->data = array();
+				$source = [];
 			}
 		}
-		else
-		{
-			$this->data = $source;
-		}
 
-		// Set the options for the class.
-		$this->options = $options;
+		parent::__construct($source, $options);
 	}
 
 	/**

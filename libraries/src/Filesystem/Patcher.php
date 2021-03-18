@@ -8,9 +8,8 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -137,6 +136,7 @@ class Patcher
 				$done = false;
 
 				$regex = '#^([^/]*/)*#';
+
 				if ($patch['strip'] !== null)
 				{
 					$regex = '#^([^/]*/){' . (int) $patch['strip'] . '}#';
@@ -264,9 +264,9 @@ class Patcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines  The udiff array of lines
-	 * @param   string  &$src    The source file
-	 * @param   string  &$dst    The destination file
+	 * @param   array   $lines  The udiff array of lines
+	 * @param   string  $src    The source file
+	 * @param   string  $dst    The destination file
 	 *
 	 * @return  boolean  TRUE in case of success, FALSE in case of failure
 	 *
@@ -324,37 +324,39 @@ class Patcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines    The udiff array of lines
-	 * @param   string  &$srcLine  The beginning of the patch for the source file
-	 * @param   string  &$srcSize  The size of the patch for the source file
-	 * @param   string  &$dstLine  The beginning of the patch for the destination file
-	 * @param   string  &$dstSize  The size of the patch for the destination file
+	 * @param   array   $lines     The udiff array of lines
+	 * @param   string  $src_line  The beginning of the patch for the source file
+	 * @param   string  $src_size  The size of the patch for the source file
+	 * @param   string  $dst_line  The beginning of the patch for the destination file
+	 * @param   string  $dst_size  The size of the patch for the destination file
 	 *
 	 * @return  boolean  TRUE in case of success, false in case of failure
 	 *
 	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
-	protected static function findHunk(&$lines, &$srcLine, &$srcSize, &$dstLine, &$dstSize)
+	protected static function findHunk(&$lines, &$src_line, &$src_size, &$dst_line, &$dst_size)
 	{
 		$line = current($lines);
 
 		if (preg_match(self::HUNK, $line, $m))
 		{
-			$srcLine = (int) $m[1];
+			$src_line = (int) $m[1];
 
-			$srcSize = 1;
+			$src_size = 1;
+
 			if ($m[3] !== '')
 			{
-				$srcSize = (int) $m[3];
+				$src_size = (int) $m[3];
 			}
 
-			$dstLine = (int) $m[4];
+			$dst_line = (int) $m[4];
 
-			$dstSize = 1;
+			$dst_size = 1;
+
 			if ($m[6] !== '')
 			{
-				$dstSize = (int) $m[6];
+				$dst_size = (int) $m[6];
 			}
 
 			if (next($lines) === false)
@@ -371,23 +373,23 @@ class Patcher
 	/**
 	 * Apply the patch
 	 *
-	 * @param   array   &$lines   The udiff array of lines
-	 * @param   string  $src      The source file
-	 * @param   string  $dst      The destination file
-	 * @param   string  $srcLine  The beginning of the patch for the source file
-	 * @param   string  $srcSize  The size of the patch for the source file
-	 * @param   string  $dstLine  The beginning of the patch for the destination file
-	 * @param   string  $dstSize  The size of the patch for the destination file
+	 * @param   array   $lines     The udiff array of lines
+	 * @param   string  $src       The source file
+	 * @param   string  $dst       The destination file
+	 * @param   string  $src_line  The beginning of the patch for the source file
+	 * @param   string  $src_size  The size of the patch for the source file
+	 * @param   string  $dst_line  The beginning of the patch for the destination file
+	 * @param   string  $dst_size  The size of the patch for the destination file
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
-	protected function applyHunk(&$lines, $src, $dst, $srcLine, $srcSize, $dstLine, $dstSize)
+	protected function applyHunk(&$lines, $src, $dst, $src_line, $src_size, $dst_line, $dst_size)
 	{
-		$srcLine--;
-		$dstLine--;
+		$src_line--;
+		$dst_line--;
 		$line = current($lines);
 
 		// Source lines (old file)
@@ -395,8 +397,8 @@ class Patcher
 
 		// New lines (new file)
 		$destin = array();
-		$src_left = $srcSize;
-		$dst_left = $dstSize;
+		$src_left = $src_size;
+		$dst_left = $dst_size;
 
 		do
 		{
@@ -439,7 +441,7 @@ class Patcher
 			if ($src_left == 0 && $dst_left == 0)
 			{
 				// Now apply the patch, finally!
-				if ($srcSize > 0)
+				if ($src_size > 0)
 				{
 					$src_lines = & $this->getSource($src);
 
@@ -449,22 +451,22 @@ class Patcher
 					}
 				}
 
-				if ($dstSize > 0)
+				if ($dst_size > 0)
 				{
-					if ($srcSize > 0)
+					if ($src_size > 0)
 					{
 						$dst_lines = & $this->getDestination($dst, $src);
-						$src_bottom = $srcLine + count($source);
+						$src_bottom = $src_line + \count($source);
 
-						for ($l = $srcLine;$l < $src_bottom;$l++)
+						for ($l = $src_line;$l < $src_bottom;$l++)
 						{
-							if ($src_lines[$l] != $source[$l - $srcLine])
+							if ($src_lines[$l] != $source[$l - $src_line])
 							{
 								throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_FAILED_VERIFY', $src, $l));
 							}
 						}
 
-						array_splice($dst_lines, $dstLine, count($source), $destin);
+						array_splice($dst_lines, $dst_line, \count($source), $destin);
 					}
 					else
 					{
@@ -502,6 +504,7 @@ class Patcher
 		if (!isset($this->sources[$src]))
 		{
 			$this->sources[$src] = null;
+
 			if (is_readable($src))
 			{
 				$this->sources[$src] = self::splitLines(file_get_contents($src));

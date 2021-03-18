@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+use Joomla\CMS\Form\Form;
 
 /**
  * Fields User Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsUser extends FieldsPlugin
+class PlgFieldsUser extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
 
 	/**
@@ -24,15 +24,15 @@ class PlgFieldsUser extends FieldsPlugin
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
+	 * @param   Form        $form    The form.
 	 *
 	 * @return  DOMElement
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
-		if (JFactory::getApplication()->isClient('site'))
+		if ($this->app->isClient('site'))
 		{
 			// The user field is not working on the front end
 			return;

@@ -1,0 +1,41 @@
+// Tabs
+
+@import "../../variables";
+
+.nav.nav-tabs {
+
+  align-items: stretch;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0 0 1rem;
+  text-align: center;
+  background-color: var(--atum-bg-dark);
+
+  @include media-breakpoint-only(xl) {
+    flex-wrap: unset;
+  }
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+  }
+
+  .nav-item {
+    width: 100%;
+    margin-bottom: 0;
+    margin-left: 0;
+  }
+
+  .nav-link {
+    position: relative;
+    height: 100%;
+    padding: .75em 1em;
+    color: $white;
+    box-shadow: -1px 0 0 rgba(0, 0, 0, .1);
+  }
+}
+
+.nav-tabs + .tab-content {
+  padding: 0;
+  background: transparent;
+  border: 0;
+}

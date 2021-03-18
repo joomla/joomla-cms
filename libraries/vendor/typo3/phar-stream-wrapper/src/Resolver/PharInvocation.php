@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace TYPO3\PharStreamWrapper\Resolver;
 
 /*
@@ -43,7 +44,7 @@ class PharInvocation
      * @param string $baseName
      * @param string $alias
      */
-    public function __construct($baseName, $alias = '')
+    public function __construct(string $baseName, string $alias = '')
     {
         if ($baseName === '') {
             throw new Exception(
@@ -58,7 +59,7 @@ class PharInvocation
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->baseName;
     }
@@ -66,7 +67,7 @@ class PharInvocation
     /**
      * @return string
      */
-    public function getBaseName()
+    public function getBaseName(): string
     {
         return $this->baseName;
     }
@@ -74,7 +75,7 @@ class PharInvocation
     /**
      * @return null|string
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return $this->alias;
     }
@@ -82,7 +83,7 @@ class PharInvocation
     /**
      * @return bool
      */
-    public function isConfirmed()
+    public function isConfirmed(): bool
     {
         return $this->confirmed;
     }
@@ -96,19 +97,16 @@ class PharInvocation
      * @param string $name
      * @return mixed|null
      */
-    public function getVariable($name)
+    public function getVariable(string $name)
     {
-        if (!isset($this->variables[$name])) {
-            return null;
-        }
-        return $this->variables[$name];
+        return $this->variables[$name] ?? null;
     }
 
     /**
      * @param string $name
      * @param mixed $value
      */
-    public function setVariable($name, $value)
+    public function setVariable(string $name, $value)
     {
         $this->variables[$name] = $value;
     }
@@ -117,7 +115,7 @@ class PharInvocation
      * @param PharInvocation $other
      * @return bool
      */
-    public function equals(PharInvocation $other)
+    public function equals(PharInvocation $other): bool
     {
         return $other->baseName === $this->baseName
             && $other->alias === $this->alias;

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -132,7 +132,7 @@ class Cli extends Input
 
 		$out = array();
 
-		for ($i = 0, $j = count($argv); $i < $j; $i++)
+		for ($i = 0, $j = \count($argv); $i < $j; $i++)
 		{
 			$arg = $argv[$i];
 
@@ -154,7 +154,7 @@ class Cli extends Input
 					}
 					else
 					{
-						$value = isset($out[$key]) ? $out[$key] : true;
+						$value = $out[$key] ?? true;
 					}
 
 					$out[$key] = $value;
@@ -186,12 +186,12 @@ class Cli extends Input
 					foreach ($chars as $char)
 					{
 						$key = $char;
-						$value = isset($out[$key]) ? $out[$key] : true;
+						$value = $out[$key] ?? true;
 						$out[$key] = $value;
 					}
 
 					// -a a-value
-					if ((count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
+					if ((\count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
 					{
 						$out[$key] = $argv[$i + 1];
 						$i++;

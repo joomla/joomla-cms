@@ -23,32 +23,28 @@ class Container implements ContainerInterface
 	/**
 	 * Holds the key aliases.
 	 *
-	 * @var    array
-	 * @since  1.0
-	 */
-	protected $aliases = array();
-
-	/**
-	 * Holds the shared instances.
+	 * Format:
+	 * 'alias' => 'key'
 	 *
 	 * @var    array
 	 * @since  1.0
 	 */
-	protected $instances = array();
+	protected $aliases = [];
 
 	/**
-	 * Holds the keys, their callbacks, and whether or not
-	 * the item is meant to be a shared resource.
+	 * Holds the resources.
 	 *
-	 * @var    array
-	 * @since  1.0
+	 * @var    ContainerResource[]
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $dataStore = array();
+	protected $resources = [];
 
 	/**
 	 * Parent for hierarchical containers.
 	 *
-	 * @var    Container|ContainerInterface
+	 * In fact, this can be any PSR-11 compatible container, which gets decorated by this
+	 *
+	 * @var    Container|ContainerInterface|null
 	 * @since  1.0
 	 */
 	protected $parent;
@@ -59,18 +55,95 @@ class Container implements ContainerInterface
 	 * @var    array
 	 * @since  1.5.0
 	 */
-	protected $tags = array();
+	protected $tags = [];
 
 	/**
 	 * Constructor for the DI Container
 	 *
-	 * @param   ContainerInterface  $parent  Parent for hierarchical containers.
+	 * @param   ContainerInterface|null  $parent  Parent for hierarchical containers.
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(ContainerInterface $parent = null)
+	public function __construct(?ContainerInterface $parent = null)
 	{
 		$this->parent = $parent;
+	}
+
+	/**
+	 * Retrieve a resource
+	 *
+	 * @param   string  $resourceName  Name of the resource to get.
+	 *
+	 * @return  mixed  The requested resource
+	 *
+	 * @since   1.0
+	 * @throws  KeyNotFoundException
+	 */
+	public function get($resourceName)
+	{
+		$key = $this->resolveAlias($resourceName);
+
+		if (!isset($this->resources[$key]))
+		{
+			if ($this->parent instanceof ContainerInterface && $this->parent->has($key))
+			{
+				return $this->parent->get($key);
+			}
+
+			throw new KeyNotFoundException(sprintf("Resource '%s' has not been registered with the container.", $resourceName));
+		}
+
+		return $this->resources[$key]->getInstance();
+	}
+
+	/**
+	 * Check if specified resource exists.
+	 *
+	 * @param   string  $resourceName  Name of the resource to check.
+	 *
+	 * @return  boolean  true if key is defined, false otherwise
+	 *
+	 * @since   1.5.0
+	 */
+	public function has($resourceName)
+	{
+		$key = $this->resolveAlias($resourceName);
+
+		if (!isset($this->resources[$key]))
+		{
+			if ($this->parent instanceof ContainerInterface)
+			{
+				return $this->parent->has($key);
+			}
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to check if specified dataStore key exists.
+	 *
+	 * @param   string  $key  Name of the dataStore key to check.
+	 *
+	 * @return  boolean  True for success
+	 *
+	 * @since   1.0
+	 * @deprecated  3.0  Use ContainerInterface::has() instead
+	 */
+	public function exists($key)
+	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated and will be removed in 3.0, use %2$s::has() instead.',
+				__METHOD__,
+				ContainerInterface::class
+			),
+			E_USER_DEPRECATED
+		);
+
+		return $this->has($key);
 	}
 
 	/**
@@ -79,7 +152,7 @@ class Container implements ContainerInterface
 	 * @param   string  $alias  The alias name
 	 * @param   string  $key    The key to alias
 	 *
-	 * @return  Container  This object for chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -91,27 +164,83 @@ class Container implements ContainerInterface
 	}
 
 	/**
-	 * Search the aliases property for a matching alias key.
+	 * Resolve a resource name.
 	 *
-	 * @param   string  $key  The key to search for.
+	 * If the resource name is an alias, the corresponding key is returned.
+	 * If the resource name is not an alias, the resource name is returned unchanged.
+	 *
+	 * @param   string  $resourceName  The key to search for.
 	 *
 	 * @return  string
 	 *
 	 * @since   1.0
 	 */
-	protected function resolveAlias($key)
+	protected function resolveAlias($resourceName)
 	{
-		if (isset($this->aliases[$key]))
+		return $this->aliases[$resourceName] ?? $resourceName;
+	}
+
+	/**
+	 * Check whether a resource is shared
+	 *
+	 * @param   string  $resourceName  Name of the resource to check.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isShared(string $resourceName): bool
+	{
+		return $this->hasFlag($resourceName, 'isShared', true);
+	}
+
+	/**
+	 * Check whether a resource is protected
+	 *
+	 * @param   string  $resourceName  Name of the resource to check.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isProtected(string $resourceName): bool
+	{
+		return $this->hasFlag($resourceName, 'isProtected', true);
+	}
+
+	/**
+	 * Check whether a flag (i.e., one of 'shared' or 'protected') is set
+	 *
+	 * @param   string   $resourceName  Name of the resource to check.
+	 * @param   string   $method        Method to delegate to
+	 * @param   boolean  $default       Default return value
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  KeyNotFoundException
+	 */
+	private function hasFlag(string $resourceName, string $method, bool $default = true): bool
+	{
+		$key = $this->resolveAlias($resourceName);
+
+		if (isset($this->resources[$key]))
 		{
-			return $this->aliases[$key];
+			return \call_user_func([$this->resources[$key], $method]);
 		}
 
-		if ($this->parent instanceof Container)
+		if ($this->parent instanceof self)
 		{
-			return $this->parent->resolveAlias($key);
+			return \call_user_func([$this->parent, $method], $key);
 		}
 
-		return $key;
+		if ($this->parent instanceof ContainerInterface && $this->parent->has($key))
+		{
+			// We don't know if the parent supports the 'shared' or 'protected' concept, so we assume the default
+			return $default;
+		}
+
+		throw new KeyNotFoundException(sprintf("Resource '%s' has not been registered with the container.", $resourceName));
 	}
 
 	/**
@@ -120,7 +249,7 @@ class Container implements ContainerInterface
 	 * @param   string  $tag   The tag name
 	 * @param   array   $keys  The service keys to tag
 	 *
-	 * @return  Container  This object for chaining.
+	 * @return  $this
 	 *
 	 * @since   1.5.0
 	 */
@@ -132,7 +261,7 @@ class Container implements ContainerInterface
 
 			if (!isset($this->tags[$tag]))
 			{
-				$this->tags[$tag] = array();
+				$this->tags[$tag] = [];
 			}
 
 			$this->tags[$tag][] = $resolvedKey;
@@ -155,7 +284,7 @@ class Container implements ContainerInterface
 	 */
 	public function getTagged($tag)
 	{
-		$services = array();
+		$services = [];
 
 		if (isset($this->tags[$tag]))
 		{
@@ -169,34 +298,38 @@ class Container implements ContainerInterface
 	}
 
 	/**
-	 * Build an object of class $key;
+	 * Build an object of the requested class
 	 *
-	 * @param   string   $key     The class name to build.
-	 * @param   boolean  $shared  True to create a shared resource.
+	 * Creates an instance of the class specified by $resourceName with all dependencies injected.
+	 * If the dependencies cannot be completely resolved, a DependencyResolutionException is thrown.
 	 *
-	 * @return  object|false  Instance of class specified by $key with all dependencies injected.
+	 * @param   string   $resourceName  The class name to build.
+	 * @param   boolean  $shared        True to create a shared resource.
+	 *
+	 * @return  object|false  Instance of class specified by $resourceName with all dependencies injected.
 	 *                        Returns an object if the class exists and false otherwise
 	 *
 	 * @since   1.0
+	 * @throws  DependencyResolutionException if the object could not be built (due to missing information)
 	 */
-	public function buildObject($key, $shared = false)
+	public function buildObject($resourceName, $shared = false)
 	{
-		static $buildStack = array();
+		static $buildStack = [];
 
-		$resolvedKey = $this->resolveAlias($key);
+		$key = $this->resolveAlias($resourceName);
 
-		if (in_array($resolvedKey, $buildStack, true))
+		if (\in_array($key, $buildStack, true))
 		{
-			$buildStack = array();
+			$buildStack = [];
 
-			throw new DependencyResolutionException("Can't resolve circular dependency");
+			throw new DependencyResolutionException(sprintf('Cannot resolve circular dependency for "%s"', $key));
 		}
 
-		$buildStack[] = $resolvedKey;
+		$buildStack[] = $key;
 
-		if ($this->has($resolvedKey))
+		if ($this->has($key))
 		{
-			$resource = $this->get($resolvedKey);
+			$resource = $this->get($key);
 			array_pop($buildStack);
 
 			return $resource;
@@ -204,7 +337,7 @@ class Container implements ContainerInterface
 
 		try
 		{
-			$reflection = new \ReflectionClass($resolvedKey);
+			$reflection = new \ReflectionClass($key);
 		}
 		catch (\ReflectionException $e)
 		{
@@ -215,9 +348,23 @@ class Container implements ContainerInterface
 
 		if (!$reflection->isInstantiable())
 		{
-			$buildStack = array();
+			$buildStack = [];
 
-			throw new DependencyResolutionException("$resolvedKey can not be instantiated.");
+			if ($reflection->isInterface())
+			{
+				throw new DependencyResolutionException(
+					sprintf('There is no service for "%s" defined, cannot autowire a class service for an interface.', $key)
+				);
+			}
+
+			if ($reflection->isAbstract())
+			{
+				throw new DependencyResolutionException(
+					sprintf('There is no service for "%s" defined, cannot autowire an abstract class.', $key)
+				);
+			}
+
+			throw new DependencyResolutionException(sprintf('"%s" cannot be instantiated.', $key));
 		}
 
 		$constructor = $reflection->getConstructor();
@@ -225,23 +372,25 @@ class Container implements ContainerInterface
 		// If there are no parameters, just return a new object.
 		if ($constructor === null)
 		{
-			$callback = function () use ($resolvedKey) {
-				return new $resolvedKey;
+			// There is no constructor, just return a new object.
+			$callback = function () use ($key)
+			{
+				return new $key;
 			};
 		}
 		else
 		{
 			$newInstanceArgs = $this->getMethodArgs($constructor);
 
-			// Create a callable for the dataStore
-			$callback = function () use ($reflection, $newInstanceArgs) {
+			$callback = function () use ($reflection, $newInstanceArgs)
+			{
 				return $reflection->newInstanceArgs($newInstanceArgs);
 			};
 		}
 
-		$this->set($resolvedKey, $callback, $shared);
+		$this->set($key, $callback, $shared);
 
-		$resource = $this->get($resolvedKey);
+		$resource = $this->get($key);
 		array_pop($buildStack);
 
 		return $resource;
@@ -250,23 +399,22 @@ class Container implements ContainerInterface
 	/**
 	 * Convenience method for building a shared object.
 	 *
-	 * @param   string  $key  The class name to build.
+	 * @param   string  $resourceName  The class name to build.
 	 *
-	 * @return  object|false  Instance of class specified by $key with all dependencies injected.
+	 * @return  object|false  Instance of class specified by $resourceName with all dependencies injected.
 	 *                        Returns an object if the class exists and false otherwise
 	 *
 	 * @since   1.0
 	 */
-	public function buildSharedObject($key)
+	public function buildSharedObject($resourceName)
 	{
-		return $this->buildObject($key, true);
+		return $this->buildObject($resourceName, true);
 	}
 
 	/**
-	 * Create a child Container with a new property scope that
-	 * that has the ability to access the parent scope when resolving.
+	 * Create a child Container with a new property scope that has the ability to access the parent scope when resolving.
 	 *
-	 * @return  Container  This object for chaining.
+	 * @return  Container  A new container with the current as a parent
 	 *
 	 * @since   1.0
 	 */
@@ -276,37 +424,34 @@ class Container implements ContainerInterface
 	}
 
 	/**
-	 * Extend a defined service Closure by wrapping the existing one with a new Closure.  This
-	 * works very similar to a decorator pattern.  Note that this only works on service Closures
-	 * that have been defined in the current Provider, not parent providers.
+	 * Extend a defined service Closure by wrapping the existing one with a new callable function.
 	 *
-	 * @param   string    $key       The unique identifier for the Closure or property.
-	 * @param   \Closure  $callable  A Closure to wrap the original service Closure.
+	 * This works very similar to a decorator pattern.  Note that this only works on service Closures
+	 * that have been defined in the current container, not parent containers.
+	 *
+	 * @param   string    $resourceName  The unique identifier for the Closure or property.
+	 * @param   callable  $callable      A callable to wrap the original service Closure.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 * @throws  KeyNotFoundException
 	 */
-	public function extend($key, \Closure $callable)
+	public function extend($resourceName, callable $callable)
 	{
-		$key = $this->resolveAlias($key);
-		$raw = $this->getRaw($key);
+		$key      = $this->resolveAlias($resourceName);
+		$resource = $this->getResource($key, true);
 
-		if ($raw === null)
+		$closure = function ($c) use ($callable, $resource)
 		{
-			throw new KeyNotFoundException(sprintf('The requested key %s does not exist to extend.', $key));
-		}
-
-		$closure = function ($c) use ($callable, $raw) {
-			return $callable($raw['callback']($c), $c);
+			return $callable($resource->getInstance(), $c);
 		};
 
-		$this->set($key, $closure, $raw['shared']);
+		$this->set($key, $closure, $resource->isShared());
 	}
 
 	/**
-	 * Build an array of constructor parameters.
+	 * Build an array of method arguments.
 	 *
 	 * @param   \ReflectionMethod  $method  Method for which to build the argument array.
 	 *
@@ -315,96 +460,203 @@ class Container implements ContainerInterface
 	 * @since   1.0
 	 * @throws  DependencyResolutionException
 	 */
-	protected function getMethodArgs(\ReflectionMethod $method)
+	private function getMethodArgs(\ReflectionMethod $method): array
 	{
-		$methodArgs = array();
+		$methodArgs = [];
 
 		foreach ($method->getParameters() as $param)
 		{
-			$dependency = $param->getClass();
-			$dependencyVarName = $param->getName();
-
-			// If we have a dependency, that means it has been type-hinted.
-			if ($dependency !== null)
+			// Check for a typehinted dependency
+			if ($param->hasType())
 			{
-				$dependencyClassName = $dependency->getName();
-
-				// If the dependency class name is registered with this container or a parent, use it.
-				if ($this->getRaw($dependencyClassName) !== null)
+				try
 				{
-					$depObject = $this->get($dependencyClassName);
+					$dependency = $param->getClass();
+				}
+				catch (\ReflectionException $exception)
+				{
+					// If this is a nullable parameter, then don't error out
+					if ($param->allowsNull())
+					{
+						$methodArgs[] = null;
+
+						continue;
+					}
+
+					throw new DependencyResolutionException(
+						sprintf(
+							'Could not resolve the parameter "$%s" of "%s::%s()": The "%s" class does not exist.',
+							$param->name,
+							$method->class,
+							$method->name,
+							$param->getType()->getName()
+						),
+						0,
+						$exception
+					);
+				}
+
+				// Check for a class, if it doesn't have one then it is a scalar type, which we cannot handle if a mandatory argument
+				if ($dependency === null)
+				{
+					// If the param is optional, then fall through to the optional param handling later in this method
+					if (!$param->isOptional())
+					{
+						$message = 'Could not resolve the parameter "$%s" of "%s::%s()":';
+						$message .= ' Scalar parameters cannot be autowired and the parameter does not have a default value.';
+
+						throw new DependencyResolutionException(
+							sprintf(
+								$message,
+								$param->name,
+								$method->class,
+								$method->name
+							)
+						);
+					}
 				}
 				else
 				{
-					$depObject = $this->buildObject($dependencyClassName);
-				}
+					$dependencyClassName = $dependency->getName();
 
-				if ($depObject instanceof $dependencyClassName)
-				{
-					$methodArgs[] = $depObject;
-					continue;
+					// If the dependency class name is registered with this container or a parent, use it.
+					if ($this->getResource($dependencyClassName) !== null)
+					{
+						$depObject = $this->get($dependencyClassName);
+					}
+					else
+					{
+						try
+						{
+							$depObject = $this->buildObject($dependencyClassName);
+						}
+						catch (DependencyResolutionException $exception)
+						{
+							// If this is a nullable parameter, then don't error out
+							if ($param->allowsNull())
+							{
+								$methodArgs[] = null;
+
+								continue;
+							}
+
+							$message = 'Could not resolve the parameter "$%s" of "%s::%s()":';
+							$message .= ' No service for "%s" exists and the dependency could not be autowired.';
+
+							throw new DependencyResolutionException(
+								sprintf(
+									$message,
+									$param->name,
+									$method->class,
+									$method->name,
+									$dependencyClassName
+								),
+								0,
+								$exception
+							);
+						}
+					}
+
+					if ($depObject instanceof $dependencyClassName)
+					{
+						$methodArgs[] = $depObject;
+
+						continue;
+					}
 				}
 			}
 
-			// Finally, if there is a default parameter, use it.
-			if ($param->isOptional())
+			// If there is a default parameter and it can be read, use it.
+			if ($param->isOptional() && $param->isDefaultValueAvailable())
 			{
-				$methodArgs[] = $param->getDefaultValue();
+				try
+				{
+					$methodArgs[] = $param->getDefaultValue();
+
+					continue;
+				}
+				catch (\ReflectionException $exception)
+				{
+					throw new DependencyResolutionException(
+						sprintf(
+							'Could not resolve the parameter "$%s" of "%s::%s()": Unable to read the default parameter value.',
+							$param->name,
+							$method->class,
+							$method->name
+						),
+						0,
+						$exception
+					);
+				}
+			}
+
+			// If an untyped variadic argument, skip it
+			if (!$param->hasType() && $param->isVariadic())
+			{
 				continue;
 			}
 
-			// Couldn't resolve dependency, and no default was provided.
-			throw new DependencyResolutionException(sprintf('Could not resolve dependency: %s', $dependencyVarName));
+			// At this point the argument cannot be resolved, most likely cause is an untyped required argument
+			throw new DependencyResolutionException(
+				sprintf(
+					'Could not resolve the parameter "$%s" of "%s::%s()": The argument is untyped and has no default value.',
+					$param->name,
+					$method->class,
+					$method->name
+				)
+			);
 		}
 
 		return $methodArgs;
 	}
 
 	/**
-	 * Method to set the key and callback to the dataStore array.
+	 * Set a resource to the container. If the value is null the resource is removed.
 	 *
-	 * @param   string   $key        Name of dataStore key to set.
+	 * @param   string   $key        Name of resources key to set.
 	 * @param   mixed    $value      Callable function to run or string to retrive when requesting the specified $key.
 	 * @param   boolean  $shared     True to create and store a shared instance.
 	 * @param   boolean  $protected  True to protect this item from being overwritten. Useful for services.
 	 *
-	 * @return  Container  This object for chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 * @throws  ProtectedKeyException  Thrown if the provided key is already set and is protected.
 	 */
 	public function set($key, $value, $shared = false, $protected = false)
 	{
-		if (isset($this->dataStore[$key]) && $this->dataStore[$key]['protected'] === true)
+		$key = $this->resolveAlias($key);
+
+		$hasKey = $this->has($key);
+
+		if ($hasKey && $this->isProtected($key))
 		{
 			throw new ProtectedKeyException(sprintf("Key %s is protected and can't be overwritten.", $key));
 		}
 
-		// If the provided $value is not a closure, make it one now for easy resolution.
-		if (!is_callable($value))
+		if ($value === null && $hasKey)
 		{
-			$value = function () use ($value) {
-				return $value;
-			};
+			unset($this->resources[$key]);
+
+			return $this;
 		}
 
-		$this->dataStore[$key] = array(
-			'callback' => $value,
-			'shared' => $shared,
-			'protected' => $protected
-		);
+		$mode = $shared ? ContainerResource::SHARE : ContainerResource::NO_SHARE;
+		$mode |= $protected ? ContainerResource::PROTECT : ContainerResource::NO_PROTECT;
+
+		$this->resources[$key] = new ContainerResource($this, $value, $mode);
 
 		return $this;
 	}
 
 	/**
-	 * Convenience method for creating protected keys.
+	 * Shortcut method for creating protected keys.
 	 *
 	 * @param   string   $key     Name of dataStore key to set.
 	 * @param   mixed    $value   Callable function to run or string to retrive when requesting the specified $key.
 	 * @param   boolean  $shared  True to create and store a shared instance.
 	 *
-	 * @return  Container  This object for chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -414,13 +666,13 @@ class Container implements ContainerInterface
 	}
 
 	/**
-	 * Convenience method for creating shared keys.
+	 * Shortcut method for creating shared keys.
 	 *
 	 * @param   string   $key        Name of dataStore key to set.
 	 * @param   mixed    $value      Callable function to run or string to retrive when requesting the specified $key.
 	 * @param   boolean  $protected  True to protect this item from being overwritten. Useful for services.
 	 *
-	 * @return  Container  This object for chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -430,139 +682,57 @@ class Container implements ContainerInterface
 	}
 
 	/**
-	 * Method to retrieve the results of running the $callback for the specified $key;
-	 *
-	 * @param   string   $key       Name of the dataStore key to get.
-	 * @param   boolean  $forceNew  True to force creation and return of a new instance.
-	 *
-	 * @return  mixed   Results of running the $callback for the specified $key.
-	 *
-	 * @since   1.0
-	 * @throws  KeyNotFoundException
-	 */
-	public function get($key, $forceNew = false)
-	{
-		$key = $this->resolveAlias($key);
-		$raw = $this->getRaw($key);
-
-		if ($raw === null)
-		{
-			throw new KeyNotFoundException(sprintf('Key %s has not been registered with the container.', $key));
-		}
-
-		if ($raw['shared'])
-		{
-			if ($forceNew || !isset($this->instances[$key]))
-			{
-				$this->instances[$key] = $raw['callback']($this);
-			}
-
-			return $this->instances[$key];
-		}
-
-		return call_user_func($raw['callback'], $this);
-	}
-
-	/**
-	 * Method to check if specified dataStore key exists.
-	 *
-	 * @param   string  $key  Name of the dataStore key to check.
-	 *
-	 * @return  boolean  True for success
-	 *
-	 * @since   1.5.0
-	 */
-	public function has($key)
-	{
-		$key = $this->resolveAlias($key);
-
-		$exists = (bool) $this->getRaw($key);
-
-		if ($exists === false && $this->parent instanceof ContainerInterface)
-		{
-			$exists = $this->parent->has($key);
-		}
-
-		return $exists;
-	}
-
-	/**
-	 * Method to check if specified dataStore key exists.
-	 *
-	 * @param   string  $key  Name of the dataStore key to check.
-	 *
-	 * @return  boolean  True for success
-	 *
-	 * @since   1.0
-	 * @deprecated  3.0  Use ContainerInterface::has() instead
-	 */
-	public function exists($key)
-	{
-		return $this->has($key);
-	}
-
-	/**
 	 * Get the raw data assigned to a key.
 	 *
-	 * @param   string  $key  The key for which to get the stored item.
+	 * @param   string   $key   The key for which to get the stored item.
+	 * @param   boolean  $bail  Throw an exception, if the key is not found
 	 *
-	 * @return  mixed
+	 * @return  ContainerResource|null  The resource if present, or null if instructed to not bail
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  KeyNotFoundException
 	 */
-	protected function getRaw($key)
+	public function getResource(string $key, bool $bail = false): ?ContainerResource
 	{
-		if (isset($this->dataStore[$key]))
+		if (isset($this->resources[$key]))
 		{
-			return $this->dataStore[$key];
+			return $this->resources[$key];
 		}
 
-		$aliasKey = $this->resolveAlias($key);
-
-		if ($aliasKey !== $key && isset($this->dataStore[$aliasKey]))
+		if ($this->parent instanceof self)
 		{
-			return $this->dataStore[$aliasKey];
-		}
-
-		if ($this->parent instanceof Container)
-		{
-			return $this->parent->getRaw($key);
+			return $this->parent->getResource($key);
 		}
 
 		if ($this->parent instanceof ContainerInterface && $this->parent->has($key))
 		{
-			$callback = $this->parent->get($key);
+			return new ContainerResource($this, $this->parent->get($key), ContainerResource::SHARE | ContainerResource::PROTECT);
+		}
 
-			if (!is_callable($callback))
-			{
-				$callback = function () use ($callback) {
-					return $callback;
-				};
-			}
-
-			return array(
-				'callback'  => $callback,
-				'shared'    => true,
-				'protected' => true,
-			);
+		if ($bail)
+		{
+			throw new KeyNotFoundException(sprintf('Key %s has not been registered with the container.', $key));
 		}
 
 		return null;
 	}
 
 	/**
-	 * Method to force the container to return a new instance
-	 * of the results of the callback for requested $key.
+	 * Method to force the container to return a new instance of the results of the callback for requested $key.
 	 *
-	 * @param   string  $key  Name of the dataStore key to get.
+	 * @param   string  $key  Name of the resources key to get.
 	 *
-	 * @return  mixed   Results of running the $callback for the specified $key.
+	 * @return  mixed   Results of running the callback for the specified key.
 	 *
 	 * @since   1.0
 	 */
 	public function getNewInstance($key)
 	{
-		return $this->get($key, true);
+		$key = $this->resolveAlias($key);
+
+		$this->getResource($key, true)->reset();
+
+		return $this->get($key);
 	}
 
 	/**
@@ -570,7 +740,7 @@ class Container implements ContainerInterface
 	 *
 	 * @param   ServiceProviderInterface  $provider  The service provider to register.
 	 *
-	 * @return  Container  This object for chaining.
+	 * @return  $this
 	 *
 	 * @since   1.0
 	 */
@@ -590,6 +760,6 @@ class Container implements ContainerInterface
 	 */
 	public function getKeys()
 	{
-		return array_unique(array_merge(array_keys($this->aliases), array_keys($this->dataStore)));
+		return array_unique(array_merge(array_keys($this->aliases), array_keys($this->resources)));
 	}
 }

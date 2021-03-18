@@ -2,27 +2,28 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Registry\Format;
 
-use Joomla\Registry\AbstractRegistryFormat;
+use Joomla\Registry\FormatInterface;
 use Symfony\Component\Yaml\Dumper as SymfonyYamlDumper;
 use Symfony\Component\Yaml\Parser as SymfonyYamlParser;
+use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 /**
  * YAML format handler for Registry.
  *
  * @since  1.0
  */
-class Yaml extends AbstractRegistryFormat
+class Yaml implements FormatInterface
 {
 	/**
 	 * The YAML parser class.
 	 *
-	 * @var    \Symfony\Component\Yaml\Parser
+	 * @var    SymfonyYamlParser
 	 * @since  1.0
 	 */
 	private $parser;
@@ -30,7 +31,7 @@ class Yaml extends AbstractRegistryFormat
 	/**
 	 * The YAML dumper class.
 	 *
-	 * @var    \Symfony\Component\Yaml\Dumper
+	 * @var    SymfonyYamlDumper
 	 * @since  1.0
 	 */
 	private $dumper;
@@ -42,6 +43,16 @@ class Yaml extends AbstractRegistryFormat
 	 */
 	public function __construct()
 	{
+		if (!class_exists(SymfonyYaml::class))
+		{
+			throw new \RuntimeException(
+				\sprintf(
+					'The "%s" class could not be found, make sure you have installed the "symfony/yaml" package.',
+					SymfonyYaml::class
+				)
+			);
+		}
+
 		$this->parser = new SymfonyYamlParser;
 		$this->dumper = new SymfonyYamlDumper;
 	}
@@ -57,7 +68,7 @@ class Yaml extends AbstractRegistryFormat
 	 *
 	 * @since   1.0
 	 */
-	public function objectToString($object, $options = array())
+	public function objectToString($object, array $options = [])
 	{
 		$array = json_decode(json_encode($object), true);
 
@@ -75,7 +86,7 @@ class Yaml extends AbstractRegistryFormat
 	 *
 	 * @since   1.0
 	 */
-	public function stringToObject($data, array $options = array())
+	public function stringToObject($data, array $options = [])
 	{
 		$array = $this->parser->parse(trim($data));
 

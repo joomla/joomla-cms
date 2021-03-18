@@ -1,0 +1,14 @@
+// Footer
+
+.footer {
+
+  .back-top {
+    padding: 8px 11px;
+    color: #fff;
+    background: $cassiopeia-template-color;
+    border-radius: 3px;
+
+    @include margin('right', 5px);
+  }
+
+}

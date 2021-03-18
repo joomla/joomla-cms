@@ -15,9 +15,10 @@ $data = $displayData;
 $list = $data['view']->filterForm->getGroup('list');
 ?>
 <?php if ($list) : ?>
-	<div class="ordering-select hidden-phone">
+	<div class="ordering-select">
 		<?php foreach ($list as $fieldName => $field) : ?>
 			<div class="js-stools-field-list">
+				<span class="sr-only"><?php echo $field->label; ?></span>
 				<?php echo $field->input; ?>
 			</div>
 		<?php endforeach; ?>

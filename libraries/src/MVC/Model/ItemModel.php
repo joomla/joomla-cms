@@ -8,14 +8,14 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Prototype item model.
  *
  * @since  1.6
  */
-abstract class ItemModel extends BaseDatabaseModel
+abstract class ItemModel extends BaseDatabaseModel implements ItemModelInterface
 {
 	/**
 	 * An item.

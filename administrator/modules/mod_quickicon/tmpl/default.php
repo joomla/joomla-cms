@@ -9,10 +9,19 @@
 
 defined('_JEXEC') or die;
 
-$html = JHtml::_('links.linksgroups', ModQuickIconHelper::groupButtons($buttons));
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('mod_quickicon', 'mod_quickicon/quickicon.min.js', [], ['defer' => true]);
+
+$html = HTMLHelper::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
-	<div class="sidebar-nav quick-icons">
-		<?php echo $html;?>
-	</div>
-<?php endif;?>
+	<nav class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL') . ' ' . $module->title; ?>">
+		<ul class="nav flex-wrap">
+			<?php echo $html; ?>
+		</ul>
+	</nav>
+<?php endif; ?>

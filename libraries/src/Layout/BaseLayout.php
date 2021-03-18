@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Layout;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
@@ -61,7 +61,7 @@ class BaseLayout implements LayoutInterface
 			$this->options = $options;
 		}
 		// Received array
-		elseif (is_array($options))
+		elseif (\is_array($options))
 		{
 			$this->options = new Registry($options);
 		}
@@ -116,7 +116,7 @@ class BaseLayout implements LayoutInterface
 	 */
 	public function escape($output)
 	{
-		return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
+		return htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
@@ -143,7 +143,7 @@ class BaseLayout implements LayoutInterface
 	public function render($displayData)
 	{
 		// Automatically merge any previously data set if $displayData is an array
-		if (is_array($displayData))
+		if (\is_array($displayData))
 		{
 			$displayData = array_merge($this->data, $displayData);
 		}
@@ -225,7 +225,7 @@ class BaseLayout implements LayoutInterface
 	 */
 	public function get($key, $defaultValue = null)
 	{
-		return isset($this->data[$key]) ? $this->data[$key] : $defaultValue;
+		return $this->data[$key] ?? $defaultValue;
 	}
 
 	/**

@@ -8,11 +8,13 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 /**
@@ -82,15 +84,15 @@ class PasswordRule extends FormRule
 			return true;
 		}
 
-		$valueLength = strlen($value);
+		$valueLength = \strlen($value);
 
 		// Load language file of com_users component
-		\JFactory::getLanguage()->load('com_users');
+		Factory::getLanguage()->load('com_users');
 
 		// We set a maximum length to prevent abuse since it is unfiltered.
 		if ($valueLength > 4096)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_MSG_PASSWORD_TOO_LONG'), 'warning');
 		}
 
 		// We don't allow white space inside passwords
@@ -99,10 +101,10 @@ class PasswordRule extends FormRule
 		// Set a variable to check if any errors are made in password
 		$validPassword = true;
 
-		if (strlen($valueTrim) !== $valueLength)
+		if (\strlen($valueTrim) !== $valueLength)
 		{
-			\JFactory::getApplication()->enqueueMessage(
-				\JText::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),
+			Factory::getApplication()->enqueueMessage(
+				Text::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),
 				'warning'
 			);
 
@@ -116,8 +118,8 @@ class PasswordRule extends FormRule
 
 			if ($nInts < $minimumIntegers)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
 					'warning'
 				);
 
@@ -132,8 +134,8 @@ class PasswordRule extends FormRule
 
 			if ($nsymbols < $minimumSymbols)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
 					'warning'
 				);
 
@@ -148,8 +150,8 @@ class PasswordRule extends FormRule
 
 			if ($nUppercase < $minimumUppercase)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
 					'warning'
 				);
 
@@ -164,8 +166,8 @@ class PasswordRule extends FormRule
 
 			if ($nLowercase < $minimumLowercase)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase),
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('COM_USERS_MSG_NOT_ENOUGH_LOWERCASE_LETTERS_N', $minimumLowercase),
 					'warning'
 				);
 
@@ -176,10 +178,10 @@ class PasswordRule extends FormRule
 		// Minimum length option
 		if (!empty($minimumLength))
 		{
-			if (strlen((string) $value) < $minimumLength)
+			if (\strlen((string) $value) < $minimumLength)
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', $minimumLength),
+				Factory::getApplication()->enqueueMessage(
+					Text::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', $minimumLength),
 					'warning'
 				);
 

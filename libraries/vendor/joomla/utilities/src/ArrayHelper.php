@@ -45,7 +45,7 @@ final class ArrayHelper
 
 		if ($default === null)
 		{
-			return array();
+			return [];
 		}
 
 		if (\is_array($default))
@@ -53,7 +53,7 @@ final class ArrayHelper
 			return static::toInteger($default, null);
 		}
 
-		return array((int) $default);
+		return [(int) $default];
 	}
 
 	/**
@@ -100,7 +100,7 @@ final class ArrayHelper
 	 */
 	public static function toString(array $array, $innerGlue = '=', $outerGlue = ' ', $keepOuterKey = false)
 	{
-		$output = array();
+		$output = [];
 
 		foreach ($array as $key => $item)
 		{
@@ -141,7 +141,7 @@ final class ArrayHelper
 			return self::arrayFromObject($source, $recurse, $regex);
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -159,7 +159,7 @@ final class ArrayHelper
 	{
 		if (\is_object($item))
 		{
-			$result = array();
+			$result = [];
 
 			foreach (get_object_vars($item) as $k => $v)
 			{
@@ -181,7 +181,7 @@ final class ArrayHelper
 
 		if (\is_array($item))
 		{
-			$result = array();
+			$result = [];
 
 			foreach ($item as $k => $v)
 			{
@@ -209,7 +209,7 @@ final class ArrayHelper
 	 */
 	public static function addColumn(array $array, array $column, $colName, $keyCol = null)
 	{
-		$result = array();
+		$result = [];
 
 		foreach ($array as $i => $item)
 		{
@@ -269,7 +269,7 @@ final class ArrayHelper
 	 */
 	public static function dropColumn(array $array, $colName)
 	{
-		$result = array();
+		$result = [];
 
 		foreach ($array as $i => $item)
 		{
@@ -305,42 +305,7 @@ final class ArrayHelper
 	 */
 	public static function getColumn(array $array, $valueCol, $keyCol = null)
 	{
-		// As of PHP 7, array_column() supports an array of objects so we'll use that
-		if (PHP_VERSION_ID >= 70000)
-		{
-			return array_column($array, $valueCol, $keyCol);
-		}
-
-		$result = array();
-
-		foreach ($array as $item)
-		{
-			// Convert object to array
-			$subject = \is_object($item) ? static::fromObject($item) : $item;
-
-			/*
-			 * We process arrays (and objects already converted to array)
-			 * Only if the value column (if required) exists in this item
-			 */
-			if (\is_array($subject) && (!isset($valueCol) || isset($subject[$valueCol])))
-			{
-				// Use whole $item if valueCol is null, else use the value column.
-				$value = isset($valueCol) ? $subject[$valueCol] : $item;
-
-				// Array keys can only be integer or string. Casting will occur as per the PHP Manual.
-				if (isset($keyCol, $subject[$keyCol]) && is_scalar($subject[$keyCol]))
-				{
-					$key          = $subject[$keyCol];
-					$result[$key] = $value;
-				}
-				else
-				{
-					$result[] = $value;
-				}
-			}
-		}
-
-		return $result;
+		return array_column($array, $valueCol, $keyCol);
 	}
 
 	/**
@@ -413,7 +378,7 @@ final class ArrayHelper
 			case 'ARRAY':
 				if (!\is_array($result))
 				{
-					$result = array($result);
+					$result = [$result];
 				}
 
 				break;
@@ -466,7 +431,7 @@ final class ArrayHelper
 	 */
 	public static function invert(array $array)
 	{
-		$return = array();
+		$return = [];
 
 		foreach ($array as $base => $values)
 		{
@@ -525,8 +490,8 @@ final class ArrayHelper
 	 */
 	public static function pivot(array $source, $key = null)
 	{
-		$result  = array();
-		$counter = array();
+		$result  = [];
+		$counter = [];
 
 		foreach ($source as $index => $value)
 		{
@@ -570,10 +535,10 @@ final class ArrayHelper
 			elseif ($counter[$resultKey] == 1)
 			{
 				// If there is a second time, we convert the value into an array.
-				$result[$resultKey] = array(
+				$result[$resultKey] = [
 					$result[$resultKey],
 					$resultValue,
-				);
+				];
 				$counter[$resultKey]++;
 			}
 			else
@@ -605,7 +570,7 @@ final class ArrayHelper
 	{
 		if (!\is_array($locale) || !\is_array($locale[0]))
 		{
-			$locale = array($locale);
+			$locale = [$locale];
 		}
 
 		$sortCase      = (array) $caseSensitive;
@@ -722,7 +687,6 @@ final class ArrayHelper
 	 * @return  array
 	 *
 	 * @since   1.3.0
-	 * @note    As of 2.0, the result will not include the original array structure
 	 */
 	public static function flatten($array, $separator = '.', $prefix = '')
 	{
@@ -735,20 +699,59 @@ final class ArrayHelper
 			$array = get_object_vars($array);
 		}
 
+		$result = [];
+
 		foreach ($array as $k => $v)
 		{
 			$key = $prefix ? $prefix . $separator . $k : $k;
 
 			if (\is_object($v) || \is_array($v))
 			{
-				$array = array_merge($array, static::flatten($v, $separator, $key));
+				$result[] = static::flatten($v, $separator, $key);
 			}
 			else
 			{
-				$array[$key] = $v;
+				$result[] = [$key => $v];
 			}
 		}
 
-		return $array;
+		return array_merge(...$result);
+	}
+
+	/**
+	 * Merge array recursively.
+	 *
+	 * @param   array  ...$args  Array list to be merged.
+	 *
+	 * @return  array  Merged array.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \InvalidArgumentException
+	 */
+	public static function mergeRecursive(...$args): array
+	{
+		$result = [];
+
+		foreach ($args as $i => $array)
+		{
+			if (!\is_array($array))
+			{
+				throw new \InvalidArgumentException(sprintf('Argument #%d is not an array.', $i + 2));
+			}
+
+			foreach ($array as $key => &$value)
+			{
+				if (\is_array($value) && isset($result[$key]) && \is_array($result[$key]))
+				{
+					$result[$key] = static::mergeRecursive($result [$key], $value);
+				}
+				else
+				{
+					$result[$key] = $value;
+				}
+			}
+		}
+
+		return $result;
 	}
 }

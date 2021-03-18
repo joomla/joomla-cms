@@ -41,6 +41,11 @@
 // We are a valid entry point.
 const _JEXEC = 1;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
+
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
@@ -56,24 +61,10 @@ if (!defined('_JDEFINES'))
 define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
-
-// Import the configuration.
-require_once JPATH_CONFIGURATION . '/configuration.php';
-
-// System configuration.
-$config = new JConfig;
-define('JDEBUG', $config->debug);
-
-// Configure error reporting to maximum for CLI output.
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+require_once JPATH_BASE . '/includes/framework.php';
 
 // Load Library language
-$lang = JFactory::getLanguage();
+$lang = Factory::getLanguage();
 
 // Try the finder_cli file in the current language (without allowing the loading of the file in the default language)
 $lang->load('finder_cli', JPATH_SITE, null, false, false)
@@ -85,8 +76,10 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
  *
  * @since  2.5
  */
-class FinderCli extends JApplicationCli
+class FinderCli extends \Joomla\CMS\Application\CliApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Start time for the index process
 	 *
@@ -149,10 +142,12 @@ class FinderCli extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	public function doExecute()
+	protected function doExecute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Print a blank line.
-		$this->out(JText::_('FINDER_CLI'));
+		$this->out(Text::_('FINDER_CLI'));
 		$this->out('============================');
 
 		// Initialize the time value.
@@ -163,7 +158,6 @@ class FinderCli extends JApplicationCli
 
 		// Fool the system into thinking we are running as JSite with Smart Search as the active component.
 		$_SERVER['HTTP_HOST'] = 'domain.com';
-		JFactory::getApplication('site');
 
 		$this->minimumBatchProcessingTime = $this->input->getInt('minproctime', 1);
 
@@ -201,8 +195,8 @@ class FinderCli extends JApplicationCli
 		}
 
 		// Total reporting.
-		$this->out(JText::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
-		$this->out(JText::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))));
+		$this->out(Text::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
+		$this->out(Text::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))));
 
 		// Print a blank line at the end.
 		$this->out();
@@ -220,7 +214,7 @@ class FinderCli extends JApplicationCli
 		JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 		// Disable caching.
-		$config = JFactory::getConfig();
+		$config = Factory::getConfig();
 		$config->set('caching', 0);
 		$config->set('cache_handler', 'file');
 
@@ -228,14 +222,14 @@ class FinderCli extends JApplicationCli
 		FinderIndexer::resetState();
 
 		// Import the plugins.
-		JPluginHelper::importPlugin('system');
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('finder');
 
 		// Starting Indexer.
-		$this->out(JText::_('FINDER_CLI_STARTING_INDEXER'), true);
+		$this->out(Text::_('FINDER_CLI_STARTING_INDEXER'), true);
 
 		// Trigger the onStartIndex event.
-		JEventDispatcher::getInstance()->trigger('onStartIndex');
+		Factory::getApplication()->triggerEvent('onStartIndex');
 
 		// Remove the script time limit.
 		@set_time_limit(0);
@@ -244,13 +238,13 @@ class FinderCli extends JApplicationCli
 		$state = FinderIndexer::getState();
 
 		// Setting up plugins.
-		$this->out(JText::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
+		$this->out(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
 
 		// Trigger the onBeforeIndex event.
-		JEventDispatcher::getInstance()->trigger('onBeforeIndex');
+		Factory::getApplication()->triggerEvent('onBeforeIndex');
 
 		// Startup reporting.
-		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
+		$this->out(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
 
 		// Get the number of batches.
 		$t = (int) $state->totalItems;
@@ -269,10 +263,10 @@ class FinderCli extends JApplicationCli
 				$state->batchOffset = 0;
 
 				// Trigger the onBuildIndex event.
-				JEventDispatcher::getInstance()->trigger('onBuildIndex');
+				Factory::getApplication()->triggerEvent('onBuildIndex');
 
 				// Batch reporting.
-				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, $processingTime = round(microtime(true) - $this->qtime, 3)), true);
+				$this->out(Text::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, $processingTime = round(microtime(true) - $this->qtime, 3)), true);
 
 				if ($this->pause !== 0)
 				{
@@ -298,15 +292,23 @@ class FinderCli extends JApplicationCli
 
 					if ($pause > 0 && !$skip)
 					{
-						$this->out(JText::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
+						$this->out(Text::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
 						sleep($pause);
-						$this->out(JText::_('FINDER_CLI_BATCH_CONTINUING'));
+						$this->out(Text::_('FINDER_CLI_BATCH_CONTINUING'));
 					}
 
 					if ($skip)
 					{
-						$this->out(JText::sprintf('FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME', $processingTime, $this->minimumBatchProcessingTime), true);
+						$this->out(
+							Text::sprintf(
+								'FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME',
+								$processingTime,
+								$this->minimumBatchProcessingTime
+							),
+							true
+						);
 					}
+
 					// End of Pausing Section
 				}
 			}
@@ -328,6 +330,18 @@ class FinderCli extends JApplicationCli
 	}
 
 	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getName()
+	{
+		return 'finder-cli';
+	}
+
+	/**
 	 * Purge the index.
 	 *
 	 * @return  void
@@ -336,11 +350,11 @@ class FinderCli extends JApplicationCli
 	 */
 	private function purge()
 	{
-		$this->out(JText::_('FINDER_CLI_INDEX_PURGE'));
+		$this->out(Text::_('FINDER_CLI_INDEX_PURGE'));
 
 		// Load the model.
-		JModelLegacy::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models', 'FinderModel');
-		$model = JModelLegacy::getInstance('Index', 'FinderModel');
+		BaseDatabaseModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models', 'FinderModel');
+		$model = BaseDatabaseModel::getInstance('Index', 'FinderModel');
 
 		// Attempt to purge the index.
 		$return = $model->purge();
@@ -348,12 +362,12 @@ class FinderCli extends JApplicationCli
 		// If unsuccessful then abort.
 		if (!$return)
 		{
-			$message = JText::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
+			$message = Text::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
 			$this->out($message);
 			exit();
 		}
 
-		$this->out(JText::_('FINDER_CLI_INDEX_PURGE_SUCCESS'));
+		$this->out(Text::_('FINDER_CLI_INDEX_PURGE_SUCCESS'));
 	}
 
 	/**
@@ -368,9 +382,9 @@ class FinderCli extends JApplicationCli
 	 */
 	private function putFilters()
 	{
-		$this->out(JText::_('FINDER_CLI_RESTORE_FILTERS'));
+		$this->out(Text::_('FINDER_CLI_RESTORE_FILTERS'));
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Use the temporary filter information to update the filter taxonomy ids.
 		foreach ($this->filters as $filter_id => $filter)
@@ -383,10 +397,10 @@ class FinderCli extends JApplicationCli
 				$query = $db->getQuery(true);
 				$query
 					->select('t.id')
-					->from($db->qn('#__finder_taxonomy') . ' AS t')
-					->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
-					->where($db->qn('t.title') . ' = ' . $db->q($element['title']))
-					->where($db->qn('p.title') . ' = ' . $db->q($element['parent']));
+					->from($db->quoteName('#__finder_taxonomy') . ' AS t')
+					->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+					->where($db->quoteName('t.title') . ' = ' . $db->quote($element['title']))
+					->where($db->quoteName('p.title') . ' = ' . $db->quote($element['parent']));
 				$taxonomy = $db->setQuery($query)->loadResult();
 
 				// If we found it then add it to the list.
@@ -396,7 +410,7 @@ class FinderCli extends JApplicationCli
 				}
 				else
 				{
-					$this->out(JText::sprintf('FINDER_CLI_FILTER_RESTORE_WARNING', $element['parent'], $element['title'], $element['filter']));
+					$this->out(Text::sprintf('FINDER_CLI_FILTER_RESTORE_WARNING', $element['parent'], $element['title'], $element['filter']));
 				}
 			}
 
@@ -406,13 +420,13 @@ class FinderCli extends JApplicationCli
 			// Update the filter with the new taxonomy ids.
 			$query = $db->getQuery(true);
 			$query
-				->update($db->qn('#__finder_filters'))
-				->set($db->qn('data') . ' = ' . $db->q($taxonomyIds))
-				->where($db->qn('filter_id') . ' = ' . (int) $filter_id);
+				->update($db->quoteName('#__finder_filters'))
+				->set($db->quoteName('data') . ' = ' . $db->quote($taxonomyIds))
+				->where($db->quoteName('filter_id') . ' = ' . (int) $filter_id);
 			$db->setQuery($query)->execute();
 		}
 
-		$this->out(JText::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
+		$this->out(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
 	}
 
 	/**
@@ -429,14 +443,14 @@ class FinderCli extends JApplicationCli
 	 */
 	private function getFilters()
 	{
-		$this->out(JText::_('FINDER_CLI_SAVE_FILTERS'));
+		$this->out(Text::_('FINDER_CLI_SAVE_FILTERS'));
 
 		// Get the taxonomy ids used by the filters.
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query
 			->select('filter_id, title, data')
-			->from($db->qn('#__finder_filters'));
+			->from($db->quoteName('#__finder_filters'));
 		$filters = $db->setQuery($query)->loadObjectList();
 
 		// Get the name of each taxonomy and the name of its parent.
@@ -452,9 +466,9 @@ class FinderCli extends JApplicationCli
 			$query = $db->getQuery(true);
 			$query
 				->select('t.title, p.title AS parent')
-				->from($db->qn('#__finder_taxonomy') . ' AS t')
-				->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
-				->where($db->qn('t.id') . ' IN (' . $filter->data . ')');
+				->from($db->quoteName('#__finder_taxonomy') . ' AS t')
+				->leftJoin($db->quoteName('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+				->where($db->quoteName('t.id') . ' IN (' . $filter->data . ')');
 			$taxonomies = $db->setQuery($query)->loadObjectList();
 
 			// Construct a temporary data structure to hold the filter information.
@@ -468,10 +482,33 @@ class FinderCli extends JApplicationCli
 			}
 		}
 
-		$this->out(JText::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
+		$this->out(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
 	}
 }
 
-// Instantiate the application object, passing the class name to JCli::getInstance
-// and use chaining to execute the application.
-JApplicationCli::getInstance('FinderCli')->execute();
+// Set up the container
+Factory::getContainer()->share(
+	'FinderCli',
+	function (\Joomla\DI\Container $container)
+	{
+		return new FinderCli(
+			null,
+			null,
+			null,
+			null,
+			$container->get(\Joomla\Event\DispatcherInterface::class),
+			$container
+		);
+	},
+	true
+)
+	->alias('session.web', 'session.cli')
+		->alias('session', 'session.cli')
+		->alias('JSession', 'session.cli')
+		->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+		->alias(\Joomla\Session\Session::class, 'session.cli')
+		->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+
+$app = Factory::getContainer()->get('FinderCli');
+Factory::$application = $app;
+$app->execute();

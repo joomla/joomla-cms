@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -40,7 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  */
 ?>
-<input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" />
-<a class="btn" onclick="document.getElementById('<?php echo $id; ?>').value='';Joomla.submitbutton('plugin.apply');">
-	<span class="icon-refresh"></span> <?php echo JText::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
-</a>
+<input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); ?>">
+<button class="btn btn-secondary" type="button" id="js-pstats-reset-uid">
+	<span class="fas fa-sync"></span> <?php echo Text::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
+</button>

@@ -9,8 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('jquery.framework');
-JFactory::getDocument()->addScriptDeclaration('
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('jquery.framework');
+$app->getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($) {
 		$("a.js-revert").on("click", function(e) {
 			e.preventDefault();
@@ -26,19 +28,16 @@ JFactory::getDocument()->addScriptDeclaration('
 	});
 ');
 ?>
-<div class="row-striped">
+<ul class="list-group list-group-flush stats-module">
 	<?php foreach ($list as $item) : ?>
-		<div class="row-fluid">
-			<div class="span4">
-				<span class="icon-<?php echo $item->icon; ?>" aria-hidden="true"></span> <?php echo $item->title; ?>
-			</div>
-			<div class="span8">
-				<?php if (isset($item->link)) : ?>
-					<a class="btn btn-info btn-small js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
-				<?php else : ?>
-					<?php echo $item->data; ?>
-				<?php endif; ?>
-			</div>
-		</div>
+		<li class="list-group-item">
+			<span class="mr-2 fas fa-<?php echo $item->icon; ?> fa-fw" aria-hidden="true"></span> <?php echo $item->title; ?>
+
+			<?php if(isset($item->link)) : ?>
+				<a class="btn btn-info btn-sm js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
+			<?php else : ?>
+				<?php echo $item->data; ?>
+			<?php endif; ?>
+		</li>
 	<?php endforeach; ?>
-</div>
+</ul>

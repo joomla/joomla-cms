@@ -1,0 +1,33 @@
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	com_languages
+ * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+#overrider-spinner,
+#overrider-spinner-btn,
+#refresh-status,
+#more-results,
+#language-results,
+#results-container {
+	display: none;
+}
+#overrider-spinner.show,
+#refresh-status.show,
+#more-results.show,
+#results-container.show,
+#language-results.show {
+	display: block;
+}
+
+#overrider-spinner-btn.show {
+	display: inline-block;
+}
+
+.result-key {
+	color:#666;
+}
+.result-string {
+	padding-left: 20px;
+}

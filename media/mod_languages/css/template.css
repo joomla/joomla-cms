@@ -9,7 +9,7 @@ div.mod-languages li {
 }
 
 div.mod-languages ul.lang-inline li {
-	display:inline;
+	display:inline-block;
 }
 
 div.mod-languages ul.lang-block li {
@@ -18,6 +18,7 @@ div.mod-languages ul.lang-block li {
 
 div.mod-languages img {
 	border:none;
+	display:inline-block;
 }
 
 div.mod-languages a {

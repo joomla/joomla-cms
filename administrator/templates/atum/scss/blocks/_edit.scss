@@ -1,0 +1,29 @@
+// Edit Form
+
+.title-alias {
+  .form-control {
+    max-width: 100%;
+  }
+
+  .control-group {
+    position: relative;
+  }
+
+  .form-control-feedback {
+    position: absolute;
+    right: 1rem;
+    bottom: -2.2rem;
+    text-align: right;
+  }
+}
+
+.layout-edit {
+
+  .title-alias {
+    margin: 0 0 2rem !important;
+
+    .form-group {
+      box-shadow: none;
+    }
+  }
+}

@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('plg_system_stats.stats', 'plg_system_stats/stats.js', [], ['defer' => true], ['core']);
+
 extract($displayData);
 
 /**
@@ -40,9 +47,6 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $statsData       Statistics that will be sent to the stats server
  */
-
-JHtml::_('jquery.framework');
 ?>
-<a href="#" onclick="jQuery(this).next().toggle(200); return false;"><?php echo JText::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
-<?php
-echo $field->render('stats', compact('statsData'));
+<a href="#" id="js-pstats-data-details-toggler"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
+<?php echo $field->render('stats', compact('statsData'));

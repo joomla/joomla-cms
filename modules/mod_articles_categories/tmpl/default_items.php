@@ -9,7 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$input  = JFactory::getApplication()->input;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
+
+$input  = $app->input;
 $option = $input->getCmd('option');
 $view   = $input->getCmd('view');
 $id     = $input->getInt('id');
@@ -17,7 +22,7 @@ $id     = $input->getInt('id');
 foreach ($list as $item) : ?>
 	<li<?php if ($id == $item->id && in_array($view, array('category', 'categories')) && $option == 'com_content') echo ' class="active"'; ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
 		<h<?php echo $params->get('item_heading') + $levelup; ?>>
-		<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($item->id)); ?>">
+		<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
 		<?php echo $item->title; ?>
 			<?php if ($params->get('numitems')) : ?>
 				(<?php echo $item->numitems; ?>)
@@ -26,7 +31,7 @@ foreach ($list as $item) : ?>
 		</h<?php echo $params->get('item_heading') + $levelup; ?>>
 
 		<?php if ($params->get('show_description', 0)) : ?>
-			<?php echo JHtml::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content'); ?>
+			<?php echo HTMLHelper::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content'); ?>
 		<?php endif; ?>
 		<?php if ($params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0)
 			|| ($params->get('maxlevel') >= ($item->level - $startLevel)))
@@ -34,7 +39,7 @@ foreach ($list as $item) : ?>
 			<?php echo '<ul>'; ?>
 			<?php $temp = $list; ?>
 			<?php $list = $item->getChildren(); ?>
-			<?php require JModuleHelper::getLayoutPath('mod_articles_categories', $params->get('layout', 'default') . '_items'); ?>
+			<?php require ModuleHelper::getLayoutPath('mod_articles_categories', $params->get('layout', 'default') . '_items'); ?>
 			<?php $list = $temp; ?>
 			<?php echo '</ul>'; ?>
 		<?php endif; ?>

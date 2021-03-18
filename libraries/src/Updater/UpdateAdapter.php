@@ -8,12 +8,14 @@
 
 namespace Joomla\CMS\Updater;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Version;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 \JLoader::import('joomla.base.adapterinstance');
@@ -55,12 +57,12 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * @var    array
 	 * @since  3.0.0
 	 */
-	protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'EXTRA_QUERY');
+	protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY');
 
 	/**
 	 * Should we try appending a .xml extension to the update site's URL?
 	 *
-	 * @var   bool
+	 * @var   boolean
 	 */
 	protected $appendExtension = false;
 
@@ -86,7 +88,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * 3	rc			Release Candidate versions (almost stable, minor bugs might be present)
 	 * 4	stable		Stable versions (production quality code)
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  14.1
 	 *
 	 * @see    Updater
@@ -114,7 +116,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 */
 	protected function _getLastTag()
 	{
-		return $this->stack[count($this->stack) - 1];
+		return $this->stack[\count($this->stack) - 1];
 	}
 
 	/**
@@ -133,26 +135,28 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * from their URL and enabled afterwards. If the URL fetch fails with a PHP fatal error (e.g. timeout) the faulty
 	 * update site will remain disabled the next time we attempt to load the update information.
 	 *
-	 * @param   int   $updateSiteId  The numeric ID of the update site to enable/disable
-	 * @param   bool  $enabled       Enable the site when true, disable it when false
+	 * @param   int   $update_site_id  The numeric ID of the update site to enable/disable
+	 * @param   bool  $enabled         Enable the site when true, disable it when false
 	 *
 	 * @return  void
 	 */
-	protected function toggleUpdateSite($updateSiteId, $enabled = true)
+	protected function toggleUpdateSite($update_site_id, $enabled = true)
 	{
-		$updateSiteId = (int) $updateSiteId;
-		$enabled = (bool) $enabled;
+		$update_site_id = (int) $update_site_id;
+		$enabled = (bool) $enabled ? 1 : 0;
 
-		if (empty($updateSiteId))
+		if (empty($update_site_id))
 		{
 			return;
 		}
 
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
-			->update($db->qn('#__update_sites'))
-			->set($db->qn('enabled') . ' = ' . $db->q($enabled ? 1 : 0))
-			->where($db->qn('update_site_id') . ' = ' . $db->q($updateSiteId));
+			->update($db->quoteName('#__update_sites'))
+			->set($db->quoteName('enabled') . ' = :enabled')
+			->where($db->quoteName('update_site_id') . ' = :id')
+			->bind(':enabled', $enabled, ParameterType::INTEGER)
+			->bind(':id', $update_site_id, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try
@@ -183,9 +187,10 @@ abstract class UpdateAdapter extends \JAdapterInstance
 
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('name'))
-			->from($db->qn('#__update_sites'))
-			->where($db->qn('update_site_id') . ' = ' . $db->q($updateSiteId));
+			->select($db->quoteName('name'))
+			->from($db->quoteName('#__update_sites'))
+			->where($db->quoteName('update_site_id') . ' = :id')
+			->bind(':id', $updateSiteId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		$name = '';
@@ -225,14 +230,14 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		$this->updateSiteName  = $options['update_site_name'];
 		$this->appendExtension = false;
 
-		if (array_key_exists('append_extension', $options))
+		if (\array_key_exists('append_extension', $options))
 		{
 			$this->appendExtension = $options['append_extension'];
 		}
 
-		if ($this->appendExtension && (substr($url, -4) != '.xml'))
+		if ($this->appendExtension && (substr($url, -4) !== '.xml'))
 		{
-			if (substr($url, -1) != '/')
+			if (substr($url, -1) !== '/')
 			{
 				$url .= '/';
 			}
@@ -275,7 +280,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		if ($response === null || $response->code !== 200)
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 
@@ -285,7 +290,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 			// Log the exact update site name and URL which could not be loaded
 			Log::add('Error opening url: ' . $url . ' for update site: ' . $this->updateSiteName, Log::WARNING, 'updater');
 			$app = Factory::getApplication();
-			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
+			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_OPEN_UPDATE_SITE', $this->updateSiteId, $this->updateSiteName, $url), 'warning');
 
 			return false;
 		}

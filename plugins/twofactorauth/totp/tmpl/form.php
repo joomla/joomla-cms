@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('script', 'plg_twofactorauth_totp/qrcode.min.js', array('version' => 'auto', 'relative' => true));
+Factory::getDocument()->getWebAssetManager()->usePreset('qrcode');
 
 $js = "
 (function(document)
@@ -30,57 +30,60 @@ $js = "
 
 Factory::getDocument()->addScriptDeclaration($js);
 ?>
-<input type="hidden" name="jform[twofactor][totp][key]" value="<?php echo $secret ?>" />
+<input type="hidden" name="jform[twofactor][totp][key]" value="<?php echo $secret ?>">
 
-<div class="well">
-	<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_INTRO') ?>
+<div class="card mb-2">
+	<div class="card-body">
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_INTRO') ?>
+	</div>
 </div>
 
 <fieldset>
 	<legend>
-		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_HEAD') ?>
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_HEAD') ?>
 	</legend>
 	<p>
-		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_TEXT') ?>
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_TEXT') ?>
 	</p>
 	<ul>
 		<li>
-			<a href="<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_ITEM1_LINK') ?>" target="_blank" rel="noopener noreferrer">
-				<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_ITEM1') ?>
+			<a href="<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_ITEM1_LINK') ?>" target="_blank" rel="noopener noreferrer">
+				<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_ITEM1') ?>
 			</a>
 		</li>
 		<li>
-			<a href="<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_ITEM2_LINK') ?>" target="_blank" rel="noopener noreferrer">
-				<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_ITEM2') ?>
+			<a href="<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_ITEM2_LINK') ?>" target="_blank" rel="noopener noreferrer">
+				<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_ITEM2') ?>
 			</a>
 		</li>
 	</ul>
-	<div class="alert">
-		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN') ?>
+	<div class="alert alert-warning">
+		<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?>
 	</div>
 </fieldset>
 
 <fieldset>
 	<legend>
-		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_HEAD') ?>
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_HEAD') ?>
 	</legend>
 
-	<div class="span6">
+	<div class="col-md-6">
 		<p>
-			<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_TEXT') ?>
+			<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_TEXT') ?>
 		</p>
-		<table class="table table-striped">
+		<table class="table">
 			<tr>
 				<td>
-					<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ACCOUNT') ?>
+					<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ACCOUNT') ?>
 				</td>
 				<td>
-					<?php echo $username ?>@<?php echo $hostname ?>
+					<?php echo $sitename ?>/<?php echo $username ?>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_KEY') ?>
+					<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_KEY') ?>
 				</td>
 				<td>
 					<?php echo $secret ?>
@@ -89,35 +92,34 @@ Factory::getDocument()->addScriptDeclaration($js);
 		</table>
 	</div>
 
-	<div class="span6">
+	<div class="col-md-6">
 		<p>
-			<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ALTTEXT') ?>
-			<br />
+			<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ALTTEXT') ?>
+			<br>
 			<div id="totp-qrcode"></div>
 		</p>
 	</div>
 
-	<div class="clearfix"></div>
-
 	<div class="alert alert-info">
-		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET') ?>
+		<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?>
 	</div>
 </fieldset>
 
 <?php if ($new_totp): ?>
 <fieldset>
 	<legend>
-		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP3_HEAD') ?>
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_HEAD') ?>
 	</legend>
 	<p>
-		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP3_TEXT') ?>
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_TEXT') ?>
 	</p>
 	<div class="control-group">
 		<label class="control-label" for="totpsecuritycode">
-			<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP3_SECURITYCODE') ?>
+			<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP3_SECURITYCODE') ?>
 		</label>
 		<div class="controls">
-			<input type="text" class="input-small" name="jform[twofactor][totp][securitycode]" id="totpsecuritycode" autocomplete="0">
+			<input type="text" class="form-control" name="jform[twofactor][totp][securitycode]" id="totpsecuritycode" autocomplete="0">
 		</div>
 	</div>
 </fieldset>

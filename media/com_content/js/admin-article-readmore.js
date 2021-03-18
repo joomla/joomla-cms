@@ -1,32 +1,35 @@
 /**
+* PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
+* OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
+**/
+
+/**
  * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+(function () {
+  'use strict';
 
-window.insertReadmore = function(editor) {
-	"use strict";
-	if (!Joomla.getOptions('xtd-readmore')) {
-		// Something went wrong!
-		return false;
-	}
+  var options = window.Joomla.getOptions('xtd-readmore');
 
-	var content, options = window.Joomla.getOptions('xtd-readmore');
+  window.insertReadmore = function (editor) {
+    if (!options) {
+      // Something went wrong!
+      throw new Error('XTD Button \'read more\' not properly initialized');
+    }
 
-	if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty(editor)) {
-		content = window.Joomla.editors.instances[editor].getValue();
-	} else {
-		content = (new Function('return ' + options.editor))();
-	}
+    var content = window.Joomla.editors.instances[editor].getValue();
 
-	if (content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
-		alert(options.exists);
-		return false;
-	} else {
-		/** Use the API, if editor supports it **/
-		if (window.Joomla && window.Joomla.editors && window.Joomla.editors.instances && window.Joomla.editors.instances.hasOwnProperty(editor)) {
-			window.Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore" />');
-		} else {
-			window.jInsertEditorText('<hr id="system-readmore" />', editor);
-		}
-	}
-};
+    if (!content) {
+      Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
+    } else if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
+      Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
+    } else {
+      // TODO replace with joomla-alert
+      alert(options.exists);
+      return false;
+    }
+
+    return true;
+  };
+})();

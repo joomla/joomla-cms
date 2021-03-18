@@ -9,8 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 
 /**
@@ -18,7 +24,7 @@ use Joomla\CMS\Session\Session;
  *
  * @since  3.8.0
  */
-class PlgSampledataBlog extends JPlugin
+class PlgSampledataBlog extends CMSPlugin
 {
 	/**
 	 * Database object
@@ -72,10 +78,10 @@ class PlgSampledataBlog extends JPlugin
 
 		$data              = new stdClass;
 		$data->name        = $this->_name;
-		$data->title       = JText::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
-		$data->description = JText::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
-		$data->icon        = 'broadcast';
-		$data->steps       = 3;
+		$data->title       = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
+		$data->description = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
+		$data->icon        = 'wifi';
+		$data->steps       = 4;
 
 		return $data;
 	}
@@ -94,41 +100,36 @@ class PlgSampledataBlog extends JPlugin
 			return;
 		};
 
-		if (!JComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content'))
+		if (!ComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content'))
 		{
 			$response            = array();
 			$response['success'] = true;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
 
 			return $response;
 		}
 
 		// Get some metadata.
 		$access = (int) $this->app->get('access', 1);
-		$user   = JFactory::getUser();
+		$user   = Factory::getUser();
 
 		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
-		// Add Include Paths.
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models/', 'ContentModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/tables/');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/models/', 'CategoriesModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables/');
-
 		// Create "blog" category.
-		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
+		$categoryModel = $this->app->bootComponent('com_categories')
+			->getMVCFactory()->createModel('Category', 'Administrator');
 		$catIds        = array();
-		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
-		$alias         = JApplicationHelper::stringURLSafe($categoryTitle);
+		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
+		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
 
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = JFactory::getConfig()->set('unicodeslugs', 1);
-			$alias = JApplicationHelper::stringURLSafe($categoryTitle);
-			JFactory::getConfig()->set('unicodeslugs', $unicode);
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
 		}
 
 		$category      = array(
@@ -144,7 +145,7 @@ class PlgSampledataBlog extends JPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '',
+			'params'          => '{}',
 		);
 
 		try
@@ -158,7 +159,7 @@ class PlgSampledataBlog extends JPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
 			return $response;
 		}
@@ -167,15 +168,15 @@ class PlgSampledataBlog extends JPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create "help" category.
-		$categoryTitle = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE');
-		$alias         = JApplicationHelper::stringURLSafe($categoryTitle);
+		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_1_TITLE');
+		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
 
 		// Set unicodeslugs if alias is empty
 		if (trim(str_replace('-', '', $alias) == ''))
 		{
-			$unicode = JFactory::getConfig()->set('unicodeslugs', 1);
-			$alias = JApplicationHelper::stringURLSafe($categoryTitle);
-			JFactory::getConfig()->set('unicodeslugs', $unicode);
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
 		}
 
 		$category      = array(
@@ -191,7 +192,7 @@ class PlgSampledataBlog extends JPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '',
+			'params'          => '{}',
 		);
 
 		try
@@ -205,7 +206,7 @@ class PlgSampledataBlog extends JPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
 			return $response;
 		}
@@ -214,7 +215,6 @@ class PlgSampledataBlog extends JPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create Articles.
-		$articleModel = JModelLegacy::getInstance('Article', 'ContentModel');
 		$articles     = array(
 			array(
 				'catid'    => $catIds[1],
@@ -243,26 +243,32 @@ class PlgSampledataBlog extends JPlugin
 			),
 		);
 
+		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
+
+		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
+
 		foreach ($articles as $i => $article)
 		{
+			$articleModel = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
+
 			// Set values from language strings.
-			$title                = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
-			$alias                = JApplicationHelper::stringURLSafe($title);
+			$title                = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
+			$alias                = ApplicationHelper::stringURLSafe($title);
 			$article['title']     = $title . $langSuffix;
-			$article['introtext'] = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_INTROTEXT');
-			$article['fulltext']  = JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_FULLTEXT');
+			$article['introtext'] = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_INTROTEXT');
+			$article['fulltext']  = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_FULLTEXT');
 
 			// Set values which are always the same.
 			$article['id']              = 0;
 			$article['created_user_id'] = $user->id;
-			$article['alias']           = JApplicationHelper::stringURLSafe($article['title']);
+			$article['alias']           = ApplicationHelper::stringURLSafe($article['title']);
 
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $alias) == ''))
 			{
-				$unicode = JFactory::getConfig()->set('unicodeslugs', 1);
-				$article['alias'] = JApplicationHelper::stringURLSafe($article['title']);
-				JFactory::getConfig()->set('unicodeslugs', $unicode);
+				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+				$article['alias'] = ApplicationHelper::stringURLSafe($article['title']);
+				Factory::getConfig()->set('unicodeslugs', $unicode);
 			}
 
 			$article['language']        = $language;
@@ -272,7 +278,6 @@ class PlgSampledataBlog extends JPlugin
 			$article['images']          = '';
 			$article['metakey']         = '';
 			$article['metadesc']        = '';
-			$article['xreference']      = '';
 
 			if (!isset($article['access']))
 			{
@@ -281,10 +286,10 @@ class PlgSampledataBlog extends JPlugin
 
 			if (!$articleModel->save($article))
 			{
-				JFactory::getLanguage()->load('com_content');
+				Factory::getLanguage()->load('com_content');
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, JText::_($articleModel->getError()));
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, Text::_($articleModel->getError()));
 
 				return $response;
 			}
@@ -298,7 +303,7 @@ class PlgSampledataBlog extends JPlugin
 
 		$response          = new stdClass;
 		$response->success = true;
-		$response->message = JText::_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
+		$response->message = Text::_('PLG_SAMPLEDATA_BLOG_STEP1_SUCCESS');
 
 		return $response;
 	}
@@ -317,33 +322,33 @@ class PlgSampledataBlog extends JPlugin
 			return;
 		}
 
-		if (!JComponentHelper::isEnabled('com_menus') || !Factory::getUser()->authorise('core.create', 'com_menus'))
+		if (!ComponentHelper::isEnabled('com_menus') || !Factory::getUser()->authorise('core.create', 'com_menus'))
 		{
 			$response            = array();
 			$response['success'] = true;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 2, 'com_menus');
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 2, 'com_menus');
 
 			return $response;
 		}
 
 		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Create the menu types.
-		$menuTable = JTable::getInstance('Type', 'JTableMenu');
+		$menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->db);
 		$menuTypes = array();
 
 		for ($i = 0; $i <= 2; $i++)
 		{
 			$menu = array(
 				'id'          => 0,
-				'title'       => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE') . $langSuffix,
-				'description' => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
+				'title'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_TITLE') . $langSuffix,
+				'description' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_MENU_' . $i . '_DESCRIPTION'),
 			);
 
 			// Calculate menutype. The number of characters allowed is 24.
-			$type = JHtml::_('string.truncate', $menu['title'], 23, true, false);
+			$type = HTMLHelper::_('string.truncate', $menu['title'], 23, true, false);
 
 			$menu['menutype'] = $i . $type;
 
@@ -361,10 +366,10 @@ class PlgSampledataBlog extends JPlugin
 			}
 			catch (Exception $e)
 			{
-				JFactory::getLanguage()->load('com_menus');
+				Factory::getLanguage()->load('com_menus');
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
 				return $response;
 			}
@@ -372,17 +377,14 @@ class PlgSampledataBlog extends JPlugin
 			$menuTypes[] = $menuTable->menutype;
 		}
 
-		// Storing IDs in UserState for later usage.
+		// Storing IDs in UserState for later useage.
 		$this->app->setUserState('sampledata.blog.menutypes', $menuTypes);
 
 		// Get previously entered Data from UserStates.
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/models/', 'MenusModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
-		$this->menuItemModel = JModelLegacy::getInstance('Item', 'MenusModel');
+		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 		// Get previously entered categories ids
 		$catids = $this->app->getUserState('sampledata.blog.articles.catids');
@@ -391,17 +393,15 @@ class PlgSampledataBlog extends JPlugin
 		$menuItems = array(
 			array(
 				'menutype'     => $menuTypes[0],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
 				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
-				'component_id' => 22,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'layout_type'             => 'blog',
 					'show_category_title'     => 0,
 					'num_leading_articles'    => 4,
 					'num_intro_articles'      => 0,
-					'num_columns'             => 1,
 					'num_links'               => 2,
-					'multi_column_order'      => 1,
 					'orderby_sec'             => 'rdate',
 					'order_date'              => 'published',
 					'show_pagination'         => 2,
@@ -418,9 +418,9 @@ class PlgSampledataBlog extends JPlugin
 			),
 			array(
 				'menutype'     => $menuTypes[0],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[0],
-				'component_id' => 22,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'info_block_position' => 0,
 					'show_category'       => 0,
@@ -436,9 +436,9 @@ class PlgSampledataBlog extends JPlugin
 			),
 			array(
 				'menutype'     => $menuTypes[0],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
-				'component_id' => 25,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
@@ -449,9 +449,9 @@ class PlgSampledataBlog extends JPlugin
 			),
 			array(
 				'menutype'     => $menuTypes[1],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
 				'link'         => 'index.php?option=com_content&view=form&layout=edit',
-				'component_id' => 22,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'access'       => 3,
 				'params'       => array(
 					'enable_category'   => 1,
@@ -463,9 +463,9 @@ class PlgSampledataBlog extends JPlugin
 			),
 			array(
 				'menutype'     => $menuTypes[1],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[1],
-				'component_id' => 22,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
@@ -474,7 +474,7 @@ class PlgSampledataBlog extends JPlugin
 			),
 			array(
 				'menutype'     => $menuTypes[1],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_5_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_5_TITLE'),
 				'link'         => 'administrator',
 				'type'         => 'url',
 				'component_id' => 0,
@@ -486,9 +486,9 @@ class PlgSampledataBlog extends JPlugin
 			),
 			array(
 				'menutype'     => $menuTypes[1],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
 				'link'         => 'index.php?option=com_users&view=profile&layout=edit',
-				'component_id' => 25,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
 				'access'       => 2,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -498,9 +498,9 @@ class PlgSampledataBlog extends JPlugin
 			),
 			array(
 				'menutype'     => $menuTypes[1],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_7_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_7_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
-				'component_id' => 25,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
@@ -519,7 +519,7 @@ class PlgSampledataBlog extends JPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
 			return $response;
 		}
@@ -528,9 +528,9 @@ class PlgSampledataBlog extends JPlugin
 		$menuItems = array(
 			array(
 				'menutype'     => $menuTypes[2],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
-				'component_id' => 25,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
 				'params'       => array(
 					'login_redirect_url'     => 'index.php?Itemid=' . $menuIdsLevel1[0],
 					'logindescription_show'  => 1,
@@ -550,7 +550,7 @@ class PlgSampledataBlog extends JPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
 			return $response;
 		}
@@ -559,10 +559,10 @@ class PlgSampledataBlog extends JPlugin
 		$menuItems = array(
 			array(
 				'menutype'     => $menuTypes[1],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
-				'link'         => 'index.php?option=com_config&view=config&controller=config.display.config',
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
+				'link'         => 'index.php?option=com_config&view=config',
 				'parent_id'    => $menuIdsLevel1[4],
-				'component_id' => 23,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
 				'access'       => 6,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -572,10 +572,10 @@ class PlgSampledataBlog extends JPlugin
 			),
 			array(
 				'menutype'     => $menuTypes[1],
-				'title'        => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
-				'link'         => 'index.php?option=com_config&view=templates&controller=config.display.templates',
+				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
+				'link'         => 'index.php?option=com_config&view=templates',
 				'parent_id'    => $menuIdsLevel1[4],
-				'component_id' => 23,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
@@ -592,14 +592,14 @@ class PlgSampledataBlog extends JPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 2, $e->getMessage());
 
 			return $response;
 		}
 
 		$response            = array();
 		$response['success'] = true;
-		$response['message'] = JText::_('PLG_SAMPLEDATA_BLOG_STEP2_SUCCESS');
+		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP2_SUCCESS');
 
 		return $response;
 	}
@@ -618,23 +618,21 @@ class PlgSampledataBlog extends JPlugin
 			return;
 		}
 
-		if (!JComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
+		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 3, 'com_modules');
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 3, 'com_modules');
 
 			return $response;
 		}
 
 		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Add Include Paths.
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/models/', 'ModulesModelModule');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_modules/tables/');
-		$model  = JModelLegacy::getInstance('Module', 'ModulesModel');
+		$model  = new \Joomla\Component\Modules\Administrator\Model\ModuleModel;
 		$access = (int) $this->app->get('access', 1);
 
 		// Get previously entered Data from UserStates
@@ -644,9 +642,9 @@ class PlgSampledataBlog extends JPlugin
 
 		$modules = array(
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
+				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_0_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'position-1',
+				'position'  => 'top-a',
 				'module'    => 'mod_menu',
 				'showtitle' => 0,
 				'params'    => array(
@@ -654,7 +652,7 @@ class PlgSampledataBlog extends JPlugin
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 0,
-					'class_sfx'       => ' nav-pills',
+					'class_sfx'       => '',
 					'layout'          => '_:default',
 					'cache'           => 1,
 					'cache_time'      => 900,
@@ -666,9 +664,9 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
+				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_1_TITLE'),
 				'ordering'  => 1,
-				'position'  => 'position-1',
+				'position'  => 'top-a',
 				'module'    => 'mod_menu',
 				'access'    => 3,
 				'showtitle' => 0,
@@ -677,7 +675,7 @@ class PlgSampledataBlog extends JPlugin
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 1,
-					'class_sfx'       => ' nav-pills',
+					'class_sfx'       => '',
 					'layout'          => '_:default',
 					'cache'           => 1,
 					'cache_time'      => 900,
@@ -689,9 +687,9 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
+				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_2_TITLE'),
 				'ordering'  => 6,
-				'position'  => 'position-7',
+				'position'  => 'sidebar-right',
 				'module'    => 'mod_syndicate',
 				'showtitle' => 0,
 				'params'    => array(
@@ -703,9 +701,9 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
+				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_3_TITLE'),
 				'ordering' => 4,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_articles_archive',
 				'params'   => array(
 					'count'      => 10,
@@ -716,9 +714,9 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
+				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_4_TITLE'),
 				'ordering' => 5,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_articles_popular',
 				'params'   => array(
 					'catid'      => $catids[0],
@@ -731,9 +729,9 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
+				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_5_TITLE'),
 				'ordering' => 2,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_articles_category',
 				'params'   => array(
 					'mode'                         => 'normal',
@@ -758,7 +756,7 @@ class PlgSampledataBlog extends JPlugin
 					'link_titles'                  => 1,
 					'show_date'                    => 0,
 					'show_date_field'              => 'created',
-					'show_date_format'             => JText::_('DATE_FORMAT_LC5'),
+					'show_date_format'             => Text::_('DATE_FORMAT_LC5'),
 					'show_category'                => 0,
 					'show_hits'                    => 0,
 					'show_author'                  => 0,
@@ -777,7 +775,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_6_TITLE'),
+				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_6_TITLE'),
 				'ordering'  => 1,
 				'position'  => 'footer',
 				'module'    => 'mod_menu',
@@ -798,9 +796,9 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
+				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_7_TITLE'),
 				'ordering' => 1,
-				'position' => 'position-0',
+				'position' => 'search',
 				'module'   => 'mod_search',
 				'params'   => array(
 					'width'      => 20,
@@ -813,10 +811,10 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
+				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_8_TITLE'),
 				'content'   => '<p><img src="images/headers/raindrops.jpg" alt="" /></p>',
 				'ordering'  => 1,
-				'position'  => 'position-3',
+				'position'  => 'main-top',
 				'module'    => 'mod_custom',
 				'showtitle' => 0,
 				'params'    => array(
@@ -832,9 +830,9 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
+				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_9_TITLE'),
 				'ordering' => 1,
-				'position' => 'position-7',
+				'position' => 'sidebar-right',
 				'module'   => 'mod_tags_popular',
 				'params'   => array(
 					'maximum'         => 8,
@@ -854,7 +852,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'    => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
+				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
 				'position' => '',
 				'module'   => 'mod_tags_similar',
@@ -870,7 +868,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_11_TITLE'),
+				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_11_TITLE'),
 				'ordering'  => 4,
 				'position'  => 'cpanel',
 				'module'    => 'mod_stats_admin',
@@ -892,7 +890,7 @@ class PlgSampledataBlog extends JPlugin
 				),
 			),
 			array(
-				'title'     => JText::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_12_TITLE'),
+				'title'     => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_12_TITLE'),
 				'ordering'  => 1,
 				'position'  => 'postinstall',
 				'module'    => 'mod_feed',
@@ -952,10 +950,10 @@ class PlgSampledataBlog extends JPlugin
 
 			if (!$model->save($module))
 			{
-				JFactory::getLanguage()->load('com_modules');
+				Factory::getLanguage()->load('com_modules');
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, JText::_($model->getError()));
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, Text::_($model->getError()));
 
 				return $response;
 			}
@@ -963,7 +961,27 @@ class PlgSampledataBlog extends JPlugin
 
 		$response            = array();
 		$response['success'] = true;
-		$response['message'] = JText::_('PLG_SAMPLEDATA_BLOG_STEP3_SUCCESS');
+		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP3_SUCCESS');
+
+		return $response;
+	}
+
+	/**
+	 * Final step to show completion of sampledata.
+	 *
+	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  4.0.0
+	 */
+	public function onAjaxSampledataApplyStep4()
+	{
+		if ($this->app->input->get('type') != $this->_name)
+		{
+			return;
+		}
+
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
 
 		return $response;
 	}
@@ -984,10 +1002,10 @@ class PlgSampledataBlog extends JPlugin
 	{
 		$itemIds = array();
 		$access  = (int) $this->app->get('access', 1);
-		$user    = JFactory::getUser();
+		$user    = Factory::getUser();
 
 		// Detect language to be used.
-		$language   = Multilanguage::isEnabled() ? JFactory::getLanguage()->getTag() : '*';
+		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		foreach ($menuItems as $menuItem)
@@ -998,14 +1016,14 @@ class PlgSampledataBlog extends JPlugin
 			// Set values which are always the same.
 			$menuItem['id']              = 0;
 			$menuItem['created_user_id'] = $user->id;
-			$menuItem['alias']           = JApplicationHelper::stringURLSafe($menuItem['title']);
+			$menuItem['alias']           = ApplicationHelper::stringURLSafe($menuItem['title']);
 
 			// Set unicodeslugs if alias is empty
 			if (trim(str_replace('-', '', $menuItem['alias']) == ''))
 			{
-				$unicode = JFactory::getConfig()->set('unicodeslugs', 1);
-				$menuItem['alias'] = JApplicationHelper::stringURLSafe($menuItem['title']);
-				JFactory::getConfig()->set('unicodeslugs', $unicode);
+				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+				$menuItem['alias'] = ApplicationHelper::stringURLSafe($menuItem['title']);
+				Factory::getConfig()->set('unicodeslugs', $unicode);
 			}
 
 			// Append language suffix to title.

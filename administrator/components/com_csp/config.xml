@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="csp" label="Content-Security-Policy (CSP)">
+		<field
+			name="contentsecuritypolicy"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="contentsecuritypolicy_mode"
+			type="list"
+			label="COM_CSP_CONTENTSECURITYPOLICY_MODE"
+			default="detect"
+			validate="options"
+			showon="contentsecuritypolicy:1"
+			>
+			<option value="custom">COM_CSP_CONTENTSECURITYPOLICY_MODE_CUSTOM</option>
+			<option value="detect">COM_CSP_CONTENTSECURITYPOLICY_MODE_DETECT</option>
+			<option value="auto">COM_CSP_CONTENTSECURITYPOLICY_MODE_AUTO</option>
+		</field>
+		<field
+			name="contentsecuritypolicy_report_only"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY"
+			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="nonce_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_NONCE_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_NONCE_ENABLED_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="script_hashes_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="style_hashes_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="frame_ancestors_self_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_FRAME_ANCESTORS_SELF_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_FRAME_ANCESTORS_SELF_ENABLED_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="contentsecuritypolicy_values"
+			type="subform"
+			label="COM_CSP_CONTENTSECURITYPOLICY_VALUES"
+			multiple="true"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
+			>
+			<form>
+				<field
+					name="directive"
+					type="text"
+					label="COM_CSP_CONTENTSECURITYPOLICY_VALUES_DIRECTIVE"
+					class="col-md-4"
+				/>
+				<field
+					name="value"
+					type="text"
+					label="COM_CSP_CONTENTSECURITYPOLICY_VALUES_VALUE"
+					class="col-md-10"
+				/>
+				<field
+					name="client"
+					type="radio"
+					label="COM_CSP_HEADER_CLIENT"
+					default="site"
+					class="col-md-12"
+					>
+					<option value="site">JSITE</option>
+					<option value="administrator">JADMINISTRATOR</option>
+					<option value="both">COM_CSP_HEADER_CLIENT_BOTH</option>
+				</field>
+			</form>
+		</field>
+	</fieldset>
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_csp"
+			section="component"
+		/>
+	</fieldset>
+</config>

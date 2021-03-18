@@ -1,0 +1,91 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "atum",
+  "version": "4.0.0",
+  "description": "Atum is the default Joomla 4 administrator template",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "template.atum.ltr",
+      "type": "style",
+      "uri": "template.min.css",
+      "dependencies": [
+        "fontawesome"
+      ]
+    },
+    {
+      "name": "template.atum.rtl",
+      "type": "style",
+      "uri": "template-rtl.min.css",
+      "dependencies": [
+        "fontawesome"
+      ]
+    },
+    {
+      "name": "template.active.language",
+      "type": "style",
+      "uri": "",
+      "class": "LangActiveAssetItem",
+      "client": "administrator",
+      "dependencies": [
+        "template.active"
+      ]
+    },
+    {
+      "name": "template.user",
+      "type": "style",
+      "uri": "user.css",
+      "dependencies": [
+        "template.active",
+        "template.active.language"
+      ]
+    },
+    {
+      "name": "template.atum",
+      "type": "script",
+      "uri": "templates/atum/template.min.js",
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "template.active",
+      "type": "script",
+      "uri": "",
+      "description": "A dummy asset to allow extensions to use it as a dependency to the active template",
+      "dependencies": [
+        "template.atum"
+      ]
+    },
+    {
+      "name": "template.atum.base",
+      "type": "preset",
+      "dependencies": [
+        "core#script",
+        "focus-visible#script",
+        "template.atum#script"
+      ]
+    },
+    {
+      "name": "template.atum.ltr",
+      "type": "preset",
+      "dependencies": [
+        "template.atum.base",
+        "template.atum.ltr#style"
+      ]
+    },
+    {
+      "name": "template.atum.rtl",
+      "type": "preset",
+      "dependencies": [
+        "template.atum.base",
+        "template.atum.rtl#style"
+      ]
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": "system/searchtools/searchtools.min.css"
+    }
+  ]
+}

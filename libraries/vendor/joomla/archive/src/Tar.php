@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Archive Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,7 @@ class Tar implements ExtractableInterface
 	 * @var    array
 	 * @since  1.0
 	 */
-	private $types = array(
+	private const TYPES = [
 		0x0  => 'Unix file',
 		0x30 => 'File',
 		0x31 => 'Link',
@@ -41,7 +41,7 @@ class Tar implements ExtractableInterface
 		0x35 => 'Directory',
 		0x36 => 'FIFO special file',
 		0x37 => 'Contiguous file',
-	);
+	];
 
 	/**
 	 * Tar file data buffer
@@ -65,7 +65,7 @@ class Tar implements ExtractableInterface
 	 * @var    array|\ArrayAccess
 	 * @since  1.0
 	 */
-	protected $options = array();
+	protected $options = [];
 
 	/**
 	 * Create a new Archive object.
@@ -75,7 +75,7 @@ class Tar implements ExtractableInterface
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		if (!\is_array($options) && !($options instanceof \ArrayAccess))
 		{
@@ -150,11 +150,9 @@ class Tar implements ExtractableInterface
 	}
 
 	/**
-	 * Get the list of files/data from a Tar archive buffer.
+	 * Get the list of files/data from a Tar archive buffer and builds a metadata array.
 	 *
-	 * @param   string  $data  The Tar archive buffer.
-	 *
-	 * @return  array  Archive metadata array
+	 * Array structure:
 	 * <pre>
 	 * KEY: Position in the array
 	 * VALUES: 'attr'  --  File attributes
@@ -165,30 +163,24 @@ class Tar implements ExtractableInterface
 	 * 'type'  --  File type
 	 * </pre>
 	 *
+	 * @param   string  $data  The Tar archive buffer.
+	 *
+	 * @return  void
+	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
 	protected function getTarInfo(&$data)
 	{
 		$position    = 0;
-		$returnArray = array();
+		$returnArray = [];
 
 		while ($position < \strlen($data))
 		{
-			if (version_compare(\PHP_VERSION, '5.5', '>='))
-			{
-				$info = @unpack(
-					'Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor',
-					substr($data, $position)
-				);
-			}
-			else
-			{
-				$info = @unpack(
-					'a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor',
-					substr($data, $position)
-				);
-			}
+			$info = @unpack(
+				'Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor',
+				substr($data, $position)
+			);
 
 			/*
 			 * This variable has been set in the previous loop, meaning that the filename was present in the previous block
@@ -211,14 +203,14 @@ class Tar implements ExtractableInterface
 
 			if ($info['filename'])
 			{
-				$file = array(
+				$file = [
 					'attr' => null,
 					'data' => null,
 					'date' => octdec($info['mtime']),
 					'name' => trim($info['filename']),
 					'size' => octdec($info['size']),
-					'type' => isset($this->types[$info['typeflag']]) ? $this->types[$info['typeflag']] : null,
-				);
+					'type' => self::TYPES[$info['typeflag']] ?? null,
+				];
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35))
 				{
@@ -251,7 +243,5 @@ class Tar implements ExtractableInterface
 		}
 
 		$this->metadata = $returnArray;
-
-		return true;
 	}
 }

@@ -1,0 +1,36 @@
+// Demo Styling
+
+$inverted-color: rgba(255, 255, 255, .9);
+
+.demo-module {
+  text-align: center;
+
+  .demo-title {
+    font-size: 20px;
+    color: theme-color("primary");
+  }
+
+  .fa-joomla {
+    font-size: 32px;
+    color: theme-color("primary");
+  }
+
+  .badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+@each $color,
+$value in $theme-colors {
+  .bg-#{$color} {
+    .demo-module {
+
+      .demo-title,
+      .fa-joomla {
+        color: $inverted-color;
+      }
+    }
+  }
+}

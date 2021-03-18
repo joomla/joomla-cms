@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 $value = $field->value;
 
 if ($value == '')
@@ -25,7 +27,7 @@ foreach ($value as $userId)
 		continue;
 	}
 
-	$user = JFactory::getUser($userId);
+	$user = Factory::getUser($userId);
 
 	if ($user)
 	{

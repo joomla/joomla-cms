@@ -1,0 +1,32 @@
+// Buttons
+
+.btn {
+  transition: none;
+}
+
+.btn-primary {
+  color: var(--atum-text-light);
+  background-color: var(--atum-link-color);
+  border-color: var(--atum-link-color);
+
+  @include hover-focus-active {
+    background-color: var(--atum-bg-dark-70);
+    border-color: var(--atum-bg-dark-90);
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: var(--atum-bg-dark);
+    border-color: var(--atum-bg-dark);
+  }
+}
+
+.btn-secondary {
+  background-color: var(--atum-bg-dark-50);
+}
+
+.input-group-text {
+  background-color: var(--atum-bg-dark);
+  border-color: var(--atum-bg-dark);
+}

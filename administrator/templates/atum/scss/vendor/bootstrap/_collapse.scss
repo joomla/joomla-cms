@@ -1,0 +1,15 @@
+// Collapse
+
+.accordion {
+
+  .card-header {
+    display: block;
+    font-size: $h5-font-size;
+    font-weight: $font-weight-bold;
+    line-height: $headings-line-height;
+  }
+
+  .list-group-item {
+    color: $link-color;
+  }
+}

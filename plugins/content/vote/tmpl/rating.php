@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 /**
  * Layout variables
  * -----------------
@@ -20,7 +23,7 @@ defined('_JEXEC') or die;
  * @var   string   $path     Path to this file
  */
 
-if ($context == 'com_content.categories')
+if ($context === 'com_content.categories')
 {
 	return;
 }
@@ -29,8 +32,8 @@ $rating = (int) $row->rating;
 $rcount = (int) $row->rating_count;
 
 // Look for images in template if available
-$starImageOn  = JHtml::_('image', 'system/rating_star.png', JText::_('PLG_VOTE_STAR_ACTIVE'), null, true);
-$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', JText::_('PLG_VOTE_STAR_INACTIVE'), null, true);
+$starImageOn  = HTMLHelper::_('image', 'system/rating_star.png', Text::_('PLG_VOTE_STAR_ACTIVE'), null, true);
+$starImageOff = HTMLHelper::_('image', 'system/rating_star_blank.png', Text::_('PLG_VOTE_STAR_INACTIVE'), null, true);
 
 $img = '';
 
@@ -47,11 +50,11 @@ for ($i = $rating; $i < 5; $i++)
 ?>
 <div class="content_rating">
 	<?php if ($rcount) : ?>
-		<p class="unseen element-invisible" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-			<?php echo JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
-			<meta itemprop="ratingCount" content="<?php echo $rcount; ?>" />
-			<meta itemprop="worstRating" content="1" />
+		<p class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+			<?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
+			<meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
+			<meta itemprop="worstRating" content="1">
 		</p>
 	<?php endif; ?>
-	<?php echo $img; ?>
+<?php echo $img; ?>
 </div>

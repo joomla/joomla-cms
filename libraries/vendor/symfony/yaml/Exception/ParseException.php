@@ -30,7 +30,7 @@ class ParseException extends RuntimeException
      * @param string|null     $parsedFile The file name where the error occurred
      * @param \Exception|null $previous   The previous exception
      */
-    public function __construct($message, $parsedLine = -1, $snippet = null, $parsedFile = null, \Exception $previous = null)
+    public function __construct(string $message, int $parsedLine = -1, string $snippet = null, string $parsedFile = null, \Throwable $previous = null)
     {
         $this->parsedFile = $parsedFile;
         $this->parsedLine = $parsedLine;
@@ -54,10 +54,8 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the snippet of code near the error.
-     *
-     * @param string $snippet The code snippet
      */
-    public function setSnippet($snippet)
+    public function setSnippet(string $snippet)
     {
         $this->snippet = $snippet;
 
@@ -78,10 +76,8 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the filename where the error occurred.
-     *
-     * @param string $parsedFile The filename
      */
-    public function setParsedFile($parsedFile)
+    public function setParsedFile(string $parsedFile)
     {
         $this->parsedFile = $parsedFile;
 
@@ -100,10 +96,8 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the line where the error occurred.
-     *
-     * @param int $parsedLine The file line
      */
-    public function setParsedLine($parsedLine)
+    public function setParsedLine(int $parsedLine)
     {
         $this->parsedLine = $parsedLine;
 
@@ -121,12 +115,7 @@ class ParseException extends RuntimeException
         }
 
         if (null !== $this->parsedFile) {
-            if (\PHP_VERSION_ID >= 50400) {
-                $jsonOptions = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
-            } else {
-                $jsonOptions = 0;
-            }
-            $this->message .= sprintf(' in %s', json_encode($this->parsedFile, $jsonOptions));
+            $this->message .= sprintf(' in %s', json_encode($this->parsedFile, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
         }
 
         if ($this->parsedLine >= 0) {

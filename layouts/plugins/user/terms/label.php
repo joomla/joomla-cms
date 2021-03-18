@@ -58,8 +58,6 @@ $text = $translateLabel ? Text::_($text) : $text;
 // Set required to true as this field is not displayed at all if not required.
 $required = true;
 
-JHtml::_('behavior.modal');
-
 // Build the class for the label.
 $class = !empty($description) ? 'hasPopover' : '';
 $class = $class . ' required';
@@ -84,13 +82,29 @@ if (Factory::getLanguage()->isRtl())
 	$label .= ' data-placement="left"';
 }
 
-$attribs          = array();
-$attribs['class'] = 'modal';
-$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
 if ($article)
 {
+	$attribs = [
+		'data-toggle' => 'modal',
+		'data-target' => '#tosModal',
+	];
+
 	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+
+	echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'tosModal',
+		[
+			'url'    => Route::_($article->link . '&tmpl=component'),
+			'title'  => $text,
+			'height' => '100%',
+			'width'  => '100%',
+			'modalWidth'  => '800',
+			'bodyHeight'  => '500',
+			'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+				. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+		]
+	);
 }
 else
 {

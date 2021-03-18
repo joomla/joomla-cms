@@ -1,0 +1,134 @@
+// Icons
+
+.icon-back::before {
+  content: "\e008";
+}
+
+.icon-crop::before {
+  content: "\f125";
+}
+
+.icon-white {
+  color: $white;
+}
+
+.icon-publish {
+  color: theme-color("success");
+
+  .dropdown-status-group & {
+    color: inherit;
+  }
+}
+
+.icon-unpublish {
+  color: theme-color("danger");
+
+  .dropdown-status-group & {
+    color: inherit;
+  }
+}
+
+.tbody-icon {
+  padding: 0 3px;
+  text-align: center;
+  background-color: transparent;
+  border: 0;
+
+  [class^='icon-'],
+  [class*=' icon-'] {
+    width: 26px;
+    height: 26px;
+    font-size: 1rem;
+    line-height: 22px;
+    color: $gray-400;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+  }
+
+  .icon-publish {
+    color: var(--success);
+    border-color: var(--success);
+  }
+
+  .icon-featured,
+  .icon-color-featured {
+    color: $state-warning-bg;
+    border-color: $state-warning-bg;
+  }
+
+  .icon-archive {
+    color: var(--atum-text-dark);
+    border-color: $gray-700;
+  }
+
+  .icon-checkedout {
+    width: auto;
+    height: auto;
+    font-size: 1.2rem;
+    line-height: 1rem;
+    color: var(--atum-text-dark);
+    border: 0;
+  }
+
+  &.home-disabled,
+  &.featured-disabled,
+  &.color-featured-disabled,
+  &.fa-star-disabled {
+    opacity: 1;
+    cursor: not-allowed;
+  }
+
+  &.disabled .icon-home {
+    color: $state-warning-bg;
+    border-color: $state-warning-bg;
+  }
+}
+
+.icon-joomla::before {
+  font-family: "Font Awesome 5 Brands";
+  content: "\f1aa";
+}
+
+.icon-shield-alt::before {
+  content: "\f3ed";
+}
+
+.icon-address-book::before {
+  content: "\f2b9";
+}
+
+.icon-images::before {
+  content: "\f302";
+}
+
+.info-circle::before {
+  content: "\f05a";
+}
+
+.icon-paint-brush::before {
+  content: "\f1fc";
+}
+
+.icon-language::before {
+  content: "\f1ab";
+}
+
+.icon-rss::before {
+  content: "\f09e";
+}
+
+.icon-map-signs::before {
+  content: "\f277";
+}
+
+.icon-envelope-open-text::before {
+  content: "\f658";
+}
+
+.icon-users-cog::before {
+  content: "\f509";
+}
+
+.icon-user-lock::before {
+  content: "\f502";
+}

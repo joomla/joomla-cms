@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+
 // Check if we have all the data
 if (!key_exists('item', $displayData) || !key_exists('context', $displayData))
 {
@@ -28,8 +30,6 @@ if (!$context)
 {
 	return;
 }
-
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 $parts     = explode('.', $context);
 $component = $parts[0];
@@ -64,20 +64,19 @@ foreach ($fields as $field)
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 
 	// If the content is empty do nothing
-	if (trim($content) === '') 
+	if (trim($content) === '')
 	{
 		continue;
 	}
 
-	$output[] = '<dd class="field-entry ' . $class . '">' . $content . '</dd>';
+	$output[] = '<li class="field-entry ' . $class . '">' . $content . '</li>';
 }
 
 if (empty($output))
 {
 	return;
 }
-
 ?>
-<dl class="fields-container">
+<ul class="fields-container">
 	<?php echo implode("\n", $output); ?>
-</dl>
+</ul>
