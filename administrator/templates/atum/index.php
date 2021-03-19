@@ -146,23 +146,6 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 
 	<?php // container-fluid ?>
 	<div class="container-fluid container-main">
-		
-		<section id="content" class="content">
-			<?php // Begin Content ?>
-			<jdoc:include type="modules" name="top" style="xhtml" />
-			<div class="row">
-				<div class="col-md-12">
-					<main>
-						<jdoc:include type="message" />
-						<jdoc:include type="component" />
-					</main>
-				</div>
-				<?php if ($this->countModules('bottom')) : ?>
-					<jdoc:include type="modules" name="bottom" style="xhtml" />
-				<?php endif; ?>
-			</div>
-			<?php // End Content ?>
-		</section>
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
 			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
@@ -178,6 +161,22 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 				</div>
 			</div>
 		<?php endif; ?>
+		<section id="content" class="content">
+			<?php // Begin Content ?>
+			<jdoc:include type="modules" name="top" style="xhtml" />
+			<div class="row">
+				<div class="col-md-12">
+					<main>
+						<jdoc:include type="message" />
+						<jdoc:include type="component" />
+					</main>
+				</div>
+				<?php if ($this->countModules('bottom')) : ?>
+					<jdoc:include type="modules" name="bottom" style="xhtml" />
+				<?php endif; ?>
+			</div>
+			<?php // End Content ?>
+		</section
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
