@@ -130,6 +130,7 @@
 
         &:hover,
         &[aria-expanded="true"] {
+          transform:scale(1.2,1.4);
           color: var(--atum-text-light);
           text-decoration: none;
           background-color: var(--atum-bg-dark-40);
