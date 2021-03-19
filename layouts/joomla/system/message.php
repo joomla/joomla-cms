@@ -42,7 +42,7 @@ Text::script('JOPEN');
 // Alerts progressive enhancement
 Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.joomla-alert')
-	->useScript('webcomponent.joomla-alert');
+	->useScript('messages');
 
 if (is_array($msgList) && !empty($msgList)) :
 	foreach ($msgList as $type => $msgs) :

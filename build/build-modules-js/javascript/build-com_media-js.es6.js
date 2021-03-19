@@ -76,6 +76,7 @@ module.exports.mediaManager = async () => {
       }),
       nodeResolve(),
       replace({
+        preventAssignment: true,
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       babel({
@@ -87,7 +88,11 @@ module.exports.mediaManager = async () => {
             '@babel/preset-env',
             {
               targets: {
-                esmodules: true,
+                browsers: [
+                  '>1%',
+                  'not ie 11',
+                  'not op_mini all',
+                ],
               },
               loose: true,
               bugfixes: false,

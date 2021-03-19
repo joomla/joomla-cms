@@ -3,6 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+import { sanitizeHtml, DefaultAllowlist } from 'bootstrap/js/src/util/sanitizer.js';
+
 // Only define the Joomla namespace if not defined.
 window.Joomla = window.Joomla || {};
 
@@ -620,110 +622,18 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
-   * Render messages send via JSON
-   * Used by some javascripts such as validate.js
+   * Sanitize HTML string
    *
-   * @param   {object}  messages JavaScript object containing the messages to render.
-   *          Example:
-   *          const messages = {
-   *              "message": ["This will be a green message", "So will this"],
-   *              "error": ["This will be a red message", "So will this"],
-   *              "info": ["This will be a blue message", "So will this"],
-   *              "notice": ["This will be same as info message", "So will this"],
-   *              "warning": ["This will be a orange message", "So will this"],
-   *              "my_custom_type": ["This will be same as info message", "So will this"]
-   *          };
-   * @param  {string} selector The selector of the container where the message will be rendered
-   * @param  {bool}   keepOld  If we shall discard old messages
-   * @param  {int}    timeout  The milliseconds before the message self destruct
-   * @return  void
+   * @param {string} unsafeHtml The html for sanitization
+   * @param {object} allowList The list of HTMLElements with an array of allowed attributes
+   * @param {function} sanitizeFn A custom sanitization function
+   *
+   * @return string
    */
-  Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
-    let messageContainer;
-    let typeMessages;
-    let messagesBox;
-    let title;
-    let titleWrapper;
-    let messageWrapper;
-    let alertClass;
-
-    if (typeof selector === 'undefined' || (selector && selector === '#system-message-container')) {
-      messageContainer = document.getElementById('system-message-container');
-    } else {
-      messageContainer = document.querySelector(selector);
-    }
-
-    if (typeof keepOld === 'undefined' || (keepOld && keepOld === false)) {
-      Joomla.removeMessages(messageContainer);
-    }
-
-    [].slice.call(Object.keys(messages)).forEach((type) => {
-      // Array of messages of this type
-      typeMessages = messages[type];
-      messagesBox = document.createElement('joomla-alert');
-
-      if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
-        alertClass = (type === 'notice') ? 'info' : type;
-        alertClass = (type === 'message') ? 'success' : alertClass;
-        alertClass = (type === 'error') ? 'danger' : alertClass;
-        alertClass = (type === 'warning') ? 'warning' : alertClass;
-      } else {
-        alertClass = 'info';
-      }
-
-      messagesBox.setAttribute('type', alertClass);
-      messagesBox.setAttribute('dismiss', 'true');
-
-      if (timeout && parseInt(timeout, 10) > 0) {
-        messagesBox.setAttribute('autodismiss', timeout);
-      }
-
-      // Title
-      title = Joomla.Text._(type);
-
-      // Skip titles with untranslated strings
-      if (typeof title !== 'undefined') {
-        titleWrapper = document.createElement('div');
-        titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = `<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`;
-        messagesBox.appendChild(titleWrapper);
-      }
-
-      // Add messages to the message box
-      messageWrapper = document.createElement('div');
-      messageWrapper.className = 'alert-wrapper';
-      typeMessages.forEach((typeMessage) => {
-        messageWrapper.innerHTML += `<div class="alert-message">${typeMessage}</div>`;
-      });
-      messagesBox.appendChild(messageWrapper);
-
-      messageContainer.appendChild(messagesBox);
-    });
-  };
-
-  /**
-   * Remove messages
-   *
-   * @param  {element} container The element of the container of the message
-   * to be removed
-   *
-   * @return  {void}
-   */
-  Joomla.removeMessages = (container) => {
-    let messageContainer;
-
-    if (container) {
-      messageContainer = container;
-    } else {
-      messageContainer = document.getElementById('system-message-container');
-    }
-
-    const alerts = [].slice.call(messageContainer.querySelectorAll('joomla-alert'));
-    if (alerts.length) {
-      alerts.forEach((alert) => {
-        alert.close();
-      });
-    }
+  Joomla.sanitizeHtml = (unsafeHtml, allowList, sanitizeFn) => {
+    const allowed = (allowList === undefined || allowList === null)
+      ? DefaultAllowlist : { ...DefaultAllowlist, ...allowList };
+    return sanitizeHtml(unsafeHtml, allowed, sanitizeFn);
   };
 
   /**

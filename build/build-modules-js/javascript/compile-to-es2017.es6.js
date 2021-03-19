@@ -60,6 +60,7 @@ module.exports.handleESMFile = async (file) => {
         preferBuiltins: false,
       }),
       replace({
+        preventAssignment: true,
         CSS_CONTENTS_PLACEHOLDER: minifiedCss,
         delimiters: ['{{', '}}'],
       }),
@@ -72,7 +73,11 @@ module.exports.handleESMFile = async (file) => {
             '@babel/preset-env',
             {
               targets: {
-                esmodules: true,
+                browsers: [
+                  '>1%',
+                  'not ie 11',
+                  'not op_mini all',
+                ],
               },
               bugfixes: true,
               loose: true,

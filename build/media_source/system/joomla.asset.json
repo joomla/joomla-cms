@@ -24,6 +24,29 @@
       }
     },
     {
+      "name": "messages-legacy",
+      "type": "script",
+      "uri": "system/messages-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ]
+    },
+    {
+      "name": "messages",
+      "type": "script",
+      "uri": "system/messages.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "messages-legacy"
+      ]
+    },
+    {
       "name": "template.active",
       "type": "style",
       "uri": "",

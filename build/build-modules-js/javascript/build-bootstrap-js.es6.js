@@ -32,6 +32,7 @@ const build = async () => {
     plugins: [
       nodeResolve(),
       replace({
+        preventAssignment: true,
         'process.env.NODE_ENV': '\'production\'',
       }),
       babel({
@@ -43,7 +44,11 @@ const build = async () => {
             '@babel/preset-env',
             {
               targets: {
-                esmodules: true,
+                browsers: [
+                  '>1%',
+                  'not ie 11',
+                  'not op_mini all',
+                ],
               },
             },
           ],
@@ -102,6 +107,7 @@ const buildLegacy = async () => {
       commonjs(),
       nodeResolve(),
       replace({
+        preventAssignment: true,
         'process.env.NODE_ENV': '\'production\'',
       }),
       babel({
