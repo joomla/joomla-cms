@@ -44,7 +44,7 @@ $wa->useScript('joomla.batch-copymove');
 				</select>
 			</div>
 			<div class="form-group">
-				<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add'); ?>
+				<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add'); ?>
 			</div>
 		</div>
 		<div class="form-group">
