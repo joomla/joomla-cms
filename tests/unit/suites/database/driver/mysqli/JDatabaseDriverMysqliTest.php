@@ -310,7 +310,18 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 */
 	public function testGetTableColumns()
 	{
-		$tableCol = array('id' => 'int unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
+		$version = self::$driver->getVersion();
+
+		if (stripos($version, 'mariadb') || version_compare($version, '8.0.17') < 0)
+		{
+			// MySQL older than 8.0.17 or MariaDB: Default display width for unsigned integer is expected
+			$tableCol = array('id' => 'int(10) unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
+		}
+		else
+		{
+			// MySQL 8.0.17 or later: No display width is expected
+			$tableCol = array('id' => 'int unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
+		}
 
 		$this->assertThat(
 			self::$driver->getTableColumns('jos_dbtest'),
@@ -322,13 +333,23 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$id = new stdClass;
 		$id->Default    = null;
 		$id->Field      = 'id';
-		$id->Type       = 'int unsigned';
 		$id->Null       = 'NO';
 		$id->Key        = 'PRI';
 		$id->Collation  = null;
 		$id->Extra      = 'auto_increment';
 		$id->Privileges = 'select,insert,update,references';
 		$id->Comment    = '';
+
+		if (stripos($version, 'mariadb') || version_compare($version, '8.0.17') < 0)
+		{
+			// MySQL older than 8.0.17 or MariaDB: Default display width for unsigned integer is expected
+			$id->Type = 'int(10) unsigned';
+		}
+		else
+		{
+			// MySQL 8.0.17 or later: No display width is expected
+			$id->Type = 'int unsigned';
+		}
 
 		$title = new stdClass;
 		$title->Default    = null;
