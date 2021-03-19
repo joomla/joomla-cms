@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AACA,OAAO,CAAP,6GAAO;AAEP,AAEE,2BAFyB,CAEzB,iBAAiB,CAAC;EAChB,KAAK,EAAE,KAAK;CACb;;AAJH,AAME,2BANyB,CAMzB,IAAI,CAAC;EACH,KAAK,EAAE,KAAK;CACb;;AARH,AAUE,2BAVyB,CAUzB,KAAK,CAAC;EACJ,KAAK,EAAE,KAAK;CACb",
+    "sources": [
+        "minicolors.scss"
+    ],
+    "names": [],
+    "file": "minicolors.css"
+}

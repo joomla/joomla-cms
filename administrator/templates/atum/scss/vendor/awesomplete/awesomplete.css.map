@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AACA,OAAO,CAAP,uFAAO;AAEP,AAAA,YAAY,CAAC;EACX,OAAO,EAAE,KAAK;CACf",
+    "sources": [
+        "awesomplete.scss"
+    ],
+    "names": [],
+    "file": "awesomplete.css"
+}

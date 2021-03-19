@@ -1,0 +1,36 @@
+#joomla-tinymce-builder .drop-area-highlight {
+  background-color: #d0d0d0;
+}
+
+#joomla-tinymce-builder .tox-editor-container > .target {
+  min-height: 2.5rem;
+}
+
+.tox-mbtn.gu-mirror {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0;
+  margin: 2px 0 3px;
+  overflow: hidden;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: normal;
+  background: #dee0e2;
+  border: 0;
+  border-radius: 3px;
+  outline: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+/*# sourceMappingURL=tinymce-builder.css.map */
