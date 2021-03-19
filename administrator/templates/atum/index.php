@@ -146,21 +146,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 
 	<?php // container-fluid ?>
 	<div class="container-fluid container-main">
-		<?php if (!$cpanel) : ?>
-			<?php // Subheader ?>
-			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
-				<span class="toggler-toolbar-icon"></span>
-			</button>
-			<div id="subhead" class="subhead mb-3">
-				<div id="container-collapse" class="container-collapse"></div>
-				<div class="row">
-					<div class="col-md-12">
-						<jdoc:include type="modules" name="toolbar" style="no" />
-					</div>
-				</div>
-			</div>
-		<?php endif; ?>
+		
 		<section id="content" class="content">
 			<?php // Begin Content ?>
 			<jdoc:include type="modules" name="top" style="xhtml" />
@@ -177,6 +163,21 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 			</div>
 			<?php // End Content ?>
 		</section>
+		<?php if (!$cpanel) : ?>
+			<?php // Subheader ?>
+			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+				<span class="toggler-toolbar-icon"></span>
+			</button>
+			<div id="subhead" class="subhead mb-3">
+				<div id="container-collapse" class="container-collapse"></div>
+				<div class="row">
+					<div class="col-md-12">
+						<jdoc:include type="modules" name="toolbar" style="no" />
+					</div>
+				</div>
+			</div>
+		<?php endif; ?>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
