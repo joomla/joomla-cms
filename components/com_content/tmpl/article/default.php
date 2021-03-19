@@ -113,7 +113,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 	<?php endif; ?>
 
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && !$this->item->paginationrelative) :
+	if (!empty($this->item->pagination) && $this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
 	?>
 	<?php endif; ?>
@@ -135,7 +135,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 	<?php endif; ?>
 	<?php endif; ?>
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative) :
+	if (!empty($this->item->pagination) && $this->item->paginationposition && $this->item->paginationrelative) :
 		echo $this->item->pagination;
 	?>
 	<?php endif; ?>
