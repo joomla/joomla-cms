@@ -131,10 +131,10 @@
         &:hover,
         &[aria-expanded="true"] {
           color: var(--atum-text-light);
-          transform: scale(1.2,1.4);          
           text-decoration: none;
           background-color: var(--atum-bg-dark-40);
           box-shadow: $atum-box-shadow;
+          transform: scale(1.2,1.4);
         }
 
         &.disabled,
