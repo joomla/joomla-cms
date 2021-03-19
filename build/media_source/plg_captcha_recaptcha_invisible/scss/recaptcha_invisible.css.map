@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,iBAAiB,CAAC;EAChB,OAAO,EAAE,MAAM;CAChB",
-    "sources": [
-        "recaptcha_invisible.scss"
-    ],
-    "names": [],
-    "file": "recaptcha_invisible.css"
-}

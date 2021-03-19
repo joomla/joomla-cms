@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AACA,OAAO,CAAC,2FAAI;AAEZ,AAAA,KAAK,CAAC;EACJ,6BAA6B,CAAA,wBAAC;EAC9B,iCAAiC,CAAA,wBAAC;EAClC,iCAAiC,CAAA,IAAC;EAClC,+BAA+B,CAAA,IAAC;CACjC",
-    "sources": [
-        "fonts-web_fira-sans.scss"
-    ],
-    "names": [],
-    "file": "fonts-web_fira-sans.css"
-}

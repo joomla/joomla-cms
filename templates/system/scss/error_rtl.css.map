@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA;;;GAGG;AAEH,yBAAyB;AAEzB,AAAA,IAAI,CAAC;EACH,UAAU,EAAE,KAAK;CAClB;;AAED,AAAA,GAAG,CAAC;EACF,UAAU,EAAE,IAAI;CACjB;;AAED,AAAA,aAAa,CAAC;EACZ,UAAU,EAAE,KAAK;CAClB;;AACD,AAAA,SAAS,CAAC;EACR,UAAU,EAAE,KAAK;CAClB",
-    "sources": [
-        "error_rtl.scss"
-    ],
-    "names": [],
-    "file": "error_rtl.css"
-}

@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AACA,OAAO,CAAC,8HAAI;AAEZ,AAAA,KAAK,CAAC;EACJ,6BAA6B,CAAA,wBAAC;EAC9B,iCAAiC,CAAA,qBAAC;EAClC,iCAAiC,CAAA,IAAC;EAClC,+BAA+B,CAAA,IAAC;CACjC",
-    "sources": [
-        "fonts-web_roboto+noto-sans.scss"
-    ],
-    "names": [],
-    "file": "fonts-web_roboto+noto-sans.css"
-}

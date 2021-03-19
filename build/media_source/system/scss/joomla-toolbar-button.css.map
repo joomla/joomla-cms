@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,qBAAqB,CAAC,cAAc,AAAA,MAAM;AAC1C,qBAAqB,CAAC,cAAc,AAAA,MAAM,CAAC;EACzC,KAAK,EAAE,IAAI;CACZ",
-    "sources": [
-        "joomla-toolbar-button.scss"
-    ],
-    "names": [],
-    "file": "joomla-toolbar-button.css"
-}

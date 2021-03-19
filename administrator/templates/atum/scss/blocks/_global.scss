@@ -219,18 +219,10 @@ a[target="_blank"]::before {
 
 details {
   margin: 0 0 2rem;
-
-  .form-group{
-    margin: 1rem !important;
-  }
 }
 
 summary {
   color: var(--atum-link-color);
-  padding: 1rem;
-  background-color: #e3e3e3;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
 }
 
 // meter element
