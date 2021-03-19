@@ -176,7 +176,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 				<?php endif; ?>
 			</div>
 			<?php // End Content ?>
-		</section
+		</section>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
