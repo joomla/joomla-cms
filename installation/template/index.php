@@ -30,7 +30,6 @@ $this->getWebAssetManager()
 
 $logo = file_get_contents(__DIR__.'/images/brand-large.svg');
 
-
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
 
@@ -69,7 +68,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 			<header id="header" class="header">
 				<div class="d-flex align-items-center">
 					<div class="logo d-none d-md-block col">
-						<?php echo $logo ?>
+						<?php echo $logo; ?>
 					</div>
 					<div class="mx-2 my-3 d-flex d-md-none">
 						<img class="logo-small d-flex d-md-none" src="<?php echo $this->baseurl; ?>/template/images/Joomla-brandmark-monochrome-white-RGB.svg" alt="">
