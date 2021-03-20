@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <div class="header-item-content">
-	<div class="joomlaversion d-flex text-muted">
+	<div class="joomlaversion d-flex">
 		<div class="header-item-icon">
 			<span class="icon-joomla" aria-hidden="true"></span>
 		</div>

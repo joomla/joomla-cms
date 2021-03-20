@@ -122,7 +122,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 			</div>
 			<jdoc:include type="modules" name="title" />
 		</div>
-		<div class="header-items d-flex">
+		<div class="header-items d-flex ms-auto">
 			<jdoc:include type="modules" name="status" style="header-item" />
 		</div>
 	</div>

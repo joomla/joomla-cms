@@ -102,7 +102,8 @@
   }
 
   .card-header {
-    padding: 1rem 1rem 0;
+    display: flex;
+    padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
     color: var(--atum-bg-dark);
     background: var(--card-bg);
@@ -113,17 +114,13 @@
   }
 
   .module-actions {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: $zindex-actions;
+    order: 1;
+    margin-inline-start: auto;
 
-    > a {
-      display: inline-block;
-      width: 2.6em;
-      height: 2.6em;
-      line-height: 2.6em;
-      color: var(--atum-special-color);
+    > * {
+      padding: 0;
+      margin-top: -10px;
+      color: var(--atum-bg-dark-70);
     }
   }
 

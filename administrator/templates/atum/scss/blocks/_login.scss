@@ -36,7 +36,7 @@
       height: 4.4rem;
       padding: 15px;
     }
-
+    
     .logo {
       padding: 0 20px 20px;
     }
@@ -142,9 +142,13 @@
     max-width: none;
   }
 
+  .sidebar-wrapper,
+  .header .logo {
+    flex: 1 0 400px;
+  }
+
   .sidebar-wrapper {
     display: flex;
-    flex: 1 0 400px;
     flex-direction: column;
     max-width: none;
     background-color: #1c395e;

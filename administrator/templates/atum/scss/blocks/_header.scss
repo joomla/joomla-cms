@@ -3,21 +3,10 @@
   position: relative;
   z-index: $zindex-header;
   box-sizing: border-box;
-  padding: 12px 26px 12px 5px;
   color: $white;
   background: var(--atum-bg-dark);
 
   .header-title {
-    width: 50%;
-
-    .d-flex:last-child {
-      max-width: calc(100% - #{$sidebar-width});
-
-      @include media-breakpoint-down(lg) {
-        max-width: calc(100% - #{$sidebar-width-closed});
-      }
-    }
-
     .container-title {
       width: 100%;
     }
@@ -35,6 +24,8 @@
     align-items: center;
     width: $sidebar-width;
     height: 100%;
+    padding: 12px 5px;
+    background-color: var(--atum-bg-dark-70);
     transition: all .3s ease-in-out;
 
     &.small {
@@ -55,7 +46,6 @@
         path {
           fill: $white;
         }
-
       }
     }
 
@@ -80,6 +70,7 @@
   .page-title {
     width: 100%;
     margin: 0;
+    padding: 0 1rem;
     overflow: hidden;
     font-size: 1.2rem;
     color: $white;
@@ -90,18 +81,18 @@
     [class*=" #{$jicon-css-prefix}-"],
     [class^="#{$fa-css-prefix}-"],
     [class*=" #{$fa-css-prefix}-"] {
-      margin-inline-end: .625rem;
+      margin-inline-end: .25rem;
     }
   }
 
   .header-items {
-    width: 50%;
+    margin: 15px 15px 15px auto;
     justify-content: flex-end;
     align-items: center;
 
     .header-item-icon {
       > * {
-        background-color: var(--atum-bg-dark-50);
+        background-color: var(--atum-bg-dark);
         border-radius: 16px;
         width: 28px;
         height: 28px;
@@ -115,7 +106,6 @@
       [class*=" icon-"] {
         margin: 4px;
       }
-
     }
   }
 
@@ -135,7 +125,8 @@
     .header-item-content {
       display: flex;
       align-items: center;
-      background-color: var(--atum-bg-dark-70);
+      padding-inline-end: 4px;
+      background-color: var(--atum-bg-dark-60);
       border-radius: 22px;
       color: $white;
       line-height: 1rem;
@@ -161,6 +152,7 @@
         &.disabled,
         &.disabled:hover,
         &.disabled[aria-expanded="true"] {
+          display: none;
           color: #fff;
           pointer-events: none;
           background-color: transparent;

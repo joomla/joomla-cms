@@ -90,6 +90,7 @@ $colors: (
   atum-bg-dark-50:                 hsl(var(--hue), 40%, 50%),
   atum-bg-dark-60:                 hsl(var(--hue), 40%, 40%),
   atum-bg-dark-70:                 hsl(var(--hue), 40%, 30%),
+  atum-bg-dark-75:                 hsl(var(--hue), 40%, 25%),
   atum-bg-dark-80:                 hsl(var(--hue), 40%, 20%),
   atum-bg-dark-90:                 hsl(var(--hue), 40%, 10%)
 );
@@ -247,7 +248,7 @@ $form-file-button-color:           var(--white);
 
 //input
 $input-padding:                    .5rem 1rem;
-$input-border:                     solid 1px hsl(var(--hue),20%,80%);
+$input-border:                     solid 1px var(--atum-bg-dark-10);
 
 // Modals
 $modal-header-height:              2.875rem;

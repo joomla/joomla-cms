@@ -14,9 +14,13 @@
     transition: all .25s ease;
   }
 
+  ul {
+    padding: 0;
+  }
+
   .quickicon {
     --text-color: #30517b;
-    --bg-color: #f3f7fc;
+    --bg-color: hsl(var(--hue),60%,97%);
     --icon-color: #30517b;
     --bg-color-hvr: var(--atum-bg-dark);
 
@@ -93,7 +97,7 @@
       &.success {
         --text-color: var(--success);
         --bg-color: #f3f9f3;
-        --icon-color: linear-gradient(var(--success), #159c1e);
+        --icon-color: var(--success);
         --bg-color-hvr: var(--success);
       }
     }
@@ -102,7 +106,7 @@
   .quickicon-linkadd {
     width: 2.5rem;
     font-size: 1.2rem;
-    background: #c7d5ec70;
+    background: hsl(var(--hue),50%,93%);
 
     a {
       align-items: flex-end;
