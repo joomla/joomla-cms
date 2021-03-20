@@ -47,7 +47,10 @@
   elSearch.addEventListener('keyup', (event) => {
     /** @type {KeyboardEvent} event */
     const partialSearch = event.target.value;
+    const alert = document.querySelector('.alert');
     const elCards = document.querySelectorAll('.comModulesSelectCard');
+
+    let countOfMatchFound = 0;
 
     // Save the search string into session storage
     if (typeof (sessionStorage) !== 'undefined') {
@@ -63,9 +66,11 @@
 
       // First remove the classes which hide the module cards
       card.classList.remove('d-none');
+      countOfMatchFound += 1;
 
       // An empty search string means that we should show everything
       if (partialSearch === '') {
+        countOfMatchFound = elCards.length;
         return;
       }
 
@@ -73,8 +78,15 @@
       if (!title.toLowerCase().includes(partialSearch.toLowerCase())
         && !description.toLowerCase().includes(partialSearch.toLowerCase())) {
         card.classList.add('d-none');
+        countOfMatchFound -= 1;
       }
     });
+
+    if (countOfMatchFound <= 0) {
+      alert.classList.remove('d-none');
+    } else {
+      alert.classList.add('d-none');
+    }
   });
 
   // For reasons of progressive enhancement the search box is hidden by default.

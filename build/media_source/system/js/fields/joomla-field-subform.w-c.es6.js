@@ -94,7 +94,7 @@
               : event.target.closest(that.buttonRemove);
           }
 
-          // Check actine, with extra check for nested joomla-field-subform
+          // Check active, with extra check for nested joomla-field-subform
           if (btnAdd && btnAdd.closest('joomla-field-subform') === that) {
             let row = btnAdd.closest('joomla-field-subform');
             row = row.closest(that.repeatableElement) === that ? row : null;
@@ -160,7 +160,7 @@
       }
 
       if (!this.template) {
-        throw new Error('The row template are required to subform element to work');
+        throw new Error('The row template is required for the subform element to work');
       }
     }
 
@@ -170,7 +170,7 @@
      * @returns {HTMLElement}
      */
     addRow(after) {
-      // Count how much we already have
+      // Count how many we already have
       const count = this.getRows().length;
       if (count >= this.maximum) {
         return null;
@@ -243,7 +243,7 @@
     }
 
     /**
-     * Fix names ind id`s for field that in the row
+     * Fix name and id for fields that are in the row
      * @param {HTMLElement} row
      * @param {Number} count
      */
@@ -332,7 +332,7 @@
           $el.id = idNew;
         }
 
-        // Guess there a label for this input
+        // Check if there is a label for this input
         const lbl = row.querySelector(`label[for="${forOldAttr}"]`);
         if (lbl) {
           lbl.setAttribute('for', idNew);
@@ -366,7 +366,7 @@
         && element.matches(that.buttonMove) ? element : element.closest(that.buttonMove);
       }
 
-      // Helper method to mover row to selected position
+      // Helper method to move row to selected position
       function switchRowPositions(src, dest) {
         let isRowBefore = false;
         if (src.parentNode === dest.parentNode) {
@@ -388,7 +388,7 @@
       /**
        *  Touch interaction:
        *
-       *  - a touch of "move button" mark a row draggable / "selected",
+       *  - a touch of "move button" marks a row draggable / "selected",
        *     or deselect previous selected
        *
        *  - a touch of "move button" in the destination row will move

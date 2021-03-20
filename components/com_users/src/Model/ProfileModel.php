@@ -17,12 +17,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
@@ -58,71 +56,6 @@ class ProfileModel extends FormModel
 		);
 
 		parent::__construct($config, $factory, $formFactory);
-	}
-
-	/**
-	 * Method to check in a user.
-	 *
-	 * @param   integer  $userId  The id of the row to check out.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   1.6
-	 */
-	public function checkin($userId = null)
-	{
-		// Get the user id.
-		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
-
-		if ($userId)
-		{
-			// Initialise the table with Joomla\CMS\User\User.
-			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
-
-			// Attempt to check the row in.
-			if (!$table->checkin($userId))
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to check out a user for editing.
-	 *
-	 * @param   integer  $userId  The id of the row to check out.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   1.6
-	 */
-	public function checkout($userId = null)
-	{
-		// Get the user id.
-		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
-
-		if ($userId)
-		{
-			// Initialise the table with Joomla\CMS\User\User.
-			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
-
-			// Get the current user object.
-			$user = Factory::getUser();
-
-			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $userId))
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	/**

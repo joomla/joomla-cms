@@ -98,6 +98,7 @@ if (document.getElementById('defaultLanguagesButton')) {
           if (successresponse.messages) {
             Joomla.renderMessages(successresponse.messages, '#system-message-container');
           }
+          Joomla.loadOptions({'csrf.token': successresponse.token});
         },
         onError(xhr) {
           Joomla.renderMessages({ error: [xhr] }, '#system-message-container');

@@ -6,14 +6,26 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_banners.admin-banner-edit",
+      "name": "com_banners.admin-banner-edit.es5",
       "type": "script",
-      "uri": "com_banners/admin-banner-edit.min.js",
+      "uri": "com_banners/admin-banner-edit-es5.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
+        "nomodule": true,
         "defer": true
+      }
+    },
+    {
+      "name": "com_banners.admin-banner-edit",
+      "type": "script",
+      "uri": "com_banners/admin-banner-edit.min.js",
+      "dependencies": [
+        "com_banners.admin-banner-edit.es5"
+      ],
+      "attributes": {
+        "type": "module"
       }
     }
   ]

@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Input\Input;
@@ -944,5 +945,29 @@ class TemplateController extends BaseController
 		echo json_encode($result);
 
 		$app->close();
+	}
+
+	/**
+	 * Method to get the number of published templates for quickicons
+	 *
+	 * @return  string  The JSON-encoded amount of published templates
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('templates');
+
+		$model->setState('filter.published', 1);
+
+		$amount = (int) $model->getTotal();
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_TEMPLATES_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_TEMPLATES_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 }

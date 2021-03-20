@@ -257,7 +257,7 @@ class UserModel extends AdminModel
 		}
 
 		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
+		if (isset($data['twofactor']['method']))
 		{
 			$twoFactorMethod = $data['twofactor']['method'];
 

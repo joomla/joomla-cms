@@ -50,6 +50,10 @@ endif;
 
 <div id="new-modules-list">
 	<div class="new-modules">
+		<div class="alert alert-info d-none">
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
+		</div>
 		<div class="card-columns">
 			<?php foreach ($this->items as &$item) : ?>
 				<div class="card mb-4 comModulesSelectCard">

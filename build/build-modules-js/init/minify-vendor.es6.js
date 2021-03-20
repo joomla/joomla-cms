@@ -10,7 +10,6 @@ const folders = [
   'media/vendor/chosen/js',
   'media/vendor/codemirror',
   'media/vendor/debugbar',
-  'media/vendor/punycode/js',
   'media/vendor/qrcode/js',
   'media/vendor/short-and-sweet/js',
   'media/vendor/webcomponentsjs/js',

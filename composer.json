@@ -76,7 +76,7 @@
         "wamania/php-stemmer": "^2.0",
         "maximebf/debugbar": "^1.15",
         "tobscure/json-api": "^0.4.1",
-        "willdurand/negotiation": "^2.3",
+        "willdurand/negotiation": "^3.0",
         "ext-json": "*",
         "ext-simplexml": "*",
         "psr/log": "~1.0",

@@ -11,7 +11,9 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Languages controller Class.
@@ -34,5 +36,29 @@ class LanguagesController extends AdminController
 	public function getModel($name = 'Language', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
+	 * Method to get the number of published languages for quickicons
+	 *
+	 * @return  string  The JSON-encoded amount of published languages
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('languages');
+
+		$model->setState('filter.published', 1);
+
+		$amount = (int) $model->getTotal();
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_LANGUAGES_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_LANGUAGES_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 }

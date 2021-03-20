@@ -1,19 +1,14 @@
-const { readFile, writeFile } = require('fs').promises;
 const { resolve } = require('path');
-const { minify } = require('terser');
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const VuePlugin = require('rollup-plugin-vue');
 const commonjs = require('@rollup/plugin-commonjs');
+const { minifyJs } = require('./minify.es6.js');
 
 const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
 
-const createMinified = async (file, contents) => {
-  const mini = await minify(contents, { sourceMap: false, format: { comments: false } });
-  await writeFile(file, mini.code, { encoding: 'utf8' });
-};
 const buildLegacy = async (file) => {
   // eslint-disable-next-line no-console
   console.log('Building Legacy Media Manager...');
@@ -58,10 +53,10 @@ const buildLegacy = async (file) => {
   // closes the bundle
   await bundle.close();
 
-  const contents = await readFile('media/com_media/js/media-manager-es5.js', { encoding: 'utf8' });
-  await createMinified(resolve('media/com_media/js/media-manager-es5.min.js'), contents);
   // eslint-disable-next-line no-console
   console.log('Legacy Media Manager ready ✅');
+
+  minifyJs('media/com_media/js/media-manager-es5.js');
 };
 
 module.exports.mediaManager = async () => {
@@ -112,9 +107,10 @@ module.exports.mediaManager = async () => {
 
   // closes the bundle
   await bundle.close();
-  const contents = await readFile('media/com_media/js/media-manager.js', { encoding: 'utf8' });
-  await createMinified(resolve('media/com_media/js/media-manager.min.js'), contents);
+
   // eslint-disable-next-line no-console
   console.log('ES2017 Media Manager ready ✅');
-  await buildLegacy(resolve('media/com_media/js/media-manager.js'));
+
+  minifyJs('media/com_media/js/media-manager.js');
+  return buildLegacy(resolve('media/com_media/js/media-manager.js'));
 };
