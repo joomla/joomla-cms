@@ -13,17 +13,9 @@ When you are checking out the current development branch of 4.0 and run `compose
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="tests/Unit/bootstrap.php" colors="false">
-	<testsuites>
-		<testsuite name="Unit">
-			<directory suffix="Test.php">./tests/Unit/Libraries</directory>
-		</testsuite>
-		<testsuite name="Integration">
-			<directory suffix="Test.php">./tests/Integration/Libraries</directory>
-		</testsuite>
-	</testsuites>
+...
 	<php>
-		<const name="JTEST_DB_ENGINE" value="pgsql" />
-		<const name="JTEST_DB_HOST" value="postgres" />
+		...
 		<const name="JTEST_DB_NAME" value="YOUR_DB_NAME" />
 		<const name="JTEST_DB_USER" value="YOUR_USER" />
 		<const name="JTEST_DB_PASSWORD" value="YOUR_PASSWORD" />
