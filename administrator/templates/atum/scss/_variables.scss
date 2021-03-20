@@ -287,3 +287,8 @@ $zindex-tooltip:                   1070;
 $zindex-mobile-bottom:             8000;
 $zindex-mobile-toggle:             9999;
 $zindex-mobile-menu:               9000;
+
+
+:root {
+  --box-shadow: $atum-box-shadow;
+}

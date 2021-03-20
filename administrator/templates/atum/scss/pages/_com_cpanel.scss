@@ -2,7 +2,6 @@
 
 .cpanel-add-module-icon,
 .com-cpanel {
-
   &-help,
   &-system {
 
@@ -87,6 +86,9 @@
 
     .list-group,
     .table {
+      padding: 0;
+      margin-bottom: unset;
+      
       > .published {
         padding-left: .9rem;
         border-left: 5px solid var(--success);
@@ -96,7 +98,6 @@
         padding-left: .9rem;
         border-left: 5px solid var(--danger);
       }
-      margin-bottom: unset;
     }
 
   }
@@ -107,6 +108,10 @@
     font-weight: $font-weight-bold;
     color: var(--atum-bg-dark);
     background: var(--card-bg);
+
+    > [class^="icon-"] {
+      margin-inline-end: .5rem;
+    }
   }
 
   .card-body {
@@ -125,46 +130,37 @@
   }
 
   .cpanel-add-module {
-    position: relative;
-    background-color: transparent;
-    border: .125rem dashed var(--atum-link-color);
-    transition: all .3s ease-in;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    min-height: 130px;
+    padding: 0 1rem;
+    background-color: hsl(var(--hue),35%,98%);
+    border: 1px solid hsl(var(--hue),35%,88%);
+    border-radius: $border-radius;
+    transition: all .15s ease-in;
+    color: hsl(var(--hue),30%,40%);
+    font-size: .875rem;
+    font-weight: 700;
+    line-height: 1;
 
     &:hover,
     &:focus,
     &:active {
+      color: #fff;
       text-decoration: none;
-      background-color: var(--white);
-      border-color: var(--atum-bg-dark);
-
-      .cpanel-add-module-icon {
-
-        [class^="#{$fa-css-prefix}-"],
-        [class*=" #{$fa-css-prefix}-"] {
-          opacity: .3;
-        }
-      }
+      background: var(--atum-bg-dark);
     }
 
-    span {
-      position: relative;
+    > span {
+      padding: .25rem 0 1rem;
     }
 
     .cpanel-add-module-icon {
-      position: absolute;
-      top: -.25rem;
-      right: 0;
-      bottom: 0;
-      left: 12rem;
-
-      [class^="#{$jicon-css-prefix}-"],
-      [class*=" #{$jicon-css-prefix}-"],
-      [class^="#{$fa-css-prefix}-"],
-      [class*=" #{$fa-css-prefix}-"] {
-        font-size: 7rem;
-        transition: all .3s ease-in;
-        transform: translateX(-100%);
-      }
+      margin-inline-end: .5rem;
+      font-size: 2rem;
+      color: hsl(var(--hue),30%,40%);
     }
   }
 }
@@ -209,6 +205,10 @@
     font-size: $h4-font-size;
     margin-bottom: 0;
   }
+
+  .mod-custom {
+    padding: 1rem;
+  }
 }
 
 .sample-data {
@@ -228,7 +228,7 @@
 }
 
 .sample-data__desc {
-  border-left: 4px solid #d4dff0;
-  padding-left: 1rem;
-  margin-left: 8px;
+  border-inline-start: 4px solid hsl(var(--hue),50%,93%);
+  padding-inline-start: 1rem;
+  margin-inline-start: 8px;
 }

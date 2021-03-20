@@ -22,7 +22,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				<div class="w-auto">
 					<span class="icon-bell" aria-hidden="true"></span>
 					<?php if (count($messages) > 0) : ?>
-						<small class="me-2"><?php echo count($messages); ?></small>
+						<small class="header-item-count"><?php echo count($messages); ?></small>
 					<?php endif; ?>
 				</div>
 			</div>

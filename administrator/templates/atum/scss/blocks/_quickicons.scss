@@ -19,9 +19,9 @@
   }
 
   .quickicon {
-    --text-color: #30517b;
+    --text-color: hsl(var(--hue),30%,40%);
     --bg-color: hsl(var(--hue),60%,97%);
-    --icon-color: #30517b;
+    --icon-color: hsl(var(--hue),30%,40%);
     --bg-color-hvr: var(--atum-bg-dark);
 
     a {
@@ -35,7 +35,6 @@
 
       .quickicon-icon {
         margin-inline-start: .2rem;
-        opacity: .75;
 
         > * {
           font-size: $quickicon-icon-size;
@@ -53,10 +52,6 @@
         color: $white;
         text-decoration: none;
         background: var(--bg-color-hvr);
-
-        .quickicon-icon > * {
-          color: $white;
-        }
       }
 
       .quickicon-name {
@@ -135,7 +130,7 @@
     min-height: 6rem;
     border-radius: 4px;
     overflow: hidden;
-    border: 1px solid #c7d5ec70;
+    border: 1px solid hsl(var(--hue),50%,93%);
   }
 }
 

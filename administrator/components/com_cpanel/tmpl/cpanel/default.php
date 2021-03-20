@@ -63,9 +63,9 @@ echo HTMLHelper::_(
 		}
 		?>
 		<?php if ($user->authorise('core.manage', 'com_modules')) : ?>
-			<button type="button" data-bs-toggle="modal" data-bs-target="#moduleDashboardAddModal" class="cpanel-add-module text-center py-5 w-100 d-block">
-				<div class="cpanel-add-module-icon text-center">
-					<span class="icon-plus-square text-light mt-2"></span>
+			<button type="button" data-bs-toggle="modal" data-bs-target="#moduleDashboardAddModal" class="cpanel-add-module">
+				<div class="cpanel-add-module-icon">
+					<span class="icon-plus-square"></span>
 				</div>
 				<span><?php echo Text::_('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
 			</button>
