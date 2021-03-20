@@ -1,18 +1,25 @@
 /**
-* BASED ON: https://codepen.io/dgrammatiko/pen/zLvXwR
-* BASED ON: https://codepen.io/thednp/pen/yLVzZzW
-*
-* Example
-* <joomla-field-color-picker>
-*   <input type="hidden">
-* </joomla-field-color-picker>
-*/
+ * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/**
+ * Joomla Color Picker
+ * BASED ON: https://codepen.io/dgrammatiko/pen/zLvXwR
+ * BASED ON: https://codepen.io/thednp/pen/yLVzZzW
+ *
+ * Example
+ * <joomla-field-color-picker>
+ *   <input type="hidden">
+ * </joomla-field-color-picker>
+ */
 
 'use strict';
 
 import TinyColor from '@ctrl/tinycolor';
 
 const nonColors = ['transparent', 'currentColor', 'inherit', 'initial'];
+const colorNames = ['white', 'black', 'grey', 'red', 'orange', 'brown', 'gold', 'olive', 'yellow', 'lime', 'green', 'teal', 'cyan', 'blue', 'violet', 'magenta', 'pink'];
 
 class ColorPicker extends HTMLElement {
   constructor() {
@@ -40,6 +47,7 @@ class ColorPicker extends HTMLElement {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.changeHandler = this.changeHandler.bind(this);
     this.handleDismiss = this.handleDismiss.bind(this);
+    this.keyHandler = this.keyHandler.bind(this);
     this.updateDropdownPosition = this.updateDropdownPosition.bind(this);
     this.updateDropdownWidth = this.updateDropdownWidth.bind(this);
   }
@@ -61,16 +69,21 @@ class ColorPicker extends HTMLElement {
 
   get label() { return document.querySelector(`[for="${this.id}"]`); }
 
-  get isDark() { return this.color.isDark() && this.color.getAlpha() > 0.3; }
-
   get allowNonColor() { return this.keywords && this.keywords.some((x) => nonColors.includes(x)); }
 
-  get willValidate() { return !this.getAttribute('disabled'); }
+  get hex() { return this.color.toHex(); }
 
-  get checkValidity() {
-    return (this.allowNonColor && nonColors.includes(this.value))
-      || new TinyColor(this.value).isValid;
-  }
+  get hsv() { return this.color.toHsv(); }
+
+  get hsl() { return this.color.toHsl(); }
+
+  get rgb() { return this.color.toRgb(); }
+
+  get brightness() { return this.color.getBrightness(); }
+
+  get isDark() { const { rgb } = this; return this.brightness < 120 && rgb.a > 0.33; }
+
+  get isValid() { const inputValue = this.input.value; return inputValue !== '' && new TinyColor(inputValue).isValid; }
 
   disconnectedCallback() {
     this.isDisconnected = true;
@@ -92,7 +105,40 @@ class ColorPicker extends HTMLElement {
 
     // get input value, format, direction and labels
     const colorValue = this.getAttribute('value');
-    const placeholder = this.getAttribute('placeholder');
+    const hint = this.getAttribute('placeholder');
+    const placeholder = hint ? ` placeholder="${hint}"` : '';
+    const inputLabel = this.getAttribute('inputLabel');
+    const formatLabel = this.getAttribute('formatLabel');
+    const dialogLabel = this.getAttribute('dialogLabel');
+    const alphaLabel = this.getAttribute('alphaLabel') || 'alpha';
+    const appearanceLabel = this.getAttribute('appearanceLabel');
+    const hexLabel = this.getAttribute('hexLabel');
+    const hueLabel = this.getAttribute('hueLabel');
+    const saturationLabel = this.getAttribute('saturationLabel');
+    const lightnessLabel = this.getAttribute('lightnessLabel');
+    const redLabel = this.getAttribute('redLabel');
+    const greenLabel = this.getAttribute('greenLabel');
+    const blueLabel = this.getAttribute('blueLabel');
+    const translatedColorLabels = this.getAttribute('colorLabels').split(',');
+    const colorLabels = translatedColorLabels.length !== 17 ? colorNames : translatedColorLabels;
+
+    // expose component labels to all methods
+    this.componentLabels = {
+      appearance: appearanceLabel,
+      alpha: alphaLabel,
+      hex: hexLabel,
+      red: redLabel,
+      green: greenLabel,
+      blue: blueLabel,
+      hue: hueLabel,
+      saturation: saturationLabel,
+      lightness: lightnessLabel,
+    };
+
+    // expose color labels to all methods
+    this.colorLabels = {};
+
+    colorNames.forEach((c, i) => { this.colorLabels[c] = colorLabels[i]; });
 
     // init color
     this.color = new TinyColor((nonColors.includes(colorValue) ? '#fff' : colorValue), { format: this.format });
@@ -103,94 +149,117 @@ class ColorPicker extends HTMLElement {
     const cvh = this.isMobile ? 150 : 230;
     const cv2w = 21;
     const dropClass = this.isMobile ? ' mobile' : '';
-    const alphaControlViz = this.format === 'hex' ? ' visually-hidden' : '';
+    const ctrl1Labelledby = this.format === 'hsl' ? 'appearance appearance1' : 'appearance1';
+    const ctrl2Labelledby = this.format === 'hsl' ? 'appearance2' : 'appearance appearance2';
 
-    const controlsTemplate = `<div class="color-control">
-  <canvas class="color-control1" height="${cvh}" width="${cv1w}"></canvas>
-  <div class="color-pointer"></div>
-</div>
-<div class="color-control">
-  <canvas class="color-control2" height="${cvh}" width="${cv2w}" ></canvas>
-  <div class="color-slider"></div>
-</div>
-<div class="color-control${alphaControlViz}">
-  <canvas class="color-control3" height="${cvh}" width="${cv2w}"></canvas>
-  <div class="color-slider"></div>
-</div>`;
+    const control3Template = this.format === 'hex' ? '' : `<div class="color-control" role="presentation">
+     <label id="appearance3" class="color-label visually-hidden"></label>
+     <canvas class="visual-control3" height="${cvh}" width="${cv2w}" aria-hidden="true"></canvas>
+     <div class="color-slider knob" tabindex="0" aria-labelledby="appearance3"></div>
+   </div>`;
 
-    // set inputs template
-    const inputLabels = this.getAttribute('inputLabels').split(',');
-
-    const hexForm = `<label for="color_hex" class="hex-label">HEX: <span class="visually-hidden">${inputLabels[0]}</span></label>
-<input id="color_hex" name="color_hex" value="#000" placeholder="${placeholder}" class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">`;
-
-    const rgbForm = `<label for="rgb_color_red">R: <span class="visually-hidden">${inputLabels[0]}</span></label>
-<input id="rgb_color_red" name="rgb_color_red" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
-
-<label for="rgb_color_green">G: <span class="visually-hidden">${inputLabels[1]}</span></label>
-<input id="rgb_color_green" name="rgb_color_green" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
-
-<label for="rgb_color_blue">B: <span class="visually-hidden">${inputLabels[2]}</span></label>
-<input id="rgb_color_blue" name="rgb_color_blue" value="0" class="color-input" type="number" placeholder="[0-255]" min="0" max="255" autocomplete="off" spellcheck="false">
-
-<label for="rgb_color_alpha">A: <span class="visually-hidden">${inputLabels[3]}</span></label>
-<input id="rgb_color_alpha" name="rgb_color_alpha" value="1" class="color-input" type="number" placeholder="[0-1]" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
-
-    const hslForm = `<label for="hsl_color_hue">H: <span class="visually-hidden">${inputLabels[0]}</span></label>
-<input id="hsl_color_hue" name="hsl_color_hue" value="0" class="color-input" type="number" placeholder="[0-360]" min="0" max="360" autocomplete="off" spellcheck="false">
-
-<label for="hsl_color_saturation">S: <span class="visually-hidden">${inputLabels[1]}></span></label>
-<input id="hsl_color_saturation" name="hsl_color_saturation" value="0" class="color-input" type="number" placeholder="[0-100]" min="0" max="100" autocomplete="off" spellcheck="false">
-
-<label for="hsl_color_lightness">L: <span class="visually-hidden">${inputLabels[2]}</span></label>
-<input id="hsl_color_lightness" name="hsl_color_lightness" value="0" class="color-input" type="number" placeholder="[0-100]" min="0" max="100" autocomplete="off" spellcheck="false">
-
-<label for="hsl_color_alpha">A: <span class="visually-hidden">${inputLabels[3]}</span></label>
-<input id="hsl_color_alpha" name="hsl_color_alpha" value="1" class="color-input" type="number" placeholder="[0-1]" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
+    const controlsTemplate = `<div class="color-control" role="presentation">
+   <label id="appearance1" class="color-label visually-hidden"></label>
+   <canvas class="visual-control1" height="${cvh}" width="${cv1w}" aria-hidden="true"></canvas>
+   <div class="color-pointer knob" tabindex="0" aria-labelledby="${ctrl1Labelledby}"></div>
+ </div>
+ <div class="color-control" role="presentation">
+   <label id="appearance2" class="color-label visually-hidden"></label>
+   <canvas class="visual-control2" height="${cvh}" width="${cv2w}" aria-hidden="true"></canvas>
+   <div class="color-slider knob" tabindex="0" aria-labelledby="${ctrl2Labelledby}"></div>
+ </div>
+ ${control3Template}`;
 
     // set inputs template
-    let inputsTemplate = hexForm;
+    let inputsTemplate;
 
-    if (this.format === 'rgb') {
+    if (this.format === 'hex') {
+      const hexForm = `<label for="color_hex" class="hex-label"><span aria-hidden="true">#</span><span class="visually-hidden">${hexLabel}</span></label>
+ <input id="color_hex" name="color_hex" value="000" class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">`;
+
+      inputsTemplate = hexForm;
+    } else if (this.format === 'rgb') {
+      const rgbForm = `<label for="rgb_color_red"><span aria-hidden="true">R:</span><span class="visually-hidden">${redLabel}</span></label>
+ <input id="rgb_color_red" name="rgb_color_red" value="0" class="color-input" type="number" min="0" max="255" autocomplete="off" spellcheck="false">
+ 
+ <label for="rgb_color_green"><span aria-hidden="true">G:</span><span class="visually-hidden">${greenLabel}</span></label>
+ <input id="rgb_color_green" name="rgb_color_green" value="0" class="color-input" type="number" min="0" max="255" autocomplete="off" spellcheck="false">
+ 
+ <label for="rgb_color_blue"><span aria-hidden="true">B:</span><span class="visually-hidden">${blueLabel}</span></label>
+ <input id="rgb_color_blue" name="rgb_color_blue" value="0" class="color-input" type="number" min="0" max="255" autocomplete="off" spellcheck="false">
+ 
+ <label for="rgb_color_alpha"><span aria-hidden="true">A:</span><span class="visually-hidden">${alphaLabel}</span></label>
+ <input id="rgb_color_alpha" name="rgb_color_alpha" value="1" class="color-input" type="number" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
+
       inputsTemplate = rgbForm;
     } else if (this.format === 'hsl') {
+      const hslForm = `<label for="hsl_color_hue"><span aria-hidden="true">H:</span><span class="visually-hidden">${hueLabel}</span></label>
+ <input id="hsl_color_hue" name="hsl_color_hue" value="0" class="color-input" type="number" min="0" max="360" autocomplete="off" spellcheck="false">
+ 
+ <label for="hsl_color_saturation"><span aria-hidden="true">S:</span><span class="visually-hidden">${saturationLabel}></span></label>
+ <input id="hsl_color_saturation" name="hsl_color_saturation" value="0" class="color-input" type="number" min="0" max="100" autocomplete="off" spellcheck="false">
+ 
+ <label for="hsl_color_lightness"><span aria-hidden="true">L:</span><span class="visually-hidden">${lightnessLabel}</span></label>
+ <input id="hsl_color_lightness" name="hsl_color_lightness" value="0" class="color-input" type="number" min="0" max="100" autocomplete="off" spellcheck="false">
+ 
+ <label for="hsl_color_alpha"><span aria-hidden="true">A:</span><span class="visually-hidden">${alphaLabel}</span></label>
+ <input id="hsl_color_alpha" name="hsl_color_alpha" value="1" class="color-input" type="number" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
+
       inputsTemplate = hslForm;
     }
 
     // set color key menu template
     this.keywords = false;
     const colorKeysOption = this.getAttribute('keywords');
+    const toggleLabel = this.getAttribute('toggleLabel');
+    const menuLabel = this.getAttribute('menuLabel');
     let menuTemplate = '';
     let menuToggle = '';
-
     if (colorKeysOption !== 'false') {
       const colorKeys = colorKeysOption ? colorKeysOption.split(',') : nonColors;
       this.keywords = colorKeys;
       let colorOpsMarkup = '';
-      colorKeys.forEach((x) => { colorOpsMarkup += `<a href="#" value="${x.trim()}">${x}</a>`; });
-      menuTemplate = `<ul class="color-menu">${colorOpsMarkup}</ul>`;
-      menuToggle = `<button class="menu-toggle">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-    <path fill="#fff" d="M777.857 367.557c9.748 -9.605 25.41 -9.605 35.087 0s9.713 25.124 0 34.729L529.521 682.914c-9.677 9.605 -25.338 9.605 -35.087 0L211.011 402.286c-9.677 -9.605 -9.677 -25.123 0 -34.729c9.712 -9.605 25.41 -9.605 35.087 0l265.897 255.934L777.857 367.557z"></path>
-  </svg>
-</button>`;
+      colorKeys.forEach((x) => {
+        const xKey = x.trim();
+        const xRealColor = new TinyColor(xKey, { format: this.format }).toString();
+        const xClass = xRealColor === this.getAttribute('value') ? ' class="active" aria-selected="true"' : '';
+        colorOpsMarkup += `<li role="option" tabindex="0" value="${xKey}"${xClass}>${x}</li>`;
+      });
+      // the btn toggle
+      menuToggle = `<button id="presets-btn" class="menu-toggle" role="button" aria-expanded="false" aria-haspopup="true">
+   <span class="visually-hidden">${toggleLabel}</span>
+   <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+     <path fill="#fff" d="M777.857 367.557c9.748 -9.605 25.41 -9.605 35.087 0s9.713 25.124 0 34.729L529.521 682.914c-9.677 9.605 -25.338 9.605 -35.087 0L211.011 402.286c-9.677 -9.605 -9.677 -25.123 0 -34.729c9.712 -9.605 25.41 -9.605 35.087 0l265.897 255.934L777.857 367.557z"></path>
+   </svg>
+ </button>`;
+      // the menu
+      menuTemplate = `<div class="color-dropdown menu">
+   <label id="presets-label" class="visually-hidden">${menuLabel}</label>
+   <ul aria-labelledby="presets-label" class="color-menu${dropClass}" role="list">${colorOpsMarkup}</ul>
+ </div>`;
     }
 
     // set the main template
     this.template = document.createElement('template');
 
     this.template.innerHTML = `<style>{{CSS_CONTENTS_PLACEHOLDER}}</style>
-<input placeholder="${placeholder}" type="text" class="color-preview" autocomplete="off" spellcheck="false" />
-${menuToggle}
-<div class="color-dropdown${dropClass}">
-  <div class="color-controls">
-    ${controlsTemplate}
-    <div class="color-form">
-      ${inputsTemplate}
-    </div>
-  </div>
-  ${menuTemplate}
-</div>`;
+ 
+ <label for="color-input" class="visually-hidden">${inputLabel}</label>
+ <input id="color-input" name="color-input" type="text" class="color-preview" autocomplete="off" spellcheck="false"${placeholder}/>
+ 
+ <div class="color-dropdown picker${dropClass}" role="group" aria-labelledby="dialog-label format-label" aria-live="polite">
+   <label id="dialog-label" class="visually-hidden" aria-hidden="true">${dialogLabel}</label>
+   <label id="format-label" class="visually-hidden" aria-hidden="true">${formatLabel}</label>
+   <label id="appearance" class="color-appearance visually-hidden" aria-hidden="true">${appearanceLabel}</label>
+   <div class="color-controls">
+     ${controlsTemplate}
+   </div>
+   <div class="color-form">
+     ${inputsTemplate}
+   </div>
+ </div>
+ ${menuToggle}
+ ${menuTemplate}`;
 
     // Patch shadow DOM
     if (window.ShadyCSS) {
@@ -207,38 +276,40 @@ ${menuToggle}
 
     // set main elements
     this.menuToggle = this.shadowRoot.querySelector('.menu-toggle');
-    this.colorMenu = this.shadowRoot.querySelector('.color-menu');
-    this.inputs = this.shadowRoot.querySelectorAll('.color-input');
-    this.dropdown = this.shadowRoot.querySelector('.color-dropdown');
-    this.control1 = this.shadowRoot.querySelector('.color-pointer');
-    this.control2 = this.shadowRoot.querySelector('.color-control2 + .color-slider');
-    this.controls = Array.from(this.shadowRoot.querySelectorAll('canvas'));
+    this.colorMenu = this.shadowRoot.querySelector('.color-dropdown.menu');
+    this.colorPicker = this.shadowRoot.querySelector('.color-dropdown.picker');
+    this.inputs = Array.from(this.shadowRoot.querySelectorAll('.color-input'));
+    this.controlKnobs = Array.from(this.shadowRoot.querySelectorAll('.knob'));
+    this.visuals = Array.from(this.shadowRoot.querySelectorAll('canvas'));
+    this.knobLabels = Array.from(this.shadowRoot.querySelectorAll('.color-label'));
+    this.appearance = this.shadowRoot.querySelector('.color-appearance');
+
     // set dimensions
-    this.width1 = this.controls[0].width;
-    this.height1 = this.controls[0].height;
-    this.width2 = this.controls[1].width;
-    this.height2 = this.controls[1].height;
+    this.width1 = this.visuals[0].width;
+    this.height1 = this.visuals[0].height;
+    this.width2 = this.visuals[1].width;
+    this.height2 = this.visuals[1].height;
     // set main controls
-    this.ctx1 = this.controls[0].getContext('2d');
-    this.ctx2 = this.controls[1].getContext('2d');
+    this.ctx1 = this.visuals[0].getContext('2d');
+    this.ctx2 = this.visuals[1].getContext('2d');
     this.ctx1.rect(0, 0, this.width1, this.height1);
     this.ctx2.rect(0, 0, this.width2, this.height2);
 
     // set alpha control except hex
     if (this.format !== 'hex') {
-      this.control3 = this.shadowRoot.querySelector('.color-control3 + .color-slider');
-      this.width3 = this.controls[2].width;
-      this.height3 = this.controls[2].height;
-      this.ctx3 = this.controls[2].getContext('2d');
+      this.width3 = this.visuals[2].width;
+      this.height3 = this.visuals[2].height;
+      this.ctx3 = this.visuals[2].getContext('2d');
       this.ctx3.rect(0, 0, this.width3, this.height3);
     }
 
     // update color picker
     this.setControlPositions();
+    this.setColorAppearence();
     this.updateInputs(1); // don't trigger change in this context
     this.updateControls();
     this.render();
-    // attach main event
+    // add main events listeners
     this.toggleEvents(1);
 
     // solve non-colors after settings save
@@ -246,8 +317,19 @@ ${menuToggle}
       this.value = colorValue;
     }
 
+    // Accessibility
     // set tabindex
     this.setAttribute('tabindex', 0);
+    // set role and other assistive attributes
+    this.setAttribute('role', 'button');
+    this.setAttribute('aria-expanded', 'false');
+    this.setAttribute('aria-haspopup', 'true');
+    // set label association
+    this.setAttribute('aria-labelledby', this.label.id);
+    // set required
+    if (this.hasAttribute('required')) {
+      this.input.setAttribute('required', 'true');
+    }
   }
 
   toggleEvents(action) {
@@ -269,13 +351,13 @@ ${menuToggle}
       ? { down: 'touchstart', move: 'touchmove', up: 'touchend' }
       : { down: 'mousedown', move: 'mousemove', up: 'mouseup' };
 
-    this.controls.map((x) => x[fn](pointerEvents.down, this.pointerDown));
+    this.visuals.forEach((x) => x[fn](pointerEvents.down, this.pointerDown));
+    this.controlKnobs.forEach((x) => x[fn]('keydown', this.keyHandler));
 
     window[fn]('scroll', this.handleScroll);
     window[fn]('resize', this.handleResize);
 
-    Array.from(this.inputs).concat(this.input)
-      .map((x) => x[fn]('change', this.changeHandler));
+    this.inputs.concat(this.input).forEach((x) => x[fn]('change', this.changeHandler));
 
     if (this.colorMenu) {
       this.colorMenu[fn]('click', this.menuHandler);
@@ -284,13 +366,14 @@ ${menuToggle}
     document[fn](pointerEvents.move, this.pointerMove);
     document[fn](pointerEvents.up, this.pointerUp);
     window[fn]('keyup', this.handleDismiss);
+    this[fn]('focusout', this.hide);
   }
 
   render() {
     const rgb = this.color.toRgb();
 
     if (this.format !== 'hsl') {
-      const hue = Math.floor((this.controlPositions.c2y / this.height2) * 360);
+      const hue = Math.round((this.controlPositions.c2y / this.height2) * 360);
 
       this.ctx1.fillStyle = new TinyColor(`hsl(${hue},100%,50%)`).toRgbString();
       this.ctx1.fillRect(0, 0, this.width1, this.height1);
@@ -319,7 +402,7 @@ ${menuToggle}
       this.ctx2.fillRect(0, 0, this.width2, this.height2);
     } else {
       const hueGrad = this.ctx1.createLinearGradient(0, 0, this.width1, 0);
-      const saturation = Math.floor((1 - this.controlPositions.c2y / this.height2) * 100);
+      const saturation = Math.round((1 - this.controlPositions.c2y / this.height2) * 100);
 
       hueGrad.addColorStop(0, new TinyColor('rgb(255, 0, 0)').desaturate(100 - saturation).toRgbString());
       hueGrad.addColorStop(0.17, new TinyColor('rgb(255, 255, 0)').desaturate(100 - saturation).toRgbString());
@@ -382,8 +465,7 @@ ${menuToggle}
   }
 
   dispatchChange() {
-    const changeEvent = new Event('change');
-    this.dispatchEvent(changeEvent);
+    this.dispatchEvent(new Event('change'));
   }
 
   handleResize(e) {
@@ -392,23 +474,38 @@ ${menuToggle}
   }
 
   handleScroll(e) {
-    // prevent scroll when updating controls on mobile
-    if (this.isMobile && this.dragElement) {
-      e.preventDefault();
+    // prevent scroll
+    // * when updating controls on mobile
+    // * when control knobs react to keyboard input
+    const activeEl = this.shadowRoot.activeElement;
+
+    if ((this.isMobile && this.dragElement) || this.controlKnobs.includes(activeEl)) {
       e.stopPropagation();
+      e.preventDefault();
     }
+
     this.updateDropdownPosition(e);
   }
 
   menuHandler(e) {
     e.preventDefault();
-    const newOption = e.target.getAttribute('value').trim();
+    const eTarget = e.target;
+    const newOption = eTarget.getAttribute('value').trim();
+    const currentActive = this.colorMenu.querySelector('li.active');
     const newColor = nonColors.includes(newOption) ? 'white' : newOption;
     this.color = new TinyColor(newColor, { format: this.format });
     this.setControlPositions();
+    this.setColorAppearence();
     this.updateInputs(1);
     this.updateControls();
     this.render();
+
+    if (currentActive) {
+      currentActive.classList.remove('active');
+      currentActive.removeAttribute('aria-selected');
+    }
+    eTarget.classList.add('active');
+    eTarget.setAttribute('aria-selected', 'true');
 
     if (nonColors.includes(newOption)) {
       this.value = newOption;
@@ -424,16 +521,16 @@ ${menuToggle}
     const offsetX = pageX - window.pageXOffset - controlRect.left;
     const offsetY = pageY - window.pageYOffset - controlRect.top;
 
-    if (eTarget === this.controls[0] || eTarget === this.control1) {
-      const control1 = this.controls[0];
+    if (eTarget === this.visuals[0] || eTarget === this.controlKnobs[0]) {
+      const control1 = this.visuals[0];
       this.dragElement = control1;
       this.changeControl1({ offsetX, offsetY });
-    } else if (eTarget === this.controls[1] || eTarget === this.control2) {
-      const control2 = this.controls[1];
+    } else if (eTarget === this.visuals[1] || eTarget === this.controlKnobs[1]) {
+      const control2 = this.visuals[1];
       this.dragElement = control2;
       this.changeControl2({ offsetY });
-    } else if (this.format !== 'hex' && (eTarget === this.controls[2] || eTarget === this.control3)) {
-      const control3 = this.controls[2];
+    } else if (this.format !== 'hex' && (eTarget === this.visuals[2] || eTarget === this.controlKnobs[2])) {
+      const control3 = this.visuals[2];
       this.dragElement = control3;
       this.changeAlpha({ offsetY });
     }
@@ -442,7 +539,7 @@ ${menuToggle}
 
   pointerUp(e) {
     if (!this.dragElement && !document.getSelection().toString().length
-      && !this.contains(e.target)) {
+       && !this.contains(e.target)) {
       this.hide();
     }
 
@@ -460,23 +557,66 @@ ${menuToggle}
     const offsetX = pageX - window.pageXOffset - controlRect.left;
     const offsetY = pageY - window.pageYOffset - controlRect.top;
 
-    if (controlInFocus === this.controls[0]) {
+    if (controlInFocus === this.visuals[0]) {
       this.changeControl1({ offsetX, offsetY });
     }
 
-    if (controlInFocus === this.controls[1]) {
+    if (controlInFocus === this.visuals[1]) {
       this.changeControl2({ offsetY });
     }
 
-    if (controlInFocus === this.controls[2] && this.format !== 'hex') {
+    if (controlInFocus === this.visuals[2] && this.format !== 'hex') {
       this.changeAlpha({ offsetY });
+    }
+  }
+
+  keyHandler(e) {
+    const eTarget = e.target;
+    const { which } = e;
+
+    // only react to arrow buttons
+    if (![37, 38, 39, 40].includes(which)) return;
+
+    const activeEl = this.shadowRoot.activeElement;
+    const currentKnob = this.controlKnobs.find((x) => x === activeEl);
+
+    if (currentKnob) {
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (eTarget === this.controlKnobs[0]) {
+        if ([37, 39].includes(which)) {
+          this.controlPositions.c1x += which === 39 ? +1 : -1;
+        } else if ([38, 40].includes(which)) {
+          this.controlPositions.c1y += which === 40 ? +1 : -1;
+        }
+
+        offsetX = this.controlPositions.c1x;
+        offsetY = this.controlPositions.c1y;
+        this.changeControl1({ offsetX, offsetY });
+      } else if (eTarget === this.controlKnobs[1]) {
+        this.controlPositions.c2y += which === 40 ? +1 : -1;
+        offsetY = this.controlPositions.c2y;
+        this.changeControl2({ offsetY });
+      } else if (eTarget === this.controlKnobs[2]) {
+        this.controlPositions.c3y += which === 40 ? +1 : -1;
+        offsetY = this.controlPositions.c3y;
+        this.changeAlpha({ offsetY });
+      }
+
+      this.setColorAppearence();
+      this.updateInputs();
+      this.updateControls();
+      this.render();
+      // stop scrolling when changing controls
+      this.handleScroll(e);
     }
   }
 
   changeHandler() {
     let colorSource;
     const activeEl = this.shadowRoot.activeElement;
-    const inputs = Array.from(this.inputs);
+    const { inputs } = this;
     const currentValue = this.value;
     const isNonColorValue = this.allowNonColor && nonColors.includes(currentValue);
 
@@ -497,6 +637,7 @@ ${menuToggle}
 
       this.color = new TinyColor(colorSource, { format: this.format });
       this.setControlPositions();
+      this.setColorAppearence();
       this.updateInputs();
       this.updateControls();
       this.render();
@@ -525,23 +666,25 @@ ${menuToggle}
     }
 
     const hue = this.format !== 'hsl'
-      ? Math.floor((this.controlPositions.c2y / this.height2) * 360)
-      : Math.floor((offsetX / this.width1) * 360);
+      ? Math.round((this.controlPositions.c2y / this.height2) * 360)
+      : Math.round((offsetX / this.width1) * 360);
 
     const saturation = this.format !== 'hsl'
-      ? Math.floor((offsetX / this.width1) * 100)
-      : Math.floor((1 - this.controlPositions.c2y / this.height2) * 100);
+      ? Math.round((offsetX / this.width1) * 100)
+      : Math.round((1 - this.controlPositions.c2y / this.height2) * 100);
 
-    const lightness = Math.floor((1 - offsetY / this.height1) * 100);
-    const alpha = this.format !== 'hex' ? Math.floor((1 - this.controlPositions.c3y / this.height3) * 100) / 100 : 1;
-    const colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
+    const lightness = Math.round((1 - offsetY / this.height1) * 100);
+    const alpha = this.format !== 'hex' ? Math.round((1 - this.controlPositions.c3y / this.height3) * 100) / 100 : 1;
+    const format = this.format !== 'hsl' ? 'hsva' : 'hsla';
 
     // new color
-    this.color = new TinyColor(`${colorFormat}(${hue},${saturation}%,${lightness}%,${alpha})`, { format: this.format });
+    this.color = new TinyColor(`${format}(${hue},${saturation}%,${lightness}%,${alpha})`, { format: this.format });
     // new positions
     this.controlPositions.c1x = offsetX;
     this.controlPositions.c1y = offsetY;
+
     // update color picker
+    this.setColorAppearence();
     this.updateInputs();
     this.updateControls();
     this.render();
@@ -556,10 +699,10 @@ ${menuToggle}
       offsetY = e.offsetY;
     }
 
-    const hue = this.format !== 'hsl' ? Math.floor((offsetY / this.height2) * 360) : Math.floor((this.controlPositions.c1x / this.width1) * 360);
-    const saturation = this.format !== 'hsl' ? Math.floor((this.controlPositions.c1x / this.width1) * 100) : Math.floor((1 - offsetY / this.height2) * 100);
-    const lightness = Math.floor((1 - this.controlPositions.c1y / this.height1) * 100);
-    const alpha = this.format !== 'hex' ? Math.floor((1 - this.controlPositions.c3y / this.height3) * 100) / 100 : 1;
+    const hue = this.format !== 'hsl' ? Math.round((offsetY / this.height2) * 360) : Math.round((this.controlPositions.c1x / this.width1) * 360);
+    const saturation = this.format !== 'hsl' ? Math.round((this.controlPositions.c1x / this.width1) * 100) : Math.round((1 - offsetY / this.height2) * 100);
+    const lightness = Math.round((1 - this.controlPositions.c1y / this.height1) * 100);
+    const alpha = this.format !== 'hex' ? Math.round((1 - this.controlPositions.c3y / this.height3) * 100) / 100 : 1;
     const colorFormat = this.format !== 'hsl' ? 'hsva' : 'hsla';
 
     // new color
@@ -567,6 +710,7 @@ ${menuToggle}
     // new position
     this.controlPositions.c2y = offsetY;
     // update color picker
+    this.setColorAppearence();
     this.updateInputs();
     this.updateControls();
     this.render();
@@ -582,7 +726,8 @@ ${menuToggle}
     }
 
     // update color alpha
-    this.color.setAlpha(Math.floor((1 - offsetY / this.height3) * 100) / 100);
+    const alpha = Math.round((1 - offsetY / this.height3) * 100);
+    this.color.setAlpha(alpha / 100);
     // update position
     this.controlPositions.c3y = offsetY;
     // update color picker
@@ -591,9 +736,9 @@ ${menuToggle}
   }
 
   updateDropdownWidth() {
-    const dropPad = parseInt(getComputedStyle(this.dropdown).paddingLeft, 10);
-    this.width1 = this.offsetWidth - Math.floor((this.width2 + dropPad) * (this.format !== 'hex' ? 2.4 : 1.5));
-    this.controls[0].setAttribute('width', this.width1);
+    const dropPad = parseInt(getComputedStyle(this.colorPicker).paddingLeft, 10);
+    this.width1 = this.offsetWidth - Math.round((this.width2 + dropPad) * (this.format !== 'hex' ? 2.4 : 1.5));
+    this.visuals[0].setAttribute('width', this.width1);
     this.setControlPositions();
     this.updateControls();
     this.render();
@@ -603,25 +748,27 @@ ${menuToggle}
     const elRect = this.input.getBoundingClientRect();
     const elHeight = this.input.offsetHeight;
     const windowHeight = document.documentElement.clientHeight;
-    const dropHeight = this.dropdown.offsetHeight;
+    const isPicker = ['show', 'show-top'].some((x) => this.colorPicker.classList.contains(x));
+    const dropdown = isPicker ? this.colorPicker : this.colorMenu;
+    const dropHeight = dropdown.offsetHeight;
     const distanceBottom = windowHeight - elRect.bottom;
     const distanceTop = elRect.top;
     const bottomExceed = elRect.top + dropHeight + elHeight > windowHeight; // show
     const topExceed = elRect.top - dropHeight < 0; // show-top
 
-    if (this.dropdown.classList.contains('show') && distanceBottom < distanceTop && bottomExceed) {
-      this.dropdown.classList.remove('show');
-      this.dropdown.classList.add('show-top');
+    if (dropdown.classList.contains('show') && distanceBottom < distanceTop && bottomExceed) {
+      dropdown.classList.remove('show');
+      dropdown.classList.add('show-top');
     }
-    if (this.dropdown.classList.contains('show-top') && distanceBottom > distanceTop && topExceed) {
-      this.dropdown.classList.remove('show-top');
-      this.dropdown.classList.add('show');
+    if (dropdown.classList.contains('show-top') && distanceBottom > distanceTop && topExceed) {
+      dropdown.classList.remove('show-top');
+      dropdown.classList.add('show');
     }
   }
 
   setControlPositions() {
-    const hsv = this.color.toHsv();
-    const hsl = this.color.toHsl();
+    const { hsv } = this;
+    const { hsl } = this;
     const hue = hsl.h;
     const saturation = this.format !== 'hsl' ? hsv.s : hsl.s;
     const lightness = this.format !== 'hsl' ? hsv.v : hsl.l;
@@ -636,39 +783,107 @@ ${menuToggle}
     }
   }
 
-  updateControls() {
-    this.control1.style.left = `${this.controlPositions.c1x - 3}px`;
-    this.control1.style.top = `${this.controlPositions.c1y - 3}px`;
-    this.control2.style.top = `${this.controlPositions.c2y - 3}px`;
+  setColorAppearence() {
+    const labels = this.componentLabels;
+    const { colorLabels, hsl, hsv } = this;
+    const knob1Lbl = this.knobLabels[0];
+    const knob2Lbl = this.knobLabels[1];
+    const hue = Math.round(hsl.h);
+    const alpha = hsv.a;
+    const lightnessSource = this.format !== 'hsl' ? hsv.v : hsl.l;
+    const saturation = Math.round(hsv.s * 100);
+    const lightness = Math.round(lightnessSource * 100);
+    const hsvl = hsv.v * 100;
+    let colorName;
+
+    // determine color appearance
+    if (lightness === 100 && saturation === 0) {
+      colorName = colorLabels.white;
+    } else if (lightness === 0) {
+      colorName = colorLabels.black;
+    } else if (saturation === 0) {
+      colorName = colorLabels.grey;
+    } else if (hue < 15 || hue >= 345) {
+      colorName = colorLabels.red;
+    } else if (hue >= 15 && hue < 45) {
+      colorName = hsvl > 80 && saturation > 80 ? colorLabels.orange : colorLabels.brown;
+    } else if (hue >= 45 && hue < 75) {
+      const isGold = hue > 46 && hue < 54 && hsvl < 80 && saturation > 90;
+      const isOlive = hue >= 54 && hue < 75 && hsvl < 80;
+      colorName = isGold ? colorLabels.gold : colorLabels.yellow;
+      colorName = isOlive ? colorLabels.olive : colorName;
+    } else if (hue >= 75 && hue < 155) {
+      colorName = hsvl < 68 ? colorLabels.green : colorLabels.lime;
+    } else if (hue >= 155 && hue < 175) {
+      colorName = colorLabels.teal;
+    } else if (hue >= 175 && hue < 195) {
+      colorName = colorLabels.cyan;
+    } else if (hue >= 195 && hue < 255) {
+      colorName = colorLabels.blue;
+    } else if (hue >= 255 && hue < 270) {
+      colorName = colorLabels.violet;
+    } else if (hue >= 270 && hue < 285) {
+      colorName = colorLabels.magenta;
+    } else if (hue >= 285 && hue < 345) {
+      colorName = colorLabels.pink;
+    }
+
+    // update color appearance
+    this.appearance.innerText = `${labels.appearance}: ${colorName}.`;
+
+    if (this.format === 'hsl') {
+      knob1Lbl.innerText = `${labels.hue}: ${hue}°. ${labels.lightness}: ${lightness}%`;
+      knob2Lbl.innerText = `${labels.saturation}: ${saturation}%`;
+    } else {
+      knob1Lbl.innerText = `${labels.lightness}: ${lightness}%. ${labels.saturation}: ${saturation}%`;
+      knob2Lbl.innerText = `${labels.hue}: ${hue}°`;
+    }
 
     if (this.format !== 'hex') {
-      this.control3.style.top = `${this.controlPositions.c3y - 3}px`;
+      const alphaValue = Math.round(alpha * 100);
+      const knob3Lbl = this.knobLabels[2];
+      knob3Lbl.innerText = `${labels.alpha}: ${alphaValue}%`;
+    }
+  }
+
+  updateControls() {
+    const control1 = this.controlKnobs[0];
+    const control2 = this.controlKnobs[1];
+    control1.style.transform = `translate3d(${this.controlPositions.c1x - 3}px,${this.controlPositions.c1y - 3}px,0)`;
+    control2.style.transform = `translate3d(0,${this.controlPositions.c2y - 3}px,0)`;
+
+    if (this.format !== 'hex') {
+      const control3 = this.controlKnobs[2];
+      control3.style.transform = `translate3d(0,${this.controlPositions.c3y - 3}px,0)`;
     }
   }
 
   updateInputs(isPrevented) {
     const oldColor = this.value;
+    const { rgb, hsl, hsv } = this;
+    const alpha = hsl.a;
+    const hue = Math.round(hsl.h);
+    const saturation = Math.round(hsl.s * 100);
+    const lightSource = this.format === 'hsl' ? hsl.l : hsv.v;
+    const lightness = Math.round(lightSource * 100);
+
     let newColor;
-    let hsl;
-    let rgb;
 
     if (this.format === 'hex') {
       newColor = this.color.toHexString();
-      this.inputs[0].value = newColor;
+      this.inputs[0].value = this.hex;
     } else if (this.format === 'hsl') {
       newColor = this.color.toHslString();
-      hsl = this.color.toHsl();
-      this.inputs[0].value = Math.round(hsl.h);
-      this.inputs[1].value = Math.round(hsl.s * 100);
-      this.inputs[2].value = Math.round(hsl.l * 100);
-      this.inputs[3].value = hsl.a;
+      this.inputs[0].value = hue;
+      this.inputs[1].value = saturation;
+      this.inputs[2].value = lightness;
+      this.inputs[3].value = alpha;
     } else if (this.format === 'rgb') {
       newColor = this.color.toRgbString();
-      rgb = this.color.toRgb();
       this.inputs[0].value = rgb.r;
       this.inputs[1].value = rgb.g;
       this.inputs[2].value = rgb.b;
-      this.inputs[3].value = rgb.a;
+      this.inputs[3].value = alpha;
     }
 
     // update this instance
@@ -681,11 +896,11 @@ ${menuToggle}
     // dark sets color white, light sets color black
     // isDark ? '#000' : '#fff'
     if (!this.isDark) {
-      if (this.input.classList.contains('dark')) this.input.classList.remove('dark');
-      if (!this.input.classList.contains('light')) this.input.classList.add('light');
+      if (this.classList.contains('dark')) this.classList.remove('dark');
+      if (!this.classList.contains('light')) this.classList.add('light');
     } else {
-      if (this.input.classList.contains('light')) this.input.classList.remove('light');
-      if (!this.input.classList.contains('dark')) this.input.classList.add('dark');
+      if (this.classList.contains('light')) this.classList.remove('light');
+      if (!this.classList.contains('dark')) this.classList.add('dark');
     }
 
     // don't trigger the custom event unless it's really changed
@@ -695,49 +910,60 @@ ${menuToggle}
   }
 
   showPicker() {
-    this.dropdown.classList.add('picker');
-    if (this.colorMenu) {
-      this.dropdown.classList.remove('menu');
-    }
+    this.hide(1);
+    this.colorPicker.classList.add('show');
+    this.setAttribute('aria-expanded', 'true');
     this.show();
   }
 
   toggleMenu() {
-    this.dropdown.classList.remove('picker');
+    const menuIsOpen = ['show', 'show-top'].some((x) => this.colorMenu.classList.contains(x));
 
-    if (this.isOpen && this.dropdown.classList.contains('menu')) {
+    if (this.isOpen && menuIsOpen) {
       this.hide();
     } else {
-      this.dropdown.classList.add('menu');
+      this.hide(1);
+      this.colorMenu.classList.add('show');
       this.show();
+      this.menuToggle.setAttribute('aria-expanded', 'true');
     }
   }
 
   show() {
-    const current = document.querySelector('color-picker.open');
-    if (current) current.hide();
-
     if (!this.isOpen) {
-      this.dropdown.classList.add('show');
+      const current = document.querySelector('joomla-field-color-picker.open');
+      if (current) current.hide(1);
+
       this.classList.add('open');
+      this.toggleEventsOnShown(1);
       this.updateDropdownPosition();
       this.updateDropdownWidth();
-      this.toggleEventsOnShown(1);
       this.isOpen = true;
     }
   }
 
-  hide() {
+  hide(focusPrevented) {
     if (this.isOpen) {
       this.toggleEventsOnShown();
 
       this.classList.remove('open');
-      ['show', 'show-top'].map((x) => this.dropdown.classList.remove(x));
 
-      if (!this.checkValidity) {
+      ['show', 'show-top'].forEach((x) => this.colorPicker.classList.remove(x));
+      this.setAttribute('aria-expanded', 'false');
+
+      if (this.colorMenu) {
+        ['show', 'show-top'].forEach((x) => this.colorMenu.classList.remove(x));
+        this.menuToggle.setAttribute('aria-expanded', 'false');
+      }
+
+      if (!this.isValid) {
         this.value = this.color.toString();
       }
       this.isOpen = false;
+
+      if (!focusPrevented) {
+        this.focus();
+      }
     }
   }
 }

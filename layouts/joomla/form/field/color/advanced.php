@@ -49,66 +49,55 @@ extract($displayData);
  */
 
 // set hsla / rgba to short format
-// both tinycolor and <color-picker> handle alpha automatically
+// both tinycolor and <joomla-field-color-picker> handle alpha automatically
 // an invalid format defaults to 'hex'
 $format = in_array($format, array('hex', 'rgb', 'hsl', 'rgba', 'hsla'), true) ? str_replace('a', '', $format) : 'hex';
 
-// set a generic placeholder
-if ($format === 'rgb')
+// all formats require color component labels, color names, format and other labels required for accessibility
+$labelStrings = '';
+$labelStrings .= ' alphaLabel="' . Text::_('JFIELD_COLOR_ADVANCED_ALPHA') . '"';
+$labelStrings .= ' appearanceLabel="' . Text::_('JFIELD_COLOR_ADVANCED_COLOR_APPEARANCE') . '"';
+$labelStrings .= ' hexLabel="' . Text::_('JFIELD_COLOR_ADVANCED_HEX') . '"';
+$labelStrings .= ' redLabel="' . Text::_('JFIELD_COLOR_ADVANCED_RED') . '"';
+$labelStrings .= ' greenLabel="' . Text::_('JFIELD_COLOR_ADVANCED_GREEN') . '"';
+$labelStrings .= ' blueLabel="' .Text::_('JFIELD_COLOR_ADVANCED_BLUE') . '"';
+$labelStrings .= ' hueLabel="' . Text::_('JFIELD_COLOR_ADVANCED_HUE') . '"';
+$labelStrings .= ' saturationLabel="' . Text::_('JFIELD_COLOR_ADVANCED_SATURATION') . '"';
+$labelStrings .= ' lightnessLabel="' . Text::_('JFIELD_COLOR_ADVANCED_LIGHTNESS') . '"';
+$labelStrings .= ' colorLabels="' . Text::_('JFIELD_COLOR_ADVANCED_COLOR_NAMES') . '"';
+$labelStrings .= ' formatLabel="' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_' . strtoupper($format)) . '"';
+
+if ($keywords !== 'false')
 {
-	$placeholder = 'rgba(0,0,0,0.5) / rgb(0,0,0)';
-}
-elseif ($format === 'hsl')
-{
-	$placeholder = 'hsla(0,100%,50%,0.5) / hsl(0,100%,50%)';
-}
-else
-{
-	$placeholder = '#ff0000';
+	$labelStrings .= ' toggleLabel="' . Text::_('JFIELD_COLOR_ADVANCED_PRESETS_BTN_LABEL') . '"';
+	$labelStrings .= ' menuLabel="' . Text::_('JFIELD_COLOR_ADVANCED_PRESETS_LABEL') . '"';
 }
 
-// set color form input labels
-if ($format === 'hex')
-{
-	$inputLabels	=					Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HEX');
-}
-elseif ($format === 'rgb')
-{
-	$inputLabels	=					Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_RED');
-	$inputLabels .=		',' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_GREEN');
-	$inputLabels .=		',' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB_BLUE');
-	$inputLabels .=		',' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_RGB') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_ALPHA');
-}
-elseif ($format === 'hsl')
-{
-	$inputLabels =					Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL_HUE');
-	$inputLabels .=		',' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL_SATURATION');
-	$inputLabels .=		',' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL_LIGHTNESS');
-	$inputLabels .=		',' . Text::_('JFIELD_COLOR_ADVANCED_FORMAT_HSL') . ' - ' . Text::_('JFIELD_COLOR_ADVANCED_ALPHA');
-}
+$labelStrings .= ' inputLabel="' . Text::_('JFIELD_COLOR_ADVANCED_INPUT_LABEL') . '"';
+$labelStrings .= ' dialogLabel="' . Text::_('JFIELD_COLOR_ADVANCED_COLOR_PICKER') . '"';
 
 // set attributes
-$disabled			= $disabled ? ' disabled' : '';
-$readonly			= $readonly ? ' readonly' : '';
-$keywords			= !empty($keywords) ? ' keywords="' . $this->escape($keywords) . '"' : '';
-$onchange			= !empty($onchange) ? ' onchange="' . $this->escape($onchange) . '"' : '';
-$class        = !empty($class) ? ' class="' . trim($class) . '"' : '';
-$format       = ' format="' . $format . '"';
-$hint         = ' placeholder="' . (strlen($hint) ?  $this->escape($hint) : $placeholder) . '"';
-$autocomplete	= ' autocomplete="' . (!empty($autocomplete) ? $autocomplete : 'off') . '"';
-$tabindex     = ' tabindex="' . (!empty($tabindex) ? $tabindex : '0') . '"';
-$spellcheck   = ' spellcheck="' . (!empty($spellcheck) ? $spellcheck : 'false') . '"';
-$inputLabel		= ' inputLabel="' . Text::_('JFIELD_COLOR_SELECT', 'Select a colour') . '"';
-$inputLabels	= ' inputLabels="' . $inputLabels . '"';
-$value				= ' value="' . $this->escape($value) . '"';
+$disabled				= $disabled ? ' disabled' : '';
+$required				= $required ? ' required' : '';
+$readonly				= $readonly ? ' readonly' : '';
+$keywords				= !empty($keywords) ? ' keywords="' . $this->escape($keywords) . '"' : '';
+$onchange				= !empty($onchange) ? ' onchange="' . $this->escape($onchange) . '"' : '';
+$class					= !empty($class) ? ' class="' . trim($class) . '"' : '';
+$hint						= strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : '';
 
-// Force LTR input value in RTL, due to display issues with rgba/hex colors
+$format					= ' format="' . $format . '"';
+$autocomplete		= ' autocomplete="' . (!empty($autocomplete) ? $autocomplete : 'off') . '"';
+$spellcheck			= ' spellcheck="false"';
+$value					= ' value="' . $this->escape($value) . '"';
+
+// The dir="rtl" attribute will set all color picker style
+// color values of any format can never be RTL
 $direction = $lang->isRtl() ? ' dir="rtl"' : '';
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-$wa->useScript('field.color-picker');
+$wa->->useScript('field.color-picker');
 ?>
 
 <joomla-field-color-picker name="<?php echo $name; ?>" id="<?php echo $id; ?>"
@@ -122,11 +111,11 @@ $wa->useScript('field.color-picker');
 		$required,
 		$direction,
 		$autocomplete,
+		$autofocus,
 		$direction,
 		$validate,
-		$inputLabels,
+		$labelStrings,
 		$keywords,
-		$inputLabel,
 		$spellcheck,
 		$dataAttribute;
 	?>>
