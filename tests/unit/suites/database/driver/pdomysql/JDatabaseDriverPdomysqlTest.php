@@ -309,7 +309,9 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	{
 		$version = self::$driver->getVersion();
 
-		if (stripos($version, 'mariadb') || version_compare($version, '8.0.17') < 0)
+		$useDisplayWidth = stripos($version, 'mariadb') || version_compare($version, '8.0.17') < 0;
+
+		if ($useDisplayWidth)
 		{
 			// MySQL older than 8.0.17 or MariaDB: Default display width for unsigned integer is expected
 			$tableCol = array('id' => 'int(10) unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
@@ -337,7 +339,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		$id->Privileges = 'select,insert,update,references';
 		$id->Comment    = '';
 
-		if (stripos($version, 'mariadb') || version_compare($version, '8.0.17') < 0)
+		if ($useDisplayWidth)
 		{
 			// MySQL older than 8.0.17 or MariaDB: Default display width for unsigned integer is expected
 			$id->Type = 'int(10) unsigned';
