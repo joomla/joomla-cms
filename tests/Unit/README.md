@@ -8,7 +8,7 @@ When you are checking out the current development branch of 4.0 and run `compose
 
 1. Checkout the current Joomla 4.0 development branch from Github. (https://github.com/joomla/joomla-cms.git Branch `4.0-dev`)
 2. Run `composer install` in the root of your checkout.
-3. Adjust the file `/joomla-cms/phpunit-pgsql.xml.dist` und/oder `joomla-cms/phpunit-pgsql.xml.dist` based on your environment.
+3. Edit the file `/joomla-cms/phpunit-pgsql.xml.dist` and/or `joomla-cms/phpunit-pgsql.xml.dist` depending on your environment.
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
