@@ -1391,7 +1391,9 @@ class PlgSampledataBlog extends CMSPlugin
 		{
 			return;
 		}
+
 		Factory::getLanguage()->load('com_modules');
+
 		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
