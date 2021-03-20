@@ -1391,7 +1391,7 @@ class PlgSampledataBlog extends CMSPlugin
 		{
 			return;
 		}
-
+		Factory::getLanguage()->load('com_modules');
 		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
@@ -1742,6 +1742,22 @@ class PlgSampledataBlog extends CMSPlugin
 			),
 		);
 
+		// Assignment means always "only on the homepage".
+		if (Multilanguage::isEnabled())
+		{
+			$homes = Multilanguage::getSiteHomePages();
+
+			if (isset($homes[$language]))
+			{
+				$home = $homes[$language]->id;
+			}
+		}
+
+		if (!isset($home))
+		{
+			$home = $app->getMenu('site')->getDefault()->id;
+		}
+
 		foreach ($modules as $module)
 		{
 			// Append language suffix to title.
@@ -1760,22 +1776,6 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 			else
 			{
-				// Assignment means always "only on the homepage".
-				if (Multilanguage::isEnabled())
-				{
-					$homes = Multilanguage::getSiteHomePages();
-
-					if (isset($homes[$language]))
-					{
-						$home = $homes[$language]->id;
-					}
-				}
-
-				if (!isset($home))
-				{
-					$home = $app->getMenu('site')->getDefault()->id;
-				}
-
 				$module['assigned'] = [$home];
 			}
 
@@ -1801,12 +1801,47 @@ class PlgSampledataBlog extends CMSPlugin
 
 			if (!$model->save($module))
 			{
-				Factory::getLanguage()->load('com_modules');
 				$response            = array();
 				$response['success'] = false;
 				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, Text::_($model->getError()));
 
 				return $response;
+			}
+		}
+
+		// Get previously entered categories ids
+		$menuIdsLevel1 = $this->app->getUserState('sampledata.blog.menuIdsLevel1');
+
+		// Get the login modules there could be more than one
+		$MVCFactory = $this->app->bootComponent('com_modules')->getMVCFactory();
+		$modelModules = $MVCFactory->createModel('Modules', 'Administrator', ['ignore_request' => true]);
+
+		$modelModules->setState('filter.module', 'mod_login');
+		$modelModules->setState('filter.client_id', 1);
+
+		$loginModules = $modelModules->getItems();
+
+		if (!empty($loginModules))
+		{
+			$modelModule = $MVCFactory->createModel('Module', 'Administrator', ['ignore_request' => true]);
+
+			foreach ($loginModules as $loginModule)
+			{
+				$lm = (array) $loginModule;
+
+				// Un-assign the module from login view, to avoid 403 error
+				$lm['assignment'] = 1;
+				$loginId = - (int) $menuIdsLevel1[2];
+				$lm['assigned']   = [$loginId];
+
+				if (!$modelModule->save($lm))
+				{
+					$response            = array();
+					$response['success'] = false;
+					$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 3, Text::_($model->getError()));
+
+					return $response;
+				}
 			}
 		}
 
