@@ -83,7 +83,7 @@ $readonly = $readonly ? ' readonly' : '';
 $keywords = !empty($keywords) ? ' keywords="' . $this->escape($keywords) . '"' : '';
 $onchange = !empty($onchange) ? ' onchange="' . $this->escape($onchange) . '"' : '';
 $class = !empty($class) ? ' class="' . trim($class) . '"' : '';
-$hint						= strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : '';
+$hint = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : '';
 
 $format = ' format="' . $format . '"';
 $autocomplete = ' autocomplete="' . (!empty($autocomplete) ? $autocomplete : 'off') . '"';
