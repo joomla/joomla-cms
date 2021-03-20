@@ -56,7 +56,6 @@ if (is_array($msgList) && !empty($msgList))
 		// Noscript fallback
 		if (!empty($msgs)) {
 			$msgOutput .= '<div class="alert alert-' . ($alert[$type] ?? $type) . '">';
-			$msgOutput .= '<span class="' . $type . '"></span>';
 			foreach ($msgs as $msg) :
 				$msgOutput .= $msg;
 			endforeach;
