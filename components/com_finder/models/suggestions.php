@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
 
@@ -57,20 +59,54 @@ class FinderModelSuggestions extends JModelList
 	 */
 	protected function getListQuery()
 	{
+		$user = JFactory::getUser();
+		$groups = \Joomla\Utilities\ArrayHelper::toInteger($user->getAuthorisedViewLevels());
+
 		// Create a new query object.
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$termIdQuery = $db->getQuery(true);
+		$termQuery = $db->getQuery(true);
+
+		// Limit term count to a reasonable number of results to reduce main query join size
+		$termIdQuery->select('ti.term_id')
+			->from($db->quoteName('#__finder_terms', 'ti'))
+			->where('ti.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%', false))
+			->where('ti.common = 0')
+			->where('ti.language IN (' . $db->quote($this->getState('language')) . ', ' . $db->quote('*') . ')')
+			->order('ti.links DESC')
+			->order('ti.weight DESC');
+
+		$termIds = $db->setQuery($termIdQuery, 0, 100)->loadColumn();
+
+		// Early return on term mismatch
+		if (!count($termIds))
+		{
+			return $termIdQuery;
+		}
+
+		$termIdString = implode(',', $termIds);
 
 		// Select required fields
-		$query->select('t.term')
+		$termQuery->select('DISTINCT(t.term)')
 			->from($db->quoteName('#__finder_terms') . ' AS t')
-			->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'))
-			->where('t.common = 0')
-			->where('t.language IN (' . $db->quote($db->escape($this->getState('language'), true)) . ', ' . $db->quote('*') . ')')
+			->where('t.term_id IN (' . $termIdString . ')')
 			->order('t.links DESC')
 			->order('t.weight DESC');
 
-		return $query;
+		// Determine the relevant mapping table suffix by inverting the logic from drivers
+		$mappingTableSuffix = StringHelper::substr(md5(StringHelper::substr($this->getState('input'), 0, 1)), 0, 1);
+
+		// Join mapping table for term <-> link relation
+		$mappingTable = $db->quoteName('#__finder_links_terms' . $mappingTableSuffix);
+		$termQuery->join('INNER', $mappingTable . ' AS tm ON tm.term_id = t.term_id');
+
+		// Join links table
+		$termQuery->join('INNER', $db->quoteName('#__finder_links') . ' AS l ON (tm.link_id = l.link_id)')
+			->where('l.access IN (' . implode(',', $groups) . ')')
+			->where('l.state = 1')
+			->where('l.published = 1');
+
+		return $termQuery;
 	}
 
 	/**
