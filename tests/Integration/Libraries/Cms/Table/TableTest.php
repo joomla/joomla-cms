@@ -304,7 +304,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 		);
 
 		$this->assertEquals(
-			$nullDate,
+			null,
 			$this->object->publish_up
 		);
 
