@@ -97,7 +97,7 @@ $direction = $lang->isRtl() ? ' dir="rtl"' : '';
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-$wa->->useScript('field.color-picker');
+$wa->useScript('field.color-picker');
 ?>
 
 <joomla-field-color-picker name="<?php echo $name; ?>" id="<?php echo $id; ?>"
