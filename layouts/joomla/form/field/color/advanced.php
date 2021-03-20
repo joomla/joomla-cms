@@ -77,18 +77,18 @@ $labelStrings .= ' inputLabel="' . Text::_('JFIELD_COLOR_ADVANCED_INPUT_LABEL') 
 $labelStrings .= ' dialogLabel="' . Text::_('JFIELD_COLOR_ADVANCED_COLOR_PICKER') . '"';
 
 // set attributes
-$disabled				= $disabled ? ' disabled' : '';
-$required				= $required ? ' required' : '';
-$readonly				= $readonly ? ' readonly' : '';
-$keywords				= !empty($keywords) ? ' keywords="' . $this->escape($keywords) . '"' : '';
-$onchange				= !empty($onchange) ? ' onchange="' . $this->escape($onchange) . '"' : '';
-$class					= !empty($class) ? ' class="' . trim($class) . '"' : '';
+$disabled = $disabled ? ' disabled' : '';
+$required = $required ? ' required' : '';
+$readonly = $readonly ? ' readonly' : '';
+$keywords = !empty($keywords) ? ' keywords="' . $this->escape($keywords) . '"' : '';
+$onchange = !empty($onchange) ? ' onchange="' . $this->escape($onchange) . '"' : '';
+$class = !empty($class) ? ' class="' . trim($class) . '"' : '';
 $hint						= strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : '';
 
-$format					= ' format="' . $format . '"';
-$autocomplete		= ' autocomplete="' . (!empty($autocomplete) ? $autocomplete : 'off') . '"';
-$spellcheck			= ' spellcheck="false"';
-$value					= ' value="' . $this->escape($value) . '"';
+$format = ' format="' . $format . '"';
+$autocomplete = ' autocomplete="' . (!empty($autocomplete) ? $autocomplete : 'off') . '"';
+$spellcheck = ' spellcheck="false"';
+$value = ' value="' . $this->escape($value) . '"';
 
 // The dir="rtl" attribute will set all color picker style
 // color values of any format can never be RTL
