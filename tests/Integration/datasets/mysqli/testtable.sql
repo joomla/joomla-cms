@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS `#__testtable` (
    `checked_out` int unsigned,
    `checked_out_time` datetime,
    `published` tinyint NOT NULL DEFAULT 0,
-   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+   `publish_up` datetime,
+   `publish_down` datetime,
    `ordering` int NOT NULL DEFAULT 0,
    `params` text NOT NULL,
    PRIMARY KEY (`id`)
