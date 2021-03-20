@@ -121,3 +121,10 @@ Joomla.removeMessages = (container) => {
     });
   }
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  const messages = Joomla.getOptions('joomla.messages');
+  if (messages) {
+    Object.keys(messages).map((message) => Joomla.renderMessages(messages[message]));
+  }
+});
