@@ -79,7 +79,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The flag to mark if the active menu item is linked to the being displayed article
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
 	protected $menuItemMatchArticle = false;
 
