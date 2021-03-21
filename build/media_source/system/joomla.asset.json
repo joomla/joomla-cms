@@ -6,17 +6,10 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "core-inline",
-      "type": "script",
-      "class": "CoreAssetItem",
-      "uri": "system/core-es5.min.js",
-      "inlined": true
-    },
-    {
       "name": "core",
       "type": "script",
       "class": "CoreAssetItem",
-      "uri": "system/core-es5.min.js"
+      "uri": "system/core.min.js"
     },
     {
       "name": "keepalive",

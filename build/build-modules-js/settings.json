@@ -374,12 +374,6 @@
             "name": "fontawesome",
             "type": "style",
             "uri": "fontawesome.min.css"
-          },
-          {
-            "name": "fontawesome-lazy",
-            "type": "style",
-            "uri": "fontawesome.min.css",
-            "lazy": true
           }
         ],
         "dependencies": [],
