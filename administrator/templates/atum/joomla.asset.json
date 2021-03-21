@@ -9,13 +9,19 @@
       "name": "template.atum.ltr",
       "description": "The css file to be used when the site is left to right (LTR).",
       "type": "style",
-      "uri": "template.min.css"
+      "uri": "template.min.css",
+      "dependencies": [
+        "fontawesome"
+      ]
     },
     {
       "name": "template.atum.rtl",
       "description": "The css file to be used when the site is right to left (RTL).",
       "type": "style",
-      "uri": "template-rtl.min.css"
+      "uri": "template-rtl.min.css",
+      "dependencies": [
+        "fontawesome"
+      ]
     },
     {
       "name": "template.active.language",
@@ -43,9 +49,6 @@
       "description": "The file containing the javascript for this template.",
       "type": "script",
       "uri": "templates/atum/template.min.js",
-      "attributes": {
-        "defer": true
-      },
       "dependencies": [
         "core"
       ]
