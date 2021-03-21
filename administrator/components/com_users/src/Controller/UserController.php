@@ -39,7 +39,7 @@ class UserController extends FormController
 	 *
 	 * @return  boolean  True if allowed, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -99,7 +99,7 @@ class UserController extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function save($key = null, $urlVar = null)
 	{
