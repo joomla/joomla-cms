@@ -21,7 +21,7 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 class Dispatcher extends ComponentDispatcher
 {
 	/**
-	 * com_admin does not require check permission, so we override checkAccess method and have it empty
+	 * Override checkAccess to allow users edit profile without having to have core.manager permission
 	 *
 	 * @return  void
 	 */
