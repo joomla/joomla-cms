@@ -14,9 +14,9 @@ namespace Joomla\Component\Users\Administrator\Dispatcher;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
- * ComponentDispatcher class for com_admin
+ * ComponentDispatcher class for com_users
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class Dispatcher extends ComponentDispatcher
 {
