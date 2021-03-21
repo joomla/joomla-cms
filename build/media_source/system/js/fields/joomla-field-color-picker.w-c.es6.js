@@ -48,6 +48,7 @@ class ColorPicker extends HTMLElement {
     this.changeHandler = this.changeHandler.bind(this);
     this.handleDismiss = this.handleDismiss.bind(this);
     this.keyHandler = this.keyHandler.bind(this);
+    this.handleKnobs = this.handleKnobs.bind(this);
     this.updateDropdownPosition = this.updateDropdownPosition.bind(this);
     this.updateDropdownWidth = this.updateDropdownWidth.bind(this);
   }
@@ -153,57 +154,57 @@ class ColorPicker extends HTMLElement {
     const ctrl2Labelledby = this.format === 'hsl' ? 'appearance2' : 'appearance appearance2';
 
     const control3Template = this.format === 'hex' ? '' : `<div class="color-control" role="presentation">
-     <label id="appearance3" class="color-label visually-hidden"></label>
-     <canvas class="visual-control3" height="${cvh}" width="${cv2w}" aria-hidden="true"></canvas>
-     <div class="color-slider knob" tabindex="0" aria-labelledby="appearance3"></div>
-   </div>`;
+    <label id="appearance3" class="color-label visually-hidden"></label>
+    <canvas class="visual-control3" height="${cvh}" width="${cv2w}" aria-hidden="true"></canvas>
+    <div class="color-slider knob" tabindex="0" aria-labelledby="appearance3"></div>
+  </div>`;
 
     const controlsTemplate = `<div class="color-control" role="presentation">
-   <label id="appearance1" class="color-label visually-hidden"></label>
-   <canvas class="visual-control1" height="${cvh}" width="${cv1w}" aria-hidden="true"></canvas>
-   <div class="color-pointer knob" tabindex="0" aria-labelledby="${ctrl1Labelledby}"></div>
- </div>
- <div class="color-control" role="presentation">
-   <label id="appearance2" class="color-label visually-hidden"></label>
-   <canvas class="visual-control2" height="${cvh}" width="${cv2w}" aria-hidden="true"></canvas>
-   <div class="color-slider knob" tabindex="0" aria-labelledby="${ctrl2Labelledby}"></div>
- </div>
- ${control3Template}`;
+  <label id="appearance1" class="color-label visually-hidden"></label>
+  <canvas class="visual-control1" height="${cvh}" width="${cv1w}" aria-hidden="true"></canvas>
+  <div class="color-pointer knob" tabindex="0" aria-labelledby="${ctrl1Labelledby}"></div>
+</div>
+<div class="color-control" role="presentation">
+  <label id="appearance2" class="color-label visually-hidden"></label>
+  <canvas class="visual-control2" height="${cvh}" width="${cv2w}" aria-hidden="true"></canvas>
+  <div class="color-slider knob" tabindex="0" aria-labelledby="${ctrl2Labelledby}"></div>
+</div>
+${control3Template}`;
 
     // set inputs template
     let inputsTemplate;
 
     if (this.format === 'hex') {
       const hexForm = `<label for="color_hex" class="hex-label"><span aria-hidden="true">#</span><span class="visually-hidden">${hexLabel}</span></label>
- <input id="color_hex" name="color_hex" value="000" class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">`;
+<input id="color_hex" name="color_hex" value="000" class="color-input color-input-hex" type="text" autocomplete="off" spellcheck="false">`;
 
       inputsTemplate = hexForm;
     } else if (this.format === 'rgb') {
       const rgbForm = `<label for="rgb_color_red"><span aria-hidden="true">R:</span><span class="visually-hidden">${redLabel}</span></label>
- <input id="rgb_color_red" name="rgb_color_red" value="0" class="color-input" type="number" min="0" max="255" autocomplete="off" spellcheck="false">
- 
- <label for="rgb_color_green"><span aria-hidden="true">G:</span><span class="visually-hidden">${greenLabel}</span></label>
- <input id="rgb_color_green" name="rgb_color_green" value="0" class="color-input" type="number" min="0" max="255" autocomplete="off" spellcheck="false">
- 
- <label for="rgb_color_blue"><span aria-hidden="true">B:</span><span class="visually-hidden">${blueLabel}</span></label>
- <input id="rgb_color_blue" name="rgb_color_blue" value="0" class="color-input" type="number" min="0" max="255" autocomplete="off" spellcheck="false">
- 
- <label for="rgb_color_alpha"><span aria-hidden="true">A:</span><span class="visually-hidden">${alphaLabel}</span></label>
- <input id="rgb_color_alpha" name="rgb_color_alpha" value="1" class="color-input" type="number" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
+<input id="rgb_color_red" name="rgb_color_red" value="0" class="color-input" type="number" min="0" max="255" autocomplete="off" spellcheck="false">
+
+<label for="rgb_color_green"><span aria-hidden="true">G:</span><span class="visually-hidden">${greenLabel}</span></label>
+<input id="rgb_color_green" name="rgb_color_green" value="0" class="color-input" type="number" min="0" max="255" autocomplete="off" spellcheck="false">
+
+<label for="rgb_color_blue"><span aria-hidden="true">B:</span><span class="visually-hidden">${blueLabel}</span></label>
+<input id="rgb_color_blue" name="rgb_color_blue" value="0" class="color-input" type="number" min="0" max="255" autocomplete="off" spellcheck="false">
+
+<label for="rgb_color_alpha"><span aria-hidden="true">A:</span><span class="visually-hidden">${alphaLabel}</span></label>
+<input id="rgb_color_alpha" name="rgb_color_alpha" value="1" class="color-input" type="number" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
 
       inputsTemplate = rgbForm;
     } else if (this.format === 'hsl') {
       const hslForm = `<label for="hsl_color_hue"><span aria-hidden="true">H:</span><span class="visually-hidden">${hueLabel}</span></label>
- <input id="hsl_color_hue" name="hsl_color_hue" value="0" class="color-input" type="number" min="0" max="360" autocomplete="off" spellcheck="false">
- 
- <label for="hsl_color_saturation"><span aria-hidden="true">S:</span><span class="visually-hidden">${saturationLabel}></span></label>
- <input id="hsl_color_saturation" name="hsl_color_saturation" value="0" class="color-input" type="number" min="0" max="100" autocomplete="off" spellcheck="false">
- 
- <label for="hsl_color_lightness"><span aria-hidden="true">L:</span><span class="visually-hidden">${lightnessLabel}</span></label>
- <input id="hsl_color_lightness" name="hsl_color_lightness" value="0" class="color-input" type="number" min="0" max="100" autocomplete="off" spellcheck="false">
- 
- <label for="hsl_color_alpha"><span aria-hidden="true">A:</span><span class="visually-hidden">${alphaLabel}</span></label>
- <input id="hsl_color_alpha" name="hsl_color_alpha" value="1" class="color-input" type="number" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
+<input id="hsl_color_hue" name="hsl_color_hue" value="0" class="color-input" type="number" min="0" max="360" autocomplete="off" spellcheck="false">
+
+<label for="hsl_color_saturation"><span aria-hidden="true">S:</span><span class="visually-hidden">${saturationLabel}></span></label>
+<input id="hsl_color_saturation" name="hsl_color_saturation" value="0" class="color-input" type="number" min="0" max="100" autocomplete="off" spellcheck="false">
+
+<label for="hsl_color_lightness"><span aria-hidden="true">L:</span><span class="visually-hidden">${lightnessLabel}</span></label>
+<input id="hsl_color_lightness" name="hsl_color_lightness" value="0" class="color-input" type="number" min="0" max="100" autocomplete="off" spellcheck="false">
+
+<label for="hsl_color_alpha"><span aria-hidden="true">A:</span><span class="visually-hidden">${alphaLabel}</span></label>
+<input id="hsl_color_alpha" name="hsl_color_alpha" value="1" class="color-input" type="number" min="0" max="1" step="0.01" autocomplete="off" spellcheck="false">`;
 
       inputsTemplate = hslForm;
     }
@@ -227,39 +228,39 @@ class ColorPicker extends HTMLElement {
       });
       // the btn toggle
       menuToggle = `<button id="presets-btn" class="menu-toggle" role="button" aria-expanded="false" aria-haspopup="true">
-   <span class="visually-hidden">${toggleLabel}</span>
-   <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-     <path fill="#fff" d="M777.857 367.557c9.748 -9.605 25.41 -9.605 35.087 0s9.713 25.124 0 34.729L529.521 682.914c-9.677 9.605 -25.338 9.605 -35.087 0L211.011 402.286c-9.677 -9.605 -9.677 -25.123 0 -34.729c9.712 -9.605 25.41 -9.605 35.087 0l265.897 255.934L777.857 367.557z"></path>
-   </svg>
- </button>`;
+  <span class="visually-hidden">${toggleLabel}</span>
+  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+    <path fill="#fff" d="M777.857 367.557c9.748 -9.605 25.41 -9.605 35.087 0s9.713 25.124 0 34.729L529.521 682.914c-9.677 9.605 -25.338 9.605 -35.087 0L211.011 402.286c-9.677 -9.605 -9.677 -25.123 0 -34.729c9.712 -9.605 25.41 -9.605 35.087 0l265.897 255.934L777.857 367.557z"></path>
+  </svg>
+</button>`;
       // the menu
       menuTemplate = `<div class="color-dropdown menu">
-   <label id="presets-label" class="visually-hidden">${menuLabel}</label>
-   <ul aria-labelledby="presets-label" class="color-menu${dropClass}" role="list">${colorOpsMarkup}</ul>
- </div>`;
+  <label id="presets-label" class="visually-hidden">${menuLabel}</label>
+  <ul aria-labelledby="presets-label" class="color-menu${dropClass}" role="list">${colorOpsMarkup}</ul>
+</div>`;
     }
 
     // set the main template
     this.template = document.createElement('template');
 
     this.template.innerHTML = `<style>{{CSS_CONTENTS_PLACEHOLDER}}</style>
- 
- <label for="color-input" class="visually-hidden">${inputLabel}</label>
- <input id="color-input" name="color-input" type="text" class="color-preview" autocomplete="off" spellcheck="false"${placeholder}/>
- 
- <div class="color-dropdown picker${dropClass}" role="group" aria-labelledby="dialog-label format-label" aria-live="polite">
-   <label id="dialog-label" class="visually-hidden" aria-hidden="true">${dialogLabel}</label>
-   <label id="format-label" class="visually-hidden" aria-hidden="true">${formatLabel}</label>
-   <label id="appearance" class="color-appearance visually-hidden" aria-hidden="true">${appearanceLabel}</label>
-   <div class="color-controls">
-     ${controlsTemplate}
-   </div>
-   <div class="color-form">
-     ${inputsTemplate}
-   </div>
- </div>
- ${menuToggle}
- ${menuTemplate}`;
+
+<label for="color-input" class="visually-hidden">${inputLabel}</label>
+<input id="color-input" name="color-input" type="text" class="color-preview" autocomplete="off" spellcheck="false"${placeholder}/>
+
+<div class="color-dropdown picker${dropClass}" role="group" aria-labelledby="dialog-label format-label" aria-live="polite">
+  <label id="dialog-label" class="visually-hidden" aria-hidden="true">${dialogLabel}</label>
+  <label id="format-label" class="visually-hidden" aria-hidden="true">${formatLabel}</label>
+  <label id="appearance" class="color-appearance visually-hidden" aria-hidden="true">${appearanceLabel}</label>
+  <div class="color-controls">
+    ${controlsTemplate}
+  </div>
+  <div class="color-form">
+    ${inputsTemplate}
+  </div>
+</div>
+${menuToggle}
+${menuTemplate}`;
 
     // Patch shadow DOM
     if (window.ShadyCSS) {
@@ -277,6 +278,7 @@ class ColorPicker extends HTMLElement {
     // set main elements
     this.menuToggle = this.shadowRoot.querySelector('.menu-toggle');
     this.colorMenu = this.shadowRoot.querySelector('.color-dropdown.menu');
+    this.controls = this.shadowRoot.querySelector('.color-controls');
     this.colorPicker = this.shadowRoot.querySelector('.color-dropdown.picker');
     this.inputs = Array.from(this.shadowRoot.querySelectorAll('.color-input'));
     this.controlKnobs = Array.from(this.shadowRoot.querySelectorAll('.knob'));
@@ -338,6 +340,7 @@ class ColorPicker extends HTMLElement {
     this.label[fn]('click', this.handleFocus);
 
     this.input[fn]('focusin', this.showPicker);
+    this[fn]('keydown', this.keyHandler);
     this.form[fn]('submit', this.handleSubmit);
 
     if (this.menuToggle) {
@@ -351,8 +354,8 @@ class ColorPicker extends HTMLElement {
       ? { down: 'touchstart', move: 'touchmove', up: 'touchend' }
       : { down: 'mousedown', move: 'mousemove', up: 'mouseup' };
 
-    this.visuals.forEach((x) => x[fn](pointerEvents.down, this.pointerDown));
-    this.controlKnobs.forEach((x) => x[fn]('keydown', this.keyHandler));
+    this.controls[fn](pointerEvents.down, this.pointerDown);
+    this.controlKnobs.forEach((x) => x[fn]('keydown', this.handleKnobs));
 
     window[fn]('scroll', this.handleScroll);
     window[fn]('resize', this.handleResize);
@@ -515,23 +518,21 @@ class ColorPicker extends HTMLElement {
 
   pointerDown(e) {
     const eTarget = e.target;
-    const controlRect = eTarget.getBoundingClientRect();
+    const visual = eTarget.tagName === 'canvas' ? eTarget : eTarget.parentElement.querySelector('canvas');
+    const visualRect = visual.getBoundingClientRect();
     const pageX = e.type === 'touchstart' ? e.touches[0].pageX : e.pageX;
     const pageY = e.type === 'touchstart' ? e.touches[0].pageY : e.pageY;
-    const offsetX = pageX - window.pageXOffset - controlRect.left;
-    const offsetY = pageY - window.pageYOffset - controlRect.top;
+    const offsetX = pageX - window.pageXOffset - visualRect.left;
+    const offsetY = pageY - window.pageYOffset - visualRect.top;
 
     if (eTarget === this.visuals[0] || eTarget === this.controlKnobs[0]) {
-      const control1 = this.visuals[0];
-      this.dragElement = control1;
+      this.dragElement = visual;
       this.changeControl1({ offsetX, offsetY });
     } else if (eTarget === this.visuals[1] || eTarget === this.controlKnobs[1]) {
-      const control2 = this.visuals[1];
-      this.dragElement = control2;
+      this.dragElement = visual;
       this.changeControl2({ offsetY });
     } else if (this.format !== 'hex' && (eTarget === this.visuals[2] || eTarget === this.controlKnobs[2])) {
-      const control3 = this.visuals[2];
-      this.dragElement = control3;
+      this.dragElement = visual;
       this.changeAlpha({ offsetY });
     }
     e.preventDefault();
@@ -539,7 +540,7 @@ class ColorPicker extends HTMLElement {
 
   pointerUp(e) {
     if (!this.dragElement && !document.getSelection().toString().length
-       && !this.contains(e.target)) {
+      && !this.contains(e.target)) {
       this.hide();
     }
 
@@ -570,7 +571,7 @@ class ColorPicker extends HTMLElement {
     }
   }
 
-  keyHandler(e) {
+  handleKnobs(e) {
     const eTarget = e.target;
     const { which } = e;
 
@@ -748,7 +749,7 @@ class ColorPicker extends HTMLElement {
     const elRect = this.input.getBoundingClientRect();
     const elHeight = this.input.offsetHeight;
     const windowHeight = document.documentElement.clientHeight;
-    const isPicker = ['show', 'show-top'].some((x) => this.colorPicker.classList.contains(x));
+    const isPicker = this.classToggle(this.colorPicker, 1);
     const dropdown = isPicker ? this.colorPicker : this.colorMenu;
     const dropHeight = dropdown.offsetHeight;
     const distanceBottom = windowHeight - elRect.bottom;
@@ -909,24 +910,66 @@ class ColorPicker extends HTMLElement {
     }
   }
 
+  keyHandler(e) {
+    const activeEl = this.shadowRoot.activeElement;
+    if ([13, 32].includes(e.which)) {
+      if ((this.menuToggle && activeEl === this.menuToggle) || !activeEl) {
+        e.preventDefault();
+        if (!activeEl) {
+          this.togglePicker();
+        } else {
+          this.toggleMenu();
+        }
+      }
+    }
+  }
+
   showPicker() {
-    this.hide(1);
     this.colorPicker.classList.add('show');
-    this.setAttribute('aria-expanded', 'true');
+    this.classToggle(this.colorMenu);
     this.show();
   }
 
+  togglePicker() {
+    const pickerIsOpen = this.classToggle(this.colorPicker, 1);
+
+    if (this.isOpen && pickerIsOpen) {
+      this.hide(1);
+    } else {
+      this.showPicker();
+    }
+  }
+
+  showMenu() {
+    this.classToggle(this.colorPicker);
+    this.colorMenu.classList.add('show');
+    this.show();
+    this.menuToggle.setAttribute('aria-expanded', 'true');
+  }
+
   toggleMenu() {
-    const menuIsOpen = ['show', 'show-top'].some((x) => this.colorMenu.classList.contains(x));
+    const menuIsOpen = this.classToggle(this.colorMenu, 1);
 
     if (this.isOpen && menuIsOpen) {
-      this.hide();
-    } else {
       this.hide(1);
-      this.colorMenu.classList.add('show');
-      this.show();
-      this.menuToggle.setAttribute('aria-expanded', 'true');
+    } else {
+      this.showMenu();
     }
+  }
+
+  classToggle(element, check) {
+    const fn1 = !check ? 'forEach' : 'some';
+    const fn2 = !check ? 'remove' : 'contains';
+
+    if (element) {
+      if (!check && element === this.menuToggle) {
+        element.setAttribute('aria-expanded', 'false');
+      }
+
+      return ['show', 'show-top'][fn1]((x) => element.classList[fn2](x));
+    }
+
+    return false;
   }
 
   show() {
@@ -934,6 +977,7 @@ class ColorPicker extends HTMLElement {
       const current = document.querySelector('joomla-field-color-picker.open');
       if (current) current.hide(1);
 
+      this.setAttribute('aria-expanded', 'true');
       this.classList.add('open');
       this.toggleEventsOnShown(1);
       this.updateDropdownPosition();
@@ -948,17 +992,14 @@ class ColorPicker extends HTMLElement {
 
       this.classList.remove('open');
 
-      ['show', 'show-top'].forEach((x) => this.colorPicker.classList.remove(x));
+      this.classToggle(this.colorMenu);
+      this.classToggle(this.colorPicker);
       this.setAttribute('aria-expanded', 'false');
-
-      if (this.colorMenu) {
-        ['show', 'show-top'].forEach((x) => this.colorMenu.classList.remove(x));
-        this.menuToggle.setAttribute('aria-expanded', 'false');
-      }
 
       if (!this.isValid) {
         this.value = this.color.toString();
       }
+
       this.isOpen = false;
 
       if (!focusPrevented) {
