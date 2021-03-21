@@ -133,7 +133,6 @@ class StylesRenderer extends DocumentRenderer
 	 */
 	private function renderElement($item) : string
 	{
-		$buffer = '';
 		$asset  = $item instanceof WebAssetItemInterface ? $item : null;
 		$src    = $asset ? $asset->getUri() : ($item['href'] ?? '');
 
@@ -152,7 +151,8 @@ class StylesRenderer extends DocumentRenderer
 		{
 			$attribs     = $asset->getAttributes();
 			$version     = $asset->getVersion();
-			$conditional = $asset->getOption('conditional');
+			$inlined     = $asset->getOption('inlined');
+			$lazy        = $asset->getOption('lazy');
 
 			// Add an asset info for debugging
 			if (JDEBUG)
@@ -169,11 +169,17 @@ class StylesRenderer extends DocumentRenderer
 		{
 			$attribs     = $item;
 			$version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
-			$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 		}
 
 		// To prevent double rendering
 		$this->renderedSrc[$src] = true;
+
+		if (isset($inlined) && $inlined)
+		{
+			return $this->renderInlineElement(
+				array_merge($attribs, ['content' => \file_get_contents(JPATH_ROOT . $src)])
+			);
+		}
 
 		// Check if script uses media version.
 		if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
@@ -181,30 +187,22 @@ class StylesRenderer extends DocumentRenderer
 			$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
 		}
 
-		$buffer .= $tab;
+		$relation = isset($attribs['rel']) ? $attribs['rel'] : 'rel="stylesheet"';
 
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
+		if (isset($lazy) && $lazy)
 		{
-			$buffer .= '<!--[if ' . $conditional . ']>';
+			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] . ' js-lazy-loaded' : 'js-lazy-loaded';
+			$relation         = isset($attribs['rel']) ? 'rel="print" data-rel="' . $attribs['rel'] . '"' : 'rel="print" data-rel="stylesheet"';
 		}
-
-		$relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
 
 		// Render the element with attributes
-		$buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
-		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= ' />';
-
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
-		{
-			$buffer .= '<![endif]-->';
-		}
-
-		$buffer .= $lnEnd;
-
-		return $buffer;
+		return $tab
+				. '<link '
+				. 'href="' . htmlspecialchars($src) . '" '
+				. $relation
+				. $this->renderAttributes($attribs)
+				. '/>'
+				. $lnEnd;
 	}
 
 	/**
@@ -218,7 +216,6 @@ class StylesRenderer extends DocumentRenderer
 	 */
 	private function renderInlineElement($item) : string
 	{
-		$buffer = '';
 		$lnEnd  = $this->_doc->_getLineEnd();
 		$tab    = $this->_doc->_getTab();
 
@@ -247,27 +244,13 @@ class StylesRenderer extends DocumentRenderer
 			$attribs['nonce'] = $this->_doc->cspNonce;
 		}
 
-		$buffer .= $tab . '<style';
-		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= '>';
-
-		// This is for full XHTML support.
-		if ($this->_doc->_mime !== 'text/html')
-		{
-			$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
-		}
-
-		$buffer .= $content;
-
-		// See above note
-		if ($this->_doc->_mime !== 'text/html')
-		{
-			$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
-		}
-
-		$buffer .= '</style>' . $lnEnd;
-
-		return $buffer;
+		return $tab
+				. '<style'
+				. $this->renderAttributes($attribs)
+				. '>'
+				. $content
+				. '</style>'
+				. $lnEnd;
 	}
 
 	/**

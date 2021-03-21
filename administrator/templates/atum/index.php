@@ -40,7 +40,6 @@ require_once __DIR__ . '/Service/HTML/Atum.php';
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
-$this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
@@ -65,11 +64,12 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
+//registerAndUseStyle(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+$wa->registerAndUseStyle('f-a-1', 'administrator/templates/atum/css/vendor/fontawesome-free/fontawesome.css', ['inlined' => true], [], []);
+$wa->useScript('core-inline');
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
-// @TODO sync with _variables.scss
-$this->setMetaData('theme-color', '#1c3d5c');
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -84,6 +84,7 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
@@ -180,6 +181,5 @@ Text::script('TPL_ATUM_MORE_ELEMENTS');
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
-<jdoc:include type="scripts" />
 </body>
 </html>

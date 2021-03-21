@@ -287,6 +287,11 @@
   }
 
   doc.addEventListener('DOMContentLoaded', () => {
+    [].slice.call(document.head.querySelectorAll('link.js-lazy-loaded')).map((el) => {
+      el.rel = el.dataset.rel ? el.dataset.rel : '';
+      return el;
+    });
+
     changeSVGLogoColor();
     headerItemsInDropdown();
     reactToResize();

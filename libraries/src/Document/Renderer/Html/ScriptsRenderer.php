@@ -159,9 +159,9 @@ class ScriptsRenderer extends DocumentRenderer
 		// Get the attributes and other options
 		if ($asset)
 		{
-			$attribs     = $asset->getAttributes();
-			$version     = $asset->getVersion();
-			$conditional = $asset->getOption('conditional');
+			$attribs = $asset->getAttributes();
+			$version = $asset->getVersion();
+			$inlined = $asset->getOption('inlined');
 
 			// Add an asset info for debugging
 			if (JDEBUG)
@@ -178,11 +178,17 @@ class ScriptsRenderer extends DocumentRenderer
 		{
 			$attribs     = $item;
 			$version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
-			$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 		}
 
 		// To prevent double rendering
 		$this->renderedSrc[$src] = true;
+
+		if (isset($inlined) && $inlined)
+		{
+			return $this->renderInlineElement(
+				array_merge($attribs, ['content' => \file_get_contents(JPATH_ROOT . $src)])
+			);
+		}
 
 		// Check if script uses media version.
 		if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
@@ -190,26 +196,12 @@ class ScriptsRenderer extends DocumentRenderer
 			$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
 		}
 
-		$buffer .= $tab;
-
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
-		{
-			$buffer .= '<!--[if ' . $conditional . ']>';
-		}
-
 		// Render the element with attributes
-		$buffer .= '<script src="' . htmlspecialchars($src) . '"';
-		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= '></script>';
-
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
-		{
-			$buffer .= '<![endif]-->';
-		}
-
-		$buffer .= $lnEnd;
+		$buffer .= $tab
+					. '<script src="' . htmlspecialchars($src) . '" '
+					. $this->renderAttributes($attribs)
+					. '></script>'
+					. $lnEnd;
 
 		return $buffer;
 	}
@@ -254,25 +246,13 @@ class ScriptsRenderer extends DocumentRenderer
 			$attribs['nonce'] = $this->_doc->cspNonce;
 		}
 
-		$buffer .= $tab . '<script';
-		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= '>';
-
-		// This is for full XHTML support.
-		if ($this->_doc->_mime !== 'text/html')
-		{
-			$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-		}
-
-		$buffer .= $content;
-
-		// See above note
-		if ($this->_doc->_mime !== 'text/html')
-		{
-			$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-		}
-
-		$buffer .= '</script>' . $lnEnd;
+		$buffer .= $tab
+					. '<script'
+					. $this->renderAttributes($attribs)
+					. '>'
+					. $content
+					. '</script>'
+					. $lnEnd;
 
 		return $buffer;
 	}
