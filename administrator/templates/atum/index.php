@@ -64,9 +64,9 @@ $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
-//registerAndUseStyle(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
-$wa->registerAndUseStyle('f-a-1', 'administrator/templates/atum/css/vendor/fontawesome-free/fontawesome.css', ['inlined' => true], [], []);
-$wa->useScript('core-inline');
+
+//$wa->getRegistry()->get('script', 'core')->setOption('inline', true);
+$wa->getRegistry()->get('style', 'fontawesome')->setOption('lazy', true);
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
@@ -77,7 +77,6 @@ HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
 
 Text::script('TPL_ATUM_MORE_ELEMENTS');
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
