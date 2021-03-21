@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         Joomla.Administrator
- * @subpackage      com_admin
+ * @subpackage      com_users
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
@@ -35,7 +35,6 @@ class Dispatcher extends ComponentDispatcher
 		// Allow user to edit data from his own account
 		if (in_array($task, $allowedTasks) || ($view === 'user' && $layout == 'edit'))
 		{
-
 			$user = $this->app->getIdentity();
 			$id   = $this->input->getInt('id');
 

@@ -53,10 +53,9 @@ class UserController extends FormController
 			}
 		}
 
-		// Check if user is editing his account, if Yes, allow him to edit
+		// Allow user to edit his profile
 		if (isset($data[$key]) && $this->app->getIdentity()->id == $data['id'])
 		{
-
 			return true;
 		}
 
@@ -93,7 +92,7 @@ class UserController extends FormController
 	}
 
 	/**
-	 * Override parent cancel to redirect when using status edit account.
+	 * Override parent save to redirect when using status edit account.
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
 	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
