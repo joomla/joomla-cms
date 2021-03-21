@@ -123,7 +123,7 @@ class HtmlView extends CategoryView
 		$path     = [['title' => $this->category->title, 'link' => '']];
 		$category = $this->category->getParent();
 
-		while ($id != $category->id && $category->id > 1)
+		while ($category !== null && $category->id != $id && $category->id !== 'root')
 		{
 			$path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
 			$category = $category->getParent();
