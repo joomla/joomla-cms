@@ -34,8 +34,8 @@
 .container-top-b,
 .container-bottom-a,
 .container-bottom-b {
-  padding: 4rem 0;
   position: relative;
+  padding: 4rem 0;
   > * {
     flex: 1;
     margin: ($cassiopeia-grid-gutter / 2);
