@@ -8,6 +8,10 @@
   margin-left: auto;
 }
 
+.mod-custom {
+  position: relative;
+}
+
 .container-header header .site {
   background-color: $gray-100;
 
@@ -31,7 +35,7 @@
 .container-bottom-a,
 .container-bottom-b {
   padding: 4rem 0;
-
+  position: relative;
   > * {
     flex: 1;
     margin: ($cassiopeia-grid-gutter / 2);
