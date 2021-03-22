@@ -77,15 +77,18 @@ else
 
 // Get the Fontawesome css URL
 $faScriptUri = Uri::root(true) . $wa->getAsset('style', 'fontawesome')->getUri();
+$wa->getRegistry()->get('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
+	<jdoc:include type="metas" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<jdoc:include type="head" />
-	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
+	<jdoc:include type="styles" />
+	<noscript><link rel="stylesheet" href=<?php echo $faScriptUri; ?> type="text/css"/></noscript>
+	<jdoc:include type="scripts" />
 </head>
-<body class="site" data-font-awesome="<?php echo $faScriptUri; ?>">
+<body class="site">
 	<div class="outer">
 		<div class="offline-card">
 			<div class="header">

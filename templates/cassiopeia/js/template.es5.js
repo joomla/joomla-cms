@@ -44,12 +44,10 @@ Joomla = window.Joomla || {};
       });
     }
 
-    if (document.body.dataset.fontAwesome) {
-      var css = document.createElement('link');
-      css.href = document.body.dataset.fontAwesome;
-      css.rel = 'stylesheet';
-      document.head.appendChild(css);
-    }
+    [].slice.call(document.head.querySelectorAll('link[rel="lazy-stylesheet"]'))
+      .forEach(function($link){
+        $link.rel = "stylesheet";
+      });
   });
 
   /**

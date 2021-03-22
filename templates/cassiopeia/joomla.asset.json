@@ -10,14 +10,18 @@
       "description": "The css file to be used when the site is left to right (LTR).",
       "type": "style",
       "uri": "template.min.css",
-      "dependencies": []
+      "dependencies": [
+        "fontawesome"
+      ]
     },
     {
       "name": "template.cassiopeia.rtl",
       "description": "The css file to be used when the site is right to left (RTL).",
       "type": "style",
       "uri": "template-rtl.min.css",
-      "dependencies": []
+      "dependencies": [
+        "fontawesome"
+      ]
     },
     {
       "name": "template.offline",
