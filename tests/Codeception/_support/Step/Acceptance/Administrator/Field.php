@@ -104,8 +104,6 @@ class Field extends Admin
 		$I = $this;
 		$I->amOnPage(FieldListPage::$url);
 		$I->waitForElement(FieldListPage::$searchField, $I->getConfig('timeout'));
-		$I->click("//div[@class='js-stools-container-bar']//button[contains(text(), 'Filter')]");
-		$I->wait(2);
 
 		// Make sure that the class js-stools-container-filters is visible. 
 		// Filter is a toggle button and I never know in this funciton what happened before.
