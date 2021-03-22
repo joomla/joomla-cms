@@ -191,7 +191,8 @@ class StylesRenderer extends DocumentRenderer
 
 		$relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
 
-		if (isset($attribs['rel'])) {
+		if (isset($attribs['rel']))
+		{
 			unset($attribs['rel']);
 		}
 
