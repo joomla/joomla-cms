@@ -20,7 +20,10 @@ Joomla = window.Joomla || {};
     if (element.value === 'direct') {
       dom.map((el) => { document.getElementById(el).style.display = 'none' });
     } else {
-      dom.map((el) => { document.getElementById(el).style.display = '' });
+      dom.map((el) => {
+        document.getElementById(el).style.display = '';
+        return el;
+        });
     }
   };
 
