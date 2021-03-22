@@ -12,7 +12,6 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 

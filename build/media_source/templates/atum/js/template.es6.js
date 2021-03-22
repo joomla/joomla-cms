@@ -103,6 +103,10 @@
             svg.setAttribute('viewBox', `0 0 ${svg.getAttribute('height')} ${svg.getAttribute('width')}`);
           }
 
+          // SVG needs to have a role of presentation and focusable set to false
+          svg.setAttribute('role', 'presentation');
+          svg.setAttribute('focusable', 'false');
+
           // Replace image with new SVG
           img.parentElement.replaceChild(svg, img);
         },
@@ -146,10 +150,14 @@
         headerMoreItem.appendChild(headerItemContent);
         headerMoreItem.appendChild(headerMoreMenu);
         headerWrapper.appendChild(headerMoreItem);
-
-        headerMoreBtn.addEventListener('click', () => {
+        headerMoreBtn.addEventListener('click', (event) => {
+          event.stopPropagation();
           headerMoreItem.classList.toggle('active');
         });
+        window.onclick = () => {
+          headerMoreItem.classList.remove('active');
+        };
+
         headerItemsWidth += headerMoreItem.offsetWidth;
       }
 

@@ -43,11 +43,11 @@ $xml = $this->form->getXml();
 
 		<?php // Begin Sidebar ?>
 		<div class="col-md-3" id="sidebar">
-			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false">
+			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false">
 				 <span class="icon-align-justify" aria-hidden="true"></span>
 				 <?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
-			<div class="sidebar-nav bg-light p-2 my-2">
+			<div id="sidebar-nav" class="sidebar-nav bg-light p-2 my-2">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
 		</div>
@@ -77,7 +77,7 @@ $xml = $this->form->getXml();
 					<?php if (!$isGrandchild && $hasParent) : ?>
 						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
-							<div>
+							<div class="form-grid">
 					<?php elseif (!$hasParent) : ?>
 						<?php if ($opentab) : ?>
 
@@ -98,14 +98,14 @@ $xml = $this->form->getXml();
 
 						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
-							<div>
+							<div class="form-grid">
 						<?php $opentab = 2; ?>
 						<?php endif; ?>
 					<?php endif; ?>
 
 					<?php if (!empty($fieldSet->description)) : ?>
 						<div class="tab-description alert alert-info">
-							<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_($fieldSet->description); ?>
 						</div>
 					<?php endif; ?>
@@ -133,7 +133,7 @@ $xml = $this->form->getXml();
 
 			<?php else : ?>
 				<div class="alert alert-info">
-					<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
 				</div>
 			<?php endif; ?>

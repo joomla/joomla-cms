@@ -15,7 +15,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_content.admin-articles-stage');
 
 ?>
-<button class="btn btn-secondary" type="button" data-dismiss="modal">
+<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">
 	<?php echo Text::_('JCANCEL'); ?>
 </button>
 <button id="stage-submit-button-id" class="btn btn-success" type="button" data-submit-task="">

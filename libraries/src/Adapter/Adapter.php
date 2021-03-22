@@ -10,6 +10,7 @@ namespace Joomla\CMS\Adapter;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 
 /**
@@ -57,7 +58,7 @@ class Adapter extends CMSObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  1.6
 	 */
 	protected $_db;
@@ -77,13 +78,13 @@ class Adapter extends CMSObject
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
-		$this->_db = \JFactory::getDbo();
+		$this->_db = Factory::getDbo();
 	}
 
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  \JDatabaseDriver  Database connector object
+	 * @return  \Joomla\Database\DatabaseDriver  Database connector object
 	 *
 	 * @since   1.6
 	 */

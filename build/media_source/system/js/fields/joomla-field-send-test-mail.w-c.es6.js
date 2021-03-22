@@ -26,7 +26,6 @@
       const emailData = {
         smtpauth: document.getElementById('jform_smtpauth1').checked ? 1 : 0,
         smtpuser: this.querySelector('[name="jform[smtpuser]"]').value,
-        smtppass: this.querySelector('[name="jform[smtppass]"]').value,
         smtphost: this.querySelector('[name="jform[smtphost]"]').value,
         smtpsecure: this.querySelector('[name="jform[smtpsecure]"]').value,
         smtpport: this.querySelector('[name="jform[smtpport]"]').value,
@@ -35,6 +34,12 @@
         mailer: this.querySelector('[name="jform[mailer]"]').value,
         mailonline: document.getElementById('jform_mailonline1').checked ? 1 : 0,
       };
+
+      const smtppass = this.querySelector('[name="jform[smtppass]"]');
+
+      if (smtppass.disabled === false) {
+        emailData.smtppass = smtppass.value;
+      }
 
       // Remove js messages, if they exist.
       Joomla.removeMessages();
@@ -57,9 +62,13 @@
           if (typeof response.messages === 'object' && response.messages !== null) {
             Joomla.renderMessages(response.messages);
           }
+
+          document.body.scrollIntoView({ behavior: 'smooth' });
         },
         onError: (xhr) => {
           Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+
+          document.body.scrollIntoView({ behavior: 'smooth' });
         },
       });
     }

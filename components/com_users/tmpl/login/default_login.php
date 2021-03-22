@@ -39,7 +39,10 @@ $usersConfig = ComponentHelper::getParams('com_users');
 		<?php endif; ?>
 
 		<?php if ($this->params->get('login_image') != '') : ?>
-			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="com-users-login__image login-image" alt="<?php echo Text::_('COM_USERS_LOGIN_IMAGE_ALT'); ?>">
+			<?php $alt = empty($this->params->get('login_image_alt')) && empty($this->params->get('login_image_alt_empty'))
+				? ''
+				: 'alt="' . htmlspecialchars($this->params->get('login_image_alt'), ENT_COMPAT, 'UTF-8') . '"'; ?>
+			<img src="<?php echo $this->escape($this->params->get('login_image')); ?>" class="com-users-login__image login-image" <?php echo $alt; ?>>
 		<?php endif; ?>
 
 	<?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
@@ -76,7 +79,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				<div class="com-users-login__submit control-group">
 					<div class="controls">
 						<button type="button"
-								class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+								class="btn btn-secondary w-100 <?php echo $button['class'] ?? '' ?>"
 								<?php foreach ($dataAttributeKeys as $key): ?>
 								<?php echo $key ?>="<?php echo $button[$key] ?>"
 								<?php endforeach; ?>
@@ -92,6 +95,8 @@ $usersConfig = ComponentHelper::getParams('com_users');
 								<?php echo HTMLHelper::_('image', $button['image'], Text::_($button['tooltip'] ?? ''), [
 									'class' => 'icon',
 								], true) ?>
+							<?php elseif (!empty($button['svg'])): ?>
+								<?php echo $button['svg']; ?>
 							<?php endif; ?>
 							<?php echo Text::_($button['label']) ?>
 						</button>

@@ -3,19 +3,92 @@
 @import "../../../../../media/vendor/bootstrap/scss/mixins";
 
 // choices.js
-@import "../../../../../node_modules/choices.js/src/styles/choices";
+@import "../../../../../media/vendor/choicesjs/scss/choices";
 
 // Cassiopea Variables, Functions and Mixins
 @import "../../tools/tools";
 
+.choices {
+  border: 0;
+  border-radius: $border-radius;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.is-focused {
+    box-shadow: $cassiopeia-input-focus-shadow;
+  }
+}
+
+.choices__inner {
+  padding: .4rem 1rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+  border: $input-border;
+  border-radius: $border-radius;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+
+  .is-focused & {
+    border-color: #000;
+  }
+}
+
+.choices__input {
+  padding: 0;
+  margin-bottom: 0;
+  font-size: 1rem;
+  background-color: transparent;
+
+  &::-moz-placeholder {
+    color: $gray-700;
+    opacity: 1;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $gray-700;
+    opacity: 1;
+  }
+}
+
+.choices__list--dropdown {
+  z-index: $zindex-popover;
+}
+
+.choices__list--multiple .choices__item {
+  position: relative;
+  margin: 2px;
+  background-color: var(--cassiopeia-color-primary);
+  margin-inline-end: 2px;
+  border: 0;
+  border-radius: $border-radius;
+
+  &.is-highlighted {
+    background-color: var(--cassiopeia-color-primary);;
+    opacity: .9;
+  }
+}
+
+.choices .choices__list--dropdown {
+  .choices__item {
+    padding-inline-end: 10px;
+  }
+
+  .choices__item--selectable::after {
+    display: none;
+  }
+}
+
 .choices__button_joomla {
   position: relative;
+  padding: 0 10px;
+  color: inherit;
   text-indent: -9999px;
   cursor: pointer;
   background: none;
   border: 0;
+  opacity: .5;
   appearance: none;
-  opacity: .75;
 
   &::before {
     position: absolute;
@@ -23,159 +96,82 @@
     right: 0;
     bottom: 0;
     left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.5;
+    display: block;
     text-align: center;
     text-indent: 0;
     content: "\00d7";
-  }
-
-  &:focus {
-    outline: none;
   }
 
   &:hover,
   &:focus {
     opacity: 1;
   }
+
+  &:focus {
+    outline: none;
+  }
 }
 
-.choices {
-  font-size: 1rem;
-  line-height: 1.5;
-
+.choices[data-type*="select-one"],
+.choices[data-type*="select-multiple"] {
   .choices__inner {
-    min-height: calc(1.5em + 1.2rem + 2px);
-  }
+    padding-inline-end: 3rem;
+    cursor: pointer;
+    background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
+    background-color: $form-select-bg;
 
-  &[data-type*="select-one"] {
-    .choices__inner {
-      padding: $input-btn-padding-y $custom-select-indicator-padding $input-btn-padding-y $input-btn-padding-x;
-      background: $custom-select-bg url("../../../images/select-bg.svg") no-repeat right center / $custom-select-bg-size;
-
-      [dir=rtl] & {
-        padding: $input-btn-padding-y $input-btn-padding-x $input-btn-padding-y $custom-select-indicator-padding;
-        background: $custom-select-bg url("../../../images/select-bg-rtl.svg") no-repeat left center / $custom-select-bg-size;
-      }
-    }
-
-    .choices__button_joomla {
-      position: absolute;
-      right: 0;
-      width: 1.25em;
-      height: 1.25em;
-      padding: 0;
-      border-radius: 10em;
-      opacity: .5;
-
-      [dir=rtl] & {
-        right: auto;
-        left: 0;
-      }
-
-      &:focus {
-        box-shadow: 0 0 0 2px hsl(187, 100%, 42%);
-      }
-    }
-
-    &::after {
-      display: none;
-    }
-  }
-
-  &[data-type*="select-multiple"],
-  &[data-type*="text"] {
-    .choices__inner {
-      padding: .375 * $input-btn-padding-y .25 * $input-btn-padding-x .125 * $input-btn-padding-y;
-
-      [dir=rtl] & {
-        text-align: right;
-      }
-    }
-
-    .choices__button_joomla {
-      position: relative;
-      display: inline-block;
-      width: .5em;
-      padding-right: $input-btn-padding-y;
-      padding-left: $input-btn-padding-y;
-      margin: 0 -.25em 0 .5em;
-      line-height: 1;
-      border-left: 1px solid $white;
-
-      &::before {
-        color: $white;
-      }
-
-      [dir=rtl] & {
-        padding-right: $input-btn-padding-y;
-        padding-left: $input-btn-padding-y;
-        margin: 0 .5em 0 -.25em;
-        border-right: 1px solid $white;
-        border-left: 0;
-      }
+    [dir="rtl"] & {
+      background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
+      background-color: $form-select-bg;
     }
   }
 }
 
-.choices__inner,
-.choices__input {
-  font-size: 1em;
-  line-height: 1.5;
-}
-
-.choices__item {
-  position: relative;
-}
-
-.choices__list--single {
-  padding: 0;
-
-  [dir=rtl] & {
-    text-align: right;
-  }
-}
-
-.choices__list--multiple {
+.choices[data-type*="select-one"] {
   .choices__item {
-    display: inline-flex;
-    padding: .5 * $input-btn-padding-y .5 * $input-btn-padding-x;
-    margin-right: .25 * $input-btn-padding-x;
-    margin-bottom: .125 * $input-btn-padding-y;
-    font-size: inherit;
-    font-weight: 500;
-    color: $white;
-    background-color: var(--info);
-    border: 1px solid $white;
-    border-radius: $border-radius;
+    display: flex;
+    justify-content: space-between;
+  }
 
-    &[data-deletable] {
-      padding-right: .375rem;
-
-      [dir=rtl] & {
-        padding-right: .5 * $input-btn-padding-x;
-        padding-left: .375rem;
-      }
-    }
-
-    &.is-highlighted {
-      color: $white;
-      background-color: var(--info);
-      border-color: var(--info);
-      opacity: .8;
-    }
+  .choices__button_joomla {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-top: -10px;
+    margin-right: 50px;
+    border-radius: 10em;
+    opacity: .5;
 
     [dir=rtl] & {
+      right: auto;
+      left: 0;
       margin-right: 0;
-      margin-left: .25 * $input-btn-padding-x;
+      margin-left: 50px;
     }
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px #00bcd4;
+    }
+  }
+
+  &::after {
+    display: none;
   }
 }
 
-.choices__list--dropdown {
-  z-index: 10;
+.choices[data-type*="select-multiple"],
+.choices[data-type*="text"] {
+  .choices__input {
+    padding: .2rem 0;
+  }
 }
 
 .choices__heading {

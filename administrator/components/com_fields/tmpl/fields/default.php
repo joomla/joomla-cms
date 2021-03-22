@@ -20,6 +20,9 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
+// Just for the tests :(
+HTMLHelper::_('jquery.framework');
+
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -54,12 +57,12 @@ if ($saveOrder && !empty($this->items))
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'context'))); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="icon-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table" id="fieldList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -106,7 +109,7 @@ if ($saveOrder && !empty($this->items))
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.field.' . $item->id) && $canCheckin; ?>
 								<tr class="row<?php echo $i % 2; ?>" data-draggable-group="<?php echo $item->group_id; ?>" item-id="<?php echo $item->id; ?>">
 									<td class="text-center">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php $iconClass = ''; ?>

@@ -57,13 +57,13 @@ if ($currentPage >= $step)
 		<div class="pagination pagination-toolbar text-center">
 
 			<?php if ($showLimitBox) : ?>
-				<div class="limit float-right">
+				<div class="limit float-end">
 					<?php echo Text::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
 				</div>
 			<?php endif; ?>
 
 			<?php if ($showPagesLinks) : ?>
-				<ul class="pagination ml-auto mb-4 mr-0">
+				<ul class="pagination ms-auto mb-4 me-0">
 					<?php echo LayoutHelper::render('joomla.pagination.link', $pages['start']); ?>
 					<?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
 					<?php foreach ($pages['pages'] as $k => $page) : ?>

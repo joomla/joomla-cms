@@ -28,11 +28,11 @@ Text::script('MESSAGE');
 	<div class="row">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="col-md-3">
-			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-toggle="collapse" data-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+			<button class="btn btn-sm btn-secondary my-2 options-menu d-md-none" type="button" data-bs-toggle="collapse" data-bs-target=".sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
 				<span class="icon-align-justify" aria-hidden="true"></span>
 				<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>
 			</button>
-			<div class="sidebar-nav bg-light p-2 my-2">
+			<div id="sidebar-nav" class="sidebar-nav bg-light p-2 my-2">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
 		</div>
@@ -56,6 +56,7 @@ Text::script('MESSAGE');
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-server', Text::_('COM_CONFIG_SERVER')); ?>
 					<?php echo $this->loadTemplate('server'); ?>
 					<?php echo $this->loadTemplate('locale'); ?>
+					<?php echo $this->loadTemplate('webservices'); ?>
 					<?php echo $this->loadTemplate('ftp'); ?>
 					<?php echo $this->loadTemplate('proxy'); ?>
 					<?php echo $this->loadTemplate('database'); ?>

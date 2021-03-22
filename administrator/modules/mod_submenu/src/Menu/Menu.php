@@ -51,6 +51,12 @@ abstract class Menu
 
 		foreach ($children as $item)
 		{
+			if ($item->element && !ComponentHelper::isEnabled($item->element))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
+
 			$itemParams = $item->getParams();
 
 			// Exclude item with menu item option set to exclude from menu modules
@@ -178,11 +184,11 @@ abstract class Menu
 					if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home')
 					{
 						$iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
-						$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
+						$iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
 					}
 					elseif (substr($iconImage, 0, 6) === 'image:')
 					{
-						$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
+						$iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
 					}
 
 					$item->iconImage = $iconImage;

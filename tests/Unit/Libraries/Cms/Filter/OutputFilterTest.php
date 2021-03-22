@@ -67,7 +67,7 @@ class OutputFilterTest extends UnitTestCase
 
 	/**
 	 * Tests replacing single ampersands with the entity, but leaving double ampersands
-	 * and ampsersand-octothorpe combinations intact.
+	 * and ampersand-octothorpe combinations intact.
 	 *
 	 * @return  void
 	 * @since   4.0.0

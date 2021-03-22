@@ -28,6 +28,15 @@ use Joomla\Database\ParameterType;
 class HtmlView extends BaseHtmlView
 {
 	/**
+	 * Holds an array with the configured FTP options.
+	 *
+	 * @var    array
+	 *
+	 * @since  4.0.0
+	 */
+	protected $ftp = null;
+
+	/**
 	 * An array with the Joomla! update information.
 	 *
 	 * @var    array
@@ -233,7 +242,7 @@ class HtmlView extends BaseHtmlView
 		// Try the update only if we have an extension id
 		if ($joomlaUpdateComponentId != 0)
 		{
-			// Allways force to check for an update!
+			// Always force to check for an update!
 			$cache_timeout = 0;
 
 			$updater = Updater::getInstance();
