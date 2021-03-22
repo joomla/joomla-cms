@@ -106,17 +106,15 @@ class Field extends Admin
 		$I->waitForElement(FieldListPage::$searchField, $I->getConfig('timeout'));
 		$I->click("//div[@class='js-stools-container-bar']//button[contains(text(), 'Filter')]");
 		$I->wait(2);
-		
-		// Make sure that the element js-stools-container-filters is visible. 
+
+		// Make sure that the class js-stools-container-filters is visible. 
 		// Filter is a toggle button and I never know in this funciton what happened before.
 		$I->executeJS("[].forEach.call(document.querySelectorAll('.js-stools-container-filters'), function (el) {
 			el.classList.add('js-stools-container-filters-visible');
 		  });");
 		$I->selectOption('//*[@id="filter_state"]', "-2");
 		$I->wait(2);
-		
-		
-		//$I->selectOptionInChosenByIdUsingJs('filter_state', "Trashed");
+
 		$I->fillField(FieldListPage::$searchField, $title);
 		$I->Click(FieldListPage::$filterSearch);
 		$I->checkAllResults();
