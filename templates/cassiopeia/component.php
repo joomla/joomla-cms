@@ -61,7 +61,7 @@ $wa->getRegistry()->get('style', 'fontawesome')->setAttribute('rel', 'lazy-style
 	<jdoc:include type="metas" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="styles" />
-	<noscript><link rel="stylesheet" href=<?php echo $faScriptUri; ?> type="text/css"/></noscript>
+	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 	<jdoc:include type="scripts" />
 </head>
 <body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
