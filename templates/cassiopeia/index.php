@@ -105,7 +105,7 @@ $wa->getRegistry()->get('style', 'fontawesome')->setAttribute('rel', 'lazy-style
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
-	<noscript><link rel="stylesheet" href=<?php echo $faScriptUri; ?> type="text/css"/></noscript>
+	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 	<jdoc:include type="scripts" />
 </head>
 
