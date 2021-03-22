@@ -26,7 +26,7 @@ Joomla = window.Joomla || {};
       dom.map((el) => {
         document.getElementById(el).style.display = '';
         return el;
-        });
+      });
     }
   };
 
