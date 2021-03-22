@@ -5049,10 +5049,10 @@ class JoomlaInstallerScript
 			'/media/vendor/skipto/js/dropMenu.js',
 			'/media/vendor/skipto/css/SkipTo.css',
 			// Joomla 4.0 Beta 8
-			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
-			'/templates/cassiopeia/scss/vendor/_minicolors.scss',
 			'/administrator/components/com_admin/postinstall/htaccess.php',
 			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
+			'/administrator/templates/atum/scss/vendor/minicolors/minicolors.scss',
+			'/templates/cassiopeia/scss/vendor/_minicolors.scss',
 		);
 
 		$folders = array(

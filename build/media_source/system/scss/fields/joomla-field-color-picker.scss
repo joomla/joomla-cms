@@ -69,8 +69,10 @@
 }
 .menu-toggle {
   position: absolute;
-  top: 0; right: 0;
-  display: flex; width: 3rem;
+  top: 0;
+  right: 0;
+  display: flex;
+  width: 3rem;
   height: 100%;
   cursor: pointer;
   background: none;
@@ -212,6 +214,7 @@ input.color-input-hex {
 }
 .color-pointer {
   width: 5px;
+  z-index: 1;
   border-radius: 5px;
 }
 
