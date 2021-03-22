@@ -117,7 +117,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-						    	<span class="tbody-icon">
+							<span class="tbody-icon">
 								<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 							</span>
 						</td>
