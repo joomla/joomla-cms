@@ -58,51 +58,49 @@ if (!$format)
 elseif ($input->get('module'))
 {
 	$module   = $input->get('module');
-	$method   = $input->get('method') ?: 'get';
 	$table    = Table::getInstance('extension');
 	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
-	$results  = null;
-	$parts    = [];
 
-	if (strpos($module, '_'))
-	{
-		$parts = explode('_', $module);
-	}
-	elseif (strpos($module, '-'))
-	{
-		$parts = explode('-', $module);
-	}
-
-	if ($parts)
-	{
-		$class = '';
-
-		foreach ($parts as $part)
-		{
-			$class .= ucfirst($part);
-		}
-
-		$class .= 'Helper';
-	}
-	else
-	{
-		$class = ucfirst($module) . 'Helper';
-	}
-
-	$moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
-
-	if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper($class))
-	{
-		$results = $helper->{$method . 'Ajax'}();
-	}
-
-	if ($results === null && $moduleId && $table->load($moduleId) && $table->enabled)
+	if ($moduleId && $table->load($moduleId) && $table->enabled)
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-		if (is_file($helperFile))
+		if (strpos($module, '_'))
 		{
-			$class = 'Mod' . $class;
+			$parts = explode('_', $module);
+		}
+		elseif (strpos($module, '-'))
+		{
+			$parts = explode('-', $module);
+		}
+
+		if ($parts)
+		{
+			$class = 'Mod';
+
+			foreach ($parts as $part)
+			{
+				$class .= ucfirst($part);
+			}
+
+			$class .= 'Helper';
+		}
+		else
+		{
+			$class = 'Mod' . ucfirst($module) . 'Helper';
+		}
+
+		$method = $input->get('method') ?: 'get';
+
+		$moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
+
+		if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3)))
+		{
+			$results = method_exists($helper, $method . 'Ajax') ? $helper->{$method . 'Ajax'}() : null;
+		}
+
+		if ($results === null && is_file($helperFile))
+		{
 			JLoader::register($class, $helperFile);
 
 			if (method_exists($class, $method . 'Ajax'))
@@ -129,13 +127,13 @@ elseif ($input->get('module'))
 			}
 		}
 		// The helper file does not exist
-		else
+		elseif ($results === null)
 		{
 			$results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
 		}
 	}
 	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
-	elseif ($results === null)
+	else
 	{
 		$results = new LogicException(Text::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
 	}
