@@ -106,7 +106,7 @@ class Field extends Admin
 		$I->waitForElement(FieldListPage::$searchField, $I->getConfig('timeout'));
 
 		// Make sure that the class js-stools-container-filters is visible. 
-		// Filter is a toggle button and I never know in this funciton what happened before.
+		// Filter is a toggle button and I never know what happened before.
 		$I->executeJS("[].forEach.call(document.querySelectorAll('.js-stools-container-filters'), function (el) {
 			el.classList.add('js-stools-container-filters-visible');
 		  });");
