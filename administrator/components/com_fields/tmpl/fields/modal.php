@@ -82,7 +82,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-						    <span class="tbody-icon">
+						    	<span class="tbody-icon">
 								<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 							</span>
 						</td>
