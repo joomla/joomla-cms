@@ -190,7 +190,10 @@ class StylesRenderer extends DocumentRenderer
 		}
 
 		$relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
-		unset($attribs['rel']);
+
+		if (isset($attribs['rel'])) {
+			unset($attribs['rel']);
+		}
 
 		// Render the element with attributes
 		$buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
