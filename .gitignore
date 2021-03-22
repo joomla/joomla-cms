@@ -7,6 +7,7 @@
 .vscode
 .docker
 /docker-compose.yml
+/nbproject
 
 # Local System Files (i.e. cache, logs, etc.)
 /administrator/cache
