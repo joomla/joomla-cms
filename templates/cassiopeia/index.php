@@ -96,8 +96,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
 
-// Get the Fontawesome css URL
-$faScriptUri = Uri::root(true) . $wa->getAsset('style', 'fontawesome')->getUri();
+// Defer font awesome
 $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
@@ -105,7 +104,6 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
-	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 	<jdoc:include type="scripts" />
 </head>
 

@@ -51,8 +51,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1)
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
-// Get the Fontawesome css URL
-$faScriptUri = Uri::root(true) . $wa->getAsset('style', 'fontawesome')->getUri();
+// Defer font awesome
 $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
@@ -61,7 +60,6 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	<jdoc:include type="metas" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="styles" />
-	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 	<jdoc:include type="scripts" />
 </head>
 <body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">

@@ -75,8 +75,7 @@ else
 	$logo = '<img src="' . $templatePath . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
-// Get the Fontawesome css URL
-$faScriptUri = Uri::root(true) . $wa->getAsset('style', 'fontawesome')->getUri();
+// Defer font awesome
 $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
@@ -85,7 +84,6 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 	<jdoc:include type="metas" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="styles" />
-	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 	<jdoc:include type="scripts" />
 </head>
 <body class="site">
