@@ -89,7 +89,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 							</span>
 						</td>
 						<td class="text-center">
-						    	<span class="tbody-icon">
+						 	<span class="tbody-icon">
 								<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
 							</span>
 						</td>
