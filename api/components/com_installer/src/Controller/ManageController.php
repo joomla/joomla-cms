@@ -47,7 +47,7 @@ class ManageController extends ApiController
 	{
 		$this->modelState->set('filter.core', $this->input->get('core', $this->input->get->get('core')), 'INT');
 		$this->modelState->set('filter.status', $this->input->get('status', $this->input->get->get('status')), 'INT');
-		$this->modelState->set('filter.type', $this->input->get('type', $this->input->get->get('type')), 'INT');
+		$this->modelState->set('filter.type', $this->input->get('type', $this->input->get->get('type')), 'STRING');
 
 		return parent::displayList();
 	}
