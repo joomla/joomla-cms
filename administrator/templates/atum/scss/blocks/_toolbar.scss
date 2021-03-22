@@ -141,6 +141,15 @@
 }
 
 @include media-breakpoint-down(sm) {
+  joomla-tab[view=accordion] .col-md-9,
+  joomla-tab[view=accordion] .col-md-3{
+    padding: 0.5rem 1rem !important;
+  }
+
+  #myTab{
+    margin-top: 1rem;
+  }
+
   .toggler-toolbar {
     top: 20px;
     z-index: $zindex-alerts;
