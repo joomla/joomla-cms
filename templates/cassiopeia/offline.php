@@ -77,7 +77,7 @@ else
 
 // Get the Fontawesome css URL
 $faScriptUri = Uri::root(true) . $wa->getAsset('style', 'fontawesome')->getUri();
-$wa->getRegistry()->get('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
+$wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
