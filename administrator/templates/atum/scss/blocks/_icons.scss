@@ -62,8 +62,8 @@
   &.#{$fa-css-prefix}-star-disabled {
     cursor: not-allowed;
     opacity: 1;
-  } 
-  
+  }
+
   &.disabled .#{$jicon-css-prefix}-home,
   &.disabled .#{$fa-css-prefix}-home {
     color: $state-warning-bg;
