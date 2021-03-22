@@ -470,7 +470,9 @@ ${menuTemplate}`;
     this.input.focus();
   }
 
-  handleDismiss({ which }) {
+  handleDismiss(e) {
+    const which = e.which || e.keyCode;
+
     if (this.isOpen && which === 27) {
       this.hide();
     }
@@ -582,7 +584,7 @@ ${menuTemplate}`;
 
   handleKnobs(e) {
     const eTarget = e.target;
-    const { which } = e;
+    const which = e.which || e.keyCode;
 
     // only react to arrow buttons
     if (![37, 38, 39, 40].includes(which)) return;
@@ -925,8 +927,9 @@ ${menuTemplate}`;
 
   keyHandler(e) {
     const activeEl = this.shadowRoot.activeElement;
+    const which = e.which || e.keyCode;
 
-    if ([13, 32].includes(e.which)) {
+    if ([13, 32].includes(which)) {
       if ((this.menuToggle && activeEl === this.menuToggle) || !activeEl) {
         e.preventDefault();
         if (!activeEl) {
