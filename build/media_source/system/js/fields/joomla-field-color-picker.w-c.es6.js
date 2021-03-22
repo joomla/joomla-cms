@@ -58,6 +58,8 @@ class ColorPicker extends HTMLElement {
 
   set value(v) { this.input.value = v; }
 
+  get required() { return this.hasAttribute('required'); }
+
   get format() { return this.getAttribute('format'); }
 
   get name() { return this.getAttribute('name'); }
@@ -108,9 +110,10 @@ class ColorPicker extends HTMLElement {
     const colorValue = this.getAttribute('value');
     const hint = this.getAttribute('placeholder');
     const placeholder = hint ? ` placeholder="${hint}"` : '';
+    const requiredLabel = this.getAttribute('requiredLabel');
     const inputLabel = this.getAttribute('inputLabel');
     const formatLabel = this.getAttribute('formatLabel');
-    const dialogLabel = this.getAttribute('dialogLabel');
+    const pickerLabel = this.getAttribute('pickerLabel');
     const alphaLabel = this.getAttribute('alphaLabel') || 'alpha';
     const appearanceLabel = this.getAttribute('appearanceLabel');
     const hexLabel = this.getAttribute('hexLabel');
@@ -134,6 +137,7 @@ class ColorPicker extends HTMLElement {
       hue: hueLabel,
       saturation: saturationLabel,
       lightness: lightnessLabel,
+      required: this.required ? ` ${requiredLabel}` : '',
     };
 
     // expose color labels to all methods
@@ -248,8 +252,8 @@ ${control3Template}`;
 <label for="color-input" class="visually-hidden">${inputLabel}</label>
 <input id="color-input" name="color-input" type="text" class="color-preview" autocomplete="off" spellcheck="false"${placeholder}/>
 
-<div class="color-dropdown picker${dropClass}" role="group" aria-labelledby="dialog-label format-label" aria-live="polite">
-  <label id="dialog-label" class="visually-hidden" aria-hidden="true">${dialogLabel}</label>
+<div class="color-dropdown picker${dropClass}" role="group" aria-labelledby="picker-label format-label" aria-live="polite">
+  <label id="picker-label" class="visually-hidden" aria-hidden="true">${pickerLabel}</label>
   <label id="format-label" class="visually-hidden" aria-hidden="true">${formatLabel}</label>
   <label id="appearance" class="color-appearance visually-hidden" aria-hidden="true">${appearanceLabel}</label>
   <div class="color-controls">
@@ -285,6 +289,11 @@ ${menuTemplate}`;
     this.visuals = Array.from(this.shadowRoot.querySelectorAll('canvas'));
     this.knobLabels = Array.from(this.shadowRoot.querySelectorAll('.color-label'));
     this.appearance = this.shadowRoot.querySelector('.color-appearance');
+    this.delegatedTargets = [this.input].concat(Array.from(this.shadowRoot.querySelectorAll('[tabindex]')));
+
+    if (this.menuToggle) {
+      this.delegatedTargets = this.delegatedTargets.concat(this.menuToggle);
+    }
 
     // set dimensions
     this.width1 = this.visuals[0].width;
@@ -305,6 +314,18 @@ ${menuTemplate}`;
       this.ctx3.rect(0, 0, this.width3, this.height3);
     }
 
+    // Accessibility
+    // set tabindex
+    this.setAttribute('tabindex', 0);
+    // set role and other assistive attributes
+    this.setAttribute('role', 'button');
+    this.setAttribute('aria-expanded', 'false');
+    this.setAttribute('aria-haspopup', 'true');
+    // set required
+    if (this.required) {
+      this.input.setAttribute('required', 'true');
+    }
+
     // update color picker
     this.setControlPositions();
     this.setColorAppearence();
@@ -313,24 +334,12 @@ ${menuTemplate}`;
     this.render();
     // add main events listeners
     this.toggleEvents(1);
+    // don't expose controls yet
+    this.delegatedTargets.forEach((x) => x.setAttribute('tabindex', '-1'));
 
     // solve non-colors after settings save
     if (this.keywords && nonColors.includes(colorValue)) {
       this.value = colorValue;
-    }
-
-    // Accessibility
-    // set tabindex
-    this.setAttribute('tabindex', 0);
-    // set role and other assistive attributes
-    this.setAttribute('role', 'button');
-    this.setAttribute('aria-expanded', 'false');
-    this.setAttribute('aria-haspopup', 'true');
-    // set label association
-    this.setAttribute('aria-labelledby', this.label.id);
-    // set required
-    if (this.hasAttribute('required')) {
-      this.input.setAttribute('required', 'true');
     }
   }
 
@@ -768,8 +777,7 @@ ${menuTemplate}`;
   }
 
   setControlPositions() {
-    const { hsv } = this;
-    const { hsl } = this;
+    const { hsv, hsl } = this;
     const hue = hsl.h;
     const saturation = this.format !== 'hsl' ? hsv.s : hsl.s;
     const lightness = this.format !== 'hsl' ? hsv.v : hsl.l;
@@ -786,7 +794,9 @@ ${menuTemplate}`;
 
   setColorAppearence() {
     const labels = this.componentLabels;
-    const { colorLabels, hsl, hsv } = this;
+    const {
+      colorLabels, hsl, hsv, hex,
+    } = this;
     const knob1Lbl = this.knobLabels[0];
     const knob2Lbl = this.knobLabels[1];
     const hue = Math.round(hsl.h);
@@ -829,9 +839,6 @@ ${menuTemplate}`;
       colorName = colorLabels.pink;
     }
 
-    // update color appearance
-    this.appearance.innerText = `${labels.appearance}: ${colorName}.`;
-
     if (this.format === 'hsl') {
       knob1Lbl.innerText = `${labels.hue}: ${hue}°. ${labels.lightness}: ${lightness}%`;
       knob2Lbl.innerText = `${labels.saturation}: ${saturation}%`;
@@ -845,6 +852,12 @@ ${menuTemplate}`;
       const knob3Lbl = this.knobLabels[2];
       knob3Lbl.innerText = `${labels.alpha}: ${alphaValue}%`;
     }
+
+    // update color labels
+    this.appearance.innerText = `${labels.appearance}: ${colorName}.`;
+    const colorLabel = this.format === 'hex' ? `${labels.hex} ${hex}` : this.value.toUpperCase();
+    const fieldLabel = this.label.innerText.replace('*', '').trim();
+    this.setAttribute('aria-label', `${fieldLabel}: ${colorLabel}${labels.required}`);
   }
 
   updateControls() {
@@ -912,6 +925,7 @@ ${menuTemplate}`;
 
   keyHandler(e) {
     const activeEl = this.shadowRoot.activeElement;
+
     if ([13, 32].includes(e.which)) {
       if ((this.menuToggle && activeEl === this.menuToggle) || !activeEl) {
         e.preventDefault();
@@ -977,6 +991,8 @@ ${menuTemplate}`;
       const current = document.querySelector('joomla-field-color-picker.open');
       if (current) current.hide(1);
 
+      this.delegatedTargets.forEach((x) => x.setAttribute('tabindex', '0'));
+
       this.setAttribute('aria-expanded', 'true');
       this.classList.add('open');
       this.toggleEventsOnShown(1);
@@ -989,6 +1005,8 @@ ${menuTemplate}`;
   hide(focusPrevented) {
     if (this.isOpen) {
       this.toggleEventsOnShown();
+
+      this.delegatedTargets.forEach((x) => x.setAttribute('tabindex', '-1'));
 
       this.classList.remove('open');
 
