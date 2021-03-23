@@ -43,7 +43,11 @@ const build = async () => {
             '@babel/preset-env',
             {
               targets: {
-                esmodules: true,
+                browsers: [
+                  '> 1%',
+                  'not ie 11',
+                  'not op_mini all',
+                ],
               },
             },
           ],
@@ -65,6 +69,7 @@ const build = async () => {
       collapse: ['build/media_source/vendor/bootstrap/js/collapse.es6.js'],
       dropdown: ['build/media_source/vendor/bootstrap/js/dropdown.es6.js'],
       modal: ['build/media_source/vendor/bootstrap/js/modal.es6.js'],
+      offcanvas: ['build/media_source/vendor/bootstrap/js/offcanvas.es6.js'],
       popover: ['build/media_source/vendor/bootstrap/js/popover.es6.js'],
       scrollspy: ['build/media_source/vendor/bootstrap/js/scrollspy.es6.js'],
       tab: ['build/media_source/vendor/bootstrap/js/tab.es6.js'],
