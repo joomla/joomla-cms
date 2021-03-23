@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<files>
+	<filename>administrator/components/com_admin/sql/updates/mysql/4.0.0-2018-06-11.sql</filename>
+	<filename>administrator/components/com_admin/sql/updates/mysql/4.0.0-2020-04-18.sql</filename>
+	<filename>administrator/components/com_admin/sql/updates/postgresql/3.9.15-2020-01-08.sql</filename>
+	<filename>administrator/components/com_admin/sql/updates/postgresql/4.0.0-2018-06-11.sql</filename>
+	<filename>administrator/components/com_admin/sql/updates/postgresql/4.0.0-2020-04-18.sql</filename>
+	<filename>administrator/components/com_config/tmpl/application/default_system.php</filename>
+	<filename>administrator/language/en-GB/plg_content_imagelazyload.sys.ini</filename>
+	<filename>administrator/language/en-GB/plg_fields_image.ini</filename>
+	<filename>administrator/language/en-GB/plg_fields_image.sys.ini</filename>
+	<filename>administrator/templates/atum/scss/vendor/bootstrap/_nav.scss</filename>
+	<filename>cli/finder_indexer.php</filename>
+	<filename>components/com_users/layouts/joomla/form/renderfield.php</filename>
+	<filename>libraries/vendor/spomky-labs/base64url/phpstan.neon</filename>
+	<filename>media/contacts/images/con_address.png</filename>
+	<filename>media/contacts/images/con_fax.png</filename>
+	<filename>media/contacts/images/con_info.png</filename>
+	<filename>media/contacts/images/con_mobile.png</filename>
+	<filename>media/contacts/images/con_tel.png</filename>
+	<filename>media/contacts/images/emailButton.png</filename>
+	<filename>media/plg_system_webauthn/images/webauthn-black.png</filename>
+	<filename>media/plg_system_webauthn/images/webauthn-color.png</filename>
+	<filename>media/plg_system_webauthn/images/webauthn-white.png</filename>
+	<filename>media/system/css/system.css</filename>
+	<filename>media/system/css/system.min.css</filename>
+	<filename>media/system/css/system.min.css.gz</filename>
+	<filename>media/system/images/notice-alert.png</filename>
+	<filename>media/system/images/notice-download.png</filename>
+	<filename>media/system/images/notice-info.png</filename>
+	<filename>media/system/images/notice-note.png</filename>
+	<filename>plugins/content/imagelazyload/imagelazyload.php</filename>
+	<filename>plugins/content/imagelazyload/imagelazyload.xml</filename>
+	<filename>templates/cassiopeia/html/layouts/chromes/cardGrey.php</filename>
+	<filename>templates/cassiopeia/html/layouts/chromes/default.php</filename>
+	<filename>templates/cassiopeia/scss/vendor/bootstrap/_card.scss</filename>
+	<folder>/plugins/content/imagelazyload</folder>
+</files>

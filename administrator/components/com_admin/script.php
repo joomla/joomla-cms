@@ -481,6 +481,8 @@ class JoomlaInstallerScript
 	 */
 	public function deleteUnexistingFiles($dryRun = false, $suppressOutput = false)
 	{
+		$forDeletion = $this->getListOfDeletions();
+
 		$status = [
 			'files_exist'     => [],
 			'folders_exist'   => [],
@@ -488,8 +490,8 @@ class JoomlaInstallerScript
 			'folders_deleted' => [],
 			'files_errors'    => [],
 			'folders_errors'  => [],
-			'folders_checked' => $this->getListOfDeletions('folders'),
-			'files_checked'   => $this->getListOfDeletions('files'),
+			'folders_checked' => $forDeletion['folders'],
+			'files_checked'   => $forDeletion['files'],
 		];
 
 		foreach ($status['files_checked'] as $file)
@@ -1471,12 +1473,10 @@ class JoomlaInstallerScript
 	/**
 	 * Get the array of files or folders that should be deleted
 	 *
-	 * @param  string  $type  The type (files|folders) to get
-	 *
 	 * @return  array
 	 * @throws  Exception
 	 */
-	private function getListOfDeletions(string $type): array
+	private function getListOfDeletions(): array
 	{
 		if (empty($type))
 		{
@@ -1485,13 +1485,14 @@ class JoomlaInstallerScript
 
 		$dir = __DIR__ . '/_deletions/' . $type;
 
-		if (opendir($dir))
+		if (!opendir($dir))
 		{
 			throw new \Exception('Directory "' . str_replace(JPATH_ADMINISTRATOR, $dir) . '" doesn\'t exist');
 		}
 
-		$allFilesContent = [];
-		$files           = readdir($dir);
+		$filesForDeletion   = [];
+		$foldersForDeletion = [];
+		$files              = readdir($dir);
 
 		if (!$files)
 		{
@@ -1502,33 +1503,49 @@ class JoomlaInstallerScript
 		{
 			if ($file !== '.' && $file !== '..')
 			{
-				$allFilesContent = array_combine($allFilesContent, $this->parseJsonFile($file));
+				$this->parseXMLFile($file, $filesForDeletion, $foldersForDeletion);
 			}
 		}
 
-		return $allFilesContent;
+		return [
+			'files'   => $filesForDeletion,
+			'folders' => $foldersForDeletion,
+		];
 	}
 
 	/**
 	 * Returns the JSON decoded data of a file
 	 * Assumes that the JSON files have only array data!
 	 *
-	 * @param  string  $file   The file path
+	 * @param string  $file     The file path
+	 * @param array   $files    The array of files to be deleted
+	 * @param array   $folders  The array of folders to be deleted
 	 *
-	 * @return  array
+	 * @return void
 	 */
-	private function parseJsonFile(string $file)
+	private function parseXMLFile(string $file, $files = [], $folders = []): void
 	{
 		try
 		{
 			$fileContent = file_get_contents($file);
 		}
-		catch (Exception $error)
+		catch (\Exception $error)
 		{
 			// @todo Do some logging or echo the error???
-			return [];
 		}
 
-		return json_decode($fileContent);
+		$xml = new \SimpleXMLElement($fileContent);
+
+		foreach ($xml->files as $element) {
+			foreach($element as $key => $val) {
+				if ($key === 'folder') {
+					$folders[] = $val;
+				}
+
+				if ($key === 'file') {
+					$files[] = $val;
+				}
+			}
+		}
 	}
 }
