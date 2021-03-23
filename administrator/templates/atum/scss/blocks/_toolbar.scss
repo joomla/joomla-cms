@@ -148,6 +148,7 @@
 
   #myTab {
     margin-top: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .toggler-toolbar {
@@ -169,6 +170,8 @@
       font: normal normal 900 20px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
       content: "\f00d";
+      display: inline-block;
+      transform: translate(-4px, 0px);
     }
 
     &.collapsed .toggler-toolbar-icon::before {
