@@ -1542,7 +1542,7 @@ class JoomlaInstallerScript
 					$folders[] = $val;
 				}
 
-				if ($key === 'file') {
+				if ($key === 'filename') {
 					$files[] = $val;
 				}
 			}
