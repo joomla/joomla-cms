@@ -229,9 +229,9 @@ if ($gzipReturnCode !== 0)
 }
 
 // Create version entries of the static assets in their respective joomla.asset.json
-system('npm run versioning', $gzipReturnCode);
+system('npm run versioning', $verReturnCode);
 
-if ($gzipReturnCode !== 0)
+if ($verReturnCode !== 0)
 {
 	echo "`npm run versioning` did not complete as expected.\n";
 	exit(1);
