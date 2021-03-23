@@ -327,7 +327,7 @@ abstract class Bootstrap
 			// Setup options object
 			$opt['backdrop'] = isset($options['backdrop']) ? (bool) $options['backdrop'] : true;
 			$opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
-			$opt['scroll']   = isset($options['focus']) ? (bool) $options['focus'] : false;
+			$opt['scroll']   = isset($options['scroll']) ? (bool) $options['scroll'] : false;
 
 			Factory::getDocument()->addScriptOptions('bootstrap.offcanvas', [$selector => (object) array_filter((array) $opt)]);
 		}
