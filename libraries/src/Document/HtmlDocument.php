@@ -837,6 +837,8 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument  instance of $this to allow chaining
 	 *
+	 * @throws \Exception
+	 *
 	 * @since   1.7.0
 	 */
 	protected function _parseTemplate()
@@ -869,6 +871,11 @@ class HtmlDocument extends Document
 				{
 					$template_tags_last[$matches[0][$i]] = ['type' => $type, 'name' => $name, 'attribs' => $attribs];
 				}
+			}
+
+			if (count($messages) === 0)
+			{
+				throw new \Exception('A Joomla template needs a messages block, ie: `<jdoc:include type="messages" />`!');
 			}
 
 			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);

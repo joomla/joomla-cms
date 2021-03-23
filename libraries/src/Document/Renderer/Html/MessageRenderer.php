@@ -33,23 +33,15 @@ class MessageRenderer extends DocumentRenderer
 	 *
 	 * @since   3.5
 	 */
-	public function render($name, $params = array(), $content = null)
+	public function render($name, $params = [], $content = null)
 	{
 		$msgList     = $this->getData();
-		$displayData = array(
+		$displayData = [
 			'msgList' => $msgList,
 			'name'    => $name,
 			'params'  => $params,
 			'content' => $content,
-		);
-
-		$app        = Factory::getApplication();
-		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
-
-		if (is_file($chromePath))
-		{
-			include_once $chromePath;
-		}
+		];
 
 		if (\function_exists('renderMessage'))
 		{
