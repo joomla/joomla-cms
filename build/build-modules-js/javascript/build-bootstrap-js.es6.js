@@ -32,6 +32,7 @@ const build = async () => {
     plugins: [
       nodeResolve(),
       replace({
+        preventAssignment: true,
         'process.env.NODE_ENV': '\'production\'',
       }),
       babel({
@@ -107,6 +108,7 @@ const buildLegacy = async () => {
       commonjs(),
       nodeResolve(),
       replace({
+        preventAssignment: true,
         'process.env.NODE_ENV': '\'production\'',
       }),
       babel({
