@@ -261,8 +261,8 @@
     .navbar-toggler-icon::before {
       font: normal normal 900 20px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
-      content: "\f00d";
       display: inline-block;
+      content: "\f00d";
       transform: translate(-6px,5px);
     }
 
