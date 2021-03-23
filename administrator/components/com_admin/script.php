@@ -1538,7 +1538,7 @@ class JoomlaInstallerScript
 
 		foreach ($xml->files as $element)
 		{
-			foreach($element as $key => $val)
+			foreach ($element as $key => $val)
 			{
 				if ($key === 'folder')
 				{
