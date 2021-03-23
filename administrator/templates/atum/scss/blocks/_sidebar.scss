@@ -259,9 +259,9 @@
     }
 
     .navbar-toggler-icon::before {
+      display: inline-block;
       font: normal normal 900 20px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
-      display: inline-block;
       content: "\f00d";
       transform: translate(-6px,5px);
     }
