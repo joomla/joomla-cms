@@ -1536,13 +1536,17 @@ class JoomlaInstallerScript
 
 		$xml = new \SimpleXMLElement($fileContent);
 
-		foreach ($xml->files as $element) {
-			foreach($element as $key => $val) {
-				if ($key === 'folder') {
+		foreach ($xml->files as $element)
+		{
+			foreach($element as $key => $val)
+			{
+				if ($key === 'folder')
+				{
 					$folders[] = $val;
 				}
 
-				if ($key === 'filename') {
+				if ($key === 'filename')
+				{
 					$files[] = $val;
 				}
 			}
