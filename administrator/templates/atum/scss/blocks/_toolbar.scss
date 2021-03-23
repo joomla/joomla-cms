@@ -171,7 +171,7 @@
       font: normal normal 900 20px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
       content: "\f00d";
-      transform: translate(-4px, 0px);
+      transform: translate(-4px);
     }
 
     &.collapsed .toggler-toolbar-icon::before {
