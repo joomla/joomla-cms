@@ -45,7 +45,13 @@ class ManageController extends ApiController
 	 */
 	public function displayList()
 	{
-		$this->modelState->set('filter.core', $this->input->get('core', $this->input->get->get('core')), 'INT');
+		$requestBool = $this->input->get('core', $this->input->get->get('core'));
+		
+		if (($requestBool === 'true') || ($requestBool === 'false'))
+		{
+			$this->modelState->set('filter.core', ($requestBool === 'true') ? '1' : '0', 'STRING');
+		}
+
 		$this->modelState->set('filter.status', $this->input->get('status', $this->input->get->get('status')), 'INT');
 		$this->modelState->set('filter.type', $this->input->get('type', $this->input->get->get('type')), 'STRING');
 
