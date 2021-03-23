@@ -12,8 +12,9 @@ if (Joomla && Joomla.getOptions) {
       .forEach((offcanvas) => {
         const opt = offcanvases[offcanvas];
         const options = {
-          interval: opt.interval ? opt.interval : 5000,
-          pause: opt.pause ? opt.pause : 'hover',
+          backdrop: opt.backdrop ? opt.backdrop : true,
+          keyboard: opt.keyboard ? opt.keyboard : true,
+          scroll: opt.scroll ? opt.scroll : true,
         };
 
         const elements = Array.from(document.querySelectorAll(offcanvas));
