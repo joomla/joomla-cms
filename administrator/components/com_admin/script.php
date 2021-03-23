@@ -1487,7 +1487,7 @@ class JoomlaInstallerScript
 
 		if (!opendir($dir))
 		{
-			throw new \Exception('Directory "' . str_replace(JPATH_ADMINISTRATOR, $dir) . '" doesn\'t exist');
+			throw new \Exception('Directory "' . str_replace(JPATH_ROOT, $dir) . '" doesn\'t exist');
 		}
 
 		$filesForDeletion   = [];
@@ -1496,7 +1496,7 @@ class JoomlaInstallerScript
 
 		if (!$files)
 		{
-			throw new \Exception('Empty directory: ' . str_replace(JPATH_ADMINISTRATOR, $dir));
+			throw new \Exception('Empty directory: ' . str_replace(JPATH_ROOT, $dir));
 		}
 
 		foreach ($files as $file)
