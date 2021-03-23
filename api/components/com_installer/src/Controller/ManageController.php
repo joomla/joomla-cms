@@ -46,7 +46,8 @@ class ManageController extends ApiController
 	public function displayList()
 	{
 		$requestBool = $this->input->get('core', $this->input->get->get('core'));
-		if (($requestBool === 'true') || ($requestBool === 'false'))
+
+		if ($requestBool === 'true' || $requestBool === 'false')
 		{
 			$this->modelState->set('filter.core', ($requestBool === 'true') ? '1' : '0', 'STRING');
 		}
