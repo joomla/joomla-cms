@@ -228,6 +228,15 @@ if ($gzipReturnCode !== 0)
 	exit(1);
 }
 
+// Create version entries of the static assets in their respective joomla.asset.json
+system('npm run versioning', $gzipReturnCode);
+
+if ($gzipReturnCode !== 0)
+{
+	echo "`npm run versioning` did not complete as expected.\n";
+	exit(1);
+}
+
 // Clean the checkout of extra resources
 clean_checkout($fullpath);
 
