@@ -32,7 +32,7 @@ class Dispatcher extends ComponentDispatcher
 		$layout       = $this->input->getCmd('layout');
 		$allowedTasks = ['user.edit', 'user.apply', 'user.save', 'user.cancel'];
 
-		// Allow user to edit data from his own account
+		// Allow users to edit their own account
 		if (in_array($task, $allowedTasks) || ($view === 'user' && $layout == 'edit'))
 		{
 			$user = $this->app->getIdentity();
