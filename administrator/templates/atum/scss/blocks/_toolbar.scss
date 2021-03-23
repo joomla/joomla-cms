@@ -142,7 +142,7 @@
 
 @include media-breakpoint-down(sm) {
   .toggler-toolbar {
-    top: 20px;
+    top: 0;
     z-index: $zindex-alerts;
 
     [dir=ltr] & {
