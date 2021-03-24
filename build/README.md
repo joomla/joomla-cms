@@ -30,3 +30,16 @@ There are three options here:
 
 ## CSS
 - CSS files will only get minified
+
+
+## NPM commands
+- `npm run build:js`: compiles ALL the JS (excluding Bootstrap and Media Manager)
+- `npm run build:js -- build/media_source/com_actionlogs`: compiles ALL the JS ONLY in the folder `build/media_source/com_actionlogs`
+- `npm run build:css`: compiles ALL the SCSS
+- `npm run build:css -- templates/cassiopeia`: compiles ALL the SCSS ONLY in the folder `templates/cassiopeia`
+- `npm run build:bs5`: Builds the Bootstrap Javascript components
+- `npm run build:com_media`: Builds the Media Manager Vue Application
+- `npm run lint:js`: Check the code style for all the Javascript/vue files
+- `npm run lint:css`: Check the code style for all the SCSS files
+- `npm run gzip`: Creates `.gz` files for all the `.min.js` and `.min.css`
+- `npm run versioning`: Creates the correct version hash for all the assets inside the joomla.asset.json files (excluding templates)
