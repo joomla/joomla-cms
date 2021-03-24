@@ -63,7 +63,12 @@ if (is_array($msgList) && !empty($msgList))
 		}
 	}
 
+	if ($msgOutput !== '')
+	{
+		$msgOutput = '<noscript>' . $msgOutput . '</noscript>';
+	}
+
 	$document->addScriptOptions('joomla.messages', $messages);
 }
 ?>
-<div id="system-message-container" aria-live="polite"><noscript><?php echo $msgOutput; ?></noscript></div>
+<div id="system-message-container" aria-live="polite"><?php echo $msgOutput; ?></div>
