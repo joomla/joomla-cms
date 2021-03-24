@@ -322,7 +322,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 		$id = new stdClass;
 		$id->Default    = null;
 		$id->Field      = 'id';
-		$id->Type       = 'int unsigned';
+		$id->Type       = 'int(10) unsigned';
 		$id->Null       = 'NO';
 		$id->Key        = 'PRI';
 		$id->Collation  = null;

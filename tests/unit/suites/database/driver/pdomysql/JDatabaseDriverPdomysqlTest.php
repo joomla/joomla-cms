@@ -95,7 +95,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	public function testDropTable()
 	{
 		// Create #__bar table first
-		self::$driver->setQuery('CREATE TABLE IF NOT EXISTS `#__bar` (`id` int unsigned NOT NULL);');
+		self::$driver->setQuery('CREATE TABLE IF NOT EXISTS `#__bar` (`id` int(10) unsigned NOT NULL);');
 		self::$driver->execute();
 
 		// Check return self or not.
@@ -319,7 +319,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 		$id             = new stdClass;
 		$id->Default    = null;
 		$id->Field      = 'id';
-		$id->Type       = 'int unsigned';
+		$id->Type       = 'int(10) unsigned';
 		$id->Null       = 'NO';
 		$id->Key        = 'PRI';
 		$id->Collation  = null;

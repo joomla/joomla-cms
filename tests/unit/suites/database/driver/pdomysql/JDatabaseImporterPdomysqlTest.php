@@ -34,7 +34,7 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected $sample = array(
 		'xml-id-field' =>
-			'<field Field="id" Type="int unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
+			'<field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
 		'xml-title-field' =>
 			'<field Field="title" Type="varchar(50)" Null="NO" Key="" Default="" Extra="" />',
 		'xml-body-field' =>
@@ -91,7 +91,7 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 					array(
 					'id' => (object) array(
 						'Field' => 'id',
-						'Type' => 'int unsigned',
+						'Type' => 'int(11) unsigned',
 						'Collation' => null,
 						'Null' => 'NO',
 						'Key' => 'PRI',
@@ -259,7 +259,7 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function dataGetAlterTableSql()
 	{
-		$f1 = '<field Field="id" Type="int unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />';
+		$f1 = '<field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />';
 		$f2 = '<field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />';
 		$f3 = '<field Field="alias" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />';
 
@@ -319,7 +319,7 @@ class JDatabaseImporterPdomysqlTest extends \PHPUnit\Framework\TestCase
 				new SimpleXmlElement(
 					$this->sample['xml-id-field']
 				),
-				"`id` int unsigned NOT NULL DEFAULT '' AUTO_INCREMENT",
+				"`id` int(11) unsigned NOT NULL DEFAULT '' AUTO_INCREMENT",
 				'Typical primary key field',
 			),
 			array(
