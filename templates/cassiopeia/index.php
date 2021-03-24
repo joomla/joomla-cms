@@ -74,7 +74,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = HTMLHelper::_('image', '/' . $templatePath . '/images/logo.svg', $sitename, ['class' => 'logo d-inline-block'], true, -1);
+	$logo = HTMLHelper::_('image', 'logo.svg', $sitename, ['class' => 'logo d-inline-block'], true, 0);
 }
 
 $hasClass = '';
