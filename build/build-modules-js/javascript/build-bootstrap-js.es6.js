@@ -132,7 +132,7 @@ const buildLegacy = async () => {
   await bundle.write({
     format: 'iife',
     sourcemap: false,
-    name: 'Bootstrap',
+    name: 'bootstrap',
     file: resolve(outputFolder, 'bootstrap-es5.js'),
   });
 

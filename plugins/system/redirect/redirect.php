@@ -133,8 +133,11 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 			}
 		}
 
-		// Why is this (still) here?
-		if ($skipUrl || (strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
+		/**
+		 * Why is this (still) here?
+		 * Because hackers still try urls with mosConfig_* and Url Injection with =http[s]:// and we dont want to log/redirect these requests
+		 */
+		if ($skipUrl || (strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http') !== false))
 		{
 			return;
 		}
