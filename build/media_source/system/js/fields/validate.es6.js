@@ -77,8 +77,8 @@ class JFormValidator {
     element.classList.remove('form-control-danger');
     element.classList.remove('invalid');
     element.classList.add('form-control-success');
-    element.parentNode.classList.remove('has-danger');
-    element.parentNode.classList.add('has-success');
+    element.parentNode.classList.remove('is-invalid');
+    element.parentNode.classList.add('is-valid');
     element.setAttribute('aria-invalid', 'false');
 
     // Remove message
@@ -101,8 +101,8 @@ class JFormValidator {
     element.classList.remove('valid');
     element.classList.add('form-control-danger');
     element.classList.add('invalid');
-    element.parentNode.classList.remove('has-success');
-    element.parentNode.classList.add('has-danger');
+    element.parentNode.classList.remove('is-valid');
+    element.parentNode.classList.add('is-invalid');
     element.setAttribute('aria-invalid', 'true');
 
     // Display custom message
@@ -149,8 +149,8 @@ class JFormValidator {
     element.classList.remove('form-control-success');
     element.classList.remove('invalid');
     element.classList.add('valid');
-    element.parentNode.classList.remove('has-danger');
-    element.parentNode.classList.remove('has-success');
+    element.parentNode.classList.remove('is-invalid');
+    element.parentNode.classList.remove('is-valid');
 
     // Remove message
     if (message) {
