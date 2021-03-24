@@ -54,7 +54,7 @@ class UserController extends FormController
 		}
 
 		// Allow users to edit their own account
-		if (isset($data[$key]) && $this->app->getIdentity()->id == $data[$key])
+		if (isset($data[$key]) && $this->app->getIdentity()->id === (int) $data[$key])
 		{
 			return true;
 		}
