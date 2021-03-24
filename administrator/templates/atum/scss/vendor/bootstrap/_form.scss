@@ -33,16 +33,6 @@ legend {
   width: 100%;
 }
 
-// Validation
-.invalid {
-  color: var(--danger);
-  border-color: var(--danger);
-}
-
-.valid {
-  border-color: var(--success);
-}
-
 .form-control-feedback {
   display: block;
 }
