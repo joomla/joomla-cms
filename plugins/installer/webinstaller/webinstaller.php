@@ -88,7 +88,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 				'plg_installer_webinstaller/client.min.js',
 				[],
 				['defer' => true],
-				['core', 'jquery']
+				['core']
 			);
 
 		$devLevel = Version::PATCH_VERSION;
