@@ -311,9 +311,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	{
 		$version = self::$driver->getVersion();
 
-		$useDisplayWidth = stripos($version, 'mariadb') || version_compare($version, '8.0.17') < 0;
-
-		if ($useDisplayWidth)
+		if (stripos($version, 'mariadb') || version_compare($version, '8.0.17') < 0)
 		{
 			// MySQL older than 8.0.17 or MariaDB: Default display width for unsigned integer is expected
 			$tableCol = array('id' => 'int(10) unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
@@ -340,7 +338,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 		$id->Privileges = 'select,insert,update,references';
 		$id->Comment    = '';
 
-		if ($useDisplayWidth)
+		if (stripos($version, 'mariadb') || version_compare($version, '8.0.17') < 0)
 		{
 			// MySQL older than 8.0.17 or MariaDB: Default display width for unsigned integer is expected
 			$id->Type = 'int(10) unsigned';
