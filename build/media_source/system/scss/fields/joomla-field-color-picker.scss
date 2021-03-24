@@ -32,10 +32,10 @@
 :host(:focus) {
   outline: none;
 }
-:host(:focus) .color-preview {
+.picker-toggle:focus + .color-preview {
   box-shadow: 0 0 0 5px rgba(0,0,0,.33);
 }
-.color-preview {
+.button-appearance {
   width: 100%;
   height: 1.5rem;
   padding: .6rem 1rem;
@@ -44,8 +44,10 @@
   border: 0;
   border-radius: .25rem;
   outline: none;
-  box-shadow: 0 0 0 1px rgba(120,120,120,.33) inset;
   appearance: none;
+}
+.color-preview {
+  box-shadow: 0 0 0 1px rgba(120,120,120,.33) inset;
   direction: ltr; /* color value can never be rtl */
 }
 :host(.dark) .color-preview {
@@ -67,6 +69,18 @@
 :host(.light) .color-preview::placeholder {
   color: rgba(0,0,0,.6);
 }
+.picker-toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+}
+:host(.open) .picker-toggle {
+  z-index: -1;
+}
 .menu-toggle {
   position: absolute;
   top: 0;
@@ -74,11 +88,10 @@
   display: flex;
   width: 3rem;
   height: 100%;
+  padding: 0 .25rem;
   cursor: pointer;
-  background: none;
   border: 0;
   border-radius: 0 .25rem .25rem 0;
-  outline: none;
   transition: all .33s ease;
 }
 :host(.light) .menu-toggle {
@@ -95,8 +108,8 @@
 :host(.dark) .menu-toggle:hover {
   background: rgba(255,255,255,.5);
 }
-.menu-toggle:focus,
-.menu-toggle:hover {
+.button-appearance:focus,
+.button-appearance:hover {
   box-shadow: 0 0 0 3px rgba(0,0,0,.15);
 }
 .menu-toggle svg {
@@ -210,10 +223,10 @@ input.color-input-hex {
 }
 .knob:active,
 .knob:focus {
+  z-index: 1;
   box-shadow: 0 0 0 6px rgba(255,255,255,.9);
 }
 .color-pointer {
-  z-index: 1;
   width: 5px;
   border-radius: 5px;
 }
