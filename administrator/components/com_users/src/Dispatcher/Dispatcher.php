@@ -40,7 +40,7 @@ class Dispatcher extends ComponentDispatcher
 			$user = $this->app->getIdentity();
 			$id   = $this->input->getInt('id');
 
-			if ($user->id == $id)
+			if ($user->id === $id)
 			{
 				return;
 			}
