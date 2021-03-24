@@ -24,8 +24,8 @@ class Dispatcher extends ComponentDispatcher
 	 * Override checkAccess to allow users edit profile without having to have core.manager permission
 	 *
 	 * @return  void
-  *
-  * @since  __DEPLOY_VERSION__
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function checkAccess()
 	{
