@@ -49,7 +49,7 @@ module.exports.handleESMToLegacy = async (file) => {
   });
 
   // eslint-disable-next-line no-console
-  console.log(`ES5 file: ${basename(file).replace('.js', '-es5.js')}: transpiled ✅`);
+  console.log(`ES5 file: ${basename(file).replace('.js', '-es5.js')}: ✅ transpiled`);
 
   minifyJs(resolve(`${file.replace(/\.js$/, '')}-es5.js`));
 };
