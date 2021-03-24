@@ -617,7 +617,7 @@ abstract class Bootstrap
 			function ($script) use ($wa) {
 				$wa->useScript('bootstrap.' . $script);
 			},
-			['alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'popover', 'scrollspy', 'tab', 'toast']
+			['alert', 'button', 'carousel', 'collapse', 'dropdown', 'modal', 'offcanvas', 'popover', 'scrollspy', 'tab', 'toast']
 		);
 	}
 
