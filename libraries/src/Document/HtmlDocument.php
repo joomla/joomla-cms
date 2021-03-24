@@ -873,11 +873,6 @@ class HtmlDocument extends Document
 				}
 			}
 
-			if (count($messages) === 0)
-			{
-				throw new \Exception('A Joomla template needs a messages block, ie: `<jdoc:include type="messages" />`!');
-			}
-
 			$this->_template_tags = $template_tags_first + $messages + array_reverse($template_tags_last);
 		}
 
