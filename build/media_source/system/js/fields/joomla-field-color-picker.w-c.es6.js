@@ -162,18 +162,18 @@ class ColorPicker extends HTMLElement {
     const ctrl2Labelledby = this.format === 'hsl' ? 'appearance2' : 'appearance appearance2';
 
     const control3Template = this.format === 'hex' ? '' : `<div class="color-control">
-    <label id="appearance3" class="color-label visually-hidden" aria-live="off"></label>
+    <label id="appearance3" class="color-label visually-hidden" aria-live="polite"></label>
     <canvas class="visual-control3" height="${cvh}" width="${cv2w}" aria-hidden="true"></canvas>
     <div class="color-slider knob" tabindex="0" aria-labelledby="appearance3"></div>
   </div>`;
 
     const controlsTemplate = `<div class="color-control">
-  <label id="appearance1" class="color-label visually-hidden" aria-live="off"></label>
+  <label id="appearance1" class="color-label visually-hidden" aria-live="polite"></label>
   <canvas class="visual-control1" height="${cvh}" width="${cv1w}" aria-hidden="true"></canvas>
   <div class="color-pointer knob" tabindex="0" aria-labelledby="${ctrl1Labelledby}"></div>
 </div>
 <div class="color-control">
-  <label id="appearance2" class="color-label visually-hidden" aria-live="off"></label>
+  <label id="appearance2" class="color-label visually-hidden" aria-live="polite"></label>
   <canvas class="visual-control2" height="${cvh}" width="${cv2w}" aria-hidden="true"></canvas>
   <div class="color-slider knob" tabindex="0" aria-labelledby="${ctrl2Labelledby}"></div>
 </div>
@@ -253,7 +253,7 @@ ${control3Template}`;
 
     this.template.innerHTML = `<style>{{CSS_CONTENTS_PLACEHOLDER}}</style>
 
-  <button id="picker-btn" class="picker-toggle button-appearance" aria-expanded="false" aria-haspopup="true" aria-live="off">
+  <button id="picker-btn" class="picker-toggle button-appearance" aria-expanded="false" aria-haspopup="true" aria-live="polite">
     <span class="visually-hidden"></span>
   </button>
   
@@ -263,7 +263,7 @@ ${control3Template}`;
 <div class="color-dropdown picker${dropClass}" role="group" aria-labelledby="picker-label format-label">
   <label id="picker-label" class="visually-hidden" aria-hidden="true">${pickerLabel}</label>
   <label id="format-label" class="visually-hidden" aria-hidden="true">${formatLabel}</label>
-  <label id="appearance" class="color-appearance visually-hidden" aria-hidden="true" aria-live="off">${appearanceLabel}</label>
+  <label id="appearance" class="color-appearance visually-hidden" aria-hidden="true" aria-live="polite">${appearanceLabel}</label>
   <div class="color-controls">
     ${controlsTemplate}
   </div>
