@@ -3,7 +3,44 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-import { sanitizeHtml, DefaultAllowlist } from 'bootstrap/js/src/util/sanitizer.js';
+import { sanitizeHtml } from 'bootstrap/js/src/util/sanitizer.js';
+
+const ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
+const DATA_ATTRIBUTE_PATTERN = /^data-[\w-]*$/i;
+
+const DefaultAllowlist = {
+  // Global attributes allowed on any supplied element below.
+  '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN, DATA_ATTRIBUTE_PATTERN],
+  a: ['target', 'href', 'title', 'rel'],
+  area: [],
+  b: [],
+  br: [],
+  col: [],
+  code: [],
+  div: [],
+  em: [],
+  hr: [],
+  h1: [],
+  h2: [],
+  h3: [],
+  h4: [],
+  h5: [],
+  h6: [],
+  i: [],
+  img: ['src', 'srcset', 'alt', 'title', 'width', 'height'],
+  li: [],
+  ol: [],
+  p: [],
+  pre: [],
+  s: [],
+  small: [],
+  span: [],
+  sub: [],
+  sup: [],
+  strong: [],
+  u: [],
+  ul: []
+};
 
 // Only define the Joomla namespace if not defined.
 window.Joomla = window.Joomla || {};

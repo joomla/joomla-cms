@@ -65,11 +65,8 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     typeMessages = messages[type];
     messagesBox = document.createElement('joomla-alert');
 
-    if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
-      alertClass = (type === 'notice') ? 'info' : type;
-      alertClass = (type === 'message') ? 'success' : alertClass;
-      alertClass = (type === 'error') ? 'danger' : alertClass;
-      alertClass = (type === 'warning') ? 'warning' : alertClass;
+    if (['success', 'info', 'danger', 'warning'].indexOf(type) > -1) {
+      alertClass = type;
     } else {
       alertClass = 'info';
     }
