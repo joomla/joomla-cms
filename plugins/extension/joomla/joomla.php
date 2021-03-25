@@ -78,7 +78,8 @@ class PlgExtensionJoomla extends JPlugin
 				->values(
 					$db->quote($name) . ', '
 					. $db->quote($type) . ', '
-					. $db->quote($location) . ', '
+					// Trim to remove any whitespace from the XML file before saving the location to the db
+					. $db->quote(trim($location)) . ', '
 					. (int) $enabled . ', '
 					. $db->quote($extra_query)
 				);
