@@ -48,8 +48,8 @@ interface CategoryServiceInterface
 	/**
 	 * Prepares the category form
 	 *
-	 * @param   \Joomla\CMS\Categories\Form  $form  The form to change
-	 * @param   array|object                 $data  The form data
+	 * @param   Form          $form  The form to change
+	 * @param   array|object  $data  The form data
 	 *
 	 * @return   void
 	 */

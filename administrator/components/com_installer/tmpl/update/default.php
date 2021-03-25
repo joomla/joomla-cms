@@ -86,7 +86,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php if($item->isMissingDownloadKey): ?>
 										<span class="icon-ban"></span>
 										<?php else: ?>
-										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id, false, 'cid', 'cb', $item->name); ?>
 										<?php endif; ?>
 									</td>
 									<th scope="row">
@@ -102,7 +102,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php endif; ?>
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
-										<?php HTMLHelper::_('bootstrap.popover', 'span.hasPopover'); ?>
+										<?php HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']); ?>
 										<span class="badge bg-warning text-dark">
 											<span class="hasPopover"
 												  title="<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"

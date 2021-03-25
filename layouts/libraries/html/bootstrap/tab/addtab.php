@@ -11,10 +11,9 @@ defined('_JEXEC') or die;
 
 $id       = empty($displayData['id']) ? '' : $displayData['id'];
 $active   = empty($displayData['active']) ? '' : $displayData['active'];
-$selector = empty($displayData['selector']) ? '' : $displayData['selector'];
 $title    = empty($displayData['title']) ? '' : $displayData['title'];
 ?>
-<div id="<?php echo $id; ?>"
+<div id="<?php echo preg_replace('/^[\.#]/', '', $id); ?>"
 	class="tab-pane<?php echo $active; ?>"
 	data-active="<?php echo trim(htmlspecialchars($active, ENT_COMPAT, 'UTF-8')); ?>"
 	data-id="<?php echo  htmlspecialchars($id, ENT_COMPAT, 'UTF-8'); ?>"

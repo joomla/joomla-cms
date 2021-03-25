@@ -50,6 +50,10 @@ endif;
 
 <div id="new-modules-list">
 	<div class="new-modules">
+		<div class="alert alert-info d-none">
+			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
+		</div>
 		<div class="card-columns">
 			<?php foreach ($this->items as &$item) : ?>
 				<div class="card mb-4 comModulesSelectCard">
@@ -67,7 +71,7 @@ endif;
 							<?php echo $desc; ?>
 						</p>
 					</div>
-					<a href="<?php echo Route::_($link); ?>" class="btn btn-primary <?php echo $function ? ' select-link" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
+					<a href="<?php echo Route::_($link); ?>" class="btn btn-primary stretched-link <?php echo $function ? ' select-link" data-function="' . $this->escape($function) : ''; ?>" aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
 						<?php echo Text::_('JSELECT'); ?>
 					</a>
 				</div>

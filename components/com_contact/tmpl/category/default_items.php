@@ -59,10 +59,13 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php endif; ?>
 
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-info">
-				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+			<?php if ($this->params->get('show_no_contacts', 1)) : ?>
+				<div class="alert alert-info">
+					<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONTACT_NO_CONTACTS'); ?>
-			</div>
+				</div>
+			<?php endif; ?>
+
 		<?php else : ?>
 			<table class="com-content-category__table category table table-striped table-bordered table-hover" id="contactList">
 				<caption class="visually-hidden">
@@ -188,7 +191,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php if ($this->params->get('show_pagination', 2)) : ?>
 			<div class="com-contact-category__counter w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-					<p class="com-contact-category__counter counter float-end pt-3 pr-2">
+					<p class="com-contact-category__counter counter float-end pt-3 pe-2">
 						<?php echo $this->pagination->getPagesCounter(); ?>
 					</p>
 				<?php endif; ?>

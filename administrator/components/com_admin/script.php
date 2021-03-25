@@ -57,7 +57,7 @@ class JoomlaInstallerScript
 			{
 				$manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-				if ((array_key_exists('version', $manifestValues)))
+				if (array_key_exists('version', $manifestValues))
 				{
 					$this->fromVersion = $manifestValues['version'];
 
@@ -251,6 +251,9 @@ class JoomlaInstallerScript
 		{
 			return;
 		}
+
+		// Ensure the FieldsHelper class is loaded for the Repeatable fields plugin we're about to remove
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		try
 		{
@@ -5042,6 +5045,12 @@ class JoomlaInstallerScript
 			'/templates/cassiopeia/html/layouts/chromes/cardGrey.php',
 			'/templates/cassiopeia/html/layouts/chromes/default.php',
 			'/templates/cassiopeia/scss/vendor/bootstrap/_card.scss',
+			// Joomla 4.0 Beta 7
+			'/media/vendor/skipto/js/dropMenu.js',
+			'/media/vendor/skipto/css/SkipTo.css',
+			// Joomla 4.0 Beta 8
+			'/administrator/components/com_admin/postinstall/htaccess.php',
+			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 		);
 
 		$folders = array(
@@ -6230,10 +6239,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/controller',
 			// Joomla 4.0 Beta 5
 			'/plugins/content/imagelazyload',
-			// Joomla 4.0 Beta 6
-			'/media/vendor/skipto/js/skipTo.js',
-			'/media/vendor/skipto/js/dropMenu.js',
-			'/media/vendor/skipto/css/SkipTo.css'
+			// Joomla 4.0 Beta 7
+			'/media/vendor/skipto/css',
 		);
 
 		$status['files_checked'] = $files;
@@ -7081,6 +7088,11 @@ class JoomlaInstallerScript
 				// Convert to the according CSS class depending on order = "down" or "across".
 				$layout = ($order === 0) ? 'masonry-' : 'columns-';
 
+				if (!isset($params['blog_class']))
+				{
+					$params['blog_class'] = '';
+				}
+
 				if (strpos($params['blog_class'], $layout) === false)
 				{
 					$params['blog_class'] .= ' ' . $layout . $nColumns;
@@ -7102,7 +7114,7 @@ class JoomlaInstallerScript
 		// Update global parameters for com_content.
 		$nColumns = $contentParams->get('num_columns');
 
-		if ($nColumns !== null || true)
+		if ($nColumns !== null)
 		{
 			$nColumns = (int) $nColumns;
 			$order  = (int) $contentParams->get('multi_column_order', '0');
@@ -7150,7 +7162,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function fixFilenameCasing()
 	{
@@ -7158,7 +7170,7 @@ class JoomlaInstallerScript
 			// 3.10 changes
 			'libraries/src/Filesystem/Support/Stringcontroller.php' => 'libraries/src/Filesystem/Support/StringController.php',
 			'libraries/src/Form/Rule/SubFormRule.php' => 'libraries/src/Form/Rule/SubformRule.php',
-			// __DEPLOY_VERSION__
+			// 4.0.0
 			'media/vendor/skipto/js/skipTo.js' => 'media/vendor/skipto/js/skipto.js',
 		);
 

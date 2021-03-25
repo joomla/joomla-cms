@@ -285,7 +285,12 @@ class NewsfeedModel extends AdminModel
 		{
 			$item->tags = new  TagsHelper;
 			$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
-			$item->metadata['tags'] = $item->tags;
+
+			// TODO: We probably don't need this in any client - but needs careful validation
+			if (!Factory::getApplication()->isClient('api'))
+			{
+				$item->metadata['tags'] = $item->tags;
+			}
 		}
 
 		return $item;
