@@ -152,6 +152,17 @@
             }
           },
           {
+            "name": "bootstrap.offcanvas",
+            "type": "script",
+            "uri": "offcanvas.min.js",
+            "dependencies": [
+              "bootstrap.es5"
+            ],
+            "attributes": {
+              "type": "module"
+            }
+          },
+          {
             "name": "bootstrap.popover",
             "type": "script",
             "uri": "popover.min.js",
