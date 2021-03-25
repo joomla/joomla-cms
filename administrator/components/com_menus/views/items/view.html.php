@@ -141,6 +141,8 @@ class MenusViewItems extends JViewLegacy
 							}
 
 							$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
+							
+							$base = $this->state->get('filter.client_id') == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 
 							// Attempt to load the layout xml file.
 							// If Alternative Menu Item, get template folder for layout file
@@ -156,12 +158,25 @@ class MenusViewItems extends JViewLegacy
 							}
 							else
 							{
-								// Get XML file from component folder for standard layouts
-								$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
-
-								if (!file_exists($file))
+								if ($this->state->get('filter.client_id') == 0)
 								{
-									$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+									// Get XML file from component folder for standard layouts
+									$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+
+									if (!file_exists($file))
+									{
+										$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+									}
+								}
+								else
+								{
+									// Get XML file from administrator component folder for standard layouts
+									$file = JPATH_ADMINISTRATOR . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+
+									if (!file_exists($file))
+									{
+										$file = JPATH_ADMINISTRATOR . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+									}
 								}
 							}
 
