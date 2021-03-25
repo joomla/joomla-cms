@@ -117,6 +117,14 @@ class Installer extends \JAdapter
 	protected $packageUninstall = false;
 
 	/**
+	 * Backup extra_query during update_sites rebuild
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION
+	 */
+	public $extra_query = '';
+
+	/**
 	 * Installer instance container.
 	 *
 	 * @var    Installer

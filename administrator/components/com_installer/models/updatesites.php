@@ -275,6 +275,13 @@ class InstallerModelUpdatesites extends InstallerModel
 		// Gets Joomla core update sites Ids.
 		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds(0));
 
+		// first backup any custom extra_query for the sties
+		$query = $db->getQuery(true)
+			->select('location, extra_query')
+			->from('#__update_sites');
+		$db->setQuery($query);
+		$backupExtraQuerys = $db->loadAssocList();
+
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__update_sites'))
@@ -328,9 +335,9 @@ class InstallerModelUpdatesites extends InstallerModel
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where('(' 
-								. $db->quoteName('name') . ' = ' . $db->quote($manifest->name) 
-								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename) 
+							->where('('
+								. $db->quoteName('name') . ' = ' . $db->quote($manifest->name)
+								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename)
 								. ')' )
 							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
 							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')
@@ -344,6 +351,15 @@ class InstallerModelUpdatesites extends InstallerModel
 							// Set the manifest object and path
 							$tmpInstaller->manifest = $manifest;
 							$tmpInstaller->setPath('manifest', $file);
+							$tmpInstaller->extra_query = ''; // remove last extra_query as we are in a foreach
+
+							if ($tmpInstaller->manifest->updateservers && $tmpInstaller->manifest->updateservers->server){
+								foreach ($backupExtraQuerys as $extra_queries){
+									if (trim((string)$tmpInstaller->manifest->updateservers->server) === trim($extra_queries['location'])){
+										$tmpInstaller->extra_query = $extra_queries['extra_query'];
+									}
+								}
+							}
 
 							// Load the extension plugin (if not loaded yet).
 							JPluginHelper::importPlugin('extension', 'joomla');
@@ -416,6 +432,7 @@ class InstallerModelUpdatesites extends InstallerModel
 					's.type AS update_site_type',
 					's.location',
 					's.enabled',
+					's.extra_query',
 					'e.extension_id',
 					'e.name',
 					'e.type',
