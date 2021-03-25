@@ -359,7 +359,7 @@ class InstallerModelUpdatesites extends InstallerModel
 							{
 								foreach ($backupExtraQuerys as $extra_queries)
 								{
-									// Trim is needed here, trust me, some developers update urls are preceded/appended by spaces in the XML!
+									// Trim is required to remove any additional spaces in the XML
 									if (trim((string) $tmpInstaller->manifest->updateservers->server) === trim($extra_queries['location']))
 									{
 										$tmpInstaller->extra_query = $extra_queries['extra_query'];
