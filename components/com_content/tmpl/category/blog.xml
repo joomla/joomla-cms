@@ -213,6 +213,24 @@
 				/>
 
 				<field
+					name="num_columns"
+					type="number"
+					label="JGLOBAL_NUM_COLUMNS_LABEL"
+					useglobal="true"
+					size="3"
+				/>
+
+				<field
+					name="multi_column_order"
+					type="list"
+					label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
+					useglobal="true"
+					>
+					<option value="0">JGLOBAL_DOWN</option>
+					<option value="1">JGLOBAL_ACROSS</option>
+				</field>
+
+				<field
 					name="num_links"
 					type="text"
 					label="JGLOBAL_NUM_LINKS_LABEL"
