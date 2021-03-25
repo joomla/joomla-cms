@@ -66,8 +66,22 @@ class PlgExtensionJoomla extends JPlugin
 		{
 			$query->clear()
 				->insert('#__update_sites')
-				->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled'), $db->quoteName('extra_query')))
-				->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled . ', ' . $db->quote($extra_query) );
+				->columns(
+					array(
+						$db->quoteName('name'),
+						$db->quoteName('type'),
+						$db->quoteName('location'),
+						$db->quoteName('enabled'),
+						$db->quoteName('extra_query')
+					)
+				)
+				->values(
+					$db->quote($name) . ', '
+					. $db->quote($type) . ', '
+					. $db->quote($location) . ', '
+					. (int) $enabled . ', '
+					. $db->quote($extra_query)
+				);
 			$db->setQuery($query);
 
 			if ($db->execute())

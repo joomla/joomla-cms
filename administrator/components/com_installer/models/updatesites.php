@@ -275,7 +275,7 @@ class InstallerModelUpdatesites extends InstallerModel
 		// Gets Joomla core update sites Ids.
 		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds(0));
 
-		// first backup any custom extra_query for the sties
+		// First backup any custom extra_query for the sites
 		$query = $db->getQuery(true)
 			->select('location, extra_query')
 			->from('#__update_sites');
@@ -351,11 +351,16 @@ class InstallerModelUpdatesites extends InstallerModel
 							// Set the manifest object and path
 							$tmpInstaller->manifest = $manifest;
 							$tmpInstaller->setPath('manifest', $file);
-							$tmpInstaller->extra_query = ''; // remove last extra_query as we are in a foreach
 
-							if ($tmpInstaller->manifest->updateservers && $tmpInstaller->manifest->updateservers->server){
-								foreach ($backupExtraQuerys as $extra_queries){
-									if (trim((string)$tmpInstaller->manifest->updateservers->server) === trim($extra_queries['location'])){
+							// Remove last extra_query as we are in a foreach
+							$tmpInstaller->extra_query = '';
+
+							if ($tmpInstaller->manifest->updateservers && $tmpInstaller->manifest->updateservers->server)
+							{
+								foreach ($backupExtraQuerys as $extra_queries)
+								{
+									if (trim((string) $tmpInstaller->manifest->updateservers->server) === trim($extra_queries['location']))
+									{
 										$tmpInstaller->extra_query = $extra_queries['extra_query'];
 									}
 								}
