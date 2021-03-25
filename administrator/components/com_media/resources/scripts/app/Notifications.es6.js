@@ -30,10 +30,18 @@ class Notifications {
   /* Send a notification */
   // eslint-disable-next-line class-methods-use-this
   notify(message, options) {
+    let timer = undefined;
+    if (options.type === 'message') {
+      timer = 3000;
+    }
     Joomla.renderMessages(
       {
         [options.type]: [Joomla.JText._(message)],
       },
+      undefined,
+      true,
+      timer,
+      ''
     );
   }
 }
