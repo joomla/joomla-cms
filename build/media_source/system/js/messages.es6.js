@@ -49,25 +49,18 @@ const getMessageContainer = (container) => {
  */
 Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
   const messageContainer = getMessageContainer(selector);
-  let typeMessages;
-  let messagesBox;
-  let title;
-  let titleWrapper;
-  let messageWrapper;
-  let alertClass;
-
   if (typeof keepOld === 'undefined' || (keepOld && keepOld === false)) {
     Joomla.removeMessages(messageContainer);
   }
 
   [].slice.call(Object.keys(messages)).forEach((type) => {
-    // Array of messages of this type
-    typeMessages = messages[type];
-    messagesBox = document.createElement('joomla-alert');
+    let alertClass = type;
 
-    if (['success', 'info', 'danger', 'warning'].indexOf(type) > -1) {
-      alertClass = type;
-    } else {
+    // Array of messages of this type
+    const typeMessages = messages[type];
+    const messagesBox = document.createElement('joomla-alert');
+
+    if (['success', 'info', 'danger', 'warning'].indexOf(type) < 0) {
       alertClass = 'info';
     }
 
@@ -79,18 +72,18 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     }
 
     // Title
-    title = Joomla.Text._(type);
+    const title = Joomla.Text._(type);
 
     // Skip titles with untranslated strings
     if (typeof title !== 'undefined') {
-      titleWrapper = document.createElement('div');
+      const titleWrapper = document.createElement('div');
       titleWrapper.className = 'alert-heading';
       titleWrapper.innerHTML = Joomla.sanitizeHtml(`<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`);
       messagesBox.appendChild(titleWrapper);
     }
 
     // Add messages to the message box
-    messageWrapper = document.createElement('div');
+    const messageWrapper = document.createElement('div');
     messageWrapper.className = 'alert-wrapper';
     typeMessages.forEach((typeMessage) => {
       messageWrapper.innerHTML += Joomla.sanitizeHtml(`<div class="alert-message">${typeMessage}</div>`);
