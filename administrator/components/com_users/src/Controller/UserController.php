@@ -105,7 +105,7 @@ class UserController extends FormController
 	{
 		$result = parent::save($key, $urlVar);
 
-		$task  = $this->getTask();
+		$task   = $this->getTask();
 
 		if ($task === 'save' && $return = $this->input->get('return', '', 'BASE64'))
 		{
