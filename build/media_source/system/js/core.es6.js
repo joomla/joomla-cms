@@ -39,7 +39,7 @@ const DefaultAllowlist = {
   sup: [],
   strong: [],
   u: [],
-  ul: []
+  ul: [],
 };
 
 // Only define the Joomla namespace if not defined.
