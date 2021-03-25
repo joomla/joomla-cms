@@ -90,6 +90,12 @@ class ConfigModelApplication extends ConfigModelForm
 		// Merge in the session data.
 		if (!empty($temp))
 		{
+			// PHP8 bug? that $temp can sometimes be an object, and we need it to be an array
+			if (!is_array($temp))
+			{
+				$temp = ArrayHelper::fromObject($temp);
+			}
+
 			$data = array_merge($data, $temp);
 		}
 
@@ -142,7 +148,9 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Check if we can set the Force SSL option
-		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
+		if ($data['behind_loadbalancer'] != 1
+			&& (int) $data['force_ssl'] !== 0
+			&& (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
 		{
 			try
 			{
