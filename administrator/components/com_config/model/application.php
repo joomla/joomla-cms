@@ -90,8 +90,8 @@ class ConfigModelApplication extends ConfigModelForm
 		// Merge in the session data.
 		if (!empty($temp))
 		{
-			// PHP8 bug? that $temp can sometimes be an object, and we need it to be an array
-			if (!is_array($temp))
+			// $temp can sometimes be an object, and we need it to be an array
+			if (is_object($temp))
 			{
 				$temp = ArrayHelper::fromObject($temp);
 			}
