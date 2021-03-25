@@ -449,7 +449,7 @@
 			description="COM_CONFIG_FIELD_LOADBALANCER_ENABLE_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-		    filter="integer"
+		        filter="integer"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
