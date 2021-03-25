@@ -369,6 +369,7 @@ class InstallerModelUpdate extends JModelList
 				// If the update has no extra_query, the update_site providing this update might have one, so check, and use that if found
 				$updateSiteInstance = JTable::getInstance('Updatesite');
 				$updateSiteInstance->load($instance->update_site_id);
+
 				if ($updateSiteInstance->extra_query)
 				{
 					$update->set('extra_query', $updateSiteInstance->extra_query);
