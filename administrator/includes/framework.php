@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Version;
+use Joomla\Utilities\IpHelper;
 
 // System includes
 require_once JPATH_LIBRARIES . '/bootstrap.php';
@@ -39,6 +40,23 @@ ob_end_clean();
 
 // System configuration.
 $config = new JConfig;
+
+/**
+ * Correctly set the allowing of IP Overrides if behind a trusted proxy/load balancer.
+ *
+ * We need to do this as high up the stack as we can, as the default in \Joomla\Utilities\IpHelper is to
+ * $allowIpOverride = true which is the wrong default for a generic site NOT behind a trusted proxy/load balancer.
+ */
+if (property_exists($config, 'behind_loadbalancer') && $config->behind_loadbalancer == 1)
+{
+	// If Joomla is configured to be behind a trusted proxy/load balancer, allow HTTP Headers to override the REMOTE_ADDR
+	IpHelper::setAllowIpOverrides(true);
+}
+else
+{
+	// We disable the allowing of IP overriding using headers by default.
+	IpHelper::setAllowIpOverrides(false);
+}
 
 // Set the error_reporting, and adjust a global Error Handler
 switch ($config->error_reporting)
