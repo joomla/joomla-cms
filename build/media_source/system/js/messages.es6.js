@@ -75,7 +75,7 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     }
 
     messagesBox.setAttribute('type', alertClass);
-    messagesBox.setAttribute('dismiss', 'true');
+    messagesBox.setAttribute('dismiss', true);
 
     if (timeout && parseInt(timeout, 10) > 0) {
       messagesBox.setAttribute('autodismiss', timeout);
@@ -99,7 +99,6 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
       messageWrapper.innerHTML += Joomla.sanitizeHtml(`<div class="alert-message">${typeMessage}</div>`);
     });
     messagesBox.appendChild(messageWrapper);
-
     messageContainer.appendChild(messagesBox);
   });
 };
@@ -125,6 +124,7 @@ Joomla.removeMessages = (container) => {
 document.addEventListener('DOMContentLoaded', () => {
   const messages = Joomla.getOptions('joomla.messages');
   if (messages) {
-    Object.keys(messages).map((message) => Joomla.renderMessages(messages[message]));
+    Object.keys(messages)
+      .map((message) => Joomla.renderMessages(messages[message], undefined, true, undefined));
   }
 });
