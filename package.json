@@ -97,7 +97,7 @@
     "recursive-readdir": "^2.2.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.42.1",
-    "rollup-plugin-vue": "^5.1.9",
+    "rollup-plugin-vue": "^6.0.0",
     "sass": "^1.32.8",
     "selenium-standalone": "6.23.0",
     "stylelint": "^13.12.0",

@@ -23,7 +23,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 ?>
 <div class="com-users-login login">
 	<?php if ($this->params->get('show_page_heading')) : ?>
-	<div class="page-header">
+	<div class="pb-2 mt-4 mb-2 border-bottom">
 		<h1>
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
 		</h1>
@@ -49,7 +49,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well" id="com-users-login__form">
+	<form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-group row card card-body bg-light" id="com-users-login__form">
 
 		<fieldset>
 			<?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
@@ -59,13 +59,13 @@ $usersConfig = ComponentHelper::getParams('com_users');
 			<?php endif; ?>
 
 			<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
-				<div  class="com-users-login__remember control-group">
-					<div class="control-label">
+				<div  class="com-users-login__remember form-group row">
+					<div class="col-form-label">
 						<label for="remember">
 							<?php echo Text::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
 						</label>
 					</div>
-					<div class="controls">
+					<div class="form-control">
 						<input id="remember" type="checkbox" name="remember" class="inputbox" value="yes">
 					</div>
 				</div>
@@ -76,8 +76,8 @@ $usersConfig = ComponentHelper::getParams('com_users');
 					return substr($key, 0, 5) == 'data-';
 				});
 				?>
-				<div class="com-users-login__submit control-group">
-					<div class="controls">
+				<div class="com-users-login__submit form-group row">
+					<div class="form-control">
 						<button type="button"
 								class="btn btn-secondary w-100 <?php echo $button['class'] ?? '' ?>"
 								<?php foreach ($dataAttributeKeys as $key): ?>
@@ -104,8 +104,8 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				</div>
 			<?php endforeach; ?>
 
-			<div class="com-users-login__submit control-group">
-				<div class="controls">
+			<div class="com-users-login__submit form-group row">
+				<div class="form-control">
 					<button type="submit" class="btn btn-primary">
 						<?php echo Text::_('JLOGIN'); ?>
 					</button>
