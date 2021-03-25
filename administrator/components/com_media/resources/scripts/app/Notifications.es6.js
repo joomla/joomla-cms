@@ -30,7 +30,7 @@ class Notifications {
   /* Send a notification */
   // eslint-disable-next-line class-methods-use-this
   notify(message, options) {
-    let timer = undefined;
+    let timer;
     if (options.type === 'message') {
       timer = 3000;
     }
@@ -40,7 +40,7 @@ class Notifications {
       },
       undefined,
       true,
-      timer
+      timer,
     );
   }
 }
