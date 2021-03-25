@@ -89,7 +89,7 @@ module.exports.mediaManager = async () => {
             {
               targets: {
                 browsers: [
-                  '>1%',
+                  '> 1%',
                   'not ie 11',
                   'not op_mini all',
                 ],
@@ -114,7 +114,7 @@ module.exports.mediaManager = async () => {
   await bundle.close();
 
   // eslint-disable-next-line no-console
-  console.log('ES2017 Media Manager ready ✅');
+  console.log('✅ ES2017 Media Manager ready');
   minifyJs('media/com_media/js/media-manager.js');
   return buildLegacy(resolve('media/com_media/js/media-manager.js'));
 };
