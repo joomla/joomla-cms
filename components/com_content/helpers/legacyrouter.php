@@ -386,18 +386,101 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 		 */
 		if (!$advanced)
 		{
+			// This is naughty! $segments[0] is a string containing "2:my-category-alias" and we are casting that string to int to get "2"
 			$cat_id = (int) $segments[0];
 
+			// This is naughty! $segments[$count - 1] is a string containing "2:my-article-alias" and we are casting that string to int to get "2"
 			$article_id = (int) $segments[$count - 1];
 
 			if ($article_id > 0)
 			{
+				// Load the alias for this article_id
+				$query = $db->getQuery(true)
+					->select($db->quoteName(array('alias')))
+					->from($db->quoteName('#__content'))
+					->where($db->quoteName('id') . ' = ' . (int) $article_id);
+				$db->setQuery($query);
+				$articleAlias = $db->loadResult();
+
+				$articleUrlParts = explode(':', $segments[$count - 1]);
+
+				// Prevent PHP Notices if only an id was provided in the url and no alias
+				if (\count($articleUrlParts) > 1)
+				{
+					$urlAlias = $articleUrlParts[1];
+				}
+				else
+				{
+					$urlAlias = false;
+				}
+
+				// Compare the alias in the url with the actual alias in the db to prevent fake url generation based on id only
+				if ($urlAlias && $urlAlias !== $articleAlias)
+				{
+					$lang = \JFactory::getLanguage();
+					$lang->load('com_content');
+
+					JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+
+					return;
+				}
+
+				/**
+				 * If we got here then the article id and article alias in the URL are valid, now to check the categories
+				 *
+				 * The structure of the url is currently /2-parentcat/subcategory/subcategory/bottomcategory/4-articlealias
+				 *
+				 * Where 2 is the id of category with alias bottomcategory
+				 * and 4 is the id of article with alias articlealias
+				 */
+				$numCatgeories = $count - 2;
+
+				// Check each segment that is a category
+				while ($numCatgeories >= 0)
+				{
+					$alias = $segments[$numCatgeories];
+
+					// If the first segment, remove the id
+					if ($numCatgeories === 0)
+					{
+						$alias = explode(':', $alias);
+						$alias = $alias[1];
+					}
+
+					$alias = str_replace(':', '-', $alias);
+
+					if (!$this->checkCategoryEqualsProvided($alias))
+					{
+						$lang = \JFactory::getLanguage();
+						$lang->load('com_content');
+
+						JError::raiseError(404, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
+
+						return;
+					}
+
+					$numCatgeories--;
+				}
+
 				$vars['view'] = 'article';
 				$vars['catid'] = $cat_id;
 				$vars['id'] = $article_id;
 			}
 			else
 			{
+
+				$alias = str_replace(':', '-',  $segments[$count - 1]);
+
+				if (!$this->checkCategoryEqualsProvided($alias))
+				{
+					$lang = \JFactory::getLanguage();
+					$lang->load('com_content');
+
+					JError::raiseError(404, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
+
+					return;
+				}
+
 				$vars['view'] = 'category';
 				$vars['id'] = $cat_id;
 			}
@@ -472,5 +555,32 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 
 			$found = 0;
 		}
+	}
+
+	/**
+	 * Checks if the user supplied alias in the URL is a valid alias in the db
+	 *
+	 * @param   array  $alias  The user supplied alias in the URL
+	 *
+	 * @return bool
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	private function checkCategoryEqualsProvided($alias)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('alias')))
+			->from($db->quoteName('#__categories'))
+			->where($db->quoteName('alias') . ' = ' . $db->quote((string) $alias));
+		$db->setQuery($query);
+
+		if ($alias !== $db->loadResult())
+		{
+			return false;
+		}
+
+		return true;
 	}
 }
