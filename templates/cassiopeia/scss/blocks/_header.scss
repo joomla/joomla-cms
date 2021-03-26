@@ -23,6 +23,7 @@
   .site-description {
     font-size: 1rem;
     color: $white;
+    white-space: normal;
   }
 
   .navbar-brand {
@@ -223,12 +224,13 @@
   }
 
   .mod-finder {
+    position: relative;
     display: flex;
     flex: 1 0 20rem;
     max-width: 100%;
 
     > label {
-      @include a11y-visually-hidden();
+      @include visually-hidden();
     }
   }
 }

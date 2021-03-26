@@ -26,7 +26,7 @@ $this->useCoreUI = true;
 	<div class="card">
 		<div class="card-body">
 			<div class="row">
-				<div class="col-lg-8 col-xl-6">
+				<div class="form-grid">
 					<?php echo $this->form->renderField('title'); ?>
 					<?php echo $this->form->renderField('parent_id'); ?>
 				</div>

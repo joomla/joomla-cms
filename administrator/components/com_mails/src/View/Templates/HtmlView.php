@@ -20,6 +20,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
 /**
  * View for the mail templates configuration
@@ -87,6 +88,7 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$extensions          = $this->get('Extensions');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -94,20 +96,9 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$cache = array();
-		$language = Factory::getLanguage();
-
-		foreach ($this->items as $item)
+		foreach ($extensions as $extension)
 		{
-			list($component, $template_id) = explode('.', $item->template_id, 2);
-
-			if (isset($cache[$component]))
-			{
-				continue;
-			}
-
-			$language->load($component, JPATH_ADMINISTRATOR);
-			$cache[$component] = true;
+			MailsHelper::loadTranslationFiles($extension);
 		}
 
 		$this->addToolbar();

@@ -46,8 +46,9 @@ Joomla.initialiseModal = (modal, options) => {
         idFieldArr[0] = idFieldArr[0].replace(/&quot;/g, '"');
 
         if (!document.getElementById(idFieldArr[1])) {
-          // eslint-disable-next-line no-eval
-          el = eval(idFieldArr[0]); // This is UNSAFE!!!!
+          // eslint-disable-next-line no-new-func
+          const fn = new Function(`return ${idFieldArr[0]}`); // This is UNSAFE!!!!
+          el = fn.call(null);
         } else {
           el = document.getElementById(idFieldArr[1]).value;
         }
