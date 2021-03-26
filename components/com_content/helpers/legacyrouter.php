@@ -468,7 +468,6 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 			}
 			else
 			{
-
 				$alias = str_replace(':', '-',  $segments[$count - 1]);
 
 				if (!$this->checkCategoryEqualsProvided($alias))
