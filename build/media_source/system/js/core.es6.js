@@ -659,7 +659,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
-   * Sanitize HTML string
    *
    * @param {string} unsafeHtml The html for sanitization
    * @param {object} allowList The list of HTMLElements with an array of allowed attributes
