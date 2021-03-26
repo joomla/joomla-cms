@@ -560,7 +560,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 	/**
 	 * Checks if the user supplied alias in the URL is a valid alias in the db
 	 *
-	 * @param   array  $alias  The user supplied alias in the URL
+	 * @param   string  $alias  The user supplied alias in the URL
 	 *
 	 * @return bool
 	 *
