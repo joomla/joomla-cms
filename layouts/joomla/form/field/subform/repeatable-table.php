@@ -93,15 +93,15 @@ else
 					<tr>
 						<?php echo $table_head; ?>
 						<?php if (!empty($buttons)) : ?>
-							<td style="width:8%;">
-								<?php if (!empty($buttons['add'])) : ?>
-									<div class="btn-group">
-										<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
-											<span class="icon-plus" aria-hidden="true"></span>
-										</button>
-									</div>
-								<?php endif; ?>
-							</td>
+						<td style="width:8%;">
+							<?php if (!empty($buttons['add'])) : ?>
+								<div class="btn-group">
+									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+										<span class="icon-plus" aria-hidden="true"></span>
+									</button>
+								</div>
+							<?php endif; ?>
+						</td>
 						<?php endif; ?>
 					</tr>
 				</thead>
@@ -115,9 +115,9 @@ else
 			</table>
 		</div>
 		<?php if ($multiple) : ?>
-			<template class="subform-repeatable-template-section hidden">
-				<?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
-			</template>
+		<template class="subform-repeatable-template-section hidden">
+			<?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
+		</template>
 		<?php endif; ?>
 	</joomla-field-subform>
 </div>
