@@ -71,7 +71,7 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     messagesBox.setAttribute('dismiss', true);
 
     if (timeout && parseInt(timeout, 10) > 0) {
-      messagesBox.setAttribute('autodismiss', timeout);
+      messagesBox.setAttribute('auto-dismiss', timeout);
     }
 
     // Title
