@@ -122,7 +122,7 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
 								</th>
 								<?php endif; ?>
-								<th scope="col" class="w-1 text-center">
+								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo Text::_('JFEATURED'); ?>
 								</th>
 								<th scope="col" style="min-width:85px" class="w-1 text-center">
@@ -229,7 +229,7 @@ $assoc = Associations::isEnabled();
 									</div>
 								</td>
 								<?php endif; ?>
-								<td class="text-center">
+								<td class="text-center d-none d-md-table-cell">
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
