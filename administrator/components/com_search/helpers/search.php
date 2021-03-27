@@ -265,7 +265,7 @@ class SearchHelper
 		$str = JLanguageTransliterate::utf8_latin_to_ascii($str);
 
 		// @TODO: remove other prefixes as well?
-		return preg_replace("/([a-z])/ui", '\1', $str);
+		return $str;
 	}
 
 	/**
