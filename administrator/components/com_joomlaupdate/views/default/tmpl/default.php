@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
+JHtml::_('bootstrap.popover');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('script', 'com_joomlaupdate/default.js', array('version' => 'auto', 'relative' => true));
 
@@ -21,6 +22,11 @@ JText::script('JNO');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
+JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
 $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
