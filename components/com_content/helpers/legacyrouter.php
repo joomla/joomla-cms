@@ -394,72 +394,96 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 
 			if ($article_id > 0)
 			{
-				// Load the alias for this article_id
-				$query = $db->getQuery(true)
-					->select($db->quoteName(array('alias')))
-					->from($db->quoteName('#__content'))
-					->where($db->quoteName('id') . ' = ' . (int) $article_id);
-				$db->setQuery($query);
-				$articleAlias = $db->loadResult();
-
-				$articleUrlParts = explode(':', $segments[$count - 1]);
-
-				// Prevent PHP Notices if only an id was provided in the url and no alias
-				if (\count($articleUrlParts) > 1)
+				// If we want to validate slugs, this is off by default for b/c
+				if ($params->get('validateslugs', 0))
 				{
-					$urlAlias = $articleUrlParts[1];
-				}
-				else
-				{
-					$urlAlias = false;
-				}
 
-				// Compare the alias in the url with the actual alias in the db to prevent fake url generation based on id only
-				if ($urlAlias && $urlAlias !== $articleAlias)
-				{
-					$lang = \JFactory::getLanguage();
-					$lang->load('com_content');
+					// Load the alias for this article_id
+					$query = $db->getQuery(true)
+						->select($db->quoteName(array('alias')))
+						->from($db->quoteName('#__content'))
+						->where($db->quoteName('id') . ' = ' . (int) $article_id);
+					$db->setQuery($query);
+					$articleAlias = $db->loadResult();
 
-					JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					$articleUrlParts = explode(':', $segments[$count - 1]);
 
-					return;
-				}
-
-				/**
-				 * If we got here then the article id and article alias in the URL are valid, now to check the categories
-				 *
-				 * The structure of the url is currently /2-parentcat/subcategory/subcategory/bottomcategory/4-articlealias
-				 *
-				 * Where 2 is the id of category with alias bottomcategory
-				 * and 4 is the id of article with alias articlealias
-				 */
-				$numCatgeories = $count - 2;
-
-				// Check each segment that is a category
-				while ($numCatgeories >= 0)
-				{
-					$alias = $segments[$numCatgeories];
-
-					// If the first segment, remove the id
-					if ($numCatgeories === 0)
+					// Prevent PHP Notices if only an id was provided in the url and no alias
+					if (\count($articleUrlParts) > 1)
 					{
-						$alias = explode(':', $alias);
-						$alias = $alias[1];
+						$urlAlias = $articleUrlParts[1];
+					}
+					else
+					{
+						$urlAlias = false;
 					}
 
-					$alias = str_replace(':', '-', $alias);
-
-					if (!$this->checkCategoryEqualsProvided($alias))
+					// Compare the alias in the url with the actual alias in the db to prevent fake url generation based on id only
+					if ($urlAlias && $urlAlias !== $articleAlias)
 					{
+						// Redirect if possible if thats what we want to do
+						if ($params->get('validateslugs', 0) === 1)
+						{
+							$url = JRoute::_(sprintf('index.php?option=com_content&view=article&id=%s&catid=%s', $article_id, $cat_id));
+							$app = JFactory::getApplication();
+							$app->redirect($url, 301);
+							return;
+						}
+
+						// Else lead to a 404 page
 						$lang = \JFactory::getLanguage();
 						$lang->load('com_content');
 
-						JError::raiseError(404, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
+						JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 
 						return;
 					}
 
-					$numCatgeories--;
+					/**
+					 * If we got here then the article id and article alias in the URL are valid, now to check the categories
+					 *
+					 * The structure of the url is currently /2-parentcat/subcategory/subcategory/bottomcategory/4-articlealias
+					 *
+					 * Where 2 is the id of category with alias bottomcategory
+					 * and 4 is the id of article with alias articlealias
+					 */
+					$numCatgeories = $count - 2;
+
+					// Check each segment that is a category
+					while ($numCatgeories >= 0)
+					{
+						$alias = $segments[$numCatgeories];
+
+						// If the first segment, remove the id
+						if ($numCatgeories === 0)
+						{
+							$alias = explode(':', $alias);
+							$alias = $alias[1];
+						}
+
+						$alias = str_replace(':', '-', $alias);
+
+						if (!$this->checkCategoryEqualsProvided($alias))
+						{
+							// Redirect if possible if thats what we want to do
+							if ($params->get('validateslugs', 0) === 1)
+							{
+								$url = JRoute::_(sprintf('index.php?option=com_content&view=article&id=%s&catid=%s', $article_id, $cat_id));
+								$app = JFactory::getApplication();
+								$app->redirect($url, 301);
+								return;
+							}
+
+							$lang = \JFactory::getLanguage();
+							$lang->load('com_content');
+
+							JError::raiseError(404, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
+
+							return;
+						}
+
+						$numCatgeories--;
+					}
 				}
 
 				$vars['view'] = 'article';
