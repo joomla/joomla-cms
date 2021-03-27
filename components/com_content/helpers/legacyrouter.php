@@ -497,6 +497,15 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 
 				if (!$this->checkCategoryEqualsProvided($alias))
 				{
+					// Redirect if possible if thats what we want to do
+					if ($params->get('validateslugs', 0) === 1)
+					{
+						$url = JRoute::_(sprintf('index.php?option=com_content&view=category&id=%s', $cat_id));
+						$app = JFactory::getApplication();
+						$app->redirect($url, 301);
+						return;
+					}
+
 					$lang = \JFactory::getLanguage();
 					$lang->load('com_content');
 
