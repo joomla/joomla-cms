@@ -11,7 +11,10 @@ namespace Joomla\Component\Installer\Api\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * The manage controller
@@ -47,11 +50,15 @@ class ManageController extends ApiController
 	{
 		$requestBool = $this->input->get('core', $this->input->get->get('core'));
 
-		if ($requestBool === 'true' || $requestBool === 'false')
+		if (!is_null(requestBool) && $requestBool !== 'true' && $requestBool !== 'false')
 		{
-			$this->modelState->set('filter.core', ($requestBool === 'true') ? '1' : '0', 'STRING');
+			// Send the error response
+			$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'core');
+
+			throw new InvalidParameterException($error, 400, null, 'core');
 		}
 
+		$this->modelState->set('filter.core', ($requestBool === 'true') ? '1' : '0', 'STRING');
 		$this->modelState->set('filter.status', $this->input->get('status', $this->input->get->get('status')), 'INT');
 		$this->modelState->set('filter.type', $this->input->get('type', $this->input->get->get('type')), 'STRING');
 
