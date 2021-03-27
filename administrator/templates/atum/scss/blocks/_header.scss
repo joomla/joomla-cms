@@ -4,7 +4,7 @@
   z-index: $zindex-header;
   box-sizing: border-box;
   padding: 10px;
-  color: $white;
+  color: $blue;
   background: var(--atum-bg-dark);
 
   .header-title {
@@ -130,9 +130,9 @@
 
         &:hover,
         &[aria-expanded="true"] {
-          color: var(--atum-text-light);
+          color: var(--atum-text-light-40);
           text-decoration: none;
-          background-color: var(--atum-bg-dark-40);
+          background-color: var(--atum-text-light);
           box-shadow: $atum-box-shadow;
         }
 
