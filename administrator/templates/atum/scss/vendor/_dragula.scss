@@ -8,13 +8,10 @@
   background-color: $teal;
   opacity: .8;
 
-  &.table {
-    display: table;
-
-    td {
-      display: table-cell;
+  display: table;
+    td, th {
+      background-color: $teal;
     }
-  }
 }
 
 .js-draggable .sortable-handler {
