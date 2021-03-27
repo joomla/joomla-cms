@@ -392,10 +392,12 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 			// This is naughty! $segments[$count - 1] is a string containing "2:my-article-alias" and we are casting that string to int to get "2"
 			$article_id = (int) $segments[$count - 1];
 
+			$validateSlugs = $params->get('validateslugs', 0);
+
 			if ($article_id > 0)
 			{
 				// If we want to validate slugs, this is off by default for b/c
-				if ($params->get('validateslugs', 0))
+				if ($validateSlugs)
 				{
 
 					// Load the alias for this article_id
@@ -422,7 +424,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 					if ($urlAlias && $urlAlias !== $articleAlias)
 					{
 						// Redirect if possible if thats what we want to do
-						if ($params->get('validateslugs', 0) === 1)
+						if ($validateSlugs === 1)
 						{
 							$url = JRoute::_(sprintf('index.php?option=com_content&view=article&id=%s&catid=%s', $article_id, $cat_id));
 							$app = JFactory::getApplication();
@@ -466,7 +468,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 						if (!$this->checkCategoryEqualsProvided($alias))
 						{
 							// Redirect if possible if thats what we want to do
-							if ($params->get('validateslugs', 0) === 1)
+							if ($validateSlugs === 1)
 							{
 								$url = JRoute::_(sprintf('index.php?option=com_content&view=article&id=%s&catid=%s', $article_id, $cat_id));
 								$app = JFactory::getApplication();
@@ -498,7 +500,7 @@ class ContentRouterRulesLegacy implements JComponentRouterRulesInterface
 				if (!$this->checkCategoryEqualsProvided($alias))
 				{
 					// Redirect if possible if thats what we want to do
-					if ($params->get('validateslugs', 0) === 1)
+					if ($validateSlugs === 1)
 					{
 						$url = JRoute::_(sprintf('index.php?option=com_content&view=category&id=%s', $cat_id));
 						$app = JFactory::getApplication();
