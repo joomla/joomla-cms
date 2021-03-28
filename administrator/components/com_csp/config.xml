@@ -147,7 +147,7 @@
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect[AND]sandbox_enabled:1"
-		>
+			>
 			<option value="allow-downloads-without-user-activation">allow-downloads-without-user-activation</option>
 			<option value="allow-forms">allow-forms</option>
 			<option value="allow-modals">allow-modals</option>
