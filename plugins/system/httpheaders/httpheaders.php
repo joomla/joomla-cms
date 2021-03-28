@@ -410,7 +410,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 					continue;
 				}
-				
+
 				// We have to quote the blocked uri to fulfill the specs if not a <host-source> or a <scheme-source>
 				$quote = strpos($row->blocked_uri, ':') === false;
 
