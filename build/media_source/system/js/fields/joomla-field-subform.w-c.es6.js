@@ -211,12 +211,10 @@
         bubbles: true,
       }));
 
-      if (window.Joomla) {
-        row.dispatchEvent(new CustomEvent('joomla:updated', {
-          bubbles: true,
-          cancelable: true,
-        }));
-      }
+      row.dispatchEvent(new CustomEvent('joomla:updated', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       return row;
     }
@@ -238,12 +236,10 @@
         bubbles: true,
       }));
 
-      if (window.Joomla) {
-        row.dispatchEvent(new CustomEvent('joomla:removed', {
-          bubbles: true,
-          cancelable: true,
-        }));
-      }
+      row.dispatchEvent(new CustomEvent('joomla:removed', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       row.parentNode.removeChild(row);
     }
