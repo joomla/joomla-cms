@@ -322,6 +322,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			$cspValues[] = 'report-uri ' . $url;
+			$cspValues[] = '\'report-sample\'';
 
 			// Works only with SSL
 			if (Uri::getInstance()->isSsl())

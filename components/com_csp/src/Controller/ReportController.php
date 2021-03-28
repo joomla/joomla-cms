@@ -69,9 +69,15 @@ class ReportController extends BaseController
 	 */
 	public function log()
 	{
+		$params = $this->app->getParams();
+
+		$cspEnabled    = (int) $params->get('contentsecuritypolicy', 0);
+		$cspClient     = (string) $params->get('contentsecuritypolicy_client', 'site');
+		$mode          = (string) $params->get('contentsecuritypolicy_mode', 'report');
+		$reportEnabled = $mode == 'report' || $params->get('report_enabled', 0);
+
 		// Make sure we we are in detect mode and csp is active
-		if (Factory::getApplication()->getParams()->get('contentsecuritypolicy_mode', 'custom') !== 'detect'
-			&& Factory::getApplication()->getParams()->get('contentsecuritypolicy', '0') === '1')
+		if (!($cspEnabled && ($this->app->isClient($cspClient) || $cspClient === 'both') && $reportEnabled))
 		{
 			$this->app->close();
 		}
