@@ -401,7 +401,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys([$row->directive], ''));
 			}
 
-			// Eval or inline need a explicit clearance
+			// Eval or inline need an explicit clearance
 			if (in_array($row->blocked_uri, ['unsafe-eval', 'unsafe-inline']))
 			{
 				if ($row->value)
