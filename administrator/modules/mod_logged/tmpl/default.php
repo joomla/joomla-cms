@@ -54,7 +54,7 @@ use Joomla\CMS\Language\Text;
 					<?php endif; ?>
 				</td>
 				<td>
-					<?php echo HTMLHelper::_('date', $user->time, Text::_('DATE_FORMAT_LC5')); ?>
+					<?php echo HTMLHelper::_('date.relative', date('Y-m-d H:i:s', $user->time)); ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
