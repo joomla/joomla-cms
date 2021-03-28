@@ -49,7 +49,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-group row card card-body bg-light" id="com-users-login__form">
+	<form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-group card card-body bg-light form-control" id="com-users-login__form">
 
 		<fieldset>
 			<?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
@@ -59,26 +59,16 @@ $usersConfig = ComponentHelper::getParams('com_users');
 			<?php endif; ?>
 
 			<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
-<<<<<<< HEAD
+
 				<div  class="com-users-login__remember form-group row">
-					<div class="col-form-label">
-						<label for="remember">
-							<?php echo Text::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
-						</label>
-					</div>
-					<div class="form-control">
-						<input id="remember" type="checkbox" name="remember" class="inputbox" value="yes">
-					</div>
-=======
-				<div class="com-users-login__remember">					
-					<div class="form-check">
+					<div class="form-check col-form-label ">
 						<input class="form-check-input" id="remember" type="checkbox" name="remember" value="yes">
 						<label class="form-check-label" for="remember">
 							<?php echo Text::_('COM_USERS_LOGIN_REMEMBER_ME'); ?>
 						</label>
 					</div>
->>>>>>> c97dddd8a47f43a9575399e589fed4530e678305
 				</div>
+
 			<?php endif; ?>
 
 			<?php foreach ($this->extraButtons as $button):
@@ -115,7 +105,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 			<?php endforeach; ?>
 
 			<div class="com-users-login__submit form-group row">
-				<div class="form-control">
+				<div>
 					<button type="submit" class="btn btn-primary">
 						<?php echo Text::_('JLOGIN'); ?>
 					</button>

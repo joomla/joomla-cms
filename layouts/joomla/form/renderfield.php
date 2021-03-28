@@ -44,7 +44,7 @@ if (!empty($parentclass))
 ?>
 <div class="form-group row<?php echo $class; ?>"<?php echo $rel; ?>>
 	<div class="col-form-label<?php echo $hide; ?>"><?php echo $label; ?></div>
-	<div class="form-control">
+	<div>
 		<?php echo $input; ?>
 		<?php if (!$hideDescription && !empty($description)) : ?>
 			<div id="<?php echo $id; ?>">
