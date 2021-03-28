@@ -277,10 +277,10 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		// First backup any custom extra_query for the sites
 		$query = $db->getQuery(true)
-			->select('location, extra_query')
+			->select('TRIM(location) AS location, extra_query')
 			->from('#__update_sites');
 		$db->setQuery($query);
-		$backupExtraQuerys = $db->loadAssocList();
+		$backupExtraQuerys = $db->loadAssocList('location');
 
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
@@ -355,16 +355,11 @@ class InstallerModelUpdatesites extends InstallerModel
 							// Remove last extra_query as we are in a foreach
 							$tmpInstaller->extra_query = '';
 
-							if ($tmpInstaller->manifest->updateservers && $tmpInstaller->manifest->updateservers->server)
+							if ($tmpInstaller->manifest->updateservers
+								&& $tmpInstaller->manifest->updateservers->server
+								&& isset($backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]))
 							{
-								foreach ($backupExtraQuerys as $extra_queries)
-								{
-									// Trim is required to remove any additional spaces in the XML
-									if (trim((string) $tmpInstaller->manifest->updateservers->server) === trim($extra_queries['location']))
-									{
-										$tmpInstaller->extra_query = $extra_queries['extra_query'];
-									}
-								}
+								$tmpInstaller->extra_query = $backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]['extra_query'];
 							}
 
 							// Load the extension plugin (if not loaded yet).
