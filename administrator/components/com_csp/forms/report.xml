@@ -1,95 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-    <field
-        name="id"
-        type="number"
-        label="JGLOBAL_FIELD_ID_LABEL"
-        class="readonly"
-        default="0"
-        readonly="true"
-    />
-    <field
-        name="document_uri"
-        type="text"
-        label="COM_CSP_REPORT_DOCUMENT_URI"
-        readonly="true"
-        class="form-control form-control-lg"
-    />
-    <field
-        name="directive"
-        type="list"
-        label="COM_CSP_REPORT_DIRECTIVE"
+	<field
+		name="id"
+		type="number"
+		label="JGLOBAL_FIELD_ID_LABEL"
+		class="readonly"
+		default="0"
+		readonly="true"
+	/>
+	<field
+		name="document_uri"
+		type="text"
+		label="COM_CSP_REPORT_DOCUMENT_URI"
+		readonly="true"
+		class="form-control form-control-lg"
+	/>
+	<field
+		name="directive"
+		type="list"
+		label="COM_CSP_REPORT_DIRECTIVE"
 		validate="options"
-    >
-        <option value="child-src">child-src</option>
-        <option value="connect-src">connect-src</option>
-        <option value="default-src">default-src</option>
-        <option value="font-src">font-src</option>
-        <option value="frame-src">frame-src</option>
-        <option value="img-src">img-src</option>
-        <option value="manifest-src">manifest-src</option>
-        <option value="media-src">media-src</option>
-        <option value="prefetch-src">prefetch-src</option>
-        <option value="object-src">object-src</option>
-        <option value="script-src">script-src</option>
-        <option value="script-src-elem">script-src-elem</option>
-        <option value="script-src-attr">script-src-attr</option>
-        <option value="style-src">script-src</option>
-        <option value="style-src-elem">script-src-elem</option>
-        <option value="style-src-attr">script-src-attr</option>
-        <option value="worker-src">worker-src</option>
-    </field>
+	>
+		<option value="child-src">child-src</option>
+		<option value="connect-src">connect-src</option>
+		<option value="default-src">default-src</option>
+		<option value="font-src">font-src</option>
+		<option value="frame-src">frame-src</option>
+		<option value="img-src">img-src</option>
+		<option value="manifest-src">manifest-src</option>
+		<option value="media-src">media-src</option>
+		<option value="prefetch-src">prefetch-src</option>
+		<option value="object-src">object-src</option>
+		<option value="script-src">script-src</option>
+		<option value="script-src-elem">script-src-elem</option>
+		<option value="script-src-attr">script-src-attr</option>
+		<option value="style-src">script-src</option>
+		<option value="style-src-elem">script-src-elem</option>
+		<option value="style-src-attr">script-src-attr</option>
+		<option value="worker-src">worker-src</option>
+	</field>
 
-    <field
-        name="blocked_uri"
-        type="text"
-        label="COM_CSP_REPORT_BLOCKED_URI"
-        class="form-control"
-    />
+	<field
+		name="blocked_uri"
+		type="text"
+		label="COM_CSP_REPORT_BLOCKED_URI"
+		class="form-control"
+	/>
 
-    <field
-        name="value"
-        type="textarea"
-        label="COM_CSP_REPORT_VALUE"
-        description="COM_CSP_REPORT_VALUE_DESC"
-        class="form-control"
-        showon="blocked_uri:unsafe-eval[OR]blocked_uri:unsafe-inline"
-    />
+	<field
+		name="value"
+		type="textarea"
+		label="COM_CSP_REPORT_VALUE"
+		description="COM_CSP_REPORT_VALUE_DESC"
+		class="form-control"
+		showon="blocked_uri:unsafe-eval[OR]blocked_uri:unsafe-inline"
+	/>
 
-    <field
-        name="client"
-        type="list"
-        label="COM_CSP_REPORT_CLIENT"
-        size="1"
-        validate="options"
-        >
-        <option value="site">JSITE</option>
-        <option value="administrator">JADMINISTRATOR</option>
-    </field>
+	<field
+		name="client"
+		type="list"
+		label="COM_CSP_REPORT_CLIENT"
+		size="1"
+		validate="options"
+		>
+		<option value="site">JSITE</option>
+		<option value="administrator">JADMINISTRATOR</option>
+	</field>
 
-    <field
-        name="published"
-        type="list"
-        label="JSTATUS"
-        default="1"
-        class="form-select-color-state"
-        size="1"
-        validate="options"
-        >
-        <option value="1">JPUBLISHED</option>
-        <option value="0">JUNPUBLISHED</option>
-        <option value="-2">JTRASHED</option>
-    </field>
+	<field
+		name="published"
+		type="list"
+		label="JSTATUS"
+		default="1"
+		class="form-select-color-state"
+		size="1"
+		validate="options"
+		>
+		<option value="1">JPUBLISHED</option>
+		<option value="0">JUNPUBLISHED</option>
+		<option value="-2">JTRASHED</option>
+	</field>
 
-    <field
-        name="checked_out"
-        type="hidden"
-        filter="unset"
-    />
+	<field
+		name="checked_out"
+		type="hidden"
+		filter="unset"
+	/>
 
-    <field
-        name="checked_out_time"
-        type="hidden"
-        filter="unset"
-    />
+	<field
+		name="checked_out_time"
+		type="hidden"
+		filter="unset"
+	/>
 </form>
