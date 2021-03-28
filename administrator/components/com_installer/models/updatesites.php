@@ -353,13 +353,13 @@ class InstallerModelUpdatesites extends InstallerModel
 							$tmpInstaller->setPath('manifest', $file);
 
 							// Remove last extra_query as we are in a foreach
-							$tmpInstaller->extra_query = '';
+							$tmpInstaller->extraQuery = '';
 
 							if ($tmpInstaller->manifest->updateservers
 								&& $tmpInstaller->manifest->updateservers->server
 								&& isset($backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]))
 							{
-								$tmpInstaller->extra_query = $backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]['extra_query'];
+								$tmpInstaller->extraQuery = $backupExtraQuerys[trim((string) $tmpInstaller->manifest->updateservers->server)]['extra_query'];
 							}
 
 							// Load the extension plugin (if not loaded yet).
