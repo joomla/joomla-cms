@@ -122,7 +122,7 @@ class Installer extends \JAdapter
 	 * @var    string
 	 * @since  __DEPLOY_VERSION
 	 */
-	public $extra_query = '';
+	public $extraQuery = '';
 
 	/**
 	 * Installer instance container.
