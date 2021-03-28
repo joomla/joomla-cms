@@ -84,7 +84,7 @@ class DisplayController extends BaseController
 			// Only redirect to an internal URL.
 			if (Uri::isInternal($return))
 			{
-				// If &tmpl=component - redirect to index.php
+				// If &tmpl=component don't redirect to index.php
 				if (strpos($return, 'tmpl=component') === false)
 				{
 					$app->redirect($return);
@@ -95,8 +95,10 @@ class DisplayController extends BaseController
 				}
 			}
 		}
-
-		$this->display();
+		else
+		{
+			$app->redirect('index.php');
+		}
 	}
 
 	/**
