@@ -44,18 +44,6 @@
 				</field>
 
 				<field
-					name="scrolling"
-					type="list"
-					label="MOD_WRAPPER_FIELD_SCROLL_LABEL"
-					default="auto"
-					validate="options"
-					>
-					<option value="auto">MOD_WRAPPER_FIELD_VALUE_AUTO</option>
-					<option value="no">JNO</option>
-					<option value="yes">JYES</option>
-				</field>
-
-				<field
 					name="width"
 					type="text"
 					label="MOD_WRAPPER_FIELD_WIDTH_LABEL"
