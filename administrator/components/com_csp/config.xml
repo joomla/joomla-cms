@@ -162,47 +162,6 @@
 			<option value="allow-top-navigation">allow-top-navigation</option>
 			<option value="allow-top-navigation-by-user-activation">allow-top-navigation-by-user-activation</option>
 		</field>
-		<!-- <field
-			name="contentsecuritypolicy_values"
-			type="subform"
-			label="COM_CSP_CONTENTSECURITYPOLICY_VALUES"
-			multiple="true"
-			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
-			>
-			<form>
-				<field
-					name="directive"
-					type="list"
-					label="COM_CSP_CONTENTSECURITYPOLICY_VALUES_DIRECTIVE"
-					class="col-md-4"
-					validate="options"
-					>
-					<option value="base-uri">base-uri</option> => nö
-					<option value="plugin-types">plugin-types</option>
-					<option value="form-action">form-action</option>
-					<option value="frame-ancestors">frame-ancestors</option>
-					<option value="navigate-to">navigate-to</option>
-				</field>
-				<field
-					name="value"
-					type="text"
-					label="COM_CSP_CONTENTSECURITYPOLICY_VALUES_VALUE"
-					class="col-md-10"
-					showon="directive!:block-all-mixed-content[AND]directive!:upgrade-insecure-requests"
-				/>
-				<field
-					name="client"
-					type="radio"
-					label="COM_CSP_HEADER_CLIENT"
-					default="site"
-					class="col-md-12"
-					>
-					<option value="site">JSITE</option>
-					<option value="administrator">JADMINISTRATOR</option>
-					<option value="both">COM_CSP_HEADER_CLIENT_BOTH</option>
-				</field>
-			</form>
-		</field> -->
 	</fieldset>
 	<fieldset
 		name="permissions"

@@ -63,9 +63,8 @@
         size="1"
         validate="options"
         >
-        <!-- <option value="both">COM_CSP_REPORT_CLIENT_BOTH</option> -->
-        <option value="site">COM_CSP_REPORT_CLIENT_SITE</option>
-        <option value="administrator">COM_CSP_REPORT_CLIENT_ADMINISTRATOR</option>
+        <option value="site">JSITE</option>
+        <option value="administrator">JADMINISTRATOR</option>
     </field>
 
     <field
