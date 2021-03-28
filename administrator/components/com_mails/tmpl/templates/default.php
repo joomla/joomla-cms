@@ -66,8 +66,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="break-word">
 									<div class="dropdown">
-										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<a href="#" role="button" id="mTemplate<?php echo $i; ?>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+											<span class="dropdown-toggle"></span>
 										</a>
 										<div class="dropdown-menu" aria-labelledby="mTemplate<?php echo $i; ?>">
 											<?php foreach ($this->languages as $language) : ?>
