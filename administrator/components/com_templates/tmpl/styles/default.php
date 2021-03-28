@@ -18,6 +18,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('bootstrap.dropdown');
 
 $wa        = Factory::getDocument()->getWebAssetManager();
 $user      = Factory::getUser();
