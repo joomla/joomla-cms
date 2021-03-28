@@ -16,9 +16,9 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Database\ParameterType;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of template style records.
