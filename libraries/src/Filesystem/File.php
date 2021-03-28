@@ -134,7 +134,7 @@ class File
 				return false;
 			}
 
-			File::invalidateOpcache($dest);
+			self::invalidateOpcache($dest);
 
 			return true;
 		}
@@ -176,7 +176,7 @@ class File
 				$ret = true;
 			}
 
-			File::invalidateOpcache($dest);
+			self::invalidateOpcache($dest);
 
 			return $ret;
 		}
@@ -185,10 +185,12 @@ class File
 	/**
 	 * Invalidate any opcache for a newly written file immediately, if opcache* functions exist and if this was a PHP file.
 	 *
-	 * @param string $file  The path to the file just written to, to flush from opcache
+	 * @param   string $file  The path to the file just written to, to flush from opcache
+	 *
+	 * @return void
 	 */
-	public static function invalidateOpcache($file){
-
+	public static function invalidateOpcache($file)
+	{
 		if (function_exists('opcache_invalidate'))
 		{
 			$info = pathinfo($file);
