@@ -131,6 +131,8 @@ class File
 				return false;
 			}
 
+			self::invalidateOpcache($dest);
+
 			return true;
 		}
 		else
@@ -172,7 +174,30 @@ class File
 				$ret = true;
 			}
 
+			self::invalidateOpcache($dest);
+
 			return $ret;
+		}
+	}
+
+	/**
+	 * Invalidate any opcache for a newly written file immediately, if opcache* functions exist and if this was a PHP file.
+	 *
+	 * @param   string  $file  The path to the file just written to, to flush from opcache
+	 *
+	 * @return void
+	 */
+	public static function invalidateOpcache($file)
+	{
+		if (function_exists('opcache_invalidate'))
+		{
+			$info = pathinfo($file);
+
+			if ($info['extension'] === 'php')
+			{
+				// Force invalidation to be absolutely sure the opcache is cleared for this file.
+				opcache_invalidate($file, true);
+			}
 		}
 	}
 
@@ -243,6 +268,8 @@ class File
 
 				return false;
 			}
+
+			self::invalidateOpcache($file);
 		}
 
 		return true;
