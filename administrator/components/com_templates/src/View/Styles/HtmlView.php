@@ -166,6 +166,9 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::divider();
 
+		// Install new template
+		ToolbarHelper::modal('ModalInstallTemplate', 'icon-arrow-down-2', 'JTOOLBAR_INSTALL_TEMPLATE');
+
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			ToolbarHelper::preferences('com_templates');
