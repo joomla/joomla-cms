@@ -146,13 +146,19 @@ COMMENT ON COLUMN "#__contentitem_tag_map"."type_id" IS 'PK from the content_typ
 
 CREATE TABLE IF NOT EXISTS "#__csp" (
   "id" serial NOT NULL,
-  "document_uri" varchar(500) NOT NULL DEFAULT '',
-  "blocked_uri" varchar(500) NOT NULL DEFAULT '',
+  "document_uri" varchar(2048) NOT NULL DEFAULT '',
+  "blocked_uri" varchar(2048) NOT NULL DEFAULT '',
+  "script_sample" char(43) NOT NULL DEFAULT '',
+  "line_number" integer NOT NULL DEFAULT 0,
+  "column_number" integer NOT NULL DEFAULT 0,
   "directive" varchar(500) NOT NULL DEFAULT '',
+  "value" varchar(100) NOT NULL DEFAULT '',
   "client" varchar(500) NOT NULL DEFAULT '',
   "created" timestamp without time zone NOT NULL,
   "modified"  timestamp without time zone NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
+  "checked_out_time" timestamp without time zone,
   PRIMARY KEY ("id")
 );
 

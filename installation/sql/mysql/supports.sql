@@ -136,13 +136,19 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
 
 CREATE TABLE IF NOT EXISTS `#__csp` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `document_uri` varchar(500) NOT NULL DEFAULT '',
-  `blocked_uri` varchar(500) NOT NULL DEFAULT '',
+  `document_uri` varchar(2048) NOT NULL DEFAULT '',
+  `blocked_uri` varchar(2048) NOT NULL DEFAULT '',
+  `script_sample` char(43) NOT NULL DEFAULT '',
+  `line_number` int(10) unsigned NOT NULL DEFAULT 0,
+  `column_number` int(10) unsigned NOT NULL DEFAULT 0,
   `directive` varchar(500) NOT NULL DEFAULT '',
+  `value` varchar(100) NOT NULL DEFAULT '',
   `client` varchar(500) NOT NULL DEFAULT '',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned,
+  `checked_out_time` datetime,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 

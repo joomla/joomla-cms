@@ -23,6 +23,8 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.id';
 
+$link = 'index.php?option=com_csp&view=reports&task=report.edit&id=';
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_csp&view=reports'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -93,7 +95,7 @@ $saveOrder = $listOrder == 'a.id';
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_DIRECTIVE', 'a.directive', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JCLIENT', 'a.client', $listDirn, $listOrder); ?>
+									<?php echo Text::_('COM_CSP_HEADING_INFORMATION'); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
@@ -114,22 +116,44 @@ $saveOrder = $listOrder == 'a.id';
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
 									</td>
 									<th scope="row" class="small d-md-table-cell text-break">
-										<?php echo $item->document_uri; ?>
+										<?php echo HTMLHelper::_('link', $link . (int) $item->id, $this->escape($item->document_uri)); ?>
 									</th>
 									<td class="small d-none d-md-table-cell">
-										<?php echo $item->blocked_uri; ?>
+										<?php echo $this->escape($item->blocked_uri); ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo $item->directive; ?>
+										<?php echo $this->escape($item->directive); ?>
 									</td>
-									<td class="d-none d-md-table-cell">
-										<?php echo Text::_('J' . strtoupper($item->client)); ?>
+									<td class="d-none d-md-table-cell small">
+										<?php
+
+										$info = [];
+
+										if ($item->line_number > 0 && $item->column_number > 0) :
+											$info[] = Text::sprintf('COM_CSP_LINE_NUMBER_COLUMN_NUMBER', (int) $item->line_number, (int) $item->column_number);
+										elseif ($item->line_number > 0) :
+											$info[] = Text::sprintf('COM_CSP_LINE_NUMBER', (int) $item->line_number);
+										elseif ($item->column_number > 0) :
+											$info[] = Text::sprintf('COM_CSP_COLUMN_NUMBER', (int) $item->column_number);
+										endif;
+
+										if (strlen($item->script_sample)) :
+											$info[] = Text::sprintf('COM_CSP_SCRIPT_SAMPLE', $this->escape($item->script_sample));
+										endif;
+
+										if (strlen($item->value)) :
+											$info[] = Text::sprintf('COM_CSP_VALUE', $this->escape($item->value));
+										endif;
+
+										echo implode('<br>', $info);
+
+										?>
 									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->created > 0 ? HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')) : '-'; ?>
 									</td>
 									<td class="d-none d-md-table-cell">
-										<?php echo $item->id; ?>
+										<?php echo (int) $item->id; ?>
 									</td>
 								</tr>
 							<?php endforeach; ?>

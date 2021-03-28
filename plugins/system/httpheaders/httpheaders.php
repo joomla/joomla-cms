@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
@@ -298,114 +299,53 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	private function setCspHeader(): void
 	{
-		// Mode Selector
-		$cspMode = $this->comCspParams->get('contentsecuritypolicy_mode', 'detect');
+		$cspValues = $this->compileCspHeaderRules();
 
-		// In detecting mode we set this default rule so any report gets collected by com_csp
-		if ($cspMode === 'detect')
+		$cspHeader = 'content-security-policy';
+
+		$mode = $this->comCspParams->get('contentsecuritypolicy_mode', 'report');
+
+		if ($mode === 'report')
 		{
-			$this->app->setHeader(
-				'content-security-policy-report-only',
-				"default-src 'self'; report-uri " . Uri::root() . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
-			);
-
-			return;
+			$cspHeader = 'content-security-policy-report-only';
 		}
 
-		$cspReadOnly = (int) $this->comCspParams->get('contentsecuritypolicy_report_only', 1);
-		$cspHeader   = $cspReadOnly === 0 ? 'content-security-policy' : 'content-security-policy-report-only';
-
-		// In automatic mode we compile the automatic header values and append it to the header
-		if ($cspMode === 'auto')
+		if ($mode == 'report' || $this->comCspParams->get('report_enabled', 0))
 		{
-			$automaticRules = trim(
-				implode(
-					'; ',
-					$this->compileAutomaticCspHeaderRules()
-				)
-			);
+			$url = Uri::root() . 'index.php?option=com_csp&task=report.log&client=' . $this->app->getName();
 
-			// Set the header
-			$this->app->setHeader($cspHeader, $automaticRules);
+			$customUrl = $this->comCspParams->get('report_uri');
 
-			return;
-		}
-
-		// In custom mode we compile the header from the values configured
-		$cspValues                 = $this->comCspParams->get('contentsecuritypolicy_values', []);
-		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
-		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
-		$strictDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
-		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
-		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
-		$frameAncestorsSet         = false;
-
-		foreach ($cspValues as $cspValue)
-		{
-			// Handle the client settings foreach header
-			if (!$this->app->isClient($cspValue->client) && $cspValue->client != 'both')
+			if (strlen($customUrl))
 			{
-				continue;
+				$url = $customUrl;
 			}
 
-			// Handle non value directives
-			if (in_array($cspValue->directive, $this->noValueDirectives))
+			$cspValues[] = 'report-uri ' . $url;
+
+			// Works only with SSL
+			if (Uri::getInstance()->isSsl())
 			{
-				$newCspValues[] = trim($cspValue->directive);
+				$reportTo = [
+					'group' => 'joomla-endpoint',
+					'max_age' => 10886400,
+					'endpoints' => [
+						['url' => $url]
+					]
+				];
 
-				continue;
-			}
+				$cspValues[] = 'report-to joomla-endpoint';
 
-			// We can only use this if this is a valid entry
-			if (in_array($cspValue->directive, $this->validDirectives)
-				&& !empty($cspValue->value))
-			{
-				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
-				{
-					// Append the nonce
-					$cspValue->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $cspValue->value);
-				}
-
-				// Append the script hashes placeholder
-				if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
-				{
-					$cspValue->value = '{script-hashes} ' . $cspValue->value;
-				}
-
-				// Append the style hashes placeholder
-				if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
-				{
-					$cspValue->value = '{style-hashes} ' . $cspValue->value;
-				}
-
-				if ($cspValue->directive === 'frame-ancestors')
-				{
-					$frameAncestorsSet = true;
-				}
-
-				// Add strict-dynamic to the script-src directive when enabled
-				if ($strictDynamicEnabled
-					&& $cspValue->directive === 'script-src'
-					&& strpos($cspValue->value, 'strict-dynamic') === false)
-				{
-					$cspValue->value .= " 'strict-dynamic' ";
-				}
-
-				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
+				$this->app->setHeader('Report-To', json_encode($reportTo));
 			}
 		}
 
-		if ($frameAncestorsSelfEnabled && !$frameAncestorsSet)
-		{
-			$newCspValues[] = "frame-ancestors 'self'";
-		}
-
-		if (empty($newCspValues))
+		if (empty($cspValues))
 		{
 			return;
 		}
 
-		$this->app->setHeader($cspHeader, trim(implode('; ', $newCspValues)));
+		$this->app->setHeader($cspHeader, trim(implode('; ', $cspValues)));
 	}
 
 	/**
@@ -415,19 +355,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function compileAutomaticCspHeaderRules(): array
+	private function compileCspHeaderRules(): array
 	{
 		// Get the published infos from the database
 		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(['client', 'directive', 'blocked_uri']))
+			->select($this->db->quoteName(['client', 'directive', 'blocked_uri', 'value']))
 			->from($this->db->quoteName('#__csp'))
 			->where($this->db->quoteName('published') . ' = 1');
 
-		$this->db->setQuery($query);
-
 		try
 		{
-			$rows = (array) $this->db->loadObjectList();
+			$rows = (array) $this->db->setQuery($query)->loadObjectList();
 		}
 		catch (\RuntimeException $e)
 		{
@@ -436,13 +374,18 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return [];
 		}
 
-		$automaticCspHeader        = [];
-		$cspHeaderCollection       = [];
-		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
-		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
-		$strictDynamicEnabled      = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
-		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
-		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
+		$cspValues                      = [];
+		$cspHeaderCollection            = [];
+		$mode                           = $this->comCspParams->get('contentsecuritypolicy_mode', 'detect');
+		$nonceEnabled                   = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled            = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$strictDynamicEnabled           = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
+		$styleHashesEnabled             = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$frameAncestorsSelfEnabled      = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
+		$upgradeInsecureRequestsEnabled = (int) $this->comCspParams->get('upgrade_insecure_requests_enabled', 1);
+		$blockAllMixedContentEnabled    = (int) $this->comCspParams->get('block_all_mixed_content_enabled', 1);
+		$sandboxEnabled                 = (int) $this->comCspParams->get('sandbox_enabled', 0);
+		$sandbox                        = $this->comCspParams->get('sandbox', 0);
 
 		foreach ($rows as $row)
 		{
@@ -458,10 +401,25 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys([$row->directive], ''));
 			}
 
-			// Eval or inline lets us make sure they still work by adding ' before and after
+			// Eval or inline need a explicit clearance
 			if (in_array($row->blocked_uri, ['unsafe-eval', 'unsafe-inline']))
 			{
-				$row->blocked_uri = "'$row->blocked_uri'";
+				if ($row->value)
+				{
+					$cspHeaderCollection[$row->directive] .= ' ' . "'" . $row->value . "'";
+
+					continue;
+				}
+				
+				// We have to quote the blocked uri to fulfill the specs if not a <host-source> or a <scheme-source>
+				$quote = strpos($row->blocked_uri, ':') === false;
+
+				$row->blocked_uri = $row->blocked_uri;
+
+				if ($quote)
+				{
+					$row->blocked_uri = "'$row->blocked_uri'";
+				}
 			}
 
 			// Allow the blocked_uri for the given directive
@@ -498,7 +456,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Handle non value directives
 			if (in_array($cspHeaderkey, $this->noValueDirectives))
 			{
-				$automaticCspHeader[] = $cspHeaderkey;
+				$cspValues[] = $cspHeaderkey;
 
 				continue;
 			}
@@ -510,7 +468,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// Append the random $nonce for the script and style tags if enabled
-			if (in_array($cspHeaderkey, $this->nonceDirectives) && $nonceEnabled)
+			if ($nonceEnabled && in_array($cspHeaderkey, $this->nonceDirectives))
 			{
 				// Append nonce
 				$cspHeaderValue = "'nonce-" . $this->cspNonce . "'" . $cspHeaderValue;
@@ -537,10 +495,37 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// By default we should allow 'self' on any directive
-			$automaticCspHeader[] = $cspHeaderkey . " 'self' " . trim($cspHeaderValue);
+			$cspValues[] = $cspHeaderkey . " 'self' " . trim($cspHeaderValue);
 		}
 
-		return $automaticCspHeader;
+		if ($frameAncestorsSelfEnabled)
+		{
+			$cspValues[] = "frame-ancestors 'self'";
+		}
+
+		if ($upgradeInsecureRequestsEnabled)
+		{
+			$cspValues[] = 'upgrade-insecure-requests';
+		}
+
+		if ($blockAllMixedContentEnabled)
+		{
+			$cspValues[] = 'block-all-mixed-content';
+		}
+
+		if ($mode !== 'detect' && $sandboxEnabled)
+		{
+			$value = '';
+
+			if (!empty($sandbox))
+			{
+				$value = ' ' . implode(' ', $sandbox);
+			}
+
+			$cspValues[] = 'sandbox' . $value;
+		}
+
+		return $cspValues;
 	}
 
 	/**

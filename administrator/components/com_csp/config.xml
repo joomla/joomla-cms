@@ -27,26 +27,33 @@
 			name="contentsecuritypolicy_mode"
 			type="list"
 			label="COM_CSP_CONTENTSECURITYPOLICY_MODE"
-			default="detect"
+			default="report"
 			validate="options"
 			showon="contentsecuritypolicy:1"
 			>
-			<option value="custom">COM_CSP_CONTENTSECURITYPOLICY_MODE_CUSTOM</option>
-			<option value="detect">COM_CSP_CONTENTSECURITYPOLICY_MODE_DETECT</option>
-			<option value="auto">COM_CSP_CONTENTSECURITYPOLICY_MODE_AUTO</option>
+			<option value="report">COM_CSP_CONTENTSECURITYPOLICY_MODE_REPORT_ONLY</option>
+			<option value="enforce">COM_CSP_CONTENTSECURITYPOLICY_MODE_ENFORCE</option>
 		</field>
 		<field
-			name="contentsecuritypolicy_report_only"
+			name="report_enabled"
 			type="radio"
-			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY"
-			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
+			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ENABLED_DESC"
 			layout="joomla.form.field.radio.switcher"
-			default="1"
-			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:report"
 			>
 			<option value="0">JDISABLED</option>
 			<option value="1">JENABLED</option>
 		</field>
+		<field
+			name="report_uri"
+			type="url"
+			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT_URI"
+			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_URI_DESC"
+			hint="COM_CSP_CONTENTSECURITYPOLICY_REPORT_URI_HINT"
+			showon="contentsecuritypolicy:1[AND]report_enabled:1[OR]contentsecuritypolicy_mode:report"
+			validate="url"
+		/>
 		<field
 			name="nonce_enabled"
 			type="radio"
@@ -54,7 +61,7 @@
 			description="COM_CSP_CONTENTSECURITYPOLICY_NONCE_ENABLED_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			showon="contentsecuritypolicy:1"
 			>
 			<option value="0">JDISABLED</option>
 			<option value="1">JENABLED</option>
@@ -66,7 +73,7 @@
 			description="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			showon="contentsecuritypolicy:1"
 			>
 			<option value="0">JDISABLED</option>
 			<option value="1">JENABLED</option>
@@ -78,7 +85,7 @@
 			description="COM_CSP_CONTENTSECURITYPOLICY_STRICT_DYNAMIC_ENABLED_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			showon="contentsecuritypolicy:1"
 			>
 			<option value="0">JDISABLED</option>
 			<option value="1">JENABLED</option>
@@ -90,7 +97,7 @@
 			description="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
-			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			showon="contentsecuritypolicy:1"
 			>
 			<option value="0">JDISABLED</option>
 			<option value="1">JENABLED</option>
@@ -102,12 +109,60 @@
 			description="COM_CSP_CONTENTSECURITYPOLICY_FRAME_ANCESTORS_SELF_ENABLED_DESC"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
+			showon="contentsecuritypolicy:1"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="upgrade_insecure_requests_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_UPGRADE_INSECURE_REQUESTS_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_UPGRADE_INSECURE_REQUESTS_ENABLED_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="contentsecuritypolicy:1"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="sandbox_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_SANDBOX_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_SANDBOX_ENABLED_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 			>
 			<option value="0">JDISABLED</option>
 			<option value="1">JENABLED</option>
 		</field>
 		<field
+			name="sandbox"
+			label="COM_CSP_CONTENTSECURITYPOLICY_SANDBOX"
+			description="COM_CSP_CONTENTSECURITYPOLICY_SANDBOX_DESC"
+			type="list"
+			validate="options"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect[AND]sandbox_enabled:1"
+		>
+			<option value="allow-downloads-without-user-activation">allow-downloads-without-user-activation</option>
+			<option value="allow-forms">allow-forms</option>
+			<option value="allow-modals">allow-modals</option>
+			<option value="allow-orientation-lock">allow-orientation-lock</option>
+			<option value="allow-pointer-lock">allow-pointer-lock</option>
+			<option value="allow-popups">allow-popups</option>
+			<option value="allow-popups-to-escape-sandbox">allow-popups-to-escape-sandbox</option>
+			<option value="allow-presentation">allow-presentation</option>
+			<option value="allow-same-origin">allow-same-origin</option>
+			<option value="allow-scripts">allow-scripts</option>
+			<option value="allow-storage-access-by-user-activation">allow-storage-access-by-user-activation</option>
+			<option value="allow-top-navigation">allow-top-navigation</option>
+			<option value="allow-top-navigation-by-user-activation">allow-top-navigation-by-user-activation</option>
+		</field>
+		<!-- <field
 			name="contentsecuritypolicy_values"
 			type="subform"
 			label="COM_CSP_CONTENTSECURITYPOLICY_VALUES"
@@ -122,34 +177,11 @@
 					class="col-md-4"
 					validate="options"
 					>
-					<option value="child-src">child-src</option>
-					<option value="connect-src">connect-src</option>
-					<option value="default-src">default-src</option>
-					<option value="font-src">font-src</option>
-					<option value="frame-src">frame-src</option>
-					<option value="img-src">img-src</option>
-					<option value="manifest-src">manifest-src</option>
-					<option value="media-src">media-src</option>
-					<option value="prefetch-src">prefetch-src</option>
-					<option value="object-src">object-src</option>
-					<option value="script-src">script-src</option>
-					<option value="script-src-elem">script-src-elem</option>
-					<option value="script-src-attr">script-src-attr</option>
-					<option value="style-src">script-src</option>
-					<option value="style-src-elem">script-src-elem</option>
-					<option value="style-src-attr">script-src-attr</option>
-					<option value="worker-src">worker-src</option>
-					<option value="base-uri">base-uri</option>
+					<option value="base-uri">base-uri</option> => nö
 					<option value="plugin-types">plugin-types</option>
-					<option value="sandbox">sandbox</option>
 					<option value="form-action">form-action</option>
 					<option value="frame-ancestors">frame-ancestors</option>
 					<option value="navigate-to">navigate-to</option>
-					<option value="report-uri">report-uri</option>
-					<option value="report-to">report-to</option>
-					<option value="block-all-mixed-content">block-all-mixed-content</option>
-					<option value="upgrade-insecure-requests">upgrade-insecure-requests</option>
-					<option value="require-sri-for">require-sri-for</option>
 				</field>
 				<field
 					name="value"
@@ -170,7 +202,7 @@
 					<option value="both">COM_CSP_HEADER_CLIENT_BOTH</option>
 				</field>
 			</form>
-		</field>
+		</field> -->
 	</fieldset>
 	<fieldset
 		name="permissions"

@@ -11,7 +11,9 @@ namespace Joomla\Component\Csp\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Report Model
@@ -40,6 +42,35 @@ class ReportModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		return false;
+		$form = $this->loadForm('com_csp.report', 'report', array('control' => 'jform', 'load_data' => $loadData));
+
+		if (empty($form))
+		{
+			return false;
+		}
+
+		$form->setFieldAttribute('document_uri', 'default', Uri::root());
+
+		return $form;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = Factory::getApplication()->getUserState('com_csp.edit.report.data', array());
+
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
+
+		return (object) $data;
 	}
 }

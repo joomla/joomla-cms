@@ -13,6 +13,7 @@ namespace Joomla\Component\Csp\Site\Controller;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -111,8 +112,8 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
-		$parsedDocumentUri = parse_url($documentUri);
-		$report->document_uri = $parsedDocumentUri['scheme'] . '://' . $parsedDocumentUri['host'];
+		$parsedDocumentUri = Uri::getInstance($documentUri);
+		$report->document_uri = $parsedDocumentUri->toString();
 
 		// Check the blocked-uri field
 		$blockedUri = (string) ArrayHelper::getValue($data, 'blocked-uri');
@@ -121,7 +122,7 @@ class ReportController extends BaseController
 		// Check for "eval" or "inline" lets make sure they get reported in the correct way
 		if (in_array($blockedUri, ['eval', 'inline']))
 		{
-			$report->blocked_uri = "'unsafe-" . $blockedUri . "'";
+			$report->blocked_uri = 'unsafe-' . $blockedUri;
 		}
 
 		// Handle data reports correctly
@@ -133,8 +134,8 @@ class ReportController extends BaseController
 		// The blocked-uri is not a special keyword but an valid URL.
 		if ($report->blocked_uri === false && filter_var($blockedUri, FILTER_VALIDATE_URL) !== false)
 		{
-			$parsedBlockedUri = parse_url($blockedUri);
-			$report->blocked_uri = $parsedBlockedUri['scheme'] . '://' . $parsedBlockedUri['host'];
+			$parsedBlockedUri = Uri::getInstance($blockedUri);
+			$report->blocked_uri = $parsedBlockedUri->toString(['scheme', 'host', 'port']);
 		}
 
 		// The blocked-uri is not a valid URL an not an special keyword
@@ -159,6 +160,10 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
+		$report->script_sample = ArrayHelper::getValue($data, 'script-sample', '');
+		$report->line_number = ArrayHelper::getValue($data, 'line-number', 0, 'int');
+		$report->column_number = ArrayHelper::getValue($data, 'column-number', 0, 'int');
+
 		$now = Factory::getDate()->toSql();
 
 		$report->created  = $now;
@@ -172,7 +177,7 @@ class ReportController extends BaseController
 		{
 			$db->unlockTables();
 
-			$this->app->close();
+			$this->app->close('exists');
 		}
 
 		$table = $this->app->bootComponent('com_csp')->getMVCFactory()->createTable('Report', 'Administrator');
@@ -182,7 +187,7 @@ class ReportController extends BaseController
 
 		$db->unlockTables();
 
-		$this->app->close();
+		$this->app->close('erstellt');
 	}
 
 	/**
@@ -203,9 +208,11 @@ class ReportController extends BaseController
 		$query
 			->select('COUNT(*)')
 			->from($db->quoteName('#__csp'))
+			->where($db->quoteName('script_sample') . ' = :script_sample')
 			->where($db->quoteName('blocked_uri') . ' = :blocked_uri')
 			->where($db->quoteName('directive') . ' = :directive')
 			->where($db->quoteName('client') . ' = :client')
+			->bind(':script_sample', $report->script_sample)
 			->bind(':blocked_uri', $report->blocked_uri)
 			->bind(':directive', $report->directive)
 			->bind(':client', $report->client);
