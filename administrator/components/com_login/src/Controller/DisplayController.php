@@ -79,17 +79,13 @@ class DisplayController extends BaseController
 
 		$app->login($credentials, array('action' => 'core.login.admin'));
 
-		if (Uri::isInternal($return))
+		if (Uri::isInternal($return) && strpos($return, 'tmpl=component') === false)
 		{
-			// If &tmpl=component don't redirect to index.php
-			if (strpos($return, 'tmpl=component') === false)
-			{
-				$app->redirect($return);
-			}
-			else
-			{
-				$app->redirect('index.php');
-			}
+			$app->redirect($return);
+		}
+		else
+		{
+			$app->redirect('index.php');
 		}
 	}
 
