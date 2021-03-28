@@ -39,17 +39,17 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param   string   $name         The friendly name of the site
-	 * @param   string   $type         The type of site (e.g. collection or extension)
-	 * @param   string   $location     The URI for the site
-	 * @param   boolean  $enabled      If this site is enabled
-	 * @param   string   $extra_query  Any additional request query to use when updating
+	 * @param   string   $name        The friendly name of the site
+	 * @param   string   $type        The type of site (e.g. collection or extension)
+	 * @param   string   $location    The URI for the site
+	 * @param   boolean  $enabled     If this site is enabled
+	 * @param   string   $extraQuery  Any additional request query to use when updating
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	private function addUpdateSite($name, $type, $location, $enabled, $extra_query = '')
+	private function addUpdateSite($name, $type, $location, $enabled, $extraQuery = '')
 	{
 		$db = JFactory::getDbo();
 
@@ -81,7 +81,7 @@ class PlgExtensionJoomla extends JPlugin
 					// Trim to remove any whitespace from the XML file before saving the location to the db
 					. $db->quote(trim($location)) . ', '
 					. (int) $enabled . ', '
-					. $db->quote($extra_query)
+					. $db->quote($extraQuery)
 				);
 			$db->setQuery($query);
 
