@@ -519,6 +519,10 @@ class Installer extends Adapter
 		 *
 		 * In some (most?) systems PHP's CLI has a separate opcode cache to the one used by the web server or FPM process,
 		 * which means running opcache_reset() in the CLI won't reset the webserver/fpm opcode cache, and vice versa.
+		 *
+		 * This does NOT reset the opcode cache immediately, even when it returns true.
+		 * After calling opcache_reset(), all scripts will be reloaded and reparsed the next time they are hit.
+		 * @see https://www.php.net/manual/en/function.opcache-reset.php
 		 */
 		if (function_exists('opcache_reset'))
 		{
