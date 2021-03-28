@@ -322,7 +322,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			$cspValues[] = 'report-uri ' . $url;
-			$cspValues[] = '\'report-sample\'';
 
 			// Works only with SSL
 			if (Uri::getInstance()->isSsl())
@@ -378,6 +377,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$cspValues                      = [];
 		$cspHeaderCollection            = [];
 		$mode                           = $this->comCspParams->get('contentsecuritypolicy_mode', 'detect');
+		$reportEnables                  = $this->comCspParams->get('report_enabled', 0);
 		$nonceEnabled                   = (int) $this->comCspParams->get('nonce_enabled', 0);
 		$scriptHashesEnabled            = (int) $this->comCspParams->get('script_hashes_enabled', 0);
 		$strictDynamicEnabled           = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
@@ -427,29 +427,20 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
 		}
 
-		// Add the frame-ancestors when not done already
-		if (!isset($cspHeaderCollection['frame-ancestors']) && $frameAncestorsSelfEnabled)
+		// We should have a default-src, script-src and style-src rule
+		if (!isset($cspHeaderCollection['default-src']))
 		{
-			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['frame-ancestors'], ''));
+			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
 		}
 
-		// We should have a default-src, script-src and style-src rule
-		if (!empty($cspHeaderCollection))
+		if (!isset($cspHeaderCollection['script-src']) && ($scriptHashesEnabled || $nonceEnabled))
 		{
-			if (!isset($cspHeaderCollection['default-src']))
-			{
-				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
-			}
+			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['script-src'], ''));
+		}
 
-			if (!isset($cspHeaderCollection['script-src']) && ($scriptHashesEnabled || $nonceEnabled))
-			{
-				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['script-src'], ''));
-			}
-
-			if (!isset($cspHeaderCollection['style-src']) && ($scriptHashesEnabled || $nonceEnabled))
-			{
-				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
-			}
+		if (!isset($cspHeaderCollection['style-src']) && ($scriptHashesEnabled || $nonceEnabled))
+		{
+			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
 		}
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
@@ -493,6 +484,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				&& strpos($cspHeaderValue, 'strict-dynamic') === false)
 			{
 				$cspHeaderValue .= " 'strict-dynamic' ";
+			}
+
+			if (($mode == 'report' || $reportEnabled) && strpos($cspHeaderkey, '-src') !== false)
+			{
+				$cspHeaderValue .= " 'report-sample'";
 			}
 
 			// By default we should allow 'self' on any directive
