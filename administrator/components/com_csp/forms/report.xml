@@ -19,7 +19,7 @@
         name="directive"
         type="list"
         label="COM_CSP_REPORT_DIRECTIVE"
-		validate="options"
+	validate="options"
     >
         <option value="child-src">child-src</option>
         <option value="connect-src">connect-src</option>
