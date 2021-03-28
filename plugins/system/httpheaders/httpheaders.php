@@ -377,7 +377,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$cspValues                      = [];
 		$cspHeaderCollection            = [];
 		$mode                           = $this->comCspParams->get('contentsecuritypolicy_mode', 'detect');
-		$reportEnables                  = $this->comCspParams->get('report_enabled', 0);
+		$reportEnabled                  = $this->comCspParams->get('report_enabled', 0);
 		$nonceEnabled                   = (int) $this->comCspParams->get('nonce_enabled', 0);
 		$scriptHashesEnabled            = (int) $this->comCspParams->get('script_hashes_enabled', 0);
 		$strictDynamicEnabled           = (int) $this->comCspParams->get('strict_dynamic_enabled', 0);
@@ -428,11 +428,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// We should have a default-src, script-src and style-src rule
-		if (!isset($cspHeaderCollection['default-src']))
-		{
-			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
-		}
-
 		if (!isset($cspHeaderCollection['script-src']) && ($scriptHashesEnabled || $nonceEnabled))
 		{
 			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['script-src'], ''));
@@ -441,6 +436,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		if (!isset($cspHeaderCollection['style-src']) && ($scriptHashesEnabled || $nonceEnabled))
 		{
 			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
+		}
+
+		// The default-src should be at the end, so other src are triggered first
+		if (!isset($cspHeaderCollection['default-src']))
+		{
+			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
 		}
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
