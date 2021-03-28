@@ -177,7 +177,7 @@ class ReportController extends BaseController
 		{
 			$db->unlockTables();
 
-			$this->app->close('exists');
+			$this->app->close();
 		}
 
 		$table = $this->app->bootComponent('com_csp')->getMVCFactory()->createTable('Report', 'Administrator');
@@ -187,7 +187,7 @@ class ReportController extends BaseController
 
 		$db->unlockTables();
 
-		$this->app->close('erstellt');
+		$this->app->close();
 	}
 
 	/**
