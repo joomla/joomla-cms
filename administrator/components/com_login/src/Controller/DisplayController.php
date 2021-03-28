@@ -77,27 +77,19 @@ class DisplayController extends BaseController
 		$credentials = $model->getState('credentials');
 		$return = $model->getState('return');
 
-		$result = $app->login($credentials, array('action' => 'core.login.admin'));
+		$app->login($credentials, array('action' => 'core.login.admin'));
 
-		if ($result && !($result instanceof \Exception))
+		if (Uri::isInternal($return))
 		{
-			// Only redirect to an internal URL.
-			if (Uri::isInternal($return))
+			// If &tmpl=component don't redirect to index.php
+			if (strpos($return, 'tmpl=component') === false)
 			{
-				// If &tmpl=component don't redirect to index.php
-				if (strpos($return, 'tmpl=component') === false)
-				{
-					$app->redirect($return);
-				}
-				else
-				{
-					$app->redirect('index.php');
-				}
+				$app->redirect($return);
 			}
-		}
-		else
-		{
-			$app->redirect('index.php');
+			else
+			{
+				$app->redirect('index.php');
+			}
 		}
 	}
 
