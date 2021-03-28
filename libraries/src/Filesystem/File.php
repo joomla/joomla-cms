@@ -269,6 +269,8 @@ class File
 
 				return false;
 			}
+
+			self::invalidateOpcache($file);
 		}
 
 		return true;
