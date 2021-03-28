@@ -277,8 +277,8 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		// First backup any custom extra_query for the sites
 		$query = $db->getQuery(true)
-			->select('TRIM(location) AS location, extra_query')
-			->from('#__update_sites');
+			->select('TRIM(' . $db->quoteName('location') . ') AS ' . $db->quoteName('location') . ', ' . $db->quoteName('extra_query'))
+			->from($db->quoteName('#__update_sites'));
 		$db->setQuery($query);
 		$backupExtraQuerys = $db->loadAssocList('location');
 
