@@ -464,17 +464,10 @@
 			element="com_templates"
 			link="index.php?option=com_templates">
 			<menuitem
-				title="MOD_MENU_COM_TEMPLATES_SUBMENU_STYLES"
-				type="component"
-				element="com_templates"
-				link="index.php?option=com_templates&amp;view=styles&amp;client_id=0"
-			/>
-
-			<menuitem
 				title="MOD_MENU_COM_TEMPLATES_SUBMENU_TEMPLATES"
 				type="component"
 				element="com_templates"
-				link="index.php?option=com_templates&amp;view=templates"
+				link="index.php?option=com_templates&amp;view=styles&amp;client_id=0"
 			/>
 
 			<menuitem

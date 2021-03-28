@@ -81,6 +81,11 @@
       "uri": "com_templates/admin-templates-default.min.css"
     },
     {
+      "name": "com_templates.admin-styles",
+      "type": "style",
+      "uri": "com_templates/admin-styles-default.min.css"
+    },
+    {
       "name": "com_templates.admin-templates.es5",
       "type": "script",
       "uri": "com_templates/admin-templates-default-es5.min.js",
