@@ -68,7 +68,7 @@ class OutputFilterTest extends UnitTestCase
 			'joomlas-version',
 			OutputFilter::stringURLSafe('joomla\'s version'),
 			'Should remove apostrophe from the string'
-		)
+		);
 	}
 
 	/**
