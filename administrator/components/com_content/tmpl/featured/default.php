@@ -358,7 +358,7 @@ $assoc = Associations::isEnabled();
 									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
-								<?php if ($this->vote) : ?>
+								<?php if ($this->hits) : ?>
 									<td class="d-none d-lg-table-cell text-center">
 										<span class="badge bg-info">
 											<?php echo (int) $item->hits; ?>
