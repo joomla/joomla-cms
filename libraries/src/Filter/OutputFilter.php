@@ -91,7 +91,7 @@ class OutputFilter extends BaseOutputFilter
 		$str = trim(StringHelper::strtolower($str));
 
 		// Remove any apostrophe. We do it here to ensure it is not replaced by a '-'
-		$str = preg_replace('/\'/', '', $str);
+		$str = str_replace("'", '', $str);
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);
