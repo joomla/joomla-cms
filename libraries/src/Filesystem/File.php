@@ -187,6 +187,8 @@ class File
 	 *
 	 * @param   string $file  The path to the file just written to, to flush from opcache
 	 *
+	 * @since __DEPLOY_VERSION__
+	 *
 	 * @return void
 	 */
 	public static function invalidateOpcache($file)
@@ -195,7 +197,7 @@ class File
 		{
 			$info = pathinfo($file);
 
-			if ($info['extension'] === 'php')
+			if (isset($info['extension']) && $info['extension'] === 'php')
 			{
 				// Force invalidation to be absolutely sure the opcache is cleared for this file.
 				opcache_invalidate($file, true);
@@ -310,6 +312,7 @@ class File
 
 			if (!$stream->move($src, $dest))
 			{
+
 				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_GENERIC', __METHOD__, $stream->getError()), Log::WARNING, 'jerror');
 
 				return false;
