@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 ?>
@@ -54,7 +55,7 @@ use Joomla\CMS\Language\Text;
 					<?php endif; ?>
 				</td>
 				<td>
-					<?php echo HTMLHelper::_('date.relative', JFactory::getDate($user->time)); ?>
+					<?php echo HTMLHelper::_('date.relative', Factory::getDate($user->time)); ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
