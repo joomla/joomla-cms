@@ -3,15 +3,15 @@
 .gu-mirror {
   position: fixed !important;
   z-index: $zindex-popover !important;
+  display: table;
   margin: 0 !important;
   cursor: move;
   background-color: $teal;
   opacity: .8;
 
-  display: table;
-    td, th {
-      background-color: $teal;
-    }
+  td, th {
+    background-color: $teal;
+  }
 }
 
 .js-draggable .sortable-handler {

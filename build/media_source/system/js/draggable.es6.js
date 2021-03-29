@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       })
       .on('cloned', () => {
-        const el = document.querySelector('.gu-mirror');
+
       })
       .on('drop', () => {
         if (url) {
