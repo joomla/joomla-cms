@@ -44,8 +44,8 @@ There are three options here:
 - `npm run build:bs5`: Builds the Bootstrap Javascript components
 - `npm run build:com_media`: Builds the Media Manager Vue Application
 - `npm run lint:js`: Check the code style for all the Javascript/vue files
-- `npm run lint:js --fix`: Check and fix the code style for all the Javascript/vue files (might not fix everything)
+- `npm run lint:js -- --fix`: Check and fix the code style for all the Javascript/vue files (might not fix everything)
 - `npm run lint:css`: Check the code style for all the SCSS files
-- `npm run lint:css --fix`: Check and fix the code style for all the SCSS files (might not fix everything)
+- `npm run lint:css -- --fix`: Check and fix the code style for all the SCSS files (might not fix everything)
 - `npm run gzip`: Creates `.gz` files for all the `.min.js` and `.min.css`
 - `npm run versioning`: Creates the correct version hash for all the assets inside the joomla.asset.json files (excluding templates)
