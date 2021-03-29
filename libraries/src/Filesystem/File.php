@@ -193,7 +193,7 @@ class File
 		{
 			$info = pathinfo($file);
 
-			if ($info['extension'] === 'php')
+			if (isset($info['extension']) && $info['extension'] === 'php')
 			{
 				// Force invalidation to be absolutely sure the opcache is cleared for this file.
 				opcache_invalidate($file, true);
