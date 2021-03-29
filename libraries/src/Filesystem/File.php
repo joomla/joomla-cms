@@ -318,6 +318,8 @@ class File
 				return false;
 			}
 
+			self::invalidateOpcache($dest);
+
 			return true;
 		}
 		else
@@ -350,6 +352,8 @@ class File
 					return false;
 				}
 			}
+
+			self::invalidateOpcache($dest);
 
 			return true;
 		}
@@ -393,6 +397,8 @@ class File
 				return false;
 			}
 
+			self::invalidateOpcache($file);
+
 			return true;
 		}
 		else
@@ -413,6 +419,8 @@ class File
 				$file = Path::clean($file);
 				$ret = \is_int(file_put_contents($file, $buffer));
 			}
+
+			self::invalidateOpcache($file);
 
 			return $ret;
 		}
@@ -448,6 +456,8 @@ class File
 
 			if ($stream->open($file, 'ab') && $stream->write($buffer) && $stream->close())
 			{
+				self::invalidateOpcache($file);
+
 				return true;
 			}
 
@@ -474,6 +484,8 @@ class File
 				$file = Path::clean($file);
 				$ret = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
 			}
+
+			self::invalidateOpcache($file);
 
 			return $ret;
 		}
@@ -581,6 +593,8 @@ class File
 					Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), Log::WARNING, 'jerror');
 				}
 			}
+
+			self::invalidateOpcache($dest);
 
 			return $ret;
 		}
