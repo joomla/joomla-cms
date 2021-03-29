@@ -20,6 +20,10 @@ There are three options here:
   Also it instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates normal and minified files.
   Production code WILL NOT have the `.es6` part part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones
 
+- Web Component Javascript files should have an extension `.w-c.es6.js`.
+  This allows the ESLint to check the style code and it instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates normal and minified files. The difference with the `.es6` files is that the tools will automate the minification of the css (assuming that the appropriate scss file exists) and injected into the js file into a placeholder `{{CSS_CONTENTS_PLACEHOLDER}}` (ie: `build/media_source/system/js/joomla-core-loader.w-c.es6.js`)
+  Production code WILL NOT have the `.w-c.es6` part part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones
+
 - Legacy Javascript files should have an extension `.es5.js`.
   This instructs ESLint to skip checking this file
   Also it instructs the tools to create a minified version (production code WILL NOT have the `.es5` part)
@@ -40,6 +44,8 @@ There are three options here:
 - `npm run build:bs5`: Builds the Bootstrap Javascript components
 - `npm run build:com_media`: Builds the Media Manager Vue Application
 - `npm run lint:js`: Check the code style for all the Javascript/vue files
+- `npm run lint:js --fix`: Check and fix the code style for all the Javascript/vue files (might not fix everything)
 - `npm run lint:css`: Check the code style for all the SCSS files
+- `npm run lint:css --fix`: Check and fix the code style for all the SCSS files (might not fix everything)
 - `npm run gzip`: Creates `.gz` files for all the `.min.js` and `.min.css`
 - `npm run versioning`: Creates the correct version hash for all the assets inside the joomla.asset.json files (excluding templates)
