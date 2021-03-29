@@ -312,7 +312,6 @@ class File
 
 			if (!$stream->move($src, $dest))
 			{
-
 				Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_GENERIC', __METHOD__, $stream->getError()), Log::WARNING, 'jerror');
 
 				return false;
