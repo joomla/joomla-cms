@@ -21,7 +21,7 @@ There are three options here:
   Production code WILL NOT have the `.es6` part part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones
 
 - Web Component Javascript files should have an extension `.w-c.es6.js`.
-  This allows the ESLint to check the style code and it instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates normal and minified files. The difference with the `.es6` files is that the tools will automate the minification of the css (assuming that the appropriate scss file exists) and injected into the js file into a placeholder `{{CSS_CONTENTS_PLACEHOLDER}}` (ie: `build/media_source/system/js/joomla-core-loader.w-c.es6.js`)
+  This allows the ESLint to check the code and it instructs Rollup to do the transforms for ES2017 and then transpile to ES5. This step creates normal and minified files. The difference with the `.es6` files is that the tools will automate the minification of the css (assuming that the appropriate scss file exists) and injected into the js file into a placeholder `{{CSS_CONTENTS_PLACEHOLDER}}` (ie: `build/media_source/system/js/joomla-core-loader.w-c.es6.js`)
   Production code WILL NOT have the `.w-c.es6` part part for ES2017+ files but WILL HAVE a `-es5.js` for the ES5 ones
 
 - Legacy Javascript files should have an extension `.es5.js`.
