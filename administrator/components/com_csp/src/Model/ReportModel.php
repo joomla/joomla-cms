@@ -73,4 +73,27 @@ class ReportModel extends AdminModel
 
 		return (object) $data;
 	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		// We don't want trashed items
+		if ($value < 0)
+		{
+			Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
+		return parent::publish($pks, $value);
+	}
 }
