@@ -206,7 +206,7 @@
 				name="blog_style"
 				type="list"
 				label="JGLOBAL_BLOG_STYLE"
-				useglobal="true"
+				default="4"
 				parentclass="span-2 stack"
 				filter="integer"
 				>

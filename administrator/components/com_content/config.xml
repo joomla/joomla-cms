@@ -771,18 +771,6 @@
 		/>
 
 		<field
-			name="blog_style"
-			type="list"
-			label="JGLOBAL_BLOG_STYLE"
-			required="true"
-			default="4"
-			filter="integer"
-			>
-			<option value="3">JGLOBAL_BLOG_STYLE_J3</option>
-			<option value="4">JGLOBAL_BLOG_STYLE_J4</option>
-		</field>
-
-		<field
 			name="spacer1"
 			type="spacer"
 			hr="true"
