@@ -111,7 +111,7 @@ $compatibilityTypes = array(
 				<?php break; ?>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<legend class="label label-<?php echo $labelClass;?>">
+		<legend class="label label-<?php echo $labelClass; ?>">
 			<h3>
 				<?php echo $labelClass === 'warning' ? JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED'); ?>
 				<div class="settingstoggle" data-state="closed">
