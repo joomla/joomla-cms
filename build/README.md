@@ -9,7 +9,7 @@ The responsibilities of these tools are:
 - Update the version numbers on the xml files of the editors tinyMCE and Codemirror
 - Copy files from the `build/media_source` folder to the `media` folder
 - Transform any modern JS to both ES2017 and transpile it to ES5
-- Transform any SCSS file to the respected CSS file
+- Transform any SCSS file to the respective CSS file
 
 For some of these operations some conventions were established, to simplify and speed up the process.
 
