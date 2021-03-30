@@ -202,8 +202,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 		{
 			$this->version = 1;
 		}
-
-
+		
 		return true;
 	}
 
