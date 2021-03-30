@@ -206,7 +206,6 @@
 				name="blog_style"
 				type="list"
 				label="JGLOBAL_BLOG_STYLE"
-				required="true"
 				useglobal="true"
 				parentclass="span-2 stack"
 				filter="integer"
@@ -266,22 +265,19 @@
 			</field>
 
 			<field
-				name="show_subcategory_content"
+				name="show_featured"
 				type="list"
-				label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
+				default=""
+				label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
 				useglobal="true"
+				class="form-select-color-state"
 				validate="options"
 				parentclass="stack span-2"
 				>
-				<option value="0">JNONE</option>
-				<option value="-1">JALL</option>
-				<option value="1">J1</option>
-				<option value="2">J2</option>
-				<option value="3">J3</option>
-				<option value="4">J4</option>
-				<option value="5">J5</option>
+				<option value="show">JSHOW</option>
+				<option value="hide">JHIDE</option>
+				<option value="only">JONLY</option>
 			</field>
-
 
 			<field
 				name="link_intro_image"
@@ -295,13 +291,29 @@
 				<option value="1">JYES</option>
 			</field>
 
-
+			<field
+				name="show_subcategory_content"
+				type="list"
+				label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
+				useglobal="true"
+				validate="options"
+				parentclass="stack span-2-inline"
+				>
+				<option value="0">JNONE</option>
+				<option value="-1">JALL</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+			</field>
 			<field
 				name="orderby_pri"
 				type="list"
 				label="JGLOBAL_CATEGORY_ORDER_LABEL"
 				useglobal="true"
 				validate="options"
+				parentclass="stack span-2"
 				>
 				<option value="none">JGLOBAL_NO_ORDER</option>
 				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
@@ -315,6 +327,7 @@
 				label="JGLOBAL_ARTICLE_ORDER_LABEL"
 				useglobal="true"
 				validate="options"
+				parentclass="stack span-2-inline"
 				>
 				<option value="front">COM_CONTENT_FEATURED_ORDER</option>
 				<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
@@ -340,6 +353,7 @@
 				label="JGLOBAL_ORDERING_DATE_LABEL"
 				useglobal="true"
 				validate="options"
+				parentclass="stack span-2-inline"
 				>
 				<option value="created">JGLOBAL_CREATED</option>
 				<option value="modified">JGLOBAL_MODIFIED</option>
@@ -354,6 +368,7 @@
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
+				parentclass="stack span-2"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -367,24 +382,12 @@
 				useglobal="true"
 				class="form-select-color-state"
 				validate="options"
+				parentclass="stack span-2-inline"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				name="show_featured"
-				type="list"
-				default=""
-				label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
-				useglobal="true"
-				class="form-select-color-state"
-				validate="options"
-				>
-				<option value="show">JSHOW</option>
-				<option value="hide">JHIDE</option>
-				<option value="only">JONLY</option>
-			</field>
 		</fieldset>
 
 		<fieldset name="article"
