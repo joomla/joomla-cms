@@ -187,6 +187,23 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
+		// Set default value for the following fields so that it could be restored from version history
+		if (!isset($this->path))
+		{
+			$this->path = '';
+		}
+
+		if (!isset($this->hits))
+		{
+			$this->hits = 0;
+		}
+
+		if (!isset($this->version))
+		{
+			$this->version = 1;
+		}
+
+
 		return true;
 	}
 
