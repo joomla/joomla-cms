@@ -103,7 +103,7 @@ $compatibilityTypes = array(
 			</table>
 		</div>
 	</fieldset>
-	<fieldset class="span6 ">
+	<fieldset class="span6">
 		<?php $labelClass = 'success'; ?>
 		<?php foreach ($this->phpSettings as $setting) : ?>
 			<?php if ($setting->state !== $setting->recommended) : ?>
