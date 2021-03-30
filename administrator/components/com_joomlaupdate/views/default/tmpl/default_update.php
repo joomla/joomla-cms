@@ -210,7 +210,7 @@ defined('_JEXEC') or die;
 										<?php endforeach; ?>
 									<?php endif; ?>
 									<?php if (!empty($authorURL)) : ?>
-										<a href="<?php echo $authorURL; ?>" target="_blank" >
+										<a href="<?php echo $authorURL; ?>" target="_blank">
 											<?php echo $authorURL; ?>
 											<span class="icon-out-2" aria-hidden="true"></span>
 											<span class="element-invisible">
