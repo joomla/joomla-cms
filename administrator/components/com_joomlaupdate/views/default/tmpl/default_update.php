@@ -196,7 +196,7 @@ defined('_JEXEC') or die;
 										</td>
 										<?php endif; ?>
 									<?php endforeach; ?>
-									<?php endif;?>
+									<?php endif; ?>
 								</td>
 								<td>
 									<?php $authorURL = ''; ?>
