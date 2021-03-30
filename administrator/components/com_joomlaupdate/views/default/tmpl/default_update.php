@@ -199,7 +199,7 @@ defined('_JEXEC') or die;
 									<?php endif;?>
 								</td>
 								<td>
-									<?php $authorURL = ""; ?>
+									<?php $authorURL = ''; ?>
 									<?php if (isset($nonCoreCriticalPlugin->manifest_cache->authorUrl)) :  ?>
 										<?php $authorURL = $nonCoreCriticalPlugin->manifest_cache->authorUrl; ?>
 									<?php elseif ($nonCoreCriticalPlugin->package_id > 0) : ?>
