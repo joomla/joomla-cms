@@ -118,7 +118,7 @@ $compatibilityTypes = array(
 					<?php echo JText::sprintf(
 						'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
 						'<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'
-					);?>
+					); ?>
 				</div>
 			</h3>
 		</legend>
