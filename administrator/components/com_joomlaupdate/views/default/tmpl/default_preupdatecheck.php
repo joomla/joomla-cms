@@ -130,17 +130,17 @@ $compatibilityTypes = array(
 			</p>
 			<table class="table">
 				<thead>
-				<tr>
-					<td>
-						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
-					</td>
-					<td>
-						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
-					</td>
-					<td>
-						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
-					</td>
-				</tr>
+					<tr>
+						<th>
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DIRECTIVE'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_ACTUAL'); ?>
+						</th>
+					</tr>
 				</thead>
 				<tbody>
 					<?php foreach ($this->phpSettings as $setting) : ?>

@@ -101,8 +101,8 @@ class ContactViewCategory extends JViewCategory
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while ((!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact'
-				|| $id != $category->id) && $category->id > 1)
+			while ($category !== null && $category->id !== 'root ' &&
+				(!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id))
 			{
 				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
