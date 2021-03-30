@@ -23,7 +23,7 @@ class FOFEncryptRandval implements FOFEncryptRandvalinterface
 	 *
 	 * The reason this method exists is backwards compatibility with older versions of FOF. It also allows us to quickly
 	 * address any future issues if Joomla drops the polyfill or otherwise find problems with PHP's random_bytes() on
-	 * some weird host (you can't be too carefull when releasing mass-distributed software).
+	 * some weird host (you can't be too careful when releasing mass-distributed software).
 	 *
 	 * @param   integer  $bytes  How many bytes to return
 	 *
@@ -42,7 +42,7 @@ class FOFEncryptRandval implements FOFEncryptRandvalinterface
 	 *
 	 * The reason this method exists is backwards compatibility with older versions of FOF. It also allows us to quickly
 	 * address any future issues if Joomla drops the polyfill or otherwise find problems with PHP's random_bytes() on
-	 * some weird host (you can't be too carefull when releasing mass-distributed software).
+	 * some weird host (you can't be too careful when releasing mass-distributed software).
 	 *
 	 * @param   integer  $length  Length of the random data to generate
 	 *
