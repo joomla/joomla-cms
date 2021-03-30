@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 // JText::script doesn't have a sprintf equivalent so work around this
 JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>', true) . "';");
 JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up large-icon" style="font-size:0.85rem"></span>', true) . "';");
-
 JFactory::getDocument()->addScriptDeclaration("var nonCoreCriticalPlugins = '" . json_encode($this->nonCoreCriticalPlugins) . "';");
 
 $compatibilityTypes = array(
@@ -54,22 +53,22 @@ $compatibilityTypes = array(
 </p>
 <div class="row-fluid">
 	<fieldset class="span6 ">
-		<?php
-		$labelClass = 'success';
-		foreach ($this->phpOptions as $option) :
-			if (!$option->state)
-			{
-				$labelClass = 'important';
-				break;
-			}
-		endforeach;
-		?>
+		<?php $labelClass = 'success'; ?>
+		<?php foreach ($this->phpOptions as $option) : ?>
+			<?php if (!$option->state) : ?>
+				<?php $labelClass = 'important'; ?>
+				<?php break; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		<legend class="label label-<?php echo $labelClass;?>">
 			<h3>
-				<?php
-				echo $labelClass === 'important' ? JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED');
-				?>
-				<div class="settingstoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+				<?php echo $labelClass === 'important' ? JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_WARNING') : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS_PASSED'); ?>
+				<div class="settingstoggle" data-state="closed">
+					<?php echo JText::sprintf(
+						'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+						'<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'
+					); ?>
+				</div>
 			</h3>
 		</legend>
 		<div class="settingsInfo hidden" >
@@ -105,23 +104,22 @@ $compatibilityTypes = array(
 		</div>
 	</fieldset>
 	<fieldset class="span6 ">
-		<?php
-		$labelClass = 'success';
-		foreach ($this->phpSettings as $setting) :
-			if ($setting->state !== $setting->recommended)
-			{
-				$labelClass = 'warning';
-				break;
-			}
-		endforeach;
-		?>
-
+		<?php $labelClass = 'success'; ?>
+		<?php foreach ($this->phpSettings as $setting) : ?>
+			<?php if ($setting->state !== $setting->recommended) : ?>
+				<?php $labelClass = 'warning'; ?>
+				<?php break; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		<legend class="label label-<?php echo $labelClass;?>">
 			<h3>
-				<?php
-				echo $labelClass === 'warning' ? JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED');
-				?>
-				<div class="settingstoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+				<?php echo $labelClass === 'warning' ? JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_WARNING') : JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS_PASSED'); ?>
+				<div class="settingstoggle" data-state="closed">
+					<?php echo JText::sprintf(
+						'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+						'<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'
+					);?>
+				</div>
 			</h3>
 		</legend>
 		<div class="settingsInfo hidden" >
@@ -176,7 +174,12 @@ $compatibilityTypes = array(
 				<legend class="label <?php echo $compatibilityDisplayClass;?>">
 					<h3>
 						<?php if ($compatibilityType !== "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") : ?>
-						<div class="compatibilitytoggle" data-state="closed"><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'); ?></div>
+							<div class="compatibilitytoggle" data-state="closed">
+								<?php echo JText::sprintf(
+									'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION',
+									'<span class="icon-chevron-right large-icon" style="font-size:0.85rem"></span>'
+									); ?>
+								</div>
 						<?php endif; ?>
 						<?php echo JText::_($compatibilityType); ?>
 					</h3>
