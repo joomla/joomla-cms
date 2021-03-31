@@ -487,6 +487,7 @@
 			</fieldset>
 
 			<fieldset name="other" label="COM_CONTENT_OTHER_OPTIONS">
+
 				<field
 					name="show_item_navigation"
 					type="list"
