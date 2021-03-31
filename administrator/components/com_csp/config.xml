@@ -51,7 +51,7 @@
 			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT_URI"
 			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_URI_DESC"
 			hint="COM_CSP_CONTENTSECURITYPOLICY_REPORT_URI_HINT"
-			showon="contentsecuritypolicy:1[AND]report_enabled:1[OR]contentsecuritypolicy_mode:report"
+			showon="report_enabled:1[OR]contentsecuritypolicy_mode:report[AND]contentsecuritypolicy:1"
 			validate="url"
 		/>
 		<field
