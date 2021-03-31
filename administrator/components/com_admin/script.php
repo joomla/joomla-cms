@@ -6247,8 +6247,8 @@ class JoomlaInstallerScript
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/css',
 			// Joomla 4.0 Beta 8
-			'administrator/components/com_admin/tmpl/profile',
-			'administrator/components/com_admin/src/View/Profile',
+			'/administrator/components/com_admin/src/View/Profile',
+			'/administrator/components/com_admin/tmpl/profile',
 		);
 
 		$status['files_checked'] = $files;
