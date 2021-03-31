@@ -12,12 +12,14 @@
 
 		<field
 			name="published"
-			type="status"
+			type="list"
 			label="JSTATUS"
-			optionsFilter="*,0,1"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+			<option value="*">JALL</option>
 		</field>
 
 		<field
