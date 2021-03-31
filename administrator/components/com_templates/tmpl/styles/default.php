@@ -182,7 +182,7 @@ $wa->useStyle('com_templates.admin-styles');
 													</a>
 												<?php elseif ($item->home == '1'):?>
 													<strong class="text-success btn btn-transparent">
-														<span class="icon-check-circle icon-md mr-2" area-hidden="true"></span> <?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?>
+														<span class="icon-check-circle icon-md me-2" area-hidden="true"></span> <?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?>
 													</strong>
 												<?php elseif ($canChange):?>
 													<a href="<?php echo Route::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-secondary btn-block">
