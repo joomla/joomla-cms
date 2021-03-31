@@ -27,11 +27,6 @@ $saveOrder = $listOrder == 'a.id';
 
 $link = 'index.php?option=com_csp&view=reports&task=report.edit&id=';
 
-if (!empty($this->warningMessages)) :
-	foreach ($this->warningMessages as $warningMessage) :
-		$app->enqueueMessage($warningMessage, 'warning');
-	endforeach;
-endif;
 $user = Factory::getUser();
 
 if (!$this->state->get('params')->get('contentsecuritypolicy', 0)) :
@@ -63,6 +58,12 @@ if ($this->httpHeadersId) :
 	endif;
 
 	$app->enqueueMessage(Text::sprintf('COM_CSP_PLUGIN_MODAL_DISABLED', $link), 'error');
+endif;
+
+if (!empty($this->warningMessages)) :
+	foreach ($this->warningMessages as $warningMessage) :
+		$app->enqueueMessage($warningMessage, 'warning');
+	endforeach;
 endif;
 
 ?>
