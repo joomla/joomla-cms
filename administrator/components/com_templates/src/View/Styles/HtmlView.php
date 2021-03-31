@@ -80,17 +80,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-//		$items         = $this->get('Items');
-		$this->items   = $this->get('Items'); //[];
-//		foreach ($items as $i => $value) {
-//			if (!isset($this->items[$value->template])) {
-//				$this->items[$value->template] = [ $value ];
-//				continue;
-//			}
-//
-//			$this->items[$value->template][] = $value;
-//		}
-
+		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
 		$this->total         = $this->get('Total');

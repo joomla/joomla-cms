@@ -278,10 +278,12 @@ class StylesModel extends ListModel
 	 */
 	public function getItems()
 	{
-		$items = parent::getItems();
+		$items = [];
+		$rawItems = parent::getItems();
 
-		foreach ($items as &$item)
+		foreach ($rawItems as &$item)
 		{
+			$curTemplate = $item->template;
 
 			// Style Title
 			$item->title = trim(str_ireplace($item->template . ' - ', '', $item->title));
@@ -294,27 +296,70 @@ class StylesModel extends ListModel
 			$thumb = $basePath . '/template_thumbnail.png';
 			$preview = $basePath . '/template_preview.png';
 
+			if (!isset($items[$item->template]))
+			{
+				// xml data
+				$xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $template);
+
+				// Templates should have valid XML definition
+				if (!$xmldata)
+				{
+					continue;
+				}
+
+				$isChild     = $xmldata->get('parent', '');
+
+				// If the template is a child, we merge to the parent
+				if ($isChild !== '')
+				{
+					$curTemplate = $isChild;
+				}
+
+				$items[$curTemplate] = new \stdClass();
+				$items[$curTemplate]->templateName = $curTemplate;
+				$items[$curTemplate]->extensionId = $item->e_id;
+				$items[$curTemplate]->creationDate = $xmldata->get('creationDate', '');
+				$items[$curTemplate]->author = $xmldata->get('author', '');
+				$items[$curTemplate]->authorEmail = $xmldata->get('authorEmail', '');
+				$items[$curTemplate]->authorUrl = $xmldata->get('authorUrl', '');
+				$items[$curTemplate]->version = $xmldata->get('version', '');
+				$items[$curTemplate]->description = $xmldata->get('description', '');
+				$items[$curTemplate]->copyright = $xmldata->get('copyright', '');
+				$items[$curTemplate]->inheritable = $xmldata->get('inheritable', false);
+				$items[$curTemplate]->parent = $xmldata->get('parent', '');
+
+				$items[$curTemplate]->styles = [];
+				$items[$curTemplate]->childs = [];
+			}
+
 			if (file_exists($thumb) || file_exists($preview))
 			{
 
 				if (file_exists($thumb))
 				{
-					$item->thumbnail = $baseUrl . '/templates/' . $template . '/template_thumbnail.png';
+					$items[$curTemplate]->thumbnail = $baseUrl . '/templates/' . $template . '/template_thumbnail.png';
 				}
 
 				if (file_exists($preview))
 				{
-					$item->preview = $item->thumbnail = $baseUrl . '/templates/' . $template . '/template_preview.png';
+					$items[$curTemplate]->preview = $item->thumbnail = $baseUrl . '/templates/' . $template . '/template_preview.png';
 				}
 			}
 
-			// xml data
-			$item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $template);
 			$num = $this->updated($item->e_id);
 
 			if ($num)
 			{
 				$item->updated = $num;
+			}
+
+			if ($item->inheritable && $item->parent !== '')
+			{
+				$items[$curTemplate]->childs[] = $item;
+			}
+			else
+			{
+				$items[$curTemplate]->styles[] = $item;
 			}
 		}
 

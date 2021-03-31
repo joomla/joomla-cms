@@ -38,7 +38,7 @@ $options = [
 	?>
 	<div class="card-media">
 		<div class="template-thumbnail">
-			<img src="<?php echo str_replace('thumbnail', 'preview', $item->thumbnail); ?>?v=<?php echo $item->xmldata->get('version')?>" width="600" height="400" alt="<?php echo $item->title; ?>">
+			<img src="<?php echo str_replace('thumbnail', 'preview', $item->thumbnail); ?>?v=<?php echo $item->version; ?>" width="600" height="400" alt="<?php echo $item->templateName; ?>">
 		</div>
 	</div>
 	<?php
