@@ -67,7 +67,6 @@ class ReportsModel extends ListModel
 		// List state information.
 		parent::populateState($ordering, $direction);
 
-
 		$params = ComponentHelper::getParams('com_csp');
 		$this->setState('params', $params);
 	}
