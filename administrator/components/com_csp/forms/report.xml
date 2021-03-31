@@ -76,8 +76,8 @@
 		size="1"
 		validate="options"
 		>
-		<option value="1">JPUBLISHED</option>
-		<option value="0">JUNPUBLISHED</option>
+		<option value="1">JENABLED</option>
+		<option value="0">JDISABLED</option>
 	</field>
 
 	<field
