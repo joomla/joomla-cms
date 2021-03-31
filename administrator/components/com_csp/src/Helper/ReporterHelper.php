@@ -52,36 +52,6 @@ class ReporterHelper
 	}
 
 	/**
-	 * Check the com_csp trash to show a warning in this case
-	 *
-	 * @return  boolean  The status of the trash; Do items exists in the trash
-	 *
-	 * @since   4.0.0
-	 */
-	public static function getCspTrashStatus()
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from($db->quoteName('#__csp'))
-			->where($db->quoteName('published') . ' = ' . $db->quote('-2'));
-		$db->setQuery($query);
-
-		try
-		{
-			$result = (int) $db->loadResult();
-		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
-		}
-
-		return boolval($result);
-	}
-
-	/**
 	 * Check whether there are unsafe-inline rules published
 	 *
 	 * @return  boolean  Whether there are unsafe-inline rules published

@@ -11,6 +11,7 @@ namespace Joomla\Component\Csp\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
@@ -65,6 +66,10 @@ class ReportsModel extends ListModel
 	{
 		// List state information.
 		parent::populateState($ordering, $direction);
+
+
+		$params = ComponentHelper::getParams('com_csp');
+		$this->setState('params', $params);
 	}
 
 	/**

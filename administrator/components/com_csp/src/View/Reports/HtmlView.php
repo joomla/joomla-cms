@@ -78,6 +78,14 @@ class HtmlView extends BaseHtmlView
 	protected $httpHeadersId = 0;
 
 	/**
+	 * Warning messages displayed above the list
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $warningMessages = [];
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -94,6 +102,8 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->filterForm    = $this->get('FilterForm');
 
+		$params = $this->state->get('params');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -105,25 +115,24 @@ class HtmlView extends BaseHtmlView
 			$this->httpHeadersId = ReporterHelper::getHttpHeadersPluginId();
 		}
 
-		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'detect') === 'detect'
-			&& ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy', 0)
-			&& ReporterHelper::getCspTrashStatus())
+		if ($params->get('contentsecuritypolicy_mode', 'report') === 'report'
+			&& $params->get('contentsecuritypolicy', 0))
 		{
-			$this->trashWarningMessage = Text::_('COM_CSP_COLLECTING_TRASH_WARNING');
+			$this->warningMessages[] = Text::_('COM_CSP_REPORT_MODE_WARNING');
 		}
 
-		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'detect') === 'auto'
-			&& ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy', 0)
+		if ($params->get('contentsecuritypolicy_mode', 'report') !== 'report'
+			&& $params->get('contentsecuritypolicy', 0)
 			&& ReporterHelper::getCspUnsafeInlineStatus())
 		{
-			$this->unsafeInlineWarningMessage = Text::_('COM_CSP_AUTO_UNSAFE_INLINE_WARNING');
+			$this->warningMessages[] = Text::_('COM_CSP_AUTO_UNSAFE_INLINE_WARNING');
 		}
 
-		if (ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy_mode', 'detect') === 'auto'
-			&& ComponentHelper::getParams('com_csp')->get('contentsecuritypolicy', 0)
+		if ($params->get('contentsecuritypolicy_mode', 'report') !== 'report'
+			&& $params->get('contentsecuritypolicy', 0)
 			&& ReporterHelper::getCspUnsafeEvalStatus())
 		{
-			$this->unsafeEvalWarningMessage = Text::_('COM_CSP_AUTO_UNSAFE_EVAL_WARNING');
+			$this->warningMessages[] = Text::_('COM_CSP_AUTO_UNSAFE_EVAL_WARNING');
 		}
 
 		$this->addToolbar();

@@ -13,10 +13,12 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
+$app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -24,6 +26,44 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.id';
 
 $link = 'index.php?option=com_csp&view=reports&task=report.edit&id=';
+
+if (!empty($this->warningMessages)) :
+	foreach ($this->warningMessages as $warningMessage) :
+		$app->enqueueMessage($warningMessage, 'warning');
+	endforeach;
+endif;
+$user = Factory::getUser();
+
+if (!$this->state->get('params')->get('contentsecuritypolicy', 0)) :
+	$link = '';
+
+	if ($user->authorise('core.admin', 'com_csp') || $user->authorise('core.options', 'com_csp')) :
+		$link = HTMLHelper::_(
+			'link',
+			Route::_('index.php?option=com_config&view=component&component=com_csp'),
+			Text::_('JLIB_HTML_PUBLISH_ITEM'),
+			['class' => 'alert-link']
+		);
+	endif;
+
+	$app->enqueueMessage(Text::sprintf('COM_CSP_CONTENTSECURITYPOLICY_DISABLED', $link), 'error');
+endif;
+
+// Show messages about the plugin when it is disabled
+if ($this->httpHeadersId) :
+	$link = '<strong class="alert-link">' . Text::_('COM_CSP_SYSTEM_PLUGIN') . '</strong>';
+
+	if ($user->authorise('core.edit', 'com_plugins')) :
+		$link = HTMLHelper::_(
+			'link',
+			'#plugin' . $this->httpHeadersId . 'Modal',
+			Text::_('COM_CSP_SYSTEM_PLUGIN'),
+			'class="alert-link" data-bs-toggle="modal" id="title-' . $this->httpHeadersId . '"'
+		);
+	endif;
+
+	$app->enqueueMessage(Text::sprintf('COM_CSP_PLUGIN_MODAL_DISABLED', $link), 'error');
+endif;
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_csp&view=reports'); ?>" method="post" name="adminForm" id="adminForm">
@@ -55,15 +95,6 @@ $link = 'index.php?option=com_csp&view=reports&task=report.edit&id=';
 								. Text::_("JAPPLY") . '</button>'
 						)
 					); ?>
-				<?php endif; ?>
-				<?php if (isset($this->trashWarningMessage)) : ?>
-					<?php Factory::getApplication()->enqueueMessage($this->trashWarningMessage, 'warning'); ?>
-				<?php endif; ?>
-				<?php if (isset($this->unsafeInlineWarningMessage)) : ?>
-					<?php Factory::getApplication()->enqueueMessage($this->unsafeInlineWarningMessage, 'warning'); ?>
-				<?php endif; ?>
-				<?php if (isset($this->unsafeEvalWarningMessage)) : ?>
-					<?php Factory::getApplication()->enqueueMessage($this->unsafeEvalWarningMessage, 'warning'); ?>
 				<?php endif; ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
