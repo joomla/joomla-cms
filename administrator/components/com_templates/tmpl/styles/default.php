@@ -28,15 +28,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 $wa->useStyle('com_templates.admin-styles');
 ?>
-<style>
-	.template-thumbnail > img {
-		width: 100%;
-		height: auto;
-	}
-	.card-header-right .dropdown {
-		display: inline;
-	}
-</style>
 <form action="<?php echo Route::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
@@ -106,6 +97,11 @@ $wa->useStyle('com_templates.admin-styles');
 												</div>
 												<?php if ($clientId === 0) : ?>
 												<a href="<?php echo Route::_( Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id); ?>" target="_blank" class="card-header-icon" title="<?php echo Text::_('COM_TEMPLATES_PREVIEW'); ?>">
+													<span class="icon-eye-open icon-md" area-hidden="true"></span>
+												</a>
+												<?php endif; ?>
+												<?php if ($clientId === 0) : ?>
+												<a href="<?php echo Route::_( Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id); ?>" target="_blank" class="card-header-icon" title="<?php echo Text::_('COM_TEMPLATES_PREVIEW'); ?>">
 													<span class="icon-eye-open icon-md" aria-hidden="true"></span>
 												</a>
 												<?php endif; ?>
@@ -148,7 +144,9 @@ $wa->useStyle('com_templates.admin-styles');
 
 											<div class="list-group-item">
 												<div class="d-flex">
+													<div class="mr-auto">
 													<?php if($canCreate  || $canDelete) : ?>
+													<div class="mr-auto">
 													<div class="me-auto">
 														<?php if($canCreate) : ?>
 														<a class="btn btn-link" href="javascript:void(0);" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>', 'styles.duplicate')">
@@ -161,8 +159,14 @@ $wa->useStyle('com_templates.admin-styles');
 															<span class="icon-trash" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_STYLE_DELETE'); ?>"></span>
 														</a>
 														<?php endif; ?>
+
+														<?php endif; ?>
+														<?php if ($clientId === 0) : ?>
+															<a href="<?php echo Route::_( Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id); ?>" target="_blank" class="card-header-icon" title="<?php echo Text::_('COM_TEMPLATES_PREVIEW'); ?>">
+																<span class="icon-eye-open icon-md" area-hidden="true"></span>
+															</a>
+														<?php endif; ?>
 													</div>
-													<?php endif; ?>
 
 													<div>
 														<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>" class="btn btn-link">
