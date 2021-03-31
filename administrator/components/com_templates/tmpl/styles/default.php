@@ -74,7 +74,7 @@ $wa->useStyle('com_templates.admin-styles');
 														<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $this->escape($item->language_title))), true); ?>
 													</span>
 												<?php elseif ($item->assigned > 0) : ?>
-													<span class="ml-2">
+													<span class="ms-2">
 														<span class="icon-batch duotone" area-hidden="true" title="<?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_SELECTED', $this->escape($item->assigned)); ?>"></span>
 													</span>
 												<?php endif; ?>
