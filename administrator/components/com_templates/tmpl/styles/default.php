@@ -106,7 +106,7 @@ $wa->useStyle('com_templates.admin-styles');
 												</div>
 												<?php if ($clientId === 0) : ?>
 												<a href="<?php echo Route::_( Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id); ?>" target="_blank" class="card-header-icon" title="<?php echo Text::_('COM_TEMPLATES_PREVIEW'); ?>">
-													<span class="icon-eye-open icon-md" area-hidden="true"></span>
+													<span class="icon-eye-open icon-md" aria-hidden="true"></span>
 												</a>
 												<?php endif; ?>
 											</div>
