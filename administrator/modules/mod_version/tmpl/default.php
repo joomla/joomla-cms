@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 		<div class="header-item-icon">
 			<span class="icon-joomla" aria-hidden="true"></span>
 		</div>
-		<div class="header-item-text mx-auto">
+		<div class="header-item-text mx-auto no-link">
 			<span class="visually-hidden"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_TEXT', $version); ?></span>
 			<span aria-hidden="true"><?php echo $version; ?></span>
 		</div>

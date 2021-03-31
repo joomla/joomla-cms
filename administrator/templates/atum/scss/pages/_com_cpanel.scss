@@ -74,11 +74,6 @@
   }
 
   .card {
-    background-color: rgba(255,255,255);
-
-    p:first-of-type {
-      margin-top: 0;
-    }
 
     p:last-child {
       margin-bottom: 0;
@@ -166,23 +161,33 @@
 }
 
 .cpanel-modules {
-  .list-group-item:hover {
-    background: var(--toolbar-bg);
+  .list-group {
+    border-top: 1px solid $list-group-border-color;
+    
+    &:not(.sample-data) {    
+      font-size: .95rem;
+    }
   }
 
-  .list-group-item a > span {
-    &[class^="#{$jicon-css-prefix}-"],
-    &[class*=" #{$jicon-css-prefix}-"],
-    &[class^="#{$fa-css-prefix}-"],
-    &[class*=" #{$fa-css-prefix}-"] {
-      display: block;
-      padding: .5rem;
-      color: rgba(255, 255, 255, .9);
-      background: var(--atum-link-color);
-      box-shadow: $atum-box-shadow;
-
-      &:hover {
-        background: var(--atum-link-hover-color);
+  .list-group-item {
+    &:hover {
+      background: var(--toolbar-bg);
+    }
+  
+    .list-group-item a > span {
+      &[class^="#{$jicon-css-prefix}-"],
+      &[class*=" #{$jicon-css-prefix}-"],
+      &[class^="#{$fa-css-prefix}-"],
+      &[class*=" #{$fa-css-prefix}-"] {
+        display: block;
+        padding: .5rem;
+        color: rgba(255, 255, 255, .9);
+        background: var(--atum-link-color);
+        box-shadow: $atum-box-shadow;
+  
+        &:hover {
+          background: var(--atum-link-hover-color);
+        }
       }
     }
   }

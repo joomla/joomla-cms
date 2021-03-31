@@ -128,6 +128,7 @@ $h3-font-size:                     1.25rem;
 $h4-font-size:                     1rem;
 $h5-font-size:                     .9286rem;
 $h6-font-size:                     .8571rem;
+$headings-color:                    var(--atum-bg-dark);
 $font-size-sm:                     .8rem;
 $font-size-vsm:                    .6rem;
 $display1-size:                    1rem;
@@ -225,6 +226,7 @@ $treeselect-indent:                40px;
 
 // List
 $list-group-bg:                    var(--white-offset);
+$list-group-border-color:          hsl(var(--hue),40%,85%);
 
 // Buttons
 $input-btn-padding-y-sm-submenu:    0;
@@ -262,7 +264,7 @@ $quickicon-icon-size:              2rem;
 $quickicon-icon-size-sm:           1.3rem;
 
 // Gutter
-$grid-gutter-width:                4rem;
+$grid-gutter-width:                2rem;
 $grid-gutter-width-s:              15px;
 
 // Breadcrumbs
@@ -287,8 +289,3 @@ $zindex-tooltip:                   1070;
 $zindex-mobile-bottom:             8000;
 $zindex-mobile-toggle:             9999;
 $zindex-mobile-menu:               9000;
-
-
-:root {
-  --box-shadow: $atum-box-shadow;
-}

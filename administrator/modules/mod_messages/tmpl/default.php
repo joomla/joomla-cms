@@ -21,14 +21,16 @@ $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()
 <div class="header-item-content">
 	<a class="d-flex align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_($route) . '"'); ?> title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
 		<div class="header-item-icon">
+		<div class="w-auto">
 			<span class="icon-envelope" aria-hidden="true"></span>
+				<?php if ($countUnread > 0) : ?>
+					<small class="header-item-count"><?php echo $countUnread; ?></small>
+				<?php endif; ?>
+			</div>
 		</div>
 		<div class="header-item-text">
 			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
 		</div>
-		<?php if ($countUnread > 0) : ?>
-			<span class="badge bg-danger"><?php echo $countUnread; ?></span>
-		<?php endif; ?>
 	</a>
 </div>
 

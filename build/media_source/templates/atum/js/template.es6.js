@@ -131,7 +131,7 @@
     if (headerItemsWidth > headerWrapperWidth) {
       if (!doc.querySelector('#header-more-items')) {
         const headerMoreItem = document.createElement('div');
-        headerMoreItem.className = 'header-item header-item-more d-flex';
+        headerMoreItem.className = 'header-item-more d-flex';
         headerMoreItem.id = 'header-more-items';
         const headerItemContent = document.createElement('div');
         headerItemContent.className = 'header-item-content header-more d-flex';
@@ -143,7 +143,7 @@
         spanFa.className = 'icon-ellipsis-h';
         spanFa.setAttribute('aria-hidden', 'true');
         const headerMoreMenu = document.createElement('div');
-        headerMoreMenu.className = 'header-more-menu d-flex flex-wrap';
+        headerMoreMenu.className = 'header-more-menu';
 
         headerMoreBtn.appendChild(spanFa);
         headerItemContent.appendChild(headerMoreBtn);

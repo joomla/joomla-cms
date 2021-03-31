@@ -2,8 +2,12 @@
 .media-container {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 1rem;
   margin-right: -($col-gutter-width / 2);
   margin-left: -($col-gutter-width / 2);
+  background-color: #fff;
+  border-radius: $border-radius;
+  box-shadow: $col-box-shadow;
 }
 
 .media-col-main-panel {
@@ -33,17 +37,12 @@
 
 .media-main {
   position: relative;
-  height: calc(100vh - 160px);
+  flex: 1 0;
   overflow: hidden;
-  background-color: #fff;
-  border: 1px solid $border-color;
-  border-radius: $border-radius;
-  box-shadow: $col-box-shadow;
 }
 
 .media-sidebar {
-  height: calc(100vh - 160px);
-  padding-right: 2em;
-  padding-left: 1em;
+  flex-basis: 280px;
+  padding: 1rem;
   overflow-y: auto;
 }
