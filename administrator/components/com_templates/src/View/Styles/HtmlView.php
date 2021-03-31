@@ -80,7 +80,17 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->items         = $this->get('Items');
+//		$items         = $this->get('Items');
+		$this->items   = $this->get('Items'); //[];
+//		foreach ($items as $i => $value) {
+//			if (!isset($this->items[$value->template])) {
+//				$this->items[$value->template] = [ $value ];
+//				continue;
+//			}
+//
+//			$this->items[$value->template][] = $value;
+//		}
+
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
 		$this->total         = $this->get('Total');
@@ -129,42 +139,6 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'brush');
 		}
-
-		// batch actions
-		if ($canDo->get('core.create') || $canDo->get('core.delete') || $canDo->get('core.edit.state'))
-		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('icon-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
-
-			$childBar = $dropdown->getChildToolbar();
-
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->standardButton('star')
-					->text('COM_TEMPLATES_TOOLBAR_SET_HOME')
-					->task('styles.setDefault')
-					->listCheck(true);
-			}
-
-			if ($canDo->get('core.create'))
-			{
-				$childBar->standardButton('copy')
-					->text('JTOOLBAR_DUPLICATE')
-					->task('styles.duplicate')
-					->listCheck(true);
-			}
-
-			if ($canDo->get('core.delete'))
-			{
-				$childBar->delete('styles.delete')->message('JGLOBAL_CONFIRM_DELETE')->listCheck(true);
-			}
-		}
-
-		ToolbarHelper::divider();
 
 		// Install new template
 		ToolbarHelper::modal('ModalInstallTemplate', 'icon-arrow-down-2', 'JTOOLBAR_INSTALL_TEMPLATE');

@@ -128,26 +128,62 @@ class StylesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.template, a.title, a.home, a.client_id, l.title AS language_title, l.image as image, l.sef AS language_sef'
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.template'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.home'),
+					$db->quoteName('a.client_id'),
+					$db->quoteName('a.inheritable'),
+					$db->quoteName('a.parent'),
+					$db->quoteName('l.title', 'language_title'),
+					$db->quoteName('l.image'),
+					$db->quoteName('l.sef', 'language_sef'),
+				]
 			)
-		);
-		$query->from($db->quoteName('#__template_styles', 'a'))
+		)
+			->select(
+				[
+					'COUNT(' . $db->quoteName('m.template_style_id') . ') AS assigned',
+					$db->quoteName('extension_id', 'e_id'),
+				]
+			)
+			->from($db->quoteName('#__template_styles', 'a'))
 			->where($db->quoteName('a.client_id') . ' = :clientid')
 			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Join on menus.
-		$query->select('COUNT(' . $db->quoteName('m.template_style_id') . ') AS assigned')
-			->join('LEFT', $db->quoteName('#__menu', 'm') . ' ON ' . $db->quoteName('m.template_style_id') . ' = ' . $db->quoteName('a.id'))
-			->group($db->quoteName(['a.id', 'a.template', 'a.title', 'a.home', 'a.client_id', 'l.title', 'l.image', 'l.sef', 'e.extension_id']));
+		$query->join('LEFT', $db->quoteName('#__menu', 'm'), $db->quoteName('m.template_style_id') . ' = ' . $db->quoteName('a.id'))
+			->group(
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.template'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.home'),
+					$db->quoteName('a.parent'),
+					$db->quoteName('l.title'),
+					$db->quoteName('l.image'),
+					$db->quoteName('l.sef'),
+					$db->quoteName('e.extension_id'),
+				]
+			);
 
 		// Join over the language.
-		$query->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.home'));
+		$query->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.home'));
 
 		// Filter by extension enabled.
-		$query->select($db->quoteName('extension_id', 'e_id'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON e.element = a.template AND e.client_id = a.client_id')
-			->where($db->quoteName('e.enabled') . ' = 1')
-			->where($db->quoteName('e.type') . ' = ' . $db->quote('template'));
+		$query->join(
+			'LEFT',
+			$db->quoteName('#__extensions', 'e'),
+			$db->quoteName('e.element') . ' = ' . $db->quoteName('a.template')
+			. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('a.client_id')
+		)
+			->where(
+				[
+					$db->quoteName('e.enabled') . ' = 1',
+					$db->quoteName('e.type') . ' = ' . $db->quote('template'),
+				]
+			);
 
 		// Filter by template.
 		if ($template = $this->getState('filter.template'))
@@ -165,8 +201,12 @@ class StylesModel extends ListModel
 			if ((int) $menuItemId === -1)
 			{
 				// Only custom template styles overrides not assigned to any menu item.
-				$query->where($db->quoteName('a.home') . ' = ' . $db->quote(0))
-					->where($db->quoteName('m.id') . ' IS NULL');
+				$query->where(
+					[
+						$db->quoteName('a.home') . ' = ' . $db->quote('0'),
+						$db->quoteName('m.id') . ' IS NULL',
+					]
+				);
 			}
 			// If user selected the templates styles assigned to particular pages.
 			else
@@ -176,8 +216,8 @@ class StylesModel extends ListModel
 				$menuItemLanguageSubQuery = $db->getQuery(true);
 				$menuItemLanguageSubQuery->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('id') . ' = :menuitemid')
-					->bind(':menuiteid', $menuItemId, ParameterType::INTEGER);
+					->where($db->quoteName('id') . ' = :menuitemid');
+				$query->bind(':menuitemid', $menuItemId, ParameterType::INTEGER);
 
 				// Subquery to get the language of the selected menu item.
 				$templateStylesMenuItemsSubQuery = $db->getQuery(true);
@@ -188,11 +228,11 @@ class StylesModel extends ListModel
 				// Main query where clause.
 				$query->where('(' .
 					// Default template style (fallback template style to all menu items).
-					$db->quoteName('a.home') . ' = ' . $db->quote(1) . ' OR ' .
+					$db->quoteName('a.home') . ' = ' . $db->quote('1') . ' OR ' .
 					// Default template style for specific language (fallback template style to the selected menu item language).
 					$db->quoteName('a.home') . ' IN (' . $menuItemLanguageSubQuery . ') OR ' .
 					// Custom template styles override (only if assigned to the selected menu item).
-					'(' . $db->quoteName('a.home') . ' = ' . $db->quote(0) . ' AND ' . $menuItemId . ' IN (' . $templateStylesMenuItemsSubQuery . '))' .
+					'(' . $db->quoteName('a.home') . ' = ' . $db->quote('0') . ' AND ' . $menuItemId . ' IN (' . $templateStylesMenuItemsSubQuery . '))' .
 					')'
 				);
 			}
@@ -209,9 +249,15 @@ class StylesModel extends ListModel
 			}
 			else
 			{
-				$search = '%' . strtolower($search) . '%';
-				$query->where('LOWER(' . $db->quoteName('a.template') . ') LIKE :template')
-					->orWhere('LOWER(' . $db->quoteName('a.title') . ') LIKE :title')
+				$search = '%' . StringHelper::strtolower($search) . '%';
+				$query->extendWhere(
+					'AND',
+					[
+						'LOWER(' . $db->quoteName('a.template') . ') LIKE :template',
+						'LOWER(' . $db->quoteName('a.title') . ') LIKE :title',
+					],
+					'OR'
+				)
 					->bind(':template', $search)
 					->bind(':title', $search);
 			}
@@ -258,7 +304,7 @@ class StylesModel extends ListModel
 
 				if (file_exists($preview))
 				{
-					$item->preview = $item->thumbnail = $baseUrl . '/templates/' . $template . '/template_thumbnail.png';
+					$item->preview = $item->thumbnail = $baseUrl . '/templates/' . $template . '/template_preview.png';
 				}
 			}
 
