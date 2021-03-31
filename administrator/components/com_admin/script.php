@@ -5053,9 +5053,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/postinstall/htaccess.php',
 			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 			'/administrator/components/com_admin/src/Controller/ProfileController.php',
+			'/administrator/components/com_admin/src/Model/ProfileModel.php',
 			'/administrator/components/com_admin/src/View/Profile/HtmlView.php',
 			'/administrator/components/com_admin/tmpl/profile/edit.php',
-			'administrator/components/com_admin/src/Model/ProfileModel.php',
 		);
 
 		$folders = array(
