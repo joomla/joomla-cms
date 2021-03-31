@@ -486,7 +486,10 @@
 				</field>
 			</fieldset>
 
-			<fieldset name="other" label="COM_CONTENT_OTHER_OPTIONS">
+			<fieldset name="other" label="COM_CONTENT_OTHER_OPTIONS"
+				addfieldprefix="Joomla\Component\Content\Administrator\Field"
+			>
+
 				<field
 					name="show_item_navigation"
 					type="list"
@@ -500,7 +503,7 @@
 
 				<field
 					name="show_vote"
-					type="list"
+					type="votelist"
 					label="JGLOBAL_SHOW_VOTE_LABEL"
 					useglobal="true"
 					validate="options"
