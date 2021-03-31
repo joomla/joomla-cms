@@ -19,18 +19,18 @@ extract($displayData);
 <div class="card-header d-flex flex-row align-items-center">
 	<h4 class="card-title flex-grow-1 align-self-center">
 		<?php if ($canEdit) : ?>
-			<a class="ms-1" href="<?php echo Route::_('index.php?option=com_templates&task=template.edit&id=' . (int) $item->e_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $item->title; ?>">
-				<?php echo ucfirst($this->escape($item->template)); ?>
+			<a class="ms-1" href="<?php echo Route::_('index.php?option=com_templates&task=template.edit&id=' . (int) $item->extensionId); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $item->templateName; ?>">
+				<?php echo ucfirst($this->escape($item->templateName)); ?>
 			</a>
 		<?php else : ?>
-			<?php echo ucfirst($this->escape($item->template)); ?>
+			<?php echo ucfirst($this->escape($item->templateName)); ?>
 		<?php endif; ?>
-		<?php if ($version = $item->xmldata->get('version')) : ?>
+		<?php if ($version = $item->version) : ?>
 			<small class="template-version small text-muted ms-1">v<?php echo $this->escape($version); ?></small>
 		<?php endif; ?>
 	</h4>
 	<div class="card-header-right">
-		<?php if (!$item->xmldata->get('inheritable') || !$item->xmldata->get('parent')) : ?>
+		<?php if (!$item->inheritable || !$item->parent) : ?>
 			<small class="small text-muted ms-2"><?php echo Text::_('COM_TEMPLATES_LEGACY'); ?></small>
 		<?php endif; ?>
 		<div class="dropdown">
@@ -40,16 +40,25 @@ extract($displayData);
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="template-info-<?php echo $item->id; ?>">
 				<li class="list-group-item">
-					<span class="text-muted"><?php echo Text::_('COM_TEMPLATES_CREATED'); ?>: </span> <?php echo $this->escape($item->xmldata->get('creationDate')); ?>
+					<span class="text-muted"><?php echo Text::_('COM_TEMPLATES_CREATED'); ?>: </span> <?php echo $this->escape($item->creationDate); ?>
 				</li>
 
-				<?php if ($author = $item->xmldata->get('author')) : ?>
+				<?php if ($author = $item->author) : ?>
 					<li class="list-group-item">
 						<span class="text-muted"><?php echo Text::_('COM_TEMPLATES_AUTHOR'); ?>: </span><?php echo $this->escape($author); ?>
 					</li>
 				<?php endif; ?>
 
-				<?php if ($email = $item->xmldata->get('authorEmail')) : ?>
+				<?php if ($email = $item->authorEmail) : ?>
+					<li class="list-group-item">
+						<span class="text-muted"><?php echo Text::_('COM_TEMPLATES_AUTHOR_EMAIL'); ?>: </span>
+						<a href="mailto: <?php echo $this->escape($email); ?>">
+							 <?php echo $this->escape($email); ?>
+						</a>
+					</li>
+				<?php endif; ?>
+
+				<?php if ($email = $item->authorUrl) : ?>
 					<li class="list-group-item">
 						<span class="text-muted"><?php echo Text::_('COM_TEMPLATES_AUTHOR_EMAIL'); ?>: </span> <?php echo $this->escape($email); ?>
 					</li>

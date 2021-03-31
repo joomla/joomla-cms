@@ -82,18 +82,21 @@ $wa->useStyle('com_templates.admin-styles');
 
 <!-- Load template install modal  -->
 <?php
-echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'ModalInstallTemplate',
-	array(
-			'title'       => Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'),
-			'height'      => '75vh',
-			'width'       => '85vw',
-			'bodyHeight'  => 60,
-			'modalWidth'  => 80,
-			'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-					. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-	),
-	$this->loadTemplate('modal_install')
-);
+if ($canCreate)
+{
+	echo HTMLHelper::_(
+			'bootstrap.renderModal',
+			'ModalInstallTemplate',
+			array(
+					'title'       => Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'),
+					'height'      => '75vh',
+					'width'       => '85vw',
+					'bodyHeight'  => 60,
+					'modalWidth'  => 80,
+					'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+			),
+			$this->loadTemplate('modal_install')
+	);
+}
 ?>
