@@ -260,8 +260,8 @@
 				useglobal="true"
 				showon="blog_style:3"
 				>
-				<option value="0">JGLOBAL_DOWN</option>
-				<option value="1">JGLOBAL_ACROSS</option>
+				<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
+				<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
 			</field>
 
 			<field
