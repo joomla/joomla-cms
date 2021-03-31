@@ -200,7 +200,7 @@ defined('_JEXEC') or die;
 								</td>
 								<td>
 									<?php $authorURL = ''; ?>
-									<?php if (isset($nonCoreCriticalPlugin->manifest_cache->authorUrl)) :  ?>
+									<?php if (isset($nonCoreCriticalPlugin->manifest_cache->authorUrl)) : ?>
 										<?php $authorURL = $nonCoreCriticalPlugin->manifest_cache->authorUrl; ?>
 									<?php elseif ($nonCoreCriticalPlugin->package_id > 0) : ?>
 										<?php foreach ($this->nonCoreExtensions as $nonCoreExtension) : ?>
