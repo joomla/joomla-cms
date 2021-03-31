@@ -149,7 +149,7 @@ $wa->useStyle('com_templates.admin-styles');
 											<div class="list-group-item">
 												<div class="d-flex">
 													<?php if($canCreate  || $canDelete) : ?>
-													<div class="mr-auto">
+													<div class="me-auto">
 														<?php if($canCreate) : ?>
 														<a class="btn btn-link" href="javascript:void(0);" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>', 'styles.duplicate')">
 															<span class="icon-copy" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_STYLE_DUPLICATE'); ?>"></span>
