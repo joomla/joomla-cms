@@ -70,7 +70,7 @@ $wa->useStyle('com_templates.admin-styles');
 													<span class="template-version small text-muted ml-2">v<?php echo $this->escape($version); ?></span>
 												<?php endif; ?>
 												<?php if (($item->home != '0' && $item->home != '1') &&  $item->image):?>
-													<span class="ml-2">
+													<span class="ms-2">
 														<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $this->escape($item->language_title))), true); ?>
 													</span>
 												<?php elseif ($item->assigned > 0) : ?>
