@@ -4,3 +4,30 @@
 [submodule "administrator/components/com_whi"]
 	path = administrator/components/com_whi
 	url = git@github.com:PM84/com_whi_admin.git
+[submodule "administrator/components/com_rssfactory"]
+	path = administrator/components/com_rssfactory
+	url = https://github.com/PM84/rss_factory_component_admin.git
+[submodule "components/com_rssfactory"]
+	path = components/com_rssfactory
+	url = https://github.com/PM84/rss_factory_component_site.git
+[submodule "modules/mod_rssfactory"]
+	path = modules/mod_rssfactory
+	url = https://github.com/PM84/rss_factory_modules_site_rssfactory.git
+[submodule "modules/mod_rssfactory_categories"]
+	path = modules/mod_rssfactory_categories
+	url = https://github.com/PM84/rss_factory_modules_site_rssfactory_categories.git
+[submodule "plugins/content/rssfactory"]
+	path = plugins/content/rssfactory
+	url = https://github.com/PM84/rss_factory_plugin_content.git
+[submodule "plugins/finder/rssfactory"]
+	path = plugins/finder/rssfactory
+	url = https://github.com/PM84/rss_factory_plugin_finder.git
+[submodule "plugins/system/rssfactory"]
+	path = plugins/system/rssfactory
+	url = https://github.com/PM84/rss_factory_plugin_system.git
+[submodule "plugins/search/rssfactory"]
+	path = plugins/search/rssfactory
+	url = https://github.com/PM84/rss_factory_plugin_search.git
+[submodule "media/com_rssfactory"]
+	path = media/com_rssfactory
+	url = https://github.com/PM84/rss_factory_component_media.git
