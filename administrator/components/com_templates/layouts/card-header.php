@@ -34,11 +34,11 @@ extract($displayData);
 			<small class="small text-muted ms-2"><?php echo Text::_('COM_TEMPLATES_LEGACY'); ?></small>
 		<?php endif; ?>
 		<div class="dropdown">
-			<button class="btn btn-link dropdown-toggle" type="button" id="template-info-<?php echo $item->id; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+			<button class="btn btn-link dropdown-toggle" type="button" id="template-info-<?php echo (int) $item->extensionId; ?>" data-bs-toggle="dropdown" aria-expanded="false">
 				<span class="icon-info-circle" aria-hidden="true"></span>
 				<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_PREVIEW'); ?></span>
 			</button>
-			<ul class="dropdown-menu" aria-labelledby="template-info-<?php echo $item->id; ?>">
+			<ul class="dropdown-menu" aria-labelledby="template-info-<?php echo (int) $item->extensionId; ?>">
 				<li class="list-group-item">
 					<span class="text-muted"><?php echo Text::_('COM_TEMPLATES_CREATED'); ?>: </span> <?php echo $this->escape($item->creationDate); ?>
 				</li>

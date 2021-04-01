@@ -17,74 +17,91 @@ use Joomla\CMS\Session\Session;
 
 extract($displayData);
 ?>
-<div class="card-footer d-flex align-items-center p-1">
-	<div class="list-group">
-		<?php foreach ($item->styles as $style) : ?>
-			<div class="d-flex">
-				<div class="ms-auto">
-					<?php if($canCreate  || $canDelete) : ?>
-						<?php if($canCreate) : ?>
-							<button class="btn btn-link" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>', 'styles.duplicate')">
-								<span class="icon-copy" aria-hidden="true"></span>
-								<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_STYLE_DUPLICATE'); ?></span>
-							</button>
-						<?php endif; ?>
-
-						<?php if($canDelete) : ?>
-							<button class="btn btn-link" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>', 'styles.delete')">
-								<span class="icon-trash" aria-hidden="true"></span>
-								<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_STYLE_DELETE'); ?></span>
-							</button>
-						<?php endif; ?>
-
-					<?php endif; ?>
-					<?php if ($clientId === 0) : ?>
-						<a href="<?php echo Route::_( Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $style->id); ?>" target="_blank" class="card-header-icon">
-							<span class="icon-eye-open icon-md" area-hidden="true"></span>
-							<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_PREVIEW'); ?></span>
-						</a>
-					<?php endif; ?>
-				</div>
-
-				<div>
-					<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $style->e_id); ?>" class="btn btn-link">
-						<?php echo Text::_('COM_TEMPLATES_TEMPLATE_EDIT_FILES'); ?>
-					</a>
-					<a href="<?php echo Route::_('index.php?option=com_templates&task=style.edit&id=' . (int) $style->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $style->title; ?>" class="btn btn-link ml-3">
-						<span class="icon-options-cog" area-hidden="true"></span> <?php echo Text::_('COM_TEMPLATES_STYLE_EDIT'); ?>
-					</a>
-				</div>
-			</div>
-
-
-		<?php if ($style->home == '0') : ?>
-			<a href="javascript:void(0);" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','styles.setDefault')" class="btn btn-secondary btn-block">
-				<span class="icon-star" area-hidden="true"></span> <?php echo Text::_('COM_TEMPLATES_STYLE_SET_DEFAULT'); ?>
+<div class="card-footer">
+	<h3>Styles:</h3>
+	<?php foreach ($item->styles as $style) : ?>
+	<div class="list-group d-flex">
+		<div class="d-flex justify-content-between">
+			<a href="<?php echo Route::_('index.php?option=com_templates&task=style.edit&id=' . (int) $style->id); ?>" class="btn btn-link">
+				<?php echo $style->title; ?>
 			</a>
-		<?php elseif ($style->home == '1'):?>
-			<strong class="text-success btn btn-transparent">
-				<span class="icon-check-circle icon-md me-2" area-hidden="true"></span> <?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?>
-			</strong>
-		<?php elseif ($canChange):?>
-			<a href="<?php echo Route::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-secondary btn-block">
-				<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $style->language_title); ?>
-			</a>
-		<?php else : ?>
+
+			<div>
+			<?php if ($style->home == '0') : ?>
+				<button class="btn btn-link" data-task="styles.setDefault" data-item="<?php echo (int) $style->id; ?>">
+					<span class="icon-star me-2" area-hidden="true"></span>
+					<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?></span>
+				</button>
+			<?php elseif ($style->home == '1'):?>
+				<strong class="text-success btn btn-transparent">
+					<span class="icon-star icon-md me-2" area-hidden="true"></span>
+					<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?></span>
+				</strong>
+			<?php elseif ($canChange):?>
+				<a href="<?php echo Route::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
+					<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $style->language_title); ?>
+				</a>
+			<?php else : ?>
 			<span class="btn btn-transparent">
-					<?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $this->escape($style->language_title)); ?>
-				</span>
-		<?php endif; ?>
-		<?php if (((int) $style->home !== 0 && (int) $style->home !== 1) && $style->image):?>
-			<small class="ms-2">
-				<?php echo HTMLHelper::_('image', 'mod_languages/' . $style->image . '.gif', $style->language_title, array('title' => Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $style->language_title)), true); ?>
-			</small>
-		<?php elseif ((int) $style->home === 1) :  // $style->assigned > 0?>
-			<small class="ms-2">
-				<span class="icon-check-circle" area-hidden="true"></span>
-				<span class="visually-hidden"><?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_SELECTED', $style->assigned); ?></span>
-			</small>
-		<?php endif; ?>
-		<?php endforeach; ?>
+				<?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $this->escape($style->language_title)); ?>
+			</span>
+			<?php endif; ?>
+			<?php if (((int) $style->home !== 0 && (int) $style->home !== 1) && $style->image):?>
+				<small class="ms-2">
+					<?php echo HTMLHelper::_('image', 'mod_languages/' . $style->image . '.gif', $style->language_title, array('title' => Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $style->language_title)), true); ?>
+				</small>
+			<?php elseif ((int) $style->assigned > 0) :  // $style->assigned > 0?>
+				<small class="ms-2">
+					<span class="icon-check-circle" area-hidden="true"></span>
+					<span class="visually-hidden"><?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_SELECTED', $style->assigned); ?></span>
+				</small>
+			<?php endif; ?>
+
+			<?php if ($clientId === 0) : // Preview ?>
+				<a href="<?php echo Route::_( Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $style->id); ?>" target="_blank" class="btn btn-link">
+					<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_PREVIEW'); ?></span>
+				</a>
+			<?php endif; ?>
+			<?php if($canCreate  || $canDelete) : ?>
+				<div class="dropdown d-inline-block">
+					<button class="btn btn-link dropdown-toggle" type="button" id="dropdown-<?php echo $style->title; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+						<?php echo Text::_('JTOOLBAR_CHANGE_STATUS'); ?>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdown-<?php echo $style->title; ?>">
+						<li>
+							<a href="<?php echo Route::_('index.php?option=com_templates&task=style.edit&id=' . (int) $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
+								<span class="icon-pencil" aria-hidden="true"></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_STYLE_EDIT'); ?></span>
+							</a>
+						</li>
+						<?php if($canCreate) : ?>
+						<li>
+							<a href="<?php echo Route::_('index.php?option=com_templates&layout=edit&task=style.duplicate&id=' . (int) $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
+								<span class="icon-copy" aria-hidden="true"></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_STYLE_DUPLICATE'); ?></span>
+							</a>
+						</li>
+						<?php endif; ?>
+						<?php if($canDelete) : ?>
+						<li>
+							<a href="<?php echo Route::_('index.php?option=com_templates&layout=edit&task=style.delete&id=' . (int) $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
+								<span class="icon-trash" aria-hidden="true"></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_STYLE_DELETE'); ?></span>
+							</a>
+						</li>
+						<?php endif; ?>
+						<li>
+							<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $style->templateId . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
+								<span class="icon-pencil" aria-hidden="true"></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_EDIT_FILES'); ?></span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			<?php endif; ?>
+			</div>
+		</div>
 	</div>
+	<?php endforeach; ?>
 
 </div>
