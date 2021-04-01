@@ -317,7 +317,7 @@ class File
 				return false;
 			}
 
-			self::invalidateOpcache($dest);
+			self::invalidateFileCache($dest);
 
 			return true;
 		}
@@ -352,7 +352,7 @@ class File
 				}
 			}
 
-			self::invalidateOpcache($dest);
+			self::invalidateFileCache($dest);
 
 			return true;
 		}
@@ -396,7 +396,7 @@ class File
 				return false;
 			}
 
-			self::invalidateOpcache($file);
+			self::invalidateFileCache($file);
 
 			return true;
 		}
@@ -419,7 +419,7 @@ class File
 				$ret = \is_int(file_put_contents($file, $buffer));
 			}
 
-			self::invalidateOpcache($file);
+			self::invalidateFileCache($file);
 
 			return $ret;
 		}
@@ -455,7 +455,7 @@ class File
 
 			if ($stream->open($file, 'ab') && $stream->write($buffer) && $stream->close())
 			{
-				self::invalidateOpcache($file);
+				self::invalidateFileCache($file);
 
 				return true;
 			}
@@ -484,7 +484,7 @@ class File
 				$ret = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
 			}
 
-			self::invalidateOpcache($file);
+			self::invalidateFileCache($file);
 
 			return $ret;
 		}
@@ -593,7 +593,7 @@ class File
 				}
 			}
 
-			self::invalidateOpcache($dest);
+			self::invalidateFileCache($dest);
 
 			return $ret;
 		}
