@@ -142,7 +142,7 @@ export default {
     hideActions() {
       this.showActions = false;
       // eslint-disable-next-line no-unused-expressions
-      this.$nextTick(() =>  this.$refs.actionToggle ? this.$refs.actionToggle.focus() : false);
+      this.$nextTick(() => { this.$refs.actionToggle ? this.$refs.actionToggle.focus() : false; });
     },
   },
 };

@@ -1,4 +1,4 @@
-import {createApp} from 'vue';
+import { createApp } from 'vue';
 import Event from './app/Event.es6';
 import App from './components/app.vue';
 import Disk from './components/tree/disk.vue';

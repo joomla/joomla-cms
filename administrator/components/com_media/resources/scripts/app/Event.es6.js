@@ -1,4 +1,3 @@
-
 /**
  * Media Event bus - used for communication between joomla and vue
  */
@@ -17,7 +16,7 @@ export default class Event {
      */
   fire(event, data = null) {
     if (this.events[event]) {
-      this.events[event].forEach(fn => fn(data));
+      this.events[event].forEach((fn) => fn(data));
     }
   }
 

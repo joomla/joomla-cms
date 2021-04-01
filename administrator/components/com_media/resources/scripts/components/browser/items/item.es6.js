@@ -1,10 +1,10 @@
+import { h } from 'vue';
 import Directory from './directory.vue';
 import File from './file.vue';
 import Image from './image.vue';
 import Video from './video.vue';
 import * as types from '../../../store/mutation-types.es6';
 import { api } from '../../../app/Api.es6';
-import { h } from 'vue';
 
 export default {
   props: ['item'],
