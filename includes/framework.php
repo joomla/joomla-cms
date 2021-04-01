@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\Utilities\IpHelper;
-
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\IpHelper;
 
 // Joomla system checks.
 @ini_set('magic_quotes_runtime', 0);
