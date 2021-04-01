@@ -187,7 +187,7 @@ class QuickIconHelper
 				$this->buttons[$key][] = $tmp;
 			}
 
-			if ($params->get('show_template_styles'))
+			if ($params->get('show_template'))
 			{
 				$this->buttons[$key][] = [
 					'image'  => 'icon-paint-brush',
