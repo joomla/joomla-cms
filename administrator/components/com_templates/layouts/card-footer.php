@@ -21,7 +21,7 @@ extract($displayData);
 	<div class="list-group">
 		<?php foreach ($item->styles as $style) : ?>
 			<div class="d-flex">
-				<div class="mr-auto">
+				<div class="ms-auto">
 					<?php if($canCreate  || $canDelete) : ?>
 						<?php if($canCreate) : ?>
 							<button class="btn btn-link" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>', 'styles.duplicate')">
@@ -63,7 +63,7 @@ extract($displayData);
 			</a>
 		<?php elseif ($style->home == '1'):?>
 			<strong class="text-success btn btn-transparent">
-				<span class="icon-check-circle icon-md mr-2" area-hidden="true"></span> <?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?>
+				<span class="icon-check-circle icon-md me-2" area-hidden="true"></span> <?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?>
 			</strong>
 		<?php elseif ($canChange):?>
 			<a href="<?php echo Route::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-secondary btn-block">
@@ -75,11 +75,11 @@ extract($displayData);
 				</span>
 		<?php endif; ?>
 		<?php if (((int) $style->home !== 0 && (int) $style->home !== 1) && $style->image):?>
-			<small class="ml-2">
+			<small class="ms-2">
 				<?php echo HTMLHelper::_('image', 'mod_languages/' . $style->image . '.gif', $style->language_title, array('title' => Text::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $style->language_title)), true); ?>
 			</small>
 		<?php elseif ((int) $style->home === 1) :  // $style->assigned > 0?>
-			<small class="ml-2">
+			<small class="ms-2">
 				<span class="icon-check-circle" area-hidden="true"></span>
 				<span class="visually-hidden"><?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_SELECTED', $style->assigned); ?></span>
 			</small>
