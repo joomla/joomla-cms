@@ -145,7 +145,7 @@ class StylesModel extends ListModel
 			->select(
 				[
 					'COUNT(' . $db->quoteName('m.template_style_id') . ') AS assigned',
-					$db->quoteName('extension_id', 'e_id'),
+					$db->quoteName('extension_id', 'templateId'),
 				]
 			)
 			->from($db->quoteName('#__template_styles', 'a'))
@@ -317,7 +317,7 @@ class StylesModel extends ListModel
 
 				$items[$curTemplate] = new \stdClass();
 				$items[$curTemplate]->templateName = $curTemplate;
-				$items[$curTemplate]->extensionId = $item->e_id;
+				$items[$curTemplate]->extensionId = $item->templateId;
 				$items[$curTemplate]->creationDate = $xmldata->get('creationDate', '');
 				$items[$curTemplate]->author = $xmldata->get('author', '');
 				$items[$curTemplate]->authorEmail = $xmldata->get('authorEmail', '');
@@ -346,7 +346,7 @@ class StylesModel extends ListModel
 				}
 			}
 
-			$num = $this->updated($item->e_id);
+			$num = $this->updated($item->templateId);
 
 			if ($num)
 			{
