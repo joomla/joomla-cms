@@ -305,14 +305,14 @@ class CMSApplication extends WebApplication
 	 * @return  mixed  The user state.
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use get() instead
+	 * @deprecated  5.0  Use get() instead
 	 */
 	public function getCfg($varname, $default = null)
 	{
 		try
 		{
 			\JLog::add(
-				sprintf('%s() is deprecated and will be removed in 4.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
 				\JLog::WARNING,
 				'deprecated'
 			);
