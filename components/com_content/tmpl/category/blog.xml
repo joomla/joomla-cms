@@ -206,12 +206,12 @@
 				name="blog_style"
 				type="list"
 				label="JGLOBAL_BLOG_STYLE"
-				default="4"
+				default="0"
 				parentclass="span-2 stack"
 				filter="integer"
 				>
-				<option value="3">JGLOBAL_BLOG_STYLE_J3</option>
-				<option value="4">JGLOBAL_BLOG_STYLE_J4</option>
+				<option value="0">JGLOBAL_BLOG_STYLE_FIXED_OPTION</option>
+				<option value="1">JGLOBAL_BLOG_STYLE_GRID_OPTION</option>
 			</field>
 
 			<field
@@ -221,7 +221,7 @@
 				parentclass="stack span-2"
 				useglobal="true"
 				validate="CssIdentifier"
-				showon="blog_style:4"
+				showon="blog_style:1"
 			/>
 
 			<field
@@ -231,16 +231,16 @@
 				parentclass="stack span-2-inline"
 				useglobal="true"
 				validate="CssIdentifier"
-				showon="blog_style:4"
+				showon="blog_style:1"
 			/>
 
 			<field
 				name="blog_information-j4"
 				type="spacer"
-				label="JGLOBAL_BLOG_STYLE_J4_LABEL"
+				label="JGLOBAL_BLOG_STYLE_GRID_LABEL"
 				parentclass="stack span-2-inline"
-				description="JGLOBAL_BLOG_STYLE_J4_DESC"
-				showon="blog_style:4"
+				description="JGLOBAL_BLOG_STYLE_GRID_DESC"
+				showon="blog_style:1"
 			/>
 
 			<field
@@ -249,7 +249,7 @@
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
 				parentclass="stack span-2"
 				useglobal="true"
-				showon="blog_style:3"
+				showon="blog_style:0"
 			/>
 
 			<field
@@ -258,7 +258,7 @@
 				label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 				parentclass="stack span-2-inline"
 				useglobal="true"
-				showon="blog_style:3"
+				showon="blog_style:0"
 				>
 				<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
 				<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
