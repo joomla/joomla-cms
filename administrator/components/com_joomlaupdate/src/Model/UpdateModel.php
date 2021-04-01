@@ -19,6 +19,7 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\Http;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
@@ -338,7 +339,8 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$tempdir  = Factory::getApplication()->get('tmp_path');
+		$tempdir  = (string) InputFilter::getInstance([], [],1, 1)
+			->clean(Factory::getApplication()->get('tmp_path'), 'path');
 		$target   = $tempdir . '/' . $basename;
 		$response = [];
 
