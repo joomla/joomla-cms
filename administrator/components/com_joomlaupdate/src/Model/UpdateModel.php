@@ -339,7 +339,12 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$tempdir  = (string) InputFilter::getInstance([], [],1, 1)
+		$tempdir  = (string) InputFilter::getInstance(
+			[],
+			[],
+			InputFilter::ONLY_BLOCK_DEFINED_TAGS,
+			InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+		)
 			->clean(Factory::getApplication()->get('tmp_path'), 'path');
 		$target   = $tempdir . '/' . $basename;
 		$response = [];
