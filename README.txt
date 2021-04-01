@@ -25,7 +25,7 @@
 	* Before installing, read the beginners guide: https://docs.joomla.org/Special:MyLanguage/Portal:Beginners
 
 6- What are the benefits of Joomla?
-	* The functionality of a Joomla! website can be extended by installing extensions that you can create (or download) to suit your needs.
+	* The functionality of a Joomla! a website can be extended by installing extensions that you can create (or download) to suit your needs.
 	* There are many ready-made extensions that you can download and install.
 	* Check out the Joomla! Extensions Directory (JED): https://extensions.joomla.org
 
