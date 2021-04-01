@@ -100,18 +100,7 @@ $wrapper = $params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 // Get the Fontawesome css URL
-$faScriptUri = $wa->getAsset('style', 'fontawesome')->getUri();
-// Code to defer the loading of the Icon Font
-$wa->addInlineScript(
-	<<<JS
-document.addEventListener('DOMContentLoaded', function() {
-  var css = document.createElement('link');
-  css.href = "$faScriptUri";
-  css.rel = 'stylesheet';
-  document.head.appendChild(css);
-});
-JS
-);
+$faScriptUri = Uri::root(true) . $wa->getAsset('style', 'fontawesome')->getUri();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -130,7 +119,7 @@ JS
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ' ' . $pageclass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
-?>">
+?>" data-font-awesome="<?php echo $faScriptUri; ?>">
 	<header class="header container-header full-width">
 		<div class="grid-child">
 			<div class="navbar-brand">

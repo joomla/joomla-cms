@@ -66,18 +66,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alte
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
 // Get the Fontawesome css URL
-$faScriptUri = $wa->getAsset('style', 'fontawesome')->getUri();
-// Code to defer the loading of the Icon Font
-$wa->addInlineScript(
-	<<<JS
-document.addEventListener('DOMContentLoaded', function() {
-  var css = document.createElement('link');
-  css.href = "$faScriptUri";
-  css.rel = 'stylesheet';
-  document.head.appendChild(css);
-});
-JS
-);
+$faScriptUri = Uri::root(true) . $wa->getAsset('style', 'fontawesome')->getUri();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -86,7 +75,7 @@ JS
 	<jdoc:include type="head" />
 	<noscript><link rel="stylesheet" href="<?php echo $faScriptUri; ?>" type="text/css"/></noscript>
 </head>
-<body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
+<body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>" data-font-awesome="<?php echo $faScriptUri; ?>">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 </body>
