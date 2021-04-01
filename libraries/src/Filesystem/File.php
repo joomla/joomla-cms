@@ -131,7 +131,7 @@ class File
 				return false;
 			}
 
-			self::invalidateOpcache($dest);
+			self::invalidateFileCache($dest);
 
 			return true;
 		}
@@ -174,7 +174,7 @@ class File
 				$ret = true;
 			}
 
-			self::invalidateOpcache($dest);
+			self::invalidateFileCache($dest);
 
 			return $ret;
 		}
@@ -187,7 +187,7 @@ class File
 	 *
 	 * @return void
 	 */
-	public static function invalidateOpcache($file)
+	public static function invalidateFileCache($file)
 	{
 		if (function_exists('opcache_invalidate'))
 		{
@@ -269,7 +269,7 @@ class File
 				return false;
 			}
 
-			self::invalidateOpcache($file);
+			self::invalidateFileCache($file);
 		}
 
 		return true;
