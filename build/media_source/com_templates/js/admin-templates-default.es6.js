@@ -6,7 +6,7 @@
 const onClick = async (event) => {
   let response;
   const button = event.currentTarget;
-  const form = button.form;
+  const { form } = button;
   const baseURL = `${form.action}&task=${button.dataset.task}&${form.dataset.token}=1&cid[]=${button.dataset.item}`;
   // const data = {
   //   templateIds: button.dataset.item;
@@ -30,6 +30,7 @@ const onClick = async (event) => {
     });
   } catch (error) {
     // @todo use alert here
+    // eslint-disable-next-line no-console
     console.log(error);
     button.removeAttribute('disabled');
   }
@@ -38,6 +39,7 @@ const onClick = async (event) => {
     window.location.reload();
   } else {
     // @todo use alert here
+    // eslint-disable-next-line no-console
     console.log(response.statusText);
     button.removeAttribute('disabled');
   }
