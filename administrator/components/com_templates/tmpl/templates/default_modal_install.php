@@ -26,7 +26,7 @@ Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
 $return  = Factory::getApplication()->input->getBase64('return');
 $maxSize = FilesystemHelper::fileUploadMaxSize();
 ?>
-<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="templateForm" id="templateForm">
+<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="templateForm" id="templateForm">
 	<div id="uploader-wrapper">
 		<div id="dragarea" data-state="pending">
 			<div id="dragarea-content" class="text-center">
@@ -79,7 +79,7 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 	</div>
 
 	<input type="hidden" name="installtype" value="upload">
-	<input type="hidden" name="task" value="styles.install">
+	<input type="hidden" name="task" value="templates.install">
 	<?php echo HTMLHelper::_('form.token'); ?>
 
 	<div id="legacy-uploader" style="display: none;">

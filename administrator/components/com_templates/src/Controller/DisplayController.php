@@ -26,7 +26,7 @@ class DisplayController extends BaseController
 	 * @var		string	The default view.
 	 * @since   1.6
 	 */
-	protected $default_view = 'styles';
+	protected $default_view = 'templates';
 
 	/**
 	 * Method to display a view.
@@ -40,7 +40,7 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$view   = $this->input->get('view', 'styles');
+		$view   = $this->input->get('view', 'templates');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
@@ -55,7 +55,7 @@ class DisplayController extends BaseController
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
-			$this->setRedirect(Route::_('index.php?option=com_templates&view=styles', false));
+			$this->setRedirect(Route::_('index.php?option=com_templates&view=templates', false));
 
 			return false;
 		}
