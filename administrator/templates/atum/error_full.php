@@ -144,7 +144,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">
 					<div class="col-md-12">
-						<jdoc:include type="modules" name="toolbar" style="no" />
+						<jdoc:include type="modules" name="toolbar" style="none" />
 					</div>
 				</div>
 			</div>
