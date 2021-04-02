@@ -53,9 +53,17 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 * Database connector
 	 *
 	 * @var    DatabaseInterface
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $db;
+
+	/**
+	 * Installer
+	 *
+	 * @var    	Installer Installer object
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $installer = null;
 
 	/**
 	 * Exit Code For Discover Failure
@@ -74,13 +82,15 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	/**
 	 * Instantiate the command.
 	 *
-	 * @param   DatabaseInterface  $db  Database connector
+	 * @param   DatabaseInterface  $db         Database connector
+	 * @param   Installer          $installer  Installer object
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(DatabaseInterface $db)
+	public function __construct(DatabaseInterface $db, Installer $installer)
 	{
 		$this->db = $db;
+		$this->installer = $installer;
 		parent::__construct();
 	}
 
@@ -134,7 +144,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 	 */
 	public function processDiscover($eid): bool
 	{
-		$jInstaller = new Installer;
+		$installer = $this->installer;
 		$result = true;
 
 		if ($eid === -1)
@@ -149,7 +159,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 
 			foreach ($eidsToDiscover as $eidToDiscover)
 			{
-				if (!$jInstaller->discover_install($eidToDiscover->extension_id))
+				if (!$installer->discover_install($eidToDiscover->extension_id))
 				{
 					$this->ioStyle->warning('There was a problem installing the extension with ID ' . $eidToDiscover->extension_id . '.');
 					$result = false;
@@ -165,7 +175,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
 		}
 		else
 		{
-			return $jInstaller->discover_install($eid);
+			return $installer->discover_install($eid);
 		}
 	}
 
