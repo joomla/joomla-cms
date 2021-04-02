@@ -270,12 +270,6 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
 			$this->hits = 0;
 		}
 
-		// Set default value for ordering so that it could be restored from version history
-		if (!isset($this->ordering))
-		{
-			$this->ordering = 0;
-		}
-
 		// Set publish_up to null if not set
 		if (!$this->publish_up)
 		{
