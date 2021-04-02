@@ -18,6 +18,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\String\Inflector;
 
+HTMLHelper::_('script', 'tableoptions.js', ['relative' => true, 'version' => 'auto'], ['type' => 'module']);
 HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();

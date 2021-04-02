@@ -18,6 +18,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
+HTMLHelper::_('script', 'tableoptions.js', ['relative' => true, 'version' => 'auto'], ['type' => 'module']);
 HTMLHelper::_('behavior.multiselect');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));

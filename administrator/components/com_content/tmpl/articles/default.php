@@ -24,6 +24,8 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
+HTMLHelper::_('script', 'tableoptions.js', ['relative' => true, 'version' => 'auto'], ['type' => 'module']);
+
 HTMLHelper::_('behavior.multiselect');
 
 // Just for the tests :(
