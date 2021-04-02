@@ -40,7 +40,7 @@ abstract class ActionsDropdown
 	{
 		$html = array();
 
-		$html[] = '<button  data-bs-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-secondary">';
+		$html[] = '<button data-bs-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-secondary">';
 		$html[] = '<span class="caret"></span>';
 
 		if ($item)

@@ -43,5 +43,5 @@ module.exports.handleScssFile = async (file) => {
   );
 
   // eslint-disable-next-line no-console
-  console.log(`SCSS File compiled: ${cssFile}`);
+  console.log(`✅ SCSS File compiled: ${cssFile}`);
 };

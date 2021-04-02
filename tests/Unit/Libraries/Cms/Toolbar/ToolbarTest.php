@@ -231,7 +231,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0
 	 */
-	public function testLoadButtonTypeRetunsFalseForUnkownButtonTypes()
+	public function testLoadButtonTypeReturnsFalseForUnknownButtonTypes()
 	{
 		$toolbarFactoryMock = $this->createMock(ToolbarFactoryInterface::class);
 		$toolbarFactoryMock

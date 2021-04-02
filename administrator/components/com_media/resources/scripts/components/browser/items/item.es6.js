@@ -1,3 +1,4 @@
+import { h } from 'vue';
 import Directory from './directory.vue';
 import File from './file.vue';
 import Image from './image.vue';
@@ -154,8 +155,8 @@ export default {
       value ? this.mouseover() : this.mouseleave();
     },
   },
-  render(createElement) {
-    return createElement(
+  render() {
+    return h(
       'div',
       {
         class: {
@@ -163,21 +164,17 @@ export default {
           selected: this.isSelected(),
           active: this.isHoverActive(),
         },
-        on: {
-          click: this.handleClick,
-          mouseover: this.mouseover,
-          mouseleave: this.mouseleave,
-          focused: this.focused,
-        },
+        onClick: this.handleClick,
+        onMouseover: this.mouseover,
+        onMouseleave: this.mouseleave,
+        onFocused: this.focused,
       },
       [
-        createElement(
+        h(
           this.itemType(),
           {
-            props: {
-              item: this.item,
-              focused: this.focused,
-            },
+            item: this.item,
+            focused: this.focused,
           },
         ),
       ],

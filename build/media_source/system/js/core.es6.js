@@ -675,7 +675,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       messagesBox.setAttribute('dismiss', 'true');
 
       if (timeout && parseInt(timeout, 10) > 0) {
-        messagesBox.setAttribute('autodismiss', timeout);
+        messagesBox.setAttribute('auto-dismiss', timeout);
       }
 
       // Title

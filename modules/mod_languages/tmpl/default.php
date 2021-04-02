@@ -71,7 +71,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		</ul>
 	</div>
 <?php else : ?>
-	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>"  dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>" dir="<?php echo $app->getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 	<?php foreach ($list as $language) : ?>
 		<?php if (!$language->active) : ?>
 			<li>
