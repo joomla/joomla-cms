@@ -3,6 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+import { sanitizeHtml } from 'bootstrap/js/src/util/sanitizer.js';
+
 // Only define the Joomla namespace if not defined.
 window.Joomla = window.Joomla || {};
 
@@ -620,6 +622,17 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
+   * Sanitize HTML string
+   *
+   * @param {string} unsafeHtml
+   * @param {array} allowList
+   * @param {function} sanitizeFn
+   *
+   * @return string
+   */
+  Joomla.sanitizeHtml = sanitizeHtml;
+
+  /**
    * Render messages send via JSON
    * Used by some javascripts such as validate.js
    *
@@ -685,7 +698,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       if (typeof title !== 'undefined') {
         titleWrapper = document.createElement('div');
         titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = `<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`;
+        titleWrapper.innerHTML = `<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(sanitizeHtml(type)) : type}</span>`;
         messagesBox.appendChild(titleWrapper);
       }
 
@@ -693,7 +706,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       messageWrapper = document.createElement('div');
       messageWrapper.className = 'alert-wrapper';
       typeMessages.forEach((typeMessage) => {
-        messageWrapper.innerHTML += `<div class="alert-message">${typeMessage}</div>`;
+        messageWrapper.innerHTML += `<div class="alert-message">${sanitizeHtml(typeMessage)}</div>`;
       });
       messagesBox.appendChild(messageWrapper);
 
