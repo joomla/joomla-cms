@@ -72,7 +72,7 @@ trait VersionableModelTrait
 
 		/**
 		 * Load data from current version before replacing it with data from history to avoid error
-		 * if there are some required keys are missing in the history data
+		 * if there are some required keys missing in the history data
 		 */
 
 		if (isset($rowArray[$key]))
