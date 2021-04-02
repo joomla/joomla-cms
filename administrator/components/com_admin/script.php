@@ -410,8 +410,8 @@ class JoomlaInstallerScript
 				// Migrate data for this field
 				$query = $db->getQuery(true)
 					->select('*')
-					->from('#__fields_values')
-					->where('field_id = ' . $row->id);
+					->from($db->quoteName('#__fields_values'))
+					->where($db->quoteName('field_id') . ' = ' . $row->id);
 				$db->setQuery($query);
 
 				foreach ($db->loadObjectList() as $rowFieldValue)
