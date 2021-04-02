@@ -7,26 +7,29 @@ const onClick = async (event) => {
   let response;
   const button = event.currentTarget;
   const { form } = button;
+
   const baseURL = `${form.action}&task=${button.dataset.task}&${form.dataset.token}=1&cid[]=${button.dataset.item}`;
   // const data = {
-  //   templateIds: button.dataset.item;
+  //   templateIds: button.dataset.item,
+  //   [form.dataset.token]: 1,
+  //   'cid[]': button.dataset.item,
   // };
 
   button.setAttribute('disabled', '');
 
   try {
     response = await fetch(baseURL, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
       headers: {
-        'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
+        // 'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      // body: JSON.stringify(data) // body data type must match "Content-Type" header
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      // body: JSON.stringify(data),
     });
   } catch (error) {
     // @todo use alert here
