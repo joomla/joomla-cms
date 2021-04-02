@@ -5,6 +5,43 @@
 
 import { sanitizeHtml } from 'bootstrap/js/src/util/sanitizer.js';
 
+const ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
+const DATA_ATTRIBUTE_PATTERN = /^data-[\w-]*$/i;
+
+const DefaultAllowlist = {
+  // Global attributes allowed on any supplied element below.
+  '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN, DATA_ATTRIBUTE_PATTERN],
+  a: ['target', 'href', 'title', 'rel'],
+  area: [],
+  b: [],
+  br: [],
+  col: [],
+  code: [],
+  div: [],
+  em: [],
+  hr: [],
+  h1: [],
+  h2: [],
+  h3: [],
+  h4: [],
+  h5: [],
+  h6: [],
+  i: [],
+  img: ['src', 'srcset', 'alt', 'title', 'width', 'height'],
+  li: [],
+  ol: [],
+  p: [],
+  pre: [],
+  s: [],
+  small: [],
+  span: [],
+  sub: [],
+  sup: [],
+  strong: [],
+  u: [],
+  ul: [],
+};
+
 // Only define the Joomla namespace if not defined.
 window.Joomla = window.Joomla || {};
 
@@ -624,13 +661,17 @@ window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * Sanitize HTML string
    *
-   * @param {string} unsafeHtml
-   * @param {array} allowList
-   * @param {function} sanitizeFn
+   * @param {string} unsafeHtml The html for sanitization
+   * @param {object} allowList The list of HTMLElements with an array of allowed attributes
+   * @param {function} sanitizeFn A custom sanitization function
    *
    * @return string
    */
-  Joomla.sanitizeHtml = sanitizeHtml;
+  Joomla.sanitizeHtml = (unsafeHtml, allowList, sanitizeFn) => {
+    const allowed = (allowList === undefined || allowList === null)
+      ? DefaultAllowlist : Object.assign(DefaultAllowlist, allowList);
+    return sanitizeHtml(unsafeHtml, allowed, sanitizeFn);
+  };
 
   /**
    * Render messages send via JSON
@@ -698,7 +739,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       if (typeof title !== 'undefined') {
         titleWrapper = document.createElement('div');
         titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = `<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(sanitizeHtml(type)) : type}</span>`;
+        titleWrapper.innerHTML = Joomla.sanitizeHtml(`<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`);
         messagesBox.appendChild(titleWrapper);
       }
 
@@ -706,7 +747,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       messageWrapper = document.createElement('div');
       messageWrapper.className = 'alert-wrapper';
       typeMessages.forEach((typeMessage) => {
-        messageWrapper.innerHTML += `<div class="alert-message">${sanitizeHtml(typeMessage)}</div>`;
+        messageWrapper.innerHTML += Joomla.sanitizeHtml(`<div class="alert-message">${typeMessage}</div>`);
       });
       messagesBox.appendChild(messageWrapper);
 
