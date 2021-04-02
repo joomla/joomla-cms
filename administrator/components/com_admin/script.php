@@ -57,7 +57,7 @@ class JoomlaInstallerScript
 			{
 				$manifestValues = json_decode($installer->extension->manifest_cache, true);
 
-				if ((array_key_exists('version', $manifestValues)))
+				if (array_key_exists('version', $manifestValues))
 				{
 					$this->fromVersion = $manifestValues['version'];
 
@@ -5117,6 +5117,14 @@ class JoomlaInstallerScript
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/js/dropMenu.js',
 			'/media/vendor/skipto/css/SkipTo.css',
+			// Joomla 4.0 Beta 8
+			'/administrator/components/com_admin/forms/profile.xml',
+			'/administrator/components/com_admin/postinstall/htaccess.php',
+			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
+			'/administrator/components/com_admin/src/Controller/ProfileController.php',
+			'/administrator/components/com_admin/src/Model/ProfileModel.php',
+			'/administrator/components/com_admin/src/View/Profile/HtmlView.php',
+			'/administrator/components/com_admin/tmpl/profile/edit.php',
 		);
 
 		$folders = array(
@@ -6307,6 +6315,9 @@ class JoomlaInstallerScript
 			'/plugins/content/imagelazyload',
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/css',
+			// Joomla 4.0 Beta 8
+			'/administrator/components/com_admin/src/View/Profile',
+			'/administrator/components/com_admin/tmpl/profile',
 		);
 
 		$status['files_checked'] = $files;
@@ -7228,7 +7239,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	protected function fixFilenameCasing()
 	{

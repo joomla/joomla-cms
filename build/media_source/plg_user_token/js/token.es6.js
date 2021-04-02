@@ -26,7 +26,7 @@
     const button = document.getElementById('token-copy');
 
     button.addEventListener('click', ({ currentTarget }) => {
-      const input = currentTarget.parentNode.previousElementSibling;
+      const input = currentTarget.previousElementSibling;
 
       if (!navigator.clipboard) {
         copyToClipboardFallback(input);

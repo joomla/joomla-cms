@@ -45,6 +45,14 @@ $wa->useScript('joomla.batch-copymove');
 			</div>
 		</div>
 		<div class="form-group">
+			<fieldset>
+				<legend>
+					<?php echo Text::_('COM_USERS_BATCH_ACTIONS'); ?>
+				</legend>
+				<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add'); ?>
+			</fieldset>
+		</div>
+		<div class="form-group">
 			<fieldset id="batch-password-reset_id">
 				<legend>
 					<?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?>

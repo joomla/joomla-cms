@@ -58,7 +58,6 @@ class PlgUserToken extends CMSPlugin
 	private $allowedContexts = [
 		'com_users.profile',
 		'com_users.user',
-		'com_admin.profile',
 	];
 
 	/**
