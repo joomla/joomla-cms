@@ -140,6 +140,25 @@ class CategoryController extends FormController
 	}
 
 	/**
+	 * Override cancel method to clear form data for a failed edit action
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function cancel($key = null)
+	{
+		$result = parent::cancel($key);
+
+		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+		$this->app->setUserState($newKey, null);
+
+		return $result;
+	}
+
+	/**
 	 * Method to run batch operations.
 	 *
 	 * @param   object|null  $model  The model.
