@@ -358,22 +358,14 @@ class InstallerModelUpdate extends JModelList
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
+			
+			// Find and use extra_query from update_site if available
+			$updateSiteInstance = JTable::getInstance('Updatesite');
+			$updateSiteInstance->load($instance->update_site_id);
 
-			// If the update has an extra_query use it
-			if ($instance->extra_query)
+			if ($updateSiteInstance->extra_query)
 			{
-				$update->set('extra_query', $instance->extra_query);
-			}
-			else
-			{
-				// If the update has no extra_query, the update_site providing this update might have one, so check, and use that if found
-				$updateSiteInstance = JTable::getInstance('Updatesite');
-				$updateSiteInstance->load($instance->update_site_id);
-
-				if ($updateSiteInstance->extra_query)
-				{
-					$update->set('extra_query', $updateSiteInstance->extra_query);
-				}
+				$update->set('extra_query', $updateSiteInstance->extra_query);
 			}
 
 			$this->preparePreUpdate($update, $instance);
