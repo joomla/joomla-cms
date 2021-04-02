@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 extract($displayData);
 ?>
@@ -33,6 +34,40 @@ extract($displayData);
 		<?php if (!$item->inheritable || !$item->parent) : ?>
 			<small class="small text-muted ms-2"><?php echo Text::_('COM_TEMPLATES_LEGACY'); ?></small>
 		<?php endif; ?>
+
+		<?php if($canCreate  || $canDelete) : ?>
+			<div class="dropdown d-inline-block">
+				<button class="btn btn-link dropdown-toggle" type="button" id="template-actions-<?php echo (int) $item->extensionId; ?>" data-bs-toggle="dropdown" aria-expanded="false">
+					<span class="icon-cog" aria-hidden="true"></span>
+					<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_EDIT'); ?></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="template-actions-<?php echo (int) $item->extensionId; ?>">
+					<li>
+						<a  class="btn btn-link" href="<?php echo Route::_('index.php?option=com_templates&task=template.edit&id=' . (int) $item->extensionId . '&' . Session::getFormToken() . '=1'); ?>">
+							<span class="icon-pencil" aria-hidden="true"></span>
+							<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_EDIT'); ?></span>
+						</a>
+					</li>
+					<?php if($canCreate) : ?>
+						<li>
+							<button class="js-action-exec btn btn-link" type="button" data-task="templates.forkTemplate" data-item="<?php echo (int) $item->extensionId; ?>">
+								<span class="icon-copy" aria-hidden="true"></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_DUPLICATE'); ?></span>
+							</button>
+						</li>
+					<?php endif; ?>
+					<?php if($canDelete) : ?>
+						<li>
+							<button class="js-action-exec btn btn-link" type="button" data-task="templates.uninstall" data-item="<?php echo (int) $item->extensionId; ?>">
+								<span class="icon-trash" aria-hidden="true"></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_STYLE_DELETE'); ?></span>
+							</button>
+						</li>
+					<?php endif; ?>
+				</ul>
+			</div>
+		<?php endif; ?>
+
 		<div class="dropdown">
 			<button class="btn btn-link dropdown-toggle" type="button" id="template-info-<?php echo (int) $item->extensionId; ?>" data-bs-toggle="dropdown" aria-expanded="false">
 				<span class="icon-info-circle" aria-hidden="true"></span>
