@@ -17,10 +17,10 @@
         "github-protocols": ["https"]
     },
     "support": {
-        "issues": "https://issues.joomla.org",
+        "issues": "https://issues.joomla.org/",
         "irc": "irc://chat.freenode.net/joomla/",
         "forum": "https://forum.joomla.org/",
-        "docs": "https://docs.joomla.org"
+        "docs": "https://docs.joomla.org/"
     },
     "autoload": {
         "psr-4": {

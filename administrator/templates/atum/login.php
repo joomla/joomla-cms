@@ -99,7 +99,7 @@ Text::script('JGLOBAL_WARNCOOKIES');
 			<div class="d-flex align-items-center">
 				<div class="logo">
 					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>"  <?php echo $logoBrandSmallAlt; ?>>
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
 				</div>
 			</div>
 			<jdoc:include type="modules" name="title" />

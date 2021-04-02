@@ -92,7 +92,6 @@ class PlgSystemActionLogs extends CMSPlugin
 		$allowedFormNames = [
 			'com_users.profile',
 			'com_users.user',
-			'com_admin.profile',
 		];
 
 		if (!in_array($formName, $allowedFormNames, true))
@@ -159,7 +158,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		if (!in_array($context, ['com_users.profile', 'com_admin.profile', 'com_users.user']))
+		if (!in_array($context, ['com_users.profile', 'com_users.user']))
 		{
 			return true;
 		}

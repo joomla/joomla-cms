@@ -352,7 +352,13 @@ class UpdateModel extends ListModel
 		{
 			$update = new Update;
 			$instance = new \Joomla\CMS\Table\Update($this->getDbo());
-			$instance->load($uid);
+
+			if (!$instance->load($uid))
+			{
+				// Update no longer available, maybe already updated by a package.
+				continue;
+			}
+
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
 			$update->set('extra_query', $instance->extra_query);
 
