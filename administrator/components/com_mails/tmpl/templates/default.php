@@ -38,11 +38,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" class="w-25" style="min-width:100px">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+								<th scope="col" class="w-20">
+									<?php echo Text::_('JGLOBAL_TITLE'); ?>
 								</th>
 								<th scope="col" class="w-15 d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
+									<?php echo Text::_('COM_MAILS_HEADING_COMPONENT'); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
@@ -50,11 +50,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" class="w-30 d-none d-md-table-cell">
+								<th scope="col" class="w-25 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+								<th scope="col" class="w-20 d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.template_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
@@ -66,8 +66,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="break-word">
 									<div class="dropdown">
-										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<a href="#" role="button" id="mTemplate<?php echo $i; ?>" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+											<span class="dropdown-toggle"></span>
 										</a>
 										<div class="dropdown-menu" aria-labelledby="mTemplate<?php echo $i; ?>">
 											<?php foreach ($this->languages as $language) : ?>
@@ -110,7 +111,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
 								</td>
-								<td class="d-none d-md-table-cell">
+								<td class="d-none d-md-table-cell text-break">
 									<?php echo $item->template_id; ?>
 								</td>
 							</tr>

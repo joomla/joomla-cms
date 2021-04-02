@@ -402,6 +402,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getCfg($varname, $default = null)
 	{
+		try
+		{
+			\JLog::add(
+				sprintf('%s() is deprecated and will be removed in 5.0. Use JFactory->getApplication()->get() instead.', __METHOD__),
+				\JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
+
 		return $this->get($varname, $default);
 	}
 
@@ -1324,9 +1337,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->redirect('index.php?option=com_users&view=profile&layout=edit');
 		}
 
-		if ($option === 'com_admin' && \in_array($task, ['profile.edit', 'profile.save', 'profile.apply'], true)
-			|| ($option === 'com_admin' && $view === 'profile' && $layout === 'edit')
-			|| ($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
+		if (($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
 			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
 			|| ($option === 'com_login' && \in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'], true)))
 		{
@@ -1335,7 +1346,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		// Redirect to com_admin profile edit
 		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
-		$this->redirect('index.php?option=com_admin&task=profile.edit&id=' . $this->getIdentity()->id);
+		$this->redirect('index.php?option=com_user&task=user.edit&id=' . $this->getIdentity()->id);
 	}
 
 	/**
