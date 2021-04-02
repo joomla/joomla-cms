@@ -661,9 +661,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * Sanitize HTML string
    *
-   * @param {string} unsafeHtml The html for sanitization
-   * @param {object} allowList The list of HTMLElements with an array of allowed attributes
-   * @param {function} sanitizeFn A custom sanitization function
+   * @param {string}   unsafeHtml The html to be sanitized
+   * @param {object}   allowList  The list of HTML elements with an array of allowed attributes
+   * @param {function} sanitizeFn A custom sanitize function
    *
    * @return string
    */
