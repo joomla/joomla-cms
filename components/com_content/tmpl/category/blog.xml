@@ -203,11 +203,24 @@
 			/>
 
 			<field
+				type="spacer"
+				parentclass="span-6"
+			/>
+
+			<field
+				name="blog_information"
+				type="spacer"
+				label="JGLOBAL_BLOG_STYLE_LABEL"
+				parentclass="stack span-2"
+				description="JGLOBAL_BLOG_STYLE_DESC"
+			/>
+
+			<field
 				name="blog_style"
 				type="list"
 				label="JGLOBAL_BLOG_STYLE"
 				default="0"
-				parentclass="span-2 stack"
+				parentclass="span-2-inline stack"
 				filter="integer"
 				>
 				<option value="0">JGLOBAL_BLOG_STYLE_FIXED_OPTION</option>
@@ -215,10 +228,19 @@
 			</field>
 
 			<field
+				name="blog_information-grid"
+				type="spacer"
+				label="JGLOBAL_BLOG_STYLE_GRID_LABEL"
+				parentclass="stack span-2"
+				description="JGLOBAL_BLOG_STYLE_GRID_DESC"
+				showon="blog_style:1"
+			/>
+
+			<field
 				name="blog_class_leading"
 				type="text"
 				label="JGLOBAL_BLOG_CLASS_LEADING"
-				parentclass="stack span-2"
+				parentclass="stack span-2-inline"
 				useglobal="true"
 				validate="CssIdentifier"
 				showon="blog_style:1"
@@ -235,19 +257,19 @@
 			/>
 
 			<field
-				name="blog_information-j4"
+				name="blog_information-fixed"
 				type="spacer"
-				label="JGLOBAL_BLOG_STYLE_GRID_LABEL"
-				parentclass="stack span-2-inline"
-				description="JGLOBAL_BLOG_STYLE_GRID_DESC"
-				showon="blog_style:1"
+				label="JGLOBAL_BLOG_STYLE_FIXED_LABEL"
+				parentclass="stack span-2"
+				description="JGLOBAL_BLOG_STYLE_FIXED_DESC"
+				showon="blog_style:0"
 			/>
 
 			<field
 				name="num_columns"
 				type="number"
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
-				parentclass="stack span-2"
+				parentclass="stack span-2-inline"
 				useglobal="true"
 				showon="blog_style:0"
 			/>
@@ -263,6 +285,11 @@
 				<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
 				<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
 			</field>
+
+			<field
+				type="spacer"
+				parentclass="span-6"
+			/>
 
 			<field
 				name="show_featured"
@@ -707,7 +734,7 @@
 			</field>
 
 			<field
-				name="feed_summary"
+				name="feed_"
 				type="list"
 				label="JGLOBAL_FEED_SUMMARY_LABEL"
 				useglobal="true"
