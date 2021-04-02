@@ -81,6 +81,7 @@
         "ext-simplexml": "*",
         "psr/log": "~1.0",
         "ext-gd": "*",
+        "ext-ldap": "*",
         "web-auth/webauthn-lib": "2.1.*"
     },
     "require-dev": {

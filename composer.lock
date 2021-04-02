@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc3ee4f2bb425d887d0db9c8414ef048",
+    "content-hash": "60ae27102056b4a04184308be68cd8c3",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1350,6 +1350,10 @@
                 "joomla",
                 "ldap"
             ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/ldap/issues",
+                "source": "https://github.com/joomla-framework/ldap/tree/2.0.0-beta"
+            },
             "time": "2020-06-05T11:32:05+00:00"
         },
         {
@@ -8292,7 +8296,8 @@
         "php": "^7.2.5",
         "ext-json": "*",
         "ext-simplexml": "*",
-        "ext-gd": "*"
+        "ext-gd": "*",
+        "ext-ldap": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
