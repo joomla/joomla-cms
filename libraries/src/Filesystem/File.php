@@ -181,24 +181,38 @@ class File
 	}
 
 	/**
-	 * Invalidate any opcache for a newly written file immediately, if opcache* functions exist and if this was a PHP file.
+	 * Invalidate opcache for a newly written/deleted file immediately, if opcache* functions exist and if this was a PHP file.
 	 *
-	 * @param   string  $file  The path to the file just written to, to flush from opcache
+	 * First we check if opcache is enabled, and if the filepath given is a path to a PHP file.
+	 * Then we check if the opcache_invalidate function is available, and if the host has restricted which scripts can use it.
+	 * We do this to avoid a PHP warning.
 	 *
-	 * @return void
+	 * `opcache.restrict_api` can specify the path for files allowed to call `opcache_invalidate()`.
+	 *
+	 * `$_SERVER['SCRIPT_FILENAME']` approximates the origin file's path, but `realpath()`
+	 * is necessary because `SCRIPT_FILENAME` can be a relative path when run from CLI.
+	 *
+	 * If the host has this set, check whether the path in `opcache.restrict_api` matches
+	 * the beginning of the path of the origin file.
+	 *
+	 * @param   string   $filepath  The path to the file just written to, to flush from opcache
+	 * @param   boolean  $force     If set to true, the script will be invalidated regardless of whether invalidation is necessary
+	 *
+	 * @return boolean TRUE if the opcode cache for script was invalidated/nothing to invalidate, or FALSE if the opcode cache is disabled.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
-	public static function invalidateFileCache($file)
+	public static function invalidateFileCache($filepath, $force = true)
 	{
-		if (function_exists('opcache_invalidate'))
+		if (ini_get('opcache.enable')
+			&& '.php' === strtolower(substr($filepath, -4))
+			&& function_exists('opcache_invalidate')
+			&& (!ini_get('opcache.restrict_api') || stripos(realpath($_SERVER['SCRIPT_FILENAME']), ini_get('opcache.restrict_api')) === 0))
 		{
-			$info = pathinfo($file);
-
-			if (isset($info['extension']) && $info['extension'] === 'php')
-			{
-				// Force invalidation to be absolutely sure the opcache is cleared for this file.
-				opcache_invalidate($file, true);
-			}
+			return opcache_invalidate($filepath, $force);
 		}
+
+		return false;
 	}
 
 	/**
