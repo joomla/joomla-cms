@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 
 $dir = $this->isRTL() ? ' dir="ltr"' : '';
 
+Text::script('JSEARCH_FILTER_CLEAR');
+
 ?>
 <div id="jed-container" class="tab-pane">
 	<div class="card" id="web-loader">

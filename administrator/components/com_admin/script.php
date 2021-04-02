@@ -5049,7 +5049,14 @@ class JoomlaInstallerScript
 			'/media/vendor/skipto/js/dropMenu.js',
 			'/media/vendor/skipto/css/SkipTo.css',
 			// Joomla 4.0 Beta 8
-			'/administrator/components/com_csp/access.xml',
+ 			'/administrator/components/com_admin/forms/profile.xml',
+			'/administrator/components/com_admin/postinstall/htaccess.php',
+			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
+			'/administrator/components/com_admin/src/Controller/ProfileController.php',
+			'/administrator/components/com_admin/src/Model/ProfileModel.php',
+			'/administrator/components/com_admin/src/View/Profile/HtmlView.php',
+			'/administrator/components/com_admin/tmpl/profile/edit.php',
+      '/administrator/components/com_csp/access.xml',
 			'/administrator/components/com_csp/config.xml',
 			'/administrator/components/com_csp/csp.xml',
 			'/administrator/components/com_csp/forms/filter_reports.xml',
@@ -5066,8 +5073,6 @@ class JoomlaInstallerScript
 			'/administrator/language/en-GB/com_csp.ini',
 			'/administrator/language/en-GB/com_csp.sys.ini',
 			'/components/com_csp/src/Controller/ReportController.php',
-			'/administrator/components/com_admin/postinstall/htaccess.php',
-			'/administrator/components/com_admin/postinstall/updatedefaultsettings.php',
 		);
 
 		$folders = array(
@@ -6259,9 +6264,8 @@ class JoomlaInstallerScript
 			// Joomla 4.0 Beta 7
 			'/media/vendor/skipto/css',
 			// Joomla 4.0 Beta 8
-			'/components/com_csp/src/Controller',
-			'/components/com_csp/src',
-			'/components/com_csp',
+			'/administrator/components/com_admin/src/View/Profile',
+			'/administrator/components/com_admin/tmpl/profile',
 			'/administrator/components/com_csp/forms',
 			'/administrator/components/com_csp/services',
 			'/administrator/components/com_csp/src/Controller',
@@ -6274,7 +6278,9 @@ class JoomlaInstallerScript
 			'/administrator/components/com_csp/tmpl/reports',
 			'/administrator/components/com_csp/tmpl',
 			'/administrator/components/com_csp',
-
+			'/components/com_csp/src/Controller',
+			'/components/com_csp/src',
+			'/components/com_csp',
 		);
 
 		$status['files_checked'] = $files;
@@ -7196,7 +7202,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 */
 	protected function fixFilenameCasing()
 	{
