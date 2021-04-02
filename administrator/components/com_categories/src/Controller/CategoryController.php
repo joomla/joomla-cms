@@ -119,6 +119,27 @@ class CategoryController extends FormController
 	}
 
 	/**
+	 * Override parent save method to store form data with right key as expected by edit category page
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save($key = null, $urlVar = null)
+	{
+		$result = parent::save($key, $urlVar);
+
+		$oldKey = $this->option . '.edit.category.data';
+		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+		$this->app->setUserState($newKey, $this->app->getUserState($oldKey, $newKey));
+
+		return $result;
+	}
+
+	/**
 	 * Method to run batch operations.
 	 *
 	 * @param   object|null  $model  The model.
