@@ -45,7 +45,7 @@ module.exports.compile = async (file) => {
   );
 
   // eslint-disable-next-line no-console
-  console.log(`SCSS File compiled: ${cssFile}`);
+  console.log(`✅ SCSS File compiled: ${cssFile}`);
   // });
 
   // forked.send({ file });

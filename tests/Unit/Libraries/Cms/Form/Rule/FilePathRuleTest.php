@@ -38,7 +38,8 @@ class FilePathRuleTest extends UnitTestCase
 			size="50"
 			default="images"
 			validate="filePath"
-		/>');
+		/>'
+		);
 
 		// These all pass today,
 		// BUT, Joomla 3.9.26 SHOULD break this test, as a security fix is applied, thus proving the test valuable
@@ -83,6 +84,6 @@ class FilePathRuleTest extends UnitTestCase
 	 */
 	public function testRule($expected, $element, $value)
 	{
-		$this->assertEquals($expected, (new FilePathRule())->test($element, $value));
+		$this->assertEquals($expected, (new FilePathRule)->test($element, $value));
 	}
 }

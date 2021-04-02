@@ -88,7 +88,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 				'plg_installer_webinstaller/client.min.js',
 				[],
 				['defer' => true],
-				['core', 'jquery']
+				['core']
 			);
 
 		$devLevel = Version::PATCH_VERSION;
@@ -122,6 +122,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 		ob_start();
 		include PluginHelper::getLayoutPath('installer', 'webinstaller');
 		$tab['content'] = ob_get_clean();
+		$tab['content'] = '<legend>' . $tab['label'] . '</legend>' . $tab['content'];
 
 		return $tab;
 	}

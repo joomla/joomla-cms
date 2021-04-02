@@ -500,7 +500,7 @@
 
 				<field
 					name="show_vote"
-					type="list"
+					type="votelist"
 					label="JGLOBAL_SHOW_VOTE_LABEL"
 					useglobal="true"
 					validate="options"

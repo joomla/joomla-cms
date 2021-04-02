@@ -76,6 +76,7 @@ module.exports.mediaManager = async () => {
       }),
       nodeResolve(),
       replace({
+        preventAssignment: true,
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       babel({
@@ -87,7 +88,11 @@ module.exports.mediaManager = async () => {
             '@babel/preset-env',
             {
               targets: {
-                esmodules: true,
+                browsers: [
+                  '> 1%',
+                  'not ie 11',
+                  'not op_mini all',
+                ],
               },
               loose: true,
               bugfixes: false,
@@ -109,8 +114,7 @@ module.exports.mediaManager = async () => {
   await bundle.close();
 
   // eslint-disable-next-line no-console
-  console.log('ES2017 Media Manager ready ✅');
-
+  console.log('✅ ES2017 Media Manager ready');
   minifyJs('media/com_media/js/media-manager.js');
   return buildLegacy(resolve('media/com_media/js/media-manager.js'));
 };
