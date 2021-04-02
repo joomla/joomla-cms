@@ -134,7 +134,7 @@ class CategoryController extends FormController
 
 		$oldKey = $this->option . '.edit.category.data';
 		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
-		$this->app->setUserState($newKey, $this->app->getUserState($oldKey, $newKey));
+		$this->app->setUserState($newKey, $this->app->getUserState($oldKey));
 
 		return $result;
 	}
