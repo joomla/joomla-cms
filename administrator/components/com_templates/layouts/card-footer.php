@@ -29,12 +29,12 @@ extract($displayData);
 			<div>
 			<?php if ($style->home == '0') : ?>
 				<button class="js-action-exec btn btn-link" type="button" data-task="templates.setDefault" data-item="<?php echo (int) $style->id; ?>">
-					<span class="icon-star me-2" area-hidden="true"></span>
+					<span class="icon-star me-2" aria-hidden="true"></span>
 					<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?></span>
 				</button>
 			<?php elseif ($style->home == '1'):?>
 				<strong class="text-success btn btn-transparent">
-					<span class="icon-star icon-md me-2" area-hidden="true"></span>
+					<span class="icon-star icon-md me-2" aria-hidden="true"></span>
 					<span class="visually-hidden"><?php echo Text::_('COM_TEMPLATES_STYLE_IS_DEFAULT'); ?></span>
 				</strong>
 			<?php elseif ($canChange):?>
@@ -52,7 +52,7 @@ extract($displayData);
 				</small>
 			<?php elseif ((int) $style->assigned > 0) :  // $style->assigned > 0?>
 				<small class="ms-2">
-					<span class="icon-check-circle" area-hidden="true"></span>
+					<span class="icon-check-circle" aria-hidden="true"></span>
 					<span class="visually-hidden"><?php echo Text::sprintf('COM_TEMPLATES_STYLES_PAGES_SELECTED', $style->assigned); ?></span>
 				</small>
 			<?php endif; ?>
@@ -76,18 +76,18 @@ extract($displayData);
 						</li>
 						<?php if($canCreate) : ?>
 						<li>
-							<a href="<?php echo Route::_('index.php?option=com_templates&layout=edit&task=style.duplicate&id=' . (int) $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
+							<button class="js-action-exec btn btn-link" type="button" data-task="templates.duplicate" data-item="<?php echo (int) $style->id; ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_STYLE_DUPLICATE'); ?></span>
-							</a>
+							</button>
 						</li>
 						<?php endif; ?>
 						<?php if($canDelete) : ?>
 						<li>
-							<a href="<?php echo Route::_('index.php?option=com_templates&layout=edit&task=style.delete&id=' . (int) $style->id . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
+							<button class="js-action-exec btn btn-link" type="button" data-task="templates.delete" data-item="<?php echo (int) $style->id; ?>">
 								<span class="icon-trash" aria-hidden="true"></span>
 								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_STYLE_DELETE'); ?></span>
-							</a>
+							</button>
 						</li>
 						<?php endif; ?>
 						<li>
