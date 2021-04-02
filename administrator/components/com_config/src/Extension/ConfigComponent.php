@@ -18,7 +18,7 @@ use Joomla\CMS\Extension\MVCComponent;
 /**
  * Component class for com_config
  *
- * @since  __DEPLOY_VERSION
+ * @since  __DEPLOY_VERSION__
  */
 class ConfigComponent extends MVCComponent implements RouterServiceInterface
 {
