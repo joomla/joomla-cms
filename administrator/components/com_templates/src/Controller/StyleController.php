@@ -30,6 +30,14 @@ class StyleController extends FormController
 	protected $text_prefix = 'COM_TEMPLATES_STYLE';
 
 	/**
+	 * The information in a template
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $view_list = 'templates';
+
+	/**
 	 * Method to save a template style.
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
