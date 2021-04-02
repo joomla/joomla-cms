@@ -314,7 +314,7 @@ class TemplatesModel extends ListModel
 					$curTemplate = $isChild;
 				}
 
-				$items[$curTemplate] = new \stdClass();
+				$items[$curTemplate] = new \stdClass;
 				$items[$curTemplate]->templateName = $curTemplate;
 				$items[$curTemplate]->extensionId = $item->templateId;
 				$items[$curTemplate]->creationDate = $xmldata->get('creationDate', '');
