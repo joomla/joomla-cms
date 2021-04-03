@@ -80,9 +80,6 @@ $saveOrder = $listOrder == 'a.id';
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" class="text-center">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
-								</th>
 								<th scope="col" class="d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_DOCUMENT_URI', 'a.document_uri', $listDirn, $listOrder); ?>
 								</th>
@@ -109,9 +106,6 @@ $saveOrder = $listOrder == 'a.id';
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-									</td>
-									<td class="text-center">
-										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
 									</td>
 									<th scope="row" class="small d-md-table-cell text-break">
 										<?php echo $item->document_uri; ?>

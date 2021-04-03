@@ -11,16 +11,6 @@
 		/>
 
 		<field
-			name="published"
-			type="status"
-			label="JSTATUS"
-			optionsFilter="*,0,1,-2"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
-		</field>
-
-		<field
 			name="directive"
 			type="sql"
 			label="COM_CSP_HEADING_DIRECTIVE"

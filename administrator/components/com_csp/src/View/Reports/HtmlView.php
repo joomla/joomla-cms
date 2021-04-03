@@ -142,19 +142,9 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'shield-alt');
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.delete'))
 		{
-			ToolbarHelper::publish('reports.publish', 'JTOOLBAR_ENABLE', true);
-			ToolbarHelper::unpublish('reports.unpublish', 'JTOOLBAR_DISABLE', true);
-		}
-
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'reports.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('reports.trash');
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'reports.delete', 'JTOOLBAR_DELETE');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
