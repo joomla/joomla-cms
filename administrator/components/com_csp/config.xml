@@ -24,16 +24,28 @@
 			<option value="both">COM_CSP_HEADER_CLIENT_BOTH</option>
 		</field>
 		<field
+			name="contentsecuritypolicy_report"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT"
+			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="contentsecuritypolicy:1"
+		>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
 			name="contentsecuritypolicy_report_only"
 			type="radio"
 			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY"
 			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
 			layout="joomla.form.field.radio.switcher"
-			default="1"
-			showon="contentsecuritypolicy:1"
+			default="0"
+			showon="contentsecuritypolicy_report:1"
 			>
-			<option value="0">JDISABLED</option>
-			<option value="1">JENABLED</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 		<field
 			name="nonce_enabled"

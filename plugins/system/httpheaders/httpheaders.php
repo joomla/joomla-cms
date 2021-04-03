@@ -298,14 +298,18 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	private function setCspHeader(): void
 	{
-		$cspReadOnly  = (int) $this->comCspParams->get('contentsecuritypolicy_report_only', 1);
 		$cspHeader    = 'content-security-policy';
 		$newCspValues = [];
 
-		if ($cspReadOnly)
+		if ($this->comCspParams->get('contentsecuritypolicy_report', true))
 		{
-			$cspHeader      = 'content-security-policy-report-only';
 			$newCspValues[] = 'report-uri ' . Uri::root() . 'index.php?option=com_csp&task=report.log&client=' . $this->app->getName();
+		}
+
+		if ($this->comCspParams->get('contentsecuritypolicy_report', true)
+			&& $this->comCspParams->get('contentsecuritypolicy_report_only', false))
+		{
+			$cspHeader = 'content-security-policy-report-only';
 		}
 
 		// We compile the header from the values configured

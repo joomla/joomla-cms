@@ -72,7 +72,7 @@ class ReportController extends BaseController
 		// Make sure we we are in detect mode and csp is active
 		$params = Factory::getApplication()->getParams('com_csp');
 
-		if (!$params->get('contentsecuritypolicy') || !$params->get('contentsecuritypolicy_report_only'))
+		if (!$params->get('contentsecuritypolicy') || !$params->get('contentsecuritypolicy_report'))
 		{
 			$this->app->close();
 		}
