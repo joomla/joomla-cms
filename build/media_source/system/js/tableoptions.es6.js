@@ -77,12 +77,7 @@ if (window.innerWidth > 1024) {
 
   const ul = document.createElement('ul');
   headers.forEach((el, index) => {
-    el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell');
-
-    // @todo better restrictions on the columns that can never be hidden
-    if (index === 0 /* checkbox */ || index === 1 /* ordering */) {
-      return;
-    }
+    el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
 
     const li = document.createElement('li');
     const label = document.createElement('label');
@@ -111,16 +106,14 @@ if (window.innerWidth > 1024) {
     [].slice.call(col.children)
       .forEach((cc, index) => {
         if (cc.nodeName !== 'TH') {
-          cc.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell');
+          cc.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell', 'd-xl-table-cell');
           if (storage.get(index) === true) {
             toggleHidden(index);
           }
         } else {
           // remove the checkbox for this column as its the "main link" of an item.
           const lis = [].slice.call(document.querySelector('details ul').children);
-          let i = index;
-          i -= 2; // because we skipped the first two columns for now
-          lis[i].remove();
+          lis[index].remove();
         }
       });
   });
