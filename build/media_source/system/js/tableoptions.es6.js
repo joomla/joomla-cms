@@ -1,87 +1,89 @@
-const storage = {
-  pagens() {
-    return `joomla-tableoptions-${document.querySelector('.page-title')
-      .innerText
-      .trim()
-      .replace(/\s'\//, '-')
-      .toLowerCase()}`;
-  },
-  getData() {
-    const item = window.localStorage.getItem(this.pagens());
-
-    if (item == null) {
-      return {};
-    }
-    try {
-      return JSON.parse(item);
-    } catch (e) {
-      return {};
-    }
-  },
-  has() {
-    return Object.prototype.hasOwnProperty.call(window.localStorage, this.pagens());
-  },
-  set(i, v) {
-    const obj = this.getData();
-
-    if (obj) {
-      obj[i] = v;
-      window.localStorage.setItem(this.pagens(), JSON.stringify(obj));
-    }
-  },
-  get(i) {
-    const obj = this.getData();
-
-    if (obj) {
-      return Object.prototype.hasOwnProperty.call(obj, i) && obj[i] === 1;
-    }
-
-    return false;
-  },
-};
-
-const table = document.querySelector('table');
-const headers = [].slice.call(table.querySelector('thead tr').children);
-const columns = [].slice.call(table.querySelectorAll('tbody tr'));
-
-function toggleHidden(index) {
-  headers[index].classList.toggle('d-none');
-  
-  columns.forEach((col) => {
-    col.children[index].classList.toggle('d-none');
-  });
-
-  if (headers[index].classList.contains('d-none')) {
-    storage.set(index, 1);
-  } else {
-    storage.set(index, 0);
-  }
-}
-
 if (window.innerWidth > 1024) {
-  headers.forEach((el) => {
-    el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell');
-  });
-  columns.forEach((col) => {
-    [].slice.call(col.children)
-      .forEach((cc, index) => {
-        cc.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell');
-        if (storage.get(index) === true) {
-          toggleHidden(index);
-        }
-      });
-  });
+  const storage = {
+    pagens() {
+      return `joomla-tableoptions-${document.querySelector('.page-title')
+        .innerText
+        .trim()
+        .replace(/\s'\//, '-')
+        .toLowerCase()}`;
+    },
+    getData() {
+      const item = window.localStorage.getItem(this.pagens());
+
+      if (item == null) {
+        return {};
+      }
+      try {
+        return JSON.parse(item);
+      } catch (e) {
+        return {};
+      }
+    },
+    has() {
+      return Object.prototype.hasOwnProperty.call(window.localStorage, this.pagens());
+    },
+    set(i, v) {
+      const obj = this.getData();
+
+      if (obj) {
+        obj[i] = v;
+        window.localStorage.setItem(this.pagens(), JSON.stringify(obj));
+      }
+    },
+    get(i) {
+      const obj = this.getData();
+
+      if (obj) {
+        return Object.prototype.hasOwnProperty.call(obj, i) && obj[i] === 1;
+      }
+
+      return false;
+    },
+  };
+
+  const table = document.querySelector('table');
+  if (!table) {
+    throw new Error('A table is needed');
+  }
+  const headers = [].slice.call(table.querySelector('thead tr').children);
+  if (!headers) {
+    throw new Error('A thead element is needed');
+  }
+  const rows = [].slice.call(table.querySelectorAll('tbody tr'));
+  if (!rows.length) {
+    throw new Error('The table needs rows');
+  }
+
+  const toggleHidden = (index) => {
+    headers[index].classList.toggle('d-none');
+
+    rows.forEach((col) => {
+      col.children[index].classList.toggle('d-none');
+    });
+
+    if (headers[index].classList.contains('d-none')) {
+      storage.set(index, 1);
+    } else {
+      storage.set(index, 0);
+    }
+  };
 
   const detailElement = document.createElement('details');
   const summary = document.createElement('summary');
+
+  // @todo Needs to be translateable
   summary.innerText = 'Table options';
   detailElement.appendChild(summary);
 
   const ul = document.createElement('ul');
   headers.forEach((el, index) => {
-    if (index === 0 /* checkbox */ || index === 1 /* ordering */ || index === headers.length - 2) {
+    el.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell');
+
+    // @todo better restrictions on the columns that can never be hidden
+    if (index === 0 /* checkbox */ || index === 1 /* ordering */) {
       return;
     }
+
     const li = document.createElement('li');
     const label = document.createElement('label');
     const input = document.createElement('input');
@@ -104,4 +106,22 @@ if (window.innerWidth > 1024) {
   detailElement.appendChild(ul);
 
   table.insertAdjacentElement('afterend', detailElement);
+
+  rows.forEach((col) => {
+    [].slice.call(col.children)
+      .forEach((cc, index) => {
+        if (cc.nodeName !== 'TH') {
+          cc.classList.remove('d-none', 'd-md-table-cell', 'd-lg-table-cell');
+          if (storage.get(index) === true) {
+            toggleHidden(index);
+          }
+        } else {
+          // remove the checkbox for this column as its the "main link" of an item.
+          const lis = [].slice.call(document.querySelector('details ul').children);
+          let i = index;
+          i -= 2; // because we skipped the first two columns for now
+          lis[i].remove();
+        }
+      });
+  });
 }
