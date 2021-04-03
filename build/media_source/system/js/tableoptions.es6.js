@@ -46,6 +46,7 @@ const columns = [].slice.call(table.querySelectorAll('tbody tr'));
 
 function toggleHidden(index) {
   headers[index].classList.toggle('d-none');
+  
   columns.forEach((col) => {
     col.children[index].classList.toggle('d-none');
   });
