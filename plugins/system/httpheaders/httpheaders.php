@@ -298,40 +298,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 */
 	private function setCspHeader(): void
 	{
-		// Mode Selector
-		$cspMode = $this->comCspParams->get('contentsecuritypolicy_mode', 'detect');
+		$cspReadOnly  = (int) $this->comCspParams->get('contentsecuritypolicy_report_only', 1);
+		$cspHeader    = 'content-security-policy';
+		$newCspValues = [];
 
-		// In detecting mode we set this default rule so any report gets collected by com_csp
-		if ($cspMode === 'detect')
+		if ($cspReadOnly)
 		{
-			$this->app->setHeader(
-				'content-security-policy-report-only',
-				"default-src 'self'; report-uri " . Uri::root() . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
-			);
-
-			return;
+			$cspHeader      = 'content-security-policy-report-only';
+			$newCspValues[] = 'report-uri ' . Uri::root() . 'index.php?option=com_csp&task=report.log&client=' . $this->app->getName();
 		}
 
-		$cspReadOnly = (int) $this->comCspParams->get('contentsecuritypolicy_report_only', 1);
-		$cspHeader   = $cspReadOnly === 0 ? 'content-security-policy' : 'content-security-policy-report-only';
-
-		// In automatic mode we compile the automatic header values and append it to the header
-		if ($cspMode === 'auto')
-		{
-			$automaticRules = trim(
-				implode(
-					'; ',
-					$this->compileAutomaticCspHeaderRules()
-				)
-			);
-
-			// Set the header
-			$this->app->setHeader($cspHeader, $automaticRules);
-
-			return;
-		}
-
-		// In custom mode we compile the header from the values configured
+		// We compile the header from the values configured
 		$cspValues                 = $this->comCspParams->get('contentsecuritypolicy_values', []);
 		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
 		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
