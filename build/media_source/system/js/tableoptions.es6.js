@@ -111,8 +111,6 @@ if (window.innerWidth > 1024) {
   });
   detailElement.appendChild(ul);
 
-  table.insertAdjacentElement('afterend', detailElement);
-
   rows.forEach((col) => {
     [].slice.call(col.children)
       .forEach((cc, index) => {
@@ -128,4 +126,6 @@ if (window.innerWidth > 1024) {
         }
       });
   });
+
+  table.insertAdjacentElement('afterend', detailElement);
 }
