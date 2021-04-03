@@ -45,15 +45,8 @@ const headers = [].slice.call(table.querySelector('thead tr').children);
 const columns = [].slice.call(table.querySelectorAll('tbody tr'));
 
 function toggleHidden(index) {
-  if (headers[index].classList.contains('d-md-table-cell')) {
-    headers[index].classList.remove('d-md-table-cell');
-  }
-
   headers[index].classList.toggle('d-none');
   columns.forEach((col) => {
-    if (col.children[index].classList.contains('d-md-table-cell')) {
-      col.children[index].classList.remove('d-md-table-cell');
-    }
     col.children[index].classList.toggle('d-none');
   });
 
