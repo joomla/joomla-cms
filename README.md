@@ -29,7 +29,7 @@ Is Joomla! for you?
 How to find a Joomla! translation?
 ---------------------
 * Repository of [accredited language packs](https://community.joomla.org/translations.html).
-* You can also [add languages](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to your website via your Joomla! administration panel.
+* You can also [add languages](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to   your website via your Joomla! administration panel.
 * Learn how to [setup a Multilingual Joomla! Site](https://docs.joomla.org/Special:MyLanguage/J3.x:Setup_a_Multilingual_Site)
 
 Learn Joomla!
@@ -50,7 +50,7 @@ Is it easy to change the layout display?
 * The layouts are easily accessible and they satisfy the needs of the users.
 * Template management information is [available here](https://docs.joomla.org/Special:MyLanguage/Portal:Template_Management).
 
-Ready to install Joomla?
+Are u Ready to install Joomla?
 ---------------------
 * Check the [minimum requirements](https://downloads.joomla.org/technical-requirements). 
 * How do you [install Joomla](https://docs.joomla.org/Special:MyLanguage/J3.x:Installing_Joomla)?
