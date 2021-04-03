@@ -1331,7 +1331,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		// Redirect to com_admin profile edit
 		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
-		$this->redirect('index.php?option=com_user&task=user.edit&id=' . $this->getIdentity()->id);
+		$this->redirect('index.php?option=com_users&task=user.edit&id=' . $this->getIdentity()->id);
 	}
 
 	/**
