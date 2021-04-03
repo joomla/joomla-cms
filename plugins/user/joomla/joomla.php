@@ -431,6 +431,23 @@ class PlgUserJoomla extends CMSPlugin
 			{
 				return false;
 			}
+
+			// If session manager is not database we need to clean up the internal session table
+			if ('database' !== $this->app->get('session_handler', 'filesystem'))
+			{
+				$query = $this->db->getQuery(true)
+					->delete($this->db->quoteName('#__session'))
+					->whereIn($this->db->quoteName('session_id'),  $sessionIds, ParameterType::STRING);
+
+				try
+				{
+					$this->db->setQuery($query)->execute();
+				}
+				catch (ExecutionFailureException $e)
+				{
+					return false;
+				}
+			}
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
