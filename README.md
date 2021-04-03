@@ -47,6 +47,7 @@ Is it easy to change the layout display?
 ---------------------
 * The layout is controlled by templates that you can edit.
 * There are a lot of ready-made professional templates that you can download.
+* The layouts are easily accessible and they satisfy the needs of the users.
 * Template management information is [available here](https://docs.joomla.org/Special:MyLanguage/Portal:Template_Management).
 
 Ready to install Joomla?
