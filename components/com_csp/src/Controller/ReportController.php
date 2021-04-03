@@ -13,6 +13,7 @@ namespace Joomla\Component\Csp\Site\Controller;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -112,8 +113,8 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
-		$parsedDocumentUri = parse_url($documentUri);
-		$report->document_uri = $parsedDocumentUri['scheme'] . '://' . $parsedDocumentUri['host'];
+		$parsedDocumentUri = Uri::getInstance($documentUri);
+		$report->document_uri = $parsedDocumentUri->toString(['path', 'query', 'fragment']);
 
 		// Check the blocked-uri field
 		$blockedUri = (string) ArrayHelper::getValue($data, 'blocked-uri');
@@ -134,8 +135,7 @@ class ReportController extends BaseController
 		// The blocked-uri is not a special keyword but an valid URL.
 		if ($report->blocked_uri === false && filter_var($blockedUri, FILTER_VALIDATE_URL) !== false)
 		{
-			$parsedBlockedUri = parse_url($blockedUri);
-			$report->blocked_uri = $parsedBlockedUri['scheme'] . '://' . $parsedBlockedUri['host'];
+			$report->blocked_uri = $blockedUri;
 		}
 
 		// The blocked-uri is not a valid URL an not an special keyword
@@ -204,9 +204,11 @@ class ReportController extends BaseController
 		$query
 			->select('COUNT(*)')
 			->from($db->quoteName('#__csp'))
+			->where($db->quoteName('document_uri') . ' = :document_uri')
 			->where($db->quoteName('blocked_uri') . ' = :blocked_uri')
 			->where($db->quoteName('directive') . ' = :directive')
 			->where($db->quoteName('client') . ' = :client')
+			->bind(':document_uri', $report->document_uri)
 			->bind(':blocked_uri', $report->blocked_uri)
 			->bind(':directive', $report->directive)
 			->bind(':client', $report->client);
