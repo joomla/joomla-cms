@@ -286,11 +286,11 @@ class GetConfigurationCommand extends AbstractCommand
 		}
 		elseif (\is_array($value))
 		{
-			return json_encode($value);
+			return \json_encode($value);
 		}
 		elseif (\is_object($value))
 		{
-			return json_encode(get_object_vars($value));
+			return \json_encode(get_object_vars($value));
 		}
 		else
 		{
