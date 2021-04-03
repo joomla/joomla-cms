@@ -231,8 +231,8 @@
 				name="blog_information-grid"
 				type="spacer"
 				label="JGLOBAL_BLOG_STYLE_GRID_LABEL"
-				parentclass="stack span-2"
 				description="JGLOBAL_BLOG_STYLE_GRID_DESC"
+				parentclass="stack span-2"
 				showon="blog_style:1"
 			/>
 
