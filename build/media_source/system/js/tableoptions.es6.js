@@ -33,7 +33,7 @@ const storage = {
     const obj = this.getData();
 
     if (obj) {
-      return obj[i] === 1;
+      return Object.prototype.hasOwnProperty.call(obj, i) && obj[i] === 1;
     }
 
     return false;
