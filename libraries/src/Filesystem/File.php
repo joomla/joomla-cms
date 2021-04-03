@@ -254,12 +254,23 @@ class File
 				continue;
 			}
 
-			// Try making the file writable first. If it's read-only, it can't be deleted
-			// on Windows, even if the parent folder is writable
+			/**
+			 * Try making the file writable first. If it's read-only, it can't be deleted
+			 * on Windows, even if the parent folder is writable
+			 */
 			@chmod($file, 0777);
 
-			// In case of restricted permissions we zap it one way or the other
-			// as long as the owner is either the webserver or the ftp
+			/**
+			 * Invalidate the OPCache for the file before actually deleting it
+			 * @see https://github.com/joomla/joomla-cms/pull/32915#issuecomment-812865635
+			 * @see https://www.php.net/manual/en/function.opcache-invalidate.php#116372
+			 */
+			self::invalidateFileCache($file);
+
+			/**
+			 * In case of restricted permissions we delete it one way or the other
+			 * as long as the owner is either the webserver or the ftp
+			 */
 			if (@unlink($file))
 			{
 				// Do nothing
@@ -282,8 +293,6 @@ class File
 
 				return false;
 			}
-
-			self::invalidateFileCache($file);
 		}
 
 		return true;
