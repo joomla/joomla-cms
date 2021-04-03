@@ -89,11 +89,22 @@ if (window.innerWidth > 1024) {
     }
 
     input.addEventListener('input', () => toggleHidden(index));
-    if (el.querySelector('span')) {
-      label.innerText = el.querySelector('span').innerText;
+
+    let s = '';
+    if (el.querySelector('span.visually-hidden')) {
+      s = el.querySelector('span.visually-hidden').innerText;
+    } else if (el.querySelector('span')) {
+      s = el.querySelector('span').innerText;
     } else {
-      label.innerText = el.innerText;
+      s = el.innerText;
     }
+
+    if (s.includes(':')) {
+      label.innerText = s.split(':', 2)[1].trim();
+    } else {
+      label.innerText = s;
+    }
+
     label.appendChild(input);
     li.appendChild(label);
     ul.appendChild(li);
