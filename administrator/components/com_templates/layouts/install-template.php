@@ -1,10 +1,10 @@
 <?php
 /**
- * @package  Joomla.Administrator
+ * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
- * @license	   GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -36,11 +36,11 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 				<div id="upload-progress" class="upload-progress">
 					<div class="progress progress-striped active">
 						<div class="bar bar-success"
-							style="width: 0;"
-							role="progressbar"
-							aria-valuenow="0"
-							aria-valuemin="0"
-							aria-valuemax="100"
+							 style="width: 0;"
+							 role="progressbar"
+							 aria-valuenow="0"
+							 aria-valuemin="0"
+							 aria-valuemax="100"
 						></div>
 					</div>
 					<p class="lead">
@@ -99,3 +99,4 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 		<input id="installer-return" name="return" type="hidden" value="<?php echo $return; ?>">
 	</div>
 </form>
+

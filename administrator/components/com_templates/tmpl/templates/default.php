@@ -34,7 +34,7 @@ $wa->useStyle('com_templates.admin-templates')
 			<div id="main-container" class="main-container">
 				<?php
 					/**
-					 * @see: administrator/components/com_templates/layouts/card-header.php
+					 * @see: layouts/joomla/searchtools/default.php
 					 */
 					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id')));
 				?>
@@ -70,7 +70,12 @@ $wa->useStyle('com_templates.admin-templates')
 
 					<!-- load the pagination. -->
 					<div class="pagination-footer mt-4">
-						<?php echo LayoutHelper::render('joomla.searchtools.default.listlimit', array('view' => $this)); ?>
+						<?php
+							/**
+							 * @see: layouts/joomla/searchtools/default/list.php
+							 */
+							echo LayoutHelper::render('joomla.searchtools.default.listlimit', array('view' => $this));
+						?>
 						<?php echo $this->pagination->getListFooter(); ?>
 					</div>
 				<?php endif; ?>
@@ -89,16 +94,19 @@ if ($canCreate)
 	echo HTMLHelper::_(
 			'bootstrap.renderModal',
 			'ModalInstallTemplate',
-			array(
-					'title'       => Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'),
-					'height'      => '75vh',
-					'width'       => '85vw',
-					'bodyHeight'  => 60,
-					'modalWidth'  => 80,
-					'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-			),
-			$this->loadTemplate('modal_install')
+			[
+				'title'       => Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'),
+				'height'      => '75vh',
+				'width'       => '85vw',
+				'bodyHeight'  => 60,
+				'modalWidth'  => 80,
+				'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+			],
+			/**
+			 * @see: administrator/components/com_templates/layouts/card-header.php
+			 */
+			LayoutHelper::render('install-template', [])
 	);
 }
 ?>
