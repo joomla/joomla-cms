@@ -43,24 +43,24 @@ extract($displayData);
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="template-actions-<?php echo (int) $item->extensionId; ?>">
 					<li>
-						<a  class="btn btn-link" href="<?php echo Route::_('index.php?option=com_templates&task=template.edit&id=' . (int) $item->extensionId . '&' . Session::getFormToken() . '=1'); ?>">
+						<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extensionId . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
 							<span class="icon-pencil" aria-hidden="true"></span>
-							<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_EDIT'); ?></span>
+							<span class="ms-1"><?php echo Text::_('COM_TEMPLATE_EDIT_FILES'); ?></span>
 						</a>
 					</li>
 					<?php if($canCreate) : ?>
 						<li>
 							<button class="js-action-exec btn btn-link" type="button" data-task="templates.forkTemplate" data-item="<?php echo (int) $item->extensionId; ?>">
 								<span class="icon-copy" aria-hidden="true"></span>
-								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_DUPLICATE'); ?></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_FORK'); ?></span>
 							</button>
 						</li>
 					<?php endif; ?>
 					<?php if($canDelete) : ?>
 						<li>
-							<button class="js-action-exec btn btn-link" type="button" data-task="templates.uninstall" data-item="<?php echo (int) $item->extensionId; ?>">
+							<button class="js-action-exec-uninstall btn btn-link" type="button" data-task="templates.uninstallTemplate" data-item="<?php echo (int) $item->extensionId; ?>" data-client="<?php echo (int) $item->clientId; ?>" data-name="<?php echo $this->escape($item->templateName); ?>">
 								<span class="icon-trash" aria-hidden="true"></span>
-								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_STYLE_DELETE'); ?></span>
+								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_UNINSTALL'); ?></span>
 							</button>
 						</li>
 					<?php endif; ?>

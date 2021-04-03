@@ -90,12 +90,6 @@ extract($displayData);
 							</button>
 						</li>
 						<?php endif; ?>
-						<li>
-							<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $style->templateId . '&' . Session::getFormToken() . '=1'); ?>" class="btn btn-link">
-								<span class="icon-pencil" aria-hidden="true"></span>
-								<span class="ms-1"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_EDIT_FILES'); ?></span>
-							</a>
-						</li>
 					</ul>
 				</div>
 			<?php endif; ?>
