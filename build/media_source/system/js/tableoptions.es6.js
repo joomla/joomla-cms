@@ -93,7 +93,7 @@ if (window.innerWidth > 1024) {
     const input = document.createElement('input');
     input.type = 'checkbox';
 
-    if (storage.get(index) === 0) {
+    if (storage.get(index) === false) {
       input.setAttribute('checked', '');
     }
 
