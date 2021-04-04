@@ -45,7 +45,7 @@ abstract class UpdateAdapter extends AdapterInstance
 	/**
 	 * ID of update site
 	 *
-	 * @var    string
+	 * @var    integer
 	 * @since  3.0.0
 	 */
 	protected $updateSiteId = 0;
