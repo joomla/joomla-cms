@@ -404,7 +404,7 @@ class File
 				}
 			}
 
-			// Invalidate the compiled OPCache of the old file so its no longer used.
+			// Invalidate the compiled OPCache of the old file so it's no longer used.
 			self::invalidateFileCache($src);
 
 			return true;
