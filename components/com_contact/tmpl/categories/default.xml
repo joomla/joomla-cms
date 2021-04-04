@@ -99,6 +99,18 @@
 		<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
 			<field
+				name="show_category_heading_title_text"
+				type="list"
+				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+				useglobal="true"
+				class="custom-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="show_category_title"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
@@ -156,6 +168,18 @@
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
 				class="form-select-color-state"
+				validate="options"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_no_contacts"
+				type="list"
+				label="COM_CONTACT_NO_CONTACTS_LABEL"
+				useglobal="true"
+				class="custom-select-color-state"
 				validate="options"
 				>
 				<option value="0">JHIDE</option>

@@ -24,7 +24,7 @@ module.exports.handleCssFile = async (file) => {
     await writeFile(outputFile.replace('.css', '.min.css'), cssMin.css.toString(), { encoding: 'utf8', mode: 0o2644 });
 
     // eslint-disable-next-line no-console
-    console.log(`CSS file copied/minified: ${file}`);
+    console.log(`✅ CSS file copied/minified: ${file}`);
   } catch (err) {
     // eslint-disable-next-line no-console
     console.log(err);

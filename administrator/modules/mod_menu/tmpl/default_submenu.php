@@ -73,7 +73,7 @@ if ($current->hasChildren())
 
 	if ($current->level > 2)
 	{
-		$dataToggle  = '  data-bs-toggle="dropdown"';
+		$dataToggle  = ' data-bs-toggle="dropdown"';
 	}
 }
 else
