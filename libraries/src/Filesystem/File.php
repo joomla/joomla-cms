@@ -630,6 +630,7 @@ class File
 			else
 			{
 				self::invalidateFileCache($src);
+
 				if (is_writable($baseDir) && move_uploaded_file($src, $dest))
 				{
 					// Short circuit to prevent file permission errors
