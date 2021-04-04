@@ -159,8 +159,8 @@ class Toolbar
 	/**
 	 * Append a button to toolbar.
 	 *
-	 * @param   ToolbarButton  $button  The button instance.
-	 * @param   array          $args    The more arguments.
+	 * @param   ToolbarButton|string  $button  The button instance.
+	 * @param   array                 $args    The more arguments.
 	 *
 	 * @return  ToolbarButton|boolean  Return button instance to help chaining configure. If using legacy arguments
 	 *                                 returns true
