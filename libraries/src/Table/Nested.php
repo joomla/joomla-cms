@@ -1799,7 +1799,7 @@ class Nested extends Table
 	 * @param   mixed   $query         A string or DatabaseQuery object.
 	 * @param   string  $errorMessage  Unused.
 	 *
-	 * @return  boolean  void
+	 * @return  void
 	 *
 	 * @note    Since 3.0.0 this method returns void and will rethrow the database exception.
 	 * @since   1.7.0
