@@ -140,6 +140,7 @@ class File
 				return false;
 			}
 
+			self::invalidateFileCache($src);
 			self::invalidateFileCache($dest);
 
 			return true;
@@ -182,6 +183,7 @@ class File
 				$ret = true;
 			}
 
+			self::invalidateFileCache($src);
 			self::invalidateFileCache($dest);
 
 			return $ret;
