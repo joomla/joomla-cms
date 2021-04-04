@@ -64,7 +64,8 @@
 			/>
 
 			<field
-				type="spacer2"
+				type="spacer"
+				parentclass="span-6"
 			/>
 
 			<field
@@ -147,7 +148,8 @@
 			</field>
 
 			<field
-				type="spacer1"
+				type="spacer"
+				parentclass="span-6"
 			/>
 
 			<field
