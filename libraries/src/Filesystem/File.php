@@ -202,8 +202,7 @@ class File
 	 */
 	public static function invalidateFileCache($filepath, $force = true)
 	{
-		if (self::canFlushFileCache() && '.php' === strtolower(substr($filepath, -4))
-		)
+		if (self::canFlushFileCache() && '.php' === strtolower(substr($filepath, -4)))
 		{
 			return opcache_invalidate($filepath, $force);
 		}
