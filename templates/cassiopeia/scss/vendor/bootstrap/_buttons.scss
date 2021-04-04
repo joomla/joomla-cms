@@ -39,9 +39,9 @@
 }
 
 .btn-vsm, .btn-group-vsm > .btn {
-  padding: 0 0.25rem;
-  font-size: 0.800rem;
-  border-radius: 0.2rem;
+  padding: 0 .25rem;
+  font-size: .8rem;
+  border-radius: .2rem;
 }
 
 @include media-breakpoint-down(md) {
