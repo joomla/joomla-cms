@@ -214,7 +214,7 @@ abstract class Bootstrap
 	 * Add javascript support for Bootstrap dropdowns
 	 *
 	 * @param   string  $selector  Common class for the dropdowns
-	 * @param   string  $params    The options for the dropdowns
+	 * @param   array   $params    The options for the dropdowns
 	 *
 	 * @return  void
 	 *
