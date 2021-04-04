@@ -140,7 +140,6 @@ class File
 				return false;
 			}
 
-			self::invalidateFileCache($src);
 			self::invalidateFileCache($dest);
 
 			return true;
@@ -183,7 +182,6 @@ class File
 				$ret = true;
 			}
 
-			self::invalidateFileCache($src);
 			self::invalidateFileCache($dest);
 
 			return $ret;
@@ -377,6 +375,9 @@ class File
 		{
 			$FTPOptions = ClientHelper::getCredentials('ftp');
 
+			// Invalidate the compiled OPCache of the old file so it's no longer used.
+			self::invalidateFileCache($src);
+
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
@@ -387,12 +388,14 @@ class File
 				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Use FTP rename to simulate move
+				// Invalidate the compiled OPCache of the old file so it's no longer used.
 				if (!$ftp->rename($src, $dest))
 				{
 					Log::add(Text::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), Log::WARNING, 'jerror');
 
 					return false;
 				}
+				self::invalidateFileCache($dest);
 			}
 			else
 			{
@@ -402,11 +405,10 @@ class File
 
 					return false;
 				}
+
 			}
 
-			// Invalidate the compiled OPCache of the old file so it's no longer used.
-			self::invalidateFileCache($src);
-
+			self::invalidateFileCache($dest);
 			return true;
 		}
 	}
@@ -618,6 +620,7 @@ class File
 				// Copy the file to the destination directory
 				if (is_uploaded_file($src) && $ftp->store($src, $dest))
 				{
+					self::invalidateFileCache($src);
 					unlink($src);
 					$ret = true;
 				}
@@ -628,6 +631,7 @@ class File
 			}
 			else
 			{
+				self::invalidateFileCache($src);
 				if (is_writable($baseDir) && move_uploaded_file($src, $dest))
 				{
 					// Short circuit to prevent file permission errors
